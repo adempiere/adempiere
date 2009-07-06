@@ -25,13 +25,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.util.Properties;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -43,33 +38,23 @@ import javax.swing.event.TableModelListener;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
+import org.compiere.apps.IProcessParameter;
 import org.compiere.apps.ProcessCtl;
+import org.compiere.apps.ProcessParameter;
+import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
-import org.compiere.minigrid.ColumnInfo;
-import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MLookupInfo;
-import org.compiere.model.MPaySelection;
-import org.compiere.model.MPaySelectionLine;
-import org.compiere.model.MRole;
-import org.compiere.model.X_C_Order;
 import org.compiere.model.X_C_PaySelection;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.ASyncProcess;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
-import org.compiere.util.Language;
 import org.compiere.util.Msg;
-import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -81,8 +66,7 @@ import org.compiere.util.ValueNamePair;
  *  @author Jorg Janke
  *  @version $Id: VPaySelect.java,v 1.2 2008/07/11 08:20:12 cruiz Exp $
  */
-public class VPaySelect extends CPanel
-	implements FormPanel, ActionListener, TableModelListener, ASyncProcess
+public class VPaySelect extends PaySelect implements FormPanel, ActionListener, TableModelListener, ASyncProcess
 {
 	/** @todo withholding */
 
@@ -90,6 +74,8 @@ public class VPaySelect extends CPanel
 	 * 
 	 */
 	private static final long serialVersionUID = 2872767371244295934L;
+	
+	private CPanel panel = new CPanel();
 
 	/**
 	 *	Initialize Panel
@@ -113,28 +99,9 @@ public class VPaySelect extends CPanel
 			log.log(Level.SEVERE, "", e);
 		}
 	}	//	init
-
-	/**	Window No			*/
-	private int         	m_WindowNo = 0;
+	
 	/**	FormFrame			*/
 	private FormFrame 		m_frame;
-
-	/** Format                  */
-	private DecimalFormat   m_format = DisplayType.getNumberFormat(DisplayType.Amount);
-	/** Bank Balance            */
-	private BigDecimal      m_bankBalance = new BigDecimal(0.0);
-	/** SQL for Query           */
-	private String          m_sql;
-	/** Number of selected rows */
-	private int             m_noSelected = 0;
-	/** Client ID               */
-	private int             m_AD_Client_ID = 0;
-	/**/
-	private boolean         m_isLocked = false;
-	/** Payment Selection		*/
-	private MPaySelection	m_ps = null;
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(VPaySelect.class);
 
 	//
 	private CPanel mainPanel = new CPanel();
@@ -171,7 +138,7 @@ public class VPaySelect extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		CompiereColor.setBackground(this);
+		CompiereColor.setBackground(panel);
 		//
 		mainPanel.setLayout(mainLayout);
 		parameterPanel.setLayout(parameterLayout);
@@ -254,157 +221,30 @@ public class VPaySelect extends CPanel
 	 */
 	private void dynInit()
 	{
-		Properties ctx = Env.getCtx();
-		//
-		m_AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-		//  Bank Account Info
-		String sql = MRole.getDefault().addAccessSQL(
-			"SELECT ba.C_BankAccount_ID,"                       //  1
-			+ "b.Name || ' ' || ba.AccountNo AS Name,"          //  2
-			+ "ba.C_Currency_ID, c.ISO_Code,"                   //  3..4
-			+ "ba.CurrentBalance "                              //  5
-			+ "FROM C_Bank b, C_BankAccount ba, C_Currency c "
-			+ "WHERE b.C_Bank_ID=ba.C_Bank_ID"
-			+ " AND ba.C_Currency_ID=c.C_Currency_ID "
-			+ " AND EXISTS (SELECT * FROM C_BankAccountDoc d WHERE d.C_BankAccount_ID=ba.C_BankAccount_ID) "
-			+ "ORDER BY 2",
-			"b", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RW);
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				boolean transfers = false;
-				BankInfo bi = new BankInfo (rs.getInt(1), rs.getInt(3),
-					rs.getString(2), rs.getString(4),
-					rs.getBigDecimal(5), transfers);
-				fieldBankAccount.addItem(bi);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		ArrayList<BankInfo> bankAccountData = getBankAccountData();
+		for(BankInfo bi : bankAccountData)
+			fieldBankAccount.addItem(bi);
+
 		if (fieldBankAccount.getItemCount() == 0)
-			ADialog.error(m_WindowNo, this, "VPaySelectNoBank");
+			ADialog.error(m_WindowNo, panel, "VPaySelectNoBank");
 		else
 			fieldBankAccount.setSelectedIndex(0);
-
-		//  Optional BusinessPartner with unpaid AP Invoices
-		KeyNamePair pp = new KeyNamePair(0, "");
-		fieldBPartner.addItem(pp);
-		sql = MRole.getDefault().addAccessSQL(
-			"SELECT bp.C_BPartner_ID, bp.Name FROM C_BPartner bp", "bp",
-			MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO)
-			+ " AND EXISTS (SELECT * FROM C_Invoice i WHERE bp.C_BPartner_ID=i.C_BPartner_ID"
-			//	X_C_Order.PAYMENTRULE_DirectDebit
-			  + " AND (i.IsSOTrx='N' OR (i.IsSOTrx='Y' AND i.PaymentRule='D'))"
-			  + " AND i.IsPaid<>'Y') "
-			+ "ORDER BY 2";
-
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				fieldBPartner.addItem(pp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		
+		ArrayList<KeyNamePair> bpartnerData = getBPartnerData();
+		for(KeyNamePair pp : bpartnerData)
+			fieldBPartner.addItem(pp);
 		fieldBPartner.setSelectedIndex(0);
-
-		/**Document type**/
-		try
-		{
-			sql = MRole.getDefault().addAccessSQL(
-				"SELECT doc.c_doctype_id,doc.name FROM c_doctype doc WHERE doc.ad_client_id = ? AND doc.docbasetype in ('API','APC') ORDER BY 2", "doc",
-				MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
-
-			KeyNamePair dt = new KeyNamePair(0, "");
-			fieldDtype.addItem(dt);
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_AD_Client_ID);		//	Client
-			ResultSet rs = pstmt.executeQuery();
-
-			while (rs.next())
-			{
-				dt = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				fieldDtype.addItem(dt);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-
-		/**  prepare MiniTable
-		 *
-		SELECT i.C_Invoice_ID, i.DateInvoiced+p.NetDays AS DateDue,
-		bp.Name, i.DocumentNo, c.ISO_Code, i.GrandTotal,
-		paymentTermDiscount(i.GrandTotal, i.C_PaymentTerm_ID, i.DateInvoiced, SysDate) AS Discount,
-		SysDate-paymentTermDueDays(i.C_PaymentTerm_ID,i.DateInvoiced) AS DiscountDate,
-		i.GrandTotal-paymentTermDiscount(i.GrandTotal,i.C_PaymentTerm_ID,i.DateInvoiced,SysDate) AS DueAmount,
-		currencyConvert(i.GrandTotal-paymentTermDiscount(i.GrandTotal,i.C_PaymentTerm_ID,i.DateInvoiced,SysDate,null),
-			i.C_Currency_ID,xx100,SysDate) AS PayAmt
-		FROM C_Invoice i, C_BPartner bp, C_Currency c, C_PaymentTerm p
-		WHERE i.IsSOTrx='N'
-		AND i.C_BPartner_ID=bp.C_BPartner_ID
-		AND i.C_Currency_ID=c.C_Currency_ID
-		AND i.C_PaymentTerm_ID=p.C_PaymentTerm_ID
-		AND i.DocStatus IN ('CO','CL')
-		ORDER BY 2,3
-		 */
-
-		m_sql = miniTable.prepareTable(new ColumnInfo[] {
-			//  0..4
-			new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class, false, false, null),
-			new ColumnInfo(Msg.translate(ctx, "DueDate"), "paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced) AS DateDue", Timestamp.class, true, true, null),
-			new ColumnInfo(Msg.translate(ctx, "C_BPartner_ID"), "bp.Name", KeyNamePair.class, true, false, "i.C_BPartner_ID"),
-			new ColumnInfo(Msg.translate(ctx, "DocumentNo"), "i.DocumentNo", String.class),
-			new ColumnInfo(Msg.translate(ctx, "C_Currency_ID"), "c.ISO_Code", KeyNamePair.class, true, false, "i.C_Currency_ID"),
-			// 5..9
-			new ColumnInfo(Msg.translate(ctx, "GrandTotal"), "i.GrandTotal", BigDecimal.class),
-			new ColumnInfo(Msg.translate(ctx, "DiscountAmt"), "paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?)", BigDecimal.class),
-			new ColumnInfo(Msg.getMsg(ctx, "DiscountDate"), "SysDate-paymentTermDueDays(i.C_PaymentTerm_ID,i.DateInvoiced,SysDate)", Timestamp.class),
-			new ColumnInfo(Msg.getMsg(ctx, "AmountDue"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class),
-			new ColumnInfo(Msg.getMsg(ctx, "AmountPay"), "currencyConvert(invoiceOpen(i.C_Invoice_ID,i.C_InvoicePaySchedule_ID)-paymentTermDiscount(i.GrandTotal,i.C_Currency_ID,i.C_PaymentTerm_ID,i.DateInvoiced, ?),i.C_Currency_ID, ?,?,i.C_ConversionType_ID, i.AD_Client_ID,i.AD_Org_ID)", BigDecimal.class)
-			},
-			//	FROM
-			"C_Invoice_v i"
-			+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID)"
-			+ " INNER JOIN C_Currency c ON (i.C_Currency_ID=c.C_Currency_ID)"
-			+ " INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID=p.C_PaymentTerm_ID)",
-			//	WHERE
-			"i.IsSOTrx=? AND IsPaid='N'"
-			//	Different Payment Selection
-			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl"
-				+ " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.C_PaySelectionCheck_ID IS NOT NULL" 
-				+ " AND psl.C_PaySelectionCheck_ID NOT IN "
-				+ " (SELECT psc.C_PaySelectionCheck_ID FROM C_PaySelectionCheck psc, C_Payment p"
-				+ " WHERE psc.C_PaySelectionCheck_ID = psl.C_PaySelectionCheck_ID"
-				+ " AND psc.C_Payment_ID = p.C_Payment_ID"
-				+ " AND p.DocStatus IN ('RE','VO')))"
-			+ " AND i.DocStatus IN ('CO','CL')"
-			+ " AND i.AD_Client_ID=?",	//	additional where & order in loadTableInfo()
-			true, "i");
-		//
+		
+		ArrayList<KeyNamePair> docTypeData = getDocTypeData();
+		for(KeyNamePair pp : docTypeData)
+			fieldDtype.addItem(pp);
+		
+		prepareTable(miniTable);
+		
 		miniTable.getModel().addTableModelListener(this);
 		//
 		fieldPayDate.setMandatory(true);
 		fieldPayDate.setValue(new Timestamp(System.currentTimeMillis()));
-
 	}   //  dynInit
 
 	/**
@@ -417,37 +257,14 @@ public class VPaySelect extends CPanel
 			return;
 		labelCurrency.setText(bi.Currency);
 		labelBalance.setText(m_format.format(bi.Balance));
-		m_bankBalance = bi.Balance;
 
 		//  PaymentRule
 		fieldPaymentRule.removeAllItems();
-		int AD_Reference_ID = 195;  //  MLookupInfo.getAD_Reference_ID("All_Payment Rule");
-		Language language = Env.getLanguage(Env.getCtx());
-		MLookupInfo info = MLookupFactory.getLookup_List(language, AD_Reference_ID);
-		String sql = info.Query.substring(0, info.Query.indexOf(" ORDER BY"))
-			+ " AND " + info.KeyColumn
-			+ " IN (SELECT PaymentRule FROM C_BankAccountDoc WHERE C_BankAccount_ID=?) "
-			+ info.Query.substring(info.Query.indexOf(" ORDER BY"));
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, bi.C_BankAccount_ID);
-			ResultSet rs = pstmt.executeQuery();
-			ValueNamePair vp = null;
-			while (rs.next())
-			{
-				vp = new ValueNamePair(rs.getString(2), rs.getString(3));   //  returns also not active
-				fieldPaymentRule.addItem(vp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		
+		ArrayList<ValueNamePair> paymentRuleData = getPaymentRuleData(bi);
+		for(ValueNamePair vp : paymentRuleData)
+			fieldPaymentRule.addItem(vp);
 		fieldPaymentRule.setSelectedIndex(0);
-
 	}   //  loadBankInfo
 
 	/**
@@ -455,70 +272,18 @@ public class VPaySelect extends CPanel
 	 */
 	private void loadTableInfo()
 	{
-		log.config("");
-		//  not yet initialized
-		if (m_sql == null)
-			return;
-
-		String sql = m_sql;
-		//  Parameters
 		Timestamp payDate = (Timestamp)fieldPayDate.getValue();
 		miniTable.setColorCompare(payDate);
 		log.config("PayDate=" + payDate);
+		
 		BankInfo bi = (BankInfo)fieldBankAccount.getSelectedItem();
-		//
-		String isSOTrx = "N";
-		ValueNamePair vp = (ValueNamePair)fieldPaymentRule.getSelectedItem();
-		if (vp != null && X_C_Order.PAYMENTRULE_DirectDebit.equals(vp.getValue()))
-		{
-			isSOTrx = "Y";
-			sql += " AND i.PaymentRule='" + X_C_Order.PAYMENTRULE_DirectDebit + "'";
-		}
-		//
-		if (onlyDue.isSelected())
-			sql += " AND paymentTermDueDate(i.C_PaymentTerm_ID, i.DateInvoiced) <= ?";
-		//
-		KeyNamePair pp = (KeyNamePair)fieldBPartner.getSelectedItem();
-		int C_BPartner_ID = pp.getKey();
-		if (C_BPartner_ID != 0)
-			sql += " AND i.C_BPartner_ID=?";
-		//Document Type
-		KeyNamePair dt = (KeyNamePair)fieldDtype.getSelectedItem();
-		int c_doctype_id  = dt.getKey();
-		if (c_doctype_id   != 0)
-			sql += " AND i.c_doctype_id =?";
-		sql += " ORDER BY 2,3";
+		
+		ValueNamePair paymentRule = (ValueNamePair)fieldPaymentRule.getSelectedItem();
+		KeyNamePair bpartner = (KeyNamePair)fieldBPartner.getSelectedItem();
+		KeyNamePair docType = (KeyNamePair)fieldDtype.getSelectedItem();
 
-		log.finest(sql + " - C_Currency_ID=" + bi.C_Currency_ID + ", C_BPartner_ID=" + C_BPartner_ID + ", C_doctype_id=" + c_doctype_id  );
-		//  Get Open Invoices
-		try
-		{
-			int index = 1;
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setTimestamp(index++, payDate);		//	DiscountAmt
-			pstmt.setInt(index++, bi.C_Currency_ID);	//	DueAmt
-			pstmt.setTimestamp(index++, payDate);
-			pstmt.setTimestamp(index++, payDate);		//	PayAmt
-			pstmt.setInt(index++, bi.C_Currency_ID);
-			pstmt.setTimestamp(index++, payDate);
-			pstmt.setString(index++, isSOTrx);			//	IsSOTrx
-			pstmt.setInt(index++, m_AD_Client_ID);		//	Client
-			if (onlyDue.isSelected())
-				pstmt.setTimestamp(index++, payDate);
-			if (C_BPartner_ID != 0)
-				pstmt.setInt(index++, C_BPartner_ID);
-			if (c_doctype_id  != 0)                    //Document type
-				pstmt.setInt(index++, c_doctype_id );
-			//
-			ResultSet rs = pstmt.executeQuery();
-			miniTable.loadTable(rs);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		loadTableInfo(bi, payDate, paymentRule, onlyDue.isSelected(), bpartner, docType, miniTable);
+		
 		calculateSelection();
 	}   //  loadTableInfo
 
@@ -575,29 +340,7 @@ public class VPaySelect extends CPanel
 	 */
 	public void calculateSelection()
 	{
-		m_noSelected = 0;
-		BigDecimal invoiceAmt = new BigDecimal(0.0);
-
-		int rows = miniTable.getRowCount();
-		for (int i = 0; i < rows; i++)
-		{
-			IDColumn id = (IDColumn)miniTable.getModel().getValueAt(i, 0);
-			if (id.isSelected())
-			{
-				BigDecimal amt = (BigDecimal)miniTable.getModel().getValueAt(i, 9);
-				if (amt != null)
-					invoiceAmt = invoiceAmt.add(amt);
-				m_noSelected++;
-			}
-		}
-
-		//  Information
-		BigDecimal remaining = m_bankBalance.subtract(invoiceAmt);
-		StringBuffer info = new StringBuffer();
-		info.append(m_noSelected).append(" ").append(Msg.getMsg(Env.getCtx(), "Selected")).append(" - ");
-		info.append(m_format.format(invoiceAmt)).append(", ");
-		info.append(Msg.getMsg(Env.getCtx(), "Remaining")).append(" ").append(m_format.format(remaining));
-		dataStatus.setText(info.toString());
+		dataStatus.setText(calculateSelection(miniTable));
 		//
 		bGenerate.setEnabled(m_noSelected != 0);
 	}   //  calculateSelection
@@ -607,12 +350,6 @@ public class VPaySelect extends CPanel
 	 */
 	private void generatePaySelect()
 	{
-		log.info("");
-	//	String trxName Trx.createTrxName("PaySelect");
-	//	Trx trx = Trx.get(trxName, true);	trx needs to be committed too
-		String trxName = null;
-		Trx trx = null;
-		//
 		miniTable.stopEditor(true);
 		if (miniTable.getRowCount() == 0)
 			return;
@@ -621,65 +358,29 @@ public class VPaySelect extends CPanel
 		if (m_noSelected == 0)
 			return;
 
-		String PaymentRule = ((ValueNamePair)fieldPaymentRule.getSelectedItem()).getValue();
-
-		//  Create Header
-		m_ps = new MPaySelection(Env.getCtx(), 0, trxName);
-		m_ps.setName (Msg.getMsg(Env.getCtx(), "VPaySelect")
-				+ " - " + ((ValueNamePair)fieldPaymentRule.getSelectedItem()).getName()
-				+ " - " + fieldPayDate.getTimestamp());
-		m_ps.setPayDate (fieldPayDate.getTimestamp());
-		BankInfo bi = (BankInfo)fieldBankAccount.getSelectedItem();
-		m_ps.setC_BankAccount_ID(bi.C_BankAccount_ID);
-		m_ps.setIsApproved(true);
-		if (!m_ps.save())
+		String msg = generatePaySelect(miniTable, (ValueNamePair) fieldPaymentRule.getSelectedItem(), 
+				fieldPayDate.getTimestamp(), (BankInfo)fieldBankAccount.getSelectedItem());
+		
+		if(msg != null && msg.length() > 0)		
 		{
-			ADialog.error(m_WindowNo, this, "SaveError", Msg.translate(Env.getCtx(), "C_PaySelection_ID"));
-			m_ps = null;
+			ADialog.error(m_WindowNo, panel, "SaveError", msg);
 			return;
 		}
-		log.config(m_ps.toString());
-
-		//  Create Lines
-		int rows = miniTable.getRowCount();
-		int line = 0;
-		for (int i = 0; i < rows; i++)
-		{
-			IDColumn id = (IDColumn)miniTable.getModel().getValueAt(i, 0);
-			if (id.isSelected())
-			{
-				line += 10;
-				MPaySelectionLine psl = new MPaySelectionLine (m_ps, line, PaymentRule);
-				int C_Invoice_ID = id.getRecord_ID().intValue();
-				BigDecimal OpenAmt = (BigDecimal)miniTable.getModel().getValueAt(i, 8);
-				BigDecimal PayAmt = (BigDecimal)miniTable.getModel().getValueAt(i, 9);
-				boolean isSOTrx = false;
-				//
-				psl.setInvoice(C_Invoice_ID, isSOTrx,
-					OpenAmt, PayAmt, OpenAmt.subtract(PayAmt));
-				if (!psl.save(trxName))
-				{
-					ADialog.error(m_WindowNo, this, "SaveError", Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID"));
-					return;
-				}
-				log.fine("C_Invoice_ID=" + C_Invoice_ID + ", PayAmt=" + PayAmt);
-			}
-		}   //  for all rows in table
-
 
 		//  Ask to Post it
-		if (!ADialog.ask(m_WindowNo, this, "VPaySelectGenerate?", "(" + m_ps.getName() + ")"))
+		if (!ADialog.ask(m_WindowNo, panel, "VPaySelectGenerate?", "(" + m_ps.getName() + ")"))
 			return;
-
+		
 		//  Prepare Process
 		int AD_Proces_ID = 155;	//	C_PaySelection_CreatePayment
 		ProcessInfo pi = new ProcessInfo (m_frame.getTitle(), AD_Proces_ID,
 			X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID());
 		pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-
+		
+		ProcessParameterPanel pp = new ProcessParameterPanel(m_WindowNo, pi);
 		//	Execute Process
-		ProcessCtl.process(this, m_WindowNo, pi, trx);
+		ProcessCtl.process(this, m_WindowNo, (IProcessParameter) pp, pi, trx);
 	//	ProcessCtl worker = new ProcessCtl(this, pi, trx);
 	//	worker.start();     //  complete tasks in unlockUI
 	}   //  generatePaySelect
@@ -691,7 +392,7 @@ public class VPaySelect extends CPanel
 	 */
 	public void lockUI (ProcessInfo pi)
 	{
-		this.setEnabled(false);
+		panel.setEnabled(false);
 		m_isLocked = true;
 	}   //  lockUI
 
@@ -705,7 +406,7 @@ public class VPaySelect extends CPanel
 	//	this.setEnabled(true);
 	//	m_isLocked = false;
 		//  Ask to Print it		//	Window is disposed
-		if (!ADialog.ask(0, this, "VPaySelectPrint?", "(" + pi.getSummary() + ")"))
+		if (!ADialog.ask(0, panel, "VPaySelectPrint?", "(" + pi.getSummary() + ")"))
 			return;
 
 		//  Start PayPrint
@@ -720,7 +421,7 @@ public class VPaySelect extends CPanel
 		}
 		//
 		ff.pack();
-		this.setVisible(false);
+		panel.setVisible(false);
                 AEnv.addToWindowManager(ff);
 		AEnv.showCenterScreen(ff);
 		this.dispose();
@@ -744,46 +445,4 @@ public class VPaySelect extends CPanel
 	{
 		log.config("-");
 	}   //  executeASync
-
-
-	/**************************************************************************
-	 *  Bank Account Info
-	 */
-	public class BankInfo
-	{
-		/**
-		 * 	BankInfo
-		 *	@param newC_BankAccount_ID
-		 *	@param newC_Currency_ID
-		 *	@param newName
-		 *	@param newCurrency
-		 *	@param newBalance
-		 *	@param newTransfers
-		 */
-		public BankInfo (int newC_BankAccount_ID, int newC_Currency_ID,
-			String newName, String newCurrency, BigDecimal newBalance, boolean newTransfers)
-		{
-			C_BankAccount_ID = newC_BankAccount_ID;
-			C_Currency_ID = newC_Currency_ID;
-			Name = newName;
-			Currency = newCurrency;
-			Balance = newBalance;
-		}
-		int C_BankAccount_ID;
-		int C_Currency_ID;
-		String Name;
-		String Currency;
-		BigDecimal Balance;
-		boolean Transfers;
-
-		/**
-		 * 	to String
-		 *	@return info
-		 */
-		public String toString()
-		{
-			return Name;
-		}
-	}   //  BankInfo
-
 }   //  VPaySelect

@@ -16,8 +16,6 @@
  *****************************************************************************/
 package org.adempiere.webui.apps.form;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -30,17 +28,13 @@ import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.SimpleTreeModel;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.ICustomForm;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.MRole;
+import org.compiere.apps.form.TreeMaintenance;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
-import org.compiere.model.MTree_Node;
-import org.compiere.model.MTree_NodeBP;
-import org.compiere.model.MTree_NodeMM;
-import org.compiere.model.MTree_NodePR;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -64,17 +58,14 @@ import org.zkoss.zul.Treeitem;
  *  @author Jorg Janke
  *  @version $Id: VTreeMaintenance.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
-public class WTreeMaintenance extends ADForm implements EventListener
+public class WTreeMaintenance extends TreeMaintenance implements ICustomForm, EventListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3630156132596215136L;
-	/**	Active Tree				*/
-	private MTree		 	m_tree;
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(WTreeMaintenance.class);
 	
+	private CustomForm form = new CustomForm();	
 	
 	private Borderlayout	mainLayout	= new Borderlayout ();
 	private Panel 			northPanel	= new Panel ();
@@ -92,8 +83,7 @@ public class WTreeMaintenance extends ADForm implements EventListener
 	private Listbox			centerList	= new Listbox();
 
 	
-	@Override
-	public void initForm()
+	public WTreeMaintenance()
 	{
 		try
 		{
@@ -113,10 +103,7 @@ public class WTreeMaintenance extends ADForm implements EventListener
 	 */
 	private void preInit()
 	{
-		KeyNamePair[] trees = DB.getKeyNamePairs(MRole.getDefault().addAccessSQL(
-			"SELECT AD_Tree_ID, Name FROM AD_Tree WHERE TreeType NOT IN ('BB','PC') ORDER BY 2", 
-			"AD_Tree", MRole.SQL_NOTQUALIFIED, MRole.SQL_RW), false);
-		treeField = new Listbox(trees);
+		treeField = new Listbox(getTreeData());
 		treeField.setMold("select");
 		treeField.addActionListener(this);
 		treeField.setSelectedIndex(0);
@@ -136,10 +123,10 @@ public class WTreeMaintenance extends ADForm implements EventListener
 		bDelete.setSrc("images/StepForward24.png");
 		bDeleteAll.setSrc("images/FastForward24.png");
 		
-		this.setWidth("99%");
-		this.setHeight("100%");
-		this.setStyle("position: absolute; padding: 0; margin: 0");
-		this.appendChild (mainLayout);
+		form.setWidth("99%");
+		form.setHeight("100%");
+		form.setStyle("position: absolute; padding: 0; margin: 0");
+		form.appendChild (mainLayout);
 		mainLayout.setWidth("100%");
 		mainLayout.setHeight("100%");
 		mainLayout.setStyle("position: absolute");
@@ -267,41 +254,13 @@ public class WTreeMaintenance extends ADForm implements EventListener
 		String fromClause = m_tree.getSourceTableName(false);	//	fully qualified
 		String columnNameX = m_tree.getSourceTableName(true);
 		String actionColor = m_tree.getActionColorName();
+		
 		//	List
 		SimpleListModel model = new SimpleListModel();
-		String sql = "SELECT t." + columnNameX 
-			+ "_ID,t.Name,t.Description,t.IsSummary,"
-			+ actionColor
-			+ " FROM " + fromClause
-		//	+ " WHERE t.IsActive='Y'"	//	R/O
-			+ " ORDER BY 2";
-		sql = MRole.getDefault().addAccessSQL(sql, 
-			"t", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
-		log.config(sql);
-		//	
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				ListItem item = new ListItem(rs.getInt(1), rs.getString(2),
-					rs.getString(3), "Y".equals(rs.getString(4)), rs.getString(5));
-				model.addElement(item);
-			}
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//	List
+		ArrayList<ListItem> items = getTreeItemData();
+		for(ListItem item : items)
+			model.addElement(item);
+		
 		log.config("#" + model.getSize());
 		centerList.setItemRenderer(model);
 		centerList.setModel(model);
@@ -400,26 +359,7 @@ public class WTreeMaintenance extends ADForm implements EventListener
 				model.addNode(stn);
 			}
 			//	May cause Error if in tree
-			if (m_tree.isProduct())
-			{
-				MTree_NodePR node = new MTree_NodePR (m_tree, item.id);
-				node.save();
-			}
-			else if (m_tree.isBPartner())
-			{
-				MTree_NodeBP node = new MTree_NodeBP (m_tree, item.id);
-				node.save();
-			}
-			else if (m_tree.isMenu())
-			{
-				MTree_NodeMM node = new MTree_NodeMM (m_tree, item.id);
-				node.save();
-			}
-			else
-			{
-				MTree_Node node = new MTree_Node (m_tree, item.id);
-				node.save();
-			}
+			addNode(item);
 		}
 	}	//	action_treeAdd
 	
@@ -438,30 +378,7 @@ public class WTreeMaintenance extends ADForm implements EventListener
 				model.removeNode(stn);
 			
 			//
-			if (m_tree.isProduct())
-			{
-				MTree_NodePR node = MTree_NodePR.get (m_tree, item.id);
-				if (node != null)
-					node.delete(true);
-			}
-			else if (m_tree.isBPartner())
-			{
-				MTree_NodeBP node = MTree_NodeBP.get (m_tree, item.id);
-				if (node != null)
-					node.delete(true);
-			}
-			else if (m_tree.isMenu())
-			{
-				MTree_NodeMM node = MTree_NodeMM.get (m_tree, item.id);
-				if (node != null)
-					node.delete(true);
-			}
-			else
-			{
-				MTree_Node node = MTree_Node.get (m_tree, item.id);
-				if (node != null)
-					node.delete(true);
-			}
+			deleteNode(item);
 		}
 	}	//	action_treeDelete
 
@@ -501,52 +418,9 @@ public class WTreeMaintenance extends ADForm implements EventListener
 		}
 	}	//	action_treeDeleteAll
 	
-	/**************************************************************************
-	 * 	Tree Maintenance List Item
-	 */
-	class ListItem
+	public ADForm getForm() 
 	{
-		/**
-		 * 	ListItem
-		 *	@param ID
-		 *	@param Name
-		 *	@param Description
-		 *	@param summary
-		 *	@param ImageIndicator
-		 */
-		public ListItem (int ID, String Name, String Description, 
-			boolean summary, String ImageIndicator)
-		{
-			id = ID;
-			name = Name;
-			description = Description;
-			isSummary = summary;
-			imageIndicator = ImageIndicator;
-		}	//	ListItem
-		
-		/**	ID			*/
-		public int id;
-		/** Name		*/
-		public String name;
-		/** Description	*/
-		public String description;
-		/** Summary		*/
-		public boolean isSummary;
-		/** Indicator	*/
-		public String imageIndicator;  //  Menu - Action
-		
-		/**
-		 * 	To String
-		 *	@return	String Representation
-		 */
-		public String toString ()
-		{
-			String retValue = name;
-			if (description != null && description.length() > 0)
-				retValue += " (" + description + ")";
-			return retValue;
-		}	//	toString
-		
-	}	//	ListItem
+		return form;
+	}
 
 }	//	VTreeMaintenance

@@ -25,7 +25,6 @@ import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.ADClassNameMap;
-import org.compiere.apps.form.GenForm;
 import org.compiere.model.MForm;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -63,6 +62,8 @@ public abstract class ADForm extends Window implements EventListener
 
 
 	private ProcessInfo m_pi;
+	
+	private ICustomForm m_customForm;
 
     /**
      * Constructor
@@ -228,6 +229,7 @@ public abstract class ADForm extends Window implements EventListener
         			if(o instanceof ADForm)
         			{
         				form = (ADForm)o;
+        				form.setICustomForm(customForm);
         				form.init(adFormID, name);
         				return form;
         			}
@@ -274,5 +276,15 @@ public abstract class ADForm extends Window implements EventListener
 	public ProcessInfo getProcessInfo()
 	{
 		return m_pi;
+	}
+	
+	public void setICustomForm(ICustomForm customForm)
+	{
+		m_customForm = customForm;
+	}
+	
+	public ICustomForm getICustomForm()
+	{
+		return m_customForm;
 	}
 }

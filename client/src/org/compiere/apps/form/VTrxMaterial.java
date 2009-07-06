@@ -25,9 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -42,17 +39,11 @@ import org.compiere.grid.GridController;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLocator;
 import org.compiere.grid.ed.VLookup;
-import org.compiere.model.GridTab;
-import org.compiere.model.GridWindow;
-import org.compiere.model.GridWindowVO;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
-import org.compiere.model.MQuery;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CPanel;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -63,28 +54,21 @@ import org.compiere.util.Msg;
  * @author Jorg Janke
  * @version $Id: VTrxMaterial.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
-public class VTrxMaterial extends CPanel
+public class VTrxMaterial extends TrxMaterial
 	implements FormPanel, ActionListener, VetoableChangeListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 7435309844451490697L;
-	/**	Window No			*/
-	private int         	m_WindowNo = 0;
+	
+	private CPanel panel = new CPanel();
+
 	/**	FormFrame			*/
 	private FormFrame 		m_frame;
+	/** Grid Controller		*/
+	private GridController m_gridController;
 
-	/** GridController          */
-	private GridController  m_gridController = null;
-	/** MWindow                 */
-	private GridWindow         m_mWindow = null;
-	/** MTab pointer            */
-	private GridTab            m_mTab = null;
-
-	private MQuery          m_staticQuery = null;
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(VTrxMaterial.class);
 	//
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
@@ -139,7 +123,7 @@ public class VTrxMaterial extends CPanel
 	 */
 	void jbInit() throws Exception
 	{
-		CompiereColor.setBackground(this);
+		CompiereColor.setBackground(panel);
 		mainPanel.setLayout(mainLayout);
 		mainLayout.setVgap(10);
 		parameterPanel.setLayout(parameterLayout);
@@ -220,24 +204,10 @@ public class VTrxMaterial extends CPanel
 	 */
 	private void dynInit()
 	{
-		m_staticQuery = new MQuery();
-		m_staticQuery.addRestriction("AD_Client_ID", MQuery.EQUAL, Env.getAD_Client_ID(Env.getCtx()));
-		int AD_Window_ID = 223;		//	Hardcoded
-		GridWindowVO wVO = AEnv.getMWindowVO (m_WindowNo, AD_Window_ID, 0);
-		if (wVO == null)
-			return;
-		m_mWindow = new GridWindow (wVO);
-		m_mTab = m_mWindow.getTab(0);
-		m_mWindow.initTab(0);
-		//
+		super.dynInit(statusBar);
 		m_gridController = new GridController();
 		m_gridController.initGrid(m_mTab, true, m_WindowNo, null, null);
 		mainPanel.add(m_gridController, BorderLayout.CENTER);
-		//
-		m_mTab.setQuery(MQuery.getEqualQuery("1", "2"));
-		m_mTab.query(false);
-		statusBar.setStatusLine(" ", false);
-		statusBar.setStatusDB(" ");
 	}   //  dynInit
 
 
@@ -300,144 +270,37 @@ public class VTrxMaterial extends CPanel
 	 */
 	private void refresh()
 	{
-		/**
-		 *  Create Where Clause
-		 */
-		MQuery query = m_staticQuery.deepCopy();
-		//  Organization
-		Object value = orgField.getValue();
-		if (value != null && value.toString().length() > 0)
-			query.addRestriction("AD_Org_ID", MQuery.EQUAL, value);
-		//  Locator
-		value = locatorField.getValue();
-		if (value != null && value.toString().length() > 0)
-			query.addRestriction("M_Locator_ID", MQuery.EQUAL, value);
-		//  Product
-		value = productField.getValue();
-		if (value != null && value.toString().length() > 0)
-			query.addRestriction("M_Product_ID", MQuery.EQUAL, value);
-		//  MovementType
-		value = mtypeField.getValue();
-		if (value != null && value.toString().length() > 0)
-			query.addRestriction("MovementType", MQuery.EQUAL, value);
-		//  DateFrom
-		Timestamp ts = (Timestamp)dateFField.getValue();
-		if (ts != null)
-			query.addRestriction("TRUNC(MovementDate)", MQuery.GREATER_EQUAL, ts);
-		//  DateTO
-		ts = (Timestamp)dateTField.getValue();
-		if (ts != null)
-			query.addRestriction("TRUNC(MovementDate)", MQuery.LESS_EQUAL, ts);
-		log.info( "VTrxMaterial.refresh query=" + query.toString());
-
-		/**
-		 *  Refresh/Requery
-		 */
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "StartSearch"), false);
-		//
-		m_mTab.setQuery(query);
-		m_mTab.query(false);
-		//
-		setCursor(Cursor.getDefaultCursor());
-		int no = m_mTab.getRowCount();
-		statusBar.setStatusLine(" ", false);
-		statusBar.setStatusDB(Integer.toString(no));
+		Object organization = orgField.getValue();
+		Object locator = locatorField.getValue();
+		Object product = productField.getValue();
+		Object movementType = mtypeField.getValue();
+		Timestamp movementDateFrom = (Timestamp)dateFField.getValue();
+		Timestamp movementDateTo = (Timestamp)dateTField.getValue();
+		
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		refresh(organization, locator, product, movementType, movementDateFrom, movementDateTo, statusBar);
+		panel.setCursor(Cursor.getDefaultCursor());
 	}   //  refresh
 
 	/**
 	 *  Zoom
 	 */
-	private void zoom()
+	public void zoom()
 	{
-		log.info("");
-		//
-		int AD_Window_ID = 0;
-		String ColumnName = null;
-		String SQL = null;
-		//
-		int lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "M_InOutLine_ID");
-		if (lineID != 0)
-		{
-			log.fine("M_InOutLine_ID=" + lineID);
-			if (Env.getContext(Env.getCtx(), m_WindowNo, "MovementType").startsWith("C"))
-				AD_Window_ID = 169;     //  Customer
-			else
-				AD_Window_ID = 184;     //  Vendor
-			ColumnName = "M_InOut_ID";
-			SQL = "SELECT M_InOut_ID FROM M_InOutLine WHERE M_InOutLine_ID=?";
-		}
-		else
-		{
-			lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "M_InventoryLine_ID");
-			if (lineID != 0)
-			{
-				log.fine("M_InventoryLine_ID=" + lineID);
-				AD_Window_ID = 168;
-				ColumnName = "M_Inventory_ID";
-				SQL = "SELECT M_Inventory_ID FROM M_InventoryLine WHERE M_InventoryLine_ID=?";
-			}
-			else
-			{
-				lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "M_MovementLine_ID");
-				if (lineID != 0)
-				{
-					log.fine("M_MovementLine_ID=" + lineID);
-					AD_Window_ID = 170;
-					ColumnName = "M_Movement_ID";
-					SQL = "SELECT M_Movement_ID FROM M_MovementLine WHERE M_MovementLine_ID=?";
-				}
-				else
-				{
-					lineID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "M_ProductionLine_ID");
-					if (lineID != 0)
-					{
-						log.fine("M_ProductionLine_ID=" + lineID);
-						AD_Window_ID = 191;
-						ColumnName = "M_Production_ID";
-						SQL = "SELECT M_Production_ID FROM M_ProductionLine WHERE M_ProductionLine_ID=?";
-					}
-					else
-						log.fine("Not found WindowNo=" + m_WindowNo);
-				}
-			}
-		}
-		if (AD_Window_ID == 0)
-			return;
-
-		//  Get Parent ID
-		int parentID = 0;
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setInt(1, lineID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				parentID = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, SQL, e);
-		}
-		MQuery query = MQuery.getEqualQuery(ColumnName, parentID);
-		log.config("AD_Window_ID=" + AD_Window_ID + " - " + query);
-		if (parentID == 0)
-			log.log(Level.SEVERE, "No ParentValue - " + SQL + " - " + lineID);
+		super.zoom();
 
 		//  Zoom
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		AWindow frame = new AWindow();
 		if (!frame.initWindow(AD_Window_ID, query))
 		{
-			setCursor(Cursor.getDefaultCursor());
+			panel.setCursor(Cursor.getDefaultCursor());
 			return;
 		}
 		AEnv.addToWindowManager(frame);
 		AEnv.showCenterScreen(frame);
 		frame = null;
-		setCursor(Cursor.getDefaultCursor());
+		panel.setCursor(Cursor.getDefaultCursor());
 	}   //  zoom
 
 }   //  VTrxMaterial

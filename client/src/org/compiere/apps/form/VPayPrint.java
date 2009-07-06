@@ -24,9 +24,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -35,8 +33,6 @@ import javax.swing.JFileChooser;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.grid.ed.VNumber;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MLookupInfo;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.plaf.CompiereColor;
@@ -45,13 +41,11 @@ import org.compiere.print.ReportEngine;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
-import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 
@@ -61,13 +55,14 @@ import org.compiere.util.ValueNamePair;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VPayPrint.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
-public class VPayPrint extends CPanel
-	implements FormPanel, ActionListener
+public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6359854263967310497L;
+	
+	private CPanel panel = new CPanel();
 
 	/**
 	 *	Initialize Panel
@@ -92,19 +87,9 @@ public class VPayPrint extends CPanel
 		}
 	}	//	init
 
-	/**	Window No			*/
-	private int         	m_WindowNo = 0;
+	
 	/**	FormFrame			*/
 	private FormFrame 		m_frame;
-	/**	Used Bank Account	*/
-	private int				m_C_BankAccount_ID = -1;
-
-	/** Payment Information */
-	private MPaySelectionCheck[]     m_checks = null;
-	/** Payment Batch		*/
-	private MPaymentBatch	m_batch = null; 
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(VPayPrint.class);
 	
 	//  Static Variables
 	private CPanel centerPanel = new CPanel();
@@ -136,7 +121,7 @@ public class VPayPrint extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		CompiereColor.setBackground(this);
+		CompiereColor.setBackground(panel);
 		//
 		southPanel.setLayout(southLayout);
 		southLayout.setAlignment(FlowLayout.RIGHT);
@@ -207,33 +192,17 @@ public class VPayPrint extends CPanel
 	 */
 	private void dynInit()
 	{
-		log.config("");
-		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-
-		//  Load PaySelect
-		String sql = "SELECT C_PaySelection_ID, Name || ' - ' || TotalAmt FROM C_PaySelection "
-			+ "WHERE AD_Client_ID=? AND Processed='Y' AND IsActive='Y'"
-			+ "ORDER BY PayDate DESC";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			while (rs.next())
-			{
-				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				fPaySelect.addItem(pp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		ArrayList<KeyNamePair> data = getPaySelectionData();
+		for(KeyNamePair pp : data)
+			fPaySelect.addItem(pp);
+		
 		if (fPaySelect.getItemCount() == 0)
-			ADialog.info(m_WindowNo, this, "VPayPrintNoRecords");
+			ADialog.info(m_WindowNo, panel, "VPayPrintNoRecords");
+		else
+		{
+			fPaySelect.setSelectedIndex(0);
+			loadPaySelectInfo();
+		}
 	}   //  dynInit
 
 	/**
@@ -297,44 +266,14 @@ public class VPayPrint extends CPanel
 		log.info( "VPayPrint.loadPaySelectInfo");
 		if (fPaySelect.getSelectedIndex() == -1)
 			return;
-
-		//  load Banks from PaySelectLine
+		
 		int C_PaySelection_ID = ((KeyNamePair)fPaySelect.getSelectedItem()).getKey();
-		m_C_BankAccount_ID = -1;
-		String sql = "SELECT ps.C_BankAccount_ID, b.Name || ' ' || ba.AccountNo,"	//	1..2
-			+ " c.ISO_Code, CurrentBalance "										//	3..4
-			+ "FROM C_PaySelection ps"
-			+ " INNER JOIN C_BankAccount ba ON (ps.C_BankAccount_ID=ba.C_BankAccount_ID)"
-			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID)"
-			+ " INNER JOIN C_Currency c ON (ba.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE ps.C_PaySelection_ID=? AND ps.Processed='Y' AND ba.IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_C_BankAccount_ID = rs.getInt(1);
-				fBank.setText(rs.getString(2));
-				fCurrency.setText(rs.getString(3));
-				fBalance.setValue(rs.getBigDecimal(4));
-			}
-			else
-			{
-				m_C_BankAccount_ID = -1;
-				fBank.setText("");
-				fCurrency.setText("");
-				fBalance.setValue(Env.ZERO);
-				log.log(Level.SEVERE, "No active BankAccount for C_PaySelection_ID=" + C_PaySelection_ID);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		loadPaySelectInfo(C_PaySelection_ID);
+		
+		fBank.setText(bank);
+		fCurrency.setText(currency);
+		fBalance.setValue(balance);
+		
 		loadPaymentRule();
 	}   //  loadPaySelectInfo
 
@@ -346,37 +285,17 @@ public class VPayPrint extends CPanel
 		log.info("");
 		if (m_C_BankAccount_ID == -1)
 			return;
-
-		// load PaymentRule for Bank
-		int C_PaySelection_ID = ((KeyNamePair)fPaySelect.getSelectedItem()).getKey();
+		
 		fPaymentRule.removeAllItems();
-		int AD_Reference_ID = 195;  //  MLookupInfo.getAD_Reference_ID("All_Payment Rule");
-		Language language = Language.getLanguage(Env.getAD_Language(Env.getCtx()));
-		MLookupInfo info = MLookupFactory.getLookup_List(language, AD_Reference_ID);
-		String sql = info.Query.substring(0, info.Query.indexOf(" ORDER BY"))
-			+ " AND " + info.KeyColumn
-			+ " IN (SELECT PaymentRule FROM C_PaySelectionCheck WHERE C_PaySelection_ID=?) "
-			+ info.Query.substring(info.Query.indexOf(" ORDER BY"));
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			while (rs.next())
-			{
-				ValueNamePair pp = new ValueNamePair(rs.getString(2), rs.getString(3));
-				fPaymentRule.addItem(pp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		if (fPaymentRule.getItemCount() == 0)
-			log.config("PaySel=" + C_PaySelection_ID + ", BAcct=" + m_C_BankAccount_ID + " - " + sql);
+		
+		int C_PaySelection_ID = ((KeyNamePair)fPaySelect.getSelectedItem()).getKey();
+		ArrayList<ValueNamePair> data = loadPaymentRule(C_PaySelection_ID);
+		for(ValueNamePair pp : data)
+			fPaymentRule.addItem(pp);
+		
+		if (fPaymentRule.getItemCount() > 0)
+			fPaymentRule.setSelectedIndex(0);
+		
 		loadPaymentRuleInfo();
 	}   //  loadPaymentRule
 
@@ -393,54 +312,20 @@ public class VPayPrint extends CPanel
 
 		log.info("PaymentRule=" + PaymentRule);
 		fNoPayments.setText(" ");
-
+		
 		int C_PaySelection_ID = ((KeyNamePair)fPaySelect.getSelectedItem()).getKey();
-		String sql = "SELECT COUNT(*) "
-			+ "FROM C_PaySelectionCheck "
-			+ "WHERE C_PaySelection_ID=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			if (rs.next())
-				fNoPayments.setText(String.valueOf(rs.getInt(1)));
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		String msg = loadPaymentRuleInfo(C_PaySelection_ID, PaymentRule);
+		
+		if(noPayments != null)
+			fNoPayments.setText(noPayments);
+		
 		bProcess.setEnabled(PaymentRule.equals("T"));
-
-		//  DocumentNo
-		sql = "SELECT CurrentNext "
-			+ "FROM C_BankAccountDoc "
-			+ "WHERE C_BankAccount_ID=? AND PaymentRule=? AND IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_C_BankAccount_ID);
-			pstmt.setString(2, PaymentRule);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			if (rs.next())
-				fDocumentNo.setValue(new Integer(rs.getInt(1)));
-			else
-			{
-				log.log(Level.SEVERE, "VPayPrint.loadPaymentRuleInfo - No active BankAccountDoc for C_BankAccount_ID="
-					+ m_C_BankAccount_ID + " AND PaymentRule=" + PaymentRule);
-				ADialog.error(m_WindowNo, this, "VPayPrintNoDoc");
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		
+		if(documentNo != null)
+			fDocumentNo.setValue(documentNo);
+		
+		if(msg != null && msg.length() > 0)
+			ADialog.error(m_WindowNo, panel, msg);
 	}   //  loadPaymentRuleInfo
 
 
@@ -460,16 +345,16 @@ public class VPayPrint extends CPanel
 		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setMultiSelectionEnabled(false);
 		fc.setSelectedFile(new java.io.File("paymentExport.txt"));
-		if (fc.showSaveDialog(this) != JFileChooser.APPROVE_OPTION)
+		if (fc.showSaveDialog(panel) != JFileChooser.APPROVE_OPTION)
 			return;
 
 		//  Create File
 		int no = MPaySelectionCheck.exportToFile(m_checks, fc.getSelectedFile());
-		ADialog.info(m_WindowNo, this, "Saved",
+		ADialog.info(m_WindowNo, panel, "Saved",
 			fc.getSelectedFile().getAbsolutePath() + "\n"
 			+ Msg.getMsg(Env.getCtx(), "NoOfLines") + "=" + no);
 
-		if (ADialog.ask(m_WindowNo, this, "VPayPrintSuccess?"))
+		if (ADialog.ask(m_WindowNo, panel, "VPayPrintSuccess?"))
 		{
 		//	int lastDocumentNo = 
 			MPaySelectionCheck.confirmPrint (m_checks, m_batch);
@@ -500,7 +385,7 @@ public class VPayPrint extends CPanel
 		if (!getChecks(PaymentRule))
 			return;
 
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 		boolean somethingPrinted = false;
 		boolean directPrint = !Ini.isPropertyBool(Ini.P_PRINTPREVIEW);
@@ -509,13 +394,13 @@ public class VPayPrint extends CPanel
 		{
 			MPaySelectionCheck check = m_checks[i];
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
-			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, check.get_ID(), null, Env.getWindowNo(this), directPrint);
+			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
 			if (!somethingPrinted && ok)
 				somethingPrinted = true;
 		}
 
 		//	Confirm Print and Update BankAccountDoc
-		if (somethingPrinted && ADialog.ask(m_WindowNo, this, "VPayPrintSuccess?"))
+		if (somethingPrinted && ADialog.ask(m_WindowNo, panel, "VPayPrintSuccess?"))
 		{
 			int lastDocumentNo = MPaySelectionCheck.confirmPrint (m_checks, m_batch);
 			if (lastDocumentNo != 0)
@@ -528,16 +413,16 @@ public class VPayPrint extends CPanel
 			}
 		}	//	confirm
 
-		if (ADialog.ask(m_WindowNo, this, "VPayPrintPrintRemittance"))
+		if (ADialog.ask(m_WindowNo, panel, "VPayPrintPrintRemittance"))
 		{
 			for (int i = 0; i < m_checks.length; i++)
 			{
 				MPaySelectionCheck check = m_checks[i];
-				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, check.get_ID(), null, Env.getWindowNo(this), directPrint);
+				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
 			}
 		}	//	remittance
 
-		this.setCursor(Cursor.getDefaultCursor());
+		panel.setCursor(Cursor.getDefaultCursor());
 		dispose();
 	}   //  cmd_print
 
@@ -553,7 +438,7 @@ public class VPayPrint extends CPanel
 		if (fPaySelect.getSelectedIndex() == -1 || m_C_BankAccount_ID == -1
 			|| fPaymentRule.getSelectedIndex() == -1 || fDocumentNo.getValue() == null)
 		{
-			ADialog.error(m_WindowNo, this, "VPayPrintNoRecords",
+			ADialog.error(m_WindowNo, panel, "VPayPrintNoRecords",
 				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + "=0)");
 			return false;
 		}
@@ -564,16 +449,16 @@ public class VPayPrint extends CPanel
 
 		log.config("C_PaySelection_ID=" + C_PaySelection_ID + ", PaymentRule=" +  PaymentRule + ", DocumentNo=" + startDocumentNo);
 		//
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 		//	get Slecetions
 		m_checks = MPaySelectionCheck.get(C_PaySelection_ID, PaymentRule, startDocumentNo, null);
 
-		this.setCursor(Cursor.getDefaultCursor());
+		panel.setCursor(Cursor.getDefaultCursor());
 		//
 		if (m_checks == null || m_checks.length == 0)
 		{
-			ADialog.error(m_WindowNo, this, "VPayPrintNoRecords",
+			ADialog.error(m_WindowNo, panel, "VPayPrintNoRecords",
 				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + " #0");
 			return false;
 		}

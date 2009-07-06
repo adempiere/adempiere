@@ -18,9 +18,6 @@ package org.adempiere.webui.apps.form;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,19 +36,18 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.ICustomForm;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
-import org.compiere.model.MLookupFactory;
-import org.compiere.model.MLookupInfo;
+import org.compiere.apps.form.PayPrint;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.print.ReportEngine;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
-import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
@@ -67,18 +63,19 @@ import org.zkoss.zul.Filedownload;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VPayPrint.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
-public class WPayPrint extends ADForm
-	implements EventListener
+public class WPayPrint extends PayPrint implements ICustomForm, EventListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3005095685182033400L;
+	
+	private CustomForm form = new CustomForm();
 
 	/**
 	 *	Initialize Panel
 	 */
-	protected void initForm()
+	public WPayPrint()
 	{
 		try
 		{
@@ -87,7 +84,7 @@ public class WPayPrint extends ADForm
 			Borderlayout contentLayout = new Borderlayout();
 			contentLayout.setWidth("100%");
 			contentLayout.setHeight("100%");
-			this.appendChild(contentLayout);
+			form.appendChild(contentLayout);
 			Center center = new Center();
 			contentLayout.appendChild(center);
 			center.appendChild(centerPanel);
@@ -101,16 +98,6 @@ public class WPayPrint extends ADForm
 			log.log(Level.SEVERE, "", e);
 		}
 	}	//	init
-
-	/**	Used Bank Account	*/
-	private int				m_C_BankAccount_ID = -1;
-
-	/** Payment Information */
-	private MPaySelectionCheck[]     m_checks = null;
-	/** Payment Batch		*/
-	private MPaymentBatch	m_batch = null; 
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(WPayPrint.class);
 	
 	//  Static Variables
 	private Panel centerPanel = new Panel();
@@ -194,7 +181,8 @@ public class WPayPrint extends ADForm
 		row.appendChild(fDocumentNo.getComponent());
 		row.appendChild(lNoPayments.rightAlign());
 		row.appendChild(fNoPayments);
-				
+		
+		southPanel.getButton(ConfirmPanel.A_OK).setVisible(false);
 	}   //  VPayPrint
 
 	/**
@@ -202,33 +190,12 @@ public class WPayPrint extends ADForm
 	 */
 	private void dynInit()
 	{
-		log.config("");
-		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-
-		//  Load PaySelect
-		String sql = "SELECT C_PaySelection_ID, Name || ' - ' || TotalAmt FROM C_PaySelection "
-			+ "WHERE AD_Client_ID=? AND Processed='Y' AND IsActive='Y'"
-			+ "ORDER BY PayDate DESC";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			while (rs.next())
-			{
-				KeyNamePair pp = new KeyNamePair(rs.getInt(1), rs.getString(2));
-				fPaySelect.addItem(pp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		ArrayList<KeyNamePair> data = getPaySelectionData();
+		for(KeyNamePair pp : data)
+			fPaySelect.addItem(pp);
+		
 		if (fPaySelect.getItemCount() == 0)
-			FDialog.info(m_WindowNo, this, "VPayPrintNoRecords");
+			FDialog.info(m_WindowNo, form, "VPayPrintNoRecords");
 		else
 		{
 			fPaySelect.setSelectedIndex(0);
@@ -296,44 +263,15 @@ public class WPayPrint extends ADForm
 		log.info( "VPayPrint.loadPaySelectInfo");
 		if (fPaySelect.getSelectedIndex() == -1)
 			return;
-
+		
 		//  load Banks from PaySelectLine
 		int C_PaySelection_ID = fPaySelect.getSelectedItem().toKeyNamePair().getKey();
-		m_C_BankAccount_ID = -1;
-		String sql = "SELECT ps.C_BankAccount_ID, b.Name || ' ' || ba.AccountNo,"	//	1..2
-			+ " c.ISO_Code, CurrentBalance "										//	3..4
-			+ "FROM C_PaySelection ps"
-			+ " INNER JOIN C_BankAccount ba ON (ps.C_BankAccount_ID=ba.C_BankAccount_ID)"
-			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID)"
-			+ " INNER JOIN C_Currency c ON (ba.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE ps.C_PaySelection_ID=? AND ps.Processed='Y' AND ba.IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_C_BankAccount_ID = rs.getInt(1);
-				fBank.setText(rs.getString(2));
-				fCurrency.setText(rs.getString(3));
-				fBalance.setValue(rs.getBigDecimal(4));
-			}
-			else
-			{
-				m_C_BankAccount_ID = -1;
-				fBank.setText("");
-				fCurrency.setText("");
-				fBalance.setValue(Env.ZERO);
-				log.log(Level.SEVERE, "No active BankAccount for C_PaySelection_ID=" + C_PaySelection_ID);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		loadPaySelectInfo(C_PaySelection_ID);
+		
+		fBank.setText(bank);
+		fCurrency.setText(currency);
+		fBalance.setValue(balance);
+		
 		loadPaymentRule();
 	}   //  loadPaySelectInfo
 
@@ -345,39 +283,18 @@ public class WPayPrint extends ADForm
 		log.info("");
 		if (m_C_BankAccount_ID == -1)
 			return;
-
+		
+		fPaymentRule.removeAllItems();
+		
 		// load PaymentRule for Bank
 		int C_PaySelection_ID = fPaySelect.getSelectedItem().toKeyNamePair().getKey();
-		fPaymentRule.removeAllItems();
-		int AD_Reference_ID = 195;  //  MLookupInfo.getAD_Reference_ID("All_Payment Rule");
-		Language language = Language.getLanguage(Env.getAD_Language(Env.getCtx()));
-		MLookupInfo info = MLookupFactory.getLookup_List(language, AD_Reference_ID);
-		String sql = info.Query.substring(0, info.Query.indexOf(" ORDER BY"))
-			+ " AND " + info.KeyColumn
-			+ " IN (SELECT PaymentRule FROM C_PaySelectionCheck WHERE C_PaySelection_ID=?) "
-			+ info.Query.substring(info.Query.indexOf(" ORDER BY"));
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			while (rs.next())
-			{
-				ValueNamePair pp = new ValueNamePair(rs.getString(2), rs.getString(3));
-				fPaymentRule.addItem(pp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		if (fPaymentRule.getItemCount() == 0)
-			log.config("PaySel=" + C_PaySelection_ID + ", BAcct=" + m_C_BankAccount_ID + " - " + sql);
-		else
+		ArrayList<ValueNamePair> data = loadPaymentRule(C_PaySelection_ID);
+		for(ValueNamePair pp : data)
+			fPaymentRule.addItem(pp);
+		
+		if (fPaymentRule.getItemCount() > 0)
 			fPaymentRule.setSelectedIndex(0);
+		
 		loadPaymentRuleInfo();
 	}   //  loadPaymentRule
 
@@ -394,54 +311,20 @@ public class WPayPrint extends ADForm
 
 		log.info("PaymentRule=" + PaymentRule);
 		fNoPayments.setText(" ");
-
+		
 		int C_PaySelection_ID = fPaySelect.getSelectedItem().toKeyNamePair().getKey();
-		String sql = "SELECT COUNT(*) "
-			+ "FROM C_PaySelectionCheck "
-			+ "WHERE C_PaySelection_ID=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, C_PaySelection_ID);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			if (rs.next())
-				fNoPayments.setText(String.valueOf(rs.getInt(1)));
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		String msg = loadPaymentRuleInfo(C_PaySelection_ID, PaymentRule);
+		
+		if(noPayments != null)
+			fNoPayments.setText(noPayments);
+		
 		bProcess.setEnabled(PaymentRule.equals("T"));
-
-		//  DocumentNo
-		sql = "SELECT CurrentNext "
-			+ "FROM C_BankAccountDoc "
-			+ "WHERE C_BankAccount_ID=? AND PaymentRule=? AND IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_C_BankAccount_ID);
-			pstmt.setString(2, PaymentRule);
-			ResultSet rs = pstmt.executeQuery();
-			//
-			if (rs.next())
-				fDocumentNo.setValue(new Integer(rs.getInt(1)));
-			else
-			{
-				log.log(Level.SEVERE, "VPayPrint.loadPaymentRuleInfo - No active BankAccountDoc for C_BankAccount_ID="
-					+ m_C_BankAccount_ID + " AND PaymentRule=" + PaymentRule);
-				FDialog.error(m_WindowNo, this, "VPayPrintNoDoc");
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		
+		if(documentNo != null)
+			fDocumentNo.setValue(documentNo);
+		
+		if(msg != null && msg.length() > 0)
+			FDialog.error(m_WindowNo, form, msg);
 	}   //  loadPaymentRuleInfo
 
 
@@ -464,7 +347,7 @@ public class WPayPrint extends ADForm
 			MPaySelectionCheck.exportToFile(m_checks, tempFile);
 			Filedownload.save(new FileInputStream(tempFile), "plain/text", "paymentExport.txt");
 			
-			if (FDialog.ask(m_WindowNo, this, "VPayPrintSuccess?"))
+			if (FDialog.ask(m_WindowNo, form, "VPayPrintSuccess?"))
 			{
 			//	int lastDocumentNo = 
 				MPaySelectionCheck.confirmPrint (m_checks, m_batch);
@@ -525,7 +408,7 @@ public class WPayPrint extends ADForm
 		{
 			File outFile = File.createTempFile("WPayPrint", null);
 			AEnv.mergePdf(pdfList, outFile);
-			chequeViewer = new SimplePDFViewer(this.getFormName(), new FileInputStream(outFile));
+			chequeViewer = new SimplePDFViewer(form.getFormName(), new FileInputStream(outFile));
 			chequeViewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 			chequeViewer.setWidth("100%");
 		}
@@ -547,7 +430,7 @@ public class WPayPrint extends ADForm
 		}
 
 		SimplePDFViewer remitViewer = null; 
-		if (FDialog.ask(m_WindowNo, this, "VPayPrintPrintRemittance"))
+		if (FDialog.ask(m_WindowNo, form, "VPayPrintPrintRemittance"))
 		{
 			pdfList = new ArrayList<File>();
 			for (int i = 0; i < m_checks.length; i++)
@@ -571,7 +454,7 @@ public class WPayPrint extends ADForm
 				File outFile = File.createTempFile("WPayPrint", null);
 				AEnv.mergePdf(pdfList, outFile);
 				String name = Msg.translate(Env.getCtx(), "Remittance");
-				remitViewer = new SimplePDFViewer(this.getFormName() + " - " + name, new FileInputStream(outFile));
+				remitViewer = new SimplePDFViewer(form.getFormName() + " - " + name, new FileInputStream(outFile));
 				remitViewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 				remitViewer.setWidth("100%");
 			}
@@ -602,7 +485,7 @@ public class WPayPrint extends ADForm
 		if (fPaySelect.getSelectedIndex() == -1 || m_C_BankAccount_ID == -1
 			|| fPaymentRule.getSelectedIndex() == -1 || fDocumentNo.getValue() == null)
 		{
-			FDialog.error(m_WindowNo, this, "VPayPrintNoRecords",
+			FDialog.error(m_WindowNo, form, "VPayPrintNoRecords",
 				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + "=0)");
 			return false;
 		}
@@ -619,12 +502,16 @@ public class WPayPrint extends ADForm
 		//
 		if (m_checks == null || m_checks.length == 0)
 		{
-			FDialog.error(m_WindowNo, this, "VPayPrintNoRecords",
+			FDialog.error(m_WindowNo, form, "VPayPrintNoRecords",
 				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + " #0");
 			return false;
 		}
 		m_batch = MPaymentBatch.getForPaySelection (Env.getCtx(), C_PaySelection_ID, null);
 		return true;
 	}   //  getChecks
+	
+	public ADForm getForm() {
+		return form;
+	}
 
 }   //  PayPrint

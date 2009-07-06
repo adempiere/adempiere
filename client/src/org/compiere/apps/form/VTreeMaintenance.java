@@ -22,8 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.DefaultListModel;
@@ -36,20 +35,13 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.compiere.grid.tree.VTreePanel;
-import org.compiere.model.MRole;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
-import org.compiere.model.MTree_Node;
-import org.compiere.model.MTree_NodeBP;
-import org.compiere.model.MTree_NodeMM;
-import org.compiere.model.MTree_NodePR;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -60,22 +52,18 @@ import org.compiere.util.Msg;
  *  @author Jorg Janke
  *  @version $Id: VTreeMaintenance.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
-public class VTreeMaintenance extends CPanel
+public class VTreeMaintenance extends TreeMaintenance
 	implements FormPanel, ActionListener, ListSelectionListener, PropertyChangeListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 3679450924195670486L;
-	/**	Window No				*/
-	private int         	m_WindowNo = 0;
-	/**	FormFrame				*/
-	private FormFrame 		m_frame;
-	/**	Active Tree				*/
-	private MTree		 	m_tree;
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(VTreeMaintenance.class);
 	
+	private CPanel panel = new CPanel();
+	
+	/**	FormFrame				*/
+	private FormFrame 		m_frame;	
 	
 	private BorderLayout	mainLayout	= new BorderLayout ();
 	private CPanel 			northPanel	= new CPanel ();
@@ -108,7 +96,7 @@ public class VTreeMaintenance extends CPanel
 		{
 			preInit();
 			jbInit ();
-			frame.getContentPane().add(this, BorderLayout.CENTER);
+			frame.getContentPane().add(panel, BorderLayout.CENTER);
 		//	frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 			action_loadTree();
 		}
@@ -123,10 +111,7 @@ public class VTreeMaintenance extends CPanel
 	 */
 	private void preInit()
 	{
-		KeyNamePair[] trees = DB.getKeyNamePairs(MRole.getDefault().addAccessSQL(
-			"SELECT AD_Tree_ID, Name FROM AD_Tree WHERE TreeType NOT IN ('BB','PC') ORDER BY 2", 
-			"AD_Tree", MRole.SQL_NOTQUALIFIED, MRole.SQL_RW), false);
-		treeField = new CComboBox(trees);
+		treeField = new CComboBox(getTreeData());
 		treeField.addActionListener(this);
 		//
 		centerTree = new VTreePanel (m_WindowNo, false, true);
@@ -139,7 +124,7 @@ public class VTreeMaintenance extends CPanel
 	 */
 	private void jbInit () throws Exception
 	{
-		this.setLayout (mainLayout);
+		panel.setLayout (mainLayout);
 		treeLabel.setText (Msg.translate(Env.getCtx(), "AD_Tree_ID"));
 		cbAllNodes.setEnabled (false);
 		cbAllNodes.setText (Msg.translate(Env.getCtx(), "IsAllNodes"));
@@ -155,7 +140,7 @@ public class VTreeMaintenance extends CPanel
 		northPanel.setLayout (northLayout);
 		northLayout.setAlignment (FlowLayout.LEFT);
 		//
-		this.add (northPanel, BorderLayout.NORTH);
+		panel.add (northPanel, BorderLayout.NORTH);
 		northPanel.add (treeLabel, null);
 		northPanel.add (treeField, null);
 		northPanel.add (cbAllNodes, null);
@@ -165,7 +150,7 @@ public class VTreeMaintenance extends CPanel
 		northPanel.add (bDelete, null);
 		northPanel.add (bDeleteAll, null);
 		//
-		this.add (splitPane, BorderLayout.CENTER);
+		panel.add (splitPane, BorderLayout.CENTER);
 		splitPane.add (centerTree, JSplitPane.LEFT);
 		splitPane.add (new JScrollPane(centerList), JSplitPane.RIGHT);
 		centerList.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
@@ -221,43 +206,13 @@ public class VTreeMaintenance extends CPanel
 		bDelete.setEnabled(!m_tree.isAllNodes());
 		bDeleteAll.setEnabled(!m_tree.isAllNodes());
 		//
-		String fromClause = m_tree.getSourceTableName(false);	//	fully qualified
-		String columnNameX = m_tree.getSourceTableName(true);
-		String actionColor = m_tree.getActionColorName();
+		
 		//	List
 		DefaultListModel model = new DefaultListModel();
-		String sql = "SELECT t." + columnNameX 
-			+ "_ID,t.Name,t.Description,t.IsSummary,"
-			+ actionColor
-			+ " FROM " + fromClause
-		//	+ " WHERE t.IsActive='Y'"	//	R/O
-			+ " ORDER BY 2";
-		sql = MRole.getDefault().addAccessSQL(sql, 
-			"t", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
-		log.config(sql);
-		//	
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				ListItem item = new ListItem(rs.getInt(1), rs.getString(2),
-					rs.getString(3), "Y".equals(rs.getString(4)), rs.getString(5));
-				model.addElement(item);
-			}
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		ArrayList<ListItem> items = getTreeItemData();
+		for(ListItem item : items)
+			model.addElement(item);
+		
 		//	List
 		log.config("#" + model.getSize());
 		centerList.setModel(model);
@@ -319,27 +274,9 @@ public class VTreeMaintenance extends CPanel
 		{
 			centerTree.nodeChanged(true, item.id, item.name, 
 				item.description, item.isSummary, item.imageIndicator);
+			
 			//	May cause Error if in tree
-			if (m_tree.isProduct())
-			{
-				MTree_NodePR node = new MTree_NodePR (m_tree, item.id);
-				node.save();
-			}
-			else if (m_tree.isBPartner())
-			{
-				MTree_NodeBP node = new MTree_NodeBP (m_tree, item.id);
-				node.save();
-			}
-			else if (m_tree.isMenu())
-			{
-				MTree_NodeMM node = new MTree_NodeMM (m_tree, item.id);
-				node.save();
-			}
-			else
-			{
-				MTree_Node node = new MTree_Node (m_tree, item.id);
-				node.save();
-			}
+			addNode(item);
 		}
 	}	//	action_treeAdd
 	
@@ -354,31 +291,8 @@ public class VTreeMaintenance extends CPanel
 		{
 			centerTree.nodeChanged(false, item.id, item.name, 
 				item.description, item.isSummary, item.imageIndicator);
-			//
-			if (m_tree.isProduct())
-			{
-				MTree_NodePR node = MTree_NodePR.get (m_tree, item.id);
-				if (node != null)
-					node.delete(true);
-			}
-			else if (m_tree.isBPartner())
-			{
-				MTree_NodeBP node = MTree_NodeBP.get (m_tree, item.id);
-				if (node != null)
-					node.delete(true);
-			}
-			else if (m_tree.isMenu())
-			{
-				MTree_NodeMM node = MTree_NodeMM.get (m_tree, item.id);
-				if (node != null)
-					node.delete(true);
-			}
-			else
-			{
-				MTree_Node node = MTree_Node.get (m_tree, item.id);
-				if (node != null)
-					node.delete(true);
-			}
+			
+			deleteNode(item);
 		}
 	}	//	action_treeDelete
 
@@ -413,54 +327,6 @@ public class VTreeMaintenance extends CPanel
 			ListItem item = (ListItem)model.getElementAt(index);
 			action_treeDelete(item);
 		}
-	}	//	action_treeDeleteAll
-	
-	/**************************************************************************
-	 * 	Tree Maintenance List Item
-	 */
-	class ListItem
-	{
-		/**
-		 * 	ListItem
-		 *	@param ID
-		 *	@param Name
-		 *	@param Description
-		 *	@param summary
-		 *	@param ImageIndicator
-		 */
-		public ListItem (int ID, String Name, String Description, 
-			boolean summary, String ImageIndicator)
-		{
-			id = ID;
-			name = Name;
-			description = Description;
-			isSummary = summary;
-			imageIndicator = ImageIndicator;
-		}	//	ListItem
-		
-		/**	ID			*/
-		public int id;
-		/** Name		*/
-		public String name;
-		/** Description	*/
-		public String description;
-		/** Summary		*/
-		public boolean isSummary;
-		/** Indicator	*/
-		public String imageIndicator;  //  Menu - Action
-		
-		/**
-		 * 	To String
-		 *	@return	String Representation
-		 */
-		public String toString ()
-		{
-			String retValue = name;
-			if (description != null && description.length() > 0)
-				retValue += " (" + description + ")";
-			return retValue;
-		}	//	toString
-		
-	}	//	ListItem
+	}	//	action_treeDeleteAll	
 
 }	//	VTreeMaintenance
