@@ -17,7 +17,6 @@
 
 package org.eevolution.process;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -72,15 +71,15 @@ public class MRPUpdate extends SvrProcess
 				;
 			else if (name.equals("AD_Org_ID"))
 			{    
-				p_AD_Org_ID = ((BigDecimal)para[i].getParameter()).intValue();
+				p_AD_Org_ID = para[i].getParameterAsInt();
 			}                       
 			else if (name.equals("S_Resource_ID"))
 			{    
-				p_S_Resource_ID = ((BigDecimal)para[i].getParameter()).intValue();                
+				p_S_Resource_ID = para[i].getParameterAsInt();                
 			}
 			else if (name.equals("M_Warehouse_ID"))
 			{    
-				p_M_Warehouse_ID = ((BigDecimal)para[i].getParameter()).intValue();                
+				p_M_Warehouse_ID = para[i].getParameterAsInt();                
 			}
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
