@@ -35,7 +35,7 @@ import org.eevolution.model.RoutingService;
  */
 public class DefaultRoutingServiceImpl implements RoutingService
 {
-	public final CLogger log = CLogger.getCLogger(getClass());
+	private final CLogger log = CLogger.getCLogger(getClass());
 	
 	public BigDecimal estimateWorkingTime(I_AD_WF_Node node)
 	{
