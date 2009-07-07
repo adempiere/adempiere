@@ -22,9 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.MResource;
+import org.compiere.model.I_S_Resource;
 import org.compiere.model.MResourceType;
 import org.compiere.model.MResourceUnAvailable;
+import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
@@ -44,13 +45,25 @@ public class CRPReasoner
 {
 	public Properties getCtx()
 	{
-		return Env.getCtx();
+		return getCtx(null);
+	}
+	private Properties getCtx(Object o)
+	{
+		if (o instanceof PO)
+		{
+			return ((PO)o).getCtx();
+		}
+		else
+		{
+			return Env.getCtx();
+		}
 	}
 
-	private String getSQLDayRestriction(Timestamp dateTime, MResource r, List<Object> params)
+	private String getSQLDayRestriction(Timestamp dateTime, I_S_Resource r, List<Object> params)
 	{
-		Timestamp dayStart = r.getResourceType().getDayStart(dateTime);
-		Timestamp dayEnd = r.getResourceType().getDayEnd(dateTime);
+		final MResourceType rt = MResourceType.get(getCtx(), r.getS_ResourceType_ID());
+		Timestamp dayStart = rt.getDayStart(dateTime);
+		Timestamp dayEnd = rt.getDayEnd(dateTime);
 		
 		String whereClause;
 		
@@ -116,7 +129,7 @@ public class CRPReasoner
 					.setOrderBy(MPPOrder.COLUMNNAME_DatePromised);
 	}
 
-	public MPPOrder[] getPPOrders(Timestamp dateTime, MResource r)
+	public MPPOrder[] getPPOrders(Timestamp dateTime, I_S_Resource r)
 	{
 		if(!isAvailable(r, dateTime))
 		{
@@ -124,7 +137,7 @@ public class CRPReasoner
 		}
 
 		ArrayList<Object> params = new ArrayList<Object>();
-		params.add(r.get_ID());
+		params.add(r.getS_Resource_ID());
 		final String whereClause = 
 			// Checks the requested resource id directly on order node, not on resource id of the order
 			"EXISTS (SELECT 1 FROM PP_Order_Node WHERE "
@@ -136,13 +149,13 @@ public class CRPReasoner
 			+ " AND AD_Client_ID=?";
 		params.add(r.getAD_Client_ID());
 		
-		List<MPPOrder> list = new Query(r.getCtx(), MPPOrder.Table_Name, whereClause, null)
+		List<MPPOrder> list = new Query(getCtx(r), MPPOrder.Table_Name, whereClause, null)
 									.setParameters(params)
 									.list();
 		return list.toArray(new MPPOrder[list.size()]);
 	}  
 
-	public MPPOrderNode[] getPPOrderNodes(Timestamp dateTime, MResource r)
+	public MPPOrderNode[] getPPOrderNodes(Timestamp dateTime, I_S_Resource r)
 	{
 		if(!isAvailable(r, dateTime))
 		{
@@ -151,26 +164,27 @@ public class CRPReasoner
 
 		ArrayList<Object> params = new ArrayList<Object>();
 		String whereClause = MPPOrderNode.COLUMNNAME_S_Resource_ID+"=? AND AD_Client_ID=?";
-		params.add(r.get_ID());
+		params.add(r.getS_Resource_ID());
 		params.add(r.getAD_Client_ID());
 		
 		whereClause += " AND "+getSQLDayRestriction(dateTime, r, params);
 		
-		List<MPPOrderNode> list = new Query(r.getCtx(), MPPOrderNode.Table_Name, whereClause, null)
+		List<MPPOrderNode> list = new Query(getCtx(r), MPPOrderNode.Table_Name, whereClause, null)
 									.setParameters(params)
 									.list();
 		return list.toArray(new MPPOrderNode[list.size()]);
 	}  
 
-	public boolean isAvailable(MResource r, Timestamp dateTime)
+	public boolean isAvailable(I_S_Resource r, Timestamp dateTime)
 	{
-		MResourceType t = MResourceType.get(Env.getCtx(), r.getS_ResourceType_ID());
+		MResourceType t = MResourceType.get(getCtx(r), r.getS_ResourceType_ID());
 		return t.isDayAvailable(dateTime) && !MResourceUnAvailable.isUnAvailable(r, dateTime);
 	}
 
-	public boolean isAvailable(MResource r)
+	public boolean isAvailable(I_S_Resource r)
 	{
-		return r.getResourceType().isAvailable();
+		MResourceType t = MResourceType.get(getCtx(r), r.getS_ResourceType_ID());
+		return t.isAvailable();
 	}
 
 	/**
@@ -200,9 +214,9 @@ public class CRPReasoner
 	 * @param dateTime
 	 * @return next available date
 	 */
-	public Timestamp getAvailableDate(MResource r, Timestamp dateTime, boolean isScheduleBackward)
+	public Timestamp getAvailableDate(I_S_Resource r, Timestamp dateTime, boolean isScheduleBackward)
 	{
-		MResourceType t = r.getResourceType();
+		MResourceType t = MResourceType.get(getCtx(r), r.getS_ResourceType_ID());
 		Timestamp date = dateTime;
 		ArrayList<Object> params = new ArrayList<Object>();
 		String whereClause;
@@ -224,10 +238,10 @@ public class CRPReasoner
 		}
 
 		whereClause += " AND "+MResourceUnAvailable.COLUMNNAME_S_Resource_ID+"=? AND AD_Client_ID=?";
-		params.add(r.get_ID());
+		params.add(r.getS_Resource_ID());
 		params.add(r.getAD_Client_ID());
 		
-		POResultSet<MResourceUnAvailable> rs = new Query(r.getCtx(), MResourceUnAvailable.Table_Name, whereClause, null)
+		POResultSet<MResourceUnAvailable> rs = new Query(getCtx(r), MResourceUnAvailable.Table_Name, whereClause, null)
 												.setOrderBy(orderByClause)
 												.setParameters(params)
 												.scroll();
