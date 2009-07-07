@@ -155,7 +155,7 @@ class TestableMRP extends org.eevolution.process.MRP
 	private void createMRPSupply(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
 	{
 		Timestamp datePromised = DemandDateStartSchedule;
-		Timestamp dateStartSchedule = TimeUtil.addDays(datePromised, 0 - this.planning.getDeliveryTime_Promised().intValue());
+		Timestamp dateStartSchedule = TimeUtil.addDays(datePromised, 0 - this.planning.getDeliveryTime_Promised().intValueExact());
 		I_PP_MRP mrp = MRPTest.createMRP(this.planning, X_PP_MRP.TYPEMRP_Supply, X_PP_MRP.DOCSTATUS_Drafted, QtyPlanned,
 								datePromised, dateStartSchedule);
 		((PO)mrp).saveEx(get_TrxName());

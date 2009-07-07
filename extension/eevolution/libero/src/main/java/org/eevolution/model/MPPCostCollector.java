@@ -331,8 +331,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			activity.setQtyDelivered(activity.getQtyDelivered().add(getMovementQty()));
 			activity.setQtyScrap(activity.getQtyScrap().add(getScrappedQty()));
 			activity.setQtyReject(activity.getQtyReject().add(getQtyReject()));
-			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValue());
-			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValue());
+			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValueExact());
+			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValueExact());
 			activity.saveEx();
 
 			// report all activity previews to milestone activity

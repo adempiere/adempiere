@@ -422,7 +422,7 @@ public class MRP extends SvrProcess
 						if (X_PP_Product_Planning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
 						{
 							DatePromisedFrom = DatePromised;
-							DatePromisedTo = TimeUtil.addDays(DatePromised , m_product_planning.getOrder_Period().intValue());                                       
+							DatePromisedTo = TimeUtil.addDays(DatePromised , m_product_planning.getOrder_Period().intValueExact());                                       
 							//set the POQDateStartSchedule && POQDateStartSchedule to first period
 							//POQDateStartSchedule = (level == 0 ? DatePromised : DateStartSchedule);
 							POQDateStartSchedule = DatePromised;
@@ -452,7 +452,7 @@ public class MRP extends SvrProcess
 							calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product ,BeforeDateStartSchedule);										
 							QtyGrossReqs = Qty; 
 							DatePromisedFrom = DatePromised;
-							DatePromisedTo = TimeUtil.addDays(DatePromised, m_product_planning.getOrder_Period().intValue());         
+							DatePromisedTo = TimeUtil.addDays(DatePromised, m_product_planning.getOrder_Period().intValueExact());         
 							POQDateStartSchedule = (level == 0 ? DatePromised : DateStartSchedule);
 							continue;
 						}
@@ -531,7 +531,7 @@ public class MRP extends SvrProcess
 		
 		if(m_product_planning.getTimeFence().signum() > 0)
 		{
-			TimeFence = TimeUtil.addDays(getToday(), m_product_planning.getTimeFence().intValue());
+			TimeFence = TimeUtil.addDays(getToday(), m_product_planning.getTimeFence().intValueExact());
 		}
 
 		QtyProjectOnHand = getQtyOnHand(m_product_planning);
@@ -772,7 +772,7 @@ public class MRP extends SvrProcess
 			if (m_product_planning.getOrder_Policy().equals(X_PP_Product_Planning.ORDER_POLICY_FixedOrderQuantity))
 			{    
 				if (m_product_planning.getOrder_Qty().signum() != 0)
-					loops = (QtyPlanned.divide(m_product_planning.getOrder_Qty() , 0 , BigDecimal.ROUND_UP)).intValue();
+					loops = (QtyPlanned.divide(m_product_planning.getOrder_Qty() , 0 , BigDecimal.ROUND_UP)).intValueExact();
 				QtyPlanned = m_product_planning.getOrder_Qty();
 			}
 
@@ -965,7 +965,7 @@ public class MRP extends SvrProcess
 			{
 				mrp.setDateOrdered(getToday());               
 				mrp.setS_Resource_ID(m_product_planning.getS_Resource_ID());
-				mrp.setDatePromised(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(transfertTime)).negate().intValue()));                                                            
+				mrp.setDatePromised(TimeUtil.addDays(DemandDateStartSchedule , (m_product_planning.getDeliveryTime_Promised().add(transfertTime)).negate().intValueExact()));                                                            
 				mrp.setDateFinishSchedule(DemandDateStartSchedule);
 				mrp.saveEx();
 			}

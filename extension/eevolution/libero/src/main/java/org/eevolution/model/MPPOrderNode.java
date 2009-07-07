@@ -140,7 +140,8 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setC_BPartner_ID(wfNode.getC_BPartner_ID());
 		setCost(wfNode.getCost());
 		setDuration(wfNode.getDuration());
-		setUnitsCycles(wfNode.getUnitsCycles().intValue());
+		setUnitsCycles(wfNode.getUnitsCycles().intValueExact());
+		setOverlapUnits(wfNode.getOverlapUnits());
 		setEntityType(wfNode.getEntityType());
 		setIsCentrallyMaintained(wfNode.isCentrallyMaintained());
 		setJoinElement(wfNode.getJoinElement()); // X
