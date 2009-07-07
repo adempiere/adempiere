@@ -1120,6 +1120,17 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	{
 		// Create BOM Head
 		final MPPProductBOM PP_Product_BOM = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
+		// Product from Order should be same as product from BOM - teo_sarca [ 2817870 ] 
+		if (getM_Product_ID() != PP_Product_BOM.getM_Product_ID())
+		{
+			throw new AdempiereException("@NotMatch@ @PP_Product_BOM_ID@ , @M_Product_ID@");
+		}
+		// Product BOM Configuration should be verified - teo_sarca [ 2817870 ]
+		final MProduct product = MProduct.get(getCtx(), PP_Product_BOM.getM_Product_ID());
+		if (!product.isVerified())
+		{
+			throw new AdempiereException("Product BOM Configuration not verified. Please verify the product first - "+product.getValue()); // TODO: translate
+		}
 		if (PP_Product_BOM.isValidFromTo(getDateStartSchedule()))
 		{
 			MPPOrderBOM PP_Order_BOM = new MPPOrderBOM(PP_Product_BOM, getPP_Order_ID(), get_TrxName());
@@ -1151,8 +1162,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			throw new BOMExpiredException(PP_Product_BOM, getDateStartSchedule());
 		}
 
-		// Create Workflow (Routing & Process
+		// Create Workflow (Routing & Process)
 		final MWorkflow AD_Workflow = MWorkflow.get(getCtx(), getAD_Workflow_ID());
+		// Workflow should be validated first - teo_sarca [ 2817870 ]
+		if (!AD_Workflow.isValid())
+		{
+			throw new AdempiereException("Routing is not valid. Please validate it first - "+AD_Workflow.getValue()); // TODO: translate
+		}
 		if (AD_Workflow.isValidFromTo(getDateStartSchedule()))
 		{
 			MPPOrderWorkflow PP_Order_Workflow = new MPPOrderWorkflow(AD_Workflow, get_ID(), get_TrxName());
