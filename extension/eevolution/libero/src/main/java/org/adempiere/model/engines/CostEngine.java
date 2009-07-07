@@ -21,6 +21,7 @@ import java.math.RoundingMode;
 import java.util.Collection;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_M_CostElement;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MCost;
@@ -275,10 +276,11 @@ public class CostEngine
 		return no;
 	}
 
-	public static boolean isActivityControlElement(MCostElement element)
+	public static boolean isActivityControlElement(I_M_CostElement element)
 	{
 		String costElementType = element.getCostElementType();
 		return MCostElement.COSTELEMENTTYPE_Resource.equals(costElementType)
+		|| MCostElement.COSTELEMENTTYPE_Overhead.equals(costElementType)
 		|| MCostElement.COSTELEMENTTYPE_BurdenMOverhead.equals(costElementType);
 	}
 
