@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
@@ -46,16 +47,16 @@ public class MResourceUnAvailable extends X_S_ResourceUnAvailable
 	 * @param dateTime date (date is truncated to day)
 	 * @return true if resource is unavailable
 	 */
-	public static boolean isUnAvailable(MResource r, Timestamp dateTime)
+	public static boolean isUnAvailable(I_S_Resource r, Timestamp dateTime)
 	{
 		Timestamp date = TimeUtil.trunc(dateTime, TimeUtil.TRUNC_DAY);
 		final String whereClause = COLUMNNAME_S_Resource_ID+"=? AND AD_Client_ID=?"
 									+" AND TRUNC("+COLUMNNAME_DateFrom+") <= ?"
 									+" AND TRUNC("+COLUMNNAME_DateTo+") >= ?";
-		return new Query(r.getCtx(), MResourceUnAvailable.Table_Name, whereClause, null)
-						.setParameters(new Object[]{r.get_ID(), r.getAD_Client_ID(), date, date})
+		Properties ctx = r instanceof PO ? ((PO)r).getCtx() : Env.getCtx();
+		return new Query(ctx, MResourceUnAvailable.Table_Name, whereClause, null)
+						.setParameters(new Object[]{r.getS_Resource_ID(), r.getAD_Client_ID(), date, date})
 						.match();
-		
 	}
 	
 	/**
