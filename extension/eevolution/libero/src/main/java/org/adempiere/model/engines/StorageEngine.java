@@ -32,7 +32,6 @@ import org.compiere.model.MTransaction;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -48,8 +47,8 @@ public class StorageEngine
 	/**	Logger							*/
 	protected static transient CLogger	log = CLogger.getCLogger (StorageEngine.class);
 	
-	public static String createTrasaction (
-			IDocumentLine sLine,
+	public static void createTrasaction (
+			IDocumentLine docLine,
 			String MovementType , 
 			Timestamp MovementDate , 
 			BigDecimal Qty, 
@@ -60,92 +59,45 @@ public class StorageEngine
 			boolean isSOTrx
 		)
 	{	
-		MProduct product = MProduct.get(sLine.getCtx(), sLine.getM_Product_ID());
-		/*BigDecimal QtySO = Env.ZERO;
-		BigDecimal QtyPO = Env.ZERO;*/
+		MProduct product = MProduct.get(docLine.getCtx(), docLine.getM_Product_ID());
 		//	Incoming Trx
 		boolean incomingTrx = MovementType.charAt(1) == '+';	//	V+ Vendor Receipt
 
 
-		/*if (isSOTrx)
-			QtySO = sLine.getMovementQty();
-		else
-			QtyPO = sLine.getMovementQty().negate();
-		//	Stock Movement - Counterpart MOrder.reserveStock*/
-		
-		if (product != null 
-			&& product.isStocked() )
+		if (product != null && product.isStocked())
 		{
 			//Ignore the Material Policy when is Reverse Correction
 			if(!isReversal)
 			{
-				//checkMaterialPolicy(line);
-				StorageEngine.checkMaterialPolicy(sLine, MovementType ,  MovementDate, M_Warehouse_ID);
+				checkMaterialPolicy(docLine, MovementType, MovementDate, M_Warehouse_ID);
 			}
 			
-			log.fine("Material Transaction");
-			MTransaction mtrx = null; 
-			//same warehouse in order and receipt?
-			boolean sameWarehouse = true;
-			//	Reservation ASI - assume none
-			int reservationAttributeSetInstance_ID = 0; // sLine.getM_AttributeSetInstance_ID();
-			//if (oline != null) {
-				reservationAttributeSetInstance_ID = o_M_AttributeSetInstance_ID;
-				sameWarehouse = o_M_Warehouse_ID==M_Warehouse_ID;
-			//}
+			// Reservation ASI
+			int reservationAttributeSetInstance_ID = o_M_AttributeSetInstance_ID;
 			//
-			if (sLine.getM_AttributeSetInstance_ID() == 0)
+			if (docLine.getM_AttributeSetInstance_ID() == 0)
 			{
-				//MInOutLineMA mas[] = MInOutLineMA.get(sLine.getCtx(),sLine.get_ID(), trxName);
-				
-				IInventoryAllocation mas[] = StorageEngine.getMA(sLine);
+				IInventoryAllocation mas[] = StorageEngine.getMA(docLine);
 				for (int j = 0; j < mas.length; j++)
 				{
-					//MInOutLineMA ma = mas[j];
 					IInventoryAllocation ma = mas[j];
 					BigDecimal QtyMA = ma.getMovementQty();
 					if (!incomingTrx)	//	C- Customer Shipment - V- Vendor Return
 						QtyMA = QtyMA.negate();					
 					
 					//	Update Storage - see also VMatch.createMatchRecord
-					if (!MStorage.add(sLine.getCtx(), M_Warehouse_ID,
-						sLine.getM_Locator_ID(),
-						sLine.getM_Product_ID(), 
+					if (!MStorage.add(docLine.getCtx(), M_Warehouse_ID,
+						docLine.getM_Locator_ID(),
+						docLine.getM_Product_ID(), 
 						ma.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
 						QtyMA,
 						Env.ZERO,
 						Env.ZERO,
-						sLine.get_TrxName()))
+						docLine.get_TrxName()))
 					{
-						//m_processMsg = "Cannot correct Inventory (MA)";
-						return DocAction.STATUS_Invalid;
+						throw new AdempiereException(); //Cannot correct Inventory (MA)
 					}
-					/*if (!sameWarehouse) {
-						//correct qtyOrdered in warehouse of order
-						MWarehouse wh = MWarehouse.get(sLine.getCtx(), o_M_Warehouse_ID);
-						if (!MStorage.add(sLine.getCtx(),o_M_Warehouse_ID,
-								wh.getDefaultLocator().getM_Locator_ID(),
-								sLine.getM_Product_ID(), 
-								ma.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-								Env.ZERO, reservedDiff, orderedDiff, sLine.get_TrxName()))
-							{
-								//m_processMsg = "Cannot correct Inventory (MA) in order warehouse";
-								return DocAction.STATUS_Invalid;
-							}
-					}*/
-					
-					create(sLine, MovementType ,MovementDate, ma.getM_AttributeSetInstance_ID() , QtyMA);
-					//	Create Transaction
-					/*mtrx = new MTransaction (sLine.getCtx(), sLine.getAD_Org_ID(), 
-						MovementType, sLine.getM_Locator_ID(),
-						sLine.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(), 
-						QtyMA, MovementDate, sLine.get_TrxName());
-					mtrx.setM_InOutLine_ID(sLine.get_ID());
-					if (!mtrx.save())
-					{
-						//m_processMsg = "Could not create Material Transaction (MA)";
-						return DocAction.STATUS_Invalid;
-					}*/
+					create(docLine, MovementType ,MovementDate, ma.getM_AttributeSetInstance_ID() , QtyMA);
 				}
 			}
 			//	sLine.getM_AttributeSetInstance_ID() != 0
@@ -157,43 +109,17 @@ public class StorageEngine
 					Qty = Qty.negate();
 								
 				//	Fallback: Update Storage - see also VMatch.createMatchRecord
-				if (!MStorage.add(sLine.getCtx(), M_Warehouse_ID, 
-					sLine.getM_Locator_ID(),
-					sLine.getM_Product_ID(), 
-					sLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-					Qty, Env.ZERO, Env.ZERO, sLine.get_TrxName()))
+				if (!MStorage.add(docLine.getCtx(), M_Warehouse_ID, 
+					docLine.getM_Locator_ID(),
+					docLine.getM_Product_ID(), 
+					docLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
+					Qty, Env.ZERO, Env.ZERO, docLine.get_TrxName()))
 				{
-					//m_processMsg = "Cannot correct Inventory";
-					return DocAction.STATUS_Invalid;
+					throw new AdempiereException(); //Cannot correct Inventory (MA)
 				}
-				/*if (!sameWarehouse) {
-					//correct qtyOrdered in warehouse of order
-					MWarehouse wh = MWarehouse.get(sLine.getCtx(),o_M_Warehouse_ID);
-					if (!MStorage.add(sLine.getCtx(), o_M_Warehouse_ID, 
-							wh.getDefaultLocator().getM_Locator_ID(),
-							sLine.getM_Product_ID(), 
-							sLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID, 
-							Env.ZERO, reservedDiff, orderedDiff, sLine.get_TrxName()))
-						{
-							//m_processMsg = "Cannot correct Inventory";
-							return DocAction.STATUS_Invalid;
-						}
-				}*/
-				create(sLine, MovementType ,MovementDate, sLine.getM_AttributeSetInstance_ID() , Qty);
-				//	FallBack: Create Transaction
-				/*mtrx = new MTransaction (sLine.getCtx(), sLine.getAD_Org_ID(),
-					MovementType, sLine.getM_Locator_ID(),
-					sLine.getM_Product_ID(), sLine.getM_AttributeSetInstance_ID(), 
-					Qty, MovementDate, sLine.get_TrxName());
-				mtrx.setM_InOutLine_ID(sLine.get_ID());
-				if (!mtrx.save())
-				{
-					//m_processMsg = CLogger.retrieveErrorString("Could not create Material Transaction");
-					return DocAction.STATUS_Invalid;
-				}*/
+				create(docLine, MovementType ,MovementDate, docLine.getM_AttributeSetInstance_ID() , Qty);
 			}
 		}	//	stock movement
-		return null;
 	}
 
 
