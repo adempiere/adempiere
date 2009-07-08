@@ -2,8 +2,6 @@ package org.compiere.minigrid;
 
 import java.sql.ResultSet;
 
-import javax.swing.table.TableColumn;
-
 import org.compiere.model.PO;
 
 public interface IMiniTable 
@@ -37,9 +35,7 @@ public interface IMiniTable
 	public void setRowCount (int rowCount);
 	
 	public ColumnInfo[] getLayoutInfo();
-	
-	public TableColumn getColumn(int col);
-	
+
 	public int getColumnCount();
 	
 	public int getRowCount();

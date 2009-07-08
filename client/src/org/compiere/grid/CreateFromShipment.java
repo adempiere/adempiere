@@ -14,7 +14,6 @@
 
 package org.compiere.grid;
 
-import java.awt.Component;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,12 +21,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
-import javax.swing.AbstractCellEditor;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.GridTab;
 import org.compiere.model.MInOut;
@@ -41,7 +34,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
 import org.compiere.model.MWarehouse;
-import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -495,65 +487,13 @@ public class CreateFromShipment extends CreateFrom
 	{
 
 	}   //  infoInvoice
-	
-	/**
-	 * Custom cell editor for setting locator from minitable.
-	 * 
-	 * @author Daniel Tamm
-	 *
-	 */
-	public class InnerLocatorTableCellEditor extends AbstractCellEditor implements TableCellEditor {
-		
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = -7143484413792778213L;
-		KeyNamePair currentValue;
-		JTextField 	editor;
-		
-		@Override
-		public Object getCellEditorValue() {
-			String locatorValue = editor.getText();
-			MLocator loc = null;
-			try {
-				// Lookup locator using value
-				loc = new Query(Env.getCtx(), MLocator.Table_Name, "value=?", null)
-									.setParameters(new Object[]{locatorValue})
-									.setClient_ID()
-									.first();
-				// Set new keyNamePair for minitable
-				currentValue = getLocatorKeyNamePair(loc.get_ID());
 
-			} catch (Exception e) {
-				String message = Msg.getMsg(Env.getCtx(), "Invalid") + " " + editor.getText();
-				JOptionPane.showMessageDialog(null, message);
-			}
-			return(currentValue);
-			
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table,
-				Object value, boolean isSelected, int row, int column) {
-
-			currentValue = (KeyNamePair)value; 
-			editor = new JTextField();
-			editor.setText(currentValue.getName());
-			return(editor);
-			
-		}
-		
-	}
-	
 	protected void configureMiniTable (IMiniTable miniTable)
 	{
 		miniTable.setColumnClass(0, Boolean.class, false);     //  Selection
 		miniTable.setColumnClass(1, BigDecimal.class, false);      //  Qty
 		miniTable.setColumnClass(2, String.class, true);          //  UOM
 		miniTable.setColumnClass(3, String.class, false);  //  Locator
-		// Set custom cell editor to enable editing locators
-		TableColumn col = miniTable.getColumn(3);
-		col.setCellEditor(new InnerLocatorTableCellEditor());
 		miniTable.setColumnClass(4, String.class, true);   //  Product
 		miniTable.setColumnClass(5, String.class, true); //  VendorProductNo
 		miniTable.setColumnClass(6, String.class, true);     //  Order

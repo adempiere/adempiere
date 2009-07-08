@@ -15,6 +15,7 @@
 package org.compiere.grid;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -28,23 +29,29 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
 
 import org.compiere.apps.AEnv;
 import org.compiere.grid.ed.VLocator;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.IMiniTable;
+import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridTab;
-import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
+import org.compiere.model.Query;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -54,8 +61,6 @@ import org.compiere.util.Msg;
 
 public class VCreateFromShipmentUI extends CreateFromShipment implements ActionListener, VetoableChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
 	private VCreateFromDialog dialog;
 
 	public VCreateFromShipmentUI(GridTab mTab)
@@ -477,6 +482,61 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 		}
 		return(-1);
 	}
-	
-	
+
+	@Override
+	protected void configureMiniTable(IMiniTable miniTable) {
+		super.configureMiniTable(miniTable);
+		// Set custom cell editor to enable editing locators
+		MiniTable swingTable = (MiniTable) miniTable;
+		TableColumn col = swingTable.getColumn(3);
+		col.setCellEditor(new InnerLocatorTableCellEditor());
+	}
+
+	/**
+	 * Custom cell editor for setting locator from minitable.
+	 *
+	 * @author Daniel Tamm
+	 *
+	 */
+	public class InnerLocatorTableCellEditor extends AbstractCellEditor implements TableCellEditor {
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = -7143484413792778213L;
+		KeyNamePair currentValue;
+		JTextField 	editor;
+
+		public Object getCellEditorValue() {
+			String locatorValue = editor.getText();
+			MLocator loc = null;
+			try {
+				// Lookup locator using value
+				loc = new Query(Env.getCtx(), MLocator.Table_Name, "value=?", null)
+									.setParameters(new Object[]{locatorValue})
+									.setClient_ID()
+									.first();
+				// Set new keyNamePair for minitable
+				currentValue = getLocatorKeyNamePair(loc.get_ID());
+
+			} catch (Exception e) {
+				String message = Msg.getMsg(Env.getCtx(), "Invalid") + " " + editor.getText();
+				JOptionPane.showMessageDialog(null, message);
+			}
+			return(currentValue);
+
+		}
+
+		public Component getTableCellEditorComponent(JTable table,
+				Object value, boolean isSelected, int row, int column) {
+
+			currentValue = (KeyNamePair)value;
+			editor = new JTextField();
+			editor.setText(currentValue.getName());
+			return(editor);
+
+		}
+
+	}
+
 }

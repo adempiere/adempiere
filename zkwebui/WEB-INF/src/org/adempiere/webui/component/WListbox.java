@@ -23,10 +23,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.logging.Level;
-
-import javax.swing.table.TableColumn;
 
 import org.adempiere.webui.event.TableValueChangeEvent;
 import org.adempiere.webui.event.TableValueChangeListener;
@@ -1038,16 +1035,8 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		//no op
 	}
 
-	@Override
-	public TableColumn getColumn(int col) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return getModel() != null ? getModel().getNoColumns() : 0;
 	}
 
 }

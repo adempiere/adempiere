@@ -73,7 +73,7 @@ public class MiniTable extends CTable implements IMiniTable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2209340448348079989L;
+	private static final long serialVersionUID = 2853772547464132496L;
 
 	/**
 	 *  Default Constructor
@@ -747,14 +747,12 @@ public class MiniTable extends CTable implements IMiniTable
 		Object[] total = new Object[layout.length];
 		
 		for (int row = 0 ; row < getRowCount(); row ++)
-		{		
-				
-				int colOffset = 1;  //  columns start with 1
+		{
+
 				for (int col = 0; col < layout.length; col++)
 				{
 					Object data = getModel().getValueAt(row, col);
 					Class<?> c = layout[col].getColClass();
-					int colIndex = col + colOffset;
 					if (c == BigDecimal.class)
 					{	
 						BigDecimal subtotal = Env.ZERO;
@@ -789,11 +787,9 @@ public class MiniTable extends CTable implements IMiniTable
 
 		int row = getRowCount() + 1;
 		setRowCount(row);
-		int colOffset = 1;  //  columns start with 1
 		for (int col = 0; col < layout.length; col++)
 		{
 			Class<?> c = layout[col].getColClass();
-			int colIndex = col + colOffset;
 			if (c == BigDecimal.class)
 			{	
 				setValueAt(total[col] , row - 1, col);
@@ -826,14 +822,12 @@ public class MiniTable extends CTable implements IMiniTable
 		Object[] total = new Object[layout.length];
 		
 		for (int row = 0 ; row < getRowCount(); row ++)
-		{		
-				
-				int colOffset = 1;  //  columns start with 1
+		{
+
 				for (int col = 0; col < layout.length; col++)
 				{
 					Object data = getModel().getValueAt(row, col);
 					Class<?> c = layout[col].getColClass();
-					int colIndex = col + colOffset;
 					if (c == BigDecimal.class)
 					{	
 						BigDecimal subtotal = Env.ZERO;
@@ -868,11 +862,9 @@ public class MiniTable extends CTable implements IMiniTable
 
 		int row = getRowCount() + 1;
 		setRowCount(row);
-		int colOffset = 1;  //  columns start with 1
 		for (int col = 0; col < layout.length; col++)
 		{
 			Class<?> c = layout[col].getColClass();
-			int colIndex = col + colOffset;
 			if (c == BigDecimal.class)
 			{	
 				setValueAt(total[col] , row - 1, col);
