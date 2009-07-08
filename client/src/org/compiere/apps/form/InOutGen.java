@@ -361,4 +361,16 @@ public class InOutGen extends GenForm
 		
 		return info;
 	}	//	generateShipments
+	
+	public void setM_Warehouse_ID(Object value)
+	{
+		this.m_M_Warehouse_ID = value;
+	}
+	
+	public int getM_Warehouse_ID()
+	{
+		if (m_M_Warehouse_ID == null)
+			return -1;
+		return ((Integer)m_M_Warehouse_ID);
+	}
 }

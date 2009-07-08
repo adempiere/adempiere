@@ -20,6 +20,8 @@ import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.FillMandatoryException;
+import org.compiere.apps.ADialog;
 import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.model.MLookup;
@@ -137,7 +139,7 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 		fWarehouse = new VLookup ("M_Warehouse_ID", true, false, true, orgL);
 		lWarehouse.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		fWarehouse.addVetoableChangeListener(this);
-		m_M_Warehouse_ID = fWarehouse.getValue();
+		setM_Warehouse_ID(fWarehouse.getValue());
 		//   Document Action Prepared/ Completed
 		MLookup docActionL = MLookupFactory.get(Env.getCtx(), m_WindowNo, 4324 /* M_InOut.DocStatus */, 
 				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
@@ -176,21 +178,36 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 		    return;
 		}
 		
-		validate();
+		try
+		{
+			validate();
+		}
+		catch(Exception ex)
+		{
+			ADialog.error(m_WindowNo, this.panel, "Error", ex.getLocalizedMessage());
+		}
 	}	//	actionPerformed
 	
 	public void validate()
 	{
 		panel.saveSelection();
 		
+		if (getM_Warehouse_ID() <= 0)
+		{
+			throw new FillMandatoryException("M_Warehouse_ID");
+		}
+		
 		ArrayList<Integer> selection = getSelection();
 		if (selection != null
 			&& selection.size() > 0
-			&& isSelectionActive()	//	on selection tab
-			&& m_M_Warehouse_ID != null)
+			&& isSelectionActive())	//	on selection tab
+		{
 			panel.generate();
+		}
 		else
+		{
 			panel.dispose();
+		}
 	}
 
 	/**
@@ -201,7 +218,7 @@ public class VInOutGen extends InOutGen implements FormPanel, ActionListener, Ve
 	{
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
 		if (e.getPropertyName().equals("M_Warehouse_ID"))
-			m_M_Warehouse_ID = e.getNewValue();
+			setM_Warehouse_ID(e.getNewValue());
 		if (e.getPropertyName().equals("C_BPartner_ID"))
 		{
 			m_C_BPartner_ID = e.getNewValue();

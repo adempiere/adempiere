@@ -183,7 +183,14 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 			return;
 		}
 		
-		genForm.validate();
+		try
+		{
+			genForm.validate();
+		}
+		catch (Exception ex)
+		{
+			ADialog.error(m_WindowNo, this, "Error", ex.getLocalizedMessage());
+		}
 	}	//	actionPerformed
 
 	/**
