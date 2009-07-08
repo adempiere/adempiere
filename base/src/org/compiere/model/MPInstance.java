@@ -32,6 +32,10 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @version $Id: MPInstance.java,v 1.3 2006/07/30 00:58:36 jjanke Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 		<li>FR [ 2818478 ] Introduce MPInstance.createParameter helper method
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2818478&group_id=176962&atid=879335
  */
 public class MPInstance extends X_AD_PInstance
 {
@@ -334,4 +338,42 @@ public class MPInstance extends X_AD_PInstance
 		return success;
 	}	//	afterSave
 	
+	/**
+	 * Create Process Instance Parameter and save to database
+	 * @param seqNo parameter sequence#
+	 * @param parameterName parameter name
+	 * @param value parameter value
+	 * @return
+	 */
+	public MPInstancePara createParameter(int seqNo, String parameterName, Object value)
+	{
+		MPInstancePara ip = new MPInstancePara(this, seqNo);
+		if (value == null)
+		{
+			ip.setParameter(parameterName, (String)null);
+		}
+		else if (value instanceof BigDecimal)
+		{
+			ip.setParameter(parameterName, (BigDecimal)value);
+		}
+		else if (value instanceof Integer)
+		{
+			ip.setParameter(parameterName, (Integer)value);
+		}
+		else if (value instanceof Timestamp)
+		{
+			ip.setParameter(parameterName, (Timestamp)value);
+		}
+		else if (value instanceof Boolean)
+		{
+			ip.setParameter(parameterName, (Boolean)value);
+		}
+		else
+		{
+			ip.setParameter(parameterName, value.toString());
+		}
+		//
+		ip.saveEx();
+		return ip;
+	}
 }	//	MPInstance

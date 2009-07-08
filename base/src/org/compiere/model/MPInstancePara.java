@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 
 /**
@@ -191,6 +192,28 @@ public class MPInstancePara extends X_AD_PInstance_Para
 	{
 		setParameterName(parameterName);
 		setP_Number(new BigDecimal(iParameter));
+	}	//	setParameter
+	
+	/**
+	 * 	Set Date Parameter
+	 *	@param parameterName name
+	 *	@param tsParameter value
+	 */
+	public void setParameter (String parameterName, Timestamp tsParameter)
+	{
+		setParameterName(parameterName);
+		setP_Date(tsParameter);
+	}	//	setParameter
+	
+	/**
+	 * 	Set Boolean Parameter
+	 *	@param parameterName name
+	 *	@param boolParameter value
+	 */
+	public void setParameter (String parameterName, boolean boolParameter)
+	{
+		setParameterName(parameterName);
+		setP_String(boolParameter ? "Y" : "N");
 	}	//	setParameter
 	
 }	//	MPInstance_Para
