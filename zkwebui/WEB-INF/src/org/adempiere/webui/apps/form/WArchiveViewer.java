@@ -43,22 +43,18 @@ import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.editor.WSearchEditor;
-import org.adempiere.webui.event.ValueChangeEvent;
-import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
+import org.adempiere.webui.panel.CustomForm;
+import org.adempiere.webui.panel.ICustomForm;
 import org.adempiere.webui.session.SessionManager;
+import org.compiere.apps.form.Archive;
 import org.compiere.model.MArchive;
-import org.compiere.model.MBPartner;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
-import org.compiere.model.MRole;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
-import org.compiere.util.TimeUtil;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -74,28 +70,14 @@ import org.zkoss.zul.Iframe;
  * @date	September 28, 2007
 */
 
-public class WArchiveViewer extends ADForm implements EventListener, ValueChangeListener
+public class WArchiveViewer extends Archive implements ICustomForm, EventListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1861963456140146011L;
-
-	/**	The Archives		*/
-	private MArchive[] m_archives = new MArchive[0];
 	
-	/** Archive Index		*/
-	private int	m_index = 0;
-	
-	/** Table direct		*/
-	private int m_AD_Table_ID = 0;
-	
-	/** Record direct		*/
-	private int m_Record_ID = 0;
-	
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(WArchiveViewer.class);
-	
+	private CustomForm form = new CustomForm();	
 	
 //	private Vbox queryPanel = new Vbox();
 	private Checkbox reportField = new Checkbox();
@@ -143,15 +125,6 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	
 	public WArchiveViewer()
 	{
-	}
-	
-	/**
-	 *	Initialize Panel
-	 *  @param WindowNo window
-	 */
-	
-	protected void initForm()
-	{
 		log.info("");
 
 		try
@@ -171,70 +144,25 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	
 	private void dynInit()
 	{
-		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
-
-		//Processes
-		boolean trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Process");
-		String lang = Env.getAD_Language(Env.getCtx());
-		// TODO: ASP - implement process and window access ASP control
-		String sql = "SELECT DISTINCT p.AD_Process_ID,"
-				+ (trl ? "trl.Name" : "p.Name ")
-			+ " FROM AD_Process p INNER JOIN AD_Process_Access pa ON (p.AD_Process_ID=pa.AD_Process_ID) "
-			+ (trl ? "LEFT JOIN AD_Process_Trl trl on (trl.AD_Process_ID=p.AD_Process_ID and trl.AD_Language=" + DB.TO_STRING(lang) + ")" : "") 
-			+ " WHERE pa.AD_Role_ID=" + AD_Role_ID
-			+ " AND p.IsReport='Y' AND p.IsActive='Y' AND pa.IsActive='Y' "
-			+ "ORDER BY 2"; 
-		
 		processField = new Listbox();
-		
-		KeyNamePair[] keyNamePair = DB.getKeyNamePairs(sql, true);
-		
+		KeyNamePair[] keyNamePair = getProcessData();		
 		for (int i = 0; i < keyNamePair.length; i++)
-		{
 			processField.appendItem(keyNamePair[i].getName(), keyNamePair[i]);
-		}
 		
-		//	Tables
-		trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Table");
-		sql = "SELECT DISTINCT t.AD_Table_ID,"
-				+ (trl ? "trl.Name" : "t.Name")
-			+ " FROM AD_Table t INNER JOIN AD_Tab tab ON (tab.AD_Table_ID=t.AD_Table_ID)"
-			+ " INNER JOIN AD_Window_Access wa ON (tab.AD_Window_ID=wa.AD_Window_ID) "
-			+ (trl ? "LEFT JOIN AD_Table_Trl trl on (trl.AD_Table_ID=t.AD_Table_ID and trl.AD_Language=" + DB.TO_STRING(lang) + ")" : "") 
-			+ " WHERE wa.AD_Role_ID=" + AD_Role_ID
-			+ " AND t.IsActive='Y' AND tab.IsActive='Y' "
-			+ "ORDER BY 2";
-		
-		tableField = new Listbox();
-		
-		keyNamePair = DB.getKeyNamePairs(sql, true);
-		
+		tableField = new Listbox();		
+		keyNamePair = getTableData();
 		for (int i = 0; i < keyNamePair.length; i++)
-		{
 			tableField.appendItem(keyNamePair[i].getName(), keyNamePair[i]);
-		}
 		
-		//	Internal Users
-		sql = "SELECT AD_User_ID, Name "
-			+ "FROM AD_User u WHERE EXISTS "
-				+"(SELECT * FROM AD_User_Roles ur WHERE u.AD_User_ID=ur.AD_User_ID) "
-			+ "ORDER BY 2";
-		
-		createdByQField = new Listbox();
-		
-		keyNamePair = DB.getKeyNamePairs(sql, true);
-		
+		createdByQField = new Listbox();		
+		keyNamePair = getUserData();
 		for (int i = 0; i < keyNamePair.length; i++)
-		{
 			createdByQField.appendItem(keyNamePair[i].getName(), keyNamePair[i]);
-		}
 		
-		MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo,
-				0, 2762, DisplayType.Search);
+		MLookup lookup = MLookupFactory.get(Env.getCtx(), m_WindowNo, 0, 2762, DisplayType.Search);
 
 		bPartnerField = new WSearchEditor(lookup, Msg.translate(
 				Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
-		bPartnerField.addValueChangeListener(this);
 	}	//	dynInit
 
 	private void reportViewer(byte[] data)
@@ -283,11 +211,11 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		bNext.addEventListener(Events.ON_CLICK, this);
 		
 		nameField.addEventListener(Events.ON_CHANGE, this);
-		descriptionField.addEventListener(Events.ON_SELECT, this);
-		helpField.addEventListener(Events.ON_SELECT, this);
+		descriptionField.addEventListener(Events.ON_CHANGE, this);
+		helpField.addEventListener(Events.ON_CHANGE, this);
 		
 		reportField.setLabel(Msg.translate(Env.getCtx(), "IsReport"));
-		reportField.addEventListener(Events.ON_CLICK, this);
+		reportField.addEventListener(Events.ON_CHECK, this);
 		
 		Grid gridQuery = new Grid();
 		gridQuery.setWidth("500px");
@@ -514,10 +442,10 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 		iframe.setWidth("100%");
 		iframe.setAutohide(true);
 		
-		this.setWidth("100%");
-		this.setHeight("100%");
-		this.appendChild(tabbox);
-		this.appendChild(confirmPanel);
+		form.setWidth("100%");
+		form.setHeight("100%");
+		form.appendChild(tabbox);
+		form.appendChild(confirmPanel);
 	}
 	
 	public void onEvent(Event e) throws Exception 
@@ -548,14 +476,20 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 			if(tabbox.getSelectedIndex() == 1)
 				iframe.invalidate();
 		}
+		
+		if(e.getName().equals(Events.ON_CHANGE))
+		{
+			if (m_archives.length > 0)
+				updateArchive.setEnabled(true);
+		}
 	}
 	
-	public void valueChange(ValueChangeEvent evt) 
+/*	public void valueChange(ValueChangeEvent evt) 
 	{
 		if (m_archives.length > 0)
 			updateArchive.setEnabled(true);
 	}
-	
+*/	
 	/**
 	 * 	Update Query Display
 	 */
@@ -679,23 +613,6 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	}	//	cmd_updateArchive
 	
 	/**
-	 * 	Is it the same
-	 *	@param s1 s1
-	 *	@param s2 s1
-	 *	@return true if the same
-	 */
-	
-	private boolean isSame (String s1, String s2)
-	{
-		if (s1 == null)
-			return s2 == null;
-		else if (s2 == null)
-			return false;
-		else
-			return s1.equals(s2);
-	}	//	isSame
-	
-	/**
 	 * 	Query Directly
 	 *	@param isReport report
 	 *	@param AD_Table_ID table
@@ -717,158 +634,54 @@ public class WArchiveViewer extends ADForm implements EventListener, ValueChange
 	
 	private void cmd_query()
 	{
-		StringBuffer sql = new StringBuffer();
 		boolean reports = reportField.isChecked();
-		MRole role = MRole.getDefault();
 		
-		if (!role.isCanReport())
-		{
-			log.warning("User/Role cannot Report AD_User_ID=" + Env.getAD_User_ID(Env.getCtx()));
-			return;
-		}
-		sql.append(" AND IsReport=").append(reports ? "'Y'" : "'N'");
-		
-		//	Process
-		if (reports)
-		{
-			ListItem listitem = processField.getSelectedItem();
-			
-			KeyNamePair nn = null;
-			
-			if (listitem != null)
-				nn = (KeyNamePair)listitem.getValue();
-			
-			if (nn != null && nn.getKey() > 0)
-				sql.append(" AND AD_Process_ID=").append(nn.getKey());
-		}
-		
-		//	Table
-		if (m_AD_Table_ID > 0)
-		{
-			sql.append(" AND ((AD_Table_ID=").append(m_AD_Table_ID);
-			
-			if (m_Record_ID > 0)
-				sql.append(" AND Record_ID=").append(m_Record_ID);
-			sql.append(")");
-		
-			if (m_AD_Table_ID == MBPartner.Table_ID && m_Record_ID > 0)
-				sql.append(" OR C_BPartner_ID=").append(m_Record_ID);
-			sql.append(")");
-			
-			//	Reset for query
-			m_AD_Table_ID = 0;
-			m_Record_ID = 0;
-		}
-		else
-		{
-			ListItem listitem = tableField.getSelectedItem();
-			
-			KeyNamePair nn = null;
-			
-			if (listitem != null)
-				nn = (KeyNamePair)listitem.getValue();
-			
-			if (nn != null && nn.getKey() > 0)
-				sql.append(" AND AD_Table_ID=").append(nn.getKey());
-		}
-		
-		//	Business Partner
-		if (!reports)
-		{
-			Integer ii = (Integer)bPartnerField.getValue();
-			if (ii != null)
-				sql.append(" AND C_BPartner_ID=").append(ii);
-			else
-				sql.append(" AND C_BPartner_ID IS NOT NULL");
-		}
-		
-		//	Name
-		String ss = nameQField.getText();
-		if (ss != null && ss.length() > 0)
-		{
-			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
-				sql.append(" AND Name LIKE ").append(DB.TO_STRING(ss));
-			else
-				sql.append(" AND Name=").append(DB.TO_STRING(ss));
-		}
-		
-		//	Description
-		ss = descriptionQField.getText();
-		if (ss != null && ss.length() > 0)
-		{
-			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
-				sql.append(" AND Description LIKE ").append(DB.TO_STRING(ss));
-			else
-				sql.append(" AND Description=").append(DB.TO_STRING(ss));
-		}
-
-		//	Help
-		ss = helpQField.getText();
-		if (ss != null && ss.length() > 0)
-		{
-			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
-				sql.append(" AND Help LIKE ").append(DB.TO_STRING(ss));
-			else
-				sql.append(" AND Help=").append(DB.TO_STRING(ss));
-		}
-
-		//	CreatedBy
-		ListItem listitem = createdByQField.getSelectedItem();
-		
-		KeyNamePair nn = null;
-		
+		ListItem listitem = processField.getSelectedItem();
+		KeyNamePair process = null;
 		if (listitem != null)
-			nn = (KeyNamePair)listitem.getValue();
+			process = (KeyNamePair)listitem.getValue();
 		
-		if (nn != null && nn.getKey() > 0)
-			sql.append(" AND CreatedBy=").append(nn.getKey());
+		listitem = tableField.getSelectedItem();
+		KeyNamePair table = null;
+		if (listitem != null)
+			table = (KeyNamePair)listitem.getValue();
 		
-		//	Created
+		Integer C_BPartner_ID = (Integer)bPartnerField.getValue();
+		String name = nameQField.getText();
+		String description = descriptionQField.getText();
+		String help = helpQField.getText();
+		
+		listitem = createdByQField.getSelectedItem();
+		KeyNamePair createdBy = null;
+		if (listitem != null)
+			createdBy = (KeyNamePair)listitem.getValue();
+		
 		Date date = null;
-		Timestamp tt  =null;
-		
+		Timestamp createdFrom = null;
 		if (createdQFrom.getValue() != null)
 		{
 			date = createdQFrom.getValue();
-			tt = new Timestamp(date.getTime());
+			createdFrom = new Timestamp(date.getTime());
 		}
-
-		if (tt != null)
-			sql.append(" AND Created>=").append(DB.TO_DATE(tt, true));
 		
+		Timestamp createdTo = null;
 		if (createdQTo.getValue() != null)
 		{
 			date = createdQTo.getValue();
-			tt = new Timestamp(date.getTime());
+			createdTo = new Timestamp(date.getTime());
 		}
 		
-		if (tt != null)
-			sql.append(" AND Created<").append(DB.TO_DATE(TimeUtil.addDays(tt,1), true));
-		
-		log.fine(sql.toString());
-		
-		//	Process Access
-		sql.append(" AND (AD_Process_ID IS NULL OR AD_Process_ID IN "
-			+ "(SELECT AD_Process_ID FROM AD_Process_Access WHERE AD_Role_ID=")
-			.append(role.getAD_Role_ID()).append("))");
-		
-		//	Table Access
-		sql.append(" AND (AD_Table_ID IS NULL "
-			+ "OR (AD_Table_ID IS NOT NULL AND AD_Process_ID IS NOT NULL) "	//	Menu Reports 
-			+ "OR AD_Table_ID IN "
-			+ "(SELECT t.AD_Table_ID FROM AD_Tab t"
-			+ " INNER JOIN AD_Window_Access wa ON (t.AD_Window_ID=wa.AD_Window_ID) "
-			+ "WHERE wa.AD_Role_ID=").append(role.getAD_Role_ID()).append("))");
-		
-		log.finest(sql.toString());
-		
-		m_archives = MArchive.get(Env.getCtx(), sql.toString());
-		log.info("Length=" + m_archives.length);
+		cmd_query(reports, process, table, C_BPartner_ID, name, description, help, 
+				createdBy, createdFrom, createdTo);
 		
 		//	Display
 		tabbox.setSelectedIndex(1);
 		
 		m_index = 1;
 		updateVDisplay(false);
-	}	//	cmd_query	
+	}	//	cmd_query
+	
+	public ADForm getForm() {
+		return form;
+	}
 }

@@ -154,9 +154,9 @@ public class WArchive implements EventListener
 		if (e.getTarget() instanceof Menuitem) 
 		{
 			int AD_Form_ID = 118;	//	ArchiveViewer
-			Window form = ADForm.openForm(AD_Form_ID);
+			ADForm form = ADForm.openForm(AD_Form_ID);
 			
-			WArchiveViewer av = (WArchiveViewer) form;
+			WArchiveViewer av = (WArchiveViewer) form.getICustomForm();
 			if (e.getTarget() == m_documents)
 				av.query(false, m_AD_Table_ID, m_Record_ID);
 			else if (e.getTarget() == m_reports)

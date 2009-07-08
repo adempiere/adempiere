@@ -40,8 +40,6 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VString;
 import org.compiere.grid.ed.VText;
 import org.compiere.model.MArchive;
-import org.compiere.model.MBPartner;
-import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CComboBox;
@@ -49,12 +47,9 @@ import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
 import org.compiere.swing.CTextField;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
-import org.compiere.util.TimeUtil;
 
 
 /**
@@ -68,7 +63,7 @@ import org.compiere.util.TimeUtil;
  *  @author Jorg Janke
  *  @version $Id: ArchiveViewer.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
-public class ArchiveViewer extends CTabbedPane
+public class ArchiveViewer extends Archive
 	implements FormPanel, ActionListener, VetoableChangeListener
 {
 	
@@ -76,6 +71,8 @@ public class ArchiveViewer extends CTabbedPane
 	 * 
 	 */
 	private static final long serialVersionUID = 876677286190292132L;
+	
+	private CTabbedPane panel = new CTabbedPane();
 
 
 	/**
@@ -92,7 +89,7 @@ public class ArchiveViewer extends CTabbedPane
 		{
 			dynInit();
 			jbInit();
-			frame.getContentPane().add(this, BorderLayout.CENTER);
+			frame.getContentPane().add(panel, BorderLayout.CENTER);
 			frame.getContentPane().add(confirmPanel, BorderLayout.SOUTH);
 			//
 			m_frame.setIconImage(Env.getImage("Archive16.gif"));
@@ -103,24 +100,9 @@ public class ArchiveViewer extends CTabbedPane
 		}
 	}	//	init
 
-
-	/**	Window No			*/
-	private int         m_WindowNo = 0;
 	/**	FormFrame			*/
 	private FormFrame 	m_frame;
-	/**	The Archives		*/
-	private MArchive[]	m_archives = new MArchive[0];
-	/** Archive Index		*/
-	private int			m_index = 0;
-	/** Table direct		*/
-	private int 		m_AD_Table_ID = 0;
-	/** Record direct		*/
-	private int 		m_Record_ID = 0;
 	
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(ArchiveViewer.class);
-	
-
 	private CPanel queryPanel = new CPanel(new GridBagLayout());
 	private CCheckBox reportField = new CCheckBox(Msg.translate(Env.getCtx(), "IsReport"));
 	private CLabel processLabel = new CLabel(Msg.translate(Env.getCtx(), "AD_Process_ID"));
@@ -168,36 +150,9 @@ public class ArchiveViewer extends CTabbedPane
 	 */
 	private void dynInit()
 	{
-		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
-		//	Processes
-		boolean trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Process");
-		String lang = Env.getAD_Language(Env.getCtx());
-		// TODO: ASP - implement process and window access ASP control
-		String sql = "SELECT DISTINCT p.AD_Process_ID,"
-				+ (trl ? "trl.Name" : "p.Name ")
-			+ " FROM AD_Process p INNER JOIN AD_Process_Access pa ON (p.AD_Process_ID=pa.AD_Process_ID) "
-			+ (trl ? "LEFT JOIN AD_Process_Trl trl on (trl.AD_Process_ID=p.AD_Process_ID and trl.AD_Language=" + DB.TO_STRING(lang) + ")" : "") 
-			+ " WHERE pa.AD_Role_ID=" + AD_Role_ID
-			+ " AND p.IsReport='Y' AND p.IsActive='Y' AND pa.IsActive='Y' "
-			+ "ORDER BY 2"; 
-		processField = new CComboBox(DB.getKeyNamePairs(sql, true));
-		//	Tables
-		trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Table");
-		sql = "SELECT DISTINCT t.AD_Table_ID,"
-				+ (trl ? "trl.Name" : "t.Name")
-			+ " FROM AD_Table t INNER JOIN AD_Tab tab ON (tab.AD_Table_ID=t.AD_Table_ID)"
-			+ " INNER JOIN AD_Window_Access wa ON (tab.AD_Window_ID=wa.AD_Window_ID) "
-			+ (trl ? "LEFT JOIN AD_Table_Trl trl on (trl.AD_Table_ID=t.AD_Table_ID and trl.AD_Language=" + DB.TO_STRING(lang) + ")" : "") 
-			+ " WHERE wa.AD_Role_ID=" + AD_Role_ID
-			+ " AND t.IsActive='Y' AND tab.IsActive='Y' "
-			+ "ORDER BY 2";
-		tableField = new CComboBox(DB.getKeyNamePairs(sql, true));
-		//	Internal Users
-		sql = "SELECT AD_User_ID, Name "
-			+ "FROM AD_User u WHERE EXISTS "
-				+"(SELECT * FROM AD_User_Roles ur WHERE u.AD_User_ID=ur.AD_User_ID) "
-			+ "ORDER BY 2";
-		createdByQField = new CComboBox(DB.getKeyNamePairs(sql, true));
+		processField = new CComboBox(getProcessData());
+		tableField = new CComboBox(getTableData());
+		createdByQField = new CComboBox(getUserData());
 		//
 		bPartnerField = VLookup.createBPartner(m_WindowNo);
 	}	//	dynInit
@@ -249,7 +204,7 @@ public class ArchiveViewer extends CTabbedPane
 			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,0,0,0), 0, 0));
 		queryPanel.add(createdQTo, new GridBagConstraints(2, line, 
 			1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5,0,0,0), 0, 0));
-		this.add(queryPanel, "Query");
+		panel.add(queryPanel, "Query");
 		//
 		//
 		line = 0;
@@ -301,12 +256,12 @@ public class ArchiveViewer extends CTabbedPane
 		viewEnterPanel.setPreferredSize(new Dimension(220,500));
 		updateArchive.addActionListener(this);
 		viewPanelSplit.setRightComponent(viewEnterPanel);
-		this.add(viewPanel, "View");
+		panel.add(viewPanel, "View");
 		//
 		confirmPanel.addActionListener(this);
 		updateQDisplay();
 		//
-		this.setPreferredSize(new Dimension (720,500));
+		panel.setPreferredSize(new Dimension (720,500));
 	}	//	jbInit
 	
 	/**
@@ -333,7 +288,7 @@ public class ArchiveViewer extends CTabbedPane
 			dispose();
 		else if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 		{
-			if (getSelectedIndex() == 1)
+			if (panel.getSelectedIndex() == 1)
 				dispose();
 			else
 				cmd_query();
@@ -464,22 +419,6 @@ public class ArchiveViewer extends CTabbedPane
 	}	//	cmd_updateArchive
 	
 	/**
-	 * 	Is it the same
-	 *	@param s1 s1
-	 *	@param s2 s1
-	 *	@return true if the same
-	 */
-	private boolean isSame (String s1, String s2)
-	{
-		if (s1 == null)
-			return s2 == null;
-		else if (s2 == null)
-			return false;
-		else
-			return s1.equals(s2);
-	}	//	isSame
-	
-	/**
 	 * 	Query Directly
 	 *	@param isReport report
 	 *	@param AD_Table_ID table
@@ -500,117 +439,22 @@ public class ArchiveViewer extends CTabbedPane
 	 */
 	private void cmd_query()
 	{
-		StringBuffer sql = new StringBuffer();
 		boolean reports = reportField.isSelected();
-		MRole role = MRole.getDefault();
-		if (!role.isCanReport())
-		{
-			log.warning("User/Role cannot Report AD_User_ID=" + Env.getAD_User_ID(Env.getCtx()));
-			return;
-		}
-		sql.append(" AND IsReport=").append(reports ? "'Y'" : "'N'");
+		KeyNamePair process = (KeyNamePair)processField.getSelectedItem();
+		KeyNamePair table = (KeyNamePair)tableField.getSelectedItem();
+		Integer C_BPartner_ID = (Integer)bPartnerField.getValue();
+		String name = nameQField.getText();
+		String description = descriptionQField.getText();
+		String help = helpQField.getText();
+		KeyNamePair createdBy = (KeyNamePair)createdByQField.getSelectedItem();
+		Timestamp createdFrom = createdQFrom.getTimestamp();
+		Timestamp createdTo = createdQTo.getTimestamp();
 		
-		//	Process
-		if (reports)
-		{
-			KeyNamePair nn = (KeyNamePair)processField.getSelectedItem();
-			if (nn != null && nn.getKey() > 0)
-				sql.append(" AND AD_Process_ID=").append(nn.getKey());
-		}
+		cmd_query(reports, process, table, C_BPartner_ID, name, description, help, 
+				createdBy, createdFrom, createdTo);
 		
-		//	Table
-		if (m_AD_Table_ID > 0)
-		{
-			sql.append(" AND ((AD_Table_ID=").append(m_AD_Table_ID);
-			if (m_Record_ID > 0)
-				sql.append(" AND Record_ID=").append(m_Record_ID);
-			sql.append(")");
-			if (m_AD_Table_ID == MBPartner.Table_ID && m_Record_ID > 0)
-				sql.append(" OR C_BPartner_ID=").append(m_Record_ID);
-			sql.append(")");
-			//	Reset for query
-			m_AD_Table_ID = 0;
-			m_Record_ID = 0;
-		}
-		else
-		{
-			KeyNamePair nn = (KeyNamePair)tableField.getSelectedItem();
-			if (nn != null && nn.getKey() > 0)
-				sql.append(" AND AD_Table_ID=").append(nn.getKey());
-		}
-		
-		//	Business Partner
-		if (!reports)
-		{
-			Integer ii = (Integer)bPartnerField.getValue();
-			if (ii != null)
-				sql.append(" AND C_BPartner_ID=").append(ii);
-			else
-				sql.append(" AND C_BPartner_ID IS NOT NULL");
-		}
-		
-		//	Name
-		String ss = nameQField.getText();
-		if (ss != null && ss.length() > 0)
-		{
-			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
-				sql.append(" AND Name LIKE ").append(DB.TO_STRING(ss));
-			else
-				sql.append(" AND Name=").append(DB.TO_STRING(ss));
-		}
-		
-		//	Description
-		ss = descriptionQField.getText();
-		if (ss != null && ss.length() > 0)
-		{
-			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
-				sql.append(" AND Description LIKE ").append(DB.TO_STRING(ss));
-			else
-				sql.append(" AND Description=").append(DB.TO_STRING(ss));
-		}
-
-		//	Help
-		ss = helpQField.getText();
-		if (ss != null && ss.length() > 0)
-		{
-			if (ss.indexOf('%') != -1 || ss.indexOf('_') != -1)
-				sql.append(" AND Help LIKE ").append(DB.TO_STRING(ss));
-			else
-				sql.append(" AND Help=").append(DB.TO_STRING(ss));
-		}
-
-		//	CreatedBy
-		KeyNamePair nn = (KeyNamePair)createdByQField.getSelectedItem();
-		if (nn != null && nn.getKey() > 0)
-			sql.append(" AND CreatedBy=").append(nn.getKey());
-		
-		//	Created
-		Timestamp tt = createdQFrom.getTimestamp();
-		if (tt != null)
-			sql.append(" AND Created>=").append(DB.TO_DATE(tt, true));
-		tt = createdQTo.getTimestamp();
-		if (tt != null)
-			sql.append(" AND Created<").append(DB.TO_DATE(TimeUtil.addDays(tt,1), true));
-		
-		log.fine(sql.toString());
-		
-		//	Process Access
-		sql.append(" AND (AD_Process_ID IS NULL OR AD_Process_ID IN "
-			+ "(SELECT AD_Process_ID FROM AD_Process_Access WHERE AD_Role_ID=")
-			.append(role.getAD_Role_ID()).append("))");
-		//	Table Access
-		sql.append(" AND (AD_Table_ID IS NULL "
-			+ "OR (AD_Table_ID IS NOT NULL AND AD_Process_ID IS NOT NULL) "	//	Menu Reports 
-			+ "OR AD_Table_ID IN "
-			+ "(SELECT t.AD_Table_ID FROM AD_Tab t"
-			+ " INNER JOIN AD_Window_Access wa ON (t.AD_Window_ID=wa.AD_Window_ID) "
-			+ "WHERE wa.AD_Role_ID=").append(role.getAD_Role_ID()).append("))");
-		log.finest(sql.toString());
-		//
-		m_archives = MArchive.get(Env.getCtx(), sql.toString());
-		log.info("Length=" + m_archives.length);
 		//	Display
-		this.setSelectedIndex(1);
+		panel.setSelectedIndex(1);
 		m_index = 1;
 		updateVDisplay(false);
 	}	//	cmd_query
