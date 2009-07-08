@@ -129,7 +129,7 @@ public class WInOutGen extends InOutGen implements ICustomForm, EventListener, V
 		lWarehouse.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		fWarehouse.addValueChangeListener(this);
 		fWarehouse.setValue(Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID"));
-		m_M_Warehouse_ID = fWarehouse.getValue();
+		setM_Warehouse_ID(fWarehouse.getValue());
 		//      Document Action Prepared/ Completed
 		lDocAction.setText(Msg.translate(Env.getCtx(), "DocAction"));
 		MLookup docActionL = MLookupFactory.get(Env.getCtx(), form.getWindowNo(), 4324 /* M_InOut.DocAction */,
@@ -184,21 +184,24 @@ public class WInOutGen extends InOutGen implements ICustomForm, EventListener, V
 	
 	public void validate()
 	{
-		if (isSelectionActive() && 
-				(m_M_Warehouse_ID == null || (Integer)m_M_Warehouse_ID <= 0)) {
-				throw new WrongValueException(fWarehouse.getComponent(), Msg.translate(Env.getCtx(), "FillMandatory"));
-			}
+		if (isSelectionActive() && getM_Warehouse_ID() <= 0)
+		{
+			throw new WrongValueException(fWarehouse.getComponent(), Msg.translate(Env.getCtx(), "FillMandatory"));
+		}
 
 		form.saveSelection();
 		
 		ArrayList<Integer> selection = getSelection();
 		if (selection != null
 			&& selection.size() > 0
-			&& isSelectionActive()	//	on selection tab
-			&& m_M_Warehouse_ID != null)
+			&& isSelectionActive() )	//	on selection tab
+		{
 			form.generate();
+		}
 		else
+		{
 			form.dispose();
+		}
 	}
 
 	/**
@@ -209,7 +212,7 @@ public class WInOutGen extends InOutGen implements ICustomForm, EventListener, V
 	{
 		log.info(e.getPropertyName() + "=" + e.getNewValue());
 		if (e.getPropertyName().equals("M_Warehouse_ID"))
-			m_M_Warehouse_ID = e.getNewValue();
+			setM_Warehouse_ID(e.getNewValue());
 		if (e.getPropertyName().equals("C_BPartner_ID"))
 		{
 			m_C_BPartner_ID = e.getNewValue();
