@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DateFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -171,7 +172,7 @@ public class MYear extends X_C_Year
 		return true;
 	}	//	beforeSave
 	
-	/**
+		/**
 	 * 	Create 12 Standard (Jan-Dec) Periods.
 	 * 	Creates also Period Control from DocType.
 	 * 	@see DocumentTypeVerify#createPeriodControls(Properties, int, SvrProcess, String)
@@ -179,6 +180,21 @@ public class MYear extends X_C_Year
 	 *	@return true if created
 	 */
 	public void createStdPeriods(Locale locale)
+	{
+		createStdPeriods(locale, null, null);
+		
+	}	//	createStdPeriods
+	
+	/**
+	 * 	Create 12 Standard Periods from the specified start date.
+	 * 	Creates also Period Control from DocType.
+	 * 	@see DocumentTypeVerify#createPeriodControls(Properties, int, SvrProcess, String)
+	 * 	@param locale locale
+	 *	@param startDate first day of the calendar year
+     *  @param dateFormat SimpleDateFormat pattern for generating the period names.
+	 *	@return true if created
+	 */
+	public boolean createStdPeriods(Locale locale, Timestamp startDate, String dateFormat)
 	{
 		if (locale == null)
 		{
@@ -191,35 +207,39 @@ public class MYear extends X_C_Year
 		if (locale == null)
 			locale = Env.getLanguage(getCtx()).getLocale();
 		//
-		String[] months = null;
-		try
-		{
-			DateFormatSymbols symbols = new DateFormatSymbols(locale);
-			months = symbols.getShortMonths();
-		}
-		catch (Exception e)
-		{
-			months = new String[]{"Jan", "Feb", "Nar",
-				"Apr", "May", "Jun",
-				"Jul", "Aug", "Sep",
-				"Oct", "Nov", "Dec"};
-		}
+		SimpleDateFormat formatter;
+		if ( dateFormat == null || dateFormat.equals("") )
+			dateFormat = "MMM-yy";
+		formatter = new SimpleDateFormat(dateFormat, locale);
+		
 		//
 		int year = getYearAsInt();
 		GregorianCalendar cal = new GregorianCalendar(locale);
+		if ( startDate != null )
+		{
+			cal.setTime(startDate);
+			if ( cal.get(Calendar.YEAR) != year)     // specified start date takes precedence in setting year
+				year = cal.get(Calendar.YEAR);
+		
+		}
+		else 
+		{
+			cal.set(Calendar.YEAR, year);
+			cal.set(Calendar.MONTH, 0);
+			cal.set(Calendar.DAY_OF_MONTH, 1);
+		}
 		cal.set(Calendar.HOUR_OF_DAY, 0);
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
+
 		//
 		for (int month = 0; month < 12; month++)
 		{
-			cal.set(Calendar.YEAR, year);
-			cal.set(Calendar.MONTH, month);
-			cal.set(Calendar.DAY_OF_MONTH, 1);
+			
 			Timestamp start = new Timestamp(cal.getTimeInMillis());
-			String name = months[month] + "-" + getYY();
-			//
+			String name = formatter.format(start);
+			// get last day of same month
 			cal.add(Calendar.MONTH, 1);
 			cal.add(Calendar.DAY_OF_YEAR, -1);
 			Timestamp end = new Timestamp(cal.getTimeInMillis());
@@ -238,7 +258,12 @@ public class MYear extends X_C_Year
 				period.setEndDate(end);
 			}
 			period.saveEx(get_TrxName());	//	Creates Period Control
+			// get first day of next month
+			cal.add(Calendar.DAY_OF_YEAR, 1);
 		}
+		
+		return true;
+		
 	}	//	createStdPeriods
 	
 }	//	MYear
