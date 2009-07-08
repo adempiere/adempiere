@@ -40,7 +40,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 
 /**
- *	Print Invoices on Paperor send PDFs
+ *	Print Invoices on Paper or send PDFs
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: InvoicePrint.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
@@ -218,12 +218,16 @@ public class InvoicePrint extends SvrProcess
 		int C_BPartner_ID = 0;
 		int count = 0;
 		int errors = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName()); 
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName()); 
 			pstmt.setInt(1, Env.getAD_Client_ID(Env.getCtx()));
 			pstmt.setInt(2, Env.getAD_Org_ID(Env.getCtx()));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
+			
 			while (rs.next())
 			{
 				int C_Invoice_ID = rs.getInt(1);
@@ -344,14 +348,15 @@ public class InvoicePrint extends SvrProcess
 						.append (C_Invoice_ID);
 					int no = DB.executeUpdate(sb.toString(), get_TrxName());
 				}
-			}	//	for all entries
-			rs.close();
-			pstmt.close();
+			}	//	for all entries						
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "doIt - " + sql, e);
 			throw new Exception (e);
+		}
+		finally {
+			DB.close(rs, pstmt);
 		}
 		//
 		if (p_EMailPDF)

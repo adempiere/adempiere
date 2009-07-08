@@ -51,6 +51,7 @@ public class ProjectIssue extends SvrProcess
 	/** Product - Option 4					*/
 	private int 		m_M_Product_ID = 0;
 	/** Attribute - Option 4				*/
+	@SuppressWarnings("unused")
 	private int 		m_M_AttributeSetInstance_ID = 0;
 	/** Qty - Option 4						*/
 	private BigDecimal	m_MovementQty = null;
@@ -345,7 +346,7 @@ public class ProjectIssue extends SvrProcess
 	}	//	projectIssueHasExpense
 
 	/**
-	 * 	Check if Project Isssye already has Receipt
+	 * 	Check if Project Issue already has Receipt
 	 *	@param M_InOutLine_ID line
 	 *	@return true if exists
 	 */
