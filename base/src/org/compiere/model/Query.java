@@ -52,6 +52,8 @@ import org.compiere.util.Util;
  * 			<li>FR [ 2726447 ] Query aggregate methods for all return types
  * 			<li>FR [ 2818547 ] Implement Query.setOnlySelection
  * 				https://sourceforge.net/tracker/?func=detail&aid=2818547&group_id=176962&atid=879335
+ * 			<li>FR [ 2818646 ] Implement Query.firstId/firstIdOnly
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2818646&group_id=176962&atid=879335
  * @author Redhuan D. Oon
  * 			<li>FR: [ 2214883 ] Remove SQL code and Replace for Query // introducing SQL String prompt in log.info 
  *			<li>FR: [ 2214883 ] - to introduce .setClient_ID
@@ -305,6 +307,69 @@ public class Query
 			rs = null; pstmt = null;
 		}
 		return po;
+	}
+	
+	/**
+	 * Return first ID
+	 * @return first ID
+	 * @throws DBException
+	 */
+	public int firstId() throws DBException
+	{
+		return firstId(false);
+	}
+	
+	/**
+	 * Return first ID.
+	 * If there are more results and exception is thrown.
+	 * @return first ID
+	 * @throws DBException
+	 */
+	public int firstIdOnly() throws DBException
+	{
+		return firstId(true);
+	}
+	
+	private int firstId(boolean assumeOnlyOneResult) throws DBException
+	{
+		String[] keys = table.getKeyColumns();
+		if (keys.length != 1)
+		{
+			throw new DBException("Table "+table+" has 0 or more than 1 key columns");
+		}
+
+		StringBuffer selectClause = new StringBuffer("SELECT ");
+		selectClause.append(keys[0]);
+		selectClause.append(" FROM ").append(table.getTableName());
+		String sql = buildSQL(selectClause, true);
+
+		int id = -1;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, trxName);
+			rs = createResultSet(pstmt);
+			if (rs.next())
+			{
+				id = rs.getInt(1);
+			}
+			if (assumeOnlyOneResult && rs.next())
+			{
+				throw new DBException("QueryMoreThanOneRecordsFound"); // TODO : translate
+			}
+		}
+		catch (SQLException e)
+		{
+			throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		//
+		return id;
 	}
 
 	

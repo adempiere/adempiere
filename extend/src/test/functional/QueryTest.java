@@ -153,6 +153,16 @@ public class QueryTest extends AdempiereTestCase
 						.first();
 		assertEquals("Invalid object", "C_Invoice", t.getTableName());
 	}
+	
+	public void testFirstId() throws Exception
+	{
+		int id = new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
+		.setParameters(new Object[]{"C_Invoice", "M_InOut"})
+		.setOrderBy("TableName")
+		.firstId();
+		int expectedId = 318; // C_Invoice
+		assertEquals("Invalid ID", expectedId, id);
+	}
 
 	public void testFirstOnly() throws Exception
 	{
@@ -168,6 +178,25 @@ public class QueryTest extends AdempiereTestCase
 						.setParameters(new Object[]{"C_Invoice", "M_InOut"})
 						.setOrderBy("TableName")
 						.firstOnly();
+			}
+		});
+	}
+	
+	public void testFirstIdOnly() throws Exception
+	{
+		int expectedId = 318; // C_Invoice
+		int id = new Query(getCtx(), "AD_Table", "AD_Table_ID=?", getTrxName())
+		.setParameters(new Object[]{expectedId})
+		.firstIdOnly();
+		assertEquals("Invalid table ID", expectedId, id);
+		//
+		assertExceptionThrown(null, DBException.class, new Runnable(){
+			public void run()
+			{
+				new Query(getCtx(), "AD_Table", "TableName IN (?,?)", getTrxName())
+				.setParameters(new Object[]{"C_Invoice", "M_InOut"})
+				.setOrderBy("TableName")
+				.firstIdOnly();
 			}
 		});
 	}
