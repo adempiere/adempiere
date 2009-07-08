@@ -14,6 +14,7 @@
 package test.functional;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import org.adempiere.exceptions.DBException;
 import org.compiere.model.MTable;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
+import org.compiere.model.X_AD_Element;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -246,5 +248,32 @@ public class QueryTest extends AdempiereTestCase
 			{
 				query.aggregate(null, Query.AGGREGATE_SUM);
 			}});
+	}
+	
+	public void testOnlySelection() throws Exception
+	{
+		// Get one AD_PInstance_ID
+		int AD_PInstance_ID = DB.getSQLValueEx(null, "SELECT MAX(AD_PInstance_ID) FROM AD_PInstance");
+		assertTrue(AD_PInstance_ID > 0);
+
+		// Create selection list
+		List<Integer> elements = new ArrayList<Integer>();
+		elements.add(102); // AD_Element_ID=102 => AD_Client_ID
+		elements.add(104); // AD_Element_ID=104 => AD_Column_ID
+		DB.executeUpdateEx("DELETE FROM T_Selection WHERE AD_PInstance_ID="+AD_PInstance_ID, getTrxName());
+		DB.createT_Selection(AD_PInstance_ID, elements, getTrxName());
+		
+		String whereClause = "1=1"; // some dummy where clause
+		int[] ids = new Query(getCtx(), X_AD_Element.Table_Name, whereClause, getTrxName())
+		.setOnlySelection(AD_PInstance_ID)
+		.setOrderBy(X_AD_Element.COLUMNNAME_AD_Element_ID)
+		.getIDs();
+		assertEquals("Resulting number of elements differ", elements.size(), ids.length);
+		
+		for (int i = 0; i < elements.size(); i++)
+		{
+			int expected = elements.get(i);
+			assertEquals("Element "+i+" not equals", expected, ids[i]);
+		}
 	}
 }

@@ -50,6 +50,8 @@ import org.compiere.util.Util;
  * 			<li>FR [ 2421313 ] Introduce Query.firstOnly convenient method
  * 			<li>FR [ 2546052 ] Introduce Query aggregate methods
  * 			<li>FR [ 2726447 ] Query aggregate methods for all return types
+ * 			<li>FR [ 2818547 ] Implement Query.setOnlySelection
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2818547&group_id=176962&atid=879335
  * @author Redhuan D. Oon
  * 			<li>FR: [ 2214883 ] Remove SQL code and Replace for Query // introducing SQL String prompt in log.info 
  *			<li>FR: [ 2214883 ] - to introduce .setClient_ID
@@ -73,6 +75,7 @@ public class Query
 	private boolean applyAccessFilter = false;
 	private boolean onlyActiveRecords = false;
 	private boolean onlyClient_ID = false;
+	private int onlySelection_ID = -1;
 	
 	/**
 	 * 
@@ -183,6 +186,16 @@ public class Query
 	public Query setClient_ID()
 	{
 		this.onlyClient_ID = true;
+		return this;
+	}
+	
+	/**
+	 * Only records that are in T_Selection with AD_PInstance_ID.
+	 * @param AD_PInstance_ID
+	 */
+	public Query setOnlySelection(int AD_PInstance_ID)
+	{
+		this.onlySelection_ID = AD_PInstance_ID;
 		return this;
 	}
 	
@@ -573,6 +586,19 @@ public class Query
 				whereBuffer.append(" AND ");
 			whereBuffer.append("AD_Client_ID=?");
 		}
+		if (this.onlySelection_ID > 0)
+		{
+			String[] keys = table.getKeyColumns();
+			if (keys.length != 1)
+			{
+				throw new DBException("Table "+table+" has 0 or more than 1 key columns");
+			}
+			//
+			if (whereBuffer.length() > 0)
+				whereBuffer.append(" AND ");
+			whereBuffer.append(" EXISTS (SELECT 1 FROM T_Selection s WHERE s.AD_PInstance_ID=?"
+					+" AND s.T_Selection_ID="+table.getTableName()+"."+keys[0]+")");
+		}
 		
 		StringBuffer sqlBuffer = new StringBuffer(selectClause);
 		if (whereBuffer.length() > 0)
@@ -608,6 +634,11 @@ public class Query
 			int AD_Client_ID = Env.getAD_Client_ID(ctx);
 			DB.setParameter(pstmt, i++, AD_Client_ID);
 			log.finest("Parameter AD_Client_ID = "+AD_Client_ID);
+		}
+		if (this.onlySelection_ID > 0)
+		{
+			DB.setParameter(pstmt, i++, this.onlySelection_ID);
+			log.finest("Parameter Selection AD_PInstance_ID = "+this.onlySelection_ID);
 		}
 		return pstmt.executeQuery();
 	}
