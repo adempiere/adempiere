@@ -62,10 +62,10 @@ import org.compiere.process.SequenceCheck;
  *  @author     Jorg Janke
  *  @version    $Id: DB.java,v 1.8 2006/10/09 00:22:29 jjanke Exp $
  *  ---
- *  Modifications: removed static references to database connection and instead always
- *  get a new connection from database pool manager which manages all connections
- *                 set rw/ro properties for the connection accordingly.
- *  @author Ashley Ramdass (Posterita)
+ * @author Ashley Ramdass (Posterita)
+ *		<li>Modifications: removed static references to database connection and instead always
+ *			get a new connection from database pool manager which manages all connections
+ *			set rw/ro properties for the connection accordingly.
  *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 		<li>BF [ 1647864 ] WAN: delete record error
@@ -78,6 +78,8 @@ import org.compiere.process.SequenceCheck;
  * 		<li>FR [ 2107062 ] Add more DB.getKeyNamePairs methods
  *		<li>FR [ 2448461 ] Introduce DB.getSQLValue*Ex methods
  *		<li>FR [ 2781053 ] Introduce DB.getValueNamePairs
+ *		<li>FR [ 2818480 ] Introduce DB.createT_Selection helper method
+ *			https://sourceforge.net/tracker/?func=detail&aid=2818480&group_id=176962&atid=879335
  *
  */
 public final class DB
@@ -2185,6 +2187,42 @@ public final class DB
             rs = null; pstmt = null;
         }
 		return list.toArray(new KeyNamePair[list.size()]);
+	}
+	
+	/**
+	 * Create persistent selection in T_Selection table
+	 * @param AD_PInstance_ID
+	 * @param selection
+	 * @param trxName
+	 */
+	public static void createT_Selection(int AD_PInstance_ID, Collection<Integer> selection, String trxName)
+	{
+		StringBuffer insert = new StringBuffer();
+		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
+		int counter = 0;
+		for(Integer selectedId : selection)
+		{
+			counter++;
+			if (counter > 1)
+				insert.append(" UNION ");
+			insert.append("SELECT ");
+			insert.append(AD_PInstance_ID);
+			insert.append(", ");
+			insert.append(selectedId);
+			insert.append(" FROM DUAL ");
+			
+			if (counter >= 1000) 
+			{
+				DB.executeUpdateEx(insert.toString(), trxName);
+				insert = new StringBuffer();
+				insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
+				counter = 0;
+			}
+		}
+		if (counter > 0)
+		{
+			DB.executeUpdateEx(insert.toString(), trxName);
+		}
 	}
 }	//	DB
 
