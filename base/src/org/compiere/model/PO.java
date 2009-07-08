@@ -71,6 +71,8 @@ import org.w3c.dom.Element;
  *			<li>FR [ 1720995 ] Add PO.saveEx() and PO.deleteEx() methods
  *			<li>BF [ 1990856 ] PO.set_Value* : truncate string more than needed
  *			<li>FR [ 2042844 ] PO.get_Translation improvements
+ *			<li>FR [ 2818369 ] Implement PO.get_ValueAs*(columnName)
+ *				https://sourceforge.net/tracker/?func=detail&aid=2818369&group_id=176962&atid=879335
  * @author Victor Perez, e-Evolution SC
  *			<li>[ 2195894 ] Improve performance in PO engine
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
@@ -3832,6 +3834,38 @@ public abstract class PO
 	public static void set_TrxName(PO[] lines, String trxName) {
 		for (PO line : lines)
 			line.set_TrxName(trxName);
+	}
+	
+	/**
+	 * Get Integer Value
+	 * @param columnName
+	 * @return int value
+	 */
+	public int get_ValueAsInt (String columnName)
+	{
+		int idx = get_ColumnIndex(columnName);
+		if (idx < 0)
+		{
+			return 0;
+		}
+		return get_ValueAsInt(idx);
+	}
+	
+	/**
+	 * Get value as Boolean 
+	 * @param columnName
+	 * @return boolean value
+	 */
+	public boolean get_ValueAsBoolean(String columnName)
+	{
+		Object oo = get_Value(columnName);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 }   //  PO
