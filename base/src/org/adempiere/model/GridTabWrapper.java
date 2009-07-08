@@ -17,10 +17,15 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.math.BigDecimal;
+import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  * Wrap GridTab to ADempiere Bean Interface (i.e. generated interfaces).
@@ -35,6 +40,8 @@ import org.compiere.model.PO;
  */
 public class GridTabWrapper implements InvocationHandler
 {
+	private CLogger log = CLogger.getCLogger(getClass());
+	
 	@SuppressWarnings("unchecked")
 	public static <T> T create(GridTab gridTab, Class<T> cl)
 	{
@@ -79,6 +86,10 @@ public class GridTabWrapper implements InvocationHandler
 			{
 				value = BigDecimal.ZERO;
 			}
+			else if (isModelInterface(method.getReturnType()))
+			{
+				value = getReferencedObject(propertyName, method);
+			}
 			else if (PO.class.isAssignableFrom(method.getReturnType()))
 			{
 				throw new IllegalArgumentException("Method not supported - "+methodName);
@@ -111,5 +122,67 @@ public class GridTabWrapper implements InvocationHandler
 	public GridTab getGridTab()
 	{
 		return this.m_gridTab;
+	}
+	
+	private final Properties getCtx()
+	{
+		return Env.getCtx();
+	}
+	
+	private final String getTrxName()
+	{
+		return null;
+	}
+	
+	/**
+	 * Load object that is referenced by given property.
+	 * Example: getReferencedObject("M_Product", method) should load the M_Product record
+	 * with ID given by M_Product_ID property name;
+	 * @param propertyName
+	 * @param method
+	 * @return
+	 */
+	private final Object getReferencedObject(String propertyName, Method method)
+	{
+		final GridField idField = m_gridTab.getField(propertyName+"_ID");
+		if (idField == null)
+			return null;
+		
+		// Fetch Record_ID
+		final Integer record_id = (Integer)m_gridTab.getValue(idField);
+		if (record_id == null || record_id <= 0)
+			return null;
+			
+		
+		// Fetch TableName from returning class
+		Class<?> cl = method.getReturnType();
+		String tableName;
+		try
+		{
+			tableName = (String)cl.getField("Table_Name").get(null);
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+			return null;
+		}
+		
+		// Load Persistent Object
+		PO po = MTable.get(getCtx(), tableName).getPO(record_id, getTrxName());
+		return po;
+	}
+	
+	private boolean isModelInterface(Class<?> cl)
+	{
+		try
+		{
+			String tableName = (String)cl.getField("Table_Name").get(null);
+			return tableName != null;
+		}
+		catch (Exception e)
+		{
+			return false;
+		}
+
 	}
 }
