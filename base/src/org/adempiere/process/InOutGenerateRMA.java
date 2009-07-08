@@ -25,8 +25,10 @@ import java.util.logging.Level;
 
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
+import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -34,10 +36,12 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
- * Generate shipment for Vendor RMA
- * @author  Ashley Ramdass
- * 
- * Based on org.compiere.process.InOutGenerate
+ * Generate shipment for Vendor RMA.
+ * Based on {@link org.compiere.process.InOutGenerate}.
+ * @author Ashley Ramdass
+ * @author Teo Sarca
+ * 			<li>BF [ 2818523 ] Invoice and Shipment are not matched in case of RMA
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2818523&group_id=176962&atid=879332
  */
 public class InOutGenerateRMA extends SvrProcess
 {
@@ -195,13 +199,22 @@ public class InOutGenerateRMA extends SvrProcess
                 shipLine.setC_ProjectTask_ID(rmaLine.getC_ProjectTask_ID());
                 shipLine.setUser1_ID(rmaLine.getUser1_ID());
                 shipLine.setUser2_ID(rmaLine.getUser2_ID());
-                
-                if (!shipLine.save())
-                {
-                    throw new IllegalStateException("Could not create shipment line");
-                }
-                
+                shipLine.saveEx();
                 shipLineList.add(shipLine);
+                //
+                // Link to corresponding Invoice Line (if any) - teo_sarca [ 2818523 ]
+                // The MMatchInv records will be automatically generated on MInOut.completeIt()
+            	final MInvoiceLine invoiceLine = new Query(shipment.getCtx(), MInvoiceLine.Table_Name,
+            			MInvoiceLine.COLUMNNAME_M_RMALine_ID+"=?",
+            			shipment.get_TrxName())
+            	.setParameters(new Object[]{rmaLine.getM_RMALine_ID()})
+            	.firstOnly();
+            	if (invoiceLine != null)
+            	{
+            		invoiceLine.setM_InOutLine_ID(shipLine.getM_InOutLine_ID());
+            		invoiceLine.saveEx();
+            	}
+
             }
         }
         
