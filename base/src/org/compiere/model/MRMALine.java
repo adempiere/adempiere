@@ -90,7 +90,7 @@ public class MRMALine extends X_M_RMALine
                 + "AND IsTaxExempt='Y' AND ValidFrom < SYSDATE ORDER BY IsDefault DESC";
             
             // Set tax for charge as exempt        
-            taxId = DB.getSQLValue(null, sql, Env.getAD_Client_ID(getCtx()));
+            taxId = DB.getSQLValueEx(null, sql, Env.getAD_Client_ID(getCtx()));
             m_ioLine = null;
         }
         else
@@ -124,7 +124,7 @@ public class MRMALine extends X_M_RMALine
         }
         else if (getC_Charge_ID() != 0)
         {
-            MCharge charge = new MCharge(this.getCtx(), getC_Charge_ID(), null);
+            MCharge charge = MCharge.get(this.getCtx(), getC_Charge_ID());
             unitAmount = charge.getChargeAmt();
         }
     }
@@ -167,18 +167,10 @@ public class MRMALine extends X_M_RMALine
      */
     private int getInvoiceLineId()
     {
-        String whereClause = "M_InOutLine_ID=" + getM_InOutLine_ID();
-        
-        int invoiceLineIds[] = MInvoiceLine.getAllIDs(MInvoiceLine.Table_Name, whereClause, null);
-        
-        if (invoiceLineIds.length == 0)
-        {
-            return 0;
-        }
-        else
-        {
-            return invoiceLineIds[0];
-        }
+    	int invoiceLine_ID = new Query(getCtx(), MInvoiceLine.Table_Name, "M_InOutLine_ID=?", get_TrxName())
+    	.setParameters(new Object[]{getM_InOutLine_ID()})
+    	.firstIdOnly();
+    	return invoiceLine_ID <= 0 ? 0 : invoiceLine_ID;
     }
     
     /**
@@ -223,11 +215,7 @@ public class MRMALine extends X_M_RMALine
         return (getInvoiceLineId() != 0);
     }
     
-    /**
-     *  Before Save
-     *  @param newRecord new
-     *  @return save
-     */
+    @Override
     protected boolean beforeSave(boolean newRecord)
     {
 		if (newRecord && getParent().isComplete()) {
@@ -272,9 +260,9 @@ public class MRMALine extends X_M_RMALine
         // Set default amount for charge and qty
         if (this.getC_Charge_ID() != 0 && this.getQty().doubleValue() <= 0)
         {
-            if (Env.ZERO.compareTo(getQty()) == 0)
-                this.setQty(new BigDecimal(1));
-            if (Env.ZERO.compareTo(getAmt()) == 0)
+            if (getQty().signum() == 0)
+                this.setQty(Env.ONE);
+            if (getAmt().signum() == 0)
                 this.setAmt(getUnitAmt());
         }
         
@@ -283,7 +271,7 @@ public class MRMALine extends X_M_RMALine
         {
             this.setAmt(getUnitAmt());
             
-            if (newRecord && Env.ZERO.compareTo(getQty()) == 0)
+            if (newRecord && getQty().signum() == 0)
             {
                 this.setQty(originalQty);
             }
@@ -294,12 +282,7 @@ public class MRMALine extends X_M_RMALine
         return true;
     }
     
-    /**
-     *  After Save
-     *  @param newRecord new
-     *  @param success success
-     *  @return true if can be saved
-     */
+    @Override
     protected  boolean afterSave(boolean newRecord, boolean success)
     {
         if (!success)

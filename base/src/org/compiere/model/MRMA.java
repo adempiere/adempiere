@@ -18,9 +18,9 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -90,39 +90,15 @@ public class MRMA extends X_M_RMA implements DocAction
 	 */
 	public MRMALine[] getLines (boolean requery)
 	{
-		if (m_lines != null && !requery) {
+		if (m_lines != null && !requery)
+		{
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		ArrayList<MRMALine> list = new ArrayList<MRMALine>();
-
-		String sql = "SELECT * FROM M_RMALine WHERE M_RMA_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_RMA_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MRMALine(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		List<MRMALine> list = new Query(getCtx(), MRMALine.Table_Name, "M_RMA_ID=?", get_TrxName())
+		.setParameters(new Object[]{getM_RMA_ID()})
+		.setOrderBy(MRMALine.COLUMNNAME_Line)
+		.list();
 
 		m_lines = new MRMALine[list.size ()];
 		list.toArray (m_lines);
@@ -175,7 +151,7 @@ public class MRMA extends X_M_RMA implements DocAction
        else
        {
            String sqlStmt = "SELECT C_Invoice_ID FROM C_Invoice WHERE C_Order_ID=?";
-           invId = DB.getSQLValue(null, sqlStmt, shipment.getC_Order_ID());
+           invId = DB.getSQLValueEx(null, sqlStmt, shipment.getC_Order_ID());
        }
 
        if (invId <= 0)
@@ -491,7 +467,7 @@ public class MRMA extends X_M_RMA implements DocAction
 		//
 		counter.setAD_Org_ID(counterAD_Org_ID);
 		counter.setC_BPartner_ID(counterC_BPartner_ID);
-		counter.save(get_TrxName());
+		counter.saveEx(get_TrxName());
 
 		//	Update copied lines
 		MRMALine[] counterLines = counter.getLines(true);
@@ -500,7 +476,7 @@ public class MRMA extends X_M_RMA implements DocAction
 			MRMALine counterLine = counterLines[i];
 			counterLine.setClientOrg(counter);
 			//
-			counterLine.save(get_TrxName());
+			counterLine.saveEx(get_TrxName());
 		}
 
 		log.fine(counter.toString());
@@ -512,7 +488,7 @@ public class MRMA extends X_M_RMA implements DocAction
 			{
 				counter.setDocAction(counterDT.getDocAction());
 				counter.processIt(counterDT.getDocAction());
-				counter.save(get_TrxName());
+				counter.saveEx(get_TrxName());
 			}
 		}
 		return counter;
@@ -563,12 +539,11 @@ public class MRMA extends X_M_RMA implements DocAction
 			if (peer.getRef_InOut_ID() != 0)
 				to.setInOut_ID(peer.getRef_InOut_ID());
 		}
-		to.set_Value("Ref_RMA_ID", from.getM_RMA_ID());
+		to.setRef_RMA_ID(from.getM_RMA_ID());
 
-		if (!to.save(trxName))
-			throw new IllegalStateException("Could not create RMA");
+		to.saveEx(trxName);
 		if (counter)
-			from.set_Value("Ref_RMA_ID", to.getM_RMA_ID());
+			from.setRef_RMA_ID(to.getM_RMA_ID());
 
 		if (to.copyLinesFrom(from, counter) == 0)
 			throw new IllegalStateException("Could not create RMA Lines");
@@ -599,10 +574,10 @@ public class MRMA extends X_M_RMA implements DocAction
 			else
 				PO.copyValues(fromLine, line, fromLine.getAD_Client_ID(), fromLine.getAD_Org_ID());
 			line.setM_RMA_ID(getM_RMA_ID());
-			line.set_ValueNoCheck ("M_RMALine_ID", I_ZERO);	//	new
+			line.set_ValueNoCheck (MRMALine.COLUMNNAME_M_RMALine_ID, I_ZERO);	//	new
 			if (counter)
 			{
-				line.set_Value("Ref_RMALine_ID", fromLine.getM_RMALine_ID());
+				line.setRef_RMALine_ID(fromLine.getM_RMALine_ID());
 				if (fromLine.getM_InOutLine_ID() != 0)
 				{
 					MInOutLine peer = new MInOutLine (getCtx(), fromLine.getM_InOutLine_ID(), get_TrxName());
@@ -617,8 +592,8 @@ public class MRMA extends X_M_RMA implements DocAction
 			//	Cross Link
 			if (counter)
 			{
-				fromLine.set_Value("Ref_RMALine_ID", line.getM_RMALine_ID());
-				fromLine.save(get_TrxName());
+				fromLine.setRef_RMALine_ID(line.getM_RMALine_ID());
+				fromLine.saveEx(get_TrxName());
 			}
 		}
 		if (fromLines.length != count)
@@ -645,11 +620,7 @@ public class MRMA extends X_M_RMA implements DocAction
 		    rmaLine.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + rmaLine.getQty() + ")");
 		    rmaLine.setQty(Env.ZERO);
 		    rmaLine.setAmt(Env.ZERO);
-
-		    if (!rmaLine.save())
-		    {
-		        m_processMsg = "Could not update line";
-		    }
+		    rmaLine.saveEx();
 		}
 
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
@@ -753,12 +724,11 @@ public class MRMA extends X_M_RMA implements DocAction
     public void setProcessed (boolean processed)
     {
         super.setProcessed (processed);
-        if (get_ID() == 0)
+        if (get_ID() <= 0)
             return;
-        String set = "SET Processed='"
-            + (processed ? "Y" : "N")
-            + "' WHERE M_RMA_ID=" + getM_RMA_ID();
-        int noLine = DB.executeUpdate("UPDATE M_RMALine " + set, get_TrxName());
+        int noLine = DB.executeUpdateEx("UPDATE M_RMALine SET Processed=? WHERE M_RMA_ID=?",
+        		new Object[]{processed, get_ID()},
+        		get_TrxName());
         m_lines = null;
         log.fine("setProcessed - " + processed + " - Lines=" + noLine);
     }   //  setProcessed
