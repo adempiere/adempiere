@@ -327,8 +327,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		{
 			MAllocationLine line = m_lines[i];
 			bps.add(new Integer(line.getC_BPartner_ID()));
-			if (!line.delete(true, trxName))
-				return false;
+			line.deleteEx(true, trxName);
 		}
 		updateBP(bps);
 		return true;
