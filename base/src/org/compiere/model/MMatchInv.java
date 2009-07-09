@@ -17,14 +17,11 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.report.MReportTree;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -63,37 +60,16 @@ public class MMatchInv extends X_M_MatchInv
 	 *	@param trxName transaction
 	 *	@return array of matches
 	 */
-	public static MMatchInv[] get (Properties ctx, 
-		int M_InOutLine_ID, int C_InvoiceLine_ID, String trxName)
+	public static MMatchInv[] get (Properties ctx, int M_InOutLine_ID, int C_InvoiceLine_ID, String trxName)
 	{
-		if (M_InOutLine_ID == 0 || C_InvoiceLine_ID == 0)
+		if (M_InOutLine_ID <= 0 || C_InvoiceLine_ID <= 0)
 			return new MMatchInv[]{};
 		//
-		String sql = "SELECT * FROM M_MatchInv WHERE M_InOutLine_ID=? AND C_InvoiceLine_ID=?";
-		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_InOutLine_ID);
-			pstmt.setInt (2, C_InvoiceLine_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MMatchInv (ctx, rs, trxName));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MMatchInv[] retValue = new MMatchInv[list.size()];
-		list.toArray (retValue);
-		return retValue;
+		final String whereClause = "M_InOutLine_ID=? AND C_InvoiceLine_ID=?";
+		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{M_InOutLine_ID, C_InvoiceLine_ID})
+		.list();
+		return list.toArray (new MMatchInv[list.size()]);
 	}	//	get
 
 	// MZ Goodwill
@@ -106,33 +82,14 @@ public class MMatchInv extends X_M_MatchInv
 	 */
 	public static MMatchInv[] getInvoiceLine (Properties ctx, int C_InvoiceLine_ID, String trxName)
 	{
-		if (C_InvoiceLine_ID == 0)
+		if (C_InvoiceLine_ID <= 0)
 			return new MMatchInv[]{};
 		//
-		String sql = "SELECT * FROM M_MatchInv WHERE C_InvoiceLine_ID=?";
-		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, C_InvoiceLine_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MMatchInv (ctx, rs, trxName));
- 		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MMatchInv[] retValue = new MMatchInv[list.size()];
-		list.toArray (retValue);
-		return retValue;
+		String whereClause = "C_InvoiceLine_ID=?";
+		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{C_InvoiceLine_ID})
+		.list();
+		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInvoiceLine
 	// end MZ
 	
@@ -143,38 +100,17 @@ public class MMatchInv extends X_M_MatchInv
 	 *	@param trxName transaction
 	 *	@return array of matches
 	 */
-	public static MMatchInv[] getInOut (Properties ctx, 
-		int M_InOut_ID, String trxName)
+	public static MMatchInv[] getInOut (Properties ctx, int M_InOut_ID, String trxName)
 	{
-		if (M_InOut_ID == 0)
+		if (M_InOut_ID <= 0)
 			return new MMatchInv[]{};
 		//
-		String sql = "SELECT * FROM M_MatchInv m"
-			+ " INNER JOIN M_InOutLine l ON (m.M_InOutLine_ID=l.M_InOutLine_ID) "
-			+ "WHERE l.M_InOut_ID=?"; 
-		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_InOut_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MMatchInv (ctx, rs, trxName));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MMatchInv[] retValue = new MMatchInv[list.size()];
-		list.toArray (retValue);
-		return retValue;
+		final String whereClause = "EXISTS (SELECT 1 FROM M_InOutLine l"
+			+" WHERE M_MatchInv.M_InOutLine_ID=l.M_InOutLine_ID AND l.M_InOut_ID=?)"; 
+		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{M_InOut_ID})
+		.list();
+		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInOut
 
 	/**
@@ -190,32 +126,12 @@ public class MMatchInv extends X_M_MatchInv
 		if (C_Invoice_ID == 0)
 			return new MMatchInv[]{};
 		//
-		String sql = "SELECT * FROM M_MatchInv mi"
-			+ " INNER JOIN C_InvoiceLine il ON (mi.C_InvoiceLine_ID=il.C_InvoiceLine_ID) "
-			+ "WHERE il.C_Invoice_ID=?";
-		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, C_Invoice_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MMatchInv (ctx, rs, trxName));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MMatchInv[] retValue = new MMatchInv[list.size()];
-		list.toArray (retValue);
-		return retValue;
+		final String whereClause = " EXISTS (SELECT 1 FROM C_InvoiceLine il"
+				+" WHERE M_MatchInv.C_InvoiceLine_ID=il.C_InvoiceLine_ID AND il.C_Invoice_ID=?)";
+		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{C_Invoice_ID})
+		.list();
+		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInvoice
 
 	
@@ -548,34 +464,16 @@ public class MMatchInv extends X_M_MatchInv
 	public static MMatchInv[] getInOutLine (Properties ctx, 
 		int M_InOutLine_ID, String trxName)
 	{
-		if (M_InOutLine_ID == 0)
+		if (M_InOutLine_ID <= 0)
+		{
 			return new MMatchInv[]{};
+		}
 		//
-		String sql = "SELECT * FROM M_MatchInv m "
-			+ "WHERE m.M_InOutLine_ID=?"; 
-		ArrayList<MMatchInv> list = new ArrayList<MMatchInv>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_InOutLine_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MMatchInv (ctx, rs, trxName));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		MMatchInv[] retValue = new MMatchInv[list.size()];
-		list.toArray (retValue);
-		return retValue;
+		final String whereClause = MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?";
+		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{M_InOutLine_ID})
+		.list();
+		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInOutLine
 	// end Bayu
 	
