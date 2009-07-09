@@ -311,7 +311,7 @@ public class Query
 	
 	/**
 	 * Return first ID
-	 * @return first ID
+	 * @return first ID or -1 if not found
 	 * @throws DBException
 	 */
 	public int firstId() throws DBException
@@ -322,7 +322,7 @@ public class Query
 	/**
 	 * Return first ID.
 	 * If there are more results and exception is thrown.
-	 * @return first ID
+	 * @return first ID or -1 if not found
 	 * @throws DBException
 	 */
 	public int firstIdOnly() throws DBException
