@@ -16,14 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
+import java.util.TreeSet;
 
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
 
@@ -49,41 +47,13 @@ public class MScheduler extends X_AD_Scheduler
 	 */
 	public static MScheduler[] getActive (Properties ctx)
 	{
-		ArrayList<MScheduler> list = new ArrayList<MScheduler>();
-		String sql = "SELECT * FROM AD_Scheduler WHERE IsActive='Y'";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MScheduler (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		List<MScheduler> list = new Query(ctx, Table_Name, null, null)
+		.setOnlyActiveRecords(true)
+		.list();
 		MScheduler[] retValue = new MScheduler[list.size ()];
 		list.toArray (retValue);
 		return retValue;
 	}	//	getActive
-
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MScheduler.class);
-
 	
 	/**
 	 * 	Standard Constructor
@@ -152,37 +122,11 @@ public class MScheduler extends X_AD_Scheduler
 	 */
 	public AdempiereProcessorLog[] getLogs ()
 	{
-		ArrayList<MSchedulerLog> list = new ArrayList<MSchedulerLog>();
-		String sql = "SELECT * "
-			+ "FROM AD_SchedulerLog "
-			+ "WHERE AD_Scheduler_ID=? " 
-			+ "ORDER BY Created DESC";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getAD_Scheduler_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MSchedulerLog (getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = MSchedulerLog.COLUMNNAME_AD_Scheduler_ID+"=?";
+		List<MSchedulerLog> list = new Query(getCtx(), MSchedulerLog.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{getAD_Scheduler_ID()})
+		.setOrderBy("Created DESC")
+		.list();
 		MSchedulerLog[] retValue = new MSchedulerLog[list.size ()];
 		list.toArray (retValue);
 		return retValue;
@@ -199,7 +143,7 @@ public class MScheduler extends X_AD_Scheduler
 		String sql = "DELETE AD_SchedulerLog "
 			+ "WHERE AD_Scheduler_ID=" + getAD_Scheduler_ID() 
 			+ " AND (Created+" + getKeepLogDays() + ") < SysDate";
-		int no = DB.executeUpdate(sql, get_TrxName());
+		int no = DB.executeUpdateEx(sql, get_TrxName());
 		return no;
 	}	//	deleteLog
 
@@ -221,34 +165,12 @@ public class MScheduler extends X_AD_Scheduler
 	{
 		if (!reload && m_parameter != null)
 			return m_parameter;
-		ArrayList<MSchedulerPara> list = new ArrayList<MSchedulerPara>();
-		String sql = "SELECT * FROM AD_Scheduler_Para WHERE AD_Scheduler_ID=? AND IsActive='Y'";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getAD_Scheduler_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MSchedulerPara (getCtx(), rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//
+		final String whereClause = MSchedulerPara.COLUMNNAME_AD_Scheduler_ID+"=?";
+		List<MSchedulerPara> list = new Query(getCtx(), MSchedulerPara.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{getAD_Scheduler_ID()})
+		.setOnlyActiveRecords(true)
+		.list();
 		m_parameter = new MSchedulerPara[list.size()];
 		list.toArray(m_parameter);
 		return m_parameter;
@@ -263,34 +185,12 @@ public class MScheduler extends X_AD_Scheduler
 	{
 		if (!reload && m_recipients != null)
 			return m_recipients;
-		ArrayList<MSchedulerRecipient> list = new ArrayList<MSchedulerRecipient>();
-		String sql = "SELECT * FROM AD_SchedulerRecipient WHERE AD_Scheduler_ID=? AND IsActive='Y'";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getAD_Scheduler_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MSchedulerRecipient (getCtx(), rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//
+		String whereClause = MSchedulerRecipient.COLUMNNAME_AD_Scheduler_ID+"=?";
+		final List<MSchedulerRecipient> list = new Query(getCtx(), MSchedulerRecipient.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{getAD_Scheduler_ID()})
+		.setOnlyActiveRecords(true)
+		.list();
 		m_recipients = new MSchedulerRecipient[list.size()];
 		list.toArray(m_recipients);
 		return m_recipients;
@@ -302,7 +202,7 @@ public class MScheduler extends X_AD_Scheduler
 	 */
 	public Integer[] getRecipientAD_User_IDs()
 	{
-		ArrayList<Integer> list = new ArrayList<Integer>();
+		TreeSet<Integer> list = new TreeSet<Integer>();
 		MSchedulerRecipient[] recipients = getRecipients(false);
 		for (int i = 0; i < recipients.length; i++)
 		{
@@ -311,9 +211,7 @@ public class MScheduler extends X_AD_Scheduler
 				continue;
 			if (recipient.getAD_User_ID() != 0)
 			{
-				Integer ii = new Integer(recipient.getAD_User_ID());
-				if (!list.contains(ii))
-					list.add(ii);
+				list.add(recipient.getAD_User_ID());
 			}
 			if (recipient.getAD_Role_ID() != 0)
 			{
@@ -323,22 +221,17 @@ public class MScheduler extends X_AD_Scheduler
 					MUserRoles ur = urs[j];
 					if (!ur.isActive())
 						continue;
-					Integer ii = new Integer(ur.getAD_User_ID());
-					if (!list.contains(ii))
-						list.add(ii);
+					list.add(ur.getAD_User_ID());
 				}
 			}
 		}
 		//	Add Updater
 		if (list.size() == 0)
 		{
-			Integer ii = new Integer(getUpdatedBy());
-			list.add(ii);
+			list.add(getUpdatedBy());
 		}
 		//
-		Integer[] recipientIDs = new Integer[list.size()];
-		list.toArray(recipientIDs);
-		return recipientIDs;
+		return list.toArray(new Integer[list.size()]);
 	}	//	getRecipientAD_User_IDs
 	
 	/**
