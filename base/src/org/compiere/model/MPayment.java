@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessCall;
@@ -1661,7 +1662,7 @@ public final class MPayment extends X_C_Payment
 			//	boolean ok = 
 				order.processIt (X_C_Order.DOCACTION_WaitComplete);
 				m_processMsg = order.getProcessMsg();
-				order.save(get_TrxName());
+				order.saveEx(get_TrxName());
 				//	Set Invoice
 				MInvoice[] invoices = order.getInvoices();
 				int length = invoices.length;
@@ -1980,7 +1981,7 @@ public final class MPayment extends X_C_Payment
 		counter.setC_Project_ID(getC_Project_ID());
 		counter.setUser1_ID(getUser1_ID());
 		counter.setUser2_ID(getUser2_ID());
-		counter.save(get_TrxName());
+		counter.saveEx(get_TrxName());
 		log.fine(counter.toString());
 		setRef_Payment_ID(counter.getC_Payment_ID());
 		
@@ -1991,7 +1992,7 @@ public final class MPayment extends X_C_Payment
 			{
 				counter.setDocAction(counterDT.getDocAction());
 				counter.processIt(counterDT.getDocAction());
-				counter.save(get_TrxName());
+				counter.saveEx(get_TrxName());
 			}
 		}
 		return counter;
@@ -2049,7 +2050,7 @@ public final class MPayment extends X_C_Payment
 			else
 			{
 				pa.setC_AllocationLine_ID(aLine.getC_AllocationLine_ID());
-				pa.save();
+				pa.saveEx();
 			}
 		}
 		//	Should start WF
@@ -2073,11 +2074,7 @@ public final class MPayment extends X_C_Payment
 			getDateTrx(), getC_Currency_ID(),
 			Msg.translate(getCtx(), "C_Payment_ID") + ": " + getDocumentNo() + " [1]", get_TrxName());
 		alloc.setAD_Org_ID(getAD_Org_ID());
-		if (!alloc.save())
-		{
-			log.log(Level.SEVERE, "Could not create Allocation Hdr");
-			return false;
-		}
+		alloc.saveEx();
 		MAllocationLine aLine = null;
 		if (isReceipt())
 			aLine = new MAllocationLine (alloc, allocationAmt, 
@@ -2087,14 +2084,10 @@ public final class MPayment extends X_C_Payment
 				getDiscountAmt().negate(), getWriteOffAmt().negate(), getOverUnderAmt().negate());
 		aLine.setDocInfo(getC_BPartner_ID(), 0, getC_Invoice_ID());
 		aLine.setC_Payment_ID(getC_Payment_ID());
-		if (!aLine.save(get_TrxName()))
-		{
-			log.log(Level.SEVERE, "Could not create Allocation Line");
-			return false;
-		}
+		aLine.saveEx(get_TrxName());
 		//	Should start WF
 		alloc.processIt(DocAction.ACTION_Complete);
-		alloc.save(get_TrxName());
+		alloc.saveEx(get_TrxName());
 		m_processMsg = "@C_AllocationHdr_ID@: " + alloc.getDocumentNo();
 			
 		//	Get Project from Invoice
@@ -2211,8 +2204,9 @@ public final class MPayment extends X_C_Payment
 		{
 			allocations[i].set_TrxName(get_TrxName());
 			allocations[i].setDocAction(DocAction.ACTION_Reverse_Correct);
-			allocations[i].processIt(DocAction.ACTION_Reverse_Correct);
-			allocations[i].save();
+			if (!allocations[i].processIt(DocAction.ACTION_Reverse_Correct))
+				throw new AdempiereException(allocations[i].getProcessMsg());
+			allocations[i].saveEx();
 		}
 		
 		// 	Unlink (in case allocation did not get it)
