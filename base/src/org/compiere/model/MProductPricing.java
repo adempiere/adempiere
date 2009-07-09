@@ -52,9 +52,9 @@ public class MProductPricing
 			m_Qty = Qty;
 		m_isSOTrx = isSOTrx;
 		int thereAreVendorBreakRecords = DB.getSQLValue(null, 
-				"SELECT 1 FROM M_ProductPriceVendorBreak WHERE M_Product_ID=? AND C_BPartner_ID=?",
+				"SELECT count(M_Product_ID) FROM M_ProductPriceVendorBreak WHERE M_Product_ID=? AND C_BPartner_ID=?",
 				m_M_Product_ID, m_C_BPartner_ID);
-		m_useVendorBreak = thereAreVendorBreakRecords == 1;
+		m_useVendorBreak = thereAreVendorBreakRecords > 0;
 	}	//	MProductPricing
 
 	private int 		m_M_Product_ID;
