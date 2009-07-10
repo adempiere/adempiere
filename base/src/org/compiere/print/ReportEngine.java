@@ -84,6 +84,7 @@ import org.eevolution.model.X_PP_Order;
  *  <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
  *  <li>2007-02-10 - teo_sarca - [ 1652660 ] Save XML,HTML,CSV should have utf8 charset
  *  <li>2009-02-06 - globalqss - [ 2574162 ] Priority to choose invoice print format not working
+ *  <li>2009-07-10 - trifonnt - [ 2819637 ] Wrong print format on non completed order
  *  </ul>
  *
  * 	@author 	Jorg Janke
@@ -1357,6 +1358,21 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			rs = pstmt.executeQuery();
 			if (rs.next())
 				DocSubTypeSO = rs.getString(1);
+			
+			// @Trifon - Order is not completed(C_DoctType_ID=0) then try with C_DocTypeTarget_ID
+			// [ 2819637 ] Wrong print format on non completed order - https://sourceforge.net/tracker/?func=detail&aid=2819637&group_id=176962&atid=879332
+			if (DocSubTypeSO == null || "".equals(DocSubTypeSO)) {
+				sql = "SELECT dt.DocSubTypeSO "
+					+ "FROM C_DocType dt, C_Order o "
+					+ "WHERE o.C_DocTypeTarget_ID=dt.C_DocType_ID"
+					+ " AND o.C_Order_ID=?";
+				pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, C_Order_ID);
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					DocSubTypeSO = rs.getString(1);
+				}
+			}
 		}
 		catch (SQLException e1)
 		{
