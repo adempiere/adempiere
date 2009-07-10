@@ -46,6 +46,8 @@ import org.compiere.util.KeyNamePair;
  * 					https://sourceforge.net/tracker/?func=detail&aid=2788276&group_id=176962&atid=879335
  * 				<li>BF [ 2804135 ] Global FactsValidator are not invoked
  * 					https://sourceforge.net/tracker/?func=detail&aid=2804135&group_id=176962&atid=879332
+ * 				<li>BF [ 2819617 ] NPE if script validator rule returns null
+ * 					https://sourceforge.net/tracker/?func=detail&aid=2819617&group_id=176962&atid=879332
  */
 public class ModelValidationEngine 
 {
@@ -228,7 +230,8 @@ public class ModelValidationEngine
 						engine.put(MRule.ARGUMENTS_PREFIX + "AD_Role_ID", AD_Role_ID);
 						engine.put(MRule.ARGUMENTS_PREFIX + "AD_User_ID", AD_User_ID);
 					
-						error = engine.eval(loginRule.getScript()).toString();
+						Object retval = engine.eval(loginRule.getScript());
+						error = (retval == null ? "" : retval.toString());
 					} catch (Exception e) {
 						e.printStackTrace();
 						error = e.toString();
@@ -355,7 +358,8 @@ public class ModelValidationEngine
 						engine.put(MRule.ARGUMENTS_PREFIX + "Type", changeType);
 						engine.put(MRule.ARGUMENTS_PREFIX + "Event", ModelValidator.tableEventValidators[changeType]);
 					
-						error = engine.eval(rule.getScript()).toString();
+						Object retval = engine.eval(rule.getScript());
+						error = (retval == null ? "" : retval.toString());
 					} catch (Exception e) {
 						e.printStackTrace();
 						error = e.toString();
@@ -500,7 +504,8 @@ public class ModelValidationEngine
 						engine.put(MRule.ARGUMENTS_PREFIX + "Type", docTiming);
 						engine.put(MRule.ARGUMENTS_PREFIX + "Event", ModelValidator.documentEventValidators[docTiming]);
 					
-						error = engine.eval(rule.getScript()).toString();
+						Object retval = engine.eval(rule.getScript());
+						error = (retval == null ? "" : retval.toString());
 					} catch (Exception e) {
 						e.printStackTrace();
 						error = e.toString();
