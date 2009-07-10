@@ -235,10 +235,8 @@ public class ExportHelper {
 		{	
 				PO po = table.getPO(id, null);
 				log.info("Client = " + client.toString());
-				
-				log.info("TRIFON - po.getAD_Org_ID() = " + po.getAD_Org_ID());
-				
-				log.info("TRIFON - po.get_TrxName() = " + po.get_TrxName());
+				log.finest("po.getAD_Org_ID() = " + po.getAD_Org_ID());
+				log.finest("po.get_TrxName() = " + po.get_TrxName());
 				if (po.get_TrxName() == null || po.get_TrxName().equals("")) {
 					po.set_TrxName("exportRecord");
 				}
