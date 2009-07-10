@@ -85,7 +85,7 @@ public class DataEngine
 
 	/**	Default Language				*/
 	private Language		m_language = Language.getLoginLanguage();
-	/** Break & Column Funcations		*/
+	/** Break & Column Functions		*/
 	private PrintDataGroup 	m_group = new PrintDataGroup();
 	/**	Start Time						*/
 	private long			m_startTime = System.currentTimeMillis();
@@ -195,7 +195,7 @@ public class DataEngine
 		ArrayList<PrintDataColumn> columns = new ArrayList<PrintDataColumn>();
 		m_group = new PrintDataGroup();
 
-		//	Order Columns (identifed by non zero/null SortNo)
+		//	Order Columns (identified by non zero/null SortNo)
 		int[] orderAD_Column_IDs = format.getOrderAD_Column_IDs();
 		ArrayList<String> orderColumns = new ArrayList<String>(orderAD_Column_IDs.length);
 		for (int i = 0; i < orderAD_Column_IDs.length; i++)
