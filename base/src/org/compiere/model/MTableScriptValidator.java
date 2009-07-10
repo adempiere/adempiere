@@ -17,15 +17,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
+import org.apache.commons.collections.keyvalue.MultiKey;
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 /**
  *	Table Validator Scripts
@@ -37,11 +34,10 @@ import org.compiere.util.DB;
  */
 public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3640498344452542348L;
+	private static final long serialVersionUID = 6272423660330749776L;
 
 	/**
 	 * 	Get table script validator from cache
@@ -51,7 +47,7 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 	 */
 	public static MTableScriptValidator get (Properties ctx, int AD_Table_ScriptValidator_ID)
 	{
-		Integer key = new Integer (AD_Table_ScriptValidator_ID);
+		final Integer key = AD_Table_ScriptValidator_ID;
 		MTableScriptValidator retValue = (MTableScriptValidator) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
@@ -68,12 +64,13 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 	 *	@param event Event
 	 *	@return array of MTableScriptValidator or null if error or no validators found
 	 */
-	public static ArrayList<MTableScriptValidator> getModelValidatorRules (Properties ctx, int ad_table_id, String event)
+	public static List<MTableScriptValidator> getModelValidatorRules (Properties ctx, int ad_table_id, String event)
 	{
 		// Try cache
-		String key = ""+ad_table_id+"_"+event;
-		ArrayList<MTableScriptValidator> mvrs = s_cacheTableEvent.get(key);
-		if (mvrs != null) {
+		final MultiKey key = new MultiKey(ad_table_id, event);
+		List<MTableScriptValidator> mvrs = s_cacheTableEvent.get(key);
+		if (mvrs != null)
+		{
 			if (mvrs.size() > 0)
 				return mvrs;
 			else
@@ -81,32 +78,16 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 		}
 		//
 		// Fetch now
-		mvrs = new ArrayList<MTableScriptValidator>();
-		MTableScriptValidator rule = null;
-		String sql = "SELECT * FROM AD_Table_ScriptValidator WHERE AD_Table_ID=? AND EventModelValidator=? AND IsActive='Y' ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
+		final String whereClause = "AD_Table_ID=? AND EventModelValidator=?";
+		mvrs = new Query(ctx, Table_Name, whereClause, null)
+		.setParameters(new Object[]{ad_table_id, event})
+		.setOnlyActiveRecords(true)
+		.setOrderBy(COLUMNNAME_SeqNo)
+		.list();
+		// Store to cache
+		for (MTableScriptValidator rule : mvrs)
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt(1, ad_table_id);
-			pstmt.setString(2, event);
-			rs = pstmt.executeQuery ();
-			while (rs.next ()) {
-				rule = new MTableScriptValidator (ctx, rs, null);
-				mvrs.add(rule);
-				// Cache
-				s_cache.put(rule.get_ID(), rule);
-			}
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-			mvrs = null;
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+			s_cache.put(rule.get_ID(), rule);
 		}
 		
 		// Store to cache
@@ -117,17 +98,14 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 			return mvrs;
 		else
 			return null;
-	}	//	getModelValidatorLoginRules
+	}	//	getModelValidatorRules
 
 	/**	Cache						*/
 	private static CCache<Integer,MTableScriptValidator> s_cache
 					= new CCache<Integer,MTableScriptValidator>(Table_Name, 20);
 	/** Cache / Table Event			*/
-	private static CCache<String,ArrayList<MTableScriptValidator>> s_cacheTableEvent
-					= new CCache<String,ArrayList<MTableScriptValidator>>(Table_Name+"_TableEvent", 20);
-	
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MTableScriptValidator.class);
+	private static CCache<MultiKey,List<MTableScriptValidator>> s_cacheTableEvent
+					= new CCache<MultiKey,List<MTableScriptValidator>>(Table_Name+"_TableEvent", 20);
 	
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -151,10 +129,7 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 		super(ctx, rs, trxName);
 	}	//	MTableScriptValidator
 	
-	/**
-	 * 	String Representation
-	 *	@return info
-	 */
+	@Override
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer ("MTableScriptValidator[");
@@ -162,5 +137,4 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 				.append(getEventModelValidator()).append("]");
 		return sb.toString ();
 	}	//	toString
-
 }	//	MTableScriptValidator

@@ -334,7 +334,7 @@ public class ModelValidationEngine
 		}
 		
 		// now process the script model validator for this event
-		ArrayList<MTableScriptValidator> scriptValidators = 
+		List<MTableScriptValidator> scriptValidators = 
 			MTableScriptValidator.getModelValidatorRules(
 					po.getCtx(), 
 					po.get_Table_ID(),
@@ -480,7 +480,7 @@ public class ModelValidationEngine
 		}
 		
 		// now process the script model validator for this event
-		ArrayList<MTableScriptValidator> scriptValidators = 
+		List<MTableScriptValidator> scriptValidators = 
 			MTableScriptValidator.getModelValidatorRules(
 					po.getCtx(), 
 					po.get_Table_ID(),
