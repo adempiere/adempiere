@@ -47,7 +47,7 @@ import org.adempiere.plaf.AdempiereThemeInnova;
 import org.compiere.model.ModelValidationEngine;
 
 /**
- *	Load & Save INI Settings fopm property file
+ *	Load & Save INI Settings form property file
  *	Initiated in Adempiere.startup
  *	Settings activated in ALogin.getIni
  * 
@@ -184,7 +184,7 @@ public final class Ini implements Serializable
 	/** Charser Default Value */
 	private static final String DEFAULT_CHARSET = Charset.defaultCharset().name();
 
-	/** Load tab fields meta data using backgrond thread **/
+	/** Load tab fields meta data using background thread **/
 	public static final String P_LOAD_TAB_META_DATA_BG = "LoadTabMetaDataBackground";
 	
 	public static final String DEFAULT_LOAD_TAB_META_DATA_BG = "N";
@@ -613,7 +613,7 @@ public final class Ini implements Serializable
 	}   //  setProperty
 
 	/**
-	 *	Get Propery
+	 *	Get Property
 	 *  @param key  Key
 	 *  @return     Value
 	 */
@@ -633,7 +633,7 @@ public final class Ini implements Serializable
 	}	//	getProperty
 
 	/**
-	 *	Get Propery as Boolean
+	 *	Get Property as Boolean
 	 *  @param key  Key
 	 *  @return     Value
 	 */

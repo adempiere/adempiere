@@ -168,7 +168,7 @@ public final class EMail implements Serializable
 	/**	Mail SMTP Server Port		*/
 	// @TODO - make port configurable - private int  				m_smtpPort = 0;
 	/**	SMTP enable start TLS		*/
-	// @TODO - make ttls configurable - private boolean 			m_smtpStarttlsEnable = false;
+	// @TODO - make tls configurable - private boolean 			m_smtpStarttlsEnable = false;
 	/**	Attachments					*/
 	private ArrayList<Object>	m_attachments;
 	/**	UserName and Password		*/
@@ -829,7 +829,7 @@ public final class EMail implements Serializable
 	}	//	addAttachment
 
 	/**
-	 *	Add arbitary Attachment
+	 *	Add arbitrary Attachment
 	 * 	@param dataSource content to attach
 	 */
 	public void addAttachment (DataSource dataSource)
