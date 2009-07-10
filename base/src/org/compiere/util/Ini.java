@@ -47,7 +47,7 @@ import org.adempiere.plaf.AdempiereThemeInnova;
 import org.compiere.model.ModelValidationEngine;
 
 /**
- *	Load & Save INI Settings form property file
+ *	Load & Save INI Settings from property file
  *	Initiated in Adempiere.startup
  *	Settings activated in ALogin.getIni
  * 
