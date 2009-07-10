@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.compiere.util.CCache;
+import org.compiere.util.DB;
 
 /**
  *	Table Validator Scripts
@@ -31,6 +32,8 @@ import org.compiere.util.CCache;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1885496 ] Performance NEEDS
+ * 			<li>BF [ 2819654 ] Table Script Validator SeqNo is not set
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2819654&group_id=176962 
  */
 public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 {
@@ -128,6 +131,20 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 	{
 		super(ctx, rs, trxName);
 	}	//	MTableScriptValidator
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord)
+	{
+		if (getSeqNo() == 0)
+		{
+			final String sql = "SELECT COALESCE(MAX(SeqNo),0) + 10 FROM "+Table_Name
+								+" WHERE AD_Table_ID=? AND EventModelValidator=?";
+			int seqNo = DB.getSQLValueEx(get_TrxName(), sql, getAD_Table_ID(), getEventModelValidator());
+			setSeqNo(seqNo);
+		}
+		//
+		return true;
+	}
 	
 	@Override
 	public String toString()
