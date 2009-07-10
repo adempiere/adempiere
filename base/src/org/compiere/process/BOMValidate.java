@@ -107,7 +107,7 @@ public class BOMValidate extends SvrProcess
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
-				String info = validateProduct(new MProduct(getCtx(), p_M_Product_ID, get_TrxName()));
+				String info = validateProduct(new MProduct(getCtx(), rs.getInt(1), get_TrxName()));
 				addLog(0, null, null, info);
 				counter++;
 			}
