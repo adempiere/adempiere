@@ -26,6 +26,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.graph.WGraph;
+import org.adempiere.webui.apps.graph.WPerformanceDetail;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.dashboard.DPActivities;
@@ -36,6 +38,7 @@ import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
 import org.adempiere.webui.util.IServerPushCallback;
 import org.adempiere.webui.util.ServerPushTemplate;
+import org.compiere.model.MGoal;
 import org.compiere.model.MMenu;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.model.X_PA_DashboardContent;
@@ -58,6 +61,7 @@ import org.zkoss.zkmax.zul.Portallayout;
 import org.zkoss.zul.Html;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
+import org.zkoss.zul.Toolbarbutton;
 
 /**
  *
@@ -70,7 +74,7 @@ import org.zkoss.zul.Panelchildren;
 public class DefaultDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener, IServerPushCallback
 {
 
-	private static final long serialVersionUID = 9056511175189603883L;
+	private static final long serialVersionUID = 6320678631023300467L;
 
 	private static final CLogger logger = CLogger.getCLogger(DefaultDesktop.class);
 
@@ -255,28 +259,24 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	        	int PA_Goal_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_Goal_ID);
 	        	if(PA_Goal_ID > 0)
 	        	{
-	        		StringBuffer result = new StringBuffer("<html><head>");
+	        		//link to open performance detail
+	        		Toolbarbutton link = new Toolbarbutton();
+		            link.setImage("/images/Zoom16.png");
+		            link.setAttribute("PA_Goal_ID", PA_Goal_ID);
+		            link.addEventListener(Events.ON_CLICK, new EventListener() {
 
-		    		URL url = getClass().getClassLoader().
-					getResource("org/compiere/images/PAPanel.css");
-					InputStreamReader ins;
-					try {
-						ins = new InputStreamReader(url.openStream());
-						BufferedReader bufferedReader = new BufferedReader( ins );
-						String cssLine;
-						while ((cssLine = bufferedReader.readLine()) != null)
-							result.append(cssLine + "\n");
-					} catch (IOException e1) {
-						logger.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
-					}
+						public void onEvent(Event event) throws Exception {
+							int PA_Goal_ID = (Integer)event.getTarget().getAttribute("PA_Goal_ID");
+							MGoal goal = new MGoal(Env.getCtx(), PA_Goal_ID, null);
+							new WPerformanceDetail(goal);
+						}
 
-					result.append("</head><body><div class=\"content\">\n");
-	        		result.append(renderGoals(PA_Goal_ID, content));
-	        		result.append("</div>\n</body>\n</html>\n</html>");
+		            });
+		            content.appendChild(link);
 
-	            	Html html = new Html();
-		            html.setContent(result.toString());
-		            content.appendChild(html);
+		            MGoal goal = new MGoal(Env.getCtx(), PA_Goal_ID, null);
+		            WGraph graph = new WGraph(goal, 55, false, true, false);
+		            content.appendChild(graph);
 		            panelEmpty = false;
 	        	}
 

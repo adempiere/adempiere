@@ -207,12 +207,12 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 			output += "<tr><td class=\"label\">Target</td><td colspan=\"2\" class=\"tdcontent\">" + m_goals[i].getMeasureTarget() + "</td></tr>\n";
 			output += "<tr><td class=\"label\">Actual</td><td colspan=\"2\" class=\"tdcontent\">" + m_goals[i].getMeasureActual() + "</td></tr>\n";
 			//if (mc.getTableName()!=null) output += "table: " + mc.getAD_Table_ID() + "<br>\n";
-			BarGraph barPanel = new BarGraph(m_goals[i]);
-			BarGraphColumn[] bList = barPanel.getBarGraphColumnList();
+			Graph barPanel = new Graph(m_goals[i]);
+			GraphColumn[] bList = barPanel.getGraphColumnList();
 			MQuery query = null;
 			output += "<tr><td rowspan=\"" + bList.length + "\" class=\"label\" valign=\"top\">" + m_goals[i].getXAxisText() + "</td>\n";
 			for (int k=0; k<bList.length; k++) {
-				BarGraphColumn bgc = bList[k];
+				GraphColumn bgc = bList[k];
 				if (k>0) output += "<tr>";
 				if (bgc.getAchievement() != null)	//	Single Achievement
 				{

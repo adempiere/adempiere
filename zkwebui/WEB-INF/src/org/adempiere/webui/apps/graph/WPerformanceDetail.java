@@ -27,11 +27,13 @@ public class WPerformanceDetail extends Window
 	{
 		super();
 		setTitle(goal.getName());
-		
-		WBarGraph barPanel = new WBarGraph(goal);
+
+		WGraph barPanel = new WGraph(goal, 0, true, false, true);
 		appendChild(barPanel);
 				
 		this.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+		this.setStyle("height: 100%; width: 100%; position: absolute; overflow: auto");
+		barPanel.setStyle("height: 100%; width: 100%; position: absolute; overflow: visible");
 		SessionManager.getAppDesktop().showWindow(this);
 	}	//	PerformanceDetail
 }

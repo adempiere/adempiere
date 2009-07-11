@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.graph.WGraph;
 import org.adempiere.webui.component.Accordion;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.ToolBarButton;
@@ -34,6 +35,7 @@ import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
 import org.adempiere.webui.util.IServerPushCallback;
 import org.adempiere.webui.util.ServerPushTemplate;
+import org.compiere.model.MGoal;
 import org.compiere.model.MMenu;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.model.X_PA_DashboardContent;
@@ -67,13 +69,13 @@ import org.zkoss.zul.Treerow;
 public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener, IServerPushCallback
 {
 
+	private static final long serialVersionUID = 4721048271543882164L;
+
 	private static final String FAVOURITES_PATH = "/zul/favourites.zul";
 
 	private static final String ACTIVITIES_PATH = "/zul/activities.zul";
 
 	private static final String VIEWS_PATH = "/zul/views.zul";
-
-	private static final long serialVersionUID = 9056511175189603883L;
 
 	private static final CLogger logger = CLogger.getCLogger(DefaultDesktop.class);
 
@@ -298,28 +300,9 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 	        	int PA_Goal_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_Goal_ID);
 	        	if(PA_Goal_ID > 0)
 	        	{
-	        		StringBuffer result = new StringBuffer("<html><head>");
-
-		    		URL url = getClass().getClassLoader().
-					getResource("org/compiere/images/PAPanel.css");
-					InputStreamReader ins;
-					try {
-						ins = new InputStreamReader(url.openStream());
-						BufferedReader bufferedReader = new BufferedReader( ins );
-						String cssLine;
-						while ((cssLine = bufferedReader.readLine()) != null)
-							result.append(cssLine + "\n");
-					} catch (IOException e1) {
-						logger.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
-					}
-
-					result.append("</head><body><div class=\"content\">\n");
-	        		result.append(renderGoals(PA_Goal_ID, content));
-	        		result.append("</div>\n</body>\n</html>\n</html>");
-
-	            	Html html = new Html();
-		            html.setContent(result.toString());
-		            content.appendChild(html);
+	        		MGoal goal = new MGoal(Env.getCtx(), PA_Goal_ID, null);
+		            WGraph graph = new WGraph(goal, 55, false, true, false);
+		            content.appendChild(graph);
 		            panelEmpty = false;
 	        	}
 

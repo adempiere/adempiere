@@ -142,7 +142,7 @@ public class PAPanel extends CPanel implements ActionListener
 		for (int i = 0; i < java.lang.Math.min(2, m_goals.length); i++)
 		{
 			if (m_goals[i].getMeasure() != null) //MGoal goal = pi.getGoal();
-				boxH1.add ( new BarGraph(m_goals[i]), BorderLayout.SOUTH);
+				boxH1.add ( new Graph(m_goals[i]), BorderLayout.SOUTH);
 		}
 	    boxV2.add(boxH1, BorderLayout.SOUTH);
 	    

@@ -92,6 +92,19 @@ public interface I_PA_Goal
 
 	public I_AD_User getAD_User() throws RuntimeException;
 
+    /** Column name ChartType */
+    public static final String COLUMNNAME_ChartType = "ChartType";
+
+	/** Set Chart Type.
+	  * Type fo chart to render
+	  */
+	public void setChartType (String ChartType);
+
+	/** Get Chart Type.
+	  * Type fo chart to render
+	  */
+	public String getChartType();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -292,19 +305,6 @@ public interface I_PA_Goal
 
 	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException;
 
-    /** Column name PA_Goal_ID */
-    public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
-
-	/** Set Goal.
-	  * Performance Goal
-	  */
-	public void setPA_Goal_ID (int PA_Goal_ID);
-
-	/** Get Goal.
-	  * Performance Goal
-	  */
-	public int getPA_Goal_ID();
-
     /** Column name PA_GoalParent_ID */
     public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
 
@@ -317,6 +317,19 @@ public interface I_PA_Goal
 	  * Parent Goal
 	  */
 	public int getPA_GoalParent_ID();
+
+    /** Column name PA_Goal_ID */
+    public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
+
+	/** Set Goal.
+	  * Performance Goal
+	  */
+	public void setPA_Goal_ID (int PA_Goal_ID);
+
+	/** Get Goal.
+	  * Performance Goal
+	  */
+	public int getPA_Goal_ID();
 
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";

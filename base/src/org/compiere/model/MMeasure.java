@@ -17,11 +17,14 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.apps.graph.GraphColumn;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -42,7 +45,7 @@ public class MMeasure extends X_PA_Measure
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3317015206590431626L;
+	private static final long serialVersionUID = 6274990637485210675L;
 
 	/**
 	 * 	Get MMeasure from Cache
@@ -87,8 +90,184 @@ public class MMeasure extends X_PA_Measure
 	{
 		super (ctx, rs, trxName);
 	}	//	MMeasure
-	
-	
+
+	public ArrayList<GraphColumn> getGraphColumnList(MGoal goal)
+	{
+		ArrayList<GraphColumn> list = new ArrayList<GraphColumn>();
+		if (MMeasure.MEASURETYPE_Calculated.equals(getMeasureType()))
+		{
+			MMeasureCalc mc = MMeasureCalc.get(getCtx(), getPA_MeasureCalc_ID());
+			String sql = mc.getSqlBarChart(goal.getRestrictions(false),
+					goal.getMeasureDisplay(), goal.getDateFrom(),
+					MRole.getDefault());	//	logged in role
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement (sql, null);
+				rs = pstmt.executeQuery ();
+				ArrayList<Timestamp> dataList = new ArrayList<Timestamp>();
+				while (rs.next ())
+				{
+					BigDecimal data = rs.getBigDecimal(1);
+					Timestamp date = rs.getTimestamp(2);
+					GraphColumn bgc = new GraphColumn(mc, data);
+					bgc.setLabel(date, goal.getMeasureDisplay()); //TODO copy order-loop to other measures
+					int pos=0;
+					for (int i = 0; i <  dataList.size(); i++)
+						if (dataList.get(i).before(date)) pos++;
+					dataList.add(date); // list of dates
+					list.add(pos, bgc);
+				}
+			}
+			catch (Exception e)
+			{
+				log.log (Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+		}
+		else if (MMeasure.MEASURETYPE_Achievements.equals(getMeasureType()))
+		{
+			if (MMeasure.MEASUREDATATYPE_StatusQtyAmount.equals(getMeasureDataType()))
+			{
+				MAchievement[] achievements = MAchievement.get(this);
+				for (int i = 0; i < achievements.length; i++)
+				{
+					MAchievement achievement = achievements[i];
+					GraphColumn bgc = new GraphColumn(achievement);
+					list.add(bgc);
+				}
+			}
+			else	//	MMeasure.MEASUREDATATYPE_QtyAmountInTime
+			{
+				String MeasureDisplay = goal.getMeasureDisplay();
+				String trunc = "D";
+				if (MGoal.MEASUREDISPLAY_Year.equals(MeasureDisplay))
+					trunc = "Y";
+				else if (MGoal.MEASUREDISPLAY_Quarter.equals(MeasureDisplay))
+					trunc = "Q";
+				else if (MGoal.MEASUREDISPLAY_Month.equals(MeasureDisplay))
+					trunc = "MM";
+				else if (MGoal.MEASUREDISPLAY_Week.equals(MeasureDisplay))
+					trunc = "W";
+				//	else if (MGoal.MEASUREDISPLAY_Day.equals(MeasureDisplay))
+				//		trunc = "D";
+				trunc = "TRUNC(DateDoc,'" + trunc + "')";
+				StringBuffer sql = new StringBuffer ("SELECT SUM(ManualActual), ")
+				.append(trunc).append(" FROM PA_Achievement WHERE PA_Measure_ID=? AND IsAchieved='Y' ")
+				.append("GROUP BY ").append(trunc)
+				.append(" ORDER BY ").append(trunc);
+				PreparedStatement pstmt = null;
+				ResultSet rs = null;
+				try
+				{
+					pstmt = DB.prepareStatement (sql.toString(), null);
+					pstmt.setInt(1, getPA_Measure_ID());
+					rs = pstmt.executeQuery ();
+					while (rs.next ())
+					{
+						BigDecimal data = rs.getBigDecimal(1);
+						Timestamp date = rs.getTimestamp(2);
+						GraphColumn bgc = new GraphColumn(goal, data);
+						bgc.setLabel(date, goal.getMeasureDisplay());
+						list.add(bgc);
+					}
+				}
+				catch (Exception e)
+				{
+					log.log (Level.SEVERE, sql.toString(), e);
+				}
+				finally
+				{
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
+				}
+			}	//	Achievement in time
+		}	//	Achievement
+
+		//	Request
+		else if (MMeasure.MEASURETYPE_Request.equals(getMeasureType()))
+		{
+			MRequestType rt = MRequestType.get(Env.getCtx(), getR_RequestType_ID());
+			String sql = rt.getSqlBarChart(goal.getRestrictions(false),
+					goal.getMeasureDisplay(), getMeasureDataType(),
+					goal.getDateFrom(), MRole.getDefault());	//	logged in role
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement (sql, null);
+				rs = pstmt.executeQuery ();
+				while (rs.next ())
+				{
+					BigDecimal data = rs.getBigDecimal(1);
+					int R_Status_ID = rs.getInt(3);
+					GraphColumn bgc = new GraphColumn(rt, data, R_Status_ID);
+					if (R_Status_ID == 0)
+					{
+						Timestamp date = rs.getTimestamp(2);
+						bgc.setLabel(date, goal.getMeasureDisplay());
+					}
+					else
+					{
+						MStatus status = MStatus.get(Env.getCtx(), R_Status_ID);
+						bgc.setLabel(status.getName());
+					}
+					list.add(bgc);
+				}
+			}
+			catch (Exception e)
+			{
+				log.log (Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+		}	//	Request
+
+		//	Project
+		else if (MMeasure.MEASURETYPE_Project.equals(getMeasureType()))
+		{
+			MProjectType pt = MProjectType.get(Env.getCtx(), getC_ProjectType_ID());
+			String sql = pt.getSqlBarChart(goal.getRestrictions(false),
+					goal.getMeasureDisplay(), getMeasureDataType(),
+					goal.getDateFrom(), MRole.getDefault());	//	logged in role
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement (sql, null);
+				rs = pstmt.executeQuery ();
+				while (rs.next ())
+				{
+					BigDecimal data = rs.getBigDecimal(1);
+					Timestamp date = rs.getTimestamp(2);
+					int id = rs.getInt(3);
+					GraphColumn bgc = new GraphColumn(pt, data, id);
+					bgc.setLabel(date, goal.getMeasureDisplay());
+					list.add(bgc);
+				}
+			}
+			catch (Exception e)
+			{
+				log.log (Level.SEVERE, sql, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+		}	//	Project
+
+		return list;
+	}
+
 	/**
 	 * 	String Representation
 	 *	@return info

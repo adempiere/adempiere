@@ -13,6 +13,7 @@ public class ADClassNameMap {
 		map.put("org.compiere.apps.wf.WFPanel", "org.adempiere.webui.apps.wf.WFEditor");
 		map.put("org.compiere.process.InvoicePrint", "org.adempiere.webui.process.InvoicePrint");
 		map.put("org.compiere.process.CacheReset", "org.adempiere.webui.process.CacheReset");
+		map.put("org.adempiere.apps.graph.ViewPI", "org.adempiere.webui.apps.graph.WViewPI");
 	}
 	
 	/**

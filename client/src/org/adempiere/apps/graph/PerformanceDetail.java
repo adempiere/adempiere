@@ -40,7 +40,7 @@ public class PerformanceDetail extends CFrame
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 806635848484287844L;
+	private static final long serialVersionUID = -5994488373513922522L;
 
 	/**
 	 * 	Constructor.
@@ -51,12 +51,12 @@ public class PerformanceDetail extends CFrame
 	{
 		super (goal.getName());
 		setIconImage(Adempiere.getImage16());
-		barPanel = new BarGraph(goal);
+		barPanel = new Graph(goal, true);
 		init();
 		AEnv.showCenterScreen(this);
 	}	//	PerformanceDetail
 
-	BarGraph barPanel = null;
+	Graph barPanel = null;
 	ConfirmPanel confirmPanel = new ConfirmPanel();
 
 	/**

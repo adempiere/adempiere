@@ -1,6 +1,6 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 2009 Low Heng Sin                                            *
+ * Copyright (C) 2009 Idalica Corporation                                     *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,113 +10,90 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 package org.adempiere.apps.graph;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.geom.AffineTransform;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
-import javax.swing.event.EventListenerList;
-
 import org.compiere.model.MAchievement;
 import org.compiere.model.MGoal;
 import org.compiere.model.MMeasureCalc;
 import org.compiere.model.MProjectType;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRequestType;
+import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 
 /**
- * 	Bar Graph Column
- *	
- *  @author Jorg Janke
- *  @version $Id: BarGraphColumn.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *
+ * @author hengsin
+ *
  */
-public class BarGraphColumn extends JComponent implements MouseListener
+public class GraphColumn
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8249071636376812900L;
 
 	/**
 	 * 	Base Constructor
 	 *	@param label label
 	 *	@param value value
 	 */
-	public BarGraphColumn (String label, double value)
+	public GraphColumn (String label, double value)
 	{
 		m_label = label;
 		setValue(value);
-		addMouseListener(this);
 	}	//	BarGraphColumn
-	
+
 	/**
 	 * 	Single Achievement Constructor
 	 *	@param achievement achievement
 	 */
-	public BarGraphColumn (MAchievement achievement)
+	public GraphColumn (MAchievement achievement)
 	{
 		this (achievement.getName(), achievement.getManualActual().doubleValue());
 		m_achievement = achievement;
-	}	//	BarGraphColumn
+	}	//	GraphColumn
 
 	/**
 	 * 	Achievement Goal Constructor
 	 *	@param goal goal
 	 *	@param data count
 	 */
-	public BarGraphColumn (MGoal goal, BigDecimal data)
+	public GraphColumn (MGoal goal, BigDecimal data)
 	{
 		this ("", data == null ? 0 : data.doubleValue());
 		m_goal = goal;
-	}	//	BarGraphColumn
+	}	//	GraphColumn
 
 	/**
 	 * 	Measure Calc Constructor
 	 *	@param mc MeasureCalc
 	 */
-	public BarGraphColumn (MMeasureCalc mc, BigDecimal data)
+	public GraphColumn (MMeasureCalc mc, BigDecimal data)
 	{
 		this ("", data == null ? 0 : data.doubleValue());
 		m_mc = mc;
-	}	//	BarGraphColumn
+	}	//	GraphColumn
 
 	/**
 	 * 	Request Type Constructor
 	 *	@param rt Request Type
 	 */
-	public BarGraphColumn (MRequestType rt, BigDecimal data, int id)
+	public GraphColumn (MRequestType rt, BigDecimal data, int id)
 	{
 		this ("", data == null ? 0 : data.doubleValue());
 		m_rt = rt;
 		m_id = id;
-	}	//	BarGraphColumn
+	}	//	GraphColumn
 
 	/**
 	 * 	Project Type Constructor
 	 *	@param pt Procet Type
 	 */
-	public BarGraphColumn (MProjectType pt, BigDecimal data, int id)
+	public GraphColumn (MProjectType pt, BigDecimal data, int id)
 	{
 		this ("", data == null ? 0 : data.doubleValue());
 		m_pt = pt;
@@ -129,15 +106,15 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	private MMeasureCalc	m_mc = null;
 	/** Goal				*/
 	private MGoal			m_goal = null;
-	
+
 	private MRequestType	m_rt = null;
 	private MProjectType	m_pt = null;
 	private int				m_id = 0;
-	
+
 	/** Display						*/
 	private String			m_measureDisplay = null;
 	private Timestamp		m_date = null;
-	
+
 	/** Column Label				*/
 	private String	m_label = null;
 	/** Column Data Value			*/
@@ -150,12 +127,12 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	private double	m_width = 0;
 	/** Column Height in pixles		*/
 	private double	m_height = 0;
-	
+
 	/**	Logger	*/
-	private static CLogger log = CLogger.getCLogger (BarGraphColumn.class);
+	private static CLogger log = CLogger.getCLogger (GraphColumn.class);
 	/** Integer Number Format		*/
 	private static DecimalFormat	s_format = DisplayType.getNumberFormat(DisplayType.Integer);
-	
+
 	/**
 	 * 	Get Achievement Goal
 	 *	@return achievement or null
@@ -165,7 +142,7 @@ public class BarGraphColumn extends JComponent implements MouseListener
 		return m_goal;
 	}	//	getGoal
 
-	
+
 	/**
 	 * 	Get Single Achievement
 	 *	@return achievement or null
@@ -174,7 +151,7 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	{
 		return m_achievement;
 	}	//	getAchievement
-	
+
 	/**
 	 * 	Get MeasureCalc
 	 *	@return measure
@@ -183,42 +160,32 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	{
 		return m_mc;
 	}	//	getMeasureCalc
-	
+
 	public MRequestType getRequestType()
 	{
 		return m_rt;
 	}
-	
+
 	public MProjectType getProjectType()
 	{
 		return m_pt;
 	}
-	
+
 	public String getMeasureDisplay()
 	{
 		return m_measureDisplay;
 	}	//	getMeasureDisplay
-	
+
 	public Timestamp getDate()
 	{
 		return m_date;
 	}	//	getDate
-	
+
 	public int getID()
 	{
 		return m_id;
 	}
-	
-	/**
-	 * 	Set Background and matching Foreground
-	 *	@param bg background
-	 */
-	public void setBackground (Color bg)
-	{
-		super.setBackground (bg);
-		setForeground(GraphUtil.getForeground(bg));
-	}	//	setBackground
-	
+
 	/**
 	 * @return Returns the label.
 	 */
@@ -226,7 +193,7 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	{
 		return m_label;
 	}	//	getLabel
-	
+
 	/**
 	 * @param label The label to set.
 	 */
@@ -237,8 +204,6 @@ public class BarGraphColumn extends JComponent implements MouseListener
 			m_labelValue = s_format.format(m_value) + " - " + m_label;
 		else
 			m_labelValue = s_format.format(m_value);
-		setToolTipText(m_labelValue);
-		setName(m_labelValue);
 	}	//	setLabel
 
 	/**
@@ -282,7 +247,7 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	{
 		return m_targetValue;
 	}	//	getTargetValue
-	
+
 	/**
 	 * @param targetValue The targetValue to set.
 	 */
@@ -290,7 +255,7 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	{
 		m_targetValue = targetValue;
 	}	//	setTargetValue
-	
+
 	/**
 	 * @return Returns the data value.
 	 */
@@ -298,7 +263,7 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	{
 		return m_value;
 	}	//	getValue
-	
+
 	/**
 	 * @param value The data value to set.
 	 */
@@ -309,10 +274,8 @@ public class BarGraphColumn extends JComponent implements MouseListener
 			m_labelValue = s_format.format(m_value) + " - " + m_label;
 		else
 			m_labelValue = s_format.format(m_value);
-		setToolTipText(m_labelValue);
-		setName(m_labelValue);
 	}	//	setValue
-	
+
 	/**
 	 * @return Returns the column width in pixles.
 	 */
@@ -320,15 +283,13 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	{
 		return m_width;
 	}	//	getColWidth
-	
+
 	/**
 	 * @param width The column width in pixles.
 	 */
 	public void setColWidth (double width)
 	{
 		m_width = width;
-		if (isPreferredSizeSet())
-			setPreferredSize(null);
 	}	//	getColWidth
 
 	/**
@@ -338,172 +299,49 @@ public class BarGraphColumn extends JComponent implements MouseListener
 	{
 		return m_height;
 	}	//	getHeight
-	
+
 	/**
 	 * @param height The hight in pixles.
 	 */
 	public void setColHeight (double height)
 	{
 		m_height = height;
-		if (isPreferredSizeSet())
-			setPreferredSize(null);
 	}	//	setHeight
-	
-	/**
-	 * 	Get Maximum Size
-	 *	@return size
-	 */
-	public Dimension getMaximumSize ()
-	{
-		return getPreferredSize();
-	}	//	getMaximumSize
 
-	/**
-	 * 	Get Minimum Size
-	 *	@return size
-	 */
-	public Dimension getMinimumSize ()
+	public MQuery getMQuery(MGoal mGoal)
 	{
-		return getPreferredSize();
-	}	//	getMinimumSize
-
-	/**
-	 * 	Get Preferred Size
-	 *	@return size
-	 */
-	public Dimension getPreferredSize ()
-	{
-		if (!isPreferredSizeSet()) 
+		MQuery query = null;
+		if (getAchievement() != null)	//	Single Achievement
 		{
-			Dimension size = new Dimension((int)m_width, (int)m_height);
-			setPreferredSize(size);
+			MAchievement a = getAchievement();
+			query = MQuery.getEqualQuery("PA_Measure_ID", a.getPA_Measure_ID());
 		}
-		return super.getPreferredSize ();
-	}	//	getPreferredSize
-	
-	
-	/**
-	 * 	Paint Component
-	 *	@param g graphics
-	 */
-	protected void paintComponent (Graphics g)
-	{
-		Graphics2D g2D = (Graphics2D)g;
-		Rectangle bounds = getBounds();
-		//	Background
-		g2D.setColor(getBackground());
-		//Dimension size = getPreferredSize();
-		Dimension size =getSize();
-		log.fine("bgc: " + size.width + " x " + size.height);
-		g2D.fill3DRect(0, 0, size.width, size.height, true);
-		
-		//	Paint Label & Value
-		Color color = getForeground();
-		g2D.setPaint(color);
-		//
-		Font font = getFont();
-		FontMetrics fm = g2D.getFontMetrics(font);
-		int fontHeight = fm.getHeight();
-		AffineTransform transform = AffineTransform.getRotateInstance(Math.PI*3/2);
-		font = font.deriveFont(transform);
-		g2D.setFont(font);
-		//
-		int x = (int)(size.width/2)+((fontHeight-2)/2);
-		if (x < fontHeight)
-			x = fontHeight-2;
-		int y = (int)(size.height-3);
-		g2D.drawString(m_labelValue, x, y);
-		log.finest("x=" + x + ",fontHeight=" + fontHeight +  ", y=" + y + " - " + m_labelValue);
-		//	Paint Target
-		if (m_targetValue != 0)
+		else if (getGoal() != null)		//	Multiple Achievements
 		{
-			
+			MGoal goal = getGoal();
+			query = MQuery.getEqualQuery("PA_Measure_ID", goal.getPA_Measure_ID());
 		}
-	}	//	paintComponent
-	
-	
-    /**************************************************************************
-     * Adds an <code>ActionListener</code> to the indicator.
-     * @param l the <code>ActionListener</code> to be added
-     */
-    public void addActionListener(ActionListener l) 
-    {
-    	if (l != null)
-    		listenerList.add(ActionListener.class, l);
-    }	//	addActionListener
-    
-    /**
-     * Removes an <code>ActionListener</code> from the indicator.
-     * @param l the listener to be removed
-     */
-    public void removeActionListener(ActionListener l) 
-    {
-    	if (l != null)
-    		listenerList.remove(ActionListener.class, l);
-    }	//	removeActionListener
-    
-    /**
-     * Returns an array of all the <code>ActionListener</code>s added
-     * to this indicator with addActionListener().
-     *
-     * @return all of the <code>ActionListener</code>s added or an empty
-     *         array if no listeners have been added
-     */
-    public ActionListener[] getActionListeners() 
-    {
-        return (ActionListener[])(listenerList.getListeners(ActionListener.class));
-    }	//	getActionListeners
-
-    /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance 
-     * is lazily created using the <code>event</code> 
-     * parameter.
-     *
-     * @param event  the <code>ActionEvent</code> object
-     * @see EventListenerList
-     */
-    protected void fireActionPerformed(MouseEvent event) 
-    {
-        // Guaranteed to return a non-null array
-    	ActionListener[] listeners = getActionListeners();
-        ActionEvent e = null;
-        // Process the listeners first to last
-        for (int i = 0; i < listeners.length; i++) 
-        {
-        	//	Lazily create the event:
-        	if (e == null) 
-        		e = new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-        			"column"+m_label, event.getWhen(), event.getModifiers());
-        	listeners[i].actionPerformed(e);
-        }
-    }	//	fireActionPerformed
-	
-    
-    /**
-     * 	Mouse Clicked
-     *	@param e mouse event
-     */
-	public void mouseClicked (MouseEvent e)
-	{
-		if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() > 1)
-			fireActionPerformed(e);
-	}	//	mouseClicked
-
-	public void mousePressed (MouseEvent e)
-	{
+		else if (getMeasureCalc() != null)	//	Document
+		{
+			MMeasureCalc mc = getMeasureCalc();
+			query = mc.getQuery(mGoal.getRestrictions(false),
+					getMeasureDisplay(), getDate(),
+					MRole.getDefault());	//	logged in role
+		}
+		else if (getProjectType() != null)	//	Document
+		{
+			MProjectType pt = getProjectType();
+			query = pt.getQuery(mGoal.getRestrictions(false),
+					getMeasureDisplay(), getDate(), getID(),
+					MRole.getDefault());	//	logged in role
+		}
+		else if (getRequestType() != null)	//	Document
+		{
+			MRequestType rt = getRequestType();
+			query = rt.getQuery(mGoal.getRestrictions(false),
+					getMeasureDisplay(), getDate(), getID(),
+					MRole.getDefault());	//	logged in role
+		}
+		return query;
 	}
-
-	public void mouseReleased (MouseEvent e)
-	{
-	}
-
-	public void mouseEntered (MouseEvent e)
-	{
-	}
-
-	public void mouseExited (MouseEvent e)
-	{
-	}
-
-}	//	BarGraphColumn
+}
