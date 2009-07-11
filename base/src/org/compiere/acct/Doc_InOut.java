@@ -573,7 +573,7 @@ public class Doc_InOut extends Doc
 
 	/**
 	 *  Update Sales Order Costing Product Info (old).
-	 *  Purchase side handeled in Invoice Matching.
+	 *  Purchase side handled in Invoice Matching.
 	 *  <br>
 	 *  decrease average cumulatives
 	 *  @param C_AcctSchema_ID accounting schema
