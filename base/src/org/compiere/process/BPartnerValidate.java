@@ -19,11 +19,13 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
+import org.compiere.model.Query;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
@@ -34,6 +36,7 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: BPartnerValidate.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
  */
 public class BPartnerValidate extends SvrProcess
 {
@@ -83,29 +86,13 @@ public class BPartnerValidate extends SvrProcess
 		}
 		else
 		{
-			String sql = "SELECT * FROM C_BPartner WHERE C_BP_Group_ID=? AND IsActive='Y'";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement (sql, get_TrxName());
-				pstmt.setInt (1, p_C_BP_Group_ID);
-				rs = pstmt.executeQuery ();
-				while (rs.next ())
-				{
-					MBPartner bp = new MBPartner (getCtx(), rs, get_TrxName());
-					checkBP (bp);
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null; pstmt = null;
-			}
+			//FR: [ 2214883 ] Remove SQL code and Replace for Query
+			String whereClause = "C_BP_Group_ID=?";
+		 	List <MBPartner> list = new Query(getCtx(), MBPartner.Table_Name, whereClause, get_TrxName())
+			.setParameters(new Object[]{p_C_BP_Group_ID})
+	 		.setOnlyActiveRecords(true)
+			.list();	
+			//FR: [ 2214883 ] Remove SQL code and Replace for Query
 		}
 		//
 		return "OK";

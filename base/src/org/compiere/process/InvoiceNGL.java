@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
@@ -34,6 +35,7 @@ import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MJournalLine;
 import org.compiere.model.MOrg;
+import org.compiere.model.Query;
 import org.compiere.model.X_T_InvoiceGL;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
@@ -45,6 +47,7 @@ import org.compiere.util.Msg;
  * 	The actual data shown is T_InvoiceGL_v
  *  @author Jorg Janke
  *  @version $Id: InvoiceNGL.java,v 1.3 2006/08/04 03:53:59 jjanke Exp $
+ *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
  */
 public class InvoiceNGL extends SvrProcess
 {
@@ -216,37 +219,14 @@ public class InvoiceNGL extends SvrProcess
 	 */
 	private String createGLJournal()
 	{
-		ArrayList<X_T_InvoiceGL> list = new ArrayList<X_T_InvoiceGL>();
-		String sql = "SELECT * FROM T_InvoiceGL "
-			+ "WHERE AD_PInstance_ID=" + getAD_PInstance_ID()
-			+ " ORDER BY AD_Org_ID";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				list.add (new X_T_InvoiceGL (getCtx(), rs, get_TrxName()));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query
+ 	 	String whereClause = "AD_PInstance_ID=?";
+	 	List <X_T_InvoiceGL> list = new Query(getCtx(), X_T_InvoiceGL.Table_Name, whereClause, get_TrxName())
+			.setParameters(new Object[]{getAD_PInstance_ID()})
+			.setOrderBy("AD_Org_ID")
+			.list();	
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query
+
 		if (list.size() == 0)
 			return " - No Records found";
 		

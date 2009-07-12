@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -31,6 +32,7 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: M_Element.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
+ *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
  */
 public class M_Element extends X_AD_Element
 {
@@ -59,36 +61,16 @@ public class M_Element extends X_AD_Element
 	{
 		if (columnName == null || columnName.length() == 0)
 			return columnName;
-		String retValue = columnName;
-		String sql = "SELECT ColumnName FROM AD_Element WHERE UPPER(ColumnName)=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setString (1, columnName.toUpperCase());
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = rs.getString(1);
-				if (rs.next())
-					s_log.warning("Not unique: " + columnName 
-						+ " -> " + retValue + " - " + rs.getString(1));
-			}
-			else
-				s_log.warning("No found: " + columnName);
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, columnName, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+ 	 	String whereClause = "UPPER(ColumnName)=?";
+	 	List <M_Element> list = new Query(null, M_Element.Table_Name, whereClause, trxName)
+			.setParameters(new Object[]{columnName.toUpperCase()})
+			.list();	//to detect > 1 condition
+	 	if (list.size() > 1)
+			s_log.warning("Not unique: " + columnName + " -> " + list.size() + " of same columnName");
+	 	M_Element retValue = list.get(0); //red1 - now getting the first only occurrence
+		return retValue.toString();
 
-		return retValue;
 	}	//	getColumnName
 
 	/**
