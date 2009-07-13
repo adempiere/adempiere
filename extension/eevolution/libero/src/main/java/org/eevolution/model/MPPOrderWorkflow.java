@@ -138,7 +138,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 		setAD_Workflow_ID(workflow.getAD_Workflow_ID());
 		setLimit(workflow.getLimit());
 		setPriority(workflow.getPriority());
-		setValidateWorkflow(workflow.getValidateWorkflow());
+//		setValidateWorkflow(workflow.getValidateWorkflow()); // buttons do not need to copy
 		setS_Resource_ID(workflow.getS_Resource_ID());
 		setQueuingTime(workflow.getQueuingTime());
 		setSetupTime(workflow.getSetupTime());
