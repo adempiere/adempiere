@@ -61,7 +61,6 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 			setPriority (0);
 			setPublishStatus (null);
 // U
-			setValidateWorkflow (null);
 			setVersion (0);
 			setWaitingTime (0);
         } */
