@@ -260,6 +260,13 @@
 			<zipfileset src="lib/itext-1.4.8.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!-- JFreeChart			-->
+			<zipfileset src="lib/jfreechart-1.0.11.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/jcommon-1.0.14.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<!-- JMS -->
 			<zipfileset src="lib/activemq-core-5.0.0.jar">
 				<patternset refid="manifest.exclude" />
