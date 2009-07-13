@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.util.ProcessUtil;
 import org.compiere.process.ProcessInfo;
@@ -381,5 +382,46 @@ public class MProcess extends X_AD_Process
 		int retValue = DB.getSQLValueEx(trxName, "SELECT AD_Process_ID FROM AD_Process WHERE Value=?", value);
 		return retValue;
 	}
+	
+	/**
+	 * Copy settings from another process
+	 * overwrites existing data
+	 * (including translations)
+	 * and saves.
+	 * Not overwritten: name, value, entitytype
+	 * @param source 
+	 */
+	public void copyFrom (MProcess source)
+	{
+
+		log.log(Level.FINE, "Copying from:" + source + ", to: " + this);
+		setAccessLevel(source.getAccessLevel());
+		setAD_Form_ID(source.getAD_Form_ID());
+		setAD_PrintFormat_ID(source.getAD_PrintFormat_ID());
+		setAD_ReportView_ID(source.getAD_ReportView_ID());
+		setAD_Workflow_ID(source.getAD_Workflow_ID());
+		setClassname(source.getClassname());
+		setDescription(source.getDescription());
+		setHelp(source.getHelp());
+		setIsBetaFunctionality(source.isBetaFunctionality());
+		setIsDirectPrint(source.isDirectPrint());
+		setIsReport(source.isReport());
+		setIsServerProcess(source.isServerProcess());
+		setJasperReport(source.getJasperReport());
+		setProcedureName(source.getProcedureName());
+		setShowHelp(source.getShowHelp());
+		
+		saveEx();
+		
+		// copy parameters 
+		// TODO? Perhaps should delete existing first?
+		MProcessPara[] parameters = source.getParameters();
+		for ( MProcessPara sourcePara : parameters )
+		{
+			MProcessPara targetPara = new MProcessPara(this);
+			targetPara.copyFrom (sourcePara);  // saves automatically
+		}
+	}
+
 	
 }	//	MProcess

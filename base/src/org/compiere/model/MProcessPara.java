@@ -21,6 +21,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.util.CCache;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 
@@ -97,6 +98,18 @@ public class MProcessPara extends X_AD_Process_Para
 	{
 		super(ctx, rs, trxName);
 	}	//	MProcessPara
+
+	/**
+	 * Parent constructor
+	 * @param parent process
+	 */
+	public MProcessPara(MProcess parent) {
+		
+		this (parent.getCtx(), 0, parent.get_TrxName());
+		setClientOrg(parent);
+		setAD_Process_ID(parent.getAD_Process_ID());
+		setEntityType(parent.getEntityType());
+	}
 
 	/** Virtual Window No - 999	*/
 	public static int		WINDOW_NO = 999;
@@ -203,5 +216,56 @@ public class MProcessPara extends X_AD_Process_Para
 			.append ("]");
 		return sb.toString ();
 	}	//	toString
+	
+	/**
+	 * Copy settings from another process parameter
+	 * overwrites existing data
+	 * (including translations)
+	 * and saves
+	 * @param source 
+	 */
+	public void copyFrom (MProcessPara source)
+	{
+
+		log.log(Level.FINE, "Copying from:" + source + ", to: " + this);
+		setAD_Element_ID(source.getAD_Element_ID());
+		setAD_Reference_ID(source.getAD_Reference_ID());
+		setAD_Reference_Value_ID(source.getAD_Reference_Value_ID());
+		setAD_Val_Rule_ID(source.getAD_Val_Rule_ID());
+		setColumnName(source.getColumnName());
+		setDefaultValue(source.getDefaultValue());
+		setDefaultValue2(source.getDefaultValue2());
+		setDescription(source.getDescription());
+		setDisplayLogic(source.getDisplayLogic());
+		setFieldLength(source.getFieldLength());
+		setHelp(source.getHelp());
+		setIsActive(source.isActive());
+		setIsCentrallyMaintained(source.isCentrallyMaintained());
+		setIsMandatory(source.isMandatory());
+		setIsRange(source.isRange());
+		setName(source.getName());
+		setReadOnlyLogic(source.getReadOnlyLogic());
+		setSeqNo(source.getSeqNo());
+		setValueMax(source.getValueMax());
+		setValueMin(source.getValueMin());
+		setVFormat(source.getVFormat());
+		
+		saveEx();
+		
+		// delete new translations and copy translations from source
+		String sql = "DELETE FROM AD_Process_Para_Trl WHERE AD_Process_Para_ID = ?";
+		int count = DB.executeUpdateEx(sql, new Object[] { getAD_Process_Para_ID() }, get_TrxName());
+		log.log(Level.FINE, "AD_Process_Para_Trl deleted: " + count);
+		
+		sql = "INSERT INTO AD_Process_Para_Trl (AD_Process_Para_ID, AD_Language, " +
+				" AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy, " +
+				" Name, Description, Help, IsTranslated) " +
+				" SELECT ?, AD_Language, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, " +
+				" Updated, UpdatedBy, Name, Description, Help, IsTranslated " +
+				" FROM AD_Process_Para_Trl WHERE AD_Process_Para_ID = ? ";
+		count = DB.executeUpdateEx(sql, new Object[] { getAD_Process_Para_ID(), source.getAD_Process_Para_ID() }, get_TrxName());
+		log.log(Level.FINE, "AD_Process_Para_Trl inserted: " + count);
+		
+	}
 
 }	//	MProcessPara
