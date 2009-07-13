@@ -17,9 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.List;
+import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
@@ -27,7 +25,6 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
 import org.compiere.model.Query;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.DB;
 import org.compiere.util.Msg;
 
 
@@ -36,7 +33,7 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: BPartnerValidate.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
- *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+ *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1, teo_sarca
  */
 public class BPartnerValidate extends SvrProcess
 {
@@ -86,13 +83,15 @@ public class BPartnerValidate extends SvrProcess
 		}
 		else
 		{
-			//FR: [ 2214883 ] Remove SQL code and Replace for Query
 			String whereClause = "C_BP_Group_ID=?";
-		 	List <MBPartner> list = new Query(getCtx(), MBPartner.Table_Name, whereClause, get_TrxName())
+		 	Iterator<MBPartner> it = new Query(getCtx(), MBPartner.Table_Name, whereClause, get_TrxName())
 			.setParameters(new Object[]{p_C_BP_Group_ID})
 	 		.setOnlyActiveRecords(true)
-			.list();	
-			//FR: [ 2214883 ] Remove SQL code and Replace for Query
+			.iterate();
+		 	while(it.hasNext())
+		 	{
+		 		checkBP(it.next());
+		 	}
 		}
 		//
 		return "OK";
@@ -111,7 +110,7 @@ public class BPartnerValidate extends SvrProcess
 		//	
 		bp.setTotalOpenBalance();
 		bp.setActualLifeTimeValue();
-		bp.save();
+		bp.saveEx();
 		//
 	//	if (bp.getSO_CreditUsed().signum() != 0)
 		addLog(0, null, bp.getSO_CreditUsed(), Msg.getElement(getCtx(), "SO_CreditUsed"));

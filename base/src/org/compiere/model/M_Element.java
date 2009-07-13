@@ -16,14 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 
@@ -32,7 +29,7 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: M_Element.java,v 1.3 2006/07/30 00:58:37 jjanke Exp $
- *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+ *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1, teo_sarca
  */
 public class M_Element extends X_AD_Element
 {
@@ -52,31 +49,26 @@ public class M_Element extends X_AD_Element
 	}
 	
 	/**
-	 * 	Get case sensitive Column Name
-	 *	@param columnName case insentitive column name
-	 *  @param trxName optional transaction name
-	 *	@return case sensitive column name
+	 * Get case sensitive Column Name
+	 * @param columnName case insensitive column name
+	 * @param trxName optional transaction name
+	 * @return case sensitive column name
 	 */
 	public static String getColumnName (String columnName, String trxName)
 	{
 		if (columnName == null || columnName.length() == 0)
 			return columnName;
-		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
- 	 	String whereClause = "UPPER(ColumnName)=?";
-	 	List <M_Element> list = new Query(null, M_Element.Table_Name, whereClause, trxName)
-			.setParameters(new Object[]{columnName.toUpperCase()})
-			.list();	//to detect > 1 condition
-	 	if (list.size() > 1)
-			s_log.warning("Not unique: " + columnName + " -> " + list.size() + " of same columnName");
-	 	M_Element retValue = list.get(0); //red1 - now getting the first only occurrence
-		return retValue.toString();
+	 	M_Element element = get(Env.getCtx(), columnName, trxName);
+	 	if (element == null)
+	 		return columnName;
+		return element.getColumnName();
 
 	}	//	getColumnName
 
 	/**
 	 * 	Get Element
 	 * 	@param ctx context
-	 *	@param columnName case insentitive column name
+	 *	@param columnName case insensitive column name
 	 *	@return case sensitive column name
 	 */
 	public static M_Element get (Properties ctx, String columnName) 
@@ -87,7 +79,7 @@ public class M_Element extends X_AD_Element
 	/**
 	 * 	Get Element
 	 * 	@param ctx context
-	 *	@param columnName case insentitive column name
+	 *	@param columnName case insensitive column name
 	 *  @param trxName optional transaction name
 	 *	@return case sensitive column name
 	 */
@@ -95,32 +87,12 @@ public class M_Element extends X_AD_Element
 	{
 		if (columnName == null || columnName.length() == 0)
 			return null;
-		M_Element retValue = null;
-		String sql = "SELECT * FROM AD_Element WHERE UPPER(ColumnName)=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setString (1, columnName.toUpperCase());
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = new M_Element (ctx, rs, trxName);
-				if (rs.next())
-					s_log.warning("Not unique: " + columnName 
-						+ " -> " + retValue + " - " + rs.getString("ColumnName"));
-			}
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		//
+		// TODO: caching if trxName == null
+ 	 	final String whereClause = "UPPER(ColumnName)=?";
+	 	M_Element retValue = new Query(ctx, M_Element.Table_Name, whereClause, trxName)
+			.setParameters(new Object[]{columnName.toUpperCase()})
+			.firstOnly();
 		return retValue;
 	}	//	get
 
@@ -136,30 +108,11 @@ public class M_Element extends X_AD_Element
 	{
 		if (AD_Column_ID ==0)
 			return null;
-		M_Element retValue = null;
-		String sql = "SELECT * FROM AD_Element e "
-			+ "WHERE EXISTS (SELECT * FROM AD_Column c "
-				+ "WHERE c.AD_Element_ID=e.AD_Element_ID AND c.AD_Column_ID=?)";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, AD_Column_ID);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new M_Element (ctx, rs, trxName);
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-
+		String whereClause = "EXISTS (SELECT 1 FROM AD_Column c "
+				+ "WHERE c.AD_Element_ID=AD_Element.AD_Element_ID AND c.AD_Column_ID=?)";
+		M_Element retValue = new Query(ctx, Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{AD_Column_ID})
+		.firstOnly();
 		return retValue;
 	}	//	get
 
@@ -173,9 +126,6 @@ public class M_Element extends X_AD_Element
 	{
 		return getOfColumn(ctx, AD_Column_ID, null);
 	}	//	get
-	
-	/**	Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (M_Element.class);
 	
 	/**************************************************************************
 	 * 	Standard Constructor
