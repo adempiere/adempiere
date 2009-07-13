@@ -19,48 +19,29 @@ package org.eevolution.model;
 import java.math.BigDecimal;
 import java.util.Properties;
 
-import javax.swing.JOptionPane;
-
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.I_M_Product;
+import org.compiere.model.MProduct;
 import org.compiere.model.MUOMConversion;
-import org.compiere.model.X_M_Product;
 import org.compiere.util.Env;
 
 
 /**
- *	Order Callouts.
+ * BOM Callouts
  *	
- *  @author Victor Perez www.e-evolution.com  
- *  @version $Id: CalloutBOM.java,v 1.11 2004/03/22 07:15:03 vpj-cd Exp $
+ * @author Victor Perez www.e-evolution.com
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2820743 ] CalloutBOM - apply ABP
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2820743&group_id=176962&atid=934929  
  */
 public class CalloutBOM extends CalloutEngine
 {
-	/**	Debug Steps			*/
-	private boolean steps = false;
-
 	/**
-	 *	Order Header Change - DocType.
-	 *		- InvoiceRuld/DeliveryRule/PaymentRule
-	 *		- temporary Document
-	 *  Context:
-	 *  	- DocSubTypeSO
-	 *		- HasCharges
-	 *	- (re-sets Business Partner info of required)
-	 *
-	 *  @param ctx      Context
-	 *  @param WindowNo current Window No
-	 *  @param mTab     Model Tab
-	 *  @param mField   Model Field
-	 *  @param value    The new value
-	 *  @return Error message or ""
-	 */
-
-
-
-	/**
-	 *	Parent cicle.
+	 *	Parent cycle.
 	 *  @param ctx      Context
 	 *  @param WindowNo current Window No
 	 *  @param mTab     Model Tab
@@ -69,183 +50,63 @@ public class CalloutBOM extends CalloutEngine
 	 */
 	public String parent (Properties ctx, int WindowNo, GridTab mTab, GridField  mField, Object value)
 	{
-		Integer M_Product_ID = (Integer)value;
-		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
-			return "";
-		setCalloutActive(true);
-		
 		if (isCalloutActive() || value == null)
 			return "";
+		final int M_Product_ID = (Integer)value;
+		if (M_Product_ID <= 0)
+			return "";
 		
-
-		if (steps) log.warning("parent - init");
-		
-		setCalloutActive(true);
-
-        int PP_Product_BOM_ID = Env.getContextAsInt(ctx, WindowNo, "PP_Product_BOM_ID");
-        X_PP_Product_BOM PP_Product_BOM = new X_PP_Product_BOM(ctx, PP_Product_BOM_ID,"PP_Product_BOM");
-        if (PP_Product_BOM.getM_Product_ID() ==  M_Product_ID.intValue())
+		I_PP_Product_BOMLine bomLine = GridTabWrapper.create(mTab, I_PP_Product_BOMLine.class);
+        I_PP_Product_BOM bom = bomLine.getPP_Product_BOM();
+        if (bom.getM_Product_ID() ==  bomLine.getM_Product_ID())
         {                                                                               
-             JOptionPane.showMessageDialog(null,"ValidComponent" , "Error Parent not be Componet" , JOptionPane.ERROR_MESSAGE);				
-             return ""; 
+             throw new AdempiereException("@ValidComponent@ - Error Parent not be Component");				
         }
-        setCalloutActive(false);
 		return "";
-	}	//	amt
-        
-    public String qty (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
-	{
-		if (isCalloutActive() || value == null)
-			return "";
-		setCalloutActive(true);
-
-		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
-		if (steps) log.warning("qty - init - M_Product_ID=" + M_Product_ID + " - " );
-		BigDecimal QtyOrdered, QtyEntered; //, PriceActual, PriceEntered;
-		
-		//	No Product
-		if (M_Product_ID == 0)
-		{
-			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-			mTab.setValue("QtyOrdered", QtyEntered);
-		}
-		//	UOM Changed - convert from Entered -> Product
-		else if (mField.getColumnName().equals("C_UOM_ID"))
-		{
-			int C_UOM_To_ID = ((Integer)value).intValue();
-			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-			QtyOrdered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyEntered);
-			if (QtyOrdered == null)
-				QtyOrdered = QtyEntered;
-			boolean conversion = QtyEntered.compareTo(QtyOrdered) != 0;
-			//PriceActual = (BigDecimal)mTab.getValue("PriceActual");
-			//PriceEntered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-			//	C_UOM_To_ID, PriceActual);
-			//if (PriceEntered == null)
-			//	PriceEntered = PriceActual; 
-		//	log.fine("qty - UOM=" + C_UOM_To_ID 
-		//		+ ", QtyEntered/PriceActual=" + QtyEntered + "/" + PriceActual
-		//		+ " -> " + conversion 
-		//		+ " QtyOrdered/PriceEntered=" + QtyOrdered + "/" + PriceEntered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
-			mTab.setValue("QtyOrdered", QtyOrdered);
-		//	mTab.setValue("PriceEntered", PriceEntered);
-		}
-		//	QtyEntered changed - calculate QtyOrdered
-		else if (mField.getColumnName().equals("QtyEntered"))
-		{
-			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
-			QtyEntered = (BigDecimal)value;
-			QtyOrdered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyEntered);
-			if (QtyOrdered == null)
-				QtyOrdered = QtyEntered;
-			boolean conversion = QtyEntered.compareTo(QtyOrdered) != 0;
-			log.fine("qty - UOM=" + C_UOM_To_ID 
-				+ ", QtyEntered=" + QtyEntered
-				+ " -> " + conversion 
-				+ " QtyOrdered=" + QtyOrdered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
-			mTab.setValue("QtyOrdered", QtyOrdered);
-		}
-		//	QtyOrdered changed - calculate QtyEntered
-		else if (mField.getColumnName().equals("QtyOrdered"))
-		{
-			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
-			QtyOrdered = (BigDecimal)value;
-			QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyOrdered);
-			if (QtyEntered == null)
-				QtyEntered = QtyOrdered;
-			boolean conversion = QtyOrdered.compareTo(QtyEntered) != 0;
-			log.fine("qty - UOM=" + C_UOM_To_ID 
-				+ ", QtyOrdered=" + QtyOrdered
-				+ " -> " + conversion 
-				+ " QtyEntered=" + QtyEntered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
-			mTab.setValue("QtyEntered", QtyEntered);
-		}
-		//
-		setCalloutActive(false);
-		return "";
-	}	//	qty
+	}
         
     public String qtyLine (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-		setCalloutActive(true);
 
-		int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, "M_Product_ID");
-		if (steps) log.warning("qty - init - M_Product_ID=" + M_Product_ID + " - " );
-		BigDecimal QtyRequiered, QtyEntered; //, PriceActual, PriceEntered;
+		final I_PP_Order_BOMLine bomLine = GridTabWrapper.create(mTab, I_PP_Order_BOMLine.class);
+		final int M_Product_ID = bomLine.getM_Product_ID();
+		final String columnName = mField.getColumnName();
 		
 		//	No Product
-		if (M_Product_ID == 0)
+		if (M_Product_ID <= 0)
 		{
-			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-			mTab.setValue("QtyOrdered", QtyEntered);
+			BigDecimal QtyEntered = bomLine.getQtyEntered();
+			bomLine.setQtyRequiered(QtyEntered);
 		}
 		//	UOM Changed - convert from Entered -> Product
-		else if (mField.getColumnName().equals("C_UOM_ID"))
-		{
-			int C_UOM_To_ID = ((Integer)value).intValue();
-			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-			QtyRequiered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyEntered);
-			if (QtyRequiered == null)
-				QtyRequiered = QtyEntered;
-			boolean conversion = QtyEntered.compareTo(QtyRequiered) != 0;
-			//PriceActual = (BigDecimal)mTab.getValue("PriceActual");
-			//PriceEntered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-			//	C_UOM_To_ID, PriceActual);
-			//if (PriceEntered == null)
-			//	PriceEntered = PriceActual; 
-		//	log.fine("qty - UOM=" + C_UOM_To_ID 
-		//		+ ", QtyEntered/PriceActual=" + QtyEntered + "/" + PriceActual
-		//		+ " -> " + conversion 
-		//		+ " QtyOrdered/PriceEntered=" + QtyOrdered + "/" + PriceEntered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
-			mTab.setValue("QtyOrdered", QtyRequiered);
-		//	mTab.setValue("PriceEntered", PriceEntered);
-		}
 		//	QtyEntered changed - calculate QtyOrdered
-		else if (mField.getColumnName().equals("QtyEntered"))
+		else if (I_PP_Order_BOMLine.COLUMNNAME_C_UOM_ID.equals(columnName)
+			|| I_PP_Order_BOMLine.COLUMNNAME_QtyEntered.equals(columnName) )
 		{
-			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
-			QtyEntered = (BigDecimal)value;
-			QtyRequiered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyEntered);
-			if (QtyRequiered == null)
+			final BigDecimal QtyEntered = bomLine.getQtyEntered();
+			BigDecimal QtyRequiered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
+					bomLine.getC_UOM_ID(), QtyEntered);
+			if (QtyRequiered == null) // NO Conversion Found
 				QtyRequiered = QtyEntered;
 			boolean conversion = QtyEntered.compareTo(QtyRequiered) != 0;
-			log.fine("qty - UOM=" + C_UOM_To_ID 
-				+ ", QtyEntered=" + QtyEntered
-				+ " -> " + conversion 
-				+ " QtyOrdered=" + QtyRequiered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
-			mTab.setValue("QtyOrdered", QtyRequiered);
+			Env.setContext(ctx, WindowNo, "UOMConversion", conversion);
+			bomLine.setQtyRequiered(QtyRequiered);
 		}
 		//	QtyOrdered changed - calculate QtyEntered
-		else if (mField.getColumnName().equals("QtyOrdered"))
+		else if (I_PP_Order_BOMLine.COLUMNNAME_QtyRequiered.equals(columnName))
 		{
-			int C_UOM_To_ID = Env.getContextAsInt(ctx, WindowNo, "C_UOM_ID");
-			QtyRequiered = (BigDecimal)value;
-			QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
-				C_UOM_To_ID, QtyRequiered);
-			if (QtyEntered == null)
+			final BigDecimal QtyRequiered = bomLine.getQtyRequiered();
+			BigDecimal QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
+					bomLine.getC_UOM_ID(), QtyRequiered);
+			if (QtyEntered == null) // No Conversion Found
 				QtyEntered = QtyRequiered;
 			boolean conversion = QtyRequiered.compareTo(QtyEntered) != 0;
-			log.fine("qty - UOM=" + C_UOM_To_ID 
-				+ ", QtyOrdered=" + QtyRequiered
-				+ " -> " + conversion 
-				+ " QtyEntered=" + QtyEntered);
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion ? "Y" : "N");
-			mTab.setValue("QtyEntered", QtyEntered);
+			Env.setContext(ctx, WindowNo, "UOMConversion", conversion);
+			bomLine.setQtyEntered(QtyEntered);
 		}
 		//
-		setCalloutActive(false);
 		return "";
 	}	//	qty
     
@@ -260,29 +121,21 @@ public class CalloutBOM extends CalloutEngine
 	 */
 	public String getdefaults (Properties ctx, int WindowNo, GridTab mTab, GridField  mField, Object value)
 	{
-		Integer M_Product_ID = (Integer)value;
-		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
-			return "";
-		setCalloutActive(true);
-		
 		if (isCalloutActive() || value == null)
 			return "";
+		int M_Product_ID = (Integer)value;
+		if (M_Product_ID <= 0)
+			return "";
 		
-		if (steps) log.warning("parent - init");
-		
-		setCalloutActive(true);
-		
-        X_M_Product M_Product =  new X_M_Product(ctx, M_Product_ID.intValue(),null);
+        I_M_Product product =  MProduct.get(ctx, M_Product_ID);
+        I_PP_Product_BOM bom = GridTabWrapper.create(mTab, I_PP_Product_BOM.class);
+        bom.setValue(product.getValue());
+        bom.setName(product.getName());
+        bom.setDescription(product.getDescription());
+        bom.setHelp(product.getHelp());
+        bom.setC_UOM_ID(product.getC_UOM_ID());
         
-        mTab.setValue("Value", M_Product.getValue());
-        mTab.setValue("Name", M_Product.getName());
-        mTab.setValue("Description", M_Product.getDescription());
-        mTab.setValue("Help", M_Product.getHelp());
-        mTab.setValue("C_UOM_ID", M_Product.getC_UOM_ID());
-        
-        setCalloutActive(false);
 		return "";
 	}	//	getdefaults
-
 }	//	CalloutOrder
 
