@@ -214,9 +214,7 @@ FROM PP_Order o
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
 /
-DROP VIEW PP_Product_BOMLine_v;
-/
-CREATE VIEW PP_Product_BOMLine_v AS
+CREATE OR REPLACE VIEW PP_Product_BOMLine_v AS
 SELECT 
   feature ,
   bl.ad_org_id ,
@@ -252,9 +250,7 @@ SELECT
  FROM PP_Product_BOMLine bl
  INNER JOIN PP_Product_BOMLine_Trl blt ON (blt.PP_Product_BOMLine_ID=bl.PP_Product_BOMLine_ID);
 /
-DROP VIEW PP_Product_BOMLine_vt;
-/
-CREATE VIEW PP_Product_BOMLine_vt AS
+CREATE OR REPLACE VIEW PP_Product_BOMLine_vt AS
 SELECT 
   feature ,
   bl.ad_org_id ,
