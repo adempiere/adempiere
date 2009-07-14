@@ -40,7 +40,7 @@ public class M_Element extends X_AD_Element
 
 	/**
 	 * 	Get case sensitive Column Name
-	 *	@param columnName case insentitive column name
+	 *	@param columnName case insensitive column name
 	 *	@return case sensitive column name
 	 */
 	public static String getColumnName (String columnName)
@@ -99,9 +99,8 @@ public class M_Element extends X_AD_Element
 	/**
 	 * 	Get Element
 	 * 	@param ctx context
-	 *	@param columnName case insentitive column name
-	 *	@param columnName case insentitive column name
-	 *	@param trxName trx
+	 *	@param columnName case insensitive column name
+ 	 *	@param trxName trx
 	 *	@return case sensitive column name
 	 */
 	public static M_Element getOfColumn (Properties ctx, int AD_Column_ID, String trxName)
