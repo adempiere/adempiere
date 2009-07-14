@@ -134,7 +134,7 @@ public class MSequence extends X_AD_Sequence
 					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
 				pstmt.setString(1, TableName);
 				//
-				if (!USE_PROCEDURE)
+				if (!USE_PROCEDURE && DB.getDatabase().isQueryTimeoutSupported())
 					pstmt.setQueryTimeout(QUERY_TIME_OUT);
 				rs = pstmt.executeQuery();
 				if (CLogMgt.isLevelFinest())
@@ -291,7 +291,10 @@ public class MSequence extends X_AD_Sequence
 			cstmt.setInt(1, AD_Sequence_ID);
 			cstmt.setString(2, adempiereSys ? "Y" : "N");
 			cstmt.registerOutParameter(3, Types.INTEGER);
-			cstmt.setQueryTimeout(QUERY_TIME_OUT);
+			if (DB.getDatabase().isQueryTimeoutSupported())
+			{
+				cstmt.setQueryTimeout(QUERY_TIME_OUT);
+			}
 			cstmt.execute();
 			retValue = cstmt.getInt(3);
 		}
@@ -330,7 +333,10 @@ public class MSequence extends X_AD_Sequence
 			cstmt.setInt(2, incrementNo);
 			cstmt.setString(3, calendarYear);
 			cstmt.registerOutParameter(4, Types.INTEGER);
-			cstmt.setQueryTimeout(QUERY_TIME_OUT);
+			if (DB.getDatabase().isQueryTimeoutSupported())
+			{
+				cstmt.setQueryTimeout(QUERY_TIME_OUT);
+			}
 			cstmt.execute();
 			retValue = cstmt.getInt(4);
 		} catch (Exception e) {
@@ -495,7 +501,7 @@ public class MSequence extends X_AD_Sequence
 				pstmt.setString(3, calendarYear);
 
 			//
-			if (!USE_PROCEDURE)
+			if (!USE_PROCEDURE && DB.getDatabase().isQueryTimeoutSupported())
 				pstmt.setQueryTimeout(QUERY_TIME_OUT);
 			rs = pstmt.executeQuery();
 		//	s_log.fine("AC=" + conn.getAutoCommit() + " -Iso=" + conn.getTransactionIsolation()
@@ -779,7 +785,7 @@ public class MSequence extends X_AD_Sequence
 				pstmt.setString(2, calendarYear);
 
 			//
-			if (!USE_PROCEDURE)
+			if (!USE_PROCEDURE && DB.getDatabase().isQueryTimeoutSupported())
 				pstmt.setQueryTimeout(QUERY_TIME_OUT);
 			rs = pstmt.executeQuery();
 		//	s_log.fine("AC=" + conn.getAutoCommit() + " -Iso=" + conn.getTransactionIsolation()

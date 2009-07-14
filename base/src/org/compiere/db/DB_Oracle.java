@@ -1105,5 +1105,9 @@ public class DB_Oracle implements AdempiereDatabase
 			return true;
 	}
 
+	public boolean isQueryTimeoutSupported() {
+		return true;
+	}
+
 
 }   //  DB_Oracle

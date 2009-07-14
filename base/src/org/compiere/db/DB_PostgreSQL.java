@@ -782,7 +782,13 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		else 
 			return true;
 	}
-        
+
+	public boolean isQueryTimeoutSupported() {
+		return false;
+	}
+
+
+
         /*
          public boolean getSupportAlias()
         {             

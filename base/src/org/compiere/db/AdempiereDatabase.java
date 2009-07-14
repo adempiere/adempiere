@@ -285,6 +285,11 @@ public interface AdempiereDatabase
 	public Convert getConvert();
 
 	/**
+	 * @return true if jdbc driver support statement timeout
+	 */
+	public boolean isQueryTimeoutSupported();
+
+	/**
 	 * 	Get Data Type
 	 *	@param DisplayType display type
 	 *	@return data type

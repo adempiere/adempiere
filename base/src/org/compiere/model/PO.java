@@ -80,14 +80,14 @@ import org.w3c.dom.Element;
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee
 {
-	private static final String USE_TIMEOUT_FOR_UPDATE = "org.adempiere.po.useTimeoutForUpdate";
-
-	private static final int QUERY_TIME_OUT = 10;
-
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1876469108787009999L;
+	private static final long serialVersionUID = 8413360272600437423L;
+
+	private static final String USE_TIMEOUT_FOR_UPDATE = "org.adempiere.po.useTimeoutForUpdate";
+
+	private static final int QUERY_TIME_OUT = 10;
 
 	/**
 	 * 	Set Document Value Workflow Manager
@@ -2404,7 +2404,8 @@ public abstract class PO
 	}   //  saveUpdate
 
 	private boolean isUseTimeoutForUpdate() {
-		return "true".equalsIgnoreCase(System.getProperty(USE_TIMEOUT_FOR_UPDATE, "false"));
+		return "true".equalsIgnoreCase(System.getProperty(USE_TIMEOUT_FOR_UPDATE, "false"))
+			&& DB.getDatabase().isQueryTimeoutSupported();
 	}
 
 	/**
