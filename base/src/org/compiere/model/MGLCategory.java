@@ -163,5 +163,15 @@ public class MGLCategory extends X_GL_Category
 	{
 		super(ctx, rs, trxName);
 	}	//	MGLCategory
-	
+
+	@Override
+	public String toString()
+	{
+		return getClass().getSimpleName()+"["+get_ID()
+		+", Name="+getName()
+		+", IsDefault="+isDefault()
+		+", IsActive="+isActive()
+		+", CategoryType="+getCategoryType()
+		+"]";
+	}
 }	//	MGLCategory

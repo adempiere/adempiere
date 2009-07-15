@@ -86,4 +86,14 @@ public class MTaxCategory extends X_C_TaxCategory
 		
 		return m_tax;
 	} // getDefaultTax
+	
+	@Override
+	public String toString()
+	{
+		return getClass().getSimpleName()+"["+get_ID()
+		+", Name="+getName()
+		+", IsDefault="+isDefault()
+		+", IsActive="+isActive()
+		+"]";
+	}
 }	//	MTaxCategory
