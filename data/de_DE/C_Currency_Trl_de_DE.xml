@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="C_Currency">
+ <row id="100" trl="Y">
+  <value column="Description" original="US Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Description" original="Euro">Euro (100 Cent)</value>
+  <value column="CurSymbol" original="E">E</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Description" original="Deutsche Mark">Deutsche Mark (100 Pfennig)</value>
+  <value column="CurSymbol" original="DM">DM</value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Description" original="Austrian Schilling">Schilling (100 Groschen)</value>
+  <value column="CurSymbol" original="Sch">Sch</value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Description" original="Belgian Franc">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="BFr">BFr</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Description" original="Finish Mark">Markka (100 Penniä)</value>
+  <value column="CurSymbol" original="FM">FM</value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Description" original="Irish Pound">Pfund (100 Pence)</value>
+  <value column="CurSymbol" original="I£">I£</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Description" original="Italian Lira">Lira (100 Centesimi)</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Description" original="Dutch Gilder">Gulden (100 Cents)</value>
+  <value column="CurSymbol" original="Fl">Fl</value>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Description" original="Portugese Escudo">Escudo (100 Centavos)</value>
+  <value column="CurSymbol" original="Es">Es</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Description" original="Spannish Peseto">Peseta (100 Centimes)</value>
+  <value column="CurSymbol" original="Pts">Pts</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Description" original="French Franc">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="Fr">Fr</value>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Description" original="Japanese Yen">Yen (- (ehemals 100 Sen))</value>
+  <value column="CurSymbol" original="¥">¥</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Description" original="British Pound">Pfund (100 Pence)</value>
+  <value column="CurSymbol" original="£">£</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Description" original="Swiss Franc (invalid currency code - use CHF)">Franken (100 Rappen) (ungültiger Währungscode - CHF verwenden)</value>
+  <value column="CurSymbol" original="SFr">SFr</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Description" original="Canadian Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="C$">C$</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Description" original="Argentine Peso">Peso (100 Centavos)</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Description" original="Australian Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Description" original="New Zealand Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="127" trl="Y">
+  <value column="Description" original="Liberian Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Description" original="Mexican Peso">Peso (100 Centavos)</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="142" trl="Y">
+  <value column="Description" original="Peso Uruguayo">Peso (100 Centesimos)</value>
+  <value column="CurSymbol" original="$U">$U</value>
+ </row>
+ <row id="143" trl="Y">
+  <value column="Description" original="Armenian Dram">Dram (100 Lumma)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="144" trl="Y">
+  <value column="Description" original="Kwanza">Kwanza (100 Lwei)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="145" trl="Y">
+  <value column="Description" original="Azerbaijanian Manat (new)">Manat (100 Qäpik)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="146" trl="Y">
+  <value column="Description" original="Boliviano">Boliviano (100 Centavos)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="147" trl="Y">
+  <value column="Description" original="Franc Congolais">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="148" trl="Y">
+  <value column="Description" original="Czech Koruna">Krone (100 Haleru)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="149" trl="Y">
+  <value column="Description" original="Lari">Lari (100 Tetri)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="150" trl="Y">
+  <value column="Description" original="Iranian Rial">Rial (100 Dinars)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="151" trl="Y">
+  <value column="Description" original="Lithuanian Litus">Litas (100 Centas)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="152" trl="Y">
+  <value column="Description" original="Moldovan Leu">Leu (100 Bani)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="153" trl="Y">
+  <value column="Description" original="Philippine Peso">Peso (100 Centavos)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="154" trl="Y">
+  <value column="Description" original="Zloty">Zloty (100 Groszy)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="155" trl="Y">
+  <value column="Description" original="Russian Ruble">Rubel (100 Kopeken)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="156" trl="Y">
+  <value column="Description" original="Sudanese Dinar">Dinar (-)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="157" trl="Y">
+  <value column="Description" original="Somoni">Somoni (100 Diram)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="158" trl="Y">
+  <value column="Description" original="Manat">Manat (100 Tenge)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="159" trl="Y">
+  <value column="Description" original="Timor Escudo">Timor-Escudo (100 Centavos)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="160" trl="Y">
+  <value column="Description" original="Hryvnia">Hrywnja (100 Kopeken)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="161" trl="Y">
+  <value column="Description" original="Uzbekistan Sum">So'm (100 Tiyin)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="163" trl="Y">
+  <value column="Description" original="Cyprus Pound">Pfund (100 Cents)</value>
+  <value column="CurSymbol" original="£C">£C</value>
+ </row>
+ <row id="164" trl="Y">
+  <value column="Description" original="Egyptian Pound">Pfund (100 Piasters)</value>
+  <value column="CurSymbol" original="£E">£E</value>
+ </row>
+ <row id="165" trl="Y">
+  <value column="Description" original="Falkland Islands Pound">Pfund (100 Pence)</value>
+  <value column="CurSymbol" original="£F">£F</value>
+ </row>
+ <row id="166" trl="Y">
+  <value column="Description" original="Gibraltar Pound">Pfund (100 Pence)</value>
+  <value column="CurSymbol" original="£G">£G</value>
+ </row>
+ <row id="167" trl="Y">
+  <value column="Description" original="Saint Helena Pound">Pfund (100 Pence)</value>
+  <value column="CurSymbol" original="£S">£S</value>
+ </row>
+ <row id="168" trl="Y">
+  <value column="Description" original="Syrian Pound">Pfund (100 Piastres)</value>
+  <value column="CurSymbol" original="£S">£S</value>
+ </row>
+ <row id="170" trl="Y">
+  <value column="Description" original="Cedi">Cedi (100 Pesewas)</value>
+  <value column="CurSymbol" original="¢">¢</value>
+ </row>
+ <row id="171" trl="Y">
+  <value column="Description" original="El Salvador Colon">Colon (100 Centavos)</value>
+  <value column="CurSymbol" original="¢">¢</value>
+ </row>
+ <row id="195" trl="Y">
+  <value column="Description" original="Afghani">Afghani (100 Puls)</value>
+  <value column="CurSymbol" original="Af">Af</value>
+ </row>
+ <row id="196" trl="Y">
+  <value column="Description" original="Aruban Guilder">Florin (100 Cents)</value>
+  <value column="CurSymbol" original="Af.">Af.</value>
+ </row>
+ <row id="197" trl="Y">
+  <value column="Description" original="Balboa">Balboa (100 Centesimos)</value>
+  <value column="CurSymbol" original="B">B</value>
+ </row>
+ <row id="198" trl="Y">
+  <value column="Description" original="Brunei Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="B$">B$</value>
+ </row>
+ <row id="199" trl="Y">
+  <value column="Description" original="Bahamian Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="B$">B$</value>
+ </row>
+ <row id="200" trl="Y">
+  <value column="Description" original="Bahraini Dinar">Dinar (1000 Fils)</value>
+  <value column="CurSymbol" original="BD">BD</value>
+ </row>
+ <row id="201" trl="Y">
+  <value column="Description" original="Bermudian Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="Bd$">Bd$</value>
+ </row>
+ <row id="202" trl="Y">
+  <value column="Description" original="Barbados Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="Bds$">Bds$</value>
+ </row>
+ <row id="203" trl="Y">
+  <value column="Description" original="Belarussian Ruble">Rubel (100 Kupeken)</value>
+  <value column="CurSymbol" original="BR">BR</value>
+ </row>
+ <row id="204" trl="Y">
+  <value column="Description" original="Ethiopian Birr">Birr (100 Cents)</value>
+  <value column="CurSymbol" original="Br">Br</value>
+ </row>
+ <row id="205" trl="Y">
+  <value column="Description" original="Bolivar">Bolivar (100 Centimes)</value>
+  <value column="CurSymbol" original="Bs">Bs</value>
+ </row>
+ <row id="206" trl="Y">
+  <value column="Description" original="Baht">Baht (100 Satang)</value>
+  <value column="CurSymbol" original="Bt">Bt</value>
+ </row>
+ <row id="207" trl="Y">
+  <value column="Description" original="Belize Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="BZ$">BZ$</value>
+ </row>
+ <row id="209" trl="Y">
+  <value column="Description" original="Cordoba Oro">Cordoba Oro (100 Centavos)</value>
+  <value column="CurSymbol" original="C$">C$</value>
+ </row>
+ <row id="210" trl="Y">
+  <value column="Description" original="Cape Verde Escudo">Escudo (100 Centavos)</value>
+  <value column="CurSymbol" original="C.V.Esc.">C.V.Esc.</value>
+ </row>
+ <row id="211" trl="Y">
+  <value column="Description" original="Comoro Franc">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="CF">CF</value>
+ </row>
+ <row id="212" trl="Y">
+  <value column="Description" original="CFA Franc BCEAO">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="CFAF">CFAF</value>
+ </row>
+ <row id="214" trl="Y">
+  <value column="Description" original="CFA Franc BEAC">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="CFAF">CFAF</value>
+ </row>
+ <row id="225" trl="Y">
+  <value column="Description" original="CFP Franc">Franc (-)</value>
+  <value column="CurSymbol" original="CFPF">CFPF</value>
+ </row>
+ <row id="228" trl="Y">
+  <value column="Description" original="Chilean Peso">Peso (100 Centavos)</value>
+  <value column="CurSymbol" original="Ch$">Ch$</value>
+ </row>
+ <row id="229" trl="Y">
+  <value column="Description" original="Cayman Islands Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="CI$">CI$</value>
+ </row>
+ <row id="230" trl="Y">
+  <value column="Description" original="Colombian Peso">Peso (100 Centavos)</value>
+  <value column="CurSymbol" original="Col$">Col$</value>
+ </row>
+ <row id="231" trl="Y">
+  <value column="Description" original="Riel">Riel (10 Karak = 100 Sen)</value>
+  <value column="CurSymbol" original="CR">CR</value>
+ </row>
+ <row id="232" trl="Y">
+  <value column="Description" original="Cuban Peso">Peso (100 Centavos)</value>
+  <value column="CurSymbol" original="Cu$">Cu$</value>
+ </row>
+ <row id="233" trl="Y">
+  <value column="Description" original="Dalasi">Dalasi (100 Bututs)</value>
+  <value column="CurSymbol" original="D">D</value>
+ </row>
+ <row id="234" trl="Y">
+  <value column="Description" original="Dong">Dong (10 Hao = 100 Xu)</value>
+  <value column="CurSymbol" original="D">D</value>
+ </row>
+ <row id="235" trl="Y">
+  <value column="Description" original="Algerian Dinar">Dinar (100 Centimes)</value>
+  <value column="CurSymbol" original="DA">DA</value>
+ </row>
+ <row id="236" trl="Y">
+  <value column="Description" original="Dobra">Dobra (100 Centimes)</value>
+  <value column="CurSymbol" original="Db">Db</value>
+ </row>
+ <row id="237" trl="Y">
+  <value column="Description" original="Djibouti Franc">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="DF">DF</value>
+ </row>
+ <row id="238" trl="Y">
+  <value column="Description" original="UAE Dirham">Dirham (100 Fils)</value>
+  <value column="CurSymbol" original="Dh">Dh</value>
+ </row>
+ <row id="239" trl="Y">
+  <value column="Description" original="Moroccan Dirham">Dirham (100 Centimes)</value>
+  <value column="CurSymbol" original="DH">DH</value>
+ </row>
+ <row id="240" trl="Y">
+  <value column="Description" original="Yugoslavian Dinar">Neuer Dinar (100 Para)</value>
+  <value column="CurSymbol" original="Din">Din</value>
+ </row>
+ <row id="241" trl="Y">
+  <value column="Description" original="Danish Krone">Krone (100 Öre)</value>
+  <value column="CurSymbol" original="Dkr">Dkr</value>
+ </row>
+ <row id="244" trl="Y">
+  <value column="Description" original="East Caribbean Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="EC$">EC$</value>
+ </row>
+ <row id="252" trl="Y">
+  <value column="Description" original="Fiji Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="F$">F$</value>
+ </row>
+ <row id="253" trl="Y">
+  <value column="Description" original="Burundi Franc">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="FBu">FBu</value>
+ </row>
+ <row id="254" trl="Y">
+  <value column="Description" original="Malagasy Franc">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="FMG">FMG</value>
+ </row>
+ <row id="255" trl="Y">
+  <value column="Description" original="Forint">Forint (100 Filler)</value>
+  <value column="CurSymbol" original="Ft">Ft</value>
+ </row>
+ <row id="256" trl="Y">
+  <value column="Description" original="Gourde">Gourde (100 Centimes)</value>
+  <value column="CurSymbol" original="G">G</value>
+ </row>
+ <row id="257" trl="Y">
+  <value column="Description" original="Guyana Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="G$">G$</value>
+ </row>
+ <row id="258" trl="Y">
+  <value column="Description" original="Hong Kong Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="HK$">HK$</value>
+ </row>
+ <row id="259" trl="Y">
+  <value column="Description" original="Croatian Kuna">Kuna (100 Lipa)</value>
+  <value column="CurSymbol" original="HRK">HRK</value>
+ </row>
+ <row id="260" trl="Y">
+  <value column="Description" original="Iraqi Dinar">Dinar (1000 Fils)</value>
+  <value column="CurSymbol" original="ID">ID</value>
+ </row>
+ <row id="261" trl="Y">
+  <value column="Description" original="Iceland Krona">Krone (100 Aurar)</value>
+  <value column="CurSymbol" original="IKr">IKr</value>
+ </row>
+ <row id="262" trl="Y">
+  <value column="Description" original="Jamaican Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="J$">J$</value>
+ </row>
+ <row id="263" trl="Y">
+  <value column="Description" original="Jordanian Dinar">Dinar (1000 Fils)</value>
+  <value column="CurSymbol" original="JD">JD</value>
+ </row>
+ <row id="264" trl="Y">
+  <value column="Description" original="Kyat">Kyat (100 Pyas)</value>
+  <value column="CurSymbol" original="K">K</value>
+ </row>
+ <row id="265" trl="Y">
+  <value column="Description" original="Kina">Kina (100 Toea)</value>
+  <value column="CurSymbol" original="K">K</value>
+ </row>
+ <row id="266" trl="Y">
+  <value column="Description" original="Kenyan Shilling">Schilling (100 Cents)</value>
+  <value column="CurSymbol" original="K Sh">K Sh</value>
+ </row>
+ <row id="267" trl="Y">
+  <value column="Description" original="Kuwaiti Dinar">Dinar (1000 Fils)</value>
+  <value column="CurSymbol" original="KD">KD</value>
+ </row>
+ <row id="268" trl="Y">
+  <value column="Description" original="Convertible Marks">Konvertible Mark (100 Fening)</value>
+  <value column="CurSymbol" original="KM">KM</value>
+ </row>
+ <row id="269" trl="Y">
+  <value column="Description" original="Kip">Kip (100 At)</value>
+  <value column="CurSymbol" original="KN">KN</value>
+ </row>
+ <row id="270" trl="Y">
+  <value column="Description" original="Nakfa">Nakfa (100 Cents)</value>
+  <value column="CurSymbol" original="KR">KR</value>
+ </row>
+ <row id="271" trl="Y">
+  <value column="Description" original="Lek">Lek (100 Qindarka)</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="272" trl="Y">
+  <value column="Description" original="Lempira">Lempira (100 Centavos)</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="273" trl="Y">
+  <value column="Description" original="Leu (old)">Leu (100 Bani)</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="274" trl="Y">
+  <value column="Description" original="Lilangeni">Lilangeni (100 Cents)</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="275" trl="Y">
+  <value column="Description" original="Libyan Dinar">Dinar (1000 Dirhams)</value>
+  <value column="CurSymbol" original="LD">LD</value>
+ </row>
+ <row id="276" trl="Y">
+  <value column="Description" original="Leone">Leone (100 Cents)</value>
+  <value column="CurSymbol" original="Le">Le</value>
+ </row>
+ <row id="277" trl="Y">
+  <value column="Description" original="Maltese Lira">Lira (100 Cents)</value>
+  <value column="CurSymbol" original="Lm">Lm</value>
+ </row>
+ <row id="278" trl="Y">
+  <value column="Description" original="Latvian Lats">Lats (100 Santims)</value>
+  <value column="CurSymbol" original="Ls">Ls</value>
+ </row>
+ <row id="279" trl="Y">
+  <value column="Description" original="Lev">Lew (100 Stotinki)</value>
+  <value column="CurSymbol" original="Lv">Lv</value>
+ </row>
+ <row id="280" trl="Y">
+  <value column="Description" original="Mauritius Rupee">Rupie (100 Cents)</value>
+  <value column="CurSymbol" original="Mau Rs">Mau Rs</value>
+ </row>
+ <row id="281" trl="Y">
+  <value column="Description" original="Kwacha">Kwacha (100 Tambala)</value>
+  <value column="CurSymbol" original="MK">MK</value>
+ </row>
+ <row id="282" trl="Y">
+  <value column="Description" original="Denar">Denar (100 Deni)</value>
+  <value column="CurSymbol" original="MKD">MKD</value>
+ </row>
+ <row id="283" trl="Y">
+  <value column="Description" original="Metical">Metical (100 Centavos)</value>
+  <value column="CurSymbol" original="Mt">Mt</value>
+ </row>
+ <row id="284" trl="Y">
+  <value column="Description" original="Netherlands Antillian Guilder">Gulden (100 Cents)</value>
+  <value column="CurSymbol" original="NAf.">NAf.</value>
+ </row>
+ <row id="285" trl="Y">
+  <value column="Description" original="Estonian Kroon">Krone (100 Senti)</value>
+  <value column="CurSymbol" original="Nfa">Nfa</value>
+ </row>
+ <row id="286" trl="Y">
+  <value column="Description" original="New Israeli Sheqel">Schekel (100 Agorot)</value>
+  <value column="CurSymbol" original="NIS">NIS</value>
+ </row>
+ <row id="287" trl="Y">
+  <value column="Description" original="Norwegian Krone">Krone (100 Öre)</value>
+  <value column="CurSymbol" original="NKr">NKr</value>
+ </row>
+ <row id="288" trl="Y">
+  <value column="Description" original="Nepalese Rupee">Rupie (2 Mohur = 100 Paisa)</value>
+  <value column="CurSymbol" original="NRs">NRs</value>
+ </row>
+ <row id="289" trl="Y">
+  <value column="Description" original="New Taiwan Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="NT$">NT$</value>
+ </row>
+ <row id="290" trl="Y">
+  <value column="Description" original="Pula">Pula (100 Thebe)</value>
+  <value column="CurSymbol" original="P">P</value>
+ </row>
+ <row id="291" trl="Y">
+  <value column="Description" original="Pataca">Pataca (100 Avos)</value>
+  <value column="CurSymbol" original="P">P</value>
+ </row>
+ <row id="292" trl="Y">
+  <value column="Description" original="Quetzal">Quetzal (100 Centavos)</value>
+  <value column="CurSymbol" original="Q">Q</value>
+ </row>
+ <row id="293" trl="Y">
+  <value column="Description" original="Qatari Rial">Riyal (100 Dirhams)</value>
+  <value column="CurSymbol" original="QR">QR</value>
+ </row>
+ <row id="294" trl="Y">
+  <value column="Description" original="Rand">Rand (100 Cents)</value>
+  <value column="CurSymbol" original="R">R</value>
+ </row>
+ <row id="297" trl="Y">
+  <value column="Description" original="Brazilian Real">Real (100 Centavos)</value>
+  <value column="CurSymbol" original="R$">R$</value>
+ </row>
+ <row id="298" trl="Y">
+  <value column="Description" original="Dominican Peso">Peso (100 Centavos)</value>
+  <value column="CurSymbol" original="RD$">RD$</value>
+ </row>
+ <row id="299" trl="Y">
+  <value column="Description" original="Rufiyaa">Rufiyaa (100 Laari)</value>
+  <value column="CurSymbol" original="Rf">Rf</value>
+ </row>
+ <row id="300" trl="Y">
+  <value column="Description" original="Rwanda Franc">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original="RF">RF</value>
+ </row>
+ <row id="301" trl="Y">
+  <value column="Description" original="Malaysian Ringgit">Ringgit (100 Sen)</value>
+  <value column="CurSymbol" original="RM">RM</value>
+ </row>
+ <row id="302" trl="Y">
+  <value column="Description" original="Rial Omani">Rial (1000 Baizas)</value>
+  <value column="CurSymbol" original="RO">RO</value>
+ </row>
+ <row id="303" trl="Y">
+  <value column="Description" original="Rupiah">Rupiah (100 Sen)</value>
+  <value column="CurSymbol" original="Rp">Rp</value>
+ </row>
+ <row id="304" trl="Y">
+  <value column="Description" original="Indian Rupee">Rupie (100 Paise)</value>
+  <value column="CurSymbol" original="Rs">Rs</value>
+ </row>
+ <row id="306" trl="Y">
+  <value column="Description" original="Pakistan Rupee">Rupie (100 Paisa)</value>
+  <value column="CurSymbol" original="Rs">Rs</value>
+ </row>
+ <row id="307" trl="Y">
+  <value column="Description" original="Singapore Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="S$">S$</value>
+ </row>
+ <row id="308" trl="Y">
+  <value column="Description" original="Nuevo Sol">Nuevo Sol (100 Centimos)</value>
+  <value column="CurSymbol" original="S/.">S/.</value>
+ </row>
+ <row id="309" trl="Y">
+  <value column="Description" original="Suriname Guilder">Gulden (100 Cents)</value>
+  <value column="CurSymbol" original="Sf.">Sf.</value>
+ </row>
+ <row id="310" trl="Y">
+  <value column="Description" original="Solomon Islands Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="SI$">SI$</value>
+ </row>
+ <row id="311" trl="Y">
+  <value column="Description" original="Swedish Krona">Krone (100 Öre)</value>
+  <value column="CurSymbol" original="Sk">Sk</value>
+ </row>
+ <row id="312" trl="Y">
+  <value column="Description" original="Slovak Koruna">Krone (100 Haleru)</value>
+  <value column="CurSymbol" original="Sk">Sk</value>
+ </row>
+ <row id="313" trl="Y">
+  <value column="Description" original="Sri Lanka Rupee">Rupie (100 Cents)</value>
+  <value column="CurSymbol" original="SLRs">SLRs</value>
+ </row>
+ <row id="314" trl="Y">
+  <value column="Description" original="Tolar">Tolar (100 Stotin)</value>
+  <value column="CurSymbol" original="SlT">SlT</value>
+ </row>
+ <row id="315" trl="Y">
+  <value column="Description" original="Somali Shilling">Schilling (100 Centesimi)</value>
+  <value column="CurSymbol" original="So. Sh.">So. Sh.</value>
+ </row>
+ <row id="316" trl="Y">
+  <value column="Description" original="Seychelles Rupee">Rupie (100 Cents)</value>
+  <value column="CurSymbol" original="SR">SR</value>
+ </row>
+ <row id="317" trl="Y">
+  <value column="Description" original="Saudi Riyal">Riyal (20 Qirshes = 100 Hallalas)</value>
+  <value column="CurSymbol" original="SRls">SRls</value>
+ </row>
+ <row id="318" trl="Y">
+  <value column="Description" original="Swiss Franc">Franken (100 Rappen)</value>
+  <value column="CurSymbol" original="SFr">SFr</value>
+ </row>
+ <row id="320" trl="Y">
+  <value column="Description" original="Pa’anga">Pa'anga (100 Seniti)</value>
+  <value column="CurSymbol" original="T$">T$</value>
+ </row>
+ <row id="321" trl="Y">
+  <value column="Description" original="Tunisian Dinar">Dinar (1000 Millimes)</value>
+  <value column="CurSymbol" original="TD">TD</value>
+ </row>
+ <row id="322" trl="Y">
+  <value column="Description" original="Taka">Taka (100 Poisha)</value>
+  <value column="CurSymbol" original="Tk">Tk</value>
+ </row>
+ <row id="323" trl="Y">
+  <value column="Description" original="Turkish Lira">Lira (100 Kurus)</value>
+  <value column="CurSymbol" original="TL">TL</value>
+ </row>
+ <row id="324" trl="Y">
+  <value column="Description" original="Tanzanian Shilling">Schilling (100 Cents)</value>
+  <value column="CurSymbol" original="TSh">TSh</value>
+ </row>
+ <row id="325" trl="Y">
+  <value column="Description" original="Trinidad and Tobago Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="TT$">TT$</value>
+ </row>
+ <row id="326" trl="Y">
+  <value column="Description" original="Tugrik">Tögrög (100 Möngö)</value>
+  <value column="CurSymbol" original="Tug">Tug</value>
+ </row>
+ <row id="327" trl="Y">
+  <value column="Description" original="Ouguiya">Ouguiya (5 Khoums)</value>
+  <value column="CurSymbol" original="UM">UM</value>
+ </row>
+ <row id="328" trl="Y">
+  <value column="Description" original="Uganda Shilling">Shilling (100 Cents)</value>
+  <value column="CurSymbol" original="USh">USh</value>
+ </row>
+ <row id="329" trl="Y">
+  <value column="Description" original="Vatu">Vatu (100 Centimes)</value>
+  <value column="CurSymbol" original="VT">VT</value>
+ </row>
+ <row id="330" trl="Y">
+  <value column="Description" original="Won">Won (1 Won)</value>
+  <value column="CurSymbol" original="W">W</value>
+ </row>
+ <row id="331" trl="Y">
+  <value column="Description" original="Tala">Tala (100 Sene)</value>
+  <value column="CurSymbol" original="WS$">WS$</value>
+ </row>
+ <row id="332" trl="Y">
+  <value column="Description" original="Yuan Renminbi">Renminbi Yuan (10 Jiao = 100 Fen)</value>
+  <value column="CurSymbol" original="Y">Y</value>
+ </row>
+ <row id="333" trl="Y">
+  <value column="Description" original="Yemeni Rial">Rial (100 Fils)</value>
+  <value column="CurSymbol" original="YRls">YRls</value>
+ </row>
+ <row id="334" trl="Y">
+  <value column="Description" original="Zimbabwe Dollar">Dollar (100 Cents)</value>
+  <value column="CurSymbol" original="Z$">Z$</value>
+ </row>
+ <row id="335" trl="Y">
+  <value column="Description" original="Kwacha">Kwacha (100 Ngwee)</value>
+  <value column="CurSymbol" original="ZK">ZK</value>
+ </row>
+ <row id="336" trl="Y">
+  <value column="Description" original="Costa Rican Colon">Colon (100 Centimes)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="337" trl="Y">
+  <value column="Description" original="Guinea Franc">Franc (100 Centimes)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="338" trl="Y">
+  <value column="Description" original="Guinea-Bissau Peso">Peso (100 Centavos)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="339" trl="Y">
+  <value column="Description" original="Som">Som (100 Tyiyn)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="340" trl="Y">
+  <value column="Description" original="North Korean Won">Won (1 Won)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="341" trl="Y">
+  <value column="Description" original="Tenge">Tenge (100 Tyin)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="342" trl="Y">
+  <value column="Description" original="Lebanese Pound">Pfund (100 Piastres)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="343" trl="Y">
+  <value column="Description" original="Naira">Naira (100 Kobo)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="344" trl="Y">
+  <value column="Description" original="Guarani">Guarani (100 Centimos)</value>
+  <value column="CurSymbol" original=""></value>
+ </row>
+ <row id="346" trl="Y">
+  <value column="Description" original="Leu (new)">Leu (100 Bani)</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="347" trl="Y">
+  <value column="Description" original="Serbian Dinar">Dinar (100 Para)</value>
+  <value column="CurSymbol" original="RSD">RSD</value>
+ </row>
+</adempiereTrl>

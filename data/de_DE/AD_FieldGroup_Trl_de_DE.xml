@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+
+<adempiereTrl language="de_DE" table="AD_FieldGroup">
+ <row id="101" trl="Y">
+  <value column="Name" original="Status">Status</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Quantities">Mengen</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Amounts">Beträge</value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Reference">Referenz</value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="History">Anfrage- Historie</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Product">Produkt</value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Business Partner">Geschäftspartner</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Warehouse">Lager</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Bank">Bank</value>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="Cash Book">Kassenbuch</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="Tax">Steuer</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Project">Projekt</value>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="General">Allgemein</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="Action">Aktion</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Standard Cost">Standardkosten</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Actual Costs">Aktual-Kosten</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Statistics">Statistik</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="Defaults">Standardwerte</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Request Management">Anfrage-Management</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Web Store">Webshop</value>
+ </row>
+ <row id="121" trl="Y">
+  <value column="Name" original="Internal">Intern</value>
+ </row>
+ <row id="122" trl="Y">
+  <value column="Name" original="External">Extern</value>
+ </row>
+ <row id="123" trl="Y">
+  <value column="Name" original="Common">Gemeinsam</value>
+ </row>
+ <row id="124" trl="Y">
+  <value column="Name" original="Shipment">Lieferschein</value>
+ </row>
+ <row id="125" trl="Y">
+  <value column="Name" original="Document">Beleg</value>
+ </row>
+ <row id="126" trl="Y">
+  <value column="Name" original="Line">Position</value>
+ </row>
+ <row id="127" trl="Y">
+  <value column="Name" original="Simulation">Simulation</value>
+ </row>
+ <row id="128" trl="Y">
+  <value column="Name" original="Calculations">Berechnungen</value>
+ </row>
+ <row id="129" trl="Y">
+  <value column="Name" original="Proxy">Proxy</value>
+ </row>
+ <row id="130" trl="Y">
+  <value column="Name" original="Delivery">Lieferung</value>
+ </row>
+ <row id="131" trl="Y">
+  <value column="Name" original="Invoicing">Rechnungsstellung</value>
+ </row>
+ <row id="132" trl="Y">
+  <value column="Name" original="Only ..">Nur ..</value>
+ </row>
+ <row id="133" trl="Y">
+  <value column="Name" original="Selection">Auswahl</value>
+ </row>
+ <row id="134" trl="Y">
+  <value column="Name" original="Workflow">Workflow</value>
+ </row>
+ <row id="135" trl="Y">
+  <value column="Name" original="Access">Berechtigung</value>
+ </row>
+ <row id="50000" trl="Y">
+  <value column="Name" original="Allow Info In Role">Allow Info In Role</value>
+ </row>
+</adempiereTrl>

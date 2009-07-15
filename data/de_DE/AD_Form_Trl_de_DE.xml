@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+
+<adempiereTrl language="de_DE" table="AD_Form">
+ <row id="100" trl="Y">
+  <value column="Name" original="Generate Invoices (manual)">Rechnungen generieren (manuell)</value>
+  <value column="Description" original="Select and generate invoices">Auswählen von Aufträgen und generieren von Rechnungen</value>
+  <value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for.">Erzeugen von Rechnungen aus Aufträgen. Auswählen der Aufträge, für die Rechnungen generiert werden sollen.</value>
+ </row>
+ <row id="101" trl="Y">
+  <value column="Name" original="Import File Loader">Ladeprogramm für Import-Datei</value>
+  <value column="Description" original="Load flat Files into import tables">Lädt eine extern erstellte Datei in eine Zwischentabelle</value>
+  <value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading].">Das "Ladeprogramm für Import-Datei" untersucht den Inhalt einer Textdatei und lädt ihn in Import-Tabellen . Kommentare beginen mit einem '[' und enedn mit einem ']' und werden ignoriert; Beispiel: [Eine Überschrift].</value>
+ </row>
+ <row id="102" trl="Y">
+  <value column="Name" original="Initial Client Setup">Neuerstellung Mandant</value>
+  <value column="Description" original="Initial new Client/Tenant Setup">Initiale Einrichtung eines neuen Mandanten</value>
+  <value column="Help" original="Set up a new Client/Tenant of the system">Initiale Einrichtung eines neuen Mandanten des Systems</value>
+ </row>
+ <row id="103" trl="Y">
+  <value column="Name" original="Material Transactions">Waren-Bewegungen</value>
+  <value column="Description" original="Material Transactions">Waren-Bewegungen</value>
+  <value column="Help" original=""></value>
+ </row>
+ <row id="104" trl="Y">
+  <value column="Name" original="Payment Allocation">Zahlung-Zuordnung</value>
+  <value column="Description" original="Allocate invoices and payments">Rechnungen und Zahlungen zuordnen</value>
+  <value column="Help" original=""></value>
+ </row>
+ <row id="105" trl="Y">
+  <value column="Name" original="Generate Charges">Ein/Ausgaben generieren</value>
+  <value column="Description" original="Generate Charges from natural accounts">Gebühren generieren</value>
+  <value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account.">Nutzen Sie den oberen Bereich zum Anlegen neuer Gebühren unter Verwendung der generellen Gebührenkonten. Nutzen Sie den unteren Bereich zum Anlegen neuer Gebühren unter Verwendung der Basiskonten.</value>
+ </row>
+ <row id="106" trl="Y">
+  <value column="Name" original="Payment Print/Export">Zahlung drucken</value>
+  <value column="Description" original="Print or export your payments">Drucken oder exportieren von Zahlungen</value>
+  <value column="Help" original=""></value>
+ </row>
+ <row id="107" trl="Y">
+  <value column="Name" original="Payment Selection (manual)">Zahlung auswählen (manuell)</value>
+  <value column="Description" original="Manual Payment Selection">Manuelle Auswahl von Zahlungen</value>
+  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">Lieferanten-Rechnungen für Zahlung auswählen. Wenn Sie eine Rechnung nicht sehen stellen Sie sicher, dass sie nicht in einer anderen (unverarbeiteten) Zahlungsauswahl enthalten ist.</value>
+ </row>
+ <row id="108" trl="Y">
+  <value column="Name" original="Matching PO-Receipt-Invoice">Abgleich Bestellung-Lieferschein-Rechnung</value>
+  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Abgleich Bestellungen, Lieferscheine und Lieferantenrechnungen</value>
+  <value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected.">Stellen Sie sicher, dass die Lieferscheine und Rechnungen verarbeitet sind. Wenn Sie Teillieferungen abgleichen wollen, stellen Sie sicher, dass "Gleiche Menge" nicht selektiert ist.</value>
+ </row>
+ <row id="109" trl="Y">
+  <value column="Name" original="Translation Import/Export">Übersetzung - Import/Export</value>
+  <value column="Description" original="Import or Export Language Translation">Import oder Export von Übersetzungsfiles</value>
+  <value column="Help" original="Export/Import Translation info to/from xml for translation in external tool. Please note that the Language MUST be an enabled and verified System Langage.">Export/Import von Übersetzungen nach oder aus XML-Files zur Bearbeitung mit einem externen Werkzeug. Beachten Sie, dass die Sprache eine selektierte und verifizierte Systemsprache sein muss!</value>
+ </row>
+ <row id="110" trl="Y">
+  <value column="Name" original="Generate Shipments (manual)">Lieferscheine erstellen (manuell)</value>
+  <value column="Description" original="Select and generate shipments">Auswählen und erstellen von Lieferscheinen</value>
+  <value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for.">Lieferscheine aus Bestellungen generieren. Wählen Sie die Bestellungen oder Aufträge zu denen Lieferscheine erstellt werden sollen.</value>
+ </row>
+ <row id="111" trl="Y">
+  <value column="Name" original="SQL Process">SQL-Verarbeitung</value>
+  <value column="Description" original="Process SQL Statements">Verarbeiten von SQL-Statements</value>
+  <value column="Help" original="Process SQL DDL Statements">Verarbeiten von SQL-DDL-Statements</value>
+ </row>
+ <row id="112" trl="Y">
+  <value column="Name" original="Merge Entities">Einträge verschmelzen</value>
+  <value column="Description" original="Merge From Entity to To Entity - Delete From">Verschmelze Von-Eintrag mit Nach-Eintrag - Lösche Von-Eintrag</value>
+  <value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version.&#10;">&lt;i&gt;Gefährlich - Seien Sie sich bewusst, was Sie tun!&lt;/i&gt; Alle Ausprägungen des Von-Eintrages (z.B. Kunde A) werden in den Nach-Eintrag (z.B. Kunde B) verändert. Der Von-Eintrag (z.B. Kunde A) wird gelöscht. &lt;p&gt;&lt;b&gt;Es gibt kein "Rückgängig machen" und auch kein Protokoll! Erstellen Sie zunächst eine Sicherheitskopie!&lt;/b&gt; Seien Sie sich bewusst, dass Sie damit auch den bisherigen Verlauf ändern (z.B. bisherige Rechnungen usw.) ! &lt;/p&gt; &lt;p&gt;&lt;b&gt;Seiteneffekte:&lt;/b&gt; Verschmelzen von Produkten beeinflusst Produktkosten; Verschmelzung von Geschäftspartnern könnte in unkorrekte Salden offener Posten resultieren. Klären Sie Abhilfen mit dem Support. &lt;p&gt;&lt;b&gt;Beschränkungen:&lt;/b&gt; Buchhaltungs- und Bestands-Konflikte können in dieser Version nicht gelöst werden.</value>
+ </row>
+ <row id="113" trl="Y">
+  <value column="Name" original="POS">POS</value>
+  <value column="Description" original="Point Of Sales Terminal">Point-Of-Sales Terminal</value>
+  <value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized.">Vorgänge via POS Terminal eingeben. Scanvorgänge oder das Durchziehen von Kreditkarten werden automtisch erkannt.</value>
+ </row>
+ <row id="114" trl="Y">
+  <value column="Name" original="BOM Drop">Stückliste einfügen</value>
+  <value column="Description" original="Drop (expand) Bill of Materials">Einfügen (expandieren) einer Stückliste</value>
+  <value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Fügen Sie die expandierte Stückliste in einen Auftrag, eine Rechnung usw. ein. Der Beleg muss im Status "Entwurf" sein. Stellen Sie sicher, dass die Produkte auf der Stückliste in der zum Dokument zugehörigen Preisliste enthalten sind, da der Preis sonst zu 0 gesetzt wird!</value>
+ </row>
+ <row id="115" trl="Y">
+  <value column="Name" original="Tree Maintenance">Baumverwaltung</value>
+  <value column="Description" original="Maintain Trees">Verwalten von Bäumen</value>
+  <value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">Ansehen und ändern von Bäumen. Verwalten Sie die Einträge in ihren spezifischen Fenstern..</value>
+ </row>
+ <row id="116" trl="Y">
+  <value column="Name" original="Workflow Editor">Workflow-Editor</value>
+  <value column="Description" original="Edit Workflows">Bearbeiten von Workflows</value>
+  <value column="Help" original="Edit the graphical layout of workflows">Editieren des graphischen Layout von Workflows</value>
+ </row>
+ <row id="117" trl="Y">
+  <value column="Name" original="Workflow Activities">Workflow-Aktivitäten</value>
+  <value column="Description" original="My active workflow activities">Meine aktiven Workflow</value>
+  <value column="Help" original="View active worflow activities">Ansehen aktiver Workflow-Aktivitäten</value>
+ </row>
+ <row id="118" trl="Y">
+  <value column="Name" original="Archive Viewer">Archiv-Betrachter</value>
+  <value column="Description" original="View automatically archived Documents">Ansehen von automatisch archivierten Dokumenten</value>
+  <value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">In Abhängigkeit des Grades der Archivierungsautomatik des Mandanten werden Dokumente und Berichte archiviert und stehen zur Ansicht zur Verfügung. Im Berichtsbetrachter können Sie Dokumente und Berichte manuell archivieren. Sie können die Archive nur ansehen, wenn Sie auch Zugriff auf die Originaldokumente haben.</value>
+ </row>
+ <row id="119" trl="Y">
+  <value column="Name" original="Performance Indicators">Ergebnis - Kennzahlen</value>
+  <value column="Description" original="View Performance Indicators">Anzeige der Ergebnis-Kennzahlen</value>
+  <value column="Help" original="View all Performance Indicators and Goals">Alle Ziele und Kennzahlen für das Ergabnis ansehen.</value>
+ </row>
+ <row id="120" trl="Y">
+  <value column="Name" original="Product Attribute Grid">Produkt-Merkmal-Matrix</value>
+  <value column="Description" original="Maintain Products with Attributes in a Table Grid">Verwalten von Produkten mit zusätzlichen Merkmalen in einer Matrix</value>
+  <value column="Help" original="Select one or two attributes if a Product Attribute and display/maintain products in a row or table grid.">Wählen Sie ein oder zwei zusätzliche Produkteigenschaften und zeigen/bearbeiten Sie diese in einer Matrixdarstellung.</value>
+ </row>
+</adempiereTrl>
