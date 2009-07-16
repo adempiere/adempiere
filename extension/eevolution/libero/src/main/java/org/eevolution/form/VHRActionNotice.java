@@ -151,13 +151,13 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 		fieldProcess.setMandatory(true);
 		fieldProcess.addActionListener(this);
 		// Employee
-		labelEmployee.setText(Msg.translate(Env.getCtx(), "Employee"));
+		labelEmployee.setText(Msg.translate(Env.getCtx(), "HR_Employee_ID"));
 		fieldEmployee.setReadWrite(false);
 		fieldEmployee.setMandatory(true);
 		fieldEmployee.addActionListener(this);
 		fieldEmployee.addVetoableChangeListener(this);
 		// Concept
-		labelConcept.setText(Msg.translate(Env.getCtx(), "Concept"));
+		labelConcept.setText(Msg.translate(Env.getCtx(), "HR_Concept_ID"));
 		getConceptValid();
 		fieldConcept.setReadWrite(false);
 		fieldConcept.setMandatory(true);        
@@ -172,7 +172,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 		fieldDescription.setValue("");
 		fieldDescription.setReadWrite(false);
 		// ColumnType
-		labelColumnType.setText(Msg.getMsg(Env.getCtx(), "ColumnType"));
+		labelColumnType.setText(Msg.translate(Env.getCtx(), "ColumnType"));
 		fieldColumnType.setReadWrite(false);		
 		// Qty-Amount-Date-Text-RuleEngine
 		fieldQty.setReadWrite(false);
