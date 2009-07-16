@@ -102,13 +102,13 @@ public class Merge
 			+ "WHERE t.IsView='N'"
 				+ " AND t.TableName NOT IN ('C_TaxDeclarationAcct')"
 				+ " AND ("
-				+ "(c.ColumnName=? AND c.IsKey='N' AND c.ColumnSQL IS NULL)"		//	#1 - direct
+				+ "(c.ColumnName=? AND c.IsKey='N')"		//	#1 - direct
 			+ " OR "
 				+ "c.AD_Reference_Value_ID IN "				//	Table Reference
 					+ "(SELECT rt.AD_Reference_ID FROM AD_Ref_Table rt"
 					+ " INNER JOIN AD_Column cc ON (rt.AD_Table_ID=cc.AD_Table_ID AND rt.AD_Key=cc.AD_Column_ID) "
 					+ "WHERE cc.IsKey='Y' AND cc.ColumnName=?)"	//	#2
-			+ ") "
+			+ ") AND c.ColumnSQL IS NULL"
 			+ "ORDER BY t.LoadSeq DESC";
 		PreparedStatement pstmt = null;
 		
