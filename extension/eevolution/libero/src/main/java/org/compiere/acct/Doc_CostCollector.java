@@ -57,10 +57,10 @@ public class Doc_CostCollector extends Doc
 	
 
 	/**	Pseudo Line */
-	private DocLine_CostCollector m_line = null;
+	protected DocLine_CostCollector m_line = null;
 	
 	/** Collector Cost */
-	private MPPCostCollector m_cc = null;
+	protected MPPCostCollector m_cc = null;
 	
 	/**
 	 *  Load Document Details
@@ -273,7 +273,7 @@ public class Doc_CostCollector extends Doc
 		return facts;
 	}   //  createFact
 	
-	private void createLines(MCostElement element, MAcctSchema as, Fact fact , MProduct product,
+	protected void createLines(MCostElement element, MAcctSchema as, Fact fact , MProduct product,
 								MAccount debit, MAccount credit, BigDecimal cost, BigDecimal qty)
 	{
 		if(cost == null || debit == null || credit == null)
