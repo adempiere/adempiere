@@ -80,7 +80,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler {
 
 			
 			if (fieldGroup.save(getTrxName(ctx)) == true) {
-				record_log(ctx, 1, fieldGroup.getName(), "Reference",
+				record_log(ctx, 1, fieldGroup.getName(), "FieldGroup",
 						fieldGroup.get_ID(), AD_Backup_ID, Object_Status,
 						X_AD_FieldGroup.Table_Name, get_IDWithColumn(ctx, "AD_Table",
 								"TableName", X_AD_FieldGroup.Table_Name));
@@ -90,7 +90,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler {
 				processedFieldGroups.add(fieldGroup.getAD_FieldGroup_ID());
 				
 			} else {
-				record_log(ctx, 0, fieldGroup.getName(), "Reference",
+				record_log(ctx, 0, fieldGroup.getName(), "FieldGroup",
 						fieldGroup.get_ID(), AD_Backup_ID, Object_Status,
 						X_AD_FieldGroup.Table_Name, get_IDWithColumn(ctx, "AD_Table",
 								"TableName", X_AD_FieldGroup.Table_Name));

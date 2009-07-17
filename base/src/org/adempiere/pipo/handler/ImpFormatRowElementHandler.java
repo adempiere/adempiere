@@ -96,10 +96,10 @@ public class ImpFormatRowElementHandler extends AbstractElementHandler {
 		m_ImpFormat_row.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 		m_ImpFormat_row.setStartNo(Integer.parseInt(atts.getValue("StartNo")));	    
 		if (m_ImpFormat_row.save(getTrxName(ctx)) == true){		    	
-			record_log (ctx, 1, m_ImpFormat_row.getName(),"ImpFormat", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));           		        		
+			record_log (ctx, 1, m_ImpFormat_row.getName(),"ImpFormatRow", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));           		        		
 		}
 		else{
-			record_log (ctx, 0, m_ImpFormat_row.getName(),"ImpFormat", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));
+			record_log (ctx, 0, m_ImpFormat_row.getName(),"ImpFormatRow", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));
 			throw new POSaveFailedException("Failed to import Import Format Row.");
 		}
 	}

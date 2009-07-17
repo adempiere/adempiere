@@ -91,7 +91,7 @@ public class AdElementHandler extends AbstractElementHandler {
 			
 			
 			if (m_AdElement.save(getTrxName(ctx)) == true) {
-				record_log(ctx, 1, m_AdElement.getName(), "Reference",
+				record_log(ctx, 1, m_AdElement.getName(), "Element",
 						m_AdElement.get_ID(), AD_Backup_ID, Object_Status,
 						AD_ELEMENT, get_IDWithColumn(ctx, "AD_Table",
 								"TableName", AD_ELEMENT));
@@ -101,7 +101,7 @@ public class AdElementHandler extends AbstractElementHandler {
 				processedElements.add(m_AdElement.getAD_Element_ID());
 				
 			} else {
-				record_log(ctx, 0, m_AdElement.getName(), "Reference",
+				record_log(ctx, 0, m_AdElement.getName(), "Element",
 						m_AdElement.get_ID(), AD_Backup_ID, Object_Status,
 						AD_ELEMENT, get_IDWithColumn(ctx, "AD_Table",
 								"TableName", AD_ELEMENT));

@@ -104,7 +104,7 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 			}
 			else{
 				log.info("m_WFNodeNext save failure");
-				record_log (ctx, 0, String.valueOf(m_WFNodeNext.get_ID()),"WFNode", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",
+				record_log (ctx, 0, String.valueOf(m_WFNodeNext.get_ID()),"WFNodeNext", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",
 							get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_WF_NodeNext"));
 				throw new POSaveFailedException("WorkflowNodeNext");
 			}            
