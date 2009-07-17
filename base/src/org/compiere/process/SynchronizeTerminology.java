@@ -131,7 +131,7 @@ public class SynchronizeTerminology extends SvrProcess
 			log.info("  rows deleted: "+no);
 
 			sql="DELETE	AD_ELEMENT e"
-				+" 	WHERE NOT EXISTS"
+				+" 	WHERE AD_Element_ID >= 1000000 AND NOT EXISTS"
 				+" 	(SELECT 1 FROM AD_COLUMN c WHERE UPPER(e.ColumnName)=UPPER(c.ColumnName))"
 				+" 	AND NOT EXISTS"
 				+" 	(SELECT 1 FROM AD_PROCESS_PARA p WHERE UPPER(e.ColumnName)=UPPER(p.ColumnName))";

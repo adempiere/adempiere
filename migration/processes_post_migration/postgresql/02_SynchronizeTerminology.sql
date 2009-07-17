@@ -54,7 +54,7 @@ DELETE FROM AD_ELEMENT_TRL
                                                           UPPER (p.columnname)));
 
 DELETE FROM AD_ELEMENT
-      WHERE NOT EXISTS (SELECT 1
+      WHERE AD_Element_ID >= 1000000 AND NOT EXISTS (SELECT 1
                           FROM AD_COLUMN c
                          WHERE UPPER (AD_ELEMENT.columnname) = UPPER (c.columnname))
         AND NOT EXISTS (SELECT 1
