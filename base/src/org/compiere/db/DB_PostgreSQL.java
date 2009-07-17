@@ -313,10 +313,14 @@ public class DB_PostgreSQL implements AdempiereDatabase
 			}
 			//end vpj-cd 24/06/2005 e-evolution
 		//  Diagnostics (show changed, but not if AD_Error
-		if (!oraStatement.equals(retValue[0]) && retValue[0].indexOf("AD_Error") == -1)
-			//begin vpj-cd 24/06/2005 e-evolution
-			//System.out.println("PostgreSQL =>" + retValue[0] + "<= <" + oraStatement + ">");
-			log.log(Level.ALL, "PostgreSQL =>" + retValue[0] + "<= <" + oraStatement + ">");
+		if (log.isLoggable(Level.FINE))
+		{
+			if (!oraStatement.equals(retValue[0]) && retValue[0].indexOf("AD_Error") == -1)
+			{
+				//begin vpj-cd 24/06/2005 e-evolution
+				log.log(Level.FINE, "PostgreSQL =>" + retValue[0] + "<= <" + oraStatement + ">");
+			}
+		}
 		    //end vpj-cd 24/06/2005 e-evolution
 		//
     	Convert.logMigrationScript(oraStatement, retValue[0]);
