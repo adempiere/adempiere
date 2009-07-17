@@ -753,6 +753,46 @@
          </adin:ModelRunProcessRequest>
       </adin:runProcess>
    </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://3e.pl/ADInterface/ModelADServicePortType/runProcessRequest"/></con:call><con:call name="Run Storage Detail"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://localhost:8443/ADInterface/services/ModelADService</con:endpoint><con:request><![CDATA[<!-- 
+Example on how to run report Storage Detail with HQ Warehouse and Patio Chair as parameters
+You need to define web service security for:
+Web Service Type: RunStorageDetail
+Web Service Parameters:
+   AD_Process_ID Constant 236
+   AD_Menu_ID Constant 0
+   AD_Record_ID Constant 0
+And allow execution to the WebService role on the report.
+-->
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:adin="http://3e.pl/ADInterface">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <adin:runProcess>
+         <adin:ModelRunProcessRequest>
+            <adin:ModelRunProcess AD_Process_ID="236">
+               <adin:serviceType>RunStorageDetail</adin:serviceType>
+               <adin:ParamValues>
+                  <adin:field column="M_Warehouse_ID">
+                     <adin:val>103</adin:val>
+                  </adin:field>
+                  <adin:field column="M_Product_ID">
+                     <adin:val>133</adin:val>
+                  </adin:field>
+               </adin:ParamValues>
+            </adin:ModelRunProcess>
+            <adin:ADLoginRequest>
+               <adin:user>WebService</adin:user>
+               <adin:pass>WebService</adin:pass>
+               <adin:lang>en_US</adin:lang>
+               <adin:ClientID>11</adin:ClientID>
+               <adin:RoleID>50004</adin:RoleID>
+               <adin:OrgID>11</adin:OrgID>
+               <adin:WarehouseID>103</adin:WarehouseID>
+               <adin:stage>9</adin:stage>
+            </adin:ADLoginRequest>
+         </adin:ModelRunProcessRequest>
+      </adin:runProcess>
+   </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://3e.pl/ADInterface/ModelADServicePortType/runProcessRequest"/></con:call></con:operation><con:operation isOneWay="false" action="" name="setDocAction" bindingOperationName="setDocAction" type="Request-Response" outputName="setDocActionResponse" inputName="setDocActionRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call name="Sample Complete Order"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>https://localhost:8443/ADInterface/services/ModelADService</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:adin="http://3e.pl/ADInterface">
    <soapenv:Header/>
    <soapenv:Body>
