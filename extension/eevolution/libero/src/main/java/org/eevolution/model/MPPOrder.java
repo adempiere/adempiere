@@ -145,7 +145,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				MStorage[] storages = MPPOrder.getStorages(order.getCtx(),
 						M_Product_ID,
 						order.getM_Warehouse_ID(),
-						M_AttributeSetInstance_ID,
+						M_AttributeSetInstance_ID == ANY_ASI ? 0 : M_AttributeSetInstance_ID,
 						order.getM_AttributeSetInstance_ID(),
 						
 						ANY_ASI, 
