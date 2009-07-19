@@ -21,11 +21,11 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/zhtml.jar" sourcepath="WEB-INF/lib/zhtml-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/timelinez.jar" sourcepath="WEB-INF/lib/timelinez-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zweb.jar" sourcepath="WEB-INF/lib/zweb-sources.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/jcommon.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/jfreechart.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/extend"/>
 	<classpathentry kind="lib" path="/tools/lib/javaee.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/fckez.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
