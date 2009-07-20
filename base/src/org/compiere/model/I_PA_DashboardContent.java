@@ -119,6 +119,19 @@ public interface I_PA_DashboardContent
 	  */
 	public String getDescription();
 
+    /** Column name GoalDisplay */
+    public static final String COLUMNNAME_GoalDisplay = "GoalDisplay";
+
+	/** Set Goal Display.
+	  * Type of goal display on dashboard
+	  */
+	public void setGoalDisplay (String GoalDisplay);
+
+	/** Get Goal Display.
+	  * Type of goal display on dashboard
+	  */
+	public String getGoalDisplay();
+
     /** Column name HTML */
     public static final String COLUMNNAME_HTML = "HTML";
 

@@ -34,7 +34,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090720;
 
     /** Standard Constructor */
     public X_PA_DashboardContent (Properties ctx, int PA_DashboardContent_ID, String trxName)
@@ -151,6 +151,30 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** GoalDisplay AD_Reference_ID=53316 */
+	public static final int GOALDISPLAY_AD_Reference_ID=53316;
+	/** HTML Table = T */
+	public static final String GOALDISPLAY_HTMLTable = "T";
+	/** Chart = C */
+	public static final String GOALDISPLAY_Chart = "C";
+	/** Set Goal Display.
+		@param GoalDisplay 
+		Type of goal display on dashboard
+	  */
+	public void setGoalDisplay (String GoalDisplay)
+	{
+
+		set_Value (COLUMNNAME_GoalDisplay, GoalDisplay);
+	}
+
+	/** Get Goal Display.
+		@return Type of goal display on dashboard
+	  */
+	public String getGoalDisplay () 
+	{
+		return (String)get_Value(COLUMNNAME_GoalDisplay);
 	}
 
 	/** Set HTML.
