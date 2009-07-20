@@ -300,8 +300,11 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 	        	int PA_Goal_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_Goal_ID);
 	        	if(PA_Goal_ID > 0)
 	        	{
-	        		MGoal goal = new MGoal(Env.getCtx(), PA_Goal_ID, null);
-		            WGraph graph = new WGraph(goal, 55, false, true, false);
+	        		String goalDisplay = rs.getString(X_PA_DashboardContent.COLUMNNAME_GoalDisplay);
+		            MGoal goal = new MGoal(Env.getCtx(), PA_Goal_ID, null);
+		            WGraph graph = new WGraph(goal, 55, false, true, 
+		            		!(X_PA_DashboardContent.GOALDISPLAY_Chart.equals(goalDisplay)),
+		            		X_PA_DashboardContent.GOALDISPLAY_Chart.equals(goalDisplay));
 		            content.appendChild(graph);
 		            panelEmpty = false;
 	        	}

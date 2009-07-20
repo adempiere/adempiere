@@ -28,7 +28,7 @@ public class WPerformanceDetail extends Window
 		super();
 		setTitle(goal.getName());
 
-		WGraph barPanel = new WGraph(goal, 0, true, false, true);
+		WGraph barPanel = new WGraph(goal, 0, true, false, true, true);
 		appendChild(barPanel);
 				
 		this.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);

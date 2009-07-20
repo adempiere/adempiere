@@ -15,8 +15,8 @@
 	border-color: #BBBBBB;
 	border-style: solid;
 	border-collapse: collapse;
-	width: 60%;
-	background-color: #EBF1EF;
+	width: 90%;
+	background-color: #EBF1EF;	
 }
 .pa-dataGrid th {
 	text-align:	center;
@@ -32,14 +32,17 @@
 	border-width: 1px;
 	border-color: #BBBBBB;
 	border-style: solid;
+	padding: 3px;
 }
 .pa-label {
 	background-color: #C6D1CD;
 }
 .pa-tdlabel {
 	background-color: #D6E1DD;
+	padding: 3px;
 }
 .pa-tdvalue {
 	background-color: #EBF1EF;
 	text-align: right;
+	padding: 3px;
 }
