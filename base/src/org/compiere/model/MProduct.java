@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -37,6 +38,8 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1885414 ] ASI should be always mandatory if CostingLevel is Batch/Lot
  * 			<li>FR [ 2093551 ] Refactor/Add org.compiere.model.MProduct.getCostingLevel
  * 			<li>FR [ 2093569 ] Refactor/Add org.compiere.model.MProduct.getCostingMethod
+ * 			<li>BF [ 2824795 ] Deleting Resource product should be forbidden
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2824795&group_id=176962&atid=879332
  * 
  * @author Mark Ostermann (mark_o), metas consult GmbH
  * 			<li>BF [ 2814628 ] Wrong evaluation of Product inactive in beforeSave()
@@ -46,8 +49,7 @@ public class MProduct extends X_M_Product
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9065433844664694783L;
-
+	private static final long serialVersionUID = 285926961771269935L;
 
 	/**
 	 * 	Get MProduct from Cache
@@ -111,8 +113,21 @@ public class MProduct extends X_M_Product
 	 * @param ctx context
 	 * @param S_Resource_ID resource ID
 	 * @return MProduct or null if not found
+	 * @deprecated Since 3.5.3a. Please use {@link #forS_Resource_ID(Properties, int, String)}
 	 */
 	public static MProduct forS_Resource_ID(Properties ctx, int S_Resource_ID)
+	{
+		return forS_Resource_ID(ctx, S_Resource_ID, null);
+	}
+	
+	/**
+	 * Get Product from Cache
+	 * @param ctx context
+	 * @param S_Resource_ID resource ID
+	 * @param trxName
+	 * @return MProduct or null if not found
+	 */
+	public static MProduct forS_Resource_ID(Properties ctx, int S_Resource_ID, String trxName)
 	{
 		if (S_Resource_ID <= 0)
 		{
@@ -120,20 +135,23 @@ public class MProduct extends X_M_Product
 		}
 		
 		// Try Cache
-		for (MProduct p : s_cache.values())
+		if (trxName == null)
 		{
-			if (p.getS_Resource_ID() == S_Resource_ID)
+			for (MProduct p : s_cache.values())
 			{
-				return p;
+				if (p.getS_Resource_ID() == S_Resource_ID)
+				{
+					return p;
+				}
 			}
 		}
 		// Load from DB
-		MProduct p = new Query(ctx, Table_Name, COLUMNNAME_S_Resource_ID+"=?", null)
+		MProduct p = new Query(ctx, Table_Name, COLUMNNAME_S_Resource_ID+"=?", trxName)
 						.setParameters(new Object[]{S_Resource_ID})
 						.firstOnly();
-		if (p != null)
+		if (p != null && trxName == null)
 		{
-			s_cache.put(p.get_ID(), p);
+			s_cache.put(p.getM_Product_ID(), p);
 		}
 		return p;
 	}
@@ -677,6 +695,10 @@ public class MProduct extends X_M_Product
 	@Override
 	protected boolean beforeDelete ()
 	{
+		if (PRODUCTTYPE_Resource.equals(getProductType()) && getS_Resource_ID() > 0)
+		{
+			throw new AdempiereException("@S_Resource_ID@<>0");
+		}
 		//	Check Storage
 		if (isStocked() || PRODUCTTYPE_Item.equals(getProductType()))
 		{

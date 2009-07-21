@@ -32,13 +32,15 @@ import org.compiere.util.CCache;
  * @author Teo Sarca, www.arhipac.ro
  * 				<li>FR [ 2051056 ] MResource[Type] should be cached
  * 				<li>BF [ 2227901 ] MRP (Calculate Material Plan) fails if resource is empty
+ * 				<li>BF [ 2824795 ] Deleting Resource product should be forbidden
+ * 					https://sourceforge.net/tracker/?func=detail&aid=2824795&group_id=176962&atid=879332
  */
 public class MResource extends X_S_Resource
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 80710753458346709L;
+	private static final long serialVersionUID = 6799272062821593975L;
 	/** Cache */
 	private static CCache<Integer, MResource> s_cache = new CCache<Integer, MResource>(Table_Name, 20);
 	
@@ -106,20 +108,18 @@ public class MResource extends X_S_Resource
 	}	//	getResourceType
 	
 	/**
-	 * 	Get Product
+	 * 	Get Product (use cache)
 	 *	@return product
 	 */
 	public MProduct getProduct()
 	{
-		if (get_TrxName() == null)
-		{
-			return MProduct.forS_Resource_ID(getCtx(), get_ID());
-		}
 		if (m_product == null)
 		{
-			MProduct[] products = MProduct.get(getCtx(), "S_Resource_ID=" + getS_Resource_ID(), get_TrxName());
-			if (products.length > 0)
-				m_product = products[0];
+			m_product = MProduct.forS_Resource_ID(getCtx(), getS_Resource_ID(), get_TrxName());
+		}
+		else
+		{
+			m_product.set_TrxName(get_TrxName());
 		}
 		return m_product;
 	}	//	getProduct
@@ -129,11 +129,7 @@ public class MResource extends X_S_Resource
 		return getProduct().getC_UOM_ID();
 	}
 	
-	/**
-	 * 	Before Save
-	 *	@param newRecord new
-	 *	@return true if it can be saved
-	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		if (newRecord)
@@ -154,12 +150,7 @@ public class MResource extends X_S_Resource
 		return true;
 	}	//	beforeSave
 
-	/**
-	 * 	After Save
-	 *	@param newRecord new
-	 *	@param success success
-	 *	@return success
-	 */
+	@Override
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		if (!success)
@@ -172,6 +163,20 @@ public class MResource extends X_S_Resource
 		return success;
 	}	//	afterSave
 	
+	@Override
+	protected boolean beforeDelete()
+	{
+		// Delete product
+		MProduct product = getProduct();
+		if (product != null && product.getM_Product_ID() > 0)
+		{
+			product.setS_Resource_ID(0); // unlink resource
+			product.deleteEx(true);
+		}
+		return true;
+	}
+
+	@Override
 	public String toString()
 	{
 	      StringBuffer sb = new StringBuffer ("MResource[")
