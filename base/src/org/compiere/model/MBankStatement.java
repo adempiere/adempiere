@@ -40,6 +40,8 @@ import org.compiere.util.Msg;
 *   @see http://sourceforge.net/tracker/?func=detail&atid=879332&aid=1933645&group_id=176962
 * 	<li> FR [ 2520591 ] Support multiples calendar for Org 
 *	@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+* 	<li> BF [ 2824951 ] The payments is not release when Bank Statement is void 
+*	@see http://sourceforge.net/tracker/?func=detail&aid=2824951&group_id=176962&atid=879332
 *  @author Teo Sarca, http://www.arhipac.ro
 * 	<li>FR [ 2616330 ] Use MPeriod.testPeriodOpen instead of isOpen
 * 		https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2616330&group_id=176962
@@ -471,9 +473,9 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		
 		//Added Lines by AZ Goodwill
 		//Restore Bank Account Balance
-		MBankAccount ba = getBankAccount();		
+		MBankAccount ba = getBankAccount();
 		ba.setCurrentBalance(ba.getCurrentBalance().subtract(getStatementDifference()));
-		ba.save(get_TrxName());
+		ba.saveEx();
 		//End of Added Lines
 			
 		//	Set lines to 0
@@ -498,19 +500,14 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 				line.setTrxAmt(Env.ZERO);
 				line.setChargeAmt(Env.ZERO);
 				line.setInterestAmt(Env.ZERO);
-				line.save(get_TrxName());
-				//
 				if (line.getC_Payment_ID() != 0)
 				{
 					MPayment payment = new MPayment (getCtx(), line.getC_Payment_ID(), get_TrxName());
 					payment.setIsReconciled(false);
-					payment.save(get_TrxName());
-					// MZ (Goodwill)
-					// set Payment to NULL
+					payment.saveEx();
 					line.setC_Payment_ID(0);
-					line.save(get_TrxName());					
-					// end MZ
 				}
+				line.saveEx();
 			}
 		}
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
