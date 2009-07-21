@@ -411,7 +411,8 @@ public final class ALogin extends CDialog
 	}   //  processWindowEvent
 
 	private void validateAppServer() {
-		m_cc.testAppsServer();
+		if (!CConnection.isServerEmbedded())
+			m_cc.testAppsServer();
 	}
 	
 	private void connectToDatabase() {

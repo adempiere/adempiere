@@ -425,7 +425,7 @@ public class CConnectionDialog extends CDialog implements ActionListener
 	//	bTestApps.setToolTipText(m_cc.getRmiUri());
 
 		//cbOverwrite.setVisible(m_cc.isAppsServerOK(false));
-		boolean rw = !m_cc.isAppsServerOK(false);
+		boolean rw = CConnection.isServerEmbedded() ? true : !m_cc.isAppsServerOK(false);
 		//
 		dbTypeLabel.setReadWrite(rw);
 		dbTypeField.setReadWrite(rw);

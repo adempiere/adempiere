@@ -111,7 +111,7 @@ public class CConnection implements Serializable, Cloneable
 			{
 				//hengsin, zero setup for webstart client
 				CConnection cc = null;
-				if (apps_host != null && Adempiere.isWebStartClient())
+				if (apps_host != null && Adempiere.isWebStartClient() && !CConnection.isServerEmbedded())
 				{
 					cc = new CConnection(apps_host);
 					cc.setConnectionProfile(CConnection.PROFILE_LAN);
