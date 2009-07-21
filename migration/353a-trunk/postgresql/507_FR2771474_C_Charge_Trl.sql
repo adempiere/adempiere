@@ -1,4 +1,5 @@
-CREATE OR REPLACE VIEW C_ORDER_LINETAX_VT
+DROP VIEW C_ORDER_LINETAX_VT;
+CREATE VIEW C_ORDER_LINETAX_VT
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, AD_LANGUAGE, C_ORDER_ID, C_ORDERLINE_ID, 
  C_TAX_ID, TAXINDICATOR, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, BPNAME, 
@@ -17,7 +18,7 @@ SELECT ol.AD_Client_ID, ol.AD_Org_ID, ol.IsActive, ol.Created, ol.CreatedBy, ol.
 	CASE WHEN ol.QtyOrdered<>0 OR ol.M_Product_ID IS NOT NULL THEN ol.QtyOrdered END AS QtyOrdered,
     CASE WHEN ol.QtyEntered<>0 OR ol.M_Product_ID IS NOT NULL THEN ol.QtyEntered END AS QtyEntered,
     CASE WHEN ol.QtyEntered<>0 OR ol.M_Product_ID IS NOT NULL THEN uom.UOMSymbol END AS UOMSymbol,
-	COALESCE(pt.Name,c.Name,p.Name||productAttribute(ol.M_AttributeSetInstance_ID), ol.Description) AS Name, -- main line
+	COALESCE(pt.Name, c.Name,p.Name||productAttribute(ol.M_AttributeSetInstance_ID), ol.Description) AS Name, -- main line
 	CASE WHEN COALESCE(c.Name,pt.Name, p.Name) IS NOT NULL THEN ol.Description END AS Description, -- second line
 	COALESCE(pt.DocumentNote, p.DocumentNote) AS DocumentNote, -- third line
     p.UPC, p.SKU, COALESCE(pp.VendorProductNo,p.Value) AS ProductValue,
@@ -69,8 +70,8 @@ SELECT ol.AD_Client_ID, ol.AD_Org_ID, ol.IsActive, ol.Created, ol.CreatedBy, ol.
 	INNER JOIN C_UOM_Trl uom ON (p.C_UOM_ID=uom.C_UOM_ID)
 	INNER JOIN M_Product_Trl pt ON (b.M_ProductBOM_ID=pt.M_Product_ID AND uom.AD_Language=pt.AD_Language)*/
 FROM PP_Product_BOM b 	
-	INNER JOIN C_ORDERLINE ol ON (b.M_Product_ID=ol.M_Product_ID)
-	INNER JOIN M_PRODUCT bp ON (bp.M_Product_ID=ol.M_Product_ID -- BOM Product
+	INNER JOIN  C_OrderLine ol ON (b.M_Product_ID=ol.M_Product_ID)
+	INNER JOIN  M_Product bp ON (bp.M_Product_ID=ol.M_Product_ID -- BOM Product
 		AND bp.IsBOM='Y' AND bp.IsVerified='Y' AND bp.IsInvoicePrintDetails='Y')
 	INNER JOIN PP_Product_BOMLine bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID)
 	INNER JOIN M_Product p ON (p.M_Product_ID=bl.M_Product_ID) -- BOM line product
@@ -104,5 +105,7 @@ SELECT ot.AD_Client_ID, ot.AD_Org_ID, ot.IsActive, ot.Created, ot.CreatedBy, ot.
     null, null,
     null,null,null,null,null
 FROM C_OrderTax ot
-	INNER JOIN C_Tax_Trl t ON (ot.C_Tax_ID=t.C_Tax_ID)
-/
+	INNER JOIN C_Tax_Trl t ON (ot.C_Tax_ID=t.C_Tax_ID);
+
+
+
