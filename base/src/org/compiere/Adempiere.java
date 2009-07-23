@@ -19,7 +19,10 @@ package org.compiere;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.jnlp.BasicService;
@@ -57,11 +60,11 @@ public final class Adempiere
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - and (s) for stable
-	static public final String	MAIN_VERSION	= "Release 3.5.3a";
+	static public String	MAIN_VERSION	= "Release 3.5.3a";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public final String	DATE_VERSION	= "2008-12-21";
+	static public String	DATE_VERSION	= "2008-12-21";
 	/** Database Version as date    Compared with AD_System		*/
-	static public final String	DB_VERSION		= "2008-12-21";
+	static public String	DB_VERSION		= "2008-12-21";
 
 	/** Product Name            */
 	static public final String	NAME 			= "Adempiere\u00AE";
@@ -99,6 +102,25 @@ public final class Adempiere
 	/**	Logging								*/
 	private static CLogger		log = null;
 
+	static {
+		ClassLoader loader = Adempiere.class.getClassLoader();
+		InputStream inputStream = loader.getResourceAsStream("org/adempiere/version.properties");
+		if (inputStream != null)
+		{
+			Properties properties = new Properties();
+			try {
+				properties.load(inputStream);
+				if (properties.containsKey("MAIN_VERSION"))
+					MAIN_VERSION = properties.getProperty("MAIN_VERSION");
+				if (properties.containsKey("DATE_VERSION"))
+					DATE_VERSION = properties.getProperty("DATE_VERSION");
+				if (properties.containsKey("DB_VERSION"))
+					DB_VERSION = properties.getProperty("DB_VERSION");
+			} catch (IOException e) {
+			}
+		}
+	}
+	
 	/**
 	 *  Get Product Name
 	 *  @return Application Name
@@ -114,7 +136,7 @@ public final class Adempiere
 	 */
 	public static String getVersion()
 	{
-		return MAIN_VERSION + " - " + DATE_VERSION;
+		return MAIN_VERSION + " @ " + DATE_VERSION;
 	}   //  getVersion
 
 	/**
@@ -578,7 +600,7 @@ public final class Adempiere
 		//
 		try
 		{
-			Class startClass = Class.forName(className);
+			Class<?> startClass = Class.forName(className);
 			startClass.newInstance();
 		}
 		catch (Exception e)

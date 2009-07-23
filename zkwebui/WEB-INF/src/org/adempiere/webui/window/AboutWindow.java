@@ -311,9 +311,7 @@ public class AboutWindow extends Window implements EventListener {
 		Separator separator = new Separator();
 		separator.setParent(vbox);
 
-		text = new Text(Adempiere.MAIN_VERSION + "<br>");
-		text.setParent(vbox);
-		text = new Text(Adempiere.DB_VERSION +"<br>");
+		text = new Text(Adempiere.getVersion());
 		text.setParent(vbox);
 
 		separator = new Separator();

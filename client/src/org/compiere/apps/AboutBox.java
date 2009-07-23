@@ -64,7 +64,7 @@ public final class AboutBox extends CDialog implements ActionListener
 			System.out.println(e.getMessage());
 		}
 		//
-		labelVersion.setText(Adempiere.MAIN_VERSION + " @ " + Adempiere.DATE_VERSION);
+		labelVersion.setText(Adempiere.getVersion());
 		labelCopyright.setText(Adempiere.COPYRIGHT);
 		infoArea.setText(CLogMgt.getInfo(null).toString());
 		//  create 5 pt border
