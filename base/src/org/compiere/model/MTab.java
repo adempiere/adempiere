@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -175,11 +175,11 @@ public class MTab extends X_AD_Tab
 		{
 			if(getAD_ColumnSortOrder_ID() == 0)
 			{
-				throw new AdempiereException("@FillMandatory@ @AD_ColumnSortOrder_ID@");	
+				throw new FillMandatoryException("AD_ColumnSortOrder_ID");	
 			}
 			if(getAD_ColumnSortYesNo_ID() == 0)
 			{
-				throw new AdempiereException("@FillMandatory@ @AD_ColumnSortYesNo_ID@");	
+				throw new FillMandatoryException("AD_ColumnSortYesNo_ID");	
 			}
 			
 		}
