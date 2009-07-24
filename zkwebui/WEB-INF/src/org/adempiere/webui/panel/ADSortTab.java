@@ -60,6 +60,9 @@ import org.zkoss.zul.event.ListDataEvent;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				FR [ 1779410 ] VSortTab: display ID for not visible columns
  *
+ * @author victor.perez@e-evolution.com, e-Evolution
+ * 				FR [ 2826406 ] The Tab Sort without parent column
+ *				<li> https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2826406&group_id=176962
  * Zk Port
  * @author Low Heng Sin
  */
@@ -398,7 +401,11 @@ public class ADSortTab extends Panel implements IADTabpanel
 		if (m_IdentifierTranslated)
 			sql.append(", ").append(m_TableName).append("_Trl tt");
 		//	Where
-		sql.append(" WHERE t.").append(m_ParentColumnName).append("=?");
+		//FR [ 2826406 ]
+		if(m_ParentColumnName != null)
+		{
+			sql.append(" WHERE t.").append(m_ParentColumnName).append("=?");
+		}
 		if (m_IdentifierTranslated)
 			sql.append(" AND t.").append(m_KeyColumnName).append("=tt.").append(m_KeyColumnName)
 			.append(" AND tt.AD_Language=?");
@@ -407,16 +414,26 @@ public class ADSortTab extends Panel implements IADTabpanel
 		if (m_ColumnYesNoName != null)
 			sql.append("6 DESC,");		//	t.IsDisplayed DESC
 		sql.append("3,2");				//	t.SeqNo, tt.Name
-		int ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, m_ParentColumnName);
-		log.fine(sql.toString() + " - ID=" + ID);
+		//FR [ 2826406 ]
+		int ID = 0;
+		if(m_ParentColumnName != null)
+		{	
+			ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, m_ParentColumnName);
+			log.fine(sql.toString() + " - ID=" + ID);
+		}	
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, ID);
+			//FR [ 2826406 ]
+			if(m_ParentColumnName != null)
+			{
+				pstmt.setInt(1, ID);
+			}
 			if (m_IdentifierTranslated)
 				pstmt.setString(2, Env.getAD_Language(Env.getCtx()));
+			
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
