@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -11,20 +11,24 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
- * Contributor(s): Victor Perez www.e-evolution.com                             *
+ * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 package org.eevolution.process;
 
-import java.math.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
+import java.util.Hashtable;
+import java.util.logging.Level;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
-import org.compiere.process.*;
-
-import org.eevolution.model.*;
+import org.compiere.model.MColumn;
+import org.compiere.model.MEXPFormat;
+import org.compiere.model.MEXPFormatLine;
+import org.compiere.model.MTab;
+import org.compiere.model.MTable;
+import org.compiere.model.MWindow;
+import org.compiere.model.Query;
+import org.compiere.process.ProcessInfoParameter;
+import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 
 
 

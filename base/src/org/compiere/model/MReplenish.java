@@ -27,7 +27,7 @@
  * Sponsors:                                                          *
  * - Company (http://www.notima.se)                                   *
  * - Company (http://www.cyberphoto.se)                               *
- **********************************************************************/
+ *********************************************************************/
 
 package org.compiere.model;
 

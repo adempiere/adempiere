@@ -10,8 +10,8 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * or via info@adempiere.org or http://www.adempiere.org/license.html         *
- * Enterprise: e-Evolution,SC
- * Contributor: Victor Perez Juarez
+ * Enterprise: e-Evolution,SC                                                 *
+ * Contributor: Victor Perez Juarez                                           *
  *****************************************************************************/
 package org.adempiere.util;
 
@@ -59,7 +59,7 @@ public class GenerateModelJPA
 	/** File Header			*/
 	public static final String COPY = 
 		 "/******************************************************************************\n"
-		+" * Product: Adempiere ERP & CRM Smart Business Solution                        *\n"
+		+" * Product: Adempiere ERP & CRM Smart Business Solution                       *\n"
 		+" * Copyright (C) 2006-2008 Adempiere Bazaar. All Rights Reserved.                *\n"
 		+" * This program is free software; you can redistribute it and/or modify it    *\n"
 		+" * under the terms version 2 of the GNU General Public License as published   *\n"
