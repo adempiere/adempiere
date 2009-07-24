@@ -31,6 +31,9 @@ import org.compiere.util.DB;
  *	Tab Model
  *	
  *  @author Jorg Janke
+ *  @author victor.perez@e-evolution.com, e-Evolution
+ * <li>RF [2826384] The Order and Included Columns should be to fill mandatory
+ * <li>http://sourceforge.net/tracker/?func=detail&atid=879335&aid=2826384&group_id=176962
  *  @version $Id: MTab.java,v 1.2 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MTab extends X_AD_Tab
@@ -167,6 +170,7 @@ public class MTab extends X_AD_Tab
 	//	UPDATE AD_Tab SET IsInsertRecord='N' WHERE IsInsertRecord='Y' AND IsReadOnly='Y'
 		if (isReadOnly() && isInsertRecord())
 			setIsInsertRecord(false);
+		//RF[2826384]
 		if(isSortTab())
 		{
 			if(getAD_ColumnSortOrder_ID() == 0)
