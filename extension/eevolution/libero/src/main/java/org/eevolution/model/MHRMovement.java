@@ -58,9 +58,15 @@ public class MHRMovement extends X_HR_Movement
 		super(ctx, rs, trxName);
 	}
 	
-	public MHRMovement (MHRProcess proc, MHRConcept concept)
+	public MHRMovement (MHRProcess proc, I_HR_Concept concept)
 	{
 		this(proc.getCtx(), 0, proc.get_TrxName());
+		// Process
+		this.setHR_Process_ID(proc.getHR_Process_ID());
+		// Concept
+		this.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		this.setHR_Concept_ID(concept.getHR_Concept_ID());
+		this.setColumnType(concept.getColumnType());
 	}
 	
 	public void addAmount(BigDecimal amount)
