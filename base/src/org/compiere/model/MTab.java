@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -166,6 +167,18 @@ public class MTab extends X_AD_Tab
 	//	UPDATE AD_Tab SET IsInsertRecord='N' WHERE IsInsertRecord='Y' AND IsReadOnly='Y'
 		if (isReadOnly() && isInsertRecord())
 			setIsInsertRecord(false);
+		if(isSortTab())
+		{
+			if(getAD_ColumnSortOrder_ID() == 0)
+			{
+				throw new AdempiereException("@FillMandatory@ @AD_ColumnSortOrder_ID@");	
+			}
+			if(getAD_ColumnSortYesNo_ID() == 0)
+			{
+				throw new AdempiereException("@FillMandatory@ @AD_ColumnSortYesNo_ID@");	
+			}
+			
+		}
 		return true;
 	}
 	
