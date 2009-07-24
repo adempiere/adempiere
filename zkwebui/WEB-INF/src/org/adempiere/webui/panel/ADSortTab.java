@@ -406,6 +406,10 @@ public class ADSortTab extends Panel implements IADTabpanel
 		{
 			sql.append(" WHERE t.").append(m_ParentColumnName).append("=?");
 		}
+		else
+		{
+			sql.append(" WHERE 1=1");
+		}
 		if (m_IdentifierTranslated)
 			sql.append(" AND t.").append(m_KeyColumnName).append("=tt.").append(m_KeyColumnName)
 			.append(" AND tt.AD_Language=?");
