@@ -120,8 +120,8 @@ public class MHRConcept extends X_HR_Concept
 		params.add(0);
 		params.add(Env.getAD_Client_ID(Env.getCtx()));
 		
-		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Attribute a WHERE a.HR_Concept_ID=HR_Concept.HR_Concept_ID ")
-					.append(" AND (a.HR_Payroll_ID=? OR a.HR_Payroll_ID IS NULL) )");
+		whereClause.append(" AND (" + COLUMNNAME_HR_Payroll_ID + " =? OR "
+				+COLUMNNAME_HR_Payroll_ID +" IS NULL)");
 		params.add(payroll_id);
 		
 		if (department_id != 0 )
