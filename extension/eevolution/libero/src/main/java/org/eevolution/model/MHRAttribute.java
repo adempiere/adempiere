@@ -30,10 +30,14 @@ public class MHRAttribute extends X_HR_Attribute
 {
 	private static final long serialVersionUID = 3783311896401143394L;
 	
+	
 	/**
+	 * @deprecated since 3.5.3a
 	 * Get Concept by Value
 	 * @param ctx
 	 * @param value
+	 * @param C_BPartner_ID
+	 * @param startDate
 	 * @return attribute
 	 */
 	public static MHRAttribute forValue(Properties ctx, String value, int C_BPartner_ID, Timestamp date)
@@ -55,6 +59,43 @@ public class MHRAttribute extends X_HR_Attribute
 							.setOrderBy(COLUMNNAME_ValidFrom + " DESC")
 							.first();
 		return att;
+	}	
+	
+	/**
+	 * Get Concept by Value
+	 * @param ctx
+	 * @param value
+	 * @param C_BPartner_ID
+	 * @param startDate
+	 * @param endDate
+	 * @return attribute
+	 */	
+	public static MHRAttribute forValue(Properties ctx, String value, int C_BPartner_ID, Timestamp startDate, Timestamp endDate)
+	{
+		if (Util.isEmpty(value, true))
+		{
+			return null;
+		}
+
+		if (endDate == null)
+		{
+			return forValue(ctx, value, C_BPartner_ID, startDate);
+		}
+		else
+		{			
+			int AD_Client_ID = Env.getAD_Client_ID(ctx);
+			
+			final String whereClause = COLUMNNAME_C_BPartner_ID+"=? AND AD_Client_ID IN (?,?) "
+									+ " AND " + COLUMNNAME_ValidFrom +"<=? AND " + COLUMNNAME_ValidTo +">=?"
+									+ " AND EXISTS (SELECT 1 FROM HR_Concept c WHERE HR_Attribute.HR_Concept_ID = c.HR_Concept_ID" 
+									+ " AND c.Value=?)"; 
+			MHRAttribute att = new Query(ctx, Table_Name, whereClause, null)
+								.setParameters(new Object[]{C_BPartner_ID, 0, AD_Client_ID, startDate, endDate, value})
+								.setOnlyActiveRecords(true)
+								.setOrderBy(COLUMNNAME_ValidFrom + " DESC")
+								.first();
+			return att;
+		}
 	}	
 	
 	/**
