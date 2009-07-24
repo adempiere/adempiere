@@ -1143,6 +1143,22 @@ public abstract class Info extends CDialog
 			m_rs = null;
 			m_pstmt = null;
 		}
+		
+		/**
+		 *	Interrupt this thread - cancel the query if still in execution
+		 *  Carlos Ruiz - globalqss - [2826660] - Info product performance BIG problem 
+		 */
+		public void interrupt() {
+			if (m_pstmt != null) {
+				try {
+					m_pstmt.cancel();
+					close();
+				} catch (SQLException e) {
+					log.log(Level.SEVERE, "Cannot cancel SQL statement", e);
+				}
+			}
+			super.interrupt();
+		}
 	}   //  Worker
 
 }	//	Info
