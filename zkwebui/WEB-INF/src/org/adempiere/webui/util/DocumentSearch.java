@@ -22,7 +22,7 @@
 *                                                                     *
 * Contributors:                                                       *
 * - Jan Roessler                                                      *
-* - Heng Sin Low
+* - Heng Sin Low                                                      *
 *                                                                     *
 * Sponsors:                                                           *
 * - Schaeffer                                                         *
