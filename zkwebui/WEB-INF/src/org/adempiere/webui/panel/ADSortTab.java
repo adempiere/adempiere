@@ -408,7 +408,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 		}
 		else
 		{
-			sql.append(" WHERE 1=1");
+			sql.append(" WHERE 1=?");
 		}
 		if (m_IdentifierTranslated)
 			sql.append(" AND t.").append(m_KeyColumnName).append("=tt.").append(m_KeyColumnName)
@@ -425,16 +425,17 @@ public class ADSortTab extends Panel implements IADTabpanel
 			ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, m_ParentColumnName);
 			log.fine(sql.toString() + " - ID=" + ID);
 		}	
+		else
+		{
+			ID = 1;
+		}
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(sql.toString(), null);
-			//FR [ 2826406 ]
-			if(m_ParentColumnName != null)
-			{
-				pstmt.setInt(1, ID);
-			}
+			pstmt.setInt(1, ID);
+
 			if (m_IdentifierTranslated)
 				pstmt.setString(2, Env.getAD_Language(Env.getCtx()));
 			
