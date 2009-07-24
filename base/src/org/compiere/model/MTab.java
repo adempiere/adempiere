@@ -176,12 +176,7 @@ public class MTab extends X_AD_Tab
 			if(getAD_ColumnSortOrder_ID() == 0)
 			{
 				throw new FillMandatoryException("AD_ColumnSortOrder_ID");	
-			}
-			if(getAD_ColumnSortYesNo_ID() == 0)
-			{
-				throw new FillMandatoryException("AD_ColumnSortYesNo_ID");	
-			}
-			
+			}			
 		}
 		return true;
 	}
