@@ -605,7 +605,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param scriptCtx
 	 * @return
 	 */
-	private MHRMovement createMovementForCC(int C_BPartner_ID, MPPCostCollector cc, HashMap<String, Object> scriptCtx)
+	private MHRMovement createMovementForCC(int C_BPartner_ID, I_PP_Cost_Collector cc, HashMap<String, Object> scriptCtx)
 	{
 		//get the concept that should store the labor
 		MHRConcept concept = MHRConcept.forValue(getCtx(), CONCEPT_PP_COST_COLLECTOR_LABOR);
@@ -654,18 +654,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			//create movement
 			MHRMovement mv = new MHRMovement(this, concept);
 			mv.setC_BPartner_ID(C_BPartner_ID);
-			mv.setHR_Process_ID(this.get_ID());
-			mv.setHR_Concept_ID(concept.get_ID());
-			mv.setHR_Process_ID(getHR_Process_ID());
 			mv.setAD_Rule_ID(att.getAD_Rule_ID());
 			mv.setHR_Job_ID(employee.getHR_Job_ID());
 			mv.setHR_Department_ID(employee.getHR_Department_ID());
-			mv.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
 			mv.setC_Activity_ID(employee.getC_Activity_ID());
 			mv.setValidFrom(m_dateFrom);
 			mv.setValidTo(m_dateTo); 
-			mv.setPP_Cost_Collector_ID(cc.get_ID());	
-			mv.setColumnType(concept.getColumnType());
+			mv.setPP_Cost_Collector_ID(cc.getPP_Cost_Collector_ID());	
 			mv.setIsRegistered(true);
 			mv.setColumnValue(result);
 			mv.setProcessed(true);
