@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,9 +10,9 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *
- * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
- * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                                                                            *
+ * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com                     *
+ * Contributor(s): Low Heng Sin hengsin@avantz.com                            *
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -53,10 +53,10 @@ public class ProcessElementHandler extends AbstractElementHandler {
 		int id = 0;
 		String entitytype = atts.getValue("EntityType");
 		if (isProcessElement(ctx, entitytype)) {
-			String name = atts.getValue("Name");
+			String value = atts.getValue("Value");
 
 			// Get New process.
-			id = get_ID(ctx, "AD_Process", name);
+			id = get_IDWithColumn(ctx, "AD_Process", "Value", value);
 
 			X_AD_Process m_Process = null;
 			int AD_Backup_ID = -1;
@@ -75,6 +75,8 @@ public class ProcessElementHandler extends AbstractElementHandler {
 			}
 			if (id <= 0 && atts.getValue("AD_Process_ID") != null && Integer.parseInt(atts.getValue("AD_Process_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Process.setAD_Process_ID(Integer.parseInt(atts.getValue("AD_Process_ID")));
+
+			String name = atts.getValue("Name");
 			m_Process.setName(name);
 
 			name = atts.getValue("ADWorkflowNameID");
