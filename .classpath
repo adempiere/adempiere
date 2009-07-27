@@ -93,7 +93,7 @@
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/jxl.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/mvel.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/ognl.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/timelinez.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/timelinez.jar" sourcepath="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommons-el.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zhtml.jar" sourcepath="zkwebui/WEB-INF/lib/zhtml-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zhtml-sources.jar"/>

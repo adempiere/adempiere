@@ -49,6 +49,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.adempiere.pdf.Document;
 import org.adempiere.print.export.PrintDataExcelExporter;
 import org.apache.ecs.XhtmlDocument;
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.link;
+import org.apache.ecs.xhtml.script;
 import org.apache.ecs.xhtml.table;
 import org.apache.ecs.xhtml.td;
 import org.apache.ecs.xhtml.th;
@@ -67,6 +70,7 @@ import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
@@ -454,7 +458,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		return m_printerName;
 	}	//	getPrinterName
 
-	
 	/**************************************************************************
 	 * 	Create HTML File
 	 * 	@param file file
@@ -464,13 +467,26 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 */
 	public boolean createHTML (File file, boolean onlyTable, Language language)
 	{
+		return createHTML(file, onlyTable, language, null);
+	}
+	
+	/**************************************************************************
+	 * 	Create HTML File
+	 * 	@param file file
+	 *  @param onlyTable if false create complete HTML document
+	 *  @param language optional language - if null the default language is used to format nubers/dates
+	 *  @param extension optional extension for html output
+	 * 	@return true if success
+	 */
+	public boolean createHTML (File file, boolean onlyTable, Language language, IHTMLExtension extension)
+	{
 		try
 		{
 			Language lang = language;
 			if (lang == null)
 				lang = Language.getLoginLanguage();
 			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
-			return createHTML (new BufferedWriter(fw), onlyTable, lang);
+			return createHTML (new BufferedWriter(fw), onlyTable, lang, extension);
 		}
 		catch (FileNotFoundException fnfe)
 		{
@@ -492,9 +508,28 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 */
 	public boolean createHTML (Writer writer, boolean onlyTable, Language language)
 	{
+		return createHTML(writer, onlyTable, language, null);
+	}
+	
+	/**
+	 * 	Write HTML to writer
+	 * 	@param writer writer
+	 *  @param onlyTable if false create complete HTML document
+	 *  @param language optional language - if null numbers/dates are not formatted
+	 *  @param extension optional extension for html output
+	 * 	@return true if success
+	 */
+	public boolean createHTML (Writer writer, boolean onlyTable, Language language, IHTMLExtension extension)
+	{
 		try
 		{
+			String cssPrefix = extension != null ? extension.getClassPrefix() : null;
+			if (cssPrefix != null && cssPrefix.trim().length() == 0)
+				cssPrefix = null;
+			
 			table table = new table();
+			if (cssPrefix != null)
+				table.setClass(cssPrefix + "-table");
 			//
 			//	for all rows (-1 = header row)
 			for (int row = -1; row < m_printData.getRowCount(); row++)
@@ -502,7 +537,13 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				tr tr = new tr();
 				table.addElement(tr);
 				if (row != -1)
-					m_printData.setRowIndex(row);
+				{
+					m_printData.setRowIndex(row);					
+					if (extension != null)
+					{
+						extension.extendRowElement(tr, m_printData);
+					}
+				}
 				//	for all columns
 				for (int col = 0; col < m_printFormat.getItemCount(); col++)
 				{
@@ -525,8 +566,34 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 								td.addElement("&nbsp;");
 							else if (obj instanceof PrintDataElement)
 							{
-								String value = ((PrintDataElement)obj).getValueDisplay(language);	//	formatted
-								td.addElement(Util.maskHTML(value));
+								PrintDataElement pde = (PrintDataElement) obj;
+								String value = pde.getValueDisplay(language);	//	formatted
+								if (pde.getColumnName().endsWith("_ID") && extension != null)
+								{
+									//link for column
+									a href = new a("javascript:void(0)");									
+									href.setID(pde.getColumnName() + "_" + row + "_a");									
+									td.addElement(href);
+									href.addElement(Util.maskHTML(value));
+									if (cssPrefix != null)
+										href.setClass(cssPrefix + "-href");
+									
+									extension.extendIDColumn(row, td, href, pde);
+																											
+								}
+								else
+								{
+									td.addElement(Util.maskHTML(value));
+								}
+								if (cssPrefix != null)
+								{
+									if (DisplayType.isNumeric(pde.getDisplayType()))
+										td.setClass(cssPrefix + "-number");
+									else if (DisplayType.isDate(pde.getDisplayType()))
+										td.setClass(cssPrefix + "-date");
+									else
+										td.setClass(cssPrefix + "-text");
+								}								
 							}
 							else if (obj instanceof PrintData)
 							{
@@ -547,6 +614,18 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			{
 				XhtmlDocument doc = new XhtmlDocument();
 				doc.appendBody(table);
+				if (extension.getStyleURL() != null)
+				{
+					link l = new link(extension.getStyleURL(), "stylesheet", "text/css");
+					doc.appendHead(l);					
+				}
+				if (extension.getScriptURL() != null)
+				{
+					script jslink = new script();
+					jslink.setLanguage("javascript");
+					jslink.setSrc(extension.getScriptURL());
+					doc.appendHead(jslink);
+				}
 				doc.output(w);
 			}
 			w.flush();

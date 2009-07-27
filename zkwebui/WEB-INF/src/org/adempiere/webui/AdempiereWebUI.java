@@ -24,6 +24,8 @@ import java.util.Properties;
 import javax.servlet.http.HttpSession;
 
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.component.DrillCommand;
+import org.adempiere.webui.component.ZoomCommand;
 import org.adempiere.webui.desktop.DefaultDesktop;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.session.SessionManager;
@@ -34,6 +36,7 @@ import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.zkoss.zk.au.Command;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
@@ -58,9 +61,9 @@ import org.zkoss.zul.Window;
  * @author hengsin
  */
 public class AdempiereWebUI extends Window implements EventListener, IWebClient
-{
-    /**
-	 *
+{    
+	/**
+	 * 
 	 */
 	private static final long serialVersionUID = 5759422592670132576L;
 
@@ -315,5 +318,12 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	 */
 	public UserPreference getUserPreference() {
 		return userPreference;
+	}
+	
+	//global command
+	static {
+		new ZoomCommand("onZoom", Command.IGNORE_OLD_EQUIV);
+		new DrillCommand("onDrillAcross", Command.IGNORE_OLD_EQUIV);
+		new DrillCommand("onDrillDown", Command.IGNORE_OLD_EQUIV);
 	}
 }

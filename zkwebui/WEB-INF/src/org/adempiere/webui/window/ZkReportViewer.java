@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.adempiere.webui.window;
 
-import java.awt.Point;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.StringWriter;
@@ -26,8 +25,10 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pdf.Document;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.apps.WReport;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
@@ -36,35 +37,38 @@ import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.event.DrillEvent;
+import org.adempiere.webui.event.ZoomEvent;
 import org.adempiere.webui.panel.StatusBarPanel;
+import org.adempiere.webui.report.HTMLExtension;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.GridField;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MUser;
 import org.compiere.print.AReport;
+import org.compiere.print.ArchiveEngine;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
-import org.compiere.print.View;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Menuitem;
-import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Separator;
 import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Toolbarbutton;
@@ -89,22 +93,19 @@ import org.zkoss.zul.Vbox;
  * @author Low Heng Sin
  */
 public class ZkReportViewer extends Window implements EventListener {
+	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 347074497359766172L;
+	private static final long serialVersionUID = 1492321933977608137L;
 	/** Window No					*/
 	private int                 m_WindowNo;
 	/**	Print Context				*/
 	private Properties			m_ctx;
-	/** View Pane					*/
-	private View 				m_viewPanel;
 	/**	Setting Values				*/
 	private boolean				m_setting = false;
 	/**	Report Engine				*/
 	private ReportEngine 		m_reportEngine;
-	/** Drill Down/Across			*/
-	private boolean				m_drillDown = true;
 	/** Table ID					*/
 	private int					m_AD_Table_ID = 0;
 	private boolean				m_isCanExport;
@@ -128,6 +129,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	private Listbox comboReport = new Listbox();
 	private Label labelDrill = new Label();
 	private Listbox comboDrill = new Listbox();
+	private Listbox previewType = new Listbox();
 	
 	private Toolbarbutton bRefresh = new Toolbarbutton();
 	private Iframe iframe;
@@ -154,11 +156,11 @@ public class ZkReportViewer extends Window implements EventListener {
 		m_isCanExport = MRole.getDefault().isCanExport(m_AD_Table_ID);
 		try
 		{
-			m_viewPanel = re.getView();
 			m_ctx = m_reportEngine.getCtx();
 			jbInit();
 			dynInit();
-			if (!m_viewPanel.isArchivable())
+			
+			if (!ArchiveEngine.isValid(m_reportEngine.getLayout()))
 				log.warning("Cannot archive Document");
 		}
 		catch(Exception e)
@@ -176,6 +178,26 @@ public class ZkReportViewer extends Window implements EventListener {
 		Row row = new Row();
 		
 		toolBar.setHeight("26px");
+		
+		previewType.setMold("select");
+		previewType.appendItem("PDF", "PDF");
+		previewType.appendItem("HTML", "HTML");
+		previewType.appendItem("Excel", "XLS");
+		toolBar.appendChild(previewType);		
+		previewType.addEventListener(Events.ON_SELECT, this);
+		toolBar.appendChild(new Separator("vertical"));
+		
+		//set default type
+		String type = MSysConfig.getValue("ZK_REPORT_DEFAULT_OUTPUT_TYPE");
+		if ("PDF".equals(type))
+			previewType.setSelectedIndex(0);
+		else if ("HTML".equals(type))
+			previewType.setSelectedIndex(1);
+		else if ("XLS".equals(type))
+			previewType.setSelectedIndex(2);
+		else
+			previewType.setSelectedIndex(0); //fallback to PDF
+			
 		
 		labelDrill.setValue(Msg.getMsg(m_ctx, "Drill") + ": ");
 		toolBar.appendChild(labelDrill);
@@ -237,11 +259,17 @@ public class ZkReportViewer extends Window implements EventListener {
 		height = height - 30;
 		iframe.setHeight(height + "px");
 		iframe.setWidth("100%");
-		AMedia media = new AMedia(getTitle(), "pdf", "application/pdf", m_reportEngine.createPDFData());
-		iframe.setContent(media);
-		iframe.setAutohide(true);
 		iframe.addEventListener(Events.ON_CLICK, this);
-		iframe.addEventListener(Events.ON_RIGHT_CLICK, this);
+		iframe.addEventListener(Events.ON_RIGHT_CLICK, this);		
+		
+		try {
+			renderReport();
+		} catch (Exception e) {
+			throw new AdempiereException("Failed to render report", e);
+		}
+				
+		iframe.setAutohide(true);
+		
 		row.appendChild(iframe);
 		rows.appendChild(row);
 		
@@ -249,6 +277,70 @@ public class ZkReportViewer extends Window implements EventListener {
 		this.appendChild(grid);
 		
 		this.setBorder("normal");
+		
+		this.addEventListener("onZoom", new EventListener() {
+			
+			public void onEvent(Event event) throws Exception {
+				if (event instanceof ZoomEvent) {
+					ZoomEvent ze = (ZoomEvent) event;
+					if (ze.getData() != null && ze.getData() instanceof MQuery) {
+						AEnv.zoom((MQuery) ze.getData());
+					}
+				}
+				
+			}
+		});
+		
+		this.addEventListener(DrillEvent.ON_DRILL_ACROSS, new EventListener() {
+			
+			public void onEvent(Event event) throws Exception {
+				if (event instanceof DrillEvent) {
+					DrillEvent de = (DrillEvent) event;
+					if (de.getData() != null && de.getData() instanceof MQuery) {
+						MQuery query = (MQuery) de.getData();
+						Listitem item = comboDrill.getSelectedItem();
+						if (item != null && item.getValue() != null && item.toString().trim().length() > 0)
+						{
+							query.setTableName(item.getValue().toString());
+							executeDrill(query);
+						}
+					}
+				}
+				
+			}
+		});
+		
+		this.addEventListener(DrillEvent.ON_DRILL_DOWN, new EventListener() {
+			
+			public void onEvent(Event event) throws Exception {
+				if (event instanceof DrillEvent) {
+					DrillEvent de = (DrillEvent) event;
+					if (de.getData() != null && de.getData() instanceof MQuery) {
+						MQuery query = (MQuery) de.getData();
+						executeDrill(query);
+					}
+				}
+				
+			}
+		});
+	}
+
+	private void renderReport() throws Exception {
+		AMedia media = null;
+		Listitem selected = previewType.getSelectedItem();
+		if (selected == null || "PDF".equals(selected.getValue())) {
+			media = new AMedia(getTitle(), "pdf", "application/pdf", m_reportEngine.createPDFData());
+		} else if ("HTML".equals(previewType.getSelectedItem().getValue())) {
+			File file = File.createTempFile(m_reportEngine.getName(), ".html");
+			m_reportEngine.createHTML(file, false, AEnv.getLanguage(Env.getCtx()), new HTMLExtension(Executions.getCurrent().getContextPath(), "rp", this.getUuid()));
+			media = new AMedia(getTitle(), "html", "text/html", file, false);
+		} else if ("XLS".equals(previewType.getSelectedItem().getValue())) {
+			File file = File.createTempFile(m_reportEngine.getName(), ".html");
+			m_reportEngine.createXLS(file, AEnv.getLanguage(Env.getCtx()));
+			media = new AMedia(getTitle(), "xls", "application/vnd.ms-excel", file, true);
+		}
+		
+		iframe.setContent(media);
 	}
 
 	/**
@@ -371,8 +463,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		//	Report Info
 		setTitle(Msg.getMsg(m_ctx, "Report") + ": " + m_reportEngine.getName() + "  " + Env.getHeader(m_ctx, 0));
 		StringBuffer sb = new StringBuffer ();
-		sb.append(m_viewPanel.getPaper().toString(m_ctx))
-			.append(" - ").append(Msg.getMsg(m_ctx, "DataCols")).append("=")
+		sb.append(Msg.getMsg(m_ctx, "DataCols")).append("=")
 			.append(m_reportEngine.getColumnCount())
 			.append(", ").append(Msg.getMsg(m_ctx, "DataRows")).append("=")
 			.append(m_reportEngine.getRowCount());
@@ -387,7 +478,6 @@ public class ZkReportViewer extends Window implements EventListener {
 	{
 		Env.clearWinContext(m_WindowNo);
 		m_reportEngine = null;
-		m_viewPanel = null;
 		m_ctx = null;
 		super.onClose();
 	}	//	dispose
@@ -400,8 +490,6 @@ public class ZkReportViewer extends Window implements EventListener {
 			exportFile();
 		else if(event.getName().equals(Events.ON_CLICK) || event.getName().equals(Events.ON_SELECT)) 
 			actionPerformed(event);
-		else if(event.getName().equals(Events.ON_RIGHT_CLICK))
-			mouse_clicked(event, true);
 	}
 
 	/**************************************************************************
@@ -414,12 +502,12 @@ public class ZkReportViewer extends Window implements EventListener {
 			return;
 		if (e.getTarget() == comboReport)
 			cmd_report();
-		else if (e.getTarget() == comboDrill)
-			cmd_drill();
 		else if (e.getTarget() == bFind)
 			cmd_find();
 		else if (e.getTarget() == bExport)
 			cmd_export();
+		else if (e.getTarget() == previewType)
+			cmd_render();
 		else if (e.getTarget() == bSendMail)
 			cmd_sendMail();
 		else if (e.getTarget() == bArchive)
@@ -433,84 +521,15 @@ public class ZkReportViewer extends Window implements EventListener {
 			cmd_window(m_ddQ);
 		else if (e.getTarget() == m_daM)
 			cmd_window(m_daQ);
-		//
-		else if (!e.getTarget().getId().equals("reportFrame"))
-			mouse_clicked(e, false);
 	}	//	actionPerformed
 	
-	/**************************************************************************
-	 * 	(Re)Set Drill Accross Cursor
-	 */
-	private void cmd_drill()
-	{
-		m_drillDown = comboDrill.getSelectedIndex() < 1;	//	-1 or 0
-	}	//	cmd_drill
-
-	/**
-	 * 	Mouse clicked
-	 * 	@param e event
-	 * 	@param rightClick true if right click
-	 */
-	private void mouse_clicked (Event e, boolean rightClick)
-	{
-		MouseEvent me = (MouseEvent) e;
-		Point point = new Point(me.getX(), me.getY());
-		
-		if (rightClick)
-		{
-			m_ddQ = m_viewPanel.getDrillDown(point);
-			m_daQ = m_viewPanel.getDrillAcross(point);
-			m_ddM = null;
-			m_daM = null;
-			if (m_ddQ == null && m_daQ == null)
-				return;
-			//	Create Menu
-			Menupopup pop = new Menupopup();
-			if (m_ddQ != null)
-			{
-				m_ddM = new Menuitem(m_ddQ.getDisplayName(Env.getCtx()));
-				m_ddM.setTooltiptext(m_ddQ.toString());
-				m_ddM.addEventListener(Events.ON_CLICK, this);
-				pop.appendChild(m_ddM);
-			}
-			if (m_daQ != null)
-			{
-				m_daM = new Menuitem(m_ddQ.getDisplayName(Env.getCtx()));
-				m_daM.setTooltiptext(m_daQ.toString());
-				m_daM.addEventListener(Events.ON_CLICK, this);
-				pop.appendChild(m_daM);
-			}
-			pop.open(me.getX(), me.getY());
-			return;
+	private void cmd_render() {
+		try { 
+			renderReport();
+		} catch (Exception e) {
+			throw new AdempiereException("Failed to render report", e);
 		}
-		
-		if (m_drillDown)
-		{
-			MQuery query = m_viewPanel.getDrillDown(point);
-			if (query != null)
-			{
-				log.info("Drill Down: " + query.getWhereClause(true));
-				executeDrill(query);
-			}
-		}
-		else if (comboDrill.getSelectedItem() != null)
-		{
-			ListItem li = comboDrill.getSelectedItem();
-			
-			if(li.getValue() != null)
-			{
-				MQuery query  = m_viewPanel.getDrillAcross(point);
-				if (query != null)
-				{
-					query.setTableName(li.getValue().toString());
-					log.info("Drill Accross: " + query.getWhereClause(true));
-					executeDrill(query);
-				}				
-			}
-			
-		}
-		cmd_drill();	//	setCursor
-	}	//	mouse_clicked
+	}
 
 	/**
 	 * 	Execute Drill to Query
@@ -525,7 +544,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			return;
 		}
 		if (AD_Table_ID != 0)
-			new AReport (AD_Table_ID, null, query);
+			new WReport (AD_Table_ID, query);
 		else
 			log.warning("No Table found for " + query.getWhereClause(true));
 	}	//	executeDrill
@@ -638,7 +657,6 @@ public class ZkReportViewer extends Window implements EventListener {
 		
 		AEnv.showCenterScreen(winExportFile);
 		
-		cmd_drill();	//	setCursor
 	}	//	cmd_export
 		
 	private void exportFile()
@@ -764,12 +782,14 @@ public class ZkReportViewer extends Window implements EventListener {
 		}
 		m_reportEngine.setPrintFormat(pf);
 		
-		AMedia media = new AMedia(getTitle(), "pdf", "application/pdf", m_reportEngine.createPDFData());
-		iframe.setContent(media);
+		try {
+			renderReport();
+		} catch (Exception e) {
+			throw new AdempiereException("Failed to render report", e);
+		}
 
 		revalidate();
 
-		cmd_drill();	//	setCursor
 	}	//	cmd_report
 
 	/**
@@ -867,13 +887,15 @@ public class ZkReportViewer extends Window implements EventListener {
             if (!find.isCancel())
             {
             	m_reportEngine.setQuery(find.getQuery());
-            	AMedia media = new AMedia(getTitle(), "pdf", "application/pdf", m_reportEngine.createPDFData());
-        		iframe.setContent(media);
+            	try {
+            		renderReport();
+            	} catch (Exception e) {
+        			throw new AdempiereException("Failed to render report", e);
+        		}
             	revalidate();
             }
             find = null;
 		}
-		cmd_drill();	//	setCursor
 	}	//	cmd_find
 
 	/**
