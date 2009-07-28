@@ -188,7 +188,9 @@ public class ZkReportViewer extends Window implements EventListener {
 		toolBar.appendChild(new Separator("vertical"));
 		
 		//set default type
-		String type = MSysConfig.getValue("ZK_REPORT_DEFAULT_OUTPUT_TYPE");
+		String type = m_reportEngine.getPrintFormat().isForm()
+				? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE")
+				: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE");
 		if ("PDF".equals(type))
 			previewType.setSelectedIndex(0);
 		else if ("HTML".equals(type))

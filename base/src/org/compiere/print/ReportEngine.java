@@ -291,7 +291,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public Properties getCtx()
 	{
-		return m_layout.getCtx();
+		return getLayout().getCtx();
 	}	//	getCtx
 
 	/**
