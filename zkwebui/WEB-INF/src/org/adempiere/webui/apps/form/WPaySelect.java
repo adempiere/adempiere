@@ -40,7 +40,7 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.PaySelect;
@@ -72,7 +72,7 @@ import org.zkoss.zul.Space;
  *  @version $Id: VPaySelect.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
 public class WPaySelect extends PaySelect
-	implements ICustomForm, EventListener, WTableModelListener, ASyncProcess
+	implements IFormController, EventListener, WTableModelListener, ASyncProcess
 {
 	/** @todo withholding */
 	

@@ -38,7 +38,7 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.Charge;
@@ -65,7 +65,7 @@ import org.zkoss.zul.Separator;
  * @author Andrew Kimball
  *
  */
-public class WCharge extends Charge implements ICustomForm, EventListener
+public class WCharge extends Charge implements IFormController, EventListener
 {
     /**
 	 *

@@ -143,9 +143,6 @@ public class WCreateFromStatementUI extends CreateFromStatement implements Event
 		
 		window.setTitle(getTitle());
 		
-		authorizationField = new WStringEditor ("authorization", false, false, true, 10, 30, null, null);
-		authorizationField.getComponent().addEventListener(Events.ON_CHANGE, this);
-		
 		int AD_Column_ID = 4917;        //  C_BankStatement.C_BankAccount_ID
 		MLookup lookup = MLookupFactory.get (Env.getCtx(), p_WindowNo, 0, AD_Column_ID, DisplayType.TableDir);
 		bankAccountField = new WTableDirEditor ("C_BankAccount_ID", true, false, true, lookup);

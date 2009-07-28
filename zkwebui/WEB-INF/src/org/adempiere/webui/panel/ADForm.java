@@ -63,7 +63,7 @@ public abstract class ADForm extends Window implements EventListener
 
 	private ProcessInfo m_pi;
 	
-	private ICustomForm m_customForm;
+	private IFormController m_customForm;
 
     /**
      * Constructor
@@ -222,9 +222,9 @@ public abstract class ADForm extends Window implements EventListener
     				form.init(adFormID, name);
     				return form;
         		}
-        		else if (obj instanceof ICustomForm)
+        		else if (obj instanceof IFormController)
         		{
-        			ICustomForm customForm = (ICustomForm)obj;
+        			IFormController customForm = (IFormController)obj;
         			Object o = customForm.getForm();
         			if(o instanceof ADForm)
         			{
@@ -278,12 +278,12 @@ public abstract class ADForm extends Window implements EventListener
 		return m_pi;
 	}
 	
-	public void setICustomForm(ICustomForm customForm)
+	public void setICustomForm(IFormController customForm)
 	{
 		m_customForm = customForm;
 	}
 	
-	public ICustomForm getICustomForm()
+	public IFormController getICustomForm()
 	{
 		return m_customForm;
 	}

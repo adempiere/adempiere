@@ -26,7 +26,7 @@ import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.compiere.apps.form.InvoiceGen;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -45,7 +45,7 @@ import org.zkoss.zul.Space;
  * Generate Invoice (manual) view class
  * 
  */
-public class WInvoiceGen extends InvoiceGen implements ICustomForm, EventListener, ValueChangeListener
+public class WInvoiceGen extends InvoiceGen implements IFormController, EventListener, ValueChangeListener
 {
 	private static WGenForm form;
 	

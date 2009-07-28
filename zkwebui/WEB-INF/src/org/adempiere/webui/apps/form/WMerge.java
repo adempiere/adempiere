@@ -30,7 +30,7 @@ import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.Merge;
@@ -57,7 +57,7 @@ import org.zkoss.zkex.zul.South;
  *	@author Jorg Janke
  *	@version $Id: VMerge.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
-public class WMerge extends Merge implements ICustomForm, EventListener
+public class WMerge extends Merge implements IFormController, EventListener
 {
 	/**
 	 * 

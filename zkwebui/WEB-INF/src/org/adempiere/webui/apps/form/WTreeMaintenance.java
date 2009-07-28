@@ -29,7 +29,7 @@ import org.adempiere.webui.component.SimpleListModel;
 import org.adempiere.webui.component.SimpleTreeModel;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.TreeMaintenance;
@@ -58,7 +58,7 @@ import org.zkoss.zul.Treeitem;
  *  @author Jorg Janke
  *  @version $Id: VTreeMaintenance.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
-public class WTreeMaintenance extends TreeMaintenance implements ICustomForm, EventListener
+public class WTreeMaintenance extends TreeMaintenance implements IFormController, EventListener
 {
 	/**
 	 * 

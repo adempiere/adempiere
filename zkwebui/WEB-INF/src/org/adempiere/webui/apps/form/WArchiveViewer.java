@@ -45,7 +45,7 @@ import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.form.Archive;
 import org.compiere.model.MArchive;
@@ -70,7 +70,7 @@ import org.zkoss.zul.Iframe;
  * @date	September 28, 2007
 */
 
-public class WArchiveViewer extends Archive implements ICustomForm, EventListener
+public class WArchiveViewer extends Archive implements IFormController, EventListener
 {
 	/**
 	 * 

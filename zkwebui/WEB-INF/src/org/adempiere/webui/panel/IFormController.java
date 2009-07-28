@@ -1,7 +1,7 @@
 package org.adempiere.webui.panel;
 
 
-public interface ICustomForm 
+public interface IFormController 
 {
 	/**
 	 * Called by org.adempiere.webui.panel.ADForm.openForm(int)

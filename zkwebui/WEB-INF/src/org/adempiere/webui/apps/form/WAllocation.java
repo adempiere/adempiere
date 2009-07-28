@@ -41,7 +41,7 @@ import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.form.Allocation;
@@ -69,7 +69,7 @@ import org.zkoss.zul.Space;
  * Contributor : Fabian Aguilar - OFBConsulting - Multiallocation
  */
 public class WAllocation extends Allocation
-	implements ICustomForm, EventListener, WTableModelListener, ValueChangeListener
+	implements IFormController, EventListener, WTableModelListener, ValueChangeListener
 {
 	
 	/**

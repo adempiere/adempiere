@@ -26,7 +26,7 @@ import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.compiere.apps.form.InOutGen;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
@@ -46,7 +46,7 @@ import org.zkoss.zul.Space;
  * Generate Shipment (manual) view class
  * 
  */
-public class WInOutGen extends InOutGen implements ICustomForm, EventListener, ValueChangeListener
+public class WInOutGen extends InOutGen implements IFormController, EventListener, ValueChangeListener
 {
 	private static WGenForm form;
 	

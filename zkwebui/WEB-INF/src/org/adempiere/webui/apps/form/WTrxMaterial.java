@@ -38,7 +38,7 @@ import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.ADTabpanel;
 import org.adempiere.webui.panel.CustomForm;
-import org.adempiere.webui.panel.ICustomForm;
+import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.apps.form.TrxMaterial;
@@ -63,7 +63,7 @@ import org.zkoss.zul.Separator;
  * @version $Id: VTrxMaterial.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
 public class WTrxMaterial extends TrxMaterial
-	implements ICustomForm, EventListener, ValueChangeListener
+	implements IFormController, EventListener, ValueChangeListener
 {
 	/**
 	 * 
