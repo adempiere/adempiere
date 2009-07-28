@@ -31,6 +31,10 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: MEntityType.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ * 
+ * @author Teo Sarca
+ * 		<li>BF [ 2827777 ] MEntityType.isSystemMaintained not working well
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2827777&group_id=176962&atid=879332
  */
 public class MEntityType extends X_AD_EntityType
 {
@@ -191,8 +195,11 @@ public class MEntityType extends X_AD_EntityType
 		super (ctx, rs, trxName);
 	}	//	MEntityType
 	
-	/** 10=D, 20=C,  100=U, 110=CUST,  200=A, 210=EXT, 220=XX	*/
-	private static final int	s_maxAD_EntityType_ID = 221;
+	/**
+	 * First Not System Entity ID
+	 * 10=D, 20=C,  100=U, 110=CUST,  200=A, 210=EXT, 220=XX etc
+	 */
+	private static final int s_maxAD_EntityType_ID = 1000000;
 	
 	/**
 	 * 	Set AD_EntityType_ID
@@ -209,8 +216,9 @@ public class MEntityType extends X_AD_EntityType
 	}	//	setAD_EntityType_ID
 	
 	/**
-	 * 	Is System Maintained
-	 *	@return true if D/C/U/CUST/A/EXT/XX
+	 * Is System Maintained.
+	 * Any Entity Type with ID < 1000000.
+	 * @return true if D/C/U/CUST/A/EXT/XX (ID < 1000000)
 	 */
 	public boolean isSystemMaintained()
 	{
@@ -240,7 +248,7 @@ public class MEntityType extends X_AD_EntityType
 				log.saveError("Error", "You cannot modify EntityType");
 				return false;
 			}
-			systemMaintained = id < s_maxAD_EntityType_ID
+			systemMaintained = isSystemMaintained()
 				&&	(is_ValueChanged("Name") || is_ValueChanged("Description") 
 					|| is_ValueChanged("Help") || is_ValueChanged("IsActive"));
 			if (systemMaintained)
