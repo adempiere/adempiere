@@ -93,6 +93,10 @@ import org.eevolution.model.X_PP_Order;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ReportEngine.java,v 1.4 2006/10/08 06:52:51 comdivision Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2828300 ] Error when printformat table differs from DOC_TABLES
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2828300&group_id=176962&atid=879332
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -1156,11 +1160,11 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public static final int		DISTRIBUTION_ORDER = 9;
 	
 
-	private static final String[]	DOC_TABLES = new String[] {
-		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
-		"C_RfQResponse_v",
-		"C_PaySelection_Check_v", "C_PaySelection_Check_v",  
-		"C_DunningRunEntry_v","PP_Order_Header_v","DD_Order_Header_v" };
+//	private static final String[]	DOC_TABLES = new String[] {
+//		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
+//		"C_RfQResponse_v",
+//		"C_PaySelection_Check_v", "C_PaySelection_Check_v",  
+//		"C_DunningRunEntry_v","PP_Order_Header_v","DD_Order_Header_v" };
 	private static final String[]	DOC_BASETABLES = new String[] {
 		"C_Order", "M_InOut", "C_Invoice", "C_Project",
 		"C_RfQResponse",
@@ -1392,8 +1396,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	//	if (!Env.isBaseLanguage(language, DOC_TABLES[type]))
 			format.setTranslationLanguage(language);
 		//	query
-		MQuery query = new MQuery(DOC_TABLES[type]);
-		query.addRestriction(DOC_IDS[type], MQuery.EQUAL, new Integer(Record_ID));
+		MQuery query = new MQuery(format.getAD_Table_ID());
+		query.addRestriction(DOC_IDS[type], MQuery.EQUAL, Record_ID);
 	//	log.config( "ReportCtrl.startDocumentPrint - " + format, query + " - " + language.getAD_Language());
 		//
 		if (DocumentNo == null || DocumentNo.length() == 0)
