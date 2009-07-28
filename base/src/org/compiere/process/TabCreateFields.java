@@ -33,6 +33,10 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: TabCreateFields.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ * 
+ * @author Teo Sarca
+ * 			<li>BF [ 2827782 ] TabCreateFields process not setting entity type well
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2827782&group_id=176962
  */
 public class TabCreateFields extends SvrProcess
 {
@@ -84,6 +88,7 @@ public class TabCreateFields extends SvrProcess
 				//
 				MField field = new MField (tab);
 				field.setColumn(column);
+				field.setEntityType(tab.getEntityType()); // Use Tab's Entity Type - teo_sarca, BF [ 2827782 ]
 				if (column.isKey())
 					field.setIsDisplayed(false);
 				if (field.save())
