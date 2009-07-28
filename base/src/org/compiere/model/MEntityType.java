@@ -16,12 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -35,6 +34,8 @@ import org.compiere.util.DB;
  * @author Teo Sarca
  * 		<li>BF [ 2827777 ] MEntityType.isSystemMaintained not working well
  * 			https://sourceforge.net/tracker/?func=detail&aid=2827777&group_id=176962&atid=879332
+ * 		<li>FR [ 2827786 ] Introduce MEntityType.get(Properties ctx, String entityType)
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2827786&group_id=176962&atid=879335
  */
 public class MEntityType extends X_AD_EntityType
 {
@@ -52,38 +53,33 @@ public class MEntityType extends X_AD_EntityType
 	{
 		if (s_entityTypes != null)
 			return s_entityTypes;
-		ArrayList<MEntityType> list = new ArrayList<MEntityType>();
-		String sql = "SELECT * FROM AD_EntityType WHERE IsActive='Y' ORDER BY AD_EntityType_ID";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MEntityType (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		List<MEntityType> list = new Query(ctx, Table_Name, null, null)
+		.setOnlyActiveRecords(true)
+		.setOrderBy(COLUMNNAME_AD_EntityType_ID)
+		.list();
 		s_entityTypes = new MEntityType[list.size()];
 		list.toArray(s_entityTypes);
 		s_log.finer("# " + s_entityTypes.length);
 		return s_entityTypes;
 	}	//	getEntityTypes
+	
+	/**
+	 * Get EntityType object by name  
+	 * @param ctx
+	 * @param entityType
+	 * @return
+	 */
+	public static MEntityType get(Properties ctx, String entityType)
+	{
+		for (MEntityType entity : getEntityTypes(ctx))
+		{
+			if (entity.getEntityType().equals(entityType))
+			{
+				return entity;
+			}
+		}
+		return null;
+	}
 	
 	/**
 	 * 	Get Entity Type as String array
