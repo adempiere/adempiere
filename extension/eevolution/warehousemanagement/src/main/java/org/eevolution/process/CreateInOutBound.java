@@ -32,22 +32,15 @@ package org.eevolution.process;
 import java.util.Collection;
 import java.util.logging.Level;
 
-import org.compiere.model.MColumn;
+import org.adempiere.model.X_T_Selection;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPInstance;
-import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.model.X_T_Selection;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.eevolution.model.MInOutBound;
-import org.eevolution.model.MInOutBoundLine;
-import org.eevolution.model.MSmartBrowse;
-import org.eevolution.model.MSmartBrowseField;
-import org.eevolution.model.MView;
-import org.eevolution.model.MViewColumn;
-import org.eevolution.model.MViewJoin;
+import org.eevolution.model.MWMInOutBound;
+import org.eevolution.model.MWMInOutBoundLine;
 
 /**
  *	
@@ -83,17 +76,17 @@ public class CreateInOutBound extends SvrProcess
 	@SuppressWarnings("unchecked")
 	protected String doIt () throws Exception
 	{
-		MInOutBound bound = new MInOutBound(getCtx(), 0 , get_TrxName());
+		MWMInOutBound bound = new MWMInOutBound(getCtx(), 0 , get_TrxName());
 		bound.setC_DocType_ID(0);
-		bound.setDocStatus(MInOutBound.DOCSTATUS_Drafted);
-		bound.setDocAction(MInOutBound.ACTION_Complete);
+		bound.setDocStatus(MWMInOutBound.DOCSTATUS_Drafted);
+		bound.setDocAction(MWMInOutBound.ACTION_Complete);
 		bound.saveEx();
 		for (X_T_Selection s : getSelected())
 		{
 			MOrder order = new MOrder(getCtx(), s.get_ID() , get_TrxName());
 			for(MOrderLine line: order.getLines())
 			{	
-				MInOutBoundLine boundline = new MInOutBoundLine(bound);
+				MWMInOutBoundLine boundline = new MWMInOutBoundLine(bound);
 				boundline.setM_Product_ID(line.getM_Product_ID());
 				boundline.setM_AttributeSetInstance_ID(line.getM_Warehouse_ID());
 				boundline.setQtyEntered(line.getQtyOrdered().subtract(line.getQtyDelivered()));

@@ -29,39 +29,17 @@
 
 package org.eevolution.process;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.logging.Level;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.compiere.model.MClient;
+import org.adempiere.model.MViewColumn;
+import org.adempiere.model.MViewJoin;
 import org.compiere.model.MColumn;
-import org.compiere.model.MEXPFormat;
-import org.compiere.model.MEXPFormatLine;
 import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.X_EXP_FormatLine;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
-import org.eevolution.model.MView;
-import org.eevolution.model.MViewColumn;
-import org.eevolution.model.MViewJoin;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 
 /**
- *	
+ *	Create Column View
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  @version $Id: $
  */

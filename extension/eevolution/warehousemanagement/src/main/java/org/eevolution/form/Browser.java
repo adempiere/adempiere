@@ -1,19 +1,36 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-/*
- * browsee.java
- *
- * Created on 05-jul-2009, 10:02:37
- */
+/**********************************************************************
+ * This file is part of Adempiere ERP Bazaar                          * 
+ * http://www.adempiere.org                                           * 
+ *                                                                    * 
+ * Copyright (C) Victor Perez	                                      * 
+ * Copyright (C) Contributors                                         * 
+ *                                                                    * 
+ * This program is free software; you can redistribute it and/or      * 
+ * modify it under the terms of the GNU General Public License        * 
+ * as published by the Free Software Foundation; either version 2     * 
+ * of the License, or (at your option) any later version.             * 
+ *                                                                    * 
+ * This program is distributed in the hope that it will be useful,    * 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of     * 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       * 
+ * GNU General Public License for more details.                       * 
+ *                                                                    * 
+ * You should have received a copy of the GNU General Public License  * 
+ * along with this program; if not, write to the Free Software        * 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         * 
+ * MA 02110-1301, USA.                                                * 
+ *                                                                    * 
+ * Contributors:                                                      * 
+ *  - Victor Perez (victor.perez@e-evolution.com	 )                *
+ *                                                                    *
+ * Sponsors:                                                          *
+ *  - e-Evolution (http://www.e-evolution.com/)                       *
+ **********************************************************************/
 
 package org.eevolution.form;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +56,12 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import org.adempiere.model.I_AD_Element;
+import org.adempiere.model.MSmartBrowse;
+import org.adempiere.model.MSmartBrowseField;
+import org.adempiere.model.MView;
+import org.adempiere.model.MViewColumn;
+import org.adempiere.model.X_T_Selection;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
@@ -48,8 +71,6 @@ import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.StatusBar;
-import org.compiere.apps.form.FormFrame;
-import org.compiere.apps.form.FormPanel;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VDate;
@@ -58,22 +79,12 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.grid.ed.VString;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.I_AD_Element;
-import org.compiere.model.MColumn;
-import org.compiere.model.MLocator;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
-import org.compiere.model.MProcess;
-import org.compiere.model.MProduct;
 import org.compiere.model.MRole;
-import org.compiere.model.M_Element;
-import org.compiere.model.X_T_Selection;
 import org.compiere.process.ProcessInfo;
-import org.compiere.swing.CDialog;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CLabel;
-import org.compiere.swing.CPanel;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -84,20 +95,20 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
-import org.eevolution.model.MPPMRP;
-import org.eevolution.model.MSmartBrowse;
-import org.eevolution.model.MSmartBrowseField;
-import org.eevolution.model.MView;
-import org.eevolution.model.MViewColumn;
-import org.eevolution.model.MViewJoin;
 
 /**
  *
- * @author e-Evolution
+ * @author victor.perez@e-evolution.com, e-Evolution
  */
 public class Browser extends CFrame implements ActionListener, VetoableChangeListener, ChangeListener, ListSelectionListener, TableModelListener, ASyncProcess
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1022167449752851083L;
+
+
 	/**
 	 *	Detail Protected Constructor.
 	 *
@@ -224,7 +235,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		int row = 0;
 		for(MSmartBrowseField field : m_SmartBrowse.getCriteriaFields())
 		{
-			M_Element element = field.getAD_Element();
+			I_AD_Element element = field.getAD_Element();
 			String title  = Msg.translate(Env.getCtx(), element.getColumnName());			
 			addComponent(field, row, cols, field.getName(),title);
 			cols = cols + col;
@@ -284,7 +295,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		}
 		else if (DisplayType.TableDir== field.getAD_Reference_ID() || DisplayType.Table == field.getAD_Reference_ID())
 		{
-			M_Element element = field.getAD_Element();
+			I_AD_Element element = field.getAD_Element();
 			MViewColumn column = field.getAD_ViewColumn();
 			data	= new VLookup(element.getColumnName(),true, false, true,
 					MLookupFactory.get (Env.getCtx(), p_WindowNo, 0 , column.getAD_Column_ID() ,DisplayType.TableDir))
@@ -299,7 +310,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		}
 		else if (DisplayType.Search == field.getAD_Reference_ID())
 		{
-			M_Element element = field.getAD_Element();
+			I_AD_Element element = field.getAD_Element();
 			MViewColumn column = field.getAD_ViewColumn();
 			data	= new VLookup(element.getColumnName(),true, false, true,
 					MLookupFactory.get (Env.getCtx(), p_WindowNo,  0, column.getAD_Column_ID() ,DisplayType.Search))			

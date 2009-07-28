@@ -31,18 +31,15 @@ package org.eevolution.process;
 
 import java.util.logging.Level;
 
-import org.compiere.model.MColumn;
-import org.compiere.model.MTable;
+import org.adempiere.model.MSmartBrowse;
+import org.adempiere.model.MSmartBrowseField;
+import org.adempiere.model.MView;
+import org.adempiere.model.MViewColumn;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.eevolution.model.MSmartBrowse;
-import org.eevolution.model.MSmartBrowseField;
-import org.eevolution.model.MView;
-import org.eevolution.model.MViewColumn;
-import org.eevolution.model.MViewJoin;
 
 /**
- *	
+ *	Create Browse Field
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  @version $Id: $
  */
