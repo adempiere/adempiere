@@ -43,6 +43,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 
+
 public class PaySelect
 {
 	/** @todo withholding */
@@ -85,8 +86,8 @@ public class PaySelect
 			+ "ba.CurrentBalance "                              //  5
 			+ "FROM C_Bank b, C_BankAccount ba, C_Currency c "
 			+ "WHERE b.C_Bank_ID=ba.C_Bank_ID"
-			+ " AND ba.C_Currency_ID=c.C_Currency_ID "
-			+ " AND EXISTS (SELECT * FROM C_BankAccountDoc d WHERE d.C_BankAccount_ID=ba.C_BankAccount_ID) "
+			+ " AND ba.C_Currency_ID=c.C_Currency_ID AND ba.IsActive='Y' "
+			+ " AND EXISTS (SELECT * FROM C_BankAccountDoc d WHERE d.C_BankAccount_ID=ba.C_BankAccount_ID AND d.IsActive='Y' ) "
 			+ "ORDER BY 2",
 			"b", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RW);
 		try
