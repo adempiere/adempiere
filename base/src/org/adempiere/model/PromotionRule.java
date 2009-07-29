@@ -308,6 +308,9 @@ public class PromotionRule {
 			description += (", " + ol.getName());
 		nol.setDescription(description);
 		nol.set_ValueOfColumn("M_Promotion_ID", promotion.getM_Promotion_ID());
+		if (promotion.getC_Campaign_ID() > 0) {
+			nol.setC_Campaign_ID(promotion.getC_Campaign_ID());
+		}
 		if (!nol.save())
 			throw new AdempiereException("Failed to add discount line to order");
 	}
@@ -327,6 +330,7 @@ public class PromotionRule {
 		String warehouseFilter = "M_PromotionPreCondition.M_Warehouse_ID IS NULL OR M_PromotionPreCondition.M_Warehouse_ID = ?";
 		String dateFilter = "M_PromotionPreCondition.StartDate <= ? AND (M_PromotionPreCondition.EndDate >= ? OR M_PromotionPreCondition.EndDate IS NULL)";
 
+		//optional promotion code filter
 		String promotionCode = (String)order.get_Value("PromotionCode");
 
 		StringBuffer sql = new StringBuffer();
@@ -341,6 +345,15 @@ public class PromotionRule {
 		} else {
 			sql.append(" AND (M_PromotionPreCondition.PromotionCode IS NULL)");
 		}
+		
+		//optional activity filter
+		int C_Activity_ID = order.getC_Activity_ID();
+		if (C_Activity_ID > 0) {
+			sql.append(" AND (M_PromotionPreCondition.C_Activity_ID = ? OR M_PromotionPreCondition.C_Activity_ID IS NULL)");
+		} else {
+			sql.append(" AND (M_PromotionPreCondition.C_Activity_ID IS NULL)");
+		}
+		
 		sql.append(" AND (M_Promotion.AD_Client_ID in (0, ?))")
 			.append(" AND (M_Promotion.AD_Org_ID in (0, ?))")
 			.append(" AND (M_Promotion.IsActive = 'Y')")
@@ -362,6 +375,9 @@ public class PromotionRule {
 			stmt.setTimestamp(pindex++, order.getDateOrdered());
 			if (promotionCode != null && promotionCode.trim().length() > 0) {
 				stmt.setString(pindex++, promotionCode);
+			}
+			if (C_Activity_ID > 0) {
+				stmt.setInt(pindex++, C_Activity_ID);
 			}
 			stmt.setInt(pindex++, order.getAD_Client_ID());
 			stmt.setInt(pindex++, order.getAD_Org_ID());

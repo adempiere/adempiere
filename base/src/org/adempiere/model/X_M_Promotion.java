@@ -17,8 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.model;
 
+import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -31,7 +33,7 @@ public class X_M_Promotion extends PO implements I_M_Promotion, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090729L;
 
     /** Standard Constructor */
     public X_M_Promotion (Properties ctx, int M_Promotion_ID, String trxName)
@@ -73,6 +75,45 @@ public class X_M_Promotion extends PO implements I_M_Promotion, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_C_Campaign getC_Campaign() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
+        I_C_Campaign result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Campaign)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Campaign_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Campaign.
+		@param C_Campaign_ID 
+		Marketing Campaign
+	  */
+	public void setC_Campaign_ID (int C_Campaign_ID)
+	{
+		if (C_Campaign_ID < 1) 
+			set_Value (COLUMNNAME_C_Campaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Campaign_ID, Integer.valueOf(C_Campaign_ID));
+	}
+
+	/** Get Campaign.
+		@return Marketing Campaign
+	  */
+	public int getC_Campaign_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Campaign_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Description.
 		@param Description 
