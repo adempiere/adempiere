@@ -85,6 +85,8 @@ import org.compiere.util.ValueNamePair;
  *				<li>BF [ 1825876 ] Layout boxes with auto width not working
  *				<li>FR [ 1966406 ] Report Engine: AD_PInstance_Logs should be displayed
  *				<li>BF [ 2487307 ] LayoutEngine: NPE when Barcode field is null
+ *				<li>BF [ 2828893 ] Problem with NextPage in Print Format
+ *					https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2828893&group_id=176962
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				<li>BF [ 2011567 ] Implement Background Image for Document printed 
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2011567&group_id=176962&atid=879335
@@ -1010,15 +1012,19 @@ public class LayoutEngine implements Pageable, Printable, Doc
 				if (item.isSetNLPosition() && item.isRelativePosition())
 					m_tempNLPositon = 0;
 				//	New Page/Line
-				if (item.isNextPage())			//	item.isPageBreak()			//	new page
-					newPage(false, false);
-				else if (item.isNextLine() && somethingPrinted)		//	new line
+				if (item.isNextLine() && somethingPrinted)		//	new line
 				{
 					newLine ();
 					somethingPrinted = false;
 				}
 				else
+				{
 					addX(m_lastWidth[m_area]);
+				}
+				if (item.isNextPage())			//	item.isPageBreak()			//	new page
+				{
+					newPage(false, false);
+				}
 				//	Relative Position space
 				if (item.isRelativePosition())
 				{
