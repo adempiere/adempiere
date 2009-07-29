@@ -41,6 +41,10 @@ import org.compiere.util.Language;
  *  
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MPrintPaper.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
+ * 
+ * @author Teo Sarca
+ * 			<li>FR [ 2829019 ] Check PrintPaper on save
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2829019&group_id=176962&atid=879335
  */
 public class MPrintPaper extends X_AD_PrintPaper
 {
@@ -222,6 +226,19 @@ public class MPrintPaper extends X_AD_PrintPaper
 		//End Of AA Goodwill
 		return retValue;
 	}	//	getCPaper
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord)
+	{
+		// Check all settings are correct by reload all data
+		m_mediaSize = null;
+		getMediaSize();
+		getCPaper();
+		
+		return true;
+	}
+
+
 
 	/**
 	 * 	Media Size Name 
