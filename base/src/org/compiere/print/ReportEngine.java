@@ -97,6 +97,8 @@ import org.eevolution.model.X_PP_Order;
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2828300 ] Error when printformat table differs from DOC_TABLES
  * 				https://sourceforge.net/tracker/?func=detail&aid=2828300&group_id=176962&atid=879332
+ * 			<li>BF [ 2828886 ] Problem with reports from temporary tables
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2828886&group_id=176962
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -1096,10 +1098,15 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
 		//  Create Query from Parameters
 		MQuery query = null;
-		if (IsForm && pi.getRecord_ID() != 0)	//	Form = one record
+		if (IsForm && pi.getRecord_ID() != 0		//	Form = one record
+				&& !TableName.startsWith("T_") )	//	Not temporary table - teo_sarca, BF [ 2828886 ]
+		{
 			query = MQuery.getEqualQuery(TableName + "_ID", pi.getRecord_ID());
+		}
 		else
+		{
 			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
+		}
 		
 		//  Add to static where clause from ReportView
 		if (whereClause.length() != 0)
