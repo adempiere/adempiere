@@ -195,11 +195,14 @@ public class RollupWorkflow extends SvrProcess
 			{	
 				Yield = Yield * ((double)node.getYield() / 100);
 			}
-			BigDecimal nodeDuration = m_routingService.estimateWorkingTime(node);
+			// We use node.getDuration() instead of m_routingService.estimateWorkingTime(node) because
+			// this will be the minimum duration of this node. So even if the node have defined units/cycle
+			// we consider entire duration of the node.
+			long nodeDuration = node.getDuration();
 			
 			QueuingTime += node.getQueuingTime();
 			SetupTime += node.getSetupTime();
-			Duration += nodeDuration.intValueExact();
+			Duration += nodeDuration;
 			WaitingTime += node.getWaitingTime();
 			MovingTime += node.getMovingTime();
 			WorkingTime += node.getWorkingTime();
