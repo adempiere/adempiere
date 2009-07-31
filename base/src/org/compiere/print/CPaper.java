@@ -25,6 +25,7 @@ import java.util.Properties;
 import javax.print.attribute.Attribute;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.Size2DSyntax;
 import javax.print.attribute.standard.MediaPrintableArea;
 import javax.print.attribute.standard.MediaSize;
 import javax.print.attribute.standard.MediaSizeName;
@@ -148,19 +149,28 @@ public class CPaper extends Paper
 	}	//	setMediaSize
 
 	/**
-	 * 	Get Media Size
-	 * 	@return media size
+	 * Get Media Size
+	 * @return media size
 	 */
 	//AA Goodwill : Custom Paper Support
-	public CPaper (double x, double y, boolean landscape,
+	public CPaper (double x, double y, int units,
+			boolean landscape,
 			double left, double top, double right, double bottom)
 	{
 		super();
-		setMediaSize (x,y, landscape);
+		setMediaSize (x, y, units, landscape);
 		setImageableArea(left, top, getWidth()-left-right, getHeight()-top-bottom);
 	}
 	
-	public void setMediaSize (double x, double y, boolean landscape)
+	/**
+	 * Set Media Size
+	 * @param x the value to which to set this <code>Paper</code> object's width
+	 * @param y the value to which to set this <code>Paper</code> object's height
+	 * @param units number of microns (see Size2DSyntax.INCH, Size2DSyntax.MM)
+	 * @param landscape true if it's landscape format
+	 * @see Paper#setSize(double, double)
+	 */
+	public void setMediaSize (double x, double y, int units, boolean landscape)
 	{
 		if (x == 0 || y == 0)
 			throw new IllegalArgumentException("MediaSize is null");
@@ -168,11 +178,12 @@ public class CPaper extends Paper
 		m_landscape = landscape;
 
 		//	Get Sise in Inch * 72
-		double width = x * 72;
-		double height = y * 72;
+		final double mult = (double)units / (double)Size2DSyntax.INCH * (double)72;
+		final double width = x * mult;
+		final double height = y * mult;
 		//	Set Size
 		setSize (width, height);
-		log.fine("Width & Height" + ": " + String.valueOf(x) + "/" + String.valueOf(y)  + " - Landscape=" + m_landscape);
+		log.fine("Width & Height" + ": " + x + "/" + y  + " - Landscape=" + m_landscape);
 	}	//	setMediaSize
 	//End Of AA Goodwill
 

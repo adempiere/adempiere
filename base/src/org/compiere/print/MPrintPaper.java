@@ -24,6 +24,7 @@ import javax.print.attribute.Size2DSyntax;
 import javax.print.attribute.standard.MediaSize;
 import javax.print.attribute.standard.MediaSizeName;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_PrintPaper;
 import org.compiere.util.CCache;
@@ -203,8 +204,10 @@ public class MPrintPaper extends X_AD_PrintPaper
 		String du = getDimensionUnits();
 		if (du == null || DIMENSIONUNITS_MM.equals(du))
 			return Size2DSyntax.MM;
-		else
+		else if (DIMENSIONUNITS_Inch.equals(du))
 			return Size2DSyntax.INCH; 
+		else
+			throw new AdempiereException("@NotSupported@ @DimensionUnit@ : "+du);
 	}	//	getUnits
 	
 	/**
@@ -215,11 +218,14 @@ public class MPrintPaper extends X_AD_PrintPaper
 	{
 		//Modify Lines By AA Goodwill : Custom Paper Support 
 		CPaper retValue;
-		if (getCode().toLowerCase().startsWith("custom")){
-			retValue = new CPaper (getSizeX().doubleValue(), getSizeY().doubleValue(), isLandscape(),
+		if (getCode().toLowerCase().startsWith("custom"))
+		{
+			retValue = new CPaper (getSizeX().doubleValue(), getSizeY().doubleValue(), getUnitsInt(),
+					isLandscape(),
 					getMarginLeft(), getMarginTop(), getMarginRight(), getMarginBottom());			
 		}
-		else{
+		else
+		{
 			retValue = new CPaper (getMediaSize(), isLandscape(),
 					getMarginLeft(), getMarginTop(), getMarginRight(), getMarginBottom());
 		}
