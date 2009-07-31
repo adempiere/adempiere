@@ -47,6 +47,7 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.PO;
 import org.compiere.model.POResultSet;
 import org.compiere.model.Query;
+import org.compiere.model.X_C_BP_Group;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CCache;
@@ -559,7 +560,6 @@ public class MRP extends SvrProcess
 			QtyProjectOnHand =  QtyProjectOnHand.subtract(m_product_planning.getSafetyStock());
 		}
 		log.info("QtyOnHand :" + QtyProjectOnHand);
-		
 	}
 	
 	protected MPPProductPlanning getProductPlanning(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product)
@@ -980,6 +980,17 @@ public class MRP extends SvrProcess
 		log.info("Create Requisition");
 		
 		int duration = MPPMRP.getDurationDays(QtyPlanned, m_product_planning);
+		// Get PriceList from BPartner/Group - teo_sarca, FR [ 2829476 ]
+		int M_PriceList_ID = -1;
+		if (m_product_planning.getC_BPartner_ID() > 0)
+		{
+			final String sql = "SELECT COALESCE(bp."+MBPartner.COLUMNNAME_PO_PriceList_ID
+			+",bpg."+X_C_BP_Group.COLUMNNAME_PO_PriceList_ID+")"
+			+" FROM C_BPartner bp"
+			+" INNER JOIN C_BP_Group bpg ON (bpg.C_BP_Group_ID=bp.C_BP_Group_ID)"
+			+" WHERE bp.C_BPartner_ID=?";
+			M_PriceList_ID = DB.getSQLValueEx(get_TrxName(), sql, m_product_planning.getC_BPartner_ID());
+		}
 
 		MRequisition req = new  MRequisition(getCtx(),0, get_TrxName()); 
 		req.setAD_Org_ID(AD_Org_ID);
@@ -988,7 +999,8 @@ public class MRP extends SvrProcess
 		req.setDescription("Generate from MRP"); // TODO: add translation
 		req.setM_Warehouse_ID(m_product_planning.getM_Warehouse_ID());
 		req.setC_DocType_ID(docTypeReq_ID);
-		req.setM_PriceList_ID();
+		if (M_PriceList_ID > 0)
+			req.setM_PriceList_ID(M_PriceList_ID);
 		req.saveEx();
 
 		MRequisitionLine reqline = new  MRequisitionLine(req);
