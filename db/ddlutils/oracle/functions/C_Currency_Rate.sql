@@ -57,12 +57,15 @@ BEGIN
 	IF (p_ConversionType_ID IS NULL OR p_ConversionType_ID = 0) THEN
         BEGIN
             SELECT C_ConversionType_ID 
-              INTO v_ConversionType_ID
-            FROM C_ConversionType 
-            WHERE IsDefault='Y'
-              AND AD_Client_ID IN (0,p_Client_ID)
-              AND ROWNUM=1
-            ORDER BY AD_Client_ID DESC;
+            INTO v_ConversionType_ID
+            FROM (
+                SELECT C_ConversionType_ID 
+                FROM C_ConversionType 
+                WHERE IsDefault='Y'
+                    AND AD_Client_ID IN (0,p_Client_ID)
+                ORDER BY AD_Client_ID DESC
+            )
+            WHERE ROWNUM=1;
         EXCEPTION WHEN OTHERS THEN
             DBMS_OUTPUT.PUT_LINE('Conversion Type Not Found');
         END;
