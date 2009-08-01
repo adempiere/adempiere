@@ -597,7 +597,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	/**
 	 * 	Create Pooled DataSource (Server)
 	 *	@param connection connection
-	 *	@return data dource
+	 *	@return data source
 	 */
 	public ConnectionPoolDataSource createPoolDataSource(CConnection connection)
 	{
