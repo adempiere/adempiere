@@ -80,7 +80,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			return null;
 		}
 
-		//	Create Meader
+		//	Create Header
 		MInOut retValue = new MInOut (order, 0, movementDate);
 		retValue.setDocAction(complete ? DOCACTION_Complete : DOCACTION_Prepare);
 
@@ -737,7 +737,7 @@ public class MInOut extends X_M_InOut implements DocAction
 
 	/**
 	 * 	Set Processed.
-	 * 	Propergate to Lines/Taxes
+	 * 	Propagate to Lines/Taxes
 	 *	@param processed processed
 	 */
 	public void setProcessed (boolean processed)
@@ -1649,7 +1649,8 @@ public class MInOut extends X_M_InOut implements DocAction
 		if (product != null && line.getM_AttributeSetInstance_ID() == 0)
 		{
 			//Validate Transaction
-			if (getMovementType().compareTo(MInOut.MOVEMENTTYPE_CustomerReturns) == 0 || getMovementType().compareTo(MInOut.MOVEMENTTYPE_VendorReceipts) == 0 )
+			if (getMovementType().compareTo(MInOut.MOVEMENTTYPE_CustomerReturns) == 0 
+					|| getMovementType().compareTo(MInOut.MOVEMENTTYPE_VendorReceipts) == 0 )
 			{
 				MAttributeSetInstance asi = null;
 				//auto balance negative on hand

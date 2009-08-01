@@ -295,7 +295,7 @@ public class MInOutLine extends X_M_InOutLine
 	 */
 	public void setM_Locator_ID(BigDecimal Qty)
 	{
-		//	Locator esatblished
+		//	Locator established
 		if (getM_Locator_ID() != 0)
 			return;
 		//	No Product

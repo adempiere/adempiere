@@ -98,7 +98,7 @@ public class MInOutLineMA extends X_M_InOutLineMA
 	}	//	MInOutLineMA
 
 	/**
-	 * 	Load Cosntructor
+	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param rs result set
 	 *	@param trxName trx

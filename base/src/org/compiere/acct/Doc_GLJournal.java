@@ -28,7 +28,7 @@ import org.compiere.model.MJournalLine;
 import org.compiere.util.Env;
 
 /**
- *  Post Invoice Documents.
+ *  Post GL Journal Documents.
  *  <pre>
  *  Table:              GL_Journal (224)
  *  Document Types:     GLJ
@@ -47,7 +47,7 @@ public class Doc_GLJournal extends Doc
 	protected Doc_GLJournal (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MJournal.class, rs, null, trxName);
-	}	//	Foc_GL_Journal
+	}	//	Doc_GL_Journal
 
 	/** Posting Type				*/
 	private String			m_PostingType = null;

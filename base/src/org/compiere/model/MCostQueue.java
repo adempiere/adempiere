@@ -345,7 +345,7 @@ public class MCostQueue extends X_M_CostQueue
 	}	//	MCostQueue
 
 	/**
-	 * 	Load Cosntructor
+	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param rs result set
 	 *	@param trxName trx
