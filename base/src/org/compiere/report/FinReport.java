@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.compiere.model.MAcctSchemaElement;
+import org.compiere.model.MReportCube;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.MPrintFormatItem;
 import org.compiere.process.ProcessInfoParameter;
@@ -63,6 +64,8 @@ public class FinReport extends SvrProcess
 	private boolean				p_DetailsSourceFirst = false;
 	/** Hierarchy						*/
 	private int					p_PA_Hierarchy_ID = 0;
+	/** Optional report cube			*/
+	private int 				p_PA_ReportCube_ID = 0;
 
 	/**	Start Time						*/
 	private long 				m_start = System.currentTimeMillis();
@@ -115,6 +118,8 @@ public class FinReport extends SvrProcess
 				p_C_Campaign_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("DetailsSourceFirst"))
 				p_DetailsSourceFirst = "Y".equals(para[i].getParameter());
+			else if (name.equals("PA_ReportCube_ID"))
+				p_PA_ReportCube_ID = para[i].getParameterAsInt();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -156,6 +161,10 @@ public class FinReport extends SvrProcess
 		sb.append(" - C_Period_ID=").append(p_C_Period_ID)
 			.append(" - ").append(m_parameterWhere);
 		//
+		
+		if ( p_PA_ReportCube_ID > 0)
+			m_parameterWhere.append(" AND PA_ReportCube_ID=").append(p_PA_ReportCube_ID);
+		
 		log.info(sb.toString());
 	//	m_report.list();
 	}	//	prepare
@@ -226,6 +235,13 @@ public class FinReport extends SvrProcess
 	protected String doIt() throws Exception
 	{
 		log.info("AD_PInstance_ID=" + getAD_PInstance_ID());
+		
+		if ( p_PA_ReportCube_ID > 0 )
+		{
+			MReportCube cube = new MReportCube(getCtx(), p_PA_ReportCube_ID, get_TrxName());
+			String result = cube.update(false, false);
+			log.log(Level.FINE, result);
+		}
 		//	** Create Temporary and empty Report Lines from PA_ReportLine
 		//	- AD_PInstance_ID, PA_ReportLine_ID, 0, 0
 		int PA_ReportLineSet_ID = m_report.getLineSet().getPA_ReportLineSet_ID();
@@ -315,9 +331,14 @@ public class FinReport extends SvrProcess
 				log.warning("No Amount Type in line: " + m_lines[line] + " or column: " + m_columns[col]);
 				continue;
 			}
+			
+			if (p_PA_ReportCube_ID > 0) 
+				select.append(" FROM Fact_Acct_Summary fa WHERE DateAcct ");
+			else {
+				//	Get Period/Date info
+				select.append(" FROM Fact_Acct fa WHERE TRUNC(DateAcct) ");
+			}
 
-			//	Get Period/Date info
-			select.append(" FROM Fact_Acct WHERE TRUNC(DateAcct) ");
 			BigDecimal relativeOffset = null;	//	current
 			if (m_columns[col].isColumnTypeRelativePeriod())
 				relativeOffset = m_columns[col].getRelativePeriod();
@@ -345,9 +366,7 @@ public class FinReport extends SvrProcess
 				}
 				else if (m_lines[line].isNatural())
 				{
-					String sql = frp.getNaturalWhere("Fact_Acct");
-					info.append("Natural");
-					select.append(sql);
+						select.append( frp.getNaturalWhere("fa"));
 				}
 				else
 				{
@@ -378,9 +397,7 @@ public class FinReport extends SvrProcess
 				}
 				else if (m_columns[col].isNatural())
 				{
-					String sql = frp.getNaturalWhere("Fact_Acct");
-					info.append("Natural");
-					select.append(sql);
+					select.append( frp.getNaturalWhere("fa"));
 				}
 				else
 				{
@@ -388,31 +405,31 @@ public class FinReport extends SvrProcess
 					select.append("=0");	// valid sql	
 				}
 			}
-				
-			//	Line Where
-			String s = m_lines[line].getWhereClause(p_PA_Hierarchy_ID);	//	(sources, posting type)
-			if (s != null && s.length() > 0)
-				select.append(" AND ").append(s);
 
-			//	Report Where
-			s = m_report.getWhereClause();
-			if (s != null && s.length() > 0)
-				select.append(" AND ").append(s);
+		//	Line Where
+		String s = m_lines[line].getWhereClause(p_PA_Hierarchy_ID);	//	(sources, posting type)
+		if (s != null && s.length() > 0)
+			select.append(" AND ").append(s);
 
-			//	PostingType
-			if (!m_lines[line].isPostingType())		//	only if not defined on line
-			{
-				String PostingType = m_columns[col].getPostingType();
-				if (PostingType != null && PostingType.length() > 0)
-					select.append(" AND PostingType='").append(PostingType).append("'");
-				// globalqss - CarlosRuiz
-				if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
-					if (m_columns[col].getGL_Budget_ID() > 0)
-						select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
-				}
-				// end globalqss
+		//	Report Where
+		s = m_report.getWhereClause();
+		if (s != null && s.length() > 0)
+			select.append(" AND ").append(s);
+
+		//	PostingType
+		if (!m_lines[line].isPostingType())		//	only if not defined on line
+		{
+			String PostingType = m_columns[col].getPostingType();
+			if (PostingType != null && PostingType.length() > 0)
+				select.append(" AND PostingType='").append(PostingType).append("'");
+			// globalqss - CarlosRuiz
+			if (PostingType.equals(MReportColumn.POSTINGTYPE_Budget)) {
+				if (m_columns[col].getGL_Budget_ID() > 0)
+					select.append(" AND GL_Budget_ID=" + m_columns[col].getGL_Budget_ID());
 			}
-			
+			// end globalqss
+		}
+
 			if (m_columns[col].isColumnTypeSegmentValue())
 				select.append(m_columns[col].getWhereClause(p_PA_Hierarchy_ID));
 			
@@ -724,7 +741,7 @@ public class FinReport extends SvrProcess
 
 	
 	/**************************************************************************
-	 * 	Get Financial Reporting Period based on reportong Period and offset.
+	 * 	Get Financial Reporting Period based on reporting Period and offset.
 	 * 	@param relativeOffset offset
 	 * 	@return reporting period
 	 */
@@ -886,8 +903,13 @@ public class FinReport extends SvrProcess
 				continue;
 			}
 
+			if (p_PA_ReportCube_ID > 0) {
+				select.append(" FROM Fact_Acct_Summary fb WHERE DateAcct ");
+			}  //report cube
+			else {
 			//	Get Period info
-			select.append(" FROM Fact_Acct fb WHERE TRUNC(DateAcct) ");
+				select.append(" FROM Fact_Acct fb WHERE TRUNC(DateAcct) ");
+			}
 			FinReportPeriod frp = getPeriod (m_columns[col].getRelativePeriod());
 			if (m_lines[line].getAmountType() != null)			//	line amount type overwrites column
 			{
@@ -953,6 +975,9 @@ public class FinReport extends SvrProcess
 			where.append(" AND ");
 		where.append(variable).append(" IS NOT NULL");
 
+		if (p_PA_ReportCube_ID > 0)
+			insert.append(" FROM Fact_Acct_Summary x WHERE ").append(where);
+		else
 		//	FROM .. WHERE
 		insert.append(" FROM Fact_Acct x WHERE ").append(where);	
 		//

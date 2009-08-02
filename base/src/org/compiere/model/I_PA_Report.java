@@ -225,6 +225,30 @@ public interface I_PA_Report
 
 	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException;
 
+    /** Column name PA_ReportCube_ID */
+    public static final String COLUMNNAME_PA_ReportCube_ID = "PA_ReportCube_ID";
+
+	/** Set Report Cube.
+	  * Define reporting cube for pre-calculation of summary accounting data.
+	  */
+	public void setPA_ReportCube_ID (int PA_ReportCube_ID);
+
+	/** Get Report Cube.
+	  * Define reporting cube for pre-calculation of summary accounting data.
+	  */
+	public int getPA_ReportCube_ID();
+
+    /** Column name PA_ReportLineSet_ID */
+    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
+
+	/** Set Report Line Set	  */
+	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
+
+	/** Get Report Line Set	  */
+	public int getPA_ReportLineSet_ID();
+
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
+
     /** Column name PA_Report_ID */
     public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
 
@@ -237,17 +261,6 @@ public interface I_PA_Report
 	  * Financial Report
 	  */
 	public int getPA_Report_ID();
-
-    /** Column name PA_ReportLineSet_ID */
-    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
-
-	/** Set Report Line Set	  */
-	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
-
-	/** Get Report Line Set	  */
-	public int getPA_ReportLineSet_ID();
-
-	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
