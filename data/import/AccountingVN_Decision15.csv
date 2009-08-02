@@ -1,0 +1,310 @@
+[Account_Value],[Account_Name],[Account_Description],[Account_Type],[Account_Sign],[Account_Document],[Account_Summary],[Default_Account],[Account_Parent]
+1,TÀI SẢN NGẮN HẠN,,Asset,,,Yes,,
+111,Tiền mặt,,Asset,,,Yes,,1
+11110000,Tiền mặt tại quỹ – VNĐ,,Asset,,Yes,No,CB_ASSET_ACCT,111
+11120000,Tiền mặt tại quỹ – USD,,Asset,,,No,,111
+11130000,Vàng- bạc- kim khí quý- đá quý,,Asset,,,No,,111
+112,Tiền gửi Ngân hàng,,Asset,,,Yes,,1
+11211000,Tiền gửi ngân hàng – VNĐ,,Asset,,Yes,No,B_ASSET_ACCT,112
+11211100,Tiền nhận được chưa phân bổ,,Asset,,Yes,No,B_UNALLOCATEDCASH_ACCT,112
+11211200,Tiền gửi ko rõ nguồn gốc,,Asset,,Yes,No,B_UNIDENTIFIED_ACCT,112
+11220000,Tiền gửi ngân hàng – USD,,Asset,,,No,,112
+11230000,Vàng- bạc- kim khí quý- đá quý,,Asset,,,No,,112
+113,Tiền đang chuyển,,Asset,,,Yes,,1
+11310000,Tiền mặt đang chuyển,,Asset,,Yes,No,CB_CASHTRANSFER_ACCT,113
+11320000,Tiền ngân hàng đang chuyển,,Asset,,Yes,No,B_INTRANSIT_ACCT,113
+121,Đầu tư chứng khoán ngắn hạn,,Asset,,,Yes,,1
+12110000,Cổ phiếu,,Asset,,,No,,121
+12120000,Trái phiếu- tín phiếu- kỳ phiếu,,Asset,,,No,,121
+128,Đầu tư ngắn hạn khác ,,Asset,,,Yes,,1
+12810000,Tiền gửi có kỳ hạn ,,Asset,,,No,,128
+12880000,Đầu tư ngắn hạn khác,,Asset,,,No,,128
+129,Dự phòng giảm giá đầu tư ngắn hạn,,Asset,,,Yes,,1
+131,Phải thu của khách hàng,,Asset,,,Yes,,1
+13110000,Phải thu thương mại,,Asset,,Yes,No,C_RECEIVABLE_ACCT,131
+13120000,Phải thu dịch vụ,,Asset,,Yes,No,C_RECEIVABLE_SERVICES_ACCT,131
+13150000,Ứng trước cho nhà cung cấp,,Asset,,Yes,No,V_PREPAYMENT_ACCT,131
+13160000,Phải thu chưa có hóa đơn,,Asset,,Yes,No,NOTINVOICEDRECEIVABLES_ACCT,131
+13180000,Phải thu khách hàng khác,,Asset,,,No,,131
+133,Thuế GTGT được khấu trừ,,Asset,,,Yes,,1
+13310000,Thuế GTGT được khấu trừ của hàng hóa- dịch vụ,,Asset,,Yes,No,T_RECEIVABLES_ACCT,133
+13320000,Thuế GTGT được khấu trừ của TSCĐ,,Asset,,,No,,133
+136,Phải thu nội bộ,,Asset,,,Yes,,1
+13610000,Vốn kinh doanh ở các đơn vị trực thuộc,,Asset,,,No,,136
+13680000,Phải thu nội bộ khác,,Asset,,Yes,No,INTERCOMPANYDUEFROM_ACCT,136
+138,Phải thu khác,,Asset,,,Yes,,1
+13810000,Tài sản thiếu chờ xử lý,,Asset,,,No,,138
+13850000,Phải thu về cổ phần hoá,,Asset,,,No,,138
+13880000,Phải thu khác,,Asset,,,No,,138
+139,Dự phòng phải thu khó đòi ,,Asset,,,Yes,,1
+13900000,Dự phòng phải thu khó đòi ,,Asset,,,No,,139
+141,Tạm ứng,,Asset,,,Yes,,1
+14110000,Tạm ứng cho nhân viên,,Asset,,Yes,No,E_PREPAYMENT_ACCT,141
+142,Chi phí trả trước ngắn hạn,,Asset,,,Yes,,1
+14210000,Chi phí trả trước ngắn hạn,,Asset,,,No,,142
+144,Cầm cố- ký quỹ- ký cược ngắn hạn,,Asset,,,Yes,,1
+14410000,Cầm cố- ký quỹ- ký cược ngắn hạn,,Asset,,,No,,144
+151,Hàng mua đang đi đường ,,Asset,,,Yes,,1
+15110000,Hàng mua đang đi đường ,,Asset,,,Yes,,151
+15120000,Hàng nhận về chưa có hóa đơn,,Asset,,Yes,No,NOTINVOICEDRECEIPTS_ACCT,151
+152,Nguyên liệu- vật liệu,,Asset,,,Yes,,1
+15210000,Nguyên liệu- vật liệu,,Asset,,,No,P_TRADEDISCOUNTREC_ACCT,152
+153,Công cụ- dụng cụ ,,Asset,,,Yes,,1
+15310000,Công cụ- dụng cụ ,,Asset,,,No,,153
+154,Chi phí sản xuất- kinh doanh dở dang,,Asset,,,Yes,,1
+15410000,Chi phí sản xuất- kinh doanh dở dang,,Asset,,Yes,No,PJ_WIP_ACCT,154
+155,Thành phẩm,,Asset,,,Yes,,1
+15510000,Thành phẩm,,Asset,,Yes,No,P_ASSET_ACCT,155
+15520000,Thành phẩm dự án,,Asset,,Yes,No,PJ_ASSET_ACCT,155
+156,Hàng hóa,,Asset,,,Yes,,1
+15610000,Giá mua hàng hóa,,Asset,,Yes,No,W_INVENTORY_ACCT,156
+15620000,Chi phí thu mua hàng hóa,,Asset,,Yes,No,,156
+15670000,Hàng hóa bất động sản ,,Asset,,,No,,156
+157,Hàng gửi đi bán,,Asset,,,Yes,,1
+15710000,Hàng gửi đi bán,,Asset,,,No,,157
+158,Hàng hoá kho bảo thuế,,Asset,,,Yes,,1
+15810000,Hàng hoá kho bảo thuế,,Asset,,,No,,158
+159,Dự phòng giảm giá hàng tồn kho,,Asset,,,Yes,,1
+15910000,Dự phòng giảm giá hàng tồn kho,,Asset,,,No,,159
+2,TÀI SẢN DÀI HẠN,,Asset,,,Yes,,
+211,Tài sản cố định hữu hình,,Asset,,,Yes,,2
+21110000,Nhà cửa- vật kiến trúc,,Asset,,,No,,211
+21120000,Máy móc- thiết bị,,Asset,,,No,,211
+21130000,Phương tiện vận tải- truyền dẫn,,Asset,,,No,,211
+21140000,Thiết bị- dụng cụ quản lý,,Asset,,,No,,211
+21150000,Cây lâu năm- súc vật làm việc và cho sản phẩm,,Asset,,,No,,211
+21180000,TSCĐ khác ,,Asset,,,No,,211
+212,Tài sản cố định thuê tài chính,,Asset,,,Yes,,2
+21210000,Tài sản cố định thuê tài chính,,Asset,,,No,,212
+213,Tài sản cố định vô hình,,Asset,,,Yes,,2
+21310000,Quyền sử dụng đất,,Asset,,,No,,213
+21320000,Quyền phát hành,,Asset,,,No,,213
+21330000,Bản quyền- bằng sáng chế,,Asset,,,No,,213
+21340000,Nhãn hiệu hàng hoá,,Asset,,,No,,213
+21350000,Phần mềm máy vi tính,,Asset,,,No,,213
+21360000,Giấy phép và giấy phép nhượng quyền,,Asset,,,No,,213
+21380000,TSCĐ vô hình khác,,Asset,,,No,,213
+214,Hao mòn tài sản cố định,,Asset,,,Yes,,2
+21410000,Hao mòn TSCĐ hữu hình,,Asset,,,No,,214
+21420000,Hao mòn TSCĐ thuê tài chính,,Asset,,,No,,214
+21430000,Hao mòn TSCĐ vô hình ,,Asset,,,No,,214
+21470000,Hao mòn bất động sản đầu tư,,Asset,,,No,,214
+217,Bất động sản đầu tư,,Asset,,,Yes,,2
+21710000,Bất động sản đầu tư,,Asset,,,No,,217
+221,Đầu tư vào công ty con,,Asset,,,Yes,,2
+22110000,Đầu tư vào công ty con,,Asset,,,No,,221
+222,Vốn góp liên doanh,,Asset,,,Yes,,2
+22210000,Vốn góp liên doanh,,Asset,,,No,,222
+223,Đầu tư vào công ty liên kết,,Asset,,,Yes,,2
+22310000,Đầu tư vào công ty liên kết,,Asset,,,No,,223
+228,Đầu tư dài hạn khác,,Asset,,,Yes,,2
+22810000,Cổ phiếu,,Asset,,,No,,228
+22820000,Trái phiếu,,Asset,,,No,,228
+22830000,Đầu tư dài hạn khác,,Asset,,,No,,228
+229,Dự phòng giảm giá đầu tư dài hạn,,Asset,,,Yes,,2
+22910000,Dự phòng giảm giá đầu tư dài hạn,,Asset,,,No,,229
+241,Xây dựng cơ bản dở dang ,,Asset,,,Yes,,2
+24110000,Mua sắm TSCĐ,,Asset,,,No,,241
+24120000,Xây dựng cơ bản,,Asset,,,No,,241
+24130000,Sửa chữa lớn TSCĐ,,Asset,,,No,,241
+242,Chi phí trả trước dài hạn,,Asset,,,Yes,,2
+24210000,Chi phí trả trước dài hạn,,Asset,,,No,,242
+243,Tài sản thuế thu nhập hoãn lại,,Asset,,,Yes,,2
+24310000,Tài sản thuế thu nhập hoãn lại,,Asset,,,No,,243
+244,Ký quỹ- ký cược dài hạn,,Asset,,,Yes,,2
+24410000,Ký quỹ- ký cược dài hạn,,Asset,,,No,,244
+3,NỢ PHẢI TRẢ,,Liability,,,Yes,,
+311,Vay ngắn hạn,,Liability,,,Yes,,3
+31110000,Vay ngắn hạn,,Liability,,,No,,311
+315,Nợ dài hạn đến hạn trả,,Liability,,,Yes,,3
+31510000,Nợ dài hạn đến hạn trả,,Liability,,,No,,315
+331,Phải trả cho người bán,,Liability,,,Yes,,3
+33110000,Phải trả thương mại,,Liability,,Yes,No,V_LIABILITY_ACCT,331
+33120000,Phải trả dịch vụ,,Liability,,Yes,No,V_LIABILITY_SERVICES_ACCT,331
+33150000,Trả trước của khách hàng,,Liability,,Yes,No,C_PREPAYMENT_ACCT,331
+33170000,Phải trả chờ xử lý,,Liability,,Yes,No,B_PAYMENTSELECT_ACCT,331
+33180000,Phải trả khác,,Liability,,,No,,331
+333,Thuế và các khoản phải nộp Nhà nước,,Liability,,,Yes,,3
+3331,Thuế giá trị gia tăng phải nộp,,Liability,,,Yes,,333
+33311000,Thuế GTGT đầu ra,,Liability,,Yes,No,T_LIABILITY_ACCT,3331
+33312000,Thuế GTGT hàng nhập khẩu,,Liability,,,No,,3331
+33320000,Thuế tiêu thụ đặc biệt ,,Liability,,,No,,333
+33330000,Thuế xuất- nhập khẩu,,Liability,,,No,,333
+33340000,Thuế thu nhập doanh nghiệp ,,Liability,,,No,,333
+33350000,Thuế thu nhập cá nhân,,Liability,,,No,,333
+33360000,Thuế tài nguyên,,Liability,,,No,,333
+33370000,Thuế nhà đất- tiền thuê đất,,Liability,,,No,,333
+33380000,Các loại thuế khác,,Liability,,Yes,No,WITHHOLDING_ACCT,333
+33381000,Khấu trừ thuế,,Liability,,Yes,No,T_CREDIT_ACCT,333
+33390000,Phí- lệ phí và các khoản phải nộp khác,,Liability,,Yes,No,T_DUE_ACCT,333
+334,Phải trả người lao động,,Liability,,,Yes,,3
+33410000,Phải trả công nhân viên,,Liability,,,No,,334
+33480000,Phải trả người lao động khác,,Liability,,,No,,334
+335,Chi phí phải trả,,Liability,,,Yes,,3
+33510000,Chi phí phải trả,,Liability,,,No,,335
+336,Phải trả nội bộ,,Liability,,,Yes,,3
+33610000,Phải trả nội bộ,,Liability,,Yes,No,INTERCOMPANYDUETO_ACCT,336
+337,Thanh toán theo tiến độ kế hoạch hợp đồng xây dựng,,Liability,,,Yes,,3
+33710000,Thanh toán theo tiến độ kế hoạch hợp đồng xây dựng,,Liability,,,No,,337
+338,Phải trả- phải nộp khác,,Liability,,,Yes,,3
+33810000,Tài sản thừa chờ giải quyết,,Liability,,,No,,338
+33820000,Kinh phí công đoàn,,Liability,,,No,,338
+33830000,Bảo hiểm xã hội,,Liability,,,No,,338
+33840000,Bảo hiểm y tế,,Liability,,,No,,338
+33850000,Phải trả về cổ phần hoá,,Liability,,,No,,338
+33860000,Nhận ký quỹ- ký cược ngắn hạn,,Liability,,,No,,338
+33870000,Doanh thu chưa thực hiện,,Liability,,Yes,No,UNEARNEDREVENUE_ACCT,338
+33880000,Phải trả- phải nộp khác ,,Liability,,,No,,338
+341,Vay dài hạn,,Liability,,,Yes,,3
+34110000,Vay dài hạn,,Liability,,,No,,341
+342,Nợ dài hạn,,Liability,,,Yes,,3
+34210000,Nợ dài hạn,,Liability,,,No,,342
+343,Trái phiếu phát hành,,Liability,,,Yes,,3
+34310000,Mệnh giá trái phiếu,,Liability,,,No,,343
+34320000,Chiết khấu trái phiếu,,Liability,,,No,,343
+34330000,Phụ trội trái phiếu,,Liability,,,No,,343
+344,Nhận ký quỹ- ký cược dài hạn,,Liability,,,Yes,,3
+34410000,Nhận ký quỹ- ký cược dài hạn,,Liability,,,No,,344
+347,Thuế thu nhập hoãn lại phải trả,,Liability,,,Yes,,3
+34710000,Thuế thu nhập hoãn lại phải trả,,Liability,,,No,,347
+351,Quỹ dự phòng trợ cấp mất việc làm,,Liability,,,Yes,,3
+35110000,Quỹ dự phòng trợ cấp mất việc làm,,Liability,,,No,,351
+352,Dự phòng phải trả,,Liability,,,Yes,,3
+35210000,Dự phòng phải trả,,Liability,,,No,,352
+4,VỐN CHỦ SỞ HỮU,,Owner's Equity,,,Yes,,
+411,Nguồn vốn kinh doanh,,Owner's Equity,,,Yes,,4
+41110000,Vốn đầu tư của chủ sở hữu,,Owner's Equity,,,No,,411
+41120000,Thặng dư vốn cổ phần,,Owner's Equity,,,No,,411
+41180000,Vốn khác ,,Owner's Equity,,,No,,411
+412,Chênh lệch đánh giá lại tài sản,,Owner's Equity,,,Yes,,4
+41210000,Chênh lệch đánh giá lại tài sản,,Owner's Equity,,,No,,412
+413,Chênh lệch tỷ giá hối đoái,,Owner's Equity,,,Yes,,4
+41311000,Lãi  tỷ giá hối đoái đánh giá lại cuối năm tài chính,Difference between foreign currency receivables/payables and current rate,Owner's Equity,,Yes,No,UNREALIZEDGAIN_ACCT,413
+41312000,Lỗ  tỷ giá hối đoái đánh giá lại cuối năm tài chính,Difference between foreign currency receivables/payables and current rate,Owner's Equity,,Yes,No,UNREALIZEDLOSS_ACCT,413
+41320000,Chênh lệch tỷ giá hối đoái trong giai đoạn đầu tư XDCB,,Owner's Equity,,,No,,413
+414,Quỹ đầu tư phát triển,,Owner's Equity,,,Yes,,4
+41410000,Quỹ đầu tư phát triển,,Owner's Equity,,,No,,414
+415,Quỹ dự phòng tài chính,,Owner's Equity,,,Yes,,4
+41510000,Quỹ dự phòng tài chính,,Owner's Equity,,,No,,415
+418,Các quỹ khác thuộc vốn chủ sở hữu,,Owner's Equity,,,Yes,,4
+41810000,Các quỹ khác thuộc vốn chủ sở hữu,,Owner's Equity,,,No,,418
+419,Cổ phiếu quỹ,,Owner's Equity,,,Yes,,4
+41910000,Cổ phiếu quỹ,,Owner's Equity,,,No,,419
+421,Lợi nhuận chưa phân phối,,Owner's Equity,,,Yes,,4
+42110000,Lợi nhuận chưa phân phối năm trước,,Owner's Equity,,,No,,421
+42120000,Lợi nhuận chưa phân phối năm nay,,Owner's Equity,,Yes,No,RETAINEDEARNING_ACCT,421
+431,Quỹ khen thưởng- phúc lợi,,Owner's Equity,,,Yes,,4
+43110000,Quỹ khen thưởng,,Owner's Equity,,,No,,431
+43120000,Quỹ phúc lợi,,Owner's Equity,,,No,,431
+43130000,Quỹ phúc lợi đã hình thành TSCĐ,,Owner's Equity,,,No,,431
+441,Nguồn vốn đầu tư xây dựng cơ bản,,Owner's Equity,,,Yes,,4
+44110000,Nguồn vốn đầu tư xây dựng cơ bản,,Owner's Equity,,,No,,441
+461,Nguồn kinh phí sự nghiệp,,Owner's Equity,,,Yes,,4
+46110000,Nguồn kinh phí sự nghiệp năm trước,,Owner's Equity,,,No,,461
+46120000,Nguồn kinh phí sự nghiệp năm nay,,Owner's Equity,,,No,,461
+466,Nguồn kinh phí đã hình thành TSCĐ,,Owner's Equity,,,Yes,,4
+5,DOANH THU,,Revenue,,,Yes,,
+511,Doanh thu bán hàng và cung cấp dịch vụ,,Revenue,,,Yes,,5
+51110000,Doanh thu bán hàng hóa,,Revenue,,Yes,No,P_REVENUE_ACCT,511
+51120000,Doanh thu bán các thành phẩm,,Revenue,,,No,,511
+51130000,Doanh thu cung cấp dịch vụ,,Revenue,,,No,,511
+51140000,Doanh thu trợ cấp- trợ giá,,Revenue,,,No,,511
+51150000,Doanh thu chưa phát hành hóa đơn,,Revenue,,Yes,No,NOTINVOICEDREVENUE_ACCT,511
+51170000,Doanh thu kinh doanh bất động sản đầu tư,,Revenue,,,No,,511
+512,Doanh thu bán hàng nội bộ,,Revenue,,,Yes,,5
+51210000,Doanh thu bán hàng hóa,,Revenue,,,No,,512
+51220000,Doanh thu bán các thành phẩm,,Revenue,,,No,,512
+51230000,Doanh thu cung cấp dịch vụ,,Revenue,,,No,,512
+515,Doanh thu hoạt động tài chính ,,Revenue,,,Yes,,5
+51510000,Doanh thu hoạt động tài chính ,,Revenue,,,No,,515
+51520000,Chiết khấu thanh toán nhận được,,Revenue,,Yes,No,PAYDISCOUNT_REV_ACCT,515
+51530000,Lãi ngân hàng,Bank interest revenue,Revenue,,Yes,No,B_INTERESTREV_ACCT,515
+51540000,Lãi do đánh giá lại tiền gửi ngân hàng,Foreign currency bank account gain,Revenue,,Yes,No,B_REVALUATIONGAIN_ACCT,515
+51550000,Lãi do thanh toán bằng ngoại tệ,Difference between invoice and payment currency,Revenue,,Yes,No,REALIZEDGAIN_ACCT,515
+521,Chiết khấu thương mại,,Revenue,,,Yes,,5
+52110000,Chiết khấu thương mại,,Revenue,,Yes,No,P_TRADEDISCOUNTGRANT_ACCT,521
+531,Hàng bán bị trả lại,,Revenue,,,Yes,,5
+53110000,Hàng bán bị trả lại,,Revenue,,,No,,531
+532,Giảm giá hàng bán,,Revenue,,,Yes,,5
+53219999,Giảm giá hàng bán,,Revenue,,,No,,532
+6,CHI PHÍ SẢN XUẤT- KINH DOANH,,Expense,,,Yes,,
+611,Mua hàng,,Expense,,,Yes,,6
+61110000,Mua nguyên liệu- vật liệu,,Expense,,,No,,611
+61120000,Mua hàng hóa,,Expense,,,No,,611
+621,Chi phí nguyên liệu- vật liệu trực tiếp,,Expense,,,Yes,,6
+622,Chi phí nhân công trực tiếp,,Expense,,,Yes,,6
+62210000,Chi phí nhân công trực tiếp,,Expense,,,No,,622
+623,Chi phí sử dụng máy thi công,,Expense,,,Yes,,6
+62310000,Chi phí nhân công,,Expense,,,No,,623
+62320000,Chi phí vật liệu,,Expense,,,No,,623
+62330000,Chi phí dụng cụ sản xuất,,Expense,,,No,,623
+62340000,Chi phí khấu hao máy thi công,,Expense,,,No,,623
+62370000,Chi phí dịch vụ mua ngoài,,Expense,,,No,,623
+62380000,Chi phí bằng tiền khác,,Expense,,,No,,623
+627,Chi phí sản xuất chung,,Expense,,,Yes,,6
+62710000,Chi phí nhân viên phân xưởng,,Expense,,,No,,627
+62720000,Chi phí vật liệu,,Expense,,,No,,627
+62730000,Chi phí dụng cụ sản xuất,,Expense,,,No,,627
+62740000,Chi phí khấu hao TSCĐ,,Expense,,,No,,627
+62770000,Chi phí dịch vụ mua ngoài,,Expense,,,No,,627
+62780000,Chi phí bằng tiền khác,,Expense,,,No,,627
+631,Giá thành sản xuất,,Expense,,,Yes,,6
+63110000,Giá thành dịch vụ,,Expense,,Yes,No,P_EXPENSE_ACCT,631
+63120000,Bù trừ giá thành sản phẩm,,Expense,,Yes,No,P_INVENTORYCLEARING_ACCT,631
+63130000,Điều chỉnh giá thành sản phẩm,,Expense,,Yes,No,P_COSTADJUSTMENT_ACCT,631
+632,Giá vốn hàng bán,,Expense,,,Yes,,6
+63210000,Giá vốn hàng bán,,Expense,,Yes,No,P_COGS_ACCT,632
+63220000,Chênh lệch hàng tồn kho do kiểm kê,Physical Inventory Gain/Loss,Expense,,Yes,No,W_DIFFERENCES_ACCT,632
+63230000,Chênh lệch HTK do điều chỉnh,Inventory Actual Accounting Value Adjustment,Expense,,Yes,No,W_INVACTUALADJUST_ACCT,632
+63240000,Chênh lệch giữa giá vốn và giá trị thuần có thể thực hiện,Difference to (lower cost) or market,Expense,,Yes,No,W_REVALUATION_ACCT,632
+63250000,Chênh lệch giữa giá thành và giá mua,Difference between product cost and invoice price (IPV),Expense,,Yes,No,P_INVOICEPRICEVARIANCE_ACCT,632
+63260000,Chênh lệc với giá định mức,Difference between purchase price and standard costs (PPV),Expense,,Yes,No,P_PURCHASEPRICEVARIANCE_ACCT,632
+63270000,TK đối ứng với chênh lệch giá mua,Offset Account for Purchase price variance (PPV) ,Expense,,Yes,No,PPVOFFSET_ACCT,632
+635,Chi phí tài chính ,,Expense,,,Yes,,6
+63510000,Chi phí tài chính ,,Expense,,,No,,635
+63520000,Phí ngân hàng,,Expense,,Yes,No,B_EXPENSE_ACCT,635
+63530000,Chiết khấu thanh toán,,Expense,,Yes,No,PAYDISCOUNT_EXP_ACCT,635
+63540000,Chi phí lãi ngân hàng,Bank interest expense,Expense,,Yes,No,B_INTERESTEXP_ACCT,635
+63550000,Lỗ do đánh giá lại tiền gửi ngân hàng,Foreign currency bank account loss,Expense,,Yes,No,B_REVALUATIONLOSS_ACCT,635
+63560000,Lỗ do thanh toán bằng ngoại tệ,Difference between invoice and payment currency,Expense,,Yes,No,REALIZEDLOSS_ACCT,635
+641,Chi phí bán hàng,,Expense,,,Yes,,6
+64110000,Chi phí nhân viên ,,Expense,,,No,,641
+64120000,Chi phí vật liệu- bao bì,,Expense,,,No,,641
+64130000,Chi phí dụng cụ- đồ dùng,,Expense,,,No,,641
+64140000,Chi phí khấu hao TSCĐ,,Expense,,,No,,641
+64150000,Chi phí bảo hành,,Expense,,,No,,641
+64170000,Chi phí dịch vụ mua ngoài,,Expense,,,No,,641
+64180000,Chi phí bằng tiền khác,,Expense,,,No,,641
+642,Chi phí quản lý doanh nghiệp,,Expense,,,Yes,,6
+64210000,Chi phí nhân viên quản lý,,Expense,,Yes,No,E_EXPENSE_ACCT,642
+64220000,Chi phí vật liệu quản lý,,Expense,,,No,,642
+64230000,Chi phí đồ dùng văn phòng,,Expense,,,No,,642
+64240000,Chi phí khấu hao TSCĐ,,Expense,,,No,,642
+64250000,Thuế- phí và lệ phí,,Expense,,,No,,642
+64260000,Chi phí dự phòng,,Expense,,Yes,No,WRITEOFF_ACCT,642
+64270000,Chi phí dịch vụ mua ngoài,TK mặc định cho chi phí mua ngoài,Expense,,,No,CH_EXPENSE_ACCT,642
+64280000,Chi phí bằng tiền khác,,Expense,,Yes,No,CB_EXPENSE_ACCT,642
+64281000,Chênh lệch quỹ tiền mặt,,,,Yes,,CB_DIFFERENCES_ACCT,642
+7,THU NHẬP KHÁC,,Revenue,,,Yes,,
+711,Thu nhập khác,,Revenue,,,Yes,,7
+71100000,Tiền nhận được khác,,Revenue,,Yes,No,CB_RECEIPT_ACCT,711
+71120000,Thu nhập khác,,Revenue,,Yes,No,CH_REVENUE_ACCT,711
+71130000,Lãi do thanh toán ngân hàng,Difference between payment and bank account currency,Revenue,,Yes,No,B_SETTLEMENTGAIN_ACCT,711
+8,CHI PHÍ KHÁC,,Expense,,,Yes,,
+811,Chi phí khác,,Expense,,,Yes,,8
+81100000,Chi phí khác,,Expense,,Yes,No,,811
+821,Chi phí thuế thu nhập doanh nghiệp,,Expense,,,Yes,,8
+82110000,Chi phí thuế TNDN hiện hành,,Expense,,Yes,No,T_EXPENSE_ACCT,821
+82120000,Chi phí thuế TNDN hoãn lại,,Expense,,,No,,821
+82130000,Lỗ do thanh toán ngân hàng,Difference between payment and bank account currency,Expense,,Yes,No,B_SETTLEMENTLOSS_ACCT,821
+9,Xác định kết quả kinh doanh,,Expense,,,Yes,,
+911,Xác định kết quả kinh doanh,,Expense,,,Yes,,9
+91100000,Xác định kết quả kinh doanh,,Expense,,Yes,No,INCOMESUMMARY_ACCT,911
+991,Tài khoản treo,,Expense,,,Yes,,9
+99110000,Tài khoản treo,Tài khoản treo,Expense,,Yes,No,DEFAULT_ACCT,991
+99120000,Chênh lệch do báo cáo bằng đồng ngoại tệ,Difference to make journal balance in source currency - needs to be solved,Expense,,Yes,No,SUSPENSEBALANCING_ACCT,991
+99130000,Suspense error,Import did not find account - needs to be solved,Expense,,Yes,No,SUSPENSEERROR_ACCT,991
+99140000,Chênh lệch do làm tròn,Rounding difference to make journal balance in accounting currency,Expense,,Yes,No,CURRENCYBALANCING_ACCT,991
+999,Tài khoản kế toán cam kết,,Memo,,,Yes,,9
+99950000,Cam kết mua hàng,,Memo,,Yes,No,COMMITMENTOFFSET_ACCT,999
+99960000,Cam kết bán hàng,,Memo,,Yes,No,COMMITMENTOFFSETSALES_ACCT,999
