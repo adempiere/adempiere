@@ -8,10 +8,11 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/zul.jar" sourcepath="WEB-INF/lib/zul-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/junit.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/keylistener.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tools"/>
 	<classpathentry kind="src" path="/client"/>
 	<classpathentry kind="src" path="/JasperReports"/>
 	<classpathentry kind="src" path="/JasperReportsTools"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/C-_applications_apache-tomcat-5.5.26"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v5.5.27"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/tools/lib/xercesImpl.jar"/>
