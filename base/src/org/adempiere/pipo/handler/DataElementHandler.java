@@ -33,7 +33,6 @@ import javax.xml.transform.sax.TransformerHandler;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.IDFinder;
-import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -51,9 +50,10 @@ import org.xml.sax.helpers.AttributesImpl;
  * @author Low Heng Sin
  *
  */
-public class DataElementHandler extends AbstractElementHandler implements IPackOutHandler {
+public class DataElementHandler extends AbstractElementHandler {
 
 	private PO genericPO = null;
+	int AD_Backup_ID = -1;
 	String objectStatus = null;
 	String d_tablename = null;
 	
@@ -112,11 +112,12 @@ public class DataElementHandler extends AbstractElementHandler implements IPackO
 				if (id > 0){
 					if (genericPO == null || genericPO.get_ID() != id)
 						throw new SAXException("id not found");
-					backupRecord(ctx,d_tablename,genericPO);
+					AD_Backup_ID = copyRecord(ctx,d_tablename,genericPO);
 					objectStatus = "Update";			
 				}
 				else{
 					objectStatus = "New";
+					AD_Backup_ID =0;
 				}
 			}
 			// keyXname and lookupkeyXname.
@@ -219,9 +220,9 @@ public class DataElementHandler extends AbstractElementHandler implements IPackO
 		public void endElement(Properties ctx, Element element) throws SAXException {
 			if (genericPO != null) {
 				if (genericPO.save(getTrxName(ctx))== true)
-					record_log (ctx, 1, genericPO.get_TableName(),"Data", genericPO.get_ID(),objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
+					record_log (ctx, 1, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
 				else {
-					record_log (ctx, 0, genericPO.get_TableName(),"Data", genericPO.get_ID(),objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
+					record_log (ctx, 0, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
 					throw new POSaveFailedException("GenericPO");
 				}
 				
@@ -405,13 +406,5 @@ public class DataElementHandler extends AbstractElementHandler implements IPackO
 		document.endElement("","","data");
 		
 	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{
-			Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID, detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID));
-			Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement, detail.getString(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement));
-			this.create(packout.getCtx(), packOutDocument);
-			packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID);
-			packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement);
-	}
+
 }

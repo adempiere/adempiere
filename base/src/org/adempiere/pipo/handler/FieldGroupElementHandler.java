@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -35,17 +34,15 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import java.sql.ResultSet;
+public class FieldGroupElementHandler extends AbstractElementHandler {
 
-public class FieldGroupElementHandler extends AbstractElementHandler  implements IPackOutHandler{
-	
-	
 	private List<Integer> processedFieldGroups = new ArrayList<Integer>();
 	
 	
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 
 		Attributes atts = element.attributes;
@@ -63,7 +60,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler  implements
 			if (id <= 0 && atts.getValue("AD_FieldGroup_ID") != null && Integer.parseInt(atts.getValue("AD_FieldGroup_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				fieldGroup.setAD_FieldGroup_ID(Integer.parseInt(atts.getValue("AD_FieldGroup_ID")));
 			if (id > 0) {
-				backupRecord(ctx, X_AD_FieldGroup.Table_Name, fieldGroup);
+				AD_Backup_ID = copyRecord(ctx, X_AD_FieldGroup.Table_Name, fieldGroup);
 				Object_Status = "Update";
 				if (processedFieldGroups.contains(id)) {
 					element.skip = true;
@@ -71,6 +68,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler  implements
 				}
 			} else {
 				Object_Status = "New";
+				AD_Backup_ID = 0;
 			}
 
 			PoFiller pf = new PoFiller(fieldGroup, atts);
@@ -83,7 +81,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler  implements
 			
 			if (fieldGroup.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, fieldGroup.getName(), "FieldGroup",
-						fieldGroup.get_ID(), Object_Status,
+						fieldGroup.get_ID(), AD_Backup_ID, Object_Status,
 						X_AD_FieldGroup.Table_Name, get_IDWithColumn(ctx, "AD_Table",
 								"TableName", X_AD_FieldGroup.Table_Name));
 				
@@ -93,7 +91,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler  implements
 				
 			} else {
 				record_log(ctx, 0, fieldGroup.getName(), "FieldGroup",
-						fieldGroup.get_ID(), Object_Status,
+						fieldGroup.get_ID(), AD_Backup_ID, Object_Status,
 						X_AD_FieldGroup.Table_Name, get_IDWithColumn(ctx, "AD_Table",
 								"TableName", X_AD_FieldGroup.Table_Name));
 				throw new POSaveFailedException("Reference");
@@ -106,7 +104,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler  implements
 	public void endElement(Properties ctx, Element element) throws SAXException {
 	}
 
-	protected void create(Properties ctx, TransformerHandler document)
+	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		
 		
@@ -126,14 +124,10 @@ public class FieldGroupElementHandler extends AbstractElementHandler  implements
 		document.startElement("", "", "fieldgroup", atts);
 		
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
+
+		packOut.createTranslations(X_AD_FieldGroup.Table_Name,
+					fieldGroup.get_ID(), document);
 		
-		try{
-			new CommonTranslationHandler().packOut(packOut,null,null,document,null,fieldGroup.get_ID());
-		}
-		catch(Exception e)
-		{
-			log.info(e.toString());
-		}
 		document.endElement("", "", "fieldgroup");
 	}
 
@@ -152,15 +146,4 @@ public class FieldGroupElementHandler extends AbstractElementHandler  implements
 		
 		return atts;
 	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{
-		if (recordId <= 0)
-			recordId = detail.getInt(X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID);
-		
-		Env.setContext(packout.getCtx(), X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID, recordId);
-			
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID);
-	}	
 }

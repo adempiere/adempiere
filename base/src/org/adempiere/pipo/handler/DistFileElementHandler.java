@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -29,10 +28,9 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
-import org.adempiere.pipo.PackOut;
 import org.compiere.Adempiere;
 import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_Package_Imp_Backup;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -40,20 +38,9 @@ import org.xml.sax.helpers.AttributesImpl;
 
 public class DistFileElementHandler extends AbstractElementHandler {
 
-	String fileDest;
-	
-	public DistFileElementHandler()
-	{
-		
-	}
-	
-	public DistFileElementHandler(String fileDest)
-	{
-		this.fileDest=fileDest;
-	}
-	
 	public void startElement(Properties ctx, Element element) throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue+" "+atts.getValue("name"));
@@ -68,6 +55,7 @@ public class DistFileElementHandler extends AbstractElementHandler {
 			String targetDirectory = atts.getValue("targetDirectory");
 			
 			Object_Status = "New";
+			int idDetail=0;
 			InputStream inputStream;  // Stream for reading from the source file.
 			OutputStream outputStream;   // Stream for writing the copy.       
 			
@@ -150,27 +138,41 @@ public class DistFileElementHandler extends AbstractElementHandler {
 			//Copy File
 			int success = copyFile (inputStream,outputStream);        
 			//Record in log
+			int idBackup = DB.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));        
 			if (success != -1){
 				try {				
-					record_log (ctx, 1, fileName,"file", 0, Object_Status,fileName,0);
+					idDetail = record_log (ctx, 1, fileName,"file", 0,0, Object_Status,fileName,0);
 				} catch (SAXException e) {
 					log.info ("setfile:"+e);
 				}           		        		
 			}
 			else{
 				try {
-					record_log (ctx, 0, fileName,"file", 0, Object_Status,fileName,0);
+					idDetail = record_log (ctx, 0, fileName,"file", 0,0, Object_Status,fileName,0);
 				} catch (SAXException e) {
 					log.info ("setfile:"+e);
 				}
 			}
 			//Record in transaction file 
-			X_AD_Package_Imp_Backup backup = new X_AD_Package_Imp_Backup(ctx, 0, getTrxName(ctx));
-			backup.setAD_Org_ID(Env.getAD_Org_ID(ctx));
-			backup.setAD_Package_Imp_Org_Dir(fullTargetPath+fileName);
-			backup.setAD_Package_Imp_Bck_Dir(packagePath+File.separator+"backup"+File.separator+fileDate+"_"+fileName);
-			backup.setAD_Package_Imp_ID(getPackageImpId(ctx));
-			backup.saveEx();
+			StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Backup" ) 
+					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
+					.append( "AD_PACKAGE_IMP_BACKUP_ID, AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID," ) 
+					.append( " AD_PACKAGE_IMP_ORG_DIR, AD_PACKAGE_IMP_BCK_DIR)" )
+					.append( "VALUES(" )
+					.append( " "+ Env.getAD_Client_ID(ctx) )
+					.append( ", "+ Env.getAD_Org_ID(ctx) )
+					.append( ", "+ Env.getAD_User_ID(ctx) )
+					.append( ", "+ Env.getAD_User_ID(ctx) )
+					.append( ", " + idBackup )
+					.append( ", " + idDetail )
+					.append( ", " + getPackageImpId(ctx) )
+					.append( ", '" + fullTargetPath+fileName )
+					.append( "', '" + packagePath+File.separator+"backup"+File.separator+fileDate+"_"+fileName )
+					.append( "')");
+			
+			int no = DB.executeUpdate (sqlB.toString(), getTrxName(ctx));
+			if (no == -1)
+				log.info("Insert to import backup failed");
 			
 		}
 	}
@@ -192,17 +194,5 @@ public class DistFileElementHandler extends AbstractElementHandler {
 		document.startElement("","","distfile",atts);
 		document.endElement("","","distfile");
 	}
-	
-	public void doPackout(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,AttributesImpl atts,int recordId) throws Exception
-	{
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_FileName, detail.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName));
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_ReleaseNo, detail.getString(X_AD_Package_Exp_Detail.COLUMNNAME_ReleaseNo));
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory, detail.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory));
-		Env.setContext(packout.getCtx(), "Source_Directory", fileDest);
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_FileName);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_ReleaseNo);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory);
-		packout.getCtx().remove("Source_Directory");
-	}
+
 }

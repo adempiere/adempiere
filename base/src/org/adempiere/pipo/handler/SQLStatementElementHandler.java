@@ -18,7 +18,6 @@ package org.adempiere.pipo.handler;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -27,7 +26,6 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
-import org.adempiere.pipo.PackOut;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -35,11 +33,13 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class SQLStatementElementHandler extends AbstractElementHandler implements IPackOutHandler{
+public class SQLStatementElementHandler extends AbstractElementHandler {
 
 	public void startElement(Properties ctx, Element element) throws SAXException {
 		String elementValue = element.getElementValue();
-		
+		int AD_Backup_ID = -1;
+		String Object_Status = null;
+
 		log.info(elementValue);
 		Attributes atts = element.attributes;
 		String DBType = atts.getValue("DBType");
@@ -50,7 +50,7 @@ public class SQLStatementElementHandler extends AbstractElementHandler implement
 		try {
 			if(DBType.equals("ALL")) {
 				int n = pstmt.executeUpdate();				
-				log.info("Executed SQL Statement: "+ atts.getValue("statement") + " ReturnValue="+n);
+				log.info("Executed SQL Statement: "+ atts.getValue("statement"));
 			}
 			else if(DB.isOracle() == true && DBType.equals("Oracle")) {
 				pstmt.executeUpdate();
@@ -70,7 +70,7 @@ public class SQLStatementElementHandler extends AbstractElementHandler implement
 				try {
 					Statement stmt = m_con.createStatement();
 					int n = stmt.executeUpdate (atts.getValue("statement"));
-					log.info("Executed SQL Statement for PostgreSQL: "+ atts.getValue("statement") + " ReturnValue="+n);
+					log.info("Executed SQL Statement for PostgreSQL: "+ atts.getValue("statement"));
 					// Postgres needs to commit DDL statements
 					if (m_con != null && !m_con.getAutoCommit())
 						m_con.commit();
@@ -105,14 +105,5 @@ public class SQLStatementElementHandler extends AbstractElementHandler implement
 		atts.addAttribute("","","statement","CDATA",SqlStatement);
 		return atts;
 		
-	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int field) throws Exception
-	{	
-			Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement, detail.getString(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement));
-			Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_DBType, detail.getString(X_AD_Package_Exp_Detail.COLUMNNAME_DBType));
-			this.create(packout.getCtx(), packOutDocument);
-			packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement);
-			packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_DBType);
 	}
 }

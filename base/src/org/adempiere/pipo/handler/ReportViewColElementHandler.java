@@ -36,6 +36,7 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 
 		Attributes atts = element.attributes;
@@ -83,11 +84,12 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 			if (id <= 0 && atts.getValue("AD_ReportView_Col_ID") != null && Integer.parseInt(atts.getValue("AD_ReportView_Col_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Reportview_Col.setAD_ReportView_Col_ID(Integer.parseInt(atts.getValue("AD_ReportView_Col_ID")));
 			if (id > 0) {
-				backupRecord(ctx, "AD_Reportview_Col",
+				AD_Backup_ID = copyRecord(ctx, "AD_Reportview_Col",
 						m_Reportview_Col);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
+				AD_Backup_ID = 0;
 			}
 			
 			boolean isGroupFunction = Boolean.valueOf(
@@ -108,13 +110,13 @@ public class ReportViewColElementHandler extends AbstractElementHandler {
 			if (m_Reportview_Col.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, "" + m_Reportview_Col.getAD_ReportView_ID(),
 						"Reportview_Col", m_Reportview_Col.get_ID(),
-						Object_Status, "AD_Reportview_Col",
+						AD_Backup_ID, Object_Status, "AD_Reportview_Col",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Reportview_Col"));
 			} else {
 				record_log(ctx, 0, "" + m_Reportview_Col.getAD_ReportView_ID(),
 						"Reportview_Col", m_Reportview_Col.get_ID(),
-						Object_Status, "AD_Reportview_Col",
+						AD_Backup_ID, Object_Status, "AD_Reportview_Col",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Reportview_Col"));
 				throw new POSaveFailedException("ReportViewCol");

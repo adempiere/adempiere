@@ -39,7 +39,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class ImpFormatElementHandler extends AbstractElementHandler  implements IPackOutHandler {
+public class ImpFormatElementHandler extends AbstractElementHandler {
 
 	private ImpFormatRowElementHandler rowHandler = new ImpFormatRowElementHandler();
 
@@ -48,6 +48,7 @@ public class ImpFormatElementHandler extends AbstractElementHandler  implements 
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
@@ -58,10 +59,11 @@ public class ImpFormatElementHandler extends AbstractElementHandler  implements 
 		if (id <= 0 && atts.getValue("AD_ImpFormat_ID") != null && Integer.parseInt(atts.getValue("AD_ImpFormat_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_ImpFormat.setAD_ImpFormat_ID(Integer.parseInt(atts.getValue("AD_ImpFormat_ID")));
 		if (id > 0) {
-			backupRecord(ctx, "AD_ImpFormat", m_ImpFormat);
+			AD_Backup_ID = copyRecord(ctx, "AD_ImpFormat", m_ImpFormat);
 			Object_Status = "Update";
 		} else {
 			Object_Status = "New";
+			AD_Backup_ID = 0;
 		}
 		m_ImpFormat.setName(atts.getValue("Name"));
 		String name = atts.getValue("ADTableNameID");
@@ -85,12 +87,12 @@ public class ImpFormatElementHandler extends AbstractElementHandler  implements 
 		m_ImpFormat.setFormatType(atts.getValue("FormatType"));
 		if (m_ImpFormat.save(getTrxName(ctx)) == true) {
 			record_log(ctx, 1, m_ImpFormat.getName(), "ImpFormat", m_ImpFormat
-					.get_ID(), Object_Status, "AD_ImpFormat",
+					.get_ID(), AD_Backup_ID, Object_Status, "AD_ImpFormat",
 					get_IDWithColumn(ctx, "AD_Table", "TableName",
 							"AD_ImpFormat"));
 		} else {
 			record_log(ctx, 0, m_ImpFormat.getName(), "ImpFormat", m_ImpFormat
-					.get_ID(), Object_Status, "AD_ImpFormat",
+					.get_ID(), AD_Backup_ID, Object_Status, "AD_ImpFormat",
 					get_IDWithColumn(ctx, "AD_Table", "TableName",
 							"AD_ImpFormat"));
 			throw new POSaveFailedException("Failed to save Import Format.");
@@ -100,7 +102,7 @@ public class ImpFormatElementHandler extends AbstractElementHandler  implements 
 	public void endElement(Properties ctx, Element element) throws SAXException {
 	}
 
-	protected void create(Properties ctx, TransformerHandler document)
+	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		int import_id = Env.getContextAsInt(ctx,
 				X_AD_Package_Exp_Detail.COLUMNNAME_AD_ImpFormat_ID);
@@ -176,15 +178,5 @@ public class ImpFormatElementHandler extends AbstractElementHandler  implements 
 		atts.addAttribute("", "", "FormatType", "CDATA", (m_ImpFormat
 				.getFormatType() != null ? m_ImpFormat.getFormatType() : ""));
 		return atts;
-	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{
-		if(recordId <= 0)
-			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ImpFormat_ID);
-		
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_ImpFormat_ID, recordId);
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ImpFormat_ID);
 	}
 }

@@ -13,19 +13,17 @@ import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.AttributeFiller;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.ElementHandler;
-import org.adempiere.pipo.PackOut;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import org.compiere.model.X_AD_Element;
-
-public class CommonTranslationHandler extends AbstractElementHandler implements ElementHandler,IPackOutHandler{
+public class CommonTranslationHandler extends AbstractElementHandler implements ElementHandler{
 	
 	public static final String CONTEXT_KEY__PARENT_TABLE = "currentParentTableForTranslation";
 	public static final String CONTEXT_KEY__PARENT_RECORD_ID = "currentParentTableRecordID_ForTranslation";
+	
 	public static final String SPECIAL_ATRRIBUTE__TABLE_NAME = "ParentTable";
 	
 
@@ -314,17 +312,5 @@ public class CommonTranslationHandler extends AbstractElementHandler implements 
 		
 		return arg.toString().substring(1,  arg.toString().length()-1);
 	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{	
-		if("true".equals(packout.getCtx().getProperty("isHandleTranslations"))){
-			
-			Env.setContext(packout.getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE,X_AD_Element.Table_Name);
-			Env.setContext(packout.getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID,recordId);
-			this.create(packout.getCtx(), packOutDocument);
-			packout.getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE);
-			packout.getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID);
-					
-		}
-	}
+
 }

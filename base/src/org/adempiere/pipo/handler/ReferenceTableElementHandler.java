@@ -42,6 +42,8 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
+		String Object_Status = null;
 
 		log.info(elementValue);
 		Attributes atts = element.attributes;
@@ -77,11 +79,11 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 				m_Table.setTableName(atts.getValue("ADTableNameID"));
 				if (m_Table.save(getTrxName(ctx)) == true) {
 					record_log(ctx, 1, m_Table.getName(), "Table", m_Table
-							.get_ID(), "New", "AD_Table", get_IDWithColumn(
+							.get_ID(), 0, "New", "AD_Table", get_IDWithColumn(
 							ctx, "AD_Table", "TableName", "AD_Table"));
 				} else {
 					record_log(ctx, 0, m_Table.getName(), "Table", m_Table
-							.get_ID(), "New", "AD_Table", get_IDWithColumn(
+							.get_ID(), 0, "New", "AD_Table", get_IDWithColumn(
 							ctx, "AD_Table", "TableName", "AD_Table"));
 				}
 				tableId = get_IDWithColumn(ctx, "AD_Table", "TableName", atts
@@ -100,11 +102,11 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 				m_Column.setAD_Reference_ID(30);
 				if (m_Column.save(getTrxName(ctx)) == true) {
 					record_log(ctx, 1, m_Column.getName(), "Column", m_Column
-							.get_ID(), "New", "AD_Column", get_IDWithColumn(
+							.get_ID(), 0, "New", "AD_Column", get_IDWithColumn(
 							ctx, "AD_Table", "TableName", "AD_Column"));
 				} else {
 					record_log(ctx, 0, m_Column.getName(), "Column", m_Column
-							.get_ID(), "New", "AD_Column", get_IDWithColumn(
+							.get_ID(), 0, "New", "AD_Column", get_IDWithColumn(
 							ctx, "AD_Table", "TableName", "AD_Column"));
 				}
 			}
@@ -121,11 +123,11 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 				m_Column.setAD_Reference_ID(30);
 				if (m_Column.save(getTrxName(ctx)) == true) {
 					record_log(ctx, 1, m_Column.getName(), "Column", m_Column
-							.get_ID(), "New", "AD_Column", get_IDWithColumn(
+							.get_ID(), 0, "New", "AD_Column", get_IDWithColumn(
 							ctx, "AD_Table", "TableName", "AD_Column"));
 				} else {
 					record_log(ctx, 0, m_Column.getName(), "Column", m_Column
-							.get_ID(), "New", "AD_Column", get_IDWithColumn(
+							.get_ID(), 0, "New", "AD_Column", get_IDWithColumn(
 							ctx, "AD_Table", "TableName", "AD_Column"));
 				}
 			}
@@ -154,12 +156,12 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 				int no = DB.executeUpdate(sqlB.toString(), getTrxName(ctx));
 				if (no > 0) {
 					record_log(ctx, 1, atts.getValue("ADRefenceNameID"),
-							"Reference Table", AD_Reference_ID, "Update", "AD_Ref_Table",
+							"Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 				} else {
 					record_log(ctx, 0, atts.getValue("ADRefenceNameID"),
-							"Reference Table", AD_Reference_ID, "Update", "AD_Ref_Table",
+							"Reference Table", AD_Reference_ID, 0, "Update", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 					throw new POSaveFailedException("ReferenceTable");
@@ -183,12 +185,12 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 				int no = DB.executeUpdate(sqlB.toString(), getTrxName(ctx));
 				if (no > 0) {
 					record_log(ctx, 1, atts.getValue("ADRefenceNameID"),
-							"Reference Table", AD_Reference_ID, "New", "AD_Ref_Table",
+							"Reference Table", AD_Reference_ID, 0, "New", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 				} else {
 					record_log(ctx, 0, atts.getValue("ADRefenceNameID"),
-							"Reference Table", AD_Reference_ID, "New", "AD_Ref_Table",
+							"Reference Table", AD_Reference_ID, 0, "New", "AD_Ref_Table",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Ref_Table"));
 					throw new POSaveFailedException("ReferenceTable");

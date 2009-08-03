@@ -44,7 +44,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class WorkflowElementHandler extends AbstractElementHandler implements IPackOutHandler{
+public class WorkflowElementHandler extends AbstractElementHandler {
 
 	private WorkflowNodeElementHandler nodeHandler = new WorkflowNodeElementHandler();
 	private WorkflowNodeNextElementHandler nodeNextHandler = new WorkflowNodeNextElementHandler();
@@ -71,14 +71,16 @@ public class WorkflowElementHandler extends AbstractElementHandler implements IP
 			}
 
 			MWorkflow m_Workflow = new MWorkflow(ctx, id, getTrxName(ctx));
+			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_Workflow_ID") != null && Integer.parseInt(atts.getValue("AD_Workflow_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Workflow.setAD_Workflow_ID(Integer.parseInt(atts.getValue("AD_Workflow_ID")));
 			if (id > 0) {
-				backupRecord(ctx, "AD_Workflow", m_Workflow);
+				AD_Backup_ID = copyRecord(ctx, "AD_Workflow", m_Workflow);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
+				AD_Backup_ID = 0;
 			}
 
 			String name = atts.getValue("ADWorkflowResponsibleNameID");
@@ -150,7 +152,7 @@ public class WorkflowElementHandler extends AbstractElementHandler implements IP
 			if (m_Workflow.save(getTrxName(ctx)) == true) {
 				log.info("m_Workflow save success");
 				record_log(ctx, 1, m_Workflow.getName(), "Workflow", m_Workflow
-						.get_ID(), Object_Status, "AD_Workflow",
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_Workflow",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Workflow"));
 				workflows.add(m_Workflow.getAD_Workflow_ID());
@@ -158,7 +160,7 @@ public class WorkflowElementHandler extends AbstractElementHandler implements IP
 			} else {
 				log.info("m_Workflow save failure");
 				record_log(ctx, 0, m_Workflow.getName(), "Workflow", m_Workflow
-						.get_ID(), Object_Status, "AD_Workflow",
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_Workflow",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Workflow"));
 				throw new POSaveFailedException("MWorkflow");
@@ -189,7 +191,7 @@ public class WorkflowElementHandler extends AbstractElementHandler implements IP
 				if (m_Workflow.save(getTrxName(ctx)) == true) {
 					log.info("m_Workflow update success");
 					record_log(ctx, 1, m_Workflow.getName(), "Workflow", m_Workflow
-							.get_ID(), "Update", "AD_Workflow",
+							.get_ID(), 0, "Update", "AD_Workflow",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Workflow"));
 					workflows.add(m_Workflow.getAD_Workflow_ID());
@@ -197,7 +199,7 @@ public class WorkflowElementHandler extends AbstractElementHandler implements IP
 				} else {
 					log.info("m_Workflow update fail");
 					record_log(ctx, 0, m_Workflow.getName(), "Workflow", m_Workflow
-							.get_ID(), "Update", "AD_Workflow",
+							.get_ID(), 0, "Update", "AD_Workflow",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Workflow"));
 					throw new POSaveFailedException("MWorkflow");
@@ -220,7 +222,7 @@ public class WorkflowElementHandler extends AbstractElementHandler implements IP
 				if (m_Workflow.save(getTrxName(ctx)) == true) {
 					log.info("m_Workflow update success");
 					record_log(ctx, 1, m_Workflow.getName(), "Workflow", m_Workflow
-							.get_ID(), "Update", "AD_Workflow",
+							.get_ID(), 0, "Update", "AD_Workflow",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Workflow"));
 					workflows.add(m_Workflow.getAD_Workflow_ID());
@@ -228,7 +230,7 @@ public class WorkflowElementHandler extends AbstractElementHandler implements IP
 				} else {
 					log.info("m_Workflow update fail");
 					record_log(ctx, 0, m_Workflow.getName(), "Workflow", m_Workflow
-							.get_ID(), "Update", "AD_Workflow",
+							.get_ID(), 0, "Update", "AD_Workflow",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Workflow"));
 					throw new POSaveFailedException("MWorkflow");
@@ -462,17 +464,5 @@ public class WorkflowElementHandler extends AbstractElementHandler implements IP
 		// atts.addAttribute("","","SetupTime","CDATA",(""+m_Workflow.getSetupTime()
 		// != null ? ""+m_Workflow.getSetupTime():""));
 		return atts;
-	}
-	
-
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{	
-		if(recordId <= 0)
-			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID);
-		
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID, recordId);
-		
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID);
 	}
 }

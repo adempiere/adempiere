@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -30,15 +29,12 @@ import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.PoFiller;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.X_AD_Element;
-
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import java.sql.ResultSet;
-
-public class AdElementHandler extends AbstractElementHandler implements IPackOutHandler {
+public class AdElementHandler extends AbstractElementHandler {
 
 	private List<Integer> processedElements = new ArrayList<Integer>();
 	
@@ -48,6 +44,7 @@ public class AdElementHandler extends AbstractElementHandler implements IPackOut
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 
 		Attributes atts = element.attributes;
@@ -65,7 +62,7 @@ public class AdElementHandler extends AbstractElementHandler implements IPackOut
 			if (id <= 0 && atts.getValue("AD_Element_ID") != null && Integer.parseInt(atts.getValue("AD_Element_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_AdElement.setAD_Element_ID(Integer.parseInt(atts.getValue("AD_Element_ID")));
 			if (id > 0) {
-				backupRecord(ctx, AD_ELEMENT, m_AdElement);
+				AD_Backup_ID = copyRecord(ctx, AD_ELEMENT, m_AdElement);
 				Object_Status = "Update";
 				if (processedElements.contains(id)) {
 					element.skip = true;
@@ -73,6 +70,7 @@ public class AdElementHandler extends AbstractElementHandler implements IPackOut
 				}
 			} else {
 				Object_Status = "New";
+				AD_Backup_ID = 0;
 			}
 
 			PoFiller pf = new PoFiller(m_AdElement, atts);
@@ -94,7 +92,7 @@ public class AdElementHandler extends AbstractElementHandler implements IPackOut
 			
 			if (m_AdElement.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_AdElement.getName(), "Element",
-						m_AdElement.get_ID(), Object_Status,
+						m_AdElement.get_ID(), AD_Backup_ID, Object_Status,
 						AD_ELEMENT, get_IDWithColumn(ctx, "AD_Table",
 								"TableName", AD_ELEMENT));
 				
@@ -104,7 +102,7 @@ public class AdElementHandler extends AbstractElementHandler implements IPackOut
 				
 			} else {
 				record_log(ctx, 0, m_AdElement.getName(), "Element",
-						m_AdElement.get_ID(), Object_Status,
+						m_AdElement.get_ID(), AD_Backup_ID, Object_Status,
 						AD_ELEMENT, get_IDWithColumn(ctx, "AD_Table",
 								"TableName", AD_ELEMENT));
 				throw new POSaveFailedException("Reference");
@@ -117,7 +115,7 @@ public class AdElementHandler extends AbstractElementHandler implements IPackOut
 	public void endElement(Properties ctx, Element element) throws SAXException {
 	}
 
-	protected void create(Properties ctx, TransformerHandler document)
+	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		
 		
@@ -138,14 +136,8 @@ public class AdElementHandler extends AbstractElementHandler implements IPackOut
 		
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
 
-		
-		try{
-			new CommonTranslationHandler().packOut(packOut,null,null,document,null,m_AdElement.get_ID());
-		}
-		catch(Exception e)
-		{
-			log.info(e.toString());
-		}
+		packOut.createTranslations(X_AD_Element.Table_Name,
+					m_AdElement.get_ID(), document);
 		
 		document.endElement("", "", "element");
 	}
@@ -173,16 +165,5 @@ public class AdElementHandler extends AbstractElementHandler implements IPackOut
 		filler.add(X_AD_Element.COLUMNNAME_PO_PrintName);
 		
 		return atts;
-	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{
-		if(recordId <= 0 )
-			recordId = detail.getInt(X_AD_Element.COLUMNNAME_AD_Element_ID);
-		
-		Env.setContext(packout.getCtx(), X_AD_Element.COLUMNNAME_AD_Element_ID, recordId);
-		
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_Element.COLUMNNAME_AD_Element_ID);
 	}
 }

@@ -81,14 +81,16 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 					workflowId, workflowNodeName);
 
 			X_AD_WF_Node m_WFNode = new X_AD_WF_Node(ctx, id, getTrxName(ctx));
+			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_WF_Node_ID") != null && Integer.parseInt(atts.getValue("AD_WF_Node_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_WFNode.setAD_WF_Node_ID(Integer.parseInt(atts.getValue("AD_WF_Node_ID")));
 			if (id > 0) {
-				backupRecord(ctx, "AD_WF_Node", m_WFNode);
+				AD_Backup_ID = copyRecord(ctx, "AD_WF_Node", m_WFNode);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
+				AD_Backup_ID = 0;
 			}
 			m_WFNode.setValue(atts.getValue("Value"));
 			m_WFNode.setName(workflowNodeName);
@@ -228,13 +230,13 @@ public class WorkflowNodeElementHandler extends AbstractElementHandler {
 			if (m_WFNode.save(getTrxName(ctx)) == true) {
 				log.info("m_WFNode save success");
 				record_log(ctx, 1, m_WFNode.getName(), "WFNode", m_WFNode
-						.get_ID(), Object_Status, "AD_WF_Node",
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_WF_Node",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_WF_Node"));
 			} else {
 				log.info("m_WFNode save failure");
 				record_log(ctx, 0, m_WFNode.getName(), "WFNode", m_WFNode
-						.get_ID(), Object_Status, "AD_WF_Node",
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_WF_Node",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_WF_Node"));
 				throw new POSaveFailedException("WorkflowNode");

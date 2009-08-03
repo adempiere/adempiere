@@ -32,7 +32,6 @@ import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTable;
-import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_ReportView;
 import org.compiere.model.X_AD_ReportView_Col;
 import org.compiere.util.DB;
@@ -41,7 +40,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class ReportViewElementHandler extends AbstractElementHandler implements IPackOutHandler{
+public class ReportViewElementHandler extends AbstractElementHandler {
 
 	private ReportViewColElementHandler columnHandler = new ReportViewColElementHandler();
 
@@ -50,9 +49,11 @@ public class ReportViewElementHandler extends AbstractElementHandler implements 
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("ADReportviewnameID"));
+		String entitytype = atts.getValue("EntityType");
 		String name = atts.getValue("ADReportviewnameID");
 
 		int id = get_ID(ctx, "AD_ReportView", name);
@@ -61,10 +62,11 @@ public class ReportViewElementHandler extends AbstractElementHandler implements 
 		if (id <= 0 && atts.getValue("AD_ReportView_ID") != null && Integer.parseInt(atts.getValue("AD_ReportView_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_Reportview.setAD_ReportView_ID(Integer.parseInt(atts.getValue("AD_ReportView_ID")));
 		if (id > 0) {
-			backupRecord(ctx, "AD_Reportview", m_Reportview);
+			AD_Backup_ID = copyRecord(ctx, "AD_Reportview", m_Reportview);
 			Object_Status = "Update";
 		} else {
 			Object_Status = "New";
+			AD_Backup_ID = 0;
 		}
 		String Name = atts.getValue("ADTableNameID");
 		id = get_IDWithColumn(ctx, "AD_Table", "TableName", Name);
@@ -76,12 +78,12 @@ public class ReportViewElementHandler extends AbstractElementHandler implements 
 			m_Table.setTableName(Name);
 			if (m_Table.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Table.getName(), "Table",
-						m_Table.get_ID(), "New", "AD_Table",
+						m_Table.get_ID(), 0, "New", "AD_Table",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Table"));
 			} else {
 				record_log(ctx, 0, m_Table.getName(), "Table",
-						m_Table.get_ID(), "New", "AD_Table",
+						m_Table.get_ID(), 0, "New", "AD_Table",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Table"));
 			}
@@ -98,13 +100,13 @@ public class ReportViewElementHandler extends AbstractElementHandler implements 
 		m_Reportview.setWhereClause(getStringValue(atts,"WhereClause"));
 		if (m_Reportview.save(getTrxName(ctx)) == true) {
 			record_log(ctx, 1, m_Reportview.getName(), "Reportview",
-					m_Reportview.get_ID(), Object_Status,
+					m_Reportview.get_ID(), AD_Backup_ID, Object_Status,
 					"AD_Reportview", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_Reportview"));
 			element.recordId = m_Reportview.getAD_ReportView_ID();
 		} else {
 			record_log(ctx, 0, m_Reportview.getName(), "Reportview",
-					m_Reportview.get_ID(), Object_Status,
+					m_Reportview.get_ID(), AD_Backup_ID, Object_Status,
 					"AD_Reportview", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_Reportview"));
 			throw new POSaveFailedException("ReportView");
@@ -144,11 +146,10 @@ public class ReportViewElementHandler extends AbstractElementHandler implements 
 					ResultSet rs1 = pstmt1.executeQuery();
 					while (rs1.next()) {
 						// Export Table if neccessary
-						IPackOutHandler tableHandler = packOut.getHandler("T");
-						tableHandler.packOut(packOut,null,rs1,document,null,0);
-						IPackOutHandler pftHandler = packOut.getHandler("PFT");
-						pftHandler.packOut(packOut,null,rs1,document,null,0);
-						
+						packOut.createTable(rs1.getInt("AD_Table_ID"), 
+								document);
+						packOut.createPrintFormat(rs1
+								.getInt("AD_Printformat_ID"), document);
 					}
 					rs1.close();
 					pstmt1.close();
@@ -262,16 +263,5 @@ public class ReportViewElementHandler extends AbstractElementHandler implements 
 						.getWhereClause() != null ? m_Reportview
 						.getWhereClause() : ""));
 		return atts;
-	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{
-		if(recordId <= 0)
-			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ReportView_ID);
-		
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_ReportView_ID, recordId);
-
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ReportView_ID);
 	}
 }

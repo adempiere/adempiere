@@ -38,7 +38,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class MessageElementHandler extends AbstractElementHandler implements IPackOutHandler{
+public class MessageElementHandler extends AbstractElementHandler {
 
 	private List<Integer> messages = new ArrayList<Integer>();
 	
@@ -52,15 +52,17 @@ public class MessageElementHandler extends AbstractElementHandler implements IPa
 			int id = get_IDWithColumn(ctx, "AD_Message", "value", value);
 
 			MMessage m_Message = new MMessage(ctx, id, getTrxName(ctx));
+			int AD_Backup_ID  = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_Message_ID") != null && Integer.parseInt(atts.getValue("AD_Message_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Message.setAD_Message_ID(Integer.parseInt(atts.getValue("AD_Message_ID")));
 			if (id > 0){		
-				backupRecord(ctx, "AD_Message",m_Message);
+				AD_Backup_ID = copyRecord(ctx, "AD_Message",m_Message);
 				Object_Status = "Update";			
 			}
 			else{
 				Object_Status = "New";
+				AD_Backup_ID =0;
 			}    	    
 			m_Message.setMsgText(getStringValue(atts, "MsgText"));
 			m_Message.setMsgTip(getStringValue(atts, "MsgTip"));
@@ -69,10 +71,10 @@ public class MessageElementHandler extends AbstractElementHandler implements IPa
 			m_Message.setValue(value);
 			m_Message.setMsgType(atts.getValue("MsgType"));		        
 			if (m_Message.save(getTrxName(ctx)) == true){		    	
-				record_log (ctx, 1, m_Message.getValue(),"Message", m_Message.get_ID(),Object_Status,"AD_Message",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Message"));           		        		
+				record_log (ctx, 1, m_Message.getValue(),"Message", m_Message.get_ID(),AD_Backup_ID, Object_Status,"AD_Message",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Message"));           		        		
 			}
 			else{
-				record_log (ctx, 0, m_Message.getValue(),"Message", m_Message.get_ID(),Object_Status,"AD_Message",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Message"));
+				record_log (ctx, 0, m_Message.getValue(),"Message", m_Message.get_ID(),AD_Backup_ID, Object_Status,"AD_Message",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Message"));
 				throw new POSaveFailedException("Failed to save message.");
 			}
 		} else {
@@ -133,16 +135,5 @@ public class MessageElementHandler extends AbstractElementHandler implements IPa
 		atts.addAttribute("","","EntityType","CDATA",(m_Message.getEntityType () != null ? m_Message.getEntityType ():""));
 		atts.addAttribute("","","isActive","CDATA",(m_Message.isActive()== true ? "true":"false"));
 		return atts;
-	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{
-		if(recordId <= 0)
-			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID);
-		
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID, recordId);
-
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID);
 	}
 }

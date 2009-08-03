@@ -28,19 +28,18 @@ import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.compiere.model.X_AD_Menu;
-import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_Task;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class MenuElementHandler extends AbstractElementHandler implements IPackOutHandler {
+public class MenuElementHandler extends AbstractElementHandler {
 
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("ADMenuNameID"));
@@ -58,13 +57,13 @@ public class MenuElementHandler extends AbstractElementHandler implements IPackO
 		if (menuid <= 0 && atts.getValue("AD_Menu_ID") != null && Integer.parseInt(atts.getValue("AD_Menu_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_Menu.setAD_Menu_ID(Integer.parseInt(atts.getValue("AD_Menu_ID")));
 		if (menuid > 0) {
-			backupRecord(ctx, "AD_Menu", m_Menu);
+			AD_Backup_ID = copyRecord(ctx, "AD_Menu", m_Menu);
 			Object_Status = "Update";
 		} else {
 			Object_Status = "New";
+			AD_Backup_ID = 0;
 		}
 
-		
 		m_Menu.setName(name);
 		name = atts.getValue("ADWindowNameID");
 		if (name != null && name.trim().length() > 0) {
@@ -143,7 +142,7 @@ public class MenuElementHandler extends AbstractElementHandler implements IPackO
 		if (m_Menu.save(getTrxName(ctx)) == true) {
 			try {
 				idDetail = record_log(ctx, 1, m_Menu.getName(), "Menu", m_Menu
-						.get_ID(), Object_Status, "AD_Menu",
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_Menu",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Menu"));
 			} catch (SAXException e) {
@@ -152,7 +151,7 @@ public class MenuElementHandler extends AbstractElementHandler implements IPackO
 		} else {
 			try {
 				idDetail = record_log(ctx, 0, m_Menu.getName(), "Menu", m_Menu
-						.get_ID(), Object_Status, "AD_Menu",
+						.get_ID(), AD_Backup_ID, Object_Status, "AD_Menu",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Menu"));
 			} catch (SAXException e) {
@@ -388,29 +387,25 @@ public class MenuElementHandler extends AbstractElementHandler implements IPackO
 						|| rs.getInt("AD_FORM_ID") > 0
 						|| rs.getInt("AD_WORKBENCH_ID") > 0) {
 					// Call CreateWindow.
-					if (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID)>0)
-					{
-						IPackOutHandler handler = packOut.getHandler("W");
-						handler.packOut(packOut,null,rs,document,null,0);
+					if (rs.getInt("AD_WINDOW_ID") > 0) {
+						packOut.createWindow(rs.getInt("AD_WINDOW_ID"), document);
 					}
-					else if (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Process_ID)>0)
-					{
-						IPackOutHandler handler = packOut.getHandler("P");
-						handler.packOut(packOut,null,rs,document,null,0);
-					} else if (rs.getInt(X_AD_Task.COLUMNNAME_AD_Task_ID)>0)
-					{
-						IPackOutHandler handler = packOut.getHandler("K");
-						handler.packOut(packOut,null,rs,document,null,0);
+					// Call CreateProcess.
+					else if (rs.getInt("AD_PROCESS_ID") > 0) {
+						packOut.createProcess(rs.getInt("AD_PROCESS_ID"), document);
 					}
-					else if (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Form_ID) > 0) 
-					{
-						IPackOutHandler handler = packOut.getHandler("X");
-						handler.packOut(packOut,null,rs,document,null,0);
+					// Call CreateTask.
+					else if (rs.getInt("AD_TASK_ID") > 0) {
+						packOut.createTask(rs.getInt("AD_TASK_ID"), document);
 					}
-					else if (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID) > 0) 
-					{
-						IPackOutHandler handler = packOut.getHandler("F");
-						handler.packOut(packOut,null,rs,document,null,0);
+					// Call CreateForm.
+					else if (rs.getInt("AD_FORM_ID") > 0) {
+						packOut.createForm(rs.getInt("AD_FORM_ID"), document);
+					}
+					// Call CreateWorkflow
+					else if (rs.getInt("AD_Workflow_ID") > 0) {
+						packOut.createWorkflow(rs.getInt("AD_Workflow_ID"), 
+								document);
 					}
 					// Call CreateModule because entry is a summary menu
 				} else {
@@ -445,10 +440,9 @@ public class MenuElementHandler extends AbstractElementHandler implements IPackO
 
 		AttributesImpl atts = new AttributesImpl();
 		PreparedStatement pstmt = null;
-		ResultSet rs = null;
 		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
 		try {
-			rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				// Menu tag Start.
 				X_AD_Menu m_Menu = new X_AD_Menu(ctx, rs.getInt("AD_Menu_ID"),
@@ -462,30 +456,26 @@ public class MenuElementHandler extends AbstractElementHandler implements IPackO
 						|| rs.getInt("AD_FORM_ID") > 0
 						|| rs.getInt("AD_WORKBENCH_ID") > 0) {
 					// Call CreateWindow.
-					if (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID)>0)
-					{
-						IPackOutHandler handler = packOut.getHandler("W");
-						handler.packOut(packOut,null,rs,document,null,0);
+					if (rs.getInt("AD_WINDOW_ID") > 0) {
+						packOut.createWindow(rs.getInt("AD_WINDOW_ID"), document);
 					}
-					else if (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Process_ID)>0)
-					{
-						IPackOutHandler handler = packOut.getHandler("P");
-						handler.packOut(packOut,null,rs,document,null,0);
+					// Call CreateProcess.
+					else if (rs.getInt("AD_PROCESS_ID") > 0) {
+						packOut.createProcess(rs.getInt("AD_PROCESS_ID"), 
+								document);
 					}
-					else if (rs.getInt(X_AD_Task.COLUMNNAME_AD_Task_ID)>0)
-					{
-						IPackOutHandler handler = packOut.getHandler("K");
-						handler.packOut(packOut,null,rs,document,null,0);
+					// Call CreateTask.
+					else if (rs.getInt("AD_TASK_ID") > 0) {
+						packOut.createTask(rs.getInt("AD_TASK_ID"), document);
 					}
-					else if (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Form_ID) > 0) 
-					{
-						IPackOutHandler handler = packOut.getHandler("X");
-						handler.packOut(packOut,null,rs,document,null,0);
+					// Call CreateForm.
+					else if (rs.getInt("AD_FORM_ID") > 0) {
+						packOut.createForm(rs.getInt("AD_FORM_ID"), document);
 					}
-					else if (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID) > 0) 
-					{
-						IPackOutHandler handler = packOut.getHandler("F");
-						handler.packOut(packOut,null,rs,document,null,0);
+					// Call CreateWorkflow
+					else if (rs.getInt("AD_Workflow_ID") > 0) {
+						packOut.createWorkflow(rs.getInt("AD_Workflow_ID"), 
+								document);
 					}
 					// Call CreateModule because entry is a summary menu
 				} else {
@@ -493,29 +483,18 @@ public class MenuElementHandler extends AbstractElementHandler implements IPackO
 				}
 				document.endElement("", "", "menu");
 			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "getWindows", e);
 		} finally {
-			DB.close(rs, pstmt);
+			try {
+				if (pstmt != null)
+					pstmt.close();
+			} catch (Exception e) {
+			}
+			pstmt = null;
 		}
 	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{
-		if(recordId <= 0)
-			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Menu_ID);
-		
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Menu_ID, recordId);
-
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Menu_ID);
-	}
 }
-
-
-
-
-
-
-
-

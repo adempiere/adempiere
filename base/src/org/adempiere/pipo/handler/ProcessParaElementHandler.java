@@ -76,15 +76,17 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 			
 			X_AD_Process_Para m_Process_para = new X_AD_Process_Para(ctx, id,
 					getTrxName(ctx));
+			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_Process_Para_ID") != null && Integer.parseInt(atts.getValue("AD_Process_Para_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Process_para.setAD_Process_Para_ID(Integer.parseInt(atts.getValue("AD_Process_Para_ID")));
 			if (id > 0) {
-				backupRecord(ctx, "AD_Process_Para",
+				AD_Backup_ID = copyRecord(ctx, "AD_Process_Para",
 						m_Process_para);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
+				AD_Backup_ID = 0;
 			}
 			m_Process_para.setName(atts.getValue("Name"));
 			
@@ -112,12 +114,12 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 						adElement.setName(m_Process_para.getName());
 						if (adElement.save(getTrxName(ctx)) == true) {
 							record_log(ctx, 1, m_Process_para.getName(), "Element", adElement
-									.getAD_Element_ID(), "New",
+									.getAD_Element_ID(), AD_Backup_ID, "New",
 									"AD_Element", get_IDWithColumn(ctx, "AD_Table",
 											"TableName", "AD_Element"));
 						} else {
 							record_log(ctx, 0, m_Process_para.getName(), "Element", adElement
-									.getAD_Element_ID(), "New",
+									.getAD_Element_ID(), AD_Backup_ID, "New",
 									"AD_Element", get_IDWithColumn(ctx, "AD_Table",
 											"TableName", "AD_Element"));
 						}
@@ -183,12 +185,12 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 					.booleanValue());
 			if (m_Process_para.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Process_para.getName(), "Process_para",
-						m_Process_para.get_ID(), Object_Status,
+						m_Process_para.get_ID(), AD_Backup_ID, Object_Status,
 						"AD_Process_para", get_IDWithColumn(ctx, "AD_Table",
 								"TableName", "AD_Process_para"));
 			} else {
 				record_log(ctx, 0, m_Process_para.getName(), "Process_para",
-						m_Process_para.get_ID(), Object_Status,
+						m_Process_para.get_ID(), AD_Backup_ID, Object_Status,
 						"AD_Process_para", get_IDWithColumn(ctx, "AD_Table",
 								"TableName", "AD_Process_para"));
 				throw new POSaveFailedException("ProcessPara");

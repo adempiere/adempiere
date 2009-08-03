@@ -31,7 +31,6 @@ import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Ref_List;
 import org.compiere.model.X_AD_Ref_Table;
 import org.compiere.model.X_AD_Reference;
@@ -41,7 +40,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class ReferenceElementHandler extends AbstractElementHandler implements IPackOutHandler{
+public class ReferenceElementHandler extends AbstractElementHandler {
 
 	private ReferenceListElementHandler listHandler = new ReferenceListElementHandler();
 	private ReferenceTableElementHandler tableHandler = new ReferenceTableElementHandler();
@@ -51,6 +50,7 @@ public class ReferenceElementHandler extends AbstractElementHandler implements I
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 
 		Attributes atts = element.attributes;
@@ -67,7 +67,7 @@ public class ReferenceElementHandler extends AbstractElementHandler implements I
 			if (id <= 0 && atts.getValue("AD_Reference_ID") != null && Integer.parseInt(atts.getValue("AD_Reference_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Reference.setAD_Reference_ID(Integer.parseInt(atts.getValue("AD_Reference_ID")));
 			if (id > 0) {
-				backupRecord(ctx, "AD_Reference", m_Reference);
+				AD_Backup_ID = copyRecord(ctx, "AD_Reference", m_Reference);
 				Object_Status = "Update";
 				if (references.contains(id)) {
 					element.skip = true;
@@ -75,6 +75,7 @@ public class ReferenceElementHandler extends AbstractElementHandler implements I
 				}
 			} else {
 				Object_Status = "New";
+				AD_Backup_ID = 0;
 			}
 
 			m_Reference.setDescription(getStringValue(atts,"Description"));
@@ -88,14 +89,14 @@ public class ReferenceElementHandler extends AbstractElementHandler implements I
 			m_Reference.setValidationType(atts.getValue("ValidationType"));
 			if (m_Reference.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Reference.getName(), "Reference",
-						m_Reference.get_ID(), Object_Status,
+						m_Reference.get_ID(), AD_Backup_ID, Object_Status,
 						"AD_Reference", get_IDWithColumn(ctx, "AD_Table",
 								"TableName", "AD_Reference"));
 				references.add(m_Reference.getAD_Reference_ID());
 				element.recordId = m_Reference.getAD_Reference_ID();
 			} else {
 				record_log(ctx, 0, m_Reference.getName(), "Reference",
-						m_Reference.get_ID(), Object_Status,
+						m_Reference.get_ID(), AD_Backup_ID, Object_Status,
 						"AD_Reference", get_IDWithColumn(ctx, "AD_Table",
 								"TableName", "AD_Reference"));
 				throw new POSaveFailedException("Reference");
@@ -274,15 +275,5 @@ public class ReferenceElementHandler extends AbstractElementHandler implements I
 				.getValidationType() != null ? m_Reference.getValidationType()
 				: ""));
 		return atts;
-	}
-	
-	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
-	{
-		if(recordId <= 0)
-			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Reference_ID);
-		
-		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Reference_ID, recordId);
-		this.create(packout.getCtx(), packOutDocument);
-		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Reference_ID);
 	}
 }

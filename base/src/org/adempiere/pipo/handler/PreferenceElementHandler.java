@@ -53,14 +53,16 @@ public class PreferenceElementHandler extends AbstractElementHandler {
 				" and AD_Window_ID = ?");
 		int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), windowid);
 		MPreference m_Preference = new MPreference(ctx, id, getTrxName(ctx));
+		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		if (id <= 0 && atts.getValue("AD_Preference_ID") != null && Integer.parseInt(atts.getValue("AD_Preference_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_Preference.setAD_Preference_ID(Integer.parseInt(atts.getValue("AD_Preference_ID")));
 		if (id > 0) {
-			backupRecord(ctx, "AD_Preference", m_Preference);
+			AD_Backup_ID = copyRecord(ctx, "AD_Preference", m_Preference);
 			Object_Status = "Update";
 		} else {
 			Object_Status = "New";
+			AD_Backup_ID = 0;
 		}
 		sqlB = null;
 		m_Preference.setAD_Window_ID(windowid);
@@ -68,12 +70,12 @@ public class PreferenceElementHandler extends AbstractElementHandler {
 		m_Preference.setValue(atts.getValue("Value"));
 		if (m_Preference.save(getTrxName(ctx)) == true) {
 			record_log(ctx, 1, m_Preference.getAttribute(), "Preference",
-					m_Preference.get_ID(), Object_Status,
+					m_Preference.get_ID(), AD_Backup_ID, Object_Status,
 					"AD_Preference", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_Preference"));
 		} else {
 			record_log(ctx, 0, m_Preference.getAttribute(), "Preference",
-					m_Preference.get_ID(), Object_Status,
+					m_Preference.get_ID(), AD_Backup_ID, Object_Status,
 					"AD_Preference", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_Preference"));
 			throw new POSaveFailedException("Failed to save Preference");
