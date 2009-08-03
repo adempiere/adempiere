@@ -85,14 +85,12 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			MColumn m_Column = new MColumn(ctx, id, getTrxName(ctx));
 			if (id <= 0 && atts.getValue("AD_Column_ID") != null && Integer.parseInt(atts.getValue("AD_Column_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Column.setAD_Column_ID(Integer.parseInt(atts.getValue("AD_Column_ID")));
-			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0) {
-				AD_Backup_ID = copyRecord(ctx, "AD_Column", m_Column);
+				backupRecord(ctx, "AD_Column", m_Column);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
-				AD_Backup_ID = 0;
 			}
 			m_Column.setColumnName(columnName);
 
@@ -177,12 +175,12 @@ public class ColumnElementHandler extends AbstractElementHandler {
 				adElement.setName(m_Column.getColumnName());
 				if (adElement.save(getTrxName(ctx)) == true) {
 					record_log(ctx, 1, m_Column.getName(), "Element", adElement
-							.getAD_Element_ID(), AD_Backup_ID, "New",
+							.getAD_Element_ID(), "New",
 							"AD_Element", get_IDWithColumn(ctx, "AD_Table",
 									"TableName", "AD_Element"));
 				} else {
 					record_log(ctx, 0, m_Column.getName(), "Element", adElement
-							.getAD_Element_ID(), AD_Backup_ID, "New",
+							.getAD_Element_ID(), "New",
 							"AD_Element", get_IDWithColumn(ctx, "AD_Table",
 									"TableName", "AD_Element"));
 				}
@@ -233,13 +231,13 @@ public class ColumnElementHandler extends AbstractElementHandler {
 
 			if (m_Column.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Column.getName(), "Column", m_Column
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_Column",
+						.get_ID(), Object_Status, "AD_Column",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Column"));
 				element.recordId = m_Column.getAD_Column_ID();
 			} else {
 				record_log(ctx, 0, m_Column.getName(), "Column", m_Column
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_Column",
+						.get_ID(), Object_Status, "AD_Column",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Column"));
 				throw new POSaveFailedException("Failed to import column.");
@@ -252,13 +250,13 @@ public class ColumnElementHandler extends AbstractElementHandler {
 	
 					if (success == 1) {
 						record_log(ctx, 1, m_Column.getColumnName(), "dbColumn",
-								m_Column.get_ID(), 0, Object_Status, atts.getValue(
+								m_Column.get_ID(), Object_Status, atts.getValue(
 										"ADTableNameID").toUpperCase(),
 								get_IDWithColumn(ctx, "AD_Table", "TableName", atts
 										.getValue("ADTableNameID").toUpperCase()));
 					} else {
 						record_log(ctx, 0, m_Column.getColumnName(), "dbColumn",
-								m_Column.get_ID(), 0, Object_Status, atts.getValue(
+								m_Column.get_ID(), Object_Status, atts.getValue(
 										"ADTableNameID").toUpperCase(),
 								get_IDWithColumn(ctx, "AD_Table", "TableName", atts
 										.getValue("ADTableNameID").toUpperCase()));
@@ -390,12 +388,12 @@ public class ColumnElementHandler extends AbstractElementHandler {
 		AttributesImpl atts = new AttributesImpl();
 		X_AD_Column m_Column = new X_AD_Column(ctx, AD_Column_ID,
 				getTrxName(ctx));
-		createColumnBinding(atts, m_Column);
+		createColumnBinding(ctx, atts, m_Column);
 		document.startElement("", "", "column", atts);
 		document.endElement("", "", "column");
 	}
 
-	private AttributesImpl createColumnBinding(AttributesImpl atts,
+	private AttributesImpl createColumnBinding(Properties ctx, AttributesImpl atts,
 			X_AD_Column m_Column) {
 		String sql = null;
 		String name = null;
@@ -435,8 +433,7 @@ public class ColumnElementHandler extends AbstractElementHandler {
 		} else
 			atts.addAttribute("", "", "ADReferenceNameValueID", "CDATA", "");
 		if (m_Column.getAD_Table_ID() > 0) {
-			sql = "SELECT TableName FROM AD_Table WHERE AD_Table_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Column.getAD_Table_ID());
+			name = MTable.getTableName(ctx, m_Column.getAD_Table_ID());
 			atts.addAttribute("", "", "ADTableNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADTableNameID", "CDATA", "");

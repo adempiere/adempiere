@@ -37,7 +37,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class DynValRuleElementHandler extends AbstractElementHandler {
+public class DynValRuleElementHandler extends AbstractElementHandler implements IPackOutHandler {
 
 	private List<Integer> rules = new ArrayList<Integer>();
 	
@@ -53,15 +53,13 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 			X_AD_Val_Rule m_ValRule = new X_AD_Val_Rule(ctx, id, getTrxName(ctx));
 			if (id <= 0 && atts.getValue("AD_Val_Rule_ID") != null && Integer.parseInt(atts.getValue("AD_Val_Rule_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_ValRule.setAD_Val_Rule_ID(Integer.parseInt(atts.getValue("AD_Val_Rule_ID")));
-			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0){		
-				AD_Backup_ID = copyRecord(ctx, "AD_Val_Rule",m_ValRule);
+				backupRecord(ctx, "AD_Val_Rule",m_ValRule);
 				Object_Status = "Update";			
 			}
 			else{
 				Object_Status = "New";
-				AD_Backup_ID =0;
 			}    	    
 			m_ValRule.setDescription(getStringValue(atts, "Description"));
 			m_ValRule.setEntityType(atts.getValue("EntityType"));
@@ -70,10 +68,10 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 			m_ValRule.setType(atts.getValue("Type"));		        
 			m_ValRule.setCode(atts.getValue("Code"));		        
 			if (m_ValRule.save(getTrxName(ctx)) == true){		    	
-				record_log (ctx, 1, m_ValRule.getName(),"ValRule", m_ValRule.get_ID(),AD_Backup_ID, Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Val_Rule"));           		        		
+				record_log (ctx, 1, m_ValRule.getName(),"ValRule", m_ValRule.get_ID(),Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Val_Rule"));           		        		
 			}
 			else{
-				record_log (ctx, 0, m_ValRule.getName(),"ValRule", m_ValRule.get_ID(),AD_Backup_ID, Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Val_Rule"));
+				record_log (ctx, 0, m_ValRule.getName(),"ValRule", m_ValRule.get_ID(),Object_Status,"AD_Val_Rule",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Val_Rule"));
 				throw new POSaveFailedException("Failed to save dynamic validation rule.");
 			}
 		} else {
@@ -85,7 +83,7 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 	public void endElement(Properties ctx, Element element) throws SAXException {
 	}
 
-	public void create(Properties ctx, TransformerHandler document)
+	protected void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		int AD_Val_Rule_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID);
 		if (rules.contains(AD_Val_Rule_ID))
@@ -135,5 +133,18 @@ public class DynValRuleElementHandler extends AbstractElementHandler {
 		atts.addAttribute("","","Type","CDATA",(m_ValRule.getType () != null ? m_ValRule.getType ():""));
 		atts.addAttribute("","","isActive","CDATA",(m_ValRule.isActive()== true ? "true":"false"));
 		return atts;
+	}
+	
+
+	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
+	{
+		
+		if(recordId <= 0 )
+			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID);
+			
+		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID, recordId);
+		
+		this.create(packout.getCtx(), packOutDocument);
+		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID);
 	}
 }

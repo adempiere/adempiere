@@ -31,6 +31,7 @@ import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
+import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Process;
 import org.compiere.model.X_AD_Process_Para;
 import org.compiere.util.DB;
@@ -39,7 +40,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class ProcessElementHandler extends AbstractElementHandler {
+public class ProcessElementHandler extends AbstractElementHandler implements IPackOutHandler{
 
 	private ProcessParaElementHandler paraHandler = new ProcessParaElementHandler();
 	
@@ -59,11 +60,10 @@ public class ProcessElementHandler extends AbstractElementHandler {
 			id = get_IDWithColumn(ctx, "AD_Process", "Value", value);
 
 			X_AD_Process m_Process = null;
-			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0) {
 				m_Process = new X_AD_Process(ctx, id, getTrxName(ctx));
-				AD_Backup_ID = copyRecord(ctx, "AD_Process", m_Process);
+				backupRecord(ctx, "AD_Process", m_Process);
 				Object_Status = "Update";
 			} else {
 				m_Process = new X_AD_Process(ctx, id, getTrxName(ctx));
@@ -71,7 +71,6 @@ public class ProcessElementHandler extends AbstractElementHandler {
 						"AD_Process", getTrxName(ctx));
 				m_Process.setAD_Process_ID(id);
 				Object_Status = "New";
-				AD_Backup_ID = 0;
 			}
 			if (id <= 0 && atts.getValue("AD_Process_ID") != null && Integer.parseInt(atts.getValue("AD_Process_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Process.setAD_Process_ID(Integer.parseInt(atts.getValue("AD_Process_ID")));
@@ -146,13 +145,13 @@ public class ProcessElementHandler extends AbstractElementHandler {
 			m_Process.setJasperReport(getStringValue(atts, "JasperReport"));
 			if (m_Process.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Process.getName(), "Process", m_Process
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_Process",
+						.get_ID(), Object_Status, "AD_Process",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Process"));
 				element.recordId = m_Process.getAD_Process_ID();
 			} else {
 				record_log(ctx, 0, m_Process.getName(), "Process", m_Process
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_Process",
+						.get_ID(), Object_Status, "AD_Process",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Process"));
 				throw new POSaveFailedException("Process");
@@ -186,19 +185,20 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				log.log(Level.INFO, "AD_ReportView_ID: "
 						+ m_Process.getAD_Process_ID());
 
-				if (m_Process.isReport() && m_Process.getAD_ReportView_ID() > 0) {
-					packOut.createReportview(m_Process.getAD_ReportView_ID(),
-							document);
+				if (m_Process.isReport() && m_Process.getAD_ReportView_ID() > 0) 
+				{
+					IPackOutHandler handler = packOut.getHandler("R");
+					handler.packOut(packOut,null,null,document,null,m_Process.getAD_ReportView_ID());
+					
 				}
-				if (m_Process.isReport() && m_Process.getAD_PrintFormat_ID() > 0) {
-
-					packOut.createPrintFormat(m_Process.getAD_PrintFormat_ID(),
-							document);
+				if (m_Process.isReport() && m_Process.getAD_PrintFormat_ID() > 0) 
+				{
+					IPackOutHandler handler = packOut.getHandler("PFT");
+					handler.packOut(packOut,null,null,document,null,m_Process.getAD_PrintFormat_ID());
 				}
 				if (m_Process.getAD_Workflow_ID() > 0) {
-
-					packOut.createWorkflow(m_Process.getAD_Workflow_ID(), 
-							document);
+					IPackOutHandler handler = packOut.getHandler("F");
+					handler.packOut(packOut,null,null,document,null,m_Process.getAD_Workflow_ID());				
 				}
 				createProcessBinding(atts, m_Process);
 				document.startElement("", "", "process", atts);
@@ -210,15 +210,24 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				try {
 					ResultSet rsP = pstmtP.executeQuery();
 					while (rsP.next()) {
-						if (rsP.getInt("AD_Reference_ID") > 0)
-							packOut.createReference(rsP
-									.getInt("AD_Reference_ID"), document);
-						if (rsP.getInt("AD_Reference_Value_ID") > 0)
-							packOut.createReference(rsP
-									.getInt("AD_Reference_Value_ID"), 
-									document);
-						if (rsP.getInt("AD_Val_Rule_ID") > 0)
-							packOut.createDynamicRuleValidation (rsP.getInt("AD_Val_Rule_ID"), document);
+						
+						if (rsP.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Reference_ID)>0)
+						{
+							IPackOutHandler handler = packOut.getHandler("REF");
+							handler.packOut(packOut,null,rsP,document,null,0);
+						}
+						
+						if (rsP.getInt("AD_Reference_Value_ID")>0)						
+						{
+							IPackOutHandler handler = packOut.getHandler("REF");
+							handler.packOut(packOut,null,null,document,null,rsP.getInt("AD_Reference_Value_ID"));
+						}
+						
+						if (rsP.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID)>0)
+						{
+							IPackOutHandler handler = packOut.getHandler("V");
+							handler.packOut(packOut,null,rsP,document,null,0);
+						}
 						
 						createProcessPara(ctx, document, rsP
 								.getInt("AD_Process_Para_ID"));
@@ -343,5 +352,16 @@ public class ProcessElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "JasperReport", "CDATA", 
 				(m_Process.getJasperReport() != null ? m_Process.getJasperReport() : ""));
 		return atts;
+	}
+
+	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
+	{
+		if(recordId <= 0)
+			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Process_ID);
+
+		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Process_ID, recordId);
+
+		this.create(packout.getCtx(), packOutDocument);
+		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Process_ID);
 	}
 }

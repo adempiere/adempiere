@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+. * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -15,6 +15,7 @@
  * Contributor(s): Low Heng Sin hengsin@avantz.com
  *****************************************************************************/
 package org.adempiere.pipo.handler;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class TaskElementHandler extends AbstractElementHandler {
+import java.sql.ResultSet;
+
+public class TaskElementHandler extends AbstractElementHandler implements IPackOutHandler{
 
 	private List<Integer> tasks = new ArrayList<Integer>();
 	
@@ -48,16 +51,14 @@ public class TaskElementHandler extends AbstractElementHandler {
 			String name = atts.getValue("ADTaskNameID");
 			int id = get_ID(ctx, "AD_Task", name);
 			MTask m_Task = new MTask(ctx, id, getTrxName(ctx));
-			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_Task_ID") != null && Integer.parseInt(atts.getValue("AD_Task_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Task.setAD_Task_ID(Integer.parseInt(atts.getValue("AD_Task_ID")));
 			if (id > 0) {
-				AD_Backup_ID = copyRecord(ctx, "AD_Task", m_Task);
+				backupRecord(ctx, "AD_Task", m_Task);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
-				AD_Backup_ID = 0;
 			}
 			m_Task.setAccessLevel(atts.getValue("AccessLevel"));
 			m_Task.setDescription(getStringValue(atts,"Description"));
@@ -69,12 +70,12 @@ public class TaskElementHandler extends AbstractElementHandler {
 			m_Task.setOS_Command(getStringValue(atts,"OS_Command"));
 			if (m_Task.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Task.getName(), "Task", m_Task.get_ID(),
-						AD_Backup_ID, Object_Status, "AD_Task",
+						Object_Status, "AD_Task",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Task"));
 			} else {
 				record_log(ctx, 0, m_Task.getName(), "Task", m_Task.get_ID(),
-						AD_Backup_ID, Object_Status, "AD_Task",
+						Object_Status, "AD_Task",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Task"));
 				throw new POSaveFailedException("Task");
@@ -135,5 +136,15 @@ public class TaskElementHandler extends AbstractElementHandler {
 				.getOS_Command() != null ? m_Task.getOS_Command() : ""));
 		return atts;
 	}
+	
+	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
+	{
+		if(recordId <= 0)
+			recordId = detail.getInt(X_AD_Task.COLUMNNAME_AD_Task_ID);
+		
+		Env.setContext(packout.getCtx(), X_AD_Task.COLUMNNAME_AD_Task_ID, recordId);
 
+		this.create(packout.getCtx(), packOutDocument);
+		packout.getCtx().remove(X_AD_Task.COLUMNNAME_AD_Task_ID);
+	}
 }

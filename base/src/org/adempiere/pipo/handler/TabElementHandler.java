@@ -81,15 +81,13 @@ public class TabElementHandler extends AbstractElementHandler {
 			MTab m_Tab = new MTab(ctx, id, getTrxName(ctx));
 			if (id <= 0 && atts.getValue("AD_Tab_ID") != null && Integer.parseInt(atts.getValue("AD_Tab_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Tab.setAD_Tab_ID(Integer.parseInt(atts.getValue("AD_Tab_ID")));
-			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0){			
-				AD_Backup_ID = copyRecord(ctx, "AD_Tab",m_Tab);
+				backupRecord(ctx, "AD_Tab",m_Tab);
 				Object_Status = "Update";
 			}
 			else{
 				Object_Status = "New";
-				AD_Backup_ID =0;
 			}
 			sqlB = null;
 			m_Tab.setName(name);	
@@ -170,10 +168,10 @@ public class TabElementHandler extends AbstractElementHandler {
 				m_Tab.setIsAdvancedTab(Boolean.valueOf(atts.getValue("isAdvancedTab")).booleanValue());
 			}
 			if (m_Tab.save(getTrxName(ctx)) == true){		    	
-				record_log (ctx, 1, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Tab"));
+				record_log (ctx, 1, m_Tab.getName(),"Tab", m_Tab.get_ID(),Object_Status,"AD_Tab",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Tab"));
 				element.recordId = m_Tab.getAD_Tab_ID();
 			} else {
-				record_log (ctx, 0, m_Tab.getName(),"Tab", m_Tab.get_ID(),AD_Backup_ID, Object_Status,"AD_Tab",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Tab"));
+				record_log (ctx, 0, m_Tab.getName(),"Tab", m_Tab.get_ID(),Object_Status,"AD_Tab",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Tab"));
 				throw new POSaveFailedException("Tab");
 			}	
 		} else {
@@ -228,7 +226,15 @@ public class TabElementHandler extends AbstractElementHandler {
 		
 		if(m_Tab.getAD_Process_ID() > 0 )
 		{
-			packOut.createProcess(m_Tab.getAD_Process_ID(), document);
+			try
+			{
+				IPackOutHandler handler = packOut.getHandler("P");
+				handler.packOut(packOut,null,null,document,null,m_Tab.getAD_Process_ID());
+			}
+			catch(Exception e)
+			{
+				log.info(e.toString());
+			}
 		}
 		
 	}
@@ -327,5 +333,4 @@ public class TabElementHandler extends AbstractElementHandler {
 		atts.addAttribute("","","Syncfields","CDATA","false");                
 		return atts;		
 	}
-
 }

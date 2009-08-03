@@ -46,7 +46,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class RoleElementHandler extends AbstractElementHandler {
+public class RoleElementHandler extends AbstractElementHandler implements IPackOutHandler{
 
 	private List<Integer> roles = new ArrayList<Integer>();
 	
@@ -69,16 +69,13 @@ public class RoleElementHandler extends AbstractElementHandler {
 		int id = get_ID(ctx, "AD_Role", name);
 		MRole m_Role = new MRole(ctx, id, getTrxName(ctx));
 
-		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		if (id <= 0 && atts.getValue("AD_Role_ID") != null && Integer.parseInt(atts.getValue("AD_Role_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_Role.setAD_Role_ID(Integer.parseInt(atts.getValue("AD_Role_ID")));
 		if (id > 0) {
-			AD_Backup_ID = copyRecord(ctx, "AD_Role", m_Role);
 			Object_Status = "Update";
 		} else {
 			Object_Status = "New";
-			AD_Backup_ID = 0;
 		}
 
 		m_Role.setName(name);
@@ -188,12 +185,12 @@ public class RoleElementHandler extends AbstractElementHandler {
 		if (m_Role.save(getTrxName(ctx)) == true) {
 
 			record_log(ctx, 1, m_Role.getName(), "Role", m_Role.get_ID(),
-					AD_Backup_ID, Object_Status, "AD_Role", get_IDWithColumn(
+					Object_Status, "AD_Role", get_IDWithColumn(
 							ctx, "AD_Table", "TableName", "AD_Role"));
 		} else {
 
 			record_log(ctx, 0, m_Role.getName(), "Role", m_Role.get_ID(),
-					AD_Backup_ID, Object_Status, "AD_Role", get_IDWithColumn(
+					Object_Status, "AD_Role", get_IDWithColumn(
 							ctx, "AD_Table", "TableName", "AD_Role"));
 			throw new POSaveFailedException("Role");
 		}
@@ -516,5 +513,16 @@ public class RoleElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "AllowInfoMRP", "CDATA", Boolean.toString(m_Role.isAllow_Info_MRP()));
 		
 		return atts;
+	}
+	
+	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
+	{
+		if(recordId <= 0)
+			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID);
+		
+		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID, recordId);
+
+		this.create(packout.getCtx(), packOutDocument);
+		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID);
 	}
 }

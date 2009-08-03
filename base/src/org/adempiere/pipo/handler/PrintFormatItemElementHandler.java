@@ -37,7 +37,6 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
-		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
@@ -56,12 +55,11 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 		if (id <= 0 && atts.getValue("AD_PrintFormatItem_ID") != null && Integer.parseInt(atts.getValue("AD_PrintFormatItem_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_PrintFormatItem.setAD_PrintFormatItem_ID(Integer.parseInt(atts.getValue("AD_PrintFormatItem_ID")));
 		if (id > 0) {
-			AD_Backup_ID = copyRecord(ctx, "AD_PrintFormatItem",
+			backupRecord(ctx, "AD_PrintFormatItem",
 					m_PrintFormatItem);
 			Object_Status = "Update";
 		} else {
 			Object_Status = "New";
-			AD_Backup_ID = 0;
 		}
 		m_PrintFormatItem.setName(name);
 		name = atts.getValue("ADPrintFormatNameID");
@@ -232,12 +230,12 @@ public class PrintFormatItemElementHandler extends AbstractElementHandler {
 
 		if (m_PrintFormatItem.save(getTrxName(ctx)) == true) {
 			record_log(ctx, 1, m_PrintFormatItem.getName(), "PrintFormatItem",
-					m_PrintFormatItem.get_ID(), AD_Backup_ID, Object_Status,
+					m_PrintFormatItem.get_ID(), Object_Status,
 					"AD_PrintFormatItem", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_PrintFormatItem"));
 		} else {
 			record_log(ctx, 0, m_PrintFormatItem.getName(), "PrintFormatItem",
-					m_PrintFormatItem.get_ID(), AD_Backup_ID, Object_Status,
+					m_PrintFormatItem.get_ID(), Object_Status,
 					"AD_PrintFormatItem", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_PrintFormatItem"));
 			throw new POSaveFailedException("PrintFormatItem");

@@ -24,7 +24,6 @@ import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
-import org.compiere.model.X_AD_WF_NextCondition;
 import org.compiere.model.X_AD_WF_NodeNext;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -78,17 +77,15 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 			int id = DB.getSQLValue(getTrxName(ctx),sqlB.toString(),wfNodeId,wfNodeNextId);
 
 			MWFNodeNext m_WFNodeNext = new MWFNodeNext(ctx, id, getTrxName(ctx));
-			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_WF_NodeNext_ID") != null && Integer.parseInt(atts.getValue("AD_WF_NodeNext_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_WFNodeNext.setAD_WF_NodeNext_ID(Integer.parseInt(atts.getValue("AD_WF_NodeNext_ID")));
 			if (id > 0){		
-				AD_Backup_ID = copyRecord(ctx, "AD_WF_NodeNext",m_WFNodeNext);
+				backupRecord(ctx, "AD_WF_NodeNext",m_WFNodeNext);
 				Object_Status = "Update";			
 			}
 			else{
 				Object_Status = "New";
-				AD_Backup_ID =0;
 			}
 			m_WFNodeNext.setAD_WF_Node_ID(wfNodeId);
 			m_WFNodeNext.setAD_WF_Next_ID(wfNodeNextId);
@@ -99,12 +96,12 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 			log.info("about to execute m_WFNodeNext.save");
 			if (m_WFNodeNext.save(getTrxName(ctx)) == true){		    	
 				log.info("m_WFNodeNext save success");
-				record_log (ctx, 1, String.valueOf(m_WFNodeNext.get_ID()),"WFNodeNext", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",
+				record_log (ctx, 1, String.valueOf(m_WFNodeNext.get_ID()),"WFNodeNext", m_WFNodeNext.get_ID(), Object_Status,"AD_WF_NodeNext",
 							get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_WF_NodeNext"));           		        		
 			}
 			else{
 				log.info("m_WFNodeNext save failure");
-				record_log (ctx, 0, String.valueOf(m_WFNodeNext.get_ID()),"WFNodeNext", m_WFNodeNext.get_ID(),AD_Backup_ID, Object_Status,"AD_WF_NodeNext",
+				record_log (ctx, 0, String.valueOf(m_WFNodeNext.get_ID()),"WFNodeNext", m_WFNodeNext.get_ID(), Object_Status,"AD_WF_NodeNext",
 							get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_WF_NodeNext"));
 				throw new POSaveFailedException("WorkflowNodeNext");
 			}            
@@ -185,90 +182,5 @@ public class WorkflowNodeNextElementHandler extends AbstractElementHandler {
 				.valueOf(m_WF_NodeNext.isStdUserWorkflow()) : ""));
 
 		return atts;
-	}
-	
-	private AttributesImpl createWorkflowNodeNextConditionBinding(
-			AttributesImpl atts, X_AD_WF_NextCondition m_WF_NodeNextCondition) {
-		String sql = null;
-		String name = null;
-		atts.clear();
-
-		if (m_WF_NodeNextCondition.getAD_WF_NodeNext_ID() > 0) {
-			// FIXME: it appears nodes point back to themselves
-			// so a group by is necessary
-			sql = "SELECT AD_Workflow.Name FROM AD_Workflow, AD_WF_Node, AD_WF_NodeNext WHERE  AD_Workflow.AD_Workflow_ID = AD_WF_Node.AD_Workflow_ID and AD_WF_Node.AD_WF_Node_ID = AD_WF_NodeNext.AD_WF_Node_ID and AD_WF_NodeNext.AD_WF_NodeNext_ID = ? group by AD_Workflow.Name";
-			name = DB.getSQLValueString(null, sql, m_WF_NodeNextCondition
-					.getAD_WF_NodeNext_ID());
-			atts.addAttribute("", "", "ADWorkflowNameID", "CDATA", name);
-			// FIXME: it appears nodes point back to themselves
-			// so a group by is necessary
-			sql = "SELECT AD_WF_Node.Name FROM AD_WF_Node, AD_WF_NodeNext WHERE AD_WF_Node.AD_WF_Node_ID = AD_WF_NodeNext.AD_WF_Node_ID and AD_WF_NodeNext.AD_WF_NodeNext_ID =  ? group by AD_WF_Node.Name";
-			name = DB.getSQLValueString(null, sql, m_WF_NodeNextCondition
-					.getAD_WF_NodeNext_ID());
-			atts.addAttribute("", "", "ADWorkflowNodeNameID", "CDATA", name);
-			// FIXME: it appears nodes point back to themselves
-			// so a group by is necessary
-			sql = "SELECT AD_WF_Node.Name FROM AD_WF_Node, AD_WF_NodeNext, AD_WF_NextCondition WHERE AD_WF_Node.AD_WF_Node_ID = AD_WF_NodeNext.AD_WF_Next_ID and AD_WF_NodeNext.AD_WF_NodeNext_ID =  ? group by AD_WF_Node.Name";
-			name = DB.getSQLValueString(null, sql, m_WF_NodeNextCondition
-					.getAD_WF_NodeNext_ID());
-			// log.log(Level.INFO,"node next name: ", name);
-			atts
-					.addAttribute("", "", "ADWorkflowNodeNextNameID", "CDATA",
-							name);
-		}
-
-		if (m_WF_NodeNextCondition.getAD_Column_ID() > 0) {
-
-			sql = "SELECT AD_Table.TableName FROM AD_Table, AD_Column, AD_WF_NextCondition  WHERE AD_Column.AD_Table_ID=AD_Table.AD_Table_ID and AD_Column.AD_Column_ID = ?";
-			name = DB.getSQLValueString(null, sql, m_WF_NodeNextCondition
-					.getAD_Column_ID());
-			atts.addAttribute("", "", "ADTableNameID", "CDATA", name);
-
-			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
-			name = DB.getSQLValueString(null, sql, m_WF_NodeNextCondition
-					.getAD_Column_ID());
-			atts.addAttribute("", "", "ADColumnNameID", "CDATA", name);
-		} else {
-			atts.addAttribute("", "", "ADTableNameID", "CDATA", name);
-			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
-		}
-
-		// FIXME: don't know if I need org_id or not
-		// sql = "SELECT Name FROM AD_Org WHERE AD_Org_ID=?";
-		// name = DB.getSQLValueString(null,sql,org_id);
-		// atts.addAttribute("","","orgname","CDATA",name);
-
-		atts.addAttribute("", "", "isActive", "CDATA", (m_WF_NodeNextCondition
-				.isActive() == true ? "true" : "false"));
-		atts
-				.addAttribute(
-						"",
-						"",
-						"EntityType",
-						"CDATA",
-						(m_WF_NodeNextCondition.getEntityType() != null ? m_WF_NodeNextCondition
-								.getEntityType()
-								: ""));
-		atts.addAttribute("", "", "AndOr", "CDATA", (m_WF_NodeNextCondition
-				.getAndOr() != null ? m_WF_NodeNextCondition.getAndOr() : ""));
-		atts.addAttribute("", "", "Operation", "CDATA", (m_WF_NodeNextCondition
-				.getOperation() != null ? m_WF_NodeNextCondition.getOperation()
-				: ""));
-		atts.addAttribute("", "", "Value", "CDATA", (m_WF_NodeNextCondition
-				.getValue() != null ? m_WF_NodeNextCondition.getValue() : ""));
-		atts
-				.addAttribute(
-						"",
-						"",
-						"Value2",
-						"CDATA",
-						(m_WF_NodeNextCondition.getValue2() != null ? m_WF_NodeNextCondition
-								.getValue2()
-								: ""));
-		atts.addAttribute("", "", "SeqNo", "CDATA", (String
-				.valueOf(m_WF_NodeNextCondition.getSeqNo()) != null ? String
-				.valueOf(m_WF_NodeNextCondition.getSeqNo()) : ""));
-
-		return atts;
-	}
+	}	
 }

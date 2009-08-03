@@ -42,7 +42,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class PrintFormatElementHandler extends AbstractElementHandler {
+public class PrintFormatElementHandler extends AbstractElementHandler implements IPackOutHandler {
 
 	private PrintFormatItemElementHandler itemHandler = new PrintFormatItemElementHandler();
 
@@ -51,7 +51,6 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
-		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
@@ -63,11 +62,10 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 		if (id <= 0 && atts.getValue("AD_PrintFormat_ID") != null && Integer.parseInt(atts.getValue("AD_PrintFormat_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_PrintFormat.setAD_PrintFormat_ID(Integer.parseInt(atts.getValue("AD_PrintFormat_ID")));
 		if (id > 0) {
-			AD_Backup_ID = copyRecord(ctx, "AD_PrintFormat", m_PrintFormat);
+			backupRecord(ctx, "AD_PrintFormat", m_PrintFormat);
 			Object_Status = "Update";
 		} else {
 			Object_Status = "New";
-			AD_Backup_ID = 0;
 		}
 
 		name = atts.getValue("ADReportviewnameID");
@@ -89,12 +87,12 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 			m_Table.setTableName(name);
 			if (m_Table.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Table.getName(), "Table",
-						m_Table.get_ID(), 0, "New", "AD_Table",
+						m_Table.get_ID(), "New", "AD_Table",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Table"));
 			} else {
 				record_log(ctx, 0, m_Table.getName(), "Table",
-						m_Table.get_ID(), 0, "New", "AD_Table",
+						m_Table.get_ID(), "New", "AD_Table",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Table"));
 			}
@@ -165,13 +163,13 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 				.booleanValue());
 		if (m_PrintFormat.save(getTrxName(ctx)) == true) {
 			record_log(ctx, 1, m_PrintFormat.getName(), "PrintFormat",
-					m_PrintFormat.get_ID(), AD_Backup_ID, Object_Status,
+					m_PrintFormat.get_ID(), Object_Status,
 					"AD_PrintFormat", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_PrintFormat"));
 			element.recordId = m_PrintFormat.getAD_PrintFormat_ID();
 		} else {
 			record_log(ctx, 0, m_PrintFormat.getName(), "PrintFormat",
-					m_PrintFormat.get_ID(), AD_Backup_ID, Object_Status,
+					m_PrintFormat.get_ID(), Object_Status,
 					"AD_PrintFormat", get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_PrintFormat"));
 			throw new POSaveFailedException("Failed to save Print Format");
@@ -349,4 +347,16 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 				.isDefault() == true ? "true" : "false"));
 		return atts;
 	}
+	
+	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
+	{
+		if(recordId <= 0)
+			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
+		
+		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID, recordId);
+	
+		this.create(packout.getCtx(), packOutDocument);
+		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
+	}
 }
+

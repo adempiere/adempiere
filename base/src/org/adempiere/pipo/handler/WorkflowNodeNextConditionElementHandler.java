@@ -92,17 +92,15 @@ public class WorkflowNodeNextConditionElementHandler extends
 
 			MWFNextCondition m_WFNodeNextCondition = new MWFNextCondition(ctx,
 					id, getTrxName(ctx));
-			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id <= 0 && atts.getValue("AD_WF_NextCondition_ID") != null && Integer.parseInt(atts.getValue("AD_WF_NextCondition_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_WFNodeNextCondition.setAD_WF_NextCondition_ID(Integer.parseInt(atts.getValue("AD_WF_NextCondition_ID")));
 			if (id > 0) {
-				AD_Backup_ID = copyRecord(ctx, "AD_WF_NextCondition",
+				backupRecord(ctx, "AD_WF_NextCondition",
 						m_WFNodeNextCondition);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
-				AD_Backup_ID = 0;
 			}
 
 			sqlB = new StringBuffer(
@@ -139,7 +137,6 @@ public class WorkflowNodeNextConditionElementHandler extends
 						String.valueOf(m_WFNodeNextCondition.get_ID()),
 						"WFNextCondition",
 						m_WFNodeNextCondition.get_ID(),
-						AD_Backup_ID,
 						Object_Status,
 						"AD_WF_NextCondition",
 						get_IDWithColumn(ctx, "AD_Table",
@@ -152,7 +149,6 @@ public class WorkflowNodeNextConditionElementHandler extends
 						String.valueOf(m_WFNodeNextCondition.get_ID()),
 						"WFNextCondition",
 						m_WFNodeNextCondition.get_ID(),
-						AD_Backup_ID,
 						Object_Status,
 						"AD_WF_NextCondition",
 						get_IDWithColumn(ctx, "AD_Table",

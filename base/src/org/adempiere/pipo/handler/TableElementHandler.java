@@ -40,7 +40,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class TableElementHandler extends AbstractElementHandler {
+public class TableElementHandler extends AbstractElementHandler implements IPackOutHandler{
 	private ColumnElementHandler columnHandler = new ColumnElementHandler();
 	
 	private List<Integer>tables = new ArrayList<Integer>();
@@ -68,15 +68,13 @@ public class TableElementHandler extends AbstractElementHandler {
 			MTable m_Table = new MTable(ctx, id, getTrxName(ctx));
 			if (id <= 0 && atts.getValue("AD_Table_ID") != null && Integer.parseInt(atts.getValue("AD_Table_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Table.setAD_Table_ID(Integer.parseInt(atts.getValue("AD_Table_ID")));
-			int AD_Backup_ID = -1;
 			String Object_Status = null;
 			if (id > 0){		
-				AD_Backup_ID = copyRecord(ctx, "AD_Table",m_Table);
+				backupRecord(ctx, "AD_Table",m_Table);
 				Object_Status = "Update";			
 			}
 			else{
 				Object_Status = "New";
-				AD_Backup_ID =0;
 			}
 			m_Table.setTableName(tableName);
 			String Name = atts.getValue("ADWindowNameID");	    
@@ -109,13 +107,13 @@ public class TableElementHandler extends AbstractElementHandler {
 			m_Table.setReplicationType(getStringValue(atts,"ReplicationType"));
 			m_Table.setTableName(atts.getValue("TableName"));
 			if (m_Table.save(getTrxName(ctx)) == true){		    	
-				record_log (ctx, 1, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
+				record_log (ctx, 1, m_Table.getName(),"Table", m_Table.get_ID(),Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
 				tables.add(m_Table.getAD_Table_ID());
 				packIn.addTable(tableName, m_Table.getAD_Table_ID());
 				element.recordId = m_Table.getAD_Table_ID();
 			}
 			else{
-				record_log (ctx, 0, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
+				record_log (ctx, 0, m_Table.getName(),"Table", m_Table.get_ID(),Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
 				throw new POSaveFailedException("Table");
 			}            
 		} else {
@@ -162,21 +160,33 @@ public class TableElementHandler extends AbstractElementHandler {
 						ResultSet rs1 = pstmt1.executeQuery();		
 						
 						while (rs1.next()){
+							IPackOutHandler handler = packOut.getHandler("ELE");
+							handler.packOut(packOut,null,rs1,document,null,0);
 							
-							packOut.createAdElement(rs1.getInt("AD_Element_ID"), document);
-							
-							if (rs1.getInt("AD_Reference_ID")>0)
-								packOut.createReference (rs1.getInt("AD_Reference_ID"), document);
+							if (rs1.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Reference_ID)>0)							
+							{
+								handler = packOut.getHandler("REF");
+								handler.packOut(packOut,null,rs1,document,null,0);
+							}
 							
 							if (rs1.getInt("AD_Reference_Value_ID")>0)
-								packOut.createReference (rs1.getInt("AD_Reference_Value_ID"), document);						
+							{
+								handler = packOut.getHandler("REF");
+								handler.packOut(packOut,null,null,document,null,rs1.getInt("AD_Reference_Value_ID"));
+							}
 							
-							if (rs1.getInt("AD_Process_ID")>0)
-								packOut.createProcess (rs1.getInt("AD_Process_ID"), document);	
+							if (rs1.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Process_ID)>0)
+							{
+								handler = packOut.getHandler("P");
+								handler.packOut(packOut,null,rs1,document,null,0);
+							}
 							
-							if (rs1.getInt("AD_Val_Rule_ID")>0)
-								packOut.createDynamicRuleValidation (rs1.getInt("AD_Val_Rule_ID"), document);
-	
+							if (rs1.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID)>0)
+							{
+								handler = packOut.getHandler("V");
+								handler.packOut(packOut,rs,rs1,document,null,0);
+							}
+							
 							createColumn(ctx, document, rs1.getInt("AD_Column_ID"));							
 						}
 						
@@ -283,5 +293,16 @@ public class TableElementHandler extends AbstractElementHandler {
 		atts.addAttribute("","","ReplicationType","CDATA",(m_Table.getReplicationType () != null ? m_Table.getReplicationType ():""));
 		atts.addAttribute("","","TableName","CDATA",(m_Table.getTableName () != null ? m_Table.getTableName ():""));
 		return atts;
+	}
+	
+	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
+	{	
+		if(recordId <= 0)
+			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID);
+		
+		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID, recordId);
+
+		this.create(packout.getCtx(), packOutDocument);
+		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID);
 	}
 }

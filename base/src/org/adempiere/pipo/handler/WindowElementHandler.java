@@ -32,6 +32,7 @@ import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MWindow;
+import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Preference;
 import org.compiere.model.X_AD_Tab;
 import org.compiere.model.X_AD_Window;
@@ -41,7 +42,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class WindowElementHandler extends AbstractElementHandler {
+public class WindowElementHandler extends AbstractElementHandler implements IPackOutHandler{
 
 	private TabElementHandler tabHandler = new TabElementHandler();
 	private PreferenceElementHandler preferenceHandler = new PreferenceElementHandler();
@@ -65,13 +66,11 @@ public class WindowElementHandler extends AbstractElementHandler {
 			if (id <= 0 && atts.getValue("AD_Window_ID") != null && Integer.parseInt(atts.getValue("AD_Window_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Window.setAD_Window_ID(Integer.parseInt(atts.getValue("AD_Window_ID")));
 			String Object_Status = null;
-			int AD_Backup_ID = -1;
 			if (id > 0) {
-				AD_Backup_ID = copyRecord(ctx, "AD_Window", m_Window);
+				backupRecord(ctx, "AD_Window", m_Window);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
-				AD_Backup_ID = 0;
 			}
 			m_Window.setName(name);
 
@@ -120,14 +119,14 @@ public class WindowElementHandler extends AbstractElementHandler {
 			m_Window.setWindowType(atts.getValue("WindowType"));
 			if (m_Window.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Window.getName(), "Window", m_Window
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_Window",
+						.get_ID(), Object_Status, "AD_Window",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Window"));
 				element.recordId = m_Window.getAD_Window_ID();
 				windows.add(m_Window.getAD_Window_ID());
 			} else {
 				record_log(ctx, 0, m_Window.getName(), "Window", m_Window
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_Window",
+						.get_ID(), Object_Status, "AD_Window",
 						get_IDWithColumn(ctx, "AD_Table", "TableName",
 								"AD_Window"));
 				throw new POSaveFailedException("Window");
@@ -157,12 +156,9 @@ public class WindowElementHandler extends AbstractElementHandler {
 		try {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String tableSql = "SELECT Name FROM AD_Table WHERE AD_Table_ID=?";
-				int table_id = rs.getInt("AD_TABLE_ID");
-				String name = rs.getString("NAME");
-				String tablename = DB.getSQLValueString(null, tableSql,
-						table_id);
-				packOut.createTable(rs.getInt("AD_Table_ID"), document);
+				IPackOutHandler handler = packOut.getHandler("T");
+				handler.packOut(packOut,null,rs,document,null,0);
+				
 				createTab(ctx, document, rs.getInt("AD_Tab_ID"));
 			}
 			rs.close();
@@ -298,5 +294,16 @@ public class WindowElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "WindowType", "CDATA", (m_Window
 				.getWindowType() != null ? m_Window.getWindowType() : ""));
 		return atts;
+	}
+	
+	public void packOut(PackOut packout, ResultSet header, ResultSet detail,TransformerHandler packOutDocument,TransformerHandler packageDocument,int recordId) throws Exception
+	{	
+		if(recordId <= 0)
+			recordId = detail.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID);
+		
+		Env.setContext(packout.getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID, recordId);
+	
+		this.create(packout.getCtx(), packOutDocument);
+		packout.getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID);
 	}
 }

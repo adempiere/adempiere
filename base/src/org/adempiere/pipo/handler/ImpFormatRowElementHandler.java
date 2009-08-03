@@ -73,12 +73,11 @@ public class ImpFormatRowElementHandler extends AbstractElementHandler {
 		if (id <= 0 && atts.getValue("AD_ImpFormat_Row_ID") != null && Integer.parseInt(atts.getValue("AD_ImpFormat_Row_ID")) <= PackOut.MAX_OFFICIAL_ID)
 			m_ImpFormat_row.setAD_ImpFormat_Row_ID(Integer.parseInt(atts.getValue("AD_ImpFormat_Row_ID")));
 		if (id > 0){
-			AD_Backup_ID = copyRecord(ctx, "AD_ImpFormat",m_ImpFormat_row);
+			backupRecord(ctx, "AD_ImpFormat",m_ImpFormat_row);
 			Object_Status = "Update";			
 		}
 		else{
 			Object_Status = "New";
-			AD_Backup_ID =0;
 		}
 		m_ImpFormat_row.setName(atts.getValue("Name"));	    
 		m_ImpFormat_row.setIsActive(atts.getValue("isActive") != null ? Boolean.valueOf(atts.getValue("isActive")).booleanValue():true);
@@ -96,10 +95,10 @@ public class ImpFormatRowElementHandler extends AbstractElementHandler {
 		m_ImpFormat_row.setSeqNo(Integer.parseInt(atts.getValue("SeqNo")));
 		m_ImpFormat_row.setStartNo(Integer.parseInt(atts.getValue("StartNo")));	    
 		if (m_ImpFormat_row.save(getTrxName(ctx)) == true){		    	
-			record_log (ctx, 1, m_ImpFormat_row.getName(),"ImpFormatRow", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));           		        		
+			record_log (ctx, 1, m_ImpFormat_row.getName(),"ImpFormatRow", m_ImpFormat_row.get_ID(),Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));           		        		
 		}
 		else{
-			record_log (ctx, 0, m_ImpFormat_row.getName(),"ImpFormatRow", m_ImpFormat_row.get_ID(),AD_Backup_ID, Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));
+			record_log (ctx, 0, m_ImpFormat_row.getName(),"ImpFormatRow", m_ImpFormat_row.get_ID(),Object_Status,"AD_ImpFormat",get_IDWithColumn(ctx, "AD_Table", "TableName", "m_ImpFormat_row"));
 			throw new POSaveFailedException("Failed to import Import Format Row.");
 		}
 	}

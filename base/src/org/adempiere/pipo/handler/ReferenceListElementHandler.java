@@ -36,7 +36,6 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
-		int AD_Backup_ID = -1;
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("Name"));
@@ -64,11 +63,10 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 			if (AD_Ref_List_ID <= 0 && atts.getValue("AD_Ref_List_ID") != null && Integer.parseInt(atts.getValue("AD_Ref_List_ID")) <= PackOut.MAX_OFFICIAL_ID)
 				m_Ref_List.setAD_Ref_List_ID(Integer.parseInt(atts.getValue("AD_Ref_List_ID")));
 			if (AD_Ref_List_ID > 0) {
-				AD_Backup_ID = copyRecord(ctx, "AD_Ref_List", m_Ref_List);
+				backupRecord(ctx, "AD_Ref_List", m_Ref_List);
 				Object_Status = "Update";
 			} else {
 				Object_Status = "New";
-				AD_Backup_ID = 0;
 			}
 			
 			m_Ref_List.setAD_Reference_ID(AD_Reference_ID);
@@ -81,12 +79,12 @@ public class ReferenceListElementHandler extends AbstractElementHandler {
 			
 			if (m_Ref_List.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Ref_List.getName(), "Reference List",
-						m_Ref_List.get_ID(), AD_Backup_ID, Object_Status,
+						m_Ref_List.get_ID(), Object_Status,
 						"AD_Ref_List", get_IDWithColumn(ctx, "AD_Table",
 								"TableName", "AD_Ref_List"));
 			} else {
 				record_log(ctx, 0, m_Ref_List.getName(), "Reference List",
-						m_Ref_List.get_ID(), AD_Backup_ID, Object_Status,
+						m_Ref_List.get_ID(), Object_Status,
 						"AD_Ref_List", get_IDWithColumn(ctx, "AD_Table",
 								"TableName", "AD_Ref_List"));
 				throw new POSaveFailedException("ReferenceList");

@@ -105,14 +105,12 @@ public class FieldElementHandler extends AbstractElementHandler {
 				MField m_Field = new MField(ctx, id, getTrxName(ctx));
 				if (id <= 0 && atts.getValue("AD_Field_ID") != null && Integer.parseInt(atts.getValue("AD_Field_ID")) <= PackOut.MAX_OFFICIAL_ID)
 					m_Field.setAD_Field_ID(Integer.parseInt(atts.getValue("AD_Field_ID")));
-				int AD_Backup_ID = -1;
 				String Object_Status = null;
 				if (id > 0) {
-					AD_Backup_ID = copyRecord(ctx, "AD_Field", m_Field);
+					backupRecord(ctx, "AD_Field", m_Field);
 					Object_Status = "Update";
 				} else {
 					Object_Status = "New";
-					AD_Backup_ID = 0;
 				}
 				m_Field.setName(atts.getValue("Name"));
 				m_Field.setAD_Column_ID(columnid);
@@ -161,13 +159,13 @@ public class FieldElementHandler extends AbstractElementHandler {
 				
 				if (m_Field.save(getTrxName(ctx)) == true) {
 					record_log(ctx, 1, m_Field.getName(), "Field", m_Field
-							.get_ID(), AD_Backup_ID, Object_Status, "AD_Field",
+							.get_ID(), Object_Status, "AD_Field",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Field"));
 					element.recordId = m_Field.getAD_Field_ID();
 				} else {
 					record_log(ctx, 0, m_Field.getName(), "Field", m_Field
-							.get_ID(), AD_Backup_ID, Object_Status, "AD_Field",
+							.get_ID(), Object_Status, "AD_Field",
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Field"));
 					throw new POSaveFailedException("Failed to save field definition.");
@@ -193,21 +191,36 @@ public class FieldElementHandler extends AbstractElementHandler {
 		createFieldBinding(atts, m_Field);
 		
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
-				
-		if(m_Field.getAD_FieldGroup_ID() > 0){
-			packOut.createFieldGroupElement(m_Field.getAD_FieldGroup_ID(), document);
-		}
 		
-		if(m_Field.getAD_Reference_ID() > 0) {
-			packOut.createReference(m_Field.getAD_Reference_ID(), document);
-		}
+		try
+		{
+			if(m_Field.getAD_FieldGroup_ID() > 0)
+			{
+				IPackOutHandler handler = packOut.getHandler("FG");
+				handler.packOut(packOut,null,null,document,null,m_Field.getAD_FieldGroup_ID());
+			}
+			
+			if (m_Field.getAD_Reference_ID()>0)
+			{
+				IPackOutHandler handler = packOut.getHandler("REF");
+				handler.packOut(packOut,null,null,document,null,m_Field.getAD_Reference_ID());
+			}
 		
-		if (m_Field.getAD_Reference_Value_ID() > 0) {
-			packOut.createReference(m_Field.getAD_Reference_Value_ID(), document);
-		}
+			if (m_Field.getAD_Reference_Value_ID()>0)
+			{
+				IPackOutHandler handler = packOut.getHandler("REF");			
+				handler.packOut(packOut,null,null,document,null,m_Field.getAD_Reference_Value_ID());
+			}
 		
-		if (m_Field.getAD_Val_Rule_ID() > 0) {
-			packOut.createDynamicRuleValidation(m_Field.getAD_Val_Rule_ID(), document);
+			if (m_Field.getAD_Val_Rule_ID()>0)
+			{
+				IPackOutHandler handler = packOut.getHandler("V");
+				handler.packOut(packOut,null,null,document,null,m_Field.getAD_Val_Rule_ID());
+			}
+		}
+		catch(Exception e)
+		{
+			log.info(e.toString());
 		}
 		
 		document.startElement("", "", "field", atts);
