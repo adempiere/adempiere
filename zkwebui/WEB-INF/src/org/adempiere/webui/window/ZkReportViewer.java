@@ -349,7 +349,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			{
 				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
 			}
-			File file = File.createTempFile(prefix, ".html", new File(path));
+			File file = File.createTempFile(prefix, ".xls", new File(path));
 			m_reportEngine.createXLS(file, AEnv.getLanguage(Env.getCtx()));
 			media = new AMedia(getTitle(), "xls", "application/vnd.ms-excel", file, true);
 		}
