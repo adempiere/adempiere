@@ -333,11 +333,23 @@ public class ZkReportViewer extends Window implements EventListener {
 		if (selected == null || "PDF".equals(selected.getValue())) {
 			media = new AMedia(getTitle(), "pdf", "application/pdf", m_reportEngine.createPDFData());
 		} else if ("HTML".equals(previewType.getSelectedItem().getValue())) {
-			File file = File.createTempFile(m_reportEngine.getName(), ".html");
+			String path = System.getProperty("java.io.tmpdir");
+			String prefix = makePrefix(m_reportEngine.getName());
+			if (log.isLoggable(Level.FINE))
+			{
+				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
+			}
+			File file = File.createTempFile(prefix, ".html", new File(path));
 			m_reportEngine.createHTML(file, false, AEnv.getLanguage(Env.getCtx()), new HTMLExtension(Executions.getCurrent().getContextPath(), "rp", this.getUuid()));
 			media = new AMedia(getTitle(), "html", "text/html", file, false);
 		} else if ("XLS".equals(previewType.getSelectedItem().getValue())) {
-			File file = File.createTempFile(m_reportEngine.getName(), ".html");
+			String path = System.getProperty("java.io.tmpdir");
+			String prefix = makePrefix(m_reportEngine.getName());
+			if (log.isLoggable(Level.FINE))
+			{
+				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
+			}
+			File file = File.createTempFile(prefix, ".html", new File(path));
 			m_reportEngine.createXLS(file, AEnv.getLanguage(Env.getCtx()));
 			media = new AMedia(getTitle(), "xls", "application/vnd.ms-excel", file, true);
 		}
@@ -345,6 +357,19 @@ public class ZkReportViewer extends Window implements EventListener {
 		iframe.setContent(media);
 	}
 
+	private String makePrefix(String name) {
+		StringBuffer prefix = new StringBuffer();
+		char[] nameArray = name.toCharArray();
+		for (char ch : nameArray) {
+			if (Character.isLetterOrDigit(ch)) {
+				prefix.append(ch);
+			} else {
+				prefix.append("_");
+			}
+		}
+		return prefix.toString();
+	}
+	
 	/**
 	 * 	Dynamic Init
 	 */
