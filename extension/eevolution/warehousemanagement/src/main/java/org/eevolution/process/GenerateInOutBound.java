@@ -33,12 +33,14 @@ import java.util.Collection;
 import java.util.logging.Level;
 
 import org.adempiere.model.X_T_Selection;
+import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPInstance;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.DB;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
 
@@ -47,10 +49,16 @@ import org.eevolution.model.MWMInOutBoundLine;
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  @version $Id: $
  */
-public class CreateInOutBound extends SvrProcess
+public class GenerateInOutBound extends SvrProcess
 {	
 	/** Record ID */
 	protected int p_Record_ID = 0;	
+	protected int p_M_Locator_ID = 0;
+	protected String p_DocAction = null;
+	protected int p_WM_Area_ID = 0;
+	protected int p_C_DocType_ID = 0;
+	
+	
 	/**
 	 * 	Get Parameters
 	 */
@@ -58,12 +66,27 @@ public class CreateInOutBound extends SvrProcess
 	{
 		
 		p_Record_ID = getRecord_ID();
-		ProcessInfoParameter[] parameters = getParameter();
-		for (ProcessInfoParameter para: parameters)
+		for (ProcessInfoParameter para:getParameter())
 		{
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
+			else if (name.equals("WM_Area_ID"))
+			{
+				p_WM_Area_ID = para.getParameterAsInt();
+			}
+			else if (name.equals("M_Locator_ID"))
+			{
+				p_M_Locator_ID = para.getParameterAsInt();
+			}
+			else if (name.equals("DocAction"))
+			{
+				p_DocAction = (String)para.getParameter();
+			}
+			else if (name.equals("C_DocType_ID"))
+			{
+				p_C_DocType_ID = para.getParameterAsInt();
+			}
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -76,26 +99,37 @@ public class CreateInOutBound extends SvrProcess
 	@SuppressWarnings("unchecked")
 	protected String doIt () throws Exception
 	{
+		MLocator locator = MLocator.get(getCtx(), p_M_Locator_ID);
 		MWMInOutBound bound = new MWMInOutBound(getCtx(), 0 , get_TrxName());
-		bound.setC_DocType_ID(0);
+		if(p_C_DocType_ID > 0)
+			bound.setC_DocType_ID(p_C_DocType_ID);
+		else	
+			bound.setC_DocType_ID(103);
+		
 		bound.setDocStatus(MWMInOutBound.DOCSTATUS_Drafted);
-		bound.setDocAction(MWMInOutBound.ACTION_Complete);
+		if(p_DocAction != null)
+			bound.setDocAction(p_DocAction);
+		else
+			bound.setDocAction(MWMInOutBound.ACTION_Complete);
+		
+		bound.setM_Warehouse_ID(locator.getM_Warehouse_ID());
+		bound.setIsSOTrx(true);
+		bound.setMovementType(MWMInOutBound.MOVEMENTTYPE_CustomerShipment);		
 		bound.saveEx();
+		int seq = 10;
 		for (X_T_Selection s : getSelected())
 		{
-			MOrder order = new MOrder(getCtx(), s.get_ID() , get_TrxName());
-			for(MOrderLine line: order.getLines())
-			{	
+				MOrderLine line = new MOrderLine(getCtx(), s.getT_Selection_ID(), get_TrxName());
 				MWMInOutBoundLine boundline = new MWMInOutBoundLine(bound);
+				boundline.setLine(seq);
 				boundline.setM_Product_ID(line.getM_Product_ID());
 				boundline.setM_AttributeSetInstance_ID(line.getM_Warehouse_ID());
 				boundline.setQtyEntered(line.getQtyOrdered().subtract(line.getQtyDelivered()));
 				boundline.setC_UOM_ID(line.getC_UOM_ID());
 				boundline.setDescription(line.getDescription());
-				//boundline.setLine()
 				boundline.setC_OrderLine_ID(line.getC_OrderLine_ID());
 				boundline.saveEx();
-			}	
+				seq ++;
 		}
 		return "@DocumentNo@ " + bound.getDocumentNo();
 	}

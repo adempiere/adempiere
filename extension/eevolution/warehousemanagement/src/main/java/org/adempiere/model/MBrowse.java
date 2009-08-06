@@ -28,7 +28,7 @@ import org.compiere.util.CLogger;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MSmartBrowse extends X_AD_SmartBrowse 
+public class MBrowse extends X_AD_Browse 
 {
 
 
@@ -37,7 +37,7 @@ public class MSmartBrowse extends X_AD_SmartBrowse
 	 */
 	private static final long serialVersionUID = -2835749910242526282L;
 	/**	Logger	*/
-	private static CLogger	s_log = CLogger.getCLogger (MSmartBrowse.class);
+	private static CLogger	s_log = CLogger.getCLogger (MBrowse.class);
 	private MView m_view = null;
 	
 	/**************************************************************************
@@ -46,7 +46,7 @@ public class MSmartBrowse extends X_AD_SmartBrowse
 	 *	@param AD_SmartBrowse_ID  InOutBound ID
 	 *	@param trxName transaction name 
 	 */
-	public MSmartBrowse (Properties ctx, int AD_SmartBrowse_ID, String trxName)
+	public MBrowse (Properties ctx, int AD_SmartBrowse_ID, String trxName)
 	{
 		super (ctx, AD_SmartBrowse_ID, trxName);
 		if (AD_SmartBrowse_ID == 0)
@@ -59,7 +59,7 @@ public class MSmartBrowse extends X_AD_SmartBrowse
 	 *	@param ctx context
 	 *	@param AD_SmartBrowse_ID Cahs Flow ID
 	 */
-	public MSmartBrowse (Properties ctx, int AD_SmartBrowse_ID)
+	public MBrowse (Properties ctx, int AD_SmartBrowse_ID)
 	{
 		this (ctx, AD_SmartBrowse_ID, null);
 	}
@@ -70,7 +70,7 @@ public class MSmartBrowse extends X_AD_SmartBrowse
 	 *  @param rs result set record
 	 *	@param trxName transaction
 	 */
-	public MSmartBrowse (Properties ctx, ResultSet rs, String trxName)
+	public MBrowse (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
 	}	//	MAsset
@@ -94,17 +94,18 @@ public class MSmartBrowse extends X_AD_SmartBrowse
 	 * get Criteria Fields
 	 * @return
 	 */
-	public Collection <MSmartBrowseField> getCriteriaFields()
+	public Collection <MBrowseField> getCriteriaFields()
 	{
 				
-		String whereClause = MSmartBrowseField.COLUMNNAME_AD_SmartBrowse_ID + "=? AND "
-							+ MSmartBrowseField.COLUMNNAME_IsDisplayed 	+ "=? AND "
-							+ MSmartBrowseField.COLUMNNAME_IsQueryCriteria 	+ "=?";
+		String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID + "=? AND "
+							+ MBrowseField.COLUMNNAME_IsDisplayed 	+ "=? AND "
+							+ MBrowseField.COLUMNNAME_IsQueryCriteria 	+ "=?";
 						
 		
-		return new Query(getCtx(),MSmartBrowseField.Table_Name, whereClause, get_TrxName())
+		return new Query(getCtx(),MBrowseField.Table_Name, whereClause, get_TrxName())
 		.setParameters(new Object[]{get_ID(),"Y","Y"})
 		.setOnlyActiveRecords(true)
+		.setOrderBy(MBrowseField.COLUMNNAME_SeqNo)
 		.list();		
 	}
 	
@@ -112,18 +113,35 @@ public class MSmartBrowse extends X_AD_SmartBrowse
 	 * get Criteria Fields
 	 * @return
 	 */
-	public Collection <MSmartBrowseField> getFields()
+	public Collection <MBrowseField> getFields()
 	{
 				
-		String whereClause = MSmartBrowseField.COLUMNNAME_AD_SmartBrowse_ID + "=? AND "
-							+ MSmartBrowseField.COLUMNNAME_IsDisplayed 	+ "=? ";
+		String whereClause = MBrowseField.COLUMNNAME_AD_Browse_ID + "=? AND "
+							+ MBrowseField.COLUMNNAME_IsDisplayed 	+ "=? ";
 						
 		
-		return new Query(getCtx(),MSmartBrowseField.Table_Name, whereClause, get_TrxName())
+		return new Query(getCtx(),MBrowseField.Table_Name, whereClause, get_TrxName())
 		.setParameters(new Object[]{get_ID(),"Y"})
 		.setOnlyActiveRecords(true)
-		.setOrderBy( MSmartBrowseField.COLUMNNAME_SeqNo)
+		.setOrderBy(MBrowseField.COLUMNNAME_SeqNo)
 		.list();		
+	}
+	
+	/**
+	 * get field using name
+	 * @param name field
+	 * @return field 
+	 */
+	public MBrowseField getField(String name)
+	{
+		for (MBrowseField field : getFields())
+		{
+			if(field.getName().equals(name))
+			{
+				return field;
+			}
+		}
+		return null;
 	}
 	
 	public String getQuery()

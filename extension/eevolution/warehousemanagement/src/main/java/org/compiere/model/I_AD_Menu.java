@@ -14,24 +14,23 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_ViewColumn
+/** Generated Interface for AD_Menu
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_ViewColumn 
+public interface I_AD_Menu 
 {
 
-    /** TableName=AD_ViewColumn */
-    public static final String Table_Name = "AD_ViewColumn";
+    /** TableName=AD_Menu */
+    public static final String Table_Name = "AD_Menu";
 
-    /** AD_Table_ID=1000018 */
+    /** AD_Table_ID=116 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -42,6 +41,17 @@ public interface I_AD_ViewColumn
 
     /** Load Meta Data */
 
+    /** Column name AD_Browse_ID */
+    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
+
+	/** Set Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID);
+
+	/** Get Smart Browse	  */
+	public int getAD_Browse_ID();
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -50,20 +60,33 @@ public interface I_AD_ViewColumn
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Column_ID */
-    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
+    /** Column name AD_Form_ID */
+    public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
 
-	/** Set Column.
-	  * Column in the table
+	/** Set Special Form.
+	  * Special Form
 	  */
-	public void setAD_Column_ID (int AD_Column_ID);
+	public void setAD_Form_ID (int AD_Form_ID);
 
-	/** Get Column.
-	  * Column in the table
+	/** Get Special Form.
+	  * Special Form
 	  */
-	public int getAD_Column_ID();
+	public int getAD_Form_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public I_AD_Form getAD_Form() throws RuntimeException;
+
+    /** Column name AD_Menu_ID */
+    public static final String COLUMNNAME_AD_Menu_ID = "AD_Menu_ID";
+
+	/** Set Menu.
+	  * Identifies a Menu
+	  */
+	public void setAD_Menu_ID (int AD_Menu_ID);
+
+	/** Get Menu.
+	  * Identifies a Menu
+	  */
+	public int getAD_Menu_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -78,49 +101,93 @@ public interface I_AD_ViewColumn
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_ViewColumn_ID */
-    public static final String COLUMNNAME_AD_ViewColumn_ID = "AD_ViewColumn_ID";
+    /** Column name AD_Process_ID */
+    public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
 
-	/** Set View Column	  */
-	public void setAD_ViewColumn_ID (int AD_ViewColumn_ID);
-
-	/** Get View Column	  */
-	public int getAD_ViewColumn_ID();
-
-    /** Column name AD_ViewJoin_ID */
-    public static final String COLUMNNAME_AD_ViewJoin_ID = "AD_ViewJoin_ID";
-
-	/** Set View Entity Joins	  */
-	public void setAD_ViewJoin_ID (int AD_ViewJoin_ID);
-
-	/** Get View Entity Joins	  */
-	public int getAD_ViewJoin_ID();
-
-	public org.adempiere.model.I_AD_ViewJoin getAD_ViewJoin() throws RuntimeException;
-
-    /** Column name AD_View_ID */
-    public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
-
-	/** Set Smart View	  */
-	public void setAD_View_ID (int AD_View_ID);
-
-	/** Get Smart View	  */
-	public int getAD_View_ID();
-
-	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
-
-    /** Column name ColumnName */
-    public static final String COLUMNNAME_ColumnName = "ColumnName";
-
-	/** Set DB Column Name.
-	  * Name of the column in the database
+	/** Set Process.
+	  * Process or Report
 	  */
-	public void setColumnName (String ColumnName);
+	public void setAD_Process_ID (int AD_Process_ID);
 
-	/** Get DB Column Name.
-	  * Name of the column in the database
+	/** Get Process.
+	  * Process or Report
 	  */
-	public String getColumnName();
+	public int getAD_Process_ID();
+
+	public I_AD_Process getAD_Process() throws RuntimeException;
+
+    /** Column name AD_Task_ID */
+    public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
+
+	/** Set OS Task.
+	  * Operation System Task
+	  */
+	public void setAD_Task_ID (int AD_Task_ID);
+
+	/** Get OS Task.
+	  * Operation System Task
+	  */
+	public int getAD_Task_ID();
+
+	public I_AD_Task getAD_Task() throws RuntimeException;
+
+    /** Column name AD_Window_ID */
+    public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
+
+	/** Set Window.
+	  * Data entry or display window
+	  */
+	public void setAD_Window_ID (int AD_Window_ID);
+
+	/** Get Window.
+	  * Data entry or display window
+	  */
+	public int getAD_Window_ID();
+
+	public I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name AD_Workbench_ID */
+    public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
+
+	/** Set Workbench.
+	  * Collection of windows, reports
+	  */
+	public void setAD_Workbench_ID (int AD_Workbench_ID);
+
+	/** Get Workbench.
+	  * Collection of windows, reports
+	  */
+	public int getAD_Workbench_ID();
+
+	public I_AD_Workbench getAD_Workbench() throws RuntimeException;
+
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -166,19 +233,6 @@ public interface I_AD_ViewColumn
 	  */
 	public String getEntityType();
 
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -192,6 +246,45 @@ public interface I_AD_ViewColumn
 	  */
 	public boolean isActive();
 
+    /** Column name IsReadOnly */
+    public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
+
+	/** Set Read Only.
+	  * Field is read only
+	  */
+	public void setIsReadOnly (boolean IsReadOnly);
+
+	/** Get Read Only.
+	  * Field is read only
+	  */
+	public boolean isReadOnly();
+
+    /** Column name IsSOTrx */
+    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
+
+	/** Set Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx);
+
+	/** Get Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public boolean isSOTrx();
+
+    /** Column name IsSummary */
+    public static final String COLUMNNAME_IsSummary = "IsSummary";
+
+	/** Set Summary Level.
+	  * This is a summary entity
+	  */
+	public void setIsSummary (boolean IsSummary);
+
+	/** Get Summary Level.
+	  * This is a summary entity
+	  */
+	public boolean isSummary();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -204,19 +297,6 @@ public interface I_AD_ViewColumn
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name SelectClause */
-    public static final String COLUMNNAME_SelectClause = "SelectClause";
-
-	/** Set Sql SELECT.
-	  * SQL SELECT clause
-	  */
-	public void setSelectClause (String SelectClause);
-
-	/** Get Sql SELECT.
-	  * SQL SELECT clause
-	  */
-	public String getSelectClause();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

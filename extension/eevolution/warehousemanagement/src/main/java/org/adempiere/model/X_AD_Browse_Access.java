@@ -23,10 +23,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.model.*;
 
-/** Generated Model for AD_SmartBrowse_Access
+/** Generated Model for AD_Browse_Access
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_AD_SmartBrowse_Access extends PO implements I_AD_SmartBrowse_Access, I_Persistent 
+public class X_AD_Browse_Access extends PO implements I_AD_Browse_Access, I_Persistent 
 {
 
 	/**
@@ -35,19 +35,19 @@ public class X_AD_SmartBrowse_Access extends PO implements I_AD_SmartBrowse_Acce
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_AD_SmartBrowse_Access (Properties ctx, int AD_SmartBrowse_Access_ID, String trxName)
+    public X_AD_Browse_Access (Properties ctx, int AD_Browse_Access_ID, String trxName)
     {
-      super (ctx, AD_SmartBrowse_Access_ID, trxName);
-      /** if (AD_SmartBrowse_Access_ID == 0)
+      super (ctx, AD_Browse_Access_ID, trxName);
+      /** if (AD_Browse_Access_ID == 0)
         {
+			setAD_Browse_ID (0);
 			setAD_Role_ID (0);
-			setAD_SmartBrowse_ID (0);
 			setIsReadWrite (false);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_SmartBrowse_Access (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_Browse_Access (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,10 +69,46 @@ public class X_AD_SmartBrowse_Access extends PO implements I_AD_SmartBrowse_Acce
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_SmartBrowse_Access[")
+      StringBuffer sb = new StringBuffer ("X_AD_Browse_Access[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_Browse.Table_Name);
+        org.adempiere.model.I_AD_Browse result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.adempiere.model.I_AD_Browse)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Browse_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Smart Browse.
+		@param AD_Browse_ID Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID)
+	{
+		if (AD_Browse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_ID, Integer.valueOf(AD_Browse_ID));
+	}
+
+	/** Get Smart Browse.
+		@return Smart Browse	  */
+	public int getAD_Browse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_AD_Role getAD_Role() throws RuntimeException 
     {
@@ -108,42 +144,6 @@ public class X_AD_SmartBrowse_Access extends PO implements I_AD_SmartBrowse_Acce
 	public int getAD_Role_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Role_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.model.I_AD_SmartBrowse getAD_SmartBrowse() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_SmartBrowse.Table_Name);
-        org.adempiere.model.I_AD_SmartBrowse result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_SmartBrowse)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_SmartBrowse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set AD SmartBrowse ID.
-		@param AD_SmartBrowse_ID AD SmartBrowse ID	  */
-	public void setAD_SmartBrowse_ID (int AD_SmartBrowse_ID)
-	{
-		if (AD_SmartBrowse_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_SmartBrowse_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_SmartBrowse_ID, Integer.valueOf(AD_SmartBrowse_ID));
-	}
-
-	/** Get AD SmartBrowse ID.
-		@return AD SmartBrowse ID	  */
-	public int getAD_SmartBrowse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SmartBrowse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

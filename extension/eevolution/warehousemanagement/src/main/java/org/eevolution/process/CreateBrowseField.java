@@ -31,8 +31,8 @@ package org.eevolution.process;
 
 import java.util.logging.Level;
 
-import org.adempiere.model.MSmartBrowse;
-import org.adempiere.model.MSmartBrowseField;
+import org.adempiere.model.MBrowse;
+import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MView;
 import org.adempiere.model.MViewColumn;
 import org.compiere.process.ProcessInfoParameter;
@@ -72,13 +72,13 @@ public class CreateBrowseField extends SvrProcess
 	@SuppressWarnings("unchecked")
 	protected String doIt () throws Exception
 	{	
-		MSmartBrowse browse = new MSmartBrowse(getCtx(), p_Record_ID, get_TrxName());
+		MBrowse browse = new MBrowse(getCtx(), p_Record_ID, get_TrxName());
 		MView view = browse.getAD_View();
 
 			for(MViewColumn col:view.getViewColumn(view.getAD_View_ID()))
 			{	
-				MSmartBrowseField column = new MSmartBrowseField(col);
-				column.setAD_SmartBrowse_ID(browse.get_ID());
+				MBrowseField column = new MBrowseField(col);
+				column.setAD_Browse_ID(browse.get_ID());
 				column.setEntityType(browse.getEntityType());
 				column.saveEx();
 				addLog(col.getColumnName());

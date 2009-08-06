@@ -83,7 +83,7 @@ public class CreateViewColumn extends SvrProcess
 			for(MColumn attr: join.getEntityAttributes())
 			{	
 				MViewColumn column = new MViewColumn(attr);
-				column.setAD_ViewJoin_ID(join.getAD_ViewJoin_ID());
+				column.setAD_View_Join_ID(join.getAD_View_Join_ID());
 				column.setSelectClause(join.getTableName() + "." + attr.getColumnName());
 				column.setColumnName(MTable.get(getCtx(),join.getAD_Table_ID()).getTableName()+"_"+attr.getColumnName());
 				column.setAD_View_ID(join.getAD_View_ID());

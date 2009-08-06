@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_SmartBrowse
+/** Generated Model for AD_Browse
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_AD_SmartBrowse extends PO implements I_AD_SmartBrowse, I_Persistent 
+public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent 
 {
 
 	/**
@@ -36,12 +36,12 @@ public class X_AD_SmartBrowse extends PO implements I_AD_SmartBrowse, I_Persiste
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_AD_SmartBrowse (Properties ctx, int AD_SmartBrowse_ID, String trxName)
+    public X_AD_Browse (Properties ctx, int AD_Browse_ID, String trxName)
     {
-      super (ctx, AD_SmartBrowse_ID, trxName);
-      /** if (AD_SmartBrowse_ID == 0)
+      super (ctx, AD_Browse_ID, trxName);
+      /** if (AD_Browse_ID == 0)
         {
-			setAD_SmartBrowse_ID (0);
+			setAD_Browse_ID (0);
 			setAD_View_ID (0);
 			setEntityType (null);
 			setName (null);
@@ -49,7 +49,7 @@ public class X_AD_SmartBrowse extends PO implements I_AD_SmartBrowse, I_Persiste
     }
 
     /** Load Constructor */
-    public X_AD_SmartBrowse (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_Browse (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -71,10 +71,30 @@ public class X_AD_SmartBrowse extends PO implements I_AD_SmartBrowse, I_Persiste
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_SmartBrowse[")
+      StringBuffer sb = new StringBuffer ("X_AD_Browse[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Smart Browse.
+		@param AD_Browse_ID Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID)
+	{
+		if (AD_Browse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_ID, Integer.valueOf(AD_Browse_ID));
+	}
+
+	/** Get Smart Browse.
+		@return Smart Browse	  */
+	public int getAD_Browse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_AD_Process getAD_Process() throws RuntimeException 
     {
@@ -110,26 +130,6 @@ public class X_AD_SmartBrowse extends PO implements I_AD_SmartBrowse, I_Persiste
 	public int getAD_Process_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Process_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Smart Browse ID.
-		@param AD_SmartBrowse_ID Smart Browse ID	  */
-	public void setAD_SmartBrowse_ID (int AD_SmartBrowse_ID)
-	{
-		if (AD_SmartBrowse_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_SmartBrowse_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_SmartBrowse_ID, Integer.valueOf(AD_SmartBrowse_ID));
-	}
-
-	/** Get Smart Browse ID.
-		@return Smart Browse ID	  */
-	public int getAD_SmartBrowse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SmartBrowse_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

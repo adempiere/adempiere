@@ -21,15 +21,15 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_SmartBrowseField
+/** Generated Interface for AD_Browse_Field
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_SmartBrowseField 
+public interface I_AD_Browse_Field 
 {
 
-    /** TableName=AD_SmartBrowseField */
-    public static final String Table_Name = "AD_SmartBrowseField";
+    /** TableName=AD_Browse_Field */
+    public static final String Table_Name = "AD_Browse_Field";
 
     /** AD_Table_ID=1000022 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -41,6 +41,26 @@ public interface I_AD_SmartBrowseField
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AD_Browse_Field_ID */
+    public static final String COLUMNNAME_AD_Browse_Field_ID = "AD_Browse_Field_ID";
+
+	/** Set Browse Field	  */
+	public void setAD_Browse_Field_ID (int AD_Browse_Field_ID);
+
+	/** Get Browse Field	  */
+	public int getAD_Browse_Field_ID();
+
+    /** Column name AD_Browse_ID */
+    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
+
+	/** Set Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID);
+
+	/** Get Smart Browse	  */
+	public int getAD_Browse_ID();
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -104,36 +124,16 @@ public interface I_AD_SmartBrowseField
 	  */
 	public int getAD_Reference_Value_ID();
 
-    /** Column name AD_SmartBrowseFIeld_ID */
-    public static final String COLUMNNAME_AD_SmartBrowseFIeld_ID = "AD_SmartBrowseFIeld_ID";
-
-	/** Set Smart Browse Fields ID	  */
-	public void setAD_SmartBrowseFIeld_ID (int AD_SmartBrowseFIeld_ID);
-
-	/** Get Smart Browse Fields ID	  */
-	public int getAD_SmartBrowseFIeld_ID();
-
-    /** Column name AD_SmartBrowse_ID */
-    public static final String COLUMNNAME_AD_SmartBrowse_ID = "AD_SmartBrowse_ID";
-
-	/** Set Smart Browse ID	  */
-	public void setAD_SmartBrowse_ID (int AD_SmartBrowse_ID);
-
-	/** Get Smart Browse ID	  */
-	public int getAD_SmartBrowse_ID();
-
-	public org.adempiere.model.I_AD_SmartBrowse getAD_SmartBrowse() throws RuntimeException;
-
-    /** Column name AD_ViewColumn_ID */
-    public static final String COLUMNNAME_AD_ViewColumn_ID = "AD_ViewColumn_ID";
+    /** Column name AD_View_Column_ID */
+    public static final String COLUMNNAME_AD_View_Column_ID = "AD_View_Column_ID";
 
 	/** Set View Column	  */
-	public void setAD_ViewColumn_ID (int AD_ViewColumn_ID);
+	public void setAD_View_Column_ID (int AD_View_Column_ID);
 
 	/** Get View Column	  */
-	public int getAD_ViewColumn_ID();
+	public int getAD_View_Column_ID();
 
-	public org.adempiere.model.I_AD_ViewColumn getAD_ViewColumn() throws RuntimeException;
+	public org.adempiere.model.I_AD_View_Column getAD_View_Column() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -256,6 +256,19 @@ public interface I_AD_SmartBrowseField
 	  * This column is the key in this table
 	  */
 	public boolean isKey();
+
+    /** Column name IsMandatory */
+    public static final String COLUMNNAME_IsMandatory = "IsMandatory";
+
+	/** Set Mandatory.
+	  * Data entry is required in this column
+	  */
+	public void setIsMandatory (boolean IsMandatory);
+
+	/** Get Mandatory.
+	  * Data entry is required in this column
+	  */
+	public boolean isMandatory();
 
     /** Column name IsQueryCriteria */
     public static final String COLUMNNAME_IsQueryCriteria = "IsQueryCriteria";

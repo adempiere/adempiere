@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_SmartBrowse
+/** Generated Interface for AD_View_Column
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_SmartBrowse 
+public interface I_AD_View_Column 
 {
 
-    /** TableName=AD_SmartBrowse */
-    public static final String Table_Name = "AD_SmartBrowse";
+    /** TableName=AD_View_Column */
+    public static final String Table_Name = "AD_View_Column";
 
-    /** AD_Table_ID=1000021 */
+    /** AD_Table_ID=1000018 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -50,6 +50,21 @@ public interface I_AD_SmartBrowse
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Column_ID */
+    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
+
+	/** Set Column.
+	  * Column in the table
+	  */
+	public void setAD_Column_ID (int AD_Column_ID);
+
+	/** Get Column.
+	  * Column in the table
+	  */
+	public int getAD_Column_ID();
+
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -63,29 +78,14 @@ public interface I_AD_SmartBrowse
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Process_ID */
-    public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
+    /** Column name AD_View_Column_ID */
+    public static final String COLUMNNAME_AD_View_Column_ID = "AD_View_Column_ID";
 
-	/** Set Process.
-	  * Process or Report
-	  */
-	public void setAD_Process_ID (int AD_Process_ID);
+	/** Set View Column	  */
+	public void setAD_View_Column_ID (int AD_View_Column_ID);
 
-	/** Get Process.
-	  * Process or Report
-	  */
-	public int getAD_Process_ID();
-
-	public I_AD_Process getAD_Process() throws RuntimeException;
-
-    /** Column name AD_SmartBrowse_ID */
-    public static final String COLUMNNAME_AD_SmartBrowse_ID = "AD_SmartBrowse_ID";
-
-	/** Set Smart Browse ID	  */
-	public void setAD_SmartBrowse_ID (int AD_SmartBrowse_ID);
-
-	/** Get Smart Browse ID	  */
-	public int getAD_SmartBrowse_ID();
+	/** Get View Column	  */
+	public int getAD_View_Column_ID();
 
     /** Column name AD_View_ID */
     public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
@@ -97,6 +97,30 @@ public interface I_AD_SmartBrowse
 	public int getAD_View_ID();
 
 	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
+
+    /** Column name AD_View_Join_ID */
+    public static final String COLUMNNAME_AD_View_Join_ID = "AD_View_Join_ID";
+
+	/** Set View Entity Joins	  */
+	public void setAD_View_Join_ID (int AD_View_Join_ID);
+
+	/** Get View Entity Joins	  */
+	public int getAD_View_Join_ID();
+
+	public org.adempiere.model.I_AD_View_Join getAD_View_Join() throws RuntimeException;
+
+    /** Column name ColumnName */
+    public static final String COLUMNNAME_ColumnName = "ColumnName";
+
+	/** Set DB Column Name.
+	  * Name of the column in the database
+	  */
+	public void setColumnName (String ColumnName);
+
+	/** Get DB Column Name.
+	  * Name of the column in the database
+	  */
+	public String getColumnName();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -181,14 +205,18 @@ public interface I_AD_SmartBrowse
 	  */
 	public String getName();
 
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
+    /** Column name SelectClause */
+    public static final String COLUMNNAME_SelectClause = "SelectClause";
 
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
+	/** Set Sql SELECT.
+	  * SQL SELECT clause
+	  */
+	public void setSelectClause (String SelectClause);
 
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	/** Get Sql SELECT.
+	  * SQL SELECT clause
+	  */
+	public String getSelectClause();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -205,30 +233,4 @@ public interface I_AD_SmartBrowse
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
-
-    /** Column name WhereClause */
-    public static final String COLUMNNAME_WhereClause = "WhereClause";
-
-	/** Set Sql WHERE.
-	  * Fully qualified SQL WHERE clause
-	  */
-	public void setWhereClause (String WhereClause);
-
-	/** Get Sql WHERE.
-	  * Fully qualified SQL WHERE clause
-	  */
-	public String getWhereClause();
 }

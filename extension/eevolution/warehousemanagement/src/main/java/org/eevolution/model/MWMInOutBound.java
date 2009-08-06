@@ -71,6 +71,10 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		super (ctx, M_InOutBound_ID, trxName);
 		if (M_InOutBound_ID == 0)
 		{
+			setIsApproved(false);
+			setIsInTransit(false);
+			setIsPrinted(false);
+			setSendEMail(false);
 		}
 	}
 

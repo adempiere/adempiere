@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_SmartBrowseField
+/** Generated Model for AD_Browse_Field
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_AD_SmartBrowseField extends PO implements I_AD_SmartBrowseField, I_Persistent 
+public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persistent 
 {
 
 	/**
@@ -36,22 +36,22 @@ public class X_AD_SmartBrowseField extends PO implements I_AD_SmartBrowseField, 
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_AD_SmartBrowseField (Properties ctx, int AD_SmartBrowseField_ID, String trxName)
+    public X_AD_Browse_Field (Properties ctx, int AD_Browse_Field_ID, String trxName)
     {
-      super (ctx, AD_SmartBrowseField_ID, trxName);
-      /** if (AD_SmartBrowseField_ID == 0)
+      super (ctx, AD_Browse_Field_ID, trxName);
+      /** if (AD_Browse_Field_ID == 0)
         {
+			setAD_Browse_Field_ID (0);
 			setAD_Element_ID (0);
 			setAD_Reference_ID (0);
-			setAD_SmartBrowseFIeld_ID (0);
-			setAD_ViewColumn_ID (0);
+			setAD_View_Column_ID (0);
 			setEntityType (null);
 			setName (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_SmartBrowseField (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_Browse_Field (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -73,10 +73,66 @@ public class X_AD_SmartBrowseField extends PO implements I_AD_SmartBrowseField, 
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_SmartBrowseField[")
+      StringBuffer sb = new StringBuffer ("X_AD_Browse_Field[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Browse Field.
+		@param AD_Browse_Field_ID Browse Field	  */
+	public void setAD_Browse_Field_ID (int AD_Browse_Field_ID)
+	{
+		if (AD_Browse_Field_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_Field_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_Field_ID, Integer.valueOf(AD_Browse_Field_ID));
+	}
+
+	/** Get Browse Field.
+		@return Browse Field	  */
+	public int getAD_Browse_Field_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_Field_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_Browse.Table_Name);
+        org.adempiere.model.I_AD_Browse result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.adempiere.model.I_AD_Browse)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Browse_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Smart Browse.
+		@param AD_Browse_ID Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID)
+	{
+		if (AD_Browse_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_ID, Integer.valueOf(AD_Browse_ID));
+	}
+
+	/** Get Smart Browse.
+		@return Smart Browse	  */
+	public int getAD_Browse_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Browse_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_AD_Element getAD_Element() throws RuntimeException 
     {
@@ -163,70 +219,14 @@ public class X_AD_SmartBrowseField extends PO implements I_AD_SmartBrowseField, 
 		return ii.intValue();
 	}
 
-	/** Set Smart Browse Fields ID.
-		@param AD_SmartBrowseFIeld_ID Smart Browse Fields ID	  */
-	public void setAD_SmartBrowseFIeld_ID (int AD_SmartBrowseFIeld_ID)
-	{
-		if (AD_SmartBrowseFIeld_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_SmartBrowseFIeld_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_SmartBrowseFIeld_ID, Integer.valueOf(AD_SmartBrowseFIeld_ID));
-	}
-
-	/** Get Smart Browse Fields ID.
-		@return Smart Browse Fields ID	  */
-	public int getAD_SmartBrowseFIeld_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SmartBrowseFIeld_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.model.I_AD_SmartBrowse getAD_SmartBrowse() throws RuntimeException 
+	public org.adempiere.model.I_AD_View_Column getAD_View_Column() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_SmartBrowse.Table_Name);
-        org.adempiere.model.I_AD_SmartBrowse result = null;
+        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View_Column.Table_Name);
+        org.adempiere.model.I_AD_View_Column result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_SmartBrowse)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_SmartBrowse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Smart Browse ID.
-		@param AD_SmartBrowse_ID Smart Browse ID	  */
-	public void setAD_SmartBrowse_ID (int AD_SmartBrowse_ID)
-	{
-		if (AD_SmartBrowse_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_SmartBrowse_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_SmartBrowse_ID, Integer.valueOf(AD_SmartBrowse_ID));
-	}
-
-	/** Get Smart Browse ID.
-		@return Smart Browse ID	  */
-	public int getAD_SmartBrowse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SmartBrowse_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.model.I_AD_ViewColumn getAD_ViewColumn() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_ViewColumn.Table_Name);
-        org.adempiere.model.I_AD_ViewColumn result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_ViewColumn)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ViewColumn_ID()), get_TrxName()});
+    	    result = (org.adempiere.model.I_AD_View_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_View_Column_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -236,20 +236,20 @@ public class X_AD_SmartBrowseField extends PO implements I_AD_SmartBrowseField, 
     }
 
 	/** Set View Column.
-		@param AD_ViewColumn_ID View Column	  */
-	public void setAD_ViewColumn_ID (int AD_ViewColumn_ID)
+		@param AD_View_Column_ID View Column	  */
+	public void setAD_View_Column_ID (int AD_View_Column_ID)
 	{
-		if (AD_ViewColumn_ID < 1) 
-			set_Value (COLUMNNAME_AD_ViewColumn_ID, null);
+		if (AD_View_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_View_Column_ID, null);
 		else 
-			set_Value (COLUMNNAME_AD_ViewColumn_ID, Integer.valueOf(AD_ViewColumn_ID));
+			set_Value (COLUMNNAME_AD_View_Column_ID, Integer.valueOf(AD_View_Column_ID));
 	}
 
 	/** Get View Column.
 		@return View Column	  */
-	public int getAD_ViewColumn_ID () 
+	public int getAD_View_Column_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ViewColumn_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Column_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -396,6 +396,30 @@ public class X_AD_SmartBrowseField extends PO implements I_AD_SmartBrowseField, 
 	public boolean isKey () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsKey);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Mandatory.
+		@param IsMandatory 
+		Data entry is required in this column
+	  */
+	public void setIsMandatory (boolean IsMandatory)
+	{
+		set_Value (COLUMNNAME_IsMandatory, Boolean.valueOf(IsMandatory));
+	}
+
+	/** Get Mandatory.
+		@return Data entry is required in this column
+	  */
+	public boolean isMandatory () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsMandatory);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

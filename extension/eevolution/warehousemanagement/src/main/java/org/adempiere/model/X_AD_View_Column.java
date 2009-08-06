@@ -23,10 +23,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.model.*;
 
-/** Generated Model for AD_ViewColumn
+/** Generated Model for AD_View_Column
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_AD_ViewColumn extends PO implements I_AD_ViewColumn, I_Persistent 
+public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persistent 
 {
 
 	/**
@@ -35,19 +35,19 @@ public class X_AD_ViewColumn extends PO implements I_AD_ViewColumn, I_Persistent
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_AD_ViewColumn (Properties ctx, int AD_ViewColumn_ID, String trxName)
+    public X_AD_View_Column (Properties ctx, int AD_View_Column_ID, String trxName)
     {
-      super (ctx, AD_ViewColumn_ID, trxName);
-      /** if (AD_ViewColumn_ID == 0)
+      super (ctx, AD_View_Column_ID, trxName);
+      /** if (AD_View_Column_ID == 0)
         {
-			setAD_ViewColumn_ID (0);
+			setAD_View_Column_ID (0);
 			setEntityType (null);
 			setName (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_ViewColumn (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_View_Column (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,7 +69,7 @@ public class X_AD_ViewColumn extends PO implements I_AD_ViewColumn, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_ViewColumn[")
+      StringBuffer sb = new StringBuffer ("X_AD_View_Column[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -114,56 +114,20 @@ public class X_AD_ViewColumn extends PO implements I_AD_ViewColumn, I_Persistent
 	}
 
 	/** Set View Column.
-		@param AD_ViewColumn_ID View Column	  */
-	public void setAD_ViewColumn_ID (int AD_ViewColumn_ID)
+		@param AD_View_Column_ID View Column	  */
+	public void setAD_View_Column_ID (int AD_View_Column_ID)
 	{
-		if (AD_ViewColumn_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_ViewColumn_ID, null);
+		if (AD_View_Column_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Column_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_ViewColumn_ID, Integer.valueOf(AD_ViewColumn_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_View_Column_ID, Integer.valueOf(AD_View_Column_ID));
 	}
 
 	/** Get View Column.
 		@return View Column	  */
-	public int getAD_ViewColumn_ID () 
+	public int getAD_View_Column_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ViewColumn_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.model.I_AD_ViewJoin getAD_ViewJoin() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_ViewJoin.Table_Name);
-        org.adempiere.model.I_AD_ViewJoin result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_ViewJoin)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ViewJoin_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set View Entity Joins.
-		@param AD_ViewJoin_ID View Entity Joins	  */
-	public void setAD_ViewJoin_ID (int AD_ViewJoin_ID)
-	{
-		if (AD_ViewJoin_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_ViewJoin_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_ViewJoin_ID, Integer.valueOf(AD_ViewJoin_ID));
-	}
-
-	/** Get View Entity Joins.
-		@return View Entity Joins	  */
-	public int getAD_ViewJoin_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ViewJoin_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Column_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -200,6 +164,42 @@ public class X_AD_ViewColumn extends PO implements I_AD_ViewColumn, I_Persistent
 	public int getAD_View_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.model.I_AD_View_Join getAD_View_Join() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View_Join.Table_Name);
+        org.adempiere.model.I_AD_View_Join result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.adempiere.model.I_AD_View_Join)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_View_Join_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set View Entity Joins.
+		@param AD_View_Join_ID View Entity Joins	  */
+	public void setAD_View_Join_ID (int AD_View_Join_ID)
+	{
+		if (AD_View_Join_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Join_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Join_ID, Integer.valueOf(AD_View_Join_ID));
+	}
+
+	/** Get View Entity Joins.
+		@return View Entity Joins	  */
+	public int getAD_View_Join_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Join_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

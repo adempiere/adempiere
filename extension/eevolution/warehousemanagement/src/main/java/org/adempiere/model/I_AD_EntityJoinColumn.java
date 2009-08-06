@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_ViewJoin
+/** Generated Interface for AD_EntityJoinColumn
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_ViewJoin 
+public interface I_AD_EntityJoinColumn 
 {
 
-    /** TableName=AD_ViewJoin */
-    public static final String Table_Name = "AD_ViewJoin";
+    /** TableName=AD_EntityJoinColumn */
+    public static final String Table_Name = "AD_EntityJoinColumn";
 
-    /** AD_Table_ID=1000017 */
+    /** AD_Table_ID=1000028 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -49,6 +49,54 @@ public interface I_AD_ViewJoin
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_Column_ID */
+    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
+
+	/** Set Column.
+	  * Column in the table
+	  */
+	public void setAD_Column_ID (int AD_Column_ID);
+
+	/** Get Column.
+	  * Column in the table
+	  */
+	public int getAD_Column_ID();
+
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
+    /** Column name AD_EntityJoinColumn_ID */
+    public static final String COLUMNNAME_AD_EntityJoinColumn_ID = "AD_EntityJoinColumn_ID";
+
+	/** Set Entity Join Column	  */
+	public void setAD_EntityJoinColumn_ID (int AD_EntityJoinColumn_ID);
+
+	/** Get Entity Join Column	  */
+	public int getAD_EntityJoinColumn_ID();
+
+    /** Column name AD_EntityRelationship_ID */
+    public static final String COLUMNNAME_AD_EntityRelationship_ID = "AD_EntityRelationship_ID";
+
+	/** Set Entity Relationship	  */
+	public void setAD_EntityRelationship_ID (int AD_EntityRelationship_ID);
+
+	/** Get Entity Relationship	  */
+	public int getAD_EntityRelationship_ID();
+
+	public org.adempiere.model.I_AD_EntityRelationship getAD_EntityRelationship() throws RuntimeException;
+
+    /** Column name AD_Key */
+    public static final String COLUMNNAME_AD_Key = "AD_Key";
+
+	/** Set Key column.
+	  * Unique identifier of a record
+	  */
+	public void setAD_Key (int AD_Key);
+
+	/** Get Key column.
+	  * Unique identifier of a record
+	  */
+	public int getAD_Key();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -77,26 +125,6 @@ public interface I_AD_ViewJoin
 	public int getAD_Table_ID();
 
 	public I_AD_Table getAD_Table() throws RuntimeException;
-
-    /** Column name AD_ViewJoin_ID */
-    public static final String COLUMNNAME_AD_ViewJoin_ID = "AD_ViewJoin_ID";
-
-	/** Set View Entity Joins	  */
-	public void setAD_ViewJoin_ID (int AD_ViewJoin_ID);
-
-	/** Get View Entity Joins	  */
-	public int getAD_ViewJoin_ID();
-
-    /** Column name AD_View_ID */
-    public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
-
-	/** Set Smart View	  */
-	public void setAD_View_ID (int AD_View_ID);
-
-	/** Get Smart View	  */
-	public int getAD_View_ID();
-
-	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -127,27 +155,18 @@ public interface I_AD_ViewJoin
 	  */
 	public boolean isActive();
 
-    /** Column name JoinPhrase */
-    public static final String COLUMNNAME_JoinPhrase = "JoinPhrase";
+    /** Column name IsInverse */
+    public static final String COLUMNNAME_IsInverse = "IsInverse";
 
-	/** Set Join Phrase.
-	  * Defined the Join Phrase between Tables
+	/** Set Is Inverse.
+	  * Inverse entity if the join is part of the inverse join definitio
 	  */
-	public void setJoinPhrase (String JoinPhrase);
+	public void setIsInverse (boolean IsInverse);
 
-	/** Get Join Phrase.
-	  * Defined the Join Phrase between Tables
+	/** Get Is Inverse.
+	  * Inverse entity if the join is part of the inverse join definitio
 	  */
-	public String getJoinPhrase();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
+	public boolean isInverse();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -163,19 +182,6 @@ public interface I_AD_ViewJoin
  lowest number comes first
 	  */
 	public int getSeqNo();
-
-    /** Column name TableName */
-    public static final String COLUMNNAME_TableName = "TableName";
-
-	/** Set DB Table Name.
-	  * Name of the table in the database
-	  */
-	public void setTableName (String TableName);
-
-	/** Get DB Table Name.
-	  * Name of the table in the database
-	  */
-	public String getTableName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -35,7 +35,7 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MViewColumn extends X_AD_ViewColumn
+public class MViewColumn extends X_AD_View_Column
 {
 
 	/**

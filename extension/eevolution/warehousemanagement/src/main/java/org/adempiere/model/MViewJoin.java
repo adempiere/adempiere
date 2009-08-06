@@ -39,7 +39,7 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MViewJoin extends X_AD_ViewJoin
+public class MViewJoin extends X_AD_View_Join
 {
 
 
@@ -195,10 +195,10 @@ public class MViewJoin extends X_AD_ViewJoin
 	
 	public Collection<MViewColumn> getADViewColunms()
 	{
-		final String whereClause = MViewColumn.COLUMNNAME_AD_ViewJoin_ID + "=?";
+		final String whereClause = MViewColumn.COLUMNNAME_AD_View_Join_ID + "=?";
 		
 		return new Query(getCtx(),MViewColumn.Table_Name, whereClause, get_TrxName())
-										.setParameters(new Object[]{getAD_ViewJoin_ID()})
+										.setParameters(new Object[]{getAD_View_Join_ID()})
 										.list();
 	}
 }	

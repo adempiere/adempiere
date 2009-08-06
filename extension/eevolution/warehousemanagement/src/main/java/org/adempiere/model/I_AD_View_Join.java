@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_SmartBrowse_Access
+/** Generated Interface for AD_View_Join
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_SmartBrowse_Access 
+public interface I_AD_View_Join 
 {
 
-    /** TableName=AD_SmartBrowse_Access */
-    public static final String Table_Name = "AD_SmartBrowse_Access";
+    /** TableName=AD_View_Join */
+    public static final String Table_Name = "AD_View_Join";
 
-    /** AD_Table_ID=1000026 */
+    /** AD_Table_ID=1000017 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,31 +63,40 @@ public interface I_AD_SmartBrowse_Access
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Role_ID */
-    public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
-	/** Set Role.
-	  * Responsibility Role
+	/** Set Table.
+	  * Database Table information
 	  */
-	public void setAD_Role_ID (int AD_Role_ID);
+	public void setAD_Table_ID (int AD_Table_ID);
 
-	/** Get Role.
-	  * Responsibility Role
+	/** Get Table.
+	  * Database Table information
 	  */
-	public int getAD_Role_ID();
+	public int getAD_Table_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public I_AD_Table getAD_Table() throws RuntimeException;
 
-    /** Column name AD_SmartBrowse_ID */
-    public static final String COLUMNNAME_AD_SmartBrowse_ID = "AD_SmartBrowse_ID";
+    /** Column name AD_View_ID */
+    public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
 
-	/** Set AD SmartBrowse ID	  */
-	public void setAD_SmartBrowse_ID (int AD_SmartBrowse_ID);
+	/** Set Smart View	  */
+	public void setAD_View_ID (int AD_View_ID);
 
-	/** Get AD SmartBrowse ID	  */
-	public int getAD_SmartBrowse_ID();
+	/** Get Smart View	  */
+	public int getAD_View_ID();
 
-	public org.adempiere.model.I_AD_SmartBrowse getAD_SmartBrowse() throws RuntimeException;
+	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
+
+    /** Column name AD_View_Join_ID */
+    public static final String COLUMNNAME_AD_View_Join_ID = "AD_View_Join_ID";
+
+	/** Set View Entity Joins	  */
+	public void setAD_View_Join_ID (int AD_View_Join_ID);
+
+	/** Get View Entity Joins	  */
+	public int getAD_View_Join_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -118,18 +127,55 @@ public interface I_AD_SmartBrowse_Access
 	  */
 	public boolean isActive();
 
-    /** Column name IsReadWrite */
-    public static final String COLUMNNAME_IsReadWrite = "IsReadWrite";
+    /** Column name JoinPhrase */
+    public static final String COLUMNNAME_JoinPhrase = "JoinPhrase";
 
-	/** Set Read Write.
-	  * Field is read / write
+	/** Set Join Phrase.
+	  * Defined the Join Phrase between Tables
 	  */
-	public void setIsReadWrite (boolean IsReadWrite);
+	public void setJoinPhrase (String JoinPhrase);
 
-	/** Get Read Write.
-	  * Field is read / write
+	/** Get Join Phrase.
+	  * Defined the Join Phrase between Tables
 	  */
-	public boolean isReadWrite();
+	public String getJoinPhrase();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
+
+    /** Column name SeqNo */
+    public static final String COLUMNNAME_SeqNo = "SeqNo";
+
+	/** Set Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public void setSeqNo (int SeqNo);
+
+	/** Get Sequence.
+	  * Method of ordering records;
+ lowest number comes first
+	  */
+	public int getSeqNo();
+
+    /** Column name TableName */
+    public static final String COLUMNNAME_TableName = "TableName";
+
+	/** Set DB Table Name.
+	  * Name of the table in the database
+	  */
+	public void setTableName (String TableName);
+
+	/** Get DB Table Name.
+	  * Name of the table in the database
+	  */
+	public String getTableName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

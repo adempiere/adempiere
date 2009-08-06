@@ -48,6 +48,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -56,9 +57,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import org.adempiere.model.I_AD_Element;
-import org.adempiere.model.MSmartBrowse;
-import org.adempiere.model.MSmartBrowseField;
+import org.adempiere.model.MBrowse;
+import org.adempiere.model.MBrowseField;
 import org.adempiere.model.MView;
 import org.adempiere.model.MViewColumn;
 import org.adempiere.model.X_T_Selection;
@@ -70,6 +70,7 @@ import org.compiere.apps.ALayoutConstraint;
 import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.ProcessCtl;
+import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.VCheckBox;
@@ -79,9 +80,12 @@ import org.compiere.grid.ed.VNumber;
 import org.compiere.grid.ed.VString;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPInstance;
+import org.compiere.model.MProcess;
 import org.compiere.model.MRole;
+import org.compiere.model.M_Element;
 import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CLabel;
@@ -92,6 +96,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
@@ -121,12 +126,12 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	 * 	@param multiSelection multiple selections
 	 * 	@param whereClause where clause
 	 */
-	protected Browser(Frame frame, boolean modal, int WindowNo, String value,
-		MSmartBrowse browse, String keyColumn,
+	public Browser(Frame frame, boolean modal, int WindowNo, String value,
+		MBrowse browse, String keyColumn,
 		boolean multiSelection, String whereClause)
 	{
-		m_SmartBrowse = browse;
-		m_SmartView = browse.getAD_View();
+		m_Browse = browse;
+		m_View = browse.getAD_View();
 		p_WindowNo = WindowNo;
 		p_keyColumn = keyColumn;
 		p_multiSelection = multiSelection;
@@ -140,13 +145,14 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		}
 		
 		//super (frame, modal, WindowNo, tableName, keyColumn, multiSelection, whereClause);
-		log.info(m_SmartBrowse.getName() + " - " + keyColumn + " - " + whereClause);
-		setTitle(m_SmartBrowse.getName());
+		log.info(m_Browse.getName() + " - " + keyColumn + " - " + whereClause);
+		setTitle(m_Browse.getName());
 				
-		//
+
 		initComponents();
 		statInit();
 		p_loadedOK = initBrowser ();
+		
 		//
 		int no = detail.getRowCount();
 		setStatusLine(Integer.toString(no) + " " 
@@ -163,11 +169,9 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 
 	
 	/** Smart Browse 							*/
-	private MSmartBrowse 	m_SmartBrowse = null;
+	private MBrowse 	m_Browse = null;
 	/** Smart View								*/
-	private MView		m_SmartView	= null;
-	/** User selection */
-	private ArrayList<Integer> selection = null;
+	private MView		m_View	= null;
 
 
 	/** Table                   */
@@ -179,7 +183,16 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	private ArrayList<String> 	m_queryColumns = new ArrayList<String>();
 	/** list of query columns (SQL) */
 	private ArrayList<String>	m_queryColumnsSql = new ArrayList<String>();
-
+	/** Process Parameters Panel    */
+	private ProcessParameterPanel parameterPanel;
+	/** Parameters					*/
+	private ArrayList <String> m_parameters;
+	/** Parameters Values 			*/
+	private ArrayList <Object> m_values;
+	/** MProcess process 			*/
+	private MProcess m_process = null;
+	/** ProcessInfo					*/
+	ProcessInfo m_pi = null;
 	
 	/** Loading success indicator       */
 	protected boolean	        p_loadedOK = false;
@@ -218,11 +231,6 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	protected String			p_whereClause = "";
 	/** Window Width                */
 	protected static final int        INFO_WIDTH = 800;
-
-
-	private void Init()
-	{
-	}
 	
 	/**
 	 *	Static Setup - add fields to parameterPanel (GridLayout)
@@ -233,9 +241,9 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		int cols = 0;
 		int col = 2;
 		int row = 0;
-		for(MSmartBrowseField field : m_SmartBrowse.getCriteriaFields())
+		for(MBrowseField field : m_Browse.getCriteriaFields())
 		{
-			I_AD_Element element = field.getAD_Element();
+			M_Element element = new M_Element(m_Browse.getCtx(),field.getAD_Element_ID(), null);
 			String title  = Msg.translate(Env.getCtx(), element.getColumnName());			
 			addComponent(field, row, cols, field.getName(),title);
 			cols = cols + col;
@@ -256,7 +264,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		}
 	}
 	
-	private void addComponent(MSmartBrowseField field,int row,int col,String name, String title)
+	private void addComponent(MBrowseField field,int row,int col,String name, String title) 
 	{
 		Component  data = null;
 		CLabel label	= new CLabel(title);
@@ -295,23 +303,13 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		}
 		else if (DisplayType.TableDir== field.getAD_Reference_ID() || DisplayType.Table == field.getAD_Reference_ID())
 		{
-			I_AD_Element element = field.getAD_Element();
-			MViewColumn column = field.getAD_ViewColumn();
-			data	= new VLookup(element.getColumnName(),true, false, true,
-					MLookupFactory.get (Env.getCtx(), p_WindowNo, 0 , column.getAD_Column_ID() ,DisplayType.TableDir))
-			{
-				private static final long serialVersionUID = 1L;
-				public void setValue(Object arg0) {  				
-					super.setValue(arg0);
-				};
-			}; 
-			data.setBackground(AdempierePLAF.getInfoBackground());
+			data = (Component) getLookup(name, field);
 			label.setLabelFor(data);
 		}
 		else if (DisplayType.Search == field.getAD_Reference_ID())
 		{
-			I_AD_Element element = field.getAD_Element();
-			MViewColumn column = field.getAD_ViewColumn();
+			M_Element element = new M_Element(m_Browse.getCtx(), field.getAD_Element_ID(), null);
+			MViewColumn column = field.getAD_View_Column();
 			data	= new VLookup(element.getColumnName(),true, false, true,
 					MLookupFactory.get (Env.getCtx(), p_WindowNo,  0, column.getAD_Column_ID() ,DisplayType.Search))			
 			{
@@ -322,11 +320,31 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			}; 
 			data.setBackground(AdempierePLAF.getInfoBackground());
 			label.setLabelFor(data);
-		}
-		
+		}		
 		searchPanel.add(label	, new ALayoutConstraint(row,col));
 		searchPanel.add(data	, new ALayoutConstraint(row,col+1));
 	
+	}
+	
+	private Component getLookup(String name,MBrowseField field) 
+	{
+		try 
+		{
+			MViewColumn column = field.getAD_View_Column();	
+			Language language = Language.getLoginLanguage();
+			MLookup dataL = MLookupFactory.get(m_Browse.getCtx(), p_WindowNo,
+					column.getAD_Column_ID(),
+					DisplayType.TableDir, language, name , 0, false,"");
+	
+			VLookup data = new VLookup(name, field.isMandatory(), false, true, dataL);
+			data.setBackground(AdempierePLAF.getInfoBackground());
+			data.addVetoableChangeListener(this);
+			return data;
+		} 
+		catch (Exception e) {
+			log.log(Level.SEVERE, "Browser.init", e);
+		}
+		return null;
 	}
 
 	/**
@@ -339,7 +357,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			return false;
 
 		//  prepare table
-		StringBuffer where = new StringBuffer(m_SmartView.getParentEntityAliasName()+".IsActive='Y'");
+		StringBuffer where = new StringBuffer(m_View.getParentEntityAliasName()+".IsActive='Y'");
 		//StringBuffer where = new StringBuffer("");
 		if (p_whereClause.length() > 0)
 		{
@@ -348,10 +366,21 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		}
 			
 		prepareTable(m_generalLayout,
-				     m_SmartView.getFromClause(),
+				     m_View.getFromClause(),
 			where.toString(),
 			"2");
 
+		if(m_Browse.getAD_Process_ID() > 0)
+		{
+			m_process = MProcess.get(Env.getCtx(), m_Browse.getAD_Process_ID());
+			m_pi = new ProcessInfo(m_process.getName(), m_Browse.getAD_Process_ID());
+			m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
+			m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+			parameterPanel = new ProcessParameterPanel(p_WindowNo, m_pi);
+			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
+			parameterPanel.init();
+			processPanel.add(parameterPanel);
+		}
 		return true;
 	}	//	initInfo
 
@@ -364,12 +393,12 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	 */
 	private boolean initBrowserTable ()
 	{
-		Collection<MSmartBrowseField> fields = m_SmartBrowse.getFields();
+		Collection<MBrowseField> fields = m_Browse.getFields();
 		ArrayList<Info_Column> list = new ArrayList<Info_Column>();
-		for (MSmartBrowseField field : fields)
+		for (MBrowseField field : fields)
 		{
-			MViewColumn vcol = field.getAD_ViewColumn();
-			I_AD_Element element = field.getAD_Element();
+			MViewColumn vcol = field.getAD_View_Column();
+			M_Element element = new M_Element(m_Browse.getCtx(),field.getAD_Element_ID(),null);
 			String columnName= element.getColumnName();
 			if(field.isQueryCriteria())
 			{	
@@ -393,19 +422,25 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 				colClass = IDColumn.class;
 			else if (!isDisplayed)
 				;
-			else if (displayType == DisplayType.YesNo)
+			else if (DisplayType.YesNo 		== displayType)
 				colClass = Boolean.class;
-			else if (displayType == DisplayType.Amount)
+			else if (DisplayType.Amount 	== displayType)
 				colClass = BigDecimal.class;
-			else if (displayType == DisplayType.Number || displayType == DisplayType.Quantity)
+			else if (DisplayType.Number 	== displayType || 
+					 DisplayType.Quantity 	== displayType)
 				colClass = Double.class;
-			else if (displayType == DisplayType.Integer)
+			else if (DisplayType.Integer 	== displayType || 
+					 DisplayType.TableDir 	== displayType || 
+					 DisplayType.Table 		== displayType || 
+					 DisplayType.Search 	== displayType)
 				colClass = Integer.class;
-			else if (displayType == DisplayType.String || displayType == DisplayType.Text || displayType == DisplayType.Memo)
+			else if (DisplayType.String 	== displayType || 
+					 DisplayType.Text 		== displayType || 
+					 DisplayType.Memo 		== displayType)
 				colClass = String.class;
 			else if (DisplayType.isDate(displayType))
 				colClass = Timestamp.class;
-			else if (displayType == DisplayType.List)
+			else if (DisplayType.List		== displayType)
 			{
 				if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
 					colSql = new StringBuffer("(SELECT l.Name FROM AD_Ref_List l WHERE l.AD_Reference_ID=")
@@ -444,13 +479,13 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		}
 		
 		//  Set Title
-		String title = Msg.translate(Env.getCtx(), m_SmartBrowse.getName()); 
+		String title = Msg.translate(Env.getCtx(), m_Browse.getName()); 
 		setTitle(getTitle() + " " + title);
 		
 		if (list.size() == 0)
 		{
 			ADialog.error(p_WindowNo, this, "Error", "No Browse Fields");
-			log.log(Level.SEVERE, "No Brwose for view=" + m_SmartView.getName());
+			log.log(Level.SEVERE, "No Brwose for view=" + m_View.getName());
 			return false;
 		}
 		log.finest("Browse Fields #" + list.size()); 
@@ -470,14 +505,20 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	 */
 	protected String getSQLWhere()
 	{
-		StringBuffer sql = new StringBuffer(" AND ");
-		Iterator <MSmartBrowseField> fields = m_SmartBrowse.getCriteriaFields().iterator();
-		while(fields.hasNext())
+		StringBuffer sql = new StringBuffer("");
+		if(getParameters().size() > 0)
 		{
-			MSmartBrowseField field = fields.next();
-			MViewColumn column = field.getAD_ViewColumn();
+			sql.append(" AND ");
+		}
+		
+		Iterator <String> parameters = getParameters().iterator();
+		while(parameters.hasNext())
+		{
+			String parameter = parameters.next();
+			MBrowseField field = m_Browse.getField(parameter);
+			MViewColumn column = field.getAD_View_Column();
 			sql.append(column.getSelectClause()).append("=? ");
-			if(fields.hasNext())
+			if(parameters.hasNext())
 			{	
 				sql.append(" AND ");
 			}
@@ -485,42 +526,76 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		return sql.toString();
 	}	//	getSQLWhere
 	
-
-	private ArrayList<Object> getParameters()
+	/**
+	 * set Parameteres and Values
+	 */
+	private void setParameters()
 	{			
 		/** Parameters **/
-		ArrayList<Object> parameters = new ArrayList();
+		m_parameters = new ArrayList();
+		m_values = new ArrayList();
 		
-		for(MSmartBrowseField field : m_SmartBrowse.getCriteriaFields())
-		{
 			for (Component c : searchPanel.getComponents())
 			{	
 				String name = c.getName();
 				if(name == null)
 					continue;
-					
-				if(field.getAD_Element().getColumnName().equals(name))
+				MBrowseField field = m_Browse.getField(name);
+				if(field == null)
+					continue;
+				
+				if(field.getName().equals(name))
 				{	
 					if(c instanceof VLookup)
 					{	
-						VLookup data = (VLookup) c;
-						parameters.add(data.getValue());
+						VLookup component = (VLookup) c;
+						addParameter(component.getName(), component.getValue());
 					}	
 					if(c instanceof VString)
 					{	
-						VString data = (VString) c;
-						parameters.add(data.getValue());
+						VString component  = (VString) c;
+						addParameter(component.getName(), component.getValue());
 					}	
 					if(c instanceof VCheckBox)
 					{
-						VCheckBox data = (VCheckBox) c;
-						parameters.add(data.getValue());
+						VCheckBox component  = (VCheckBox) c;
+						addParameter(component.getName(), component.getValue());
 					}
 				}	
 			}
-		}	
-		return parameters;
-	}		
+	}	
+	
+	/**
+	 * add Parameters and Values
+	 * @param name
+	 * @param value
+	 */
+	private void addParameter(String name , Object value)
+	{
+		if(value != null && value.toString().length() > 0)
+		{
+			m_parameters.add(name);
+			m_values.add(value);
+		}		
+	}
+	
+	/**
+	 * get Parameters names
+	 * @return ArrayList with parameters names
+	 */
+	private ArrayList <String> getParameters()
+	{
+		return m_parameters;
+	}
+	
+	/**
+	 * get Parameters values
+	 * @return ArralyList with parameters values
+	 */
+	private ArrayList <Object> getParametersValues()
+	{
+		return m_values;
+	}
 
 	/**
 	 *	Add directly Query as Strings
@@ -579,6 +654,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	 */
 	protected void executeQuery()
 	{
+		setParameters();
 		//  ignore when running
 		if (m_worker != null && m_worker.isAlive())
 			return;
@@ -661,7 +737,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		if (dynWhere.length() > 0)
 			sql.append(dynWhere);   //  includes first AND
 		String countSql = Msg.parseTranslation(Env.getCtx(), sql.toString());	//	Variables
-		countSql = MRole.getDefault().addAccessSQL(countSql, m_SmartView.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+		countSql = MRole.getDefault().addAccessSQL(countSql, m_View.getParentEntityAliasName(), MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 		log.finer(countSql);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -669,7 +745,8 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		try
 		{
 			pstmt = DB.prepareStatement(countSql, null);
-			DB.setParameters(pstmt, getParameters());
+			if(getParametersValues().size() > 0)
+				DB.setParameters(pstmt, getParametersValues());
 			setParameters (pstmt, true);
 			rs = pstmt.executeQuery();
 			if (rs.next())
@@ -697,7 +774,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		bOk = new javax.swing.JButton(a);
         a = new AppsAction(ConfirmPanel.A_CANCEL, null, ConfirmPanel.A_CANCEL);
         bCancel = new javax.swing.JButton(a);
-        ToolsBar = new javax.swing.JToolBar();
+        toolsBar = new javax.swing.JToolBar();
         a = new AppsAction(ConfirmPanel.A_PRINT, null, ConfirmPanel.A_PRINT);
         bPrint = new javax.swing.JToggleButton(a);
         a = new AppsAction(ConfirmPanel.A_ZOOM, null, ConfirmPanel.A_ZOOM);
@@ -707,9 +784,10 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
         a = new AppsAction(ConfirmPanel.A_DELETE, null, ConfirmPanel.A_DELETE);
         bDelete = new javax.swing.JToggleButton(a);
         a = new AppsAction("Find", null, "Find"); 
-        bFilter = new javax.swing.JToggleButton(a);
-        bFilterStatus = new javax.swing.JToggleButton();
-        bFilters = new javax.swing.JComboBox();
+        bFind = new javax.swing.JToggleButton(a);
+
+
+        
 	}
     /** This method is called from within the constructor to
      * initialize the form.
@@ -720,31 +798,105 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        tabsPanel = new javax.swing.JTabbedPane();
-        searchTab = new javax.swing.JPanel();
-        searchPanel = new javax.swing.JPanel();
-        buttonSearchPanel = new javax.swing.JPanel();
-        buttonSearch = new javax.swing.JButton();
-        scrollPane = new javax.swing.JScrollPane();
-        detail = new MiniTable();
-        graphPanel = new javax.swing.JPanel();
-        footPanel = new javax.swing.JPanel();
-        /*bOk = new javax.swing.JButton();
-        bCancel = new javax.swing.JButton();
-        ToolsBar = new javax.swing.JToolBar();
+        toolsBar = new javax.swing.JToolBar();
         bPrint = new javax.swing.JToggleButton();
         bZoom = new javax.swing.JToggleButton();
         bExport = new javax.swing.JToggleButton();
         bDelete = new javax.swing.JToggleButton();
-        bFilter = new javax.swing.JToggleButton();
-        bFilterStatus = new javax.swing.JToggleButton();
-        bFilters = new javax.swing.JComboBox();*/
+        bFind = new javax.swing.JToggleButton();
+        tabsPanel = new javax.swing.JTabbedPane();
+        searchTab = new javax.swing.JPanel();
+        topPanel = new javax.swing.JPanel();
+        searchPanel = new javax.swing.JPanel();
+        buttonSearchPanel = new javax.swing.JPanel();
+        bSearch = new javax.swing.JButton();
+        centerPanel = new javax.swing.JScrollPane();
+        detail = new MiniTable();
+        footPanel = new javax.swing.JPanel();
+        footButtonPanel = new javax.swing.JPanel();
+        bCancel = new javax.swing.JButton();
+        bOk = new javax.swing.JButton();
         setupToolBar();
+        processPanel = new javax.swing.JPanel();
+        graphPanel = new javax.swing.JPanel();
+
+        toolsBar.setRollover(true);
+
+        bPrint.setText("Print");
+        bPrint.setFocusable(false);
+        bPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bPrint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        bPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bPrintActionPerformed(evt);
+            }
+        });
+        toolsBar.add(bPrint);
+
+        bZoom.setText("Zoom");
+        bZoom.setFocusable(false);
+        bZoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bZoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        bZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bZoomActionPerformed(evt);
+            }
+        });
+        toolsBar.add(bZoom);
+
+        bExport.setText("Export");
+        bExport.setFocusable(false);
+        bExport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bExport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        bExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bExportActionPerformed(evt);
+            }
+        });
+        toolsBar.add(bExport);
+
+        bDelete.setText("Delete");
+        bDelete.setFocusable(false);
+        bDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        bDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bDeleteActionPerformed(evt);
+            }
+        });
+        toolsBar.add(bDelete);
+
+        bFind.setText("Find");
+        bFind.setFocusable(false);
+        bFind.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        bFind.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        bFind.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bFindActionPerformed(evt);
+            }
+        });
+        toolsBar.add(bFind);
+
+        getContentPane().add(toolsBar, java.awt.BorderLayout.PAGE_START);
+
+        searchTab.setLayout(new java.awt.BorderLayout());
+
+        topPanel.setLayout(new java.awt.BorderLayout());
 
         searchPanel.setLayout(new java.awt.GridBagLayout());
+        topPanel.add(searchPanel, java.awt.BorderLayout.NORTH);
 
-        buttonSearch.setText("Search");
-        buttonSearchPanel.add(buttonSearch);
+        bSearch.setText("Search");
+        bSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bSearchActionPerformed(evt);
+            }
+        });
+        buttonSearchPanel.add(bSearch);
+
+        topPanel.add(buttonSearchPanel, java.awt.BorderLayout.CENTER);
+
+        searchTab.add(topPanel, java.awt.BorderLayout.NORTH);
 
         /*detail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -757,49 +909,19 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 
             }
         ));*/
-        scrollPane.setViewportView(detail);
+        centerPanel.setViewportView(detail);
 
-        javax.swing.GroupLayout searchTabLayout = new javax.swing.GroupLayout(searchTab);
-        searchTab.setLayout(searchTabLayout);
-        searchTabLayout.setHorizontalGroup(
-            searchTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(searchTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(searchTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(searchTabLayout.createSequentialGroup()
-                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 1231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(searchTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(searchTabLayout.createSequentialGroup()
-                            .addComponent(searchPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1241, Short.MAX_VALUE)
-                            .addContainerGap())
-                        .addComponent(buttonSearchPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1247, Short.MAX_VALUE))))
-        );
-        searchTabLayout.setVerticalGroup(
-            searchTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(searchTabLayout.createSequentialGroup()
-                .addComponent(searchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(buttonSearchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 533, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        searchTab.add(centerPanel, java.awt.BorderLayout.CENTER);
 
-        tabsPanel.addTab("Search", searchTab);
+        footPanel.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout graphPanelLayout = new javax.swing.GroupLayout(graphPanel);
-        graphPanel.setLayout(graphPanelLayout);
-        graphPanelLayout.setHorizontalGroup(
-            graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1253, Short.MAX_VALUE)
-        );
-        graphPanelLayout.setVerticalGroup(
-            graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
-        );
-
-        tabsPanel.addTab("Graph", graphPanel);
+        bCancel.setText("Cancel");
+        bCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCancelActionPerformed(evt);
+            }
+        });
+        footButtonPanel.add(bCancel);
 
         bOk.setText("Ok");
         bOk.addActionListener(new java.awt.event.ActionListener() {
@@ -807,113 +929,29 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
                 bOkActionPerformed(evt);
             }
         });
+        footButtonPanel.add(bOk);
 
-        bCancel.setText("Cancel");
+        footPanel.add(footButtonPanel, java.awt.BorderLayout.SOUTH);
+        footPanel.add(processPanel, java.awt.BorderLayout.CENTER);
 
-        javax.swing.GroupLayout footPanelLayout = new javax.swing.GroupLayout(footPanel);
-        footPanel.setLayout(footPanelLayout);
-        footPanelLayout.setHorizontalGroup(
-            footPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, footPanelLayout.createSequentialGroup()
-                .addContainerGap(1082, Short.MAX_VALUE)
-                .addComponent(bOk)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bCancel)
-                .addGap(19, 19, 19))
+        searchTab.add(footPanel, java.awt.BorderLayout.SOUTH);
+
+        tabsPanel.addTab("Search", searchTab);
+
+        javax.swing.GroupLayout graphPanelLayout = new javax.swing.GroupLayout(graphPanel);
+        graphPanel.setLayout(graphPanelLayout);
+        graphPanelLayout.setHorizontalGroup(
+            graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 913, Short.MAX_VALUE)
         );
-        footPanelLayout.setVerticalGroup(
-            footPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(footPanelLayout.createSequentialGroup()
-                .addGroup(footPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bOk)
-                    .addComponent(bCancel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        graphPanelLayout.setVerticalGroup(
+            graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 709, Short.MAX_VALUE)
         );
 
-        ToolsBar.setRollover(true);
+        tabsPanel.addTab("Graph", graphPanel);
 
-        bPrint.setText("Print");
-        bPrint.setFocusable(false);
-        bPrint.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bPrint.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        bPrint.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bPrintActionPerformed(evt);
-            }
-        });
-        ToolsBar.add(bPrint);
-
-        bZoom.setText("Zoom");
-        bZoom.setFocusable(false);
-        bZoom.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bZoom.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        bZoom.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bZoomActionPerformed(evt);
-            }
-        });
-        ToolsBar.add(bZoom);
-
-        bExport.setText("Export");
-        bExport.setFocusable(false);
-        bExport.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bExport.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        ToolsBar.add(bExport);
-
-        bDelete.setText("Delete");
-        bDelete.setFocusable(false);
-        bDelete.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bDelete.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        ToolsBar.add(bDelete);
-
-        bFilter.setText("Filter");
-        bFilter.setFocusable(false);
-        bFilter.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bFilter.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        ToolsBar.add(bFilter);
-
-        bFilterStatus.setText("Filter On");
-        bFilterStatus.setFocusable(false);
-        bFilterStatus.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        bFilterStatus.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        ToolsBar.add(bFilterStatus);
-
-        bFilters.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        bFilters.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bFiltersActionPerformed(evt);
-            }
-        });
-        ToolsBar.add(bFilters);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(12, 12, 12)
-                        .addComponent(footPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(ToolsBar, javax.swing.GroupLayout.PREFERRED_SIZE, 1217, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(tabsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1274, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(ToolsBar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(tabsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 686, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(footPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
-        );
+        getContentPane().add(tabsPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void bZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bZoomActionPerformed
@@ -922,41 +960,50 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 
     private void bOkActionPerformed(java.awt.event.ActionEvent evt) {                                    
         // TODO add your handling code here:
+    	if(detail.getSelectedRowCount() == 0)
+    		dispose();
 		//	Prepare Process
-		int AD_Process_ID = m_SmartBrowse.getAD_Process_ID();
+		int AD_Process_ID = m_Browse.getAD_Process_ID();
 		if(AD_Process_ID <= 0)
 			return;
 
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
 		instance.saveEx();
-		for(Integer selectedId : selection)
+		for(Integer row : detail.getSelectedRows())
 		{
-			X_T_Selection sel = new X_T_Selection(Env.getCtx(), selectedId , null);
-			sel.setAD_PInstance_ID(instance.get_ID());
-			sel.save();
-		}			
-
+			IDColumn id = (IDColumn)detail.getValueAt(row, 0);
+			X_T_Selection selection = new X_T_Selection(Env.getCtx(), 0 , null);
+			selection.setT_Selection_ID(id.getRecord_ID());
+			selection.setAD_PInstance_ID(instance.get_ID());
+			selection.saveEx();
+		}					
 		//call process
-		ProcessInfo pi = new ProcessInfo ("Browser", AD_Process_ID);
-		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-
+		m_pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		parameterPanel.saveParameters();
 		//	Execute Process
-		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), pi, null);
+		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), m_pi, null);
 		worker.start();     //  complete tasks in unlockUI / generateShipments_complete
     	
     }   
     
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {                                    
         // TODO add your handling code here:
-    	this.dispose();
+    	dispose();
     }   
     
-    private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {                                    
+    private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
         // TODO add your handling code here:
-    	this.executeQuery();
-    }   
+       	this.executeQuery();
+    }//GEN-LAST:event_bSearchActionPerformed
 
-    private void bFiltersActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void bFindActionPerformed(java.awt.event.ActionEvent evt) {                                      
+        // TODO add your handling code here:
+    }                                                
+    
+    private void bExportActionPerformed(java.awt.event.ActionEvent evt) {                                        
+        // TODO add your handling code here:
+    }                                          
+    private void bDeleteActionPerformed(java.awt.event.ActionEvent evt) {                                        
         // TODO add your handling code here:
     }                                        
 
@@ -966,25 +1013,26 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToolBar ToolsBar;
     private javax.swing.JButton bCancel;
     private javax.swing.JToggleButton bDelete;
     private javax.swing.JToggleButton bExport;
-    private javax.swing.JToggleButton bFilter;
-    private javax.swing.JToggleButton bFilterStatus;
-    private javax.swing.JComboBox bFilters;
+    private javax.swing.JToggleButton bFind;
     private javax.swing.JButton bOk;
     private javax.swing.JToggleButton bPrint;
+    private javax.swing.JButton bSearch;
     private javax.swing.JToggleButton bZoom;
-    private javax.swing.JButton buttonSearch;
     private javax.swing.JPanel buttonSearchPanel;
+    private javax.swing.JScrollPane centerPanel;
     private MiniTable detail;
+    private javax.swing.JPanel footButtonPanel;
     private javax.swing.JPanel footPanel;
     private javax.swing.JPanel graphPanel;
-    private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JPanel processPanel;
     private javax.swing.JPanel searchPanel;
     private javax.swing.JPanel searchTab;
     private javax.swing.JTabbedPane tabsPanel;
+    private javax.swing.JToolBar toolsBar;
+    private javax.swing.JPanel topPanel;
     // End of variables declaration//GEN-END:variables
     
 	/**
@@ -1013,14 +1061,16 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 				sql.append(dynWhere);   //  includes first AND
 			sql.append(m_sqlOrder);
 			String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString());	//	Variables
-			dataSql = MRole.getDefault().addAccessSQL(dataSql, m_SmartView.getParentEntityAliasName(), 
+			dataSql = MRole.getDefault().addAccessSQL(dataSql, m_View.getParentEntityAliasName(), 
 				MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 			log.finer(dataSql);
 
 			try
 			{
 				m_pstmt = DB.prepareStatement(dataSql, null);
-				DB.setParameters(m_pstmt, getParameters());
+				if(getParametersValues().size() > 0)
+					DB.setParameters(m_pstmt, getParametersValues());
+				
 				setParameters (m_pstmt, false);	//	no count
 				log.fine("Start query - " + (System.currentTimeMillis()-start) + "ms");
 				m_rs = m_pstmt.executeQuery();
@@ -1102,35 +1152,6 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		}
 	}   //  Worker
 	
-	/**
-	 *	Save Selection & return selecion Query or ""
-	 *  @return where clause like C_Order_ID IN (...)
-	 */
-	private void saveSelection()
-	{
-		log.info("");
-		//  ID selection may be pending
-		detail.editingStopped(new ChangeEvent(this));
-		//  Array of Integers
-		ArrayList<Integer> results = new ArrayList<Integer>();
-		selection = null;
-
-		//	Get selected entries
-		int rows = detail.getRowCount();
-		for (int i = 0; i < rows; i++)
-		{
-			IDColumn id = (IDColumn)detail.getValueAt(i, 0);     //  ID in column 0
-			//	log.fine( "Row=" + i + " - " + id);
-			if (id != null && id.isSelected())
-				results.add(id.getRecord_ID());
-		}
-
-		if (results.size() == 0)
-			return;
-		log.config("Selected #" + results.size());
-		selection = results;
-
-	}	//	saveSelection
 
 	public static void main( String args[] ) 
 	{
@@ -1150,7 +1171,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		login.batchLogin();
 		
 		Properties m_ctx = Env.getCtx();
-		MSmartBrowse browse = new MSmartBrowse(m_ctx, 1000002 , null);
+		MBrowse browse = new MBrowse(m_ctx, 1000002 , null);
 		JFrame frame = new JFrame();
 		boolean modal = true;
 		int WindowNo = 0;
@@ -1206,15 +1227,18 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		return false;
 	}
 
-	@Override
-	public void lockUI(ProcessInfo pi) {
+	@Override	public void lockUI(ProcessInfo pi) {
 		// TODO Auto-generated method stub
-		
+		dispose();
 	}
 
 	@Override
 	public void unlockUI(ProcessInfo pi) {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	public int getAD_Browse_ID()
+	{
+		 return m_Browse.getAD_Browse_ID();
 	}
 }

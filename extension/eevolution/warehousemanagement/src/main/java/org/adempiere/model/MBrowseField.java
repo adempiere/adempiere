@@ -21,11 +21,13 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MColumn;
 import org.compiere.model.MDocType;
 import org.compiere.model.M_Element;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
@@ -36,16 +38,16 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MSmartBrowseField extends X_AD_SmartBrowseField
+public class MBrowseField extends X_AD_Browse_Field
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4256005864457121353L;
 	/**	Logger							*/
-	private static CLogger	s_log = CLogger.getCLogger (MSmartBrowseField.class);
+	private static CLogger	s_log = CLogger.getCLogger (MBrowseField.class);
 	/** Element 						*/
-	private I_AD_Element m_element = null ;
+	private M_Element m_element = null ;
 	/** MViewColumn 						*/
 	private MViewColumn m_view_column = null ;
 	
@@ -55,7 +57,7 @@ public class MSmartBrowseField extends X_AD_SmartBrowseField
 	 *	@param AD_SmartBrowseField_ID  InOutBound ID
 	 *	@param trxName transaction name 
 	 */
-	public MSmartBrowseField (Properties ctx, int AD_SmartBrowseField_ID, String trxName)
+	public MBrowseField (Properties ctx, int AD_SmartBrowseField_ID, String trxName)
 	{
 		super (ctx, AD_SmartBrowseField_ID, trxName);
 		if (AD_SmartBrowseField_ID == 0)
@@ -68,7 +70,7 @@ public class MSmartBrowseField extends X_AD_SmartBrowseField
 	 *	@param ctx context
 	 *	@param AD_SmartBrowseField_ID Cahs Flow ID
 	 */
-	public MSmartBrowseField (Properties ctx, int AD_SmartBrowseField_ID)
+	public MBrowseField (Properties ctx, int AD_SmartBrowseField_ID)
 	{
 		this (ctx, AD_SmartBrowseField_ID, null);
 	}
@@ -79,7 +81,7 @@ public class MSmartBrowseField extends X_AD_SmartBrowseField
 	 *  @param rs result set record
 	 *	@param trxName transaction
 	 */
-	public MSmartBrowseField (Properties ctx, ResultSet rs, String trxName)
+	public MBrowseField (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
 	}	
@@ -88,37 +90,62 @@ public class MSmartBrowseField extends X_AD_SmartBrowseField
 	 * get MViewColumn base on MColumn
 	 * @param column
 	 */
-	public MSmartBrowseField (MViewColumn column)
+	public MBrowseField (MViewColumn column)
 	{
 		super(column.getCtx(), 0 , column.get_TrxName());
 		setAD_Element_ID(column.getAD_Element_ID());
 		setName(column.getColumnName());
 		setDescription(column.getDescription());
 		setHelp(column.getHelp());
-		setAD_ViewColumn_ID(column.get_ID());
+		setAD_View_Column_ID(column.get_ID());
 		setIsActive(true);
 		setIsIdentifier(column.isIdentifier());
 		setAD_Reference_ID(column.getAD_Reference_ID());
 		setIsKey(column.isKey());
 		setIsDisplayed(false);
 	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success)
+	{
+		if (!success)
+		{
+			return false;
+		}
+		
+		if(getFieldKey() != null)
+		{
+			throw new AdempiereException("Only can have one field as key");
+		}
+		
+		return success;
+	}	
 
-	public I_AD_Element getAD_Element()
+	public M_Element getElement()
 	{
 		if(m_element == null)
 		{
-			m_element = (I_AD_Element) new M_Element(getCtx(), this.getAD_Element_ID(), get_TrxName());			
+			m_element =  new M_Element(getCtx(), getAD_Element_ID(), get_TrxName());			
 		}
 		return m_element;		
 	}
 	
-	public MViewColumn getAD_ViewColumn()
+	public MViewColumn getAD_View_Column()
 	{
 		if(m_view_column == null)
 		{
-			m_view_column = new MViewColumn(getCtx(), getAD_ViewColumn_ID(), get_TrxName());			
+			m_view_column = new MViewColumn(getCtx(), getAD_View_Column_ID(), get_TrxName());			
 		}
 		return m_view_column;		
+	}
+	
+	public MBrowseField getFieldKey()
+	{
+		final String whereClause = MBrowse.COLUMNNAME_AD_Browse_ID + "=? AND "
+								 + MBrowseField.COLUMNNAME_IsKey + "=?";
+		return new Query(getCtx(),MBrowse.Table_Name,whereClause, get_TrxName())
+		.setParameters(new Object[]{this.getAD_Browse_ID(),"Y"})
+		.firstOnly();
 	}
 	/**
 	 * 	String representation

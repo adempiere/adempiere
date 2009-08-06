@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_ViewJoin
+/** Generated Model for AD_View_Join
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_AD_ViewJoin extends PO implements I_AD_ViewJoin, I_Persistent 
+public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent 
 {
 
 	/**
@@ -36,18 +36,18 @@ public class X_AD_ViewJoin extends PO implements I_AD_ViewJoin, I_Persistent
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_AD_ViewJoin (Properties ctx, int AD_ViewJoin_ID, String trxName)
+    public X_AD_View_Join (Properties ctx, int AD_View_Join_ID, String trxName)
     {
-      super (ctx, AD_ViewJoin_ID, trxName);
-      /** if (AD_ViewJoin_ID == 0)
+      super (ctx, AD_View_Join_ID, trxName);
+      /** if (AD_View_Join_ID == 0)
         {
-			setAD_ViewJoin_ID (0);
+			setAD_View_Join_ID (0);
 			setTableName (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_ViewJoin (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_View_Join (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,7 +69,7 @@ public class X_AD_ViewJoin extends PO implements I_AD_ViewJoin, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_ViewJoin[")
+      StringBuffer sb = new StringBuffer ("X_AD_View_Join[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -113,34 +113,6 @@ public class X_AD_ViewJoin extends PO implements I_AD_ViewJoin, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set View Entity Joins.
-		@param AD_ViewJoin_ID View Entity Joins	  */
-	public void setAD_ViewJoin_ID (int AD_ViewJoin_ID)
-	{
-		if (AD_ViewJoin_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_ViewJoin_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_ViewJoin_ID, Integer.valueOf(AD_ViewJoin_ID));
-	}
-
-	/** Get View Entity Joins.
-		@return View Entity Joins	  */
-	public int getAD_ViewJoin_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ViewJoin_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getAD_ViewJoin_ID()));
-    }
-
 	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View.Table_Name);
@@ -176,6 +148,34 @@ public class X_AD_ViewJoin extends PO implements I_AD_ViewJoin, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set View Entity Joins.
+		@param AD_View_Join_ID View Entity Joins	  */
+	public void setAD_View_Join_ID (int AD_View_Join_ID)
+	{
+		if (AD_View_Join_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Join_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Join_ID, Integer.valueOf(AD_View_Join_ID));
+	}
+
+	/** Get View Entity Joins.
+		@return View Entity Joins	  */
+	public int getAD_View_Join_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Join_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getAD_View_Join_ID()));
+    }
 
 	/** Set Join Phrase.
 		@param JoinPhrase 
