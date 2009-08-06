@@ -36,7 +36,7 @@ import org.compiere.Adempiere;
 public final class Msg
 {
 	/** Initial size of HashMap     */
-	private static final int 		MAP_SIZE = 750;
+	private static final int 		MAP_SIZE = 1500;
 	/**  Separator between Msg and optional Tip     */
 	private static final String     SEPARATOR = Env.NL + Env.NL;
 
