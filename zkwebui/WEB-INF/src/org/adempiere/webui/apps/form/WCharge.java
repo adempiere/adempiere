@@ -45,6 +45,7 @@ import org.compiere.apps.form.Charge;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -277,7 +278,7 @@ public class WCharge extends Charge implements IFormController, EventListener
 		Panel southPanel = new Panel();
 		southPanel.setAlign("right");
 		south.appendChild(southPanel);
-		m_btnAccount.setLabel(Msg.getMsg(Env.getCtx(), AD_MESSAGE_CREATE));
+		m_btnAccount.setLabel(Msg.getMsg(Env.getCtx(), AD_MESSAGE_CREATE) + " " + Msg.getMsg(Env.getCtx(), "From") + " " + Msg.getElement(Env.getCtx(), "Account_ID"));
         m_btnAccount.addEventListener(Events.ON_CLICK, this);
 		southPanel.appendChild(m_btnAccount);
 
@@ -304,7 +305,7 @@ public class WCharge extends Charge implements IFormController, EventListener
         // bottom row
         m_lblName.setValue(Msg.translate(Env.getCtx(), EColumn.NAME.title()));
         m_txbNameField.setCols(nameFieldColumns);
-        m_btnNew.setLabel(Msg.getMsg(Env.getCtx(), AD_MESSAGE_CREATE));
+        m_btnNew.setLabel(Msg.getMsg(Env.getCtx(), AD_MESSAGE_CREATE) + " " + Util.cleanAmp(Msg.getMsg(Env.getCtx(), "New")));
         m_btnNew.addEventListener(Events.ON_CLICK, this);
 
     	Rows rows = new Rows();

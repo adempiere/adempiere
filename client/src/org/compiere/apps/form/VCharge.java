@@ -53,6 +53,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Create Charge from Accounts
@@ -137,12 +138,12 @@ public class VCharge extends Charge
 		nameLabel.setText(Msg.translate(Env.getCtx(), "Name"));
 		nameField.setColumns(20);
 		valueField.setColumns(10);
-		newButton.setText(Msg.getMsg(Env.getCtx(), "Create"));
+		newButton.setText(Msg.getMsg(Env.getCtx(), "Create") + " " + Util.cleanAmp(Msg.getMsg(Env.getCtx(), "New")));
 		newButton.addActionListener(this);
 		accountPanel.setBorder(accountBorder);
 		accountPanel.setLayout(accountLayout);
 		accountBorder.setTitle(Msg.getMsg(Env.getCtx(), "ChargeFromAccount"));
-		accountButton.setText(Msg.getMsg(Env.getCtx(), "Create"));
+		accountButton.setText(Msg.getMsg(Env.getCtx(), "Create") + " " + Msg.getMsg(Env.getCtx(), "From") + " " + Msg.getElement(Env.getCtx(), "Account_ID"));
 		accountButton.addActionListener(this);
 		accountOKPanel.setLayout(accountOKLayout);
 		accountOKLayout.setAlignment(FlowLayout.RIGHT);
