@@ -47,7 +47,7 @@ import org.compiere.util.ValueNamePair;
 
 
 /**
- *  Account Viewer State - maintaines State information for the Account Viewer
+ *  Account Viewer State - maintains State information for the Account Viewer
  *
  *  @author Jorg Janke
  *  @version  $Id: AcctViewerData.java,v 1.3 2006/08/10 01:00:27 jjanke Exp $
@@ -102,7 +102,7 @@ class AcctViewerData
 	/** Date To				*/
 	public Timestamp        DateTo = null;
 
-	//  Dodument Table Selection Info
+	//  Document Table Selection Info
 	/** Table ID			*/
 	public int              AD_Table_ID;
 	/** Record				*/
@@ -116,7 +116,7 @@ class AcctViewerData
 	//  Display Info
 	/** Display Qty			*/
 	boolean          displayQty = false;
-	/** Display Source Surrency	*/
+	/** Display Source Currency	*/
 	boolean          displaySourceAmt = false;
 	/** Display Document info	*/
 	boolean          displayDocumentInfo = false;
