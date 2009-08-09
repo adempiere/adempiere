@@ -20328,7 +20328,7 @@ Note que usted puede  Sobre o Sub Asignar el Pago.Durante el procesamiento  del 
 	<row id="2835" trl="Y">
 		<value column="Name" original="Full BP Access">Total Acceso SN</value>
 		<value column="PrintName" original="Full BP Access">Total Acceso SN</value>
-		<value column="Description" original="The user/concat has full access to Business Partner information and resources">El Usuario/contacto tiene un acceso total a la información del Socio del Negocio y recursos</value>
+		<value column="Description" original="The user/contact has full access to Business Partner information and resources">El Usuario/contacto tiene un acceso total a la información del Socio del Negocio y recursos</value>
 		<value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">Si seleccionó, el usuario tiene acceso total a la información del Socio del Negocio (SN) tal como (Documentoi SN, Ordenes, Facturas, Solicitudes) o recursos (Activos, Descargas). Si lo deselecciona, el usuario no tiene ningún derecho de acceso a menos que usted lo conceda explícitamente en la  pestaña "Acceso  SN"</value>
 		<value column="PO_Description" original=""/>
 		<value column="PO_Help" original=""/>
@@ -20338,7 +20338,7 @@ Note que usted puede  Sobre o Sub Asignar el Pago.Durante el procesamiento  del 
 	<row id="2836" trl="Y">
 		<value column="Name" original="User BP Access">Usuario SN Acceso</value>
 		<value column="PrintName" original="User BP Access">Usuario SN Acceso</value>
-		<value column="Description" original="User/concat access to Business Partner information and resources">Usuario/contacto acceso información Socio del Negocio y recursos</value>
+		<value column="Description" original="User/contact access to Business Partner information and resources">Usuario/contacto acceso información Socio del Negocio y recursos</value>
 		<value column="Help" original="If on User level, &quot;Full BP Access&quot; is NOT selected, you need to give access explicitly here. ">Si en Nivel de Usuario, "Acceso Total SN" NO es seleccionado, usted debe dar acceso explicítamente aquí.
  </value>
 		<value column="PO_Description" original=""/>

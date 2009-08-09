@@ -20380,7 +20380,7 @@ Valoare marjă = (Preţ actual - Preţ limită) * Cantitatea facturată</value>
 <row id="2835" trl="Y">
 <value column="Name" original="Full BP Access">Access deplin la informaţii partener</value>
 <value column="PrintName" original="Full BP Access">Access deplin la informaţii partener</value>
-<value column="Description" original="The user/concat has full access to Business Partner information and resources">Utilizatorul are access deplin la informaţiile şi resursele partenerului ataşat.</value>
+<value column="Description" original="The user/contact has full access to Business Partner information and resources">Utilizatorul are access deplin la informaţiile şi resursele partenerului ataşat.</value>
 <value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">Dacă este selectat, utilizatorul are access deplin la informaţiile (documentele ca şi ordine, comenzi, facturi, cereri) şi resursele partenerului ataşat. Dacă nu este selectat, utilizatorul nu are access la aceste informaţii cu excepţia cazului în care îi permiteţi explicit accesul prin intermediul tabului "Access partener".</value>
 <value column="PO_Description" original=""/>
 <value column="PO_Help" original=""/>
@@ -20390,7 +20390,7 @@ Valoare marjă = (Preţ actual - Preţ limită) * Cantitatea facturată</value>
 <row id="2836" trl="Y">
 <value column="Name" original="User BP Access">Acces utilizator la partener</value>
 <value column="PrintName" original="User BP Access">Acces utilizator la partener</value>
-<value column="Description" original="User/concat access to Business Partner information and resources">Accesul utilizatorului la informaţii despre partener şi resurse</value>
+<value column="Description" original="User/contact access to Business Partner information and resources">Accesul utilizatorului la informaţii despre partener şi resurse</value>
 <value column="Help" original="If on User level, &quot;Full BP Access&quot; is NOT selected, you need to give access explicitly here. ">Dacă s-a selectat nivelul Utilizator, 'Acces deplin la Partener' NU este selectat. Va trebui să daţi acces explicit aici.</value>
 <value column="PO_Description" original=""/>
 <value column="PO_Help" original=""/>

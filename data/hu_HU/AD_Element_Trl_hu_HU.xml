@@ -20125,7 +20125,7 @@
  <row id="2835" trl="N">
   <value column="Name" original="Full BP Access">Teljes Partner hozzáférés</value>
   <value column="PrintName" original="Full BP Access">Teljes Partner hozzáférés</value>
-  <value column="Description" original="The user/concat has full access to Business Partner information and resources">A Felhasználónak / partnernek teljes hozzáférése van az információkhoz és erőforrásokhoz.</value>
+  <value column="Description" original="The user/contact has full access to Business Partner information and resources">A Felhasználónak / partnernek teljes hozzáférése van az információkhoz és erőforrásokhoz.</value>
   <value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">Ha kiválasztásra került, akkor a felhasználónak teljes hozzáférés lezs az üzleti partner adatokhoz (üzleti dokumentumokhoz, min megrendelések, számlák, igénylések), illetve az erőforrásokhoz (eszközök, letöltések). Ha nem kerül kiválasztásra, akkor a felhasználónak nem lesz hozzáférése az információkhoz, csak ha kifejezetten megadásra keül a "Partner jogosultsági" táblában.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -20135,7 +20135,7 @@
  <row id="2836" trl="N">
   <value column="Name" original="User BP Access">Felhasználó Partner hozzáférése</value>
   <value column="PrintName" original="User BP Access">Felhasználó Partner hozzáférése</value>
-  <value column="Description" original="User/concat access to Business Partner information and resources">A Felhasználónak / kapcsolatnak hozzáférése van az üzleti partner információkhoz és erőforrásokhoz.</value>
+  <value column="Description" original="User/contact access to Business Partner information and resources">A Felhasználónak / kapcsolatnak hozzáférése van az üzleti partner információkhoz és erőforrásokhoz.</value>
   <value column="Help" original="If on User level, &quot;Full BP Access&quot; is NOT selected, you need to give access explicitly here. ">Ha felhasználói szinten a "Teljes Partner hozzáférés" nem kerül kiválasztásra, akkor a jogosultágot itt kell megadnia.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>

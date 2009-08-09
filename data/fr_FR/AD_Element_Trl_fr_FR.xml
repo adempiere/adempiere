@@ -20230,7 +20230,7 @@ Le contexte web commence habituellement avec / et nécessite d'être un contexte
  <row id="2835" trl="Y">
   <value column="Name" original="Full BP Access">Accés complet aux partenaire d'affaire</value>
   <value column="PrintName" original="Full BP Access">Accés complet aux partenaire d'affaire</value>
-  <value column="Description" original="The user/concat has full access to Business Partner information and resources">L'utilisateur / contact a un accés complet aux information et ressources du partenaire d'affaire.</value>
+  <value column="Description" original="The user/contact has full access to Business Partner information and resources">L'utilisateur / contact a un accés complet aux information et ressources du partenaire d'affaire.</value>
   <value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">Si séléctionné, l'utilisateur a un accés complet aux ressources (téléchargement, asset) ou informations (documents tels que les commandes, factures, demandes) du partenaire d'affaire. Si vous déseléctionnez cela, l'utilisateur n'a plus aucun droit d'accés, à moins que vous ne les lui donniez explicitement dans l'onglet "Accés au partenaire d'affaire".</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -20240,7 +20240,7 @@ Le contexte web commence habituellement avec / et nécessite d'être un contexte
  <row id="2836" trl="Y">
   <value column="Name" original="User BP Access">Accés utilisateur au partenaire d'affaire</value>
   <value column="PrintName" original="User BP Access">Accés utilisateur au partenaire d'affaire</value>
-  <value column="Description" original="User/concat access to Business Partner information and resources">Accés de l'utilisateur/contact aux informations et ressources du partenaire d'affaire</value>
+  <value column="Description" original="User/contact access to Business Partner information and resources">Accés de l'utilisateur/contact aux informations et ressources du partenaire d'affaire</value>
   <value column="Help" original="If on User level, &quot;Full BP Access&quot; is NOT selected, you need to give access explicitly here. ">Si au niveau utilisateur, "Accés complet aux partenaire d'affaire" n'est PAS séléctionné, vous devez donner les accés explicitement ici. </value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>

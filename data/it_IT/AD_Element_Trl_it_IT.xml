@@ -20428,7 +20428,7 @@ Note that you can over- or under-allocate the payment.  When processing the paym
 	<row id="2835" trl="Y">
 		<value column="Name" original="Full BP Access">Accesso Completo BP</value>
 		<value column="PrintName" original="Full BP Access">Accesso Completo BP</value>
-		<value column="Description" original="The user/concat has full access to Business Partner information and resources">L'utente contatto ha pieno accesso alle informazioni e risorse del BPartner</value>
+		<value column="Description" original="The user/contact has full access to Business Partner information and resources">L'utente contatto ha pieno accesso alle informazioni e risorse del BPartner</value>
 		<value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab "BP Access"</value>
 		<value column="PO_Description" original=""/>
 		<value column="PO_Help" original=""/>
@@ -20438,7 +20438,7 @@ Note that you can over- or under-allocate the payment.  When processing the paym
 	<row id="2836" trl="Y">
 		<value column="Name" original="User BP Access">Accesso Utente Bpartner</value>
 		<value column="PrintName" original="User BP Access">Accesso Utente Bpartner</value>
-		<value column="Description" original="User/concat access to Business Partner information and resources">Utente/Contatto può accedere alle informazioni del Bpartner</value>
+		<value column="Description" original="User/contact access to Business Partner information and resources">Utente/Contatto può accedere alle informazioni del Bpartner</value>
 		<value column="Help" original="If on User level, &quot;Full BP Access&quot; is NOT selected, you need to give access explicitly here. ">If on User level, "Full BP Access" is NOT selected, you need to give access explicitly here. </value>
 		<value column="PO_Description" original=""/>
 		<value column="PO_Help" original=""/>

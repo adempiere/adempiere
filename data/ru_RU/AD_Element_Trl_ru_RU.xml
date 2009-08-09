@@ -20289,7 +20289,7 @@ Web контекст обычно начинается с / и это нужно
  <row id="2835" trl="Y">
   <value column="Name" original="Full BP Access">Полн. доступ к БП</value>
   <value column="PrintName" original="Full BP Access">Полн. доступ к БП</value>
-  <value column="Description" original="The user/concat has full access to Business Partner information and resources">Пользователь/контакт будет иметь полный доступ к информации бизнес-партнера и ресурсам</value>
+  <value column="Description" original="The user/contact has full access to Business Partner information and resources">Пользователь/контакт будет иметь полный доступ к информации бизнес-партнера и ресурсам</value>
   <value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">Если выбрано, то пользователь имеет полный доступ к информации бизнес-партнера (БП) (к бизнес-документам, т.е. заказам, счетам-фактурам - запросам) или ресурсам (имуществу, загрузкам). Если вы не выбираете это - тогда пользователь не будет иметь прав доступа за исключением тех, которые вы явно зададите во вкладке "Доступ к БП"</value>
   <value column="PO_Description" original=""></value>
   <value column="PO_Help" original=""></value>
@@ -20299,7 +20299,7 @@ Web контекст обычно начинается с / и это нужно
  <row id="2836" trl="Y">
   <value column="Name" original="User BP Access">Доступ польз-ля к БП</value>
   <value column="PrintName" original="User BP Access">Доступ польз-ля к БП</value>
-  <value column="Description" original="User/concat access to Business Partner information and resources">Доступ пользователя/контакта к информации бизнес-партнера и ресурсам</value>
+  <value column="Description" original="User/contact access to Business Partner information and resources">Доступ пользователя/контакта к информации бизнес-партнера и ресурсам</value>
   <value column="Help" original="If on User level, &quot;Full BP Access&quot; is NOT selected, you need to give access explicitly here. ">Если на уровне пользователя "Полный доступ к БП" не выбран, то вам нужно явно определить права доступа здесь. </value>
   <value column="PO_Description" original=""></value>
   <value column="PO_Help" original=""></value>
