@@ -1,3 +1,5 @@
+SET CLIENT_ENCODING TO 'LATIN1';
+
 -- Aug 10, 2009 4:10:31 PM COT
 -- Payroll spanish translation
 UPDATE C_DocType_Trl SET Name='Payroll',PrintName='Nómina',DocumentNote=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE C_DocType_ID=50000 AND AD_Language LIKE 'es_%'
