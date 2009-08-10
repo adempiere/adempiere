@@ -90,7 +90,6 @@ public class WImageDialog extends Window implements EventListener
 		}
 		
 		fileButton.setLabel(m_mImage.getName());
-//		imageLabel.setIcon(m_mImage.getIcon());
 		AEnv.showCenterScreen(this);
 	}   //  WImageDialog
 
@@ -157,10 +156,16 @@ public class WImageDialog extends Window implements EventListener
 
 		else if (e.getTarget().getId().equals(ConfirmPanel.A_OK))
 		{
-			if (m_mImage.save())
-				detach();
-			else
-				FDialog.error(-1, "Failed to save image");
+			if (image.getContent() != null)
+			{
+				m_mImage.saveEx();
+			}
+			else if (m_mImage != null && m_mImage.getAD_Image_ID() > 0)
+			{
+				m_mImage.deleteEx(true);
+				m_mImage = null;
+			}
+			detach();
 		}
 		else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL))
 		{
@@ -169,7 +174,6 @@ public class WImageDialog extends Window implements EventListener
 		}
 		else if (e.getTarget().getId().equals(ConfirmPanel.A_RESET))
 		{
-			m_mImage = null;
 			AImage img = null;
 			image.setContent(img);
 		}
@@ -226,6 +230,8 @@ public class WImageDialog extends Window implements EventListener
 		invalidate();
 
 		//  Save info
+		if (m_mImage == null)
+			m_mImage = MImage.get (Env.getCtx(), 0);
 		m_mImage.setName(fileName);
 		m_mImage.setImageURL(fileName);
 		if (image.getContent() != null)
