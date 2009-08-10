@@ -15,6 +15,7 @@ package org.adempiere.webui.editor;
 
 
 import org.adempiere.webui.component.Button;
+import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.WMediaDialog;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
@@ -125,7 +126,19 @@ public class WBinaryEditor extends WEditor
 		{
 			WMediaDialog dialog = new WMediaDialog(gridField.getHeader(), m_data);
 			if (!dialog.isCancel() && dialog.isChange())
-				m_data = dialog.getData();
+			{
+				Object oldValue = m_data;
+				Object newValue = dialog.getData();
+				if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+		    	    return;
+		    	}
+		        if (oldValue == null && newValue == null) {
+		        	return;
+		        }
+		        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
+		        super.fireValueChange(changeEvent);
+				setValue(newValue);
+			}
 		}
 	}
 }

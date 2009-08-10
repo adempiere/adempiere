@@ -16,7 +16,6 @@
 
 package org.adempiere.webui.window;
 
-import java.awt.Dimension;
 import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.SQLException;
@@ -95,6 +94,8 @@ public class WMediaDialog extends Window implements EventListener
 		try
 		{
 			staticInit();
+			m_data = data;
+			displayData();
 		}
 		catch (Exception ex)
 		{
@@ -150,15 +151,15 @@ public class WMediaDialog extends Window implements EventListener
 		
 
 		bSave.setEnabled(false);
-		bSave.setSrc("/images/Export24.png");
+		bSave.setImage("/images/Export24.png");
 		bSave.setTooltiptext(Msg.getMsg(Env.getCtx(), "AttachmentSave"));
 		bSave.addEventListener(Events.ON_CLICK, this);
 
-		bLoad.setSrc("/images/Import24.png");
+		bLoad.setImage("/images/Import24.png");
 		bLoad.setTooltiptext(Msg.getMsg(Env.getCtx(), "Load"));
 		bLoad.addEventListener(Events.ON_CLICK, this);
 
-		bDelete.setSrc("/images/Delete24.png");
+		bDelete.setImage("/images/Delete24.png");
 		bDelete.setTooltiptext(Msg.getMsg(Env.getCtx(), "Delete"));
 		bDelete.addEventListener(Events.ON_CLICK, this);
 
@@ -210,8 +211,6 @@ public class WMediaDialog extends Window implements EventListener
 		bDelete.setEnabled(false);
 		bSave.setEnabled(false);
 
-		Dimension size = null;
-		
 		if (m_data != null)
 		{
 			bSave.setEnabled(true);
@@ -236,12 +235,10 @@ public class WMediaDialog extends Window implements EventListener
 		String contentType = null;
 		if (m_data instanceof byte[])
 		{
-			contentType = "application/octet-stream";
 			media = new AMedia(this.getTitle(), null, contentType, (byte[])m_data);
 		}
 		else if (m_data instanceof Blob)
 		{
-			contentType = "application/octet-stream";
 			media = new AMedia(this.getTitle(), null, contentType, ((Blob)m_data).getBinaryStream());
 		}
 		else if (m_data instanceof Clob)
@@ -331,7 +328,6 @@ public class WMediaDialog extends Window implements EventListener
 		}
 		catch (InterruptedException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	
@@ -340,6 +336,7 @@ public class WMediaDialog extends Window implements EventListener
 		//update		
 		m_change = true;
 		m_data = media.getByteData();
+		displayData();
 		
 	}	//	getFileName
 
