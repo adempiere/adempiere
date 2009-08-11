@@ -461,7 +461,7 @@
  </row>
  <row id="199" trl="Y">
   <value column="Name" original="Accounting Schema">Бухг. схемы</value>
-  <value column="CommitWarning" original="If you change the currency or costing method, you must to reset t all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. "></value>
+  <value column="CommitWarning" original="If you change the currency or costing method, you must reset all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. "></value>
   <value column="Description" original="Define your Account Schema Structure">Определение структуры вашей бухг. схемы</value>
   <value column="Help" original="The Accounting Schema Tab defines the controls used for accounting.  You can define multiple accounting schema per client (for parallel accounting).  &#10;Postings are generated for an accounting schema, if the schema is valid and you have defined GL and Default accounts and after completion of the Add / Copy Accounts process."></value>
  </row>

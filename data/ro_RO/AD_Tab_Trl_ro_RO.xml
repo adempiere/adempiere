@@ -472,7 +472,7 @@ Notă: expediţiile pentru documente automate ca POS/Comenzi depozit nu pot avea
 </row>
 <row id="199" trl="Y">
 <value column="Name" original="Accounting Schema">Schemă Contabilă</value>
-<value column="CommitWarning" original="If you change the currency or costing method, you must to reset t all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. ">Dacă modificaţi valuta sau metoda de stabilire a preţului, trebuie să resetaţi toate operaţiile contabile.
+<value column="CommitWarning" original="If you change the currency or costing method, you must reset all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. ">Dacă modificaţi valuta sau metoda de stabilire a preţului, trebuie să resetaţi toate operaţiile contabile.
 	Pentru ca modificările să devină efective, trebuie să reporniţi Serverul de Aplicaţie.</value>
 <value column="Description" original="Define your Account Schema Structure">Defineşte structura Schemei Contabile</value>
 <value column="Help" original="The Accounting Schema Tab defines the controls used for accounting.  You can define multiple accounting schema per client (for parallel accounting).  &#10;Postings are generated for an accounting schema, if the schema is valid and you have defined GL and Default accounts and after completion of the Add / Copy Accounts process.">Tabul Schemă Contabilă defineşte controalele utilizate în contabilitate. Fiecare Organizaţie va selecta o Schemă Contabilă.</value>

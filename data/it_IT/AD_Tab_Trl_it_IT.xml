@@ -463,7 +463,7 @@ Non creare un nuovo client in questa finestra, ma usa "Inserisci Client Iniziale
 	</row>
 	<row id="199" trl="Y">
 		<value column="Name" original="Accounting Schema">Schema di Contabilità</value>
-		<value column="CommitWarning" original="If you change the currency or costing method, you must to reset t all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. "/>
+		<value column="CommitWarning" original="If you change the currency or costing method, you must reset all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. "/>
 		<value column="Description" original="Define your Account Schema Structure">Definisci il tuo Piano dei conti</value>
 		<value column="Help" original="The Accounting Schema Tab defines the controls used for accounting.  You can define multiple accounting schema per client (for parallel accounting).  &#10;Postings are generated for an accounting schema, if the schema is valid and you have defined GL and Default accounts and after completion of the Add / Copy Accounts process.">Il tab Schema di Contabilità definisce i controlli usati nella contabilità. Ciascuna Organizzazione seleziona uno Schema contabile da usare.</value>
 	</row>

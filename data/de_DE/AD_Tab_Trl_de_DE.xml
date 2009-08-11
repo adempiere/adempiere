@@ -464,7 +464,7 @@ If the Control Amount is not zero, it is compared to the Total Debit Amount. The
  </row>
  <row id="199" trl="Y">
   <value column="Name" original="Accounting Schema">Buchführungs-Schema</value>
-  <value column="CommitWarning" original="If you change the currency or costing method, you must to reset t all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. ">If you change the currency or costing method, you must to reset t all accounting transactions.
+  <value column="CommitWarning" original="If you change the currency or costing method, you must reset all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. ">If you change the currency or costing method, you must reset all accounting transactions.
 For changes to become effective, you must re-login and re-start the Application Server. </value>
   <value column="Description" original="Define your Account Schema Structure">Define your Account Schema Structure</value>
   <value column="Help" original="The Accounting Schema Tab defines the controls used for accounting.  You can define multiple accounting schema per client (for parallel accounting).  &#10;Postings are generated for an accounting schema, if the schema is valid and you have defined GL and Default accounts and after completion of the Add / Copy Accounts process.">The Accounting Schema Tab defines the controls used for accounting.  You can define multiple accounting schema per client (for parallel accounting).  

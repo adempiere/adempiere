@@ -460,7 +460,7 @@
 	</row>
 	<row id="199" trl="Y">
 		<value column="Name" original="Accounting Schema">Esquema Contable</value>
-		<value column="CommitWarning" original="If you change the currency or costing method, you must to reset t all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. "/>
+		<value column="CommitWarning" original="If you change the currency or costing method, you must reset all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. "/>
 		<value column="Description" original="Define your Account Schema Structure">Definir estructura del esquema contable</value>
 		<value column="Help" original="The Accounting Schema Tab defines the controls used for accounting.  You can define multiple accounting schema per client (for parallel accounting).  &#10;Postings are generated for an accounting schema, if the schema is valid and you have defined GL and Default accounts and after completion of the Add / Copy Accounts process.">La pestaña de Esquema Contable define los controles para la contabilidad. Cada organización selecciona un esquema contable para su uso.</value>
 	</row>

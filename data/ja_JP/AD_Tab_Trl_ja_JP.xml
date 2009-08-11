@@ -460,7 +460,7 @@
 </row>
 <row id="199" trl="Y">
 	<value column="Name" original="Accounting Schema">会計スキーマ</value>
-	<value column="CommitWarning" original="If you change the currency or costing method, you must to reset t all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. ">通貨や原価計算の方法を変更したら、すべての会計取引をリセットしなければなりません。&#10;変更を有効にするには、再ログインとアプリケーションサーバーの再起動が必要です。</value>
+	<value column="CommitWarning" original="If you change the currency or costing method, you must reset all accounting transactions.&#10;For changes to become effective, you must re-login and re-start the Application Server. ">通貨や原価計算の方法を変更したら、すべての会計取引をリセットしなければなりません。&#10;変更を有効にするには、再ログインとアプリケーションサーバーの再起動が必要です。</value>
 	<value column="Description" original="Define your Account Schema Structure">会計スキーマ構造を定義します。</value>
 	<value column="Help" original="The Accounting Schema Tab defines the controls used for accounting.  You can define multiple accounting schema per client (for parallel accounting).  &#10;Postings are generated for an accounting schema, if the schema is valid and you have defined GL and Default accounts and after completion of the Add / Copy Accounts process.">会計スキーマタブは、会計に使用される処理方法全般を定義します。ひとつのクライアントに対して複数の会計スキーマを定義することが出来ます。(平行した会計処理が出来ます) &#10;スキーマが適正で、定義された総勘定元帳とデフォルトの勘定科目があり、勘定科目の追加 / コピーが完了しているなら、仕訳は、会計スキーマのために生成されます。</value>
 </row>
