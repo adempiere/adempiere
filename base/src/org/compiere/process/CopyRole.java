@@ -21,6 +21,7 @@ package org.compiere.process;
 
 import java.math.BigDecimal;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -75,6 +76,9 @@ public class CopyRole extends SvrProcess
 				"AD_Workflow_Access", "AD_Task_Access", "AD_Document_Action_Access"};
 		String[] keycolumns = new String[] {"AD_Window_ID", "AD_Process_ID", "AD_Form_ID",
 				"AD_Workflow_ID", "AD_Task_ID", "C_DocType_ID, AD_Ref_List_ID"};
+		
+		if ( m_AD_Role_ID_From == m_AD_Role_ID_To )
+			throw new AdempiereException("Cannot copy role to itself");
 		
 		int action = 0;
 		
