@@ -1218,7 +1218,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 		if (periodTo > 0)
 		{
-			whereClause.append(" AND pr.PeriodNo < = ?");
+			whereClause.append(" AND pr.PeriodNo <= ?");
 			params.add(p.getPeriodNo() +periodTo);
 		}
 		whereClause.append(")");
