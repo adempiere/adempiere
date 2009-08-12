@@ -2673,7 +2673,7 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
  <row id="498" trl="Y">
   <value column="Name" original="Password">Kennwort</value>
   <value column="PrintName" original="Password">Kennwort</value>
-  <value column="Description" original="Password of any length (case sensitive)">Passwort beliebiger Länge (unterscheided Groß- und Kleinschreibung)</value>
+  <value column="Description" original="Password of any length (case sensitive)">Passwort beliebiger Länge (unterscheidet Groß- und Kleinschreibung)</value>
   <value column="Help" original="The Password for this User.  Passwords are required to identify authorized users.  For Adempiere Users, you can change the password via the Process &quot;Reset Password&quot;.">The Password for this User.  Passwords are required to identify authorized users.  For Adempiere Users, you can change the password via the Process "Reset Password".</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -2764,7 +2764,7 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
   <value column="Name" original="Post Actual">Buchen "Ist"</value>
   <value column="PrintName" original="Post Actual">Buchen "Ist"</value>
   <value column="Description" original="Actual Values can be posted">Ist-Werte können verbucht werden</value>
-  <value column="Help" original="The Post Actual indicates if actual values can be posted to this element value.">"Buchen Ist" zeigt an, ob Ist-Werte auf dieses Kontenelement verbucht werden kann.</value>
+  <value column="Help" original="The Post Actual indicates if actual values can be posted to this element value.">"Buchen Ist" zeigt an, ob Ist-Werte auf dieses Kontenelement verbucht werden können.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -2774,7 +2774,7 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
   <value column="Name" original="Post Budget">Buchen "Budget"</value>
   <value column="PrintName" original="Post Budget">Buchen "Budget"</value>
   <value column="Description" original="Budget values can be posted">Budget-Werte können verbucht werden</value>
-  <value column="Help" original="The Post Budget indicates if budget values can be posted to this element value.">"Buchen Budget" zeigt an, ob Budget-Werte auf dieses Kontenelement verbucht werden kann.</value>
+  <value column="Help" original="The Post Budget indicates if budget values can be posted to this element value.">"Buchen Budget" zeigt an, ob Budget-Werte auf dieses Kontenelement verbucht werden können.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3004,7 +3004,7 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
   <value column="Name" original="Reference No">Referenznummer</value>
   <value column="PrintName" original="Reference No">Referenznummer</value>
   <value column="Description" original="Your customer or vendor number at the Business Partner's site">Ihre Kunden- oder Lieferantennummer beim Geschäftspartner</value>
-  <value column="Help" original="The reference number can be printed on orders and invoices to allow your business partner to faster identify your records.">Die "Referenznummer" kann auf Bestellungen und Rechnungen gedruckt werden um Ihre Dokumente beim Geschäftspartner einfacher zuordnen zu können.</value>
+  <value column="Help" original="The reference number can be printed on orders and invoices to allow your business partner to faster identify your records.">Die "Referenznummer" kann auf Bestellungen und Rechnungen gedruckt werden, um Ihre Dokumente beim Geschäftspartner einfacher zuordnen zu können.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3473,9 +3473,9 @@ Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending b
  </row>
  <row id="602" trl="Y">
   <value column="Name" original="Symbol">Symbol</value>
-  <value column="PrintName" original="UoM">Ma?einheit</value>
+  <value column="PrintName" original="UoM">Maßeinheit</value>
   <value column="Description" original="Symbol for a Unit of Measure">Symbol für die Maßeinheit</value>
-  <value column="Help" original="The Symbol identifies the Symbol to be displayed and printed for a Unit of Measure">Symbol" bezeichnet das Symbol, das bei Verwendung dieser Maßeinheit angezeigt und gedruckt wird.</value>
+  <value column="Help" original="The Symbol identifies the Symbol to be displayed and printed for a Unit of Measure">"Symbol" bezeichnet das Symbol, das bei Verwendung dieser Maßeinheit angezeigt und gedruckt wird.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3575,7 +3575,7 @@ Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending b
   <value column="Name" original="User List 1">Nutzer 1</value>
   <value column="PrintName" original="User 1">Nutzer 1</value>
   <value column="Description" original="User defined list element #1">Nutzerdefiniertes Element Nr. 1</value>
-  <value column="Help" original="The user defined element displays the optional elements that have been defined for this account combination.">Das Nutzerdefinierte Element zeigt die optionalen Elementwerte an, die für diese Kontenkombination definiert sind.</value>
+  <value column="Help" original="The user defined element displays the optional elements that have been defined for this account combination.">Das nutzerdefinierte Element zeigt die optionalen Elementwerte an, die für diese Kontenkombination definiert sind.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3585,7 +3585,7 @@ Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending b
   <value column="Name" original="User List 2">Nutzer 2</value>
   <value column="PrintName" original="User 2">Nutzer 2</value>
   <value column="Description" original="User defined list element #2">Nutzerdefiniertes Element Nr. 2</value>
-  <value column="Help" original="The user defined element displays the optional elements that have been defined for this account combination.">Das Nutzerdefinierte Element zeigt die optionalen Elementwerte an, die für diese Kontenkombination definiert sind.</value>
+  <value column="Help" original="The user defined element displays the optional elements that have been defined for this account combination.">Das nutzerdefinierte Element zeigt die optionalen Elementwerte an, die für diese Kontenkombination definiert sind.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3987,9 +3987,9 @@ If you leave the search key empty, the system automatically creates a numeric nu
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="881" trl="Y">
-  <value column="Name" original="EMail Address">EMail</value>
-  <value column="PrintName" original="EMail">EMail</value>
-  <value column="Description" original="Electronic Mail Address">EMail-Adresse</value>
+  <value column="Name" original="EMail Address">E-Mail</value>
+  <value column="PrintName" original="EMail">E-Mail</value>
+  <value column="Description" original="Electronic Mail Address">E-Mail-Adresse</value>
   <value column="Help" original="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -4100,7 +4100,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
   <value column="Name" original="Imported">Importiert</value>
   <value column="PrintName" original="Imported">Importiert</value>
   <value column="Description" original="Has this import been processed">Ist dieser Import verarbeitet worden?</value>
-  <value column="Help" original="The Imported check box indicates if this import has been processed.">DasSelektionsfeld "Importiert" zeigt an, ob dieser Import verarbeitet worden ist.</value>
+  <value column="Help" original="The Imported check box indicates if this import has been processed.">Das Selektionsfeld "Importiert" zeigt an, ob dieser Import verarbeitet worden ist.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -4120,7 +4120,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
   <value column="Name" original="Invoice Address">Rechnungs-Adresse</value>
   <value column="PrintName" original="Invoice Address">Rechnungs-Adresse</value>
   <value column="Description" original="Business Partner Invoice/Bill Address">Rechnungs-Adresse für diesen Geschäftspartner</value>
-  <value column="Help" original="If the Invoice Address is selected, the location is used to send invoices to a customer or receive invoices from a vendor.">Wenn "Rechnungs-Adresse" slektiert ist, wird diese Anschrift verwendet um Rechnungen an einen Kunden zu senden oder von einem Lieferanten zu erhalten.</value>
+  <value column="Help" original="If the Invoice Address is selected, the location is used to send invoices to a customer or receive invoices from a vendor.">Wenn "Rechnungs-Adresse" slektiert ist, wird diese Anschrift verwendet, um Rechnungen an einen Kunden zu senden oder von einem Lieferanten zu erhalten.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -4242,7 +4242,7 @@ Due to rounding, the tax amount can differ.</value>
   <value column="Name" original="Ship Address">Liefer-Adresse</value>
   <value column="PrintName" original="Ship address">Liefer-Adresse</value>
   <value column="Description" original="Business Partner Shipment Address">Liefer-Adresse für den Geschäftspartner</value>
-  <value column="Help" original="If the Ship Address is selected, the location is used to ship goods to a customer or receive goods from a vendor.">Wenn "Liefer-Adresse" selektiert ist, wird diese Anschrift benutzt um Waren an den Kunden zu liefern oder Waren vom Lieferanten zu empfangen.</value>
+  <value column="Help" original="If the Ship Address is selected, the location is used to ship goods to a customer or receive goods from a vendor.">Wenn "Liefer-Adresse" selektiert ist, wird diese Anschrift benutzt, um Waren an den Kunden zu liefern oder Waren vom Lieferanten zu empfangen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -4391,7 +4391,7 @@ Due to rounding, the tax amount can differ.</value>
  <row id="958" trl="Y">
   <value column="Name" original="Print Text">Drucktext</value>
   <value column="PrintName" original="Text">Text</value>
-  <value column="Description" original="The label text to be printed on a document or correspondence.">Bezeichnung, die auf dem Dokument oder der Korrespondenz gedruckt werden soll</value>
+  <value column="Description" original="The label text to be printed on a document or correspondence.">Bezeichnung, die auf dem Dokument oder der Korrespondenz gedruckt werden soll.</value>
   <value column="Help" original="The Label to be printed indicates the name that will be printed on a document or correspondence. The max length is 2000 characters.">The Label to be printed indicates the name that will be printed on a document or correspondence. The max length is 2000 characters.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -4648,7 +4648,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="Name" original="Phys.Inventory">Inventur</value>
   <value column="PrintName" original="Phys.Inventory">Inventur</value>
   <value column="Description" original="Parameters for a Physical Inventory">Parameter für eine physische Inventur</value>
-  <value column="Help" original="The Physical Inventory indicates a unique parameters for a physical inventory.">Bezeichnet die eindeutigen Parameter für eine physische Inventur</value>
+  <value column="Help" original="The Physical Inventory indicates a unique parameters for a physical inventory.">Bezeichnet die eindeutigen Parameter für eine physische Inventur.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -4727,8 +4727,8 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
  <row id="1037" trl="Y">
   <value column="Name" original="Movement Date">Bewegungs-Datum</value>
   <value column="PrintName" original="Movement Date">Bewegungs-Datum</value>
-  <value column="Description" original="Date a product was moved in or out of inventory">Datum, an dem eine Produkt in oder aus dem Bestand bewegt wurde</value>
-  <value column="Help" original="The Movement Date indicates the date that a product moved in or out of inventory.  This is the result of a shipment, receipt or inventory movement.">"Bewegungs-Datum" bezeichnet das Datum, zu dem das Produkt in oder aus dem Bestand bewegt wurde Dies ist das Ergebnis einer Auslieferung, eines Wareneingangs oder einer Warenbewqegung.</value>
+  <value column="Description" original="Date a product was moved in or out of inventory">Datum, an dem ein Produkt in oder aus dem Bestand bewegt wurde</value>
+  <value column="Help" original="The Movement Date indicates the date that a product moved in or out of inventory.  This is the result of a shipment, receipt or inventory movement.">"Bewegungs-Datum" bezeichnet das Datum, zu dem das Produkt in oder aus dem Bestand bewegt wurde. Dies ist das Ergebnis einer Auslieferung, eines Wareneingangs oder einer Warenbewegung.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5008,7 +5008,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="Name" original="Invoice Line">Rechnungsposition</value>
   <value column="PrintName" original="Invoice Line">Rechnungsposition</value>
   <value column="Description" original="Invoice Detail Line">Rechnungszeile</value>
-  <value column="Help" original="The Invoice Line uniquely identifies a single line of an Invoice.">Eine "Rechnungszeile" bezeichnet eine einzelne Position auf der Rechnung.</value>
+  <value column="Help" original="The Invoice Line uniquely identifies a single line of an Invoice.">Eine "Rechnunsposition" bezeichnet eine einzelne Position auf der Rechnung.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5107,7 +5107,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
  <row id="1089" trl="Y">
   <value column="Name" original="Date last run">Tag letzter Lauf</value>
   <value column="PrintName" original="Date last run">Tag letzter Lauf</value>
-  <value column="Description" original="Date the process was last run.">Datum des letzten Laufes des Prozesses</value>
+  <value column="Description" original="Date the process was last run.">Datum des letzten Laufes des Prozesses.</value>
   <value column="Help" original="The Date Last Run indicates the last time that a process was run.">"Tag letzter Lauf" zeigt das Datum, zu dem der Prozess das letzte Mal gelaufen ist.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -5137,7 +5137,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
  <row id="1092" trl="Y">
   <value column="Name" original="Days after due date">Tage nach Fälligkeitstermin</value>
   <value column="PrintName" original="Days after due date">Tage nach Fälligkeitstermin</value>
-  <value column="Description" original="Days after due date to dun (if negative days until due)">Tage nach Fälligkeitstermin bis gemahnt wird (wenn negativ: Tage bis Fälligkeitstermin)</value>
+  <value column="Description" original="Days after due date to dun (if negative days until due)">Tage nach Fälligkeitstermin bis gemahnt wird (wenn negativ: Tage vor Fälligkeitstermin)</value>
   <value column="Help" original="The Days After Due Date indicates the number of days after the payment due date to initiate dunning. If the number is negarive, it includes not the not due invoices.">The Days After Due Date indicates the number of days after the payment due date to initiate dunning. If the number is negarive, it includes not the not due invoices.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -5500,7 +5500,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="Name" original="Tax base Amount">Bezugswert</value>
   <value column="PrintName" original="Tax base Amt">Bezugswert</value>
   <value column="Description" original="Base for calculating the tax amount">Bezugswert für die Berechnung der Steuer</value>
-  <value column="Help" original="The Tax Base Amount indicates the base amount used for calculating the tax amount.">Der Bezugswert gibt den Betrag an der für die Berechnung der Steuer verwendet wird.</value>
+  <value column="Help" original="The Tax Base Amount indicates the base amount used for calculating the tax amount.">Der Bezugswert gibt den Betrag an, der für die Berechnung der Steuer verwendet wird.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5510,7 +5510,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="Name" original="Tax Indicator">Steuer-Indikator</value>
   <value column="PrintName" original="Tax Indicator">Steuer-Indikator</value>
   <value column="Description" original="Short form for Tax to be printed on documents">Kurze Bezeichnung der Steuer zum Druck auf Dokumenten.</value>
-  <value column="Help" original="The Tax Indicator identifies the short name that will print on documents referencing this tax.">"Steuer-Indikato" zeigt die kurze Bezeichnung der Steuer die auf Dokumenten mit Bezug zu dieser Steuer gedruckt wird.</value>
+  <value column="Help" original="The Tax Indicator identifies the short name that will print on documents referencing this tax.">"Steuer-Indikator" zeigt die kurze Bezeichnung der Steuer, die auf Dokumenten mit Bezug zu dieser Steuer gedruckt wird.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5884,7 +5884,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Discount Printed">Rabatte drucken</value>
   <value column="PrintName" original="Discount Printed">Rabatte drucken</value>
   <value column="Description" original="Print Discount on Invoice and Order">Rabatt auf Rechnung und Bestellung drucken</value>
-  <value column="Help" original="The Discount Printed Checkbox indicates if the discount will be printed on the document.">Zeigt an, ob der Rabtt auf dem Dokument gedruckt werden soll</value>
+  <value column="Help" original="The Discount Printed Checkbox indicates if the discount will be printed on the document.">Zeigt an, ob der Rabtt auf dem Dokument gedruckt werden soll.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5904,7 +5904,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Order Description">Beschreibung Auftrag</value>
   <value column="PrintName" original="Order Description">Beschreibung Auftrag</value>
   <value column="Description" original="Description to be used on orders">Beschreibung zur Verwendung auf Aufträgen</value>
-  <value column="Help" original="The Order Description identifies the standard description to use on orders for this Customer.">"Beschreibung Auftrag" git die Standardbeschreibung an, die auf Afträgen für diesen Kunden verwendet werden soll.</value>
+  <value column="Help" original="The Order Description identifies the standard description to use on orders for this Customer.">"Beschreibung Auftrag" gibt die Standardbeschreibung an, die auf Afträgen für diesen Kunden verwendet werden soll.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5951,10 +5951,10 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1253" trl="Y">
-  <value column="Name" original="Mail Host">EMail-Server</value>
-  <value column="PrintName" original="Mail Host">EMail-Server</value>
+  <value column="Name" original="Mail Host">E-Mail-Server</value>
+  <value column="PrintName" original="Mail Host">E-Mail-Server</value>
   <value column="Description" original="Hostname of Mail Server for SMTP and IMAP">Hostname oder IP-Adresse des Servers für SMTP und IMAP</value>
-  <value column="Help" original="The host name of the Mail Server for this client with SMTP services to send mail, and IMAP to process incoming mail.">Der Name oder die IP-Adresse des Servers für diesen Mandanten mit SMTP-Service, um EMail zu versenden und  IMAP, um einkommende EMail zu verarbeiten.</value>
+  <value column="Help" original="The host name of the Mail Server for this client with SMTP services to send mail, and IMAP to process incoming mail.">Der Name oder die IP-Adresse des Servers für diesen Mandanten mit SMTP-Service, um E-Mail zu versenden und IMAP, um eingehende E-Mails zu verarbeiten.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5973,7 +5973,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1255" trl="Y">
   <value column="Name" original="Actual Delivery Time">Tatsächliche Lieferzeit</value>
   <value column="PrintName" original="Actual Delivery Time">Tatsächliche Lieferzeit</value>
-  <value column="Description" original="Actual days between order and delivery">Aktuelle Anzahl Tage zwischen Bestellung und Lieferung</value>
+  <value column="Description" original="Actual days between order and delivery">Tatsächliche Anzahl an Tagen zwischen Bestellung und Lieferung</value>
   <value column="Help" original="The Actual Delivery Time indicates the number of days elapsed between placing an order and the delivery of the order">"Tatsächliche Lieferzeit" gibt die Anzahl Tage an, die zwischen der Bestellung und der Lieferung des Produktes vergangen sind.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -5983,7 +5983,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1256" trl="Y">
   <value column="Name" original="Promised Delivery Time">Zugesicherte Lieferzeit</value>
   <value column="PrintName" original="Promised Delivery Time">Zugesicherte Lieferzeit</value>
-  <value column="Description" original="Promised days between order and delivery">Zugesicherte Anzahl Tage zwischen Bestellung und Lieferung</value>
+  <value column="Description" original="Promised days between order and delivery">Zugesicherte Anzahl an Tagen zwischen Bestellung und Lieferung</value>
   <value column="Help" original="The Promised Delivery Time indicates the number of days between the order date and the date that delivery was promised.">"Zugesicherte Lieferzeit" gibt die Anzahl Tage an, die zwischen der Bestellung und dem zugesicherten Liefertermin des Produktes liegen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -6081,9 +6081,9 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1266" trl="Y">
-  <value column="Name" original="From EMail Password">EMail-Passwort Von</value>
-  <value column="PrintName" original="From EMail Pwd">EMail-Passwort Von</value>
-  <value column="Description" original="Password of the sending EMail address">Passwort der sendenden EMail-Adresse</value>
+  <value column="Name" original="From EMail Password">E-Mail-Passwort Von</value>
+  <value column="PrintName" original="From EMail Pwd">E-Mail-Passwort Von</value>
+  <value column="Description" original="Password of the sending EMail address">Passwort der sendenden E-Mail-Adresse</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -6564,7 +6564,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Date received">Eingangsdatum</value>
   <value column="PrintName" original="Date received">Eingangsdatum</value>
   <value column="Description" original="Date a product was received">Datum, zu dem ein Produkt empfangen wurde</value>
-  <value column="Help" original="The Date Received indicates the date that product was received.">"Eingangsdatum" bezeichnet das Datum, zu dem das Produkt empfangen wurde</value>
+  <value column="Help" original="The Date Received indicates the date that product was received.">"Eingangsdatum" bezeichnet das Datum, zu dem das Produkt empfangen wurde.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -6661,10 +6661,10 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1351" trl="Y">
-  <value column="Name" original="Account EMail">EMail</value>
-  <value column="PrintName" original="EMail">EMail</value>
-  <value column="Description" original="Email Address">Email-Adresse</value>
-  <value column="Help" original="The EMail Address indicates the EMail address off the Credit Card or Account holder.">"EMail" bezeichnet die EMail-Adresse des Eigentümers von Kreditkarte oder Konto.</value>
+  <value column="Name" original="Account EMail">E-Mail</value>
+  <value column="PrintName" original="EMail">E-Mail</value>
+  <value column="Description" original="Email Address">E-Mail-Adresse</value>
+  <value column="Help" original="The EMail Address indicates the EMail address off the Credit Card or Account holder.">"E-Mail" bezeichnet die E-Mail-Adresse des Eigentümers von Kreditkarte oder Konto.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -6693,7 +6693,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1354" trl="Y">
   <value column="Name" original="Account Name">Name</value>
   <value column="PrintName" original="Account Name">Name</value>
-  <value column="Description" original="Name on Credit Card or Account holder">Name auf Kreditkarte oder des Kontoeigners</value>
+  <value column="Description" original="Name on Credit Card or Account holder">Name auf Kreditkarte oder des Kontoinhabers</value>
   <value column="Help" original="The Name of the Credit Card or Account holder.">"Name" bezeichnet den Namen des Eigentümers von Kreditkarte oder Konto.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -6814,7 +6814,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Amount">Betrag</value>
   <value column="PrintName" original="Amt">Betrag</value>
   <value column="Description" original="Amount in a defined currency">Betrag in einer definierten Währung</value>
-  <value column="Help" original="The Amount indicates the amount for this document line.">"Betrag" gibt den Betrag für diese Dokumentenposition an</value>
+  <value column="Help" original="The Amount indicates the amount for this document line.">"Betrag" gibt den Betrag für diese Dokumentenposition.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -7374,7 +7374,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Statement date">Auszugsdatum</value>
   <value column="PrintName" original="Statement date">Auszugsdatum</value>
   <value column="Description" original="Date of the statement">Datum des Bankauszuges</value>
-  <value column="Help" original="The Statement Date field defines the date of the statement.">Das "Auszugsdatum" gibt an, für welches Datum der bankauszug erstellt wurde.</value>
+  <value column="Help" original="The Statement Date field defines the date of the statement.">Das "Auszugsdatum" gibt an, für welches Datum der Bankauszug erstellt wurde.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -7384,7 +7384,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Statement difference">Auszugsdifferenz</value>
   <value column="PrintName" original="Statement difference">Auszugsdifferenz</value>
   <value column="Description" original="Difference between statement ending balance and actual ending balance">Differenz zwischen Auszugssaldo und tatsächlichem Saldo</value>
-  <value column="Help" original="The Statement Difference reflects the difference between the Statement Ending Balance and the Actual Ending Balance.">Die "Auszugsdifferenz" gibt die Differenz zwischen dem Auszugssaldo und dem tatsächlichem Saldo an.</value>
+  <value column="Help" original="The Statement Difference reflects the difference between the Statement Ending Balance and the Actual Ending Balance.">Die "Auszugsdifferenz" gibt die Differenz zwischen dem Auszugssaldo und dem tatsächlichen Saldo an.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -7634,7 +7634,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Payment Batch">Zahlungslauf</value>
   <value column="PrintName" original="Payment Batch">Zahlungslauf</value>
   <value column="Description" original="Payment batch for EFT">Zahlungslauf für ELV</value>
-  <value column="Help" original="Electronic Fund Transfer Payment Batch.">Zahlungsläufe für Elektronischen Lastschriftverkehr (z.B. Datenträgeraustausch DTA) verarbeiten</value>
+  <value column="Help" original="Electronic Fund Transfer Payment Batch.">Zahlungsläufe für Elektronischen Lastschriftverkehr (z.B. Datenträgeraustausch DTA) verarbeiten.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -7992,10 +7992,10 @@ Example implementations are Optimal Payments: org.compiere.model.PP_Optimal or V
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1512" trl="Y">
-  <value column="Name" original="Mail Text">EMailtext</value>
-  <value column="PrintName" original="Mail Text">EMailtext</value>
-  <value column="Description" original="Text used for Mail message">In der EMail-Mitteilung verwendeter Text </value>
-  <value column="Help" original="The Mail Text indicates the text used for mail messages.">"EMailtext" zeigt den in der EMail-Mitteilung verwendeten Text an.</value>
+  <value column="Name" original="Mail Text">E-Mail-Text</value>
+  <value column="PrintName" original="Mail Text">E-Mail-Text</value>
+  <value column="Description" original="Text used for Mail message">In der E-Mail-Mitteilung verwendeter Text </value>
+  <value column="Help" original="The Mail Text indicates the text used for mail messages.">"E-Mail-Text" zeigt den in der E-Mail-Mitteilung verwendeten Text an.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -8022,8 +8022,8 @@ Example implementations are Optimal Payments: org.compiere.model.PP_Optimal or V
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1515" trl="Y">
-  <value column="Name" original="Mail Template">EMail-Vorlage</value>
-  <value column="PrintName" original="Mail Template">EMail-Vorlage</value>
+  <value column="Name" original="Mail Template">E-Mail-Vorlage</value>
+  <value column="PrintName" original="Mail Template">E-Mail-Vorlage</value>
   <value column="Description" original="Text templates for mailings">Textvorlage für EMail</value>
   <value column="Help" original="The Mail Template indicates the mail template for return messages. Mail text can include variables.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;&#10;So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;&#10;For Multi-Lingual systems, the template is translated based on the Business Partner's language selection.">The Mail Template indicates the mail template for return messages. Mail text can include variables. Priorität bei der Analyse haben Nutzer/Kontakt, Geschäftspartner und dann die weiteren Objekte (wie Anfrage, mahnung, Workflow, usw.).&lt;br&gt; Also wird @Name@ primär durch den Namen des Nutzer/Kontakt ersetzt wenn einer definiert ist, dann durch den Namen des Geschäftspartners wenn der definiert ist und dann durch den Namen eines der oben angegebenen Objekte.&lt;br&gt;In mehrsprachigen Systemen wird die Übersetzung der Vorlage basierend auf der Auswahl der Sprache für den Geschäftspartner verwendet.</value>
   <value column="PO_Description" original=""/>
@@ -8555,7 +8555,7 @@ Example implementations are Optimal Payments: org.compiere.model.PP_Optimal or V
   <value column="Name" original="Performance Goal">Ergebnis - Ziel</value>
   <value column="PrintName" original="Performance Goal">Ergebnis - Ziel</value>
   <value column="Description" original="Target achievement from 0..1">Zielerreichung von 0..1</value>
-  <value column="Help" original="The Goal Performance indicates the target achievement from 0 to 1.">"Zielerreichung" zeigt die Erreichung der Zielvorgabe  zwischen 0 und 1 an.</value>
+  <value column="Help" original="The Goal Performance indicates the target achievement from 0 to 1.">"Zielerreichung" zeigt die Erreichung der Zielvorgabe zwischen 0 und 1 an.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>

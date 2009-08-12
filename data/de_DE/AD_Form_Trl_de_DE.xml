@@ -28,7 +28,7 @@
   <value column="Help" original=""/>
  </row>
  <row id="105" trl="Y">
-  <value column="Name" original="Generate Charges">Ein/Ausgaben generieren</value>
+  <value column="Name" original="Generate Charges">Ein-/Ausgaben generieren</value>
   <value column="Description" original="Generate Charges from natural accounts">Gebühren generieren</value>
   <value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account.">Nutzen Sie den oberen Bereich zum Anlegen neuer Gebühren unter Verwendung der generellen Gebührenkonten. Nutzen Sie den unteren Bereich zum Anlegen neuer Gebühren unter Verwendung der Basiskonten.</value>
  </row>
@@ -40,7 +40,7 @@
  <row id="107" trl="Y">
   <value column="Name" original="Payment Selection (manual)">Zahlung auswählen (manuell)</value>
   <value column="Description" original="Manual Payment Selection">Manuelle Auswahl von Zahlungen</value>
-  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">Lieferanten-Rechnungen für Zahlung auswählen. Wenn Sie eine Rechnung nicht sehen stellen Sie sicher, dass sie nicht in einer anderen (unverarbeiteten) Zahlungsauswahl enthalten ist.</value>
+  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">Lieferanten-Rechnungen für Zahlung auswählen. Wenn Sie eine Rechnung nicht sehen, stellen Sie sicher, dass sie nicht in einer anderen (unverarbeiteten) Zahlungsauswahl enthalten ist.</value>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Matching PO-Receipt-Invoice">Abgleich Bestellung-Lieferschein-Rechnung</value>
@@ -70,17 +70,17 @@
  <row id="113" trl="Y">
   <value column="Name" original="POS">POS</value>
   <value column="Description" original="Point Of Sales Terminal">Point-Of-Sales Terminal</value>
-  <value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized.">Vorgänge via POS Terminal eingeben. Scanvorgänge oder das Durchziehen von Kreditkarten werden automtisch erkannt.</value>
+  <value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized.">Vorgänge via POS-Terminal eingeben. Scanvorgänge oder das Durchziehen von Kreditkarten werden automtisch erkannt.</value>
  </row>
  <row id="114" trl="Y">
   <value column="Name" original="BOM Drop">Stückliste einfügen</value>
   <value column="Description" original="Drop (expand) Bill of Materials">Einfügen (expandieren) einer Stückliste</value>
-  <value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Fügen Sie die expandierte Stückliste in einen Auftrag, eine Rechnung usw. ein. Der Beleg muss im Status "Entwurf" sein. Stellen Sie sicher, dass die Produkte auf der Stückliste in der zum Dokument zugehörigen Preisliste enthalten sind, da der Preis sonst zu 0 gesetzt wird!</value>
+  <value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Fügen Sie die expandierte Stückliste in einen Auftrag, eine Rechnung usw. ein. Der Beleg muss im Status "Entwurf" sein. Stellen Sie sicher, dass die Produkte auf der Stückliste in der zum Dokument zugehörigen Preisliste enthalten sind, da der Preis sonst auf 0 gesetzt wird!</value>
  </row>
  <row id="115" trl="Y">
   <value column="Name" original="Tree Maintenance">Baumverwaltung</value>
   <value column="Description" original="Maintain Trees">Verwalten von Bäumen</value>
-  <value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">Ansehen und ändern von Bäumen. Verwalten Sie die Einträge in ihren spezifischen Fenstern..</value>
+  <value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">Ansehen und ändern von Bäumen. Verwalten Sie die Einträge in ihren spezifischen Fenstern.</value>
  </row>
  <row id="116" trl="Y">
   <value column="Name" original="Workflow Editor">Workflow-Editor</value>

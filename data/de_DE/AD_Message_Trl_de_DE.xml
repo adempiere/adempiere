@@ -52,19 +52,19 @@
  </row>
  <row id="113" trl="Y">
   <value column="MsgText" original="You cannot change the record">Sie können den Datensatz nicht ändern</value>
-  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtgung.</value>
+  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtigung.</value>
  </row>
  <row id="114" trl="Y">
   <value column="MsgText" original="You cannot delete this record">Sie können den Datensatz nicht löschen</value>
-  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtgung.</value>
+  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtigung.</value>
  </row>
  <row id="115" trl="Y">
   <value column="MsgText" original="You cannot insert a record">Sie können keinen Datensatz einfügen</value>
-  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtgung.</value>
+  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtigung.</value>
  </row>
  <row id="116" trl="Y">
   <value column="MsgText" original="You cannot update this record">Sie können diesen Datensatz nicht ändern</value>
-  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtgung.</value>
+  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtigung.</value>
  </row>
  <row id="117" trl="Y">
   <value column="MsgText" original="Client &amp; Organization Data">Mandanten- &amp; Organisations-Daten</value>
@@ -92,7 +92,7 @@
  </row>
  <row id="123" trl="Y">
   <value column="MsgText" original="With your current role, you cannot update this information">In der derzeitigen Rolle können Sie die Informationen nicht ändern.</value>
-  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtgung.</value>
+  <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtigung.</value>
  </row>
  <row id="124" trl="Y">
   <value column="MsgText" original="With your current role and settings, you cannot view this information">In der derzeitigen Rolle können Sie auf die Informationen nicht zugreifen.</value>
@@ -275,7 +275,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="169" trl="Y">
-  <value column="MsgText" original="You cannot delete this record (you might be able to e-activate it)">Der Datensatz kann nicht gelöscht werden, bitte de-aktivieren</value>
+  <value column="MsgText" original="You cannot delete this record (you might be able to e-activate it)">Der Datensatz kann nicht gelöscht werden, bitte deaktivieren</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="170" trl="Y">
@@ -287,23 +287,23 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="172" trl="Y">
-  <value column="MsgText" original="Charge created">Ein/Ausgaben angelegt</value>
+  <value column="MsgText" original="Charge created">Ein-/Ausgaben angelegt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="173" trl="Y">
-  <value column="MsgText" original="Create Charge from Account">Ein/Ausgabe von Konto erstellen</value>
+  <value column="MsgText" original="Create Charge from Account">Ein-/Ausgabe von Konto erstellen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="174" trl="Y">
-  <value column="MsgText" original="Generate Charges">Ein/Ausgaben generieren</value>
+  <value column="MsgText" original="Generate Charges">Ein-/Ausgaben generieren</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="175" trl="Y">
-  <value column="MsgText" original="Create Account and Charge">Konto und Ein/Ausgabe erstellen</value>
+  <value column="MsgText" original="Create Account and Charge">Konto und Ein-/Ausgabe erstellen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="176" trl="Y">
-  <value column="MsgText" original="Charge NOT created">Ein/Ausgaben NICHT angelegt</value>
+  <value column="MsgText" original="Charge NOT created">Ein-/Ausgaben NICHT angelegt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="177" trl="Y">
@@ -339,7 +339,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="185" trl="Y">
-  <value column="MsgText" original="Error while executing currency conversion routine">Fehler bei Währungskonvertierung </value>
+  <value column="MsgText" original="Error while executing currency conversion routine">Fehler bei Währungskonvertierung</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="186" trl="Y">
@@ -423,7 +423,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="206" trl="Y">
-  <value column="MsgText" original="Database Error.">Datenbank Fehler.</value>
+  <value column="MsgText" original="Database Error.">Datenbankfehler.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="207" trl="Y">
@@ -527,7 +527,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="232" trl="Y">
-  <value column="MsgText" original="EMail">EMail</value>
+  <value column="MsgText" original="EMail">E-Mail</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="233" trl="Y">
@@ -623,7 +623,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="256" trl="Y">
-  <value column="MsgText" original="html - HTML file">html - HTML Datei</value>
+  <value column="MsgText" original="html - HTML file">html - HTML-Datei</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="257" trl="Y">
@@ -639,11 +639,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="260" trl="Y">
-  <value column="MsgText" original="Select a Import Format">Import Format wählen</value>
+  <value column="MsgText" original="Select a Import Format">Import-Format wählen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="261" trl="Y">
-  <value column="MsgText" original="Rows in file / loaded and ready to import:">Zeilen in Datei / geladen und bereit für Importiert:</value>
+  <value column="MsgText" original="Rows in file / loaded and ready to import:">Zeilen in Datei / geladen und bereit zum Importieren:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="262" trl="Y">
@@ -659,7 +659,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="265" trl="Y">
-  <value column="MsgText" original="rtf - Rich Text Format file">RTF Datei</value>
+  <value column="MsgText" original="rtf - Rich Text Format file">rtf - RTF-Datei</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="266" trl="Y">
@@ -671,7 +671,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="268" trl="Y">
-  <value column="MsgText" original="xml - XML file">xml - XML Datei</value>
+  <value column="MsgText" original="xml - XML file">xml - XML-Datei</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="269" trl="Y">
@@ -856,7 +856,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="314" trl="Y">
-  <value column="MsgText" original="Document must be completed first">Beeleg muß verarbeitet sein</value>
+  <value column="MsgText" original="Document must be completed first">Beleg muß verarbeitet sein</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="315" trl="Y">
@@ -892,7 +892,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="323" trl="Y">
-  <value column="MsgText" original="Location/Address">Ort/Addresse</value>
+  <value column="MsgText" original="Location/Address">Ort/Adresse</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="324" trl="Y">
@@ -1012,7 +1012,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="353" trl="Y">
-  <value column="MsgText" original="Did not find next Sequence Number">Kann nächsten Tabellen Schlüssel nicht finden</value>
+  <value column="MsgText" original="Did not find next Sequence Number">Kann nächsten Tabellen-Schlüssel nicht finden</value>
   <value column="MsgTip" original="Contact System Administrator">Systembetreuer informieren</value>
  </row>
  <row id="354" trl="Y">
@@ -1317,7 +1317,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="429" trl="Y">
-  <value column="MsgText" original="Print only most recent Invoice ?&#10;(No: print all invoices of order)">Nur aktuelle Rechnung drucken ? (Nein: alle Rechnungen des Auftrags drucken)</value>
+  <value column="MsgText" original="Print only most recent Invoice ?&#10;(No: print all invoices of order)">Nur aktuelle Rechnung drucken? (Nein: alle Rechnungen des Auftrags drucken)</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="430" trl="Y">
@@ -1345,7 +1345,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="436" trl="Y">
-  <value column="MsgText" original="Is the printout OK ?">Ist der Ausdruck OK ?</value>
+  <value column="MsgText" original="Is the printout OK ?">Ist der Ausdruck OK?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="437" trl="Y">
@@ -1425,7 +1425,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="456" trl="Y">
-  <value column="MsgText" original="No records with given criteria.  Do you want to change the query criteria?">Keine Datensätze mit diesen Kriterien.  Wollen Sie die Kriterien ändern?</value>
+  <value column="MsgText" original="No records with given criteria.  Do you want to change the query criteria?">Keine Datensätze mit diesen Kriterien. Wollen Sie die Kriterien ändern?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="457" trl="Y">
@@ -1501,7 +1501,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="475" trl="Y">
-  <value column="MsgText" original="Save Report as PDF, CSV, HTML or TXT file">Bericht speichern als PDF, CSV, HTML oder TXT Datei</value>
+  <value column="MsgText" original="Save Report as PDF, CSV, HTML or TXT file">Bericht speichern als PDF-, CSV-, HTML- oder TXT-Datei</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="476" trl="Y">
@@ -1773,7 +1773,7 @@ Kein Empfänger (An) - Kontakt überprüfen!</value>
   <value column="MsgTip" original="Create complex objects on Application Server (slow communication lines)">Erstellen von komplexen Objekten auf Server (langsame Anbindung)</value>
  </row>
  <row id="542" trl="Y">
-  <value column="MsgText" original="Document must be completed first">Beeleg muß verarbeitet sein</value>
+  <value column="MsgText" original="Document must be completed first">Beleg muß verarbeitet sein</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="543" trl="Y">
@@ -1861,7 +1861,7 @@ Kein Empfänger (An) - Kontakt überprüfen!</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="564" trl="Y">
-  <value column="MsgText" original="Timeout - Try to check results later">Wartezeit abgelaufen - Später die Ergebnisse überprüfen </value>
+  <value column="MsgText" original="Timeout - Try to check results later">Wartezeit abgelaufen - Später die Ergebnisse überprüfen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="565" trl="Y">
@@ -1877,7 +1877,7 @@ Kein Empfänger (An) - Kontakt überprüfen!</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="568" trl="Y">
-  <value column="MsgText" original="Totals">Summen </value>
+  <value column="MsgText" original="Totals">Summen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="569" trl="Y">
@@ -1889,7 +1889,7 @@ Kein Empfänger (An) - Kontakt überprüfen!</value>
   <value column="MsgTip" original="Window  - Metal - Adempiere">Window  - Metal - Adempiere</value>
  </row>
  <row id="571" trl="Y">
-  <value column="MsgText" original="Under Limit Price">Unter Limit Preis</value>
+  <value column="MsgText" original="Under Limit Price">Unter Limit-Preis</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="572" trl="Y">
@@ -1946,7 +1946,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="585" trl="Y">
-  <value column="MsgText" original="Is the payment print correct ?">Ist der Druck der Zahlung korrekt ?</value>
+  <value column="MsgText" original="Is the payment print correct ?">Ist der Druck der Zahlung korrekt?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="586" trl="Y">
@@ -1970,7 +1970,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="591" trl="Y">
-  <value column="MsgText" original="Material Transaction Info">Material Transaktion Info</value>
+  <value column="MsgText" original="Material Transaction Info">Material Transaktionsinformationen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="592" trl="Y">
@@ -2090,7 +2090,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="621" trl="Y">
-  <value column="MsgText" original="Print only most recent Shipment ?&#10;(No: print all shipments of order)">Nur aktuellen Lieferschein drucken ? (Nein: alle Lieferscheine des Auftrags drucken)</value>
+  <value column="MsgText" original="Print only most recent Shipment ?&#10;(No: print all shipments of order)">Nur aktuellen Lieferschein drucken? (Nein: alle Lieferscheine des Auftrags drucken)</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="622" trl="Y">
@@ -2232,7 +2232,7 @@ Do you want to print separate Remittance advice ?</value>
  </row>
  <row id="656" trl="Y">
   <value column="MsgText" original="Store Password">Kennwort speichern</value>
-  <value column="MsgTip" original="Store Password for fast Login (security risk)">Kennwort speichern für schnelles Log-in (Sicherheitsrisiko)</value>
+  <value column="MsgTip" original="Store Password for fast Login (security risk)">Kennwort speichern für schnelles Anmeldung (Sicherheitsrisiko)</value>
  </row>
  <row id="657" trl="Y">
   <value column="MsgText" original="Cash Journal Info">Kassen-Info</value>
@@ -2387,7 +2387,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="703" trl="Y">
-  <value column="MsgText" original="SQL Statement">SQL Statement</value>
+  <value column="MsgText" original="SQL Statement">SQL- Statement</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="704" trl="Y">
@@ -2475,7 +2475,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="725" trl="Y">
-  <value column="MsgText" original="Font Family">Schrift-Familie</value>
+  <value column="MsgText" original="Font Family">Schriftfamilie</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="726" trl="Y">
@@ -2499,7 +2499,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="731" trl="Y">
-  <value column="MsgText" original="Font">Font</value>
+  <value column="MsgText" original="Font">Schriftart</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="732" trl="Y">
@@ -2507,7 +2507,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="734" trl="Y">
-  <value column="MsgText" original="Mean">Mean</value>
+  <value column="MsgText" original="Mean">Durchschnitt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="735" trl="Y">
@@ -2624,7 +2624,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="764" trl="Y">
-  <value column="MsgText" original="Account used is Document Controlled - Do not use for manual Journals.">Konto wird durch Belegart kontrolliert  - Verwenden Sie es NICHT für manuelle Buchungen.</value>
+  <value column="MsgText" original="Account used is Document Controlled - Do not use for manual Journals.">Konto wird durch Belegart kontrolliert - Verwenden Sie es NICHT für manuelle Buchungen.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="765" trl="Y">
@@ -2660,7 +2660,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="773" trl="Y">
-  <value column="MsgText" original="No POS Terminal defined for User">Kein POS Terminal definiert für Nutzer</value>
+  <value column="MsgText" original="No POS Terminal defined for User">Kein POS-Terminal definiert für Nutzer</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="774" trl="Y">
@@ -3114,7 +3114,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="886" trl="Y">
-  <value column="MsgText" original="User EMail address was not verified - Please verify EMail">EMail-Adresse Nutzer ist nicht verifiziert - Bitte verifizieren Sie die EMail</value>
+  <value column="MsgText" original="User EMail address was not verified - Please verify EMail">E-Mail-Adresse Nutzer ist nicht verifiziert - Bitte verifizieren Sie die E-Mail-Adresse</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="887" trl="Y">
@@ -3306,7 +3306,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52030" trl="Y">
-  <value column="MsgText" original="Add">Add</value>
+  <value column="MsgText" original="Add">Hinzufügen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52031" trl="Y">
@@ -3806,11 +3806,11 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52155" trl="Y">
-  <value column="MsgText" original="Edit">Edit</value>
+  <value column="MsgText" original="Edit">Bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52156" trl="Y">
-  <value column="MsgText" original="Edit Attribute">Edit Attribute</value>
+  <value column="MsgText" original="Edit Attribute">Attribut bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52157" trl="Y">
@@ -3818,11 +3818,11 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52158" trl="Y">
-  <value column="MsgText" original="Edit Customer">Edit Customer</value>
+  <value column="MsgText" original="Edit Customer">Kunde bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52159" trl="Y">
-  <value column="MsgText" original="Edit Price">Edit Price</value>
+  <value column="MsgText" original="Edit Price">Preis bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52160" trl="Y">
@@ -3858,7 +3858,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52168" trl="Y">
-  <value column="MsgText" original="(excl. VAT)">(excl. VAT)</value>
+  <value column="MsgText" original="(excl. VAT)">(exkl. MwSt.)</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52169" trl="Y">
@@ -3942,7 +3942,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52189" trl="Y">
-  <value column="MsgText" original="(incl. VAT)">(incl. VAT)</value>
+  <value column="MsgText" original="(incl. VAT)">(inkl. MwSt.)</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52190" trl="Y">
@@ -3978,23 +3978,23 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52198" trl="Y">
-  <value column="MsgText" original="Last 2 Months">Last 2 Months</value>
+  <value column="MsgText" original="Last 2 Months">Letzte 2 Monate</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52199" trl="Y">
-  <value column="MsgText" original="Last 2 Weeks">Last 2 Weeks</value>
+  <value column="MsgText" original="Last 2 Weeks">Letzte 2 Wochen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52200" trl="Y">
-  <value column="MsgText" original="Last 3 Months">Last 3 Months</value>
+  <value column="MsgText" original="Last 3 Months">Letzte 3 Monate</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52201" trl="Y">
-  <value column="MsgText" original="Last 3 Weeks">Last 3 Weeks</value>
+  <value column="MsgText" original="Last 3 Weeks">Letzte 3 Wochen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52202" trl="Y">
-  <value column="MsgText" original="Last 6 Months">Last 6 Months</value>
+  <value column="MsgText" original="Last 6 Months">Letzte 6 Monate</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52203" trl="Y">
@@ -4042,7 +4042,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52214" trl="Y">
-  <value column="MsgText" original="Username">Username</value>
+  <value column="MsgText" original="Username">Benutzername</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52215" trl="Y">
@@ -4930,7 +4930,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52437" trl="Y">
-  <value column="MsgText" original="Price(excl. VAT)">Price(excl. VAT)</value>
+  <value column="MsgText" original="Price(excl. VAT)">Price(exkl. MwSt.)</value>
   <value column="MsgTip" original="Prix(excl. TVA)">Prix(excl. TVA)</value>
  </row>
  <row id="52438" trl="Y">

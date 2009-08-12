@@ -480,8 +480,8 @@
   <value column="Description" original="Work on your requests">Bearbeiten Sie Ihre Anfragen</value>
  </row>
  <row id="238" trl="Y">
-  <value column="Name" original="Mail Template">EMail-Vorlage</value>
-  <value column="Description" original="Maintain Mail Template">Verwalten von EMail-Vorlagen</value>
+  <value column="Name" original="Mail Template">E-Mail-Vorlage</value>
+  <value column="Description" original="Maintain Mail Template">Verwalten von E-Mail-Vorlagen</value>
  </row>
  <row id="239" trl="Y">
   <value column="Name" original="Custom Attribute">Spezifisches Merkmal</value>
@@ -528,7 +528,7 @@
   <value column="Description" original="Invoice (Line) Detail and Margin Report">Bericht Rechnungs(positions)details und Marge</value>
  </row>
  <row id="254" trl="Y">
-  <value column="Name" original="Generate Charges">Ein/Ausgaben generieren</value>
+  <value column="Name" original="Generate Charges">Ein-/Ausgaben generieren</value>
   <value column="Description" original="Generate Charges from natural accounts">Gebühren generieren</value>
  </row>
  <row id="255" trl="Y">
@@ -673,7 +673,7 @@
  </row>
  <row id="296" trl="Y">
   <value column="Name" original="System Image">System-Bild</value>
-  <value column="Description" original="Maintain Images and Icons">Verwalten von Bildern und Ikonen</value>
+  <value column="Description" original="Maintain Images and Icons">Verwalten von Bildern und Symbole</value>
  </row>
  <row id="300" trl="Y">
   <value column="Name" original="Workbench">Workbench</value>
@@ -945,7 +945,7 @@
  </row>
  <row id="369" trl="Y">
   <value column="Name" original="Time Type">Zeit-Art</value>
-  <value column="Description" original="Maintain Time Recording Type">Zeit-Verschreibungs-Arten verwalten</value>
+  <value column="Description" original="Maintain Time Recording Type">Zeiterfassungsarten verwalten</value>
  </row>
  <row id="370" trl="Y">
   <value column="Name" original="Cost Type">Kostenkategorie</value>
@@ -985,7 +985,7 @@
  </row>
  <row id="379" trl="Y">
   <value column="Name" original="Alert">Alarmierung</value>
-  <value column="Description" original="Adempiere Alert">Adempiere- Alarmierung</value>
+  <value column="Description" original="Adempiere Alert">Adempiere-Alarmierung</value>
  </row>
  <row id="380" trl="Y">
   <value column="Name" original="Counter">Zähler</value>
@@ -1029,7 +1029,7 @@
  </row>
  <row id="390" trl="Y">
   <value column="Name" original="Knowledge Synonym">Wissensbasis - Synonym</value>
-  <value column="Description" original="Knowlege Keyword Synonym">Synonyme zu Schlagworten </value>
+  <value column="Description" original="Knowlege Keyword Synonym">Synonyme zu Schlagworten</value>
  </row>
  <row id="391" trl="Y">
   <value column="Name" original="Knowledge Source">Wissensbasis - Quelle</value>
@@ -1052,8 +1052,8 @@
   <value column="Description" original="Setup of data replication">Einrichtung der Daten-Replizierung</value>
  </row>
  <row id="396" trl="Y">
-  <value column="Name" original="Send Mail Text">EMail-Text senden</value>
-  <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Sende EMails an aktive Abonneneten eines Interessengebietes oder eine Geschäftspartnergruppe</value>
+  <value column="Name" original="Send Mail Text">E-Mail-Text senden</value>
+  <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Sende E-Mails an aktive Abonneneten eines Interessengebietes oder eine Geschäftspartnergruppe</value>
  </row>
  <row id="397" trl="Y">
   <value column="Name" original="Merge Entities">Einträge verschmelzen</value>
@@ -1084,8 +1084,8 @@
   <value column="Description" original="Accounting Fact Details of Project">Buchhaltungsdetails zum Projekt</value>
  </row>
  <row id="404" trl="Y">
-  <value column="Name" original="Project Lines not Issued">Nicht belieferte Projektzeilen</value>
-  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Listet Projektzeilen eines Arbeitsauftrages oder Asset-Projektest, die noch nicht an das Projekt ausgeliefert sind</value>
+  <value column="Name" original="Project Lines not Issued">Nicht belieferte Projektpositionen</value>
+  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Listet Projektpositionen eines Arbeitsauftrages oder Asset-Projektest, die noch nicht an das Projekt ausgeliefert sind</value>
  </row>
  <row id="405" trl="Y">
   <value column="Name" original="Project POs not Issued">Nicht gelieferte Projektbestellungen</value>
@@ -1128,12 +1128,12 @@
   <value column="Description" original="Company Agent (Sales Rep) Information">Firmenvertreter- (Vertriebsbeauftragten-) Informationen</value>
  </row>
  <row id="415" trl="Y">
-  <value column="Name" original="Clicks Monthy">Clicks monatlich</value>
-  <value column="Description" original="Clicks per Month">Clicks pro Monat</value>
+  <value column="Name" original="Clicks Monthy">Klicks monatlich</value>
+  <value column="Description" original="Clicks per Month">Klicks pro Monat</value>
  </row>
  <row id="416" trl="Y">
-  <value column="Name" original="Clicks Unprocessed">Clicks unverarbeitet</value>
-  <value column="Description" original="Unprocessed Clicks">Unverarbeitete Clicks</value>
+  <value column="Name" original="Clicks Unprocessed">Klicks unverarbeitet</value>
+  <value column="Description" original="Unprocessed Clicks">Unverarbeitete Klicks</value>
  </row>
  <row id="417" trl="Y">
   <value column="Name" original="UnPosted Documents">Ungebuchte Belege</value>
@@ -1145,7 +1145,7 @@
  </row>
  <row id="419" trl="Y">
   <value column="Name" original="POS">POS</value>
-  <value column="Description" original="Point Of Sales Terminal">Point-Of-Sales Terminal</value>
+  <value column="Description" original="Point Of Sales Terminal">Point-Of-Sales-Terminal</value>
  </row>
  <row id="420" trl="Y">
   <value column="Name" original="Business Partner Organization">Geschäftspartner zu Organisation</value>
@@ -1177,7 +1177,7 @@
  </row>
  <row id="427" trl="Y">
   <value column="Name" original="Workflow Responsible">Workflow - Verantwortlicher</value>
-  <value column="Description" original="Responsible for Workflow Execution">Verantwortlicher für die Ausführung des Workflow</value>
+  <value column="Description" original="Responsible for Workflow Execution">Verantwortlicher für die Ausführung des Workflows</value>
  </row>
  <row id="428" trl="Y">
   <value column="Name" original="Workflow Process">Workflow-Prozess</value>
@@ -1209,7 +1209,7 @@
  </row>
  <row id="435" trl="Y">
   <value column="Name" original="Accounting Fact Period">Buchführungs-Details periodisch</value>
-  <value column="Description" original="Accounting Fact Details summarized by Accounting Period">Buchführungs-Details zusammengefasst nach Buchungsperioden </value>
+  <value column="Description" original="Accounting Fact Details summarized by Accounting Period">Buchführungs-Details zusammengefasst nach Buchungsperioden</value>
  </row>
  <row id="436" trl="Y">
   <value column="Name" original="Reopen Order">Auftrag wieder eröffnen</value>
@@ -1281,7 +1281,7 @@
  </row>
  <row id="453" trl="Y">
   <value column="Name" original="Auction Topic Type">Auktions-Themenart</value>
-  <value column="Description" original="Maintain Auction Topic Type and Categories">Auktions-Themenarten und Kategorien verwalten</value>
+  <value column="Description" original="Maintain Auction Topic Type and Categories">Auktions-Themenarten und -Kategorien verwalten</value>
  </row>
  <row id="454" trl="Y">
   <value column="Name" original="RfQ">Ausschreibung</value>
@@ -1433,7 +1433,7 @@
  </row>
  <row id="491" trl="Y">
   <value column="Name" original="POS Terminal">POS-Terminal</value>
-  <value column="Description" original="Maintain your Point of Sales Terminal">Verwalten des Verkaufsstellen-Terminalfensters</value>
+  <value column="Description" original="Maintain your Point of Sales Terminal">Verwalten des POS-Terminals</value>
  </row>
  <row id="492" trl="Y">
   <value column="Name" original="POS Key Layout">POS - Tastenanordnung</value>
@@ -1460,7 +1460,7 @@
   <value column="Description" original="Automatic allocation of invoices to payments">Automatische Zuordnung von Rechnungen zu Zahlungen</value>
  </row>
  <row id="498" trl="Y">
-  <value column="Name" original="System Registration">System-Registration</value>
+  <value column="Name" original="System Registration">System-Registrierung</value>
   <value column="Description" original="Register your System">Registrieren Sie Ihre System</value>
  </row>
  <row id="499" trl="Y">
@@ -1485,7 +1485,7 @@
  </row>
  <row id="504" trl="Y">
   <value column="Name" original="Product UOM Convert">Mengeneinheit umwandeln</value>
-  <value column="Description" original="Brack-up or repackage same Products with different UOM">Aufteilen oder zusammenführen von gleichen Produkten mit verschiedener Mengeneinheit</value>
+  <value column="Description" original="Brack-up or repackage same Products with different UOM">Aufteilen oder zusammenführen von gleichen Produkten mit verschiedenen Mengeneinheiten</value>
  </row>
  <row id="505" trl="Y">
   <value column="Name" original="Print Dunning Letters">Mahnbriefe drucken</value>
@@ -1537,7 +1537,7 @@
  </row>
  <row id="517" trl="Y">
   <value column="Name" original="Window Customization">Fenster-Einstellung</value>
-  <value column="Description" original="Define Window Customization for Role/User">Fenster-Anpassung für Rolle bzw. Nutzer definieren</value>
+  <value column="Description" original="Define Window Customization for Role/User">Fenster-Anpassung für Rollen bzw. Nutzer definieren</value>
  </row>
  <row id="518" trl="Y">
   <value column="Name" original="EDI Definition">EDI-Definition</value>
@@ -1561,7 +1561,7 @@
  </row>
  <row id="523" trl="Y">
   <value column="Name" original="Request Status">Anfragestatus</value>
-  <value column="Description" original="Maintain Request Status">Anfragestati verwalten</value>
+  <value column="Description" original="Maintain Request Status">Anfragestatus verwalten</value>
  </row>
  <row id="524" trl="Y">
   <value column="Name" original="Request Standard Response">Anfrage - Standardantwort</value>
@@ -1585,14 +1585,14 @@
  </row>
  <row id="529" trl="Y">
   <value column="Name" original="Web Store">Webshop</value>
-  <value column="Description" original="Define Web Store">Web-Shop definieren</value>
+  <value column="Description" original="Define Web Store">Webshop definieren</value>
  </row>
  <row id="530" trl="Y">
   <value column="Name" original="Position">Position</value>
   <value column="Description" original="Maintain Job Positions">Verwalten von Job-Positionen</value>
  </row>
  <row id="531" trl="Y">
-  <value column="Name" original="Position Category">Positions- Kategorie</value>
+  <value column="Name" original="Position Category">Positions-Kategorie</value>
   <value column="Description" original="Maintain Job Position Categories">Verwalten von Job-Positions-Kategorien</value>
  </row>
  <row id="532" trl="Y">
@@ -1653,7 +1653,7 @@
  </row>
  <row id="547" trl="Y">
   <value column="Name" original="Tax Declaration">Steuererklärung</value>
-  <value column="Description" original="Define the declaration to the tax authorities">Erzeugen einer Steuererklärung für die Finanzbehörde </value>
+  <value column="Description" original="Define the declaration to the tax authorities">Erzeugen einer Steuererklärung für die Finanzbehörde</value>
  </row>
  <row id="548" trl="Y">
   <value column="Name" original="Reporting Hierarchy">Berichts-Hierarchie</value>
@@ -1836,7 +1836,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="50009" trl="Y">
-  <value column="Name" original="Request EMail Processor">Prozessor Anfrage-EMail</value>
+  <value column="Name" original="Request EMail Processor">Prozessor Anfrage-E-Mail</value>
   <value column="Description" original=""/>
  </row>
  <row id="50010" trl="Y">
@@ -1848,11 +1848,11 @@
   <value column="Description" original=""/>
  </row>
  <row id="52001" trl="Y">
-  <value column="Name" original="Web POS">Web POS</value>
+  <value column="Name" original="Web POS">Web-POS</value>
   <value column="Description" original=""/>
  </row>
  <row id="52002" trl="Y">
-  <value column="Name" original="Web POS Menu">Web POS Menu</value>
+  <value column="Name" original="Web POS Menu">Web-POS-Menü</value>
   <value column="Description" original="To dynamically generate the menu links in web POS">To dynamically generate the menu links in web POS</value>
  </row>
  <row id="52003" trl="Y">
@@ -1860,7 +1860,7 @@
   <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">Depending on Which Role, Different set of Menus are generated and made available.</value>
  </row>
  <row id="52004" trl="Y">
-  <value column="Name" original="Web POS Properties">Web POS Properties</value>
+  <value column="Name" original="Web POS Properties">Web-POS-Eigenschaften</value>
   <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Stores the message tags to be picked up from AD_MESSAGE </value>
  </row>
  <row id="52005" trl="Y">
@@ -1872,7 +1872,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="53013" trl="Y">
-  <value column="Name" original="Setup Web POS">Setup Web POS</value>
+  <value column="Name" original="Setup Web POS">Web-POS einrichten</value>
   <value column="Description" original=""/>
  </row>
  <row id="53083" trl="Y">
@@ -1892,11 +1892,11 @@
   <value column="Description" original=""/>
  </row>
  <row id="53089" trl="Y">
-  <value column="Name" original="Migration Scripts">Migration Scripts</value>
+  <value column="Name" original="Migration Scripts">Migrationsskripte</value>
   <value column="Description" original=""/>
  </row>
  <row id="53090" trl="Y">
-  <value column="Name" original="Prepare Migration Scripts">Prepare Migration Scripts</value>
+  <value column="Name" original="Prepare Migration Scripts">Migrationsskripte vorbereiten</value>
   <value column="Description" original=""/>
  </row>
 </adempiereTrl>
