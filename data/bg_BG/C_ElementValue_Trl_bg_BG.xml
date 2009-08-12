@@ -1,1457 +1,2181 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--ADempiere Release 3.1.0_2006-01-20 - The Open Source Profesional ERP,CRM and SCM - ADempiere; Implementation: unknown - not supported-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//Adempiere//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
+<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="bg_BG" table="C_ElementValue">
- <row id="419" trl="N">
-  <value column="Name" original="Tree Farm Payable">Tree Farm Payable</value>
-  <value column="Description" original="Tree Farm Payable">Tree Farm Payable</value>
+ <row id="419" trl="Y">
+  <value column="Name" original="Tree Farm Payable">Дължимо то "Ферма за дървета"</value>
+  <value column="Description" original="Tree Farm Payable">Дължимо то "Ферма за дървета"</value>
  </row>
- <row id="421" trl="N">
-  <value column="Name" original="Sideline Revenue">Sideline Revenue</value>
+ <row id="421" trl="Y">
+  <value column="Name" original="Sideline Revenue">Страничен приход</value>
   <value column="Description" original=""/>
  </row>
- <row id="422" trl="N">
-  <value column="Name" original="Royalties Revenue">Royalties Revenue</value>
+ <row id="422" trl="Y">
+  <value column="Name" original="Royalties Revenue">Приход от хонорари</value>
   <value column="Description" original=""/>
  </row>
- <row id="423" trl="N">
-  <value column="Name" original="Unearned revenue">Unearned revenue</value>
-  <value column="Description" original="We have invoiced, but not delivered yet">We have invoiced, but not delivered yet</value>
+ <row id="423" trl="Y">
+  <value column="Name" original="Unearned revenue">Unearned Revenue</value>
+  <value column="Description" original="We have invoiced, but not delivered yet">Имаме фактура, но още не е доставено</value>
  </row>
- <row id="424" trl="N">
-  <value column="Name" original="Not invoiced revenue">Not invoiced revenue</value>
-  <value column="Description" original="We delivered but have not invoiced yet">We delivered but have not invoiced yet</value>
+ <row id="424" trl="Y">
+  <value column="Name" original="Not invoiced revenue">Нефактуриран приход</value>
+  <value column="Description" original="We delivered but have not invoiced yet">Доставили сме, но фактура не е издадена</value>
  </row>
- <row id="425" trl="N">
-  <value column="Name" original="Other Revenue">Other Revenue</value>
+ <row id="425" trl="Y">
+  <value column="Name" original="Other Revenue">Други приходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="426" trl="N">
-  <value column="Name" original="Trade Discounts">Trade Discounts</value>
-  <value column="Description" original="Granted Trade discounts (corrects Product Revenue)">Granted Trade discounts (corrects Product Revenue)</value>
+ <row id="426" trl="Y">
+  <value column="Name" original="Trade Discounts">Tърговски отстъпки</value>
+  <value column="Description" original="Granted Trade discounts (corrects Product Revenue)">Търговки отстъпки (поправя дохода на продуктите)</value>
  </row>
- <row id="427" trl="N">
-  <value column="Name" original="Payment discount revenue">Payment discount revenue</value>
-  <value column="Description" original="Granted early payment discount to customers">Granted early payment discount to customers</value>
+ <row id="427" trl="Y">
+  <value column="Name" original="Payment discount revenue">Payment Discount Revenue</value>
+  <value column="Description" original="Granted early payment discount to customers">Отпускане на отстъпки при ранно плащане на клиенти</value>
  </row>
- <row id="428" trl="N">
-  <value column="Name" original="Promotion Discounts">Promotion Discounts</value>
+ <row id="428" trl="Y">
+  <value column="Name" original="Promotion Discounts">Промоционални отстъпки</value>
   <value column="Description" original=""/>
  </row>
- <row id="429" trl="N">
-  <value column="Name" original="Cost of Goods Sold">Cost of Goods Sold</value>
+ <row id="429" trl="Y">
+  <value column="Name" original="Cost of Goods Sold">Cтойност на продадените стоки</value>
   <value column="Description" original=""/>
  </row>
- <row id="430" trl="N">
-  <value column="Name" original="Product CoGs">Product CoGs</value>
-  <value column="Description" original="Cost of Goods Sold">Cost of Goods Sold</value>
+ <row id="430" trl="Y">
+  <value column="Name" original="Product CoGs">Product COGS</value>
+  <value column="Description" original="Cost of Goods Sold">Cтойност на продадените стоки</value>
  </row>
- <row id="431" trl="N">
-  <value column="Name" original="Product Expense">Product Expense</value>
-  <value column="Description" original="Default Product or Service costs (I.e. not on inventory)">Default Product or Service costs (I.e. not on inventory)</value>
+ <row id="431" trl="Y">
+  <value column="Name" original="Product Expense">Изделие- Разноски</value>
+  <value column="Description" original="Default Product or Service costs (I.e. not on inventory)">Цена на неизпълнени продукти или услуги (пример: необорудвани)</value>
  </row>
- <row id="432" trl="N">
-  <value column="Name" original="Services Purchases">Services Purchases</value>
+ <row id="432" trl="Y">
+  <value column="Name" original="Services Purchases">Покупка на услуги</value>
   <value column="Description" original=""/>
  </row>
- <row id="433" trl="N">
-  <value column="Name" original="Sideline Purchases">Sideline Purchases</value>
+ <row id="433" trl="Y">
+  <value column="Name" original="Sideline Purchases">Странични покупки</value>
   <value column="Description" original=""/>
  </row>
- <row id="434" trl="N">
-  <value column="Name" original="Freight in">Freight in</value>
+ <row id="434" trl="Y">
+  <value column="Name" original="Freight in">Транспортни разходи за придобиване на стоки</value>
   <value column="Description" original=""/>
  </row>
- <row id="435" trl="N">
-  <value column="Name" original="Returns">Returns</value>
+ <row id="435" trl="Y">
+  <value column="Name" original="Returns">Върната стока</value>
   <value column="Description" original=""/>
  </row>
- <row id="436" trl="N">
-  <value column="Name" original="Returns Expense">Returns Expense</value>
+ <row id="436" trl="Y">
+  <value column="Name" original="Returns Expense">Разходи по върнати стоки</value>
   <value column="Description" original=""/>
  </row>
- <row id="437" trl="N">
-  <value column="Name" original="Returns to Vendors">Returns to Vendors</value>
+ <row id="437" trl="Y">
+  <value column="Name" original="Returns to Vendors">Стоки върнати на доставчици</value>
   <value column="Description" original=""/>
  </row>
- <row id="438" trl="N">
-  <value column="Name" original="Inventory CoGs">Inventory CoGs</value>
+ <row id="438" trl="Y">
+  <value column="Name" original="Inventory CoGs">Стойност на продадения инвентар</value>
   <value column="Description" original=""/>
  </row>
- <row id="439" trl="N">
-  <value column="Name" original="Inventory Shrinkage">Inventory Shrinkage</value>
-  <value column="Description" original="Physical Inventory Gain/Loss">Physical Inventory Gain/Loss</value>
+ <row id="439" trl="Y">
+  <value column="Name" original="Inventory Shrinkage">Смаляване на инвентара</value>
+  <value column="Description" original="Physical Inventory Gain/Loss">Физична инвентаризация Печалба/Загуба</value>
  </row>
- <row id="440" trl="N">
-  <value column="Name" original="Inventory Write Down Below Cost">Inventory Write Down Below Cost</value>
+ <row id="440" trl="Y">
+  <value column="Name" original="Inventory Write Down Below Cost">Намаляне на стойността на инвентара под покупната цена</value>
   <value column="Description" original=""/>
  </row>
- <row id="441" trl="N">
+ <row id="441" trl="Y">
   <value column="Name" original="Inventory Adjustment">Inventory Adjustment</value>
-  <value column="Description" original="Inventory Actual Accounting Value Adjustment">Inventory Actual Accounting Value Adjustment</value>
+  <value column="Description" original="Inventory Actual Accounting Value Adjustment">Регулиране на действителната счетоводна стойност</value>
  </row>
- <row id="442" trl="N">
-  <value column="Name" original="Inventory Revaluation">Inventory Revaluation</value>
-  <value column="Description" original="Difference to (lower cost) or market">Difference to (lower cost) or market</value>
+ <row id="442" trl="Y">
+  <value column="Name" original="Inventory Revaluation">Переоценка</value>
+  <value column="Description" original="Difference to (lower cost) or market">Разлика на (по-ниска цена) или пазар</value>
  </row>
- <row id="443" trl="N">
-  <value column="Name" original="CoGS Variances">CoGS Variances</value>
+ <row id="443" trl="Y">
+  <value column="Name" original="CoGS Variances">Вариране в стойността на продадените стоки</value>
   <value column="Description" original=""/>
  </row>
- <row id="444" trl="N">
-  <value column="Name" original="Invoice price variance">Invoice price variance</value>
-  <value column="Description" original="Difference between product cost and invoice price (IPV)">Difference between product cost and invoice price (IPV)</value>
+ <row id="444" trl="Y">
+  <value column="Name" original="Invoice price variance">Фактурна цена /Разлика</value>
+  <value column="Description" original="Difference between product cost and invoice price (IPV)">Разликата между продуктовата стойност и фактурната цена (IPV)</value>
  </row>
- <row id="445" trl="N">
-  <value column="Name" original="Purchase price variance">Purchase price variance</value>
-  <value column="Description" original="Difference between purchase price and standard costs (PPV)">Difference between purchase price and standard costs (PPV)</value>
+ <row id="445" trl="Y">
+  <value column="Name" original="Purchase price variance">Покупни цени/ Вариране</value>
+  <value column="Description" original="Difference between purchase price and standard costs (PPV)">Разликата между покупна цена и стандарт цена (PPV)</value>
  </row>
- <row id="446" trl="N">
-  <value column="Name" original="CoGs/Sales Discounts">CoGs/Sales Discounts</value>
+ <row id="446" trl="Y">
+  <value column="Name" original="CoGs/Sales Discounts">Стойност на продадените стоки/продажбени отстъпки</value>
   <value column="Description" original=""/>
  </row>
- <row id="447" trl="N">
-  <value column="Name" original="Trade discounts received">Trade discounts received</value>
-  <value column="Description" original="Received Trade Discounts (corrects Product expense)">Received Trade Discounts (corrects Product expense)</value>
+ <row id="447" trl="Y">
+  <value column="Name" original="Trade discounts received">Получени търговски отстъпки</value>
+  <value column="Description" original="Received Trade Discounts (corrects Product expense)">Получени Търговски Отстъпки (коригиране на разхода на продукт)</value>
  </row>
- <row id="448" trl="N">
-  <value column="Name" original="Payment discount revenue">Payment discount revenue</value>
-  <value column="Description" original="Granted early payment discount from vendors">Granted early payment discount from vendors</value>
+ <row id="448" trl="Y">
+  <value column="Name" original="Payment discount revenue">Payment Discount Revenue</value>
+  <value column="Description" original="Granted early payment discount from vendors">Отстъпки за ранно плащане от доставчици</value>
  </row>
- <row id="449" trl="N">
-  <value column="Name" original="Expenses">Expenses</value>
+ <row id="449" trl="Y">
+  <value column="Name" original="Expenses">Разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="450" trl="N">
-  <value column="Name" original="Payroll Expenses">Payroll Expenses</value>
+ <row id="450" trl="Y">
+  <value column="Name" original="Payroll Expenses">ТРЗ</value>
   <value column="Description" original=""/>
  </row>
- <row id="451" trl="N">
-  <value column="Name" original="Salaries">Salaries</value>
+ <row id="451" trl="Y">
+  <value column="Name" original="Salaries">Заплати</value>
   <value column="Description" original=""/>
  </row>
- <row id="452" trl="N">
-  <value column="Name" original="Vacation Pay">Vacation Pay</value>
+ <row id="452" trl="Y">
+  <value column="Name" original="Vacation Pay">Отпуски</value>
   <value column="Description" original=""/>
  </row>
- <row id="453" trl="N">
-  <value column="Name" original="Vacation Pay Owners">Vacation Pay Owners</value>
+ <row id="453" trl="Y">
+  <value column="Name" original="Vacation Pay Owners">Служители с платени отпуски</value>
   <value column="Description" original=""/>
  </row>
- <row id="454" trl="N">
-  <value column="Name" original="Sick Pay Owners">Sick Pay Owners</value>
+ <row id="454" trl="Y">
+  <value column="Name" original="Sick Pay Owners">Служители с болнични</value>
   <value column="Description" original=""/>
  </row>
- <row id="455" trl="N">
-  <value column="Name" original="Retirement (Pension, Proft Sharing, 401k)">Retirement (Pension, Proft Sharing, 401k)</value>
+ <row id="455" trl="Y">
+  <value column="Name" original="Retirement (Pension, Proft Sharing, 401k)">Пенсионно осигуряване (Пенсия)</value>
   <value column="Description" original=""/>
  </row>
- <row id="456" trl="N">
-  <value column="Name" original="FICA Tax Owners">FICA Tax Owners</value>
+ <row id="456" trl="Y">
+  <value column="Name" original="FICA Tax Owners">Осигуровки на служители</value>
   <value column="Description" original=""/>
  </row>
- <row id="457" trl="N">
-  <value column="Name" original="Federal/State Unemployment">Federal/State Unemployment</value>
+ <row id="457" trl="Y">
+  <value column="Name" original="Federal/State Unemployment">Осигуровка за безработица</value>
   <value column="Description" original=""/>
  </row>
- <row id="458" trl="N">
-  <value column="Name" original="Federal/State Unemployment Owners">Federal/State Unemployment Owners</value>
+ <row id="458" trl="Y">
+  <value column="Name" original="Federal/State Unemployment Owners">Служители с осигуровка за безработица</value>
   <value column="Description" original=""/>
  </row>
- <row id="459" trl="N">
-  <value column="Name" original="Health Insurance Premium Owners">Health Insurance Premium Owners</value>
+ <row id="459" trl="Y">
+  <value column="Name" original="Health Insurance Premium Owners">Здравна осигуровка на служители</value>
   <value column="Description" original=""/>
  </row>
- <row id="460" trl="N">
-  <value column="Name" original="Health Insurance Employee Contribution">Health Insurance Employee Contribution</value>
+ <row id="460" trl="Y">
+  <value column="Name" original="Health Insurance Employee Contribution">Уддръжка здравна осигуровка от служителя</value>
   <value column="Description" original=""/>
  </row>
- <row id="461" trl="N">
-  <value column="Name" original="Health Insurance Cobra Payments">Health Insurance Cobra Payments</value>
+ <row id="461" trl="Y">
+  <value column="Name" original="Health Insurance Cobra Payments">Плащания към допълнителна здравна осигуровка</value>
   <value column="Description" original=""/>
  </row>
- <row id="462" trl="N">
-  <value column="Name" original="Workers Compensation Insurance">Workers Compensation Insurance</value>
+ <row id="462" trl="Y">
+  <value column="Name" original="Workers Compensation Insurance">Осигуровка за инвалидност</value>
   <value column="Description" original=""/>
  </row>
- <row id="463" trl="N">
-  <value column="Name" original="Disability Insurance Premium">Disability Insurance Premium</value>
+ <row id="463" trl="Y">
+  <value column="Name" original="Disability Insurance Premium">Плащане за застраховка инвалидност</value>
   <value column="Description" original=""/>
  </row>
- <row id="464" trl="N">
-  <value column="Name" original="Disability Insurance Premium Owners">Disability Insurance Premium Owners</value>
+ <row id="464" trl="Y">
+  <value column="Name" original="Disability Insurance Premium Owners">Служители с допълнителна застраховка инвалидност</value>
   <value column="Description" original=""/>
  </row>
- <row id="465" trl="N">
-  <value column="Name" original="Disability Insurance Employee Contribution">Disability Insurance Employee Contribution</value>
+ <row id="465" trl="Y">
+  <value column="Name" original="Disability Insurance Employee Contribution">Уддръжки застраховка инвалидност от служителя</value>
   <value column="Description" original=""/>
  </row>
- <row id="466" trl="N">
-  <value column="Name" original="Life Insurance Premium">Life Insurance Premium</value>
+ <row id="466" trl="Y">
+  <value column="Name" original="Life Insurance Premium">Плащания за застраховка живот</value>
   <value column="Description" original=""/>
  </row>
- <row id="467" trl="N">
-  <value column="Name" original="Life Insurance Premium Owners">Life Insurance Premium Owners</value>
+ <row id="467" trl="Y">
+  <value column="Name" original="Life Insurance Premium Owners">Служители със застраховка живот</value>
   <value column="Description" original=""/>
  </row>
- <row id="468" trl="N">
-  <value column="Name" original="Life Insurance Employee Contribution">Life Insurance Employee Contribution</value>
+ <row id="468" trl="Y">
+  <value column="Name" original="Life Insurance Employee Contribution">Уддръжки за застраховка живот от служителя</value>
   <value column="Description" original=""/>
  </row>
- <row id="469" trl="N">
-  <value column="Name" original="Other Benefit Expense">Other Benefit Expense</value>
+ <row id="469" trl="Y">
+  <value column="Name" original="Other Benefit Expense">Други разходи за социиални придобивки</value>
   <value column="Description" original=""/>
  </row>
- <row id="470" trl="N">
-  <value column="Name" original="Staff Gifts &amp; Perks">Staff Gifts &amp; Perks</value>
+ <row id="470" trl="Y">
+  <value column="Name" original="Staff Gifts &amp; Perks">Подаръци за персонала</value>
   <value column="Description" original=""/>
  </row>
- <row id="471" trl="N">
-  <value column="Name" original="Staff Picnic (100% Deductible)">Staff Picnic (100% Deductible)</value>
+ <row id="471" trl="Y">
+  <value column="Name" original="Staff Picnic (100% Deductible)">Пикник на персонала (100% разход)</value>
   <value column="Description" original=""/>
  </row>
- <row id="472" trl="N">
-  <value column="Name" original="Payroll Processing Expense">Payroll Processing Expense</value>
+ <row id="472" trl="Y">
+  <value column="Name" original="Payroll Processing Expense">Разход за обработка на ТРЗ</value>
   <value column="Description" original=""/>
  </row>
- <row id="473" trl="N">
-  <value column="Name" original="Occupancy Cost">Occupancy Cost</value>
+ <row id="473" trl="Y">
+  <value column="Name" original="Occupancy Cost">Разходи за обитаване</value>
   <value column="Description" original=""/>
  </row>
- <row id="474" trl="N">
-  <value column="Name" original="Rent Expense">Rent Expense</value>
+ <row id="474" trl="Y">
+  <value column="Name" original="Rent Expense">Наем</value>
   <value column="Description" original=""/>
  </row>
- <row id="475" trl="N">
-  <value column="Name" original="Utilities">Utilities</value>
+ <row id="475" trl="Y">
+  <value column="Name" original="Utilities">Сметки за ток вода и т.н</value>
   <value column="Description" original=""/>
  </row>
- <row id="476" trl="N">
-  <value column="Name" original="Other Occupancy Costs">Other Occupancy Costs</value>
+ <row id="476" trl="Y">
+  <value column="Name" original="Other Occupancy Costs">Други разходи за обитаване</value>
   <value column="Description" original=""/>
  </row>
- <row id="477" trl="N">
-  <value column="Name" original="Advertising">Advertising</value>
+ <row id="477" trl="Y">
+  <value column="Name" original="Advertising">Реклама</value>
   <value column="Description" original=""/>
  </row>
- <row id="478" trl="N">
-  <value column="Name" original="Media Advertising">Media Advertising</value>
+ <row id="478" trl="Y">
+  <value column="Name" original="Media Advertising">Реклама в медиите</value>
   <value column="Description" original=""/>
  </row>
- <row id="479" trl="N">
-  <value column="Name" original="Catalog, Newsletter">Catalog, Newsletter</value>
+ <row id="479" trl="Y">
+  <value column="Name" original="Catalog, Newsletter">Каталози, писма</value>
   <value column="Description" original=""/>
  </row>
- <row id="480" trl="N">
-  <value column="Name" original="Events">Events</value>
+ <row id="480" trl="Y">
+  <value column="Name" original="Events">Събития</value>
   <value column="Description" original=""/>
  </row>
- <row id="481" trl="N">
-  <value column="Name" original="Web Hosting">Web Hosting</value>
+ <row id="481" trl="Y">
+  <value column="Name" original="Web Hosting">Уеб хостване</value>
   <value column="Description" original=""/>
  </row>
- <row id="482" trl="N">
-  <value column="Name" original="Other Advertising &amp; Promotion">Other Advertising &amp; Promotion</value>
+ <row id="482" trl="Y">
+  <value column="Name" original="Other Advertising &amp; Promotion">Друга реклама и промотиране</value>
   <value column="Description" original=""/>
  </row>
- <row id="483" trl="N">
-  <value column="Name" original="Vendor Advertising Allowances">Vendor Advertising Allowances</value>
+ <row id="483" trl="Y">
+  <value column="Name" original="Vendor Advertising Allowances">Заделена сума за реклама към доставчиците</value>
   <value column="Description" original=""/>
  </row>
- <row id="484" trl="N">
-  <value column="Name" original="Telephone">Telephone</value>
+ <row id="484" trl="Y">
+  <value column="Name" original="Telephone">Teлефон</value>
   <value column="Description" original=""/>
  </row>
- <row id="485" trl="N">
-  <value column="Name" original="Mobile Telephone">Mobile Telephone</value>
+ <row id="485" trl="Y">
+  <value column="Name" original="Mobile Telephone">Мобилни телефони</value>
   <value column="Description" original=""/>
  </row>
- <row id="486" trl="N">
-  <value column="Name" original="Network Charges">Network Charges</value>
+ <row id="486" trl="Y">
+  <value column="Name" original="Network Charges">Разходи за мрежа</value>
   <value column="Description" original=""/>
  </row>
- <row id="487" trl="N">
-  <value column="Name" original="Legal Fees">Legal Fees</value>
+ <row id="487" trl="Y">
+  <value column="Name" original="Legal Fees">Адвокатски услуги</value>
   <value column="Description" original=""/>
  </row>
- <row id="488" trl="N">
-  <value column="Name" original="Accounting Fees">Accounting Fees</value>
+ <row id="488" trl="Y">
+  <value column="Name" original="Accounting Fees">Счетоводни такси</value>
   <value column="Description" original=""/>
  </row>
- <row id="489" trl="N">
-  <value column="Name" original="Inventory Verification Fees">Inventory Verification Fees</value>
+ <row id="489" trl="Y">
+  <value column="Name" original="Inventory Verification Fees">Такси за проверка на инвентара</value>
   <value column="Description" original=""/>
  </row>
- <row id="490" trl="N">
-  <value column="Name" original="Stationary &amp; Supplies">Stationary &amp; Supplies</value>
+ <row id="490" trl="Y">
+  <value column="Name" original="Stationary &amp; Supplies">Административни консумативи</value>
   <value column="Description" original=""/>
  </row>
- <row id="491" trl="N">
-  <value column="Name" original="Stationary &amp; Supplies - Office Use">Stationary &amp; Supplies - Office Use</value>
+ <row id="491" trl="Y">
+  <value column="Name" original="Stationary &amp; Supplies - Office Use">Административни консумативи -за офиса</value>
   <value column="Description" original=""/>
  </row>
- <row id="492" trl="N">
-  <value column="Name" original="Janitorial Supplies">Janitorial Supplies</value>
+ <row id="492" trl="Y">
+  <value column="Name" original="Janitorial Supplies">Консумативи за почистване</value>
   <value column="Description" original=""/>
  </row>
- <row id="493" trl="N">
-  <value column="Name" original="Data Processing Supplies">Data Processing Supplies</value>
+ <row id="493" trl="Y">
+  <value column="Name" original="Data Processing Supplies">Кнсумативи за обработка на данни</value>
   <value column="Description" original=""/>
  </row>
- <row id="494" trl="N">
-  <value column="Name" original="Data Processing Rental">Data Processing Rental</value>
+ <row id="494" trl="Y">
+  <value column="Name" original="Data Processing Rental">Наем за обработка на данни</value>
   <value column="Description" original=""/>
  </row>
- <row id="495" trl="N">
-  <value column="Name" original="Outside Computer Services">Outside Computer Services</value>
+ <row id="495" trl="Y">
+  <value column="Name" original="Outside Computer Services">Външни компютърни услуги</value>
   <value column="Description" original=""/>
  </row>
- <row id="496" trl="N">
-  <value column="Name" original="Depreciation Expense">Depreciation Expense</value>
+ <row id="496" trl="Y">
+  <value column="Name" original="Depreciation Expense">Амортизационни разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="497" trl="N">
-  <value column="Name" original="Building Depreciation">Building Depreciation</value>
+ <row id="497" trl="Y">
+  <value column="Name" original="Building Depreciation">Амортизация на сграда</value>
   <value column="Description" original=""/>
  </row>
- <row id="498" trl="N">
-  <value column="Name" original="Leasehold Improvement Depreciation">Leasehold Improvement Depreciation</value>
+ <row id="498" trl="Y">
+  <value column="Name" original="Leasehold Improvement Depreciation">Амортизация на подобрения по сграда под наем</value>
   <value column="Description" original=""/>
  </row>
- <row id="499" trl="N">
-  <value column="Name" original="Furniture Depreciation">Furniture Depreciation</value>
+ <row id="499" trl="Y">
+  <value column="Name" original="Furniture Depreciation">Амортизация на мебели</value>
   <value column="Description" original=""/>
  </row>
- <row id="500" trl="N">
-  <value column="Name" original="Fixtures Depreciation">Fixtures Depreciation</value>
+ <row id="500" trl="Y">
+  <value column="Name" original="Fixtures Depreciation">Амортизация на обзавеждане</value>
   <value column="Description" original=""/>
  </row>
- <row id="501" trl="N">
-  <value column="Name" original="Equipment Depreciation">Equipment Depreciation</value>
+ <row id="501" trl="Y">
+  <value column="Name" original="Equipment Depreciation">Амортизация на оборудване</value>
   <value column="Description" original=""/>
  </row>
- <row id="502" trl="N">
-  <value column="Name" original="Data Processing Equipment Depreciation">Data Processing Equipment Depreciation</value>
+ <row id="502" trl="Y">
+  <value column="Name" original="Data Processing Equipment Depreciation">Амортизация на оборудване за обработка на данни</value>
   <value column="Description" original=""/>
  </row>
- <row id="503" trl="N">
-  <value column="Name" original="Software Depreciation">Software Depreciation</value>
+ <row id="503" trl="Y">
+  <value column="Name" original="Software Depreciation">Амортизация на софтуеър</value>
   <value column="Description" original=""/>
  </row>
- <row id="504" trl="N">
-  <value column="Name" original="Business Travel">Business Travel</value>
+ <row id="504" trl="Y">
+  <value column="Name" original="Business Travel">Бизнес пътувания</value>
   <value column="Description" original=""/>
  </row>
- <row id="505" trl="N">
-  <value column="Name" original="Business Travel - Auto Reimbursement">Business Travel - Auto Reimbursement</value>
+ <row id="505" trl="Y">
+  <value column="Name" original="Business Travel - Auto Reimbursement">Бизнес пътувания - автомобилно възстановяване</value>
   <value column="Description" original=""/>
  </row>
- <row id="506" trl="N">
+ <row id="506" trl="Y">
   <value column="Name" original="Assets">Assets</value>
   <value column="Description" original=""/>
  </row>
- <row id="507" trl="N">
+ <row id="507" trl="Y">
   <value column="Name" original="Cash">Cash</value>
   <value column="Description" original=""/>
  </row>
- <row id="508" trl="N">
-  <value column="Name" original="Checking Account">Checking Account</value>
-  <value column="Description" original="Bank Asset">Bank Asset</value>
+ <row id="508" trl="Y">
+  <value column="Name" original="Checking Account">Разплащателна сметка</value>
+  <value column="Description" original="Bank Asset">Банков актив</value>
  </row>
- <row id="509" trl="N">
-  <value column="Name" original="Checking In-Transfer">Checking In-Transfer</value>
+ <row id="509" trl="Y">
+  <value column="Name" original="Checking In-Transfer">Прехвърляния в разпалщателна сметка</value>
   <value column="Description" original="Bank transactions in transit">Bank transactions in transit</value>
  </row>
- <row id="510" trl="N">
-  <value column="Name" original="Checking Unidentified Receipts">Checking Unidentified Receipts</value>
-  <value column="Description" original="Receipts from unidentified customer">Receipts from unidentified customer</value>
+ <row id="510" trl="Y">
+  <value column="Name" original="Checking Unidentified Receipts">Неидентифицирани приходи в разплащателна сметка</value>
+  <value column="Description" original="Receipts from unidentified customer">Получавания от непознат клиент</value>
  </row>
- <row id="511" trl="N">
-  <value column="Name" original="Checking Unallocated Receipts">Checking Unallocated Receipts</value>
-  <value column="Description" original="Received, unallocated payments">Received, unallocated payments</value>
+ <row id="511" trl="Y">
+  <value column="Name" original="Checking Unallocated Receipts">Неразпределени приходи в разплащателна сметка</value>
+  <value column="Description" original="Received, unallocated payments">Получени неразпределени плащания</value>
  </row>
- <row id="512" trl="N">
-  <value column="Name" original="Checking Account 2">Checking Account 2</value>
+ <row id="512" trl="Y">
+  <value column="Name" original="Checking Account 2">Разплащателна сметка 2</value>
   <value column="Description" original=""/>
  </row>
- <row id="513" trl="N">
-  <value column="Name" original="Savings Account">Savings Account</value>
+ <row id="513" trl="Y">
+  <value column="Name" original="Savings Account">Спестовна сметка</value>
   <value column="Description" original=""/>
  </row>
- <row id="514" trl="N">
-  <value column="Name" original="Cash in Registers">Cash in Registers</value>
+ <row id="514" trl="Y">
+  <value column="Name" original="Cash in Registers">Пари по каса</value>
   <value column="Description" original=""/>
  </row>
- <row id="515" trl="N">
-  <value column="Name" original="Petty Cash">Petty Cash</value>
-  <value column="Description" original="Cash Book Asset">Cash Book Asset</value>
+ <row id="515" trl="Y">
+  <value column="Name" original="Petty Cash">Дребни</value>
+  <value column="Description" original="Cash Book Asset">Сметка за пари в брой/каса/</value>
  </row>
- <row id="516" trl="N">
-  <value column="Name" original="Petty Cash In-Transfer">Petty Cash In-Transfer</value>
-  <value column="Description" original="Cash Book Transfer">Cash Book Transfer</value>
+ <row id="516" trl="Y">
+  <value column="Name" original="Petty Cash In-Transfer">Дребни по операции които се извършват в момента</value>
+  <value column="Description" original="Cash Book Transfer">Tрансфер по касова книга</value>
  </row>
- <row id="517" trl="N">
-  <value column="Name" original="Accounts Receivable">Accounts Receivable</value>
+ <row id="517" trl="Y">
+  <value column="Name" original="Accounts Receivable">Дължими суми</value>
   <value column="Description" original=""/>
  </row>
- <row id="518" trl="N">
-  <value column="Name" original="Accounts Receivable - Trade">Accounts Receivable - Trade</value>
-  <value column="Description" original="Accounts Receivables">Accounts Receivables</value>
+ <row id="518" trl="Y">
+  <value column="Name" original="Accounts Receivable - Trade">Дължими суми от търговия</value>
+  <value column="Description" original="Accounts Receivables">Сметки за получаване</value>
  </row>
- <row id="519" trl="N">
-  <value column="Name" original="A/R Non Sufficient Funds Returned Checks">A/R Non Sufficient Funds Returned Checks</value>
+ <row id="519" trl="Y">
+  <value column="Name" original="A/R Non Sufficient Funds Returned Checks">Върнато плащане за Д/С заради недостатъчна банкова наличност</value>
   <value column="Description" original=""/>
  </row>
- <row id="520" trl="N">
-  <value column="Name" original="A/R Trade Allowance for Bad Debit">A/R Trade Allowance for Bad Debit</value>
+ <row id="520" trl="Y">
+  <value column="Name" original="A/R Trade Allowance for Bad Debit">Отделена сума за неизплатени дебити по Д/С</value>
   <value column="Description" original=""/>
  </row>
- <row id="521" trl="N">
-  <value column="Name" original="Not invoiced receivables">Not invoiced receivables</value>
-  <value column="Description" original="We delivered but have not invoiced yet">We delivered but have not invoiced yet</value>
+ <row id="521" trl="Y">
+  <value column="Name" original="Not invoiced receivables">Нефактурирани дължими суми</value>
+  <value column="Description" original="We delivered but have not invoiced yet">Доставили сме, но фактура не е издадена</value>
  </row>
- <row id="522" trl="N">
-  <value column="Name" original="Credit Card in Transit">Credit Card in Transit</value>
+ <row id="522" trl="Y">
+  <value column="Name" original="Credit Card in Transit">Кредитна карта която се обработва с момента</value>
   <value column="Description" original=""/>
  </row>
- <row id="523" trl="N">
-  <value column="Name" original="In Transit A/R Amex">In Transit A/R Amex</value>
+ <row id="523" trl="Y">
+  <value column="Name" original="In Transit A/R Amex">Обработвана в момента Д/С с Amex</value>
   <value column="Description" original=""/>
  </row>
- <row id="524" trl="N">
-  <value column="Name" original="In Transit A/R Master Card">In Transit A/R Master Card</value>
+ <row id="524" trl="Y">
+  <value column="Name" original="In Transit A/R Master Card">Обработвана в момента Д/С Master Card</value>
   <value column="Description" original=""/>
  </row>
- <row id="525" trl="N">
-  <value column="Name" original="In Transit A/R Visa">In Transit A/R Visa</value>
+ <row id="525" trl="Y">
+  <value column="Name" original="In Transit A/R Visa">Обработвана в момента Д/С Visa</value>
   <value column="Description" original=""/>
  </row>
- <row id="526" trl="N">
-  <value column="Name" original="A/R Credit Cards Allowance for Bad Debit">A/R Credit Cards Allowance for Bad Debit</value>
+ <row id="526" trl="Y">
+  <value column="Name" original="A/R Credit Cards Allowance for Bad Debit">Отделена сума за лош дебит по Д/С с кредитни карти</value>
   <value column="Description" original=""/>
  </row>
- <row id="527" trl="N">
-  <value column="Name" original="Vendor Allowances Receivable">Vendor Allowances Receivable</value>
+ <row id="527" trl="Y">
+  <value column="Name" original="Vendor Allowances Receivable">Отделена сума за дължими суми от доставчици</value>
   <value column="Description" original=""/>
  </row>
- <row id="528" trl="N">
-  <value column="Name" original="Loans Receivable">Loans Receivable</value>
+ <row id="528" trl="Y">
+  <value column="Name" original="Loans Receivable">Дължими заеми</value>
   <value column="Description" original=""/>
  </row>
- <row id="529" trl="N">
-  <value column="Name" original="Loans Receivable Employees">Loans Receivable Employees</value>
+ <row id="529" trl="Y">
+  <value column="Name" original="Loans Receivable Employees">ДЪлжими заеми от служители</value>
   <value column="Description" original=""/>
  </row>
- <row id="530" trl="N">
-  <value column="Name" original="Loans Receivable Others">Loans Receivable Others</value>
+ <row id="530" trl="Y">
+  <value column="Name" original="Loans Receivable Others">Други дължими заеми</value>
   <value column="Description" original=""/>
  </row>
- <row id="531" trl="N">
-  <value column="Name" original="Prepayments">Prepayments</value>
+ <row id="531" trl="Y">
+  <value column="Name" original="Prepayments">Предварителни плащания</value>
   <value column="Description" original=""/>
  </row>
- <row id="532" trl="N">
-  <value column="Name" original="Vendor prepayment">Vendor prepayment</value>
-  <value column="Description" original="Prepayments for future expense">Prepayments for future expense</value>
+ <row id="532" trl="Y">
+  <value column="Name" original="Vendor prepayment">Продавач –предварителни продажби?</value>
+  <value column="Description" original="Prepayments for future expense">Плащания за бъдещи разходи</value>
  </row>
- <row id="533" trl="N">
-  <value column="Name" original="Employee Expense Prepayment">Employee Expense Prepayment</value>
+ <row id="533" trl="Y">
+  <value column="Name" original="Employee Expense Prepayment">Предварително плащане на разходи по служителите</value>
   <value column="Description" original="Expense advances">Expense advances</value>
  </row>
- <row id="534" trl="N">
-  <value column="Name" original="Tax credit A/R">Tax credit A/R</value>
+ <row id="534" trl="Y">
+  <value column="Name" original="Tax credit A/R">Д/С по данъчен кредит</value>
   <value column="Description" original="Tax to be re-imbursed - before tax declaration">Tax to be re-imbursed - before tax declaration</value>
  </row>
- <row id="535" trl="N">
-  <value column="Name" original="Tax receivables">Tax receivables</value>
-  <value column="Description" original="Tax to receive based on tax declaration">Tax to receive based on tax declaration</value>
+ <row id="535" trl="Y">
+  <value column="Name" original="Tax receivables">Tax Receivables</value>
+  <value column="Description" original="Tax to receive based on tax declaration">Данъци за получаване базирани на данъчните деклараций</value>
  </row>
- <row id="536" trl="N">
-  <value column="Name" original="A/R Miscellaneous">A/R Miscellaneous</value>
+ <row id="536" trl="Y">
+  <value column="Name" original="A/R Miscellaneous">Разни Д/С</value>
   <value column="Description" original=""/>
  </row>
- <row id="537" trl="N">
-  <value column="Name" original="Investments">Investments</value>
+ <row id="537" trl="Y">
+  <value column="Name" original="Investments">Инвестиции</value>
   <value column="Description" original=""/>
  </row>
- <row id="538" trl="N">
-  <value column="Name" original="US Government Obligations">US Government Obligations</value>
+ <row id="538" trl="Y">
+  <value column="Name" original="US Government Obligations">Държавни облигации</value>
   <value column="Description" original=""/>
  </row>
- <row id="539" trl="N">
-  <value column="Name" original="Tax-Exempt Securities">Tax-Exempt Securities</value>
+ <row id="539" trl="Y">
+  <value column="Name" original="Tax-Exempt Securities">Необлагаеми ценни книжа</value>
   <value column="Description" original=""/>
  </row>
- <row id="540" trl="N">
-  <value column="Name" original="Other Investments">Other Investments</value>
+ <row id="540" trl="Y">
+  <value column="Name" original="Other Investments">Други инвестиции</value>
   <value column="Description" original=""/>
  </row>
- <row id="541" trl="N">
-  <value column="Name" original="Inventory">Inventory</value>
+ <row id="541" trl="Y">
+  <value column="Name" original="Inventory">Инвентар</value>
   <value column="Description" original=""/>
  </row>
- <row id="542" trl="N">
-  <value column="Name" original="Prepaid Expenses, Deposits &amp; Other Current Assets">Prepaid Expenses, Deposits &amp; Other Current Assets</value>
+ <row id="542" trl="Y">
+  <value column="Name" original="Prepaid Expenses, Deposits &amp; Other Current Assets">Предплатени разходи, депозити и други краткотрайни активи</value>
   <value column="Description" original=""/>
  </row>
- <row id="543" trl="N">
-  <value column="Name" original="Prepaid Expenses">Prepaid Expenses</value>
+ <row id="543" trl="Y">
+  <value column="Name" original="Prepaid Expenses">Предплатени разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="544" trl="N">
-  <value column="Name" original="Prepaid Insurance">Prepaid Insurance</value>
+ <row id="544" trl="Y">
+  <value column="Name" original="Prepaid Insurance">Предплатена застраховка</value>
   <value column="Description" original=""/>
  </row>
- <row id="545" trl="N">
-  <value column="Name" original="Prepaid Rent">Prepaid Rent</value>
+ <row id="545" trl="Y">
+  <value column="Name" original="Prepaid Rent">Предплатен наем</value>
   <value column="Description" original=""/>
  </row>
- <row id="546" trl="N">
-  <value column="Name" original="Prepaid Interest">Prepaid Interest</value>
+ <row id="546" trl="Y">
+  <value column="Name" original="Prepaid Interest">Предплатени лихви</value>
   <value column="Description" original=""/>
  </row>
- <row id="547" trl="N">
-  <value column="Name" original="Prepaid Others">Prepaid Others</value>
+ <row id="547" trl="Y">
+  <value column="Name" original="Prepaid Others">Други предплатени</value>
   <value column="Description" original=""/>
  </row>
- <row id="548" trl="N">
-  <value column="Name" original="Deposits">Deposits</value>
+ <row id="548" trl="Y">
+  <value column="Name" original="Deposits">Депозити</value>
   <value column="Description" original=""/>
  </row>
- <row id="549" trl="N">
-  <value column="Name" original="Deposit Rent">Deposit Rent</value>
+ <row id="549" trl="Y">
+  <value column="Name" original="Deposit Rent">Депозиран наем</value>
   <value column="Description" original=""/>
  </row>
- <row id="550" trl="N">
-  <value column="Name" original="Deposit Utilities">Deposit Utilities</value>
+ <row id="550" trl="Y">
+  <value column="Name" original="Deposit Utilities">Депозирани битови сметки</value>
   <value column="Description" original=""/>
  </row>
- <row id="551" trl="N">
-  <value column="Name" original="Deposit Others">Deposit Others</value>
+ <row id="551" trl="Y">
+  <value column="Name" original="Deposit Others">Други депозити</value>
   <value column="Description" original=""/>
  </row>
- <row id="552" trl="N">
-  <value column="Name" original="Other Current Assets">Other Current Assets</value>
+ <row id="552" trl="Y">
+  <value column="Name" original="Other Current Assets">Други краткотрайни активи</value>
   <value column="Description" original=""/>
  </row>
- <row id="553" trl="N">
-  <value column="Name" original="Other Current Assets">Other Current Assets</value>
+ <row id="553" trl="Y">
+  <value column="Name" original="Other Current Assets">Други краткотрайни активи</value>
   <value column="Description" original=""/>
  </row>
- <row id="554" trl="N">
-  <value column="Name" original="Land and Building">Land and Building</value>
+ <row id="554" trl="Y">
+  <value column="Name" original="Land and Building">Земя и сгради</value>
   <value column="Description" original=""/>
  </row>
- <row id="555" trl="N">
-  <value column="Name" original="Land">Land</value>
+ <row id="555" trl="Y">
+  <value column="Name" original="Land">Земя</value>
   <value column="Description" original=""/>
  </row>
- <row id="556" trl="N">
-  <value column="Name" original="Building">Building</value>
+ <row id="556" trl="Y">
+  <value column="Name" original="Building">Сгради</value>
   <value column="Description" original=""/>
  </row>
- <row id="557" trl="N">
-  <value column="Name" original="Land Improvements">Land Improvements</value>
+ <row id="557" trl="Y">
+  <value column="Name" original="Land Improvements">Пдобрения по земята</value>
   <value column="Description" original=""/>
  </row>
- <row id="558" trl="N">
-  <value column="Name" original="Building Improvements">Building Improvements</value>
+ <row id="558" trl="Y">
+  <value column="Name" original="Building Improvements">Подобрения по сградите</value>
   <value column="Description" original=""/>
  </row>
- <row id="559" trl="N">
-  <value column="Name" original="Leasehold Improvements">Leasehold Improvements</value>
+ <row id="559" trl="Y">
+  <value column="Name" original="Leasehold Improvements">Подобрения по сгради и земя под наем</value>
   <value column="Description" original=""/>
  </row>
- <row id="560" trl="N">
-  <value column="Name" original="Furniture, Fixtures &amp; Equipment">Furniture, Fixtures &amp; Equipment</value>
+ <row id="560" trl="Y">
+  <value column="Name" original="Furniture, Fixtures &amp; Equipment">Мебели, обзавеждане и оборудване</value>
   <value column="Description" original=""/>
  </row>
- <row id="561" trl="N">
-  <value column="Name" original="Furniture">Furniture</value>
+ <row id="561" trl="Y">
+  <value column="Name" original="Furniture">Мебели</value>
   <value column="Description" original=""/>
  </row>
- <row id="562" trl="N">
-  <value column="Name" original="Fixtures">Fixtures</value>
+ <row id="562" trl="Y">
+  <value column="Name" original="Fixtures">Обзавеждане</value>
   <value column="Description" original=""/>
  </row>
- <row id="563" trl="N">
-  <value column="Name" original="Equipment">Equipment</value>
+ <row id="563" trl="Y">
+  <value column="Name" original="Equipment">Оборудване</value>
   <value column="Description" original=""/>
  </row>
- <row id="564" trl="N">
-  <value column="Name" original="Vehicles">Vehicles</value>
+ <row id="564" trl="Y">
+  <value column="Name" original="Vehicles">Превозни средства</value>
   <value column="Description" original=""/>
  </row>
- <row id="565" trl="N">
-  <value column="Name" original="Data Processing Equipment">Data Processing Equipment</value>
+ <row id="565" trl="Y">
+  <value column="Name" original="Data Processing Equipment">Оборудване за обработка на данни</value>
   <value column="Description" original=""/>
  </row>
- <row id="566" trl="N">
-  <value column="Name" original="Software">Software</value>
+ <row id="566" trl="Y">
+  <value column="Name" original="Software">Софтуеър</value>
   <value column="Description" original=""/>
  </row>
- <row id="567" trl="N">
-  <value column="Name" original="Project asset">Project asset</value>
+ <row id="567" trl="Y">
+  <value column="Name" original="Project asset">Project Asset</value>
   <value column="Description" original="Created Asset">Created Asset</value>
  </row>
- <row id="568" trl="N">
-  <value column="Name" original="Project WIP">Project WIP</value>
+ <row id="568" trl="Y">
+  <value column="Name" original="Project WIP">Актив от работа извършвана в момента</value>
   <value column="Description" original="Asset Work in Progress">Asset Work in Progress</value>
  </row>
- <row id="569" trl="N">
-  <value column="Name" original="Building Accumulated Depreciation">Building Accumulated Depreciation</value>
+ <row id="569" trl="Y">
+  <value column="Name" original="Building Accumulated Depreciation">Натрупани амортизации по сгради</value>
   <value column="Description" original=""/>
  </row>
- <row id="570" trl="N">
-  <value column="Name" original="Land Improvement Accumulated Depreciation">Land Improvement Accumulated Depreciation</value>
+ <row id="570" trl="Y">
+  <value column="Name" original="Land Improvement Accumulated Depreciation">Натрупани амортизации по подобрения по земи</value>
   <value column="Description" original=""/>
  </row>
- <row id="571" trl="N">
-  <value column="Name" original="Building Improvement Accumulated Depreciation">Building Improvement Accumulated Depreciation</value>
+ <row id="571" trl="Y">
+  <value column="Name" original="Building Improvement Accumulated Depreciation">Натрупани амортизации по подобрения на сгради</value>
   <value column="Description" original=""/>
  </row>
- <row id="572" trl="N">
-  <value column="Name" original="Furniture Accumulated Depreciation">Furniture Accumulated Depreciation</value>
+ <row id="572" trl="Y">
+  <value column="Name" original="Furniture Accumulated Depreciation">Натрупани амортизации по мебели</value>
   <value column="Description" original=""/>
  </row>
- <row id="573" trl="N">
-  <value column="Name" original="Fixtures Accumulated Depreciation">Fixtures Accumulated Depreciation</value>
+ <row id="573" trl="Y">
+  <value column="Name" original="Fixtures Accumulated Depreciation">Натрупани амортизации по обзавеждане</value>
   <value column="Description" original=""/>
  </row>
- <row id="574" trl="N">
-  <value column="Name" original="Equipment Accumulated Depreciation">Equipment Accumulated Depreciation</value>
+ <row id="574" trl="Y">
+  <value column="Name" original="Equipment Accumulated Depreciation">Натрупани амортизации по оборудване</value>
   <value column="Description" original=""/>
  </row>
- <row id="575" trl="N">
-  <value column="Name" original="Vehicles Accumulated Depreciation">Vehicles Accumulated Depreciation</value>
+ <row id="575" trl="Y">
+  <value column="Name" original="Vehicles Accumulated Depreciation">Натрупани амортизации по превозни средства</value>
   <value column="Description" original=""/>
  </row>
- <row id="576" trl="N">
-  <value column="Name" original="Data Processing Equipment Accumulated Depreciation">Data Processing Equipment Accumulated Depreciation</value>
+ <row id="576" trl="Y">
+  <value column="Name" original="Data Processing Equipment Accumulated Depreciation">Натрупани амортизации по оборудване за обработка на данни</value>
   <value column="Description" original=""/>
  </row>
- <row id="577" trl="N">
-  <value column="Name" original="Other Assets">Other Assets</value>
+ <row id="577" trl="Y">
+  <value column="Name" original="Other Assets">Други активи</value>
   <value column="Description" original=""/>
  </row>
- <row id="578" trl="N">
-  <value column="Name" original="Intangible Assets">Intangible Assets</value>
+ <row id="578" trl="Y">
+  <value column="Name" original="Intangible Assets">Нематериални активи</value>
   <value column="Description" original=""/>
  </row>
- <row id="579" trl="N">
-  <value column="Name" original="Amortizable Assets">Amortizable Assets</value>
+ <row id="579" trl="Y">
+  <value column="Name" original="Amortizable Assets">Активи подлежащи на амортизации</value>
   <value column="Description" original=""/>
  </row>
- <row id="580" trl="N">
-  <value column="Name" original="Customer Lists">Customer Lists</value>
+ <row id="580" trl="Y">
+  <value column="Name" original="Customer Lists">Списъци с клиенти</value>
   <value column="Description" original=""/>
  </row>
- <row id="581" trl="N">
-  <value column="Name" original="Other Intangible Assets">Other Intangible Assets</value>
+ <row id="581" trl="Y">
+  <value column="Name" original="Other Intangible Assets">Други нематериални активи</value>
   <value column="Description" original=""/>
  </row>
- <row id="582" trl="N">
-  <value column="Name" original="Accumulated Amorization">Accumulated Amorization</value>
+ <row id="582" trl="Y">
+  <value column="Name" original="Accumulated Amorization">НАтрупани амортизации</value>
   <value column="Description" original=""/>
  </row>
- <row id="583" trl="N">
-  <value column="Name" original="Other Assets">Other Assets</value>
+ <row id="583" trl="Y">
+  <value column="Name" original="Other Assets">Други активи</value>
   <value column="Description" original=""/>
  </row>
- <row id="584" trl="N">
-  <value column="Name" original="Liabilities">Liabilities</value>
+ <row id="584" trl="Y">
+  <value column="Name" original="Liabilities">Пасиви</value>
   <value column="Description" original=""/>
  </row>
- <row id="585" trl="N">
-  <value column="Name" original="Accounts Payables">Accounts Payables</value>
+ <row id="585" trl="Y">
+  <value column="Name" original="Accounts Payables">ДЪлжими суми</value>
   <value column="Description" original=""/>
  </row>
- <row id="586" trl="N">
-  <value column="Name" original="Accounts Payables Trade">Accounts Payables Trade</value>
+ <row id="586" trl="Y">
+  <value column="Name" original="Accounts Payables Trade">ДЪлжими суми по търговски сметки</value>
   <value column="Description" original=""/>
  </row>
- <row id="587" trl="N">
-  <value column="Name" original="Not invoiced receipts">Not invoiced receipts</value>
+ <row id="587" trl="Y">
+  <value column="Name" original="Not invoiced receipts">Не фактурирани но получени стоки</value>
   <value column="Description" original="Received products/services from vendors, but not invoiced">Received products/services from vendors, but not invoiced</value>
  </row>
- <row id="588" trl="N">
-  <value column="Name" original="Accounts Payable Services">Accounts Payable Services</value>
+ <row id="588" trl="Y">
+  <value column="Name" original="Accounts Payable Services">Дължими суми за услуги</value>
   <value column="Description" original="Accounts Payables for non-product revenue">Accounts Payables for non-product revenue</value>
  </row>
- <row id="589" trl="N">
-  <value column="Name" original="Payment selection">Payment selection</value>
+ <row id="589" trl="Y">
+  <value column="Name" original="Payment selection">Избиране на плащане</value>
   <value column="Description" original="Selected A/P invoices for payment">Selected A/P invoices for payment</value>
  </row>
- <row id="590" trl="N">
-  <value column="Name" original="Customer Payables">Customer Payables</value>
+ <row id="590" trl="Y">
+  <value column="Name" original="Customer Payables">Плащания на клиенти</value>
   <value column="Description" original=""/>
  </row>
- <row id="591" trl="N">
-  <value column="Name" original="Merchandise Credits Unredeemed">Merchandise Credits Unredeemed</value>
+ <row id="591" trl="Y">
+  <value column="Name" original="Merchandise Credits Unredeemed">Непотърсен търговски кредит</value>
   <value column="Description" original=""/>
  </row>
- <row id="592" trl="N">
-  <value column="Name" original="Gift Certificated Unredeemed">Gift Certificated Unredeemed</value>
+ <row id="592" trl="Y">
+  <value column="Name" original="Gift Certificated Unredeemed">Непотърсени ваучери</value>
   <value column="Description" original=""/>
  </row>
- <row id="593" trl="N">
-  <value column="Name" original="Special Order Deposits">Special Order Deposits</value>
+ <row id="593" trl="Y">
+  <value column="Name" original="Special Order Deposits">Депозити по специални поръчки</value>
   <value column="Description" original=""/>
  </row>
- <row id="594" trl="N">
-  <value column="Name" original="Mail Order Deposits">Mail Order Deposits</value>
+ <row id="594" trl="Y">
+  <value column="Name" original="Mail Order Deposits">Депозити по пощенски поръчки</value>
   <value column="Description" original=""/>
  </row>
- <row id="595" trl="N">
-  <value column="Name" original="Tax Payables">Tax Payables</value>
+ <row id="595" trl="Y">
+  <value column="Name" original="Tax Payables">Дължими данъци</value>
   <value column="Description" original=""/>
  </row>
- <row id="596" trl="N">
-  <value column="Name" original="Tax due">Tax due</value>
+ <row id="596" trl="Y">
+  <value column="Name" original="Tax due">Tax Due</value>
   <value column="Description" original="Tax to be paid - before tax declaration">Tax to be paid - before tax declaration</value>
  </row>
- <row id="597" trl="N">
-  <value column="Name" original="Tax liability">Tax liability</value>
+ <row id="597" trl="Y">
+  <value column="Name" original="Tax liability">Tax Liability</value>
   <value column="Description" original="Tax to be paid based on tax declaration">Tax to be paid based on tax declaration</value>
  </row>
- <row id="598" trl="N">
-  <value column="Name" original="Withholding (Tax)">Withholding (Tax)</value>
+ <row id="598" trl="Y">
+  <value column="Name" original="Withholding (Tax)">Уддържани данъци</value>
   <value column="Description" original="Withholding for 1099 or Quality Guarantee">Withholding for 1099 or Quality Guarantee</value>
  </row>
- <row id="599" trl="N">
-  <value column="Name" original="Withholding (Other)">Withholding (Other)</value>
+ <row id="599" trl="Y">
+  <value column="Name" original="Withholding (Other)">Други уддръжки</value>
   <value column="Description" original=""/>
  </row>
- <row id="600" trl="N">
-  <value column="Name" original="Intercompany Due To">Intercompany Due To</value>
+ <row id="600" trl="Y">
+  <value column="Name" original="Intercompany Due To">Дължимо между фирми</value>
   <value column="Description" original="Default Payables account for intercompany trx">Default Payables account for intercompany trx</value>
  </row>
- <row id="601" trl="N">
-  <value column="Name" original="Accrued Expenses">Accrued Expenses</value>
+ <row id="601" trl="Y">
+  <value column="Name" original="Accrued Expenses">Натрупани разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="602" trl="N">
-  <value column="Name" original="Accrued Payroll">Accrued Payroll</value>
+ <row id="602" trl="Y">
+  <value column="Name" original="Accrued Payroll">Натрупани задължения по заплати</value>
   <value column="Description" original=""/>
  </row>
- <row id="603" trl="N">
-  <value column="Name" original="Payroll Withholdings">Payroll Withholdings</value>
+ <row id="603" trl="Y">
+  <value column="Name" original="Payroll Withholdings">Уддръжки от заплати</value>
   <value column="Description" original=""/>
  </row>
- <row id="604" trl="N">
-  <value column="Name" original="Federal Tax Withholding">Federal Tax Withholding</value>
+ <row id="604" trl="Y">
+  <value column="Name" original="Federal Tax Withholding">ДОД Уддръжки</value>
   <value column="Description" original=""/>
  </row>
- <row id="605" trl="N">
-  <value column="Name" original="FICA Withholding">FICA Withholding</value>
+ <row id="605" trl="Y">
+  <value column="Name" original="FICA Withholding">Уддръжки</value>
   <value column="Description" original=""/>
  </row>
- <row id="606" trl="N">
-  <value column="Name" original="Medicare Withholding">Medicare Withholding</value>
+ <row id="606" trl="Y">
+  <value column="Name" original="Medicare Withholding">Уддръжки за здравно осигуряване</value>
   <value column="Description" original=""/>
  </row>
- <row id="607" trl="N">
-  <value column="Name" original="State Tax Withholding">State Tax Withholding</value>
+ <row id="607" trl="Y">
+  <value column="Name" original="State Tax Withholding">Данъчни уддръжки</value>
   <value column="Description" original=""/>
  </row>
- <row id="608" trl="N">
-  <value column="Name" original="Local Tax Withholding">Local Tax Withholding</value>
+ <row id="608" trl="Y">
+  <value column="Name" original="Local Tax Withholding">Уддръжки местни такси</value>
   <value column="Description" original=""/>
  </row>
- <row id="609" trl="N">
-  <value column="Name" original="401k &amp; Pension Withholding">401k &amp; Pension Withholding</value>
+ <row id="609" trl="Y">
+  <value column="Name" original="401k &amp; Pension Withholding">Пенсионни уддръжки</value>
   <value column="Description" original=""/>
  </row>
- <row id="610" trl="N">
-  <value column="Name" original="Garnishment Withholding">Garnishment Withholding</value>
+ <row id="610" trl="Y">
+  <value column="Name" original="Garnishment Withholding">Уддръжки по запори</value>
   <value column="Description" original=""/>
  </row>
- <row id="611" trl="N">
-  <value column="Name" original="Miscellaneous Withholding">Miscellaneous Withholding</value>
+ <row id="611" trl="Y">
+  <value column="Name" original="Miscellaneous Withholding">Разни уддръжки</value>
   <value column="Description" original=""/>
  </row>
- <row id="612" trl="N">
-  <value column="Name" original="Accrued Payroll Taxes">Accrued Payroll Taxes</value>
+ <row id="612" trl="Y">
+  <value column="Name" original="Accrued Payroll Taxes">Данъци по натрупани задължения по заплати</value>
   <value column="Description" original=""/>
  </row>
- <row id="613" trl="N">
-  <value column="Name" original="Federal Unemployment Empolyers Contribution">Federal Unemployment Empolyers Contribution</value>
+ <row id="613" trl="Y">
+  <value column="Name" original="Federal Unemployment Empolyers Contribution">От работодателя - данък безработица</value>
   <value column="Description" original=""/>
  </row>
- <row id="614" trl="N">
-  <value column="Name" original="State Unemployment Employers Contribution">State Unemployment Employers Contribution</value>
+ <row id="614" trl="Y">
+  <value column="Name" original="State Unemployment Employers Contribution">От работодателя - данък местна безработица</value>
   <value column="Description" original=""/>
  </row>
- <row id="615" trl="N">
-  <value column="Name" original="Sales Tax Collected">Sales Tax Collected</value>
+ <row id="615" trl="Y">
+  <value column="Name" original="Sales Tax Collected">Събран данък продажби</value>
   <value column="Description" original=""/>
  </row>
- <row id="616" trl="N">
-  <value column="Name" original="Accrued Retirement Plan Expense">Accrued Retirement Plan Expense</value>
+ <row id="616" trl="Y">
+  <value column="Name" original="Accrued Retirement Plan Expense">Натрупани разходи по пенсионен план</value>
   <value column="Description" original=""/>
  </row>
- <row id="617" trl="N">
-  <value column="Name" original="Accrued Expenses Others">Accrued Expenses Others</value>
+ <row id="617" trl="Y">
+  <value column="Name" original="Accrued Expenses Others">Други натрупани разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="618" trl="N">
-  <value column="Name" original="Short Term Obligation">Short Term Obligation</value>
+ <row id="618" trl="Y">
+  <value column="Name" original="Short Term Obligation">Краткосрочни задължения</value>
   <value column="Description" original=""/>
  </row>
- <row id="619" trl="N">
-  <value column="Name" original="Current Portion of Long Term Debt">Current Portion of Long Term Debt</value>
+ <row id="619" trl="Y">
+  <value column="Name" original="Current Portion of Long Term Debt">Дължима част от дългосрочен дълг</value>
   <value column="Description" original=""/>
  </row>
- <row id="620" trl="N">
-  <value column="Name" original="Long Term Liabilities">Long Term Liabilities</value>
+ <row id="620" trl="Y">
+  <value column="Name" original="Long Term Liabilities">Дългосрочни пасиви</value>
   <value column="Description" original=""/>
  </row>
- <row id="621" trl="N">
-  <value column="Name" original="Mortgage">Mortgage</value>
+ <row id="621" trl="Y">
+  <value column="Name" original="Mortgage">Ипотека</value>
   <value column="Description" original=""/>
  </row>
- <row id="622" trl="N">
-  <value column="Name" original="Loan from Owner/Stockholder">Loan from Owner/Stockholder</value>
+ <row id="622" trl="Y">
+  <value column="Name" original="Loan from Owner/Stockholder">Заеми от собсвеника/акционерите</value>
   <value column="Description" original=""/>
  </row>
- <row id="623" trl="N">
-  <value column="Name" original="Other Long Term Obligation">Other Long Term Obligation</value>
+ <row id="623" trl="Y">
+  <value column="Name" original="Other Long Term Obligation">Други дългосрочни задължения</value>
   <value column="Description" original=""/>
  </row>
- <row id="624" trl="N">
-  <value column="Name" original="Owner's Equity/Net Worth">Owner's Equity/Net Worth</value>
+ <row id="624" trl="Y">
+  <value column="Name" original="Owner's Equity/Net Worth">Нетна стойност/Капитал</value>
   <value column="Description" original=""/>
  </row>
- <row id="625" trl="N">
-  <value column="Name" original="Capital">Capital</value>
+ <row id="625" trl="Y">
+  <value column="Name" original="Capital">Капитал</value>
   <value column="Description" original=""/>
  </row>
- <row id="626" trl="N">
-  <value column="Name" original="Capital/Common Stock">Capital/Common Stock</value>
+ <row id="626" trl="Y">
+  <value column="Name" original="Capital/Common Stock">Капитал/акции</value>
   <value column="Description" original=""/>
  </row>
- <row id="627" trl="N">
-  <value column="Name" original="Capital in excess of Par on Common Stock">Capital in excess of Par on Common Stock</value>
+ <row id="627" trl="Y">
+  <value column="Name" original="Capital in excess of Par on Common Stock">Капитал надвишаващ номиналната стойност на акциите</value>
   <value column="Description" original=""/>
  </row>
- <row id="628" trl="N">
+ <row id="628" trl="Y">
   <value column="Name" original="Capital in excess of Par on Preferred Stock">Capital in excess of Par on Preferred Stock</value>
   <value column="Description" original=""/>
  </row>
- <row id="629" trl="N">
-  <value column="Name" original="Earnings">Earnings</value>
+ <row id="629" trl="Y">
+  <value column="Name" original="Earnings">Приходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="630" trl="N">
-  <value column="Name" original="Drawings">Drawings</value>
+ <row id="630" trl="Y">
+  <value column="Name" original="Drawings">Тегления</value>
   <value column="Description" original=""/>
  </row>
- <row id="631" trl="N">
-  <value column="Name" original="Retained Earnings">Retained Earnings</value>
+ <row id="631" trl="Y">
+  <value column="Name" original="Retained Earnings">Неразпределени приходи</value>
   <value column="Description" original="Year end processing to balance account (Income Summary)">Year end processing to balance account (Income Summary)</value>
  </row>
- <row id="632" trl="N">
-  <value column="Name" original="Sales">Sales</value>
+ <row id="632" trl="Y">
+  <value column="Name" original="Sales">Продажби</value>
   <value column="Description" original=""/>
  </row>
- <row id="633" trl="N">
-  <value column="Name" original="Services Revenue">Services Revenue</value>
+ <row id="633" trl="Y">
+  <value column="Name" original="Services Revenue">Приходи от услуги</value>
   <value column="Description" original=""/>
  </row>
- <row id="634" trl="N">
-  <value column="Name" original="Direct Labor">Direct Labor</value>
+ <row id="634" trl="Y">
+  <value column="Name" original="Direct Labor">Директен труд</value>
   <value column="Description" original=""/>
  </row>
- <row id="635" trl="N">
-  <value column="Name" original="Purchase price variance Offset">Purchase price variance Offset</value>
+ <row id="635" trl="Y">
+  <value column="Name" original="Purchase price variance Offset">Компенсации за разлики в покупната цена</value>
   <value column="Description" original="Offset Account for Purchase price variance (PPV)">Offset Account for Purchase price variance (PPV)</value>
  </row>
- <row id="636" trl="N">
-  <value column="Name" original="Wages Owners">Wages Owners</value>
+ <row id="636" trl="Y">
+  <value column="Name" original="Wages Owners">Дължими заплати</value>
   <value column="Description" original=""/>
  </row>
- <row id="637" trl="N">
-  <value column="Name" original="Sick Pay">Sick Pay</value>
+ <row id="637" trl="Y">
+  <value column="Name" original="Sick Pay">Болнични</value>
   <value column="Description" original=""/>
  </row>
- <row id="638" trl="N">
-  <value column="Name" original="FICA Tax">FICA Tax</value>
+ <row id="638" trl="Y">
+  <value column="Name" original="FICA Tax">Данък</value>
   <value column="Description" original=""/>
  </row>
- <row id="639" trl="N">
-  <value column="Name" original="Health Insurance Premium">Health Insurance Premium</value>
+ <row id="639" trl="Y">
+  <value column="Name" original="Health Insurance Premium">Здравноосигурителна вноска</value>
   <value column="Description" original=""/>
  </row>
- <row id="640" trl="N">
-  <value column="Name" original="Joint Advertising">Joint Advertising</value>
+ <row id="640" trl="Y">
+  <value column="Name" original="Joint Advertising">Съвмества реклама</value>
   <value column="Description" original=""/>
  </row>
- <row id="641" trl="N">
-  <value column="Name" original="Telephone and Communications">Telephone and Communications</value>
+ <row id="641" trl="Y">
+  <value column="Name" original="Telephone and Communications">Комуникации и телефони</value>
   <value column="Description" original=""/>
  </row>
- <row id="642" trl="N">
-  <value column="Name" original="Professional Services">Professional Services</value>
+ <row id="642" trl="Y">
+  <value column="Name" original="Professional Services">Професионални услуги</value>
   <value column="Description" original=""/>
  </row>
- <row id="643" trl="N">
-  <value column="Name" original="Other Consulting Fees">Other Consulting Fees</value>
+ <row id="643" trl="Y">
+  <value column="Name" original="Other Consulting Fees">Други консултантски такси</value>
   <value column="Description" original=""/>
  </row>
- <row id="644" trl="N">
-  <value column="Name" original="Data Processing">Data Processing</value>
+ <row id="644" trl="Y">
+  <value column="Name" original="Data Processing">Обработка на данни</value>
   <value column="Description" original=""/>
  </row>
- <row id="645" trl="N">
-  <value column="Name" original="Data Processung Other Expense">Data Processung Other Expense</value>
+ <row id="645" trl="Y">
+  <value column="Name" original="Data Processung Other Expense">Други разходи по обработка на данни</value>
   <value column="Description" original=""/>
  </row>
- <row id="646" trl="N">
-  <value column="Name" original="Building Improvement Depreciation">Building Improvement Depreciation</value>
+ <row id="646" trl="Y">
+  <value column="Name" original="Building Improvement Depreciation">Амортизации по подобрения по сгради</value>
   <value column="Description" original=""/>
  </row>
- <row id="647" trl="N">
-  <value column="Name" original="Vehicles Depreciation">Vehicles Depreciation</value>
+ <row id="647" trl="Y">
+  <value column="Name" original="Vehicles Depreciation">Амортизации по превозни средства</value>
   <value column="Description" original=""/>
  </row>
- <row id="648" trl="N">
-  <value column="Name" original="Business Travel - Plane/Train/Taxi">Business Travel - Plane/Train/Taxi</value>
+ <row id="648" trl="Y">
+  <value column="Name" original="Business Travel - Plane/Train/Taxi">Бизнес пътувания - самолет, влак и такси</value>
   <value column="Description" original=""/>
  </row>
- <row id="649" trl="N">
-  <value column="Name" original="Business Travel - Hotel">Business Travel - Hotel</value>
+ <row id="649" trl="Y">
+  <value column="Name" original="Business Travel - Hotel">Бизнес пътувания - хотел</value>
   <value column="Description" original=""/>
  </row>
- <row id="650" trl="N">
-  <value column="Name" original="Business Meals &amp; Entertainment (50%)">Business Meals &amp; Entertainment (50%)</value>
+ <row id="650" trl="Y">
+  <value column="Name" original="Business Meals &amp; Entertainment (50%)">Бизнес обеди и вечери (50%)</value>
   <value column="Description" original=""/>
  </row>
- <row id="651" trl="N">
-  <value column="Name" original="Staff Meeting Food (100%)">Staff Meeting Food (100%)</value>
+ <row id="651" trl="Y">
+  <value column="Name" original="Staff Meeting Food (100%)">Храна за срещи на персонала(100%)</value>
   <value column="Description" original=""/>
  </row>
- <row id="652" trl="N">
-  <value column="Name" original="Employee expense">Employee expense</value>
+ <row id="652" trl="Y">
+  <value column="Name" original="Employee expense">Расходи за служещ</value>
   <value column="Description" original="Default employee expenses">Default employee expenses</value>
  </row>
- <row id="653" trl="N">
-  <value column="Name" original="Business Travel Other Expense">Business Travel Other Expense</value>
+ <row id="653" trl="Y">
+  <value column="Name" original="Business Travel Other Expense">Други разходи по бизнес пътувания</value>
   <value column="Description" original=""/>
  </row>
- <row id="654" trl="N">
-  <value column="Name" original="Insurance">Insurance</value>
+ <row id="654" trl="Y">
+  <value column="Name" original="Insurance">Застраховка</value>
   <value column="Description" original=""/>
  </row>
- <row id="655" trl="N">
-  <value column="Name" original="Business Insurance">Business Insurance</value>
+ <row id="655" trl="Y">
+  <value column="Name" original="Business Insurance">Фирмена застраховка</value>
   <value column="Description" original=""/>
  </row>
- <row id="656" trl="N">
-  <value column="Name" original="Real Estate Insurance">Real Estate Insurance</value>
+ <row id="656" trl="Y">
+  <value column="Name" original="Real Estate Insurance">Застраховка недвижимо имущество</value>
   <value column="Description" original=""/>
  </row>
- <row id="657" trl="N">
-  <value column="Name" original="Vehicle Insurance">Vehicle Insurance</value>
+ <row id="657" trl="Y">
+  <value column="Name" original="Vehicle Insurance">Застраховка автомобили</value>
   <value column="Description" original=""/>
  </row>
- <row id="658" trl="N">
-  <value column="Name" original="Other Insurance">Other Insurance</value>
+ <row id="658" trl="Y">
+  <value column="Name" original="Other Insurance">Други Застраховки</value>
   <value column="Description" original=""/>
  </row>
- <row id="659" trl="N">
-  <value column="Name" original="Payment Processor Costs">Payment Processor Costs</value>
+ <row id="659" trl="Y">
+  <value column="Name" original="Payment Processor Costs">Pазходи за обработка на плащания</value>
   <value column="Description" original=""/>
  </row>
- <row id="660" trl="N">
-  <value column="Name" original="Credit Card Service Charges">Credit Card Service Charges</value>
+ <row id="660" trl="Y">
+  <value column="Name" original="Credit Card Service Charges">Такса обслужване на кредитни карти</value>
   <value column="Description" original=""/>
  </row>
- <row id="661" trl="N">
-  <value column="Name" original="Bank Service Charges">Bank Service Charges</value>
+ <row id="661" trl="Y">
+  <value column="Name" original="Bank Service Charges">Такса банково обслужване</value>
   <value column="Description" original="Bank expenses">Bank expenses</value>
  </row>
- <row id="662" trl="N">
-  <value column="Name" original="Other Payment Service Charges">Other Payment Service Charges</value>
+ <row id="662" trl="Y">
+  <value column="Name" original="Other Payment Service Charges">Такси обсужване по други плащания</value>
   <value column="Description" original=""/>
  </row>
- <row id="663" trl="N">
-  <value column="Name" original="Dues &amp; Subscription">Dues &amp; Subscription</value>
+ <row id="663" trl="Y">
+  <value column="Name" original="Dues &amp; Subscription">ДЪлжими абонаменти</value>
   <value column="Description" original=""/>
  </row>
- <row id="664" trl="N">
-  <value column="Name" original="Association Membership Fees">Association Membership Fees</value>
+ <row id="664" trl="Y">
+  <value column="Name" original="Association Membership Fees">Такси членство в асоциации</value>
   <value column="Description" original=""/>
  </row>
- <row id="665" trl="N">
-  <value column="Name" original="Subscription Fees">Subscription Fees</value>
+ <row id="665" trl="Y">
+  <value column="Name" original="Subscription Fees">Абонаменти такси</value>
   <value column="Description" original=""/>
  </row>
- <row id="666" trl="N">
-  <value column="Name" original="Office Expense">Office Expense</value>
+ <row id="666" trl="Y">
+  <value column="Name" original="Office Expense">Oфисни разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="667" trl="N">
-  <value column="Name" original="Office Expense">Office Expense</value>
+ <row id="667" trl="Y">
+  <value column="Name" original="Office Expense">Oфисни разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="668" trl="N">
-  <value column="Name" original="Posting &amp; Shipping">Posting &amp; Shipping</value>
+ <row id="668" trl="Y">
+  <value column="Name" original="Posting &amp; Shipping">Изпращане на писма и колети</value>
   <value column="Description" original=""/>
  </row>
- <row id="669" trl="N">
-  <value column="Name" original="Postage Expense">Postage Expense</value>
+ <row id="669" trl="Y">
+  <value column="Name" original="Postage Expense">Пощенски разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="670" trl="N">
-  <value column="Name" original="Customer Postage Fees Received">Customer Postage Fees Received</value>
+ <row id="670" trl="Y">
+  <value column="Name" original="Customer Postage Fees Received">Получени такси за пощенски поръчки от клиенти</value>
   <value column="Description" original=""/>
  </row>
- <row id="671" trl="N">
-  <value column="Name" original="Shipping Expenses">Shipping Expenses</value>
+ <row id="671" trl="Y">
+  <value column="Name" original="Shipping Expenses">Колетни разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="672" trl="N">
-  <value column="Name" original="Taxes and Licenses">Taxes and Licenses</value>
+ <row id="672" trl="Y">
+  <value column="Name" original="Taxes and Licenses">Tакси и лицензи</value>
   <value column="Description" original=""/>
  </row>
- <row id="673" trl="N">
-  <value column="Name" original="Inventory &amp; Use Taxes">Inventory &amp; Use Taxes</value>
+ <row id="673" trl="Y">
+  <value column="Name" original="Inventory &amp; Use Taxes">Такси употреба на инвентар</value>
   <value column="Description" original=""/>
  </row>
- <row id="674" trl="N">
-  <value column="Name" original="Real Estate Taxes">Real Estate Taxes</value>
+ <row id="674" trl="Y">
+  <value column="Name" original="Real Estate Taxes">Такси недвижимо имущество</value>
   <value column="Description" original=""/>
  </row>
- <row id="675" trl="N">
-  <value column="Name" original="Business Licenses &amp; Fees">Business Licenses &amp; Fees</value>
+ <row id="675" trl="Y">
+  <value column="Name" original="Business Licenses &amp; Fees">Такси бизнес лиценз</value>
   <value column="Description" original=""/>
  </row>
- <row id="676" trl="N">
-  <value column="Name" original="Education">Education</value>
+ <row id="676" trl="Y">
+  <value column="Name" original="Education">Образование</value>
   <value column="Description" original=""/>
  </row>
- <row id="677" trl="N">
-  <value column="Name" original="Education Travel">Education Travel</value>
+ <row id="677" trl="Y">
+  <value column="Name" original="Education Travel">Образователни пътувания</value>
   <value column="Description" original=""/>
  </row>
- <row id="678" trl="N">
-  <value column="Name" original="Education Meals &amp; Entertainment (50%)">Education Meals &amp; Entertainment (50%)</value>
+ <row id="678" trl="Y">
+  <value column="Name" original="Education Meals &amp; Entertainment (50%)">Образователни закуски и забавления (50%)</value>
   <value column="Description" original=""/>
  </row>
- <row id="679" trl="N">
-  <value column="Name" original="Education Other">Education Other</value>
+ <row id="679" trl="Y">
+  <value column="Name" original="Education Other">Други образователни</value>
   <value column="Description" original=""/>
  </row>
- <row id="680" trl="N">
-  <value column="Name" original="Office Equipment Rent">Office Equipment Rent</value>
+ <row id="680" trl="Y">
+  <value column="Name" original="Office Equipment Rent">Наем офис оборудване</value>
   <value column="Description" original=""/>
  </row>
- <row id="681" trl="N">
-  <value column="Name" original="Store Equipment Rent">Store Equipment Rent</value>
+ <row id="681" trl="Y">
+  <value column="Name" original="Store Equipment Rent">Наем магазинно оборудване</value>
   <value column="Description" original=""/>
  </row>
- <row id="682" trl="N">
-  <value column="Name" original="Repairs &amp; Maintenance">Repairs &amp; Maintenance</value>
+ <row id="682" trl="Y">
+  <value column="Name" original="Repairs &amp; Maintenance">Поддръжка и поправки</value>
   <value column="Description" original=""/>
  </row>
- <row id="683" trl="N">
-  <value column="Name" original="Building Repairs &amp; Maintenence">Building Repairs &amp; Maintenence</value>
+ <row id="683" trl="Y">
+  <value column="Name" original="Building Repairs &amp; Maintenence">Поддръжка и поправки сгради</value>
   <value column="Description" original=""/>
  </row>
- <row id="684" trl="N">
-  <value column="Name" original="Furniture, Equipment Repairs &amp; Maintenence">Furniture, Equipment Repairs &amp; Maintenence</value>
+ <row id="684" trl="Y">
+  <value column="Name" original="Furniture, Equipment Repairs &amp; Maintenence">Поддръжка и поправки на мебели и оборудване</value>
   <value column="Description" original=""/>
  </row>
- <row id="685" trl="N">
-  <value column="Name" original="Software Maintenence">Software Maintenence</value>
+ <row id="685" trl="Y">
+  <value column="Name" original="Software Maintenence">Поддръжка на софуеър</value>
   <value column="Description" original=""/>
  </row>
- <row id="686" trl="N">
-  <value column="Name" original="Vehicle Repairs &amp; Maintenence">Vehicle Repairs &amp; Maintenence</value>
+ <row id="686" trl="Y">
+  <value column="Name" original="Vehicle Repairs &amp; Maintenence">Поддръжка и поправки на превозни средства</value>
   <value column="Description" original=""/>
  </row>
- <row id="687" trl="N">
-  <value column="Name" original="Repairs &amp; Maintenance Other">Repairs &amp; Maintenance Other</value>
+ <row id="687" trl="Y">
+  <value column="Name" original="Repairs &amp; Maintenance Other">Други поддръжка и поправки</value>
   <value column="Description" original=""/>
  </row>
- <row id="688" trl="N">
-  <value column="Name" original="Other Operating Expenses">Other Operating Expenses</value>
+ <row id="688" trl="Y">
+  <value column="Name" original="Other Operating Expenses">Други оперативни разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="689" trl="N">
-  <value column="Name" original="Collection Expense">Collection Expense</value>
+ <row id="689" trl="Y">
+  <value column="Name" original="Collection Expense">Разходи по събиране на дългове</value>
   <value column="Description" original=""/>
  </row>
- <row id="690" trl="N">
-  <value column="Name" original="Petty Cash Over/Short">Petty Cash Over/Short</value>
+ <row id="690" trl="Y">
+  <value column="Name" original="Petty Cash Over/Short">Надвнасяне/Липси на дребни пари в брой</value>
   <value column="Description" original="Petty Cash Differences">Petty Cash Differences</value>
  </row>
- <row id="691" trl="N">
-  <value column="Name" original="Recruitment Costs">Recruitment Costs</value>
+ <row id="691" trl="Y">
+  <value column="Name" original="Recruitment Costs">Разходи за намиране на служители чрез рекрутър</value>
   <value column="Description" original=""/>
  </row>
- <row id="692" trl="N">
-  <value column="Name" original="Vehicle Expense">Vehicle Expense</value>
+ <row id="692" trl="Y">
+  <value column="Name" original="Vehicle Expense">Разходи по превозни средства</value>
   <value column="Description" original=""/>
  </row>
- <row id="693" trl="N">
-  <value column="Name" original="Amortization Expense">Amortization Expense</value>
+ <row id="693" trl="Y">
+  <value column="Name" original="Amortization Expense">Aмортизационни разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="694" trl="N">
-  <value column="Name" original="Franchise Fee / Royalty Fees">Franchise Fee / Royalty Fees</value>
+ <row id="694" trl="Y">
+  <value column="Name" original="Franchise Fee / Royalty Fees">Франчайзни такси/Такси експлоатация</value>
   <value column="Description" original=""/>
  </row>
- <row id="695" trl="N">
-  <value column="Name" original="Miscellaneous Expense">Miscellaneous Expense</value>
+ <row id="695" trl="Y">
+  <value column="Name" original="Miscellaneous Expense">Разни разходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="696" trl="N">
-  <value column="Name" original="Default/Suspense Accounts">Default/Suspense Accounts</value>
+ <row id="696" trl="Y">
+  <value column="Name" original="Default/Suspense Accounts">По подразбиране/висящи сметки</value>
   <value column="Description" original="Temporary accounts - balance should be zero">Temporary accounts - balance should be zero</value>
  </row>
- <row id="697" trl="N">
-  <value column="Name" original="Default account">Default account</value>
+ <row id="697" trl="Y">
+  <value column="Name" original="Default account">Default Account</value>
   <value column="Description" original="Default Account (if no other account is defined) V1.1">Default Account (if no other account is defined) V1.1</value>
  </row>
- <row id="698" trl="N">
-  <value column="Name" original="Suspense balancing">Suspense balancing</value>
+ <row id="698" trl="Y">
+  <value column="Name" original="Suspense balancing">Висящо балансиране</value>
   <value column="Description" original="Difference to make journal balance in source currency - needs to be solved">Difference to make journal balance in source currency - needs to be solved</value>
  </row>
- <row id="699" trl="N">
-  <value column="Name" original="Suspense error">Suspense error</value>
+ <row id="699" trl="Y">
+  <value column="Name" original="Suspense error">Висяща грешка</value>
   <value column="Description" original="Import did not find account - needs to be solved">Import did not find account - needs to be solved</value>
  </row>
- <row id="700" trl="N">
-  <value column="Name" original="Cash book expense">Cash book expense</value>
+ <row id="700" trl="Y">
+  <value column="Name" original="Cash book expense">Каса/Разходи</value>
   <value column="Description" original="Default other expense for petty cash transactions">Default other expense for petty cash transactions</value>
  </row>
- <row id="701" trl="N">
-  <value column="Name" original="Cash book receipts">Cash book receipts</value>
+ <row id="701" trl="Y">
+  <value column="Name" original="Cash book receipts">Получени суми по касова книга</value>
   <value column="Description" original="Default other revenue for petty cash transactions">Default other revenue for petty cash transactions</value>
  </row>
- <row id="702" trl="N">
-  <value column="Name" original="Charge expense">Charge expense</value>
+ <row id="702" trl="Y">
+  <value column="Name" original="Charge expense">Разходи</value>
   <value column="Description" original="Default other expense">Default other expense</value>
  </row>
- <row id="703" trl="N">
-  <value column="Name" original="Charge revenue">Charge revenue</value>
+ <row id="703" trl="Y">
+  <value column="Name" original="Charge revenue">Charge Revenue</value>
   <value column="Description" original="Default other revenue">Default other revenue</value>
  </row>
- <row id="704" trl="N">
-  <value column="Name" original="Other Income">Other Income</value>
+ <row id="704" trl="Y">
+  <value column="Name" original="Other Income">Други приходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="705" trl="N">
-  <value column="Name" original="Interest Income">Interest Income</value>
-  <value column="Description" original="Bank interest revenue">Bank interest revenue</value>
+ <row id="705" trl="Y">
+  <value column="Name" original="Interest Income">Приход от лихви</value>
+  <value column="Description" original="Bank interest revenue">Доход на банката</value>
  </row>
- <row id="706" trl="N">
-  <value column="Name" original="Divident Income">Divident Income</value>
+ <row id="706" trl="Y">
+  <value column="Name" original="Divident Income">Приход от дивиденти</value>
   <value column="Description" original=""/>
  </row>
- <row id="707" trl="N">
-  <value column="Name" original="Rental Income">Rental Income</value>
+ <row id="707" trl="Y">
+  <value column="Name" original="Rental Income">приход от наеми</value>
   <value column="Description" original=""/>
  </row>
- <row id="708" trl="N">
-  <value column="Name" original="Sales Tax Commission">Sales Tax Commission</value>
+ <row id="708" trl="Y">
+  <value column="Name" original="Sales Tax Commission">Комисионна от данък продажби</value>
   <value column="Description" original=""/>
  </row>
- <row id="709" trl="N">
-  <value column="Name" original="Currency Gain">Currency Gain</value>
+ <row id="709" trl="Y">
+  <value column="Name" original="Currency Gain">Печалба от валути разлики</value>
   <value column="Description" original=""/>
  </row>
- <row id="710" trl="N">
-  <value column="Name" original="Bank revaluation gain">Bank revaluation gain</value>
+ <row id="710" trl="Y">
+  <value column="Name" original="Bank revaluation gain">Доходи от обмяна</value>
   <value column="Description" original="Foreign currency bank account gain">Foreign currency bank account gain</value>
  </row>
- <row id="711" trl="N">
-  <value column="Name" original="Bank settlement gain">Bank settlement gain</value>
+ <row id="711" trl="Y">
+  <value column="Name" original="Bank settlement gain">Доходи от прехвърляния</value>
   <value column="Description" original="Difference between payment and bank account currency">Difference between payment and bank account currency</value>
  </row>
- <row id="712" trl="N">
-  <value column="Name" original="Unrealized gain">Unrealized gain</value>
+ <row id="712" trl="Y">
+  <value column="Name" original="Unrealized gain">Нереализирана печалба</value>
   <value column="Description" original="Difference between foreign currency receivables/payables and current rate">Difference between foreign currency receivables/payables and current rate</value>
  </row>
- <row id="713" trl="N">
-  <value column="Name" original="Capital Gains Income">Capital Gains Income</value>
+ <row id="713" trl="Y">
+  <value column="Name" original="Capital Gains Income">Приход от капитални вложения</value>
   <value column="Description" original=""/>
  </row>
- <row id="714" trl="N">
-  <value column="Name" original="Fixed Asset Sale Gain">Fixed Asset Sale Gain</value>
+ <row id="714" trl="Y">
+  <value column="Name" original="Fixed Asset Sale Gain">Приход от продажбата на недвижим имот</value>
   <value column="Description" original=""/>
  </row>
- <row id="715" trl="N">
-  <value column="Name" original="Other Income">Other Income</value>
+ <row id="715" trl="Y">
+  <value column="Name" original="Other Income">Други приходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="716" trl="N">
-  <value column="Name" original="Other Expense">Other Expense</value>
+ <row id="716" trl="Y">
+  <value column="Name" original="Other Expense">Друг разход</value>
   <value column="Description" original=""/>
  </row>
- <row id="717" trl="N">
-  <value column="Name" original="Interest Expense">Interest Expense</value>
-  <value column="Description" original="Bank interest expense">Bank interest expense</value>
+ <row id="717" trl="Y">
+  <value column="Name" original="Interest Expense">Разход по лихви</value>
+  <value column="Description" original="Bank interest expense">Процент за банката</value>
  </row>
- <row id="718" trl="N">
-  <value column="Name" original="Mortage Interest Expense">Mortage Interest Expense</value>
+ <row id="718" trl="Y">
+  <value column="Name" original="Mortage Interest Expense">Разход по ипотечни лихви</value>
   <value column="Description" original=""/>
  </row>
- <row id="719" trl="N">
-  <value column="Name" original="Charitable Contributions">Charitable Contributions</value>
+ <row id="719" trl="Y">
+  <value column="Name" original="Charitable Contributions">Благотворителност</value>
   <value column="Description" original=""/>
  </row>
- <row id="720" trl="N">
-  <value column="Name" original="Currency Loss">Currency Loss</value>
+ <row id="720" trl="Y">
+  <value column="Name" original="Currency Loss">Валутна загуба</value>
   <value column="Description" original=""/>
  </row>
- <row id="721" trl="N">
-  <value column="Name" original="Bank revaluation loss">Bank revaluation loss</value>
+ <row id="721" trl="Y">
+  <value column="Name" original="Bank revaluation loss">Загуби от обмяна</value>
   <value column="Description" original="Foreign currency bank account loss">Foreign currency bank account loss</value>
  </row>
- <row id="722" trl="N">
-  <value column="Name" original="Unrealized loss">Unrealized loss</value>
+ <row id="722" trl="Y">
+  <value column="Name" original="Unrealized loss">Нереализирана загуба</value>
   <value column="Description" original="Difference between foreign currency receivables/payables and current rate">Difference between foreign currency receivables/payables and current rate</value>
  </row>
- <row id="723" trl="N">
-  <value column="Name" original="Realized loss">Realized loss</value>
+ <row id="723" trl="Y">
+  <value column="Name" original="Realized loss">Резализирана загуба</value>
   <value column="Description" original="Difference between invoice and payment currency">Difference between invoice and payment currency</value>
  </row>
- <row id="724" trl="N">
-  <value column="Name" original="Currency balancing">Currency balancing</value>
+ <row id="724" trl="Y">
+  <value column="Name" original="Currency balancing">Валутен баланс</value>
   <value column="Description" original="Rounding difference to make journal balance in accounting currency">Rounding difference to make journal balance in accounting currency</value>
  </row>
- <row id="725" trl="N">
-  <value column="Name" original="Capital Gains Loss">Capital Gains Loss</value>
+ <row id="725" trl="Y">
+  <value column="Name" original="Capital Gains Loss">Загуба от капиталовложения</value>
   <value column="Description" original=""/>
  </row>
- <row id="726" trl="N">
-  <value column="Name" original="Fixed Asset Sale Loss">Fixed Asset Sale Loss</value>
+ <row id="726" trl="Y">
+  <value column="Name" original="Fixed Asset Sale Loss">Загуба от продажбата на недвижимо имущество</value>
   <value column="Description" original=""/>
  </row>
- <row id="727" trl="N">
-  <value column="Name" original="Other Expense">Other Expense</value>
+ <row id="727" trl="Y">
+  <value column="Name" original="Other Expense">Друг разход</value>
   <value column="Description" original=""/>
  </row>
- <row id="728" trl="N">
-  <value column="Name" original="Income Tax &amp; Summary">Income Tax &amp; Summary</value>
+ <row id="728" trl="Y">
+  <value column="Name" original="Income Tax &amp; Summary">Обощение на данък доход</value>
   <value column="Description" original=""/>
  </row>
- <row id="729" trl="N">
-  <value column="Name" original="State Income Tax">State Income Tax</value>
+ <row id="729" trl="Y">
+  <value column="Name" original="State Income Tax">ДЪржавен данък доход</value>
   <value column="Description" original=""/>
  </row>
- <row id="730" trl="N">
-  <value column="Name" original="Local Income Tax">Local Income Tax</value>
+ <row id="730" trl="Y">
+  <value column="Name" original="Local Income Tax">Местен данък доход</value>
   <value column="Description" original=""/>
  </row>
- <row id="731" trl="N">
+ <row id="731" trl="Y">
   <value column="Name" original="Costing">Costing</value>
   <value column="Description" original=""/>
  </row>
- <row id="732" trl="N">
+ <row id="732" trl="Y">
   <value column="Name" original="Profit Center Costing Distribution">Profit Center Costing Distribution</value>
   <value column="Description" original=""/>
  </row>
- <row id="733" trl="N">
-  <value column="Name" original="Project Costing Distribution">Project Costing Distribution</value>
+ <row id="733" trl="Y">
+  <value column="Name" original="Project Costing Distribution">Разпределяне на разходите по проекти</value>
   <value column="Description" original=""/>
  </row>
- <row id="734" trl="N">
-  <value column="Name" original="Commitment Accounting">Commitment Accounting</value>
+ <row id="734" trl="Y">
+  <value column="Name" original="Commitment Accounting">Проверовъчно счетоводство</value>
   <value column="Description" original=""/>
  </row>
- <row id="735" trl="N">
-  <value column="Name" original="PO Encumbrance">PO Encumbrance</value>
+ <row id="735" trl="Y">
+  <value column="Name" original="PO Encumbrance">Тежести по заявка за покупка</value>
   <value column="Description" original=""/>
  </row>
- <row id="736" trl="N">
-  <value column="Name" original="PO Commitment">PO Commitment</value>
+ <row id="736" trl="Y">
+  <value column="Name" original="PO Commitment">Проверка на заявка за покупка</value>
   <value column="Description" original=""/>
  </row>
- <row id="737" trl="N">
-  <value column="Name" original="SO Future Revenue">SO Future Revenue</value>
+ <row id="737" trl="Y">
+  <value column="Name" original="SO Future Revenue">SO бъдещи приходи</value>
   <value column="Description" original=""/>
  </row>
- <row id="738" trl="N">
-  <value column="Name" original="In Transit A/R ATM Cards">In Transit A/R ATM Cards</value>
+ <row id="738" trl="Y">
+  <value column="Name" original="In Transit A/R ATM Cards">Обработващи се в момента суми за получаване от дебитни карти</value>
   <value column="Description" original=""/>
  </row>
- <row id="739" trl="N">
-  <value column="Name" original="Loans Receivable Owners/Shareholders">Loans Receivable Owners/Shareholders</value>
+ <row id="739" trl="Y">
+  <value column="Name" original="Loans Receivable Owners/Shareholders">Заеми за получаване от собственици/акционери</value>
   <value column="Description" original=""/>
  </row>
- <row id="740" trl="N">
-  <value column="Name" original="Tax receivables">Tax receivables</value>
+ <row id="740" trl="Y">
+  <value column="Name" original="Tax receivables">Tax Receivables</value>
   <value column="Description" original=""/>
  </row>
- <row id="741" trl="N">
-  <value column="Name" original="Intercompany Due From">Intercompany Due From</value>
+ <row id="741" trl="Y">
+  <value column="Name" original="Intercompany Due From">Дължимо по междуфирмени сделки</value>
   <value column="Description" original="Default Receivables account for intercompany trx">Default Receivables account for intercompany trx</value>
  </row>
- <row id="742" trl="N">
-  <value column="Name" original="Product asset">Product asset</value>
+ <row id="742" trl="Y">
+  <value column="Name" original="Product asset">Изделие- Стойност?</value>
   <value column="Description" original="Product Inventory Account">Product Inventory Account</value>
  </row>
- <row id="743" trl="N">
-  <value column="Name" original="Project Assets">Project Assets</value>
+ <row id="743" trl="Y">
+  <value column="Name" original="Project Assets">Активи по проекти</value>
   <value column="Description" original=""/>
  </row>
- <row id="744" trl="N">
-  <value column="Name" original="Accumulated Depreciation">Accumulated Depreciation</value>
+ <row id="744" trl="Y">
+  <value column="Name" original="Accumulated Depreciation">Aкумулирани амортизации</value>
   <value column="Description" original=""/>
  </row>
- <row id="745" trl="N">
-  <value column="Name" original="Leasehold Improvement Accumulated Depreciation">Leasehold Improvement Accumulated Depreciation</value>
+ <row id="745" trl="Y">
+  <value column="Name" original="Leasehold Improvement Accumulated Depreciation">Акумулирани амортизации на подобрения по имоти под наем</value>
   <value column="Description" original=""/>
  </row>
- <row id="746" trl="N">
-  <value column="Name" original="Software Accumulated Depreciation">Software Accumulated Depreciation</value>
+ <row id="746" trl="Y">
+  <value column="Name" original="Software Accumulated Depreciation">Акумулирани амортизации по софтуеър</value>
   <value column="Description" original=""/>
  </row>
- <row id="747" trl="N">
-  <value column="Name" original="Goodwill">Goodwill</value>
+ <row id="747" trl="Y">
+  <value column="Name" original="Goodwill">Право на наследяване на клиентела</value>
   <value column="Description" original=""/>
  </row>
- <row id="748" trl="N">
-  <value column="Name" original="Cash Surrender Value of Life Insurance">Cash Surrender Value of Life Insurance</value>
+ <row id="748" trl="Y">
+  <value column="Name" original="Cash Surrender Value of Life Insurance">Кешова стойност на застраховка живот</value>
   <value column="Description" original=""/>
  </row>
- <row id="749" trl="N">
-  <value column="Name" original="Accounts Payable Trade">Accounts Payable Trade</value>
-  <value column="Description" original="Accounts Payables">Accounts Payables</value>
+ <row id="749" trl="Y">
+  <value column="Name" original="Accounts Payable Trade">Търговски държими суми</value>
+  <value column="Description" original="Accounts Payables">ДЪлжими суми</value>
  </row>
- <row id="750" trl="N">
-  <value column="Name" original="Customer Prepayments">Customer Prepayments</value>
+ <row id="750" trl="Y">
+  <value column="Name" original="Customer Prepayments">Предплашания от клиенти</value>
   <value column="Description" original="Prepayments for future revenue">Prepayments for future revenue</value>
  </row>
- <row id="751" trl="N">
-  <value column="Name" original="FICA Employers Contribution">FICA Employers Contribution</value>
+ <row id="751" trl="Y">
+  <value column="Name" original="FICA Employers Contribution">Данъци от работодателя</value>
   <value column="Description" original=""/>
  </row>
- <row id="752" trl="N">
-  <value column="Name" original="Accrued Use Tax">Accrued Use Tax</value>
+ <row id="752" trl="Y">
+  <value column="Name" original="Accrued Use Tax">Данък натрупана употреба</value>
   <value column="Description" original=""/>
  </row>
- <row id="753" trl="N">
-  <value column="Name" original="Current Note Payables">Current Note Payables</value>
+ <row id="753" trl="Y">
+  <value column="Name" original="Current Note Payables">Текущи полици за плащане</value>
   <value column="Description" original=""/>
  </row>
- <row id="754" trl="N">
-  <value column="Name" original="Long Term Obligation">Long Term Obligation</value>
+ <row id="754" trl="Y">
+  <value column="Name" original="Long Term Obligation">Дългосрочни задължения</value>
   <value column="Description" original=""/>
  </row>
- <row id="755" trl="N">
-  <value column="Name" original="Current Portion of Long Term Debt">Current Portion of Long Term Debt</value>
+ <row id="755" trl="Y">
+  <value column="Name" original="Current Portion of Long Term Debt">Дължима част от дългосрочен дълг</value>
   <value column="Description" original=""/>
  </row>
- <row id="756" trl="N">
-  <value column="Name" original="Preferred Stock">Preferred Stock</value>
+ <row id="756" trl="Y">
+  <value column="Name" original="Preferred Stock">Преференциални облигации</value>
   <value column="Description" original=""/>
  </row>
- <row id="757" trl="N">
-  <value column="Name" original="Dividents">Dividents</value>
+ <row id="757" trl="Y">
+  <value column="Name" original="Dividents">Дивиденти</value>
   <value column="Description" original=""/>
  </row>
- <row id="758" trl="N">
-  <value column="Name" original="Trade Revenue">Trade Revenue</value>
+ <row id="758" trl="Y">
+  <value column="Name" original="Trade Revenue">Приход от търговия</value>
   <value column="Description" original="Default Product or Service revenue">Default Product or Service revenue</value>
  </row>
- <row id="759" trl="N">
-  <value column="Name" original="Customer Package Expense">Customer Package Expense</value>
+ <row id="759" trl="Y">
+  <value column="Name" original="Customer Package Expense">Разход по клиентски пакети</value>
   <value column="Description" original=""/>
  </row>
- <row id="760" trl="N">
-  <value column="Name" original="Tax expense">Tax expense</value>
+ <row id="760" trl="Y">
+  <value column="Name" original="Tax expense">Tax Expense</value>
   <value column="Description" original="Sales Tax paid to Vendors">Sales Tax paid to Vendors</value>
  </row>
- <row id="761" trl="N">
-  <value column="Name" original="Education Course Fees">Education Course Fees</value>
+ <row id="761" trl="Y">
+  <value column="Name" original="Education Course Fees">Такса образователни курсове</value>
   <value column="Description" original=""/>
  </row>
- <row id="762" trl="N">
-  <value column="Name" original="Equipment Rent">Equipment Rent</value>
+ <row id="762" trl="Y">
+  <value column="Name" original="Equipment Rent">Наем оборудване</value>
   <value column="Description" original=""/>
  </row>
- <row id="763" trl="N">
-  <value column="Name" original="Equipment Rent Other">Equipment Rent Other</value>
+ <row id="763" trl="Y">
+  <value column="Name" original="Equipment Rent Other">Наем оборудване - други</value>
   <value column="Description" original=""/>
  </row>
- <row id="764" trl="N">
-  <value column="Name" original="Data Processing Repairs &amp; Maintenence">Data Processing Repairs &amp; Maintenence</value>
+ <row id="764" trl="Y">
+  <value column="Name" original="Data Processing Repairs &amp; Maintenence">Поправка и поддръжка на обработка на данни</value>
   <value column="Description" original=""/>
  </row>
- <row id="765" trl="N">
-  <value column="Name" original="Bad Debts Write-off">Bad Debts Write-off</value>
+ <row id="765" trl="Y">
+  <value column="Name" original="Bad Debts Write-off">Отписване на несъбираеми дългове</value>
   <value column="Description" original="Receivables write-off - bad debt">Receivables write-off - bad debt</value>
  </row>
- <row id="766" trl="N">
-  <value column="Name" original="Penalties">Penalties</value>
+ <row id="766" trl="Y">
+  <value column="Name" original="Penalties">Глоби</value>
   <value column="Description" original=""/>
  </row>
- <row id="767" trl="N">
-  <value column="Name" original="Realized gain">Realized gain</value>
+ <row id="767" trl="Y">
+  <value column="Name" original="Realized gain">Реализирани печалби</value>
   <value column="Description" original="Difference between invoice and payment currency">Difference between invoice and payment currency</value>
  </row>
- <row id="768" trl="N">
-  <value column="Name" original="Uninsured Casualty Loss">Uninsured Casualty Loss</value>
+ <row id="768" trl="Y">
+  <value column="Name" original="Uninsured Casualty Loss">Загуба от незастраховани материални щети</value>
   <value column="Description" original=""/>
  </row>
- <row id="769" trl="N">
-  <value column="Name" original="Bank settlement loss">Bank settlement loss</value>
+ <row id="769" trl="Y">
+  <value column="Name" original="Bank settlement loss">Загуби от прехвърляния</value>
   <value column="Description" original="Difference between payment and bank account currency">Difference between payment and bank account currency</value>
  </row>
- <row id="770" trl="N">
-  <value column="Name" original="Federal Income Tax">Federal Income Tax</value>
+ <row id="770" trl="Y">
+  <value column="Name" original="Federal Income Tax">Федерален данък доход</value>
   <value column="Description" original=""/>
  </row>
- <row id="771" trl="N">
-  <value column="Name" original="Income Summary">Income Summary</value>
+ <row id="771" trl="Y">
+  <value column="Name" original="Income Summary">Обощение на доходите</value>
   <value column="Description" original="Year end processing to balance account (Retained Earnings)">Year end processing to balance account (Retained Earnings)</value>
  </row>
- <row id="772" trl="N">
-  <value column="Name" original="Wages">Wages</value>
+ <row id="772" trl="Y">
+  <value column="Name" original="Wages">Заплати</value>
   <value column="Description" original=""/>
  </row>
- <row id="773" trl="N">
-  <value column="Name" original="Land Improvement Depreciation">Land Improvement Depreciation</value>
+ <row id="773" trl="Y">
+  <value column="Name" original="Land Improvement Depreciation">Амортизация на подобрения по земята</value>
   <value column="Description" original=""/>
  </row>
- <row id="774" trl="N">
-  <value column="Name" original="Accounts Receivable - Trade">Accounts Receivable - Trade</value>
+ <row id="774" trl="Y">
+  <value column="Name" original="Accounts Receivable - Trade">Дължими суми от търговия</value>
   <value column="Description" original=""/>
  </row>
- <row id="775" trl="N">
-  <value column="Name" original="Licenses &amp; Fees - Other">Licenses &amp; Fees - Other</value>
+ <row id="775" trl="Y">
+  <value column="Name" original="Licenses &amp; Fees - Other">Такси и лицензи - други</value>
   <value column="Description" original=""/>
  </row>
- <row id="776" trl="N">
-  <value column="Name" original="General Trade Inventory">General Trade Inventory</value>
+ <row id="776" trl="Y">
+  <value column="Name" original="General Trade Inventory">Общ търговски инвентар</value>
   <value column="Description" original="Inventory Account">Inventory Account</value>
  </row>
- <row id="777" trl="N">
-  <value column="Name" original="Medicare Employers Contribution">Medicare Employers Contribution</value>
+ <row id="777" trl="Y">
+  <value column="Name" original="Medicare Employers Contribution">Здравни осигуровки от работодателя</value>
   <value column="Description" original=""/>
  </row>
- <row id="778" trl="N">
-  <value column="Name" original="Commissions Paid">Commissions Paid</value>
-  <value column="Description" original="Commissions Paid">Commissions Paid</value>
+ <row id="778" trl="Y">
+  <value column="Name" original="Commissions Paid">Платени комисионни</value>
+  <value column="Description" original="Commissions Paid">Платени комисионни</value>
  </row>
- <row id="780" trl="N">
+ <row id="780" trl="Y">
   <value column="Name" original="Inventory Clearing">Inventory Clearing</value>
   <value column="Description" original="Default Product costs (I.e. on inventory)">Default Product costs (I.e. on inventory)</value>
  </row>
- <row id="781" trl="N">
-  <value column="Name" original="Cost Adjustments">Cost Adjustments</value>
+ <row id="781" trl="Y">
+  <value column="Name" original="Cost Adjustments">Регулиране на стойностите</value>
   <value column="Description" original="Product Cost Adjustments">Product Cost Adjustments</value>
  </row>
- <row id="782" trl="N">
-  <value column="Name" original="Accounts Receivable Services - Trade">Accounts Receivable Services - Trade</value>
+ <row id="782" trl="Y">
+  <value column="Name" original="Accounts Receivable Services - Trade">Суми за получаване от търговски услуги</value>
   <value column="Description" original="Accounts Receivables for Services">Accounts Receivables for Services</value>
  </row>
- <row id="783" trl="N">
-  <value column="Name" original="7-Expenses">7-Expenses</value>
-  <value column="Description" original="7-Expenses">7-Expenses</value>
+ <row id="783" trl="Y">
+  <value column="Name" original="7-Expenses">7-Разходи</value>
+  <value column="Description" original="7-Expenses">7-Разходи</value>
+ </row>
+ <row id="1000000" trl="N">
+  <value column="Name" original="NOTINVOICEDRECEIVABLES_ACCT">NOTINVOICEDRECEIVABLES_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000001" trl="N">
+  <value column="Name" original="РАЗХОДИ ЗА УСЛУГИ">РАЗХОДИ ЗА УСЛУГИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000002" trl="N">
+  <value column="Name" original="РАЗЛИКА ПРИ ИНВЕНТАРИЗАЦИЯ">РАЗЛИКА ПРИ ИНВЕНТАРИЗАЦИЯ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000003" trl="N">
+  <value column="Name" original="UNREALIZEDGAIN_ACCT">UNREALIZEDGAIN_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000004" trl="N">
+  <value column="Name" original="INCOMESUMMARY_ACCT">INCOMESUMMARY_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000005" trl="N">
+  <value column="Name" original="REALIZEDGAIN_ACCT">REALIZEDGAIN_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000006" trl="N">
+  <value column="Name" original="T_RECEIVABLES_ACCT">T_RECEIVABLES_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000007" trl="N">
+  <value column="Name" original="NOTINVOICEDREVENUE_ACCT">NOTINVOICEDREVENUE_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000008" trl="N">
+  <value column="Name" original="INTERCOMPANYDUETO_ACCT">INTERCOMPANYDUETO_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000009" trl="N">
+  <value column="Name" original="ГОТОВА ПРОДУКЦИЯ">ГОТОВА ПРОДУКЦИЯ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000010" trl="N">
+  <value column="Name" original="НЕПРИКЛЮЧЕНИ ПРОЕКТИ">НЕПРИКЛЮЧЕНИ ПРОЕКТИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000011" trl="N">
+  <value column="Name" original="НАДЦЕНКА">НАДЦЕНКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000012" trl="N">
+  <value column="Name" original="ПРИХ.ОТ ПРОДАЖБА НА ПРОД.">ПРИХ.ОТ ПРОДАЖБА НА ПРОД.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000013" trl="N">
+  <value column="Name" original="RETAINEDEARNING_ACCT">RETAINEDEARNING_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000014" trl="N">
+  <value column="Name" original="B_UNIDENTIFIED_ACCT">B_UNIDENTIFIED_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000015" trl="N">
+  <value column="Name" original="B_SETTLEMENTGAIN_ACCT">B_SETTLEMENTGAIN_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000016" trl="N">
+  <value column="Name" original="КАСА ТРАНСФЕР">КАСА ТРАНСФЕР</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000017" trl="N">
+  <value column="Name" original="ТРАНЗИТНИ ОПЕРАЦИИ БАНКА">ТРАНЗИТНИ ОПЕРАЦИИ БАНКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000018" trl="N">
+  <value column="Name" original="ПРИХОД ОТ ОТСТЪПКА">ПРИХОД ОТ ОТСТЪПКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000019" trl="N">
+  <value column="Name" original="ПРИХОДИ КАСА">ПРИХОДИ КАСА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000020" trl="N">
+  <value column="Name" original="ИНВЕНТАРИЗАЦИЯ НАСТРОЙКА">ИНВЕНТАРИЗАЦИЯ НАСТРОЙКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000021" trl="N">
+  <value column="Name" original="НАЧИСЛЕН ДДС ЗА ПОКУПКИ">НАЧИСЛЕН ДДС ЗА ПОКУПКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000022" trl="N">
+  <value column="Name" original="UNEARNEDREVENUE_ACCT">UNEARNEDREVENUE_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000023" trl="N">
+  <value column="Name" original="ПРИХОДИ ОТ ТАКСИ">ПРИХОДИ ОТ ТАКСИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000024" trl="N">
+  <value column="Name" original="ОТСТЪПКА">ОТСТЪПКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000025" trl="N">
+  <value column="Name" original="СМЕТКА ПО ПОДРАЗБИРАНЕ">СМЕТКА ПО ПОДРАЗБИРАНЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000026" trl="N">
+  <value column="Name" original="UNREALIZEDLOSS_ACCT">UNREALIZEDLOSS_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000027" trl="Y">
+  <value column="Name" original="РАЗХОДИ ЗА ЛИХВИ">Разходи за лихви</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000028" trl="N">
+  <value column="Name" original="НЕСЪБИРАЕМИ ДЪЛГОВЕ, БРАК">НЕСЪБИРАЕМИ ДЪЛГОВЕ, БРАК</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000029" trl="N">
+  <value column="Name" original="КЛИЕНТИ ЗА ПРОДАДЕНА ПРОДУКЦИЯ">КЛИЕНТИ ЗА ПРОДАДЕНА ПРОДУКЦИЯ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000030" trl="N">
+  <value column="Name" original="ИНВЕНТАРИЗАЦИЯ РАЗЛИКА">ИНВЕНТАРИЗАЦИЯ РАЗЛИКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000031" trl="Y">
+  <value column="Name" original="ДОСТАВЧИЦИ ПО АВАНСИ">Доставчици по аванси</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000032" trl="N">
+  <value column="Name" original="INTERCOMPANYDUEFROM_ACCT">INTERCOMPANYDUEFROM_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000033" trl="N">
+  <value column="Name" original="РАЗЛИКА В ЦЕНАТА ОТ ПОРЪЧКИ">РАЗЛИКА В ЦЕНАТА ОТ ПОРЪЧКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000034" trl="N">
+  <value column="Name" original="B_SETTLEMENTLOSS_ACCT">B_SETTLEMENTLOSS_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000035" trl="N">
+  <value column="Name" original="ДОСТАВЧИЦИ НА УСЛУГИ">ДОСТАВЧИЦИ НА УСЛУГИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000036" trl="N">
+  <value column="Name" original="B_REVALUATIONGAIN_ACCT">B_REVALUATIONGAIN_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000037" trl="N">
+  <value column="Name" original="КЛИЕНТИ ЗА ОКАЗАНИ УСЛУГИ">КЛИЕНТИ ЗА ОКАЗАНИ УСЛУГИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000038" trl="N">
+  <value column="Name" original="ДОСТАВЧИЦИ НА МАТ. И СТОКИ">ДОСТАВЧИЦИ НА МАТ. И СТОКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000039" trl="N">
+  <value column="Name" original="T_LIABILITY_ACCT">T_LIABILITY_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000040" trl="N">
+  <value column="Name" original="БАНКОВО ПЛАЩАНЕ">БАНКОВО ПЛАЩАНЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000041" trl="N">
+  <value column="Name" original="B_REVALUATIONLOSS_ACCT">B_REVALUATIONLOSS_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000042" trl="N">
+  <value column="Name" original="КАСА В ЛЕВА">КАСА В ЛЕВА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000043" trl="N">
+  <value column="Name" original="НАЧИСЛЕН ДДС ЗА ПРОДАЖБИ">НАЧИСЛЕН ДДС ЗА ПРОДАЖБИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000044" trl="N">
+  <value column="Name" original="СТОЙНОСТ НА НАЛИЧНОСТТА">СТОЙНОСТ НА НАЛИЧНОСТТА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000045" trl="N">
+  <value column="Name" original="WITHHOLDING_ACCT">WITHHOLDING_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000046" trl="N">
+  <value column="Name" original="E_PREPAYMENT_ACCT">E_PREPAYMENT_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000047" trl="N">
+  <value column="Name" original="ИНВЕНТАРИЗАЦИЯ">ИНВЕНТАРИЗАЦИЯ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000048" trl="N">
+  <value column="Name" original="РАЗЛИКА В ЦЕНАТА ОТ ФАКТ.">РАЗЛИКА В ЦЕНАТА ОТ ФАКТ.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000049" trl="N">
+  <value column="Name" original="РАЗПЛАЩ. СМЕТКА В ЛЕВА">РАЗПЛАЩ. СМЕТКА В ЛЕВА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000050" trl="N">
+  <value column="Name" original="НЕРАЗПРЕДЕЛЕНО ПЛАЩАНЕ">НЕРАЗПРЕДЕЛЕНО ПЛАЩАНЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000051" trl="N">
+  <value column="Name" original="РАЗХОДИ ЗА ТАКСИ">РАЗХОДИ ЗА ТАКСИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000052" trl="N">
+  <value column="Name" original="РАЗХОД ОТ ОТСТЪПКА">РАЗХОД ОТ ОТСТЪПКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000053" trl="N">
+  <value column="Name" original="РАЗХ.ПО ВАЛУТНИ ОПЕРАЦИИ">РАЗХ.ПО ВАЛУТНИ ОПЕРАЦИИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000054" trl="N">
+  <value column="Name" original="PPVOFFSET_ACCT">PPVOFFSET_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000055" trl="N">
+  <value column="Name" original="ДОСТАВЧИЦИ ПО НЕФАКТ. ДОСТ.">ДОСТАВЧИЦИ ПО НЕФАКТ. ДОСТ.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000056" trl="N">
+  <value column="Name" original="РАЗЛИКА КАСА">РАЗЛИКА КАСА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000057" trl="Y">
+  <value column="Name" original="Landed Cost">Landed Cost</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000058" trl="N">
+  <value column="Name" original="COMMITMENTOFFSET_ACCT">COMMITMENTOFFSET_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000059" trl="N">
+  <value column="Name" original="SUSPENSEERROR_ACCT">SUSPENSEERROR_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000060" trl="Y">
+  <value column="Name" original="ПЕРСОНАЛ">Персонал</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000061" trl="N">
+  <value column="Name" original="ОСНОВНИ МАТЕР.">ОСНОВНИ МАТЕР.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000062" trl="Y">
+  <value column="Name" original="ПРИХОДИ ОТ ЛИХВИ">Приходи от лихви</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000063" trl="Y">
+  <value column="Name" original="КЛИЕНТИ ПО АВАНСИ">Клиенти по аванси</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000064" trl="N">
+  <value column="Name" original="НЕРАВНЕН БАЛАНС">НЕРАВНЕН БАЛАНС</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000065" trl="N">
+  <value column="Name" original="РАЗХОДИ КАСА">РАЗХОДИ КАСА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000066" trl="N">
+  <value column="Name" original="REALIZEDLOSS_ACCT">REALIZEDLOSS_ACCT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000067" trl="N">
+  <value column="Name" original="РАЗХОДИ ЗА ТАКСИ">РАЗХОДИ ЗА ТАКСИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000068" trl="N">
+  <value column="Name" original="РАЗХОДИ БАНКА">РАЗХОДИ БАНКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000069" trl="Y">
+  <value column="Name" original="РАЗХОДИ ЗА МАТЕРИАЛИ">Разходи за материали</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000070" trl="N">
+  <value column="Name" original="СМЕТКИ ЗА КАПИТАЛИ">СМЕТКИ ЗА КАПИТАЛИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000071" trl="Y">
+  <value column="Name" original="КАПИТАЛ">Капитал</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000072" trl="Y">
+  <value column="Name" original="ОСНОВЕН КАПИТАЛ">Основен капитал</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000073" trl="N">
+  <value column="Name" original="РEЗЕРВИ">РEЗЕРВИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000074" trl="Y">
+  <value column="Name" original="ОБЩИ РЕЗЕРВИ">Общи резерви</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000075" trl="N">
+  <value column="Name" original="РЕЗЕРВИ ОТ ПСЛ.ОЦЕНКА ДМА">РЕЗЕРВИ ОТ ПСЛ.ОЦЕНКА ДМА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000076" trl="Y">
+  <value column="Name" original="ДРУГИ РЕЗЕРВИ">Други резерви</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000077" trl="Y">
+  <value column="Name" original="ФИНАНСОВИ РЕЗУЛТАТИ">Финансови резултати</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000078" trl="N">
+  <value column="Name" original="НЕРАЗПР. ПЕЧАЛБА МИН. ГОД">НЕРАЗПР. ПЕЧАЛБА МИН. ГОД</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000079" trl="N">
+  <value column="Name" original="ПЕЧАЛБИ И ЗАГУБИ ОТ ТЕК.Г">ПЕЧАЛБИ И ЗАГУБИ ОТ ТЕК.Г</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000080" trl="Y">
+  <value column="Name" original="ПОЛУЧЕНИ ЗАЕМИ">Получени заеми</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000081" trl="Y">
+  <value column="Name" original="ДРУГИ ЗАЕМИ И ДЪЛГОВЕ">Други заеми и дългове</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000082" trl="N">
+  <value column="Name" original="СМЕТКИ ЗА ДМА">СМЕТКИ ЗА ДМА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000083" trl="N">
+  <value column="Name" original="ДМА">ДМА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000084" trl="N">
+  <value column="Name" original="СГРАДИ">СГРАДИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000085" trl="N">
+  <value column="Name" original="МАШИНИ,СЪОРЪЖ.И ОБОРУДВ.">МАШИНИ,СЪОРЪЖ.И ОБОРУДВ.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000086" trl="Y">
+  <value column="Name" original="ТРАНСПОРТНИ СРЕДСТВА">Транспортни средства</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000087" trl="N">
+  <value column="Name" original="ТРАНСП. СРЕДСТВА">ТРАНСП. СРЕДСТВА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000088" trl="N">
+  <value column="Name" original="АВТОМОБИЛИ">АВТОМОБИЛИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000089" trl="N">
+  <value column="Name" original="СТОПАНСКИ ИНВЕНТАР">СТОПАНСКИ ИНВЕНТАР</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000090" trl="N">
+  <value column="Name" original="КОМПЮТРИ">КОМПЮТРИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000091" trl="N">
+  <value column="Name" original="ДФА И ВЗЕМАНИЯ">ДФА И ВЗЕМАНИЯ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000092" trl="N">
+  <value column="Name" original="ДРУГИ ДФА">ДРУГИ ДФА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000093" trl="Y">
+  <value column="Name" original="АМОРТИЗАЦИЯ">Амортизация</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000094" trl="N">
+  <value column="Name" original="АМОРТИЗАЦИЯ НА ДМА">АМОРТИЗАЦИЯ НА ДМА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000095" trl="N">
+  <value column="Name" original="АМОРТИЗАЦИЯ НА 202">АМОРТИЗАЦИЯ НА 202</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000096" trl="N">
+  <value column="Name" original="АМОРТИЗАЦИЯ НА 203">АМОРТИЗАЦИЯ НА 203</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000097" trl="N">
+  <value column="Name" original="АМОРТИЗАЦИЯ НА 204">АМОРТИЗАЦИЯ НА 204</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000098" trl="N">
+  <value column="Name" original="АМОРТИЗАЦИЯ НА 205">АМОРТИЗАЦИЯ НА 205</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000099" trl="N">
+  <value column="Name" original="АМОРТИЗАЦИЯ НА 206">АМОРТИЗАЦИЯ НА 206</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000100" trl="N">
+  <value column="Name" original="АМОРТИЗАЦИЯ НА 207">АМОРТИЗАЦИЯ НА 207</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000101" trl="N">
+  <value column="Name" original="АМОРТ.НА НЕМАТ.ДЪЛГ.АКТ.">АМОРТ.НА НЕМАТ.ДЪЛГ.АКТ.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000102" trl="N">
+  <value column="Name" original="АМОРТИЗАЦИИ НА 219">АМОРТИЗАЦИИ НА 219</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000103" trl="Y">
+  <value column="Name" original="СТОКОВО-МАТЕРИАЛНИ ЗАПАСИ">Стоково-материални Запаси</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000104" trl="N">
+  <value column="Name" original="МАТЕРИАЛИ, ПРОДУКЦИЯ И СТОКИ">МАТЕРИАЛИ, ПРОДУКЦИЯ И СТОКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000105" trl="N">
+  <value column="Name" original="ОСНОВНИ МАТЕРИАЛИ">ОСНОВНИ МАТЕРИАЛИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000106" trl="N">
+  <value column="Name" original="СПОМАГАТЕЛНИ МАТЕР.">СПОМАГАТЕЛНИ МАТЕР.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000107" trl="N">
+  <value column="Name" original="МАЛОЦЕННИ И МАЛОТР.">МАЛОЦЕННИ И МАЛОТР.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000108" trl="N">
+  <value column="Name" original="ГОРИВА">ГОРИВА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000109" trl="Y">
+  <value column="Name" original="СТОКИ">Стоки</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000110" trl="N">
+  <value column="Name" original="ОТКЛ. ОТ ЦЕНАТА НА ПРИДОБИВАНЕ">ОТКЛ. ОТ ЦЕНАТА НА ПРИДОБИВАНЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000111" trl="N">
+  <value column="Name" original="ПО ФАКТУРА">ПО ФАКТУРА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000112" trl="N">
+  <value column="Name" original="ПО ПОРЪЧКА">ПО ПОРЪЧКА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000113" trl="N">
+  <value column="Name" original="СМЕТКИ ЗА РАЗЧЕТИ">СМЕТКИ ЗА РАЗЧЕТИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000114" trl="N">
+  <value column="Name" original="ДОСТАВЧИЦИ СМЕТКИ">ДОСТАВЧИЦИ СМЕТКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000115" trl="Y">
+  <value column="Name" original="ДОСТАВЧИЦИ">Доставчици</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000116" trl="N">
+  <value column="Name" original="КЛИЕНТИ СМЕТКИ">КЛИЕНТИ СМЕТКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000117" trl="Y">
+  <value column="Name" original="КЛИЕНТИ">Клиенти</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000118" trl="Y">
+  <value column="Name" original="ПЕРСОНАЛ И СЪДРУЖНИЦИ">Персонал и съдружници</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000119" trl="N">
+  <value column="Name" original="РАЗЧЕТИ С БЮДЖЕТА">РАЗЧЕТИ С БЮДЖЕТА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000120" trl="N">
+  <value column="Name" original="РАЗЧЕТИ С ОБЩИНАТА">РАЗЧЕТИ С ОБЩИНАТА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000121" trl="N">
+  <value column="Name" original="РАЗЧЕТИ ЗА ДП">РАЗЧЕТИ ЗА ДП</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000122" trl="N">
+  <value column="Name" original="РАЗЧ.ЗА ДАНЪК В/У ДОХ">РАЗЧ.ЗА ДАНЪК В/У ДОХ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000123" trl="N">
+  <value column="Name" original="РАЗЧЕТИ ЗА ДДС">РАЗЧЕТИ ЗА ДДС</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000124" trl="N">
+  <value column="Name" original="ДДС ЗА ВЪЗСТАНОВЯВАНЕ">ДДС ЗА ВЪЗСТАНОВЯВАНЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000125" trl="N">
+  <value column="Name" original="ДДС ЗА ВНАСЯНЕ">ДДС ЗА ВНАСЯНЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000126" trl="N">
+  <value column="Name" original="ДР.РАЗЧ.С БЮДЖ.И С ВЕДОМ.">ДР.РАЗЧ.С БЮДЖ.И С ВЕДОМ.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000127" trl="Y">
+  <value column="Name" original="РАЗЧЕТИ С ОСИГУРИТЕЛИ">Разчети с осигурители</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000128" trl="N">
+  <value column="Name" original="РАЗЧЕТИ С НОИ">РАЗЧЕТИ С НОИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000129" trl="N">
+  <value column="Name" original="ФОНД ПЕНСИИ">ФОНД ПЕНСИИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000130" trl="N">
+  <value column="Name" original="ФОНД ТРУДОВИ ЗЛОПОЛУКИ">ФОНД ТРУДОВИ ЗЛОПОЛУКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000131" trl="N">
+  <value column="Name" original="Ф. ОБЩО ЗАБОЛ. И МАЙЧИНСТ">Ф. ОБЩО ЗАБОЛ. И МАЙЧИНСТ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000132" trl="N">
+  <value column="Name" original="ФОНД ДЗПО">ФОНД ДЗПО</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000133" trl="N">
+  <value column="Name" original="ЗДРАВНО ОСИГУРЯВАНЕ">ЗДРАВНО ОСИГУРЯВАНЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000134" trl="N">
+  <value column="Name" original="ФОНД БЕЗРАБОТИЦА">ФОНД БЕЗРАБОТИЦА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000135" trl="N">
+  <value column="Name" original="ДРУГИ РАЗЧЕТИ С ОСИГУРИТ.">ДРУГИ РАЗЧЕТИ С ОСИГУРИТ.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000136" trl="N">
+  <value column="Name" original="ФОНД ОБЩО ЗАБОЛ. И МАЙЧИН">ФОНД ОБЩО ЗАБОЛ. И МАЙЧИН</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000137" trl="N">
+  <value column="Name" original="ДЕБИТОРИ И КРЕДИТОРИ">ДЕБИТОРИ И КРЕДИТОРИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000138" trl="Y">
+  <value column="Name" original="ДРУГИ ДЕБИТОРИ">Други дебитори</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000139" trl="Y">
+  <value column="Name" original="ДРУГИ КРЕДИТОРИ">Други кредитори</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000140" trl="Y">
+  <value column="Name" original="ФИНАНСОВИ СРЕДСТВА">Финансови Средства</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000141" trl="Y">
+  <value column="Name" original="ПАРИЧНИ СРЕДСТВА">Парични средства</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000142" trl="Y">
+  <value column="Name" original="КАСА ВЪВ ВАЛУТА">Каса във валута</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000143" trl="N">
+  <value column="Name" original="РАЗПЛ.С/КА ВЪВ ВАЛУТА">РАЗПЛ.С/КА ВЪВ ВАЛУТА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000144" trl="Y">
+  <value column="Name" original="ДРУГИ ПАРИЧНИ СРЕДСТВА">Други парични средства</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000145" trl="N">
+  <value column="Name" original="СМЕТКИ ЗА РАЗХОДИ">СМЕТКИ ЗА РАЗХОДИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000146" trl="N">
+  <value column="Name" original="РАЗХОДИ ПО ИКОНОМ. ЕЛЕМЕНТИ">РАЗХОДИ ПО ИКОНОМ. ЕЛЕМЕНТИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000147" trl="N">
+  <value column="Name" original="РАЗХОДИ ЗА ЗАПЛАТИ">РАЗХОДИ ЗА ЗАПЛАТИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000148" trl="N">
+  <value column="Name" original="РАЗХ.ЗА АМОРТИЗАЦИЯ">РАЗХ.ЗА АМОРТИЗАЦИЯ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000149" trl="N">
+  <value column="Name" original="НЕПОДЛЕЖАЩИ НА РАЗПРЕДЕЛ.">НЕПОДЛЕЖАЩИ НА РАЗПРЕДЕЛ.</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000150" trl="N">
+  <value column="Name" original="ПОДЛ. НА РАЗПРЕДЕЛЕНИЕ">ПОДЛ. НА РАЗПРЕДЕЛЕНИЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000151" trl="N">
+  <value column="Name" original="РАЗХ.ЗА ОСИГУРОВКИ">РАЗХ.ЗА ОСИГУРОВКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000152" trl="N">
+  <value column="Name" original="РАЗХ.ЗА ДАНЪЦИ И ТАКСИ">РАЗХ.ЗА ДАНЪЦИ И ТАКСИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000153" trl="Y">
+  <value column="Name" original="ДРУГИ РАЗХОДИ">Други разходи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000154" trl="Y">
+  <value column="Name" original="РАЗХОДИ ЗА ДЕЙНОСТТА">Разходи за дейността</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000155" trl="N">
+  <value column="Name" original="РАЗХОДИ ЗА ОСНОВ. ДЕЙНОСТ">РАЗХОДИ ЗА ОСНОВ. ДЕЙНОСТ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000156" trl="N">
+  <value column="Name" original="ЗАГОТОВКИ">ЗАГОТОВКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000157" trl="N">
+  <value column="Name" original="ГОТОВА ПРОДУКЦИЯ">ГОТОВА ПРОДУКЦИЯ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000158" trl="N">
+  <value column="Name" original="ОБЩИ">ОБЩИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000159" trl="N">
+  <value column="Name" original="РАЗХ.ЗА ОСН.ДЕЙНОСТ">РАЗХ.ЗА ОСН.ДЕЙНОСТ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000160" trl="N">
+  <value column="Name" original="РАЗХ.ЗА СПОМАГ.ДЕЙНОСТ">РАЗХ.ЗА СПОМАГ.ДЕЙНОСТ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000161" trl="N">
+  <value column="Name" original="РАЗХ.ЗА ПРИДОДИВ. НА ДМА">РАЗХ.ЗА ПРИДОДИВ. НА ДМА</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000162" trl="N">
+  <value column="Name" original="РАЗХ.ЗА ОРГ.И УПРАВЛЕНИЕ">РАЗХ.ЗА ОРГ.И УПРАВЛЕНИЕ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000163" trl="N">
+  <value column="Name" original="РАЗХ.ЗА ПРОД.НА ПРОДУКЦИЯ">РАЗХ.ЗА ПРОД.НА ПРОДУКЦИЯ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000164" trl="Y">
+  <value column="Name" original="АДМИНИСТРАТИВНИ РАЗХОДИ">Административни разходи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000165" trl="Y">
+  <value column="Name" original="ФИНАНСОВИ РАЗХОДИ">Финансови разходи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000166" trl="N">
+  <value column="Name" original="ДР.ФИНАНСОВИ РАЗХОДИ">ДР.ФИНАНСОВИ РАЗХОДИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000167" trl="Y">
+  <value column="Name" original="РАЗХОДИ ЗА БЪДЕЩИ ПЕРИОДИ">Разходи за бъдещи периоди</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000168" trl="Y">
+  <value column="Name" original="РАЗХОДИ ЗА БЪДЕЩИ ПЕРИОДИ">Разходи за бъдещи периоди</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000169" trl="Y">
+  <value column="Name" original="ИЗВЪНРЕДНИ РАЗХОДИ">Извънредни разходи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000170" trl="Y">
+  <value column="Name" original="ИЗВЪНРЕДНИ РАЗХОДИ">Извънредни разходи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000171" trl="N">
+  <value column="Name" original="СМЕТКИ ЗА ПРИХОДИ">СМЕТКИ ЗА ПРИХОДИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000172" trl="N">
+  <value column="Name" original="ОТ ПРОДАЖБИ И ДР. ОБИЧАЙНИ ДЕЙНОСТИ">ОТ ПРОДАЖБИ И ДР. ОБИЧАЙНИ ДЕЙНОСТИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000173" trl="N">
+  <value column="Name" original="ПОСТ.ОТ ПРОД.НА СТОКИ">ПОСТ.ОТ ПРОД.НА СТОКИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000174" trl="N">
+  <value column="Name" original="ПОСТ.ОТ ПРОД.НА УСЛУГИ">ПОСТ.ОТ ПРОД.НА УСЛУГИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000175" trl="N">
+  <value column="Name" original="ПРИХ.ОТ ДР.ПРОДАЖБИ">ПРИХ.ОТ ДР.ПРОДАЖБИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000176" trl="Y">
+  <value column="Name" original="ФИНАНСОВИ ПРИХОДИ">Финансови приходи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000177" trl="N">
+  <value column="Name" original="ПРИХ.ОТ ВАЛУТНИ ОПЕРАЦИИ">ПРИХ.ОТ ВАЛУТНИ ОПЕРАЦИИ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000178" trl="Y">
+  <value column="Name" original="ИЗВЪНРЕДНИ ПРИХОДИ">Извънредни приходи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000179" trl="Y">
+  <value column="Name" original="ДРУГИ ИЗВЪНРЕДНИ ПРИХОДИ">Други извънредни приходи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="1000180" trl="N">
+  <value column="Name" original="ДРУГИ">ДРУГИ</value>
+  <value column="Description" original=""/>
  </row>
 </adempiereTrl>

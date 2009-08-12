@@ -1,139 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--ADempiere Release 3.1.0_2006-01-20 - The Open Source Profesional ERP,CRM and SCM - ADempiere; Implementation: unknown - not supported-->
-<!--<!DOCTYPE adempiereTrl PUBLIC "-//Adempiere//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
+<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="bg_BG" table="M_Product">
- <row id="122" trl="N">
+ <row id="122" trl="Y">
   <value column="Name" original="Standard">Standard</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="123" trl="N">
-  <value column="Name" original="Oak Tree">Oak Tree</value>
+ <row id="123" trl="Y">
+  <value column="Name" original="Oak Tree">Äúá</value>
   <value column="Description" original=""/>
-  <value column="DocumentNote" original="Oak Trees may grow quite a bit.">			Oak Trees may grow quite a bit.		</value>
+  <value column="DocumentNote" original="Oak Trees may grow quite a bit.">Oak Trees may grow quite a bit.</value>
  </row>
- <row id="124" trl="N">
-  <value column="Name" original="Elm Tree">Elm Tree</value>
-  <value column="Description" original=""/>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="125" trl="N">
-  <value column="Name" original="Grass Seed Container">			Grass Seed Container		</value>
+ <row id="124" trl="Y">
+  <value column="Name" original="Elm Tree">Бряст</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="126" trl="N">
-  <value column="Name" original="Planting Service">			Planting Service		</value>
+ <row id="125" trl="Y">
+  <value column="Name" original="Grass Seed Container">Съд за тревни семена</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="127" trl="N">
-  <value column="Name" original="Rose Bush">Rose Bush</value>
+ <row id="126" trl="Y">
+  <value column="Name" original="Planting Service">Услуга за посаждане</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="128" trl="N">
-  <value column="Name" original="Azalea Bush">Azalea Bush</value>
+ <row id="127" trl="Y">
+  <value column="Name" original="Rose Bush">Розов храст</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="129" trl="N">
-  <value column="Name" original="Holly Bush">Holly Bush</value>
+ <row id="128" trl="Y">
+  <value column="Name" original="Azalea Bush">Aзалия</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="130" trl="N">
-  <value column="Name" original="Plum Tree">Plum Tree</value>
+ <row id="129" trl="Y">
+  <value column="Name" original="Holly Bush">Храст бодлива зеленика</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="131" trl="N">
-  <value column="Name" original="Travel cost">Travel cost</value>
-  <value column="Description" original="Travel related costs">			Travel related costs		</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="132" trl="N">
-  <value column="Name" original="Mary Consultant">			Mary Consultant		</value>
+ <row id="130" trl="Y">
+  <value column="Name" original="Plum Tree">Ñëèâà</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="133" trl="N">
-  <value column="Name" original="Patio Chair">Patio Chair</value>
-  <value column="Description" original="Nice Chair for outdoors">			Nice Chair for outdoors		</value>
+ <row id="131" trl="Y">
+  <value column="Name" original="Travel cost">Стойност на пътуването</value>
+  <value column="Description" original="Travel related costs">Travel related costs</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="134" trl="N">
-  <value column="Name" original="Patio Table">Patio Table</value>
-  <value column="Description" original="Nice Table for outdoors">			Nice Table for outdoors		</value>
+ <row id="132" trl="Y">
+  <value column="Name" original="Mary Consultant">Mери Консултант</value>
+  <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="135" trl="N">
-  <value column="Name" original="Patio Sun Screen">			Patio Sun Screen		</value>
-  <value column="Description" original="Protect from UV">			Protect from UV		</value>
+ <row id="133" trl="Y">
+  <value column="Name" original="Patio Chair">Стол за веранда</value>
+  <value column="Description" original="Nice Chair for outdoors">Nice Chair for outdoors</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="136" trl="N">
-  <value column="Name" original="Fertilizer #50">			Fertilizer #50		</value>
-  <value column="Description" original="50 # Bag of Lawn Fertilizer">			50 # Bag of Lawn Fertilizer		</value>
+ <row id="134" trl="Y">
+  <value column="Name" original="Patio Table">Маса за веранда</value>
+  <value column="Description" original="Nice Table for outdoors">Nice Table for outdoors</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="137" trl="N">
-  <value column="Name" original="Mulch 10#">Mulch 10#</value>
-  <value column="Description" original="10# Bag of Mulch">			10# Bag of Mulch		</value>
+ <row id="135" trl="Y">
+  <value column="Name" original="Patio Sun Screen">Козирка за веранда</value>
+  <value column="Description" original="Protect from UV">Protect from UV</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="138" trl="N">
-  <value column="Name" original="Hoe 4 ft">Hoe 4 ft</value>
-  <value column="Description" original="4 Foot Metal Hoe">			4 Foot Metal Hoe		</value>
+ <row id="136" trl="Y">
+  <value column="Name" original="Fertilizer #50">Тор #50</value>
+  <value column="Description" original="50 # Bag of Lawn Fertilizer">50 # Bag of Lawn Fertilizer</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="139" trl="N">
-  <value column="Name" original="Rake Bamboo">Rake Bamboo</value>
-  <value column="Description" original="4 Foot Bamboo Rake">			4 Foot Bamboo Rake		</value>
+ <row id="137" trl="Y">
+  <value column="Name" original="Mulch 10#">Тор 10#</value>
+  <value column="Description" original="10# Bag of Mulch">10# Bag of Mulch</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="140" trl="N">
-  <value column="Name" original="Rake Metal">Rake Metal</value>
-  <value column="Description" original="4 Foot Metal Rake">			4 Foot Metal Rake		</value>
+ <row id="138" trl="Y">
+  <value column="Name" original="Hoe 4 ft">Мотика 4 фута</value>
+  <value column="Description" original="4 Foot Metal Hoe">4 Foot Metal Hoe</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="141" trl="N">
-  <value column="Name" original="Weeder">Weeder</value>
-  <value column="Description" original="Hand Weeder">			Hand Weeder		</value>
+ <row id="139" trl="Y">
+  <value column="Name" original="Rake Bamboo">Бамбуково гребло</value>
+  <value column="Description" original="4 Foot Bamboo Rake">4 Foot Bamboo Rake</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="142" trl="N">
-  <value column="Name" original="Transplanter">			Transplanter		</value>
-  <value column="Description" original="Hand Transplanter">			Hand Transplanter		</value>
+ <row id="140" trl="Y">
+  <value column="Name" original="Rake Metal">Метално гребло</value>
+  <value column="Description" original="4 Foot Metal Rake">4 Foot Metal Rake</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="143" trl="N">
-  <value column="Name" original="Grass Seeder">			Grass Seeder		</value>
-  <value column="Description" original="Manual Grass Seeder">			Manual Grass Seeder		</value>
+ <row id="141" trl="Y">
+  <value column="Name" original="Weeder">Тармък</value>
+  <value column="Description" original="Hand Weeder">Hand Weeder</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="144" trl="N">
-  <value column="Name" original="Lawn Tiller">Lawn Tiller</value>
-  <value column="Description" original="Manual Lawn Tiller">			Manual Lawn Tiller		</value>
+ <row id="142" trl="Y">
+  <value column="Name" original="Transplanter">Уред за присаждане</value>
+  <value column="Description" original="Hand Transplanter">Hand Transplanter</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="145" trl="N">
-  <value column="Name" original="Patio Furniture Set">			Patio Furniture Set		</value>
-  <value column="Description" original="1 table, 4 Chairs and 1 Sun Screen">			1 table, 4 Chairs and 1 Sun Screen		</value>
+ <row id="143" trl="Y">
+  <value column="Name" original="Grass Seeder">Сито за тревни семена</value>
+  <value column="Description" original="Manual Grass Seeder">Manual Grass Seeder</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="144" trl="Y">
+  <value column="Name" original="Lawn Tiller">Валяк за морави</value>
+  <value column="Description" original="Manual Lawn Tiller">Manual Lawn Tiller</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="145" trl="Y">
+  <value column="Name" original="Patio Furniture Set">Комплект мебели за веранда</value>
+  <value column="Description" original="1 table, 4 Chairs and 1 Sun Screen">1 table, 4 Chairs and 1 Sun Screen</value>
   <value column="DocumentNote" original="&#9;"/>
  </row>
- <row id="146" trl="N">
-  <value column="Name" original="How To Plant">			How To Plant		</value>
-  <value column="Description" original="Information on how to best to plant your future.">			Information on how to best to plant your future.		</value>
+ <row id="146" trl="Y">
+  <value column="Name" original="How To Plant">Как да садим</value>
+  <value column="Description" original="Information on how to best to plant your future.">Information on how to best to plant your future.</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="147" trl="N">
-  <value column="Name" original="TShirt - Red Large">			TShirt - Red Large		</value>
+ <row id="147" trl="Y">
+  <value column="Name" original="TShirt - Red Large">Tениска-червена-голяма</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="148" trl="N">
-  <value column="Name" original="TShirt - Green Large">			TShirt - Green Large		</value>
+ <row id="148" trl="Y">
+  <value column="Name" original="TShirt - Green Large">Tениска-зелена-голяма</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="1000000" trl="Y">
+  <value column="Name" original="Standard">Standard</value>
   <value column="Description" original=""/>
   <value column="DocumentNote" original=""/>
  </row>
