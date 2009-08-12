@@ -143,7 +143,7 @@ public class InfoInOut extends Info
 		lDescription.setLabelFor(fDescription);
 		fDescription.setBackground(AdempierePLAF.getInfoBackground());
 		fDescription.addActionListener(this);
-		lPOReference.setLabelFor(lPOReference);
+		lPOReference.setLabelFor(fPOReference);
 		fPOReference.setBackground(AdempierePLAF.getInfoBackground());
 		fPOReference.addActionListener(this);
 		fIsSOTrx.setSelected(!"N".equals(Env.getContext(Env.getCtx(), p_WindowNo, "IsSOTrx")));
