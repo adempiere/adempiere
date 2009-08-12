@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Workflow">
  <row id="101" trl="Y">
   <value column="Name" original="Project Setup and Use">Einrichtung Projekt</value>
@@ -99,92 +99,92 @@ The system converts the measures into percentages (based on the target and achie
  <row id="113" trl="Y">
   <value column="Name" original="Request Setup">Einrichtung Anfragen</value>
   <value column="Description" original="Set up the client to process requests">Richten Sie für den Mandanten die Verarbeitung von Anfragen ein</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="114" trl="Y">
   <value column="Name" original="Requisition Setup">Einrichtung Anforderungen</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="115" trl="Y">
   <value column="Name" original="Process_Requisition">Verarbeitung Anforderung</value>
   <value column="Description" original="(Standard Process_Requisition)">Besispiel-Workflow mit Genehmigung</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="116" trl="Y">
   <value column="Name" original="Process_Order">Verarbeitung Auftrag/Bestellung</value>
   <value column="Description" original="(Standard Process Order)">(Standard-Verarbeitung Auftrag/Bestellung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="117" trl="Y">
   <value column="Name" original="Process_Shipment">Verarbeitung Lieferschein</value>
   <value column="Description" original="(Standard Process Shipment)">(Standard-Verarbeitung Lieferschein)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="118" trl="Y">
   <value column="Name" original="Process_Invoice">Verarbeitung Rechnung</value>
   <value column="Description" original="(Standard Process Onvoice)">(Standard-Verarbeitung Rechnung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="119" trl="Y">
   <value column="Name" original="Process_Cash">Verarbeitung Kasse</value>
   <value column="Description" original="(Standard Process Cash)">(Standard-Verarbeitung Kasse)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Process_Payment">Verarbeitung Zahlung</value>
   <value column="Description" original="(Standard Process Payment)">(Standard-Verarbeitung Zahlung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="121" trl="Y">
   <value column="Name" original="Process_Journal">Verarbeitung Journal</value>
   <value column="Description" original="(Standard Process Journal)">(Standard-Verarbeitung Journall)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="122" trl="Y">
   <value column="Name" original="Process_JournalBatch">Verarbeitung JournalBatch</value>
   <value column="Description" original="(Standard Process Jornal Batch)">(Standard-Verarbeitung Jornal Batch)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="123" trl="Y">
   <value column="Name" original="Process_RMA">Verarbeitung Freigabe Warenrücksendung</value>
   <value column="Description" original="(Standard Process_RMA)">(Standard-Verarbeitung Freigabe Warenrücksendung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="124" trl="Y">
   <value column="Name" original="Process_InOutConfirm">Verarbeitung Bestätigung Warenbewegung</value>
   <value column="Description" original="(Standard Process Confirmation)">(Standard-Verarbeitung Bestätigung Warenbewegung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="125" trl="Y">
   <value column="Name" original="Process_Allocation">Verarbeitung Zuordnung</value>
   <value column="Description" original="(Standard Process Allocation)">(Standard-Verarbeitung Zuordnung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="126" trl="Y">
   <value column="Name" original="Process_TimeExpense">Verarbeitung Zeit/Spesen</value>
   <value column="Description" original="(Standard Process Time Expense)">(Standard-Verarbeitung Zeit/Spesen)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Process_Inventory">Verarbeitung Bestand</value>
   <value column="Description" original="(Standard Process Inventory)">(Standard-Verarbeitung Bestand)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="128" trl="Y">
   <value column="Name" original="Process_Movement">Verarbeitung Ein-/Auslagerung</value>
   <value column="Description" original="(Standard Process Movement)">(Standard-Verarbeitung Ein-/Auslagerung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="129" trl="Y">
   <value column="Name" original="Process_MovementConfirm">Verarbeitung Bestätigung Warenbewegung</value>
   <value column="Description" original="(Standard Process Movement Confirmation)">(Standard-Verarbeitung Bestätigung Warenbewegung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="130" trl="Y">
   <value column="Name" original="Process_BankStatement">Verarbeitung Bankauszug</value>
   <value column="Description" original="(Standard Process Bank Statement)">(Standard-Verarbeitung Bankauszug)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="131" trl="Y">
   <value column="Name" original="Business Partner Approval">Geschäftspartner-Genehmigung</value>

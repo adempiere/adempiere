@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Window">
  <row id="100" trl="Y">
   <value column="Name" original="Table and Column">Tabelle und Spalte</value>
@@ -126,7 +126,7 @@
  <row id="127" trl="Y">
   <value column="Name" original="Test">Test</value>
   <value column="Description" original="Test Screen">Test Screen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="128" trl="Y">
   <value column="Name" original="Attachment">Anlage</value>
@@ -241,7 +241,7 @@
  <row id="154" trl="Y">
   <value column="Name" original="GL Budget">Hauptbuch - Budget</value>
   <value column="Description" original="Maintain General Ledger Budgets">Budgets zum Hauptbuch verwalten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="158" trl="Y">
   <value column="Name" original="Bank">Bank</value>
@@ -352,8 +352,8 @@
  </row>
  <row id="186" trl="Y">
   <value column="Name" original="EDI Transaction">EDI-Transaktion</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="187" trl="Y">
   <value column="Name" original="Form">Fenster (nicht dynamisch)</value>
@@ -498,12 +498,12 @@ Any restrictions for Organizations, Business Partners, Products, etc. are  as Pe
  <row id="221" trl="Y">
   <value column="Name" original="Find (indirect use)">Suche (indirekte Verwendung)</value>
   <value column="Description" original="Find Dialog (indirect use)">Suchdialog (indirekte Verwendung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="223" trl="Y">
   <value column="Name" original="Material Transactions (indirect use)">Waren-Bewegungen (indirekte Verwendung)</value>
   <value column="Description" original="Material Transactions (indirect use)">Waren-Bewegungen (indirekte Verwendung)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="224" trl="Y">
   <value column="Name" original="Print Form">Druck - Formulare</value>
@@ -524,7 +524,7 @@ Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z
  <row id="227" trl="Y">
   <value column="Name" original="System Image">System-Bild</value>
   <value column="Description" original="Maintain Images and Icons">Verwalten von Bildern und Ikonen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="228" trl="Y">
   <value column="Name" original="Matched Purchase Orders">Abgeglichene Bestellungen</value>
@@ -554,7 +554,7 @@ Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z
  <row id="234" trl="Y">
   <value column="Name" original="Expense Type">Aufwandsart</value>
   <value column="Description" original="Maintain Expense Report Types">Aufwandsarten verwalten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="235" trl="Y">
   <value column="Name" original="Expense Report">Aufwands-Bericht</value>
@@ -775,7 +775,7 @@ http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)
  <row id="277" trl="Y">
   <value column="Name" original="Import Bank Statement">Import - Bankauszug</value>
   <value column="Description" original="Import Bank Statements">Import von Bankauszügen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="278" trl="Y">
   <value column="Name" original="Import GL Journal">Import - Hauptbuchjournal</value>
@@ -791,7 +791,7 @@ Unbalanced Journals are imported; the handling is based on your settings for the
  <row id="280" trl="Y">
   <value column="Name" original="Import Payment">Import - Zahlung</value>
   <value column="Description" original="Import Payments">Zahlungen importieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="281" trl="Y">
   <value column="Name" original="Import Order">Import - Auftrag/Bestellung</value>
@@ -849,12 +849,12 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  <row id="291" trl="Y">
   <value column="Name" original="Business Partner Info">Geschäftspartner-Info</value>
   <value column="Description" original="Document Information of Business Partners">Informationen zu Geschäftspartnern anzeigen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="292" trl="Y">
   <value column="Name" original="Label Printer">Etiketten-Drucker</value>
   <value column="Description" original="Maintain Label Printer Definition">Verwalten von Etiketten-Drucker-Definitionen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="293" trl="Y">
   <value column="Name" original="Sales Rep Info">Vertreterinfo</value>
@@ -1014,7 +1014,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  <row id="324" trl="Y">
   <value column="Name" original="RfQ Response">Ausschreibungs-Antwort</value>
   <value column="Description" original="Manage RfQ Responses">Ausschreibungs-Antworten verwalten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="325" trl="Y">
   <value column="Name" original="Distribution Run">Verteilungs-Lauf</value>
@@ -1091,7 +1091,7 @@ If not defined, the first matching document type is used (e.g. AR Invoice - firs
  <row id="339" trl="Y">
   <value column="Name" original="POS Key Layout">POS - Tastenanordnung</value>
   <value column="Description" original="POS Function Key Layout">Anordnung der Funktionstasten für POS</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="340" trl="Y">
   <value column="Name" original="System Registration">System-Registration</value>
@@ -1156,7 +1156,7 @@ If not defined, the first matching document type is used (e.g. AR Invoice - firs
  <row id="352" trl="Y">
   <value column="Name" original="Position Category">Positions- Kategorie</value>
   <value column="Description" original="Maintain Job Position Categories">Verwalten von Job-Positions-Kategorien</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="353" trl="Y">
   <value column="Name" original="Remuneration">Vergütung</value>
@@ -1166,7 +1166,7 @@ If not defined, the first matching document type is used (e.g. AR Invoice - firs
  <row id="354" trl="Y">
   <value column="Name" original="Product BOM">Stückliste</value>
   <value column="Description" original="Maintain Product Bill of Materials">Stücklisten für Produkte verwalten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="355" trl="Y">
   <value column="Name" original="BOM Change Notice">Stückliste - Änderungsmeldung</value>
@@ -1181,7 +1181,7 @@ If not defined, the first matching document type is used (e.g. AR Invoice - firs
  <row id="358" trl="Y">
   <value column="Name" original="Attribute Set Instance">Ausprägung Merkmals-Satz</value>
   <value column="Description" original="View Attribute Set Instance detail and use">Ansehen der Ausprägungen von Merkmals-Sätzen und ihrer Verwendung</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="359" trl="Y">
   <value column="Name" original="Tax Declaration">Steuererklärung</value>
@@ -1227,7 +1227,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="367" trl="Y">
   <value column="Name" original="Issue Recommendation">Problemlösungs- Empfehlung</value>
   <value column="Description" original="Maintain Issue Recommendation">Problemlösungs-Empfehlungen verwalten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="368" trl="Y">
   <value column="Name" original="Issue Status">Problem-Status</value>
@@ -1237,7 +1237,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="369" trl="Y">
   <value column="Name" original="Known Issue">Bekanntes Problem</value>
   <value column="Description" original="Maintain Known Issue">Bekannte Probleme verwalten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="370" trl="Y">
   <value column="Name" original="Issue Project">Projekt-Problem</value>
@@ -1247,12 +1247,12 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="371" trl="Y">
   <value column="Name" original="Issue User">Problem-Nutzer</value>
   <value column="Description" original="User who reported Issues">Nutzer, der Probleme gemeldet hat</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="372" trl="Y">
   <value column="Name" original="Issue System">System-Problem</value>
   <value column="Description" original="Maintain Systems">Systeme verwalten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="373" trl="Y">
   <value column="Name" original="Web Project">Web-Projekt</value>
@@ -1261,8 +1261,8 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  </row>
  <row id="374" trl="Y">
   <value column="Name" original="Template">Vorlage</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="375" trl="Y">
   <value column="Name" original="Web Ad Management">Werbebanner-Verwaltung</value>
@@ -1302,7 +1302,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="384" trl="Y">
   <value column="Name" original="Web Broadcast Server">Web-Broadcast-Server</value>
   <value column="Description" original="Maintain Web Broadcast Server">Web-Broadcast-Server verwalten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="385" trl="Y">
   <value column="Name" original="Info Window">Info-Fenster</value>
@@ -1317,12 +1317,12 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="387" trl="Y">
   <value column="Name" original="Text Index Stop">Text Index Stop</value>
   <value column="Description" original="Maintain keywords not to be indexed">Maintain keywords not to be indexed</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="388" trl="Y">
   <value column="Name" original="Text Search Log">Text Search Log</value>
   <value column="Description" original="View Text Search Log">View Text Search Log</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="389" trl="Y">
   <value column="Name" original="LDAP Server">LDAP-Server</value>
@@ -1332,7 +1332,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="50001" trl="Y">
   <value column="Name" original="Packages Installed">Installierte Erweiterungen</value>
   <value column="Description" original="List of packages installed">Liste der installierten Erweiterungen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50002" trl="Y">
   <value column="Name" original="Package Maintenance">Erweiterungs-Verwaltung</value>
@@ -1342,7 +1342,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="50003" trl="Y">
   <value column="Name" original="PackOut - Create a package">PackOut - Anlegen eines Erweiterungspaketes</value>
   <value column="Description" original="Package build Application">Package build Application</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50004" trl="Y">
   <value column="Name" original="Common Package Details">Common Package Details</value>
@@ -1356,57 +1356,57 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  </row>
  <row id="50006" trl="Y">
   <value column="Name" original="System Configurator">System-Konfigurator</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50007" trl="Y">
   <value column="Name" original="Dashboard Content Edit">Dashboard Content Edit</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="52000" trl="Y">
   <value column="Name" original="Web POS Menu">Web POS Menu</value>
   <value column="Description" original="To dynamically generate the menu links in web POS">To dynamically generate the menu links in web POS</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="52001" trl="Y">
   <value column="Name" original="Web POS Role Menu">Web POS Role Menu</value>
   <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">Depending on Which Role, Different set of Menus are generated and made available.</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="52002" trl="Y">
   <value column="Name" original="Web POS Properties">Web POS Properties</value>
   <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Stores the message tags to be picked up from AD_MESSAGE </value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="52003" trl="Y">
   <value column="Name" original="Web POS BlackListCheque">Web POS BlackListCheque</value>
   <value column="Description" original="Black Listed Cheque">Black Listed Cheque</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="53003" trl="Y">
   <value column="Name" original="Model Validator">Model Validator</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53015" trl="Y">
   <value column="Name" original="ASP Modules">ASP Modules</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53016" trl="Y">
   <value column="Name" original="ASP Subscribed Modules">ASP Subscribed Modules</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53017" trl="Y">
   <value column="Name" original="Rule">Rule</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53019" trl="Y">
   <value column="Name" original="Migration Scripts">Migration Scripts</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
 </adempiereTrl>

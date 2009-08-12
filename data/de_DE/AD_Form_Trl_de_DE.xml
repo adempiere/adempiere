@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Form">
  <row id="100" trl="Y">
   <value column="Name" original="Generate Invoices (manual)">Rechnungen generieren (manuell)</value>
@@ -20,12 +20,12 @@
  <row id="103" trl="Y">
   <value column="Name" original="Material Transactions">Waren-Bewegungen</value>
   <value column="Description" original="Material Transactions">Waren-Bewegungen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Payment Allocation">Zahlung-Zuordnung</value>
   <value column="Description" original="Allocate invoices and payments">Rechnungen und Zahlungen zuordnen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Generate Charges">Ein/Ausgaben generieren</value>
@@ -35,7 +35,7 @@
  <row id="106" trl="Y">
   <value column="Name" original="Payment Print/Export">Zahlung drucken</value>
   <value column="Description" original="Print or export your payments">Drucken oder exportieren von Zahlungen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Payment Selection (manual)">Zahlung auswählen (manuell)</value>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="C_Currency">
  <row id="100" trl="Y">
   <value column="Description" original="US Dollar">Dollar (100 Cents)</value>
@@ -91,79 +92,79 @@
  </row>
  <row id="143" trl="Y">
   <value column="Description" original="Armenian Dram">Dram (100 Lumma)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="144" trl="Y">
   <value column="Description" original="Kwanza">Kwanza (100 Lwei)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="145" trl="Y">
   <value column="Description" original="Azerbaijanian Manat (new)">Manat (100 Qäpik)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="146" trl="Y">
   <value column="Description" original="Boliviano">Boliviano (100 Centavos)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="147" trl="Y">
   <value column="Description" original="Franc Congolais">Franc (100 Centimes)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="148" trl="Y">
   <value column="Description" original="Czech Koruna">Krone (100 Haleru)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="149" trl="Y">
   <value column="Description" original="Lari">Lari (100 Tetri)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="150" trl="Y">
   <value column="Description" original="Iranian Rial">Rial (100 Dinars)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="151" trl="Y">
   <value column="Description" original="Lithuanian Litus">Litas (100 Centas)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="152" trl="Y">
   <value column="Description" original="Moldovan Leu">Leu (100 Bani)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="153" trl="Y">
   <value column="Description" original="Philippine Peso">Peso (100 Centavos)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="154" trl="Y">
   <value column="Description" original="Zloty">Zloty (100 Groszy)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="155" trl="Y">
   <value column="Description" original="Russian Ruble">Rubel (100 Kopeken)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="156" trl="Y">
   <value column="Description" original="Sudanese Dinar">Dinar (-)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="157" trl="Y">
   <value column="Description" original="Somoni">Somoni (100 Diram)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="158" trl="Y">
   <value column="Description" original="Manat">Manat (100 Tenge)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="159" trl="Y">
   <value column="Description" original="Timor Escudo">Timor-Escudo (100 Centavos)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="160" trl="Y">
   <value column="Description" original="Hryvnia">Hrywnja (100 Kopeken)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="161" trl="Y">
   <value column="Description" original="Uzbekistan Sum">So'm (100 Tiyin)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="163" trl="Y">
   <value column="Description" original="Cyprus Pound">Pfund (100 Cents)</value>
@@ -655,39 +656,39 @@
  </row>
  <row id="336" trl="Y">
   <value column="Description" original="Costa Rican Colon">Colon (100 Centimes)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="337" trl="Y">
   <value column="Description" original="Guinea Franc">Franc (100 Centimes)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="338" trl="Y">
   <value column="Description" original="Guinea-Bissau Peso">Peso (100 Centavos)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="339" trl="Y">
   <value column="Description" original="Som">Som (100 Tyiyn)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="340" trl="Y">
   <value column="Description" original="North Korean Won">Won (1 Won)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="341" trl="Y">
   <value column="Description" original="Tenge">Tenge (100 Tyin)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="342" trl="Y">
   <value column="Description" original="Lebanese Pound">Pfund (100 Piastres)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="343" trl="Y">
   <value column="Description" original="Naira">Naira (100 Kobo)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="344" trl="Y">
   <value column="Description" original="Guarani">Guarani (100 Centimos)</value>
-  <value column="CurSymbol" original=""></value>
+  <value column="CurSymbol" original=""/>
  </row>
  <row id="346" trl="Y">
   <value column="Description" original="Leu (new)">Leu (100 Bani)</value>

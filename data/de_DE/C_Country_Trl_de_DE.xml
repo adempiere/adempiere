@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="C_Country">
  <row id="100" trl="Y">
   <value column="Name" original="United States">Vereinigte Staaten von Amerika</value>
@@ -14,32 +15,32 @@
  <row id="102" trl="Y">
   <value column="Name" original="France">Frankreich</value>
   <value column="Description" original="France">Frankreich</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="103" trl="Y">
   <value column="Name" original="Belgium">Belgien</value>
   <value column="Description" original="">Belgien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Nederland">Niederlande</value>
   <value column="Description" original="">Niederlande</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="106" trl="Y">
   <value column="Name" original="Spain">Spanien</value>
   <value column="Description" original="">Spanien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Switzerland">Schweiz (Confoederatio Helvetica)</value>
   <value column="Description" original="">Schweiz (Confoederatio Helvetica)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Austria">Österreich</value>
   <value column="Description" original="Österreich">Österreich</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="109" trl="Y">
   <value column="Name" original="Canada">Kanada</value>
@@ -49,1161 +50,1161 @@
  <row id="110" trl="Y">
   <value column="Name" original="Afghanistan">Afghanistan</value>
   <value column="Description" original="Afghanistan">Afghanistan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="111" trl="Y">
   <value column="Name" original="Albania">Albanien</value>
   <value column="Description" original="Albania">Albanien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="112" trl="Y">
   <value column="Name" original="Algeria">Algerien</value>
   <value column="Description" original="Algeria">Algerien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="113" trl="Y">
   <value column="Name" original="American Samoa">Amerikanisch-Samoa</value>
   <value column="Description" original="American Samoa">Amerikanisch-Samoa</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="114" trl="Y">
   <value column="Name" original="Andorra">Andorra</value>
   <value column="Description" original="Andorra">Andorra</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="115" trl="Y">
   <value column="Name" original="Angola">Angola</value>
   <value column="Description" original="Angola">Angola</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="116" trl="Y">
   <value column="Name" original="Anguilla">Anguilla</value>
   <value column="Description" original="Anguilla">Anguilla</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="117" trl="Y">
   <value column="Name" original="Antarctica">Antarktis (Sonderstatus durch Antarktis-Vertrag)</value>
   <value column="Description" original="Antarctica">Antarktis (Sonderstatus durch Antarktis-Vertrag)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="118" trl="Y">
   <value column="Name" original="Antigua And Barbuda">Antigua und Barbuda</value>
   <value column="Description" original="Antigua And Barbuda">Antigua und Barbuda</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="119" trl="Y">
   <value column="Name" original="Argentina">Argentinien</value>
   <value column="Description" original="Argentina">Argentinien</value>
-  <value column="RegionName" original="Provincia "></value>
+  <value column="RegionName" original="Provincia "/>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Armenia">Armenien</value>
   <value column="Description" original="Armenia">Armenien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="121" trl="Y">
   <value column="Name" original="Aruba">Aruba</value>
   <value column="Description" original="Aruba">Aruba</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="122" trl="Y">
   <value column="Name" original="Australia">Australien</value>
   <value column="Description" original="Australia">Australien</value>
-  <value column="RegionName" original="State"></value>
+  <value column="RegionName" original="State"/>
  </row>
  <row id="124" trl="Y">
   <value column="Name" original="Azerbaijan">Aserbaidschan</value>
   <value column="Description" original="Azerbaijan">Aserbaidschan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="125" trl="Y">
   <value column="Name" original="Bahamas">Bahamas</value>
   <value column="Description" original="Bahamas">Bahamas</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="126" trl="Y">
   <value column="Name" original="Bahrain">Bahrain</value>
   <value column="Description" original="Bahrain">Bahrain</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Bangladesh">Bangladesch</value>
   <value column="Description" original="Bangladesh">Bangladesch</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="128" trl="Y">
   <value column="Name" original="Barbados">Barbados</value>
   <value column="Description" original="Barbados">Barbados</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="129" trl="Y">
   <value column="Name" original="Belarus">Belarus (Weißrussland)</value>
   <value column="Description" original="Belarus">Belarus (Weißrussland)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="131" trl="Y">
   <value column="Name" original="Belize">Belize</value>
   <value column="Description" original="Belize">Belize</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="132" trl="Y">
   <value column="Name" original="Benin">Benin</value>
   <value column="Description" original="Benin">Benin</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="133" trl="Y">
   <value column="Name" original="Bermuda">Bermuda</value>
   <value column="Description" original="Bermuda">Bermuda</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="134" trl="Y">
   <value column="Name" original="Bhutan">Bhutan</value>
   <value column="Description" original="Bhutan">Bhutan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="135" trl="Y">
   <value column="Name" original="Bolivia">Bolivien</value>
   <value column="Description" original="Bolivia">Bolivien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="136" trl="Y">
   <value column="Name" original="Bosnia And Herzegovina">Bosnien und Herzegowina</value>
   <value column="Description" original="Bosnia And Herzegovina">Bosnien und Herzegowina</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="137" trl="Y">
   <value column="Name" original="Botswana">Botswana</value>
   <value column="Description" original="Botswana">Botswana</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="138" trl="Y">
   <value column="Name" original="Bouvet Island">Bouvetinsel</value>
   <value column="Description" original="Bouvet Island">Bouvetinsel</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="139" trl="Y">
   <value column="Name" original="Brazil">Brasilien</value>
   <value column="Description" original="Brazil">Brasilien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="140" trl="Y">
   <value column="Name" original="British Indian Ocean Territory">Britisches Territorium im Indischen Ozean</value>
   <value column="Description" original="British Indian Ocean Territory">Britisches Territorium im Indischen Ozean</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="141" trl="Y">
   <value column="Name" original="Brunei Darussalam">Brunei Darussalam</value>
   <value column="Description" original="Brunei Darussalam">Brunei Darussalam</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="142" trl="Y">
   <value column="Name" original="Bulgaria">Bulgarien</value>
   <value column="Description" original="Bulgaria">Bulgarien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="143" trl="Y">
   <value column="Name" original="Burkina Faso">Burkina Faso</value>
   <value column="Description" original="Burkina Faso">Burkina Faso</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="144" trl="Y">
   <value column="Name" original="Burundi">Burundi</value>
   <value column="Description" original="Burundi">Burundi</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="145" trl="Y">
   <value column="Name" original="Cambodia">Kambodscha</value>
   <value column="Description" original="Cambodia">Kambodscha</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="146" trl="Y">
   <value column="Name" original="Cameroon">Kamerun</value>
   <value column="Description" original="Cameroon">Kamerun</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="148" trl="Y">
   <value column="Name" original="Cape Verde">Kap Verde</value>
   <value column="Description" original="Cape Verde">Kap Verde</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="149" trl="Y">
   <value column="Name" original="Cayman Islands">Kaimaninseln</value>
   <value column="Description" original="Cayman Islands">Kaimaninseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="150" trl="Y">
   <value column="Name" original="Central African Republic">Zentralafrikanische Republik</value>
   <value column="Description" original="Central African Republic">Zentralafrikanische Republik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="151" trl="Y">
   <value column="Name" original="Chad">Tschad</value>
   <value column="Description" original="Chad">Tschad</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="152" trl="Y">
   <value column="Name" original="Chile">Chile</value>
   <value column="Description" original="Chile">Chile</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="153" trl="Y">
   <value column="Name" original="China">China, Volksrepublik</value>
   <value column="Description" original="China">China, Volksrepublik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="154" trl="Y">
   <value column="Name" original="Christmas Island">Weihnachtsinsel</value>
   <value column="Description" original="Christmas Island">Weihnachtsinsel</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="155" trl="Y">
   <value column="Name" original="Cocos (keeling) Islands">Kokosinseln (Keelinginseln)</value>
   <value column="Description" original="Cocos (keeling) Islands">Kokosinseln (Keelinginseln)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="156" trl="Y">
   <value column="Name" original="Colombia">Kolumbien</value>
   <value column="Description" original="Colombia">Kolumbien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="157" trl="Y">
   <value column="Name" original="Comoros">Komoren</value>
   <value column="Description" original="Comoros">Komoren</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="158" trl="Y">
   <value column="Name" original="Congo">Republik Kongo</value>
   <value column="Description" original="Congo">Republik Kongo</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="159" trl="Y">
   <value column="Name" original="Congo The Democratic Republic Of The">Kongo, Demokratische Republik (ehem. Zaire)</value>
   <value column="Description" original="Congo The Democratic Republic Of The">Kongo, Demokratische Republik (ehem. Zaire)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="160" trl="Y">
   <value column="Name" original="Cook Islands">Cookinseln</value>
   <value column="Description" original="Cook Islands">Cookinseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="161" trl="Y">
   <value column="Name" original="Costa Rica">Costa Rica</value>
   <value column="Description" original="Costa Rica">Costa Rica</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="162" trl="Y">
   <value column="Name" original="Cote D'ivoire">Côte d'Ivoire (Elfenbeinküste)</value>
   <value column="Description" original="Cote D'ivoire">Côte d'Ivoire (Elfenbeinküste)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="163" trl="Y">
   <value column="Name" original="Croatia">Kroatien (Hrvatska)</value>
   <value column="Description" original="Croatia">Kroatien (Hrvatska)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="164" trl="Y">
   <value column="Name" original="Cuba">Kuba</value>
   <value column="Description" original="Cuba">Kuba</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="165" trl="Y">
   <value column="Name" original="Cyprus">Zypern</value>
   <value column="Description" original="Cyprus">Zypern</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="166" trl="Y">
   <value column="Name" original="Czech Republic">Tschechische Republik</value>
   <value column="Description" original="Czech Republic">Tschechische Republik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="167" trl="Y">
   <value column="Name" original="Denmark">Dänemark</value>
   <value column="Description" original="Denmark">Dänemark</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="168" trl="Y">
   <value column="Name" original="Djibouti">Dschibuti</value>
   <value column="Description" original="Djibouti">Dschibuti</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="169" trl="Y">
   <value column="Name" original="Dominica">Dominica</value>
   <value column="Description" original="Dominica">Dominica</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="170" trl="Y">
   <value column="Name" original="Dominican Republic">Dominikanische Republik</value>
   <value column="Description" original="Dominican Republic">Dominikanische Republik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="171" trl="Y">
   <value column="Name" original="Ecuador">Ecuador</value>
   <value column="Description" original="Ecuador">Ecuador</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="172" trl="Y">
   <value column="Name" original="Egypt">Ägypten</value>
   <value column="Description" original="Egypt">Ägypten</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="173" trl="Y">
   <value column="Name" original="El Salvador">El Salvador</value>
   <value column="Description" original="El Salvador">El Salvador</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="174" trl="Y">
   <value column="Name" original="Equatorial Guinea">Äquatorialguinea</value>
   <value column="Description" original="Equatorial Guinea">Äquatorialguinea</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="175" trl="Y">
   <value column="Name" original="Eritrea">Eritrea</value>
   <value column="Description" original="Eritrea">Eritrea</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="176" trl="Y">
   <value column="Name" original="Estonia">Estland (Reval)</value>
   <value column="Description" original="Estonia">Estland (Reval)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="177" trl="Y">
   <value column="Name" original="Ethiopia">Äthiopien</value>
   <value column="Description" original="Ethiopia">Äthiopien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="178" trl="Y">
   <value column="Name" original="Falkland Islands (malvinas)">Falklandinseln (Malwinen)</value>
   <value column="Description" original="Falkland Islands (malvinas)">Falklandinseln (Malwinen)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="179" trl="Y">
   <value column="Name" original="Faroe Islands">Färöer</value>
   <value column="Description" original="Faroe Islands">Färöer</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="180" trl="Y">
   <value column="Name" original="Fiji">Fidschi</value>
   <value column="Description" original="Fiji">Fidschi</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="181" trl="Y">
   <value column="Name" original="Finland">Finnland</value>
   <value column="Description" original="Finland">Finnland</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="183" trl="Y">
   <value column="Name" original="French Guiana">Französisch-Guayana</value>
   <value column="Description" original="French Guiana">Französisch-Guayana</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="184" trl="Y">
   <value column="Name" original="French Polynesia">Französisch-Polynesien</value>
   <value column="Description" original="French Polynesia">Französisch-Polynesien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="185" trl="Y">
   <value column="Name" original="French Southern Territories">Französische Süd- und Antarktisgebiete</value>
   <value column="Description" original="French Southern Territories">Französische Süd- und Antarktisgebiete</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="186" trl="Y">
   <value column="Name" original="Gabon">Gabun</value>
   <value column="Description" original="Gabon">Gabun</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="187" trl="Y">
   <value column="Name" original="Gambia">Gambia</value>
   <value column="Description" original="Gambia">Gambia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="188" trl="Y">
   <value column="Name" original="Georgia">Georgien</value>
   <value column="Description" original="Georgia">Georgien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="190" trl="Y">
   <value column="Name" original="Ghana">Ghana</value>
   <value column="Description" original="Ghana">Ghana</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="191" trl="Y">
   <value column="Name" original="Gibraltar">Gibraltar</value>
   <value column="Description" original="Gibraltar">Gibraltar</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="192" trl="Y">
   <value column="Name" original="Greece">Griechenland</value>
   <value column="Description" original="Greece">Griechenland</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="193" trl="Y">
   <value column="Name" original="Greenland">Grönland</value>
   <value column="Description" original="Greenland">Grönland</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="194" trl="Y">
   <value column="Name" original="Grenada">Grenada</value>
   <value column="Description" original="Grenada">Grenada</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="195" trl="Y">
   <value column="Name" original="Guadeloupe">Guadeloupe</value>
   <value column="Description" original="Guadeloupe">Guadeloupe</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="196" trl="Y">
   <value column="Name" original="Guam">Guam</value>
   <value column="Description" original="Guam">Guam</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="197" trl="Y">
   <value column="Name" original="Guatemala">Guatemala</value>
   <value column="Description" original="Guatemala">Guatemala</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="198" trl="Y">
   <value column="Name" original="Guinea">Guinea</value>
   <value column="Description" original="Guinea">Guinea</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="199" trl="Y">
   <value column="Name" original="Guinea-bissau">Guinea-Bissau</value>
   <value column="Description" original="Guinea-bissau">Guinea-Bissau</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="200" trl="Y">
   <value column="Name" original="Guyana">Guyana</value>
   <value column="Description" original="Guyana">Guyana</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="201" trl="Y">
   <value column="Name" original="Haiti">Haiti</value>
   <value column="Description" original="Haiti">Haiti</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="202" trl="Y">
   <value column="Name" original="Heard Island And Mcdonald Islands">Heard- und McDonald-Inseln</value>
   <value column="Description" original="Heard Island And Mcdonald Islands">Heard- und McDonald-Inseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="203" trl="Y">
   <value column="Name" original="Holy See (vatican City State)">Vatikanstadt</value>
   <value column="Description" original="Holy See (vatican City State)">Vatikanstadt</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="204" trl="Y">
   <value column="Name" original="Honduras">Honduras</value>
   <value column="Description" original="Honduras">Honduras</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="205" trl="Y">
   <value column="Name" original="Hong Kong">Hongkong</value>
   <value column="Description" original="Hong Kong">Hongkong</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="206" trl="Y">
   <value column="Name" original="Hungary">Ungarn</value>
   <value column="Description" original="Hungary">Ungarn</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="207" trl="Y">
   <value column="Name" original="Iceland">Island</value>
   <value column="Description" original="Iceland">Island</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="208" trl="Y">
   <value column="Name" original="India">Indien</value>
   <value column="Description" original="India">Indien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="209" trl="Y">
   <value column="Name" original="Indonesia">Indonesien</value>
   <value column="Description" original="Indonesia">Indonesien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="210" trl="Y">
   <value column="Name" original="Iran Islamic Republic Of">Iran, Islamische Republik</value>
   <value column="Description" original="Iran Islamic Republic Of">Iran, Islamische Republik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="211" trl="Y">
   <value column="Name" original="Iraq">Irak</value>
   <value column="Description" original="Iraq">Irak</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="212" trl="Y">
   <value column="Name" original="Ireland">Irland</value>
   <value column="Description" original="Ireland">Irland</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="213" trl="Y">
   <value column="Name" original="Israel">Israel</value>
   <value column="Description" original="Israel">Israel</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="214" trl="Y">
   <value column="Name" original="Italy">Italien</value>
   <value column="Description" original="Italy">Italien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="215" trl="Y">
   <value column="Name" original="Jamaica">Jamaika</value>
   <value column="Description" original="Jamaica">Jamaika</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="216" trl="Y">
   <value column="Name" original="Japan">Japan</value>
   <value column="Description" original="Japan">Japan</value>
-  <value column="RegionName" original="Prefecture"></value>
+  <value column="RegionName" original="Prefecture"/>
  </row>
  <row id="217" trl="Y">
   <value column="Name" original="Jordan">Jordanien</value>
   <value column="Description" original="Jordan">Jordanien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="218" trl="Y">
   <value column="Name" original="Kazakhstan">Kasachstan</value>
   <value column="Description" original="Kazakhstan">Kasachstan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="219" trl="Y">
   <value column="Name" original="Kenya">Kenia</value>
   <value column="Description" original="Kenya">Kenia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="220" trl="Y">
   <value column="Name" original="Kiribati">Kiribati</value>
   <value column="Description" original="Kiribati">Kiribati</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="221" trl="Y">
   <value column="Name" original="Korea Democratic People's Republic Of">Korea, Demokratische Volksrepublik (Nordkorea)</value>
   <value column="Description" original="Korea Democratic People's Republic Of">Korea, Demokratische Volksrepublik (Nordkorea)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="222" trl="Y">
   <value column="Name" original="Korea Republic Of">Korea, Republik (Südkorea)</value>
   <value column="Description" original="Korea Republic Of">Korea, Republik (Südkorea)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="223" trl="Y">
   <value column="Name" original="Kuwait">Kuwait</value>
   <value column="Description" original="Kuwait">Kuwait</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="224" trl="Y">
   <value column="Name" original="Kyrgyzstan">Kirgisistan</value>
   <value column="Description" original="Kyrgyzstan">Kirgisistan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="225" trl="Y">
   <value column="Name" original="Lao People's Democratic Republic">Laos, Demokratische Volksrepublik</value>
   <value column="Description" original="Lao People's Democratic Republic">Laos, Demokratische Volksrepublik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="226" trl="Y">
   <value column="Name" original="Latvia">Lettland</value>
   <value column="Description" original="Latvia">Lettland</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="227" trl="Y">
   <value column="Name" original="Lebanon">Libanon</value>
   <value column="Description" original="Lebanon">Libanon</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="228" trl="Y">
   <value column="Name" original="Lesotho">Lesotho</value>
   <value column="Description" original="Lesotho">Lesotho</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="229" trl="Y">
   <value column="Name" original="Liberia">Liberia</value>
   <value column="Description" original="Liberia">Liberia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="230" trl="Y">
   <value column="Name" original="Libyan Arab Jamahiriya">Libysch-Arabische Dschamahirija (Libyen)</value>
   <value column="Description" original="Libyan Arab Jamahiriya">Libysch-Arabische Dschamahirija (Libyen)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="231" trl="Y">
   <value column="Name" original="Liechtenstein">Liechtenstein</value>
   <value column="Description" original="Liechtenstein">Liechtenstein</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="232" trl="Y">
   <value column="Name" original="Lithuania">Litauen</value>
   <value column="Description" original="Lithuania">Litauen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="233" trl="Y">
   <value column="Name" original="Luxembourg">Luxemburg</value>
   <value column="Description" original="Luxembourg">Luxemburg</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="234" trl="Y">
   <value column="Name" original="Macao">Macao</value>
   <value column="Description" original="Macao">Macao</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="235" trl="Y">
   <value column="Name" original="Macedonia Former Yugoslav Republic Of">Mazedonien, ehem. jugoslawische Republik [2b]</value>
   <value column="Description" original="Macedonia Former Yugoslav Republic Of">Mazedonien, ehem. jugoslawische Republik [2b]</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="236" trl="Y">
   <value column="Name" original="Madagascar">Madagaskar</value>
   <value column="Description" original="Madagascar">Madagaskar</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="237" trl="Y">
   <value column="Name" original="Malawi">Malawi</value>
   <value column="Description" original="Malawi">Malawi</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="238" trl="Y">
   <value column="Name" original="Malaysia">Malaysia</value>
   <value column="Description" original="Malaysia">Malaysia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="239" trl="Y">
   <value column="Name" original="Maldives">Malediven</value>
   <value column="Description" original="Maldives">Malediven</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="240" trl="Y">
   <value column="Name" original="Mali">Mali</value>
   <value column="Description" original="Mali">Mali</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="241" trl="Y">
   <value column="Name" original="Malta">Malta</value>
   <value column="Description" original="Malta">Malta</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="242" trl="Y">
   <value column="Name" original="Marshall Islands">Marshallinseln</value>
   <value column="Description" original="Marshall Islands">Marshallinseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="243" trl="Y">
   <value column="Name" original="Martinique">Martinique</value>
   <value column="Description" original="Martinique">Martinique</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="244" trl="Y">
   <value column="Name" original="Mauritania">Mauretanien</value>
   <value column="Description" original="Mauritania">Mauretanien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="245" trl="Y">
   <value column="Name" original="Mauritius">Mauritius</value>
   <value column="Description" original="Mauritius">Mauritius</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="246" trl="Y">
   <value column="Name" original="Mayotte">Mayotte</value>
   <value column="Description" original="Mayotte">Mayotte</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="247" trl="Y">
   <value column="Name" original="Mexico">Mexiko</value>
   <value column="Description" original="Mexico">Mexiko</value>
-  <value column="RegionName" original="State"></value>
+  <value column="RegionName" original="State"/>
  </row>
  <row id="248" trl="Y">
   <value column="Name" original="Micronesia Federated States Of">Mikronesien</value>
   <value column="Description" original="Micronesia Federated States Of">Mikronesien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="249" trl="Y">
   <value column="Name" original="Moldova Republic Of">Moldawien (Republik Moldau)</value>
   <value column="Description" original="Moldova Republic Of">Moldawien (Republik Moldau)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="250" trl="Y">
   <value column="Name" original="Monaco">Monaco</value>
   <value column="Description" original="Monaco">Monaco</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="251" trl="Y">
   <value column="Name" original="Mongolia">Mongolei</value>
   <value column="Description" original="Mongolia">Mongolei</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="252" trl="Y">
   <value column="Name" original="Montserrat">Montserrat</value>
   <value column="Description" original="Montserrat">Montserrat</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="253" trl="Y">
   <value column="Name" original="Morocco">Marokko</value>
   <value column="Description" original="Morocco">Marokko</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="254" trl="Y">
   <value column="Name" original="Mozambique">Mosambik</value>
   <value column="Description" original="Mozambique">Mosambik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="255" trl="Y">
   <value column="Name" original="Myanmar">Myanmar (Burma)</value>
   <value column="Description" original="Myanmar">Myanmar (Burma)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="256" trl="Y">
   <value column="Name" original="Namibia">Namibia</value>
   <value column="Description" original="Namibia">Namibia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="257" trl="Y">
   <value column="Name" original="Nauru">Nauru</value>
   <value column="Description" original="Nauru">Nauru</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="258" trl="Y">
   <value column="Name" original="Nepal">Nepal</value>
   <value column="Description" original="Nepal">Nepal</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="260" trl="Y">
   <value column="Name" original="Netherlands Antilles">Niederländische Antillen</value>
   <value column="Description" original="Netherlands Antilles">Niederländische Antillen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="261" trl="Y">
   <value column="Name" original="New Caledonia">Neukaledonien</value>
   <value column="Description" original="New Caledonia">Neukaledonien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="262" trl="Y">
   <value column="Name" original="New Zealand">Neuseeland</value>
   <value column="Description" original="New Zealand">Neuseeland</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="263" trl="Y">
   <value column="Name" original="Nicaragua">Nicaragua</value>
   <value column="Description" original="Nicaragua">Nicaragua</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="264" trl="Y">
   <value column="Name" original="Niger">Niger</value>
   <value column="Description" original="Niger">Niger</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="265" trl="Y">
   <value column="Name" original="Nigeria">Nigeria</value>
   <value column="Description" original="Nigeria">Nigeria</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="266" trl="Y">
   <value column="Name" original="Niue">Niue</value>
   <value column="Description" original="Niue">Niue</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="267" trl="Y">
   <value column="Name" original="Norfolk Island">Norfolkinsel</value>
   <value column="Description" original="Norfolk Island">Norfolkinsel</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="268" trl="Y">
   <value column="Name" original="Northern Mariana Islands">Nördliche Marianen</value>
   <value column="Description" original="Northern Mariana Islands">Nördliche Marianen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="269" trl="Y">
   <value column="Name" original="Norway">Norwegen</value>
   <value column="Description" original="Norway">Norwegen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="270" trl="Y">
   <value column="Name" original="Oman">Oman</value>
   <value column="Description" original="Oman">Oman</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="271" trl="Y">
   <value column="Name" original="Pakistan">Pakistan</value>
   <value column="Description" original="Pakistan">Pakistan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="272" trl="Y">
   <value column="Name" original="Palau">Palau</value>
   <value column="Description" original="Palau">Palau</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="273" trl="Y">
   <value column="Name" original="Palestinian Territory Occupied">Palästinensische Autonomiegebiete</value>
   <value column="Description" original="Palestinian Territory Occupied">Palästinensische Autonomiegebiete</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="274" trl="Y">
   <value column="Name" original="Panama">Panama</value>
   <value column="Description" original="Panama">Panama</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="275" trl="Y">
   <value column="Name" original="Papua New Guinea">Papua-Neuguinea</value>
   <value column="Description" original="Papua New Guinea">Papua-Neuguinea</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="276" trl="Y">
   <value column="Name" original="Paraguay">Paraguay</value>
   <value column="Description" original="Paraguay">Paraguay</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="277" trl="Y">
   <value column="Name" original="Peru">Peru</value>
   <value column="Description" original="Peru">Peru</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="278" trl="Y">
   <value column="Name" original="Philippines">Philippinen</value>
   <value column="Description" original="Philippines">Philippinen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="279" trl="Y">
   <value column="Name" original="Pitcairn">Pitcairninseln</value>
   <value column="Description" original="Pitcairn">Pitcairninseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="280" trl="Y">
   <value column="Name" original="Poland">Polen</value>
   <value column="Description" original="Poland">Polen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="281" trl="Y">
   <value column="Name" original="Portugal">Portugal</value>
   <value column="Description" original="Portugal">Portugal</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="282" trl="Y">
   <value column="Name" original="Puerto Rico">Puerto Rico</value>
   <value column="Description" original="Puerto Rico">Puerto Rico</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="283" trl="Y">
   <value column="Name" original="Qatar">Katar</value>
   <value column="Description" original="Qatar">Katar</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="284" trl="Y">
   <value column="Name" original="Reunion">Réunion</value>
   <value column="Description" original="Reunion">Réunion</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="285" trl="Y">
   <value column="Name" original="Romania">Rumänien</value>
   <value column="Description" original="Romania">Rumänien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="286" trl="Y">
   <value column="Name" original="Russian Federation">Russische Föderation</value>
   <value column="Description" original="Russian Federation">Russische Föderation</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="287" trl="Y">
   <value column="Name" original="Rwanda">Ruanda</value>
   <value column="Description" original="Rwanda">Ruanda</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="288" trl="Y">
   <value column="Name" original="Saint Helena">St. Helena</value>
   <value column="Description" original="Saint Helena">St. Helena</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="289" trl="Y">
   <value column="Name" original="Saint Kitts And Nevis">St. Kitts und Nevis</value>
   <value column="Description" original="Saint Kitts And Nevis">St. Kitts und Nevis</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="290" trl="Y">
   <value column="Name" original="Saint Lucia">St. Lucia</value>
   <value column="Description" original="Saint Lucia">St. Lucia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="291" trl="Y">
   <value column="Name" original="Saint Pierre And Miquelon">Saint-Pierre und Miquelon</value>
   <value column="Description" original="Saint Pierre And Miquelon">Saint-Pierre und Miquelon</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="292" trl="Y">
   <value column="Name" original="Saint Vincent And The Grenadines">St. Vincent und die Grenadinen</value>
   <value column="Description" original="Saint Vincent And The Grenadines">St. Vincent und die Grenadinen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="293" trl="Y">
   <value column="Name" original="Samoa">Samoa</value>
   <value column="Description" original="Samoa">Samoa</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="294" trl="Y">
   <value column="Name" original="San Marino">San Marino</value>
   <value column="Description" original="San Marino">San Marino</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="295" trl="Y">
   <value column="Name" original="Sao Tome And Principe">São Tomé und Príncipe</value>
   <value column="Description" original="Sao Tome And Principe">São Tomé und Príncipe</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="296" trl="Y">
   <value column="Name" original="Saudi Arabia">Saudi-Arabien</value>
   <value column="Description" original="Saudi Arabia">Saudi-Arabien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="297" trl="Y">
   <value column="Name" original="Senegal">Senegal</value>
   <value column="Description" original="Senegal">Senegal</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="298" trl="Y">
   <value column="Name" original="Seychelles">Seychellen</value>
   <value column="Description" original="Seychelles">Seychellen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="299" trl="Y">
   <value column="Name" original="Sierra Leone">Sierra Leone</value>
   <value column="Description" original="Sierra Leone">Sierra Leone</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="300" trl="Y">
   <value column="Name" original="Singapore">Singapur</value>
   <value column="Description" original="Singapore">Singapur</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="301" trl="Y">
   <value column="Name" original="Slovakia">Slowakei</value>
   <value column="Description" original="Slovakia">Slowakei</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="302" trl="Y">
   <value column="Name" original="Slovenia">Slowenien</value>
   <value column="Description" original="Slovenia">Slowenien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="303" trl="Y">
   <value column="Name" original="Solomon Islands">Salomonen</value>
   <value column="Description" original="Solomon Islands">Salomonen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="304" trl="Y">
   <value column="Name" original="Somalia">Somalia</value>
   <value column="Description" original="Somalia">Somalia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="305" trl="Y">
   <value column="Name" original="South Africa">Südafrika</value>
   <value column="Description" original="South Africa">Südafrika</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="306" trl="Y">
   <value column="Name" original="South Georgia And The South Sandwich Islands">Südgeorgien und die Südlichen Sandwichinseln</value>
   <value column="Description" original="South Georgia And The South Sandwich Islands">Südgeorgien und die Südlichen Sandwichinseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="308" trl="Y">
   <value column="Name" original="Sri Lanka">Sri Lanka</value>
   <value column="Description" original="Sri Lanka">Sri Lanka</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="309" trl="Y">
   <value column="Name" original="Sudan">Sudan</value>
   <value column="Description" original="Sudan">Sudan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="310" trl="Y">
   <value column="Name" original="Suriname">Suriname</value>
   <value column="Description" original="Suriname">Suriname</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="311" trl="Y">
   <value column="Name" original="Svalbard And Jan Mayen">Svalbard und Jan Mayen</value>
   <value column="Description" original="Svalbard And Jan Mayen">Svalbard und Jan Mayen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="312" trl="Y">
   <value column="Name" original="Swaziland">Swasiland</value>
   <value column="Description" original="Swaziland">Swasiland</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="313" trl="Y">
   <value column="Name" original="Sweden">Schweden</value>
   <value column="Description" original="Sweden">Schweden</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="315" trl="Y">
   <value column="Name" original="Syrian Arab Republic">Syrien, Arabische Republik</value>
   <value column="Description" original="Syrian Arab Republic">Syrien, Arabische Republik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="316" trl="Y">
   <value column="Name" original="Taiwan">Republik China (Taiwan)(Formosa)</value>
   <value column="Description" original="Taiwan">Republik China (Taiwan)(Formosa)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="317" trl="Y">
   <value column="Name" original="Tajikistan">Tadschikistan</value>
   <value column="Description" original="Tajikistan">Tadschikistan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="318" trl="Y">
   <value column="Name" original="Tanzania United Republic Of">Tansania, Vereinigte Republik</value>
   <value column="Description" original="Tanzania United Republic Of">Tansania, Vereinigte Republik</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="319" trl="Y">
   <value column="Name" original="Thailand">Thailand</value>
   <value column="Description" original="Thailand">Thailand</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="320" trl="Y">
   <value column="Name" original="Timor-leste">Timor-Leste</value>
   <value column="Description" original="Timor-leste">Timor-Leste</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="321" trl="Y">
   <value column="Name" original="Togo">Togo</value>
   <value column="Description" original="Togo">Togo</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="322" trl="Y">
   <value column="Name" original="Tokelau">Tokelau</value>
   <value column="Description" original="Tokelau">Tokelau</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="323" trl="Y">
   <value column="Name" original="Tonga">Tonga</value>
   <value column="Description" original="Tonga">Tonga</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="324" trl="Y">
   <value column="Name" original="Trinidad And Tobago">Trinidad und Tobago</value>
   <value column="Description" original="Trinidad And Tobago">Trinidad und Tobago</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="325" trl="Y">
   <value column="Name" original="Tunisia">Tunesien</value>
   <value column="Description" original="Tunisia">Tunesien</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="326" trl="Y">
   <value column="Name" original="Turkey">Türkei</value>
   <value column="Description" original="Turkey">Türkei</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="327" trl="Y">
   <value column="Name" original="Turkmenistan">Turkmenistan</value>
   <value column="Description" original="Turkmenistan">Turkmenistan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="328" trl="Y">
   <value column="Name" original="Turks And Caicos Islands">Turks- und Caicosinseln</value>
   <value column="Description" original="Turks And Caicos Islands">Turks- und Caicosinseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="329" trl="Y">
   <value column="Name" original="Tuvalu">Tuvalu</value>
   <value column="Description" original="Tuvalu">Tuvalu</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="330" trl="Y">
   <value column="Name" original="Uganda">Uganda</value>
   <value column="Description" original="Uganda">Uganda</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="331" trl="Y">
   <value column="Name" original="Ukraine">Ukraine</value>
   <value column="Description" original="Ukraine">Ukraine</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="332" trl="Y">
   <value column="Name" original="United Arab Emirates">Vereinigte Arabische Emirate</value>
   <value column="Description" original="United Arab Emirates">Vereinigte Arabische Emirate</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="333" trl="Y">
   <value column="Name" original="United Kingdom">Vereinigtes Königreich Großbritannien und Nordirland</value>
   <value column="Description" original="United Kingdom">Vereinigtes Königreich Großbritannien und Nordirland</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="335" trl="Y">
   <value column="Name" original="United States Minor Outlying Islands">United States Minor Outlying Islands</value>
   <value column="Description" original="United States Minor Outlying Islands">United States Minor Outlying Islands</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="336" trl="Y">
   <value column="Name" original="Uruguay">Uruguay</value>
   <value column="Description" original="Uruguay">Uruguay</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="337" trl="Y">
   <value column="Name" original="Uzbekistan">Usbekistan</value>
   <value column="Description" original="Uzbekistan">Usbekistan</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="338" trl="Y">
   <value column="Name" original="Vanuatu">Vanuatu</value>
   <value column="Description" original="Vanuatu">Vanuatu</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="339" trl="Y">
   <value column="Name" original="Venezuela">Venezuela</value>
   <value column="Description" original="Venezuela">Venezuela</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="340" trl="Y">
   <value column="Name" original="Viet Nam">Vietnam</value>
   <value column="Description" original="Viet Nam">Vietnam</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="341" trl="Y">
   <value column="Name" original="Virgin Islands British">Britische Jungferninseln</value>
   <value column="Description" original="Virgin Islands British">Britische Jungferninseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="342" trl="Y">
   <value column="Name" original="Virgin Islands U.s.">Amerikanische Jungferninseln</value>
   <value column="Description" original="Virgin Islands U.s.">Amerikanische Jungferninseln</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="343" trl="Y">
   <value column="Name" original="Wallis And Futuna">Wallis und Futuna</value>
   <value column="Description" original="Wallis And Futuna">Wallis und Futuna</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="344" trl="Y">
   <value column="Name" original="Western Sahara">Westsahara</value>
   <value column="Description" original="Western Sahara">Westsahara</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="345" trl="Y">
   <value column="Name" original="Yemen">Jemen</value>
   <value column="Description" original="Yemen">Jemen</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="346" trl="Y">
   <value column="Name" original="Yugoslavia">Jugoslawien (ehemalig)</value>
   <value column="Description" original="Yugoslavia">Jugoslawien (ehemalig)</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="347" trl="Y">
   <value column="Name" original="Zambia">Sambia</value>
   <value column="Description" original="Zambia">Sambia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="348" trl="Y">
   <value column="Name" original="Zimbabwe">Simbabwe</value>
   <value column="Description" original="Zimbabwe">Simbabwe</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="349" trl="N">
   <value column="Name" original="Serbia">Serbia</value>
   <value column="Description" original="Serbia">Serbia</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
  <row id="350" trl="N">
   <value column="Name" original="Montenegro">Montenegro</value>
   <value column="Description" original="Montenegro">Montenegro</value>
-  <value column="RegionName" original=""></value>
+  <value column="RegionName" original=""/>
  </row>
 </adempiereTrl>

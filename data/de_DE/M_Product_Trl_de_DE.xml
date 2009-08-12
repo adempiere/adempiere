@@ -1,121 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="M_Product">
  <row id="122" trl="Y">
   <value column="Name" original="Standard">Standard</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="123" trl="Y">
   <value column="Name" original="Oak Tree">Eiche</value>
-  <value column="Description" original=""></value>
+  <value column="Description" original=""/>
   <value column="DocumentNote" original="Oak Trees may grow quite a bit.">Eichen können ganz schön wachsen.</value>
  </row>
  <row id="124" trl="Y">
   <value column="Name" original="Elm Tree">Ulme</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="125" trl="Y">
   <value column="Name" original="Grass Seed Container">Packung Gras-Saat</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="126" trl="Y">
   <value column="Name" original="Planting Service">Gärtner-Arbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Rose Bush">Rose</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="128" trl="Y">
   <value column="Name" original="Azalea Bush">Azalee</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="129" trl="Y">
   <value column="Name" original="Holly Bush">Holunder</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="130" trl="Y">
   <value column="Name" original="Plum Tree">Pflaume</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="131" trl="Y">
   <value column="Name" original="Travel cost">Reisekosten</value>
   <value column="Description" original="Travel related costs">Reisebedingte Kosten</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="132" trl="Y">
   <value column="Name" original="Mary Consultant">Maria Beraterin</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="133" trl="Y">
   <value column="Name" original="Patio Chair">Gartenstuhl</value>
   <value column="Description" original="Nice Chair for outdoors">Schöner Stuhl für draussen</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="134" trl="Y">
   <value column="Name" original="Patio Table">Gartentisch</value>
   <value column="Description" original="Nice Table for outdoors">Schöner Tisch für draussen</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="135" trl="Y">
   <value column="Name" original="Patio Sun Screen">Gartenschirm</value>
   <value column="Description" original="Protect from UV">UV-Schutz</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="136" trl="Y">
   <value column="Name" original="Fertilizer #50">Dünger 25kg</value>
   <value column="Description" original="50 # Bag of Lawn Fertilizer">25kg Sack Rasendünger</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="137" trl="Y">
   <value column="Name" original="Mulch 10#">Mulch 5kg</value>
   <value column="Description" original="10# Bag of Mulch">5kg Sack Mulch</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="138" trl="Y">
   <value column="Name" original="Hoe 4 ft">Hacke</value>
   <value column="Description" original="4 Foot Metal Hoe">Hacke aus Metall</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="139" trl="Y">
   <value column="Name" original="Rake Bamboo">Laubharke</value>
   <value column="Description" original="4 Foot Bamboo Rake">Harke mit Drahtfächer</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="140" trl="Y">
   <value column="Name" original="Rake Metal">Gartenharke</value>
   <value column="Description" original="4 Foot Metal Rake">Harke</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="141" trl="Y">
   <value column="Name" original="Weeder">Grubber</value>
   <value column="Description" original="Hand Weeder">Zum Lockern des Bodens</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="142" trl="Y">
   <value column="Name" original="Transplanter">Pflanzholz</value>
   <value column="Description" original="Hand Transplanter">Zum Setzen von Stecklingen</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="143" trl="Y">
   <value column="Name" original="Grass Seeder">Streuwagen</value>
   <value column="Description" original="Manual Grass Seeder">Zum aussäen des Rasens</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="144" trl="Y">
   <value column="Name" original="Lawn Tiller">Rasenmäher</value>
   <value column="Description" original="Manual Lawn Tiller">Handrasenmäher</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="145" trl="Y">
   <value column="Name" original="Patio Furniture Set">Gartensitzgruppe</value>
@@ -125,16 +125,16 @@
  <row id="146" trl="Y">
   <value column="Name" original="How To Plant">Wie Gärtnern</value>
   <value column="Description" original="Information on how to best to plant your future.">Information, wie man am Besten gärtnert.</value>
-  <value column="DocumentNote" original=""></value>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="147" trl="Y">
   <value column="Name" original="TShirt - Red Large">T-Shirt - Rot L</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
  <row id="148" trl="Y">
   <value column="Name" original="TShirt - Green Large">T-Shirt - Grün L</value>
-  <value column="Description" original=""></value>
-  <value column="DocumentNote" original=""></value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
  </row>
 </adempiereTrl>

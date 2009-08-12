@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
-
+<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Process">
  <row id="100" trl="Y">
   <value column="Name" original="Create Periods ">Perioden anlegen</value>
   <value column="Description" original="Create 12 standard calendar periods (Jan-Dec)">Standard-Kalender-Perioden generieren (Jan-Dez)</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="101" trl="Y">
   <value column="Name" original="Renumber">Durchnummerieren</value>
   <value column="Description" original="Renumber Discount entries">Neues Nummerieren der Rabatt-Sätze</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="103" trl="Y">
   <value column="Name" original="Create Price List ">Preisliste erstellen </value>
@@ -19,8 +19,8 @@
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Process Order">Auftrag verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Create Inventory Count List ">Zählliste Bestand erstellen</value>
@@ -36,7 +36,7 @@
  <row id="107" trl="Y">
   <value column="Name" original="Process Inventory Count ">Bestandsliste verarbeiten</value>
   <value column="Description" original="Process Inventory count and update Inventory">Bestandsliste verarbeiten und Bestand aktualisieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Add or Copy Accounts">Konten kopieren</value>
@@ -51,12 +51,12 @@
  <row id="110" trl="Y">
   <value column="Name" original="Order Print">Auftragsdruck</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="111" trl="Y">
   <value column="Name" original="Process Invoice">Rechnung verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="112" trl="Y">
   <value column="Name" original="Copy Accounts">Konten kopieren</value>
@@ -66,12 +66,12 @@
  <row id="113" trl="Y">
   <value column="Name" original="Copy Window Tabs">Fenster-Register kopieren </value>
   <value column="Description" original="Copy all Tabs and Fields from other Window">Kopieren aller Register und Felder von anderem Fenster</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="114" trl="Y">
   <value column="Name" original="Copy Tab Fields">Register-Felder kopieren </value>
   <value column="Description" original="Copy Fields from other Tab">Kopieren von Feldern aus anderem Register</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="115" trl="Y">
   <value column="Name" original="Vendor Selection">Lieferant auswählen</value>
@@ -81,12 +81,12 @@
  <row id="116" trl="Y">
   <value column="Name" original="Invoice Print ">Rechnungsdruck</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="117" trl="Y">
   <value column="Name" original="Delivery Note / Shipment Print ">Lieferscheindruck</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="118" trl="Y">
   <value column="Name" original="Generate Shipments">Lieferscheine generieren</value>
@@ -101,7 +101,7 @@
  <row id="120" trl="Y">
   <value column="Name" original="Order Transactions">Auftrags-Vorgänge</value>
   <value column="Description" original="Sales Order Transaction Report ">Bericht zu Verkaufs-Vorgängen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="121" trl="Y">
   <value column="Name" original="Open Orders">Offene Aufträge</value>
@@ -116,7 +116,7 @@
  <row id="123" trl="Y">
   <value column="Name" original="Generate Commission">Kommission generieren</value>
   <value column="Description" original="Generate Commission">Kommission generieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="124" trl="Y">
   <value column="Name" original="Product Transaction Summary">Zusammenfassung Waren-Bewegung</value>
@@ -130,8 +130,8 @@
  </row>
  <row id="126" trl="Y">
   <value column="Name" original="Order Drilldown">Auftrags-Details</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Invoice Transactions (Acct)">Rechnungs-Buchungen</value>
@@ -171,12 +171,12 @@
  <row id="134" trl="Y">
   <value column="Name" original="Generate Invoices (manual) ">Rechnungen generieren (manuell)</value>
   <value column="Description" original="Generate and print Invoices manually">Rechnungen manuell generieren und drucken</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="135" trl="Y">
   <value column="Name" original="Copy Lines">Positionen kopieren</value>
   <value column="Description" original="Copy Lines from other Import Format">Positionen von einem anderen Import-Format kopieren.</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="136" trl="Y">
   <value column="Name" original="Verify BOM">Stückliste verifizieren</value>
@@ -210,8 +210,8 @@
  </row>
  <row id="144" trl="Y">
   <value column="Name" original="Process Cash">Kassenbestand verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="145" trl="Y">
   <value column="Name" original="Open Items">Offene Posten</value>
@@ -225,8 +225,8 @@
  </row>
  <row id="147" trl="Y">
   <value column="Name" original="Process Statement">Kontoauszug verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="148" trl="Y">
   <value column="Name" original="Allocation">Zuordnung</value>
@@ -235,13 +235,13 @@
  </row>
  <row id="149" trl="Y">
   <value column="Name" original="Process Payment">Zahlung verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="150" trl="Y">
   <value column="Name" original="Process Allocation">Zuordnung verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="151" trl="Y">
   <value column="Name" original="Invoice Transactions (Doc)">Rechnungs-Übersicht</value>
@@ -255,8 +255,8 @@
  </row>
  <row id="153" trl="Y">
   <value column="Name" original="Online Process">Online-Verarbeitung</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="154" trl="Y">
   <value column="Name" original="Generate Invoice from Receipt">Rechnung aus Zugangsbeleg erstellen</value>
@@ -270,13 +270,13 @@
  </row>
  <row id="156" trl="Y">
   <value column="Name" original="Create From ...">Erstellen aus ...</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="159" trl="Y">
   <value column="Name" original="Dunning Letter">Mahnung</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="161" trl="Y">
   <value column="Name" original="Product Transaction Value">Warenumsatz-Wert</value>
@@ -286,7 +286,7 @@
  <row id="162" trl="Y">
   <value column="Name" original="Project Status Summary">Zusammenfassung Projektstatus</value>
   <value column="Description" original="Project Status of Project Cycle">Status des Projektzyklus</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="164" trl="Y">
   <value column="Name" original="Generate Order">Auftrag erstellen</value>
@@ -296,32 +296,32 @@
  <row id="165" trl="Y">
   <value column="Name" original="Copy Lines">Positionen kopieren</value>
   <value column="Description" original="Copy Commission Lines from other Commission">Komissionspositionen aus anderen Kommission kopieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="166" trl="Y">
   <value column="Name" original="Create Invoice">Rechnung generieren</value>
   <value column="Description" original="Create Invoice from Commission Calculation">Rechnung aus Kommissionsberechnung erstellen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="167" trl="Y">
   <value column="Name" original="Open/Close All">Alle Öffnen/Schließen</value>
   <value column="Description" original="Change Period Status for all Period Controls of this Period">Periodenstatus für alle Periodenkontrollen dieser Periode ändern</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="168" trl="Y">
   <value column="Name" original="Open/Close">Öffnen/Schließen</value>
   <value column="Description" original="Change Period Status">Periodenstatus ändern</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="169" trl="Y">
   <value column="Name" original="Process Journal">Journal verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="170" trl="Y">
   <value column="Name" original="Cash Journal Detail">Kassenjournal-Details</value>
   <value column="Description" original="Detail Cash Journal Information">Kassenjournal- Detailinformation</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="171" trl="Y">
   <value column="Name" original="Receivables Write-Off">Forderungs-Abschreibung</value>
@@ -377,12 +377,12 @@
  <row id="183" trl="Y">
   <value column="Name" original="Product Costing Report (old)">Bericht zu Produktkosten (alt)</value>
   <value column="Description" original="Product Cost Report">Bericht zu Produktkosten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="184" trl="Y">
   <value column="Name" original="Process Expenses">Spesen verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="185" trl="Y">
   <value column="Name" original="Recompile DB Objects">Datenbank-Objekte neu kompilieren</value>
@@ -392,17 +392,17 @@
  <row id="186" trl="Y">
   <value column="Name" original="Create Sales Orders from Expense">Auftrag aus Aufwand erzeugen</value>
   <value column="Description" original="Create Sales Orders for Customers from Expense Reports">Aufträge aus Aufwandsberichten erzeugen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="187" trl="Y">
   <value column="Name" original="Create AP Expense Invoices">Kreditorenrechnungen aus Aufwand erstellen</value>
   <value column="Description" original="Create AP Invoices from Expenses to be paid to employees">Kreditorenrechnungen (zur Zahlung an Mitarbeiter) aus Aufwandsberichten erzeugen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="188" trl="Y">
   <value column="Name" original="Process Batch">Batch verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="189" trl="Y">
   <value column="Name" original="Copy Columns">Spalten kopieren</value>
@@ -417,7 +417,7 @@
  <row id="191" trl="Y">
   <value column="Name" original="Set Print Format">Druckformat setzen</value>
   <value column="Description" original="Set for all Print Formats with same Landscape/Portrait">Für alle Druckormate mit gleichem Hoch-/Querformat setzen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="192" trl="Y">
   <value column="Name" original="Copy/Create">Kopieren/Erstellen</value>
@@ -437,7 +437,7 @@
  <row id="195" trl="Y">
   <value column="Name" original="Reopen Request">Anfrage wieder eröffnen</value>
   <value column="Description" original="Reopen closed requests">Geschlossene Anfrage wieder eröffnen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="196" trl="Y">
   <value column="Name" original="Import Products ">Produkte importieren</value>
@@ -457,7 +457,7 @@
  <row id="199" trl="Y">
   <value column="Name" original="Generate Shipments (manual)">Lieferscheine erstellen (manuell)</value>
   <value column="Description" original="Generate and print Shipments">Erstellen und Drucken von Lieferscheinen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="200" trl="Y">
   <value column="Name" original="Print Invoices">Rechnungen drucken</value>
@@ -502,7 +502,7 @@
  <row id="208" trl="Y">
   <value column="Name" original="Start Replication Run">Replikationslauf starten</value>
   <value column="Description" original="Start Replication with Remote Host">Replikation mit entferntem Server starten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="209" trl="Y">
   <value column="Name" original="Send Mail Text">EMail-Text senden</value>
@@ -512,27 +512,27 @@
  <row id="210" trl="Y">
   <value column="Name" original="Copy Lines">Positionen kopieren</value>
   <value column="Description" original="Copy Lines from other Invoice">Kopiere Positionen von anderer Rechnung</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="211" trl="Y">
   <value column="Name" original="Copy Lines">Positionen kopieren</value>
   <value column="Description" original="Copy Lines from other Order">Positionen aus anderem Auftrag kopieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="212" trl="Y">
   <value column="Name" original="Copy Details">Details kopieren</value>
   <value column="Description" original="Copy Lines/Phases/Tasks from other Project">Kopiere Positionen/Phasen/Aufgaben aus anderem Projekt</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="213" trl="Y">
   <value column="Name" original="Start Process">Prozeß starten</value>
   <value column="Description" original="Start Recurring Run">Wiederholte Ausführung starten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="214" trl="Y">
   <value column="Name" original="Copy Details">Details kopieren</value>
   <value column="Description" original="Copy Journal/Lines from other Journal Batch">Kopiere Journal/Einträge aus anderem Journal-Batch</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="215" trl="Y">
   <value column="Name" original="Set Project Type">Projektart setzen</value>
@@ -548,7 +548,7 @@
  <row id="217" trl="Y">
   <value column="Name" original="Project Print">Projektdruck</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="218" trl="Y">
   <value column="Name" original="Project Cycle Report">Projektzyklus-Bericht</value>
@@ -599,27 +599,27 @@ Das voreingestellte Datum für die Warenbewegung ist das heutige Datum.</value>
  <row id="226" trl="Y">
   <value column="Name" original="Project Detail Accounting Report">Bericht zu Projektbuchhaltungs-Details</value>
   <value column="Description" original="Accounting Fact Details of Project">Buchhaltungsdetails zum Projekt</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="227" trl="Y">
   <value column="Name" original="Close Project">Projekt schließen</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="228" trl="Y">
   <value column="Name" original="Project Lines not Issued">Nicht belieferte Projektzeilen</value>
   <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Listet Projektzeilen eines Arbeitsauftrages oder Asset-Projektest, die noch nicht an das Projekt ausgeliefert sind</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="229" trl="Y">
   <value column="Name" original="Project POs not Issued">Nicht gelieferte Projektbestellungen</value>
   <value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Listet Projektzeilen mit erstellten Bestellungen eines Arbeitsauftrages oder Asset-Projektes, die noch nicht an das Projekt ausgeliefert sind</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="230" trl="Y">
   <value column="Name" original="Get Price">Preis holen</value>
   <value column="Description" original="Get Price for Project Line based on Project Price List">Preis für Projektzeile basierend auf Projektpreisliste holen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="231" trl="Y">
   <value column="Name" original="Quote convert">Angebot konvertieren</value>
@@ -629,7 +629,7 @@ Das voreingestellte Datum für die Warenbewegung ist das heutige Datum.</value>
  <row id="232" trl="Y">
   <value column="Name" original="RePrice Order/Invoice">Auftrag/Rechnung neu bepreisen</value>
   <value column="Description" original="Recalculate the price based on the latest price list version of an open order or invoice">Neuberechnung des Preises aufgrund der neuesten Preislistenversion bei offenem Auftrag oder offener Rechnung</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="233" trl="Y">
   <value column="Name" original="Verify Document Types">Belegarten verifizieren</value>
@@ -645,7 +645,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="235" trl="Y">
   <value column="Name" original="Verify Tree">Baum überprüfen</value>
   <value column="Description" original="Verify completeness and correctness of Tree">Überprüfen der Vollständigkeit und Korrektheit des Baums</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="236" trl="Y">
   <value column="Name" original="Storage Detail">Lagerbestand - Detail</value>
@@ -675,17 +675,17 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="241" trl="Y">
   <value column="Name" original="Delete Notices">Statusmeldungen löschen</value>
   <value column="Description" original="Delete all Notices">Alle Statusmeldungen löschen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="242" trl="Y">
   <value column="Name" original="Validate">Validieren</value>
   <value column="Description" original="Validate Payment Schedule">Zahlungsterminplan validieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="243" trl="Y">
   <value column="Name" original="Validate">Validieren</value>
   <value column="Description" original="Validate Payment Terms and Schedule">Zahlungsbedingungen und Terminplan validieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="244" trl="Y">
   <value column="Name" original="Warehouse Organization">Lager zu Organisation</value>
@@ -715,7 +715,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="249" trl="Y">
   <value column="Name" original="Import Conversion Rate">Wechselkurs importieren</value>
   <value column="Description" original="Import Currency Conversion Rate">Währungswechselkurs importieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="250" trl="Y">
   <value column="Name" original="Register Now!">Jetzt Registrieren!</value>
@@ -745,17 +745,17 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="255" trl="Y">
   <value column="Name" original="Reopen Order">Auftrag wieder eröffnen</value>
   <value column="Description" original="Open previously closed Order">Bereits abgeschlossenen Auftrag wieder eröffnen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="256" trl="Y">
   <value column="Name" original="Match Bank Statement">Bankauszüge abgleichen</value>
   <value column="Description" original="Match Bank Statement Info to Business Partners, Invoices and Payments">Bankauszüge mit Geschäftspartnern, Rechnungen und Zahlungen abgleichen.</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="257" trl="Y">
   <value column="Name" original="Create Payment">Zahlung erstellen</value>
   <value column="Description" original="Create Payment from Bank Statement Info">Zahlung aus Kontoauszug erstellen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="258" trl="Y">
   <value column="Name" original="Sequence Check">Nummernfolgen überprüfen</value>
@@ -810,7 +810,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="268" trl="Y">
   <value column="Name" original="Copy Lines">Positionen kopieren</value>
   <value column="Description" original="Copy Lines from another RfQ">Positionen aus einer anderen Ausschreibung kopieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="269" trl="Y">
   <value column="Name" original="Close RfQ">Ausschreibung schließen</value>
@@ -820,7 +820,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="270" trl="Y">
   <value column="Name" original="Open Requisitions">Offene Anforderungen</value>
   <value column="Description" original="Detail Open Requisition Information">Detaillierte Information zu offenen Anforderungen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="271" trl="Y">
   <value column="Name" original="Create Orders">Aufträge erstellen</value>
@@ -834,8 +834,8 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  </row>
  <row id="273" trl="Y">
   <value column="Name" original="Process Requisition">Anforderung verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="274" trl="Y">
   <value column="Name" original="Asset Delivery Month">Asset-Auslieferung Monat</value>
@@ -844,18 +844,18 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  </row>
  <row id="275" trl="Y">
   <value column="Name" original="Validate Document Type">Belegart validieren</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="276" trl="Y">
   <value column="Name" original="RfQ Response Print ">Ausschreibungs-Antwort drucken</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="277" trl="Y">
   <value column="Name" original="Check Complete">Vollständigkeit prüfen</value>
   <value column="Description" original="Check if Response is Complete based on RfQ settings">Überprüfen, ob die Antwort komplett ist basierend auf den Ausschreibungseinstellunegn</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="278" trl="Y">
   <value column="Name" original="Manage Activity">Aktivität verwalten</value>
@@ -869,8 +869,8 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  </row>
  <row id="280" trl="Y">
   <value column="Name" original="Process Confirmation">Prozess-Bestätigung</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="281" trl="Y">
   <value column="Name" original="Create Confirmation">Bestätigung erzeugen</value>
@@ -880,12 +880,12 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="282" trl="Y">
   <value column="Name" original="Create Package">Packstück erstellen</value>
   <value column="Description" original="Create Package for Shipmet">Packstück als Teil der Lieferung generieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="283" trl="Y">
   <value column="Name" original="Process RMA">Rücksendung verarbeiten</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="284" trl="Y">
   <value column="Name" original="Open Confirmation Details">Offene Bestätigungs-Details</value>
@@ -900,7 +900,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="286" trl="Y">
   <value column="Name" original="Process Confirmation">Prozess-Bestätigung</value>
   <value column="Description" original="Process Inventory Movement Confirmation">Bestätigung für Warenbewegung verarbeiten</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="287" trl="Y">
   <value column="Name" original="Print Format Detail">Druck-Format - Detail</value>
@@ -915,7 +915,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="289" trl="Y">
   <value column="Name" original="Create Dunning Run">Mahnlauf erstellen</value>
   <value column="Description" original="Create Dunning Run Entries based on the Dunning Level criteria">Mahnlauf-Einträge basierend auf den Kriterien für die Mahnstufe erstellen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="290" trl="Y">
   <value column="Name" original="Inventory Move Print">Warenbewegung drucken</value>
@@ -930,7 +930,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="292" trl="Y">
   <value column="Name" original="Shipment Confirmation">Lieferungsbestätigung</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="293" trl="Y">
   <value column="Name" original="Material Receipt Details">Warenezugangs-Details</value>
@@ -965,17 +965,17 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="299" trl="Y">
   <value column="Name" original="Verify">Verifizieren</value>
   <value column="Description" original="Verify GL Distribution">Hauptbuch-Verteilung verifizieren</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="300" trl="Y">
   <value column="Name" original="Delete">Löschen</value>
   <value column="Description" original="Delete Invoice Matching Record">Der Rechnung zugeordneten Eintrag löschen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="301" trl="Y">
   <value column="Name" original="Delete">Löschen</value>
   <value column="Description" original="Delete PO Matching Record">Der Bestellung zugeordneten Eintrag löschen</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="302" trl="Y">
   <value column="Name" original="Auto Allocation">Auto-Zuordnung</value>
@@ -995,7 +995,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="305" trl="Y">
   <value column="Name" original="Document Value based Workflows">Dokument-Wert basierende Workflows</value>
   <value column="Description" original="*** DO NOT MODIFY ***">*** NICHT VERÄNDERN ***</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="306" trl="Y">
   <value column="Name" original="Un-Do Changes">Änderungen rückgängig machen</value>
@@ -1038,7 +1038,7 @@ This is a one-step replacement for defining BOM and creating/processes a Product
  <row id="313" trl="Y">
   <value column="Name" original="Payment Print ">Payment Print </value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="314" trl="Y">
   <value column="Name" original="Validate Business Partner">Geschäftspartner validieren</value>
@@ -1088,8 +1088,8 @@ This applies to the client defined document translations, e.g. for UoM, Payment 
  </row>
  <row id="323" trl="Y">
   <value column="Name" original="Create Invoices">Create Invoices</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="324" trl="Y">
   <value column="Name" original="Invoice Requests">Anfrage-Rechnungen</value>
@@ -1159,7 +1159,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
  <row id="336" trl="Y">
   <value column="Name" original="Create Tax Declaration">Create Tax Declaration</value>
   <value column="Description" original="Create Tax Declaration from Documents">Create Tax Declaration from Documents</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="337" trl="Y">
   <value column="Name" original="Create PO from Requisition">Bestellung aus Bedarf erzeugen</value>
@@ -1174,7 +1174,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
  <row id="339" trl="Y">
   <value column="Name" original="Report or Update Issue">Report or Update Issue</value>
   <value column="Description" original="Report Issue to Adempiere">Report Issue to Adempiere</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="340" trl="Y">
   <value column="Name" original="Monthly Invoice Product">Rechnungen Produkt monatsweise</value>
@@ -1199,7 +1199,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
  <row id="344" trl="Y">
   <value column="Name" original="Validate">Validieren</value>
   <value column="Description" original="Validate Staging Area">Validate Staging Area</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="345" trl="Y">
   <value column="Name" original="Deploy Web Project">Web-Projekt veröffentlichen</value>
@@ -1214,7 +1214,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
  <row id="347" trl="Y">
   <value column="Name" original="Validate">Validieren</value>
   <value column="Description" original="Validate Template">Validate Template</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="348" trl="Y">
   <value column="Name" original="Register Extension">Register Extension</value>
@@ -1228,28 +1228,28 @@ Note that support is restricted to setup and test, but not data recovery.</value
  </row>
  <row id="350" trl="Y">
   <value column="Name" original="Rebuild Index">Index neu erstellen</value>
-  <value column="Description" original=""></value>
+  <value column="Description" original=""/>
   <value column="Help" original="Be carefull, this process will reindex all tables and records which are marked to get indexed. Depending on the number of documents this could take a long time. This should only be run if you have removed stop words, if this is mentioned to be run after migration.">Be carefull, this process will reindex all tables and records which are marked to get indexed. Depending on the number of documents this could take a long time. This should only be run if you have removed stop words, if this is mentioned to be run after migration.</value>
  </row>
  <row id="352" trl="Y">
   <value column="Name" original="Media Direct Deploy">Media Direct Deploy</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50002" trl="Y">
   <value column="Name" original="PackRoll">PackRoll</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50004" trl="Y">
   <value column="Name" original="PackOut">PackOut</value>
   <value column="Description" original="Process to create package export">Process to create package export</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50006" trl="Y">
   <value column="Name" original="File_Select">File_Select</value>
   <value column="Description" original="Select a file">Select a file</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50008" trl="Y">
   <value column="Name" original="PackIn">PackIn</value>
@@ -1259,17 +1259,17 @@ Note that support is restricted to setup and test, but not data recovery.</value
  <row id="50010" trl="Y">
   <value column="Name" original="CopyRole">Rolle kopieren</value>
   <value column="Description" original="Copy Role">Kopie einer Rolle</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50011" trl="Y">
   <value column="Name" original="Copy Columns from Table">Copy Columns from Table</value>
   <value column="Description" original="Create Dictionary Columns for a Table taking another as base">Create Dictionary Columns for a Table taking another as base</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50012" trl="Y">
   <value column="Name" original="Request EMail Processor">Prozessor Anfrage-EMail</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="52000" trl="Y">
   <value column="Name" original="Create Order From RMA">Create Order From RMA</value>
@@ -1279,22 +1279,22 @@ Note that support is restricted to setup and test, but not data recovery.</value
  <row id="52001" trl="Y">
   <value column="Name" original="Generate Shipments for Vendor RMA">Generate Shipments for Vendor RMA</value>
   <value column="Description" original="Generate Shipments from open vendor RMA based on selection.">Generate Shipments from open vendor RMA based on selection.</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="52002" trl="Y">
   <value column="Name" original="Generate Invoices for Vendor RMA">Generate Invoices for Vendor RMA</value>
   <value column="Description" original="Generate Invoices from open vendor RMA based on selection.">Generate Invoices from open vendor RMA based on selection.</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="52003" trl="Y">
   <value column="Name" original="Update Role Menu">Aktualisierung Rolle Menü</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53002" trl="Y">
   <value column="Name" original="Setup Web POS">Setup Web POS</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53063" trl="Y">
   <value column="Name" original="Create Report (Jasper)">Create Report (Jasper)</value>
@@ -1303,27 +1303,27 @@ Note that support is restricted to setup and test, but not data recovery.</value
  </row>
  <row id="53065" trl="Y">
   <value column="Name" original="ASP Generate Fields">ASP Generate Fields</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53067" trl="Y">
   <value column="Name" original="ASP Generate Level">ASP Generate Level</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53068" trl="Y">
   <value column="Name" original="Update Sequence No">Update Sequence No</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53069" trl="Y">
   <value column="Name" original="Apply Migration Scripts">Apply Migration Scripts</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="53070" trl="Y">
   <value column="Name" original="Prepare Migration Scripts">Prepare Migration Scripts</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
 </adempiereTrl>
