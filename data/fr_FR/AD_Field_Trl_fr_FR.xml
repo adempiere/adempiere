@@ -266,16 +266,16 @@ Courriel de la personne en charge de la gestion du système (enregistrée dans l
  <row id="53380" trl="N">
   <value column="Name" original="Valid from">Valid from</value>
   <value column="Description" original="Valid from including this date (first day)">Valid from including this date (first day)</value>
-  <value column="Help" original="The Valid From date indicates the first day of a date range.&#10;&#10;When you enter dates in the fields Valid From &#19; To we give the the period of time where this operation will have to be considered for the elaboration of the product.">The Valid From date indicates the first day of a date range.
+  <value column="Help" original="The Valid From date indicates the first day of a date range.&#10;&#10;When you enter dates in the fields Valid From  To we give the the period of time where this operation will have to be considered for the elaboration of the product.">The Valid From date indicates the first day of a date range.
 
-When you enter dates in the fields Valid From &#19; To we give the the period of time where this operation will have to be considered for the elaboration of the product.</value>
+When you enter dates in the fields Valid From  To we give the the period of time where this operation will have to be considered for the elaboration of the product.</value>
  </row>
  <row id="53381" trl="N">
   <value column="Name" original="Valid to">Valid to</value>
   <value column="Description" original="Valid to including this date (last day)">Valid to including this date (last day)</value>
-  <value column="Help" original="The Valid To date indicates the last day of a date range&#10;&#10;When you enter dates in the fields Valid From &#19; To we give the the period of time where this operation will have to be considered for the elaboration of the product.">The Valid To date indicates the last day of a date range
+  <value column="Help" original="The Valid To date indicates the last day of a date range&#10;&#10;When you enter dates in the fields Valid From  To we give the the period of time where this operation will have to be considered for the elaboration of the product.">The Valid To date indicates the last day of a date range
 
-When you enter dates in the fields Valid From &#19; To we give the the period of time where this operation will have to be considered for the elaboration of the product.</value>
+When you enter dates in the fields Valid From  To we give the the period of time where this operation will have to be considered for the elaboration of the product.</value>
  </row>
  <row id="53449" trl="N">
   <value column="Name" original="Start Node">Start Node</value>
@@ -307,9 +307,9 @@ Warehouse place where you locate and control the products</value>
   <value column="Help" original="A manufacturing resource is a place where a product will be made.">A manufacturing resource is a place where a product will be made.</value>
  </row>
  <row id="53517" trl="N">
-  <value column="Name" original="BOM &amp; Formula">BOM &amp; Formula</value>
+  <value column="Name" original="BOM &amp; Formula">BOM  Formula</value>
   <value column="Description" original=""/>
-  <value column="Help" original="The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM &amp; Formula for the entity will be the BOM/Formula which has the same name as the product.">The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM &amp; Formula for the entity will be the BOM/Formula which has the same name as the product.</value>
+  <value column="Help" original="The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM &amp; Formula for the entity will be the BOM/Formula which has the same name as the product.">The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM  Formula for the entity will be the BOM/Formula which has the same name as the product.</value>
  </row>
  <row id="53518" trl="Y">
   <value column="Name" original="Workflow">Workflow</value>
@@ -379,16 +379,16 @@ This field shows the sum of the amounts of the product that have had movements.<
  <row id="54139" trl="N">
   <value column="Name" original="Date Ordered">Date Ordered</value>
   <value column="Description" original="Date of Order">Date of Order</value>
-  <value column="Help" original="Indicates the Date an item was ordered.&#10;&#10;Date Ordered &#19; is the date when the order was generated. If the MO is created manually the default date ordered is the system date. If the MO was generated by MRP the default date ordered is the day of the MRP process.">Indicates the Date an item was ordered.
+  <value column="Help" original="Indicates the Date an item was ordered.&#10;&#10;Date Ordered  is the date when the order was generated. If the MO is created manually the default date ordered is the system date. If the MO was generated by MRP the default date ordered is the day of the MRP process.">Indicates the Date an item was ordered.
 
-Date Ordered &#19; is the date when the order was generated. If the MO is created manually the default date ordered is the system date. If the MO was generated by MRP the default date ordered is the day of the MRP process.</value>
+Date Ordered  is the date when the order was generated. If the MO is created manually the default date ordered is the system date. If the MO was generated by MRP the default date ordered is the day of the MRP process.</value>
  </row>
  <row id="54140" trl="N">
   <value column="Name" original="Date Promised">Date Promised</value>
   <value column="Description" original="Date Order was promised">Date Order was promised</value>
-  <value column="Help" original="The Date Promised indicates the date, if any, that an Order was promised for.&#10;&#10;Date Promised &#19; Is the date we commit to give the order to the warehouse. If the MO is created manually the default date promised is the system date. If the MO was generated by MRP this date is filled automatically using its algorithm calculation.">The Date Promised indicates the date, if any, that an Order was promised for.
+  <value column="Help" original="The Date Promised indicates the date, if any, that an Order was promised for.&#10;&#10;Date Promised  Is the date we commit to give the order to the warehouse. If the MO is created manually the default date promised is the system date. If the MO was generated by MRP this date is filled automatically using its algorithm calculation.">The Date Promised indicates the date, if any, that an Order was promised for.
 
-Date Promised &#19; Is the date we commit to give the order to the warehouse. If the MO is created manually the default date promised is the system date. If the MO was generated by MRP this date is filled automatically using its algorithm calculation.</value>
+Date Promised  Is the date we commit to give the order to the warehouse. If the MO is created manually the default date promised is the system date. If the MO was generated by MRP this date is filled automatically using its algorithm calculation.</value>
  </row>
  <row id="54145" trl="N">
   <value column="Name" original="Date Start">Date Start</value>
