@@ -337,8 +337,13 @@ public class CalloutInOut extends CalloutEngine
 		MOrderLine ol = new MOrderLine (ctx, C_OrderLine_ID.intValue(), null);
 		if (ol.get_ID() != 0)
 		{
-			mTab.setValue("M_Product_ID", new Integer(ol.getM_Product_ID()));
-			mTab.setValue("M_AttributeSetInstance_ID", new Integer(ol.getM_AttributeSetInstance_ID()));
+			if (ol.getC_Charge_ID() > 0 && ol.getM_Product_ID() <= 0) {
+				mTab.setValue("C_Charge_ID", new Integer(ol.getC_Charge_ID()));
+			}
+			else {
+				mTab.setValue("M_Product_ID", new Integer(ol.getM_Product_ID()));
+				mTab.setValue("M_AttributeSetInstance_ID", new Integer(ol.getM_AttributeSetInstance_ID()));
+			}
 			//
 			mTab.setValue("C_UOM_ID", new Integer(ol.getC_UOM_ID()));
 			BigDecimal MovementQty = ol.getQtyOrdered().subtract(ol.getQtyDelivered());
