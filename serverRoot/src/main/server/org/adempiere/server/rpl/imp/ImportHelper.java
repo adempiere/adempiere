@@ -638,6 +638,16 @@ public class ImportHelper {
 					BigDecimal value = new BigDecimal((String)values[i]);
 					pstmt.setBigDecimal(i+1, value.setScale(2, BigDecimal.ROUND_HALF_UP));
 				}
+				else if(col.getAD_Reference_ID() == DisplayType.Integer
+						|| col.getAD_Reference_ID() == DisplayType.ID
+						|| col.getAD_Reference_ID() == DisplayType.TableDir
+						|| col.getAD_Reference_ID() == DisplayType.Table)
+				{
+					String stringValue = (String)values[i];
+					int value = Integer.parseInt(stringValue);
+					pstmt.setInt(i+1, value);
+					log.info("pstmt.setInt["+(i+1)+"] = [" + value +"]");				
+				}
 				else
 				{	
 					pstmt.setObject(i+1, values[i]);
