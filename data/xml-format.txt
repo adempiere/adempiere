@@ -1,0 +1,8 @@
+== info
+In order to format xml file user must start below script for each translation folder.
+for i in *.xml; do XMLLINT_INDENT=" " xmllint --format --recover ${i} > ${i}.formated; mv  ${i}.formated ${i}; done
+
+== url
+https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2835828&group_id=176962
+
+== 

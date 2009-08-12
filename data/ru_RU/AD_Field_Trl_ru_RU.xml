@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070605-1226 - ${env.ADEMPIERE_VENDOR}-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
@@ -41,7 +41,7 @@
  <row id="5092" trl="Y">
   <value column="Name" original="Driving Column">Упр. столбец</value>
   <value column="Description" original="Column which controls all tabs in the workbench">Столбец, который контролирует все вкладки в инструментарии</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="5899" trl="Y">
   <value column="Name" original="System Name">Название системы</value>
@@ -63,7 +63,7 @@
  <row id="10097" trl="Y">
   <value column="Name" original="Value">Значение</value>
   <value column="Description" original="Condition Value">Значение условия</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="10886" trl="Y">
   <value column="Name" original="Overwrite Project">Переписать проект</value>
@@ -103,152 +103,152 @@ Email ответственного лица системы (регистриру
  </row>
  <row id="50066" trl="Y">
   <value column="Name" original="AD_Package_Exp_ID">AD_Package_Exp_ID</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50067" trl="Y">
   <value column="Name" original="Processed">Обработано</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50068" trl="Y">
   <value column="Name" original="IsActive">Активно</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50069" trl="Y">
   <value column="Name" original="Client">Клиент</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50070" trl="Y">
   <value column="Name" original="Organization">Организация</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50071" trl="Y">
   <value column="Name" original="Name of Package">Название пакета</value>
   <value column="Description" original="Name of Package">Название пакета</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50075" trl="Y">
   <value column="Name" original="Creation Directory">Каталог создания</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50076" trl="Y">
   <value column="Name" original="Created By">Создал</value>
   <value column="Description" original="User who created the package">Пользователь, который создал пакет</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50077" trl="Y">
   <value column="Name" original="Create Date">Дата создания</value>
   <value column="Description" original="Date when Package was created">Дата, когда пакет был создан</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50080" trl="Y">
   <value column="Name" original="Processed By">Обработал</value>
   <value column="Description" original="User who Processed the package">Пользователь, который обработал пакет</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50081" trl="Y">
   <value column="Name" original="Processed Date">Дата обработки</value>
   <value column="Description" original="Date when the package was processed">Дата, когда пакет был обработан</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50082" trl="Y">
   <value column="Name" original="Description of Package">Описание пакета</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50085" trl="Y">
   <value column="Name" original="Export Package">Экспорт пакета</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50086" trl="Y">
   <value column="Name" original="AD_Package_Exp_Detail_ID">AD_Package_Exp_Detail_ID</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50087" trl="Y">
   <value column="Name" original="Item Name">Название объекта</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50088" trl="Y">
   <value column="Name" original="Processing">Обработка</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50089" trl="Y">
   <value column="Name" original="IsActive">Активно</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50090" trl="Y">
   <value column="Name" original="Processed">Обрабатывается</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50091" trl="Y">
   <value column="Name" original="Package Build ID">ID построения пакета</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50092" trl="Y">
   <value column="Name" original="Client">Клиент</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50093" trl="Y">
   <value column="Name" original="Organization">Организация</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50096" trl="Y">
   <value column="Name" original="Type">Тип</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50097" trl="Y">
   <value column="Name" original="Menu">Меню</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50099" trl="Y">
   <value column="Name" original="Source File Directory">Каталог исх. файла</value>
   <value column="Description" original="Current location of source file">Текущее расположение исходного файла</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="50103" trl="Y">
   <value column="Name" original="Table">Таблица</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50108" trl="Y">
   <value column="Name" original="Form">Форма</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50109" trl="Y">
   <value column="Name" original="Process">Процесс</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50110" trl="Y">
   <value column="Name" original="Workflow">Workflow</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50112" trl="Y">
   <value column="Name" original="Workbench">Инструментарий</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
  <row id="50117" trl="Y">
   <value column="Name" original="Notes">Примечания</value>
-  <value column="Description" original=""></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
 </adempiereTrl>

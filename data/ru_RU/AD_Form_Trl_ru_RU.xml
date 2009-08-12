@@ -1,52 +1,52 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070605-1226 - ${env.ADEMPIERE_VENDOR}-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <!--Translated by Anatoly Ustyugov. anatoly.ustyugov@gmail.com -->
 <adempiereTrl language="ru_RU" table="AD_Form">
  <row id="100" trl="Y">
   <value column="Name" original="Generate Invoices (manual)">Генерировать С-Ф вручную</value>
-  <value column="Description" original="Select and generate invoices"></value>
-  <value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for."></value>
+  <value column="Description" original="Select and generate invoices"/>
+  <value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for."/>
  </row>
  <row id="101" trl="Y">
   <value column="Name" original="Import File Loader">Импорт загрузчика файлов</value>
-  <value column="Description" original="Load flat Files into import tables"></value>
-  <value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading]."></value>
+  <value column="Description" original="Load flat Files into import tables"/>
+  <value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading]."/>
  </row>
  <row id="102" trl="Y">
   <value column="Name" original="Initial Client Setup">Создание нов. клиента</value>
-  <value column="Description" original="Initial new Client/Tenant Setup"></value>
-  <value column="Help" original="Set up a new Client/Tenant of the system"></value>
+  <value column="Description" original="Initial new Client/Tenant Setup"/>
+  <value column="Help" original="Set up a new Client/Tenant of the system"/>
  </row>
  <row id="103" trl="Y">
   <value column="Name" original="Material Transactions">Транзакции с материалами</value>
   <value column="Description" original="Material Transactions">Транзакции с материалами</value>
-  <value column="Help" original=""></value>
+  <value column="Help" original=""/>
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Payment Allocation">Распределение оплат</value>
-  <value column="Description" original="Allocate invoices and payments"></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original="Allocate invoices and payments"/>
+  <value column="Help" original=""/>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Generate Charges">Генерировать затраты</value>
   <value column="Description" original="Generate Charges from natural accounts">Генерировать затраты с натуральных счетов</value>
-  <value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account."></value>
+  <value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account."/>
  </row>
  <row id="106" trl="Y">
   <value column="Name" original="Payment Print/Export">Печать/экспорт оплаты</value>
-  <value column="Description" original="Print or export your payments"></value>
-  <value column="Help" original=""></value>
+  <value column="Description" original="Print or export your payments"/>
+  <value column="Help" original=""/>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Payment Selection (manual)">Выбор оплаты вручную</value>
-  <value column="Description" original="Manual Payment Selection"></value>
-  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection."></value>
+  <value column="Description" original="Manual Payment Selection"/>
+  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection."/>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Matching PO-Receipt-Invoice">Сравнить ЗП-получение-С-Ф</value>
-  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices"></value>
-  <value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected."></value>
+  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices"/>
+  <value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected."/>
  </row>
  <row id="109" trl="Y">
   <value column="Name" original="Translation Import/Export">Импорт-экспорт перевода</value>
