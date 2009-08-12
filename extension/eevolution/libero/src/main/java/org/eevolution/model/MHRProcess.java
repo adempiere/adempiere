@@ -207,7 +207,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		//	Std Period open?
 		MHRPeriod period = MHRPeriod.get(getCtx(), getHR_Period_ID());
-		MPeriod.testPeriodOpen(getCtx(), period.getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
+		MPeriod.testPeriodOpen(getCtx(), getHR_Period_ID() > 0 ? period.getDateAcct():getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 
 		//	New or in Progress/Invalid
 		if (   DOCSTATUS_Drafted.equals(getDocStatus()) 
