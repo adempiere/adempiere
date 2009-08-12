@@ -254,11 +254,12 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 		AttributesImpl atts = new AttributesImpl();
 
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
 
 		try {
 
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				X_AD_Workflow m_Workflow = new X_AD_Workflow(ctx,
@@ -270,11 +271,12 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 						+ AD_Workflow_ID;
 
 				PreparedStatement pstmt1 = null;
+				ResultSet rs1 = null;
 				try {
 					pstmt1 = DB.prepareStatement(sql1, getTrxName(ctx));
 					// Generated workflowNodeNext(s) and
 					// workflowNodeNextCondition(s)
-					ResultSet rs1 = pstmt1.executeQuery();
+					rs1 = pstmt1.executeQuery();
 					while (rs1.next()) {
 
 						int nodeId = rs1.getInt("AD_WF_Node_ID");
@@ -282,45 +284,57 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 
 						ad_wf_nodenext_id = 0;
 
-						sql = "SELECT ad_wf_nodenext_id from ad_wf_nodenext WHERE ad_wf_node_id = ?";
-						ad_wf_nodenext_id = DB.getSQLValue(null, sql, nodeId);
-						if (ad_wf_nodenext_id > 0) {
-							createNodeNext(ctx, document, ad_wf_nodenext_id);
+						String sqlnn = "SELECT AD_WF_NodeNext_ID FROM AD_WF_NodeNext WHERE AD_WF_Node_ID = ?";
+						PreparedStatement pstmtnn = null;
+						ResultSet rsnn = null;
+						try {
+							pstmtnn = DB.prepareStatement(sqlnn, getTrxName(ctx));
+							pstmtnn.setInt(1, nodeId);
+							rsnn = pstmtnn.executeQuery();
+							while (rsnn.next()) {
+								ad_wf_nodenext_id = rsnn.getInt("AD_WF_NodeNext_ID");
+								if (ad_wf_nodenext_id > 0) {
+									createNodeNext(ctx, document, ad_wf_nodenext_id);
 
-							ad_wf_nodenextcondition_id = 0;
+									ad_wf_nodenextcondition_id = 0;
 
-							sql = "SELECT ad_wf_nextcondition_id from ad_wf_nextcondition WHERE ad_wf_nodenext_id = ?";
-							ad_wf_nodenextcondition_id = DB.getSQLValue(null,
-									sql, nodeId);
-							log
-									.info("ad_wf_nodenextcondition_id: "
-											+ String
-													.valueOf(ad_wf_nodenextcondition_id));
-							if (ad_wf_nodenextcondition_id > 0) {
-								createNodeNextCondition(ctx, document,
-										ad_wf_nodenextcondition_id);
+									String sqlnnc = "SELECT AD_WF_NextCondition_ID FROM AD_WF_NextCondition WHERE AD_WF_NodeNext_ID = ?";
+									PreparedStatement pstmtnnc = null;
+									ResultSet rsnnc = null;
+									try {
+										pstmtnnc = DB.prepareStatement(sqlnnc, getTrxName(ctx));
+										pstmtnnc.setInt(1, ad_wf_nodenext_id);
+										rsnnc = pstmtnnc.executeQuery();
+										while (rsnnc.next()) {
+											ad_wf_nodenextcondition_id = rsnnc.getInt("AD_WF_NextCondition_ID");
+											log.info("ad_wf_nodenextcondition_id: " + String.valueOf(ad_wf_nodenextcondition_id));
+											if (ad_wf_nodenextcondition_id > 0) {
+												createNodeNextCondition(ctx, document, ad_wf_nodenextcondition_id);
+											}
+										}
+									} finally {
+										DB.close(rsnnc, pstmtnnc);
+										rsnnc = null;
+										pstmtnnc = null;
+									}				
+								}
 							}
-						}
+							
+						} finally {
+							DB.close(rsnn, pstmtnn);
+							rsnn = null;
+							pstmtnn = null;
+						}				
 
 					}
-
-					rs1.close();
-					pstmt1.close();
-					pstmt1 = null;
 				} finally {
-					try {
-						if (pstmt1 != null)
-							pstmt1.close();
-					} catch (Exception e) {
-					}
+					DB.close(rs1, pstmt1);
+					rs1 = null;
 					pstmt1 = null;
 					
 					document.endElement("", "", "workflow");
 				}				
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "Workflow", e);
 			if (e instanceof SAXException)
@@ -330,11 +344,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 			else
 				throw new RuntimeException("Failed to export workflow.", e);
 		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-			} catch (Exception e) {
-			}
+			DB.close(rs, pstmt);
+			rs = null;
 			pstmt = null;
 		}
 	}
