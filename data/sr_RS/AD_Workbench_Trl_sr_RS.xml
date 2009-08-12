@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.5.3a_2008-12-21 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090724-1101 - ${ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="sr_RS" table="AD_Workbench">
+ <row id="100" trl="N">
+  <value column="Name" original="Sales">Продаја</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

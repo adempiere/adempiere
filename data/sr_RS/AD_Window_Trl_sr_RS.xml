@@ -1,0 +1,1773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.5.3a_2008-12-21 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090724-1101 - ${ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="sr_RS" table="AD_Window">
+ <row id="100" trl="N">
+  <value column="Name" original="Table and Column">Табела и колона</value>
+  <value column="Description" original="Maintain Tables and Columns">Одржавање табела и колона</value>
+  <value column="Help" original="The Table and Column Window defines all tables with their columns">Прозор табеле и колоне дефинише све табеле са припадајућим колонама</value>
+ </row>
+ <row id="101" trl="N">
+  <value column="Name" original="Reference">Референца</value>
+  <value column="Description" original="Maintain System References">Одржавање референци система</value>
+  <value column="Help" original="The Reference Window defines field/display types and validations. This window is for System Admin use only.">The Reference Window defines field/display types and validations. This window is for System Admin use only.</value>
+ </row>
+ <row id="102" trl="N">
+  <value column="Name" original="Window, Tab &amp; Field">Прозор, језичак и поље</value>
+  <value column="Description" original="Maintain Windows, Tabs &amp; Fields">Одржавање прозора, језичка и поља</value>
+  <value column="Help" original="The Window, Tab &amp; Field Window defines the presentation of tables and columns within each window.">The Window, Tab &amp; Field Window defines the presentation of tables and columns within each window.</value>
+ </row>
+ <row id="103" trl="N">
+  <value column="Name" original="Validation Rules">Правила провере исправности</value>
+  <value column="Description" original="Maintain dynamic Validation Rules for columns and fields">Одржавање динамичких правила исправности за колона и поља</value>
+  <value column="Help" original="The Validation Rules Window defines all dynamic rules used when entering and maintaining columns and fields.  This window is for System Admin use only.">The Validation Rules Window defines all dynamic rules used when entering and maintaining columns and fields.  This window is for System Admin use only.</value>
+ </row>
+ <row id="104" trl="N">
+  <value column="Name" original="Message">Порука</value>
+  <value column="Description" original="Maintain Information and Error Messages">Одржавање информација и порука о грешкама</value>
+  <value column="Help" original="The Message Window defines the Message Text and Message Tips for each system generated message.  It is for System Admin use only.">The Message Window defines the Message Text and Message Tips for each system generated message.  It is for System Admin use only.</value>
+ </row>
+ <row id="105" trl="N">
+  <value column="Name" original="Menu">Мени</value>
+  <value column="Description" original="Maintain Menu">Одржавање менија</value>
+  <value column="Help" original="The Maintain Menu Window defines the Menu which will display.  It is for System Admin use only.  The menu items that each user will see depends upon the security defined.">The Maintain Menu Window defines the Menu which will display.  It is for System Admin use only.  The menu items that each user will see depends upon the security defined.</value>
+ </row>
+ <row id="106" trl="N">
+  <value column="Name" original="Language">Језик</value>
+  <value column="Description" original="Maintain Languages">Одржавање језика</value>
+  <value column="Help" original="The Language Window allows you to define multiple parallel language for users. This allows users to access the same data but have the windows, tabs and fields appear in different languages.&#10;If a language is a System Language, you can change the User Interface to this language (after translation).  Otherwise the language is only used for printing documents.&#10;&#10;For the language code, we suggest using the Java convention of country and language (e.g. fr_CN - Canadian French).&#10;&#10;Verify the translation creates missing translation records. Start this process after creating a new language.">The Language Window allows you to define multiple parallel language for users. This allows users to access the same data but have the windows, tabs and fields appear in different languages.
+If a language is a System Language, you can change the User Interface to this language (after translation).  Otherwise the language is only used for printing documents.
+
+For the language code, we suggest using the Java convention of country and language (e.g. fr_CN - Canadian French).
+
+Verify the translation creates missing translation records. Start this process after creating a new language.</value>
+ </row>
+ <row id="107" trl="N">
+  <value column="Name" original="Matched Invoices">Уклопљене фактуре</value>
+  <value column="Description" original="View Matched Invoices">Погледај уклопљене фактуре</value>
+  <value column="Help" original="View detals of matched invoice lines to material receipt lines">View detals of matched invoice lines to material receipt lines</value>
+ </row>
+ <row id="108" trl="N">
+  <value column="Name" original="User">Корисник</value>
+  <value column="Description" original="Maintain Users of the system">Одржавање корисника система</value>
+  <value column="Help" original="The User Window allows you to maintain User of the system.  Users can log into the system and have access to functionality via one or more roles.  A user can also be a business partner contact.">The User Window allows you to maintain User of the system.  Users can log into the system and have access to functionality via one or more roles.  A user can also be a business partner contact.</value>
+ </row>
+ <row id="109" trl="N">
+  <value column="Name" original="Client">Клијент</value>
+  <value column="Description" original="Maintain Clients/Tenants">Одржавање клијента</value>
+  <value column="Help" original="The Client is the highest level of an independent business entity.  Each Client will have one or more Organizations reporting to it.  Each Client defines the accounting parameters (Accounting Schema, Tree definition, Non Monetary UOM's). To create new Clients, run the Initial Client Setup with the System Administrator Role.&#10;Do not create a new client in this window, but use &quot;Initial Client Setup&quot; to set up the required security and access rules. If you create a new client here, you will not be able to view it and also the required client infrastructure would not have been set up.">The Client is the highest level of an independent business entity.  Each Client will have one or more Organizations reporting to it.  Each Client defines the accounting parameters (Accounting Schema, Tree definition, Non Monetary UOM's). To create new Clients, run the Initial Client Setup with the System Administrator Role.
+Do not create a new client in this window, but use "Initial Client Setup" to set up the required security and access rules. If you create a new client here, you will not be able to view it and also the required client infrastructure would not have been set up.</value>
+ </row>
+ <row id="110" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original="Maintain Organizations">Одржавање организација</value>
+  <value column="Help" original="The Organization Window allows you to define and maintain Organizational entities.  An Organization is often a legal entity or sub-unit for which documents and transactions are processed">The Organization Window allows you to define and maintain Organizational entities.  An Organization is often a legal entity or sub-unit for which documents and transactions are processed</value>
+ </row>
+ <row id="111" trl="N">
+  <value column="Name" original="Role">Улога</value>
+  <value column="Description" original="Maintain User Responsibilities">Одржавање корисничких права</value>
+  <value column="Help" original="The Role Window allows you to define the different roles that users of this system will have.  Roles control access to windows, tasks, reports, etc. For a client an Administrator and User role are predefined. You may add additional roles to control access for specific functionality or data.&#10;You can add users to the role.&#10;Note that access information is cached and requires re-login or reset of cache.">The Role Window allows you to define the different roles that users of this system will have. Roles control access to windows, tasks, reports, etc. For a client an Administrator and User role are predefined. You may add additional roles to control access for specific functionality or data. Можете доделити кориснике улози. Note that access information is cached and requires re-login or reset of cache.</value>
+ </row>
+ <row id="112" trl="N">
+  <value column="Name" original="Document Sequence">Секвенца документа</value>
+  <value column="Description" original="Maintain System and Document Sequences">Одржавање секвенци документа и система</value>
+  <value column="Help" original="The Sequence Window defines how document numbers will be sequenced.&#10;Change the way document numbers are generated. You may add a prefix or a suffix or change the current number.">The Sequence Window defines how document numbers will be sequenced.
+Change the way document numbers are generated. You may add a prefix or a suffix or change the current number.</value>
+ </row>
+ <row id="113" trl="N">
+  <value column="Name" original="Workflow">Радни ток</value>
+  <value column="Description" original="Maintain Workflow">Одржавање радних токова</value>
+  <value column="Help" original="The Workflow Window defines Workflows in the system, the access level for the Workflow and the Nodes or Steps within the Workflow.">The Workflow Window defines Workflows in the system, the access level for the Workflow and the Nodes or Steps within the Workflow.</value>
+ </row>
+ <row id="114" trl="N">
+  <value column="Name" original="Task">Задатак</value>
+  <value column="Description" original="Maintain Tasks">Одржавање задатака</value>
+  <value column="Help" original="The Maintain Tasks window defines the different tasks used in workflows and the access level for those tasks.">The Maintain Tasks window defines the different tasks used in workflows and the access level for those tasks.</value>
+ </row>
+ <row id="115" trl="N">
+  <value column="Name" original="Currency">Валута</value>
+  <value column="Description" original="Maintain Currencies">Одржавање валута</value>
+  <value column="Help" original="The Currency Window defines any currency which will be used in documents or reporting. You would define used currencies on System level and add currencies on Client level only for statistical currencies (e.g. for instable currencies) ">The Currency Window defines any currency which will be used in documents or reporting. You would define used currencies on System level and add currencies on Client level only for statistical currencies (e.g. for instable currencies) </value>
+ </row>
+ <row id="116" trl="N">
+  <value column="Name" original="Currency Rate">Стопа валуте</value>
+  <value column="Description" original="Maintain Currency Conversion Rates">Одржавање стопи валута за конверзију</value>
+  <value column="Help" original="The Conversion Rates window is used to define the conversion rates that will be used when converting document amounts from one currency to another. Note that only the multiply rate is used; The divide rate is for visualization only.">The Conversion Rates window is used to define the conversion rates that will be used when converting document amounts from one currency to another. Note that only the multiply rate is used; The divide rate is for visualization only.</value>
+ </row>
+ <row id="117" trl="N">
+  <value column="Name" original="Calendar Year and Period">Календарска година и период</value>
+  <value column="Description" original="Maintain Calendars Years Periods">Одржавање календарски година и периода</value>
+  <value column="Help" original="The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June).">The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June).</value>
+ </row>
+ <row id="118" trl="N">
+  <value column="Name" original="Account Element">Контни елемент</value>
+  <value column="Description" original="Maintain Account Elements">Одржавање контних елемената</value>
+  <value column="Help" original="The Account Element Window is used to define and maintain the Accounting Element and User Defined Elements. &#10;One of the account segments is your natural account segment (Chart of Account). You may add a new account element for parallel reporting or for user defined accounting segments.">The Account Element Window is used to define and maintain the Accounting Element and User Defined Elements. 
+One of the account segments is your natural account segment (Chart of Account). You may add a new account element for parallel reporting or for user defined accounting segments.</value>
+ </row>
+ <row id="120" trl="N">
+  <value column="Name" original="Unit of Measure">Јединице мере</value>
+  <value column="Description" original="Maintain Unit of Measure ">Одржавање јединица мере</value>
+  <value column="Help" original="The Unit of Measure Window is used to define non monetary units of measure.  It also defines if conversion between units of measure are allowed and how they are to be performed. The system provides some automatic conversions between units of measures (e.g. minute, hour, day, working day, etc.) if they are not explicitly defined here.&#10;Conversions need to be direct (i.e. if you have only a conversion between A-B and B-C, the system cannot convert A-C, you need to define it explicitly).">The Unit of Measure Window is used to define non monetary units of measure.  It also defines if conversion between units of measure are allowed and how they are to be performed. The system provides some automatic conversions between units of measures (e.g. minute, hour, day, working day, etc.) if they are not explicitly defined here.
+Conversions need to be direct (i.e. if you have only a conversion between A-B and B-C, the system cannot convert A-C, you need to define it explicitly).</value>
+ </row>
+ <row id="121" trl="N">
+  <value column="Name" original="Location">Локација</value>
+  <value column="Description" original="Maintain Location Address">Одржавање адреса локација</value>
+  <value column="Help" original="The Location Window defines the address data within the system.  This window is for System Admin only.  Users would access location entries using the location button or tab on the appropriate window (i.e Order Entry or Business Partner)">The Location Window defines the address data within the system.  This window is for System Admin only.  Users would access location entries using the location button or tab on the appropriate window (i.e Order Entry or Business Partner)</value>
+ </row>
+ <row id="122" trl="N">
+  <value column="Name" original="Country Region and City">Земља и град</value>
+  <value column="Description" original="Maintain Countries Regions and Cities">Одржавање земаља и градова</value>
+  <value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level.">The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. 
+&lt;p&gt;You would define Countries usually only on System level.</value>
+ </row>
+ <row id="123" trl="N">
+  <value column="Name" original="Business Partner">Пословни партнер</value>
+  <value column="Description" original="Maintain Business Partners">Одржавање пословних партнера</value>
+  <value column="Help" original="The Business Partner window allows you do define any party with whom you transact.  This includes customers, vendors and employees.  Prior to entering or importing products, you must define your vendors.  Prior to generating Orders you must define your customers.  This window holds all information about your business partner and the values entered will be used to generate all document transactions">The Business Partner window allows you do define any party with whom you transact.  This includes customers, vendors and employees.  Prior to entering or importing products, you must define your vendors.  Prior to generating Orders you must define your customers.  This window holds all information about your business partner and the values entered will be used to generate all document transactions</value>
+ </row>
+ <row id="125" trl="N">
+  <value column="Name" original="Accounting Schema">Контни план</value>
+  <value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Одржавање контних планова - да би промене постале ефективне морате се поново пријавити</value>
+  <value column="Help" original="The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.&#10;Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.">The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.
+Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.</value>
+ </row>
+ <row id="127" trl="N">
+  <value column="Name" original="Test">Тест</value>
+  <value column="Description" original="Test Screen">Екран теста</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="128" trl="N">
+  <value column="Name" original="Attachment">Прилог</value>
+  <value column="Description" original="Maintain Attachments">Одржавање прилога</value>
+  <value column="Help" original="For System Maintenance Only.  The Maintain Attachments window is used for diagnostic purposes to display the attributes of an attachment.">Само за одржавање система. The Maintain Attachments window is used for diagnostic purposes to display the attributes of an attachment.</value>
+ </row>
+ <row id="129" trl="N">
+  <value column="Name" original="Preference">Преференције</value>
+  <value column="Description" original="Maintain System Client Org and User Preferences">Одржавање системског клијента организације и корисничких подешавања</value>
+  <value column="Help" original="System Admin use only.">Само за кориснике који су систем администратори.</value>
+ </row>
+ <row id="130" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+  <value column="Description" original="Maintain Projects">Одржавање пројеката</value>
+  <value column="Help" original="The Project Window is used to define the projects which will can be tracked by phases and tasks.">The Project Window is used to define the projects which will can be tracked by phases and tasks.</value>
+ </row>
+ <row id="131" trl="N">
+  <value column="Name" original="GL Category">Категорија ГК</value>
+  <value column="Description" original="Maintain General Ledger Categories">Одржавање категодија главне књиге</value>
+  <value column="Help" original="The GL Category Window allows you to define categories to be used in journals.  These categories provide a method of optionally grouping and reporting on journals.">The GL Category Window allows you to define categories to be used in journals.  These categories provide a method of optionally grouping and reporting on journals.</value>
+ </row>
+ <row id="132" trl="N">
+  <value column="Name" original="GL Journal">Дневник главне књиге</value>
+  <value column="Description" original="Enter and change Manual Journal Entries">Унос и измена ручно унетих рачуноводствених ставова</value>
+  <value column="Help" original="The GL Journal Window allows you to enter and modify manual journal entries">The GL Journal Window allows you to enter and modify manual journal entries</value>
+ </row>
+ <row id="134" trl="N">
+  <value column="Name" original="Activity (ABC)">Активност (АБЦ)</value>
+  <value column="Description" original="Maintain Activities for Activity Based Costing">Одржавање активности за систем коштања базиран на активностима</value>
+  <value column="Help" original="The Activity Based Costing Window defines the different activities for which you want to capture costs.">The Activity Based Costing Window defines the different activities for which you want to capture costs.</value>
+ </row>
+ <row id="135" trl="N">
+  <value column="Name" original="Document Type">Тип документа</value>
+  <value column="Description" original="Maintain Document Types">Одржавање типова докумената</value>
+  <value column="Help" original="The Document Type Window defines any document to be used in the system.  Each document type provides the basis for processing of each document and controls the printed name and document sequence used.  ">The Document Type Window defines any document to be used in the system.  Each document type provides the basis for processing of each document and controls the printed name and document sequence used.  </value>
+ </row>
+ <row id="137" trl="N">
+  <value column="Name" original="Tax Rate">Стопа пореза</value>
+  <value column="Description" original="Maintain Taxes and their Rates">Одржавање пореза и њихових стопа</value>
+  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.">The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.</value>
+ </row>
+ <row id="138" trl="N">
+  <value column="Name" original="Tax Category">Категорија пореза</value>
+  <value column="Description" original="Maintain Tax Categories">Одржавање стопа категорија</value>
+  <value column="Help" original="The Tax Category Window is used to enter and maintain Tax Categories.  Each product is associated with a tax category which facilitates reacting changing tax rates.">The Tax Category Window is used to enter and maintain Tax Categories.  Each product is associated with a tax category which facilitates reacting changing tax rates.</value>
+ </row>
+ <row id="139" trl="N">
+  <value column="Name" original="Warehouse &amp; Locators">Складишта и локатори</value>
+  <value column="Description" original="Maintain Warehouses and Locators">Одржавање складишта и локатора</value>
+  <value column="Help" original="The Warehouse and Locators Window defines each Warehouse, any Locators for that Warehouse and the Accounting parameters to be used for inventory in that Warehouse.">The Warehouse and Locators Window defines each Warehouse, any Locators for that Warehouse and the Accounting parameters to be used for inventory in that Warehouse.</value>
+ </row>
+ <row id="140" trl="N">
+  <value column="Name" original="Product">Производ</value>
+  <value column="Description" original="Maintain Products">Одржавање производа</value>
+  <value column="Help" original="The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.">The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.</value>
+ </row>
+ <row id="141" trl="N">
+  <value column="Name" original="Payment Term">Услови плаћања</value>
+  <value column="Description" original="Maintain Payment Terms">Одржавање услова плаћања</value>
+  <value column="Help" original="The Payment Terms Window defines the different payment terms that you offer your customers and that are offered to you by your vendors.  Each invoice must contain a Payment Term.  On the standard invoice, the Name and the Document Note of the Payment Term is printed.">Прозор са условима продаје дефинише различите услове које нудите купцима и који су понуђени вама од стране ваших добављача. Свака фактура мора да садржи услов продаје. On the standard invoice, the Name and the Document Note of the Payment Term is printed.</value>
+ </row>
+ <row id="142" trl="N">
+  <value column="Name" original="Shipper">Испоручилац</value>
+  <value column="Description" original="Maintain Shippers">Одржавање испоручиоца</value>
+  <value column="Help" original="The Shipper Window defines the different shipping provides used by an Organization.  When a delivery method of Shipper is used on an Order a predefined Shipper must be selected.">The Shipper Window defines the different shipping provides used by an Organization.  When a delivery method of Shipper is used on an Order a predefined Shipper must be selected.</value>
+ </row>
+ <row id="143" trl="N">
+  <value column="Name" original="Sales Order">Налог за продају</value>
+  <value column="Description" original="Enter and change sales orders">Унесите или измените налоге за продају</value>
+  <value column="Help" original="The Order Window allows you to enter and modify Sales Orders.  ">The Order Window allows you to enter and modify Sales Orders.  </value>
+ </row>
+ <row id="144" trl="N">
+  <value column="Name" original="Product Category">Категорија производа</value>
+  <value column="Description" original="Maintain Product Categories">Одржавање категорија производа</value>
+  <value column="Help" original="The Product Category allows you to define different groups of products.  These groups can be used in generating Price Lists, defining margins and for easily assigning different accounting parameters for products.">The Product Category allows you to define different groups of products.  These groups can be used in generating Price Lists, defining margins and for easily assigning different accounting parameters for products.</value>
+ </row>
+ <row id="146" trl="N">
+  <value column="Name" original="Price List">Ценовник</value>
+  <value column="Description" original="Maintain Product Price Lists">Одржавање ценовника производа</value>
+  <value column="Help" original="The Price List Window allows you to generate product price lists for your Business Partners.  Price lists determine currency and tax treatment.  Price list versions allow to maintain parallel lists for different date ranges.  The most current pricelist version is used based on the document date.&#10;&lt;BR&gt;&#10;All pricelists have three prices: List, Standard and Limit&#10;&lt;BR&gt;&#10;First step is to create a base price list.  You can manually add products and enter the prices or create them automatically.  The base price list is often the purchase price list with list price ('official' retail price), the standard price (your purchase price).  The limit price can be used to check your final purchase costs after discounts, rebates, etc.&#10;&lt;BR&gt; &#10;Pricelists can be calculated and copied.  To speed up the calculation, the parameters are stored an used when creating a new price list version.">The Price List Window allows you to generate product price lists for your Business Partners.  Price lists determine currency and tax treatment.  Price list versions allow to maintain parallel lists for different date ranges.  The most current pricelist version is used based on the document date.
+&lt;BR&gt;
+All pricelists have three prices: List, Standard and Limit
+&lt;BR&gt;
+First step is to create a base price list.  You can manually add products and enter the prices or create them automatically.  The base price list is often the purchase price list with list price ('official' retail price), the standard price (your purchase price).  The limit price can be used to check your final purchase costs after discounts, rebates, etc.
+&lt;BR&gt; 
+Pricelists can be calculated and copied.  To speed up the calculation, the parameters are stored an used when creating a new price list version.</value>
+ </row>
+ <row id="147" trl="N">
+  <value column="Name" original="Invoice Schedule">Распоред рачуна</value>
+  <value column="Description" original="Maintain Invoicing Schedule">Одржавање распореда рачуна</value>
+  <value column="Help" original="The Invoice Schedule Window defines the frequency and cut off dates for generating summary invoices.  If a customer requires a single invoice for multiple shipments you would define the appropriate invoice schedule and associate it with the Customer.">The Invoice Schedule Window defines the frequency and cut off dates for generating summary invoices.  If a customer requires a single invoice for multiple shipments you would define the appropriate invoice schedule and associate it with the Customer.</value>
+ </row>
+ <row id="149" trl="N">
+  <value column="Name" original="Marketing Campaign">Маркетиншка кампања</value>
+  <value column="Description" original="Maintain Marketing Campaigns">Одржавање маркетиншких кампања</value>
+  <value column="Help" original="The Marketing Campaign Window defines the start and end date for a campaign.  It also gives a running balance of the invoice amounts which referred to this campaign.">The Marketing Campaign Window defines the start and end date for a campaign.  It also gives a running balance of the invoice amounts which referred to this campaign.</value>
+ </row>
+ <row id="150" trl="N">
+  <value column="Name" original="Marketing Channel">Маркетиншки канал</value>
+  <value column="Description" original="Maintain Marketing  Channels">Одржавање маркетиншких канала</value>
+  <value column="Help" original="The Marketing Channel Window defines the different channels used in Marketing Campaigns">The Marketing Channel Window defines the different channels used in Marketing Campaigns</value>
+ </row>
+ <row id="151" trl="N">
+  <value column="Name" original="Element">Елемент</value>
+  <value column="Description" original="Maintain System Elements">Одржавање системских елемената</value>
+  <value column="Help" original="The System Element Window is the Central Repository for Field Names Descriptions and Help/Comments">The System Element Window is the Central Repository for Field Names Descriptions and Help/Comments</value>
+ </row>
+ <row id="152" trl="N">
+  <value column="Name" original="Sales Region">Продајни регион</value>
+  <value column="Description" original="Maintain Sales Regions">Одржавање продајних региона</value>
+  <value column="Help" original="The Sales Region Window defines the different regions where you do business.  You can generate reports based on Sales Regions">The Sales Region Window defines the different regions where you do business.  You can generate reports based on Sales Regions</value>
+ </row>
+ <row id="153" trl="N">
+  <value column="Name" original="Account Combination">Контна комбинација</value>
+  <value column="Description" original="Maintain Valid Account Combinations ">Оджавање исправних контних комбинација</value>
+  <value column="Help" original="The Account Combination Window defines and displays valid account combinations. ">The Account Combination Window defines and displays valid account combinations. </value>
+ </row>
+ <row id="154" trl="N">
+  <value column="Name" original="GL Budget">Буџет главне књиге (бољи прев.)</value>
+  <value column="Description" original="Maintain General Ledger Budgets">Одржавање буџета главне књиге</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="158" trl="N">
+  <value column="Name" original="Bank">Банка</value>
+  <value column="Description" original="Maintain Bank">Одржавање банке</value>
+  <value column="Help" original="The Bank Window is used to define the banks and accounts associated with an organization or business partner">The Bank Window is used to define the banks and accounts associated with an organization or business partner</value>
+ </row>
+ <row id="159" trl="N">
+  <value column="Name" original="Dunning">Опомена</value>
+  <value column="Description" original="Maintain Dunning Levels">Одржавање нивоа опомене</value>
+  <value column="Help" original="The Dunning Window defines the parameters that will be used when generating Dunning Letters.  Each customer can be associated with a Dunning Code.  ">The Dunning Window defines the parameters that will be used when generating Dunning Letters.  Each customer can be associated with a Dunning Code.  </value>
+ </row>
+ <row id="160" trl="N">
+  <value column="Name" original="Withholding (1099)">Обуставе (1099)</value>
+  <value column="Description" original="Maintain Withholding Certificates">Одржавање сертификата обустава</value>
+  <value column="Help" original="The Withholding Window defines the rule used for calculating withholding amounts.">The Withholding Window defines the rule used for calculating withholding amounts.</value>
+ </row>
+ <row id="161" trl="N">
+  <value column="Name" original="Charge">Потраживање</value>
+  <value column="Description" original="Maintain Charges">Одржавање трошкова</value>
+  <value column="Help" original="The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.">The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.</value>
+ </row>
+ <row id="162" trl="N">
+  <value column="Name" original="Accounting Fact Details">Детаљи ставова књижења</value>
+  <value column="Description" original="Query Accounting Facts">Упит над ставовима књижења</value>
+  <value column="Help" original="Query the detail accounting transactions">Query the detail accounting transactions</value>
+ </row>
+ <row id="163" trl="N">
+  <value column="Name" original="Tree">Стабло</value>
+  <value column="Description" original="Maintain Tree definition">Одржавање дефиниције стабла</value>
+  <value column="Help" original="The Tree Window defines the descriptors and images that will be used when a Tree is displayed.">The Tree Window defines the descriptors and images that will be used when a Tree is displayed.</value>
+ </row>
+ <row id="165" trl="N">
+  <value column="Name" original="Report &amp; Process">Извештај и процес</value>
+  <value column="Description" original="Maintain Reports &amp; Processes">Одржавање извештаја и процеса</value>
+  <value column="Help" original="The Report &amp; Process Window is used to define the parameters and access rules for every Report and Process within the system.  This window is for System Admin use only.">The Report &amp; Process Window is used to define the parameters and access rules for every Report and Process within the system.  This window is for System Admin use only.</value>
+ </row>
+ <row id="167" trl="N">
+  <value column="Name" original="Invoice (Customer)">Фактура (купцу)</value>
+  <value column="Description" original="Customer Invoice Entry">Ажурирање фактуре купцу</value>
+  <value column="Help" original="The Customer Invoice Window allows you to display and enter invoices for a customer.  Invoices can also be generated from Sales Orders or Delivery documents.">The Customer Invoice Window allows you to display and enter invoices for a customer.  Invoices can also be generated from Sales Orders or Delivery documents.</value>
+ </row>
+ <row id="168" trl="N">
+  <value column="Name" original="Physical Inventory">Попис</value>
+  <value column="Description" original="Enter Physical Inventory">Ажурирање пописа магацина</value>
+  <value column="Help" original="The Physical Inventory Window allows you to generate inventory count lists.  These counts can then be processed which will update the actual inventory with the new counts. Normally you would create inventory count lines automaticelly. If you create them manually, make sure that the book value is correct.">The Physical Inventory Window allows you to generate inventory count lists.  These counts can then be processed which will update the actual inventory with the new counts. Normally you would create inventory count lines automaticelly. If you create them manually, make sure that the book value is correct.</value>
+ </row>
+ <row id="169" trl="N">
+  <value column="Name" original="Shipment (Customer)">Отпремница (купцу)</value>
+  <value column="Description" original="Customer Inventory Shipments Customer Returns">Повраћаји купца</value>
+  <value column="Help" original="The Shipment Window defines shipments made or to be made to a customer.  They are generated from an Customer Order.  The Shipment Document will generate the Customer Invoice.">Прозор за испоруке (отпремнице) дефинише извршене испоруке или испоруке које треба извршити купцу. Оне су генерисане на основу налога за продају. Отпремнице ће генерисати фактуру купцу.</value>
+ </row>
+ <row id="170" trl="N">
+  <value column="Name" original="Inventory Move">Интерна доставница</value>
+  <value column="Description" original="Inventory Move">Интерна доставница</value>
+  <value column="Help" original="The Inventory Move Window allows you to move inventory from one location or warehouse to another.  After the appropriate lines are entered selecting the 'Process Movements' button will adjust the inventory.">The Inventory Move Window allows you to move inventory from one location or warehouse to another.  After the appropriate lines are entered selecting the 'Process Movements' button will adjust the inventory.</value>
+ </row>
+ <row id="172" trl="N">
+  <value column="Name" original="Import Business Partner">Увоз пословног партнера</value>
+  <value column="Description" original="Import Business Partner">Увоз пословног партнера</value>
+  <value column="Help" original="The Import Business Partner Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Business Partner Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+ </row>
+ <row id="174" trl="N">
+  <value column="Name" original="Revenue Recognition">Препознавање прихода</value>
+  <value column="Description" original="Revenue Recognition Rules">Правила за препознавање прихода</value>
+  <value column="Help" original="The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.">The Revenue Recognition Window defines the intervals at which revenue will be recognized. Alternatively, the revenue recognition may be linked to service levels provided.</value>
+ </row>
+ <row id="175" trl="N">
+  <value column="Name" original="Perpetual Inventory">Вечите залихе</value>
+  <value column="Description" original="Maintain Perpetual Inventory Rules">Одржавање правила вечитих залиха</value>
+  <value column="Help" original="The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.">The Perpetual Inventory defines the rules to be applied when generating Physical Inventory counts.</value>
+ </row>
+ <row id="176" trl="N">
+  <value column="Name" original="Vendor Details">Детаљи добављача</value>
+  <value column="Description" original="Maintain Vendor Details">Одржавање детаља довављача</value>
+  <value column="Help" original="The Vendor Details Window allows you to display and maintain all products for a selected Vendor.">The Vendor Details Window allows you to display and maintain all products for a selected Vendor.</value>
+ </row>
+ <row id="178" trl="N">
+  <value column="Name" original="Greeting">Поздрав</value>
+  <value column="Description" original="Maintain Greetings">Одржавање поздрава</value>
+  <value column="Help" original="The Greeting Window defines a greeting that is then associated with a Business Partner or Business Partner Contact.">The Greeting Window defines a greeting that is then associated with a Business Partner or Business Partner Contact.</value>
+ </row>
+ <row id="180" trl="N">
+  <value column="Name" original="Report View">Извештај поглед</value>
+  <value column="Description" original="Maintain Report Views">Одржавање погледа извештаја</value>
+  <value column="Help" original="The Report View Window defines the views used when generating reports.  This window is for System Admin use only.">The Report View Window defines the views used when generating reports.  This window is for System Admin use only.</value>
+ </row>
+ <row id="181" trl="N">
+  <value column="Name" original="Purchase Order">Налог за набавку</value>
+  <value column="Description" original="Manage Purchase Orders">Одржавање налога набавке</value>
+  <value column="Help" original="The Purchase Order Window defines a purchase order for an organization.  When a Purchase Order has been entered you can generate a Shipment Document or Invoice from this Purchase Order">The Purchase Order Window defines a purchase order for an organization.  When a Purchase Order has been entered you can generate a Shipment Document or Invoice from this Purchase Order</value>
+ </row>
+ <row id="183" trl="N">
+  <value column="Name" original="Invoice (Vendor)">Фактура добављача</value>
+  <value column="Description" original="Vendor Invoice Entry">Ажурирање фактура добављача</value>
+  <value column="Help" original="The Vendor Invoice Window allows you to display and enter Invoices from a Vendor.  Vendor Invoices can also be generated from Purchase Orders or Delivery Receipts.">The Vendor Invoice Window allows you to display and enter Invoices from a Vendor.  Vendor Invoices can also be generated from Purchase Orders or Delivery Receipts.</value>
+ </row>
+ <row id="184" trl="N">
+  <value column="Name" original="Material Receipt">Пријемница</value>
+  <value column="Description" original="Vendor Shipments (Receipts)">Испоруке добављача (пријемнице)</value>
+  <value column="Help" original="The Vendor Shipment Window defines the receipt of product or material from a Vendor.  The Shipment may be manually entered or may be generated from a Purchase Order or Vendor Invoice.">The Vendor Shipment Window defines the receipt of product or material from a Vendor.  The Shipment may be manually entered or may be generated from a Purchase Order or Vendor Invoice.</value>
+ </row>
+ <row id="185" trl="N">
+  <value column="Name" original="EDI Definition">ЕДИ дефиниција</value>
+  <value column="Description" original="Maintain EDI Definition">Одржавање ЕДИ дефиниција</value>
+  <value column="Help" original="The EDI Definition Window defines the parameters to be used when processing EDI Transactions">The EDI Definition Window defines the parameters to be used when processing EDI Transactions</value>
+ </row>
+ <row id="186" trl="N">
+  <value column="Name" original="EDI Transaction">ЕДИ трансакција</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="187" trl="N">
+  <value column="Name" original="Form">Образац</value>
+  <value column="Description" original="Special Forms">Посебан образац</value>
+  <value column="Help" original="The Forms Window defines any window which is not automatically generated.  For System Admin use only.">The Forms Window defines any window which is not automatically generated.  For System Admin use only.</value>
+ </row>
+ <row id="188" trl="N">
+  <value column="Name" original="Error Message">Порука грешке</value>
+  <value column="Description" original="Display Error Messages">Прикажи поруке грешака</value>
+  <value column="Help" original="The Error Message Window displays all error messages generated.  This is for System Admin use only.  The records must be manually deleted.">The Error Message Window displays all error messages generated.  This is for System Admin use only.  The records must be manually deleted.</value>
+ </row>
+ <row id="189" trl="N">
+  <value column="Name" original="Import Loader Format">Увези формат учитавача</value>
+  <value column="Description" original="Maintain Import Loader Formats">Одржавање увоза учитавача формата</value>
+  <value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported.">The Import Loader Format Window is used for defining the file layout for product information which will be imported.</value>
+ </row>
+ <row id="191" trl="N">
+  <value column="Name" original="Production">Производња</value>
+  <value column="Description" original="Production based on Bill of Materials">Производња базирана на саставници</value>
+  <value column="Help" original="The Production Window defines those plan and inventory movements that occur when a product is created from a bill of materials">The Production Window defines those plan and inventory movements that occur when a product is created from a bill of materials</value>
+ </row>
+ <row id="192" trl="N">
+  <value column="Name" original="Business Partner Group">Група пословних партнера</value>
+  <value column="Description" original="Maintain Business Partner Groups">Одржавање група пословних партнера</value>
+  <value column="Help" original="The Business Partner Group window allows you to define the accounting parameters at a group level.  If you define the accounting parameters for a group any Business Partner entered using this group will have these accounting parameters automatically populated.  You can then make any modifications necessary at the Business Partner level.">The Business Partner Group window allows you to define the accounting parameters at a group level.  If you define the accounting parameters for a group any Business Partner entered using this group will have these accounting parameters automatically populated.  You can then make any modifications necessary at the Business Partner level.</value>
+ </row>
+ <row id="193" trl="N">
+  <value column="Name" original="Notice">Белешка</value>
+  <value column="Description" original="View System Notices">Преглед системских бележака</value>
+  <value column="Help" original="The system creates messages while performing processes. In this window you can view them.">The system creates messages while performing processes. In this window you can view them.</value>
+ </row>
+ <row id="194" trl="N">
+  <value column="Name" original="Bank Statement">Извод</value>
+  <value column="Description" original="Process Bank Statements">Процесира изводе банке</value>
+  <value column="Help" original="The Process Bank Statements window allows you to reconcile your Bank Statements.  You can either enter the line items from the statement in the Statement Line tab or select the 'Create From' button to automatically generate the statement from all unreconciled payments to this bank account.  Once you have completed reconciling, select the 'Process Statement' button to mark the payments as reconciled and update the appropriate GL accounts.">The Process Bank Statements window allows you to reconcile your Bank Statements.  You can either enter the line items from the statement in the Statement Line tab or select the 'Create From' button to automatically generate the statement from all unreconciled payments to this bank account.  Once you have completed reconciling, select the 'Process Statement' button to mark the payments as reconciled and update the appropriate GL accounts.</value>
+ </row>
+ <row id="195" trl="N">
+  <value column="Name" original="Payment">Уплата</value>
+  <value column="Description" original="Process Payments and Receipts">Процесирај исплате и уплате</value>
+  <value column="Help" original="The Process Payments Window allows you to enter payments and reaipts for invoices.  If the payment is for a single invoice then it can be processed here.  If it is for multiple invoices or is a partial payment then it should be processed in the Payment Allocation Window.">The Process Payments Window allows you to enter payments and reaipts for invoices.  If the payment is for a single invoice then it can be processed here.  If it is for multiple invoices or is a partial payment then it should be processed in the Payment Allocation Window.</value>
+ </row>
+ <row id="196" trl="N">
+  <value column="Name" original="Custom Attribute">Прилагођене особине</value>
+  <value column="Description" original="Maintain custom entity attributes">Одржавање прилагожених особина ентитета</value>
+  <value column="Help" original="This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.">This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.</value>
+ </row>
+ <row id="197" trl="N">
+  <value column="Name" original="Cashbook">Благајна</value>
+  <value column="Description" original="Maintain Cashbook">Одржавање благајне</value>
+  <value column="Help" original="The Cashbook Window defines the bank and account against which cash transactions will be processed.">The Cashbook Window defines the bank and account against which cash transactions will be processed.</value>
+ </row>
+ <row id="198" trl="N">
+  <value column="Name" original="Cash Journal">Дневник благајне</value>
+  <value column="Description" original="Cash transactions">Трансакције готовине</value>
+  <value column="Help" original="The Cash Journal Window is used to record disbursements from and receipts to Petty Cash">The Cash Journal Window is used to record disbursements from and receipts to Petty Cash</value>
+ </row>
+ <row id="200" trl="N">
+  <value column="Name" original="Field Group">Група поља</value>
+  <value column="Description" original="Define Field Group">Дефинисање поља групе</value>
+  <value column="Help" original="The Field Group Window allows you to define subsections in a tab.  For System Admin use only.">The Field Group Window allows you to define subsections in a tab.  For System Admin use only.</value>
+ </row>
+ <row id="201" trl="N">
+  <value column="Name" original="Request">Захтеви</value>
+  <value column="Description" original="Work on your requests">Рад на Вашим захтевима</value>
+  <value column="Help" original="The Request Window is used to define and track any request assigned to you.">The Request Window is used to define and track any request assigned to you.</value>
+ </row>
+ <row id="203" trl="N">
+  <value column="Name" original="Request Processor">Процесор захтева</value>
+  <value column="Description" original="Define Request Processors">Дефинисање захтева процесора</value>
+  <value column="Help" original="The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes  A Request Processor can be just for a specific Request Type or for all.">The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes  A Request Processor can be just for a specific Request Type or for all.</value>
+ </row>
+ <row id="204" trl="N">
+  <value column="Name" original="Mail Template">Шаблони за писма</value>
+  <value column="Description" original="Maintain Mail Template">Одржавање шаблона имејла</value>
+  <value column="Help" original="Mail templates can contain variables of the user, business partner or a general object.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;&#10;So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;&#10;For Multi-Lingual systems, the template is translated based on the Business Partner's language selection.">Mail templates can contain variables of the user, business partner or a general object.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;
+So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;
+For Multi-Lingual systems, the template is translated based on the Business Partner's language selection.</value>
+ </row>
+ <row id="205" trl="N">
+  <value column="Name" original="View Allocation">Преглед расподеле</value>
+  <value column="Description" original="View and Reverse Allocations ">Преглед и повратак расподела</value>
+  <value column="Help" original="The Reverse Allocation Window allows you to view and reverse a payment allocation">The Reverse Allocation Window allows you to view and reverse a payment allocation</value>
+ </row>
+ <row id="206" trl="N">
+  <value column="Name" original="Payment Selection">Одабир плаћања</value>
+  <value column="Description" original="Select Invoices for Payment">Одабир фактура за уплате</value>
+  <value column="Help" original="The Payment Selection Window allows you to select and process the invoices you want to pay.&#10;(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.&#10;&#10;(b) If you are happy with the Payment Selection, you create the payments.&#10;&#10;(c) You print or export your payments in the Window Payment Print/Export">The Payment Selection Window allows you to select and process the invoices you want to pay.
+(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.
+
+(b) If you are happy with the Payment Selection, you create the payments.
+
+(c) You print or export your payments in the Window Payment Print/Export</value>
+ </row>
+ <row id="207" trl="N">
+  <value column="Name" original="Commission">Провизија</value>
+  <value column="Description" original="Maintain Commissions and Royalties">Одржавање провизија и награда</value>
+  <value column="Help" original="Define how and when you want the commissions to be calculated and to whom to pay it.&#10;The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).">Define how and when you want the commissions to be calculated and to whom to pay it.
+The Commissions Window allows you define how commissions and royalties will be paid. You can pay multiple commissions for the same order or invoice (e.g. to the person entering the transaction, to the person responsible for sale of the product (category) and or business partner (group).</value>
+ </row>
+ <row id="208" trl="N">
+  <value column="Name" original="Project Reporting">Извештај пројеката</value>
+  <value column="Description" original="Maintain Project Reporting Cycles">Одржавање циклуса извештаја пројеката</value>
+  <value column="Help" original="The Project Cycle Window defines the steps associated with a specific Project.&#10;You may want to define several Project cycles to differentiate the different types of projects. Project cycles may use all or a subset of the used Project Status (e.g. Your opportunity project cycle may include the steps from prospect to contract - the service cycle may include steps from installation to customer acceptance.">The Project Cycle Window defines the steps associated with a specific Project.
+You may want to define several Project cycles to differentiate the different types of projects. Project cycles may use all or a subset of the used Project Status (e.g. Your opportunity project cycle may include the steps from prospect to contract - the service cycle may include steps from installation to customer acceptance.</value>
+ </row>
+ <row id="210" trl="N">
+  <value column="Name" original="Commission Run">Покретање провизија</value>
+  <value column="Description" original="Check and modify Commissions">Провера и измена провизија</value>
+  <value column="Help" original="The Commission Run Window displays the results of processing commissions.  When the Generate Commission process is selected from the Commissions Window, the results are displayed here. If the result is satisfactory, generate an AP invoice to pay the commission.">The Commission Run Window displays the results of processing commissions.  When the Generate Commission process is selected from the Commissions Window, the results are displayed here. If the result is satisfactory, generate an AP invoice to pay the commission.</value>
+ </row>
+ <row id="212" trl="N">
+  <value column="Name" original="Performance Goal">Циљ перформанси</value>
+  <value column="Description" original="Define Performance Goals">Дефинисање циљева перформанси</value>
+  <value column="Help" original="The Performance Goal Window allows you to define performance goals or all, a role or a user">The Performance Goal Window allows you to define performance goals or all, a role or a user</value>
+ </row>
+ <row id="213" trl="N">
+  <value column="Name" original="Performance Measure Calculation">Рачуница мерења перформанси</value>
+  <value column="Description" original="Define how you calculate your performance measures">Дефинисање како израчунавате мерење перформанси</value>
+  <value column="Help" original="The Performance Measure Calculation defines how performance measures will be calculated. &#10;The sql needs to return a single value.  Please check examples.&lt;br&gt;&#10;The date trestriction is defined in the Goal. &#10;Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions.">The Performance Measure Calculation defines how performance measures will be calculated. 
+The sql needs to return a single value.  Please check examples.&lt;br&gt;
+The date trestriction is defined in the Goal. 
+Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions.</value>
+ </row>
+ <row id="215" trl="N">
+  <value column="Name" original="Performance Measure">Мерење перформанси</value>
+  <value column="Description" original="Define your Performance Measures">Дефинишите Ваше мерење перформанси</value>
+  <value column="Help" original="The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame.">The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame.</value>
+ </row>
+ <row id="216" trl="N">
+  <value column="Name" original="Financial Report">Финансијски Извештај</value>
+  <value column="Description" original="Maintain Financial Reports">Одржавање финансијских извештаја</value>
+  <value column="Help" original="Financial Reports are the combination of a Report Column Set and Line Set.">Financial Reports are the combination of a Report Column Set and Line Set.</value>
+ </row>
+ <row id="217" trl="N">
+  <value column="Name" original="Report Column Set">Поставке колоне извештаја</value>
+  <value column="Description" original="Maintain Financial Report Column Sets">Одржавање поставки колона финансијског извештаја</value>
+  <value column="Help" original="The Report Column Set defines what data is printed in the columns of a report.">The Report Column Set defines what data is printed in the columns of a report.</value>
+ </row>
+ <row id="218" trl="N">
+  <value column="Name" original="Report Line Set">Извештај поставки сета ставки</value>
+  <value column="Description" original="Maintain Financial Report Line Sets">Одржавање ставки финансијког извештаја</value>
+  <value column="Help" original="The Line Set determines, which lines are printed in a Financial Report">The Line Set determines, which lines are printed in a Financial Report</value>
+ </row>
+ <row id="220" trl="N">
+  <value column="Name" original="Service Level">Ниво услуге</value>
+  <value column="Description" original="Maintain Service Levels">Одржавање нивоа услуга</value>
+  <value column="Help" original="Service Levels are generated when an invoice with products based on revenue recognition rules are generated.  You need to update the actual service level by adding an additional line.">Service Levels are generated when an invoice with products based on revenue recognition rules are generated.  You need to update the actual service level by adding an additional line.</value>
+ </row>
+ <row id="221" trl="N">
+  <value column="Name" original="Find (indirect use)">Пронађи (индиректна употреба)</value>
+  <value column="Description" original="Find Dialog (indirect use)">Дијалог пронађи (индиректна употреба)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="223" trl="N">
+  <value column="Name" original="Material Transactions (indirect use)">Робно-материјалне трансакције (индиректна употреба)</value>
+  <value column="Description" original="Material Transactions (indirect use)">Робно-материјалне трансакције (индиректна употреба)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="224" trl="N">
+  <value column="Name" original="Print Form">Образац за штампу</value>
+  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Одржавање кориштеног обрасца за штампу (фактуре, чекови)</value>
+  <value column="Help" original="Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;&#10;The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*).">Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;
+The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*).</value>
+ </row>
+ <row id="225" trl="N">
+  <value column="Name" original="System Color">Системска боја</value>
+  <value column="Description" original="Maintain System Colors">Одржавање системских боја</value>
+  <value column="Help" original="System colors are used for background and indicators">System colors are used for background and indicators</value>
+ </row>
+ <row id="226" trl="N">
+  <value column="Name" original="Desktop">Радна површина</value>
+  <value column="Description" original="Maintain Desktop">Одржавање радне површине</value>
+  <value column="Help" original="Desktop is a collection of Workbenches">Desktop is a collection of Workbenches</value>
+ </row>
+ <row id="227" trl="N">
+  <value column="Name" original="System Image">Слике у програму</value>
+  <value column="Description" original="Maintain Images and Icons">Одржавање слика и икона</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="228" trl="N">
+  <value column="Name" original="Matched Purchase Orders">Уклопљени налози за набавку</value>
+  <value column="Description" original="View Matched Purchase Orders">Погледај уклопљене налоге за набавку</value>
+  <value column="Help" original="View detals of matched purchase order lines to invoice lines and material receipt lines">View detals of matched purchase order lines to invoice lines and material receipt lines</value>
+ </row>
+ <row id="229" trl="N">
+  <value column="Name" original="Window Customization">Прилагођавање прозора</value>
+  <value column="Description" original="Define Window Customization for Role/User">Дефинисање подешавање прозора за улогу/корисника</value>
+  <value column="Help" original="The customization values defined here overwrite/replace the default system definition if defined.">The customization values defined here overwrite/replace the default system definition if defined.</value>
+ </row>
+ <row id="231" trl="N">
+  <value column="Name" original="Workbench">Радни сто</value>
+  <value column="Description" original="Maintain Workbench">Одржавање радног стола</value>
+  <value column="Help" original="Workbenches are a collection of Windows">Workbenches are a collection of Windows</value>
+ </row>
+ <row id="232" trl="N">
+  <value column="Name" original="Request (all)">Захтев (све)</value>
+  <value column="Description" original="View and work on all requests">Поглед и рад над свим захтевима</value>
+  <value column="Help" original="This Request window is used to view all available requests">This Request window is used to view all available requests</value>
+ </row>
+ <row id="233" trl="N">
+  <value column="Name" original="Discount Schema">Шема попуста</value>
+  <value column="Description" original="Maintain Trade Discount Schema">Одржавање трговачке шеме попуста</value>
+  <value column="Help" original="Trade discount schema calculates the trade discount percentage">Trade discount schema calculates the trade discount percentage</value>
+ </row>
+ <row id="234" trl="N">
+  <value column="Name" original="Expense Type">Врста расхода</value>
+  <value column="Description" original="Maintain Expense Report Types">Одржавање извештаја врста расхода</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="235" trl="N">
+  <value column="Name" original="Expense Report">Извештај расхода</value>
+  <value column="Description" original="Time and Expense Report">Извештај времена и расхода</value>
+  <value column="Help" original="The time and expense report allows you to capture time spent on a project, billable time and to claim expenses.">The time and expense report allows you to capture time spent on a project, billable time and to claim expenses.</value>
+ </row>
+ <row id="236" trl="N">
+  <value column="Name" original="Resource">Ресурс</value>
+  <value column="Description" original="Maintain Resources">Одржавање ресурса</value>
+  <value column="Help" original="Maintain your Resources. The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product.">Maintain your Resources. The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product.</value>
+ </row>
+ <row id="237" trl="N">
+  <value column="Name" original="Resource Type">Врста ресурса</value>
+  <value column="Description" original="Maintain Resource Types">Одржавање врста ресурса</value>
+  <value column="Help" original="Maintain Resource types and their principal availability. it is used to calculate the available time in a resource. It allows input of starting time and end time for the slot according to the working days.">Maintain Resource types and their principal availability. it is used to calculate the available time in a resource. It allows input of starting time and end time for the slot according to the working days.</value>
+ </row>
+ <row id="238" trl="N">
+  <value column="Name" original="Print Color">Боја штампања</value>
+  <value column="Description" original="Maintain Print Color">Одржавање боје штампе</value>
+  <value column="Help" original="Colors used for printing">Colors used for printing</value>
+ </row>
+ <row id="239" trl="N">
+  <value column="Name" original="Print Font">Фонт штампе</value>
+  <value column="Description" original="Maintain Print Font">Одржавање фонта штампе</value>
+  <value column="Help" original="Font used for printing">Font used for printing</value>
+ </row>
+ <row id="240" trl="N">
+  <value column="Name" original="Print Format">Формат штампања</value>
+  <value column="Description" original="Maintain Print Format">Одржавање формата штампе</value>
+  <value column="Help" original="The print format determines how data is rendered for print.">The print format determines how data is rendered for print.</value>
+ </row>
+ <row id="241" trl="N">
+  <value column="Name" original="Print Paper">Папир штампања</value>
+  <value column="Description" original="Maintain Print Paper">Одржавање папира штампе</value>
+  <value column="Help" original="Printer Paper Size, Orientation and Margins">Printer Paper Size, Orientation and Margins</value>
+ </row>
+ <row id="242" trl="N">
+  <value column="Name" original="Expenses (to be invoiced)">Расходи (за фактурисање)</value>
+  <value column="Description" original="View expenses and charges not invoiced to customers">Погледај расходе и трошкове који нису фактурисани купцу</value>
+  <value column="Help" original="Before invoicing to customers, check the expense lines to be invoiced">Before invoicing to customers, check the expense lines to be invoiced</value>
+ </row>
+ <row id="243" trl="N">
+  <value column="Name" original="Print Table Format">Штампа - формат табеле</value>
+  <value column="Description" original="Define Report Table Format">Дефиниши формат табеле за извештај</value>
+  <value column="Help" original="The Print Table Format lets you define how table header, etc. is printed. Please note that the Report Table FOrmat is cached to improve performance.">The Print Table Format lets you define how table header, etc. is printed. Please note that the Report Table FOrmat is cached to improve performance.</value>
+ </row>
+ <row id="244" trl="N">
+  <value column="Name" original="Request Type">Врста захтева</value>
+  <value column="Description" original="Maintain Request Types">Одржавање врста захтева</value>
+  <value column="Help" original="Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.">Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.</value>
+ </row>
+ <row id="245" trl="N">
+  <value column="Name" original="Interest Area">Област интересовања</value>
+  <value column="Description" original="Interest Area or Topic">Област интересовања или поглавље</value>
+  <value column="Help" original="Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.">Interest Areas reflect interest in a topic by a contact. Interest areas can be used for marketing campaigns.</value>
+ </row>
+ <row id="246" trl="N">
+  <value column="Name" original="System">Систем</value>
+  <value column="Description" original="System Definition">Системска дефиниција</value>
+  <value column="Help" original="Common System Definition - Only one Record - Do not add additional records.">Common System Definition - Only one Record - Do not add additional records.</value>
+ </row>
+ <row id="247" trl="N">
+  <value column="Name" original="Import Product">Увоз - производ</value>
+  <value column="Description" original="Import Products">Увези производе</value>
+  <value column="Help" original="The Import Products Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Products Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+ </row>
+ <row id="248" trl="N">
+  <value column="Name" original="Import Account">Увези конто</value>
+  <value column="Description" original="Import Natural Account Values">Увези вредности природних конта</value>
+  <value column="Help" original="The Import Natural Account Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Natural Account Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+ </row>
+ <row id="249" trl="N">
+  <value column="Name" original="Import Report Line Set">Увези сет ставки извештаја</value>
+  <value column="Description" original="Import Report Line Sets">Увези сет ставки извештаја</value>
+  <value column="Help" original="The Import Report Line Set Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Report Line Set Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+ </row>
+ <row id="250" trl="N">
+  <value column="Name" original="System Translation Check">Провера превода система</value>
+  <value column="Description" original="Check System Language Translations">Провери превод системског језика</value>
+  <value column="Help" original="Verify your language translations for selected entities. You should use Translation Export / Import for effective translation. This window allows you to check the translation of the main translation entities.">Verify your language translations for selected entities. You should use Translation Export / Import for effective translation. This window allows you to check the translation of the main translation entities.</value>
+ </row>
+ <row id="251" trl="N">
+  <value column="Name" original="Asset">Актива</value>
+  <value column="Description" original="Asset used internally or by customers">Средства коришћена интерно или од стране купаца</value>
+  <value column="Help" original="An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.">An asset is either created by purchasing or by delivering a product.  An asset can be used internally or be a customer asset.</value>
+ </row>
+ <row id="252" trl="N">
+  <value column="Name" original="Asset Group">Група средства</value>
+  <value column="Description" original="Group of Assets">Групе средстава</value>
+  <value column="Help" original="The group of assets determines default accounts.  If a asset group is selected in the product category, assets are created when delivering the asset.">The group of assets determines default accounts.  If a asset group is selected in the product category, assets are created when delivering the asset.</value>
+ </row>
+ <row id="253" trl="N">
+  <value column="Name" original="Training">Тренинг</value>
+  <value column="Description" original="Repeated Training">Поновљени тренинг</value>
+  <value column="Help" original="The training may have multiple actual classes">The training may have multiple actual classes</value>
+ </row>
+ <row id="254" trl="N">
+  <value column="Name" original="Expenses (not reimbursed)">Расходи (који нису рефундирани)</value>
+  <value column="Description" original="View expenses and charges not reimbursed">Погледај расходе и трошкове који нису рефундирани</value>
+  <value column="Help" original="Before reimbursing expenses, check the open expense items">Before reimbursing expenses, check the open expense items</value>
+ </row>
+ <row id="255" trl="N">
+  <value column="Name" original="Accounting Fact Balances">Биланси ставова књижења</value>
+  <value column="Description" original="Query Accounting Daily Balances">Упит над билансима ставова књижења</value>
+  <value column="Help" original="Query daily account balances">Query daily account balances</value>
+ </row>
+ <row id="256" trl="N">
+  <value column="Name" original="Attribute Set">Комплет особина</value>
+  <value column="Description" original="Maintain Product Attribute Set">Одржавање комплета особина производа</value>
+  <value column="Help" original="Define Product Attribute Sets to add additional attributes and values to the product. You need to define a Attribute Set if you want to enable Serial and Lot Number tracking.">Define Product Attribute Sets to add additional attributes and values to the product. You need to define a Attribute Set if you want to enable Serial and Lot Number tracking.</value>
+ </row>
+ <row id="257" trl="N">
+  <value column="Name" original="Lot">Шаржа</value>
+  <value column="Description" original="Product Lot Definition">Дефиниција шарже производа</value>
+  <value column="Help" original="Maintain the individual Lot of a Product">Maintain the individual Lot of a Product</value>
+ </row>
+ <row id="258" trl="N">
+  <value column="Name" original="Lot Control">Контрола шарже</value>
+  <value column="Description" original="Product Lot Control">Контрола шарже производа</value>
+  <value column="Help" original="Definition to create Lot numbers for Products">Definition to create Lot numbers for Products</value>
+ </row>
+ <row id="259" trl="N">
+  <value column="Name" original="Serial No Control">Контрола серијског броја</value>
+  <value column="Description" original="Product Serial Number Control">Контрола серијског броја производа</value>
+  <value column="Help" original="Definition to create Serial numbers for Products">Definition to create Serial numbers for Products</value>
+ </row>
+ <row id="260" trl="N">
+  <value column="Name" original="Attribute">Особина</value>
+  <value column="Description" original="Product Attribute">Особина производа</value>
+  <value column="Help" original="Product Attribute like Color, Size, etc.">Product Attribute like Color, Size, etc.</value>
+ </row>
+ <row id="261" trl="N">
+  <value column="Name" original="Attribute Search">Претрага особине</value>
+  <value column="Description" original="Common Search Attribute ">Основне особине претраге</value>
+  <value column="Help" original="Attributes are specific to a Product Attribute Set (e.g. Size for T-Shirts: S,M,L). If you have multiple attributes and want to search under a common sttribute, you define a search sttribute. Example: have one Size search attribute combining the values of all different sizes (Size for Dress Shirt  XL,L,M,S,XS). The Attribute Search allows you to have all values available for selection.  This eases the maintenance of the individual product attribute.">Attributes are specific to a Product Attribute Set (e.g. Size for T-Shirts: S,M,L). If you have multiple attributes and want to search under a common sttribute, you define a search sttribute. Example: have one Size search attribute combining the values of all different sizes (Size for Dress Shirt  XL,L,M,S,XS). The Attribute Search allows you to have all values available for selection.  This eases the maintenance of the individual product attribute.</value>
+ </row>
+ <row id="262" trl="N">
+  <value column="Name" original="Expense Invoice (Alpha)">Фактура расхода (алфа)</value>
+  <value column="Description" original="Payables expense invoices - This is Alpha Functionality">Уплате - фактуре расхода - непоуздана функционалност</value>
+  <value column="Help" original="Enter expense invoices from your vendors">Enter expense invoices from your vendors</value>
+ </row>
+ <row id="263" trl="N">
+  <value column="Name" original="Print Label">Штампа налепнице</value>
+  <value column="Description" original="Print Label Format">Штампа формата налепнице</value>
+  <value column="Help" original="Maintain Format to print Labels">Maintain Format to print Labels</value>
+ </row>
+ <row id="264" trl="N">
+  <value column="Name" original="Session Audit">Ревизија сесије</value>
+  <value column="Description" original="Audit of User Sessions">Ревизија корисничких сесија</value>
+  <value column="Help" original="History of Online or Web Sessions">History of Online or Web Sessions</value>
+ </row>
+ <row id="265" trl="N">
+  <value column="Name" original="Project Type">Врста пројекта</value>
+  <value column="Description" original="Maintain Project Type and Phase">Одржавање врсте пројекта и фазе</value>
+  <value column="Help" original="Maintain Project Types and their Phases with standard performance information">Maintain Project Types and their Phases with standard performance information</value>
+ </row>
+ <row id="266" trl="N">
+  <value column="Name" original="Recurring">Враћајући</value>
+  <value column="Description" original="Recurring Document">Враћајући документ</value>
+  <value column="Help" original="Create new documents based on existing one">Create new documents based on existing one</value>
+ </row>
+ <row id="267" trl="N">
+  <value column="Name" original="Import Inventory">Увоз залиха</value>
+  <value column="Description" original="Import Inventory Transactions">Увоз трансакција залиха</value>
+  <value column="Help" original="Validate and Import Inventory Transactions">Validate and Import Inventory Transactions</value>
+ </row>
+ <row id="268" trl="N">
+  <value column="Name" original="Role Data Access">Улога - приступ подацима</value>
+  <value column="Description" original="Maintain Data Access Rules">Одржавање приступа подацима улоге</value>
+  <value column="Help" original="Maintain Data Access Roles of Roles/Responsibilties.&#10;Note that access information is cached and requires re-login or reset of cache.">Maintain Data Access Roles of Roles/Responsibilties.
+Note that access information is cached and requires re-login or reset of cache.</value>
+ </row>
+ <row id="269" trl="N">
+  <value column="Name" original="Advertisement">Реклама</value>
+  <value column="Description" original="Web Advertisement">Веб рекламирање</value>
+  <value column="Help" original="Maintain Advertisements on the Web">Maintain Advertisements on the Web</value>
+ </row>
+ <row id="270" trl="N">
+  <value column="Name" original="Change Audit">Ревизија промена</value>
+  <value column="Description" original="Audit of data changes">Ревизија промена података</value>
+  <value column="Help" original="Log of data changes">Log of data changes</value>
+ </row>
+ <row id="271" trl="N">
+  <value column="Name" original="Cost Type">Врста коштања</value>
+  <value column="Description" original="Maintain Cost Types">Одржавање врста трошкова</value>
+  <value column="Help" original="You can define multiple cost types. A cost type selected in an Accounting Schema is used for accounting.">You can define multiple cost types. A cost type selected in an Accounting Schema is used for accounting.</value>
+ </row>
+ <row id="272" trl="N">
+  <value column="Name" original="Time Type">Врста времена</value>
+  <value column="Description" original="Maintain Time Recording Type">Одржавање врсте бележења времена</value>
+  <value column="Help" original="Maintain different types of time for reporting">Maintain different types of time for reporting</value>
+ </row>
+ <row id="273" trl="N">
+  <value column="Name" original="Click">Клик</value>
+  <value column="Description" original="Maintain Web Click">Одржавање веб кликова</value>
+  <value column="Help" original="Web Clicks allow you to track number of clicks.  Example:&#10;&amp;lt;a href=&quot;http://www.adempiere.com/wstore/click?http://www.adempiere.de&quot; target=&quot;_blank&quot;&amp;gt;&#10;where &quot;http://www.adempiere.com/wstore/click&quot; is your side and &quot;http://www.adempiere.de&quot; is the target page.&#10;If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks.">Web Clicks allow you to track number of clicks.  Example:
+&amp;lt;a href="http://www.adempiere.com/wstore/click?http://www.adempiere.de" target="_blank"&amp;gt;
+where "http://www.adempiere.com/wstore/click" is your side and "http://www.adempiere.de" is the target page.
+If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks.</value>
+ </row>
+ <row id="274" trl="N">
+  <value column="Name" original="Counter">Бројач</value>
+  <value column="Description" original="Web Counter">Веб бројач</value>
+  <value column="Help" original="A web counter maintains how often a page or item was displayed.  Add a call to&#10;http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)&#10;">A web counter maintains how often a page or item was displayed.  Add a call to
+http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)
+</value>
+ </row>
+ <row id="275" trl="N">
+  <value column="Name" original="Invoice Payment Schedule">Распоред уплата фактура</value>
+  <value column="Description" original="Maintain Invoice Payment Schedule">Одржавање распореда уплата фактура</value>
+  <value column="Help" original="Maintain Payment Schedule of unpaid invoices">Maintain Payment Schedule of unpaid invoices</value>
+ </row>
+ <row id="276" trl="N">
+  <value column="Name" original="Alert">Аларм</value>
+  <value column="Description" original="Adempiere Alert">Адемпјеров аларм</value>
+  <value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of">Adempiere Alerts allow you define system conditions you want to be alerted of</value>
+ </row>
+ <row id="277" trl="N">
+  <value column="Name" original="Import Bank Statement">Увоз извода из банке</value>
+  <value column="Description" original="Import Bank Statements">Увоз извода из банака</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="278" trl="N">
+  <value column="Name" original="Import GL Journal">Увези дневник главне књиге</value>
+  <value column="Description" original="Import General Ledger Journals">Увези дневник главне књиге</value>
+  <value column="Help" original="You way want to check the balance of the import with &quot;Validate Only&quot; before importing. &#10;Unbalanced Journals are imported; the handling is based on your settings for the posting process. The optional balance check checks the entire import, not individual batches and journals.">You way want to check the balance of the import with "Validate Only" before importing. 
+Unbalanced Journals are imported; the handling is based on your settings for the posting process. The optional balance check checks the entire import, not individual batches and journals.</value>
+ </row>
+ <row id="279" trl="N">
+  <value column="Name" original="Import Invoice">Увези фактуре</value>
+  <value column="Description" original="Import Invoices">Увези фактуре</value>
+  <value column="Help" original="Import invoiced loaded">Import invoiced loaded</value>
+ </row>
+ <row id="280" trl="N">
+  <value column="Name" original="Import Payment">Увези плаћања</value>
+  <value column="Description" original="Import Payments">Увиз уплата</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="281" trl="N">
+  <value column="Name" original="Import Order">Увези наруџбеницу</value>
+  <value column="Description" original="Import Orders">Увези наруџбенице</value>
+  <value column="Help" original="Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for &quot;don't know&quot;.&#10;In general, selection boxes are not selected if the value is not &quot;Y&quot; (i.e. could be null or any other value). All tests are made on &quot;Y&quot; or &quot;not Y&quot; - i.e. NULL values are not &quot;not Y&quot;, but NULL (don't know) - see SQL Language introductions.">Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for "don't know".
+In general, selection boxes are not selected if the value is not "Y" (i.e. could be null or any other value). All tests are made on "Y" or "not Y" - i.e. NULL values are not "not Y", but NULL (don't know) - see SQL Language introductions.</value>
+ </row>
+ <row id="282" trl="N">
+  <value column="Name" original="Freight Category">Категорија превознине</value>
+  <value column="Description" original="Maintain Freight Categories">Одржавање катагорија превознине</value>
+  <value column="Help" original="Freight Categories are used to calculate the Freight for the Shipper selected">Freight Categories are used to calculate the Freight for the Shipper selected</value>
+ </row>
+ <row id="283" trl="N">
+  <value column="Name" original="Accounting Dimensions">Контна аналитика</value>
+  <value column="Description" original="Maintain Non-Account Dimension Trees">Одржавање не-контних стабала аналитике</value>
+  <value column="Help" original="Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!">Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!</value>
+ </row>
+ <row id="284" trl="N">
+  <value column="Name" original="Replication">Репликација</value>
+  <value column="Description" original="Maintain Data Replication Targets">Одржавање циљних мета репликације</value>
+  <value column="Help" original="Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.&lt;p&gt;&#10;Before(!) entering transactions, Start the Replication Run to set up the remote system.">Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.&lt;p&gt;
+Before(!) entering transactions, Start the Replication Run to set up the remote system.</value>
+ </row>
+ <row id="285" trl="N">
+  <value column="Name" original="Replication Strategy">Стратегија репликације</value>
+  <value column="Description" original="Maintain Data Replication Strategy">Одржавање стратегије репликације</value>
+  <value column="Help" original="The Data Replication Strategy determines which tables and how they are replicated. Note that the migration does not syncronize Application Dictionary items.">The Data Replication Strategy determines which tables and how they are replicated. Note that the migration does not syncronize Application Dictionary items.</value>
+ </row>
+ <row id="286" trl="N">
+  <value column="Name" original="Project (Lines/Issues)">Пројекат (ставке/издања)</value>
+  <value column="Description" original="Maintain Sales Order and Work Order Details">Одржавање налога продаје и детаља радних налога</value>
+  <value column="Help" original="The Project Window is used to maintain details of Projects Lines and Issues accross Phases/Tasks">The Project Window is used to maintain details of Projects Lines and Issues accross Phases/Tasks</value>
+ </row>
+ <row id="287" trl="N">
+  <value column="Name" original="Knowledge Category">Категорија знања</value>
+  <value column="Description" original="Maintain Knoweledge Categories and Values">Одржавање категорија знања и вредности</value>
+  <value column="Help" original="Set up knowledge categories and values as a search aid. Examples are Release Version, Product Area, etc. Knowledge Category values act like keyworks.">Set up knowledge categories and values as a search aid. Examples are Release Version, Product Area, etc. Knowledge Category values act like keyworks.</value>
+ </row>
+ <row id="288" trl="N">
+  <value column="Name" original="Knowledge Base">База знања</value>
+  <value column="Description" original="Maintain Knowledge Base">Одржавање базе знања</value>
+  <value column="Help" original="Maintain Type, Topics, Entries and theit Comments, Categories, Related Entries">Maintain Type, Topics, Entries and theit Comments, Categories, Related Entries</value>
+ </row>
+ <row id="289" trl="N">
+  <value column="Name" original="Knowledge Source">Извор знања</value>
+  <value column="Description" original="Source of Knowledge Entries">Извор уноса знања</value>
+  <value column="Help" original="The Source of a Knowlegde Entry is a pointer to the originating system. The Knowledge Entry has an additional entry (Description URL)  for more detailed info.">The Source of a Knowlegde Entry is a pointer to the originating system. The Knowledge Entry has an additional entry (Description URL)  for more detailed info.</value>
+ </row>
+ <row id="290" trl="N">
+  <value column="Name" original="Knowledge Synonym">Синоним знања</value>
+  <value column="Description" original="Knowlege Keyword Synonym">Кључна реч синонима Знања</value>
+  <value column="Help" original="Search Synonyms for Knowledge Keywords; Example: Product = Item">Search Synonyms for Knowledge Keywords; Example: Product = Item</value>
+ </row>
+ <row id="291" trl="N">
+  <value column="Name" original="Business Partner Info">Информације о комитенту</value>
+  <value column="Description" original="Document Information of Business Partners">Информације документације пословних партнера</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="292" trl="N">
+  <value column="Name" original="Label Printer">Штампач налепница</value>
+  <value column="Description" original="Maintain Label Printer Definition">Одржавање дефиниције штамапча налепница</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="293" trl="N">
+  <value column="Name" original="Sales Rep Info">Информације о референту продаје</value>
+  <value column="Description" original="Company Agent (Sales Rep) Information">Информације референта продаје</value>
+  <value column="Help" original="This window allows you to view Company agent related information">This window allows you to view Company agent related information</value>
+ </row>
+ <row id="294" trl="N">
+  <value column="Name" original="UnPosted Documents">Непрокњижени документи</value>
+  <value column="Description" original="Unposted Documents">Некњижени документи</value>
+  <value column="Help" original="View unposted documents">View unposted documents</value>
+ </row>
+ <row id="295" trl="N">
+  <value column="Name" original="Currency Type">Врста валуте</value>
+  <value column="Description" original="Maintain Currency Conversion Rate Types">Одржавање типова стопа валута за конверзију</value>
+  <value column="Help" original="The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.">The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.</value>
+ </row>
+ <row id="296" trl="N">
+  <value column="Name" original="Import Currency Rate">Увези курсну листу</value>
+  <value column="Description" original="Import Currency Conversion Rates">Увези курсну листу</value>
+  <value column="Help" original="The rates are imported after validation of currencies and conversion rate type as well as rates. The multiply rate is used. If a reciprocal rate is to be created, the divide rate is used. ">The rates are imported after validation of currencies and conversion rate type as well as rates. The multiply rate is used. If a reciprocal rate is to be created, the divide rate is used. </value>
+ </row>
+ <row id="297" trl="N">
+  <value column="Name" original="Workflow Process">Процес радног тока</value>
+  <value column="Description" original="Monitor workflow processes">Праћење процеса радног тока</value>
+  <value column="Help" original="View and Maintain Workflow Process Instance Information">View and Maintain Workflow Process Instance Information</value>
+ </row>
+ <row id="298" trl="N">
+  <value column="Name" original="Workflow Activities (all)">Активности радног тока (све)</value>
+  <value column="Description" original="Monitor all Workflow activities">Прати све активности радног тока</value>
+  <value column="Help" original="Maintain all Workflow activities">Maintain all Workflow activities</value>
+ </row>
+ <row id="299" trl="N">
+  <value column="Name" original="Workflow Responsible">Одговоран за радни ток</value>
+  <value column="Description" original="Responsible for Workflow Execution">Лице одговорно за извршавање радног тока</value>
+  <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.</value>
+ </row>
+ <row id="300" trl="N">
+  <value column="Name" original="Registration Attributes">Особине регистрације</value>
+  <value column="Description" original="Asset Registration Attributes">Средства - особине регистрације</value>
+  <value column="Help" original="Define the individual values for the Asset Registration">Define the individual values for the Asset Registration</value>
+ </row>
+ <row id="301" trl="N">
+  <value column="Name" original="Registration">Регистрација</value>
+  <value column="Description" original="User Asset Registration">Регистрација корисничких средстава</value>
+  <value column="Help" original="User Registration of an Asset">User Registration of an Asset</value>
+ </row>
+ <row id="302" trl="N">
+  <value column="Name" original="Bank Statement Matcher">Уклапање извода</value>
+  <value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments</value>
+  <value column="Help" original="An algorithm to find Business Partners, Invoices, Payments in imported Bank Statements">An algorithm to find Business Partners, Invoices, Payments in imported Bank Statements</value>
+ </row>
+ <row id="303" trl="N">
+  <value column="Name" original="Payment Batch">Пакетна обрада уплата</value>
+  <value column="Description" original="Process Payment Patches for EFT">Process Payment Patches for EFT</value>
+  <value column="Help" original="Electronic Fund Transfer Payment Batch.">Electronic Fund Transfer Payment Batch.</value>
+ </row>
+ <row id="304" trl="N">
+  <value column="Name" original="Organization Type">Врста организације</value>
+  <value column="Description" original="Maintain Organization Types">Одржавање врста организација</value>
+  <value column="Help" original="Organization Type allows you to categorize your organizations for reporting purposes">Organization Type allows you to categorize your organizations for reporting purposes</value>
+ </row>
+ <row id="305" trl="N">
+  <value column="Name" original="Scheduler">Распоред</value>
+  <value column="Description" original="Maintain Schedule Processes and Logs">Maintain Schedule Processes and Logs</value>
+  <value column="Help" original="Schedule processes to be executed asynchronously">Schedule processes to be executed asynchronously</value>
+ </row>
+ <row id="306" trl="N">
+  <value column="Name" original="Workflow Processor">Процесор радних токова</value>
+  <value column="Description" original="Maintain Workflow Processor and Logs">Maintain Workflow Processor and Logs</value>
+  <value column="Help" original="Workflow Processor Server Parameters">Workflow Processor Server Parameters</value>
+ </row>
+ <row id="307" trl="N">
+  <value column="Name" original="Bid Topic">Одељак за лицитацију</value>
+  <value column="Description" original="Topic with Bids and Offers">Одељак за лицитацију и понуде</value>
+  <value column="Help" original="Manage Topics and veiw Bids and Offers">Manage Topics and veiw Bids and Offers</value>
+ </row>
+ <row id="308" trl="N">
+  <value column="Name" original="Auction Topic Type">Врста области аукције</value>
+  <value column="Description" original="Maintain Auction Topic Type and Categories">Одржавање врсти области аукција и категорија</value>
+  <value column="Help" original="The Auction Topic Type determines what kind of auction is used for a particular area">The Auction Topic Type determines what kind of auction is used for a particular area</value>
+ </row>
+ <row id="309" trl="N">
+  <value column="Name" original="Auction Seller">Продавац аукције</value>
+  <value column="Description" original="Maintain Auction Seller Information">Одржавање информација продавца аукције</value>
+  <value column="Help" original="A seller is a User in the system participating in Auctions">A seller is a User in the system participating in Auctions</value>
+ </row>
+ <row id="310" trl="N">
+  <value column="Name" original="Auction Buyer">Купац аукције</value>
+  <value column="Description" original="Maintain Auction Buyer Information">Одржавање информација купца аукције</value>
+  <value column="Help" original="A buyer is a User in the system participating in Auctions">A buyer is a User in the system participating in Auctions</value>
+ </row>
+ <row id="311" trl="N">
+  <value column="Name" original="Accounting Processor">Рачуноводствени процесор</value>
+  <value column="Description" original="Maintain Accounting Processor and Logs">Одржавање процесора радних токова и дневника догађаја</value>
+  <value column="Help" original="Accounting Processor/Server Parameters and Logs">Accounting Processor/Server Parameters and Logs</value>
+ </row>
+ <row id="312" trl="N">
+  <value column="Name" original="Alert Processor">Обрађивач аларма</value>
+  <value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">Одржавање параметара аларма сервера и дневника догађаја</value>
+  <value column="Help" original="Alert Processor/Server Parameter">Alert Processor/Server Parameter</value>
+ </row>
+ <row id="313" trl="N">
+  <value column="Name" original="Partner Relation">Односи са партнерима</value>
+  <value column="Description" original="Maintain Business Partner Relations">Maintain Business Partner Relations</value>
+  <value column="Help" original="Business Partner Relation allow to maintain Third Party Relationship rules: who receives invoices for shipments or pays for invoices.">Business Partner Relation allow to maintain Third Party Relationship rules: who receives invoices for shipments or pays for invoices.</value>
+ </row>
+ <row id="314" trl="N">
+  <value column="Name" original="RfQ Topic">Област захтева за понуду</value>
+  <value column="Description" original="Maintain RfQ Topics and Subscribers">Одржавање области ЗЗП и претплатника</value>
+  <value column="Help" original="A Request for Quotation Topic allows you to maintain a subscriber list of potential Vendors to respond to RfQs">A Request for Quotation Topic allows you to maintain a subscriber list of potential Vendors to respond to RfQs</value>
+ </row>
+ <row id="315" trl="N">
+  <value column="Name" original="RfQ">Захтеви за понуду</value>
+  <value column="Description" original="Manage Request for Quotations">Manage Request for Quotations</value>
+  <value column="Help" original="Request for Quotation to be sent out to vendors of a RfQ Topic. After Vendor selection, optionally create Sales Order or Quote for Customer as well as Purchase Order  for Vendor(s)">Request for Quotation to be sent out to vendors of a RfQ Topic. After Vendor selection, optionally create Sales Order or Quote for Customer as well as Purchase Order  for Vendor(s)</value>
+ </row>
+ <row id="316" trl="N">
+  <value column="Name" original="Subscription">Претплата</value>
+  <value column="Description" original="Maintain Subscriptions and Deliveries">Одржавање претплата и испорука</value>
+  <value column="Help" original="Subscription of a Business Partner of a Product to renew">Subscription of a Business Partner of a Product to renew</value>
+ </row>
+ <row id="317" trl="N">
+  <value column="Name" original="Subscription Type">Врста претплате</value>
+  <value column="Description" original="Maintain Subscription Types">Одржавање типова претплате</value>
+  <value column="Help" original="Subscription type and renewal frequency">Subscription type and renewal frequency</value>
+ </row>
+ <row id="318" trl="N">
+  <value column="Name" original="Distribution List">Дистрибуциона листа</value>
+  <value column="Description" original="Maintain Distribution Lists">Одржавање дистрибуционих листа</value>
+  <value column="Help" original="Distribution list contain business partners and a distribution quantity or ratio for creating Orders">Distribution list contain business partners and a distribution quantity or ratio for creating Orders</value>
+ </row>
+ <row id="319" trl="N">
+  <value column="Name" original="Package">Пакет</value>
+  <value column="Description" original="Manage Shipment Packages">Одржавање пакета испоруке</value>
+  <value column="Help" original="A Shipment can have one or more Packages.  A Package may be tracked.">A Shipment can have one or more Packages.  A Package may be tracked.</value>
+ </row>
+ <row id="320" trl="N">
+  <value column="Name" original="RMA">Књижно писмо</value>
+  <value column="Description" original="Manage Return Material Authorization">Уређивање овере књижних писама</value>
+  <value column="Help" original="A Return Material Authorization may be required to accept returns and to create Credit Memos">A Return Material Authorization may be required to accept returns and to create Credit Memos</value>
+ </row>
+ <row id="321" trl="N">
+  <value column="Name" original="Dunning Run">Покретање опомена</value>
+  <value column="Description" original="Manage Dunning Runs">Управљање покретањем опомена</value>
+  <value column="Help" original="Manage Dunning Runs">Управљање покретањем опомена</value>
+ </row>
+ <row id="322" trl="N">
+  <value column="Name" original="Requisition">Требовање</value>
+  <value column="Description" original="Material Requisition">Требовање материјала</value>
+  <value column="Help" original="Enter and maintain Material Requisitions. Material Requisition can be created automatically via Replenishment.  You create generate optionally consolidated Purchase Orders.">Enter and maintain Material Requisitions. Material Requisition can be created automatically via Replenishment.  You create generate optionally consolidated Purchase Orders.</value>
+ </row>
+ <row id="323" trl="N">
+  <value column="Name" original="GL Distribution">ГК дистрибуција</value>
+  <value column="Description" original="General Ledger Distribution">Главна књига - дистрибуција</value>
+  <value column="Help" original="If the account combination criteria of the Distribution is met, the posting to the account combination is replaced by the account combinations of the distribution lines.  The distribution is a one-step operation based on the percentage of the lines.">If the account combination criteria of the Distribution is met, the posting to the account combination is replaced by the account combinations of the distribution lines.  The distribution is a one-step operation based on the percentage of the lines.</value>
+ </row>
+ <row id="324" trl="N">
+  <value column="Name" original="RfQ Response">Одговори захтева за понудама</value>
+  <value column="Description" original="Manage RfQ Responses">Управљање одговорима захтева за понудама</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="325" trl="N">
+  <value column="Name" original="Distribution Run">Покретање дистрибуције</value>
+  <value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">Distribution Run create Orders to distribute products to a selected list of partners</value>
+  <value column="Help" original="Distribution Run defines how Orders are created based on Distribution Lists">Distribution Run defines how Orders are created based on Distribution Lists</value>
+ </row>
+ <row id="326" trl="N">
+  <value column="Name" original="Access Audit">Ревизија приступа</value>
+  <value column="Description" original="Audit of Access to data or resources">Ревизија приступа подацима или ресурсима</value>
+  <value column="Help" original="Logging needs to be explicitly enabled / written.">Logging needs to be explicitly enabled / written.</value>
+ </row>
+ <row id="327" trl="N">
+  <value column="Name" original="Counter Document">Бројач документа</value>
+  <value column="Description" original="Maintain Counter Document Types">Maintain Counter Document Types</value>
+  <value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)">When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a "Standard Order" creates a "Standard PO". 
+If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.
+If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)</value>
+ </row>
+ <row id="328" trl="N">
+  <value column="Name" original="Forecast">Предвиђање</value>
+  <value column="Description" original="Maintain Material Forecast">Одржавање предвиђања материјала</value>
+  <value column="Help" original="Material Forecast">Material Forecast</value>
+ </row>
+ <row id="329" trl="N">
+  <value column="Name" original="Demand">Тражња</value>
+  <value column="Description" original="Maintain Material Demand">Одржавање тражње материјала</value>
+  <value column="Help" original="Material Demand can be based on Forecast, Requisitions, Open Orders">Material Demand can be based on Forecast, Requisitions, Open Orders</value>
+ </row>
+ <row id="330" trl="N">
+  <value column="Name" original="Ship/Receipt Confirm">Потврда испоруке/пријема</value>
+  <value column="Description" original="Material Shipment or Receipt Confirmation">Потврда пријема или испоруке</value>
+  <value column="Help" original="Confirmation of Shipment or Receipt - Created from the Shipment/Receipt">Confirmation of Shipment or Receipt - Created from the Shipment/Receipt</value>
+ </row>
+ <row id="331" trl="N">
+  <value column="Name" original="RMA Type">Врста књижног писма</value>
+  <value column="Description" original="Return Material Authorization Type">Врста овере књижних писама</value>
+  <value column="Help" original="Maintain the types of RMA">Maintain the types of RMA</value>
+ </row>
+ <row id="332" trl="N">
+  <value column="Name" original="Process Audit">Процесирање ревизије</value>
+  <value column="Description" original="Audit process use">Audit process use</value>
+  <value column="Help" original="Process Instance Information">Process Instance Information</value>
+ </row>
+ <row id="333" trl="N">
+  <value column="Name" original="Move Confirmation">Потврда доставнице</value>
+  <value column="Description" original="Confirm Inventory Moves">Потврдити доставницу</value>
+  <value column="Help" original="The document is automatically created when the document type of the movement indicates In Transit.. If there is a difference quantity, a Physical Inventory is created for the source (from) warehouse. If there is a scrapped quantity, a Physical Inventory is created for the target (to) warehouse.">The document is automatically created when the document type of the movement indicates In Transit.. If there is a difference quantity, a Physical Inventory is created for the source (from) warehouse. If there is a scrapped quantity, a Physical Inventory is created for the target (to) warehouse.</value>
+ </row>
+ <row id="334" trl="N">
+  <value column="Name" original="Import Confirmations">Увези потврде</value>
+  <value column="Description" original="Import Receipt/Shipment Confirmation Lines">Import Receipt/Shipment Confirmation Lines</value>
+  <value column="Help" original="Import Confirmation data of existing Receipt/Shipment Confirmations">Import Confirmation data of existing Receipt/Shipment Confirmations</value>
+ </row>
+ <row id="335" trl="N">
+  <value column="Name" original="SLA Criteria">SLA критеријум</value>
+  <value column="Description" original="Service Level Agreement Criteria">Service Level Agreement Criteria</value>
+  <value column="Help" original="Define a criteria to measure service level agreements (e.g. Quality, Delivery meets Promised date, ..)">Define a criteria to measure service level agreements (e.g. Quality, Delivery meets Promised date, ..)</value>
+ </row>
+ <row id="336" trl="N">
+  <value column="Name" original="SLA by Partner">SLA по партнеру</value>
+  <value column="Description" original="Service Level Agreement">Service Level Agreement</value>
+  <value column="Help" original="Maintain Service Level Agreements for Business Partners">Maintain Service Level Agreements for Business Partners</value>
+ </row>
+ <row id="337" trl="N">
+  <value column="Name" original="Price List Schema">Шаблон ценовника</value>
+  <value column="Description" original="Maintain Price List Schema">Maintain Price List Schema</value>
+  <value column="Help" original="Price List schema defines calculation rules for price lists">Price List schema defines calculation rules for price lists</value>
+ </row>
+ <row id="338" trl="N">
+  <value column="Name" original="POS Terminal">ПОС терминал</value>
+  <value column="Description" original="Maintain your Point of Sales Terminal">Maintain your Point of Sales Terminal</value>
+  <value column="Help" original="The POS Terminal defines the defaults and functions available for the POS Form">The POS Terminal defines the defaults and functions available for the POS Form</value>
+ </row>
+ <row id="339" trl="N">
+  <value column="Name" original="POS Key Layout">ПОС распоред тастера</value>
+  <value column="Description" original="POS Function Key Layout">ПОС распоред функцијских тастера</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="340" trl="N">
+  <value column="Name" original="System Registration">Регистрација система</value>
+  <value column="Description" original="Register your System">Региструјте Ваш систем</value>
+  <value column="Help" original="System Registration - Only one Record - Do not add additional records.">System Registration - Only one Record - Do not add additional records.</value>
+ </row>
+ <row id="341" trl="N">
+  <value column="Name" original="Internal Use Inventory">Инвентар за интерну употребу</value>
+  <value column="Description" original="Enter Internal Use of Inventory">Enter Internal Use of Inventory</value>
+  <value column="Help" original="The Internal Use of Inventory Window allows enter the quantity of used products.">The Internal Use of Inventory Window allows enter the quantity of used products.</value>
+ </row>
+ <row id="342" trl="N">
+  <value column="Name" original="Invoice Batch">Пакетна обрада фактура</value>
+  <value column="Description" original="Expense Invoice Batch">Рачуни трошкова - пакетна обрада</value>
+  <value column="Help" original="Enter expense invoices in batch.  After creating the lines, the actual invoices are created when processing the batch">Enter expense invoices in batch.  After creating the lines, the actual invoices are created when processing the batch</value>
+ </row>
+ <row id="343" trl="N">
+  <value column="Name" original="Cost Element">Елемент коштања</value>
+  <value column="Description" original="Maintain Product Cost Element">Maintain Product Cost Element</value>
+  <value column="Help" original="You can define your own product cost elements.">You can define your own product cost elements.</value>
+ </row>
+ <row id="344" trl="N">
+  <value column="Name" original="Product Costs">Коштање производа</value>
+  <value column="Description" original="Maintain Product Costs">Одржавање коштања производа</value>
+  <value column="Help" original="Maintain Product Cost Elements">Maintain Product Cost Elements</value>
+ </row>
+ <row id="345" trl="N">
+  <value column="Name" original="Request Category">Категорија захтева</value>
+  <value column="Description" original="Maintain Request Category">Одржавање категорије захтева</value>
+  <value column="Help" original="Category or Topic of the Request ">Category or Topic of the Request </value>
+ </row>
+ <row id="346" trl="N">
+  <value column="Name" original="Request Group">Група захтева</value>
+  <value column="Description" original="Maintain Request Group">Одржавање групе захтева</value>
+  <value column="Help" original="Group of requests (e.g. version numbers, responsibility, ...)">Group of requests (e.g. version numbers, responsibility, ...)</value>
+ </row>
+ <row id="347" trl="N">
+  <value column="Name" original="Request Resolution">Захтев за решавање</value>
+  <value column="Description" original="Maintain Request Resolutions">Одржавање захтева за решавање</value>
+  <value column="Help" original="Resolution status (e.g. Fixed, Rejected, ..)">Resolution status (e.g. Fixed, Rejected, ..)</value>
+ </row>
+ <row id="348" trl="N">
+  <value column="Name" original="Request Standard Response">Захтев стандардног одговора</value>
+  <value column="Description" original="Maintain Request Standard Response ">Maintain Request Standard Response </value>
+  <value column="Help" original="Text blocks to be copied into request response text">Text blocks to be copied into request response text</value>
+ </row>
+ <row id="349" trl="N">
+  <value column="Name" original="Request Status">Захтев за статус</value>
+  <value column="Description" original="Maintain Request Status">Maintain Request Status</value>
+  <value column="Help" original="Status if the request (open, closed, investigating, ..)">Status if the request (open, closed, investigating, ..)</value>
+ </row>
+ <row id="350" trl="N">
+  <value column="Name" original="Web Store">Web продавница</value>
+  <value column="Description" original="Define Web Store">Дефинишите веб продавницу</value>
+  <value column="Help" original="Define the web store setup.  ">Define the web store setup.  </value>
+ </row>
+ <row id="351" trl="N">
+  <value column="Name" original="Position">Радно место</value>
+  <value column="Description" original="Maintain Job Positions">Одржавање радних места</value>
+  <value column="Help" original="Maintain internal (employee) or external positions">Maintain internal (employee) or external positions</value>
+ </row>
+ <row id="352" trl="N">
+  <value column="Name" original="Position Category">Категоризација радних места</value>
+  <value column="Description" original="Maintain Job Position Categories">Одржавање категорија радних места</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="353" trl="N">
+  <value column="Name" original="Remuneration">Плате</value>
+  <value column="Description" original="Maintain Remuneration">Одржавање личних доходака</value>
+  <value column="Help" original="Wages and Salaries">Wages and Salaries</value>
+ </row>
+ <row id="354" trl="N">
+  <value column="Name" original="Product BOM">Саставница производа</value>
+  <value column="Description" original="Maintain Product Bill of Materials">Maintain Product Bill of Materials</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="355" trl="N">
+  <value column="Name" original="BOM Change Notice">Белешка о промени саставнице</value>
+  <value column="Description" original="Maintain Bill of Materials (Engineering) Change Notice (Version)">Maintain Bill of Materials (Engineering) Change Notice (Version)</value>
+  <value column="Help" original="Change notices can be linked to BOMs or be stand alone.">Change notices can be linked to BOMs or be stand alone.</value>
+ </row>
+ <row id="356" trl="N">
+  <value column="Name" original="Change Notice">Измена белешке</value>
+  <value column="Description" original="Maintain (Engineering) Change Notice (Version)">Maintain (Engineering) Change Notice (Version)</value>
+  <value column="Help" original="Stand-alone change notice - Change notices could also be directly linked to BOMs">Stand-alone change notice - Change notices could also be directly linked to BOMs</value>
+ </row>
+ <row id="358" trl="N">
+  <value column="Name" original="Attribute Set Instance">Пример комплета својстава</value>
+  <value column="Description" original="View Attribute Set Instance detail and use">View Attribute Set Instance detail and use</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="359" trl="N">
+  <value column="Name" original="Tax Declaration">Декларација пореза</value>
+  <value column="Description" original="Define the declaration to the tax authorities">Define the declaration to the tax authorities</value>
+  <value column="Help" original="The tax declaration allows you to create supporting information and reconcile the documents with the accounting">The tax declaration allows you to create supporting information and reconcile the documents with the accounting</value>
+ </row>
+ <row id="360" trl="N">
+  <value column="Name" original="Reporting Hierarchy">Хиерархија извештавања</value>
+  <value column="Description" original="Define Reporting Hierarchy">Дефинисање хиерархије извештавања</value>
+  <value column="Help" original="Reporting Hierarchy allows you to select different Hierarchies/Trees for the report.&#10;Accounting Segments like Organization, Account, Product may have several hierarchies to accomodate different views on the business">Reporting Hierarchy allows you to select different Hierarchies/Trees for the report.
+Accounting Segments like Organization, Account, Product may have several hierarchies to accomodate different views on the business</value>
+ </row>
+ <row id="361" trl="N">
+  <value column="Name" original="Budget Control">Контрола буџета</value>
+  <value column="Description" original="Maintain Budget Controls">Maintain Budget Controls</value>
+  <value column="Help" original="Budget Control allows you to restrict the use of expenditures, commitments (Purchase Orders) and reservations (Requisitions). If defined, you mey not be able to approve Requisitions, Purchse Orders, or AP Invoices.">Budget Control allows you to restrict the use of expenditures, commitments (Purchase Orders) and reservations (Requisitions). If defined, you mey not be able to approve Requisitions, Purchse Orders, or AP Invoices.</value>
+ </row>
+ <row id="362" trl="N">
+  <value column="Name" original="GL Fund (Alpha)">GL Fund (Alpha)</value>
+  <value column="Description" original="Maintain Fund Controls">Maintain Fund Controls</value>
+  <value column="Help" original="General Ledger Funds Control allows you to restrict the use of funds.  This is independent from budget control.">General Ledger Funds Control allows you to restrict the use of funds.  This is independent from budget control.</value>
+ </row>
+ <row id="363" trl="N">
+  <value column="Name" original="System Issue Report">Извештај о проблемима система</value>
+  <value column="Description" original="Automatically created or manually entered System Issue Reports">Аутоматски креирани или ручно унешени извештаји проблема система </value>
+  <value column="Help" original="System Issues are created to speed up the resolution of any system related issues (potential bugs).  If enabled, they are automatically reported to Adempiere.  No data or confidential information is transferred.">System Issues are created to speed up the resolution of any system related issues (potential bugs).  If enabled, they are automatically reported to Adempiere.  No data or confidential information is transferred.</value>
+ </row>
+ <row id="364" trl="N">
+  <value column="Name" original="Performance Color Schema">Шема боја за индикаторе перформанси</value>
+  <value column="Description" original="Maintain Performance Color Schema">Одржавање шеме боја за индикаторе перформанси</value>
+  <value column="Help" original="Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).">Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).</value>
+ </row>
+ <row id="365" trl="N">
+  <value column="Name" original="Performance Benchmark">Performance Benchmark</value>
+  <value column="Description" original="Performance Benchmark">Performance Benchmark</value>
+  <value column="Help" original="Data Series to compare internal performance with (e.g. stock price, ...)">Data Series to compare internal performance with (e.g. stock price, ...)</value>
+ </row>
+ <row id="366" trl="N">
+  <value column="Name" original="Performance Ratio">Performance Ratio</value>
+  <value column="Description" original="Maintain Performance Ratios">Maintain Performance Ratios</value>
+  <value column="Help" original="Calculation instruction for a ratio">Calculation instruction for a ratio</value>
+ </row>
+ <row id="367" trl="N">
+  <value column="Name" original="Issue Recommendation">Издање препоруке</value>
+  <value column="Description" original="Maintain Issue Recommendation">Maintain Issue Recommendation</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="368" trl="N">
+  <value column="Name" original="Issue Status">Статус издања</value>
+  <value column="Description" original="Maintain Issue Status">Maintain Issue Status</value>
+  <value column="Help" original="Status of an Issue">Status of an Issue</value>
+ </row>
+ <row id="369" trl="N">
+  <value column="Name" original="Known Issue">Познато издање</value>
+  <value column="Description" original="Maintain Known Issue">Maintain Known Issue</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="370" trl="N">
+  <value column="Name" original="Issue Project">Издање - пројекат</value>
+  <value column="Description" original="Maintain Issue Management Project Links">Maintain Issue Management Project Links</value>
+  <value column="Help" original="Maintain Issue Management Project Links - automatically generated.">Maintain Issue Management Project Links - automatically generated.</value>
+ </row>
+ <row id="371" trl="N">
+  <value column="Name" original="Issue User">Издање - корисник</value>
+  <value column="Description" original="User who reported Issues">User who reported Issues</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="372" trl="N">
+  <value column="Name" original="Issue System">Издање - систем</value>
+  <value column="Description" original="Maintain Systems">Maintain Systems</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="373" trl="N">
+  <value column="Name" original="Web Project">Web пројекат</value>
+  <value column="Description" original="Maintain Web Project (Content Management)">Maintain Web Project (Content Management)</value>
+  <value column="Help" original="At the level of the web project you define the project itself, it's domains and media servers. Each project needs to have at least one domain and one media server.">At the level of the web project you define the project itself, it's domains and media servers. Each project needs to have at least one domain and one media server.</value>
+ </row>
+ <row id="374" trl="N">
+  <value column="Name" original="Template">Шаблон</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="375" trl="N">
+  <value column="Name" original="Web Ad Management">Управљање веб рекламама</value>
+  <value column="Description" original="Content Management Ad Management defines the needed categories and items">Content Management Ad Management defines the needed categories and items</value>
+  <value column="Help" original="Ad Management is used to create and manage advertisements in your conten management">Ad Management is used to create and manage advertisements in your conten management</value>
+ </row>
+ <row id="376" trl="N">
+  <value column="Name" original="News Channel">Канали новости</value>
+  <value column="Description" original="Define News Channels, write and publish articles">Define News Channels, write and publish articles</value>
+  <value column="Help" original="Define News Channels, write and publish articles">Define News Channels, write and publish articles</value>
+ </row>
+ <row id="377" trl="N">
+  <value column="Name" original="View Chat">Погледај чет</value>
+  <value column="Description" original="View discussions / chats">View discussions / chats</value>
+  <value column="Help" original="View chat / discussion threads">View chat / discussion threads</value>
+ </row>
+ <row id="379" trl="N">
+  <value column="Name" original="Media Item">Медијске ставке</value>
+  <value column="Description" original="Maintain Web Media">Maintain Web Media</value>
+  <value column="Help" original="Maintain Content Management Media">Maintain Content Management Media</value>
+ </row>
+ <row id="380" trl="N">
+  <value column="Name" original="Chat Type">Врста чета</value>
+  <value column="Description" original="Maintain Chat Types">Maintain Chat Types</value>
+  <value column="Help" original="Chat Types">Chat Types</value>
+ </row>
+ <row id="381" trl="N">
+  <value column="Name" original="Entity Type">Врста ентитета</value>
+  <value column="Description" original="Maintain System Entity Type">Maintain System Entity Type</value>
+  <value column="Help" original="The entity type determines the ownership of Application Dictionary entries.  The types &quot;Dictionary&quot; and &quot;Adempiere&quot; should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).">The entity type determines the ownership of Application Dictionary entries.  The types "Dictionary" and "Adempiere" should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).</value>
+ </row>
+ <row id="383" trl="N">
+  <value column="Name" original="Web Access">Веб приступ</value>
+  <value column="Description" original="Maintain Web Access">Одржавање веб приступа</value>
+  <value column="Help" original="Define access to collaboration management content.  You can assign the profile to a internal role or for external access to business partner group.">Define access to collaboration management content.  You can assign the profile to a internal role or for external access to business partner group.</value>
+ </row>
+ <row id="384" trl="N">
+  <value column="Name" original="Web Broadcast Server">Веб сервер за емитовање</value>
+  <value column="Description" original="Maintain Web Broadcast Server">Одржавање веб сервера за емитовање</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="385" trl="N">
+  <value column="Name" original="Info Window">Информациони прозор</value>
+  <value column="Description" original="Define Info and search/select Window">Define Info and search/select Window</value>
+  <value column="Help" original="The Info window is used to search and select records as well as display information relevant to the selection.">The Info window is used to search and select records as well as display information relevant to the selection.</value>
+ </row>
+ <row id="386" trl="N">
+  <value column="Name" original="Text Index">Индекс текстова</value>
+  <value column="Description" original="Maintain Text Search Index">Maintain Text Search Index</value>
+  <value column="Help" original="Text search index keyword and excerpt across documents">Text search index keyword and excerpt across documents</value>
+ </row>
+ <row id="387" trl="N">
+  <value column="Name" original="Text Index Stop">Индекс текстова стоп</value>
+  <value column="Description" original="Maintain keywords not to be indexed">Одржавање кључних речи које се не индексирају</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="388" trl="N">
+  <value column="Name" original="Text Search Log">Дневник претраге текста</value>
+  <value column="Description" original="View Text Search Log">Погледај дневник претраге текста</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="389" trl="N">
+  <value column="Name" original="LDAP Server">ЛДАП сервер</value>
+  <value column="Description" original="LDAP Server to authenticate and authorize external systems based on Adempiere">LDAP Server to authenticate and authorize external systems based on Adempiere</value>
+  <value column="Help" original="The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The &quot;o&quot; is the Client key and the optional &quot;ou&quot; is the Interest Area key.">The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The "o" is the Client key and the optional "ou" is the Interest Area key.</value>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Packages Installed">Инсталирани пакети</value>
+  <value column="Description" original="List of packages installed">Списак пакета који су инсталирани</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Package Maintenance">Одржавање пакета</value>
+  <value column="Description" original="Package installation history and maintenance">Одржавање историје инсталације пакета</value>
+  <value column="Help" original="Review package installation.  Also perform package rollback if required">Review package installation.  Also perform package rollback if required</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="PackOut - Create a package">PackOut - креирање пакета</value>
+  <value column="Description" original="Package build Application">Пакет изградња апликације</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Common Package Details">Основни детаљи пакета</value>
+  <value column="Description" original="Maintain Common Package Details">Одржавање основних детаља пакета</value>
+  <value column="Help" original="Create and maintain common package element details">Create and maintain common package element details</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="PackIn - Import a package">PackIn - увоз пакета</value>
+  <value column="Description" original="Imports a package">Увоз пакета</value>
+  <value column="Help" original="Imports a package previously created by PackOut">Imports a package previously created by PackOut</value>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="System Configurator">Подешивач система</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="Dashboard Content Edit">Уређивање садржаја огласне табле</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="52000" trl="N">
+  <value column="Name" original="Web POS Menu">Веб ПОС мени</value>
+  <value column="Description" original="To dynamically generate the menu links in web POS">Да динамички генеришете линкове менија у веб ПОС-у</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="52001" trl="N">
+  <value column="Name" original="Web POS Role Menu">Веб ПОС мени улога</value>
+  <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">У зависност од улоге, различити сет менија је генерисан и доступан.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="52002" trl="N">
+  <value column="Name" original="Web POS Properties">Веб ПОС особине</value>
+  <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Stores the message tags to be picked up from AD_MESSAGE </value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="52003" trl="N">
+  <value column="Name" original="Web POS BlackListCheque">Веб ПОС провера црне листе</value>
+  <value column="Description" original="Black Listed Cheque">Провера црне листе</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53003" trl="N">
+  <value column="Name" original="Model Validator">Провера модела</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53004" trl="N">
+  <value column="Name" original="Manufacturing Resource">Manufacturing Resource</value>
+  <value column="Description" original="Manufacturing Resource">Manufacturing Resource</value>
+  <value column="Help" original="A Manufacturing Resource is defined as anything required for production and its unavailability can affect the Production Plan. Manufacturing Resources can be: Plants, Production lines, Work Centers and Work Stations.&#10;&#10;It mainly answers the question: Where is the product made?&#10;&#10;A Specific production facility consisting of one or more people and/or machines which can be considered as one unit for purposes of capacity requiremets planning and detailed scheduling.">A Manufacturing Resource is defined as anything required for production and its unavailability can affect the Production Plan. Manufacturing Resources can be: Plants, Production lines, Work Centers and Work Stations.
+
+It mainly answers the question: Where is the product made?
+
+A Specific production facility consisting of one or more people and/or machines which can be considered as one unit for purposes of capacity requiremets planning and detailed scheduling.</value>
+ </row>
+ <row id="53005" trl="N">
+  <value column="Name" original="Manufacturing Workflows">Manufacturing Workflows</value>
+  <value column="Description" original="Maintain Manufacturing Workflows (Routing)">Maintain Manufacturing Workflows (Routing)</value>
+  <value column="Help" original="Manufacturing Workflows (Routing) is a set of information detailing the method of manufacture of a particular item .It includes the operations to be performed their sequence the various work centers to be involved and the standards for setup and run. In some companies routing also includes information on tooling operator skill levels inspection operationstesting requirements etc.">Manufacturing Workflows (Routing) is a set of information detailing the method of manufacture of a particular item .It includes the operations to be performed their sequence the various work centers to be involved and the standards for setup and run. In some companies routing also includes information on tooling operator skill levels inspection operationstesting requirements etc.</value>
+ </row>
+ <row id="53006" trl="N">
+  <value column="Name" original="Bill of Materials &amp; Formula ">Bill of Materials &amp; Formula </value>
+  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula ">Maintain Product Bill of Materials &amp; Formula </value>
+  <value column="Help" original="It is a list of all the subassemblies, intermediates, parts and raw material that go into a parent assembly showing the quantity of each required to make an assembly. There are a variety of display formats of bill of material, including single level bill of material, indented bill of material, modular (planning), costed bill of material, etc. May also be called formula,, recipe, ingredients list in certain industries.&#10;&#10;It answers the question, what are the components of the product?">It is a list of all the subassemblies, intermediates, parts and raw material that go into a parent assembly showing the quantity of each required to make an assembly. There are a variety of display formats of bill of material, including single level bill of material, indented bill of material, modular (planning), costed bill of material, etc. May also be called formula,, recipe, ingredients list in certain industries.
+
+It answers the question, what are the components of the product?</value>
+ </row>
+ <row id="53007" trl="N">
+  <value column="Name" original="Product Planning Data">Product Planning Data</value>
+  <value column="Description" original="Maintain Product Planning Data">Maintain Product Planning Data</value>
+  <value column="Help" original="in the Window Product Planning Data you enter the product information which will serve as a base to execute the algorithms of Material Requirement Planning, along with MPS, open orders and inventories">in the Window Product Planning Data you enter the product information which will serve as a base to execute the algorithms of Material Requirement Planning, along with MPS, open orders and inventories</value>
+ </row>
+ <row id="53008" trl="N">
+  <value column="Name" original="MRP Notice">MRP Notice</value>
+  <value column="Description" original="View MRP Notices">View MRP Notices</value>
+  <value column="Help" original="The system creates messages while performing processes. In this window you can view them.&#10;&#10;MRP Notice&#10;It is a group of messages generated for the MRP process. It indicates to the scheduler the actions he needs to do to reach the Master Production Schedule. The action messages are set as notices for the planner when he sign up the Compiere session.&#10;&#10;The possible action messages are:&#10;&#10;MRP Code&#9; Action Message&#10;MRP - 001&#9; Beginning Quantity Less Than Zero.&#10;MRP - 020&#9; Create - A Supply Order should be created to satisfy a negative projected on hand balance.&#10;This message is only generate if Create Plan is No or if a new requirement appears the time fence.&#10;&#10;MRP - 030&#9; De Expedite - Indicates that a scheduled supply order is due before it is needed&#10;and should be delayed, or demand rescheduled to an earlier date.&#10;&#10;MRP - 040&#9; Expedite - Indicates that a scheduled supply order is due after is needed&#10;and should be rescheduled to an earlier date, or demand rescheduled to a later date.&#10;&#10;MRP - 050&#9; Cancel - Indicate that a scheduled supply order is no longer needed and should be deleted.&#10;MRP - 060&#9; Release Due For - Indicate that a schedule order should be released.&#10;MRP - 070&#9; Release Past Due For - Indicate that a supply order was not released when it was due,&#10;and should be either released or expedited now, or the demand rescheduled for a later date.&#10;&#10;MRP - 080&#9; Quantity Less than Minimum - Indicates that a supply order was created for&#10;a quantity less than the minimum quantity set in the product planning&#10;&#10;MRP - 090&#9; Quantity Less than Maximum - Indicates that a supply order was created for a quantity&#10;for a quantity greater than than maximum quantity set in the product planning&#10;&#10;MRP - 100&#9; Past Due Time Fence - Indicates that there is an unsatisfied material requirement inside&#10;the planning time fence for this item. You should either manually schedule and expedite orders to&#10;&#10;fill this demand or delay fulfillment of the requirement that created the demand.&#10;&#10;MRP - 110&#9; No exists Dem">The system creates messages while performing processes. In this window you can view them.
+
+MRP Notice
+It is a group of messages generated for the MRP process. It indicates to the scheduler the actions he needs to do to reach the Master Production Schedule. The action messages are set as notices for the planner when he sign up the Compiere session.
+
+The possible action messages are:
+
+MRP Code	 Action Message
+MRP - 001	 Beginning Quantity Less Than Zero.
+MRP - 020	 Create - A Supply Order should be created to satisfy a negative projected on hand balance.
+This message is only generate if Create Plan is No or if a new requirement appears the time fence.
+
+MRP - 030	 De Expedite - Indicates that a scheduled supply order is due before it is needed
+and should be delayed, or demand rescheduled to an earlier date.
+
+MRP - 040	 Expedite - Indicates that a scheduled supply order is due after is needed
+and should be rescheduled to an earlier date, or demand rescheduled to a later date.
+
+MRP - 050	 Cancel - Indicate that a scheduled supply order is no longer needed and should be deleted.
+MRP - 060	 Release Due For - Indicate that a schedule order should be released.
+MRP - 070	 Release Past Due For - Indicate that a supply order was not released when it was due,
+and should be either released or expedited now, or the demand rescheduled for a later date.
+
+MRP - 080	 Quantity Less than Minimum - Indicates that a supply order was created for
+a quantity less than the minimum quantity set in the product planning
+
+MRP - 090	 Quantity Less than Maximum - Indicates that a supply order was created for a quantity
+for a quantity greater than than maximum quantity set in the product planning
+
+MRP - 100	 Past Due Time Fence - Indicates that there is an unsatisfied material requirement inside
+the planning time fence for this item. You should either manually schedule and expedite orders to
+
+fill this demand or delay fulfillment of the requirement that created the demand.
+
+MRP - 110	 No exists Dem</value>
+ </row>
+ <row id="53009" trl="N">
+  <value column="Name" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="Description" original="Maintain Manufacturing Order">Maintain Manufacturing Order</value>
+  <value column="Help" original="Manufacturing Schedule is a document group of documents or schedule identity  conveying authority for the manufacture of specified parts or products in specified quantities.">Manufacturing Schedule is a document group of documents or schedule identity  conveying authority for the manufacture of specified parts or products in specified quantities.</value>
+ </row>
+ <row id="53010" trl="N">
+  <value column="Name" original="Spare parts">Spare parts</value>
+  <value column="Description" original="Spare parts">Spare parts</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53011" trl="N">
+  <value column="Name" original="Activity Control Report">Activity Control Report</value>
+  <value column="Description" original="Activity Control">Activity Control</value>
+  <value column="Help" original="This window is reported the real issue the shop floor">This window is reported the real issue the shop floor</value>
+ </row>
+ <row id="53012" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="Description" original="Distribution Order allow create Order inter warehouse to supply a demand ">Distribution Order allow create Order inter warehouse to supply a demand </value>
+  <value column="Help" original="Distribution Order allow create Order inter warehouse to supply a demand ">Distribution Order allow create Order inter warehouse to supply a demand </value>
+ </row>
+ <row id="53013" trl="N">
+  <value column="Name" original="Quality Specifications">Quality Specifications</value>
+  <value column="Description" original="Maintain Quality Specifications">Maintain Quality Specifications</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53014" trl="N">
+  <value column="Name" original="Cost Collector">Cost Collector</value>
+  <value column="Description" original="The cost collector is a repository of all the MO transactions.">The cost collector is a repository of all the MO transactions.</value>
+  <value column="Help" original="The cost collector is a repository of all the MO transactions. This real transactions relation allows to compare it with the standard transactions in order to be able to calculate variations by cost element.">The cost collector is a repository of all the MO transactions. This real transactions relation allows to compare it with the standard transactions in order to be able to calculate variations by cost element.</value>
+ </row>
+ <row id="53015" trl="N">
+  <value column="Name" original="ASP Modules">АСП модули</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53016" trl="N">
+  <value column="Name" original="ASP Subscribed Modules">АСП претплаћени модули</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53017" trl="N">
+  <value column="Name" original="Rule">Правило</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53018" trl="N">
+  <value column="Name" original="Distribution Network">Distribution Network</value>
+  <value column="Description" original="Distribution Network define the supply relationships">Distribution Network define the supply relationships</value>
+  <value column="Help" original="Each realtionship in the network contains a receiving warehouse and a warehouse source and a supply percentage. A relationship is one-way, warehouse to warehouse relationship.">Each realtionship in the network contains a receiving warehouse and a warehouse source and a supply percentage. A relationship is one-way, warehouse to warehouse relationship.</value>
+ </row>
+ <row id="53019" trl="N">
+  <value column="Name" original="Migration Scripts">Миграционе скрипте</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53020" trl="N">
+  <value column="Name" original="Tax Group">Tax Group</value>
+  <value column="Description" original="Tax Groups let you group the business partner with a reference tax.">Tax Groups let you group the business partner with a reference tax.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53021" trl="N">
+  <value column="Name" original="Tax Definition">Tax Definition</value>
+  <value column="Description" original="Lets you define different tax combinations.">Lets you define different tax combinations.</value>
+  <value column="Help" original="You can use the tax dfinition information to create the logic necessary to get the tax rate to your document">You can use the tax dfinition information to create the logic necessary to get the tax rate to your document</value>
+ </row>
+ <row id="53022" trl="N">
+  <value column="Name" original="Tax Rate Parent">Tax Rate Parent</value>
+  <value column="Description" original="Maintain Taxes and their Rates">Одржавање пореза и њихових стопа</value>
+  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.">The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.</value>
+ </row>
+ <row id="53023" trl="N">
+  <value column="Name" original="Tax Type">Tax Type</value>
+  <value column="Description" original="Tax Types let you group taxes together.">Tax Types let you group taxes together.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53024" trl="N">
+  <value column="Name" original="Tax Base">Tax Base</value>
+  <value column="Description" original="Defines tax base for a tax">Defines tax base for a tax</value>
+  <value column="Help" original="The Tax Base can be based on price , cost and quantity">The Tax Base can be based on price , cost and quantity</value>
+ </row>
+ <row id="53025" trl="N">
+  <value column="Name" original="Export Format">Export Format</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53026" trl="N">
+  <value column="Name" original="Export Processor">Export Processor</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53027" trl="N">
+  <value column="Name" original="Export Processor Type">Export Processor Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53028" trl="N">
+  <value column="Name" original="Import Processor">Import Processor</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53029" trl="N">
+  <value column="Name" original="Import Processor Type">Import Processor Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53032" trl="N">
+  <value column="Name" original="Payroll Contract">Уговор о раду</value>
+  <value column="Description" original="Maintain Payroll Contract">Одржавање уговора о раду</value>
+  <value column="Help" original="The Payroll Contract Window is used to define the laboral condition for the employes in a payroll">Прозор уговора о раду служи за дефинисање радних услова за запослене на платном списку</value>
+ </row>
+ <row id="53033" trl="N">
+  <value column="Name" original="Payroll Employee">Радник</value>
+  <value column="Description" original="Maintain Payroll Employee">Исплата радника</value>
+  <value column="Help" original="The Payroll Employee Window is used to define the Employees into the Organizational">The Payroll Employee Window is used to define the Employees into the Organizational</value>
+ </row>
+ <row id="53034" trl="N">
+  <value column="Name" original="Payroll Department">Платно одељење</value>
+  <value column="Description" original="Maintain Payroll Department">Одржавање платног одељења</value>
+  <value column="Help" original="The Payroll Departament Window is used to define the Organizational Structure for company">The Payroll Departament Window is used to define the Organizational Structure for company</value>
+ </row>
+ <row id="53035" trl="N">
+  <value column="Name" original="Payroll Job">Платни посао</value>
+  <value column="Description" original="Maintain Payroll Job">Одржавање платних послова</value>
+  <value column="Help" original="The Payroll Employee Window is used to define the Jobs into the Organizational Structure for a Company">The Payroll Employee Window is used to define the Jobs into the Organizational Structure for a Company</value>
+ </row>
+ <row id="53036" trl="N">
+  <value column="Name" original="Payroll Concept Catalog">Каталог платних појмова</value>
+  <value column="Description" original="Maintain Payroll Concept Catalog">Одржавање каталога платних концепата</value>
+  <value column="Help" original="The Payroll  Concept Catalog Window is used to define the concepts for a payroll ie ( salaries, wages, bonuses, and deductions.)">The Payroll  Concept Catalog Window is used to define the concepts for a payroll ie ( salaries, wages, bonuses, and deductions.)</value>
+ </row>
+ <row id="53037" trl="N">
+  <value column="Name" original="Payroll Process">Обрада платног списка</value>
+  <value column="Description" original="Payroll Process">Обрада платног списка</value>
+  <value column="Help" original="The Payroll Processing Window is used to processing a Payroll, you can calculate for a Employee or All Employees">The Payroll Processing Window is used to processing a Payroll, you can calculate for a Employee or All Employees</value>
+ </row>
+ <row id="53038" trl="N">
+  <value column="Name" original="Payroll Definition">Дефинисање платног списка</value>
+  <value column="Description" original="In a company, payroll is the sum of all financial records of salaries, wages, bonuses, and deductions.">У предузећу, платни списак представља суму свих финансијских евиденција зарада, дневница, бонуса и одбитака.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53039" trl="N">
+  <value column="Name" original="Payroll Concept Category">Категорија платних концепата</value>
+  <value column="Description" original="Maintain Payroll Concept Category">Oдржавање категорија платних појмова</value>
+  <value column="Help" original="The Payroll Concept Category Window is use to grouping concepts for a type">The Payroll Concept Category Window is use to grouping concepts for a type</value>
+ </row>
+ <row id="53040" trl="N">
+  <value column="Name" original="Payroll Table Type">Тип платне листе</value>
+  <value column="Description" original="Maintain Payroll Table Type">Одржавање типова платне листе</value>
+  <value column="Help" original="The Payroll Table Type Window is used to define the Table Type">The Payroll Table Type Window is used to define the Table Type</value>
+ </row>
+ <row id="53041" trl="N">
+  <value column="Name" original="Payroll Table">Платна табела</value>
+  <value column="Description" original="Maintain Payroll Table">Одржавање платних табела</value>
+  <value column="Help" original="The Payroll Table Window is use to create Payroll Tables with version and range data">The Payroll Table Window is use to create Payroll Tables with version and range data</value>
+ </row>
+ <row id="53042" trl="N">
+  <value column="Name" original="Payroll Movement">Платни обрачун</value>
+  <value column="Description" original="History of Payroll Movement">Историја платног обрачуна</value>
+  <value column="Help" original="The Payroll Movement Window is use to show the history the any calculated payroll">The Payroll Movement Window is use to show the history the any calculated payroll</value>
+ </row>
+ <row id="53044" trl="N">
+  <value column="Name" original="Asset Revaluation Processing">Asset Revaluation Processing</value>
+  <value column="Description" original="Process Revaluation of Assets">Process Revaluation of Assets</value>
+  <value column="Help" original="This window allows you to select and process what assets are revalued">This window allows you to select and process what assets are revalued</value>
+ </row>
+ <row id="53045" trl="N">
+  <value column="Name" original="Asset Revaluation Index">Asset Revaluation Index</value>
+  <value column="Description" original="Set the Revaluate Assets Index or Factors">Set the Revaluate Assets Index or Factors</value>
+  <value column="Help" original="The Asset Revaluation Index window allow you to setup the values of indexs or factors to be used in revaluation of assets">The Asset Revaluation Index window allow you to setup the values of indexs or factors to be used in revaluation of assets</value>
+ </row>
+ <row id="53046" trl="N">
+  <value column="Name" original="Transfer Asset Entry">Transfer Asset Entry</value>
+  <value column="Description" original="Create Transfer Asset Entry">Create Transfer Asset Entry</value>
+  <value column="Help" original="The Transfer Asset Entry window allows you to create and post asset transfers to the GL">The Transfer Asset Entry window allows you to create and post asset transfers to the GL</value>
+ </row>
+ <row id="53047" trl="N">
+  <value column="Name" original="Disposed Asset Entry">Disposed Asset Entry</value>
+  <value column="Description" original="Create Disposed Asset Entry">Create Disposed Asset Entry</value>
+  <value column="Help" original="The Disposed Asset Entry window allows you to create and post assets that have been disposed to the GL">The Disposed Asset Entry window allows you to create and post assets that have been disposed to the GL</value>
+ </row>
+ <row id="53048" trl="N">
+  <value column="Name" original="Asset Split">Asset Split</value>
+  <value column="Description" original="Split Assets Process">Split Assets Process</value>
+  <value column="Help" original="The Asset Split window allows you to process asset splits">The Asset Split window allows you to process asset splits</value>
+ </row>
+ <row id="53049" trl="N">
+  <value column="Name" original="Asset Disposal">Asset Disposal</value>
+  <value column="Description" original="Dispose of Assets">Dispose of Assets</value>
+  <value column="Help" original="The Asset Disposal window allows you to create the necessary GL entries to dispose of an asset">The Asset Disposal window allows you to create the necessary GL entries to dispose of an asset</value>
+ </row>
+ <row id="53050" trl="N">
+  <value column="Name" original="Asset Transfers">Asset Transfers</value>
+  <value column="Description" original="Process transfers of assets">Process transfers of assets</value>
+  <value column="Help" original="The Asset Transfer window allows you to transfer assets">The Asset Transfer window allows you to transfer assets</value>
+ </row>
+ <row id="53051" trl="N">
+  <value column="Name" original="Split Asset Entry">Split Asset Entry</value>
+  <value column="Description" original="Create Split Asset Entries">Create Split Asset Entries</value>
+  <value column="Help" original="The Split Asset Entry window allows you to create and post assets that have been split to the GL">The Split Asset Entry window allows you to create and post assets that have been split to the GL</value>
+ </row>
+ <row id="53052" trl="N">
+  <value column="Name" original="Build Depreciation Workfile">Build Depreciation Workfile</value>
+  <value column="Description" original="Build Depreciation Expense File">Build Depreciation Expense File</value>
+  <value column="Help" original="The Deprecaiton Build Workfile window allow you to build current depreciation expense for various posting types including actual budget and tax as defined by the user">The Deprecaiton Build Workfile window allow you to build current depreciation expense for various posting types including actual budget and tax as defined by the user</value>
+ </row>
+ <row id="53053" trl="N">
+  <value column="Name" original="Post Depreciation Entry">Post Depreciation Entry</value>
+  <value column="Description" original="Create Depreciation Entry">Create Depreciation Entry</value>
+  <value column="Help" original="The Depreciation Entry window allows you to create and post the depreciation expense entry to the GL">The Depreciation Entry window allows you to create and post the depreciation expense entry to the GL</value>
+ </row>
+ <row id="53054" trl="N">
+  <value column="Name" original="Build Depreciation Forecast">Build Depreciation Forecast</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53055" trl="N">
+  <value column="Name" original="Inbound Asset Entry">Inbound Asset Entry</value>
+  <value column="Description" original="Create Inbound Asset Entry">Create Inbound Asset Entry</value>
+  <value column="Help" original="The Inbound Asset Entry window allows you to create and post asset AP to the GL">The Inbound Asset Entry window allows you to create and post asset AP to the GL</value>
+ </row>
+ <row id="53056" trl="N">
+  <value column="Name" original="Post Imported Assets">Post Imported Assets</value>
+  <value column="Description" original="Import Fixed Assets">Import Fixed Assets</value>
+  <value column="Help" original="The Import Asset window allow the user to import assets to Adempiere">The Import Asset window allow the user to import assets to Adempiere</value>
+ </row>
+ <row id="53057" trl="N">
+  <value column="Name" original="Depreciation Period Spread Type">Depreciation Period Spread Type</value>
+  <value column="Description" original="Period Spread Type">Period Spread Type</value>
+  <value column="Help" original="The Period Spread Type window allows you to setup and review depreciation spread by period">The Period Spread Type window allows you to setup and review depreciation spread by period</value>
+ </row>
+ <row id="53058" trl="N">
+  <value column="Name" original="Depreciation Methods">Depreciation Methods</value>
+  <value column="Description" original="Depreciation Methods">Depreciation Methods</value>
+  <value column="Help" original="The Depreciation method windows allows the user to review the depreciation calculations available in Adempiere">The Depreciation method windows allows the user to review the depreciation calculations available in Adempiere</value>
+ </row>
+ <row id="53059" trl="N">
+  <value column="Name" original="Depreciation Tables">Depreciation Tables</value>
+  <value column="Description" original="Allows users to create multiple depreciation schedules">Allows users to create multiple depreciation schedules</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53060" trl="N">
+  <value column="Name" original="Depreciation First Year Conventions ">Depreciation First Year Conventions </value>
+  <value column="Description" original="Setup for depreciation Setups">Setup for depreciation Setups</value>
+  <value column="Help" original="Allows user to define what depreciation conventions are available in Adempiere">Allows user to define what depreciation conventions are available in Adempiere</value>
+ </row>
+ <row id="53061" trl="N">
+  <value column="Name" original="Depreciation Calculation Method">Depreciation Calculation Method</value>
+  <value column="Description" original="Define Calculation Methods used in depreciation expense calculation">Define Calculation Methods used in depreciation expense calculation</value>
+  <value column="Help" original="The Depreciation Calcualtion Method window allows the user to define how adjustments to the fixed asset depreciation expense are handled">The Depreciation Calcualtion Method window allows the user to define how adjustments to the fixed asset depreciation expense are handled</value>
+ </row>
+ <row id="53062" trl="N">
+  <value column="Name" original="Charge Type">Charge Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53063" trl="N">
+  <value column="Name" original="House Keeping">House Keeping</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53064" trl="N">
+  <value column="Name" original="View MRP Records">View MRP Records</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53065" trl="N">
+  <value column="Name" original="Web POS Terminal">Web POS Terminal</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53069" trl="N">
+  <value column="Name" original="Search Definition">Search Definition</value>
+  <value column="Description" original="Define transactioncodes for the QuickSearch bar">Define transactioncodes for the QuickSearch bar</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53071" trl="N">
+  <value column="Name" original="Import Price List">Import Price List</value>
+  <value column="Description" original="Import Price Lists">Import Price Lists</value>
+  <value column="Help" original="The Import Price List Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Price List Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
+ </row>
+ <row id="53073" trl="N">
+  <value column="Name" original="Promotion Group">Promotion Group</value>
+  <value column="Description" original="Grouping of product for promotion setup">Grouping of product for promotion setup</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53074" trl="N">
+  <value column="Name" original="Promotion">Promotion</value>
+  <value column="Description" original="Setup promotion rule">Setup promotion rule</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53085" trl="N">
+  <value column="Name" original="MRP Notice (all)">MRP Notice (all)</value>
+  <value column="Description" original="View all MRP Notices">View all MRP Notices</value>
+  <value column="Help" original="The system creates notices will running MRP process. In this window you can view them.&#10;">The system creates notices will running MRP process. In this window you can view them.
+</value>
+ </row>
+</adempiereTrl>

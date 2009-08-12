@@ -1,0 +1,4297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.5.3a_2008-12-21 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090724-1101 - ${ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="sr_RS" table="AD_Ref_List">
+ <row id="51" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53" trl="N">
+  <value column="Name" original="Client+Organization">Клијент+Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="54" trl="N">
+  <value column="Name" original="System only">Само систем</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="57" trl="N">
+  <value column="Name" original="All">Све</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="91" trl="N">
+  <value column="Name" original="List Validation">Провера списка</value>
+  <value column="Description" original="List Validation">Провера списка</value>
+ </row>
+ <row id="92" trl="N">
+  <value column="Name" original="DataType">DataType</value>
+  <value column="Description" original="DataType">DataType</value>
+ </row>
+ <row id="93" trl="N">
+  <value column="Name" original="Table Validation">Провера табеле</value>
+  <value column="Description" original="Table Validation">Провера табеле</value>
+ </row>
+ <row id="100" trl="N">
+  <value column="Name" original="SQL">SQL</value>
+  <value column="Description" original="SQL">SQL</value>
+ </row>
+ <row id="101" trl="N">
+  <value column="Name" original="Java Language">Java језик</value>
+  <value column="Description" original="Java Language">Java језик</value>
+ </row>
+ <row id="102" trl="N">
+  <value column="Name" original="Java Script">Java Script</value>
+  <value column="Description" original="ECMA Script">ECMA Script</value>
+ </row>
+ <row id="103" trl="N">
+  <value column="Name" original="Window">Прозор</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="104" trl="N">
+  <value column="Name" original="Task">Задатак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="105" trl="N">
+  <value column="Name" original="WorkFlow">РадниТок</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="106" trl="N">
+  <value column="Name" original="Process">Процес</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="107" trl="N">
+  <value column="Name" original="Error">Грешка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="108" trl="N">
+  <value column="Name" original="Information">Информација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="109" trl="N">
+  <value column="Name" original="Menu">Мени</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="110" trl="N">
+  <value column="Name" original="Single Record">Један слог</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="111" trl="N">
+  <value column="Name" original="Maintain">Одржавати</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="112" trl="N">
+  <value column="Name" original="Transaction">Трансакција</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="113" trl="N">
+  <value column="Name" original="Query Only">Само упит</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="114" trl="N">
+  <value column="Name" original="Spot">Spot</value>
+  <value column="Description" original="Spot Conversation Rate Type">Spot Conversation Rate Type</value>
+ </row>
+ <row id="115" trl="N">
+  <value column="Name" original="Period End">Крај периода</value>
+  <value column="Description" original="Period Conversion Type">Врста конверзије периода</value>
+ </row>
+ <row id="116" trl="N">
+  <value column="Name" original="Standard Calendar Period">Стандардни период календара</value>
+  <value column="Description" original="Periods with non overlapping calendar days">Период са не поклапајућим данима календара</value>
+ </row>
+ <row id="117" trl="N">
+  <value column="Name" original="Adjustment Period">Период подешавања</value>
+  <value column="Description" original="Period without calendar days">Период без календарских дана</value>
+ </row>
+ <row id="118" trl="N">
+  <value column="Name" original="Account">Конто</value>
+  <value column="Description" original="Account Element">Контни елемент</value>
+ </row>
+ <row id="119" trl="N">
+  <value column="Name" original="User defined">Кориснички дефинисано</value>
+  <value column="Description" original="User defined element">Кориснички дефинисани елемент</value>
+ </row>
+ <row id="120" trl="N">
+  <value column="Name" original="Asset">Актива</value>
+  <value column="Description" original="Asset (Balance Sheet) Account">Конто активе (биланс стања)</value>
+ </row>
+ <row id="121" trl="N">
+  <value column="Name" original="Liability">Пасива</value>
+  <value column="Description" original="Liability (Balance Sheet) Account">Конто пасиве (биланс стања)</value>
+ </row>
+ <row id="122" trl="N">
+  <value column="Name" original="Revenue">Приход</value>
+  <value column="Description" original="Revenue (P&amp;L) Account">Revenue (P&amp;L) Account</value>
+ </row>
+ <row id="123" trl="N">
+  <value column="Name" original="Expense">Расход</value>
+  <value column="Description" original="Expense (P&amp;L) Account">Expense (P&amp;L) Account</value>
+ </row>
+ <row id="124" trl="N">
+  <value column="Name" original="Owner's Equity">Owner's Equity</value>
+  <value column="Description" original="Owner's Equity (Balance Sheet) Account">Owner's Equity (Balance Sheet) Account</value>
+ </row>
+ <row id="125" trl="N">
+  <value column="Name" original="Memo">Memo</value>
+  <value column="Description" original="Memo (Non Balance Sheet nor P&amp;L) Account">Memo (Non Balance Sheet nor P&amp;L) Account</value>
+ </row>
+ <row id="126" trl="N">
+  <value column="Name" original="Natural">Natural</value>
+  <value column="Description" original="Natural sign of the Account Type">Natural sign of the Account Type</value>
+ </row>
+ <row id="127" trl="N">
+  <value column="Name" original="Debit">Задужење</value>
+  <value column="Description" original="Debit Balance Account">Билансни конто дугује</value>
+ </row>
+ <row id="128" trl="N">
+  <value column="Name" original="Credit">Потражује</value>
+  <value column="Description" original="Credit Balance Account">Потражни конто биланса</value>
+ </row>
+ <row id="129" trl="N">
+  <value column="Name" original="Menu">Мени</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="130" trl="N">
+  <value column="Name" original="Element Value">Вредност елемента</value>
+  <value column="Description" original="Account, etc.">Конто, итд.</value>
+ </row>
+ <row id="131" trl="N">
+  <value column="Name" original="Product">Производ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="132" trl="N">
+  <value column="Name" original="BPartner">ППартнер</value>
+  <value column="Description" original="Business Partner">Пословни партнер</value>
+ </row>
+ <row id="133" trl="N">
+  <value column="Name" original="Regional Office">Регионална канцеларија</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="134" trl="N">
+  <value column="Name" original="Accounts Payable Office">Accounts Payable Office</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="135" trl="N">
+  <value column="Name" original="Plant">Фабрика</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="136" trl="N">
+  <value column="Name" original="Small Business">Мали бизнис</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="137" trl="N">
+  <value column="Name" original="Minority-Owned Small Business">Minority-Owned Small Business</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="138" trl="N">
+  <value column="Name" original="Minority-Owned Business">Minority-Owned Business</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="139" trl="N">
+  <value column="Name" original="Woman-Owned Small Business">Woman-Owned Small Business</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="140" trl="N">
+  <value column="Name" original="Woman-Owned Business">Woman-Owned Business</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="141" trl="N">
+  <value column="Name" original="Subcontractor">Подизвођач радова</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="142" trl="N">
+  <value column="Name" original="Individual">Индивидуално</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="143" trl="N">
+  <value column="Name" original="Partnership">Партнерство</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="144" trl="N">
+  <value column="Name" original="Corporation">Корпорација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="145" trl="N">
+  <value column="Name" original="Drop-off Location">Локација истовара</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="146" trl="N">
+  <value column="Name" original="Standard Costing">Standard Costing</value>
+  <value column="Description" original="Standard Purchase Order Price Costing">Standard Purchase Order Price Costing</value>
+ </row>
+ <row id="147" trl="N">
+  <value column="Name" original="Average PO">Average PO</value>
+  <value column="Description" original="Weighted Average Purchase Order Price Costing">Weighted Average Purchase Order Price Costing</value>
+ </row>
+ <row id="148" trl="N">
+  <value column="Name" original="Lifo">ЛИФО</value>
+  <value column="Description" original="Last In First Out Costing">Последњи у - први ван коштање</value>
+ </row>
+ <row id="149" trl="N">
+  <value column="Name" original="Fifo">ФИФО</value>
+  <value column="Description" original="First In First Out Costing">Први у - први ван коштање</value>
+ </row>
+ <row id="150" trl="N">
+  <value column="Name" original="International GAAP">International GAAP</value>
+  <value column="Description" original="International GAAP">International GAAP</value>
+ </row>
+ <row id="151" trl="N">
+  <value column="Name" original="US GAAP">US GAAP</value>
+  <value column="Description" original="United States GAAP">United States GAAP</value>
+ </row>
+ <row id="152" trl="N">
+  <value column="Name" original="German HGB">German HGB</value>
+  <value column="Description" original="German HGB">German HGB</value>
+ </row>
+ <row id="153" trl="N">
+  <value column="Name" original="Actual">Actual</value>
+  <value column="Description" original="Actual Postings">Actual Postings</value>
+ </row>
+ <row id="154" trl="N">
+  <value column="Name" original="Budget">Буџет</value>
+  <value column="Description" original="Budget Postings">Budget Postings</value>
+ </row>
+ <row id="155" trl="N">
+  <value column="Name" original="Commitment">Обавезивање</value>
+  <value column="Description" original="External Encumbrance or Commitment Postings">External Encumbrance or Commitment Postings</value>
+ </row>
+ <row id="156" trl="N">
+  <value column="Name" original="Statistical">Статистичко</value>
+  <value column="Description" original="Statistical Postings">Statistical Postings</value>
+ </row>
+ <row id="157" trl="N">
+  <value column="Name" original="Local">Локално</value>
+  <value column="Description" original="Local &lt;-">Локално &lt;-</value>
+ </row>
+ <row id="159" trl="N">
+  <value column="Name" original="Merge">Спојити</value>
+  <value column="Description" original="Merge &lt;--&gt;">Спојити &lt;--&gt;</value>
+ </row>
+ <row id="160" trl="N">
+  <value column="Name" original="Reference">Референца</value>
+  <value column="Description" original="Reference -&gt;">Референца -&gt;</value>
+ </row>
+ <row id="164" trl="N">
+  <value column="Name" original="Drafted">Нацрт</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="165" trl="N">
+  <value column="Name" original="Completed">Завршено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="166" trl="N">
+  <value column="Name" original="Approved">Одобрено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="168" trl="N">
+  <value column="Name" original="Not Approved">Није одобрено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="172" trl="N">
+  <value column="Name" original="Voided">Поништено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="173" trl="N">
+  <value column="Name" original="Invalid">Погрешно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="176" trl="N">
+  <value column="Name" original="Reversed">Reversed</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="177" trl="N">
+  <value column="Name" original="Closed">Затворено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="178" trl="N">
+  <value column="Name" original="Complete">Комплетирај</value>
+  <value column="Description" original="Generate documents and complete transaction">Generate documents and complete transaction</value>
+ </row>
+ <row id="179" trl="N">
+  <value column="Name" original="Approve">Одобрити</value>
+  <value column="Description" original="Approve this transaction">Одобрити ову трансакцију</value>
+ </row>
+ <row id="180" trl="N">
+  <value column="Name" original="Reject">Одбити</value>
+  <value column="Description" original="Reject the approval of the document. ">Одбити одобрење овог документа</value>
+ </row>
+ <row id="181" trl="N">
+  <value column="Name" original="Post">Књижи</value>
+  <value column="Description" original="Post transaction">Књижи трансакцију</value>
+ </row>
+ <row id="182" trl="N">
+  <value column="Name" original="Void">Поништено</value>
+  <value column="Description" original="Set all quantities to zero and complete transaction">Set all quantities to zero and complete transaction</value>
+ </row>
+ <row id="183" trl="N">
+  <value column="Name" original="Close">Затвори</value>
+  <value column="Description" original="Finally close this transaction. It cannot be re-activated.">Коначно затворити ову трансакцију It cannot be re-activated.</value>
+ </row>
+ <row id="184" trl="N">
+  <value column="Name" original="Reverse - Correct">Reverse - Correct</value>
+  <value column="Description" original="Reverse Transaction (correction) by reversing sign with same date">Reverse Transaction (correction) by reversing sign with same date</value>
+ </row>
+ <row id="185" trl="N">
+  <value column="Name" original="Reverse - Accrual">Reverse - Accrual</value>
+  <value column="Description" original="Reverse by switching Dr/Cr with current date">Reverse by switching Dr/Cr with current date</value>
+ </row>
+ <row id="187" trl="N">
+  <value column="Name" original="Invalidate">Invalidate</value>
+  <value column="Description" original="Invalidate Document">Invalidate Document</value>
+ </row>
+ <row id="188" trl="N">
+  <value column="Name" original="Re-activate">Re-activate</value>
+  <value column="Description" original="Reopen Document and Reverse automaticly generated documents; You need to Complete the transaction after the change. ">Reopen Document and Reverse automaticly generated documents; You need to Complete the transaction after the change. </value>
+ </row>
+ <row id="189" trl="N">
+  <value column="Name" original="&lt;None&gt;">&lt;Ништа&gt;</value>
+  <value column="Description" original="No action">Без акције</value>
+ </row>
+ <row id="190" trl="N">
+  <value column="Name" original="Unknown">Непознато</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="194" trl="N">
+  <value column="Name" original="System+Client">Систем+клијент</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="198" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original="No Conversion Rate">Без курса конверзије</value>
+ </row>
+ <row id="199" trl="N">
+  <value column="Name" original="Fixed">Фиксиран</value>
+  <value column="Description" original="Euro Fixed Currency">Евро фиксирана валута</value>
+ </row>
+ <row id="200" trl="N">
+  <value column="Name" original="Average">Просечан</value>
+  <value column="Description" original="Average Rates">Просечне стопе</value>
+ </row>
+ <row id="201" trl="N">
+  <value column="Name" original="Company">Предузеће</value>
+  <value column="Description" original="Company Rate">Company Rate</value>
+ </row>
+ <row id="202" trl="N">
+  <value column="Name" original="User Type">Врста корисника</value>
+  <value column="Description" original="User Rate Type">User Rate Type</value>
+ </row>
+ <row id="203" trl="N">
+  <value column="Name" original="Manual Rate">Manual Rate</value>
+  <value column="Description" original="Manual Rate">Manual Rate</value>
+ </row>
+ <row id="204" trl="N">
+  <value column="Name" original="On Credit Order">Налог на одложено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="205" trl="N">
+  <value column="Name" original="POS Order">POS налог</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="206" trl="N">
+  <value column="Name" original="Warehouse Order">Магацински налог</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="207" trl="N">
+  <value column="Name" original="Standard Order">Стандардни налог</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="208" trl="N">
+  <value column="Name" original="Proposal">Понуда</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="209" trl="N">
+  <value column="Name" original="Quotation">Предрачун</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="210" trl="N">
+  <value column="Name" original="Amex">Amex</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="211" trl="N">
+  <value column="Name" original="MasterCard">MasterCard</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="212" trl="N">
+  <value column="Name" original="Visa">Visa</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="213" trl="N">
+  <value column="Name" original="ATM">ATM</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="214" trl="N">
+  <value column="Name" original="After Order delivered">После испоруке отпремнице</value>
+  <value column="Description" original="Invoice for every order">Фактура за сваки налог</value>
+ </row>
+ <row id="215" trl="N">
+  <value column="Name" original="After Delivery">После испоруке</value>
+  <value column="Description" original="Invoice per Delivery">Фактура по испоруци</value>
+ </row>
+ <row id="216" trl="N">
+  <value column="Name" original="Customer Schedule after Delivery">После испоруке по утврђеном распореду</value>
+  <value column="Description" original="Invoice per Customer Invoice Schedule">Фактура/купцу распоред фактура</value>
+ </row>
+ <row id="217" trl="N">
+  <value column="Name" original="After Receipt">После уплате</value>
+  <value column="Description" original="After receipt of cash">После уплате готовине</value>
+ </row>
+ <row id="218" trl="N">
+  <value column="Name" original="Availability">Доступност</value>
+  <value column="Description" original="As soon as an item becomes available">Најраније, одмах када артикал постане доступан</value>
+ </row>
+ <row id="219" trl="N">
+  <value column="Name" original="Complete Line">Комплетна ставка</value>
+  <value column="Description" original="As soon as all items of a line become available">Најраније, одмах када све артикли постану доступни</value>
+ </row>
+ <row id="220" trl="N">
+  <value column="Name" original="Complete Order">Комплетирај налог</value>
+  <value column="Description" original="As soon as all items of an order are available">Најраније, одмах када налог постане доступан</value>
+ </row>
+ <row id="221" trl="N">
+  <value column="Name" original="Immediate">Одмах</value>
+  <value column="Description" original="Immediate Invoice">Одмах фактура</value>
+ </row>
+ <row id="222" trl="N">
+  <value column="Name" original="Pickup">Покупити</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="223" trl="N">
+  <value column="Name" original="Delivery">Испорука</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="224" trl="N">
+  <value column="Name" original="Shipper">Испоручилац</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="225" trl="N">
+  <value column="Name" original="Freight included">Трошкови транспорта укључени</value>
+  <value column="Description" original="Freight cost included">Трошкови транспорта укључени</value>
+ </row>
+ <row id="226" trl="N">
+  <value column="Name" original="Fix price">Фиксна цена</value>
+  <value column="Description" original="Fixed freight price">Фиксна превознина</value>
+ </row>
+ <row id="227" trl="N">
+  <value column="Name" original="Calculated">Израчунато</value>
+  <value column="Description" original="Calculated based on Product Freight Rule">Израчунато на основу правила о превозу производа</value>
+ </row>
+ <row id="228" trl="N">
+  <value column="Name" original="Line">Ставка</value>
+  <value column="Description" original="Entered at Line level">Унешене на нивоу ставке</value>
+ </row>
+ <row id="229" trl="N">
+  <value column="Name" original="High">Високо</value>
+  <value column="Description" original="High priority">Високи приоритет</value>
+ </row>
+ <row id="230" trl="N">
+  <value column="Name" original="Medium">Средње</value>
+  <value column="Description" original="Medium Priority">Средњи приоритет</value>
+ </row>
+ <row id="231" trl="N">
+  <value column="Name" original="Low">Ниско</value>
+  <value column="Description" original="Low priority">Низак приоритет</value>
+ </row>
+ <row id="232" trl="N">
+  <value column="Name" original="Whole Number .00">Цео број .00</value>
+  <value column="Description" original="Number w/o decimals">Број без децимала</value>
+ </row>
+ <row id="233" trl="N">
+  <value column="Name" original="No Rounding">Без заокруживања</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="234" trl="N">
+  <value column="Name" original="Quarter .25 .50 .75">Четвртина .25 .50 .75</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="235" trl="N">
+  <value column="Name" original="Dime .10, .20, .30, ...">Десетина .10, .20, .30, ...</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="236" trl="N">
+  <value column="Name" original="Nickel .05, .10, .15, ...">Петина .05, .10, .15, ...</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="237" trl="N">
+  <value column="Name" original="Ten 10.00, 20.00, ..">Десет 10.00, 20.00, ..</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="239" trl="N">
+  <value column="Name" original="Last PO Price">Последња куповна цена</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="240" trl="N">
+  <value column="Name" original="Maintain Maximum Level">Одржавај максималан ниво</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="242" trl="N">
+  <value column="Name" original="Manual">Ручно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="244" trl="N">
+  <value column="Name" original="Reorder below Minimum Level">Reorder below Minimum Level</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="245" trl="N">
+  <value column="Name" original="Sunday">Недеља</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="246" trl="N">
+  <value column="Name" original="Monday">Понедељак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="247" trl="N">
+  <value column="Name" original="Tuesday">Уторак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="248" trl="N">
+  <value column="Name" original="Wednesday">Среда</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="249" trl="N">
+  <value column="Name" original="Thursday">Четвртак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="250" trl="N">
+  <value column="Name" original="Friday">Петак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="251" trl="N">
+  <value column="Name" original="Saturday">Субота</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="252" trl="N">
+  <value column="Name" original="Daily">Дненовно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="253" trl="N">
+  <value column="Name" original="Weekly">Недељно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="254" trl="N">
+  <value column="Name" original="Monthly">Месечно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="255" trl="N">
+  <value column="Name" original="Twice Monthly">Два пут месечно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="258" trl="N">
+  <value column="Name" original="Open Period">Отвори период</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="259" trl="N">
+  <value column="Name" original="Close Period">Затвори период</value>
+  <value column="Description" original="Soft close - can be re-opened">Меко затварање - може бити поново отворено</value>
+ </row>
+ <row id="260" trl="N">
+  <value column="Name" original="Permanently Close Period">Трајно затвори период</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="261" trl="N">
+  <value column="Name" original="Open">Отворен</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="262" trl="N">
+  <value column="Name" original="Closed">Затворено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="263" trl="N">
+  <value column="Name" original="Permanently closed">Трајно затворено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="264" trl="N">
+  <value column="Name" original="Never opened">Никада отварано</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="266" trl="N">
+  <value column="Name" original="Draft">Скица</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="267" trl="N">
+  <value column="Name" original="Approved">Одобрено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="268" trl="N">
+  <value column="Name" original="Error">Грешка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="269" trl="N">
+  <value column="Name" original="Warning">Упозорење</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="270" trl="N">
+  <value column="Name" original="Information">Информација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="271" trl="N">
+  <value column="Name" original="&lt;No Action&gt;">&lt;Нема акције&gt;</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="272" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original="Owning Organization">Поседује организацију</value>
+ </row>
+ <row id="273" trl="N">
+  <value column="Name" original="Account">Конто</value>
+  <value column="Description" original="Natural Account">Прописани конто</value>
+ </row>
+ <row id="274" trl="N">
+  <value column="Name" original="Product">Производ</value>
+  <value column="Description" original="Product">Производ</value>
+ </row>
+ <row id="275" trl="N">
+  <value column="Name" original="BPartner">ППартнер</value>
+  <value column="Description" original="Business Partner">Пословни партнер</value>
+ </row>
+ <row id="276" trl="N">
+  <value column="Name" original="Org Trx">Орг транс.</value>
+  <value column="Description" original="Transaction Organization">Трансакција организације</value>
+ </row>
+ <row id="277" trl="N">
+  <value column="Name" original="Location From">Локација из</value>
+  <value column="Description" original="Location From">Локација из</value>
+ </row>
+ <row id="278" trl="N">
+  <value column="Name" original="Location To">Локација ка</value>
+  <value column="Description" original="Location To">Локација ка</value>
+ </row>
+ <row id="279" trl="N">
+  <value column="Name" original="Sales Region">Продајни регион</value>
+  <value column="Description" original="Sales Region">Продајни регион</value>
+ </row>
+ <row id="280" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+  <value column="Description" original="Project">Пројекат</value>
+ </row>
+ <row id="281" trl="N">
+  <value column="Name" original="Campaign">Кампања</value>
+  <value column="Description" original="Marketing Campaign">Маркетиншка кампања</value>
+ </row>
+ <row id="282" trl="N">
+  <value column="Name" original="User List 1">Корисничка листа 1</value>
+  <value column="Description" original="User 1">Корисничка 1</value>
+ </row>
+ <row id="283" trl="N">
+  <value column="Name" original="User List 2">Корисничка листа 2</value>
+  <value column="Description" original="User 2">Корисник 2</value>
+ </row>
+ <row id="284" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="285" trl="N">
+  <value column="Name" original="BoM">Саставница</value>
+  <value column="Description" original="Bill of Materials">Саставница</value>
+ </row>
+ <row id="286" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="287" trl="N">
+  <value column="Name" original="Sales Region">Продајни регион</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="288" trl="N">
+  <value column="Name" original="Product Category">Категорија производа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="289" trl="N">
+  <value column="Name" original="Campaign">Кампања</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="302" trl="N">
+  <value column="Name" original="GL Journal">Дневник главне књиге</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="303" trl="N">
+  <value column="Name" original="GL Document">Документ ГК</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="304" trl="N">
+  <value column="Name" original="AP Invoice">AP Invoice</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="305" trl="N">
+  <value column="Name" original="AP Payment">AP Payment</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="306" trl="N">
+  <value column="Name" original="AR Invoice">AR Invoice</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="307" trl="N">
+  <value column="Name" original="AR Receipt">AR Receipt</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="308" trl="N">
+  <value column="Name" original="Sales Order">Налог за продају</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="312" trl="N">
+  <value column="Name" original="Customer Shipment">Отпремница купцу</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="313" trl="N">
+  <value column="Name" original="Customer Returns">Повраћаји купца</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="314" trl="N">
+  <value column="Name" original="Vendor Receipts">Vendor Receipts</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="315" trl="N">
+  <value column="Name" original="Vendor Returns">Повраћаји добављачу</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="316" trl="N">
+  <value column="Name" original="Inventory Out">Залихе - излаз</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="317" trl="N">
+  <value column="Name" original="Inventory In">Залихе - улаз</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="318" trl="N">
+  <value column="Name" original="Activity">Активност</value>
+  <value column="Description" original="Business Activity">Пословна активност</value>
+ </row>
+ <row id="319" trl="N">
+  <value column="Name" original="Activity">Активност</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="320" trl="N">
+  <value column="Name" original="Return Material">Повраћај материјала</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="322" trl="N">
+  <value column="Name" original="AR Pro Forma Invoice">AR Pro Forma Invoice</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="323" trl="N">
+  <value column="Name" original="Material Delivery">Испорука материјала</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="324" trl="N">
+  <value column="Name" original="Material Receipt">Пријемница</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="325" trl="N">
+  <value column="Name" original="List Price">Каталошка цена</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="326" trl="N">
+  <value column="Name" original="Standard Price">Стандардна цена</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="327" trl="N">
+  <value column="Name" original="Limit (PO) Price">Limit (PO) Price</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="328" trl="N">
+  <value column="Name" original="Material Movement">Material Movement</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="329" trl="N">
+  <value column="Name" original="Purchase Order">Налог за набавку</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="330" trl="N">
+  <value column="Name" original="Purchase Requisition">Захтев за набавку</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="331" trl="N">
+  <value column="Name" original="Prepay Order">Prepay Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="332" trl="N">
+  <value column="Name" original="Cash">Готовина</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="333" trl="N">
+  <value column="Name" original="Credit Card">Кредитна картица</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="334" trl="N">
+  <value column="Name" original="Direct Deposit">Директан депозит</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="335" trl="N">
+  <value column="Name" original="Check">Чек</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="337" trl="N">
+  <value column="Name" original="On Credit">На одложено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="338" trl="N">
+  <value column="Name" original="Month">Месец</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="339" trl="N">
+  <value column="Name" original="Quarter">Квартал</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="340" trl="N">
+  <value column="Name" original="Year">Година</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="341" trl="N">
+  <value column="Name" original="In Progress">У обради</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="342" trl="N">
+  <value column="Name" original="Blind list (w/o book quantity)">Blind list (w/o book quantity)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="343" trl="N">
+  <value column="Name" original="Count list (with book quantity)">Count list (with book quantity)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="344" trl="N">
+  <value column="Name" original="Control list">Контролни списак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="345" trl="N">
+  <value column="Name" original="Prepare">Припрема</value>
+  <value column="Description" original="Check Document conistency and check Inventory">Провера конзистентностси документа и провера залиха</value>
+ </row>
+ <row id="346" trl="N">
+  <value column="Name" original="Waiting Payment">Чекајућа уплата</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="347" trl="N">
+  <value column="Name" original="Unlock">Одкључати</value>
+  <value column="Description" original="Unlock Transaction (process error)">Unlock Transaction (process error)</value>
+ </row>
+ <row id="348" trl="N">
+  <value column="Name" original="Material Physical Inventory">Попис материјала</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="349" trl="N">
+  <value column="Name" original="Movement From">Movement From</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="350" trl="N">
+  <value column="Name" original="Movement To">Movement To</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="351" trl="N">
+  <value column="Name" original="Report">Извештај</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="352" trl="N">
+  <value column="Name" original="ASC X12 ">ASC X12 </value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="353" trl="N">
+  <value column="Name" original="EDIFACT">EDIFACT</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="354" trl="N">
+  <value column="Name" original="Email EDI">Email EDI</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="355" trl="N">
+  <value column="Name" original="Draft">Скица</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="356" trl="N">
+  <value column="Name" original="Sent">Послато</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="357" trl="N">
+  <value column="Name" original="Acknowledged">Обавештен</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="358" trl="N">
+  <value column="Name" original="Answered (complete)">Одговорено (комплетирано)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="359" trl="N">
+  <value column="Name" original="Inquiry">Упит</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="360" trl="N">
+  <value column="Name" original="Purchase Order">Налог за набавку</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="361" trl="N">
+  <value column="Name" original="AP Credit Memo">AP Credit Memo</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="362" trl="N">
+  <value column="Name" original="AR Credit Memo">AR Credit Memo</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="363" trl="N">
+  <value column="Name" original="Form">Образац</value>
+  <value column="Description" original="Special Forms">Посебан образац</value>
+ </row>
+ <row id="364" trl="N">
+  <value column="Name" original="And">And</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="365" trl="N">
+  <value column="Name" original="Or">Or</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="366" trl="N">
+  <value column="Name" original=" ="> =</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="367" trl="N">
+  <value column="Name" original="&gt;=">&gt;=</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="368" trl="N">
+  <value column="Name" original="&gt;">&gt;</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="369" trl="N">
+  <value column="Name" original="&lt;">&lt;</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="370" trl="N">
+  <value column="Name" original=" ~"> ~</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="371" trl="N">
+  <value column="Name" original="&lt;=">&lt;=</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="372" trl="N">
+  <value column="Name" original="|&lt;x&gt;|">|&lt;x&gt;|</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="373" trl="N">
+  <value column="Name" original="sql">sql</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="374" trl="N">
+  <value column="Name" original="Manual">Ручно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="375" trl="N">
+  <value column="Name" original="Import">Увоз</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="376" trl="N">
+  <value column="Name" original="Document">Документ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="377" trl="N">
+  <value column="Name" original="Product">Производ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="378" trl="N">
+  <value column="Name" original="Business Partner">Пословни партнер</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="379" trl="N">
+  <value column="Name" original="Accounts">Конта</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="380" trl="N">
+  <value column="Name" original="GL Balances">Биланси главне књиге</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="381" trl="N">
+  <value column="Name" original="Exchange Rates">Курсна листа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="382" trl="N">
+  <value column="Name" original="Inventory Count">Попис магацина</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="383" trl="N">
+  <value column="Name" original="Fixed Position">Фиксиране колоне</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="384" trl="N">
+  <value column="Name" original="Comma Separated">Раздвојено запетама</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="385" trl="N">
+  <value column="Name" original="Tab Separated">Раздвојено табулаторима</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="386" trl="N">
+  <value column="Name" original="XML">XML</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="387" trl="N">
+  <value column="Name" original="String">String</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="388" trl="N">
+  <value column="Name" original="Number">Број</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="389" trl="N">
+  <value column="Name" original="Date">Датум</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="390" trl="N">
+  <value column="Name" original="Constant">Константа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="391" trl="N">
+  <value column="Name" original="Production +">Production +</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="392" trl="N">
+  <value column="Name" original="Production -">Production -</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="393" trl="N">
+  <value column="Name" original="&gt; 0">&gt; 0</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="394" trl="N">
+  <value column="Name" original="= 0">= 0</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="395" trl="N">
+  <value column="Name" original="&lt; 0">&lt; 0</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="396" trl="N">
+  <value column="Name" original="not 0">not 0</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="397" trl="N">
+  <value column="Name" original="Match">Match</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="398" trl="N">
+  <value column="Name" original="No Match">No Match</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="399" trl="N">
+  <value column="Name" original="Unavailable">Unavailable</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="400" trl="N">
+  <value column="Name" original="Credit Card">Кредитна картица</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="401" trl="N">
+  <value column="Name" original="Check">Чек</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="402" trl="N">
+  <value column="Name" original="Direct Deposit">Директан депозит</value>
+  <value column="Description" original="ACH Automatic Clearing House">ACH Automatic Clearing House</value>
+ </row>
+ <row id="403" trl="N">
+  <value column="Name" original="Sales">Продаја</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="404" trl="N">
+  <value column="Name" original="Delayed Capture">Delayed Capture</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="405" trl="N">
+  <value column="Name" original="Credit (Payment)">Credit (Payment)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="406" trl="N">
+  <value column="Name" original="Voice Authorization">Voice Authorization</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="407" trl="N">
+  <value column="Name" original="Authorization">Authorization</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="408" trl="N">
+  <value column="Name" original="Void">Поништено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="409" trl="N">
+  <value column="Name" original="Checking">Проверавање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="410" trl="N">
+  <value column="Name" original="Savings">Чување</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="411" trl="N">
+  <value column="Name" original="Bank Account Transfer">Bank Account Transfer</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="412" trl="N">
+  <value column="Name" original="Invoice">Фактура</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="413" trl="N">
+  <value column="Name" original="General Expense">General Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="414" trl="N">
+  <value column="Name" original="General Receipts">General Receipts</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="415" trl="N">
+  <value column="Name" original="Charge">Потраживање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="416" trl="N">
+  <value column="Name" original="Difference">Разлика</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="417" trl="N">
+  <value column="Name" original="Diners">Diners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="418" trl="N">
+  <value column="Name" original="Discover">Откриће</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="419" trl="N">
+  <value column="Name" original="Purchase Card">Purchase Card</value>
+  <value column="Description" original="Corporate Purchase Card">Corporate Purchase Card</value>
+ </row>
+ <row id="420" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="421" trl="N">
+  <value column="Name" original="Follow up">Follow up</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="422" trl="N">
+  <value column="Name" original="Information">Информација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="423" trl="N">
+  <value column="Name" original="Service">Услуге</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="424" trl="N">
+  <value column="Name" original="Charge">Потраживање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="425" trl="N">
+  <value column="Name" original="Account">Конто</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="426" trl="N">
+  <value column="Name" original="Help">Помоћ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="427" trl="N">
+  <value column="Name" original="Alert">Аларм</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="428" trl="N">
+  <value column="Name" original="Warranty">Warranty</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="429" trl="N">
+  <value column="Name" original="Other">Остали</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="439" trl="N">
+  <value column="Name" original="Minute">Минута</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="440" trl="N">
+  <value column="Name" original="Hour">Сат</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="441" trl="N">
+  <value column="Name" original="Day">Дан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="442" trl="N">
+  <value column="Name" original="Overdue">Закашњење</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="443" trl="N">
+  <value column="Name" original="Due">Доспеће</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="444" trl="N">
+  <value column="Name" original="Scheduled">Заказан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="445" trl="N">
+  <value column="Name" original="Order">Налог</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="446" trl="N">
+  <value column="Name" original="Invoice">Фактура</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="447" trl="N">
+  <value column="Name" original="Receipt">Рачун</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="448" trl="N">
+  <value column="Name" original="Weekly">Недељно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="449" trl="N">
+  <value column="Name" original="Monthly">Месечно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="450" trl="N">
+  <value column="Name" original="Quarterly">Квартално</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="451" trl="N">
+  <value column="Name" original="System">Систем</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="452" trl="N">
+  <value column="Name" original="Client">Клијент</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="453" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="454" trl="N">
+  <value column="Name" original="Client+Organization">Клијент+Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="455" trl="N">
+  <value column="Name" original="Manual">Ручно</value>
+  <value column="Description" original="Manual Entry">Ручни унос</value>
+ </row>
+ <row id="456" trl="N">
+  <value column="Name" original="Calculated">Израчунато</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="457" trl="N">
+  <value column="Name" original="Achievements">Постигнућа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="458" trl="N">
+  <value column="Name" original="Not Posted">Није књижено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="459" trl="N">
+  <value column="Name" original="Posted">Књижено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="460" trl="N">
+  <value column="Name" original="Not Balanced">Није билансирано</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="461" trl="N">
+  <value column="Name" original="Not Convertible (no rate)">Not Convertible (no rate)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="462" trl="N">
+  <value column="Name" original="Period Closed">Период затворен</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="463" trl="N">
+  <value column="Name" original="Post Prepared">Post Prepared</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="464" trl="N">
+  <value column="Name" original="Invalid Account">Погрешан конто</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="465" trl="N">
+  <value column="Name" original="Bank Statement">Извод</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="466" trl="N">
+  <value column="Name" original="Cash Journal">Дневник благајне</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="467" trl="N">
+  <value column="Name" original="Payment Allocation">Расподела уплата</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="468" trl="N">
+  <value column="Name" original="Total Debit Only">Total Debit Only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="469" trl="N">
+  <value column="Name" original="Total Credit Only">Total Credit Only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="470" trl="N">
+  <value column="Name" original="Total Balance">Total Balance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="471" trl="N">
+  <value column="Name" original="Add (Op1+Op2)">Сабери (Op1+Op2)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="472" trl="N">
+  <value column="Name" original="Subtract (Op1-Op2)">Одузми (Op1-Op2)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="473" trl="N">
+  <value column="Name" original="Percentage (Op1 of Op2)">Проценат (Op1 од Op2)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="474" trl="N">
+  <value column="Name" original="Add Range (Op1 to Op2)">Додај распон (од Op1 до Op2)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="475" trl="N">
+  <value column="Name" original="Relative Period">Релативан период</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="476" trl="N">
+  <value column="Name" original="Calculation">Рачуница</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="477" trl="N">
+  <value column="Name" original="Segment Value">Segment Value</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="478" trl="N">
+  <value column="Name" original="Source Currency">Source Currency</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="479" trl="N">
+  <value column="Name" original="Accounting Currency">Accounting Currency</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="480" trl="N">
+  <value column="Name" original="Segment Value">Segment Value</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="481" trl="N">
+  <value column="Name" original="Calculation">Рачуница</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="482" trl="N">
+  <value column="Name" original="Normal (Flat)">Normal (Flat)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="483" trl="N">
+  <value column="Name" original="Gradient">Gradient</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="484" trl="N">
+  <value column="Name" original="Line">Ставка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="485" trl="N">
+  <value column="Name" original="Texture (Picture)">Texture (Picture)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="486" trl="N">
+  <value column="Name" original="Workbench">Радни сто</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="487" trl="N">
+  <value column="Name" original="Dictionary">Речник</value>
+  <value column="Description" original="Application Dictionary (synchronized)">Application Dictionary (synchronized)</value>
+ </row>
+ <row id="488" trl="N">
+  <value column="Name" original="Adempiere">Адемпјер</value>
+  <value column="Description" original="Adempiere Application (synchronized)">Adempiere Application (synchronized)</value>
+ </row>
+ <row id="489" trl="N">
+  <value column="Name" original="User maintained">Одржава корисник</value>
+  <value column="Description" original="User maintained Entity (not synchronized)">User maintained Entity (not synchronized)</value>
+ </row>
+ <row id="490" trl="N">
+  <value column="Name" original="Applications">Апликације</value>
+  <value column="Description" original="Other Applications (not synchronized)">Other Applications (not synchronized)</value>
+ </row>
+ <row id="491" trl="N">
+  <value column="Name" original="Material Production">Material Production</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="492" trl="N">
+  <value column="Name" original="Match Invoice">Уклопи рачун</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="493" trl="N">
+  <value column="Name" original="Match PO">Match PO</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="496" trl="N">
+  <value column="Name" original="Line">Ставка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="497" trl="N">
+  <value column="Name" original="Flat Percent">Flat Percent</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="498" trl="N">
+  <value column="Name" original="Formula">Формула</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="499" trl="N">
+  <value column="Name" original="Breaks">Прекиди</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="500" trl="N">
+  <value column="Name" original="Pricelist">Ценовник</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="501" trl="N">
+  <value column="Name" original="North">Север</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="502" trl="N">
+  <value column="Name" original="North East">Северо исток</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="503" trl="N">
+  <value column="Name" original="East">Исток</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="504" trl="N">
+  <value column="Name" original="South East">Југо исток</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="505" trl="N">
+  <value column="Name" original="South">Југ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="506" trl="N">
+  <value column="Name" original="South West">Југо запад</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="507" trl="N">
+  <value column="Name" original="West">Запад</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="508" trl="N">
+  <value column="Name" original="North West">Северо запад</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="509" trl="N">
+  <value column="Name" original="Standard Cost">Стандардан трошак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="510" trl="N">
+  <value column="Name" original="Average PO">Average PO</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="511" trl="N">
+  <value column="Name" original="Last PO Price">Последња куповна цена</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="512" trl="N">
+  <value column="Name" original="Last Invoice Price">Цена са последњег рачуна</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="513" trl="N">
+  <value column="Name" original="Price List (Limit)">Price List (Limit)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="514" trl="N">
+  <value column="Name" original="Average PO History">Average PO History</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="515" trl="N">
+  <value column="Name" original="Average Invoice History">Average Invoice History</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="516" trl="N">
+  <value column="Name" original="Fixed Price">Fixed Price</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="517" trl="N">
+  <value column="Name" original="Default">Подразумеван</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="518" trl="N">
+  <value column="Name" original="Leading (left)">Leading (left)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="519" trl="N">
+  <value column="Name" original="Trailing (right)">Trailing (right)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="520" trl="N">
+  <value column="Name" original="Block">Блок</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="521" trl="N">
+  <value column="Name" original="Leading (left)">Leading (left)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="522" trl="N">
+  <value column="Name" original="Center">Центар</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="523" trl="N">
+  <value column="Name" original="Trailing (right)">Trailing (right)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="524" trl="N">
+  <value column="Name" original="Center">Центар</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="525" trl="N">
+  <value column="Name" original="Field">Поље</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="526" trl="N">
+  <value column="Name" original="Text">Текст</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="527" trl="N">
+  <value column="Name" original="Print Format">Формат штампања</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="528" trl="N">
+  <value column="Name" original="Content">Садржај</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="529" trl="N">
+  <value column="Name" original="Header">Заглавље</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="530" trl="N">
+  <value column="Name" original="Footer">Подножје</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="531" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="532" trl="N">
+  <value column="Name" original="Image">Слика</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="533" trl="N">
+  <value column="Name" original="Pie Chart">Пита графикон</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="534" trl="N">
+  <value column="Name" original="Line Chart">Линијски графикон</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="535" trl="N">
+  <value column="Name" original="Bar Chart">Стубчани графикон</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="536" trl="N">
+  <value column="Name" original="Period Balance">Биланс периода</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="537" trl="N">
+  <value column="Name" original="Period Credit Only">Period Credit Only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="538" trl="N">
+  <value column="Name" original="Period Debit Only">Period Debit Only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="539" trl="N">
+  <value column="Name" original="Item">Ставка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="540" trl="N">
+  <value column="Name" original="Service">Услуге</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="541" trl="N">
+  <value column="Name" original="Resource">Ресурс</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="542" trl="N">
+  <value column="Name" original="Expense type">Врста трошка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="543" trl="N">
+  <value column="Name" original="Online">На вези</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="544" trl="N">
+  <value column="Name" original="Currency Precision">Currency Precision</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="545" trl="N">
+  <value column="Name" original="Period Quantity">Period Quantity</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="546" trl="N">
+  <value column="Name" original="Total Quantity">Укупна количина</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="547" trl="N">
+  <value column="Name" original="Year Balance">Годишњи биланс</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="548" trl="N">
+  <value column="Name" original="Year Credit Only">Year Credit Only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="549" trl="N">
+  <value column="Name" original="Year Debit Only">Year Debit Only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="550" trl="N">
+  <value column="Name" original="Year Quantity">Year Quantity</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="551" trl="N">
+  <value column="Name" original="Standard Part">Standard Part</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="552" trl="N">
+  <value column="Name" original="Optional Part">Optional Part</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="553" trl="N">
+  <value column="Name" original="In alternative Group 1">In alternative Group 1</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="554" trl="N">
+  <value column="Name" original="In alternative Group 2">In alternative Group 2</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="555" trl="N">
+  <value column="Name" original="In alternaltve Group 3">In alternaltve Group 3</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="556" trl="N">
+  <value column="Name" original="In alternative Group 4">In alternative Group 4</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="557" trl="N">
+  <value column="Name" original="Field">Поље</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="558" trl="N">
+  <value column="Name" original="Text">Текст</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="559" trl="N">
+  <value column="Name" original="Invoice">Фактура</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="560" trl="N">
+  <value column="Name" original="Daily">Дненовно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="561" trl="N">
+  <value column="Name" original="Weekly">Недељно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="562" trl="N">
+  <value column="Name" original="Monthly">Месечно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="563" trl="N">
+  <value column="Name" original="Quarterly">Квартално</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="564" trl="N">
+  <value column="Name" original="Order">Налог</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="565" trl="N">
+  <value column="Name" original="GL Journal">Дневник главне књиге</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="567" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="568" trl="N">
+  <value column="Name" original="Both">Оба</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="569" trl="N">
+  <value column="Name" original="Sales Tax">Sales Tax</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="570" trl="N">
+  <value column="Name" original="Purchase Tax">Purchase Tax</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="571" trl="N">
+  <value column="Name" original="General">Генерално</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="572" trl="N">
+  <value column="Name" original="Asset Project">Asset Project</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="573" trl="N">
+  <value column="Name" original="Work Order (Job)">Work Order (Job)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="574" trl="N">
+  <value column="Name" original="Service (Charge) Project">Service (Charge) Project</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="575" trl="N">
+  <value column="Name" original="French Accounting Standard">French Accounting Standard</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="576" trl="N">
+  <value column="Name" original="Custom Accounting Rules">Custom Accounting Rules</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="577" trl="N">
+  <value column="Name" original="Credit Stop">Стопирај кредитирање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="578" trl="N">
+  <value column="Name" original="Credit Hold">Кредит није дозвољен</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="579" trl="N">
+  <value column="Name" original="Credit Watch">Надзири кредит</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="580" trl="N">
+  <value column="Name" original="No Credit Check">No Credit Check</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="581" trl="N">
+  <value column="Name" original="Credit OK">Кредит одобрен</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="582" trl="N">
+  <value column="Name" original="Work Order +">Work Order +</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="583" trl="N">
+  <value column="Name" original="Work Order -">Work Order -</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="584" trl="N">
+  <value column="Name" original="Project Issue">Пројекат издање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="585" trl="N">
+  <value column="Name" original="Obscure Digits but last 4">Obscure Digits but last 4</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="586" trl="N">
+  <value column="Name" original="Obscure Digits but first/last 4">Obscure Digits but first/last 4</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="587" trl="N">
+  <value column="Name" original="Obscure AlphaNumeric but first/last 4">Obscure AlphaNumeric but first/last 4</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="588" trl="N">
+  <value column="Name" original="Obscure AlphaNumeric but last 4">Obscure AlphaNumeric but last 4</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="589" trl="N">
+  <value column="Name" original="Inventory Difference">Inventory Difference</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="590" trl="N">
+  <value column="Name" original="Charge Account">Charge Account</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="591" trl="N">
+  <value column="Name" original="Accessing">Accessing</value>
+  <value column="Description" original="General Access">General Access</value>
+ </row>
+ <row id="592" trl="N">
+  <value column="Name" original="Reporting">Reporting</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="593" trl="N">
+  <value column="Name" original="Exporting">Exporting</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="594" trl="N">
+  <value column="Name" original="Client only">Client only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="595" trl="N">
+  <value column="Name" original="LiFo">LiFo</value>
+  <value column="Description" original="Last In First Out">Last In First Out</value>
+ </row>
+ <row id="596" trl="N">
+  <value column="Name" original="FiFo">FiFo</value>
+  <value column="Description" original="First In First Out">First In First Out</value>
+ </row>
+ <row id="597" trl="N">
+  <value column="Name" original="Yearly">Yearly</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="598" trl="N">
+  <value column="Name" original="Year">Година</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="599" trl="N">
+  <value column="Name" original="Month">Месец</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="600" trl="N">
+  <value column="Name" original="Day">Дан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="601" trl="N">
+  <value column="Name" original="hour">hour</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="602" trl="N">
+  <value column="Name" original="minute">minute</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="603" trl="N">
+  <value column="Name" original="second">second</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="604" trl="N">
+  <value column="Name" original="Regular">Regular</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="605" trl="N">
+  <value column="Name" original="Loop Begin">Loop Begin</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="606" trl="N">
+  <value column="Name" original="Loop End">Loop End</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="607" trl="N">
+  <value column="Name" original="AND">AND</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="608" trl="N">
+  <value column="Name" original="XOR">XOR</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="609" trl="N">
+  <value column="Name" original="Wait (Sleep)">Wait (Sleep)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="610" trl="N">
+  <value column="Name" original="User Choice">User Choice</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="611" trl="N">
+  <value column="Name" original="Sub Workflow">Sub Workflow</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="612" trl="N">
+  <value column="Name" original="Set Variable">Set Variable</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="613" trl="N">
+  <value column="Name" original="Automatic">Automatic</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="614" trl="N">
+  <value column="Name" original="Manual">Ручно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="615" trl="N">
+  <value column="Name" original="User Window">User Window</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="616" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="617" trl="N">
+  <value column="Name" original="Human">Human</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="618" trl="N">
+  <value column="Name" original="Role">Улога</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="619" trl="N">
+  <value column="Name" original="System Resource">System Resource</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="620" trl="N">
+  <value column="Name" original="Not Started">Not Started</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="621" trl="N">
+  <value column="Name" original="Running">Running</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="622" trl="N">
+  <value column="Name" original="Suspended">Suspended</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="623" trl="N">
+  <value column="Name" original="Completed">Завршено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="624" trl="N">
+  <value column="Name" original="Aborted">Обустављено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="625" trl="N">
+  <value column="Name" original="Terminated">Прекинуто</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="626" trl="N">
+  <value column="Name" original="Process Created">Process Created</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="627" trl="N">
+  <value column="Name" original="State Changed">State Changed</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="628" trl="N">
+  <value column="Name" original="Asynchronously">Asynchronously</value>
+  <value column="Description" original="Fork">Fork</value>
+ </row>
+ <row id="629" trl="N">
+  <value column="Name" original="Synchronously">Synchronously</value>
+  <value column="Description" original="Serial">Serial</value>
+ </row>
+ <row id="630" trl="N">
+  <value column="Name" original="While Loop">While Loop</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="631" trl="N">
+  <value column="Name" original="Repeat Until Loop">Repeat Until Loop</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="633" trl="N">
+  <value column="Name" original="User Form">User Form</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="634" trl="N">
+  <value column="Name" original="Apps Task">Apps Task</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="636" trl="N">
+  <value column="Name" original="Apps Report">Apps Report</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="637" trl="N">
+  <value column="Name" original="Apps Process">Apps Process</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="639" trl="N">
+  <value column="Name" original="In alternative Group 5">In alternative Group 5</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="640" trl="N">
+  <value column="Name" original="In alternative Group 6">In alternative Group 6</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="641" trl="N">
+  <value column="Name" original="In alternative Group 7">In alternative Group 7</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="642" trl="N">
+  <value column="Name" original="In alternative Group 8">In alternative Group 8</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="643" trl="N">
+  <value column="Name" original="In alternative Group 9">In alternative Group 9</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="644" trl="N">
+  <value column="Name" original="Released">Released</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="645" trl="N">
+  <value column="Name" original="Test">Тест</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="646" trl="N">
+  <value column="Name" original="Under Revision">Under Revision</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="647" trl="N">
+  <value column="Name" original="Void">Поништено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="648" trl="N">
+  <value column="Name" original="Re-Create Translation">Re-Create Translation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="649" trl="N">
+  <value column="Name" original="Add Missing Translations">Add Missing Translations</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="650" trl="N">
+  <value column="Name" original="Delete Translation">Delete Translation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="651" trl="N">
+  <value column="Name" original="Direct Debit">Директан депозит</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="652" trl="N">
+  <value column="Name" original="Direct Debit">Директан депозит</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="653" trl="N">
+  <value column="Name" original="Solid Line">Solid Line</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="654" trl="N">
+  <value column="Name" original="Dashed Line">Dashed Line</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="655" trl="N">
+  <value column="Name" original="Dotted Line">Dotted Line</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="656" trl="N">
+  <value column="Name" original="Dash-Dotted Line">Dash-Dotted Line</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="657" trl="N">
+  <value column="Name" original="Web Promotion">Web Promotion</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="658" trl="N">
+  <value column="Name" original="Quote Total only">Quote Total only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="659" trl="N">
+  <value column="Name" original="Quote Selected Lines">Прорачун изабраних ставки</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="660" trl="N">
+  <value column="Name" original="Quote All Lines">Quote All Lines</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="661" trl="N">
+  <value column="Name" original="Funding - All Bidders help funding a Topic">Funding - All Bidders help funding a Topic</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="662" trl="N">
+  <value column="Name" original="Auction - The highest Bidder wins the Topic">Auction - The highest Bidder wins the Topic</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="663" trl="N">
+  <value column="Name" original="Frequency">Фреквенција</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="664" trl="N">
+  <value column="Name" original="Week Day">Недеља дан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="665" trl="N">
+  <value column="Name" original="Month Day">Месец дан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="666" trl="N">
+  <value column="Name" original="Customization">Прилагођавање</value>
+  <value column="Description" original="Distributed Extensions should have 4 characters">Distributed Extensions should have 4 characters</value>
+ </row>
+ <row id="667" trl="N">
+  <value column="Name" original="Yes">Да</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="668" trl="N">
+  <value column="Name" original="No">Не</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="669" trl="N">
+  <value column="Name" original="Document Action">Акција документа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="670" trl="N">
+  <value column="Name" original="Waiting Confirmation">Чекање на потврду</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="671" trl="N">
+  <value column="Name" original="Process Completed">Process Completed</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="672" trl="N">
+  <value column="Name" original="!=">!=</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="673" trl="N">
+  <value column="Name" original="Vendor Confirmation">Vendor Confirmation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="674" trl="N">
+  <value column="Name" original="Customer Confirmation">Customer Confirmation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="675" trl="N">
+  <value column="Name" original="Drop Ship Confirm">Drop Ship Confirm</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="676" trl="N">
+  <value column="Name" original="Ship/Receipt Confirm">Потврда испоруке/пријема</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="677" trl="N">
+  <value column="Name" original="Pick/QA Confirm">Pick/QA Confirm</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="678" trl="N">
+  <value column="Name" original="Force">Сила</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="679" trl="N">
+  <value column="Name" original="Alternative">Алтернатива</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="680" trl="N">
+  <value column="Name" original="Supplemental">Supplemental</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="681" trl="N">
+  <value column="Name" original="Not Mandatary">Није обавезно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="682" trl="N">
+  <value column="Name" original="Always Mandatory">Увек обавезно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="683" trl="N">
+  <value column="Name" original="When Shipping">When Shipping</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="684" trl="N">
+  <value column="Name" original="Posting Error">Грешка књижења</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="685" trl="N">
+  <value column="Name" original="String (max 40)">String (max 40)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="686" trl="N">
+  <value column="Name" original="Number">Број</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="687" trl="N">
+  <value column="Name" original="List">Списак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="688" trl="N">
+  <value column="Name" original="General">Генерално</value>
+  <value column="Description" original="General Workflow">General Workflow</value>
+ </row>
+ <row id="689" trl="N">
+  <value column="Name" original="Document Process">Document Process</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="690" trl="N">
+  <value column="Name" original="Document Value">Document Value</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="691" trl="N">
+  <value column="Name" original="Wait Complete">Wait Complete</value>
+  <value column="Description" original="Wait Condition ok Complete Docuement">Wait Condition ok Complete Docuement</value>
+ </row>
+ <row id="692" trl="N">
+  <value column="Name" original="Purchase Order">Налог за набавку</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="693" trl="N">
+  <value column="Name" original="Requisition">Требовање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="695" trl="N">
+  <value column="Name" original="Client">Клијент</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="696" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="697" trl="N">
+  <value column="Name" original="User">Корисник</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="698" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="699" trl="N">
+  <value column="Name" original="Receivables &amp; Payables">Receivables &amp; Payables</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="700" trl="N">
+  <value column="Name" original="Receivables only">Receivables only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="701" trl="N">
+  <value column="Name" original="Payables only">Payables only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="702" trl="N">
+  <value column="Name" original="Rectangle">Rectangle</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="703" trl="N">
+  <value column="Name" original="Line">Ставка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="704" trl="N">
+  <value column="Name" original="3D Rectangle">3D Rectangle</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="705" trl="N">
+  <value column="Name" original="Oval">Oval</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="706" trl="N">
+  <value column="Name" original="Round Rectangle">Round Rectangle</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="707" trl="N">
+  <value column="Name" original="Normal Rectangle">Normal Rectangle</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="708" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="709" trl="N">
+  <value column="Name" original="All (Reports, Documents)">All (Reports, Documents)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="710" trl="N">
+  <value column="Name" original="Documents">Документа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="711" trl="N">
+  <value column="Name" original="External Documents">External Documents</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="712" trl="N">
+  <value column="Name" original="LiFo">LiFo</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="713" trl="N">
+  <value column="Name" original="FiFo">FiFo</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="714" trl="N">
+  <value column="Name" original="Material">Material</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="715" trl="N">
+  <value column="Name" original="Overhead">Overhead</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="716" trl="N">
+  <value column="Name" original="Burden (M.Overhead)">Burden (M.Overhead)</value>
+  <value column="Description" original="Material Overhead">Material Overhead</value>
+ </row>
+ <row id="717" trl="N">
+  <value column="Name" original="Outside Processing">Outside Processing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="718" trl="N">
+  <value column="Name" original="Resource">Ресурс</value>
+  <value column="Description" original="Labor">Labor</value>
+ </row>
+ <row id="719" trl="N">
+  <value column="Name" original="Quantity">Количина</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="720" trl="N">
+  <value column="Name" original="Line">Ставка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="721" trl="N">
+  <value column="Name" original="Volume">Обим</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="722" trl="N">
+  <value column="Name" original="Weight">Тежина</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="723" trl="N">
+  <value column="Name" original="Costs">Трошкови</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="724" trl="N">
+  <value column="Name" original="Public Information">Public Information</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="726" trl="N">
+  <value column="Name" original="Partner Confidential">Partner Confidential</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="727" trl="N">
+  <value column="Name" original="Order Acknowledgement">Order Acknowledgement</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="728" trl="N">
+  <value column="Name" original="Payment Acknowledgement">Payment Acknowledgement</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="729" trl="N">
+  <value column="Name" original="Payment Error">Payment Error</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="730" trl="N">
+  <value column="Name" original="User Verification">User Verification</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="731" trl="N">
+  <value column="Name" original="User Password">User Password</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="732" trl="N">
+  <value column="Name" original="EMail">Имејл</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="733" trl="N">
+  <value column="Name" original="Notice">Белешка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="734" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="735" trl="N">
+  <value column="Name" original="EMail+Notice">EMail+Notice</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="736" trl="N">
+  <value column="Name" original="Hourly">Hourly</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="737" trl="N">
+  <value column="Name" original="Daily">Дненовно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="738" trl="N">
+  <value column="Name" original="Weekly">Недељно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="739" trl="N">
+  <value column="Name" original="Monthly">Месечно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="740" trl="N">
+  <value column="Name" original="Twice Monthly">Два пут месечно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="741" trl="N">
+  <value column="Name" original="Bi-Weekly">Bi-Weekly</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="742" trl="N">
+  <value column="Name" original="Current Active">Тренутно активан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="743" trl="N">
+  <value column="Name" original="Make-To-Order">Make-To-Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="744" trl="N">
+  <value column="Name" original="Previous">Претходни</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="745" trl="N">
+  <value column="Name" original="Previous, Spare">Previous, Spare</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="746" trl="N">
+  <value column="Name" original="Future">Будуће</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="747" trl="N">
+  <value column="Name" original="Maintenance">Одржавање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="748" trl="N">
+  <value column="Name" original="Repair">Поправи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="749" trl="N">
+  <value column="Name" original="Master">Master</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="750" trl="N">
+  <value column="Name" original="Engineering">Engineering</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="751" trl="N">
+  <value column="Name" original="Manufacturing">Manufacturing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="752" trl="N">
+  <value column="Name" original="Planning">Планирање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="753" trl="N">
+  <value column="Name" original="Standard Product">Стандардни производ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="754" trl="N">
+  <value column="Name" original="Optional Product">Optional Product</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="755" trl="N">
+  <value column="Name" original="Alternative">Алтернатива</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="756" trl="N">
+  <value column="Name" original="Alternative (Default)">Alternative (Default)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="757" trl="N">
+  <value column="Name" original="Outside Processing">Outside Processing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="758" trl="N">
+  <value column="Name" original="Internal">Интерно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="759" trl="N">
+  <value column="Name" original="Urgent">Хитан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="760" trl="N">
+  <value column="Name" original="Minor">Мањи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="761" trl="N">
+  <value column="Name" original="Same">Исто</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="762" trl="N">
+  <value column="Name" original="Lower">Ниже</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="763" trl="N">
+  <value column="Name" original="Higher">Вишље</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="764" trl="N">
+  <value column="Name" original="Subscribe">Претплати</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="765" trl="N">
+  <value column="Name" original="UnSubscribe">Одјави претплату</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="766" trl="N">
+  <value column="Name" original="User Account">Кориснички налог</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="767" trl="N">
+  <value column="Name" original="Request">Захтеви</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="768" trl="N">
+  <value column="Name" original="Encrypted">Криптовано</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="769" trl="N">
+  <value column="Name" original="Not Encrypted">Није криптовано</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="770" trl="N">
+  <value column="Name" original="Inventory Move">Интерна доставница</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="772" trl="N">
+  <value column="Name" original="Custom">Прилагођено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="773" trl="N">
+  <value column="Name" original="Client">Клијент</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="774" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="775" trl="N">
+  <value column="Name" original="Batch/Lot">Batch/Lot</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="776" trl="N">
+  <value column="Name" original="Average Invoice">Просечна фактура</value>
+  <value column="Description" original="Weighted Average Purchase Invoice Price Costing">Weighted Average Purchase Invoice Price Costing</value>
+ </row>
+ <row id="777" trl="N">
+  <value column="Name" original="Last Invoice">Last Invoice</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="778" trl="N">
+  <value column="Name" original="User Defined">User Defined</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="779" trl="N">
+  <value column="Name" original="Business Documents">Business Documents</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="780" trl="N">
+  <value column="Name" original="Requests">Requests</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="781" trl="N">
+  <value column="Name" original="Assets, Download">Assets, Download</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="782" trl="N">
+  <value column="Name" original="_">_</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="783" trl="N">
+  <value column="Name" original="Reservation">Резервација</value>
+  <value column="Description" original="Internal Commitment">Internal Commitment</value>
+ </row>
+ <row id="784" trl="N">
+  <value column="Name" original="PO Commitment only">PO Commitment only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="785" trl="N">
+  <value column="Name" original="PO Commitment &amp; Reservation">PO Commitment &amp; Reservation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="786" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="787" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="788" trl="N">
+  <value column="Name" original="Receipt">Рачун</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="789" trl="N">
+  <value column="Name" original="Purchase Order">Налог за набавку</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="790" trl="N">
+  <value column="Name" original="Purchase Order and Receipt">Purchase Order and Receipt</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="791" trl="N">
+  <value column="Name" original="Manual">Ручно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="792" trl="N">
+  <value column="Name" original="Period only">Само период</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="793" trl="N">
+  <value column="Name" original="Year To Date">Година до датума</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="794" trl="N">
+  <value column="Name" original="Total">Укупно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="795" trl="N">
+  <value column="Name" original="Sub Account">Под конто</value>
+  <value column="Description" original="Sub Account for Element Value">Под конто за вредност елемента</value>
+ </row>
+ <row id="796" trl="N">
+  <value column="Name" original="User Element 1">Кориснички елемент 1</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="797" trl="N">
+  <value column="Name" original="User Element 2">Кориснички елемент 2</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="798" trl="N">
+  <value column="Name" original="EMail">Имејл</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="799" trl="N">
+  <value column="Name" original="Document Owner">Власник документа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="800" trl="N">
+  <value column="Name" original="Document Business Partner">Пословни партнер документа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="801" trl="N">
+  <value column="Name" original="WF Responsible">WF Responsible</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="802" trl="N">
+  <value column="Name" original="LAN">LAN</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="803" trl="N">
+  <value column="Name" original="Terminal Server">Терминал сервер</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="804" trl="N">
+  <value column="Name" original="VPN">VPN</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="805" trl="N">
+  <value column="Name" original="WAN">WAN</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="806" trl="N">
+  <value column="Name" original="Client (all shared)">Client (all shared)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="807" trl="N">
+  <value column="Name" original="Org (not shared)">Org (not shared)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="808" trl="N">
+  <value column="Name" original="Client or Org">Client or Org</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="809" trl="N">
+  <value column="Name" original="FiFo">FiFo</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="810" trl="N">
+  <value column="Name" original="LiFo">LiFo</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="811" trl="N">
+  <value column="Name" original="Average Invoice">Просечна фактура</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="812" trl="N">
+  <value column="Name" original="Old Standard Cost">Old Standard Cost</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="813" trl="N">
+  <value column="Name" original="Future Standard Cost">Future Standard Cost</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="814" trl="N">
+  <value column="Name" original="System generated">Систем генерисао</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="815" trl="N">
+  <value column="Name" original=" 0% Not Started">0% није започето</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="816" trl="N">
+  <value column="Name" original="100% Complete">100% завршено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="817" trl="N">
+  <value column="Name" original=" 20% Started">20% започето</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="818" trl="N">
+  <value column="Name" original=" 80% Nearly Done">80% готово завршено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="819" trl="N">
+  <value column="Name" original=" 40% Busy">40% обрађује</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="820" trl="N">
+  <value column="Name" original=" 60% Good Progress">60% добар напредак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="821" trl="N">
+  <value column="Name" original=" 90% Finishing">90% завршава</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="822" trl="N">
+  <value column="Name" original=" 95% Almost Done">95% готово завршено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="823" trl="N">
+  <value column="Name" original=" 99% Cleaning up">99% чишћење</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="824" trl="N">
+  <value column="Name" original="Year">Година</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="825" trl="N">
+  <value column="Name" original="Quarter">Квартал</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="826" trl="N">
+  <value column="Name" original="Month">Месец</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="827" trl="N">
+  <value column="Name" original="Total">Укупно</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="828" trl="N">
+  <value column="Name" original="Week">Недеља</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="829" trl="N">
+  <value column="Name" original="Day">Дан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="830" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="831" trl="N">
+  <value column="Name" original="Business Partner">Пословни партнер</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="832" trl="N">
+  <value column="Name" original="Product">Производ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="833" trl="N">
+  <value column="Name" original="Bus.Partner Group">Bus.Partner Group</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="834" trl="N">
+  <value column="Name" original="Product Category">Категорија производа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="835" trl="N">
+  <value column="Name" original="User defined">Кориснички дефинисано</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="836" trl="N">
+  <value column="Name" original="Qty/Amount in Time">Qty/Amount in Time</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="837" trl="N">
+  <value column="Name" original="Status Qty/Amount">Status Qty/Amount</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="838" trl="N">
+  <value column="Name" original="Ratio">Однос</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="839" trl="N">
+  <value column="Name" original="Average">Просечан</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="840" trl="N">
+  <value column="Name" original="Sum">Збир</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="841" trl="N">
+  <value column="Name" original="Ratio">Однос</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="842" trl="N">
+  <value column="Name" original="Constant">Константа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="843" trl="N">
+  <value column="Name" original="Plus">Плус</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="844" trl="N">
+  <value column="Name" original="Minus">Минус</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="845" trl="N">
+  <value column="Name" original="Multiply">Множи</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="846" trl="N">
+  <value column="Name" original="Divide">Дели</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="848" trl="N">
+  <value column="Name" original="Calculation">Рачуница</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="849" trl="N">
+  <value column="Name" original="Account Value">Account Value</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="850" trl="N">
+  <value column="Name" original="Evaluation">Evaluation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="851" trl="N">
+  <value column="Name" original="Implementation">Implementation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="852" trl="N">
+  <value column="Name" original="Production">Производња</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="853" trl="N">
+  <value column="Name" original="Request">Захтеви</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="854" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="855" trl="N">
+  <value column="Name" original="MM">MM</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="856" trl="N">
+  <value column="Name" original="Inch">Inch</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="857" trl="N">
+  <value column="Name" original="On Hand Qty">Кол.на стању</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="858" trl="N">
+  <value column="Name" original="Zero">Нула</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="859" trl="N">
+  <value column="Name" original="Codabar 2 of 7 linear">Codabar 2 of 7 linear</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="860" trl="N">
+  <value column="Name" original="Code 39  3 of 9 linear w/o Checksum">Code 39  3 of 9 linear w/o Checksum</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="861" trl="N">
+  <value column="Name" original="Codeabar linear">Codeabar linear</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="862" trl="N">
+  <value column="Name" original="Code 128 dynamically switching">Code 128 dynamically switching</value>
+  <value column="Description" original="Barcode that dynamically switches between character sets to give the smallest possible encoding">Barcode that dynamically switches between character sets to give the smallest possible encoding</value>
+ </row>
+ <row id="863" trl="N">
+  <value column="Name" original="Code 128 A character set">Code 128 A character set</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="864" trl="N">
+  <value column="Name" original="Code 128 B character set">Code 128 B character set</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="865" trl="N">
+  <value column="Name" original="Code 128 C character set">Code 128 C character set</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="866" trl="N">
+  <value column="Name" original="Code 39 linear with Checksum">Code 39 linear with Checksum</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="867" trl="N">
+  <value column="Name" original="EAN 128">EAN 128</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="868" trl="N">
+  <value column="Name" original="Global Trade Item No GTIN UCC/EAN 128">Global Trade Item No GTIN UCC/EAN 128</value>
+  <value column="Description" original="Global Trade Name">Global Trade Name</value>
+ </row>
+ <row id="869" trl="N">
+  <value column="Name" original="Codabar Monarch linear">Codabar Monarch linear</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="870" trl="N">
+  <value column="Name" original="Codabar NW-7 linear">Codabar NW-7 linear</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="871" trl="N">
+  <value column="Name" original="PDF417 two dimensional">PDF417 two dimensional</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="872" trl="N">
+  <value column="Name" original="SCC-14 shipping code UCC/EAN 128">SCC-14 shipping code UCC/EAN 128</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="873" trl="N">
+  <value column="Name" original="Shipment ID number UCC/EAN 128">Shipment ID number UCC/EAN 128</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="874" trl="N">
+  <value column="Name" original="UCC 128">UCC 128</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="875" trl="N">
+  <value column="Name" original="Code 39 USD3 with Checksum">Code 39 USD3 with Checksum</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="876" trl="N">
+  <value column="Name" original="Codabar USD-4 linear">Codabar USD-4 linear</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="877" trl="N">
+  <value column="Name" original="US Postal Service UCC/EAN 128">US Postal Service UCC/EAN 128</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="878" trl="N">
+  <value column="Name" original="SSCC-18 number UCC/EAN 128">SSCC-18 number UCC/EAN 128</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="879" trl="N">
+  <value column="Name" original="Code 39 USD3 w/o Checksum">Code 39 USD3 w/o Checksum</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="880" trl="N">
+  <value column="Name" original="Code 39  3 of 9 linear with Checksum">Code 39  3 of 9 linear with Checksum</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="882" trl="N">
+  <value column="Name" original="Code 39 linear w/o Checksum">Code 39 linear w/o Checksum</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="883" trl="N">
+  <value column="Name" original="Private Information">Private Information</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="884" trl="N">
+  <value column="Name" original="User 1">Корисничка 1</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="885" trl="N">
+  <value column="Name" original="User 2">Корисник 2</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="886" trl="N">
+  <value column="Name" original="User 3">User 3</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="887" trl="N">
+  <value column="Name" original="User 4">User 4</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="888" trl="N">
+  <value column="Name" original="CM Container">CM Container</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="889" trl="N">
+  <value column="Name" original="CM Container Stage">CM Container Stage</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="890" trl="N">
+  <value column="Name" original="CM Template">CM Template</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="891" trl="N">
+  <value column="Name" original="CM Media">CM Media</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="892" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="893" trl="N">
+  <value column="Name" original="Committed Amount">Одрађен износ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="894" trl="N">
+  <value column="Name" original="Time&amp;Material max Comitted">Time&amp;Material max Comitted</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="895" trl="N">
+  <value column="Name" original="Time&amp;Material">Time&amp;Material</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="896" trl="N">
+  <value column="Name" original="Product  Quantity">Product  Quantity</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="897" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="898" trl="N">
+  <value column="Name" original="Phase">Phase</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="899" trl="N">
+  <value column="Name" original="Task">Задатак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="900" trl="N">
+  <value column="Name" original="Document">Документ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="901" trl="N">
+  <value column="Name" original="Internal Link">Интерни линк</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="902" trl="N">
+  <value column="Name" original="External URL">External URL</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="903" trl="N">
+  <value column="Name" original="image/gif">image/gif</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="904" trl="N">
+  <value column="Name" original="image/jpeg">image/jpeg</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="905" trl="N">
+  <value column="Name" original="image/png">image/png</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="906" trl="N">
+  <value column="Name" original="application/pdf">application/pdf</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="907" trl="N">
+  <value column="Name" original="text/css">text/css</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="908" trl="N">
+  <value column="Name" original="Web Access">Веб приступ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="909" trl="N">
+  <value column="Name" original="Ad display">Приказ репламе</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="910" trl="N">
+  <value column="Name" original="Redirect">Преусмери</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="911" trl="N">
+  <value column="Name" original="Collaboration Management">Collaboration Management</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="912" trl="N">
+  <value column="Name" original="Java Client">Java Client</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="913" trl="N">
+  <value column="Name" original="HTML Client">HTML Client</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="914" trl="N">
+  <value column="Name" original="Self Service">Self Service</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="915" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="916" trl="N">
+  <value column="Name" original="Write-off only">Само отпис</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="917" trl="N">
+  <value column="Name" original="Discount only">Само дисконт</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="918" trl="N">
+  <value column="Name" original="Write-off and Discount">Write-off and Discount</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="919" trl="N">
+  <value column="Name" original="text/js">text/js</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="920" trl="N">
+  <value column="Name" original="None">Ништа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="921" trl="N">
+  <value column="Name" original="Both">Оба</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="922" trl="N">
+  <value column="Name" original="Direct Debit">Директан депозит</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="923" trl="N">
+  <value column="Name" original="Direct Deposit">Директан депозит</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="924" trl="N">
+  <value column="Name" original="Dunning">Опомена</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="925" trl="N">
+  <value column="Name" original="Collection Agency">Collection Agency</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="926" trl="N">
+  <value column="Name" original="Legal Procedure">Legal Procedure</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="927" trl="N">
+  <value column="Name" original="Uncollectable">Uncollectable</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="928" trl="N">
+  <value column="Name" original="Not moderated">Not moderated</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="929" trl="N">
+  <value column="Name" original="Before Publishing">Before Publishing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="930" trl="N">
+  <value column="Name" original="After Publishing">After Publishing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="931" trl="N">
+  <value column="Name" original="Not Displayed">Not Displayed</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="932" trl="N">
+  <value column="Name" original="Published">Објављено</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="933" trl="N">
+  <value column="Name" original="To be reviewed">To be reviewed</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="934" trl="N">
+  <value column="Name" original="Suspicious">Suspicious</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="935" trl="N">
+  <value column="Name" original="SQL Command">SQL Command</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="936" trl="N">
+  <value column="Name" original="Internal Link">Интерни линк</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="937" trl="N">
+  <value column="Name" original="External Link">Екстерни линк</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="939" trl="N">
+  <value column="Name" original="Style">Стил</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="940" trl="N">
+  <value column="Name" original="Wiki">Wiki</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="941" trl="N">
+  <value column="Name" original="Note (flat)">Note (flat)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="942" trl="N">
+  <value column="Name" original="Forum (threaded)">Forum (threaded)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Local Transfer">Local Transfer</value>
+  <value column="Description" original="This type of transfer will transfer objects to the same Adempiere instance">This type of transfer will transfer objects to the same Adempiere instance</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Remote Transfer">Remote Transfer</value>
+  <value column="Description" original="This type of transfer will transfer objects to another Adempiere installation accessible by network.">This type of transfer will transfer objects to another Adempiere installation accessible by network.</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="XML File">XML File</value>
+  <value column="Description" original="This type of transfer will create a XML file ">This type of transfer will create a XML file </value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Release 2.5.2a">Release 2.5.2a</value>
+  <value column="Description" original="Release 2.5.2a">Release 2.5.2a</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Release 2.5.2b">Release 2.5.2b</value>
+  <value column="Description" original="Release 2.5.2b">Release 2.5.2b</value>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Release 2.5.2c">Release 2.5.2c</value>
+  <value column="Description" original="Release 2.5.2c">Release 2.5.2c</value>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="Release 2.5.2d">Release 2.5.2d</value>
+  <value column="Description" original="Release 2.5.2d">Release 2.5.2d</value>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Release 2.5.2e">Release 2.5.2e</value>
+  <value column="Description" original="Release 2.5.2e">Release 2.5.2e</value>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Release 2.5.3a">Release 2.5.3a</value>
+  <value column="Description" original="Release 2.5.3a">Release 2.5.3a</value>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Release 2.5.3b">Release 2.5.3b</value>
+  <value column="Description" original="Release 2.5.3b">Release 2.5.3b</value>
+ </row>
+ <row id="50011" trl="N">
+  <value column="Name" original="No specific release">No specific release</value>
+  <value column="Description" original="No specific release">No specific release</value>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="All Database Types">All Database Types</value>
+  <value column="Description" original="Use this when a SQL command syntax is the same between database types">Use this when a SQL command syntax is the same between database types</value>
+ </row>
+ <row id="50013" trl="N">
+  <value column="Name" original="DB2">DB2</value>
+  <value column="Description" original="DB2 Database">DB2 Database</value>
+ </row>
+ <row id="50014" trl="N">
+  <value column="Name" original="Firebird">Firebird</value>
+  <value column="Description" original="Firebird Database">Firebird Database</value>
+ </row>
+ <row id="50015" trl="N">
+  <value column="Name" original="MySQL">MySQL</value>
+  <value column="Description" original="MySQL Database">MySQL Database</value>
+ </row>
+ <row id="50016" trl="N">
+  <value column="Name" original="Oracle">Oracle</value>
+  <value column="Description" original="Oracle Database">Oracle Database</value>
+ </row>
+ <row id="50017" trl="N">
+  <value column="Name" original="Postgres">Postgres</value>
+  <value column="Description" original="Postgres Database">Postgres Database</value>
+ </row>
+ <row id="50018" trl="N">
+  <value column="Name" original="SQL Server">SQL Server</value>
+  <value column="Description" original="SQL Server Database">SQL Server Database</value>
+ </row>
+ <row id="50019" trl="N">
+  <value column="Name" original="Sybase">Sybase</value>
+  <value column="Description" original="Sybase Database">Sybase Database</value>
+ </row>
+ <row id="50020" trl="N">
+  <value column="Name" original="Workbench">Радни сто</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50021" trl="N">
+  <value column="Name" original="File - Code or other">File - Code or other</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50022" trl="N">
+  <value column="Name" original="Data">Подаци</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50023" trl="N">
+  <value column="Name" original="Workflow">Радни ток</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50024" trl="N">
+  <value column="Name" original="Import Format">Формат увоза</value>
+  <value column="Description" original="Exports Import Format">Exports Import Format</value>
+ </row>
+ <row id="50025" trl="N">
+  <value column="Name" original="Application or Module">Application or Module</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50026" trl="N">
+  <value column="Name" original="Process/Report">Process/Report</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50027" trl="N">
+  <value column="Name" original="ReportView">ReportView</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50028" trl="N">
+  <value column="Name" original="Role">Улога</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50029" trl="N">
+  <value column="Name" original="Code Snipit">Code Snipit</value>
+  <value column="Description" original="Replace a code snipit with in a file">Replace a code snipit with in a file</value>
+ </row>
+ <row id="50030" trl="N">
+  <value column="Name" original="SQL Statement">SQL наредба</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50031" trl="N">
+  <value column="Name" original="Table">Табела</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50032" trl="N">
+  <value column="Name" original="Window">Прозор</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50033" trl="N">
+  <value column="Name" original="Form">Образац</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50034" trl="N">
+  <value column="Name" original="File">Датотека</value>
+  <value column="Description" original="Package is file based">Package is file based</value>
+ </row>
+ <row id="50035" trl="N">
+  <value column="Name" original="WebService">WebService</value>
+  <value column="Description" original="Package is available via WebService">Package is available via WebService</value>
+ </row>
+ <row id="50037" trl="N">
+  <value column="Name" original="Ask user (for future use)">Ask user (for future use)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50038" trl="N">
+  <value column="Name" original="Don't show help">Don't show help</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50039" trl="N">
+  <value column="Name" original="Show Help">Show Help</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50040" trl="N">
+  <value column="Name" original="Run silently - Take Defaults">Run silently - Take Defaults</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50041" trl="N">
+  <value column="Name" original="Dynamic Validation Rule">Dynamic Validation Rule</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50042" trl="N">
+  <value column="Name" original="Ending in 9/5">Ending in 9/5</value>
+  <value column="Description" original="The price ends in either a 5 or 9 whole unit">The price ends in either a 5 or 9 whole unit</value>
+ </row>
+ <row id="50043" trl="N">
+  <value column="Name" original="Message">Порука</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50044" trl="N">
+  <value column="Name" original="PrintFormat">PrintFormat</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="52000" trl="N">
+  <value column="Name" original="Mixed">Помешано</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="52001" trl="N">
+  <value column="Name" original="Bank Account">Рачун банке</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="52002" trl="N">
+  <value column="Name" original="CashBook">CashBook</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53000" trl="N">
+  <value column="Name" original="Tab">Језичак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53001" trl="N">
+  <value column="Name" original="Label">Label</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53002" trl="N">
+  <value column="Name" original="Collapse">Collapse</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53223" trl="N">
+  <value column="Name" original="PO/SO Commitment &amp; Reservation">PO/SO Commitment &amp; Reservation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53224" trl="N">
+  <value column="Name" original="SO Commitment only">SO Commitment only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53225" trl="N">
+  <value column="Name" original="PO/SO Commitment">PO/SO Commitment</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53227" trl="N">
+  <value column="Name" original="Reference">Референца</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53228" trl="N">
+  <value column="Name" original="System">Систем</value>
+  <value column="Description" original="Just allowed system configuration">Just allowed system configuration</value>
+ </row>
+ <row id="53229" trl="N">
+  <value column="Name" original="Client">Клијент</value>
+  <value column="Description" original="Allowed system and client configuration">Allowed system and client configuration</value>
+ </row>
+ <row id="53230" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original="Allowed system, client and organization configuration">Allowed system, client and organization configuration</value>
+ </row>
+ <row id="53232" trl="N">
+  <value column="Name" original="Maintenance Order">Maintenance Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53235" trl="N">
+  <value column="Name" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53239" trl="N">
+  <value column="Name" original="Quality Order">Quality Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53240" trl="N">
+  <value column="Name" original="Payroll">Платни списак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53241" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53242" trl="N">
+  <value column="Name" original="Product Configure">Product Configure</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53243" trl="N">
+  <value column="Name" original="Quality">Quality</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53244" trl="N">
+  <value column="Name" original="Production Line">Ставка производње</value>
+  <value column="Description" original="Production Line">Ставка производње</value>
+ </row>
+ <row id="53245" trl="N">
+  <value column="Name" original="Plant">Фабрика</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53246" trl="N">
+  <value column="Name" original="Work Center">Work Center</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53247" trl="N">
+  <value column="Name" original="Work Station">Work Station</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53248" trl="N">
+  <value column="Name" original="User Workbench">User Workbench</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53249" trl="N">
+  <value column="Name" original="Manufacturing">Manufacturing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53250" trl="N">
+  <value column="Name" original="Quality">Quality</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53251" trl="N">
+  <value column="Name" original="Batch Flow ">Batch Flow </value>
+  <value column="Description" original="The diferent Continuos Flow is that two or more products are manufactured in the same facility (long setup times the run time is hours or several days.)">The diferent Continuos Flow is that two or more products are manufactured in the same facility (long setup times the run time is hours or several days.)</value>
+ </row>
+ <row id="53252" trl="N">
+  <value column="Name" original="Continuous Flow">Continuous Flow</value>
+  <value column="Description" original="Continuous flow usually referes to the production or processing of fluids waster powders basic metals  etc.">Continuous flow usually referes to the production or processing of fluids waster powders basic metals  etc.</value>
+ </row>
+ <row id="53253" trl="N">
+  <value column="Name" original="Dedicate Repetititive Flow">Dedicate Repetititive Flow</value>
+  <value column="Description" original="Excess capacity may exist and either the production rate is adjusted to match the demand rate or the line is periodically idle.">Excess capacity may exist and either the production rate is adjusted to match the demand rate or the line is periodically idle.</value>
+ </row>
+ <row id="53254" trl="N">
+  <value column="Name" original="Job Shop">Job Shop</value>
+  <value column="Description" original="A Job Shop is characterized by the organitation of similar equipmnnet by function. As Job flow from Work Center to Work Center or Departament to Departament and the diferent type of operation is performance in each center or departament">A Job Shop is characterized by the organitation of similar equipmnnet by function. As Job flow from Work Center to Work Center or Departament to Departament and the diferent type of operation is performance in each center or departament</value>
+ </row>
+ <row id="53255" trl="N">
+  <value column="Name" original="Mixed Repetitive Flow">Mixed Repetitive Flow</value>
+  <value column="Description" original="Are also used to manufacture two or more However the chanover time between model is minimal (frequenctly zero) and different models are intermixed on the same line">Are also used to manufacture two or more However the chanover time between model is minimal (frequenctly zero) and different models are intermixed on the same line</value>
+ </row>
+ <row id="53256" trl="N">
+  <value column="Name" original="Plant">Фабрика</value>
+  <value column="Description" original="Plant">Фабрика</value>
+ </row>
+ <row id="53257" trl="N">
+  <value column="Name" original="By-Product">By-Product</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53258" trl="N">
+  <value column="Name" original="Component">Component</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53259" trl="N">
+  <value column="Name" original="Phantom">Phantom</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53260" trl="N">
+  <value column="Name" original="Packing">Packing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53261" trl="N">
+  <value column="Name" original="Planning">Планирање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53262" trl="N">
+  <value column="Name" original="Tools">Tools</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53263" trl="N">
+  <value column="Name" original="Option">Option</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53264" trl="N">
+  <value column="Name" original="Variant">Variant</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53265" trl="N">
+  <value column="Name" original="Issue">Issue</value>
+  <value column="Description" original="Components issue manuality">Components issue manuality</value>
+ </row>
+ <row id="53266" trl="N">
+  <value column="Name" original="Backflush">Backflush</value>
+  <value column="Description" original="Components issue in Backflush">Components issue in Backflush</value>
+ </row>
+ <row id="53267" trl="N">
+  <value column="Name" original="Add">Додај</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53268" trl="N">
+  <value column="Name" original="Deactivate">Deactivate</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53269" trl="N">
+  <value column="Name" original="Expire">Expire</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53270" trl="N">
+  <value column="Name" original="Replace">Replace</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53271" trl="N">
+  <value column="Name" original="Replace &amp; Expire">Replace &amp; Expire</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53272" trl="N">
+  <value column="Name" original="Fixed Order Quantity">Fixed Order Quantity</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53273" trl="N">
+  <value column="Name" original="Lote For Lote">Lote For Lote</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53274" trl="N">
+  <value column="Name" original="Period Order Quantity">Period Order Quantity</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53275" trl="N">
+  <value column="Name" original="Forecast">Предвиђање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53276" trl="N">
+  <value column="Name" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53277" trl="N">
+  <value column="Name" original="Purchase Order">Налог за набавку</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53278" trl="N">
+  <value column="Name" original="Material Requisition">Требовање материјала</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53279" trl="N">
+  <value column="Name" original="Sales Order">Налог за продају</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53280" trl="N">
+  <value column="Name" original="Demand">Тражња</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53281" trl="N">
+  <value column="Name" original="Supply">Supply</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53282" trl="N">
+  <value column="Name" original="Backward ">Backward </value>
+  <value column="Description" original="Backward  Schedule ">Backward  Schedule </value>
+ </row>
+ <row id="53283" trl="N">
+  <value column="Name" original="Forward">Проследи</value>
+  <value column="Description" original="Scheduke Forward">Scheduke Forward</value>
+ </row>
+ <row id="53284" trl="N">
+  <value column="Name" original="Hide">Hide</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53285" trl="N">
+  <value column="Name" original="Show">Show</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53286" trl="N">
+  <value column="Name" original="Undefined">Undefined</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53287" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53288" trl="N">
+  <value column="Name" original="EAN 13">EAN 13</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53289" trl="N">
+  <value column="Name" original="Aspect Orient Program">Aspect Orient Program</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53290" trl="N">
+  <value column="Name" original="JSR 223 Scripting APIs">JSR 223 Scripting APIs</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53291" trl="N">
+  <value column="Name" original="JSR 94 Rule Engine API">JSR 94 Rule Engine API</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53292" trl="N">
+  <value column="Name" original="SQL">SQL</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53293" trl="N">
+  <value column="Name" original="Callout">Колаут</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53294" trl="N">
+  <value column="Name" original="Process">Процес</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53295" trl="N">
+  <value column="Name" original="Model Validator Table Event">Model Validator Table Event</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53296" trl="N">
+  <value column="Name" original="Model Validator Document Event">Model Validator Document Event</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53297" trl="N">
+  <value column="Name" original="Model Validator Login Event">Model Validator Login Event</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53299" trl="N">
+  <value column="Name" original="Table Before New">Table Before New</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53300" trl="N">
+  <value column="Name" original="Table Before Change">Table Before Change</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53301" trl="N">
+  <value column="Name" original="Table Before Delete">Table Before Delete</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53302" trl="N">
+  <value column="Name" original="Table After New">Table After New</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53303" trl="N">
+  <value column="Name" original="Table After Change">Table After Change</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53304" trl="N">
+  <value column="Name" original="Table After Delete">Table After Delete</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53305" trl="N">
+  <value column="Name" original="Document Before Prepare">Document Before Prepare</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53306" trl="N">
+  <value column="Name" original="Document Before Void">Document Before Void</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53307" trl="N">
+  <value column="Name" original="Document Before Close">Document Before Close</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53308" trl="N">
+  <value column="Name" original="Document Before Reactivate">Document Before Reactivate</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53309" trl="N">
+  <value column="Name" original="Document Before Reverse Correct">Document Before Reverse Correct</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53310" trl="N">
+  <value column="Name" original="Document Before Reverse Accrual">Document Before Reverse Accrual</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53311" trl="N">
+  <value column="Name" original="Document Before Complete">Document Before Complete</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53312" trl="N">
+  <value column="Name" original="Document Before Post">Document Before Post</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53313" trl="N">
+  <value column="Name" original="Document After Prepare">Document After Prepare</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53314" trl="N">
+  <value column="Name" original="Document After Void">Document After Void</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53315" trl="N">
+  <value column="Name" original="Document After Close">Document After Close</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53316" trl="N">
+  <value column="Name" original="Document After Reactivate">Document After Reactivate</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53317" trl="N">
+  <value column="Name" original="Document After Reverse Correct">Document After Reverse Correct</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53318" trl="N">
+  <value column="Name" original="Document After Reverse Accrual">Document After Reverse Accrual</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53319" trl="N">
+  <value column="Name" original="Document After Complete">Document After Complete</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53320" trl="N">
+  <value column="Name" original="Document After Post">Document After Post</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53321" trl="N">
+  <value column="Name" original="Insert">Убаци</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53322" trl="N">
+  <value column="Name" original="Delete">Избриши</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53323" trl="N">
+  <value column="Name" original="Update">Ажурирај</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53324" trl="N">
+  <value column="Name" original="Release 3.1.0">Издање 3.1.0</value>
+  <value column="Description" original="Release 3.1.0">Издање 3.1.0</value>
+ </row>
+ <row id="53325" trl="N">
+  <value column="Name" original="Release 3.2.0">Издање 3.2.0</value>
+  <value column="Description" original="Release 3.2.0">Издање 3.2.0</value>
+ </row>
+ <row id="53326" trl="N">
+  <value column="Name" original="Release 3.3.0">Издање 3.3.0</value>
+  <value column="Description" original="Release 3.3.0">Издање 3.3.0</value>
+ </row>
+ <row id="53327" trl="N">
+  <value column="Name" original="In Progress">У обради</value>
+  <value column="Description" original="In Progress">У обради</value>
+ </row>
+ <row id="53328" trl="N">
+  <value column="Name" original="Completed">Завршено</value>
+  <value column="Description" original="Completed">Завршено</value>
+ </row>
+ <row id="53329" trl="N">
+  <value column="Name" original="Error">Грешка</value>
+  <value column="Description" original="Error">Грешка</value>
+ </row>
+ <row id="53330" trl="N">
+  <value column="Name" original="Cost">Коштање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53331" trl="N">
+  <value column="Name" original="Price">Цена</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53332" trl="N">
+  <value column="Name" original="Quantity">Количина</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53333" trl="N">
+  <value column="Name" original="XML Element">XML Element</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53334" trl="N">
+  <value column="Name" original="XML Attribute">XML Attribute</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53335" trl="N">
+  <value column="Name" original="Embedded EXP Format">Embedded EXP Format</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53336" trl="N">
+  <value column="Name" original="Referenced EXP Format">Referenced EXP Format</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53337" trl="N">
+  <value column="Name" original="Table After New Replication">Table After New Replication</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53338" trl="N">
+  <value column="Name" original="Table After Change Replication">Table After Change Replication</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53339" trl="N">
+  <value column="Name" original="Table Before Delete Replication">Table Before Delete Replication</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53343" trl="N">
+  <value column="Name" original="Amount">Износ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53344" trl="N">
+  <value column="Name" original="Date">Датум</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53345" trl="N">
+  <value column="Name" original="Quantity">Количина</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53346" trl="N">
+  <value column="Name" original="Text">Текст</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53347" trl="N">
+  <value column="Name" original="Concept">Појам</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53348" trl="N">
+  <value column="Name" original="Rule Engine">Rule Engine</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53349" trl="N">
+  <value column="Name" original="Information">Информација</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53350" trl="N">
+  <value column="Name" original="Reference">Референца</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53351" trl="N">
+  <value column="Name" original="Account">Конто</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53356" trl="N">
+  <value column="Name" original="Amount">Износ</value>
+  <value column="Description" original="Depreciation entered in field is an amount">Depreciation entered in field is an amount</value>
+ </row>
+ <row id="53357" trl="N">
+  <value column="Name" original="Rate">Коефицијент</value>
+  <value column="Description" original="Depreciation entered in field is a rate">Depreciation entered in field is a rate</value>
+ </row>
+ <row id="53358" trl="N">
+  <value column="Name" original="Period">Период</value>
+  <value column="Description" original="Amount entered in the Manual Depreciation Field is by period">Amount entered in the Manual Depreciation Field is by period</value>
+ </row>
+ <row id="53359" trl="N">
+  <value column="Name" original="Yearly">Yearly</value>
+  <value column="Description" original="The amount entered into the manual depreciation field is for the year">The amount entered into the manual depreciation field is for the year</value>
+ </row>
+ <row id="53360" trl="N">
+  <value column="Name" original="Depreciation">Depreciation</value>
+  <value column="Description" original="Depreciation Entries">Depreciation Entries</value>
+ </row>
+ <row id="53361" trl="N">
+  <value column="Name" original="Disposals">Disposals</value>
+  <value column="Description" original="Disposal Entries for Fixed Assets">Disposal Entries for Fixed Assets</value>
+ </row>
+ <row id="53362" trl="N">
+  <value column="Name" original="Forecasts">Forecasts</value>
+  <value column="Description" original="Forecasts">Forecasts</value>
+ </row>
+ <row id="53363" trl="N">
+  <value column="Name" original="New">New</value>
+  <value column="Description" original="New Assets">New Assets</value>
+ </row>
+ <row id="53364" trl="N">
+  <value column="Name" original="Splits">Splits</value>
+  <value column="Description" original="Split Entries for Fixed Assets">Split Entries for Fixed Assets</value>
+ </row>
+ <row id="53365" trl="N">
+  <value column="Name" original="Transfers">Transfers</value>
+  <value column="Description" original="Transfer Entries for Fixed Assets">Transfer Entries for Fixed Assets</value>
+ </row>
+ <row id="53366" trl="N">
+  <value column="Name" original="Default">Подразумеван</value>
+  <value column="Description" original="Default">Подразумеван</value>
+ </row>
+ <row id="53367" trl="N">
+  <value column="Name" original="Inception to date">Inception to date</value>
+  <value column="Description" original="Revaluate each year seperately">Revaluate each year seperately</value>
+ </row>
+ <row id="53368" trl="N">
+  <value column="Name" original="Year Balances">Year Balances</value>
+  <value column="Description" original="Revaluate current year to date balances and then revaluates the beginning balance">Revaluate current year to date balances and then revaluates the beginning balance</value>
+ </row>
+ <row id="53369" trl="N">
+  <value column="Name" original="Factor">Factor</value>
+  <value column="Description" original="Revaluation Code Type is a Factor ">Revaluation Code Type is a Factor </value>
+ </row>
+ <row id="53370" trl="N">
+  <value column="Name" original="Index">Index</value>
+  <value column="Description" original="Revaluation Code Type is an Index ">Revaluation Code Type is an Index </value>
+ </row>
+ <row id="53371" trl="N">
+  <value column="Name" original="Date Aquired">Date Aquired</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53372" trl="N">
+  <value column="Name" original="Revaluation Date">Revaluation Date</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53373" trl="N">
+  <value column="Name" original="Date Depreciation Started">Date Depreciation Started</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53374" trl="N">
+  <value column="Name" original="Revaluation Code #1">Revaluation Code #1</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53375" trl="N">
+  <value column="Name" original="Revaluation Code #2">Revaluation Code #2</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53376" trl="N">
+  <value column="Name" original="Revaluation Code #3">Revaluation Code #3</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53377" trl="N">
+  <value column="Name" original="Amount">Износ</value>
+  <value column="Description" original="Split Asset by Currency Amount">Split Asset by Currency Amount</value>
+ </row>
+ <row id="53378" trl="N">
+  <value column="Name" original="Percentage">Проценат</value>
+  <value column="Description" original="Split Asset by Percentage">Split Asset by Percentage</value>
+ </row>
+ <row id="53379" trl="N">
+  <value column="Name" original="Quantity">Количина</value>
+  <value column="Description" original="Split Percentage by Quantity">Split Percentage by Quantity</value>
+ </row>
+ <row id="53380" trl="N">
+  <value column="Name" original="Charity">Charity</value>
+  <value column="Description" original="Donated to Charity">Donated to Charity</value>
+ </row>
+ <row id="53381" trl="N">
+  <value column="Name" original="Destroyed">Destroyed</value>
+  <value column="Description" original="Asset Destroyed">Asset Destroyed</value>
+ </row>
+ <row id="53382" trl="N">
+  <value column="Name" original="Scraped">Scraped</value>
+  <value column="Description" original="Scraped">Scraped</value>
+ </row>
+ <row id="53383" trl="N">
+  <value column="Name" original="Sold">На продају</value>
+  <value column="Description" original="Asset Sold">Asset Sold</value>
+ </row>
+ <row id="53384" trl="N">
+  <value column="Name" original="Sold w/Trade">Sold w/Trade</value>
+  <value column="Description" original="Asset Sold with trade">Asset Sold with trade</value>
+ </row>
+ <row id="53385" trl="N">
+  <value column="Name" original="Theft">Theft</value>
+  <value column="Description" original="Asset Stolen">Asset Stolen</value>
+ </row>
+ <row id="53386" trl="N">
+  <value column="Name" original="Cash">Готовина</value>
+  <value column="Description" original="Sold for cash">Sold for cash</value>
+ </row>
+ <row id="53387" trl="N">
+  <value column="Name" original="Simple">Simple</value>
+  <value column="Description" original="No cash or trade">No cash or trade</value>
+ </row>
+ <row id="53388" trl="N">
+  <value column="Name" original="Trade">Trade</value>
+  <value column="Description" original="Traded in">Traded in</value>
+ </row>
+ <row id="53389" trl="N">
+  <value column="Name" original="Trade w/cash">Trade w/cash</value>
+  <value column="Description" original="Traded In with cash">Traded In with cash</value>
+ </row>
+ <row id="53390" trl="N">
+  <value column="Name" original="Capitalized Lease">Capitalized Lease</value>
+  <value column="Description" original="Asset is on a capitalized lease">Asset is on a capitalized lease</value>
+ </row>
+ <row id="53391" trl="N">
+  <value column="Name" original="Non-Capitalized Lease">Non-Capitalized Lease</value>
+  <value column="Description" original="Asset is on a non-capitalized lease">Asset is on a non-capitalized lease</value>
+ </row>
+ <row id="53392" trl="N">
+  <value column="Name" original="Owned">Owned</value>
+  <value column="Description" original="Asset owned outright">Asset owned outright</value>
+ </row>
+ <row id="53393" trl="N">
+  <value column="Name" original="Rented">Rented</value>
+  <value column="Description" original="Asset is rented">Asset is rented</value>
+ </row>
+ <row id="53394" trl="N">
+  <value column="Name" original="15th of every month">15th of every month</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53395" trl="N">
+  <value column="Name" original="1st of every month">1st of every month</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53396" trl="N">
+  <value column="Name" original="Beginning of every month">Beginning of every month</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53397" trl="N">
+  <value column="Name" original="Yearly on or before contract date">Yearly on or before contract date</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53398" trl="N">
+  <value column="Name" original="Addition">Addition</value>
+  <value column="Description" original="Cost/quantity addition to asset">Cost/quantity addition to asset</value>
+ </row>
+ <row id="53399" trl="N">
+  <value column="Name" original="Balance">Биланс</value>
+  <value column="Description" original="Transaction updating the cost or accum depr balance">Transaction updating the cost or accum depr balance</value>
+ </row>
+ <row id="53400" trl="N">
+  <value column="Name" original="Create">Креирај</value>
+  <value column="Description" original="Asset Master Record Created">Asset Master Record Created</value>
+ </row>
+ <row id="53401" trl="N">
+  <value column="Name" original="Depreciation">Depreciation</value>
+  <value column="Description" original="Depreciation Expense Recorded">Depreciation Expense Recorded</value>
+ </row>
+ <row id="53402" trl="N">
+  <value column="Name" original="Disposal">Disposal</value>
+  <value column="Description" original="Disposal of Asset">Disposal of Asset</value>
+ </row>
+ <row id="53403" trl="N">
+  <value column="Name" original="Expense">Расход</value>
+  <value column="Description" original="Expense invoice was recorded against this asset">Expense invoice was recorded against this asset</value>
+ </row>
+ <row id="53404" trl="N">
+  <value column="Name" original="Forecast">Предвиђање</value>
+  <value column="Description" original="Forecast Type">Forecast Type</value>
+ </row>
+ <row id="53405" trl="N">
+  <value column="Name" original="Import">Увоз</value>
+  <value column="Description" original="Asset created by import">Asset created by import</value>
+ </row>
+ <row id="53406" trl="N">
+  <value column="Name" original="Revaluation">Revaluation</value>
+  <value column="Description" original="Revaluation of Asset">Revaluation of Asset</value>
+ </row>
+ <row id="53407" trl="N">
+  <value column="Name" original="Setup">Setup</value>
+  <value column="Description" original="Asset Accounting Setup Modified">Asset Accounting Setup Modified</value>
+ </row>
+ <row id="53408" trl="N">
+  <value column="Name" original="Split">Split</value>
+  <value column="Description" original="Asset Split">Asset Split</value>
+ </row>
+ <row id="53409" trl="N">
+  <value column="Name" original="Transfer">Трансфер</value>
+  <value column="Description" original="Asset Transfered">Asset Transfered</value>
+ </row>
+ <row id="53410" trl="N">
+  <value column="Name" original="Update">Ажурирај</value>
+  <value column="Description" original="Asset Master Record Updated">Asset Master Record Updated</value>
+ </row>
+ <row id="53411" trl="N">
+  <value column="Name" original="Usage">Usage</value>
+  <value column="Description" original="Record asset usage">Record asset usage</value>
+ </row>
+ <row id="53412" trl="N">
+  <value column="Name" original="Imported">Увежено</value>
+  <value column="Description" original="This entry was created from an imported document">This entry was created from an imported document</value>
+ </row>
+ <row id="53413" trl="N">
+  <value column="Name" original="Invoice">Фактура</value>
+  <value column="Description" original="This entry is related to an invoice">This entry is related to an invoice</value>
+ </row>
+ <row id="53414" trl="N">
+  <value column="Name" original="Journal Entry">Journal Entry</value>
+  <value column="Description" original="The entry was created from a journal entry">The entry was created from a journal entry</value>
+ </row>
+ <row id="53415" trl="N">
+  <value column="Name" original="Manual">Ручно</value>
+  <value column="Description" original="This entry was manually created">This entry was manually created</value>
+ </row>
+ <row id="53416" trl="N">
+  <value column="Name" original="Capital">Capital</value>
+  <value column="Description" original="Indicates cost associated with this entry is capital">Indicates cost associated with this entry is capital</value>
+ </row>
+ <row id="53417" trl="N">
+  <value column="Name" original="Expense">Расход</value>
+  <value column="Description" original="Inidicates this charge is an expense">Inidicates this charge is an expense</value>
+ </row>
+ <row id="53418" trl="N">
+  <value column="Name" original="Account">Конто</value>
+  <value column="Description" original="Natural Account">Прописани конто</value>
+ </row>
+ <row id="53419" trl="N">
+  <value column="Name" original="Activity">Активност</value>
+  <value column="Description" original="Business Activity">Пословна активност</value>
+ </row>
+ <row id="53420" trl="N">
+  <value column="Name" original="BPartner">ППартнер</value>
+  <value column="Description" original="Business Partner">Пословни партнер</value>
+ </row>
+ <row id="53421" trl="N">
+  <value column="Name" original="Location From">Локација из</value>
+  <value column="Description" original="Location From">Локација из</value>
+ </row>
+ <row id="53422" trl="N">
+  <value column="Name" original="Location To">Локација ка</value>
+  <value column="Description" original="Location To">Локација ка</value>
+ </row>
+ <row id="53423" trl="N">
+  <value column="Name" original="Campaign">Кампања</value>
+  <value column="Description" original="Marketing Campaign">Маркетиншка кампања</value>
+ </row>
+ <row id="53424" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original="Owning Organization">Поседује организацију</value>
+ </row>
+ <row id="53425" trl="N">
+  <value column="Name" original="Org Trx">Орг транс.</value>
+  <value column="Description" original="Transaction Organization">Трансакција организације</value>
+ </row>
+ <row id="53426" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+  <value column="Description" original="Project">Пројекат</value>
+ </row>
+ <row id="53427" trl="N">
+  <value column="Name" original="Product">Производ</value>
+  <value column="Description" original="Product">Производ</value>
+ </row>
+ <row id="53428" trl="N">
+  <value column="Name" original="Sub Account">Под конто</value>
+  <value column="Description" original="Sub Account for Element Value">Под конто за вредност елемента</value>
+ </row>
+ <row id="53429" trl="N">
+  <value column="Name" original="Sales Region">Продајни регион</value>
+  <value column="Description" original="Sales Region">Продајни регион</value>
+ </row>
+ <row id="53430" trl="N">
+  <value column="Name" original="User List 1">Корисничка листа 1</value>
+  <value column="Description" original="User 1">Корисничка 1</value>
+ </row>
+ <row id="53431" trl="N">
+  <value column="Name" original="User List 2">Корисничка листа 2</value>
+  <value column="Description" original="User 2">Корисник 2</value>
+ </row>
+ <row id="53432" trl="N">
+  <value column="Name" original="User Element 1">Кориснички елемент 1</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53433" trl="N">
+  <value column="Name" original="User Element 2">Кориснички елемент 2</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53434" trl="N">
+  <value column="Name" original="Combination">Комбинација</value>
+  <value column="Description" original="Combination of accounting dimensions">Combination of accounting dimensions</value>
+ </row>
+ <row id="53435" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53436" trl="N">
+  <value column="Name" original="Thousand">Thousand</value>
+  <value column="Description" original="Thousand">Thousand</value>
+ </row>
+ <row id="53437" trl="N">
+  <value column="Name" original="Million">Million</value>
+  <value column="Description" original="Million">Million</value>
+ </row>
+ <row id="53438" trl="N">
+  <value column="Name" original="Cash">Готовина</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53441" trl="N">
+  <value column="Name" original="Natural Balance">Natural Balance</value>
+  <value column="Description" original="BY for P &amp; L account, BT for Balance Sheet account">BY for P &amp; L account, BT for Balance Sheet account</value>
+ </row>
+ <row id="53442" trl="N">
+  <value column="Name" original="Material Receipt">Пријемница</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53443" trl="N">
+  <value column="Name" original="Component Issue">Component Issue</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53444" trl="N">
+  <value column="Name" original="Usege Variance">Usege Variance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53445" trl="N">
+  <value column="Name" original="Method Change Variance">Method Change Variance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53446" trl="N">
+  <value column="Name" original="Rate Variance">Rate Variance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53447" trl="N">
+  <value column="Name" original="Mix Variance">Mix Variance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53448" trl="N">
+  <value column="Name" original="Activity Control">Activity Control</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53449" trl="N">
+  <value column="Name" original="Floor Stock">Floor Stock</value>
+  <value column="Description" original="Components issue in Floor Stock">Components issue in Floor Stock</value>
+ </row>
+ <row id="53450" trl="N">
+  <value column="Name" original="Make-To-Kit">Make-To-Kit</value>
+  <value column="Description" original="Create a Manufacturing Order, Receipt the finish product and issue the Components automaticaly ">Create a Manufacturing Order, Receipt the finish product and issue the Components automaticaly </value>
+ </row>
+ <row id="53453" trl="N">
+  <value column="Name" original="Manufacturing Cost Collector">Manufacturing Cost Collector</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53454" trl="N">
+  <value column="Name" original="Query">Query</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53455" trl="N">
+  <value column="Name" original="Table">Табела</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53456" trl="N">
+  <value column="Name" original="Integer">Integer</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53457" trl="N">
+  <value column="Name" original="String">String</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53462" trl="N">
+  <value column="Name" original="&gt;=">&gt;=</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53463" trl="N">
+  <value column="Name" original="&lt;=">&lt;=</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53464" trl="N">
+  <value column="Name" original="Min">Min</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53465" trl="N">
+  <value column="Name" original="Max">Max</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53466" trl="N">
+  <value column="Name" original="Minus">Минус</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53467" trl="N">
+  <value column="Name" original="Ascending">Ascending</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53468" trl="N">
+  <value column="Name" original="Descending">Descending</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53469" trl="N">
+  <value column="Name" original="Percentage">Проценат</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53470" trl="N">
+  <value column="Name" original="Flat Discount">Flat Discount</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53471" trl="N">
+  <value column="Name" original="Absolute Amount">Апсолутан износ</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53481" trl="N">
+  <value column="Name" original="Co-Product">Co-Product</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53495" trl="N">
+  <value column="Name" original="Bar Chart">Стубчани графикон</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53496" trl="N">
+  <value column="Name" original="Pie Chart">Пита графикон</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53497" trl="N">
+  <value column="Name" original="Ring Chart">Ring Chart</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53498" trl="N">
+  <value column="Name" original="Line Chart">Линијски графикон</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53499" trl="N">
+  <value column="Name" original="Area Chart">Area Chart</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53500" trl="N">
+  <value column="Name" original="Waterfall Chart">Waterfall Chart</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53501" trl="N">
+  <value column="Name" original="HTML Table">HTML Table</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53502" trl="N">
+  <value column="Name" original="Chart">Chart</value>
+  <value column="Description" original=""/>
+ </row>
+</adempiereTrl>

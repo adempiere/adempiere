@@ -1,0 +1,2601 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.5.3a_2008-12-21 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090724-1101 - ${ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="sr_RS" table="AD_Menu">
+ <row id="100" trl="N">
+  <value column="Name" original="Invoice Inquiry">Упити о фактурама</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="101" trl="N">
+  <value column="Name" original="Task">Задатак</value>
+  <value column="Description" original="Maintain Tasks">Одржавање задатака</value>
+ </row>
+ <row id="102" trl="N">
+  <value column="Name" original="Currency">Валута</value>
+  <value column="Description" original="Maintain Currencies">Одржавање валута</value>
+ </row>
+ <row id="103" trl="N">
+  <value column="Name" original="Currency Rate">Стопа валуте</value>
+  <value column="Description" original="Maintain Currency Conversion Rates">Одржавање стопи валута за конверзију</value>
+ </row>
+ <row id="104" trl="N">
+  <value column="Name" original="Calendar Year and Period">Календарска година и период</value>
+  <value column="Description" original="Maintain Calendars Years Periods">Одржавање календарски година и периода</value>
+ </row>
+ <row id="105" trl="N">
+  <value column="Name" original="Account Element">Контни елемент</value>
+  <value column="Description" original="Maintain Account Elements">Одржавање контних елемената</value>
+ </row>
+ <row id="106" trl="N">
+  <value column="Name" original="Account Combination">Контна комбинација</value>
+  <value column="Description" original="Maintain Valid Account Combinations ">Оджавање исправних контних комбинација</value>
+ </row>
+ <row id="107" trl="N">
+  <value column="Name" original="Unit of Measure">Јединице мере</value>
+  <value column="Description" original="Maintain Unit of Measure ">Одржавање јединица мере</value>
+ </row>
+ <row id="108" trl="N">
+  <value column="Name" original="Location">Локација</value>
+  <value column="Description" original="Maintain Location Address">Одржавање адреса локација</value>
+ </row>
+ <row id="109" trl="N">
+  <value column="Name" original="Country Region and City">Земља и град</value>
+  <value column="Description" original="Maintain Countries Regions and Cities">Одржавање земаља и градова</value>
+ </row>
+ <row id="110" trl="N">
+  <value column="Name" original="Business Partner">Пословни партнер</value>
+  <value column="Description" original="Maintain Business Partners">Одржавање пословних партнера</value>
+ </row>
+ <row id="111" trl="N">
+  <value column="Name" original="Accounting Schema">Контни план</value>
+  <value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Одржавање контних планова - да би промене постале ефективне морате се поново пријавити</value>
+ </row>
+ <row id="113" trl="N">
+  <value column="Name" original="Test">Тест</value>
+  <value column="Description" original="Test Screen">Екран теста</value>
+ </row>
+ <row id="114" trl="N">
+  <value column="Name" original="Attachment">Прилог</value>
+  <value column="Description" original="Maintain Attachments">Одржавање прилога</value>
+ </row>
+ <row id="115" trl="N">
+  <value column="Name" original="Preference">Преференције</value>
+  <value column="Description" original="Maintain System Client Org and User Preferences">Одржавање системског клијента организације и корисничких подешавања</value>
+ </row>
+ <row id="116" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+  <value column="Description" original="Maintain Projects">Одржавање пројеката</value>
+ </row>
+ <row id="117" trl="N">
+  <value column="Name" original="GL Category">Категорија ГК</value>
+  <value column="Description" original="Maintain General Ledger Categories">Одржавање категодија главне књиге</value>
+ </row>
+ <row id="118" trl="N">
+  <value column="Name" original="GL Journal">Дневник главне књиге</value>
+  <value column="Description" original="Enter and change Manual Journal Entries">Унос и измена ручно унетих рачуноводствених ставова</value>
+ </row>
+ <row id="120" trl="N">
+  <value column="Name" original="Activity (ABC)">Активност (АБЦ)</value>
+  <value column="Description" original="Maintain Activities for Activity Based Costing">Одржавање активности за систем коштања базиран на активностима</value>
+ </row>
+ <row id="121" trl="N">
+  <value column="Name" original="Document Type">Тип документа</value>
+  <value column="Description" original="Maintain Document Types">Одржавање типова докумената</value>
+ </row>
+ <row id="123" trl="N">
+  <value column="Name" original="Tax Rate">Стопа пореза</value>
+  <value column="Description" original="Maintain Taxes and their Rates">Одржавање пореза и њихових стопа</value>
+ </row>
+ <row id="124" trl="N">
+  <value column="Name" original="Tax Category">Категорија пореза</value>
+  <value column="Description" original="Maintain Tax Categories">Одржавање стопа категорија</value>
+ </row>
+ <row id="125" trl="N">
+  <value column="Name" original="Warehouse &amp; Locators">Складишта и локатори</value>
+  <value column="Description" original="Maintain Warehouses and Locators">Одржавање складишта и локатора</value>
+ </row>
+ <row id="126" trl="N">
+  <value column="Name" original="Product">Производ</value>
+  <value column="Description" original="Maintain Products">Одржавање производа</value>
+ </row>
+ <row id="127" trl="N">
+  <value column="Name" original="Payment Term">Услови плаћања</value>
+  <value column="Description" original="Maintain Payment Terms">Одржавање услова плаћања</value>
+ </row>
+ <row id="128" trl="N">
+  <value column="Name" original="Shipper">Испоручилац</value>
+  <value column="Description" original="Maintain Shippers">Одржавање испоручиоца</value>
+ </row>
+ <row id="129" trl="N">
+  <value column="Name" original="Sales Order">Налог за продају</value>
+  <value column="Description" original="Enter and change sales orders">Унесите или измените налоге за продају</value>
+ </row>
+ <row id="130" trl="N">
+  <value column="Name" original="Product Category">Категорија производа</value>
+  <value column="Description" original="Maintain Product Categories">Одржавање категорија производа</value>
+ </row>
+ <row id="132" trl="N">
+  <value column="Name" original="Price List">Ценовник</value>
+  <value column="Description" original="Maintain Product Price Lists">Одржавање ценовника производа</value>
+ </row>
+ <row id="133" trl="N">
+  <value column="Name" original="Invoice Schedule">Распоред рачуна</value>
+  <value column="Description" original="Maintain Invoicing Schedule">Одржавање распореда рачуна</value>
+ </row>
+ <row id="134" trl="N">
+  <value column="Name" original="Marketing Campaign">Маркетиншка кампања</value>
+  <value column="Description" original="Maintain Marketing Campaigns">Одржавање маркетиншких кампања</value>
+ </row>
+ <row id="135" trl="N">
+  <value column="Name" original="GL Budget">Буџет главне књиге (бољи прев.)</value>
+  <value column="Description" original="Maintain General Ledger Budgets">Одржавање буџета главне књиге</value>
+ </row>
+ <row id="136" trl="N">
+  <value column="Name" original="Marketing Channel">Маркетиншки канал</value>
+  <value column="Description" original="Maintain Marketing  Channels">Одржавање маркетиншких канала</value>
+ </row>
+ <row id="137" trl="N">
+  <value column="Name" original="Sales Region">Продајни регион</value>
+  <value column="Description" original="Maintain Sales Regions">Одржавање продајних региона</value>
+ </row>
+ <row id="138" trl="N">
+  <value column="Name" original="Element">Елемент</value>
+  <value column="Description" original="Maintain System Elements">Одржавање системских елемената</value>
+ </row>
+ <row id="139" trl="N">
+  <value column="Name" original="Table and Column">Табела и колона</value>
+  <value column="Description" original="Maintain Tables and Columns">Одржавање табела и колона</value>
+ </row>
+ <row id="140" trl="N">
+  <value column="Name" original="Reference">Референца</value>
+  <value column="Description" original="Maintain System References">Одржавање референци система</value>
+ </row>
+ <row id="141" trl="N">
+  <value column="Name" original="Window, Tab &amp; Field">Прозор, језичак и поље</value>
+  <value column="Description" original="Maintain Windows, Tabs &amp; Fields">Одржавање прозора, језичка и поља</value>
+ </row>
+ <row id="142" trl="N">
+  <value column="Name" original="Validation Rules">Правила провере исправности</value>
+  <value column="Description" original="Maintain dynamic Validation Rules for columns and fields">Одржавање динамичких правила исправности за колона и поља</value>
+ </row>
+ <row id="143" trl="N">
+  <value column="Name" original="Message">Порука</value>
+  <value column="Description" original="Maintain Information and Error Messages">Одржавање информација и порука о грешкама</value>
+ </row>
+ <row id="144" trl="N">
+  <value column="Name" original="Menu">Мени</value>
+  <value column="Description" original="Maintain Menu">Одржавање менија</value>
+ </row>
+ <row id="145" trl="N">
+  <value column="Name" original="Language">Језик</value>
+  <value column="Description" original="Maintain Languages">Одржавање језика</value>
+ </row>
+ <row id="147" trl="N">
+  <value column="Name" original="User">Корисник</value>
+  <value column="Description" original="Maintain Users of the system">Одржавање корисника система</value>
+ </row>
+ <row id="148" trl="N">
+  <value column="Name" original="Client">Клијент</value>
+  <value column="Description" original="Maintain Clients/Tenants">Одржавање клијента</value>
+ </row>
+ <row id="149" trl="N">
+  <value column="Name" original="Organization">Организација</value>
+  <value column="Description" original="Maintain Organizations">Одржавање организација</value>
+ </row>
+ <row id="150" trl="N">
+  <value column="Name" original="Role">Улога</value>
+  <value column="Description" original="Maintain User Responsibilities">Одржавање корисничких права</value>
+ </row>
+ <row id="151" trl="N">
+  <value column="Name" original="Document Sequence">Секвенца документа</value>
+  <value column="Description" original="Maintain System and Document Sequences">Одржавање секвенци документа и система</value>
+ </row>
+ <row id="152" trl="N">
+  <value column="Name" original="Workflow">Радни ток</value>
+  <value column="Description" original="Maintain Workflow">Одржавање радних токова</value>
+ </row>
+ <row id="153" trl="N">
+  <value column="Name" original="Application Dictionary">Речник апликације</value>
+  <value column="Description" original="Maintain Application Dictionary">Одржавање речника апликације</value>
+ </row>
+ <row id="155" trl="N">
+  <value column="Name" original="General Rules">Општа правила</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="156" trl="N">
+  <value column="Name" original="Client Rules">Правила за клијента</value>
+  <value column="Description" original="Maintain Client Rules">Одржавање правила клијента</value>
+ </row>
+ <row id="157" trl="N">
+  <value column="Name" original="Data">Подаци</value>
+  <value column="Description" original="Maintain Data">Одржавање података</value>
+ </row>
+ <row id="158" trl="N">
+  <value column="Name" original="Performance Measurement">Мерење перформанси</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="159" trl="N">
+  <value column="Name" original="Utility">Помоћни програми</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="160" trl="N">
+  <value column="Name" original="Project Management">Управљање пројектима</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="161" trl="N">
+  <value column="Name" original="System Rules">Системска правила</value>
+  <value column="Description" original="General System Rules">Главна системска правила</value>
+ </row>
+ <row id="163" trl="N">
+  <value column="Name" original="Data Import">Увоз података</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="164" trl="N">
+  <value column="Name" original="Accounting Rules">Правила књижења</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="165" trl="N">
+  <value column="Name" original="Business Partner Rules">Правила комитената</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="166" trl="N">
+  <value column="Name" original="Quote-to-Invoice">Продаја</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="167" trl="N">
+  <value column="Name" original="Material Management Rules">Подешавања робно материјалног</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="169" trl="N">
+  <value column="Name" original="Accounting Fact Details">Детаљи ставова књижења</value>
+  <value column="Description" original="Query Accounting Facts">Упит над ставовима књижења</value>
+ </row>
+ <row id="170" trl="N">
+  <value column="Name" original="Tree">Стабло</value>
+  <value column="Description" original="Maintain Tree definition">Одржавање дефиниције стабла</value>
+ </row>
+ <row id="171" trl="N">
+  <value column="Name" original="Bank">Банка</value>
+  <value column="Description" original="Maintain Bank">Одржавање банке</value>
+ </row>
+ <row id="172" trl="N">
+  <value column="Name" original="Dunning">Опомена</value>
+  <value column="Description" original="Maintain Dunning Levels">Одржавање нивоа опомене</value>
+ </row>
+ <row id="173" trl="N">
+  <value column="Name" original="Withholding (1099)">Обуставе (1099)</value>
+  <value column="Description" original="Maintain Withholding Certificates">Одржавање сертификата обустава</value>
+ </row>
+ <row id="174" trl="N">
+  <value column="Name" original="Charge">Потраживање</value>
+  <value column="Description" original="Maintain Charges">Одржавање трошкова</value>
+ </row>
+ <row id="175" trl="N">
+  <value column="Name" original="Organization Rules">Организациона правила</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="176" trl="N">
+  <value column="Name" original="Report &amp; Process">Извештај и процес</value>
+  <value column="Description" original="Maintain Reports &amp; Processes">Одржавање извештаја и процеса</value>
+ </row>
+ <row id="178" trl="N">
+  <value column="Name" original="Invoice (Customer)">Фактура (купцу)</value>
+  <value column="Description" original="Customer Invoice Entry">Ажурирање фактуре купцу</value>
+ </row>
+ <row id="179" trl="N">
+  <value column="Name" original="Physical Inventory">Попис</value>
+  <value column="Description" original="Enter Physical Inventory">Ажурирање пописа магацина</value>
+ </row>
+ <row id="180" trl="N">
+  <value column="Name" original="Shipment (Customer)">Отпремница (купцу)</value>
+  <value column="Description" original="Customer Inventory Shipments Customer Returns">Повраћаји купца</value>
+ </row>
+ <row id="181" trl="N">
+  <value column="Name" original="Inventory Move">Интерна доставница</value>
+  <value column="Description" original="Inventory Move">Интерна доставница</value>
+ </row>
+ <row id="183" trl="N">
+  <value column="Name" original="Material Management">Робно материјално</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="185" trl="N">
+  <value column="Name" original="Import Business Partner">Увоз пословног партнера</value>
+  <value column="Description" original="Import Business Partner">Увоз пословног партнера</value>
+ </row>
+ <row id="186" trl="N">
+  <value column="Name" original="Revenue Recognition">Препознавање прихода</value>
+  <value column="Description" original="Revenue Recognition Rules">Правила за препознавање прихода</value>
+ </row>
+ <row id="187" trl="N">
+  <value column="Name" original="Perpetual Inventory">Вечите залихе</value>
+  <value column="Description" original="Maintain Perpetual Inventory Rules">Одржавање правила вечитих залиха</value>
+ </row>
+ <row id="188" trl="N">
+  <value column="Name" original="Vendor Details">Детаљи добављача</value>
+  <value column="Description" original="Maintain Vendor Details">Одржавање детаља довављача</value>
+ </row>
+ <row id="190" trl="N">
+  <value column="Name" original="Greeting">Поздрав</value>
+  <value column="Description" original="Maintain Greetings">Одржавање поздрава</value>
+ </row>
+ <row id="192" trl="N">
+  <value column="Name" original="Generate Invoices">Генерисање фактура</value>
+  <value column="Description" original="Generate and print Invoices from open Orders">Генерисање и штампа фактура из отворених налога</value>
+ </row>
+ <row id="193" trl="N">
+  <value column="Name" original="Generate Shipments">Генерисање испорука</value>
+  <value column="Description" original="Generate and print Shipments from open Orders">Генерисање и штампа испорука из отворених налога</value>
+ </row>
+ <row id="194" trl="N">
+  <value column="Name" original="Order Transactions">Трансакције налога</value>
+  <value column="Description" original="Order Transactions">Трансакције налога</value>
+ </row>
+ <row id="195" trl="N">
+  <value column="Name" original="Open Orders">Отворени налози</value>
+  <value column="Description" original="Open Order Report">Извештај о отвореним налозима</value>
+ </row>
+ <row id="196" trl="N">
+  <value column="Name" original="Replenish Report">Извештај допуна</value>
+  <value column="Description" original="Inventory Replenish Report">Извештај допуна залиха</value>
+ </row>
+ <row id="197" trl="N">
+  <value column="Name" original="Product Transaction Summary">Резиме трансакција производа</value>
+  <value column="Description" original="Product Transaction Summary">Резиме трансакција производа</value>
+ </row>
+ <row id="200" trl="N">
+  <value column="Name" original="Request Processor">Процесор захтева</value>
+  <value column="Description" original="Define Request Processors">Дефинисање захтева процесора</value>
+ </row>
+ <row id="201" trl="N">
+  <value column="Name" original="Report View">Извештај поглед</value>
+  <value column="Description" original="Maintain Report Views">Одржавање погледа извештаја</value>
+ </row>
+ <row id="202" trl="N">
+  <value column="Name" original="Invoice Transactions (Acct)">Трансакције фактура (Рачунов.)</value>
+  <value column="Description" original="Invoice Transactions by Accounting Date">Трансакција фактура по рачуноводственом датуму</value>
+ </row>
+ <row id="203" trl="N">
+  <value column="Name" original="Requisition-to-Invoice">Набавка</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="204" trl="N">
+  <value column="Name" original="Material Receipt">Пријемница</value>
+  <value column="Description" original="Vendor Shipments (Receipts)">Испоруке добављача (пријемнице)</value>
+ </row>
+ <row id="205" trl="N">
+  <value column="Name" original="Purchase Order">Налог за набавку</value>
+  <value column="Description" original="Manage Purchase Orders">Одржавање налога набавке</value>
+ </row>
+ <row id="206" trl="N">
+  <value column="Name" original="Invoice (Vendor)">Фактура добављача</value>
+  <value column="Description" original="Vendor Invoice Entry">Ажурирање фактура добављача</value>
+ </row>
+ <row id="210" trl="N">
+  <value column="Name" original="Daily Invoice">Фактуре - дневно</value>
+  <value column="Description" original="Imvoice Report per Day">Извештај фактура по дану</value>
+ </row>
+ <row id="211" trl="N">
+  <value column="Name" original="Monthly Invoice">Фактуре - месечно</value>
+  <value column="Description" original="Imvoice Report per Month">Извештај фактура по месецу</value>
+ </row>
+ <row id="212" trl="N">
+  <value column="Name" original="Monthly Invoice Prod Cat">Фактуре месечно - категорије производа</value>
+  <value column="Description" original="Imvoice Report by Product Category per Month">Извештај фактура -кат. производа по месецу</value>
+ </row>
+ <row id="213" trl="N">
+  <value column="Name" original="Weekly Invoice Prod Cat">Фактуре недељно - кат. производа</value>
+  <value column="Description" original="Imvoice Report by Product Category per Week">Извештај фактура -кат. производа недељни</value>
+ </row>
+ <row id="214" trl="N">
+  <value column="Name" original="Monthly Invoice Vendor">Фактуре - месечно - добављач</value>
+  <value column="Description" original="Imvoice Report by Product Vendor per Month">Извештај фактура -добављач производа по месецу</value>
+ </row>
+ <row id="215" trl="N">
+  <value column="Name" original="Weekly Invoice">Фактуре - недељно</value>
+  <value column="Description" original="Imvoice Report per Week">Извештај фактура - недељно</value>
+ </row>
+ <row id="216" trl="N">
+  <value column="Name" original="Form">Образац</value>
+  <value column="Description" original="Special Forms">Посебан образац</value>
+ </row>
+ <row id="217" trl="N">
+  <value column="Name" original="Generate Invoices (manual)">Генериши фактуре (ручно)</value>
+  <value column="Description" original="Select and generate invoices">Изаберите и генеришите фактуре</value>
+ </row>
+ <row id="218" trl="N">
+  <value column="Name" original="System Admin">Администрација система</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="219" trl="N">
+  <value column="Name" original="Project Setup and Use">Подешавање и коришћење пројекта</value>
+  <value column="Description" original="Setup of projects and project reporting">Подешавање и извештаји пројеката</value>
+ </row>
+ <row id="220" trl="N">
+  <value column="Name" original="Java Version">Верзија Јаве</value>
+  <value column="Description" original="Displays the version of the default Java VM">Прикажите верзију подразумеване Јава виртуелне машине</value>
+ </row>
+ <row id="221" trl="N">
+  <value column="Name" original="Error Message">Порука грешке</value>
+  <value column="Description" original="Display Error Messages">Прикажи поруке грешака</value>
+ </row>
+ <row id="222" trl="N">
+  <value column="Name" original="Import Loader Format">Увези формат учитавача</value>
+  <value column="Description" original="Maintain Import Loader Formats">Одржавање увоза учитавача формата</value>
+ </row>
+ <row id="223" trl="N">
+  <value column="Name" original="Import File Loader">Увоз учитавач датотека</value>
+  <value column="Description" original="Load flat Files into import tables">Учитавање текстуелних датотека у табеле за увоз</value>
+ </row>
+ <row id="224" trl="N">
+  <value column="Name" original="Language Setup">Подешавање језика</value>
+  <value column="Description" original="Setup a new Language of the system and translate elements">Подешава нови језик система и преводи елементе</value>
+ </row>
+ <row id="225" trl="N">
+  <value column="Name" original="Initial Client Setup">Иницијално подешавање клијента</value>
+  <value column="Description" original="Initial new Client/Tenant Setup">Иницијално подешавање новог клијента</value>
+ </row>
+ <row id="227" trl="N">
+  <value column="Name" original="Vendor Selection">Избор добављача</value>
+  <value column="Description" original="Products with more than one vendor">Производи са више од једног добављача</value>
+ </row>
+ <row id="228" trl="N">
+  <value column="Name" original="Production">Производња</value>
+  <value column="Description" original="Production based on Bill of Materials">Производња базирана на саставници</value>
+ </row>
+ <row id="229" trl="N">
+  <value column="Name" original="Material Transactions">Робно материјалне трансакције</value>
+  <value column="Description" original="Material Transactions">Робно материјалне трансакције</value>
+ </row>
+ <row id="230" trl="N">
+  <value column="Name" original="Quarterly Invoice Customer by Product">Кварталне фактуре купца по производу</value>
+  <value column="Description" original="Invoice Report by Customer and Product Category per Quarter">Извештај фактура по купцу и производу по кварталу</value>
+ </row>
+ <row id="231" trl="N">
+  <value column="Name" original="Quarterly Invoice Customer by Vendor">Кварталне фактуре купца по добављачу</value>
+  <value column="Description" original="Invoice Report by Customer and Product Vendor per Quarter">Извештај фактура по купцу и добављачу производа по кварталу</value>
+ </row>
+ <row id="232" trl="N">
+  <value column="Name" original="Business Partner Group">Група пословних партнера</value>
+  <value column="Description" original="Maintain Business Partner Groups">Одржавање група пословних партнера</value>
+ </row>
+ <row id="233" trl="N">
+  <value column="Name" original="Notice">Белешка</value>
+  <value column="Description" original="View System Notices">Преглед системских бележака</value>
+ </row>
+ <row id="234" trl="N">
+  <value column="Name" original="Bank Statement">Извод</value>
+  <value column="Description" original="Process Bank Statements">Процесира изводе банке</value>
+ </row>
+ <row id="235" trl="N">
+  <value column="Name" original="Payment">Уплата</value>
+  <value column="Description" original="Process Payments and Receipts">Процесирај исплате и уплате</value>
+ </row>
+ <row id="236" trl="N">
+  <value column="Name" original="Open Items">Отворене ставке</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="237" trl="N">
+  <value column="Name" original="Request">Захтеви</value>
+  <value column="Description" original="Work on your requests">Рад на Вашим захтевима</value>
+ </row>
+ <row id="238" trl="N">
+  <value column="Name" original="Mail Template">Шаблони за писма</value>
+  <value column="Description" original="Maintain Mail Template">Одржавање шаблона имејла</value>
+ </row>
+ <row id="239" trl="N">
+  <value column="Name" original="Custom Attribute">Прилагођене особине</value>
+  <value column="Description" original="Maintain custom entity attributes">Одржавање прилагожених особина ентитета</value>
+ </row>
+ <row id="240" trl="N">
+  <value column="Name" original="Cashbook">Благајна</value>
+  <value column="Description" original="Maintain Cashbook">Одржавање благајне</value>
+ </row>
+ <row id="241" trl="N">
+  <value column="Name" original="Cash Journal">Дневник благајне</value>
+  <value column="Description" original="Cash transactions">Трансакције готовине</value>
+ </row>
+ <row id="243" trl="N">
+  <value column="Name" original="Open Items">Отворене ставке</value>
+  <value column="Description" original="Open Item (Invoice) List">Списак отворених ставки (фактура)</value>
+ </row>
+ <row id="244" trl="N">
+  <value column="Name" original="UnReconciled Payments">Непоравнате уплате</value>
+  <value column="Description" original="Payments not reconciled with Bank Statement">Непоравнате уплате са изводом банке</value>
+ </row>
+ <row id="245" trl="N">
+  <value column="Name" original="Payment Allocation">Расподела уплата</value>
+  <value column="Description" original="Allocate invoices and payments">Усклади фактуре и уплате</value>
+ </row>
+ <row id="246" trl="N">
+  <value column="Name" original="Allocation">Расподела</value>
+  <value column="Description" original="Payment - Invoice - Allocation">Уплата - фактура - расподела</value>
+ </row>
+ <row id="249" trl="N">
+  <value column="Name" original="Field Group">Група поља</value>
+  <value column="Description" original="Define Field Group">Дефинисање поља групе</value>
+ </row>
+ <row id="251" trl="N">
+  <value column="Name" original="View Allocation">Преглед расподеле</value>
+  <value column="Description" original="View and Reverse Allocations ">Преглед и повратак расподела</value>
+ </row>
+ <row id="252" trl="N">
+  <value column="Name" original="Invoice Transactions (Doc)">Трансакције фактура (Док)</value>
+  <value column="Description" original="Invoice Transactions by Invoice Date">Трансакција фактура по датуму фактуре</value>
+ </row>
+ <row id="253" trl="N">
+  <value column="Name" original="Invoice Detail &amp; Margin">Детаљи фактуре и маржа</value>
+  <value column="Description" original="Invoice (Line) Detail and Margin Report">Детаљи (ставке) фактуре и маржа - извештај</value>
+ </row>
+ <row id="254" trl="N">
+  <value column="Name" original="Generate Charges">Генериши трошкове</value>
+  <value column="Description" original="Generate Charges from natural accounts">Генериши трошкове од природних (б.прев.) конта</value>
+ </row>
+ <row id="255" trl="N">
+  <value column="Name" original="Payment Selection">Одабир плаћања</value>
+  <value column="Description" original="Select Invoices for Payment">Одабир фактура за уплате</value>
+ </row>
+ <row id="256" trl="N">
+  <value column="Name" original="Product Transaction Value">Вредност трансакције производа</value>
+  <value column="Description" original="Product Transaction Value">Вредност трансакције производа</value>
+ </row>
+ <row id="257" trl="N">
+  <value column="Name" original="Commission">Провизија</value>
+  <value column="Description" original="Maintain Commissions and Royalties">Одржавање провизија и награда</value>
+ </row>
+ <row id="258" trl="N">
+  <value column="Name" original="Project Reporting">Извештај пројеката</value>
+  <value column="Description" original="Maintain Project Reporting Cycles">Одржавање циклуса извештаја пројеката</value>
+ </row>
+ <row id="260" trl="N">
+  <value column="Name" original="Project Status Summary">Резиме статуса пројекта</value>
+  <value column="Description" original="Project Status of Project Cycle">Статус пројекта пројектног циклуса</value>
+ </row>
+ <row id="261" trl="N">
+  <value column="Name" original="Initial Client Setup Review">Провера иницијалне поставке клијента</value>
+  <value column="Description" original="Review of system level setup of a new  Client">Провера нивоа системске поставке новог клијента</value>
+ </row>
+ <row id="263" trl="N">
+  <value column="Name" original="Partner Relations">Комитенти</value>
+  <value column="Description" original="Customer Relations and Partner Management">Односи са купцима и одржавање партнера</value>
+ </row>
+ <row id="264" trl="N">
+  <value column="Name" original="Commission Run">Покретање провизија</value>
+  <value column="Description" original="Check and modify Commissions">Провера и измена провизија</value>
+ </row>
+ <row id="265" trl="N">
+  <value column="Name" original="Accounting Setup">Подешавање рачуноводства</value>
+  <value column="Description" original="Review and change Accounting Setup">Провера и измена рачуноводствених поставки</value>
+ </row>
+ <row id="266" trl="N">
+  <value column="Name" original="Business Partner Setup">Подешаваља пословних партнера</value>
+  <value column="Description" original="Setup Business Partner Rules">Подешавања правила везаних за пословне партнера</value>
+ </row>
+ <row id="267" trl="N">
+  <value column="Name" original="Price List Setup">Подешавање ценовника</value>
+  <value column="Description" original="Define your Price Lists and Discounts">Дефинисање ценовника и попуста</value>
+ </row>
+ <row id="268" trl="N">
+  <value column="Name" original="Product Setup">Подешаваље производа</value>
+  <value column="Description" original="Set up Products">Подешаваље производа</value>
+ </row>
+ <row id="269" trl="N">
+  <value column="Name" original="Sales Setup">Подешавање продаје</value>
+  <value column="Description" original="Setup Sales">Подешавање продаје</value>
+ </row>
+ <row id="270" trl="N">
+  <value column="Name" original="Tax Setup">Подешавање пореза</value>
+  <value column="Description" original="Setup tax calculation">Подешавање пореских калкулација</value>
+ </row>
+ <row id="271" trl="N">
+  <value column="Name" original="Service">Услуге</value>
+  <value column="Description" original="Service Management">Управљање услугама</value>
+ </row>
+ <row id="272" trl="N">
+  <value column="Name" original="Sales and Marketing">Продаја и маркетинг</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="275" trl="N">
+  <value column="Name" original="Performance Goal">Циљ перформанси</value>
+  <value column="Description" original="Define Performance Goals">Дефинисање циљева перформанси</value>
+ </row>
+ <row id="276" trl="N">
+  <value column="Name" original="Performance Measure Calculation">Рачуница мерења перформанси</value>
+  <value column="Description" original="Define how you calculate your performance measures">Дефинисање како израчунавате мерење перформанси</value>
+ </row>
+ <row id="277" trl="N">
+  <value column="Name" original="Performance Measurement Setup">Подешавање анализе перформанси</value>
+  <value column="Description" original="Setup your Performance Measurement">Подешавање анализе перформанси</value>
+ </row>
+ <row id="278" trl="N">
+  <value column="Name" original="Performance Analysis">Рачуноводство</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="279" trl="N">
+  <value column="Name" original="Performance Measure">Мерење перформанси</value>
+  <value column="Description" original="Define your Performance Measures">Дефинишите Ваше мерење перформанси</value>
+ </row>
+ <row id="280" trl="N">
+  <value column="Name" original="Financial Reporting">Финансијко извештавање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="281" trl="N">
+  <value column="Name" original="Financial Report">Финансијски Извештај</value>
+  <value column="Description" original="Maintain Financial Reports">Одржавање финансијских извештаја</value>
+ </row>
+ <row id="282" trl="N">
+  <value column="Name" original="Report Column Set">Поставке колоне извештаја</value>
+  <value column="Description" original="Maintain Financial Report Column Sets">Одржавање поставки колона финансијског извештаја</value>
+ </row>
+ <row id="283" trl="N">
+  <value column="Name" original="Report Line Set">Извештај поставки сета ставки</value>
+  <value column="Description" original="Maintain Financial Report Line Sets">Одржавање ставки финансијког извештаја</value>
+ </row>
+ <row id="284" trl="N">
+  <value column="Name" original="Service Level">Ниво услуге</value>
+  <value column="Description" original="Maintain Service Levels">Одржавање нивоа услуга</value>
+ </row>
+ <row id="286" trl="N">
+  <value column="Name" original="Payment Selection (manual)">Ручни избор уплата</value>
+  <value column="Description" original="Manual Payment Selection">Ручни избор уплата</value>
+ </row>
+ <row id="287" trl="N">
+  <value column="Name" original="Payment Print/Export">Уплата штампа/извоз</value>
+  <value column="Description" original="Print or export your payments">Штампа или извош Ваших уплата</value>
+ </row>
+ <row id="288" trl="N">
+  <value column="Name" original="Cash Journal Detail">Детаљи дневника благајне</value>
+  <value column="Description" original="Detail Cash Journal Information">Информације детаља дневника благајне</value>
+ </row>
+ <row id="289" trl="N">
+  <value column="Name" original="Database export">Извоз базе података</value>
+  <value column="Description" original="Export (save) the database">Извоз (снимање) базе података</value>
+ </row>
+ <row id="290" trl="N">
+  <value column="Name" original="Find (indirect use)">Пронађи (индиректна употреба)</value>
+  <value column="Description" original="Find Dialog (indirect use)">Дијалог пронађи (индиректна употреба)</value>
+ </row>
+ <row id="292" trl="N">
+  <value column="Name" original="Material Transactions (indirect use)">Робно-материјалне трансакције (индиректна употреба)</value>
+  <value column="Description" original="Material Transactions (indirect use)">Робно-материјалне трансакције (индиректна употреба)</value>
+ </row>
+ <row id="293" trl="N">
+  <value column="Name" original="Print Form">Образац за штампу</value>
+  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Одржавање кориштеног обрасца за штампу (фактуре, чекови)</value>
+ </row>
+ <row id="294" trl="N">
+  <value column="Name" original="System Color">Системска боја</value>
+  <value column="Description" original="Maintain System Colors">Одржавање системских боја</value>
+ </row>
+ <row id="295" trl="N">
+  <value column="Name" original="Desktop">Радна површина</value>
+  <value column="Description" original="Maintain Desktop">Одржавање радне површине</value>
+ </row>
+ <row id="296" trl="N">
+  <value column="Name" original="System Image">Слике у програму</value>
+  <value column="Description" original="Maintain Images and Icons">Одржавање слика и икона</value>
+ </row>
+ <row id="300" trl="N">
+  <value column="Name" original="Workbench">Радни сто</value>
+  <value column="Description" original="Maintain Workbench">Одржавање радног стола</value>
+ </row>
+ <row id="301" trl="N">
+  <value column="Name" original="Sales">Продаја</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="302" trl="N">
+  <value column="Name" original="Database transfer">База података - трансфер</value>
+  <value column="Description" original="Transfer the database">Трансфер базе података</value>
+ </row>
+ <row id="303" trl="N">
+  <value column="Name" original="Synchronize Terminology">Синхронизација терминологије</value>
+  <value column="Description" original="Synchronize the terminology within the system.">Синхронизација терминологије унутар система.</value>
+ </row>
+ <row id="304" trl="N">
+  <value column="Name" original="Receivables Write-Off">Отпис потраживања</value>
+  <value column="Description" original="Write off open receivables">Отпис отворених потраживања</value>
+ </row>
+ <row id="306" trl="N">
+  <value column="Name" original="Resubmit Posting">Понови књижење</value>
+  <value column="Description" original="Resubmit posting of documents with posting errors or locked documents">Понови књижења докумената са грешком приликом књижења или над закључаним документима</value>
+ </row>
+ <row id="307" trl="N">
+  <value column="Name" original="Reset Accounting">Поништи рачуноводство</value>
+  <value column="Description" original="Reset Accounting Entries ** Stop Accounting Server before starting **">Понишвтавање рачунодствених уноса *** зауставите рачуноводствени сервер пре започињања ***</value>
+ </row>
+ <row id="308" trl="N">
+  <value column="Name" original="Request (all)">Захтев (све)</value>
+  <value column="Description" original="View and work on all requests">Поглед и рад над свим захтевима</value>
+ </row>
+ <row id="309" trl="N">
+  <value column="Name" original="Request Setup">Подешавање захтева</value>
+  <value column="Description" original="Set up the client to process requests">Подесите клијента да процесира захтеве</value>
+ </row>
+ <row id="310" trl="N">
+  <value column="Name" original="Discount Schema">Шема попуста</value>
+  <value column="Description" original="Maintain Trade Discount Schema">Одржавање трговачке шеме попуста</value>
+ </row>
+ <row id="311" trl="N">
+  <value column="Name" original="Inventory Valuation Report">Пробни извештај залиха</value>
+  <value column="Description" original="Inventory Valuation Report">Пробни извештај залиха</value>
+ </row>
+ <row id="312" trl="N">
+  <value column="Name" original="Matching PO-Receipt-Invoice">Уклапање налог за набавку, пријемница, фактура</value>
+  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Уклопи налоге набавке, пријемнице и фактуре добављача</value>
+ </row>
+ <row id="313" trl="N">
+  <value column="Name" original="Standard Cost Update">Ажурирање стандардног коштања</value>
+  <value column="Description" original="Set standard and future cost price">Постављање стандардне и будуће цене коштања</value>
+ </row>
+ <row id="314" trl="N">
+  <value column="Name" original="Product Costing Report (old)">Извештај коштања производа (стари)</value>
+  <value column="Description" original="Product Cost Report">Извештај коштања производа</value>
+ </row>
+ <row id="315" trl="N">
+  <value column="Name" original="Matched Invoices">Уклопљене фактуре</value>
+  <value column="Description" original="View Matched Invoices">Погледај уклопљене фактуре</value>
+ </row>
+ <row id="316" trl="N">
+  <value column="Name" original="Matched Purchase Orders">Уклопљени налози за набавку</value>
+  <value column="Description" original="View Matched Purchase Orders">Погледај уклопљене налоге за набавку</value>
+ </row>
+ <row id="317" trl="N">
+  <value column="Name" original="Expense Type">Врста расхода</value>
+  <value column="Description" original="Maintain Expense Report Types">Одржавање извештаја врста расхода</value>
+ </row>
+ <row id="318" trl="N">
+  <value column="Name" original="Expense Report">Извештај расхода</value>
+  <value column="Description" original="Time and Expense Report">Извештај времена и расхода</value>
+ </row>
+ <row id="319" trl="N">
+  <value column="Name" original="Resource">Ресурс</value>
+  <value column="Description" original="Maintain Resources">Одржавање ресурса</value>
+ </row>
+ <row id="320" trl="N">
+  <value column="Name" original="Resource Type">Врста ресурса</value>
+  <value column="Description" original="Maintain Resource Types">Одржавање врста ресурса</value>
+ </row>
+ <row id="321" trl="N">
+  <value column="Name" original="Recompile DB Objects">Прекомпајлирај ДБ објекте</value>
+  <value column="Description" original="Recompile Database Objects">Прекомпајлирај ДБ објекте</value>
+ </row>
+ <row id="322" trl="N">
+  <value column="Name" original="Print Format">Формат штампања</value>
+  <value column="Description" original="Maintain Print Format">Одржавање формата штампе</value>
+ </row>
+ <row id="323" trl="N">
+  <value column="Name" original="Print Font">Фонт штампе</value>
+  <value column="Description" original="Maintain Print Font">Одржавање фонта штампе</value>
+ </row>
+ <row id="324" trl="N">
+  <value column="Name" original="Print Color">Боја штампања</value>
+  <value column="Description" original="Maintain Print Color">Одржавање боје штампе</value>
+ </row>
+ <row id="325" trl="N">
+  <value column="Name" original="Print Paper">Папир штампања</value>
+  <value column="Description" original="Maintain Print Paper">Одржавање папира штампе</value>
+ </row>
+ <row id="326" trl="N">
+  <value column="Name" original="Printing">Штампање</value>
+  <value column="Description" original="Print Definition">Дефиниција штампе</value>
+ </row>
+ <row id="327" trl="N">
+  <value column="Name" original="Expenses (to be invoiced)">Расходи (за фактурисање)</value>
+  <value column="Description" original="View expenses and charges not invoiced to customers">Погледај расходе и трошкове који нису фактурисани купцу</value>
+ </row>
+ <row id="328" trl="N">
+  <value column="Name" original="Create Sales Orders from Expense">Креирај налоге продаје на основу расхода</value>
+  <value column="Description" original="Create Sales Orders for Customers from Expense Reports">Креирај налоге продаје за купце на основу извештаја расхода</value>
+ </row>
+ <row id="329" trl="N">
+  <value column="Name" original="Create AP Expense Invoices">Креирај фактуре потраживања расхода</value>
+  <value column="Description" original="Create AP Invoices from Expenses to be paid to employees">Креирај фактуре потраживања расхода који требају бити плаћени запосленима</value>
+ </row>
+ <row id="331" trl="N">
+  <value column="Name" original="Print Table Format">Штампа - формат табеле</value>
+  <value column="Description" original="Define Report Table Format">Дефиниши формат табеле за извештај</value>
+ </row>
+ <row id="332" trl="N">
+  <value column="Name" original="Request Type">Врста захтева</value>
+  <value column="Description" original="Maintain Request Types">Одржавање врста захтева</value>
+ </row>
+ <row id="333" trl="N">
+  <value column="Name" original="Interest Area">Област интересовања</value>
+  <value column="Description" original="Interest Area or Topic">Област интересовања или поглавље</value>
+ </row>
+ <row id="334" trl="N">
+  <value column="Name" original="System">Систем</value>
+  <value column="Description" original="System Definition">Системска дефиниција</value>
+ </row>
+ <row id="335" trl="N">
+  <value column="Name" original="Generate PO from Sales Order">Генериши налоге за набавку на основу налога за продају</value>
+  <value column="Description" original="Create Purchase Order from Sales Orders">Креирај налоге за набавку на основу налога за продају</value>
+ </row>
+ <row id="336" trl="N">
+  <value column="Name" original="Translation Import/Export">Превод увоз/извоз</value>
+  <value column="Description" original="Import or Export Language Translation">Увоз или извоз превода језика</value>
+ </row>
+ <row id="337" trl="N">
+  <value column="Name" original="Reopen Request">Поново отвори захтев</value>
+  <value column="Description" original="Reopen closed requests">Поново отвори затворене захтеве</value>
+ </row>
+ <row id="338" trl="N">
+  <value column="Name" original="Import Report Line Set">Увези сет ставки извештаја</value>
+  <value column="Description" original="Import Report Line Sets">Увези сет ставки извештаја</value>
+ </row>
+ <row id="339" trl="N">
+  <value column="Name" original="Import Account">Увези конто</value>
+  <value column="Description" original="Import Natural Account Values">Увези вредности природних конта</value>
+ </row>
+ <row id="340" trl="N">
+  <value column="Name" original="Import Product">Увоз - производ</value>
+  <value column="Description" original="Import Products">Увези производе</value>
+ </row>
+ <row id="341" trl="N">
+  <value column="Name" original="System Translation Check">Провера превода система</value>
+  <value column="Description" original="Check System Language Translations">Провери превод системског језика</value>
+ </row>
+ <row id="342" trl="N">
+  <value column="Name" original="Asset">Актива</value>
+  <value column="Description" original="Asset used internally or by customers">Средства коришћена интерно или од стране купаца</value>
+ </row>
+ <row id="343" trl="N">
+  <value column="Name" original="Asset Group">Група средства</value>
+  <value column="Description" original="Group of Assets">Групе средстава</value>
+ </row>
+ <row id="344" trl="N">
+  <value column="Name" original="Training">Тренинг</value>
+  <value column="Description" original="Repeated Training">Поновљени тренинг</value>
+ </row>
+ <row id="345" trl="N">
+  <value column="Name" original="Assets">Средства</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="346" trl="N">
+  <value column="Name" original="Generate Shipments (manual)">Генерисање испорука (ручно)</value>
+  <value column="Description" original="Select and generate shipments">Избор и генерисање испорука</value>
+ </row>
+ <row id="347" trl="N">
+  <value column="Name" original="Print Invoices">Штампај фактуре</value>
+  <value column="Description" original="Print Invoices to paper or send PDF">Штампа фактура на папир или слање ПДФ-а</value>
+ </row>
+ <row id="348" trl="N">
+  <value column="Name" original="Deliver Assets">Испорука средстава</value>
+  <value column="Description" original="Deliver Customer Assets electronically">Испорука средстава купцу електронски</value>
+ </row>
+ <row id="349" trl="N">
+  <value column="Name" original="Expenses (not reimbursed)">Расходи (који нису рефундирани)</value>
+  <value column="Description" original="View expenses and charges not reimbursed">Погледај расходе и трошкове који нису рефундирани</value>
+ </row>
+ <row id="350" trl="N">
+  <value column="Name" original="Statement of Accounts">Изјава о контима</value>
+  <value column="Description" original="Report Account Statement Beginning Balance and Transactions">Извештај изјаве о контима - почетни биланс и трансакције</value>
+ </row>
+ <row id="351" trl="N">
+  <value column="Name" original="SQL Process">SQL процес</value>
+  <value column="Description" original="Process SQL Statements">Обради SQL наредбе</value>
+ </row>
+ <row id="352" trl="N">
+  <value column="Name" original="Accounting Fact Balances">Биланси ставова књижења</value>
+  <value column="Description" original="Query Accounting Daily Balances">Упит над билансима ставова књижења</value>
+ </row>
+ <row id="353" trl="N">
+  <value column="Name" original="Attribute Set">Комплет особина</value>
+  <value column="Description" original="Maintain Product Attribute Set">Одржавање комплета особина производа</value>
+ </row>
+ <row id="354" trl="N">
+  <value column="Name" original="Serial No Control">Контрола серијског броја</value>
+  <value column="Description" original="Product Serial Number Control">Контрола серијског броја производа</value>
+ </row>
+ <row id="355" trl="N">
+  <value column="Name" original="Lot Control">Контрола шарже</value>
+  <value column="Description" original="Product Lot Control">Контрола шарже производа</value>
+ </row>
+ <row id="356" trl="N">
+  <value column="Name" original="Lot">Шаржа</value>
+  <value column="Description" original="Product Lot Definition">Дефиниција шарже производа</value>
+ </row>
+ <row id="357" trl="N">
+  <value column="Name" original="Product Attributes">Особине производа</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="358" trl="N">
+  <value column="Name" original="Attribute Search">Претрага особине</value>
+  <value column="Description" original="Common Search Attribute ">Основне особине претраге</value>
+ </row>
+ <row id="359" trl="N">
+  <value column="Name" original="Attribute">Особина</value>
+  <value column="Description" original="Product Attribute">Особина производа</value>
+ </row>
+ <row id="360" trl="N">
+  <value column="Name" original="Expense Invoice (Alpha)">Фактура расхода (алфа)</value>
+  <value column="Description" original="Payables expense invoices - This is Alpha Functionality">Уплате - фактуре расхода - непоуздана функционалност</value>
+ </row>
+ <row id="361" trl="N">
+  <value column="Name" original="Recurring">Враћајући</value>
+  <value column="Description" original="Recurring Document">Враћајући документ</value>
+ </row>
+ <row id="362" trl="N">
+  <value column="Name" original="Role Data Access">Улога - приступ подацима</value>
+  <value column="Description" original="Maintain Data Access Rules">Одржавање приступа подацима улоге</value>
+ </row>
+ <row id="363" trl="N">
+  <value column="Name" original="Import Inventory">Увоз залиха</value>
+  <value column="Description" original="Import Inventory Transactions">Увоз трансакција залиха</value>
+ </row>
+ <row id="364" trl="N">
+  <value column="Name" original="Project Type">Врста пројекта</value>
+  <value column="Description" original="Maintain Project Type and Phase">Одржавање врсте пројекта и фазе</value>
+ </row>
+ <row id="365" trl="N">
+  <value column="Name" original="Print Label">Штампа налепнице</value>
+  <value column="Description" original="Print Label Format">Штампа формата налепнице</value>
+ </row>
+ <row id="366" trl="N">
+  <value column="Name" original="Session Audit">Ревизија сесије</value>
+  <value column="Description" original="Audit of User Sessions">Ревизија корисничких сесија</value>
+ </row>
+ <row id="367" trl="N">
+  <value column="Name" original="Security">Безбедност</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="368" trl="N">
+  <value column="Name" original="Change Audit">Ревизија промена</value>
+  <value column="Description" original="Audit of data changes">Ревизија промена података</value>
+ </row>
+ <row id="369" trl="N">
+  <value column="Name" original="Time Type">Врста времена</value>
+  <value column="Description" original="Maintain Time Recording Type">Одржавање врсте бележења времена</value>
+ </row>
+ <row id="370" trl="N">
+  <value column="Name" original="Cost Type">Врста коштања</value>
+  <value column="Description" original="Maintain Cost Types">Одржавање врста трошкова</value>
+ </row>
+ <row id="371" trl="N">
+  <value column="Name" original="Advertisement">Реклама</value>
+  <value column="Description" original="Web Advertisement">Веб рекламирање</value>
+ </row>
+ <row id="372" trl="N">
+  <value column="Name" original="Web">Веб</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="373" trl="N">
+  <value column="Name" original="Import Bank Statement">Увоз извода из банке</value>
+  <value column="Description" original="Import Bank Statements">Увоз извода из банака</value>
+ </row>
+ <row id="374" trl="N">
+  <value column="Name" original="Import Payment">Увези плаћања</value>
+  <value column="Description" original="Import Payments">Увиз уплата</value>
+ </row>
+ <row id="375" trl="N">
+  <value column="Name" original="Click">Клик</value>
+  <value column="Description" original="Maintain Web Click">Одржавање веб кликова</value>
+ </row>
+ <row id="376" trl="N">
+  <value column="Name" original="Import Order">Увези наруџбеницу</value>
+  <value column="Description" original="Import Orders">Увези наруџбенице</value>
+ </row>
+ <row id="377" trl="N">
+  <value column="Name" original="Invoice Payment Schedule">Распоред уплата фактура</value>
+  <value column="Description" original="Maintain Invoice Payment Schedule">Одржавање распореда уплата фактура</value>
+ </row>
+ <row id="378" trl="N">
+  <value column="Name" original="Import GL Journal">Увези дневник главне књиге</value>
+  <value column="Description" original="Import General Ledger Journals">Увези дневник главне књиге</value>
+ </row>
+ <row id="379" trl="N">
+  <value column="Name" original="Alert">Аларм</value>
+  <value column="Description" original="Adempiere Alert">Адемпјеров аларм</value>
+ </row>
+ <row id="380" trl="N">
+  <value column="Name" original="Counter">Бројач</value>
+  <value column="Description" original="Web Counter">Веб бројач</value>
+ </row>
+ <row id="381" trl="N">
+  <value column="Name" original="Freight Category">Категорија превознине</value>
+  <value column="Description" original="Maintain Freight Categories">Одржавање катагорија превознине</value>
+ </row>
+ <row id="382" trl="N">
+  <value column="Name" original="Import Invoice">Увези фактуре</value>
+  <value column="Description" original="Import Invoices">Увези фактуре</value>
+ </row>
+ <row id="383" trl="N">
+  <value column="Name" original="Cache Reset">Ресетовање кеша</value>
+  <value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">Ресетује кеш система ** Затворити све прозоре пре наставка **</value>
+ </row>
+ <row id="384" trl="N">
+  <value column="Name" original="Accounting Dimensions">Контна аналитика</value>
+  <value column="Description" original="Maintain Non-Account Dimension Trees">Одржавање не-контних стабала аналитике</value>
+ </row>
+ <row id="385" trl="N">
+  <value column="Name" original="Replication">Репликација</value>
+  <value column="Description" original="Maintain Data Replication Targets">Одржавање циљних мета репликације</value>
+ </row>
+ <row id="386" trl="N">
+  <value column="Name" original="Replication Strategy">Стратегија репликације</value>
+  <value column="Description" original="Maintain Data Replication Strategy">Одржавање стратегије репликације</value>
+ </row>
+ <row id="387" trl="N">
+  <value column="Name" original="Project (Lines/Issues)">Пројекат (ставке/издања)</value>
+  <value column="Description" original="Maintain Sales Order and Work Order Details">Одржавање налога продаје и детаља радних налога</value>
+ </row>
+ <row id="388" trl="N">
+  <value column="Name" original="Knowledge Base">База знања</value>
+  <value column="Description" original="Maintain Knowledge Base">Одржавање базе знања</value>
+ </row>
+ <row id="389" trl="N">
+  <value column="Name" original="Knowledge Category">Категорија знања</value>
+  <value column="Description" original="Maintain Knoweledge Categories and Values">Одржавање категорија знања и вредности</value>
+ </row>
+ <row id="390" trl="N">
+  <value column="Name" original="Knowledge Synonym">Синоним знања</value>
+  <value column="Description" original="Knowlege Keyword Synonym">Кључна реч синонима Знања</value>
+ </row>
+ <row id="391" trl="N">
+  <value column="Name" original="Knowledge Source">Извор знања</value>
+  <value column="Description" original="Source of Knowledge Entries">Извор уноса знања</value>
+ </row>
+ <row id="392" trl="N">
+  <value column="Name" original="Knowledge Base">База знања</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="393" trl="N">
+  <value column="Name" original="Update Accounting Balance">Ажурирање контних биланса</value>
+  <value column="Description" original="Update Daily Accounting Balances">Ажурирај дневне контне билансе</value>
+ </row>
+ <row id="394" trl="N">
+  <value column="Name" original="Business Partner Info">Информације о комитенту</value>
+  <value column="Description" original="Document Information of Business Partners">Информације документације пословних партнера</value>
+ </row>
+ <row id="395" trl="N">
+  <value column="Name" original="Replication Setup">Подешавање репликације</value>
+  <value column="Description" original="Setup of data replication">Подешавање репликационих података</value>
+ </row>
+ <row id="396" trl="N">
+  <value column="Name" original="Send Mail Text">Пошаљи имејл текст</value>
+  <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Пошаљи имејл ка активним претплатницима у интересној области или групи пословних партнера од изабраног корисника</value>
+ </row>
+ <row id="397" trl="N">
+  <value column="Name" original="Merge Entities">Спајање ентитета</value>
+  <value column="Description" original="Merge From Entity to To Entity - Delete From">Споји од ентитета ка ентитету - обриши од</value>
+ </row>
+ <row id="398" trl="N">
+  <value column="Name" original="Project Cycle Report">Извештај циклуса пројекта</value>
+  <value column="Description" original="Report Projects based on Project Cycle">Извештај пројеката базиран на пројектним циклусима</value>
+ </row>
+ <row id="399" trl="N">
+  <value column="Name" original="Customer Assets">Средства купца</value>
+  <value column="Description" original="Report Customer Assets with Delivery Count">Извештај средстава купца са бројем испорука</value>
+ </row>
+ <row id="400" trl="N">
+  <value column="Name" original="Asset Delivery Details">Испорука средстава - детаљи</value>
+  <value column="Description" original="Report Asset Deliveries Details">Извештај о детаљима испорука средстава</value>
+ </row>
+ <row id="401" trl="N">
+  <value column="Name" original="Issue to Project">Издавање за пројекат</value>
+  <value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">Издавање материјала за пројекат на основу пријемнице или ручно - са локације инвентара</value>
+ </row>
+ <row id="402" trl="N">
+  <value column="Name" original="Generate PO from Project">Генерисање налога за набавку на основу пројекта</value>
+  <value column="Description" original="Generate PO from Project Line(s)">Генерисање налога за набавку на основу ставки пројекта</value>
+ </row>
+ <row id="403" trl="N">
+  <value column="Name" original="Project Detail Accounting Report">Детаљи пројекта - рачуноводствени извештај</value>
+  <value column="Description" original="Accounting Fact Details of Project">Детаљи ставова књижења за пројекат</value>
+ </row>
+ <row id="404" trl="N">
+  <value column="Name" original="Project Lines not Issued">Ставке пројекта које нису издате</value>
+  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Списак ставки пројекта радног налога или пројекта средстава, који нису издати као пројекат</value>
+ </row>
+ <row id="405" trl="N">
+  <value column="Name" original="Project POs not Issued">Налог за набавку унутар пројетка није издат</value>
+  <value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Списак ставки пројекта са генерисаним налозима за набавку радног налога или пројекта средстава, који нису издати од стране пројекта</value>
+ </row>
+ <row id="406" trl="N">
+  <value column="Name" original="RePrice Order/Invoice">Поново уреди цене налога/фактуре</value>
+  <value column="Description" original="Recalculate the price based on the latest price list version of an open order or invoice">Прерачунај цену базирану на последњој верзији ценовника од отвореног налога или фактуре</value>
+ </row>
+ <row id="407" trl="N">
+  <value column="Name" original="Quote convert">Конвертовање понуде</value>
+  <value column="Description" original="Convert open Proposal or Quotation to Order">Конвертовање отворених понуда у налог</value>
+ </row>
+ <row id="408" trl="N">
+  <value column="Name" original="Label Printer">Штампач налепница</value>
+  <value column="Description" original="Maintain Label Printer Definition">Одржавање дефиниције штамапча налепница</value>
+ </row>
+ <row id="409" trl="N">
+  <value column="Name" original="Verify Document Types">Провера типова документа</value>
+  <value column="Description" original="Verify Document Types and Period Controls">Провера типова документа и контроле периода</value>
+ </row>
+ <row id="410" trl="N">
+  <value column="Name" original="Project Margin (Work Order)">Маржа пројекта (радни налог)</value>
+  <value column="Description" original="Work Order Project Lines (planned revenue) vs. Project Issues (costs)">Ставке пројекта радног налога (планиран приход) у односу на Издавање пројекта (трошкови)</value>
+ </row>
+ <row id="411" trl="N">
+  <value column="Name" original="Storage Detail">Складиштење детаљи</value>
+  <value column="Description" original="Storage Detail Report">Извештај детаља складиштења</value>
+ </row>
+ <row id="412" trl="N">
+  <value column="Name" original="Transaction Detail">Детаљи трансакције</value>
+  <value column="Description" original="Transaction Detail Report">Извештај детаља трансакције</value>
+ </row>
+ <row id="413" trl="N">
+  <value column="Name" original="Aging">Застаревање</value>
+  <value column="Description" original="Aging Report">Извештај застаревања</value>
+ </row>
+ <row id="414" trl="N">
+  <value column="Name" original="Sales Rep Info">Информације о референту продаје</value>
+  <value column="Description" original="Company Agent (Sales Rep) Information">Информације референта продаје</value>
+ </row>
+ <row id="415" trl="N">
+  <value column="Name" original="Clicks Monthy">Кликова месечно</value>
+  <value column="Description" original="Clicks per Month">Кликова месечно</value>
+ </row>
+ <row id="416" trl="N">
+  <value column="Name" original="Clicks Unprocessed">Необрађени кликови</value>
+  <value column="Description" original="Unprocessed Clicks">Необрађени кликови</value>
+ </row>
+ <row id="417" trl="N">
+  <value column="Name" original="UnPosted Documents">Непрокњижени документи</value>
+  <value column="Description" original="Unposted Documents">Некњижени документи</value>
+ </row>
+ <row id="418" trl="N">
+  <value column="Name" original="Currency Type">Врста валуте</value>
+  <value column="Description" original="Maintain Currency Conversion Rate Types">Одржавање типова стопа валута за конверзију</value>
+ </row>
+ <row id="419" trl="N">
+  <value column="Name" original="POS">Каса</value>
+  <value column="Description" original="Point Of Sales Terminal">Терминал продајног места</value>
+ </row>
+ <row id="420" trl="N">
+  <value column="Name" original="Business Partner Organization">Организација пословног партнера</value>
+  <value column="Description" original="Set and verify Organization ownership of Business Partners">Постави и верификуј власништво организације пословних партнера</value>
+ </row>
+ <row id="421" trl="N">
+  <value column="Name" original="Product Organization">Организација производа</value>
+  <value column="Description" original="Set and verify Organization ownership of Products">Постави и верификуј власништво организације артикала</value>
+ </row>
+ <row id="422" trl="N">
+  <value column="Name" original="Warehouse Organization">Организација складишта</value>
+  <value column="Description" original="Set and verify Organization ownership of Warehouse">Постави и верификуј власништво организације магацина</value>
+ </row>
+ <row id="423" trl="N">
+  <value column="Name" original="Load Bank Statement">Учитавање извода из банке</value>
+  <value column="Description" original="Load Bank Statement">Учитавање извода из банке</value>
+ </row>
+ <row id="424" trl="N">
+  <value column="Name" original="Delete Import">Обрисати увоз</value>
+  <value column="Description" original="Delete all data in Import Table">Обрисати све податке у табели увоза</value>
+ </row>
+ <row id="425" trl="N">
+  <value column="Name" original="Import Currency Rate">Увези курсну листу</value>
+  <value column="Description" original="Import Currency Conversion Rates">Увези курсну листу</value>
+ </row>
+ <row id="426" trl="N">
+  <value column="Name" original="BOM Drop">Уклони саставницу</value>
+  <value column="Description" original="Drop (expand) Bill of Materials">Уклони (прошири) саставницу</value>
+ </row>
+ <row id="427" trl="N">
+  <value column="Name" original="Workflow Responsible">Одговоран за радни ток</value>
+  <value column="Description" original="Responsible for Workflow Execution">Лице одговорно за извршавање радног тока</value>
+ </row>
+ <row id="428" trl="N">
+  <value column="Name" original="Workflow Process">Процес радног тока</value>
+  <value column="Description" original="Monitor workflow processes">Праћење процеса радног тока</value>
+ </row>
+ <row id="429" trl="N">
+  <value column="Name" original="Workflow Activities (all)">Активности радног тока (све)</value>
+  <value column="Description" original="Monitor all Workflow activities">Прати све активности радног тока</value>
+ </row>
+ <row id="430" trl="N">
+  <value column="Name" original="Registration Attributes">Особине регистрације</value>
+  <value column="Description" original="Asset Registration Attributes">Средства - особине регистрације</value>
+ </row>
+ <row id="431" trl="N">
+  <value column="Name" original="Registration">Регистрација</value>
+  <value column="Description" original="User Asset Registration">Регистрација корисничких средстава</value>
+ </row>
+ <row id="432" trl="N">
+  <value column="Name" original="Invoice Tax">Порез фактуре</value>
+  <value column="Description" original="Invoice Tax Reconciliation">Поравнање пореза фактуре</value>
+ </row>
+ <row id="433" trl="N">
+  <value column="Name" original="Accounting Fact Details">Детаљи ставова књижења</value>
+  <value column="Description" original="Accounting Fact Details Report">Accounting Fact Details Report</value>
+ </row>
+ <row id="434" trl="N">
+  <value column="Name" original="Accounting Fact Daily">Детаљи књижења - дневно</value>
+  <value column="Description" original="Accounting Fact Details summarized by Accounting Date">Accounting Fact Details summarized by Accounting Date</value>
+ </row>
+ <row id="435" trl="N">
+  <value column="Name" original="Accounting Fact Period">Ставови књижења - период</value>
+  <value column="Description" original="Accounting Fact Details summarized by Accounting Period">Сумирани ставови књижења по рачуноводственом периоду</value>
+ </row>
+ <row id="436" trl="N">
+  <value column="Name" original="Reopen Order">Поново отворити налог</value>
+  <value column="Description" original="Open previously closed Order">Отворити претходно затворени налог</value>
+ </row>
+ <row id="437" trl="N">
+  <value column="Name" original="Bank Statement Matcher">Уклапање извода</value>
+  <value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments</value>
+ </row>
+ <row id="438" trl="N">
+  <value column="Name" original="Payment Batch">Пакетна обрада уплата</value>
+  <value column="Description" original="Process Payment Patches for EFT">Process Payment Patches for EFT</value>
+ </row>
+ <row id="439" trl="N">
+  <value column="Name" original="Workflow Processor">Процесор радних токова</value>
+  <value column="Description" original="Maintain Workflow Processor and Logs">Maintain Workflow Processor and Logs</value>
+ </row>
+ <row id="440" trl="N">
+  <value column="Name" original="Accounting Processor">Рачуноводствени процесор</value>
+  <value column="Description" original="Maintain Accounting Processor and Logs">Одржавање процесора радних токова и дневника догађаја</value>
+ </row>
+ <row id="441" trl="N">
+  <value column="Name" original="Organization Type">Врста организације</value>
+  <value column="Description" original="Maintain Organization Types">Одржавање врста организација</value>
+ </row>
+ <row id="442" trl="N">
+  <value column="Name" original="Auction Buyer">Купац аукције</value>
+  <value column="Description" original="Maintain Auction Buyer Information">Одржавање информација купца аукције</value>
+ </row>
+ <row id="443" trl="N">
+  <value column="Name" original="Auction Seller">Продавац аукције</value>
+  <value column="Description" original="Maintain Auction Seller Information">Одржавање информација продавца аукције</value>
+ </row>
+ <row id="444" trl="N">
+  <value column="Name" original="Package">Пакет</value>
+  <value column="Description" original="Manage Shipment Packages">Одржавање пакета испоруке</value>
+ </row>
+ <row id="445" trl="N">
+  <value column="Name" original="Distribution List">Дистрибуциона листа</value>
+  <value column="Description" original="Maintain Distribution Lists">Одржавање дистрибуционих листа</value>
+ </row>
+ <row id="446" trl="N">
+  <value column="Name" original="Alert Processor">Обрађивач аларма</value>
+  <value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">Одржавање параметара аларма сервера и дневника догађаја</value>
+ </row>
+ <row id="447" trl="N">
+  <value column="Name" original="Bid Topic">Одељак за лицитацију</value>
+  <value column="Description" original="Topic with Bids and Offers">Одељак за лицитацију и понуде</value>
+ </row>
+ <row id="448" trl="N">
+  <value column="Name" original="Subscription Type">Врста претплате</value>
+  <value column="Description" original="Maintain Subscription Types">Одржавање типова претплате</value>
+ </row>
+ <row id="449" trl="N">
+  <value column="Name" original="Subscription">Претплата</value>
+  <value column="Description" original="Maintain Subscriptions and Deliveries">Одржавање претплата и испорука</value>
+ </row>
+ <row id="450" trl="N">
+  <value column="Name" original="Scheduler">Распоред</value>
+  <value column="Description" original="Maintain Schedule Processes and Logs">Maintain Schedule Processes and Logs</value>
+ </row>
+ <row id="451" trl="N">
+  <value column="Name" original="Partner Relation">Односи са партнерима</value>
+  <value column="Description" original="Maintain Business Partner Relations">Maintain Business Partner Relations</value>
+ </row>
+ <row id="452" trl="N">
+  <value column="Name" original="RfQ Topic">Област захтева за понуду</value>
+  <value column="Description" original="Maintain RfQ Topics and Subscribers">Одржавање области ЗЗП и претплатника</value>
+ </row>
+ <row id="453" trl="N">
+  <value column="Name" original="Auction Topic Type">Врста области аукције</value>
+  <value column="Description" original="Maintain Auction Topic Type and Categories">Одржавање врсти области аукција и категорија</value>
+ </row>
+ <row id="454" trl="N">
+  <value column="Name" original="RfQ">Захтеви за понуду</value>
+  <value column="Description" original="Manage Request for Quotations">Manage Request for Quotations</value>
+ </row>
+ <row id="455" trl="N">
+  <value column="Name" original="RMA">Књижно писмо</value>
+  <value column="Description" original="Manage Return Material Authorization">Уређивање овере књижних писама</value>
+ </row>
+ <row id="456" trl="N">
+  <value column="Name" original="Server">Сервер</value>
+  <value column="Description" original="Adempiere Server Maintenance">Адемпјер одржавање сервера</value>
+ </row>
+ <row id="457" trl="N">
+  <value column="Name" original="Sales Orders">Налози за продају</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="458" trl="N">
+  <value column="Name" original="Sales Invoices">Фактуре</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="459" trl="N">
+  <value column="Name" original="Shipments">Испоруке</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="460" trl="N">
+  <value column="Name" original="Market Place">Тржиште</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="461" trl="N">
+  <value column="Name" original="Sequence Check">Провера секвенце</value>
+  <value column="Description" original="Check System and Document Sequences">Провера секвенци система и докумената</value>
+ </row>
+ <row id="462" trl="N">
+  <value column="Name" original="Dunning Run">Покретање опомена</value>
+  <value column="Description" original="Manage Dunning Runs">Управљање покретањем опомена</value>
+ </row>
+ <row id="463" trl="N">
+  <value column="Name" original="Requisition">Требовање</value>
+  <value column="Description" original="Material Requisition">Требовање материјала</value>
+ </row>
+ <row id="464" trl="N">
+  <value column="Name" original="GL Distribution">ГК дистрибуција</value>
+  <value column="Description" original="General Ledger Distribution">Главна књига - дистрибуција</value>
+ </row>
+ <row id="465" trl="N">
+  <value column="Name" original="Tree Maintenance">Одржавање стабла</value>
+  <value column="Description" original="Maintain Trees">Одржавање стабла</value>
+ </row>
+ <row id="466" trl="N">
+  <value column="Name" original="RfQ Response">Одговори захтева за понудама</value>
+  <value column="Description" original="Manage RfQ Responses">Управљање одговорима захтева за понудама</value>
+ </row>
+ <row id="467" trl="N">
+  <value column="Name" original="RfQ Response">Одговори захтева за понудама</value>
+  <value column="Description" original="Detail RfQ Responses">Детаљи захтева за понудама</value>
+ </row>
+ <row id="468" trl="N">
+  <value column="Name" original="RfQ Unanswered">Неодговорени захтеви за понудама</value>
+  <value column="Description" original="Outstanding RfQ Responses">Outstanding RfQ Responses</value>
+ </row>
+ <row id="469" trl="N">
+  <value column="Name" original="Workflow Editor">Уређиваћ радног тока</value>
+  <value column="Description" original="Edit Workflows">Ажурирање радног тока</value>
+ </row>
+ <row id="470" trl="N">
+  <value column="Name" original="Workflow Activities">Активности радног тока</value>
+  <value column="Description" original="My active workflow activities">Моје активности радног тока</value>
+ </row>
+ <row id="471" trl="N">
+  <value column="Name" original="Open Requisitions">Отворена требовања</value>
+  <value column="Description" original="Detail Open Requisition Information">Детаљи информације о отвореним требовањима</value>
+ </row>
+ <row id="472" trl="N">
+  <value column="Name" original="Distribution Run">Покретање дистрибуције</value>
+  <value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">Distribution Run create Orders to distribute products to a selected list of partners</value>
+ </row>
+ <row id="473" trl="N">
+  <value column="Name" original="UnLink Business Partner Org">Раскини везу комитента и организације</value>
+  <value column="Description" original="UnLink Business Partner from an Organization">Раскини везу пословног партнера од организације</value>
+ </row>
+ <row id="474" trl="N">
+  <value column="Name" original="Asset Delivery Month">Испорука средстава месечно</value>
+  <value column="Description" original="Report Asset Deliveries Summary per month">Месечни извештај о испоруци средстава</value>
+ </row>
+ <row id="475" trl="N">
+  <value column="Name" original="Access Audit">Ревизија приступа</value>
+  <value column="Description" original="Audit of Access to data or resources">Ревизија приступа подацима или ресурсима</value>
+ </row>
+ <row id="476" trl="N">
+  <value column="Name" original="Counter Document">Бројач документа</value>
+  <value column="Description" original="Maintain Counter Document Types">Maintain Counter Document Types</value>
+ </row>
+ <row id="477" trl="N">
+  <value column="Name" original="Demand">Тражња</value>
+  <value column="Description" original="Maintain Material Demand">Одржавање тражње материјала</value>
+ </row>
+ <row id="478" trl="N">
+  <value column="Name" original="Forecast">Предвиђање</value>
+  <value column="Description" original="Maintain Material Forecast">Одржавање предвиђања материјала</value>
+ </row>
+ <row id="479" trl="N">
+  <value column="Name" original="Ship/Receipt Confirm">Потврда испоруке/пријема</value>
+  <value column="Description" original="Material Shipment or Receipt Confirmation">Потврда пријема или испоруке</value>
+ </row>
+ <row id="480" trl="N">
+  <value column="Name" original="RMA Type">Врста књижног писма</value>
+  <value column="Description" original="Return Material Authorization Type">Врста овере књижних писама</value>
+ </row>
+ <row id="481" trl="N">
+  <value column="Name" original="Open Confirmation Details">Детаљи отверене потврде</value>
+  <value column="Description" original="Open Shipment or Receipt Confirmation Details">Open Shipment or Receipt Confirmation Details</value>
+ </row>
+ <row id="482" trl="N">
+  <value column="Name" original="Open Confirmations">Отворене потврде</value>
+  <value column="Description" original="Open Shipment or Receipt Confirmations">Open Shipment or Receipt Confirmations</value>
+ </row>
+ <row id="483" trl="N">
+  <value column="Name" original="Process Audit">Процесирање ревизије</value>
+  <value column="Description" original="Audit process use">Audit process use</value>
+ </row>
+ <row id="484" trl="N">
+  <value column="Name" original="Move Confirmation">Потврда доставнице</value>
+  <value column="Description" original="Confirm Inventory Moves">Потврдити доставницу</value>
+ </row>
+ <row id="485" trl="N">
+  <value column="Name" original="Print Format Detail">Формат штампе детаљи</value>
+  <value column="Description" original="Print Format Detail Report">Print Format Detail Report</value>
+ </row>
+ <row id="486" trl="N">
+  <value column="Name" original="Import Confirmations">Увези потврде</value>
+  <value column="Description" original="Import Receipt/Shipment Confirmation Lines">Import Receipt/Shipment Confirmation Lines</value>
+ </row>
+ <row id="487" trl="N">
+  <value column="Name" original="Reset Password">Ресетуј лозинку</value>
+  <value column="Description" original="Reset Passwords for User">Ресетуј лозинку корисника</value>
+ </row>
+ <row id="488" trl="N">
+  <value column="Name" original="SLA Criteria">SLA критеријум</value>
+  <value column="Description" original="Service Level Agreement Criteria">Service Level Agreement Criteria</value>
+ </row>
+ <row id="489" trl="N">
+  <value column="Name" original="SLA by Partner">SLA по партнеру</value>
+  <value column="Description" original="Service Level Agreement">Service Level Agreement</value>
+ </row>
+ <row id="490" trl="N">
+  <value column="Name" original="Price List Schema">Шаблон ценовника</value>
+  <value column="Description" original="Maintain Price List Schema">Maintain Price List Schema</value>
+ </row>
+ <row id="491" trl="N">
+  <value column="Name" original="POS Terminal">ПОС терминал</value>
+  <value column="Description" original="Maintain your Point of Sales Terminal">Maintain your Point of Sales Terminal</value>
+ </row>
+ <row id="492" trl="N">
+  <value column="Name" original="POS Key Layout">ПОС распоред тастера</value>
+  <value column="Description" original="POS Function Key Layout">ПОС распоред функцијских тастера</value>
+ </row>
+ <row id="493" trl="N">
+  <value column="Name" original="Material Receipt Details">Детаљи пријемнице</value>
+  <value column="Description" original="Material Receipt Detail Information">Material Receipt Detail Information</value>
+ </row>
+ <row id="494" trl="N">
+  <value column="Name" original="Shipment Details">Детаљи отпремница</value>
+  <value column="Description" original="Shipment Detail Information">Информације о детаљима испоруке (отпремнице)</value>
+ </row>
+ <row id="495" trl="N">
+  <value column="Name" original="Role Access Update">Ажурирање права приступа улога</value>
+  <value column="Description" original="Update the access rights of a role or roles of a client">Ажурирање права приступа групе или група клијента</value>
+ </row>
+ <row id="496" trl="N">
+  <value column="Name" original="Reset Allocation">Поништавање расподеле</value>
+  <value column="Description" original="Reset (delete) allocation of invoices to payments">Поништавање (брисање) расподеле уплата фактура</value>
+ </row>
+ <row id="497" trl="N">
+  <value column="Name" original="Auto Allocation">Аутоматска расподела</value>
+  <value column="Description" original="Automatic allocation of invoices to payments">Automatic allocation of invoices to payments</value>
+ </row>
+ <row id="498" trl="N">
+  <value column="Name" original="System Registration">Регистрација система</value>
+  <value column="Description" original="Register your System">Региструјте Ваш систем</value>
+ </row>
+ <row id="499" trl="N">
+  <value column="Name" original="Reapply Customizations">Reapply Customizations</value>
+  <value column="Description" original="If you identified customizations in the Change Log, you can reapply them">If you identified customizations in the Change Log, you can reapply them</value>
+ </row>
+ <row id="500" trl="N">
+  <value column="Name" original="Workflow to Client">Радни ток за клијента</value>
+  <value column="Description" original="Move custom workflow elements to the current client">Move custom workflow elements to the current client</value>
+ </row>
+ <row id="501" trl="N">
+  <value column="Name" original="Workflow">Радни ток</value>
+  <value column="Description" original="Adempiere Workflow">Адемпјер радниток</value>
+ </row>
+ <row id="502" trl="N">
+  <value column="Name" original="Trial Balance">Пробни биланс</value>
+  <value column="Description" original="Trial Balance for a period or date range">Пробни биланс за временски период</value>
+ </row>
+ <row id="503" trl="N">
+  <value column="Name" original="Internal Use Inventory">Инвентар за интерну употребу</value>
+  <value column="Description" original="Enter Internal Use of Inventory">Enter Internal Use of Inventory</value>
+ </row>
+ <row id="504" trl="N">
+  <value column="Name" original="Product UOM Convert">Конвертовање ЈМ производа</value>
+  <value column="Description" original="Brack-up or repackage same Products with different UOM">Brack-up or repackage same Products with different UOM</value>
+ </row>
+ <row id="505" trl="N">
+  <value column="Name" original="Print Dunning Letters">Штампај писма опомене</value>
+  <value column="Description" original="Print Dunning letters to paper or send PDF">Print Dunning letters to paper or send PDF</value>
+ </row>
+ <row id="506" trl="N">
+  <value column="Name" original="Validate Business Partner">Провери пословног партнера</value>
+  <value column="Description" original="Check data consistency of Business Partner">Провера конзистетности података пословног партнера</value>
+ </row>
+ <row id="507" trl="N">
+  <value column="Name" original="Order Batch Process">Пакетна обрада налога</value>
+  <value column="Description" original="Process Orders in Batch">Пакетно обради налоге</value>
+ </row>
+ <row id="508" trl="N">
+  <value column="Name" original="Archive Viewer">Прегледач архива</value>
+  <value column="Description" original="View automatically archived Documents">View automatically archived Documents</value>
+ </row>
+ <row id="509" trl="N">
+  <value column="Name" original="UnAllocated Invoices">Нерасподељене фактуре</value>
+  <value column="Description" original="Invoices not allocated to Payments">Invoices not allocated to Payments</value>
+ </row>
+ <row id="510" trl="N">
+  <value column="Name" original="UnAllocated Payments">Нерасподељене уплате</value>
+  <value column="Description" original="Payments not allocated to Invoices">Payments not allocated to Invoices</value>
+ </row>
+ <row id="511" trl="N">
+  <value column="Name" original="Payment Details">Детаљи уплате</value>
+  <value column="Description" original="Payment Detail Report">Payment Detail Report</value>
+ </row>
+ <row id="512" trl="N">
+  <value column="Name" original="Business Partner Open">Незатворено - комитент</value>
+  <value column="Description" original="Business Partner Open Amount">Business Partner Open Amount</value>
+ </row>
+ <row id="513" trl="N">
+  <value column="Name" original="Commission Run Detail">Покретање провизије - детаљно</value>
+  <value column="Description" original="Commission Run Detail Report">Покретање извештаја о детаљима комисионе продаје</value>
+ </row>
+ <row id="514" trl="N">
+  <value column="Name" original="Synchronize Doc Translation">Синхронизовање док. превода</value>
+  <value column="Description" original="Synchronize Document Translation">Синхронизовање док. превода</value>
+ </row>
+ <row id="515" trl="N">
+  <value column="Name" original="Material Reference">Материјална референца</value>
+  <value column="Description" original="Material Transactions Cross Reference (used/resourced)">Material Transactions Cross Reference (used/resourced)</value>
+ </row>
+ <row id="516" trl="N">
+  <value column="Name" original="Invoice Batch">Пакетна обрада фактура</value>
+  <value column="Description" original="Expense Invoice Batch">Рачуни трошкова - пакетна обрада</value>
+ </row>
+ <row id="517" trl="N">
+  <value column="Name" original="Window Customization">Прилагођавање прозора</value>
+  <value column="Description" original="Define Window Customization for Role/User">Дефинисање подешавање прозора за улогу/корисника</value>
+ </row>
+ <row id="518" trl="N">
+  <value column="Name" original="EDI Definition">ЕДИ дефиниција</value>
+  <value column="Description" original="Maintain EDI Definition">Одржавање ЕДИ дефиниција</value>
+ </row>
+ <row id="519" trl="N">
+  <value column="Name" original="EDI Transaction">ЕДИ трансакција</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="520" trl="N">
+  <value column="Name" original="Product Costs">Коштање производа</value>
+  <value column="Description" original="Maintain Product Costs">Одржавање коштања производа</value>
+ </row>
+ <row id="521" trl="N">
+  <value column="Name" original="Cost Element">Елемент коштања</value>
+  <value column="Description" original="Maintain Product Cost Element">Maintain Product Cost Element</value>
+ </row>
+ <row id="522" trl="N">
+  <value column="Name" original="Costing">Коштање</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="523" trl="N">
+  <value column="Name" original="Request Status">Захтев за статус</value>
+  <value column="Description" original="Maintain Request Status">Maintain Request Status</value>
+ </row>
+ <row id="524" trl="N">
+  <value column="Name" original="Request Standard Response">Захтев стандардног одговора</value>
+  <value column="Description" original="Maintain Request Standard Response ">Maintain Request Standard Response </value>
+ </row>
+ <row id="525" trl="N">
+  <value column="Name" original="Request Resolution">Захтев за решавање</value>
+  <value column="Description" original="Maintain Request Resolutions">Одржавање захтева за решавање</value>
+ </row>
+ <row id="526" trl="N">
+  <value column="Name" original="Request Group">Група захтева</value>
+  <value column="Description" original="Maintain Request Group">Одржавање групе захтева</value>
+ </row>
+ <row id="527" trl="N">
+  <value column="Name" original="Request Category">Категорија захтева</value>
+  <value column="Description" original="Maintain Request Category">Одржавање категорије захтева</value>
+ </row>
+ <row id="528" trl="N">
+  <value column="Name" original="Request">Захтеви</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="529" trl="N">
+  <value column="Name" original="Web Store">Web продавница</value>
+  <value column="Description" original="Define Web Store">Дефинишите веб продавницу</value>
+ </row>
+ <row id="530" trl="N">
+  <value column="Name" original="Position">Радно место</value>
+  <value column="Description" original="Maintain Job Positions">Одржавање радних места</value>
+ </row>
+ <row id="531" trl="N">
+  <value column="Name" original="Position Category">Категоризација радних места</value>
+  <value column="Description" original="Maintain Job Position Categories">Одржавање категорија радних места</value>
+ </row>
+ <row id="532" trl="N">
+  <value column="Name" original="Remuneration">Плате</value>
+  <value column="Description" original="Maintain Remuneration">Одржавање личних доходака</value>
+ </row>
+ <row id="533" trl="N">
+  <value column="Name" original="BOM Change Notice">Белешка о промени саставнице</value>
+  <value column="Description" original="Maintain Bill of Materials (Engineering) Change Notice (Version)">Maintain Bill of Materials (Engineering) Change Notice (Version)</value>
+ </row>
+ <row id="534" trl="N">
+  <value column="Name" original="Product BOM">Саставница производа</value>
+  <value column="Description" original="Maintain Product Bill of Materials">Maintain Product Bill of Materials</value>
+ </row>
+ <row id="535" trl="N">
+  <value column="Name" original="Invoice Requests">Захтеви за фактурама</value>
+  <value column="Description" original="Create Invoice for Requests">Create Invoice for Requests</value>
+ </row>
+ <row id="536" trl="N">
+  <value column="Name" original="Change Notice">Измена белешке</value>
+  <value column="Description" original="Maintain (Engineering) Change Notice (Version)">Maintain (Engineering) Change Notice (Version)</value>
+ </row>
+ <row id="537" trl="N">
+  <value column="Name" original="Storage Cleanup">Сређивање складишта</value>
+  <value column="Description" original="Inventory Storage Cleanup">Inventory Storage Cleanup</value>
+ </row>
+ <row id="538" trl="N">
+  <value column="Name" original="Invoice Not Realized Gain/Loss">Нереализоване фактуре - добитак/губитак</value>
+  <value column="Description" original="Invoice Not Realized Gain &amp; Loss Report">Извештај о нереализованим фактурама - добитак/губитак</value>
+ </row>
+ <row id="540" trl="N">
+  <value column="Name" original="Product Cost">Трошкови производа</value>
+  <value column="Description" original="Product Cost Report">Извештај коштања производа</value>
+ </row>
+ <row id="541" trl="N">
+  <value column="Name" original="Product Cost Summary">Резиме коштања производа</value>
+  <value column="Description" original="Product Cost Summary Report">Збирни извештај коштања производа</value>
+ </row>
+ <row id="542" trl="N">
+  <value column="Name" original="Product Cost Detail">Детаљи коштања производа</value>
+  <value column="Description" original="Product Invoice Cost Detail Report">Product Invoice Cost Detail Report</value>
+ </row>
+ <row id="543" trl="N">
+  <value column="Name" original="Order Detail">Налог детаљи</value>
+  <value column="Description" original="Order Detail Report">Извештај о детаљима налога</value>
+ </row>
+ <row id="544" trl="N">
+  <value column="Name" original="Business Partner Detail">Детаљи о комитенту</value>
+  <value column="Description" original="Business Partner Detail Report">Business Partner Detail Report</value>
+ </row>
+ <row id="545" trl="N">
+  <value column="Name" original="Attribute Set Instance">Пример комплета својстава</value>
+  <value column="Description" original="View Attribute Set Instance detail and use">View Attribute Set Instance detail and use</value>
+ </row>
+ <row id="546" trl="N">
+  <value column="Name" original="Create Costing Records">Креирање записа за коштање</value>
+  <value column="Description" original="Create Costing Records">Креирање записа за коштање</value>
+ </row>
+ <row id="547" trl="N">
+  <value column="Name" original="Tax Declaration">Декларација пореза</value>
+  <value column="Description" original="Define the declaration to the tax authorities">Define the declaration to the tax authorities</value>
+ </row>
+ <row id="548" trl="N">
+  <value column="Name" original="Reporting Hierarchy">Хиерархија извештавања</value>
+  <value column="Description" original="Define Reporting Hierarchy">Дефинисање хиерархије извештавања</value>
+ </row>
+ <row id="549" trl="N">
+  <value column="Name" original="Create PO from Requisition">Креирај налог за набавку - на основу требовања</value>
+  <value column="Description" original="Create Purchase Orders from Requisitions">На основу требовања креирати налог за набавку</value>
+ </row>
+ <row id="550" trl="N">
+  <value column="Name" original="Budget Control">Контрола буџета</value>
+  <value column="Description" original="Maintain Budget Controls">Maintain Budget Controls</value>
+ </row>
+ <row id="551" trl="N">
+  <value column="Name" original="GL Fund (Alpha)">GL Fund (Alpha)</value>
+  <value column="Description" original="Maintain Fund Controls">Maintain Fund Controls</value>
+ </row>
+ <row id="552" trl="N">
+  <value column="Name" original="System Issue Report">Извештај о проблемима система</value>
+  <value column="Description" original="Automatically created or manually entered System Issue Reports">Аутоматски креирани или ручно унешени извештаји проблема система </value>
+ </row>
+ <row id="553" trl="N">
+  <value column="Name" original="Quarter Invoice Product">Квартално фактурисање производа</value>
+  <value column="Description" original="Imvoice Report by Product per Quarter">Imvoice Report by Product per Quarter</value>
+ </row>
+ <row id="554" trl="N">
+  <value column="Name" original="Monthly Invoice Product">Месечно фактурисање производа</value>
+  <value column="Description" original="Imvoice Report by Product per Month">Imvoice Report by Product per Month</value>
+ </row>
+ <row id="555" trl="N">
+  <value column="Name" original="Performance Indicators">Индикатори перформанси</value>
+  <value column="Description" original="View Performance Indicators">Поглед на индикаторе перформанси</value>
+ </row>
+ <row id="556" trl="N">
+  <value column="Name" original="Performance Color Schema">Шема боја за индикаторе перформанси</value>
+  <value column="Description" original="Maintain Performance Color Schema">Одржавање шеме боја за индикаторе перформанси</value>
+ </row>
+ <row id="557" trl="N">
+  <value column="Name" original="Performance Benchmark">Performance Benchmark</value>
+  <value column="Description" original="Performance Benchmark">Performance Benchmark</value>
+ </row>
+ <row id="558" trl="N">
+  <value column="Name" original="Performance Ratio">Performance Ratio</value>
+  <value column="Description" original="Maintain Performance Ratios">Maintain Performance Ratios</value>
+ </row>
+ <row id="559" trl="N">
+  <value column="Name" original="Issue Recommendation">Издање препоруке</value>
+  <value column="Description" original="Maintain Issue Recommendation">Maintain Issue Recommendation</value>
+ </row>
+ <row id="560" trl="N">
+  <value column="Name" original="Issue Status">Статус издања</value>
+  <value column="Description" original="Maintain Issue Status">Maintain Issue Status</value>
+ </row>
+ <row id="561" trl="N">
+  <value column="Name" original="Known Issue">Познато издање</value>
+  <value column="Description" original="Maintain Known Issue">Maintain Known Issue</value>
+ </row>
+ <row id="562" trl="N">
+  <value column="Name" original="Issue Project">Издање - пројекат</value>
+  <value column="Description" original="Maintain Issue Management Project Links">Maintain Issue Management Project Links</value>
+ </row>
+ <row id="563" trl="N">
+  <value column="Name" original="Issue User">Издање - корисник</value>
+  <value column="Description" original="User who reported Issues">User who reported Issues</value>
+ </row>
+ <row id="564" trl="N">
+  <value column="Name" original="Issue System">Издање - систем</value>
+  <value column="Description" original="Maintain Systems">Maintain Systems</value>
+ </row>
+ <row id="565" trl="N">
+  <value column="Name" original="Product Attribute Grid">Мрежа особина производа</value>
+  <value column="Description" original="Maintain Products with Attributes in a Table Grid">Одржавање производа са својим особинама унутар табеле</value>
+ </row>
+ <row id="566" trl="N">
+  <value column="Name" original="Collaboration">Колаборација</value>
+  <value column="Description" original="Collaboration and Content Management">Колаборација и управљање садржајем</value>
+ </row>
+ <row id="570" trl="N">
+  <value column="Name" original="Template">Шаблон</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="573" trl="N">
+  <value column="Name" original="Media Item">Медијске ставке</value>
+  <value column="Description" original="Maintain Web Media">Maintain Web Media</value>
+ </row>
+ <row id="574" trl="N">
+  <value column="Name" original="News Channel">Канали новости</value>
+  <value column="Description" original="Define News Channels, write and publish articles">Define News Channels, write and publish articles</value>
+ </row>
+ <row id="576" trl="N">
+  <value column="Name" original="Web Ad Management">Управљање веб рекламама</value>
+  <value column="Description" original="Content Management Ad Management defines the needed categories and items">Content Management Ad Management defines the needed categories and items</value>
+ </row>
+ <row id="578" trl="N">
+  <value column="Name" original="View Chat">Погледај чет</value>
+  <value column="Description" original="View discussions / chats">View discussions / chats</value>
+ </row>
+ <row id="579" trl="N">
+  <value column="Name" original="Web Project">Web пројекат</value>
+  <value column="Description" original="Maintain Web Project (Content Management)">Maintain Web Project (Content Management)</value>
+ </row>
+ <row id="583" trl="N">
+  <value column="Name" original="Chat Type">Врста чета</value>
+  <value column="Description" original="Maintain Chat Types">Maintain Chat Types</value>
+ </row>
+ <row id="584" trl="N">
+  <value column="Name" original="Deploy Web Project">Deploy Web Project</value>
+  <value column="Description" original="Deploy Web Project">Deploy Web Project</value>
+ </row>
+ <row id="585" trl="N">
+  <value column="Name" original="Verify BOMs">Провера саставнице</value>
+  <value column="Description" original="Verify BOM Structures">Провера структуре саставнице</value>
+ </row>
+ <row id="586" trl="N">
+  <value column="Name" original="Entity Type">Врста ентитета</value>
+  <value column="Description" original="Maintain System Entity Type">Maintain System Entity Type</value>
+ </row>
+ <row id="587" trl="N">
+  <value column="Name" original="Web Access">Веб приступ</value>
+  <value column="Description" original="Maintain Web Access">Одржавање веб приступа</value>
+ </row>
+ <row id="588" trl="N">
+  <value column="Name" original="Web Broadcast Server">Веб сервер за емитовање</value>
+  <value column="Description" original="Maintain Web Broadcast Server">Одржавање веб сервера за емитовање</value>
+ </row>
+ <row id="589" trl="N">
+  <value column="Name" original="Info Window">Информациони прозор</value>
+  <value column="Description" original="Define Info and search/select Window">Define Info and search/select Window</value>
+ </row>
+ <row id="590" trl="N">
+  <value column="Name" original="Text Index">Индекс текстова</value>
+  <value column="Description" original="Maintain Text Search Index">Maintain Text Search Index</value>
+ </row>
+ <row id="591" trl="N">
+  <value column="Name" original="Text Index Stop">Индекс текстова стоп</value>
+  <value column="Description" original="Maintain keywords not to be indexed">Одржавање кључних речи које се не индексирају</value>
+ </row>
+ <row id="592" trl="N">
+  <value column="Name" original="Text Search Log">Дневник претраге текста</value>
+  <value column="Description" original="View Text Search Log">Погледај дневник претраге текста</value>
+ </row>
+ <row id="593" trl="N">
+  <value column="Name" original="Rebuild Index">Поново изгради индекс</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="594" trl="N">
+  <value column="Name" original="LDAP Server">ЛДАП сервер</value>
+  <value column="Description" original="LDAP Server to authenticate and authorize external systems based on Adempiere">LDAP Server to authenticate and authorize external systems based on Adempiere</value>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Application Packaging">Паковање апликације</value>
+  <value column="Description" original="Import and export packaging">Извоз и увоз паковања</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Packages Installed">Инсталирани пакети</value>
+  <value column="Description" original="List of packages installed">Списак пакета који су инсталирани</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Package Maintenance">Одржавање пакета</value>
+  <value column="Description" original="Package installation history and maintenance">Одржавање историје инсталације пакета</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="PackOut - Create a package">PackOut - креирање пакета</value>
+  <value column="Description" original="Package build Application">Пакет изградња апликације</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Common Package Details">Основни детаљи пакета</value>
+  <value column="Description" original="Maintain Common Package Details">Одржавање основних детаља пакета</value>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="PackIn - Import a package">PackIn - увоз пакета</value>
+  <value column="Description" original="Imports a package">Увоз пакета</value>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="CopyRole">Копирање улоге</value>
+  <value column="Description" original="Copy Role">Копирање улоге</value>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="System Configurator">Подешивач система</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Request EMail Processor">Захтевај имејл процесор</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Dashboard Content Edit">Уређивање садржаја огласне табле</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="52000" trl="N">
+  <value column="Name" original="Update Role Menu">Ажурирај мени улога</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="52001" trl="N">
+  <value column="Name" original="Web POS">Веб POS</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="52002" trl="N">
+  <value column="Name" original="Web POS Menu">Веб ПОС мени</value>
+  <value column="Description" original="To dynamically generate the menu links in web POS">Да динамички генеришете линкове менија у веб ПОС-у</value>
+ </row>
+ <row id="52003" trl="N">
+  <value column="Name" original="Web POS Role Menu">Веб ПОС мени улога</value>
+  <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">У зависност од улоге, различити сет менија је генерисан и доступан.</value>
+ </row>
+ <row id="52004" trl="N">
+  <value column="Name" original="Web POS Properties">Веб ПОС особине</value>
+  <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Stores the message tags to be picked up from AD_MESSAGE </value>
+ </row>
+ <row id="52005" trl="N">
+  <value column="Name" original="Web POS BlackListCheque">Веб ПОС провера црне листе</value>
+  <value column="Description" original="Black Listed Cheque">Провера црне листе</value>
+ </row>
+ <row id="53012" trl="N">
+  <value column="Name" original="Model Validator">Провера модела</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53013" trl="N">
+  <value column="Name" original="Setup Web POS">Поставка веб ПОС-а</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53014" trl="N">
+  <value column="Name" original="Manufacturing Management">Управљање производњом</value>
+  <value column="Description" original="Manufacturing">Manufacturing</value>
+ </row>
+ <row id="53015" trl="N">
+  <value column="Name" original="Manufacturing Management Setup">Manufacturing Management Setup</value>
+  <value column="Description" original="Setup Manufacturing Management">Setup Manufacturing Management</value>
+ </row>
+ <row id="53016" trl="N">
+  <value column="Name" original="Engineering Management">Engineering Management</value>
+  <value column="Description" original="Engineering management involves the overall management of organizations with an orientation to manufacturing, engineering, technology or production.">Engineering management involves the overall management of organizations with an orientation to manufacturing, engineering, technology or production.</value>
+ </row>
+ <row id="53017" trl="N">
+  <value column="Name" original="Resource Manufacturing">Resource Manufacturing</value>
+  <value column="Description" original="Resource Manufacturing">Resource Manufacturing</value>
+ </row>
+ <row id="53018" trl="N">
+  <value column="Name" original="Manufacturing Resource">Manufacturing Resource</value>
+  <value column="Description" original="Manufacturing Resource">Manufacturing Resource</value>
+ </row>
+ <row id="53019" trl="N">
+  <value column="Name" original="Manufacturing Workflow">Manufacturing Workflow</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53020" trl="N">
+  <value column="Name" original="Manufacturing Workflows">Manufacturing Workflows</value>
+  <value column="Description" original="Maintain Manufacturing Workflows (Routing)">Maintain Manufacturing Workflows (Routing)</value>
+ </row>
+ <row id="53021" trl="N">
+  <value column="Name" original="Manufacturing Workflow Setup">Manufacturing Workflow Setup</value>
+  <value column="Description" original="Setup Manufacturing Workflow">Setup Manufacturing Workflow</value>
+ </row>
+ <row id="53022" trl="N">
+  <value column="Name" original="Bill of Material &amp; Formulas">Bill of Material &amp; Formulas</value>
+  <value column="Description" original="Bill of Material &amp; Formulas">Bill of Material &amp; Formulas</value>
+ </row>
+ <row id="53023" trl="N">
+  <value column="Name" original="Bill of Material &amp; Formula Setup">Bill of Material &amp; Formula Setup</value>
+  <value column="Description" original="Setup Bill of Material &amp; Formula">Setup Bill of Material &amp; Formula</value>
+ </row>
+ <row id="53024" trl="N">
+  <value column="Name" original="Bill of Materials &amp; Formula ">Bill of Materials &amp; Formula </value>
+  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula ">Maintain Product Bill of Materials &amp; Formula </value>
+ </row>
+ <row id="53025" trl="N">
+  <value column="Name" original="BOM &amp; Formula Info">BOM &amp; Formula Info</value>
+  <value column="Description" original="Shows in two different panels the parent-component relationship for the product entered in the Product field.">Shows in two different panels the parent-component relationship for the product entered in the Product field.</value>
+ </row>
+ <row id="53026" trl="N">
+  <value column="Name" original="Multi Level BOM &amp; Formula Detail">Multi Level BOM &amp; Formula Detail</value>
+  <value column="Description" original="Shows in two different panels the parent-component relationship for the product entered in the Product field.">Shows in two different panels the parent-component relationship for the product entered in the Product field.</value>
+ </row>
+ <row id="53027" trl="N">
+  <value column="Name" original="Mutiple Components Change">Mutiple Components Change</value>
+  <value column="Description" original="This option allows the change of any component into BOM or Formula">This option allows the change of any component into BOM or Formula</value>
+ </row>
+ <row id="53028" trl="N">
+  <value column="Name" original="Product Configuration BOM">Product Configuration BOM</value>
+  <value column="Description" original="This form let create a product configure with multy level using options and variants">This form let create a product configure with multy level using options and variants</value>
+ </row>
+ <row id="53029" trl="N">
+  <value column="Name" original="Planning Management">Planning Management</value>
+  <value column="Description" original="Using Planning Management you answer the question: When and How Many products we must get?">Using Planning Management you answer the question: When and How Many products we must get?</value>
+ </row>
+ <row id="53030" trl="N">
+  <value column="Name" original="Planning Management Setup">Planning Management Setup</value>
+  <value column="Description" original="Setup Planning Management">Setup Planning Management</value>
+ </row>
+ <row id="53031" trl="N">
+  <value column="Name" original="Product Planning">Product Planning</value>
+  <value column="Description" original="Product Planning">Product Planning</value>
+ </row>
+ <row id="53032" trl="N">
+  <value column="Name" original="Product Planning Data">Product Planning Data</value>
+  <value column="Description" original="Maintain Product Planning Data">Maintain Product Planning Data</value>
+ </row>
+ <row id="53033" trl="N">
+  <value column="Name" original="Create Product Planning">Create Product Planning</value>
+  <value column="Description" original="This process will create the data plannig register for every product">This process will create the data plannig register for every product</value>
+ </row>
+ <row id="53034" trl="N">
+  <value column="Name" original="MRP">MRP</value>
+  <value column="Description" original="Materials Requirements Planning">Materials Requirements Planning</value>
+ </row>
+ <row id="53035" trl="N">
+  <value column="Name" original="Material Requirement Planning Setup">Material Requirement Planning Setup</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+ </row>
+ <row id="53036" trl="N">
+  <value column="Name" original="Calculate Low Level">Calculate Low Level</value>
+  <value column="Description" original="This process calculate and register the lowest level of a product inside any BOM. It is used in the MRP calculations and should be executed when you enter a new BOM.">This process calculate and register the lowest level of a product inside any BOM. It is used in the MRP calculations and should be executed when you enter a new BOM.</value>
+ </row>
+ <row id="53037" trl="N">
+  <value column="Name" original="Create Record MRP">Create Record MRP</value>
+  <value column="Description" original="This process recreate the demand, approved and open orders for a product.">This process recreate the demand, approved and open orders for a product.</value>
+ </row>
+ <row id="53038" trl="N">
+  <value column="Name" original="Calculate Material Plan">Calculate Material Plan</value>
+  <value column="Description" original="This process calcualte the demand, approved and open orders for a product.">This process calcualte the demand, approved and open orders for a product.</value>
+ </row>
+ <row id="53039" trl="N">
+  <value column="Name" original="MRP Info">MRP Info</value>
+  <value column="Description" original="Show the detail of MRP calculation">Show the detail of MRP calculation</value>
+ </row>
+ <row id="53040" trl="N">
+  <value column="Name" original="MRP Notice">MRP Notice</value>
+  <value column="Description" original="View MRP Notices">View MRP Notices</value>
+ </row>
+ <row id="53041" trl="N">
+  <value column="Name" original="MRP Details">MRP Details</value>
+  <value column="Description" original="Show the detail of MRP calculation">Show the detail of MRP calculation</value>
+ </row>
+ <row id="53042" trl="N">
+  <value column="Name" original="Planned Order Approval ">Planned Order Approval </value>
+  <value column="Description" original="A planned manufacturing order is a manufacturing order suggested by the MRP process and contains its quantity and its release and promise dates.">A planned manufacturing order is a manufacturing order suggested by the MRP process and contains its quantity and its release and promise dates.</value>
+ </row>
+ <row id="53043" trl="N">
+  <value column="Name" original="CRP">CRP</value>
+  <value column="Description" original="Capacity Requirements Planning">Capacity Requirements Planning</value>
+ </row>
+ <row id="53044" trl="N">
+  <value column="Name" original="CRP Info">CRP Info</value>
+  <value column="Description" original="It shows graphically of the required and available time for each manufacturing resource.">It shows graphically of the required and available time for each manufacturing resource.</value>
+ </row>
+ <row id="53045" trl="N">
+  <value column="Name" original="Calculate Capacity Plan">Calculate Capacity Plan</value>
+  <value column="Description" original="Calculate Capacity Plan">Calculate Capacity Plan</value>
+ </row>
+ <row id="53046" trl="N">
+  <value column="Name" original="Resource Load View">Resource Load View</value>
+  <value column="Description" original="It shows graphically of the required and available time for each manufacturing resource.">It shows graphically of the required and available time for each manufacturing resource.</value>
+ </row>
+ <row id="53047" trl="N">
+  <value column="Name" original="Capacity Requirement Planning Setup">Capacity Requirement Planning Setup</value>
+  <value column="Description" original="The process of Capacity Plan Calculation allows us to know the available time in each manufacturing resource, as well as the required time to satisfy the Master Production Schedule.">The process of Capacity Plan Calculation allows us to know the available time in each manufacturing resource, as well as the required time to satisfy the Master Production Schedule.</value>
+ </row>
+ <row id="53048" trl="N">
+  <value column="Name" original="DRP">DRP</value>
+  <value column="Description" original="Distribution Resource Planning">Distribution Resource Planning</value>
+ </row>
+ <row id="53049" trl="N">
+  <value column="Name" original="Calculate Distribution Plan">Calculate Distribution Plan</value>
+  <value column="Description" original="Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. ">Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. </value>
+ </row>
+ <row id="53050" trl="N">
+  <value column="Name" original="Distribution Resource Planning Setup">Distribution Resource Planning Setup</value>
+  <value column="Description" original="is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.">is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.</value>
+ </row>
+ <row id="53051" trl="N">
+  <value column="Name" original="DRP Details">DRP Details</value>
+  <value column="Description" original="Show the detail of DRP calculation">Show the detail of DRP calculation</value>
+ </row>
+ <row id="53052" trl="N">
+  <value column="Name" original="Production Management">Production Management</value>
+  <value column="Description" original="Production Management">Production Management</value>
+ </row>
+ <row id="53053" trl="N">
+  <value column="Name" original="Discreet Manufacturing">Discreet Manufacturing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53054" trl="N">
+  <value column="Name" original="Discrete Manufacturing Setup">Discrete Manufacturing Setup</value>
+  <value column="Description" original="Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.">Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.</value>
+ </row>
+ <row id="53055" trl="N">
+  <value column="Name" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="Description" original="Maintain Manufacturing Order">Maintain Manufacturing Order</value>
+ </row>
+ <row id="53056" trl="N">
+  <value column="Name" original="Manufacturing Orders Review  ">Manufacturing Orders Review  </value>
+  <value column="Description" original="It is a report of every Manufacturing Orders filtering according with the characteristics the user is interested to select.">It is a report of every Manufacturing Orders filtering according with the characteristics the user is interested to select.</value>
+ </row>
+ <row id="53057" trl="N">
+  <value column="Name" original="Component Check">Component Check</value>
+  <value column="Description" original="Show if  components are available in the warehouse to Manufacturing Order">Show if  components are available in the warehouse to Manufacturing Order</value>
+ </row>
+ <row id="53058" trl="N">
+  <value column="Name" original="Print &amp; Release Order">Print &amp; Release Order</value>
+  <value column="Description" original="Once the planned orders of manufacture generated by MRP, have been aprobed, has been reached the date of liberation and has been verified that the required components are in existence, the orders are emitted to the plant for its manufacture.">Once the planned orders of manufacture generated by MRP, have been aprobed, has been reached the date of liberation and has been verified that the required components are in existence, the orders are emitted to the plant for its manufacture.</value>
+ </row>
+ <row id="53059" trl="N">
+  <value column="Name" original="Order Receipt &amp; Issue">Order Receipt &amp; Issue</value>
+  <value column="Description" original="Order Receipt &amp; Issue">Order Receipt &amp; Issue</value>
+ </row>
+ <row id="53060" trl="N">
+  <value column="Name" original="Inventory in Process">Inventory in Process</value>
+  <value column="Description" original="This report show the inventory in process">This report show the inventory in process</value>
+ </row>
+ <row id="53061" trl="N">
+  <value column="Name" original="Management Maintenance">Management Maintenance</value>
+  <value column="Description" original="Management Maintenance">Management Maintenance</value>
+ </row>
+ <row id="53062" trl="N">
+  <value column="Name" original="Spare parts">Spare parts</value>
+  <value column="Description" original="Spare parts">Spare parts</value>
+ </row>
+ <row id="53063" trl="N">
+  <value column="Name" original="Activity Control">Activity Control</value>
+  <value column="Description" original="Activity Control">Activity Control</value>
+ </row>
+ <row id="53064" trl="N">
+  <value column="Name" original="Activity Control Report">Activity Control Report</value>
+  <value column="Description" original="Activity Control">Activity Control</value>
+ </row>
+ <row id="53065" trl="N">
+  <value column="Name" original="Shop Floor Transaction Details">Shop Floor Transaction Details</value>
+  <value column="Description" original="Show the Shop Floor Transaction Details">Show the Shop Floor Transaction Details</value>
+ </row>
+ <row id="53066" trl="N">
+  <value column="Name" original="Distribution Management">Distribution Management</value>
+  <value column="Description" original="Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. ">Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. </value>
+ </row>
+ <row id="53067" trl="N">
+  <value column="Name" original="Distribution Management Setup">Distribution Management Setup</value>
+  <value column="Description" original="Setup Distribution Management">Setup Distribution Management</value>
+ </row>
+ <row id="53068" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="Description" original="Distribution Order allow create Order inter warehouse to supply a demand ">Distribution Order allow create Order inter warehouse to supply a demand </value>
+ </row>
+ <row id="53069" trl="N">
+  <value column="Name" original="Generate Movement Manual">Generate Movement Manual</value>
+  <value column="Description" original="Generate Movement to a Order Distribution">Generate Movement to a Order Distribution</value>
+ </row>
+ <row id="53070" trl="N">
+  <value column="Name" original="Generate Movement">Generate Movement</value>
+  <value column="Description" original="Generate and print Movement from open Distribution Orders">Generate and print Movement from open Distribution Orders</value>
+ </row>
+ <row id="53071" trl="N">
+  <value column="Name" original="Quality Management">Quality Management</value>
+  <value column="Description" original="Quality Management">Quality Management</value>
+ </row>
+ <row id="53072" trl="N">
+  <value column="Name" original="Quality Specifications">Quality Specifications</value>
+  <value column="Description" original="Maintain Quality Specifications">Maintain Quality Specifications</value>
+ </row>
+ <row id="53073" trl="N">
+  <value column="Name" original="Print Test Results">Print Test Results</value>
+  <value column="Description" original="Process allow print the result of Quality Order">Process allow print the result of Quality Order</value>
+ </row>
+ <row id="53074" trl="N">
+  <value column="Name" original="Standard Costing Management">Standard Costing Management</value>
+  <value column="Description" original="Standard Costing Management">Standard Costing Management</value>
+ </row>
+ <row id="53075" trl="N">
+  <value column="Name" original="Create Doc Type to Manufacturing">Create Doc Type to Manufacturing</value>
+  <value column="Description" original="Let create the document type to manufacturing">Let create the document type to manufacturing</value>
+ </row>
+ <row id="53076" trl="N">
+  <value column="Name" original="Create Element">Create Element</value>
+  <value column="Description" original="Let create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type ,Product and Product Attribute Set Instance.">Let create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type ,Product and Product Attribute Set Instance.</value>
+ </row>
+ <row id="53077" trl="N">
+  <value column="Name" original="Product Costing">Product Costing</value>
+  <value column="Description" original="To watch the cost elements for every set of Product, Organization, Accounting Schema, Warehouse, Resource and Cost Type">To watch the cost elements for every set of Product, Organization, Accounting Schema, Warehouse, Resource and Cost Type</value>
+ </row>
+ <row id="53078" trl="N">
+  <value column="Name" original="Copy Price to Standard Cost">Copy Price to Standard Cost</value>
+  <value column="Description" original="This process allow copy a Price from Price list Version to Element Cost.">This process allow copy a Price from Price list Version to Element Cost.</value>
+ </row>
+ <row id="53079" trl="N">
+  <value column="Name" original="Workflow Cost Roll-Up">Workflow Cost Roll-Up</value>
+  <value column="Description" original="This Process allow integrate Labor and Overhead Cost to a Manufacturing Workflow">This Process allow integrate Labor and Overhead Cost to a Manufacturing Workflow</value>
+ </row>
+ <row id="53080" trl="N">
+  <value column="Name" original="Cost Workflow &amp; Process Details">Cost Workflow &amp; Process Details</value>
+  <value column="Description" original="This report show every cost element to a BOM or Formula ">This report show every cost element to a BOM or Formula </value>
+ </row>
+ <row id="53081" trl="N">
+  <value column="Name" original="Bill of Material &amp; Formula Cost Roll-UP">Bill of Material &amp; Formula Cost Roll-UP</value>
+  <value column="Description" original="This Process allow integrate Bill of Material &amp; Formula Cost.">This Process allow integrate Bill of Material &amp; Formula Cost.</value>
+ </row>
+ <row id="53082" trl="N">
+  <value column="Name" original="Cost Collector">Cost Collector</value>
+  <value column="Description" original="The cost collector is a repository of all the MO transactions.">The cost collector is a repository of all the MO transactions.</value>
+ </row>
+ <row id="53083" trl="N">
+  <value column="Name" original="ASP Modules">АСП модули</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53084" trl="N">
+  <value column="Name" original="ASP Subscribed Modules">АСП претплаћени модули</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53086" trl="N">
+  <value column="Name" original="Rule">Правило</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53087" trl="N">
+  <value column="Name" original="Update Sequence No">Ажурирање броја секвенце</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53088" trl="N">
+  <value column="Name" original="Distribution Network">Distribution Network</value>
+  <value column="Description" original="Distribution Network define the supply relationships">Distribution Network define the supply relationships</value>
+ </row>
+ <row id="53089" trl="N">
+  <value column="Name" original="Migration Scripts">Миграционе скрипте</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53090" trl="N">
+  <value column="Name" original="Prepare Migration Scripts">Припреми миграционе скрипте</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53091" trl="N">
+  <value column="Name" original="Global Tax Management">Global Tax Management</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53092" trl="N">
+  <value column="Name" original="Tax Group">Tax Group</value>
+  <value column="Description" original="Tax Groups let you group the business partner with a reference tax.">Tax Groups let you group the business partner with a reference tax.</value>
+ </row>
+ <row id="53093" trl="N">
+  <value column="Name" original="C_Invoce Calculate Tax">C_Invoce Calculate Tax</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53094" trl="N">
+  <value column="Name" original="Tax Definition">Tax Definition</value>
+  <value column="Description" original="Lets you define different tax combinations.">Lets you define different tax combinations.</value>
+ </row>
+ <row id="53095" trl="N">
+  <value column="Name" original="Tax Rate Parent">Tax Rate Parent</value>
+  <value column="Description" original="Maintain Taxes and their Rates">Одржавање пореза и њихових стопа</value>
+ </row>
+ <row id="53096" trl="N">
+  <value column="Name" original="Tax Type">Tax Type</value>
+  <value column="Description" original="Tax Types let you group taxes together.">Tax Types let you group taxes together.</value>
+ </row>
+ <row id="53097" trl="N">
+  <value column="Name" original="Tax Base">Tax Base</value>
+  <value column="Description" original="Defines tax base for a tax">Defines tax base for a tax</value>
+ </row>
+ <row id="53098" trl="N">
+  <value column="Name" original="Replication Data">Replication Data</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53099" trl="N">
+  <value column="Name" original="Setup Replication">Setup Replication</value>
+  <value column="Description" original="Setup of data replication">Подешавање репликационих података</value>
+ </row>
+ <row id="53100" trl="N">
+  <value column="Name" original="Export Format">Export Format</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53101" trl="N">
+  <value column="Name" original="Export Processor">Export Processor</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53102" trl="N">
+  <value column="Name" original="Export Processor Type">Export Processor Type</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53103" trl="N">
+  <value column="Name" original="Import Processor">Import Processor</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53104" trl="N">
+  <value column="Name" original="Import Processor Type">Import Processor Type</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53108" trl="N">
+  <value column="Name" original="Human Resource &amp; Payroll">Људски ресурси и зараде</value>
+  <value column="Description" original="Human Resource &amp; Payroll">Људски ресурси и зараде</value>
+ </row>
+ <row id="53109" trl="N">
+  <value column="Name" original="Human Resource">Људски ресурси</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53110" trl="N">
+  <value column="Name" original="Payroll Contract">Уговор о раду</value>
+  <value column="Description" original="Maintain Payroll Contract">Одржавање уговора о раду</value>
+ </row>
+ <row id="53111" trl="N">
+  <value column="Name" original="Payroll Employee">Радник</value>
+  <value column="Description" original="Maintain Payroll Employee">Исплата радника</value>
+ </row>
+ <row id="53112" trl="N">
+  <value column="Name" original="Payroll Department">Платно одељење</value>
+  <value column="Description" original="Maintain Payroll Department">Одржавање платног одељења</value>
+ </row>
+ <row id="53113" trl="N">
+  <value column="Name" original="Payroll Job">Платни посао</value>
+  <value column="Description" original="Maintain Payroll Job">Одржавање платних послова</value>
+ </row>
+ <row id="53114" trl="N">
+  <value column="Name" original="Payroll">Платни списак</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53115" trl="N">
+  <value column="Name" original="Payroll Concept Catalog">Каталог платних појмова</value>
+  <value column="Description" original="Maintain Payroll Concept Catalog">Одржавање каталога платних концепата</value>
+ </row>
+ <row id="53116" trl="N">
+  <value column="Name" original="Payroll Processing">Обрачун зарада</value>
+  <value column="Description" original="The Payroll Processing is used to processing a Payroll, you can calculate for a Employee or All Employees">Обрачун зарада се користи за обраду зарада, може се обрачунавати за једног или све раднике</value>
+ </row>
+ <row id="53117" trl="N">
+  <value column="Name" original="Payroll Definition">Дефинисање платног списка</value>
+  <value column="Description" original="In a company, payroll is the sum of all financial records of salaries, wages, bonuses, and deductions.">У предузећу, платни списак представља суму свих финансијских евиденција зарада, дневница, бонуса и одбитака.</value>
+ </row>
+ <row id="53118" trl="N">
+  <value column="Name" original="Payroll Concept Category">Категорија платних концепата</value>
+  <value column="Description" original="Maintain Payroll Concept Category">Oдржавање категорија платних појмова</value>
+ </row>
+ <row id="53119" trl="N">
+  <value column="Name" original="Payroll Table Type">Тип платне листе</value>
+  <value column="Description" original="Maintain Payroll Table Type">Одржавање типова платне листе</value>
+ </row>
+ <row id="53120" trl="N">
+  <value column="Name" original="Payroll Table">Платна табела</value>
+  <value column="Description" original="Maintain Payroll Table">Одржавање платних табела</value>
+ </row>
+ <row id="53121" trl="N">
+  <value column="Name" original="Payroll Movement">Платни обрачун</value>
+  <value column="Description" original="History of Payroll Movement">Историја платног обрачуна</value>
+ </row>
+ <row id="53122" trl="N">
+  <value column="Name" original="Payroll Send EMail">Слање зарада е-поштом</value>
+  <value column="Description" original="This process is use to send the Payroll for each Employee via EMail">Овај процес служи за слање плата свим запосленима путем е-поште</value>
+ </row>
+ <row id="53123" trl="N">
+  <value column="Name" original="Payroll Action Notice">Бележница платних акција</value>
+  <value column="Description" original="Payroll Action Notice let entry the events that happend with any Employee">Бележница платних акција бележи догађаје над радницима</value>
+ </row>
+ <row id="53124" trl="N">
+  <value column="Name" original="Setup Human Resource &amp; Payroll">Подешавање људских ресурса и зарада</value>
+  <value column="Description" original="Setup Human Resource &amp; Payroll">Подешавање људских ресурса и зарада</value>
+ </row>
+ <row id="53125" trl="N">
+  <value column="Name" original="Export Format Generator">Генератор извозних формата</value>
+  <value column="Description" original="Create multiple Export Format based in a Window">Креирање вишеструких извозних формата који се налазе у прозору</value>
+ </row>
+ <row id="53127" trl="N">
+  <value column="Name" original="Payroll Process">Обрада платног списка</value>
+  <value column="Description" original="Payroll Process">Обрада платног списка</value>
+ </row>
+ <row id="53128" trl="N">
+  <value column="Name" original="Manufacturing Workflow Editor">Manufacturing Workflow Editor</value>
+  <value column="Description" original="Edit Manufacturing Workflows">Edit Manufacturing Workflows</value>
+ </row>
+ <row id="53129" trl="N">
+  <value column="Name" original="Bill of Materials &amp; Formula ">Bill of Materials &amp; Formula </value>
+  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula ">Maintain Product Bill of Materials &amp; Formula </value>
+ </row>
+ <row id="53130" trl="N">
+  <value column="Name" original="Test Export Model">Test Export Model</value>
+  <value column="Description" original="Test Export of XML files">Test Export of XML files</value>
+ </row>
+ <row id="53131" trl="N">
+  <value column="Name" original="Test Import Model">Test Import Model</value>
+  <value column="Description" original="Test Import of XML files">Test Import of XML files</value>
+ </row>
+ <row id="53132" trl="N">
+  <value column="Name" original="Generate Shipments &amp; Invoices (manual)">Генериши отпремнице и фактуре (ручно)</value>
+  <value column="Description" original="Select and generate shipments &amp; Invoices">Select and generate shipments &amp; Invoices</value>
+ </row>
+ <row id="53133" trl="N">
+  <value column="Name" original="Customer Service">Customer Service</value>
+  <value column="Description" original="Customer Related Assets">Customer Related Assets</value>
+ </row>
+ <row id="53134" trl="N">
+  <value column="Name" original="Fixed Assets">Fixed Assets</value>
+  <value column="Description" original="Applications to setup and maintain fixed assets">Applications to setup and maintain fixed assets</value>
+ </row>
+ <row id="53135" trl="N">
+  <value column="Name" original="Processing">Обрада</value>
+  <value column="Description" original="Process Fixed Assets">Process Fixed Assets</value>
+ </row>
+ <row id="53136" trl="N">
+  <value column="Name" original="Asset Revaluation">Asset Revaluation</value>
+  <value column="Description" original="Process Asset Revaluations">Process Asset Revaluations</value>
+ </row>
+ <row id="53137" trl="N">
+  <value column="Name" original="Asset Revaluation Processing">Asset Revaluation Processing</value>
+  <value column="Description" original="Process Revaluation of Assets">Process Revaluation of Assets</value>
+ </row>
+ <row id="53138" trl="N">
+  <value column="Name" original="Asset Revaluation Index">Asset Revaluation Index</value>
+  <value column="Description" original="Set the Revaluate Assets Index or Factors">Set the Revaluate Assets Index or Factors</value>
+ </row>
+ <row id="53139" trl="N">
+  <value column="Name" original="Splits Transfers and Disposals">Splits Transfers and Disposals</value>
+  <value column="Description" original="Process Assets Splits Transfers and Disposals">Process Assets Splits Transfers and Disposals</value>
+ </row>
+ <row id="53140" trl="N">
+  <value column="Name" original="Transfer Asset Entry">Transfer Asset Entry</value>
+  <value column="Description" original="Create Transfer Asset Entry">Create Transfer Asset Entry</value>
+ </row>
+ <row id="53141" trl="N">
+  <value column="Name" original="Disposed Asset Entry">Disposed Asset Entry</value>
+  <value column="Description" original="Create Disposed Asset Entry">Create Disposed Asset Entry</value>
+ </row>
+ <row id="53142" trl="N">
+  <value column="Name" original="Asset Disposal Expense Entry Rpt">Asset Disposal Expense Entry Rpt</value>
+  <value column="Description" original="Used to review Assets Disposed Entry">Used to review Assets Disposed Entry</value>
+ </row>
+ <row id="53143" trl="N">
+  <value column="Name" original="Asset Transfer Entry">Asset Transfer Entry</value>
+  <value column="Description" original="Used to review Assets Transfered Entry ">Used to review Assets Transfered Entry </value>
+ </row>
+ <row id="53144" trl="N">
+  <value column="Name" original="Asset Split">Asset Split</value>
+  <value column="Description" original="Split Assets Process">Split Assets Process</value>
+ </row>
+ <row id="53145" trl="N">
+  <value column="Name" original="Asset Disposal">Asset Disposal</value>
+  <value column="Description" original="Dispose of Assets">Dispose of Assets</value>
+ </row>
+ <row id="53146" trl="N">
+  <value column="Name" original="Asset Transfers">Asset Transfers</value>
+  <value column="Description" original="Process transfers of assets">Process transfers of assets</value>
+ </row>
+ <row id="53147" trl="N">
+  <value column="Name" original="Split Asset Entry">Split Asset Entry</value>
+  <value column="Description" original="Create Split Asset Entries">Create Split Asset Entries</value>
+ </row>
+ <row id="53148" trl="N">
+  <value column="Name" original="Asset Split Entry">Asset Split Entry</value>
+  <value column="Description" original="Used to review Assets Split Entry ">Used to review Assets Split Entry </value>
+ </row>
+ <row id="53149" trl="N">
+  <value column="Name" original="Depreciation Processing">Depreciation Processing</value>
+  <value column="Description" original="Applications to Process Fixed Assets to the GL">Applications to Process Fixed Assets to the GL</value>
+ </row>
+ <row id="53150" trl="N">
+  <value column="Name" original="Depreciation Expense Entry">Depreciation Expense Entry</value>
+  <value column="Description" original="Used to review Depreciation Expense Entry not yet booked">Used to review Depreciation Expense Entry not yet booked</value>
+ </row>
+ <row id="53151" trl="N">
+  <value column="Name" original="Build Depreciation Workfile">Build Depreciation Workfile</value>
+  <value column="Description" original="Build Depreciation Expense File">Build Depreciation Expense File</value>
+ </row>
+ <row id="53152" trl="N">
+  <value column="Name" original="Post Depreciation Entry">Post Depreciation Entry</value>
+  <value column="Description" original="Create Depreciation Entry">Create Depreciation Entry</value>
+ </row>
+ <row id="53153" trl="N">
+  <value column="Name" original="Asset Depreciation Forecast">Asset Depreciation Forecast</value>
+  <value column="Description" original="Used to review Assets Forecast">Used to review Assets Forecast</value>
+ </row>
+ <row id="53154" trl="N">
+  <value column="Name" original="Build Depreciation Forecast">Build Depreciation Forecast</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53155" trl="N">
+  <value column="Name" original="Reporting">Reporting</value>
+  <value column="Description" original="Reporting for fixed assets">Reporting for fixed assets</value>
+ </row>
+ <row id="53156" trl="N">
+  <value column="Name" original="RV_Asset_Parent_Report">RV_Asset_Parent_Report</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53157" trl="N">
+  <value column="Name" original="RV_Depreciation_Table">RV_Depreciation_Table</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53158" trl="N">
+  <value column="Name" original="Spread Report">Spread Report</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53159" trl="N">
+  <value column="Name" original="RV_Asset_Depreciation_Method">RV_Asset_Depreciation_Method</value>
+  <value column="Description" original="List Depreciation Methods">List Depreciation Methods</value>
+ </row>
+ <row id="53160" trl="N">
+  <value column="Name" original="RV_Asset_Convention_Rpt">RV_Asset_Convention_Rpt</value>
+  <value column="Description" original="Asset Convention Report">Asset Convention Report</value>
+ </row>
+ <row id="53161" trl="N">
+  <value column="Name" original="RV_Depreciation_Calculation_Methods">RV_Depreciation_Calculation_Methods</value>
+  <value column="Description" original="List Depreciation Calculation Methods Available">List Depreciation Calculation Methods Available</value>
+ </row>
+ <row id="53162" trl="N">
+  <value column="Name" original="RV_Asset_Group_Defaults">RV_Asset_Group_Defaults</value>
+  <value column="Description" original="Lists Asset Group Settings &amp; Defaults">Lists Asset Group Settings &amp; Defaults</value>
+ </row>
+ <row id="53163" trl="N">
+  <value column="Name" original="Setup and Maintain">Setup and Maintain</value>
+  <value column="Description" original="Setup and maintain assets">Setup and maintain assets</value>
+ </row>
+ <row id="53164" trl="N">
+  <value column="Name" original="Fixed Assets Setup">Fixed Assets Setup</value>
+  <value column="Description" original="Setup and Maintain Fixed Assets">Setup and Maintain Fixed Assets</value>
+ </row>
+ <row id="53165" trl="N">
+  <value column="Name" original="Inbound Charges for GL">Inbound Charges for GL</value>
+  <value column="Description" original="Process invoice charges from GL">Process invoice charges from GL</value>
+ </row>
+ <row id="53166" trl="N">
+  <value column="Name" original="Inbound Asset Entry">Inbound Asset Entry</value>
+  <value column="Description" original="Create Inbound Asset Entry">Create Inbound Asset Entry</value>
+ </row>
+ <row id="53167" trl="N">
+  <value column="Name" original="Inbound Charge Entry Report">Inbound Charge Entry Report</value>
+  <value column="Description" original="Used to review Assets Inbound Entry ">Used to review Assets Inbound Entry </value>
+ </row>
+ <row id="53168" trl="N">
+  <value column="Name" original="Inbound Charges for AP">Inbound Charges for AP</value>
+  <value column="Description" original="Process invoice charges from AP">Process invoice charges from AP</value>
+ </row>
+ <row id="53169" trl="N">
+  <value column="Name" original="Import File Loader">Увоз учитавач датотека</value>
+  <value column="Description" original="Load flat Files into import tables">Учитавање текстуелних датотека у табеле за увоз</value>
+ </row>
+ <row id="53170" trl="N">
+  <value column="Name" original="Post Imported Assets">Post Imported Assets</value>
+  <value column="Description" original="Import Fixed Assets">Import Fixed Assets</value>
+ </row>
+ <row id="53171" trl="N">
+  <value column="Name" original="Depreciation Setup">Depreciation Setup</value>
+  <value column="Description" original="Applications to setup and maintain depreciation">Applications to setup and maintain depreciation</value>
+ </row>
+ <row id="53172" trl="N">
+  <value column="Name" original="Depreciation Period Spread Type">Depreciation Period Spread Type</value>
+  <value column="Description" original="Period Spread Type">Period Spread Type</value>
+ </row>
+ <row id="53173" trl="N">
+  <value column="Name" original="Depreciation Methods">Depreciation Methods</value>
+  <value column="Description" original="Depreciation Methods">Depreciation Methods</value>
+ </row>
+ <row id="53174" trl="N">
+  <value column="Name" original="Depreciation Tables">Depreciation Tables</value>
+  <value column="Description" original="Allows users to create multiple depreciation schedules">Allows users to create multiple depreciation schedules</value>
+ </row>
+ <row id="53175" trl="N">
+  <value column="Name" original="Depreciation First Year Conventions ">Depreciation First Year Conventions </value>
+  <value column="Description" original="Setup for depreciation Setups">Setup for depreciation Setups</value>
+ </row>
+ <row id="53176" trl="N">
+  <value column="Name" original="Depreciation Calculation Method">Depreciation Calculation Method</value>
+  <value column="Description" original="Define Calculation Methods used in depreciation expense calculation">Define Calculation Methods used in depreciation expense calculation</value>
+ </row>
+ <row id="53180" trl="N">
+  <value column="Name" original="Forecast Management">Forecast Management</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53181" trl="N">
+  <value column="Name" original="Forecast Report by Period">Forecast Report by Period</value>
+  <value column="Description" original="Forecast Report by Period">Forecast Report by Period</value>
+ </row>
+ <row id="53182" trl="N">
+  <value column="Name" original="Calculate Forecast">Calculate Forecast</value>
+  <value column="Description" original="Calculate Forecast">Calculate Forecast</value>
+ </row>
+ <row id="53183" trl="N">
+  <value column="Name" original="Forecast Report">Forecast Report</value>
+  <value column="Description" original="Forecast Report">Forecast Report</value>
+ </row>
+ <row id="53184" trl="N">
+  <value column="Name" original="Distribution Run Orders">Distribution Run Orders</value>
+  <value column="Description" original="Create Distribution Run Orders based on Distribution List or The Quantity Demand the Distribution Order and redistribute the quantity into Distribution Plan line items">Create Distribution Run Orders based on Distribution List or The Quantity Demand the Distribution Order and redistribute the quantity into Distribution Plan line items</value>
+ </row>
+ <row id="53185" trl="N">
+  <value column="Name" original="Distribution Order Detail">Distribution Order Detail</value>
+  <value column="Description" original="Distribution Order Detail Report">Distribution Order Detail Report</value>
+ </row>
+ <row id="53187" trl="N">
+  <value column="Name" original="Immediate Bank Transfer">Immediate Bank Transfer</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53188" trl="N">
+  <value column="Name" original="Material Receipt Distribution Order">Material Receipt Distribution Order</value>
+  <value column="Description" original="Material Receipt Distribution Order">Material Receipt Distribution Order</value>
+ </row>
+ <row id="53189" trl="N">
+  <value column="Name" original="Charge Type">Charge Type</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53190" trl="N">
+  <value column="Name" original="Bank Transfer">Bank Transfer</value>
+  <value column="Description" original="Bank Transfer let money tranfer between Banks">Bank Transfer let money tranfer between Banks</value>
+ </row>
+ <row id="53191" trl="N">
+  <value column="Name" original="House Keeping">House Keeping</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53192" trl="N">
+  <value column="Name" original="HouseKeeping">HouseKeeping</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53193" trl="N">
+  <value column="Name" original="Enable Native Sequence">Enable Native Sequence</value>
+  <value column="Description" original="Enable Native Sequence">Enable Native Sequence</value>
+ </row>
+ <row id="53196" trl="N">
+  <value column="Name" original="Web POS Terminal">Web POS Terminal</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53198" trl="N">
+  <value column="Name" original="Cost BOM Multi Level Review">Cost BOM Multi Level Review</value>
+  <value column="Description" original="This report show every cost element to a BOM or Formula.">This report show every cost element to a BOM or Formula.</value>
+ </row>
+ <row id="53199" trl="N">
+  <value column="Name" original="Frozen/UnFrozen Cost">Frozen/UnFrozen Cost</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53202" trl="N">
+  <value column="Name" original="Initial Client Setup Process">Initial Client Setup Process</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53203" trl="N">
+  <value column="Name" original="Search Definition">Search Definition</value>
+  <value column="Description" original="Define transactions for the QuickSearch bar">Define transactions for the QuickSearch bar</value>
+ </row>
+ <row id="53206" trl="N">
+  <value column="Name" original="Import Price List">Import Price List</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53210" trl="N">
+  <value column="Name" original="Promotion Group">Promotion Group</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53211" trl="N">
+  <value column="Name" original="Promotion">Promotion</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53223" trl="N">
+  <value column="Name" original="Order Transactions">Трансакције налога</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53224" trl="N">
+  <value column="Name" original="MRP Notice (all)">MRP Notice (all)</value>
+  <value column="Description" original="View all MRP Notices">View all MRP Notices</value>
+ </row>
+</adempiereTrl>

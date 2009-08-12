@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.5.3a_2008-12-21 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090724-1101 - ${ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="sr_RS" table="AD_FieldGroup">
+ <row id="101" trl="N">
+  <value column="Name" original="Status">Статус</value>
+ </row>
+ <row id="102" trl="N">
+  <value column="Name" original="Quantities">Количина</value>
+ </row>
+ <row id="103" trl="N">
+  <value column="Name" original="Amounts">Износи</value>
+ </row>
+ <row id="104" trl="N">
+  <value column="Name" original="Reference">Референца</value>
+ </row>
+ <row id="105" trl="N">
+  <value column="Name" original="History">Историја</value>
+ </row>
+ <row id="106" trl="N">
+  <value column="Name" original="Product">Производ</value>
+ </row>
+ <row id="107" trl="N">
+  <value column="Name" original="Business Partner">Пословни партнер</value>
+ </row>
+ <row id="108" trl="N">
+  <value column="Name" original="Warehouse">Складиште</value>
+ </row>
+ <row id="109" trl="N">
+  <value column="Name" original="Bank">Банка</value>
+ </row>
+ <row id="110" trl="N">
+  <value column="Name" original="Cash Book">Благајна</value>
+ </row>
+ <row id="111" trl="N">
+  <value column="Name" original="Tax">Порез</value>
+ </row>
+ <row id="112" trl="N">
+  <value column="Name" original="Project">Пројекат</value>
+ </row>
+ <row id="113" trl="N">
+  <value column="Name" original="General">Генерално</value>
+ </row>
+ <row id="114" trl="N">
+  <value column="Name" original="Action">Акција</value>
+ </row>
+ <row id="115" trl="N">
+  <value column="Name" original="Standard Cost">Стандардан трошак</value>
+ </row>
+ <row id="116" trl="N">
+  <value column="Name" original="Actual Costs">Стварни трошак</value>
+ </row>
+ <row id="117" trl="N">
+  <value column="Name" original="Statistics">Статистика</value>
+ </row>
+ <row id="118" trl="N">
+  <value column="Name" original="Defaults">Подразумевано</value>
+ </row>
+ <row id="119" trl="N">
+  <value column="Name" original="Request Management">Управљање захтевима</value>
+ </row>
+ <row id="120" trl="N">
+  <value column="Name" original="Web Store">Web продавница</value>
+ </row>
+ <row id="121" trl="N">
+  <value column="Name" original="Internal">Интерно</value>
+ </row>
+ <row id="122" trl="N">
+  <value column="Name" original="External">Екстерно</value>
+ </row>
+ <row id="123" trl="N">
+  <value column="Name" original="Common">Заједничко</value>
+ </row>
+ <row id="124" trl="N">
+  <value column="Name" original="Shipment">Отпремнице</value>
+ </row>
+ <row id="125" trl="N">
+  <value column="Name" original="Document">Документ</value>
+ </row>
+ <row id="126" trl="N">
+  <value column="Name" original="Line">Ставка</value>
+ </row>
+ <row id="127" trl="N">
+  <value column="Name" original="Simulation">Симулација</value>
+ </row>
+ <row id="128" trl="N">
+  <value column="Name" original="Calculations">Калкулације</value>
+ </row>
+ <row id="129" trl="N">
+  <value column="Name" original="Proxy">Прокси</value>
+ </row>
+ <row id="130" trl="N">
+  <value column="Name" original="Delivery">Испорука</value>
+ </row>
+ <row id="131" trl="N">
+  <value column="Name" original="Invoicing">Издавање рачуна</value>
+ </row>
+ <row id="132" trl="N">
+  <value column="Name" original="Only ..">Само ..</value>
+ </row>
+ <row id="133" trl="N">
+  <value column="Name" original="Selection">Избор</value>
+ </row>
+ <row id="134" trl="N">
+  <value column="Name" original="Workflow">Радни ток</value>
+ </row>
+ <row id="135" trl="N">
+  <value column="Name" original="Access">Приступ</value>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Allow Info In Role">Дозволи инфо у оквиру улоге</value>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Accounts">Конта</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Setup">Setup</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Dates">Dates</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Revaluation Accounts">Revaluation Accounts</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Contract">Уговор</value>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Options">Опције</value>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="General Ledger">Главна књига</value>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Machines">Machines</value>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Database">База података</value>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Manufacturing">Manufacturing</value>
+ </row>
+</adempiereTrl>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.5.3a_2008-12-21 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090724-1101 - ${ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="sr_RS" table="AD_Task">
+ <row id="102" trl="N">
+  <value column="Name" original="Java Version">Верзија Јаве</value>
+  <value column="Description" original="Displays the version of the default Java VM">Прикажите верзију подразумеване Јава виртуелне машине</value>
+  <value column="Help" original="The java version used by the application might be different.">The java version used by the application might be different.</value>
+ </row>
+ <row id="103" trl="N">
+  <value column="Name" original="Database export">Извоз базе података</value>
+  <value column="Description" original="Export (save) the database">Извоз (снимање) базе података</value>
+  <value column="Help" original="Run this command from the server">Run this command from the server</value>
+ </row>
+ <row id="104" trl="N">
+  <value column="Name" original="Database transfer">База података - трансфер</value>
+  <value column="Description" original="Transfer the database">Трансфер базе података</value>
+  <value column="Help" original="Run this command from the server">Run this command from the server</value>
+ </row>
+</adempiereTrl>

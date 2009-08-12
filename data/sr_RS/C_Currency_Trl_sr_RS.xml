@@ -1,0 +1,701 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.5.3a_2008-12-21 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090724-1101 - ${ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="sr_RS" table="C_Currency">
+ <row id="100" trl="N">
+  <value column="Description" original="US Dollar">US Dollar</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="102" trl="N">
+  <value column="Description" original="Euro">Euro</value>
+  <value column="CurSymbol" original="E">E</value>
+ </row>
+ <row id="103" trl="N">
+  <value column="Description" original="Deutsche Mark">Deutsche Mark</value>
+  <value column="CurSymbol" original="DM">DM</value>
+ </row>
+ <row id="104" trl="N">
+  <value column="Description" original="Austrian Schilling">Austrian Schilling</value>
+  <value column="CurSymbol" original="Sch">Sch</value>
+ </row>
+ <row id="105" trl="N">
+  <value column="Description" original="Belgian Franc">Belgian Franc</value>
+  <value column="CurSymbol" original="BFr">BFr</value>
+ </row>
+ <row id="106" trl="N">
+  <value column="Description" original="Finish Mark">Finish Mark</value>
+  <value column="CurSymbol" original="FM">FM</value>
+ </row>
+ <row id="107" trl="N">
+  <value column="Description" original="Irish Pound">Irish Pound</value>
+  <value column="CurSymbol" original="I£">I£</value>
+ </row>
+ <row id="108" trl="N">
+  <value column="Description" original="Italian Lira">Italian Lira</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="109" trl="N">
+  <value column="Description" original="Dutch Gilder">Dutch Gilder</value>
+  <value column="CurSymbol" original="Fl">Fl</value>
+ </row>
+ <row id="110" trl="N">
+  <value column="Description" original="Portugese Escudo">Portugese Escudo</value>
+  <value column="CurSymbol" original="Es">Es</value>
+ </row>
+ <row id="111" trl="N">
+  <value column="Description" original="Spannish Peseto">Spannish Peseto</value>
+  <value column="CurSymbol" original="Pts">Pts</value>
+ </row>
+ <row id="112" trl="N">
+  <value column="Description" original="French Franc">French Franc</value>
+  <value column="CurSymbol" original="Fr">Пет</value>
+ </row>
+ <row id="113" trl="N">
+  <value column="Description" original="Japanese Yen">Japanese Yen</value>
+  <value column="CurSymbol" original="¥">¥</value>
+ </row>
+ <row id="114" trl="N">
+  <value column="Description" original="British Pound">British Pound</value>
+  <value column="CurSymbol" original="£">£</value>
+ </row>
+ <row id="115" trl="N">
+  <value column="Description" original="Swiss Franc (invalid currency code - use CHF)">Swiss Franc (invalid currency code - use CHF)</value>
+  <value column="CurSymbol" original="SFr">SFr</value>
+ </row>
+ <row id="116" trl="N">
+  <value column="Description" original="Canadian Dollar">Canadian Dollar</value>
+  <value column="CurSymbol" original="C$">C$</value>
+ </row>
+ <row id="118" trl="N">
+  <value column="Description" original="Argentine Peso">Argentine Peso</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="120" trl="N">
+  <value column="Description" original="Australian Dollar">Australian Dollar</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="121" trl="N">
+  <value column="Description" original="New Zealand Dollar">New Zealand Dollar</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="127" trl="N">
+  <value column="Description" original="Liberian Dollar">Liberian Dollar</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="130" trl="N">
+  <value column="Description" original="Mexican Peso">Mexican Peso</value>
+  <value column="CurSymbol" original="$">$</value>
+ </row>
+ <row id="142" trl="N">
+  <value column="Description" original="Peso Uruguayo">Peso Uruguayo</value>
+  <value column="CurSymbol" original="$U">$U</value>
+ </row>
+ <row id="143" trl="N">
+  <value column="Description" original="Armenian Dram">Armenian Dram</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="144" trl="N">
+  <value column="Description" original="Kwanza">Kwanza</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="145" trl="N">
+  <value column="Description" original="Azerbaijanian Manat (new)">Azerbaijanian Manat (new)</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="146" trl="N">
+  <value column="Description" original="Boliviano">Boliviano</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="147" trl="N">
+  <value column="Description" original="Franc Congolais">Franc Congolais</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="148" trl="N">
+  <value column="Description" original="Czech Koruna">Czech Koruna</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="149" trl="N">
+  <value column="Description" original="Lari">Lari</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="150" trl="N">
+  <value column="Description" original="Iranian Rial">Iranian Rial</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="151" trl="N">
+  <value column="Description" original="Lithuanian Litus">Lithuanian Litus</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="152" trl="N">
+  <value column="Description" original="Moldovan Leu">Moldovan Leu</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="153" trl="N">
+  <value column="Description" original="Philippine Peso">Philippine Peso</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="154" trl="N">
+  <value column="Description" original="Zloty">Zloty</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="155" trl="N">
+  <value column="Description" original="Russian Ruble">Russian Ruble</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="156" trl="N">
+  <value column="Description" original="Sudanese Dinar">Sudanese Dinar</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="157" trl="N">
+  <value column="Description" original="Somoni">Somoni</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="158" trl="N">
+  <value column="Description" original="Manat">Manat</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="159" trl="N">
+  <value column="Description" original="Timor Escudo">Timor Escudo</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="160" trl="N">
+  <value column="Description" original="Hryvnia">Hryvnia</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="161" trl="N">
+  <value column="Description" original="Uzbekistan Sum">Uzbekistan Sum</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="163" trl="N">
+  <value column="Description" original="Cyprus Pound">Cyprus Pound</value>
+  <value column="CurSymbol" original="£C">£C</value>
+ </row>
+ <row id="164" trl="N">
+  <value column="Description" original="Egyptian Pound">Egyptian Pound</value>
+  <value column="CurSymbol" original="£E">£E</value>
+ </row>
+ <row id="165" trl="N">
+  <value column="Description" original="Falkland Islands Pound">Falkland Islands Pound</value>
+  <value column="CurSymbol" original="£F">£F</value>
+ </row>
+ <row id="166" trl="N">
+  <value column="Description" original="Gibraltar Pound">Gibraltar Pound</value>
+  <value column="CurSymbol" original="£G">£G</value>
+ </row>
+ <row id="167" trl="N">
+  <value column="Description" original="Saint Helena Pound">Saint Helena Pound</value>
+  <value column="CurSymbol" original="£S">£S</value>
+ </row>
+ <row id="168" trl="N">
+  <value column="Description" original="Syrian Pound">Syrian Pound</value>
+  <value column="CurSymbol" original="£S">£S</value>
+ </row>
+ <row id="170" trl="N">
+  <value column="Description" original="Cedi">Cedi</value>
+  <value column="CurSymbol" original="¢">¢</value>
+ </row>
+ <row id="171" trl="N">
+  <value column="Description" original="El Salvador Colon">El Salvador Colon</value>
+  <value column="CurSymbol" original="¢">¢</value>
+ </row>
+ <row id="195" trl="N">
+  <value column="Description" original="Afghani">Afghani</value>
+  <value column="CurSymbol" original="Af">Af</value>
+ </row>
+ <row id="196" trl="N">
+  <value column="Description" original="Aruban Guilder">Aruban Guilder</value>
+  <value column="CurSymbol" original="Af.">Af.</value>
+ </row>
+ <row id="197" trl="N">
+  <value column="Description" original="Balboa">Balboa</value>
+  <value column="CurSymbol" original="B">B</value>
+ </row>
+ <row id="198" trl="N">
+  <value column="Description" original="Brunei Dollar">Brunei Dollar</value>
+  <value column="CurSymbol" original="B$">B$</value>
+ </row>
+ <row id="199" trl="N">
+  <value column="Description" original="Bahamian Dollar">Bahamian Dollar</value>
+  <value column="CurSymbol" original="B$">B$</value>
+ </row>
+ <row id="200" trl="N">
+  <value column="Description" original="Bahraini Dinar">Bahraini Dinar</value>
+  <value column="CurSymbol" original="BD">BD</value>
+ </row>
+ <row id="201" trl="N">
+  <value column="Description" original="Bermudian Dollar">Bermudian Dollar</value>
+  <value column="CurSymbol" original="Bd$">Bd$</value>
+ </row>
+ <row id="202" trl="N">
+  <value column="Description" original="Barbados Dollar">Barbados Dollar</value>
+  <value column="CurSymbol" original="Bds$">Bds$</value>
+ </row>
+ <row id="203" trl="N">
+  <value column="Description" original="Belarussian Ruble">Belarussian Ruble</value>
+  <value column="CurSymbol" original="BR">BR</value>
+ </row>
+ <row id="204" trl="N">
+  <value column="Description" original="Ethiopian Birr">Ethiopian Birr</value>
+  <value column="CurSymbol" original="Br">Br</value>
+ </row>
+ <row id="205" trl="N">
+  <value column="Description" original="Bolivar">Bolivar</value>
+  <value column="CurSymbol" original="Bs">Bs</value>
+ </row>
+ <row id="206" trl="N">
+  <value column="Description" original="Baht">Baht</value>
+  <value column="CurSymbol" original="Bt">Bt</value>
+ </row>
+ <row id="207" trl="N">
+  <value column="Description" original="Belize Dollar">Belize Dollar</value>
+  <value column="CurSymbol" original="BZ$">BZ$</value>
+ </row>
+ <row id="209" trl="N">
+  <value column="Description" original="Cordoba Oro">Cordoba Oro</value>
+  <value column="CurSymbol" original="C$">C$</value>
+ </row>
+ <row id="210" trl="N">
+  <value column="Description" original="Cape Verde Escudo">Cape Verde Escudo</value>
+  <value column="CurSymbol" original="C.V.Esc.">C.V.Esc.</value>
+ </row>
+ <row id="211" trl="N">
+  <value column="Description" original="Comoro Franc">Comoro Franc</value>
+  <value column="CurSymbol" original="CF">CF</value>
+ </row>
+ <row id="212" trl="N">
+  <value column="Description" original="CFA Franc BCEAO">CFA Franc BCEAO</value>
+  <value column="CurSymbol" original="CFAF">CFAF</value>
+ </row>
+ <row id="214" trl="N">
+  <value column="Description" original="CFA Franc BEAC">CFA Franc BEAC</value>
+  <value column="CurSymbol" original="CFAF">CFAF</value>
+ </row>
+ <row id="225" trl="N">
+  <value column="Description" original="CFP Franc">CFP Franc</value>
+  <value column="CurSymbol" original="CFPF">CFPF</value>
+ </row>
+ <row id="228" trl="N">
+  <value column="Description" original="Chilean Peso">Chilean Peso</value>
+  <value column="CurSymbol" original="Ch$">Ch$</value>
+ </row>
+ <row id="229" trl="N">
+  <value column="Description" original="Cayman Islands Dollar">Cayman Islands Dollar</value>
+  <value column="CurSymbol" original="CI$">CI$</value>
+ </row>
+ <row id="230" trl="N">
+  <value column="Description" original="Colombian Peso">Colombian Peso</value>
+  <value column="CurSymbol" original="Col$">Col$</value>
+ </row>
+ <row id="231" trl="N">
+  <value column="Description" original="Riel">Riel</value>
+  <value column="CurSymbol" original="CR">CR</value>
+ </row>
+ <row id="232" trl="N">
+  <value column="Description" original="Cuban Peso">Cuban Peso</value>
+  <value column="CurSymbol" original="Cu$">Cu$</value>
+ </row>
+ <row id="233" trl="N">
+  <value column="Description" original="Dalasi">Dalasi</value>
+  <value column="CurSymbol" original="D">D</value>
+ </row>
+ <row id="234" trl="N">
+  <value column="Description" original="Dong">Dong</value>
+  <value column="CurSymbol" original="D">D</value>
+ </row>
+ <row id="235" trl="N">
+  <value column="Description" original="Algerian Dinar">Algerian Dinar</value>
+  <value column="CurSymbol" original="DA">DA</value>
+ </row>
+ <row id="236" trl="N">
+  <value column="Description" original="Dobra">Dobra</value>
+  <value column="CurSymbol" original="Db">Db</value>
+ </row>
+ <row id="237" trl="N">
+  <value column="Description" original="Djibouti Franc">Djibouti Franc</value>
+  <value column="CurSymbol" original="DF">DF</value>
+ </row>
+ <row id="238" trl="N">
+  <value column="Description" original="UAE Dirham">UAE Dirham</value>
+  <value column="CurSymbol" original="Dh">Dh</value>
+ </row>
+ <row id="239" trl="N">
+  <value column="Description" original="Moroccan Dirham">Moroccan Dirham</value>
+  <value column="CurSymbol" original="DH">DH</value>
+ </row>
+ <row id="240" trl="N">
+  <value column="Description" original="Yugoslavian Dinar">Yugoslavian Dinar</value>
+  <value column="CurSymbol" original="Din">Din</value>
+ </row>
+ <row id="241" trl="N">
+  <value column="Description" original="Danish Krone">Danish Krone</value>
+  <value column="CurSymbol" original="Dkr">Dkr</value>
+ </row>
+ <row id="244" trl="N">
+  <value column="Description" original="East Caribbean Dollar">East Caribbean Dollar</value>
+  <value column="CurSymbol" original="EC$">EC$</value>
+ </row>
+ <row id="252" trl="N">
+  <value column="Description" original="Fiji Dollar">Fiji Dollar</value>
+  <value column="CurSymbol" original="F$">F$</value>
+ </row>
+ <row id="253" trl="N">
+  <value column="Description" original="Burundi Franc">Burundi Franc</value>
+  <value column="CurSymbol" original="FBu">FBu</value>
+ </row>
+ <row id="254" trl="N">
+  <value column="Description" original="Malagasy Franc">Malagasy Franc</value>
+  <value column="CurSymbol" original="FMG">FMG</value>
+ </row>
+ <row id="255" trl="N">
+  <value column="Description" original="Forint">Forint</value>
+  <value column="CurSymbol" original="Ft">Ft</value>
+ </row>
+ <row id="256" trl="N">
+  <value column="Description" original="Gourde">Gourde</value>
+  <value column="CurSymbol" original="G">G</value>
+ </row>
+ <row id="257" trl="N">
+  <value column="Description" original="Guyana Dollar">Guyana Dollar</value>
+  <value column="CurSymbol" original="G$">G$</value>
+ </row>
+ <row id="258" trl="N">
+  <value column="Description" original="Hong Kong Dollar">Hong Kong Dollar</value>
+  <value column="CurSymbol" original="HK$">HK$</value>
+ </row>
+ <row id="259" trl="N">
+  <value column="Description" original="Croatian Kuna">Croatian Kuna</value>
+  <value column="CurSymbol" original="HRK">HRK</value>
+ </row>
+ <row id="260" trl="N">
+  <value column="Description" original="Iraqi Dinar">Iraqi Dinar</value>
+  <value column="CurSymbol" original="ID">ID</value>
+ </row>
+ <row id="261" trl="N">
+  <value column="Description" original="Iceland Krona">Iceland Krona</value>
+  <value column="CurSymbol" original="IKr">IKr</value>
+ </row>
+ <row id="262" trl="N">
+  <value column="Description" original="Jamaican Dollar">Jamaican Dollar</value>
+  <value column="CurSymbol" original="J$">J$</value>
+ </row>
+ <row id="263" trl="N">
+  <value column="Description" original="Jordanian Dinar">Jordanian Dinar</value>
+  <value column="CurSymbol" original="JD">JD</value>
+ </row>
+ <row id="264" trl="N">
+  <value column="Description" original="Kyat">Kyat</value>
+  <value column="CurSymbol" original="K">K</value>
+ </row>
+ <row id="265" trl="N">
+  <value column="Description" original="Kina">Kina</value>
+  <value column="CurSymbol" original="K">K</value>
+ </row>
+ <row id="266" trl="N">
+  <value column="Description" original="Kenyan Shilling">Kenyan Shilling</value>
+  <value column="CurSymbol" original="K Sh">K Sh</value>
+ </row>
+ <row id="267" trl="N">
+  <value column="Description" original="Kuwaiti Dinar">Kuwaiti Dinar</value>
+  <value column="CurSymbol" original="KD">KD</value>
+ </row>
+ <row id="268" trl="N">
+  <value column="Description" original="Convertible Marks">Convertible Marks</value>
+  <value column="CurSymbol" original="KM">KM</value>
+ </row>
+ <row id="269" trl="N">
+  <value column="Description" original="Kip">Kip</value>
+  <value column="CurSymbol" original="KN">KN</value>
+ </row>
+ <row id="270" trl="N">
+  <value column="Description" original="Nakfa">Nakfa</value>
+  <value column="CurSymbol" original="KR">KR</value>
+ </row>
+ <row id="271" trl="N">
+  <value column="Description" original="Lek">Lek</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="272" trl="N">
+  <value column="Description" original="Lempira">Lempira</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="273" trl="N">
+  <value column="Description" original="Leu (old)">Leu (old)</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="274" trl="N">
+  <value column="Description" original="Lilangeni">Lilangeni</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="275" trl="N">
+  <value column="Description" original="Libyan Dinar">Libyan Dinar</value>
+  <value column="CurSymbol" original="LD">LD</value>
+ </row>
+ <row id="276" trl="N">
+  <value column="Description" original="Leone">Leone</value>
+  <value column="CurSymbol" original="Le">Le</value>
+ </row>
+ <row id="277" trl="N">
+  <value column="Description" original="Maltese Lira">Maltese Lira</value>
+  <value column="CurSymbol" original="Lm">Lm</value>
+ </row>
+ <row id="278" trl="N">
+  <value column="Description" original="Latvian Lats">Latvian Lats</value>
+  <value column="CurSymbol" original="Ls">Ls</value>
+ </row>
+ <row id="279" trl="N">
+  <value column="Description" original="Lev">Lev</value>
+  <value column="CurSymbol" original="Lv">Lv</value>
+ </row>
+ <row id="280" trl="N">
+  <value column="Description" original="Mauritius Rupee">Mauritius Rupee</value>
+  <value column="CurSymbol" original="Mau Rs">Mau Rs</value>
+ </row>
+ <row id="281" trl="N">
+  <value column="Description" original="Kwacha">Kwacha</value>
+  <value column="CurSymbol" original="MK">MK</value>
+ </row>
+ <row id="282" trl="N">
+  <value column="Description" original="Denar">Denar</value>
+  <value column="CurSymbol" original="MKD">MKD</value>
+ </row>
+ <row id="283" trl="N">
+  <value column="Description" original="Metical">Metical</value>
+  <value column="CurSymbol" original="Mt">Mt</value>
+ </row>
+ <row id="284" trl="N">
+  <value column="Description" original="Netherlands Antillian Guilder">Netherlands Antillian Guilder</value>
+  <value column="CurSymbol" original="NAf.">NAf.</value>
+ </row>
+ <row id="285" trl="N">
+  <value column="Description" original="Estonian Kroon">Estonian Kroon</value>
+  <value column="CurSymbol" original="KR">KR</value>
+ </row>
+ <row id="286" trl="N">
+  <value column="Description" original="New Israeli Sheqel">New Israeli Sheqel</value>
+  <value column="CurSymbol" original="NIS">NIS</value>
+ </row>
+ <row id="287" trl="N">
+  <value column="Description" original="Norwegian Krone">Norwegian Krone</value>
+  <value column="CurSymbol" original="NKr">NKr</value>
+ </row>
+ <row id="288" trl="N">
+  <value column="Description" original="Nepalese Rupee">Nepalese Rupee</value>
+  <value column="CurSymbol" original="NRs">NRs</value>
+ </row>
+ <row id="289" trl="N">
+  <value column="Description" original="New Taiwan Dollar">New Taiwan Dollar</value>
+  <value column="CurSymbol" original="NT$">NT$</value>
+ </row>
+ <row id="290" trl="N">
+  <value column="Description" original="Pula">Pula</value>
+  <value column="CurSymbol" original="P">P</value>
+ </row>
+ <row id="291" trl="N">
+  <value column="Description" original="Pataca">Pataca</value>
+  <value column="CurSymbol" original="P">P</value>
+ </row>
+ <row id="292" trl="N">
+  <value column="Description" original="Quetzal">Quetzal</value>
+  <value column="CurSymbol" original="Q">Q</value>
+ </row>
+ <row id="293" trl="N">
+  <value column="Description" original="Qatari Rial">Qatari Rial</value>
+  <value column="CurSymbol" original="QR">QR</value>
+ </row>
+ <row id="294" trl="N">
+  <value column="Description" original="Rand">Rand</value>
+  <value column="CurSymbol" original="R">R</value>
+ </row>
+ <row id="297" trl="N">
+  <value column="Description" original="Brazilian Real">Brazilian Real</value>
+  <value column="CurSymbol" original="R$">R$</value>
+ </row>
+ <row id="298" trl="N">
+  <value column="Description" original="Dominican Peso">Dominican Peso</value>
+  <value column="CurSymbol" original="RD$">RD$</value>
+ </row>
+ <row id="299" trl="N">
+  <value column="Description" original="Rufiyaa">Rufiyaa</value>
+  <value column="CurSymbol" original="Rf">Rf</value>
+ </row>
+ <row id="300" trl="N">
+  <value column="Description" original="Rwanda Franc">Rwanda Franc</value>
+  <value column="CurSymbol" original="RF">RF</value>
+ </row>
+ <row id="301" trl="N">
+  <value column="Description" original="Malaysian Ringgit">Malaysian Ringgit</value>
+  <value column="CurSymbol" original="RM">RM</value>
+ </row>
+ <row id="302" trl="N">
+  <value column="Description" original="Rial Omani">Rial Omani</value>
+  <value column="CurSymbol" original="RO">RO</value>
+ </row>
+ <row id="303" trl="N">
+  <value column="Description" original="Rupiah">Rupiah</value>
+  <value column="CurSymbol" original="Rp">Rp</value>
+ </row>
+ <row id="304" trl="N">
+  <value column="Description" original="Indian Rupee">Indian Rupee</value>
+  <value column="CurSymbol" original="Rs">Rs</value>
+ </row>
+ <row id="306" trl="N">
+  <value column="Description" original="Pakistan Rupee">Pakistan Rupee</value>
+  <value column="CurSymbol" original="Rs">Rs</value>
+ </row>
+ <row id="307" trl="N">
+  <value column="Description" original="Singapore Dollar">Singapore Dollar</value>
+  <value column="CurSymbol" original="S$">S$</value>
+ </row>
+ <row id="308" trl="N">
+  <value column="Description" original="Nuevo Sol">Nuevo Sol</value>
+  <value column="CurSymbol" original="S/.">S/.</value>
+ </row>
+ <row id="309" trl="N">
+  <value column="Description" original="Suriname Guilder">Suriname Guilder</value>
+  <value column="CurSymbol" original="Sf.">Sf.</value>
+ </row>
+ <row id="310" trl="N">
+  <value column="Description" original="Solomon Islands Dollar">Solomon Islands Dollar</value>
+  <value column="CurSymbol" original="SI$">SI$</value>
+ </row>
+ <row id="311" trl="N">
+  <value column="Description" original="Swedish Krona">Swedish Krona</value>
+  <value column="CurSymbol" original="Sk">Sk</value>
+ </row>
+ <row id="312" trl="N">
+  <value column="Description" original="Slovak Koruna">Slovak Koruna</value>
+  <value column="CurSymbol" original="Sk">Sk</value>
+ </row>
+ <row id="313" trl="N">
+  <value column="Description" original="Sri Lanka Rupee">Sri Lanka Rupee</value>
+  <value column="CurSymbol" original="SLRs">SLRs</value>
+ </row>
+ <row id="314" trl="N">
+  <value column="Description" original="Tolar">Tolar</value>
+  <value column="CurSymbol" original="SlT">SlT</value>
+ </row>
+ <row id="315" trl="N">
+  <value column="Description" original="Somali Shilling">Somali Shilling</value>
+  <value column="CurSymbol" original="So. Sh.">So. Sh.</value>
+ </row>
+ <row id="316" trl="N">
+  <value column="Description" original="Seychelles Rupee">Seychelles Rupee</value>
+  <value column="CurSymbol" original="SR">SR</value>
+ </row>
+ <row id="317" trl="N">
+  <value column="Description" original="Saudi Riyal">Saudi Riyal</value>
+  <value column="CurSymbol" original="SRls">SRls</value>
+ </row>
+ <row id="318" trl="N">
+  <value column="Description" original="Swiss Franc">Swiss Franc</value>
+  <value column="CurSymbol" original="SFr">SFr</value>
+ </row>
+ <row id="320" trl="N">
+  <value column="Description" original="Pa’anga">Pa’anga</value>
+  <value column="CurSymbol" original="T$">T$</value>
+ </row>
+ <row id="321" trl="N">
+  <value column="Description" original="Tunisian Dinar">Tunisian Dinar</value>
+  <value column="CurSymbol" original="TD">TD</value>
+ </row>
+ <row id="322" trl="N">
+  <value column="Description" original="Taka">Taka</value>
+  <value column="CurSymbol" original="Tk">Tk</value>
+ </row>
+ <row id="323" trl="N">
+  <value column="Description" original="Turkish Lira">Turkish Lira</value>
+  <value column="CurSymbol" original="TL">TL</value>
+ </row>
+ <row id="324" trl="N">
+  <value column="Description" original="Tanzanian Shilling">Tanzanian Shilling</value>
+  <value column="CurSymbol" original="TSh">TSh</value>
+ </row>
+ <row id="325" trl="N">
+  <value column="Description" original="Trinidad and Tobago Dollar">Trinidad and Tobago Dollar</value>
+  <value column="CurSymbol" original="TT$">TT$</value>
+ </row>
+ <row id="326" trl="N">
+  <value column="Description" original="Tugrik">Tugrik</value>
+  <value column="CurSymbol" original="Tug">Tug</value>
+ </row>
+ <row id="327" trl="N">
+  <value column="Description" original="Ouguiya">Ouguiya</value>
+  <value column="CurSymbol" original="UM">UM</value>
+ </row>
+ <row id="328" trl="N">
+  <value column="Description" original="Uganda Shilling">Uganda Shilling</value>
+  <value column="CurSymbol" original="USh">USh</value>
+ </row>
+ <row id="329" trl="N">
+  <value column="Description" original="Vatu">Vatu</value>
+  <value column="CurSymbol" original="VT">VT</value>
+ </row>
+ <row id="330" trl="N">
+  <value column="Description" original="Won">Won</value>
+  <value column="CurSymbol" original="W">W</value>
+ </row>
+ <row id="331" trl="N">
+  <value column="Description" original="Tala">Tala</value>
+  <value column="CurSymbol" original="WS$">WS$</value>
+ </row>
+ <row id="332" trl="N">
+  <value column="Description" original="Yuan Renminbi">Yuan Renminbi</value>
+  <value column="CurSymbol" original="Y">Y</value>
+ </row>
+ <row id="333" trl="N">
+  <value column="Description" original="Yemeni Rial">Yemeni Rial</value>
+  <value column="CurSymbol" original="YRls">YRls</value>
+ </row>
+ <row id="334" trl="N">
+  <value column="Description" original="Zimbabwe Dollar">Zimbabwe Dollar</value>
+  <value column="CurSymbol" original="Z$">Z$</value>
+ </row>
+ <row id="335" trl="N">
+  <value column="Description" original="Kwacha">Kwacha</value>
+  <value column="CurSymbol" original="ZK">ZK</value>
+ </row>
+ <row id="336" trl="N">
+  <value column="Description" original="Costa Rican Colon">Costa Rican Colon</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="337" trl="N">
+  <value column="Description" original="Guinea Franc">Guinea Franc</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="338" trl="N">
+  <value column="Description" original="Guinea-Bissau Peso">Guinea-Bissau Peso</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="339" trl="N">
+  <value column="Description" original="Som">Som</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="340" trl="N">
+  <value column="Description" original="North Korean Won">North Korean Won</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="341" trl="N">
+  <value column="Description" original="Tenge">Tenge</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="342" trl="N">
+  <value column="Description" original="Lebanese Pound">Lebanese Pound</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="343" trl="N">
+  <value column="Description" original="Naira">Naira</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="344" trl="N">
+  <value column="Description" original="Guarani">Guarani</value>
+  <value column="CurSymbol" original=""/>
+ </row>
+ <row id="346" trl="N">
+  <value column="Description" original="Leu (new)">Leu (new)</value>
+  <value column="CurSymbol" original="L">L</value>
+ </row>
+ <row id="347" trl="N">
+  <value column="Description" original="Serbian Dinar">Serbian Dinar</value>
+  <value column="CurSymbol" original="RSD">RSD</value>
+ </row>
+</adempiereTrl>

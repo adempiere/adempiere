@@ -1,0 +1,2005 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.5.3a_2008-12-21 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090724-1101 - ${ADEMPIERE_VENDOR}-->
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="sr_RS" table="AD_Reference">
+ <row id="1" trl="N">
+  <value column="Name" original="AD_Reference Data Types">AD_Reference Data Types</value>
+  <value column="Description" original="Data Type selection">Data Type selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="2" trl="N">
+  <value column="Name" original="AD_Reference Validation Types">AD_Reference Validation Types</value>
+  <value column="Description" original="Reference Validation Type list">Reference Validation Type list</value>
+  <value column="Help" original="e.g. I - Independent ">e.g. I - Independent </value>
+ </row>
+ <row id="3" trl="N">
+  <value column="Name" original="AD_Column ColumName">AD_Column ColumName</value>
+  <value column="Description" original="Column selection">Column selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="4" trl="N">
+  <value column="Name" original="AD_Reference Values">AD_Reference Values</value>
+  <value column="Description" original="Reference (List and Table) selection">Reference (List and Table) selection</value>
+  <value column="Help" original="(not DataType and Independent)">(not DataType and Independent)</value>
+ </row>
+ <row id="5" trl="N">
+  <value column="Name" original="AD_Table Access Levels">AD_Table Access Levels</value>
+  <value column="Description" original="Table Access and Sharing Level list">Table Access and Sharing Level list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="10" trl="N">
+  <value column="Name" original="String">String</value>
+  <value column="Description" original="Character String">Character String</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="11" trl="N">
+  <value column="Name" original="Integer">Integer</value>
+  <value column="Description" original="10 Digit numeric">10 Digit numeric</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="12" trl="N">
+  <value column="Name" original="Amount">Износ</value>
+  <value column="Description" original="Number with 4 decimals">Number with 4 decimals</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="13" trl="N">
+  <value column="Name" original="ID">ID</value>
+  <value column="Description" original="10 Digit Identifier">10 Digit Identifier</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="14" trl="N">
+  <value column="Name" original="Text">Текст</value>
+  <value column="Description" original="Character String up to 2000 characters">Character String up to 2000 characters</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="15" trl="N">
+  <value column="Name" original="Date">Датум</value>
+  <value column="Description" original="Date mm/dd/yyyy">Date mm/dd/yyyy</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="16" trl="N">
+  <value column="Name" original="Date+Time">Date+Time</value>
+  <value column="Description" original="Date with time">Date with time</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="17" trl="N">
+  <value column="Name" original="List">Списак</value>
+  <value column="Description" original="Reference List">Листа референци</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="18" trl="N">
+  <value column="Name" original="Table">Табела</value>
+  <value column="Description" original="Table List">Table List</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="19" trl="N">
+  <value column="Name" original="Table Direct">Table Direct</value>
+  <value column="Description" original="Direct Table Access">Direct Table Access</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="20" trl="N">
+  <value column="Name" original="Yes-No">Yes-No</value>
+  <value column="Description" original="CheckBox">CheckBox</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="21" trl="N">
+  <value column="Name" original="Location (Address)">Location (Address)</value>
+  <value column="Description" original="Location/Address">Локација/адреса</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="22" trl="N">
+  <value column="Name" original="Number">Број</value>
+  <value column="Description" original="Float Number">Float Number</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="23" trl="N">
+  <value column="Name" original="Binary">Бинарно</value>
+  <value column="Description" original="Binary Data">Binary Data</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="24" trl="N">
+  <value column="Name" original="Time">Time</value>
+  <value column="Description" original="Time">Time</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="25" trl="N">
+  <value column="Name" original="Account">Конто</value>
+  <value column="Description" original="Account Element">Контни елемент</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="26" trl="N">
+  <value column="Name" original="RowID">RowID</value>
+  <value column="Description" original="Row ID Data Type">Row ID Data Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="27" trl="N">
+  <value column="Name" original="Color">Боја</value>
+  <value column="Description" original="Color element">Color element</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="28" trl="N">
+  <value column="Name" original="Button">Button</value>
+  <value column="Description" original="Command Button - starts a process">Command Button - starts a process</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="29" trl="N">
+  <value column="Name" original="Quantity">Количина</value>
+  <value column="Description" original="Quantity data type">Quantity data type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="30" trl="N">
+  <value column="Name" original="Search">Претрага</value>
+  <value column="Description" original="Search Field">Search Field</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="31" trl="N">
+  <value column="Name" original="Locator (WH)">Locator (WH)</value>
+  <value column="Description" original="Warehouse Locator Data type">Warehouse Locator Data type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="32" trl="N">
+  <value column="Name" original="Image">Слика</value>
+  <value column="Description" original="Binary Image Data">Binary Image Data</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="33" trl="N">
+  <value column="Name" original="Assignment">Додела</value>
+  <value column="Description" original="Resource Assignment">Додела ресурса</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="34" trl="N">
+  <value column="Name" original="Memo">Memo</value>
+  <value column="Description" original="Large Text Editor - Character String up to 2000 characters">Large Text Editor - Character String up to 2000 characters</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="35" trl="N">
+  <value column="Name" original="Product Attribute">Особина производа</value>
+  <value column="Description" original="Product Attribute">Особина производа</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="36" trl="N">
+  <value column="Name" original="Text Long">Text Long</value>
+  <value column="Description" original="Text (Long) - Text &gt; 2000 characters">Text (Long) - Text &gt; 2000 characters</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="37" trl="N">
+  <value column="Name" original="Costs+Prices">Costs+Prices</value>
+  <value column="Description" original="Costs + Prices (minimum currency precision but if exists more)">Costs + Prices (minimum currency precision but if exists more)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="38" trl="N">
+  <value column="Name" original="FilePath">FilePath</value>
+  <value column="Description" original="Local File Path">Local File Path</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="39" trl="N">
+  <value column="Name" original="FileName">FileName</value>
+  <value column="Description" original="Local File">Local File</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="40" trl="N">
+  <value column="Name" original="URL">URL</value>
+  <value column="Description" original="URL">URL</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="42" trl="N">
+  <value column="Name" original="Printer Name">Назив штампача</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="100" trl="N">
+  <value column="Name" original="AD_Validation Rules Parent">AD_Validation Rules Parent</value>
+  <value column="Description" original="Validation rule Parent selection">Validation rule Parent selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="101" trl="N">
+  <value column="Name" original="AD_Validation Rule Types">AD_Validation Rule Types</value>
+  <value column="Description" original="Validation Rule Type list">Validation Rule Type list</value>
+  <value column="Help" original="e.g. S - SQL">e.g. S - SQL</value>
+ </row>
+ <row id="102" trl="N">
+  <value column="Name" original="AD_Message">AD_Message</value>
+  <value column="Description" original="Message selection">Message selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="103" trl="N">
+  <value column="Name" original="AD_Message Type">AD_Message Type</value>
+  <value column="Description" original="Message Type list">Message Type list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="104" trl="N">
+  <value column="Name" original="AD_Menu Action">AD_Menu Action</value>
+  <value column="Description" original="Menu Action list">Menu Action list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="105" trl="N">
+  <value column="Name" original="AD_Menu Parent">AD_Menu Parent</value>
+  <value column="Description" original="Menu Parent selection">Menu Parent selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="106" trl="N">
+  <value column="Name" original="AD_Language">AD_Language</value>
+  <value column="Description" original="Language selection">Language selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="108" trl="N">
+  <value column="Name" original="AD_Window Types">AD_Window Types</value>
+  <value column="Description" original="Window Type list">Window Type list</value>
+  <value column="Help" original="e.g. M = Multi/Single (one uppercase character)">e.g. M = Multi/Single (one uppercase character)</value>
+ </row>
+ <row id="109" trl="N">
+  <value column="Name" original="AD_WF_Next Nodes">AD_WF_Next Nodes</value>
+  <value column="Description" original="Next workflow node selection">Next workflow node selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="110" trl="N">
+  <value column="Name" original="AD_User">AD_User</value>
+  <value column="Description" original="User selection">User selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="111" trl="N">
+  <value column="Name" original="C_Conversion_Rate Types">C_Conversion_Rate Types</value>
+  <value column="Description" original="Conversion Rate Type list">Conversion Rate Type list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="112" trl="N">
+  <value column="Name" original="C_Currencies">C_Currencies</value>
+  <value column="Description" original="Currencies with dynamic exchange rate selection">Currencies with dynamic exchange rate selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="113" trl="N">
+  <value column="Name" original="AD_Org Parent">AD_Org Parent</value>
+  <value column="Description" original="Organization Parent selection">Organization Parent selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="114" trl="N">
+  <value column="Name" original="C_UOM">C_UOM</value>
+  <value column="Description" original="Unit of Measure selection">Unit of Measure selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="115" trl="N">
+  <value column="Name" original="C_Period Type">C_Period Type</value>
+  <value column="Description" original="Period Type list">Period Type list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="116" trl="N">
+  <value column="Name" original="C_Element Type">C_Element Type</value>
+  <value column="Description" original="Account Element Types">Account Element Types</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="117" trl="N">
+  <value column="Name" original="C_ElementValue AccountType">C_ElementValue AccountType</value>
+  <value column="Description" original="Account Type list">Account Type list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="118" trl="N">
+  <value column="Name" original="C_ElementValue Account Sign">C_ElementValue Account Sign</value>
+  <value column="Description" original="Account Sign list">Account Sign list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="120" trl="N">
+  <value column="Name" original="AD_TreeType Type">AD_TreeType Type</value>
+  <value column="Description" original="Tree Type list">Tree Type list</value>
+  <value column="Help" original="Determines which element to use as the base for the information">Determines which element to use as the base for the information</value>
+ </row>
+ <row id="121" trl="N">
+  <value column="Name" original="X12DE98 Entity Identifier Code">X12DE98 Entity Identifier Code</value>
+  <value column="Description" original="X12DE98 Entity Identifier Code list">X12DE98 Entity Identifier Code list</value>
+  <value column="Help" original="Identify organizational entity physical location property or individual list">Identify organizational entity physical location property or individual list</value>
+ </row>
+ <row id="122" trl="N">
+  <value column="Name" original="C_AcctSchema Costing Method">C_AcctSchema Costing Method</value>
+  <value column="Description" original="Costing Method list">Costing Method list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="123" trl="N">
+  <value column="Name" original="C_AcctSchema GAAP">C_AcctSchema GAAP</value>
+  <value column="Description" original="General Accepted Accounting Principle list">General Accepted Accounting Principle list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="124" trl="N">
+  <value column="Name" original="C_BPartner Parent">C_BPartner Parent</value>
+  <value column="Description" original="Business Partner Parent selection">Business Partner Parent selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="125" trl="N">
+  <value column="Name" original="_Posting Type">_Posting Type</value>
+  <value column="Description" original="Posting Type (Actual Budget etc.) list">Posting Type (Actual Budget etc.) list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="126" trl="N">
+  <value column="Name" original="AD_Table Replication Type">AD_Table Replication Type</value>
+  <value column="Description" original="Replication Type">Replication Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="128" trl="N">
+  <value column="Name" original="AD_Sequence for Documents">AD_Sequence for Documents</value>
+  <value column="Description" original="Sequence for Document selection">Sequence for Document selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="129" trl="N">
+  <value column="Name" original="AD_Client">AD_Client</value>
+  <value column="Description" original="Client selection">Client selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="130" trl="N">
+  <value column="Name" original="AD_Org (Trx)">AD_Org (Trx)</value>
+  <value column="Description" original="Organization selection, no summary, no 0">Organization selection, no summary, no 0</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="131" trl="N">
+  <value column="Name" original="_Document Status">_Document Status</value>
+  <value column="Description" original="Document Status list">Document Status list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="132" trl="N">
+  <value column="Name" original="Account_ID (Trx)">Account_ID (Trx)</value>
+  <value column="Description" original="Account selection based on Client">Account selection based on Client</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="133" trl="N">
+  <value column="Name" original="C_Location">C_Location</value>
+  <value column="Description" original="Location selection">Location selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="134" trl="N">
+  <value column="Name" original="Account_ID - User1">Account_ID - User1</value>
+  <value column="Description" original="User1 selection based on Client">User1 selection based on Client</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="135" trl="N">
+  <value column="Name" original="_Document Action">_Document Action</value>
+  <value column="Description" original="Document action list">Document action list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="136" trl="N">
+  <value column="Name" original="C_AcctSchema">C_AcctSchema</value>
+  <value column="Description" original="Accounting Schema selection">Accounting Schema selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="137" trl="N">
+  <value column="Name" original="Account_ID - User2">Account_ID - User2</value>
+  <value column="Description" original="User2 selection based on Client">User2 selection based on Client</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="138" trl="N">
+  <value column="Name" original="C_BPartner (Trx)">C_BPartner (Trx)</value>
+  <value column="Description" original="Business Partner selection (no Summary)">Business Partner selection (no Summary)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="141" trl="N">
+  <value column="Name" original="C_Project (No summary)">C_Project (No summary)</value>
+  <value column="Description" original="Project selection">Project selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="142" trl="N">
+  <value column="Name" original="C_Activity (No summary)">C_Activity (No summary)</value>
+  <value column="Description" original="Activity selection">Activity selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="143" trl="N">
+  <value column="Name" original="C_Campaign (No summary)">C_Campaign (No summary)</value>
+  <value column="Description" original="Campaign selection">Campaign selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="144" trl="N">
+  <value column="Name" original="C_Sales Region (No summary)">C_Sales Region (No summary)</value>
+  <value column="Description" original="Sales Region selection (No summary)">Sales Region selection (No summary)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="145" trl="N">
+  <value column="Name" original="C_Element">C_Element</value>
+  <value column="Description" original="Element selection">Element selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="148" trl="N">
+  <value column="Name" original="C_DocType SubTypeSO">C_DocType SubTypeSO</value>
+  <value column="Description" original="Order Types list">Order Types list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="149" trl="N">
+  <value column="Name" original="C_Payment CreditCard Type">C_Payment CreditCard Type</value>
+  <value column="Description" original="C_Payment Credit Card Type list">C_Payment Credit Card Type list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="150" trl="N">
+  <value column="Name" original="C_Order InvoiceRule">C_Order InvoiceRule</value>
+  <value column="Description" original="Invoicing Rules list">Invoicing Rules list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="151" trl="N">
+  <value column="Name" original="C_Order DeliveryRule">C_Order DeliveryRule</value>
+  <value column="Description" original="Delivery Rules list">Delivery Rules list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="152" trl="N">
+  <value column="Name" original="C_Order DeliveryViaRule">C_Order DeliveryViaRule</value>
+  <value column="Description" original="Delivery via Rule list">Delivery via Rule list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="153" trl="N">
+  <value column="Name" original="C_Order FreightCostRule">C_Order FreightCostRule</value>
+  <value column="Description" original="Freight cost Rule list">Freight cost Rule list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="154" trl="N">
+  <value column="Name" original="_PriorityRule">_PriorityRule</value>
+  <value column="Description" original="Priority scale list">Priority scale list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="155" trl="N">
+  <value column="Name" original="M_DiscountPriceList RoundingRule">M_DiscountPriceList RoundingRule</value>
+  <value column="Description" original="Price Rounding Rule list">Price Rounding Rule list</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="156" trl="N">
+  <value column="Name" original="C_Country">C_Country</value>
+  <value column="Description" original="Country selection">Country selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="157" trl="N">
+  <value column="Name" original="C_Region">C_Region</value>
+  <value column="Description" original="Region selection">Region selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="158" trl="N">
+  <value column="Name" original="C_Tax">C_Tax</value>
+  <value column="Description" original="Tax selection">Tax selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="159" trl="N">
+  <value column="Name" original="C_BPartner Location">C_BPartner Location</value>
+  <value column="Description" original="Locations of a Business Partner">Locations of a Business Partner</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="161" trl="N">
+  <value column="Name" original="M_Product Parent">M_Product Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="162" trl="N">
+  <value column="Name" original="M_Product (no summary)">M_Product (no summary)</value>
+  <value column="Description" original="Product selection no summary">Product selection no summary</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="163" trl="N">
+  <value column="Name" original="M_Product Category ">M_Product Category </value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="164" trl="N">
+  <value column="Name" original="M_Replenish Type">M_Replenish Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="166" trl="N">
+  <value column="Name" original="M_PriceList">M_PriceList</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="167" trl="N">
+  <value column="Name" original="Weekdays">Weekdays</value>
+  <value column="Description" original="List of days">List of days</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="168" trl="N">
+  <value column="Name" original="C_InvoiceSchedule InvoiceFrequency">C_InvoiceSchedule InvoiceFrequency</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="169" trl="N">
+  <value column="Name" original="C_Project Parent">C_Project Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="170" trl="N">
+  <value column="Name" original="C_DocType">C_DocType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="171" trl="N">
+  <value column="Name" original="M_Product (stocked)">M_Product (stocked)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="172" trl="N">
+  <value column="Name" original="C_DocType SO">C_DocType SO</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="173" trl="N">
+  <value column="Name" original="C_BPartner Customers">C_BPartner Customers</value>
+  <value column="Description" original="Customer selection">Customer selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="174" trl="N">
+  <value column="Name" original="AD_Workflow">AD_Workflow</value>
+  <value column="Description" original="Workflows">Workflows</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="175" trl="N">
+  <value column="Name" original="C_ValidCombination">C_ValidCombination</value>
+  <value column="Description" original="Valid Account combinations">Valid Account combinations</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="176" trl="N">
+  <value column="Name" original="C_PeriodControl Action">C_PeriodControl Action</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="177" trl="N">
+  <value column="Name" original="C_PeriodControl Status">C_PeriodControl Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="178" trl="N">
+  <value column="Name" original="GL_Budget Status">GL_Budget Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="179" trl="N">
+  <value column="Name" original="C_SalesRegion Parent">C_SalesRegion Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="180" trl="N">
+  <value column="Name" original="_ErrorType">_ErrorType</value>
+  <value column="Description" original="List of type of errors">List of type of errors</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="181" trl="N">
+  <value column="Name" original="C_AcctSchema ElementType">C_AcctSchema ElementType</value>
+  <value column="Description" original="Element Types for Accounting Elements">Element Types for Accounting Elements</value>
+  <value column="Help" original="Hardcoded Element Types">Hardcoded Element Types</value>
+ </row>
+ <row id="182" trl="N">
+  <value column="Name" original="C_ElementValue (all)">C_ElementValue (all)</value>
+  <value column="Description" original="Element Values">Element Values</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="183" trl="N">
+  <value column="Name" original="C_DocType DocBaseType">C_DocType DocBaseType</value>
+  <value column="Description" original="Base Document Types">Base Document Types</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="184" trl="N">
+  <value column="Name" original="AD_Tree">AD_Tree</value>
+  <value column="Description" original="Tree selection">Tree selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="188" trl="N">
+  <value column="Name" original="M_PriceList Version">M_PriceList Version</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="189" trl="N">
+  <value column="Name" original="M_Transaction Movement Type">M_Transaction Movement Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="190" trl="N">
+  <value column="Name" original="AD_User - SalesRep">AD_User - SalesRep</value>
+  <value column="Description" original="Sales Representative">Референт продаје</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="191" trl="N">
+  <value column="Name" original="M_Locator">M_Locator</value>
+  <value column="Description" original="Warehouse Locator">Warehouse Locator</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="192" trl="N">
+  <value column="Name" original="C_BPartner Vendors">C_BPartner Vendors</value>
+  <value column="Description" original="Vendor selection">Vendor selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="193" trl="N">
+  <value column="Name" original="C_BankAccount for Credit Card">C_BankAccount for Credit Card</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="194" trl="N">
+  <value column="Name" original="M_DiscountPriceList Base">M_DiscountPriceList Base</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="195" trl="N">
+  <value column="Name" original="_Payment Rule">_Payment Rule</value>
+  <value column="Description" original="In &amp; Out Payment Options">In &amp; Out Payment Options</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="196" trl="N">
+  <value column="Name" original="C_RevenueRecognition Frequency">C_RevenueRecognition Frequency</value>
+  <value column="Description" original="Frequency of Revenue Recognition">Frequency of Revenue Recognition</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="197" trl="N">
+  <value column="Name" original="M_Warehouse of Client">M_Warehouse of Client</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="198" trl="N">
+  <value column="Name" original="M_Inventory ReportType">M_Inventory ReportType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="199" trl="N">
+  <value column="Name" original="M_PriceList_Version for Client">M_PriceList_Version for Client</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="200" trl="N">
+  <value column="Name" original="C_Charge">C_Charge</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="201" trl="N">
+  <value column="Name" original="C_BP_EDI EDI Type">C_BP_EDI EDI Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="202" trl="N">
+  <value column="Name" original="M_EDI Status">M_EDI Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="203" trl="N">
+  <value column="Name" original="M_EDI Trx Type">M_EDI Trx Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="204" trl="N">
+  <value column="Name" original="AD_Find AndOr">AD_Find AndOr</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="205" trl="N">
+  <value column="Name" original="AD_Find Operation">AD_Find Operation</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="206" trl="N">
+  <value column="Name" original="AD_Table Posting">AD_Table Posting</value>
+  <value column="Description" original="Posting Tables">Posting Tables</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="207" trl="N">
+  <value column="Name" original="GL Category Type">GL Category Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="208" trl="N">
+  <value column="Name" original="AD_ImpFormat Type">AD_ImpFormat Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="209" trl="N">
+  <value column="Name" original="AD_ImpFormat FormatType">AD_ImpFormat FormatType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="210" trl="N">
+  <value column="Name" original="AD_ImpFormat_Row Type">AD_ImpFormat_Row Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="211" trl="N">
+  <value column="Name" original="M_Product BOM (stocked)">M_Product BOM (stocked)</value>
+  <value column="Description" original="Products that are BOMs and stocked">Products that are BOMs and stocked</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="212" trl="N">
+  <value column="Name" original="M_InventoryCount QtyRange">M_InventoryCount QtyRange</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="213" trl="N">
+  <value column="Name" original="C_Payment AVS">C_Payment AVS</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="214" trl="N">
+  <value column="Name" original="C_Payment Tender Type">C_Payment Tender Type</value>
+  <value column="Description" original="Direct Debit/Deposit - Check - CC">Direct Debit/Deposit - Check - CC</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="215" trl="N">
+  <value column="Name" original="C_Payment Trx Type">C_Payment Trx Type</value>
+  <value column="Description" original="CC Trx Type">CC Trx Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="216" trl="N">
+  <value column="Name" original="C_Bank Account Type">C_Bank Account Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="217" trl="N">
+  <value column="Name" original="C_Cash Trx Type">C_Cash Trx Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="218" trl="N">
+  <value column="Name" original="R_Request Request Type">R_Request Request Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="219" trl="N">
+  <value column="Name" original="R_Request Next Action">R_Request Next Action</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="221" trl="N">
+  <value column="Name" original="_Frequency Type">_Frequency Type</value>
+  <value column="Description" original="Processor Frequency Type">Processor Frequency Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="222" trl="N">
+  <value column="Name" original="R_Request Due Type">R_Request Due Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="223" trl="N">
+  <value column="Name" original="C_BPartner Vendors Avtive">C_BPartner Vendors Avtive</value>
+  <value column="Description" original="Vendor selection">Vendor selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="224" trl="N">
+  <value column="Name" original="C_Commission DocBasis">C_Commission DocBasis</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="225" trl="N">
+  <value column="Name" original="C_Commission Frequency">C_Commission Frequency</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="226" trl="N">
+  <value column="Name" original="AD_Role User Level">AD_Role User Level</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="227" trl="N">
+  <value column="Name" original="C_PaymentTerm">C_PaymentTerm</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="228" trl="N">
+  <value column="Name" original="PA_Goal">PA_Goal</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="229" trl="N">
+  <value column="Name" original="PA_Achievement Parent">PA_Achievement Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="230" trl="N">
+  <value column="Name" original="PA_Goal Parent">PA_Goal Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="231" trl="N">
+  <value column="Name" original="PA_Measure Type">PA_Measure Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="232" trl="N">
+  <value column="Name" original="C_BPartner Vendor or SalesRep">C_BPartner Vendor or SalesRep</value>
+  <value column="Description" original="Vendor or SalesRep selection">Vendor or SalesRep selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="233" trl="N">
+  <value column="Name" original="C_Period (Open)">C_Period (Open)</value>
+  <value column="Description" original="Periods Sorted by Date">Periods Sorted by Date</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="234" trl="N">
+  <value column="Name" original="_Posted Status">_Posted Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="235" trl="N">
+  <value column="Name" original="PA_Report AmountType">PA_Report AmountType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="236" trl="N">
+  <value column="Name" original="PA_Report CalculationType">PA_Report CalculationType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="237" trl="N">
+  <value column="Name" original="PA_Report ColumnType">PA_Report ColumnType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="238" trl="N">
+  <value column="Name" original="PA_Report CurrencyType">PA_Report CurrencyType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="239" trl="N">
+  <value column="Name" original="PA_ReportColumn">PA_ReportColumn</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="240" trl="N">
+  <value column="Name" original="PA_ReportLine">PA_ReportLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="241" trl="N">
+  <value column="Name" original="PA_Report LineType">PA_Report LineType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="242" trl="N">
+  <value column="Name" original="PA_ReportLine Parent">PA_ReportLine Parent</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="243" trl="N">
+  <value column="Name" original="AD_Color Type">AD_Color Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="244" trl="N">
+  <value column="Name" original="AD_Column Key ColumnNames">AD_Column Key ColumnNames</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="245" trl="N">
+  <value column="Name" original="_Entity Type">_Entity Type</value>
+  <value column="Description" original="Entity Type (Dictionary, ..)">Entity Type (Dictionary, ..)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="246" trl="N">
+  <value column="Name" original="M_Discount CumulativeLevel">M_Discount CumulativeLevel</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="247" trl="N">
+  <value column="Name" original="M_Discount Type">M_Discount Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="248" trl="N">
+  <value column="Name" original="AD_Color StartPoint">AD_Color StartPoint</value>
+  <value column="Description" original="Nord-West-..">Nord-West-..</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="249" trl="N">
+  <value column="Name" original="M_DiscountSchema">M_DiscountSchema</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="250" trl="N">
+  <value column="Name" original="CostUpdate Source">CostUpdate Source</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="251" trl="N">
+  <value column="Name" original="AD_Column Name">AD_Column Name</value>
+  <value column="Description" original="Column selection">Column selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="252" trl="N">
+  <value column="Name" original="C_BPartner Employee">C_BPartner Employee</value>
+  <value column="Description" original="Business Partners who are Employee">Business Partners who are Employee</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="253" trl="N">
+  <value column="Name" original="AD_Print Field Alignment">AD_Print Field Alignment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="254" trl="N">
+  <value column="Name" original="AD_Print Line Alignment">AD_Print Line Alignment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="255" trl="N">
+  <value column="Name" original="AD_Print Format Type">AD_Print Format Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="256" trl="N">
+  <value column="Name" original="AD_Print Area">AD_Print Area</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="257" trl="N">
+  <value column="Name" original="AD_Column Integer">AD_Column Integer</value>
+  <value column="Description" original="Integer Type only (Name)">Integer Type only (Name)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="258" trl="N">
+  <value column="Name" original="AD_Column YesNo">AD_Column YesNo</value>
+  <value column="Description" original="Coluns YesNo (Name)">Coluns YesNo (Name)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="259" trl="N">
+  <value column="Name" original="AD_PrintFormat">AD_PrintFormat</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="261" trl="N">
+  <value column="Name" original="AD_PrintFormat Invoice">AD_PrintFormat Invoice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="262" trl="N">
+  <value column="Name" original="AD_PrintFormat Order">AD_PrintFormat Order</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="263" trl="N">
+  <value column="Name" original="AD_PrintFormat Shipment">AD_PrintFormat Shipment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="264" trl="N">
+  <value column="Name" original="AD_PrintFormatItem">AD_PrintFormatItem</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="265" trl="N">
+  <value column="Name" original="AD_Print Graph Type">AD_Print Graph Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="266" trl="N">
+  <value column="Name" original="AD_PrintColor">AD_PrintColor</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="267" trl="N">
+  <value column="Name" original="AD_PrintFont">AD_PrintFont</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="268" trl="N">
+  <value column="Name" original="AD_PrintFormat Check">AD_PrintFormat Check</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="269" trl="N">
+  <value column="Name" original="AD_PrintFormat Not TableBased">AD_PrintFormat Not TableBased</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="270" trl="N">
+  <value column="Name" original="M_Product_ProductType">M_Product_ProductType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="271" trl="N">
+  <value column="Name" original="C_OrderLine">C_OrderLine</value>
+  <value column="Description" original="Order Line">Ставка налога</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="272" trl="N">
+  <value column="Name" original="I_ElementValue Column">I_ElementValue Column</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="274" trl="N">
+  <value column="Name" original="R_MailText">R_MailText</value>
+  <value column="Description" original="Mail Text">Текст писма</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="275" trl="N">
+  <value column="Name" original="C_Period (all)">C_Period (all)</value>
+  <value column="Description" original="Periods Sorted by Date">Periods Sorted by Date</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="276" trl="N">
+  <value column="Name" original="AD_Org (all)">AD_Org (all)</value>
+  <value column="Description" original="Organization selection">Organization selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="277" trl="N">
+  <value column="Name" original="C_BPartner Employee w Address">C_BPartner Employee w Address</value>
+  <value column="Description" original="Business Partners who are Employee and have addresses">Business Partners who are Employee and have addresses</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="278" trl="N">
+  <value column="Name" original="AD_Tab">AD_Tab</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="279" trl="N">
+  <value column="Name" original="M_Product BOM Product TypeX">M_Product BOM Product TypeX</value>
+  <value column="Description" original="Old">Old</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="280" trl="N">
+  <value column="Name" original="AD_Print Label Line Type">AD_Print Label Line Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="282" trl="N">
+  <value column="Name" original="C_Recurring Type">C_Recurring Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="283" trl="N">
+  <value column="Name" original="C_Recurring Frequency">C_Recurring Frequency</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="284" trl="N">
+  <value column="Name" original="AD_Window">AD_Window</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="285" trl="N">
+  <value column="Name" original="K_Entry Related">K_Entry Related</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="286" trl="N">
+  <value column="Name" original="AD_User - Internal">AD_User - Internal</value>
+  <value column="Description" original="Employee or SalesRep">Employee or SalesRep</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="287" trl="N">
+  <value column="Name" original="C_Tax SPPOType">C_Tax SPPOType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="288" trl="N">
+  <value column="Name" original="C_ProjectType Category">C_ProjectType Category</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="289" trl="N">
+  <value column="Name" original="C_BPartner SOCreditStatus">C_BPartner SOCreditStatus</value>
+  <value column="Description" original="Sales Credit Status">Sales Credit Status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="290" trl="N">
+  <value column="Name" original="C_Order">C_Order</value>
+  <value column="Description" original="Order">Налог</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="291" trl="N">
+  <value column="Name" original="AD_Field ObscureType">AD_Field ObscureType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="292" trl="N">
+  <value column="Name" original="M_Inventory Type">M_Inventory Type</value>
+  <value column="Description" original="Inventory Type (Difference - Charge)">Inventory Type (Difference - Charge)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="293" trl="N">
+  <value column="Name" original="AD_Table_Access RuleType">AD_Table_Access RuleType</value>
+  <value column="Description" original="AccessRuleType">AccessRuleType</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="294" trl="N">
+  <value column="Name" original="M_TransactionAllocation Type">M_TransactionAllocation Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="295" trl="N">
+  <value column="Name" original="M_InOutLine">M_InOutLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="296" trl="N">
+  <value column="Name" original="M_InventoryLine">M_InventoryLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="297" trl="N">
+  <value column="Name" original="M_ProductionLine">M_ProductionLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="298" trl="N">
+  <value column="Name" original="M_Transaction">M_Transaction</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="299" trl="N">
+  <value column="Name" original="WF_DurationUnit">WF_DurationUnit</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="300" trl="N">
+  <value column="Name" original="WF_Transition Type">WF_Transition Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="301" trl="N">
+  <value column="Name" original="WF_Join_Split">WF_Join_Split</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="302" trl="N">
+  <value column="Name" original="WF_Action">WF_Action</value>
+  <value column="Description" original="Superset of Menu Action">Superset of Menu Action</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="303" trl="N">
+  <value column="Name" original="WF_Start-Finish Mode">WF_Start-Finish Mode</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="304" trl="N">
+  <value column="Name" original="WF_Participant Type">WF_Participant Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="305" trl="N">
+  <value column="Name" original="WF_Instance State">WF_Instance State</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="306" trl="N">
+  <value column="Name" original="WF_EventType">WF_EventType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="307" trl="N">
+  <value column="Name" original="WF_SubFlow Execution">WF_SubFlow Execution</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="308" trl="N">
+  <value column="Name" original="WF_LoopType">WF_LoopType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="310" trl="N">
+  <value column="Name" original="_PublishStatus">_PublishStatus</value>
+  <value column="Description" original="Publication Status">Publication Status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="311" trl="N">
+  <value column="Name" original="AD_Language Maintenance">AD_Language Maintenance</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="312" trl="N">
+  <value column="Name" original="AD_PrintTableFormat Stroke">AD_PrintTableFormat Stroke</value>
+  <value column="Description" original="Stroke Type">Stroke Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="313" trl="N">
+  <value column="Name" original="M_RelatedProduct Type">M_RelatedProduct Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="314" trl="N">
+  <value column="Name" original="C_RfQ QuoteType">C_RfQ QuoteType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="315" trl="N">
+  <value column="Name" original="B_TopicType AuctionType">B_TopicType AuctionType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="316" trl="N">
+  <value column="Name" original="AD_User - Supervisor">AD_User - Supervisor</value>
+  <value column="Description" original="Employee or SalesRep - or System">Employee or SalesRep - or System</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="318" trl="N">
+  <value column="Name" original="AD_Scheduler Type">AD_Scheduler Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="319" trl="N">
+  <value column="Name" original="_YesNo">_YesNo</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="320" trl="N">
+  <value column="Name" original="M_InOutConfirm Type">M_InOutConfirm Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="321" trl="N">
+  <value column="Name" original="C_DocType RMA">C_DocType RMA</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="322" trl="N">
+  <value column="Name" original="AD_Org (all but 0)">AD_Org (all but 0)</value>
+  <value column="Description" original="Organization selection">Organization selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="323" trl="N">
+  <value column="Name" original="C_Allocation">C_Allocation</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="324" trl="N">
+  <value column="Name" original="M_AttributeSet MandatoryType">M_AttributeSet MandatoryType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="325" trl="N">
+  <value column="Name" original="M_DiscountSchema not PL">M_DiscountSchema not PL</value>
+  <value column="Description" original="Not Price List Discount Schema">Not Price List Discount Schema</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="326" trl="N">
+  <value column="Name" original="M_Attribute Value Type">M_Attribute Value Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="327" trl="N">
+  <value column="Name" original="AD_Language System">AD_Language System</value>
+  <value column="Description" original="Language selection">Language selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="328" trl="N">
+  <value column="Name" original="AD_Workflow Type">AD_Workflow Type</value>
+  <value column="Description" original="Workflow Type">Workflow Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="329" trl="N">
+  <value column="Name" original="M_Replenishment Create">M_Replenishment Create</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="330" trl="N">
+  <value column="Name" original="AD_Role PreferenceType">AD_Role PreferenceType</value>
+  <value column="Description" original="Preference Type">Preference Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="331" trl="N">
+  <value column="Name" original="Account_ID">Account_ID</value>
+  <value column="Description" original="Account selection based on Client">Account selection based on Client</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="332" trl="N">
+  <value column="Name" original="APAR">APAR</value>
+  <value column="Description" original="AP and/or AR">AP and/or AR</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="333" trl="N">
+  <value column="Name" original="AD_PrintFormatItem ShapeType">AD_PrintFormatItem ShapeType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="334" trl="N">
+  <value column="Name" original="AD_Client AutoArchive">AD_Client AutoArchive</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="335" trl="N">
+  <value column="Name" original="_MMPolicy">_MMPolicy</value>
+  <value column="Description" original="Material Movement Policy">Правило премештања робе</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="336" trl="N">
+  <value column="Name" original="C_Invoice">C_Invoice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="337" trl="N">
+  <value column="Name" original="M_InOut">M_InOut</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="338" trl="N">
+  <value column="Name" original="M_CostElement Type">M_CostElement Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="339" trl="N">
+  <value column="Name" original="C_LandedCost Distribution">C_LandedCost Distribution</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="340" trl="N">
+  <value column="Name" original="R_Request Confidential">R_Request Confidential</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="341" trl="N">
+  <value column="Name" original="R_Request">R_Request</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="342" trl="N">
+  <value column="Name" original="W_MailMsg Type">W_MailMsg Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="343" trl="N">
+  <value column="Name" original="C_Payment">C_Payment</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="344" trl="N">
+  <value column="Name" original="AD_User NotificationType">AD_User NotificationType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="345" trl="N">
+  <value column="Name" original="R_Status">R_Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="346" trl="N">
+  <value column="Name" original="C_Remuneration Type">C_Remuneration Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="347" trl="N">
+  <value column="Name" original="M_BOM Type">M_BOM Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="348" trl="N">
+  <value column="Name" original="M_BOM Use">M_BOM Use</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="349" trl="N">
+  <value column="Name" original="M_BOMProduct Type">M_BOMProduct Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="350" trl="N">
+  <value column="Name" original="C_BP_Group PriorityBase">C_BP_Group PriorityBase</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="351" trl="N">
+  <value column="Name" original="M_ChangeNotice">M_ChangeNotice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="352" trl="N">
+  <value column="Name" original="C_ConversionType">C_ConversionType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="353" trl="N">
+  <value column="Name" original="C_BPartner SalesRep">C_BPartner SalesRep</value>
+  <value column="Description" original="BP SalesRep selection">BP SalesRep selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="354" trl="N">
+  <value column="Name" original="AD_Column Encrypted">AD_Column Encrypted</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="355" trl="N">
+  <value column="Name" original="C_AcctSchema CostingLevel">C_AcctSchema CostingLevel</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="356" trl="N">
+  <value column="Name" original="C_Greeting">C_Greeting</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="358" trl="N">
+  <value column="Name" original="AD_User BP AccessType">AD_User BP AccessType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="359" trl="N">
+  <value column="Name" original="C_AcctSchema CommitmentType">C_AcctSchema CommitmentType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="360" trl="N">
+  <value column="Name" original="C_Invoice MatchRequirement">C_Invoice MatchRequirement</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="361" trl="N">
+  <value column="Name" original="GL_BudgetControl Scope">GL_BudgetControl Scope</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="362" trl="N">
+  <value column="Name" original="C_ElementValue (trx)">C_ElementValue (trx)</value>
+  <value column="Description" original="Element Values">Element Values</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="363" trl="N">
+  <value column="Name" original="AD_WF_Node EMailRecipient">AD_WF_Node EMailRecipient</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="364" trl="N">
+  <value column="Name" original="AD_User ConnectionProfile">AD_User ConnectionProfile</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="365" trl="N">
+  <value column="Name" original="AD_Client ShareType">AD_Client ShareType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="366" trl="N">
+  <value column="Name" original="R_Request TaskStatus">R_Request TaskStatus</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="367" trl="N">
+  <value column="Name" original="PA_Goal Scope">PA_Goal Scope</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="368" trl="N">
+  <value column="Name" original="PA_Goal Restriction Type">PA_Goal Restriction Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="369" trl="N">
+  <value column="Name" original="PA_Measure DataType">PA_Measure DataType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="370" trl="N">
+  <value column="Name" original="PA_Benschmark Accumulation Type">PA_Benschmark Accumulation Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="371" trl="N">
+  <value column="Name" original="PA_Ratio">PA_Ratio</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="372" trl="N">
+  <value column="Name" original="PA_Ratio ElementType">PA_Ratio ElementType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="373" trl="N">
+  <value column="Name" original="PA_Ratio Operand">PA_Ratio Operand</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="374" trl="N">
+  <value column="Name" original="AD_System Status">AD_System Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="375" trl="N">
+  <value column="Name" original="AD_PrintPaper Units">AD_PrintPaper Units</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="376" trl="N">
+  <value column="Name" original="M_Inventory CountSet">M_Inventory CountSet</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="377" trl="N">
+  <value column="Name" original="AD_PrintFormatItem BarcodeType">AD_PrintFormatItem BarcodeType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="383" trl="N">
+  <value column="Name" original="C_Project InvoiceRule">C_Project InvoiceRule</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="384" trl="N">
+  <value column="Name" original="C_Project LineLevel">C_Project LineLevel</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="385" trl="N">
+  <value column="Name" original="CM_Container Type">CM_Container Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="386" trl="N">
+  <value column="Name" original="CM_Container">CM_Container</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="387" trl="N">
+  <value column="Name" original="CM_CStage">CM_CStage</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="388" trl="N">
+  <value column="Name" original="CM_Media Media Type">CM_Media Media Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="389" trl="N">
+  <value column="Name" original="_EntityTypeNew">_EntityTypeNew</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="390" trl="N">
+  <value column="Name" original="CM_WebAccessLog Type">CM_WebAccessLog Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="391" trl="N">
+  <value column="Name" original="K_IndexLog QuerySource">K_IndexLog QuerySource</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="392" trl="N">
+  <value column="Name" original="C_AcctSchema TaxCorrectionType">C_AcctSchema TaxCorrectionType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="393" trl="N">
+  <value column="Name" original="C_BPartner BPBankAcctUse">C_BPartner BPBankAcctUse</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="394" trl="N">
+  <value column="Name" original="C_Invoice InvoiceCollectionType">C_Invoice InvoiceCollectionType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="395" trl="N">
+  <value column="Name" original="CM_Chat ModerationType">CM_Chat ModerationType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="396" trl="N">
+  <value column="Name" original="CM_ChatEntry ModeratorStatus">CM_ChatEntry ModeratorStatus</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="397" trl="N">
+  <value column="Name" original="CM_WikiToken Type">CM_WikiToken Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="398" trl="N">
+  <value column="Name" original="CM_Chat EntryType">CM_Chat EntryType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="399" trl="N">
+  <value column="Name" original="CM_ChatEntry">CM_ChatEntry</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="400" trl="N">
+  <value column="Name" original="AD_Process_JasperReports">AD_Process_JasperReports</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="AD_Package_Type">AD_Package_Type</value>
+  <value column="Description" original="Defines the type of packages available">Defines the type of packages available</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Package_Releases">Package_Releases</value>
+  <value column="Description" original="List of Package Releases">List of Package Releases</value>
+  <value column="Help" original="Indicates what release the package is for.  Entering no specific release indicates the package is for all releases.">Indicates what release the package is for.  Entering no specific release indicates the package is for all releases.</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="AD_Package_Exp_DB">AD_Package_Exp_DB</value>
+  <value column="Description" original="List of database types">List of database types</value>
+  <value column="Help" original="This is a list of database types used by the inbound packaging processing to determine if the sql statement is fired.">This is a list of database types used by the inbound packaging processing to determine if the sql statement is fired.</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="AD_Package_Build_Type">AD_Package_Build_Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="AD_Package_Source_Type">AD_Package_Source_Type</value>
+  <value column="Description" original="List of package source types">List of package source types</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="ShowHelp List">ShowHelp List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="52000" trl="N">
+  <value column="Name" original="U_WebMenu_ID">U_WebMenu_ID</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="52001" trl="N">
+  <value column="Name" original="C_Bank">C_Bank</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="52002" trl="N">
+  <value column="Name" original="_TransferType">_TransferType</value>
+  <value column="Description" original="Where money should be transfered to">Where money should be transfered to</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="52004" trl="N">
+  <value column="Name" original="C_CashBook">C_CashBook</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53000" trl="N">
+  <value column="Name" original="AD_FieldGroup">AD_FieldGroup</value>
+  <value column="Description" original="Field Group Type">Field Group Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53222" trl="N">
+  <value column="Name" original="AD_SysConfig ConfigurationLevel">AD_SysConfig ConfigurationLevel</value>
+  <value column="Description" original="Configuration Level">Степен конфигурације</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53223" trl="N">
+  <value column="Name" original="S_Resource MFG Type">S_Resource MFG Type</value>
+  <value column="Description" original="Manufacturing Resource Type">Manufacturing Resource Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53224" trl="N">
+  <value column="Name" original="PP_Process Type">PP_Process Type</value>
+  <value column="Description" original="Process Type">Process Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53225" trl="N">
+  <value column="Name" original="PP_ComponentType">PP_ComponentType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53226" trl="N">
+  <value column="Name" original="PP_Product_BOM IssueMethod">PP_Product_BOM IssueMethod</value>
+  <value column="Description" original="Issue Method">Issue Method</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53227" trl="N">
+  <value column="Name" original="PP_Product_BOM Component Change">PP_Product_BOM Component Change</value>
+  <value column="Description" original="Component Change">Component Change</value>
+  <value column="Help" original="Component Change">Component Change</value>
+ </row>
+ <row id="53228" trl="N">
+  <value column="Name" original="PP_Product_Planning Order Policy">PP_Product_Planning Order Policy</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53229" trl="N">
+  <value column="Name" original="_MRP Order Type">_MRP Order Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53230" trl="N">
+  <value column="Name" original="_MRP Type">_MRP Type</value>
+  <value column="Description" original="MRP type can be a Demand or Supply">MRP type can be a Demand or Supply</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53231" trl="N">
+  <value column="Name" original="CRM Schedule">CRM Schedule</value>
+  <value column="Description" original=""/>
+  <value column="Help" original="Forward and Backward Scheduling">Forward and Backward Scheduling</value>
+ </row>
+ <row id="53232" trl="N">
+  <value column="Name" original="PP_Order_Node">PP_Order_Node</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53233" trl="N">
+  <value column="Name" original="C_DocType MFG">C_DocType MFG</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53234" trl="N">
+  <value column="Name" original="ASP_Status">ASP_Status</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53235" trl="N">
+  <value column="Name" original="AD_Rule_RuleType">AD_Rule_RuleType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53236" trl="N">
+  <value column="Name" original="AD_Rule_EventType">AD_Rule_EventType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53237" trl="N">
+  <value column="Name" original="EventModelValidator">EventModelValidator</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53238" trl="N">
+  <value column="Name" original="EventChangeLog">EventChangeLog</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53239" trl="N">
+  <value column="Name" original="MigrationScriptStatus">MigrationScriptStatus</value>
+  <value column="Description" original="Migration Script Status">Migration Script Status</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53240" trl="N">
+  <value column="Name" original="C_TaxBase">C_TaxBase</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53241" trl="N">
+  <value column="Name" original="EXP_Line_Type">EXP_Line_Type</value>
+  <value column="Description" original="List with Export Line types">List with Export Line types</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53242" trl="N">
+  <value column="Name" original="EXP_Format">EXP_Format</value>
+  <value column="Description" original="Embedded Export Format">Embedded Export Format</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53243" trl="N">
+  <value column="Name" original="HR ColumnType">HR ColumnType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53244" trl="N">
+  <value column="Name" original="HR Job">HR Job</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53245" trl="N">
+  <value column="Name" original="HR Type">HR Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53246" trl="N">
+  <value column="Name" original="HR Table">HR Table</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53249" trl="N">
+  <value column="Name" original="M_Inventory">M_Inventory</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53250" trl="N">
+  <value column="Name" original="GL_Journal">GL_Journal</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53251" trl="N">
+  <value column="Name" original="GL_JournalBatch">GL_JournalBatch</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53252" trl="N">
+  <value column="Name" original="M_Movement">M_Movement</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53253" trl="N">
+  <value column="Name" original="HR_Process">HR_Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53254" trl="N">
+  <value column="Name" original="PP_Cost_Collector">PP_Cost_Collector</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53255" trl="N">
+  <value column="Name" original="A_Table_Rate_Type">A_Table_Rate_Type</value>
+  <value column="Description" original="List that contains type of rate">List that contains type of rate</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53256" trl="N">
+  <value column="Name" original="A_Depreciation_Manual_Period">A_Depreciation_Manual_Period</value>
+  <value column="Description" original="List available periods for calculating manual depreciation expense">List available periods for calculating manual depreciation expense</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53257" trl="N">
+  <value column="Name" original="A_Entry_Type">A_Entry_Type</value>
+  <value column="Description" original="Entry Types for Fixed Assets">Entry Types for Fixed Assets</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53258" trl="N">
+  <value column="Name" original="A_Asset_ID">A_Asset_ID</value>
+  <value column="Description" original="Asset ID">Asset ID</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53259" trl="N">
+  <value column="Name" original="A_Reval_Method_Type">A_Reval_Method_Type</value>
+  <value column="Description" original="List of Revaluation Types">List of Revaluation Types</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53260" trl="N">
+  <value column="Name" original="A_Reval_Multiplier">A_Reval_Multiplier</value>
+  <value column="Description" original="Revaluation Multiplier Type">Revaluation Multiplier Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53261" trl="N">
+  <value column="Name" original="A_Reval_Effectivity">A_Reval_Effectivity</value>
+  <value column="Description" original="Sets the date as to when the revaluation will be based on">Sets the date as to when the revaluation will be based on</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53262" trl="N">
+  <value column="Name" original="A_Reval_Code">A_Reval_Code</value>
+  <value column="Description" original="Lookup Valid Revaluation Codes">Lookup Valid Revaluation Codes</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53263" trl="N">
+  <value column="Name" original="A_Split_Type">A_Split_Type</value>
+  <value column="Description" original="Split Type">Split Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53264" trl="N">
+  <value column="Name" original="A_Depreciation_Type">A_Depreciation_Type</value>
+  <value column="Description" original="Depreciation Type selection">Depreciation Type selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53265" trl="N">
+  <value column="Name" original="A_Depreciation_Table_Codes">A_Depreciation_Table_Codes</value>
+  <value column="Description" original="List of depreciation table codes">List of depreciation table codes</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53266" trl="N">
+  <value column="Name" original="A_Depreciation_Calc_Type">A_Depreciation_Calc_Type</value>
+  <value column="Description" original="Depreciation Calculation Type selection">Depreciation Calculation Type selection</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53267" trl="N">
+  <value column="Name" original="A_ConventionType">A_ConventionType</value>
+  <value column="Description" original="Display mid year convention types">Display mid year convention types</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53268" trl="N">
+  <value column="Name" original="A_Asset_Spread">A_Asset_Spread</value>
+  <value column="Description" original="Depreciation Type Spread">Depreciation Type Spread</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53269" trl="N">
+  <value column="Name" original="A_Disposed_Reason">A_Disposed_Reason</value>
+  <value column="Description" original="Reason for Disposal">Reason for Disposal</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53270" trl="N">
+  <value column="Name" original="A_Disposal_Method">A_Disposal_Method</value>
+  <value column="Description" original="Method of Disposals">Method of Disposals</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53271" trl="N">
+  <value column="Name" original="A_Finance_Method">A_Finance_Method</value>
+  <value column="Description" original="Financing Methods">Financing Methods</value>
+  <value column="Help" original="List of financing methods for assets">List of financing methods for assets</value>
+ </row>
+ <row id="53272" trl="N">
+  <value column="Name" original="A_Payment_Due">A_Payment_Due</value>
+  <value column="Description" original="Payment due every">Payment due every</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53273" trl="N">
+  <value column="Name" original="A_Update_Type">A_Update_Type</value>
+  <value column="Description" original="Update Type">Update Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53274" trl="N">
+  <value column="Name" original="DocumentNo Invoice Vendor">DocumentNo Invoice Vendor</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53275" trl="N">
+  <value column="Name" original="C_Invoice (Vendor)">C_Invoice (Vendor)</value>
+  <value column="Description" original="Vendor Invoices">Vendor Invoices</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53276" trl="N">
+  <value column="Name" original="A_SourceType">A_SourceType</value>
+  <value column="Description" original="Entry Source Types">Entry Source Types</value>
+  <value column="Help" original="Listing of entry source types">Listing of entry source types</value>
+ </row>
+ <row id="53277" trl="N">
+  <value column="Name" original="A_CapvsExp">A_CapvsExp</value>
+  <value column="Description" original="Capital vs Expense">Capital vs Expense</value>
+  <value column="Help" original="Inidcates if charge is capital or expense">Inidcates if charge is capital or expense</value>
+ </row>
+ <row id="53278" trl="N">
+  <value column="Name" original="C_ValidCombination (Assets)">C_ValidCombination (Assets)</value>
+  <value column="Description" original="Valid Account combinations">Valid Account combinations</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53280" trl="N">
+  <value column="Name" original="PA_ReportSource ElementType">PA_ReportSource ElementType</value>
+  <value column="Description" original="Element Types for Accounting Elements - equal to C_AcctSchema ElementType plus Combination">Element Types for Accounting Elements - equal to C_AcctSchema ElementType plus Combination</value>
+  <value column="Help" original="Hardcoded Element Types">Hardcoded Element Types</value>
+ </row>
+ <row id="53281" trl="N">
+  <value column="Name" original="AD_PrintFormat Manufacturing Order">AD_PrintFormat Manufacturing Order</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53282" trl="N">
+  <value column="Name" original="AD_PrintFormat Distribution Order">AD_PrintFormat Distribution Order</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53283" trl="N">
+  <value column="Name" original="C_BankAccount">C_BankAccount</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53284" trl="N">
+  <value column="Name" original="M_MovementLine">M_MovementLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53285" trl="N">
+  <value column="Name" original="Scaling Factors">Scaling Factors</value>
+  <value column="Description" original="Factors for scaling the results of financial reports.">Factors for scaling the results of financial reports.</value>
+  <value column="Help" original="Currently supported: thousand, million.">Currently supported: thousand, million.</value>
+ </row>
+ <row id="53287" trl="N">
+  <value column="Name" original="PP_CostCollectorType Transaction Manufacturing Management">PP_CostCollectorType Transaction Manufacturing Management</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53289" trl="N">
+  <value column="Name" original="C_DocType MFG Cost Collector">C_DocType MFG Cost Collector</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53290" trl="N">
+  <value column="Name" original="AD_Table TableName">AD_Table TableName</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53291" trl="N">
+  <value column="Name" original="SearchType">SearchType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53292" trl="N">
+  <value column="Name" original="AD_SearchDefinition_DataType">AD_SearchDefinition_DataType</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53294" trl="N">
+  <value column="Name" original="M_PromotionDistribution Operation">M_PromotionDistribution Operation</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53295" trl="N">
+  <value column="Name" original="M_PromotionDistrition Type">M_PromotionDistrition Type</value>
+  <value column="Description" original="Type of quantity distribution">Type of quantity distribution</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53296" trl="N">
+  <value column="Name" original="M_PromotionDistribution Sorting">M_PromotionDistribution Sorting</value>
+  <value column="Description" original="Quantity distribution sorting direction">Quantity distribution sorting direction</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53297" trl="N">
+  <value column="Name" original="M_PromotionDistribution">M_PromotionDistribution</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53298" trl="N">
+  <value column="Name" original="M_PromotionReward Type">M_PromotionReward Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53306" trl="N">
+  <value column="Name" original="M_RMA">M_RMA</value>
+  <value column="Description" original="RMA">Књижно писмо</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53307" trl="N">
+  <value column="Name" original="M_RMALine">M_RMALine</value>
+  <value column="Description" original="RMA Line">Ставке књижног писма</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53315" trl="N">
+  <value column="Name" original="PA_Goal ChartType">PA_Goal ChartType</value>
+  <value column="Description" original="Chart Type">Chart Type</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53316" trl="N">
+  <value column="Name" original="PA_DashboardContent GoalDisplay">PA_DashboardContent GoalDisplay</value>
+  <value column="Description" original="Type of goal display on dashboard">Type of goal display on dashboard</value>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>
