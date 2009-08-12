@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20070523-0847 - ${env.ADEMPIERE_VENDOR}-->
+
+<adempiereTrl language="de_DE" table="C_Greeting">
+ <row id="100" trl="N">
+  <value column="Name" original="Mr">Mr</value>
+  <value column="Greeting" original="Mr">Mr</value>
+ </row>
+</adempiereTrl>
