@@ -24,7 +24,7 @@
  *  - Trifon Trifonov (trifonnt@users.sourceforge.net)                *
  *                                                                    *
  * Sponsors:                                                          *
- *  - E-evolution (http://www.e-evolution.com/)                       *
+ *  - e-Evolution (http://www.e-evolution.com/)                       *
  **********************************************************************/
 package org.adempiere.server.rpl.imp;
 
@@ -44,12 +44,12 @@ import org.adempiere.process.rpl.exp.ExportHelper;
 import org.adempiere.server.rpl.XMLHelper;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
-import org.compiere.model.MInOut;
+import org.compiere.model.MEXPFormat;
+import org.compiere.model.MEXPFormatLine;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
-import org.compiere.model.POInfo;
 import org.compiere.model.X_AD_Client;
 import org.compiere.model.X_AD_ReplicationTable;
 import org.compiere.util.CLogger;
@@ -58,17 +58,18 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.compiere.model.MEXPFormat;
-import org.compiere.model.MEXPFormatLine;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 /**
  * @author Trifon N. Trifonov
-* @author Antonio Cañaveral, e-Evolution
+ * @author Antonio Cañaveral, e-Evolution
  * 				<li>[ 2195016 ] Implementation delete records messages
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195016&group_id=176962&atid=879332
  * 				<li>Otras Modificaciones Posteriores
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * 				<li>BF[2836406] Error when try get ID but do not is the first field
+ * 				<li>
  */
 public class ImportHelper {
 
@@ -653,16 +654,27 @@ public class ImportHelper {
 		} 
 	}
 	
-	
 	public int getID(Properties ctx, MEXPFormat expFormat, Element rootElement, String rootNodeName, String trxName) throws Exception {
 		int result = 0;
 		
 		PreparedStatement pstmt = getIDValues(ctx,expFormat,rootElement,rootNodeName,trxName);
 		try
 		{
+			//We do this, because, what about if the ID is not the first column
+			//BF[2836406]
+			int AD_Table_ID = expFormat.getAD_Table_ID();
+			MTable table = MTable.get(ctx, AD_Table_ID);
+			String columns[]=table.getKeyColumns(); // Must be always One
+			
+			if(columns==null || columns.length!=1)
+			{
+				throw new Exception(Msg.getMsg(ctx, "EXPFormatLineNoUniqueColumns"));
+			}	
+			
 			ResultSet rs = pstmt.executeQuery();
-			if ( rs.next() ) {
-				result = rs.getInt(1);
+			if ( rs.next() ) 
+			{
+				result = rs.getInt(rs.findColumn(columns[0]));
 			}
 			rs.close ();
 			pstmt.close ();
@@ -671,7 +683,10 @@ public class ImportHelper {
 			throw e;
 		} finally {
 			try	{
-				if (pstmt != null) pstmt.close ();
+				if (pstmt != null) 
+				{
+					pstmt.close ();
+				}	
 				pstmt = null;
 			} catch (Exception e) {	pstmt = null; }
 		}
@@ -689,7 +704,11 @@ public class ImportHelper {
 			int AD_Table_ID = expFormat.getAD_Table_ID();
 			MTable table = MTable.get(ctx, AD_Table_ID);
 			String columns[]=table.getKeyColumns();
-			
+			//BF[2836406]
+			if(columns==null || columns.length <= 0)
+			{
+				throw new Exception(Msg.getMsg(ctx, "EXPFormatNoIDs")); //TODO Correct Exception Name
+			}
 			log.warning("Multiple columns ID. Table = "+ table.getTableName() +" Columns="+ columns);
 			
 			ResultSet rs = pstmt.executeQuery();
@@ -710,7 +729,10 @@ public class ImportHelper {
 			throw e;
 		} finally {
 			try	{
-				if (pstmt != null) pstmt.close ();
+				if (pstmt != null) 
+				{		
+					pstmt.close ();
+				}	
 				pstmt = null;
 			} catch (Exception e) {	pstmt = null; }
 		}
