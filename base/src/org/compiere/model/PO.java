@@ -1885,7 +1885,7 @@ public abstract class PO
 		//
 		for (int i = 0; i < m_IDs.length; i++)
 		{
-			if (m_IDs[i].equals(I_ZERO))
+			if (m_IDs[i].equals(I_ZERO) || m_IDs[i] == Null.NULL)
 				continue;
 			return false;	//	one value is non-zero
 		}
