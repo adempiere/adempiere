@@ -1575,7 +1575,9 @@ INSERT INTO AD_Process_Para_Trl (AD_Language,AD_Process_Para_ID, Description,Hel
 -- 3/06/2009 0:59:21
 -- Fin Report Summary
 UPDATE AD_Process_Para SET SeqNo=25,Updated=TO_DATE('2009-06-03 00:59:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Process_Para_ID=53314
-;-- 2/08/2009 22:41:34
+;
+
+-- 2/08/2009 22:41:34
 -- Acct fact summary
 INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,53897,0,'IsUserElement2Dim',TO_DATE('2009-08-02 22:41:33','YYYY-MM-DD HH24:MI:SS'),100,'Include User Element 2 as a cube dimension','D','Y','User Element 2 Dimension','User Element 2 Dimension',TO_DATE('2009-08-02 22:41:33','YYYY-MM-DD HH24:MI:SS'),100)
 ;
@@ -1809,3 +1811,4 @@ CREATE INDEX FAS_PERIOD ON FACT_ACCT_SUMMARY (C_PERIOD_ID);
 CREATE INDEX FAS_REPORTCUBE ON FACT_ACCT_SUMMARY (PA_REPORTCUBE_ID);
 
 --CREATE INDEX FACT_ACCT_UPDATED ON FACT_ACCT (UPDATED);
+
