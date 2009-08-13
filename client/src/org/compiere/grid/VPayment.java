@@ -175,6 +175,7 @@ public class VPayment extends CDialog
 	/** Invoice Currency              */
 	private int	 				m_C_Currency_ID = 0;
 	private int                 m_AD_Client_ID = 0;
+	private boolean				m_Cash_As_Payment = true;
 	private int                 m_AD_Org_ID = 0;
 	private int                 m_C_BPartner_ID = 0;
 	private BigDecimal			m_Amount = Env.ZERO;	//	Payment Amount
@@ -410,7 +411,7 @@ public class VPayment extends CDialog
 		centerLayout.addLayoutComponent(bPanel, "bPanel");
 		centerPanel.add(bPanel, "bPanel");
 		
-		if(MSysConfig.getBooleanValue("CASH_AS_PAYMENT",true)){
+		if (m_Cash_As_Payment){
 			sBankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
 			bPanel.add(sBankAccountLabel,   new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 					,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(2, 0, 2, 0), 0, 0));
@@ -511,6 +512,7 @@ public class VPayment extends CDialog
 		 *	Get Data from Grid
 		 */
 		m_AD_Client_ID = ((Integer)m_mTab.getValue("AD_Client_ID")).intValue();
+		m_Cash_As_Payment = MSysConfig.getBooleanValue("CASH_AS_PAYMENT",true, m_AD_Client_ID);
 		m_AD_Org_ID = ((Integer)m_mTab.getValue("AD_Org_ID")).intValue();
 		m_C_BPartner_ID = ((Integer)m_mTab.getValue("C_BPartner_ID")).intValue();
 		m_PaymentRule = (String)m_mTab.getValue("PaymentRule");
@@ -963,12 +965,12 @@ public class VPayment extends CDialog
 		int newC_CashBook_ID = m_C_CashBook_ID;
 		String newCCType = m_CCType;
 		int newC_BankAccount_ID = 0;
-		String payTypes = MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true) ? "KTSDB" : "KTSD";
+		String payTypes = m_Cash_As_Payment ? "KTSDB" : "KTSD";
 		
 		//	B (Cash)		(Currency)
 		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash))
 		{
-			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)){
+			if (m_Cash_As_Payment){
 				// get bank account
 				KeyNamePair kp = (KeyNamePair)sBankAccountCombo.getSelectedItem();
 				if (kp != null)
@@ -1028,8 +1030,7 @@ public class VPayment extends CDialog
 		{
 			log.fine("Changed PaymentRule: " + m_PaymentRule + " -> " + newPaymentRule);
 			//  We had a CashBook Entry
-			if (m_PaymentRule.equals(X_C_Order.PAYMENTRULE_Cash) 
-					&& !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)) 
+			if (m_PaymentRule.equals(X_C_Order.PAYMENTRULE_Cash) && !m_Cash_As_Payment) 
 			{
 				log.fine("Old Cash - " + m_cashLine);
 				if (m_cashLine != null)
@@ -1103,7 +1104,7 @@ public class VPayment extends CDialog
 		/***********************
 		 *  CashBook
 		 */
-		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash) && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true))
+		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash) && !m_Cash_As_Payment)
 		{
 			log.fine("Cash");
 			if (C_Invoice_ID == 0 && order == null)
@@ -1192,7 +1193,7 @@ public class VPayment extends CDialog
 		 *  Payments
 		 */
 		if (("KS".indexOf(newPaymentRule) != -1) || 
-				(newPaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)))
+				(newPaymentRule.equals(MOrder.PAYMENTRULE_Cash) && m_Cash_As_Payment))
 		{
 			log.fine("Payment - " + newPaymentRule);
 			//  Set Amount
@@ -1310,7 +1311,7 @@ public class VPayment extends CDialog
 		//	B (Cash)		(Currency)
 		if (PaymentRule.equals(MOrder.PAYMENTRULE_Cash))
 		{
-			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true))
+			if (m_Cash_As_Payment)
 			{
 				KeyNamePair kp = (KeyNamePair)sBankAccountCombo.getSelectedItem();
 				if (kp != null)
@@ -1405,12 +1406,12 @@ public class VPayment extends CDialog
 
 		//  find Bank Account if not qualified yet
 		if (("KTSD".indexOf(PaymentRule) != -1 || 
-				(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true))) 
+				(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && m_Cash_As_Payment)) 
 					&& C_BankAccount_ID == 0)
 		{
 			//	Check & Cash (Payment) must have a bank account
 			if (C_BankAccount_ID == 0 && (PaymentRule.equals(MOrder.PAYMENTRULE_Check)) || 
-					(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true) ))
+					(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && m_Cash_As_Payment))
            {
 				ADialog.error(m_WindowNo, this, "PaymentNoProcessor");
 				dataOK = false;
