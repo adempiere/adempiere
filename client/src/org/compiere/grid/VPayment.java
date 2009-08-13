@@ -919,12 +919,31 @@ public class VPayment extends CDialog
 				success[0] = saveChangesInTrx(trxName);
 			}
 		};
-		Trx.run(Trx.createTrxName("VPayment"), r);
+		try {
+			Trx.run(r);
+		} catch (Throwable e) {
+			success[0] = false;
+			ADialog.error(m_WindowNo, this, "PaymentError", e.getLocalizedMessage());
+		}
+		if (m_cashLine != null)
+			m_cashLine.set_TrxName(null);
+		if (m_mPayment != null)
+			m_mPayment.set_TrxName(null);
+		if (m_mPaymentOriginal != null)
+			m_mPayment.set_TrxName(null);
 		return success[0];
 	} // saveChanges
 
 	private boolean saveChangesInTrx(final String trxName){
 
+		// set trxname for class objects
+		if (m_cashLine != null)
+			m_cashLine.set_TrxName(trxName);
+		if (m_mPayment != null)
+			m_mPayment.set_TrxName(trxName);
+		if (m_mPaymentOriginal != null)
+			m_mPaymentOriginal.set_TrxName(trxName);
+		
 		ValueNamePair vp = (ValueNamePair)paymentCombo.getSelectedItem();
 		String newPaymentRule = vp.getValue();
 		log.info("New Rule: " + newPaymentRule);
@@ -1016,10 +1035,7 @@ public class VPayment extends CDialog
 				if (m_cashLine != null)
 				{
 					MCashLine cl = m_cashLine.createReversal();
-					if (cl.save())
-						log.config( "CashCancelled");
-					else
-						ADialog.error(m_WindowNo, this, "PaymentError", "CashNotCancelled");
+					cl.saveEx();
 				}
 				newC_CashLine_ID = 0;      //  reset
 			}
@@ -1029,7 +1045,7 @@ public class VPayment extends CDialog
 				log.fine("Old Payment(1) - " + m_mPaymentOriginal);
 				m_mPaymentOriginal.setDocAction(DocAction.ACTION_Reverse_Correct);
 				boolean ok = m_mPaymentOriginal.processIt(DocAction.ACTION_Reverse_Correct);
-				m_mPaymentOriginal.saveEx(trxName);
+				m_mPaymentOriginal.saveEx();
 				if (ok)
 					log.info( "Payment Cancelled - " + m_mPaymentOriginal);
 				else
@@ -1044,7 +1060,7 @@ public class VPayment extends CDialog
 				{
 					m_mPaymentOriginal.setDocAction(DocAction.ACTION_Reverse_Correct);
 					boolean ok = m_mPaymentOriginal.processIt(DocAction.ACTION_Reverse_Correct);
-					m_mPaymentOriginal.saveEx(trxName);
+					m_mPaymentOriginal.saveEx();
 					if (ok)        //  Cancel Payment
 					{
 						log.fine("PaymentCancelled " + m_mPayment.getDocumentNo ());
@@ -1062,7 +1078,7 @@ public class VPayment extends CDialog
 		int C_Order_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_Order_ID");
 		int C_Invoice_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_Invoice_ID");
 		if (C_Invoice_ID == 0 && m_DocStatus.equals("CO"))
-			C_Invoice_ID = getInvoiceID (C_Order_ID);
+			C_Invoice_ID = getInvoiceID (C_Order_ID, trxName);
 
 		//  Amount sign negative, if ARC (Credit Memo) or API (AP Invoice)
 		boolean negateAmt = false;
@@ -1106,7 +1122,7 @@ public class VPayment extends CDialog
 					//m_cashLine.setAmount(payAmount);
 					m_cashLine.setAmount((BigDecimal) bAmountField.getValue());
 					// ADialog.info(m_WindowNo, this, "m_cashLine - Changed Amount", "Amount: "+m_cashLine.getAmount());
-					m_cashLine.saveEx(trxName);
+					m_cashLine.saveEx();
 					log.config("CashAmt Changed");
 				}
 				//	Different Date/CashBook
@@ -1116,8 +1132,7 @@ public class VPayment extends CDialog
 				{
 					log.config("Changed CashBook/Date: " + m_C_CashBook_ID + "->" + newC_CashBook_ID);
 					MCashLine reverse = m_cashLine.createReversal();
-					if (!reverse.save(trxName))
-						ADialog.error(m_WindowNo, this, "PaymentError", "CashNotCancelled");
+					reverse.saveEx();
 					m_cashLine = null;
 				}
 				
@@ -1150,29 +1165,25 @@ public class VPayment extends CDialog
 							m_needSave = true;
 						}
 						cl.setAmount((BigDecimal)bAmountField.getValue());
-						if (cl.save(trxName))
-						{	
-							log.config("CashCreated");
-							if (invoice == null && C_Invoice_ID != 0)
-							{
-								invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, trxName);	
-							}
-							if (invoice != null) {
-								invoice.setC_CashLine_ID(cl.getC_CashLine_ID());
-								invoice.saveEx(trxName);
-							}	
-							if (order == null && C_Order_ID != 0)
-							{
-								order = new MOrder (Env.getCtx(), C_Order_ID, trxName);
-							}
-							if (order != null) {
-								order.setC_CashLine_ID(cl.getC_CashLine_ID());
-								order.saveEx(trxName);
-							}
-							log.config("Update Order & Invoice with CashLine");
+						cl.saveEx();
+						log.config("CashCreated");
+						if (invoice == null && C_Invoice_ID != 0)
+						{
+							invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, trxName);	
+						}
+						if (invoice != null) {
+							invoice.setC_CashLine_ID(cl.getC_CashLine_ID());
+							invoice.saveEx(trxName);
 						}	
-						else
-							ADialog.error(m_WindowNo, this, "PaymentError", "CashNotCreated");
+						if (order == null && C_Order_ID != 0)
+						{
+							order = new MOrder (Env.getCtx(), C_Order_ID, trxName);
+						}
+						if (order != null) {
+							order.setC_CashLine_ID(cl.getC_CashLine_ID());
+							order.saveEx(trxName);
+						}
+						log.config("Update Order & Invoice with CashLine");
 					}
 				}
 			}	//	have invoice
@@ -1225,14 +1236,13 @@ public class VPayment extends CDialog
 			}
 			m_mPayment.setDateTrx(m_DateAcct);
 			m_mPayment.setDateAcct(m_DateAcct);
-			if (!m_mPayment.save())
-				ADialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");
+			m_mPayment.saveEx();
 			
 			//  Save/Post
 			if (m_mPayment.get_ID() > 0 && MPayment.DOCSTATUS_Drafted.equals(m_mPayment.getDocStatus()))
 			{
 				boolean ok = m_mPayment.processIt(DocAction.ACTION_Complete);
-				m_mPayment.save();
+				m_mPayment.saveEx();
 				if (ok)
 					ADialog.info(m_WindowNo, this, "PaymentCreated", m_mPayment.getDocumentNo());
 				else
@@ -1352,7 +1362,11 @@ public class VPayment extends CDialog
 				dataOK = false;
 			}
 		}	//	Direct
-
+		//      P (PaymentTerm) PaymentTerm 	 
+        else if (PaymentRule.equals(X_C_Order.PAYMENTRULE_OnCredit))
+        {
+            // ok 	 
+        }
 		//	S (Check)		(Currency) CheckNo, Routing
 		else if (PaymentRule.equals(MOrder.PAYMENTRULE_Check))
 		{
@@ -1385,6 +1399,7 @@ public class VPayment extends CDialog
 		else
 		{
 			log.log(Level.SEVERE, "Unknown PaymentRule " + PaymentRule);
+			ADialog.error(m_WindowNo, this, "Unknown PaymentRule " + PaymentRule);
 			return false;
 		}
 
@@ -1396,7 +1411,7 @@ public class VPayment extends CDialog
 			//	Check & Cash (Payment) must have a bank account
 			if (C_BankAccount_ID == 0 && (PaymentRule.equals(MOrder.PAYMENTRULE_Check)) || 
 					(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true) ))
-                        {
+           {
 				ADialog.error(m_WindowNo, this, "PaymentNoProcessor");
 				dataOK = false;
 			}
@@ -1411,14 +1426,14 @@ public class VPayment extends CDialog
 	 *  @param C_Order_ID order
 	 *  @return C_Invoice_ID or 0 if not found
 	 */
-	private static int getInvoiceID (int C_Order_ID)
+	private static int getInvoiceID (int C_Order_ID, String trxName)
 	{
 		int retValue = 0;
 		String sql = "SELECT C_Invoice_ID FROM C_Invoice WHERE C_Order_ID=? "
 			+ "ORDER BY C_Invoice_ID DESC";     //  last invoice
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			PreparedStatement pstmt = DB.prepareStatement(sql, trxName);
 			pstmt.setInt(1, C_Order_ID);
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
@@ -1465,7 +1480,7 @@ public class VPayment extends CDialog
 			int C_Invoice_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_Invoice_ID");
 			int C_Order_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_Order_ID");
 			if (C_Invoice_ID == 0 && m_DocStatus.equals("CO"))
-				C_Invoice_ID = getInvoiceID (C_Order_ID);
+				C_Invoice_ID = getInvoiceID (C_Order_ID, null);  // TODO: implement trx in processOnline
 			if ( C_Invoice_ID != 0 )
 				m_mPayment.setC_Invoice_ID(C_Invoice_ID);
 			else if ( C_Order_ID != 0 )
@@ -1512,4 +1527,3 @@ public class VPayment extends CDialog
 	}	//	needSave
 		
 }	//	VPayment
-;
