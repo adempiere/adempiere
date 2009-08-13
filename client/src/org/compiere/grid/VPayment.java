@@ -30,7 +30,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -183,7 +182,6 @@ public class VPayment extends CDialog
 	private boolean 			m_initOK = false;
 	/** Only allow changing Rule        */
 	private boolean             m_onlyRule = false;
-	private DecimalFormat 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 	private static Hashtable<Integer,KeyNamePair> s_Currencies = null;	//	EMU Currencies
 	
 	private boolean				m_needSave = false;
@@ -594,7 +592,7 @@ public class VPayment extends CDialog
 		Integer C_Currency_ID = new Integer(m_C_Currency_ID);
 		if (s_Currencies.containsKey(C_Currency_ID))
 		{
-			Enumeration en = s_Currencies.keys();
+			Enumeration<Integer> en = s_Currencies.keys();
 			while (en.hasMoreElements())
 			{
 				Object key = en.nextElement();
@@ -620,7 +618,7 @@ public class VPayment extends CDialog
 		if (m_PaymentRule == null)
 			m_PaymentRule = "";
 		ValueNamePair vp = null;
-		HashMap values = button.getValues();
+		HashMap<?, ?> values = button.getValues();
 		Object[] a = values.keySet().toArray();
 		for (int i = 0; i < a.length; i++)
 		{			
@@ -1004,20 +1002,6 @@ public class VPayment extends CDialog
 		else
 			return false;
 
-		//  find Bank Account if not qualified yet
-		if (payTypes.indexOf(newPaymentRule) != -1 && newC_BankAccount_ID == 0)
-		{
-			String tender = MPayment.TENDERTYPE_CreditCard;
-			if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit))
-				tender = MPayment.TENDERTYPE_DirectDeposit;
-			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDebit))
-				tender = MPayment.TENDERTYPE_DirectDebit;
-			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_Cash))
-				tender = MPayment.TENDERTYPE_Cash;
-			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_Check))
-				tender = MPayment.TENDERTYPE_Check;
-		}
-
 		/***********************
 		 *  Changed PaymentRule
 		 */
@@ -1047,7 +1031,7 @@ public class VPayment extends CDialog
 				boolean ok = m_mPaymentOriginal.processIt(DocAction.ACTION_Reverse_Correct);
 				m_mPaymentOriginal.saveEx(trxName);
 				if (ok)
-					log.info( "Payment Canecelled - " + m_mPaymentOriginal);
+					log.info( "Payment Cancelled - " + m_mPaymentOriginal);
 				else
 					ADialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCancelled " + m_mPaymentOriginal.getDocumentNo());
 				m_mPayment.resetNew();
@@ -1106,8 +1090,6 @@ public class VPayment extends CDialog
 		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash) && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true))
 		{
 			log.fine("Cash");
-			String description = (String)m_mTab.getValue("DocumentNo");
-			
 			if (C_Invoice_ID == 0 && order == null)
 			{
 				log.config("No Invoice!");
@@ -1307,9 +1289,6 @@ public class VPayment extends CDialog
 		if (m_onlyRule)
 			return true;
 
-		Timestamp DateAcct = m_DateAcct;
-		int C_PaymentTerm_ID = m_C_PaymentTerm_ID;
-		int C_CashBook_ID = m_C_CashBook_ID;
 		String CCType = m_CCType;
 		//
 		int C_BankAccount_ID = 0;
@@ -1326,13 +1305,7 @@ public class VPayment extends CDialog
 				KeyNamePair kp = (KeyNamePair)sBankAccountCombo.getSelectedItem();
 				if (kp != null)
 					C_BankAccount_ID = kp.getKey();
-			} else {
-				KeyNamePair kp = (KeyNamePair)bCashBookCombo.getSelectedItem();
-				if (kp != null)
-					C_CashBook_ID = kp.getKey();	
 			}
-			
-			DateAcct = (Timestamp)bDateField.getValue();
 		}
 
 		//	K (CreditCard)  Type, Number, Exp, Approval
@@ -1380,14 +1353,6 @@ public class VPayment extends CDialog
 			}
 		}	//	Direct
 
-		//	P (PaymentTerm)	PaymentTerm
-		else if (PaymentRule.equals(X_C_Order.PAYMENTRULE_OnCredit))
-		{
-			KeyNamePair kp = (KeyNamePair)pTermCombo.getSelectedItem();
-			if (kp != null)
-				C_PaymentTerm_ID = kp.getKey();
-		}
-
 		//	S (Check)		(Currency) CheckNo, Routing
 		else if (PaymentRule.equals(MOrder.PAYMENTRULE_Check))
 		{
@@ -1428,15 +1393,6 @@ public class VPayment extends CDialog
 				(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true))) 
 					&& C_BankAccount_ID == 0)
 		{
-			String tender = MPayment.TENDERTYPE_CreditCard;
-			if (PaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit))
-				tender = MPayment.TENDERTYPE_DirectDeposit;
-			else if (PaymentRule.equals(MOrder.PAYMENTRULE_DirectDebit))
-				tender = MPayment.TENDERTYPE_DirectDebit;
-			else if (PaymentRule.equals(MOrder.PAYMENTRULE_Check))
-				tender = MPayment.TENDERTYPE_Check;
-			else if (PaymentRule.equals(MOrder.PAYMENTRULE_Cash))
-				tender = MPayment.TENDERTYPE_Cash;
 			//	Check & Cash (Payment) must have a bank account
 			if (C_BankAccount_ID == 0 && (PaymentRule.equals(MOrder.PAYMENTRULE_Check)) || 
 					(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true) ))
