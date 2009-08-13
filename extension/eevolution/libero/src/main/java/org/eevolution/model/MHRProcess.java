@@ -867,7 +867,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 * @param conceptValue
 	 * @param value
 	 */
-	public void setConcept (String conceptValue, long value)
+	public void setConcept (String conceptValue, double value)
 	{
 		try
 		{
@@ -886,6 +886,43 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m.setDescription("Added From Rule"); // TODO: translate
 			m.setValidFrom(m_dateTo);
 			m.setValidTo(m_dateTo);
+			m.saveEx();
+		} 
+		catch(Exception e)
+		{
+			s_log.warning(e.getMessage());
+		}
+	}
+	
+	/* Helper Method : sets the value of a concept and set if isRegistered 
+	* @param conceptValue
+	* @param value
+	* @param isRegistered
+	*/
+	public void setConcept (String conceptValue,double value,boolean isRegistered)
+	{
+		try
+		{
+			MHRConcept c = MHRConcept.forValue(getCtx(), conceptValue); 
+			if (c == null)
+			{
+				return; // TODO throw exception
+			}
+			MHRMovement m = new MHRMovement(Env.getCtx(),0,null);
+			m.setColumnType(c.getColumnType());
+			if (c.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
+				m.setAmount(BigDecimal.valueOf(value));
+			else if (c.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity))
+				m.setQty(BigDecimal.valueOf(value));
+			else
+				return;
+			m.setHR_Process_ID(getHR_Process_ID());
+			m.setHR_Concept_ID(c.getHR_Concept_ID());
+			m.setC_BPartner_ID(m_C_BPartner_ID);
+			m.setDescription("Added From Rule"); // TODO: translate
+			m.setValidFrom(m_dateTo);
+			m.setValidTo(m_dateTo);
+			m.setIsRegistered(isRegistered);
 			m.saveEx();
 		} 
 		catch(Exception e)
@@ -1231,6 +1268,78 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	} // getConcept
 
 	/**
+	 * Helper Method: gets Concept value of a payrroll between 2 dates
+	 * @param pConcept
+	 * @param pPayrroll
+	 * @param from
+	 * @param to
+	 * */
+	public double getConcept (String conceptValue, String payrollValue,Timestamp from,Timestamp to)
+	{
+		int payroll_id;
+		if (payrollValue == null)
+		{
+			payroll_id = getHR_Payroll_ID();
+		}
+		else
+		{
+			payroll_id = MHRPayroll.forValue(getCtx(), payrollValue).get_ID();
+		}
+		
+		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		if (concept == null)
+			return 0.0;
+		//
+		// Detect field name
+		final String fieldName;
+		if (MHRConcept.COLUMNTYPE_Quantity.equals(concept.getColumnType()))
+		{
+			fieldName = MHRMovement.COLUMNNAME_Qty;
+		}
+		else if (MHRConcept.COLUMNTYPE_Amount.equals(concept.getColumnType()))
+		{
+			fieldName = MHRMovement.COLUMNNAME_Amount;
+		}
+		else
+		{
+			return 0; // TODO: throw exception?
+		}
+		//
+		MHRPeriod p = MHRPeriod.get(getCtx(), getHR_Period_ID());
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		//check client
+		whereClause.append("AD_Client_ID = ?");
+		params.add(getAD_Client_ID());
+		//check concept
+		whereClause.append(" AND " + MHRMovement.COLUMNNAME_HR_Concept_ID + "=?");
+		params.add(concept.get_ID());
+		//check partner
+		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
+		params.add(m_C_BPartner_ID);
+		//Adding dates 
+		whereClause.append(" AND validTo BETWEEN ? AND ?");
+		params.add(from);
+		params.add(to);
+		//
+		//check process and payroll
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Process p"
+							+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
+							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
+							+" AND p.HR_Payroll_ID=?");
+		
+		params.add(payroll_id);
+		
+		whereClause.append(")");
+		//
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(").append(fieldName).append("),0) FROM ").append(MHRMovement.Table_Name)
+								.append(" WHERE ").append(whereClause);
+		BigDecimal value = DB.getSQLValueBDEx(get_TrxName(), sql.toString(), params);
+		return value.doubleValue();
+		
+	} // getConcept
+	
+	/**
 	 * Helper Method : Attribute that had from some date to another to date,
 	 * if it finds just one period it's seen for the attribute of such period 
 	 * if there are two or more attributes based on the days
@@ -1269,6 +1378,92 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		// TODO ???
 		return 0;
 	}
+	
+	
+		
+	/**
+	 * Helper Method : Get AttributeInvoice 
+	 * @param pConcept - Value to Concept
+	 * @return	C_Invoice_ID, 0 if does't
+	 */ 
+	public int getAttributeInvoice (String pConcept)
+	{
+		MHRConcept concept = MHRConcept.forValue(getCtx(), pConcept);
+		if (concept == null)
+			return 0;
+		
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		// check ValidFrom:
+		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom + "<=?");
+		params.add(m_dateFrom);
+		//check client
+		whereClause.append(" AND AD_Client_ID = ?");
+		params.add(getAD_Client_ID());
+		//check concept
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
+						   + " AND c.Value = ?)");
+		params.add(pConcept);
+		//
+		if (!MHRConcept.TYPE_Information.equals(concept.getType()))
+		{
+			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
+			params.add(m_C_BPartner_ID);
+		}
+		
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
+		.setParameters(params)
+		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+		.first();
+		
+		if(attribute!=null)
+			return (Integer) attribute.get_Value("C_Invoice_ID");
+		else
+			return 0;
+		
+	} // getAttribute
+		
+	/**
+	 * Helper Method : Get AttributeDocType
+	 * @param pConcept - Value to Concept
+	 * @return	C_DocType_ID, 0 if does't
+	 */ 
+	public int getAttributeDocType (String pConcept)
+	{
+		MHRConcept concept = MHRConcept.forValue(getCtx(), pConcept);
+		if (concept == null)
+			return 0;
+		
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		// check ValidFrom:
+		whereClause.append(MHRAttribute.COLUMNNAME_ValidFrom + "<=?");
+		params.add(m_dateFrom);
+		//check client
+		whereClause.append(" AND AD_Client_ID = ?");
+		params.add(getAD_Client_ID());
+		//check concept
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
+						   + " AND c.Value = ?)");
+		params.add(pConcept);
+		//
+		if (!MHRConcept.TYPE_Information.equals(concept.getType()))
+		{
+			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
+			params.add(m_C_BPartner_ID);
+		}
+		
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
+		.setParameters(params)
+		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+		.first();
+		
+		if(attribute!=null)
+			return (Integer) attribute.get_Value("C_DocType_ID");
+		else
+			return 0;
+		 
+	} // getAttribute
 
 	/**
 	 * Helper Method : get days from specific period
