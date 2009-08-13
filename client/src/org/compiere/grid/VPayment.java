@@ -70,6 +70,8 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -909,8 +911,22 @@ public class VPayment extends CDialog
 	 *	Save Changes
 	 *	@return true, if Window can exit
 	 */
-	private boolean saveChanges()
-	{
+	private boolean saveChanges() {
+
+		// BF [ 1920179 ] perform the save in a trx's context.
+		final boolean[] success = new boolean[] { false };
+		final TrxRunnable r = new TrxRunnable() {
+
+			public void run(String trxName) {
+				success[0] = saveChangesInTrx(trxName);
+			}
+		};
+		Trx.run(Trx.createTrxName("VPayment"), r);
+		return success[0];
+	} // saveChanges
+
+	private boolean saveChangesInTrx(final String trxName){
+
 		ValueNamePair vp = (ValueNamePair)paymentCombo.getSelectedItem();
 		String newPaymentRule = vp.getValue();
 		log.info("New Rule: " + newPaymentRule);
@@ -1029,7 +1045,7 @@ public class VPayment extends CDialog
 				log.fine("Old Payment(1) - " + m_mPaymentOriginal);
 				m_mPaymentOriginal.setDocAction(DocAction.ACTION_Reverse_Correct);
 				boolean ok = m_mPaymentOriginal.processIt(DocAction.ACTION_Reverse_Correct);
-				m_mPaymentOriginal.save();
+				m_mPaymentOriginal.saveEx(trxName);
 				if (ok)
 					log.info( "Payment Canecelled - " + m_mPaymentOriginal);
 				else
@@ -1044,7 +1060,7 @@ public class VPayment extends CDialog
 				{
 					m_mPaymentOriginal.setDocAction(DocAction.ACTION_Reverse_Correct);
 					boolean ok = m_mPaymentOriginal.processIt(DocAction.ACTION_Reverse_Correct);
-					m_mPaymentOriginal.save();
+					m_mPaymentOriginal.saveEx(trxName);
 					if (ok)        //  Cancel Payment
 					{
 						log.fine("PaymentCancelled " + m_mPayment.getDocumentNo ());
@@ -1069,12 +1085,12 @@ public class VPayment extends CDialog
 		MInvoice invoice = null;
 		if (C_Invoice_ID != 0)
 		{
-			invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);
+			invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, trxName);
 			negateAmt = invoice.isCreditMemo();
 		}
 		MOrder order = null;
 		if (invoice == null && C_Order_ID != 0)
-			order = new MOrder (Env.getCtx(), C_Order_ID, null);
+			order = new MOrder (Env.getCtx(), C_Order_ID, trxName);
 		
 		BigDecimal payAmount = m_Amount;
 		
@@ -1108,8 +1124,8 @@ public class VPayment extends CDialog
 					//m_cashLine.setAmount(payAmount);
 					m_cashLine.setAmount((BigDecimal) bAmountField.getValue());
 					// ADialog.info(m_WindowNo, this, "m_cashLine - Changed Amount", "Amount: "+m_cashLine.getAmount());
-					if (m_cashLine.save())
-						log.config("CashAmt Changed");
+					m_cashLine.saveEx(trxName);
+					log.config("CashAmt Changed");
 				}
 				//	Different Date/CashBook
 				if (m_cashLine != null
@@ -1118,7 +1134,7 @@ public class VPayment extends CDialog
 				{
 					log.config("Changed CashBook/Date: " + m_C_CashBook_ID + "->" + newC_CashBook_ID);
 					MCashLine reverse = m_cashLine.createReversal();
-					if (!reverse.save())
+					if (!reverse.save(trxName))
 						ADialog.error(m_WindowNo, this, "PaymentError", "CashNotCancelled");
 					m_cashLine = null;
 				}
@@ -1134,9 +1150,9 @@ public class VPayment extends CDialog
 						C_Currency_ID = order.getC_Currency_ID();
 					MCash cash = null;
 					if (newC_CashBook_ID != 0)
-						cash = MCash.get (Env.getCtx(), newC_CashBook_ID, newDateAcct, null);
+						cash = MCash.get (Env.getCtx(), newC_CashBook_ID, newDateAcct, trxName);
 					else	//	Default
-						cash = MCash.get (Env.getCtx(), m_AD_Org_ID, newDateAcct, C_Currency_ID, null);
+						cash = MCash.get (Env.getCtx(), m_AD_Org_ID, newDateAcct, C_Currency_ID, trxName);
 					if (cash == null || cash.get_ID() == 0)
 						ADialog.error(m_WindowNo, this, "PaymentError", CLogger.retrieveErrorString("CashNotCreated"));
 					else
@@ -1148,28 +1164,28 @@ public class VPayment extends CDialog
 							cl.setInvoice(invoice);	// overrides amount
 						if (order != null)
 						{
-							cl.setOrder(order, null); // overrides amount
+							cl.setOrder(order, trxName); // overrides amount
 							m_needSave = true;
 						}
 						cl.setAmount((BigDecimal)bAmountField.getValue());
-						if (cl.save())
+						if (cl.save(trxName))
 						{	
 							log.config("CashCreated");
 							if (invoice == null && C_Invoice_ID != 0)
 							{
-								invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);	
+								invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, trxName);	
 							}
 							if (invoice != null) {
 								invoice.setC_CashLine_ID(cl.getC_CashLine_ID());
-								invoice.save();
+								invoice.saveEx(trxName);
 							}	
 							if (order == null && C_Order_ID != 0)
 							{
-								order = new MOrder (Env.getCtx(), C_Order_ID, null);
+								order = new MOrder (Env.getCtx(), C_Order_ID, trxName);
 							}
 							if (order != null) {
 								order.setC_CashLine_ID(cl.getC_CashLine_ID());
-								order.save();
+								order.saveEx(trxName);
 							}
 							log.config("Update Order & Invoice with CashLine");
 						}	
@@ -1275,8 +1291,8 @@ public class VPayment extends CDialog
 				m_mTab.setValue("C_CashLine_ID", new Integer(newC_CashLine_ID));
 		}
 		return true;
-	}	//	saveChanges
-
+	}
+	
 	/**
 	 *  Check Mandatory
 	 *  @return true if all mandatory items are OK
@@ -1538,5 +1554,6 @@ public class VPayment extends CDialog
 	{
 		return m_needSave;
 	}	//	needSave
-	
+		
 }	//	VPayment
+;
