@@ -1010,8 +1010,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="308" trl="Y">
   <value column="Name" original="Reapply Customizations">Anpassungen wiederanwenden</value>
   <value column="Description" original="If you identified customizations in the Change Log, you can reapply them">Wenn Sie Anpassungen im Änderungsprotokoll markiert haben, können Sie diese wiederanwenden</value>
-  <value column="Help" original="The migration &quot;resets&quot; the system to the current/original setting.  If selected in the Change Log, you can save the customization and re-apply them.  Please note that you need to check, if your customization has no negative side effect in the new release. &lt;br&gt;&#10;Shut down the Application Server before running this process and set the Trace level (in Preference) higher or equals  WARNING.">The migration "resets" the system to the current/original setting.  If selected in the Change Log, you can save the customization and re-apply them.  Please note that you need to check, if your customization has no negative side effect in the new release. &lt;br&gt;
-Shut down the Application Server before running this process and set the Trace level (in Preference) higher or equals  WARNING.</value>
+  <value column="Help" original="The migration &quot;resets&quot; the system to the current/original setting.  If selected in the Change Log, you can save the customization and re-apply them.  Please note that you need to check, if your customization has no negative side effect in the new release. &lt;br&gt;&#10;Shut down the Application Server before running this process and set the Trace level (in Preference) higher or equals  WARNING.">Die Migration versetzt das System in den gegenwertigen bzw. Originalzusatnd ("Reset"). If selected in the Change Log, you can save the customization and re-apply them. Beachten Sie, dass Sie selbst ünerprüfen müssen, ob die Änderung unerwünschte Auswirkungen im neuen Release hat. &lt;br&gt; Shut down the Application Server before running this process and set the Trace level (in Preference) higher or equals WARNING.</value>
  </row>
  <row id="309" trl="Y">
   <value column="Name" original="Workflow to Client">Workflow zu Mandant</value>
@@ -1046,8 +1045,8 @@ This is a one-step replacement for defining BOM and creating/processes a Product
   <value column="Help" original="Check the payments and invoices of a business partner and checks the balances.">Überprüft Zahlungen und Rechnungen eines Geschäftspartners und die Salden.</value>
  </row>
  <row id="315" trl="Y">
-  <value column="Name" original="Order Batch Process">Stapel-Verabeitung Aufträge</value>
-  <value column="Description" original="Process Orders in Batch">Verarbeiten von Aufträgen in einem Durchgang</value>
+  <value column="Name" original="Order Batch Process">Auftrags/Bestellungs-Lauf</value>
+  <value column="Description" original="Process Orders in Batch">Verarbeiten von Aufträgen/Bestellungen in einem Durchgang</value>
   <value column="Help" original="Based on the selection criteria, the orders are processed using the document action selected.  Make sure that the document action is valid for the documents.">Based on the selection criteria, the orders are processed using the document action selected.  Make sure that the document action is valid for the documents.</value>
  </row>
  <row id="316" trl="Y">
@@ -1292,7 +1291,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
   <value column="Help" original=""/>
  </row>
  <row id="53002" trl="Y">
-  <value column="Name" original="Setup Web POS">Setup Web POS</value>
+  <value column="Name" original="Setup Web POS">Einrichtung Web-Kassenoberfläche</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
@@ -1312,7 +1311,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
   <value column="Help" original=""/>
  </row>
  <row id="53068" trl="Y">
-  <value column="Name" original="Update Sequence No">Update Sequence No</value>
+  <value column="Name" original="Update Sequence No">Nummernfolge aktualisieren</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
@@ -1322,7 +1321,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
   <value column="Help" original=""/>
  </row>
  <row id="53070" trl="Y">
-  <value column="Name" original="Prepare Migration Scripts">Prepare Migration Scripts</value>
+  <value column="Name" original="Prepare Migration Scripts">Migrations-Skripte vorbereiten</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>

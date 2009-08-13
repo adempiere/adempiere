@@ -23,7 +23,7 @@
   <value column="Help" original=""/>
  </row>
  <row id="104" trl="Y">
-  <value column="Name" original="Payment Allocation">Zahlung-Zuordnung</value>
+  <value column="Name" original="Payment Allocation">Zahlungs-Zuordnung</value>
   <value column="Description" original="Allocate invoices and payments">Rechnungen und Zahlungen zuordnen</value>
   <value column="Help" original=""/>
  </row>
@@ -33,14 +33,14 @@
   <value column="Help" original="Use the upper portion to create new charges using the general charge accounts.  Use the lower portion to create charges based on the natural account.">Nutzen Sie den oberen Bereich zum Anlegen neuer Gebühren unter Verwendung der generellen Gebührenkonten. Nutzen Sie den unteren Bereich zum Anlegen neuer Gebühren unter Verwendung der Basiskonten.</value>
  </row>
  <row id="106" trl="Y">
-  <value column="Name" original="Payment Print/Export">Zahlung drucken</value>
-  <value column="Description" original="Print or export your payments">Drucken oder exportieren von Zahlungen</value>
+  <value column="Name" original="Payment Print/Export">Zahlung verarbeiten</value>
+  <value column="Description" original="Print or export your payments">Drucken, Exportieren oder Übertragen von Zahlungen</value>
   <value column="Help" original=""/>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Payment Selection (manual)">Zahlung auswählen (manuell)</value>
   <value column="Description" original="Manual Payment Selection">Manuelle Auswahl von Zahlungen</value>
-  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">Lieferanten-Rechnungen für Zahlung auswählen. Wenn Sie eine Rechnung nicht sehen, stellen Sie sicher, dass sie nicht in einer anderen (unverarbeiteten) Zahlungsauswahl enthalten ist.</value>
+  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">Lieferanten-Rechnungen für Zahlung auswählen. Wenn Sie eine Rechnung nicht sehen stellen Sie sicher, dass sie nicht in einer anderen (unverarbeiteten) Zahlungsauswahl enthalten ist.</value>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Matching PO-Receipt-Invoice">Abgleich Bestellung-Lieferschein-Rechnung</value>
@@ -95,7 +95,7 @@
  <row id="118" trl="Y">
   <value column="Name" original="Archive Viewer">Archiv-Betrachter</value>
   <value column="Description" original="View automatically archived Documents">Ansehen von automatisch archivierten Dokumenten</value>
-  <value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">In Abhängigkeit des Grades der Archivierungsautomatik des Mandanten werden Dokumente und Berichte archiviert und stehen zur Ansicht zur Verfügung. Im Berichtsbetrachter können Sie Dokumente und Berichte manuell archivieren. Sie können die Archive nur ansehen, wenn Sie auch Zugriff auf die Originaldokumente haben.</value>
+  <value column="Help" original="Depending on the Client Automatic Archive Level documents and reports are saved and available for view. In the Report Viewer you can manually archive Documents or Reports.  You can only view archives, if you have access to the original document.">In Abhängigkeit des Grades der Archivierungsautomatik des Mandanten werden Belege und Berichte archiviert und stehen zur Ansicht zur Verfügung. Im Berichtsbetrachter können Sie Dokumente und Berichte manuell archivieren. Sie können die Archive nur ansehen, wenn Sie auch Zugriff auf die Originaldokumente haben.</value>
  </row>
  <row id="119" trl="Y">
   <value column="Name" original="Performance Indicators">Ergebnis - Kennzahlen</value>

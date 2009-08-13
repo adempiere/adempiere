@@ -30,7 +30,7 @@
   <value column="Name" original="Bank">Bank</value>
  </row>
  <row id="110" trl="Y">
-  <value column="Name" original="Cash Book">Kassenbuch</value>
+  <value column="Name" original="Cash Book">Kassenjournal</value>
  </row>
  <row id="111" trl="Y">
   <value column="Name" original="Tax">Steuer</value>

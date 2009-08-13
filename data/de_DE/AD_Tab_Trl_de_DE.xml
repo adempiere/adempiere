@@ -209,14 +209,14 @@
  <row id="135" trl="Y">
   <value column="Name" original="Country">Land</value>
   <value column="CommitWarning" original="Please create a support request (http://www.adempiere.org/support/requests.html), if the country data is not correct.">Please create a support request (http://www.adempiere.org/support/requests.html), if the country data is not correct.</value>
-  <value column="Description" original="Define Country">Define Country</value>
-  <value column="Help" original="The Country Tab defines any country in which you do business.  Values entered here are referenced in location records for Business Partners.">The Country Tab defines any country in which you do business.  Values entered here are referenced in location records for Business Partners.</value>
+  <value column="Description" original="Define Country">Land definieren</value>
+  <value column="Help" original="The Country Tab defines any country in which you do business.  Values entered here are referenced in location records for Business Partners.">Das Register "Land" ermöglicht, die verschiedenen Länder zu definieren, in denen Sie tätig sind. Die hier eingetragenen Daten werden in den Adressdaten der Geschäftspartner verwendet.</value>
  </row>
  <row id="136" trl="Y">
   <value column="Name" original="Region">Region</value>
   <value column="CommitWarning" original="Please create a support request (http://www.adempiere.org/support/requests.html), if the region info is not correct/incomplete.">Please create a support request (http://www.adempiere.org/support/requests.html), if the region info is not correct/incomplete.</value>
-  <value column="Description" original="Define Regions">Define Regions</value>
-  <value column="Help" original="The Region Tab  defines a Region within a Country.  This tab is enabled only if the Has Region checkbox is selected for the Country.">The Region Tab  defines a Region within a Country.  This tab is enabled only if the Has Region checkbox is selected for the Country.</value>
+  <value column="Description" original="Define Regions">Regionen definieren</value>
+  <value column="Help" original="The Region Tab  defines a Region within a Country.  This tab is enabled only if the Has Region checkbox is selected for the Country.">Das Register "Region" definiert eine Region oder einen Bundesstaat in einem Land. Dieses Register ist nur aktiv, wenn für das Land das Selektionsfeld "Land hat Regionen" selektiert ist.</value>
  </row>
  <row id="143" trl="Y">
   <value column="Name" original="Organization">Organisation</value>
@@ -1209,7 +1209,7 @@ Note that printed payments are archived in Payment Selection (Prepared Payment).
   <value column="Name" original="Payment Batch">Zahlungslauf</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Process Payment Batch">Process Payment Batch</value>
-  <value column="Help" original="Electronic Fund Transfer Payment Batch.">Zahlungsläufe für Elektronischen Lastschriftverkehr (z.B. Datenträgeraustausch DTA) verarbeiten</value>
+  <value column="Help" original="Electronic Fund Transfer Payment Batch.">Zahlungsläufe für Elektronischen Zahlungsverkehr (z.B. HBCI oder Datenträgeraustausch DTAUS) verarbeiten</value>
  </row>
  <row id="342" trl="Y">
   <value column="Name" original="Field group">Feld-Gruppe</value>
@@ -1263,10 +1263,10 @@ Additional objects are used for dunning (business partner, dunning entry), asset
 Note that access information is cached and requires re-login or reset of cache.</value>
  </row>
  <row id="352" trl="Y">
-  <value column="Name" original="Payment Selection">Zahlung auswählen</value>
+  <value column="Name" original="Payment Selection">Zahlungsauswahl</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Payment">Define Payment</value>
-  <value column="Help" original="The Payment Selection Tab defines the bank account and date of the payments to be made. You also create the payments here.">The Payment Selection Tab defines the bank account and date of the payments to be made. You also create the payments here.</value>
+  <value column="Description" original="Define Payment">Zahlung definieren</value>
+  <value column="Help" original="The Payment Selection Tab defines the bank account and date of the payments to be made. You also create the payments here.">"Zahlungsauswahl" bestimmt das Konto und den Termin, zu dem die Zahlung durchgeführt wird. Hier erstellen Sie auch die Zahlungen.</value>
  </row>
  <row id="353" trl="Y">
   <value column="Name" original="Payment Selection Line">Zahlungsauswahl- Position</value>
@@ -2391,7 +2391,7 @@ The optional balance check applies to the entire import, not for individual batc
   <value column="Help" original="The value of the category is a keyword">The value of the category is a keyword</value>
  </row>
  <row id="541" trl="Y">
-  <value column="Name" original="Type">Art</value>
+  <value column="Name" original="Type">Typ</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Knowledge Type">Knowledge Type</value>
   <value column="Help" original="Area of knowlege - A Type has multiple Topics">Area of knowlege - A Type has multiple Topics</value>
@@ -2523,7 +2523,7 @@ The optional balance check applies to the entire import, not for individual batc
   <value column="Help" original="Note that some information is for reference only!  The ">Note that some information is for reference only!  The </value>
  </row>
  <row id="563" trl="Y">
-  <value column="Name" original="Company Agent">Einkäufer</value>
+  <value column="Name" original="Company Agent">Sachbearbeiter</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Sales Representative Selection">Sales Representative Selection</value>
   <value column="Help" original=""/>
@@ -2583,7 +2583,7 @@ The optional balance check applies to the entire import, not for individual batc
   <value column="Help" original="A user who can act for this user.">Ein Nutzer, der für diesen Nutzer handeln kann.</value>
  </row>
  <row id="574" trl="Y">
-  <value column="Name" original="Process">Prozess</value>
+  <value column="Name" original="Process">Verarbeiten</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Actual Workflow Process Instance">Actual Workflow Process Instance</value>
   <value column="Help" original="Instance of a workflow execution">Instance of a workflow execution</value>
@@ -3038,9 +3038,7 @@ The distribution is prorated based on the percentage of the lines. If the total 
   <value column="Name" original="Counter Document">Gegenbeleg</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Counter Document Types">Arten von Gegenbelegen verwalten</value>
-  <value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;You can define conter documents for all organizations (of the original transaction) or for a specific organization.">When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a "Standard Order" creates a "Standard PO". 
-If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.
-You can define conter documents for all organizations (of the original transaction) or for a specific organization.</value>
+  <value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;You can define conter documents for all organizations (of the original transaction) or for a specific organization.">Wenn Sie explizite Belege für Inter0rganisations-Buchungen verwenden (nach der Zuordnung eines Geschäftspartners zu einer Organistion), können Sie hier festlegen, von welcher Belegart der Gegenbeleg ist, basierend auf  der Belegart des Ursprungsvorgangs. Beispiel: ein "Standard-Auftrag" erzeugt eine "Standard-Bestellung". Wenn Sie hier eine Beziehung definieren, überschreiben Sie damit den Standardeintrag in der Belegarten-Definition. Damit können Sie eine bestimmte Zuordnung treffen. Sie können Gegenbelege für alle Organisationen (der Ursprungstransaktion) festlegen oder für eine bestimmte Organisation.</value>
  </row>
  <row id="653" trl="Y">
   <value column="Name" original="Forecast">Prognose</value>
@@ -3057,7 +3055,7 @@ You can define conter documents for all organizations (of the original transacti
  <row id="655" trl="Y">
   <value column="Name" original="Demand">Bedarf</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Material Demand">Material Demand</value>
+  <value column="Description" original="Material Demand">Materialbedarf</value>
   <value column="Help" original="Material Demand can be based on Forecast, Requisitions, Open Orders">Materialbedarf kann auf Vorhersage, Anforderung oder offenen Aufträgen basieren.</value>
  </row>
  <row id="656" trl="Y">
@@ -4007,7 +4005,7 @@ The measure must support the data, otherwise it is ignored.</value>
   <value column="Help" original="CM Project Template">CM Project Template</value>
  </row>
  <row id="819" trl="Y">
-  <value column="Name" original="Chat Type">Chat-Art</value>
+  <value column="Name" original="Chat Type">Webchat-Art</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Type of discussion / chat">Maintain Type of discussion / chat</value>
   <value column="Help" original="Chat Type allows you to receive subscriptions for particular content of discussions. It is linked to a table.">Chat Type allows you to receive subscriptions for particular content of discussions. It is linked to a table.</value>
@@ -4019,7 +4017,7 @@ The measure must support the data, otherwise it is ignored.</value>
   <value column="Help" original="Subscribers receive updates per email or notice">Subscribers receive updates per email or notice</value>
  </row>
  <row id="821" trl="Y">
-  <value column="Name" original="Chat">Chat</value>
+  <value column="Name" original="Chat">Webchat</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="View Chat or discussion thread">View Chat or discussion thread</value>
   <value column="Help" original="Thread of discussion">Thread of discussion</value>
@@ -4266,7 +4264,7 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Help" original=""/>
  </row>
  <row id="50010" trl="Y">
-  <value column="Name" original="Edit">Edit</value>
+  <value column="Name" original="Edit">Bearbeiten</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -4280,19 +4278,19 @@ If the profile is exclude (default), the assignees can view all but the defined 
  <row id="52001" trl="Y">
   <value column="Name" original="Role Menu">Role Menu</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">Depending on Which Role, Different set of Menus are generated and made available.</value>
+  <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">In Abhängigkeit der Rolle werden verschiedene Menüs generiert und verfügbar gemacht.</value>
   <value column="Help" original=""/>
  </row>
  <row id="52002" trl="Y">
   <value column="Name" original="Web Properties">Web Properties</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Stores the message tags to be picked up from AD_MESSAGE </value>
+  <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Speichert die Meldungstitel zum Laden aus AD_MESSAGE</value>
   <value column="Help" original=""/>
  </row>
  <row id="52003" trl="Y">
   <value column="Name" original="BlackListCheque">BlackListCheque</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Black Listed Cheque">Black Listed Cheque</value>
+  <value column="Description" original="Black Listed Cheque">Schecks/Karten auf der Schwarzen Liste</value>
   <value column="Help" original=""/>
  </row>
  <row id="53013" trl="Y">
@@ -4302,7 +4300,7 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Help" original="Define access to document type / document action / role combinations.">Define access to document type / document action / role combinations.</value>
  </row>
  <row id="53014" trl="Y">
-  <value column="Name" original="Model Validator">Model Validator</value>
+  <value column="Name" original="Model Validator">Modell-Validierung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -4326,7 +4324,7 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Help" original=""/>
  </row>
  <row id="53059" trl="Y">
-  <value column="Name" original="Process">Prozess</value>
+  <value column="Name" original="Process">Verarbeiten</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -4380,7 +4378,7 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Help" original=""/>
  </row>
  <row id="53068" trl="Y">
-  <value column="Name" original="Rule">Rule</value>
+  <value column="Name" original="Rule">Regel</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -4392,7 +4390,7 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Help" original=""/>
  </row>
  <row id="53073" trl="Y">
-  <value column="Name" original="Migration Scripts">Migration Scripts</value>
+  <value column="Name" original="Migration Scripts">Migrations-Skripte</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>

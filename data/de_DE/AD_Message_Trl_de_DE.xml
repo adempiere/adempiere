@@ -775,7 +775,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="294" trl="Y">
-  <value column="MsgText" original="Host">Rechner</value>
+  <value column="MsgText" original="Host">Server</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="295" trl="Y">
@@ -791,7 +791,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="298" trl="Y">
-  <value column="MsgText" original="Info">Info</value>
+  <value column="MsgText" original="Info">Information</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="299" trl="Y">
@@ -1164,7 +1164,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="391" trl="Y">
-  <value column="MsgText" original="Payment Allocation">Zahlung-Zuordnung</value>
+  <value column="MsgText" original="Payment Allocation">Zahlungs-Zuordnung</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="392" trl="Y">
@@ -1349,7 +1349,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="437" trl="Y">
-  <value column="MsgText" original="Process">Prozess</value>
+  <value column="MsgText" original="Process">Verarbeiten</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="438" trl="Y">
@@ -2066,7 +2066,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="615" trl="Y">
-  <value column="MsgText" original="Write-off">Abschreiben</value>
+  <value column="MsgText" original="Write-off">Abschreibung</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="616" trl="Y">
@@ -2387,7 +2387,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="703" trl="Y">
-  <value column="MsgText" original="SQL Statement">SQL- Statement</value>
+  <value column="MsgText" original="SQL Statement">SQL-Statement</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="704" trl="Y">
@@ -3098,7 +3098,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="882" trl="Y">
-  <value column="MsgText" original="Chat">Chat</value>
+  <value column="MsgText" original="Chat">Webchat</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="883" trl="Y">
@@ -3114,7 +3114,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="886" trl="Y">
-  <value column="MsgText" original="User EMail address was not verified - Please verify EMail">E-Mail-Adresse Nutzer ist nicht verifiziert - Bitte verifizieren Sie die E-Mail-Adresse</value>
+  <value column="MsgText" original="User EMail address was not verified - Please verify EMail">EMail-Adresse Nutzer ist nicht verifiziert - Bitte verifizieren Sie die EMail</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="887" trl="Y">
@@ -3194,11 +3194,11 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="52000" trl="Y">
-  <value column="MsgText" original="Either Order or RMA can be process on this document.">Either Order or RMA can be process on this document.</value>
+  <value column="MsgText" original="Either Order or RMA can be process on this document.">Entweder Auftrag/Bestellung oder Rücksendung können auf diesem Beleg verarbeitet werden.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="52001" trl="Y">
-  <value column="MsgText" original="Vendor RMA">Vendor RMA</value>
+  <value column="MsgText" original="Vendor RMA">Rücksendung Lieferant</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="52003" trl="Y">
@@ -3346,7 +3346,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52040" trl="Y">
-  <value column="MsgText" original="Some error occured while communicating with the server. Please try again.">Some error occured while communicating with the server. Bitte versuchen Sie es erneut.</value>
+  <value column="MsgText" original="Some error occured while communicating with the server. Please try again.">Ein Fehler ist bei der Kommunikation mit dem Server aufgetreten Bitte versuchen Sie es erneut.</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52041" trl="Y">
@@ -3374,11 +3374,11 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52047" trl="Y">
-  <value column="MsgText" original="Amount Tendered">Amount Tendered</value>
+  <value column="MsgText" original="Amount Tendered">Betrag angewiesen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52048" trl="Y">
-  <value column="MsgText" original="Transfer">Transfer</value>
+  <value column="MsgText" original="Transfer">Übertragung</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52049" trl="Y">
@@ -3410,7 +3410,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original="Attribute Set">Merkmals-Satz</value>
  </row>
  <row id="52056" trl="Y">
-  <value column="MsgText" original="Available Menus">Available Menus</value>
+  <value column="MsgText" original="Available Menus">Verfügbare Menüs</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52057" trl="Y">
@@ -3438,31 +3438,31 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52063" trl="Y">
-  <value column="MsgText" original="Brand">Brand</value>
+  <value column="MsgText" original="Brand">Marke</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52064" trl="Y">
-  <value column="MsgText" original="Calculation Period And Curr.">Calculation Period And Curr.</value>
+  <value column="MsgText" original="Calculation Period And Curr.">Berechnungs-Periode und Währung</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52065" trl="Y">
-  <value column="MsgText" original="Card">Card</value>
+  <value column="MsgText" original="Card">Karte</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52066" trl="Y">
-  <value column="MsgText" original="Card Amount">Card Amount</value>
+  <value column="MsgText" original="Card Amount">Kartenbetrag</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52067" trl="Y">
-  <value column="MsgText" original="Card Amount Entered">Card Amount Entered</value>
+  <value column="MsgText" original="Card Amount Entered">Kartenbetrag eingegeben</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52068" trl="Y">
-  <value column="MsgText" original="Card amount tendered">Card amount tendered</value>
+  <value column="MsgText" original="Card amount tendered">Kartenbetrag angewiesen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52069" trl="Y">
-  <value column="MsgText" original="Card Amount Total">Card Amount Total</value>
+  <value column="MsgText" original="Card Amount Total">Kartenbetrag gesamt</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52070" trl="Y">
@@ -3470,15 +3470,15 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52071" trl="Y">
-  <value column="MsgText" original="Card No">Card No</value>
+  <value column="MsgText" original="Card No">Kartennummer</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52072" trl="Y">
-  <value column="MsgText" original="Card Total">Card Total</value>
+  <value column="MsgText" original="Card Total">Karte gesamt</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52073" trl="Y">
-  <value column="MsgText" original="Add More">Add More</value>
+  <value column="MsgText" original="Add More">Mehr hinzufügen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52074" trl="Y">
@@ -3502,23 +3502,23 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52079" trl="Y">
-  <value column="MsgText" original="Cash Amount">Cash Amount</value>
+  <value column="MsgText" original="Cash Amount">Betrag Bar</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52080" trl="Y">
-  <value column="MsgText" original="Cash Book">Kassenbuch</value>
+  <value column="MsgText" original="Cash Book">Kassenjournal</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52081" trl="Y">
-  <value column="MsgText" original="The Cash Book has been adjusted.">The Cash Book has been adjusted.</value>
+  <value column="MsgText" original="The Cash Book has been adjusted.">Das Kassenjournal wurde angeglichen.</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52082" trl="Y">
-  <value column="MsgText" original="The Cash Book has been adjusted">The Cash Book has been adjusted</value>
+  <value column="MsgText" original="The Cash Book has been adjusted">Das Kassenjournal wurde angeglichen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52083" trl="Y">
-  <value column="MsgText" original="Cash Book History">Cash Book History</value>
+  <value column="MsgText" original="Cash Book History">Kassenjournal Historie</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52084" trl="Y">
@@ -3526,31 +3526,31 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52085" trl="Y">
-  <value column="MsgText" original="Cash Payment">Cash Payment</value>
+  <value column="MsgText" original="Cash Payment">Bar Geldausgang</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52086" trl="Y">
-  <value column="MsgText" original="Cash Receipt">Cash Receipt</value>
+  <value column="MsgText" original="Cash Receipt">Bar Geldeingang</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52087" trl="Y">
-  <value column="MsgText" original="Cash refunded">Cash refunded</value>
+  <value column="MsgText" original="Cash refunded">Bar erstattet</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52088" trl="Y">
-  <value column="MsgText" original="Cash tendered">Cash tendered</value>
+  <value column="MsgText" original="Cash tendered">Bar angewiesen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52089" trl="Y">
-  <value column="MsgText" original="Cash to transfer">Cash to transfer</value>
+  <value column="MsgText" original="Cash to transfer">Bar zu übertragen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52090" trl="Y">
-  <value column="MsgText" original="Cash Total">Cash Total</value>
+  <value column="MsgText" original="Cash Total">Bar gesamt</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52091" trl="Y">
-  <value column="MsgText" original="Cellphone">Cellphone</value>
+  <value column="MsgText" original="Cellphone">Mobiltelefon</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52092" trl="Y">
@@ -3610,7 +3610,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52106" trl="Y">
-  <value column="MsgText" original="Closing Balance">Closing Balance</value>
+  <value column="MsgText" original="Closing Balance">Endsaldo</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52107" trl="Y">
@@ -3738,23 +3738,23 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original="Date Ordered">Auftragsdatum</value>
  </row>
  <row id="52138" trl="Y">
-  <value column="MsgText" original="Date Range">Date Range</value>
+  <value column="MsgText" original="Date Range">Datumsbereich</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52139" trl="Y">
-  <value column="MsgText" original="to">to</value>
+  <value column="MsgText" original="to">bis</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52140" trl="Y">
-  <value column="MsgText" original="De-activate">De-activate</value>
+  <value column="MsgText" original="De-activate">Deaktivieren</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52141" trl="Y">
-  <value column="MsgText" original="Deactivate Vendor">Deactivate Vendor</value>
+  <value column="MsgText" original="Deactivate Vendor">Lieferanten deaktivieren</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52142" trl="Y">
-  <value column="MsgText" original="Dealer Name">Dealer Name</value>
+  <value column="MsgText" original="Dealer Name">Verkäufer-Name</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52143" trl="Y">
@@ -3766,7 +3766,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52145" trl="Y">
-  <value column="MsgText" original="Delete Selected">Delete Selected</value>
+  <value column="MsgText" original="Delete Selected">Selektierte löschen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52146" trl="Y">
@@ -3774,11 +3774,11 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52147" trl="Y">
-  <value column="MsgText" original="Discount">Discount</value>
+  <value column="MsgText" original="Discount">Rabatt</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52148" trl="Y">
-  <value column="MsgText" original="Discounted Price">Discounted Price</value>
+  <value column="MsgText" original="Discounted Price">Rabattierter Preis</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52149" trl="Y">
@@ -3786,15 +3786,15 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52150" trl="Y">
-  <value column="MsgText" original="Do you want to display all records?">Do you want to display all records?</value>
+  <value column="MsgText" original="Do you want to display all records?">Wollen Sie alle Einträge anzeigen?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52151" trl="Y">
-  <value column="MsgText" original="Doc Basis Type">Doc Basis Type</value>
+  <value column="MsgText" original="Doc Basis Type">Basis-Belegart</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52152" trl="Y">
-  <value column="MsgText" original="Download CSV">Download CSV</value>
+  <value column="MsgText" original="Download CSV">CSV herunterladen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52153" trl="Y">
@@ -3802,7 +3802,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52154" trl="Y">
-  <value column="MsgText" original="Dunning letters have been printed successfully">Dunning letters have been printed successfully</value>
+  <value column="MsgText" original="Dunning letters have been printed successfully">Mahnschreiben wurden erfolgreich gedruckt</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52155" trl="Y">
@@ -3810,7 +3810,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52156" trl="Y">
-  <value column="MsgText" original="Edit Attribute">Attribut bearbeiten</value>
+  <value column="MsgText" original="Edit Attribute">Merkmal bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52157" trl="Y">
@@ -3826,11 +3826,11 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52160" trl="Y">
-  <value column="MsgText" original="Edit Price List">Edit Price List</value>
+  <value column="MsgText" original="Edit Price List">Preisliste bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52161" trl="Y">
-  <value column="MsgText" original="Edit Product">Edit Product</value>
+  <value column="MsgText" original="Edit Product">Produkt bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52162" trl="Y">
@@ -3838,19 +3838,19 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52163" trl="Y">
-  <value column="MsgText" original="Edit Role">Edit Role</value>
+  <value column="MsgText" original="Edit Role">Rolle bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52164" trl="Y">
-  <value column="MsgText" original="Edit User">Edit User</value>
+  <value column="MsgText" original="Edit User">Nutzer bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52165" trl="Y">
-  <value column="MsgText" original="Edit Vendor">Edit Vendor</value>
+  <value column="MsgText" original="Edit Vendor">Lieferant bearbeiten</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52166" trl="Y">
-  <value column="MsgText" original="Enable printing">Enable printing</value>
+  <value column="MsgText" original="Enable printing">Druck freigeben</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52167" trl="Y">
@@ -3858,35 +3858,35 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52168" trl="Y">
-  <value column="MsgText" original="(excl. VAT)">(exkl. MwSt.)</value>
+  <value column="MsgText" original="(excl. VAT)">(ohne MwSt.)</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52169" trl="Y">
-  <value column="MsgText" original="Fast Moving Items Report">Fast Moving Items Report</value>
+  <value column="MsgText" original="Fast Moving Items Report">Bericht über gängige Artikel</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52170" trl="Y">
-  <value column="MsgText" original="Fast Moving Items Report (Current Month)">Fast Moving Items Report (Current Month)</value>
+  <value column="MsgText" original="Fast Moving Items Report (Current Month)">Bericht über gängige Artikel (gegenwärtiger Monat)</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52171" trl="Y">
-  <value column="MsgText" original="Fast Moving Items Report (Today)">Fast Moving Items Report (Today)</value>
+  <value column="MsgText" original="Fast Moving Items Report (Today)">Bericht über gängige Artikel (Heute)</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52172" trl="Y">
-  <value column="MsgText" original="Filter By">Filter By</value>
+  <value column="MsgText" original="Filter By">Filtern nach</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52173" trl="Y">
-  <value column="MsgText" original="Choose the type of filter">Choose the type of filter</value>
+  <value column="MsgText" original="Choose the type of filter">Wählen Sie die Art des Filters</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52174" trl="Y">
-  <value column="MsgText" original="First">First</value>
+  <value column="MsgText" original="First">Zuerst</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52175" trl="Y">
-  <value column="MsgText" original="Fixed">Fixed</value>
+  <value column="MsgText" original="Fixed">Festkurs</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52176" trl="Y">
@@ -4206,7 +4206,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52255" trl="Y">
-  <value column="MsgText" original="Payment Allocation">Zahlung-Zuordnung</value>
+  <value column="MsgText" original="Payment Allocation">Zahlungs-Zuordnung</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52256" trl="Y">
@@ -4482,7 +4482,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52324" trl="Y">
-  <value column="MsgText" original="to">to</value>
+  <value column="MsgText" original="to">bis</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52325" trl="Y">
@@ -4578,7 +4578,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52348" trl="Y">
-  <value column="MsgText" original="Cash Book History">Cash Book History</value>
+  <value column="MsgText" original="Cash Book History">Kassenjournal Historie</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52349" trl="Y">
@@ -4966,7 +4966,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="53006" trl="Y">
-  <value column="MsgText" original="Over/Under Payment">Over/Under Payment</value>
+  <value column="MsgText" original="Over/Under Payment">Über-/Unterzahlung</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="53007" trl="Y">

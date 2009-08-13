@@ -55,7 +55,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="106" trl="Y">
-  <value column="Name" original="Process">Prozess</value>
+  <value column="Name" original="Process">Verarbeiten</value>
   <value column="Description" original=""/>
  </row>
  <row id="107" trl="Y">
@@ -340,7 +340,7 @@
  </row>
  <row id="188" trl="Y">
   <value column="Name" original="Re-activate">Reaktivieren</value>
-  <value column="Description" original="Reopen Document and Reverse automaticly generated documents; You need to Complete the transaction after the change. ">Reopen Document and Reverse automaticly generated documents; You need to Complete the transaction after the change. </value>
+  <value column="Description" original="Reopen Document and Reverse automaticly generated documents; You need to Complete the transaction after the change. ">Beleg wieder eröffnen und automatisch erzeugte Belege rückgängig machen; Sie müssen den Vorgang nach der Änderung fertig stellen. </value>
  </row>
  <row id="189" trl="Y">
   <value column="Name" original="&lt;None&gt;">&lt;Nichts&gt;</value>
@@ -359,8 +359,8 @@
   <value column="Description" original="No Conversion Rate">Kein Umrechnungskurs</value>
  </row>
  <row id="199" trl="Y">
-  <value column="Name" original="Fixed">Fixed</value>
-  <value column="Description" original="Euro Fixed Currency">Euro Fixed Currency</value>
+  <value column="Name" original="Fixed">Festkurs</value>
+  <value column="Description" original="Euro Fixed Currency">Euro mit Festkurs zugeordnete Währung</value>
  </row>
  <row id="200" trl="Y">
   <value column="Name" original="Average">Durchschnitt</value>
@@ -371,8 +371,8 @@
   <value column="Description" original="Company Rate">Firmenkurs</value>
  </row>
  <row id="202" trl="Y">
-  <value column="Name" original="User Type">User Type</value>
-  <value column="Description" original="User Rate Type">User Rate Type</value>
+  <value column="Name" original="User Type">Nutzerart</value>
+  <value column="Description" original="User Rate Type">Nutzerkurs-Art</value>
  </row>
  <row id="203" trl="Y">
   <value column="Name" original="Manual Rate">Manueller Kurs</value>
@@ -415,7 +415,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="213" trl="Y">
-  <value column="Name" original="ATM">ATM</value>
+  <value column="Name" original="ATM">Bankkarte</value>
   <value column="Description" original=""/>
  </row>
  <row id="214" trl="Y">
@@ -575,7 +575,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="258" trl="Y">
-  <value column="Name" original="Open Period">Open Period</value>
+  <value column="Name" original="Open Period">Periode öffnen</value>
   <value column="Description" original=""/>
  </row>
  <row id="259" trl="Y">
@@ -1023,7 +1023,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="388" trl="Y">
-  <value column="Name" original="Number">Zahl</value>
+  <value column="Name" original="Number">Nummer</value>
   <value column="Description" original=""/>
  </row>
  <row id="389" trl="Y">
@@ -1303,7 +1303,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="467" trl="Y">
-  <value column="Name" original="Payment Allocation">Zahlung-Zuordnung</value>
+  <value column="Name" original="Payment Allocation">Zahlungs-Zuordnung</value>
   <value column="Description" original=""/>
  </row>
  <row id="468" trl="Y">
@@ -2155,7 +2155,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="686" trl="Y">
-  <value column="Name" original="Number">Zahl</value>
+  <value column="Name" original="Number">Nummer</value>
   <value column="Description" original=""/>
  </row>
  <row id="687" trl="Y">
@@ -2331,7 +2331,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="732" trl="Y">
-  <value column="Name" original="EMail">EMail</value>
+  <value column="Name" original="EMail">E-Mail</value>
   <value column="Description" original=""/>
  </row>
  <row id="733" trl="Y">
@@ -2475,7 +2475,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="768" trl="Y">
-  <value column="Name" original="Encrypted">Encrypted</value>
+  <value column="Name" original="Encrypted">Verschlüsselt</value>
   <value column="Description" original=""/>
  </row>
  <row id="769" trl="Y">
@@ -2591,7 +2591,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="798" trl="Y">
-  <value column="Name" original="EMail">EMail</value>
+  <value column="Name" original="EMail">E-Mail</value>
   <value column="Description" original=""/>
  </row>
  <row id="799" trl="Y">
@@ -3399,51 +3399,51 @@
   <value column="Description" original=""/>
  </row>
  <row id="53293" trl="Y">
-  <value column="Name" original="Callout">Callout</value>
+  <value column="Name" original="Callout">Externe Funktion</value>
   <value column="Description" original=""/>
  </row>
  <row id="53294" trl="Y">
-  <value column="Name" original="Process">Prozess</value>
+  <value column="Name" original="Process">Verarbeiten</value>
   <value column="Description" original=""/>
  </row>
  <row id="53295" trl="Y">
-  <value column="Name" original="Model Validator Table Event">Model Validator Table Event</value>
+  <value column="Name" original="Model Validator Table Event">Modell-Validierung - Tabellen-Ereignis</value>
   <value column="Description" original=""/>
  </row>
  <row id="53296" trl="Y">
-  <value column="Name" original="Model Validator Document Event">Model Validator Document Event</value>
+  <value column="Name" original="Model Validator Document Event">Modell-Validierung - Beleg-Ereignis</value>
   <value column="Description" original=""/>
  </row>
  <row id="53297" trl="Y">
-  <value column="Name" original="Model Validator Login Event">Model Validator Login Event</value>
+  <value column="Name" original="Model Validator Login Event">Modell-Validierung - Anmelde-Ereignis</value>
   <value column="Description" original=""/>
  </row>
  <row id="53299" trl="Y">
-  <value column="Name" original="Table Before New">Table Before New</value>
+  <value column="Name" original="Table Before New">Tabelle vor Neu</value>
   <value column="Description" original=""/>
  </row>
  <row id="53300" trl="Y">
-  <value column="Name" original="Table Before Change">Table Before Change</value>
+  <value column="Name" original="Table Before Change">Tabelle vor Änderung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53301" trl="Y">
-  <value column="Name" original="Table Before Delete">Table Before Delete</value>
+  <value column="Name" original="Table Before Delete">Tabelle vor Löschung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53302" trl="Y">
-  <value column="Name" original="Table After New">Table After New</value>
+  <value column="Name" original="Table After New">Tabelle nach Neu</value>
   <value column="Description" original=""/>
  </row>
  <row id="53303" trl="Y">
-  <value column="Name" original="Table After Change">Table After Change</value>
+  <value column="Name" original="Table After Change">Tabelle vor Änderung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53304" trl="Y">
-  <value column="Name" original="Table After Delete">Table After Delete</value>
+  <value column="Name" original="Table After Delete">Tabelle vor Löschung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53305" trl="Y">
-  <value column="Name" original="Document Before Prepare">Document Before Prepare</value>
+  <value column="Name" original="Document Before Prepare">Beleg vor Vorbereiten</value>
   <value column="Description" original=""/>
  </row>
  <row id="53306" trl="Y">
@@ -3451,31 +3451,31 @@
   <value column="Description" original=""/>
  </row>
  <row id="53307" trl="Y">
-  <value column="Name" original="Document Before Close">Document Before Close</value>
+  <value column="Name" original="Document Before Close">Beleg vor Schließen</value>
   <value column="Description" original=""/>
  </row>
  <row id="53308" trl="Y">
-  <value column="Name" original="Document Before Reactivate">Document Before Reactivate</value>
+  <value column="Name" original="Document Before Reactivate">Beleg vor Reaktivieren</value>
   <value column="Description" original=""/>
  </row>
  <row id="53309" trl="Y">
-  <value column="Name" original="Document Before Reverse Correct">Document Before Reverse Correct</value>
+  <value column="Name" original="Document Before Reverse Correct">Beleg vor Storno</value>
   <value column="Description" original=""/>
  </row>
  <row id="53310" trl="Y">
-  <value column="Name" original="Document Before Reverse Accrual">Document Before Reverse Accrual</value>
+  <value column="Name" original="Document Before Reverse Accrual">Beleg vor Rückbuchung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53311" trl="Y">
-  <value column="Name" original="Document Before Complete">Document Before Complete</value>
+  <value column="Name" original="Document Before Complete">Beleg vor Schließen</value>
   <value column="Description" original=""/>
  </row>
  <row id="53312" trl="Y">
-  <value column="Name" original="Document Before Post">Document Before Post</value>
+  <value column="Name" original="Document Before Post">Beleg vor Buchung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53313" trl="Y">
-  <value column="Name" original="Document After Prepare">Document After Prepare</value>
+  <value column="Name" original="Document After Prepare">Beleg nach Vorbereiten</value>
   <value column="Description" original=""/>
  </row>
  <row id="53314" trl="Y">
@@ -3483,31 +3483,31 @@
   <value column="Description" original=""/>
  </row>
  <row id="53315" trl="Y">
-  <value column="Name" original="Document After Close">Document After Close</value>
+  <value column="Name" original="Document After Close">Beleg nach Schließen</value>
   <value column="Description" original=""/>
  </row>
  <row id="53316" trl="Y">
-  <value column="Name" original="Document After Reactivate">Document After Reactivate</value>
+  <value column="Name" original="Document After Reactivate">Beleg nach Reaktivieren</value>
   <value column="Description" original=""/>
  </row>
  <row id="53317" trl="Y">
-  <value column="Name" original="Document After Reverse Correct">Document After Reverse Correct</value>
+  <value column="Name" original="Document After Reverse Correct">Beleg nach Storno</value>
   <value column="Description" original=""/>
  </row>
  <row id="53318" trl="Y">
-  <value column="Name" original="Document After Reverse Accrual">Document After Reverse Accrual</value>
+  <value column="Name" original="Document After Reverse Accrual">Beleg nach Rückbuchung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53319" trl="Y">
-  <value column="Name" original="Document After Complete">Document After Complete</value>
+  <value column="Name" original="Document After Complete">Beleg nach Schließen</value>
   <value column="Description" original=""/>
  </row>
  <row id="53320" trl="Y">
-  <value column="Name" original="Document After Post">Document After Post</value>
+  <value column="Name" original="Document After Post">Beleg nach Buchung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53321" trl="Y">
-  <value column="Name" original="Insert">Insert</value>
+  <value column="Name" original="Insert">Einfügen</value>
   <value column="Description" original=""/>
  </row>
  <row id="53322" trl="Y">

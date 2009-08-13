@@ -118,8 +118,8 @@
   <value column="DocumentNote" original=""/>
  </row>
  <row id="137" trl="Y">
-  <value column="Name" original="Payment Allocation">Zahlung-Zuordnung</value>
-  <value column="PrintName" original="Payment Allocation">Zahlung-Zuordnung</value>
+  <value column="Name" original="Payment Allocation">Zahlungs-Zuordnung</value>
+  <value column="PrintName" original="Payment Allocation">Zahlungs-Zuordnung</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="138" trl="Y">

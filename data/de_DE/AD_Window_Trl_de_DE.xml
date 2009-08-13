@@ -437,7 +437,7 @@
   <value column="Help" original="The Reverse Allocation Window allows you to view and reverse a payment allocation">Das Fenster "Zuordnung aufheben" ermöglicht, die Zuordnung von Zahlungen anzusehen und aufzuheben.</value>
  </row>
  <row id="206" trl="Y">
-  <value column="Name" original="Payment Selection">Zahlung auswählen</value>
+  <value column="Name" original="Payment Selection">Zahlungsauswahl</value>
   <value column="Description" original="Select Invoices for Payment">Rechnungen für Zahlung auswählen</value>
   <value column="Help" original="The Payment Selection Window allows you to select and process the invoices you want to pay.&#10;(a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria.  You can change the amount to be paid or delete invoices, you do not want to pay.&#10;&#10;(b) If you are happy with the Payment Selection, you create the payments.&#10;&#10;(c) You print or export your payments in the Window Payment Print/Export">Das Fenster "Zahlung auswählen" ermöglicht, die Rechnungen auszuwählen und zu verarbeiten, die Sie bezahlen wollen. (a) You can create a Payment Selection and select the invoices manually or generate the suggestions based on criteria. You can change the amount to be paid or delete invoices, you do not want to pay. (b) If you are happy with the Payment Selection, you create the payments. (c) You print or export your payments in the Window Payment Print/Export</value>
  </row>
@@ -907,9 +907,9 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
   <value column="Help" original="An algorithm to find Business Partners, Invoices, Payments in imported Bank Statements">Ein Algorithmus, um Geschäftspartner, Rechnungen und Zahlungen in importierten Bankauszügen zu finden</value>
  </row>
  <row id="303" trl="Y">
-  <value column="Name" original="Payment Batch">Zahlungslauf</value>
-  <value column="Description" original="Process Payment Patches for EFT">Zahlungsläufe für ELV verarbeiten</value>
-  <value column="Help" original="Electronic Fund Transfer Payment Batch.">Zahlungsläufe für Elektronischen Lastschriftverkehr (z.B. Datenträgeraustausch DTA) verarbeiten</value>
+  <value column="Name" original="Payment Batch">Zahlungs-Lauf</value>
+  <value column="Description" original="Process Payment Patches for EFT">Verarbeitung von Zahlungen für EZV in einem Durchgang</value>
+  <value column="Help" original="Electronic Fund Transfer Payment Batch.">Zahlungsläufe für Elektronischen Zahlungsverkehr (z.B. HBCI oder Datenträgeraustausch DTAUS) verarbeiten</value>
  </row>
  <row id="304" trl="Y">
   <value column="Name" original="Organization Type">Organisationsart</value>
@@ -1029,9 +1029,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  <row id="327" trl="Y">
   <value column="Name" original="Counter Document">Gegenbeleg</value>
   <value column="Description" original="Maintain Counter Document Types">Arten von Gegenbelegen verwalten</value>
-  <value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)">When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a "Standard Order" creates a "Standard PO". 
-If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.
-If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)</value>
+  <value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)">Wenn Sie explizite Belege für Inter0rganisations-Buchungen verwenden (nach der Zuordnung eines Geschäftspartners zu einer Organistion), können Sie hier festlegen, von welcher Belegart der Gegenbeleg ist, basierend auf  der Belegart des Ursprungsvorgangs. Beispiel: ein "Standard-Auftrag" erzeugt eine "Standard-Bestellung". Wenn Sie hier eine Beziehung definieren, überschreiben Sie damit den Standardeintrag in der Belegarten-Definition. Damit können Sie eine bestimmte Zuordnung treffen. If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)</value>
  </row>
  <row id="328" trl="Y">
   <value column="Name" original="Forecast">Prognose</value>
@@ -1275,8 +1273,8 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Help" original="Define News Channels, write and publish articles">Nachrichten-Kanäle anlegen und Schreiben und Publizieren von Artikeln</value>
  </row>
  <row id="377" trl="Y">
-  <value column="Name" original="View Chat">Chat Ansehen</value>
-  <value column="Description" original="View discussions / chats">Diskussionen / Chats</value>
+  <value column="Name" original="View Chat">Webchat Ansehen</value>
+  <value column="Description" original="View discussions / chats">Diskussionen / Webchats</value>
   <value column="Help" original="View chat / discussion threads">View chat / discussion threads</value>
  </row>
  <row id="379" trl="Y">
@@ -1285,8 +1283,8 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Help" original="Maintain Content Management Media">Maintain Content Management Media</value>
  </row>
  <row id="380" trl="Y">
-  <value column="Name" original="Chat Type">Chat-Art</value>
-  <value column="Description" original="Maintain Chat Types">Chat-Arten verwalten</value>
+  <value column="Name" original="Chat Type">Webchat-Art</value>
+  <value column="Description" original="Maintain Chat Types">Webchat-Arten verwalten</value>
   <value column="Help" original="Chat Types">Chat Types</value>
  </row>
  <row id="381" trl="Y">
@@ -1315,13 +1313,13 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Help" original="Text search index keyword and excerpt across documents">Text search index keyword and excerpt across documents</value>
  </row>
  <row id="387" trl="Y">
-  <value column="Name" original="Text Index Stop">Text Index Stop</value>
-  <value column="Description" original="Maintain keywords not to be indexed">Maintain keywords not to be indexed</value>
+  <value column="Name" original="Text Index Stop">Text-Suchindex Stop</value>
+  <value column="Description" original="Maintain keywords not to be indexed">Verwalten von Schlagworten, die nicht indiziert werden sollen</value>
   <value column="Help" original=""/>
  </row>
  <row id="388" trl="Y">
-  <value column="Name" original="Text Search Log">Text Search Log</value>
-  <value column="Description" original="View Text Search Log">View Text Search Log</value>
+  <value column="Name" original="Text Search Log">Protokoll Textsuche</value>
+  <value column="Description" original="View Text Search Log">Protokoll Textsuche ansehen</value>
   <value column="Help" original=""/>
  </row>
  <row id="389" trl="Y">
@@ -1336,17 +1334,17 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  </row>
  <row id="50002" trl="Y">
   <value column="Name" original="Package Maintenance">Erweiterungs-Verwaltung</value>
-  <value column="Description" original="Package installation history and maintenance">Package installation history and maintenance</value>
+  <value column="Description" original="Package installation history and maintenance">Erweiterungs-Historie und -Verwaltung</value>
   <value column="Help" original="Review package installation.  Also perform package rollback if required">Review package installation.  Also perform package rollback if required</value>
  </row>
  <row id="50003" trl="Y">
   <value column="Name" original="PackOut - Create a package">PackOut - Anlegen eines Erweiterungspaketes</value>
-  <value column="Description" original="Package build Application">Package build Application</value>
+  <value column="Description" original="Package build Application">Anwendung zur Erstellung einer Erweiterung</value>
   <value column="Help" original=""/>
  </row>
  <row id="50004" trl="Y">
-  <value column="Name" original="Common Package Details">Common Package Details</value>
-  <value column="Description" original="Maintain Common Package Details">Maintain Common Package Details</value>
+  <value column="Name" original="Common Package Details">Allgemeine Erweiterungs-Details</value>
+  <value column="Description" original="Maintain Common Package Details">Allgemeine Erweiterungs-Details verwalten</value>
   <value column="Help" original="Create and maintain common package element details">Create and maintain common package element details</value>
  </row>
  <row id="50005" trl="Y">
@@ -1360,52 +1358,52 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Help" original=""/>
  </row>
  <row id="50007" trl="Y">
-  <value column="Name" original="Dashboard Content Edit">Dashboard Content Edit</value>
+  <value column="Name" original="Dashboard Content Edit">Inhalt des Kennzahlen-Cockpit bearbeiten</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="52000" trl="Y">
-  <value column="Name" original="Web POS Menu">Web POS Menu</value>
-  <value column="Description" original="To dynamically generate the menu links in web POS">To dynamically generate the menu links in web POS</value>
+  <value column="Name" original="Web POS Menu">Menü der Web-Kassenoberfläche</value>
+  <value column="Description" original="To dynamically generate the menu links in web POS">Zur dynamischen Generierung der Menülinks in der Web-Kassenoberfläche</value>
   <value column="Help" original=""/>
  </row>
  <row id="52001" trl="Y">
-  <value column="Name" original="Web POS Role Menu">Web POS Role Menu</value>
-  <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">Depending on Which Role, Different set of Menus are generated and made available.</value>
+  <value column="Name" original="Web POS Role Menu">Rollenmenü der Web-Kassenoberfläche</value>
+  <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">In Abhängigkeit der Rolle werden verschiedene Menüs generiert und verfügbar gemacht.</value>
   <value column="Help" original=""/>
  </row>
  <row id="52002" trl="Y">
-  <value column="Name" original="Web POS Properties">Web POS Properties</value>
-  <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Stores the message tags to be picked up from AD_MESSAGE </value>
+  <value column="Name" original="Web POS Properties">Eigenschaften Web-Kassenoberfläche</value>
+  <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Speichert die Meldungstitel zum Laden aus AD_MESSAGE</value>
   <value column="Help" original=""/>
  </row>
  <row id="52003" trl="Y">
-  <value column="Name" original="Web POS BlackListCheque">Web POS BlackListCheque</value>
-  <value column="Description" original="Black Listed Cheque">Black Listed Cheque</value>
+  <value column="Name" original="Web POS BlackListCheque">Schwarze Liste Web-Kassenoberfläche</value>
+  <value column="Description" original="Black Listed Cheque">Schecks/Karten auf der Schwarzen Liste</value>
   <value column="Help" original=""/>
  </row>
  <row id="53003" trl="Y">
-  <value column="Name" original="Model Validator">Model Validator</value>
+  <value column="Name" original="Model Validator">Modell-Validierung</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="53015" trl="Y">
-  <value column="Name" original="ASP Modules">ASP Modules</value>
+  <value column="Name" original="ASP Modules">ASP-Module</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="53016" trl="Y">
-  <value column="Name" original="ASP Subscribed Modules">ASP Subscribed Modules</value>
+  <value column="Name" original="ASP Subscribed Modules">Für ASP gewählte Module</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="53017" trl="Y">
-  <value column="Name" original="Rule">Rule</value>
+  <value column="Name" original="Rule">Regel</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="53019" trl="Y">
-  <value column="Name" original="Migration Scripts">Migration Scripts</value>
+  <value column="Name" original="Migration Scripts">Migrations-Skripte</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>

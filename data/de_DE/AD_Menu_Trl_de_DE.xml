@@ -504,7 +504,7 @@
   <value column="Description" original="Payments not reconciled with Bank Statement">Zahlungen, die nicht mit Bankauszug abgestimmt sind</value>
  </row>
  <row id="245" trl="Y">
-  <value column="Name" original="Payment Allocation">Zahlung-Zuordnung</value>
+  <value column="Name" original="Payment Allocation">Zahlungs-Zuordnung</value>
   <value column="Description" original="Allocate invoices and payments">Rechnungen und Zahlungen zuordnen</value>
  </row>
  <row id="246" trl="Y">
@@ -532,7 +532,7 @@
   <value column="Description" original="Generate Charges from natural accounts">Gebühren generieren</value>
  </row>
  <row id="255" trl="Y">
-  <value column="Name" original="Payment Selection">Zahlung auswählen</value>
+  <value column="Name" original="Payment Selection">Zahlungsauswahl</value>
   <value column="Description" original="Select Invoices for Payment">Rechnungen für Zahlung auswählen</value>
  </row>
  <row id="256" trl="Y">
@@ -640,8 +640,8 @@
   <value column="Description" original="Manual Payment Selection">Manuelle Auswahl von Zahlungen</value>
  </row>
  <row id="287" trl="Y">
-  <value column="Name" original="Payment Print/Export">Zahlung drucken</value>
-  <value column="Description" original="Print or export your payments">Drucken oder exportieren von Zahlungen</value>
+  <value column="Name" original="Payment Print/Export">Zahlung verarbeiten</value>
+  <value column="Description" original="Print or export your payments">Drucken, Exportieren oder Übertragen von Zahlungen</value>
  </row>
  <row id="288" trl="Y">
   <value column="Name" original="Cash Journal Detail">Kassenjournal-Details</value>
@@ -1496,8 +1496,8 @@
   <value column="Description" original="Check data consistency of Business Partner">Konsistenz der Daten des Geschäftspartners überprüfen</value>
  </row>
  <row id="507" trl="Y">
-  <value column="Name" original="Order Batch Process">Stapel-Verabeitung Aufträge</value>
-  <value column="Description" original="Process Orders in Batch">Verarbeiten von Aufträgen in einem Durchgang</value>
+  <value column="Name" original="Order Batch Process">Auftrags/Bestellungs-Lauf</value>
+  <value column="Description" original="Process Orders in Batch">Verarbeiten von Aufträgen/Bestellungen in einem Durchgang</value>
  </row>
  <row id="508" trl="Y">
   <value column="Name" original="Archive Viewer">Archiv-Betrachter</value>
@@ -1748,16 +1748,16 @@
   <value column="Description" original="Content Management Ad Management defines the needed categories and items">Werbebanner-Verwaltung im Rahmen des Content Management definiert die benötigten Kategorien und Elemente</value>
  </row>
  <row id="578" trl="Y">
-  <value column="Name" original="View Chat">Chat Ansehen</value>
-  <value column="Description" original="View discussions / chats">Diskussionen / Chats</value>
+  <value column="Name" original="View Chat">Webchat Ansehen</value>
+  <value column="Description" original="View discussions / chats">Diskussionen / Webchats</value>
  </row>
  <row id="579" trl="Y">
   <value column="Name" original="Web Project">Web-Projekt</value>
   <value column="Description" original="Maintain Web Project (Content Management)">Web-Projekt verwalten (Content Management)</value>
  </row>
  <row id="583" trl="Y">
-  <value column="Name" original="Chat Type">Chat-Art</value>
-  <value column="Description" original="Maintain Chat Types">Chat-Arten verwalten</value>
+  <value column="Name" original="Chat Type">Webchat-Art</value>
+  <value column="Description" original="Maintain Chat Types">Webchat-Arten verwalten</value>
  </row>
  <row id="584" trl="Y">
   <value column="Name" original="Deploy Web Project">Web-Projekt veröffentlichen</value>
@@ -1788,12 +1788,12 @@
   <value column="Description" original="Maintain Text Search Index">Text-Suchindex verwalten</value>
  </row>
  <row id="591" trl="Y">
-  <value column="Name" original="Text Index Stop">Text Index Stop</value>
-  <value column="Description" original="Maintain keywords not to be indexed">Maintain keywords not to be indexed</value>
+  <value column="Name" original="Text Index Stop">Text-Suchindex Stop</value>
+  <value column="Description" original="Maintain keywords not to be indexed">Verwalten von Schlagworten, die nicht indiziert werden sollen</value>
  </row>
  <row id="592" trl="Y">
-  <value column="Name" original="Text Search Log">Text Search Log</value>
-  <value column="Description" original="View Text Search Log">View Text Search Log</value>
+  <value column="Name" original="Text Search Log">Protokoll Textsuche</value>
+  <value column="Description" original="View Text Search Log">Protokoll Textsuche ansehen</value>
  </row>
  <row id="593" trl="Y">
   <value column="Name" original="Rebuild Index">Index neu erstellen</value>
@@ -1813,15 +1813,15 @@
  </row>
  <row id="50003" trl="Y">
   <value column="Name" original="Package Maintenance">Erweiterungs-Verwaltung</value>
-  <value column="Description" original="Package installation history and maintenance">Package installation history and maintenance</value>
+  <value column="Description" original="Package installation history and maintenance">Erweiterungs-Historie und -Verwaltung</value>
  </row>
  <row id="50004" trl="Y">
   <value column="Name" original="PackOut - Create a package">PackOut - Anlegen eines Erweiterungspaketes</value>
-  <value column="Description" original="Package build Application">Package build Application</value>
+  <value column="Description" original="Package build Application">Anwendung zur Erstellung einer Erweiterung</value>
  </row>
  <row id="50005" trl="Y">
-  <value column="Name" original="Common Package Details">Common Package Details</value>
-  <value column="Description" original="Maintain Common Package Details">Maintain Common Package Details</value>
+  <value column="Name" original="Common Package Details">Allgemeine Erweiterungs-Details</value>
+  <value column="Description" original="Maintain Common Package Details">Allgemeine Erweiterungs-Details verwalten</value>
  </row>
  <row id="50006" trl="Y">
   <value column="Name" original="PackIn - Import a package">PackIn - Import eines Erweiterungspaketes</value>
@@ -1840,7 +1840,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="50010" trl="Y">
-  <value column="Name" original="Dashboard Content Edit">Dashboard Content Edit</value>
+  <value column="Name" original="Dashboard Content Edit">Inhalt des Kennzahlen-Cockpit bearbeiten</value>
   <value column="Description" original=""/>
  </row>
  <row id="52000" trl="Y">
@@ -1848,47 +1848,47 @@
   <value column="Description" original=""/>
  </row>
  <row id="52001" trl="Y">
-  <value column="Name" original="Web POS">Web-POS</value>
+  <value column="Name" original="Web POS">Web-Kassenoberfläche</value>
   <value column="Description" original=""/>
  </row>
  <row id="52002" trl="Y">
-  <value column="Name" original="Web POS Menu">Web-POS-Menü</value>
-  <value column="Description" original="To dynamically generate the menu links in web POS">To dynamically generate the menu links in web POS</value>
+  <value column="Name" original="Web POS Menu">Menü der Web-Kassenoberfläche</value>
+  <value column="Description" original="To dynamically generate the menu links in web POS">Zur dynamischen Generierung der Menülinks in der Web-Kassenoberfläche</value>
  </row>
  <row id="52003" trl="Y">
-  <value column="Name" original="Web POS Role Menu">Web POS Role Menu</value>
-  <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">Depending on Which Role, Different set of Menus are generated and made available.</value>
+  <value column="Name" original="Web POS Role Menu">Rollenmenü der Web-Kassenoberfläche</value>
+  <value column="Description" original="Depending on Which Role, Different set of Menus are generated and made available.">In Abhängigkeit der Rolle werden verschiedene Menüs generiert und verfügbar gemacht.</value>
  </row>
  <row id="52004" trl="Y">
-  <value column="Name" original="Web POS Properties">Web-POS-Eigenschaften</value>
-  <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Stores the message tags to be picked up from AD_MESSAGE </value>
+  <value column="Name" original="Web POS Properties">Eigenschaften Web-Kassenoberfläche</value>
+  <value column="Description" original="Stores the message tags to be picked up from AD_MESSAGE ">Speichert die Meldungstitel zum Laden aus AD_MESSAGE</value>
  </row>
  <row id="52005" trl="Y">
-  <value column="Name" original="Web POS BlackListCheque">Web POS BlackListCheque</value>
-  <value column="Description" original="Black Listed Cheque">Black Listed Cheque</value>
+  <value column="Name" original="Web POS BlackListCheque">Schwarze Liste Web-Kassenoberfläche</value>
+  <value column="Description" original="Black Listed Cheque">Schecks/Karten auf der Schwarzen Liste</value>
  </row>
  <row id="53012" trl="Y">
-  <value column="Name" original="Model Validator">Model Validator</value>
+  <value column="Name" original="Model Validator">Modell-Validierung</value>
   <value column="Description" original=""/>
  </row>
  <row id="53013" trl="Y">
-  <value column="Name" original="Setup Web POS">Web-POS einrichten</value>
+  <value column="Name" original="Setup Web POS">Einrichtung Web-Kassenoberfläche</value>
   <value column="Description" original=""/>
  </row>
  <row id="53083" trl="Y">
-  <value column="Name" original="ASP Modules">ASP Modules</value>
+  <value column="Name" original="ASP Modules">ASP-Module</value>
   <value column="Description" original=""/>
  </row>
  <row id="53084" trl="Y">
-  <value column="Name" original="ASP Subscribed Modules">ASP Subscribed Modules</value>
+  <value column="Name" original="ASP Subscribed Modules">Für ASP gewählte Module</value>
   <value column="Description" original=""/>
  </row>
  <row id="53086" trl="Y">
-  <value column="Name" original="Rule">Rule</value>
+  <value column="Name" original="Rule">Regel</value>
   <value column="Description" original=""/>
  </row>
  <row id="53087" trl="Y">
-  <value column="Name" original="Update Sequence No">Update Sequence No</value>
+  <value column="Name" original="Update Sequence No">Nummernfolge aktualisieren</value>
   <value column="Description" original=""/>
  </row>
  <row id="53089" trl="Y">
