@@ -124,6 +124,8 @@ import org.compiere.util.Util;
  * 				<li>BF [ 1998575 ] Document Print is discarding any error
  *  @author victor.perez@e-evolution.com 
  *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ *  @autor tobi42, metas GmBH
+ *  			<li>BF [ 2799362 ] You can press New button a lot of times
  * 
  */
 public final class APanel extends CPanel
@@ -1690,34 +1692,28 @@ public final class APanel extends CPanel
 		m_curGC.stopEditor(true);
 		m_curGC.acceptEditorChanges();
 		
-		//  has anything changed?
-		if (m_curTab.needSave(true, false))
-		{   //  do we have real change
-			if (m_curTab.needSave(true, true))
+		// BF [ 2799362 ] attempt to save if save action is enabled. Using
+		// m_curTab.needSave instead might miss unfilled mandatory fields.
+		if(aSave.isEnabled()){
+			//	Automatic Save
+			if (Env.isAutoCommit(m_ctx, m_curWindowNo))
 			{
-				//	Automatic Save
-				if (Env.isAutoCommit(m_ctx, m_curWindowNo))
-				{
-					if (!cmd_save(true))
-					{	
-						return;
-					}
+				if (!cmd_save(true))
+				{	
+					return;
 				}
-				//  explicitly ask when changing tabs
-				else if (ADialog.ask(m_curWindowNo, this, "SaveChanges?", m_curTab.getCommitWarning()))
-				{   //  yes we want to save
-					if (!cmd_save(true))
-					{   
-						return;
-					}
-				}
-				else    //  Don't save
-					m_curTab.dataIgnore();
 			}
-			else    //  new record, but nothing changed
+			//  explicitly ask when changing tabs
+			else if (ADialog.ask(m_curWindowNo, this, "SaveChanges?", m_curTab.getCommitWarning()))
+			{   //  yes we want to save
+				if (!cmd_save(true))
+				{   
+					return;
+				}
+			}
+			else    //  Don't save
 				m_curTab.dataIgnore();
-		}   //  there is a change
-		
+		}
 		m_curTab.dataNew (copy);
 		m_curGC.dynamicDisplay(0);
 	//	m_curTab.getTableModel().setChanged(false);
