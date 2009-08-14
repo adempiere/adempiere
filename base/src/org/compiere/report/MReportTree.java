@@ -120,7 +120,9 @@ public class MReportTree
 				+ ", PA_Hierarchy_ID=" + PA_Hierarchy_ID);
 		//
 		boolean clientTree = true;
-		m_tree = new MTree (ctx, AD_Tree_ID, false, clientTree, null);
+		m_tree = new MTree (ctx, AD_Tree_ID, true, clientTree, null);  // include inactive and empty summary nodes
+		// remove summary nodes without children
+		m_tree.trimTree();
 	}	//	MReportTree
 
 	/** Optional Hierarchy		*/
