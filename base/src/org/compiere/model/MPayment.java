@@ -545,7 +545,7 @@ public final class MPayment extends X_C_Payment
 	{
 		// @Trifon - CashPayments
 		//if ( getTenderType().equals("X") ) {
-		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID())) {
+		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)) {
 			// Cash Book Is mandatory
 			if ( getC_CashBook_ID() <= 0 ) {
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
@@ -1826,7 +1826,7 @@ public final class MPayment extends X_C_Payment
 
 		// @Trifon - CashPayments
 		//if ( getTenderType().equals("X") ) {
-		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID())) {
+		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true)) {
 			// Create Cash Book entry
 			if ( getC_CashBook_ID() <= 0 ) {
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
@@ -2133,7 +2133,7 @@ public final class MPayment extends X_C_Payment
 				boolean isSOTrx = "Y".equals(rs.getString(3));
 				BigDecimal PayAmt = rs.getBigDecimal(4);
 				BigDecimal DiscountAmt = rs.getBigDecimal(5);
-				BigDecimal WriteOffAmt = rs.getBigDecimal(6);
+				BigDecimal WriteOffAmt = Env.ZERO;
 				BigDecimal OpenAmt = rs.getBigDecimal(7);
 				BigDecimal OverUnderAmt = OpenAmt.subtract(PayAmt)
 					.subtract(DiscountAmt).subtract(WriteOffAmt);
