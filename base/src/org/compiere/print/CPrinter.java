@@ -174,8 +174,16 @@ public class CPrinter extends CComboBox implements ActionListener
 	 * 	Refresh printer list
 	 */
 	public void refresh() {
+		String current = (String) getSelectedItem();
 		removeAllItems();
 		setModel(new DefaultComboBoxModel(getPrinterNames()));
+		if (current != null) {
+			for (int i = 0; i < getItemCount(); i++) {
+				String item = (String) getItemAt(i);
+				if (item.equals(current))
+					setSelectedIndex(i);
+			}
+		}
 	}
 
 }   //  CPrinter
