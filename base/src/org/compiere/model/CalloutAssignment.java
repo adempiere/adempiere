@@ -105,6 +105,7 @@ public class CalloutAssignment extends CalloutEngine
 				variable = "QtyInvoiced";
 			if (Qty != null)
 				mTab.setValue(variable, Qty);
+				mTab.setValue("QtyEntered", Qty);  //red1 BR2836655-Resource Assignment always return Qty 1
 		}
 		return "";
 	}	//	product
