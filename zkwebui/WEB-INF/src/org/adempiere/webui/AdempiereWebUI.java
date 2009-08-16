@@ -31,6 +31,7 @@ import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.util.UserPreference;
+import org.compiere.model.MRole;
 import org.compiere.model.MSession;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
@@ -164,7 +165,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 		//enable full interface, relook into this when doing preference
 		Env.setContext(ctx, "#ShowTrl", true);
-		Env.setContext(ctx, "#ShowAcct", true);
+		Env.setContext(ctx, "#ShowAcct", MRole.getDefault().isShowAcct());
 		Env.setContext(ctx, "#ShowAdvanced", true);
 
 		//auto commit user preference
