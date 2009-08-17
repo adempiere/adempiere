@@ -270,6 +270,7 @@ public class RegistrationServlet extends HttpServlet
 			WebUtil.createForwardPage(response, "Name is Mandatory", "registrations.jsp", 4);
 			return;
 		}
+		reg.setC_BPartner_ID(wu.getBpartnerID());
 		reg.setName(name);
 		String description = WebUtil.getParameter (request, "Description");
 		if (description != null && description.length() > 0)
