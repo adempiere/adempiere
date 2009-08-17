@@ -62,6 +62,7 @@
 
     <!--	Compile all -->
     <javac
+      target="1.5" 
 	  destdir="${build.classes.dir}"
 	  debug="on"
 	  deprecation="off"

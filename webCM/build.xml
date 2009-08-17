@@ -47,6 +47,7 @@
     </path>
   	
     <javac
+      target="1.5" 
 	  destdir="${build.war.dir}"
 	  debug="on"
 	  deprecation="off"
