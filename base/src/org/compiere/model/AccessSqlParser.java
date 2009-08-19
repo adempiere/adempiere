@@ -32,6 +32,8 @@ import org.compiere.util.CLogger;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1652623 ] AccessSqlParser.getTableInfo(String) - tablename parsing bug
  * 			<li>BF [ 1964496 ] AccessSqlParser is not parsing well JOIN CLAUSE
+ * 			<li>BF [ 2840157 ] AccessSqlParser is not parsing well ON keyword
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2840157&group_id=176962&atid=879332
  */
 public class AccessSqlParser
 {
@@ -233,6 +235,7 @@ public class AccessSqlParser
 			from = from.replaceAll("[\r\n\t ]+LEFT[\r\n\t ]+OUTER[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
 			from = from.replaceAll("[\r\n\t ]+RIGHT[\r\n\t ]+OUTER[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
 			from = from.replaceAll("[\r\n\t ]+FULL[\r\n\t ]+JOIN[\r\n\t ]+", ", ");
+			from = from.replaceAll("[\r\n\t ]+[Oo][Nn][\r\n\t ]+", ON); // teo_sarca, BF [ 2840157 ]
 			//	Remove ON clause - assumes that there is no IN () in the clause
 			index = from.indexOf(ON);
 			while (index != -1)
@@ -242,7 +245,13 @@ public class AccessSqlParser
 				if (indexNextOn != -1)
 					indexClose = from.lastIndexOf(')', indexNextOn);
 				if (indexClose != -1)
+				{
+					if (index > indexClose)
+					{
+						throw new IllegalStateException("Could not remove (index="+index+" > indexClose="+indexClose+") - "+from);
+					}
 					from = from.substring(0, index) + from.substring(indexClose+1);
+				}
 				else
 				{
 					log.log(Level.SEVERE, "Could not remove ON " + from);

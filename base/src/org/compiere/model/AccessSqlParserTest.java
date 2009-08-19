@@ -233,6 +233,35 @@ public class AccessSqlParserTest extends TestCase
 		fixture = new AccessSqlParser(sql);
 		assertEquals("AccessSqlParser[C_Invoice,C_BPartner=bp|0]", fixture.toString());
 	}
+	
+	/**
+	 * BF [ 2840157 ] AccessSqlParser is not parsing well ON keyword
+	 * <pre>
+	 * Following query is generating OutOfMemoryException:
+	 * SELECT 1
+	 * FROM M_Product p
+	 * INNER JOIN M_Product_Category pc on
+	 * (pc.M_Product_Category_ID=p.M_Product_Category_ID)
+	 * LEFT OUTER JOIN M_Product_PO mpo ON (mpo.M_Product_ID=p.M_Product_ID)
+	 *
+	 * (please note the lower case "on")
+	 * </pre>
+	 * 
+	 * @see https://sourceforge.net/tracker/?func=detail&aid=2840157&group_id=176962&atid=879332
+	 */
+	public void test_BF2840157()
+	{
+		final String sql = 
+			"SELECT 1 FROM M_Product p"
+			+"\n"+"INNER JOIN M_Product_Category pc on (pc.M_Product_Category_ID=p.M_Product_Category_ID)"
+			+"\n"+"LEFT OUTER JOIN M_Product_PO mpo ON (mpo.M_Product_ID=p.M_Product_ID)"
+			+"\n"+" WHERE p.IsActive='Y' AND p.IsPurchased='Y'"
+			+"\n"+"AND COALESCE(mpo.DeliveryTime_Promised,0) <= 0"
+		;
+		final String expected = "AccessSqlParser[M_Product=p,M_Product_Category=pc,M_Product_PO=mpo|0]";
+		AccessSqlParser fixture = new AccessSqlParser(sql);
+		assertEquals(expected, fixture.toString());
+	}
 
 }
 
