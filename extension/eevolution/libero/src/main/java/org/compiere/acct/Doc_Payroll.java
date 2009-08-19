@@ -32,7 +32,7 @@ import org.eevolution.model.X_HR_Concept_Acct;
 
 
 /**
- *  Post Invoice Documents.
+ *  Post Payroll Documents.
  *  <pre>
  *  Table:              HR_Process (??)
  *  Document Types:     HR_Process
@@ -47,11 +47,10 @@ public class Doc_Payroll extends Doc
 	
 	/**
 	 *  Constructor
-	 * 	@param ass accounting schemata
+	 * 	@param ass accounting schema
 	 * 	@param rs record
 	 * 	@parem trxName trx
 	 */
-	@SuppressWarnings("deprecation")
 	protected Doc_Payroll (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MHRProcess.class, rs, DOCTYPE_Payroll, trxName);
@@ -103,16 +102,16 @@ public class Doc_Payroll extends Doc
 	public ArrayList<Fact> createFacts (MAcctSchema as)
 	{
 		Fact fact = new Fact(this, as, Fact.POST_Actual);		
-		String sql= "SELECT m.HR_Concept_id,0,MAX(c.Name),SUM(ROUND(m.Amount,2)),MAX(c.AccountSign),MAX(CA.IsBalancing),e.ad_org_id,d.c_activity_id" // 1,2,3,4,5,6,7,8
+		String sql= "SELECT m.HR_Concept_id, MAX(c.Name), SUM(m.Amount), MAX(c.AccountSign), MAX(CA.IsBalancing), e.AD_Org_ID, d.C_Activity_ID" // 1,2,3,4,5,6,7
 				  + " FROM HR_Movement m"
 				  + " INNER JOIN HR_Concept_Acct ca ON (ca.HR_Concept_ID=m.HR_Concept_ID AND ca.IsActive = 'Y')"
 				  + " INNER JOIN HR_Concept      c  ON (c.HR_Concept_ID=m.HR_Concept_ID AND c.IsActive = 'Y')"
 				  + " INNER JOIN C_BPartner      bp ON (bp.C_BPartner_ID = m.C_BPartner_ID)"
-				  + " INNER JOIN hr_employee	 e  ON (bp.c_bpartner_id=e.c_bpartner_id)"
-				  + " INNER JOIN hr_department   d  ON (d.hr_department_id=e.hr_department_id)"
+				  + " INNER JOIN HR_Employee	 e  ON (bp.C_BPartner_ID=e.C_BPartner_ID)"
+				  + " INNER JOIN HR_Department   d  ON (d.HR_Department_ID=e.HR_Department_ID)"
 				  + " WHERE m.HR_Process_ID=? AND (m.Qty <> 0 OR m.Amount <> 0) AND c.AccountSign != 'N' AND ca.IsBalancing != 'Y'"
-				  + " GROUP BY m.hr_concept_id,e.ad_org_id,d.c_activity_id"
-				  + " order by e.ad_org_id,d.c_activity_id";
+				  + " GROUP BY m.HR_Concept_ID,e.AD_Org_ID,d.C_Activity_ID"
+				  + " ORDER BY e.AD_Org_ID,d.C_Activity_ID";
 
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
@@ -121,49 +120,37 @@ public class Doc_Payroll extends Doc
 			pstmt = DB.prepareStatement (sql, process.get_TrxName());
 			pstmt.setInt (1, process.getHR_Process_ID());
 			rs = pstmt.executeQuery ();	
-			while (rs.next ())
+			while (rs.next())
 			{
-				int AD_OrgTrx_ID=rs.getInt(7);
-				int C_Activity_ID=rs.getInt(8);
+				int HR_Concept_ID = rs.getInt(1);
+				BigDecimal sumAmount = rs.getBigDecimal(3);
+				// round amount according to currency
+				sumAmount = sumAmount.setScale(as.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+				String AccountSign = rs.getString(4);
+				int AD_OrgTrx_ID=rs.getInt(6);
+				int C_Activity_ID=rs.getInt(7);
 				//
-     				// HR_Expense_Acct    DR
-				// HR_Revenue_Acct    CR
-				if(rs.getString(5).equals("D"))
-				{					
-					// --- Debit
-					MAccount accountBPD = MAccount.get (getCtx(), getAccountBalancing(as.getC_AcctSchema_ID(),rs.getInt(1),rs.getInt(2),"D"));
-					FactLine debit=fact.createLine(null, accountBPD,as.getC_Currency_ID(),rs.getBigDecimal(4), null);
+				if (AccountSign != null && AccountSign.length() > 0 && (AccountSign.equals("D") || AccountSign.equals("C"))) {
+	   				// HR_Expense_Acct    DR
+					// HR_Revenue_Acct    CR
+					MAccount accountBPD = MAccount.get (getCtx(), getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,"D"));
+					FactLine debit=fact.createLine(null, accountBPD,as.getC_Currency_ID(),sumAmount, null);
 					debit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
 					debit.setC_Activity_ID(C_Activity_ID);
 					debit.saveEx();
-					MAccount accountBPC = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),rs.getInt(1),rs.getInt(2),"C"));
-					FactLine credit = fact.createLine(null,accountBPC ,as.getC_Currency_ID(),null,rs.getBigDecimal(4));
+					MAccount accountBPC = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,"C"));
+					FactLine credit = fact.createLine(null,accountBPC ,as.getC_Currency_ID(),null,sumAmount);
 					credit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
 					credit.setC_Activity_ID(C_Activity_ID);
 					credit.saveEx();
-				}
-				//
-				// HR_Revenue_Acct       CR
-				// HR_Expense_Acct    DR
-				else if(rs.getString(5).equals("C"))
-				{			
-					// --- Credit
-					MAccount accountBPC = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),rs.getInt(1),rs.getInt(2),"C"));
-					FactLine credit=fact.createLine(null, accountBPC,as.getC_Currency_ID(), null, rs.getBigDecimal(4));
-					credit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-					credit.setC_Activity_ID(C_Activity_ID);
-					credit.saveEx();
-					MAccount accountBPD = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),rs.getInt(1),rs.getInt(2),"D"));
-					FactLine debit=fact.createLine(null, accountBPD ,as.getC_Currency_ID(),rs.getBigDecimal(4), null);
-					debit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-					debit.setC_Activity_ID(C_Activity_ID);
-					debit.saveEx();
 				}
 			}
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
+			p_Error = e.getLocalizedMessage();
+			return null;
 		}
 		finally
 		{
@@ -181,11 +168,10 @@ public class Doc_Payroll extends Doc
 	 * get account balancing
 	 * @param AcctSchema_ID
 	 * @param HR_Concept_ID
-	 * @param C_BP_Group_ID
 	 * @param AccountSign D or C only
 	 * @return
 	 */
-	private int getAccountBalancing (int AcctSchema_ID, int HR_Concept_ID, int C_BP_Group_ID, String AccountSign)
+	private int getAccountBalancing (int AcctSchema_ID, int HR_Concept_ID, String AccountSign)
 	{
 		String field;
 		if (MElementValue.ACCOUNTSIGN_Debit.equals(AccountSign))
@@ -201,8 +187,9 @@ public class Doc_Payroll extends Doc
 			throw new IllegalArgumentException("Invalid value for AccountSign="+AccountSign);
 		}
 		final String sqlAccount = "SELECT "+field+" FROM HR_Concept_Acct"
-							+" WHERE HR_Concept_ID=? AND C_AcctSchema_ID=?";
-		int Account_ID = DB.getSQLValueEx(null, sqlAccount, HR_Concept_ID, AcctSchema_ID);		
+							+ " WHERE HR_Concept_ID=? AND C_AcctSchema_ID=?";
+		int Account_ID = DB.getSQLValueEx(getTrxName(), sqlAccount, HR_Concept_ID, AcctSchema_ID);		
 		return Account_ID;
-	}	
+	}
+
 }   //  Doc_Payroll
