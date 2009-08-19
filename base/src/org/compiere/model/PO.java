@@ -2687,7 +2687,7 @@ public abstract class PO
 
 	/**
 	 * 	Encrypt data.
-	 * 	Not: LOB, special values/Obkects
+	 * 	Not: LOB, special values/Objects
 	 *	@param index index
 	 *	@param xx data
 	 *	@return xx

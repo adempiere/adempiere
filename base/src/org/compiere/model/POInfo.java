@@ -32,7 +32,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 
 /**
- *  Persistet Object Info.
+ *  Persistent Object Info.
  *  Provides structural information
  *
  *  @author Jorg Janke
@@ -365,7 +365,7 @@ public class POInfo implements Serializable
 	}   //  getColumnSQL
 
 	/**
-	 *  Is Column Virtal?
+	 *  Is Column Virtual?
 	 *  @param index index
 	 *  @return true if column is virtual
 	 */
