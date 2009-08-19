@@ -31,6 +31,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.EventObject;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -45,9 +46,9 @@ import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MRefList;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
-import org.compiere.model.X_AD_Ref_List;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -60,23 +61,22 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.eevolution.model.MHRConcept;
 import org.eevolution.model.MHRMovement;
+import org.eevolution.model.MHRPeriod;
 import org.eevolution.model.MHRProcess;
-import org.eevolution.model.X_HR_Period;
+
 /**
- *  Create Manual Payments From (AP) Invoices or (AR) Credit Memos.
- *  Allows user to select Invoices for payment.
- *  When Processed, PaySelection is created
- *  and optionally posted/generated and printed
- *
  *  @author Oscar Gomez
  *  @author Cristina Ghita, www.arhipac.ro
- *  @version $Id: VHRIncidence.java
+ *  @version $Id: VHRActionNotice.java
  */
 public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeListener, ActionListener
 {
 	/** @todo withholding */
 
-	private static final long serialVersionUID = 4222511634560326975L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5905687280280831354L;
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -299,16 +299,45 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 		log.fine("Event"+ e);
 		log.fine("Event Source "+ e.getSource());
 		log.fine("Event Property "+ e.getPropertyName());
-		//if (e.getPropertyName().equals("AD_Org_ID"))
+		processChangeEvent(e);
+		Integer   HR_Period_ID = new MHRProcess(Env.getCtx(),(Integer)fieldProcess.getValue(),null).getHR_Period_ID(); 
+		String date = DB.TO_DATE((Timestamp)fieldValidFrom.getValue());
+		int existRange = DB.getSQLValue("HR_Period","SELECT * FROM HR_Period WHERE " +date+
+				" >= StartDate AND "+date+	" <= EndDate AND HR_Period_ID = "+HR_Period_ID);
+		// Exist of Range Payroll
+		if ( existRange < 0){
+			fieldConcept.setReadWrite(false);
+			return;
+		}
+		if (fieldConcept != null)
+			sHR_Movement_ID = seekMovement();  // exist movement record to date actual
+	}   //  vetoableChange
+
+
+	/**************************************************************************
+	 *	Action Listener
+	 *  @param e event
+	 */
+	public void actionPerformed(ActionEvent e)
+	{
+		log.fine("Event "+ e);
+		log.fine("Event Source "+ e.getSource());
+
+		processChangeEvent(e);
+	}   //  actionPerformed
+
+
+	private void processChangeEvent(EventObject e) {
 		if ( e.getSource().equals(fieldProcess) ) {					// Process
 			KeyNamePair pp = (KeyNamePair)fieldProcess.getSelectedItem();
 			if (pp != null){
 				HR_Process_ID = pp.getKey();
-				MHRProcess process = new MHRProcess(Env.getCtx(),HR_Process_ID,null);
-				dateStart= new X_HR_Period(Env.getCtx(),process.getHR_Period_ID(),null).getStartDate();				
-				dateEnd  = new X_HR_Period(Env.getCtx(),process.getHR_Period_ID(),null).getEndDate();
+				MHRProcess process = new MHRProcess(Env.getCtx(),HR_Process_ID, null);
+				MHRPeriod period = MHRPeriod.get(Env.getCtx(), process.getHR_Period_ID());
+				dateStart= period.getStartDate();				
+				dateEnd  = period.getEndDate();
 				HR_Payroll_ID = process.getHR_Payroll_ID();
-				getEmployeeValid(new MHRProcess(Env.getCtx(),HR_Process_ID,null));
+				getEmployeeValid(process);
 				fieldEmployee.setReadWrite(true);
 			}
 		}
@@ -331,7 +360,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 			if (pp != null)
 				HR_Concept_ID = pp.getKey();
 			if ( HR_Concept_ID > 0 ){
-				MHRConcept concept = new MHRConcept (Env.getCtx(),HR_Concept_ID,null);
+				MHRConcept concept = MHRConcept.get(Env.getCtx(),HR_Concept_ID);
 				// Name To Type Column
 				fieldColumnType.setValue(DB.getSQLValueStringEx(null, getSQL_ColumnType("?"), concept.getColumnType() )); 
 				sHR_Movement_ID = seekMovement(); //  exist movement record to date actual				
@@ -367,100 +396,10 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 				fieldDescription.setReadWrite(true);
 			}
 		} // Concept
-		Integer   HR_Period_ID = new MHRProcess(Env.getCtx(),(Integer)fieldProcess.getValue(),null).getHR_Period_ID(); 
-		String date = DB.TO_DATE((Timestamp)fieldValidFrom.getValue());
-		int existRange = DB.getSQLValue("HR_Period","SELECT * FROM HR_Period WHERE " +date+
-				" >= StartDate AND "+date+	" <= EndDate AND HR_Period_ID = "+HR_Period_ID);
-		// Exist of Range Payroll
-		if ( existRange < 0){
-			fieldConcept.setReadWrite(false);
-			return;
-		}
-		if (fieldConcept != null)
-			sHR_Movement_ID = seekMovement();  // exist movement record to date actual
-	}   //  actionPerformed
-
-
-	/**************************************************************************
-	 *	Action Listener
-	 *  @param e event
-	 */
-	public void actionPerformed(ActionEvent e)
-	{
-		log.fine("Event "+ e);
-		log.fine("Event Source "+ e.getSource());
-
-		if ( e.getSource().equals(fieldProcess) ) {					// Process
-			KeyNamePair pp = (KeyNamePair)fieldProcess.getSelectedItem();
-			if (pp != null){
-				HR_Process_ID = pp.getKey();
-				MHRProcess process = new MHRProcess(Env.getCtx(),HR_Process_ID,null);
-				dateStart= new X_HR_Period(Env.getCtx(),process.getHR_Period_ID(),null).getStartDate();				
-				dateEnd  = new X_HR_Period(Env.getCtx(),process.getHR_Period_ID(),null).getEndDate();
-				HR_Payroll_ID = process.getHR_Payroll_ID();
-				getEmployeeValid(new MHRProcess(Env.getCtx(),HR_Process_ID,null));
-				fieldEmployee.setReadWrite(true);
-			}
-		}
-		else if ( e.getSource().equals(fieldEmployee) ){			// Employee
-			KeyNamePair pp = (KeyNamePair)fieldEmployee.getSelectedItem();
-			int C_BPartner_ID = 0;
-			if ( pp != null )
-				C_BPartner_ID = pp.getKey();
-			if ( C_BPartner_ID > 0){			
-				fieldValidFrom.setValue(dateEnd);
-				fieldValidFrom.setReadWrite(true);
-				getConceptValid();
-				fieldConcept.setReadWrite(true);
-				executeQuery();
-			}
-		}
-		else if ( e.getSource().equals(fieldConcept) ) {			// Concept
-			KeyNamePair pp = (KeyNamePair)fieldConcept.getSelectedItem();
-			int HR_Concept_ID = 0;
-			if (pp != null)
-				HR_Concept_ID = pp.getKey();
-			if ( HR_Concept_ID > 0 ) {
-				MHRConcept concept = new MHRConcept (Env.getCtx(),HR_Concept_ID,null);
-				// Name To Type Column
-				fieldColumnType.setValue(DB.getSQLValueStringEx(null, getSQL_ColumnType("?"), concept.getColumnType() )); 
-				sHR_Movement_ID = seekMovement(); //  exist movement record to date actual				
-				//
-				if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
-					fieldQty.setVisible(true);
-					fieldQty.setReadWrite(true);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(false);
-					fieldText.setVisible(false);
-					fieldRuleE.setVisible(false);				
-				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
-					fieldQty.setVisible(false);
-					fieldAmount.setVisible(true);
-					fieldAmount.setReadWrite(true);
-					fieldDate.setVisible(false);
-					fieldText.setVisible(false);
-					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
-					fieldQty.setVisible(false);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(true);
-					fieldDate.setReadWrite(true);
-					fieldText.setVisible(false);
-					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
-					fieldText.setVisible(true);
-					fieldText.setReadWrite(true);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(false);
-					fieldRuleE.setVisible(false);
-				}
-				fieldDescription.setReadWrite(true);
-			}
-		} // Concept
-		else if (e.getSource().equals(bOk) ){					 // Movement SAVE
+		else if (e instanceof ActionEvent && e.getSource().equals(bOk) ){					 // Movement SAVE
 			KeyNamePair pp = (KeyNamePair)fieldConcept.getSelectedItem();
 			int HR_Concept_ID = pp.getKey();
-			MHRConcept conceptOK   = new MHRConcept(Env.getCtx(),HR_Concept_ID,null);
+			MHRConcept conceptOK   = MHRConcept.get(Env.getCtx(),HR_Concept_ID);
 			int mov = sHR_Movement_ID > 0 ? sHR_Movement_ID : 0;
 			MHRMovement movementOK = new MHRMovement(Env.getCtx(),mov,null);
 			movementOK.setDescription((String)fieldDescription.getValue().toString());
@@ -486,7 +425,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 			fieldDescription.setReadWrite(false);
 			sHR_Movement_ID = 0; // Initial not exist record in Movement to actual date
 		}
-	}
+	} // processChangeEvent
 
 
 	/**
@@ -689,7 +628,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 		Process_ID  = ppp != null ? ppp.getKey(): null;
 		Employee_ID = ppe != null ? ppe.getKey(): null;
 		Concept_ID  = ppc != null ? ppc.getKey(): null;
-		MHRConcept concept = new MHRConcept(Env.getCtx(),Concept_ID,null);
+		MHRConcept concept = MHRConcept.get(Env.getCtx(),Concept_ID);
 		//
 		if ( (Process_ID+Employee_ID+Concept_ID) > 0 ){
 			HR_Movement_ID = DB.getSQLValue("Movement","SELECT HR_Movement_ID "
@@ -724,7 +663,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 		.getColumn(MHRConcept.COLUMNNAME_ColumnType)
 		.getAD_Reference_Value_ID();
 		String sql;
-		if (Env.isBaseLanguage(Env.getCtx(), X_AD_Ref_List.Table_Name)) {
+		if (Env.isBaseLanguage(Env.getCtx(), MRefList.Table_Name)) {
 			sql = "SELECT zz.Name FROM AD_Ref_List zz WHERE zz.AD_Reference_ID="+columnType_Ref_ID; 
 		}
 		else {
@@ -735,5 +674,6 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 		}
 		sql += " AND zz.Value = "+sqlValue;
 		return sql;
-	}
-}   //  VIncidence
+	} // getSQL_ColumnType
+	
+}   //  VHRActionNotice
