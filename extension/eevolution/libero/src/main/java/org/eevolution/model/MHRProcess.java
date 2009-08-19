@@ -56,8 +56,11 @@ import org.compiere.util.TimeUtil;
  */
 public class MHRProcess extends X_HR_Process implements DocAction
 {
-	private static final long serialVersionUID = 833872861685006894L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 570699817555475782L;
+	
 	public int m_C_BPartner_ID = 0;
 	public int m_AD_User_ID = 0;
 	public int m_HR_Concept_ID = 0;
@@ -585,7 +588,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		params.add(MPPCostCollector.DOCSTATUS_Closed);
 
 		List<MPPCostCollector> listColector = new Query(getCtx(), MPPCostCollector.Table_Name, 
-				whereClause.toString(), null)
+				whereClause.toString(), get_TrxName())
 		.setOnlyActiveRecords(true)
 		.setParameters(params)
 		.setOrderBy(MPPCostCollector.COLUMNNAME_PP_Cost_Collector_ID+" DESC") 
@@ -649,7 +652,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			}
 
 			//get employee
-			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), C_BPartner_ID, null);
+			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), C_BPartner_ID, get_TrxName());
 
 			//create movement
 			MHRMovement mv = new MHRMovement(this, concept);
@@ -695,7 +698,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m_dateFrom = period.getStartDate();
 			m_dateTo   = period.getEndDate();
 			scriptCtx.put("_From", period.getStartDate());
-			scriptCtx.put("_To", period.getEndDate());				
+			scriptCtx.put("_To", period.getEndDate());
 		}
 
 		// RE-Process, delete movement except concept type Incidence 
@@ -820,7 +823,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		// Save period & finish
 		period.setProcessed(true);
 		period.saveEx();
-	}
+	} // createMovements
 
 
 
@@ -860,7 +863,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			// TODO: throw exception ?
 			return 0;
 		}
-	}
+	} // getConcept
 
 	/**
 	 * Helper Method : sets the value of a concept
@@ -876,7 +879,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			{
 				return; // TODO throw exception
 			}
-			MHRMovement m = new MHRMovement(getCtx(), 0, null);
+			MHRMovement m = new MHRMovement(getCtx(), 0, get_TrxName());
 			m.setColumnType(c.getColumnType());
 			m.setColumnValue(BigDecimal.valueOf(value));
 
@@ -892,7 +895,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		{
 			s_log.warning(e.getMessage());
 		}
-	}
+	} // setConcept
 	
 	/* Helper Method : sets the value of a concept and set if isRegistered 
 	* @param conceptValue
@@ -908,7 +911,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			{
 				return; // TODO throw exception
 			}
-			MHRMovement m = new MHRMovement(Env.getCtx(),0,null);
+			MHRMovement m = new MHRMovement(Env.getCtx(),0,get_TrxName());
 			m.setColumnType(c.getColumnType());
 			if (c.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
 				m.setAmount(BigDecimal.valueOf(value));
@@ -929,7 +932,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		{
 			s_log.warning(e.getMessage());
 		}
-	}
+	} // setConcept
 
 	/**
 	 * Helper Method : get the sum of the concept values, grouped by the Category
@@ -970,7 +973,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			}
 		}
 		return value;
-	}
+	} // getConceptGroup
 
 
 	/**
@@ -1094,7 +1097,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			return null;
 
 		return attribute.getServiceDate();
-	}
+	} // getAttributeDate
 
 	/**
 	 * 	Helper Method : Get the number of days between start and end, in Timestamp format
@@ -1106,7 +1109,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{		
 		// adds one for the last day
 		return org.compiere.util.TimeUtil.getDaysBetween(date1,date2) + 1;
-	}
+	} // getDays
 
 
 	/**
@@ -1120,7 +1123,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		Timestamp dat1 = Timestamp.valueOf(date1);
 		Timestamp dat2 = Timestamp.valueOf(date2);
 		return getDays(dat1, dat2);
-	}
+	}  // getDays
 
 	/**
 	 * 	Helper Method : Get Months, Date in Format Timestamp
@@ -1172,7 +1175,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		if (negative)
 			return counter * -1;
 		return counter;
-	}
+	} // getMonths
 
 
 	/**
@@ -1186,7 +1189,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public double getConcept (String conceptValue, int periodFrom, int periodTo)
 	{
 		return getConcept(conceptValue, null, periodFrom,periodTo);
-	}
+	} // getConcept
 
 	/**
 	 *  Helper Method : Concept by range from-to in periods from a different payroll
@@ -1327,7 +1330,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 							+" INNER JOIN HR_Period pr ON (pr.HR_Period_id=p.HR_Period_ID)"
 							+" WHERE HR_Movement.HR_Process_ID = p.HR_Process_ID" 
 							+" AND p.HR_Payroll_ID=?");
-		
+
 		params.add(payroll_id);
 		
 		whereClause.append(")");
@@ -1352,8 +1355,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public double getAttribute (Properties ctx, String vAttribute, Timestamp dateFrom, Timestamp dateTo)
 	{
 		// TODO ???
+		log.warning("not implemented yet -> getAttribute (Properties, String, Timestamp, Timestamp)");
 		return 0;
-	}
+	} // getAttribute
 
 	/**
 	 *  Helper Method : Attribute that had from some period to another to period,
@@ -1376,8 +1380,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			String pFrom,String pTo)
 	{
 		// TODO ???
+		log.warning("not implemented yet -> getAttribute (Properties, String, int, int)");
 		return 0;
-	}
+	} // getAttribute
 	
 	
 		
@@ -1421,7 +1426,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		else
 			return 0;
 		
-	} // getAttribute
+	} // getAttributeInvoice
 		
 	/**
 	 * Helper Method : Get AttributeDocType
@@ -1463,7 +1468,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		else
 			return 0;
 		 
-	} // getAttribute
+	} // getAttributeDocType
 
 	/**
 	 * Helper Method : get days from specific period
@@ -1473,5 +1478,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public double getDays (int period)
 	{
 		return Env.getContextAsInt(getCtx(), "_DaysPeriod") + 1;
-	}
+	} // getDays
+
 }	//	MHRProcess
