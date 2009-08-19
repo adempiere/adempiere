@@ -32,7 +32,6 @@ import org.adempiere.exceptions.FillMandatoryException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
-import org.compiere.report.MReportTree;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -1219,30 +1218,39 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Credit Check
 		if (isSOTrx())
 		{
-			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
-			if (MBPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
-			{
-				m_processMsg = "@BPartnerCreditStop@ - @TotalOpenBalance@=" 
-					+ bp.getTotalOpenBalance()
-					+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
-				return DocAction.STATUS_Invalid;
-			}
-			if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus()))
-			{
-				m_processMsg = "@BPartnerCreditHold@ - @TotalOpenBalance@=" 
-					+ bp.getTotalOpenBalance() 
-					+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
-				return DocAction.STATUS_Invalid;
-			}
-			BigDecimal grandTotal = MConversionRate.convertBase(getCtx(), 
-				getGrandTotal(), getC_Currency_ID(), getDateOrdered(), 
-				getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
-			if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus(grandTotal)))
-			{
-				m_processMsg = "@BPartnerOverOCreditHold@ - @TotalOpenBalance@=" 
-					+ bp.getTotalOpenBalance() + ", @GrandTotal@=" + grandTotal
-					+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
-				return DocAction.STATUS_Invalid;
+			if (   MDocType.DOCSUBTYPESO_POSOrder.equals(dt.getDocSubTypeSO())
+					&& PAYMENTRULE_Cash.equals(getPaymentRule())
+					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_CASH_POS_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
+				// ignore -- don't validate for Cash POS Orders depending on sysconfig parameter
+			} else if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(dt.getDocSubTypeSO())
+					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PREPAY_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
+				// ignore -- don't validate Prepay Orders depending on sysconfig parameter
+			} else {
+				MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
+				if (MBPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
+				{
+					m_processMsg = "@BPartnerCreditStop@ - @TotalOpenBalance@=" 
+						+ bp.getTotalOpenBalance()
+						+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
+					return DocAction.STATUS_Invalid;
+				}
+				if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus()))
+				{
+					m_processMsg = "@BPartnerCreditHold@ - @TotalOpenBalance@=" 
+						+ bp.getTotalOpenBalance() 
+						+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
+					return DocAction.STATUS_Invalid;
+				}
+				BigDecimal grandTotal = MConversionRate.convertBase(getCtx(), 
+						getGrandTotal(), getC_Currency_ID(), getDateOrdered(), 
+						getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+				if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus(grandTotal)))
+				{
+					m_processMsg = "@BPartnerOverOCreditHold@ - @TotalOpenBalance@=" 
+						+ bp.getTotalOpenBalance() + ", @GrandTotal@=" + grandTotal
+						+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
+					return DocAction.STATUS_Invalid;
+				}
 			}
 		}
 		

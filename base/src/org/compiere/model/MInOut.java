@@ -1050,28 +1050,34 @@ public class MInOut extends X_M_InOut implements DocAction
 		//	Credit Check
 		if (isSOTrx() && !isReversal())
 		{
-			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
-			if (MBPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
-			{
-				m_processMsg = "@BPartnerCreditStop@ - @TotalOpenBalance@="
-					+ bp.getTotalOpenBalance()
-					+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
-				return DocAction.STATUS_Invalid;
-			}
-			if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus()))
-			{
-				m_processMsg = "@BPartnerCreditHold@ - @TotalOpenBalance@="
-					+ bp.getTotalOpenBalance()
-					+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
-				return DocAction.STATUS_Invalid;
-			}
-			BigDecimal notInvoicedAmt = MBPartner.getNotInvoicedAmt(getC_BPartner_ID());
-			if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus(notInvoicedAmt)))
-			{
-				m_processMsg = "@BPartnerOverSCreditHold@ - @TotalOpenBalance@="
-					+ bp.getTotalOpenBalance() + ", @NotInvoicedAmt@=" + notInvoicedAmt
-					+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
-				return DocAction.STATUS_Invalid;
+			I_C_Order order = getC_Order();
+			if (order != null && MDocType.DOCSUBTYPESO_PrepayOrder.equals(order.getC_DocType().getDocSubTypeSO())
+					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PREPAY_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
+				// ignore -- don't validate Prepay Orders depending on sysconfig parameter
+			} else {
+				MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
+				if (MBPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
+				{
+					m_processMsg = "@BPartnerCreditStop@ - @TotalOpenBalance@="
+						+ bp.getTotalOpenBalance()
+						+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
+					return DocAction.STATUS_Invalid;
+				}
+				if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus()))
+				{
+					m_processMsg = "@BPartnerCreditHold@ - @TotalOpenBalance@="
+						+ bp.getTotalOpenBalance()
+						+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
+					return DocAction.STATUS_Invalid;
+				}
+				BigDecimal notInvoicedAmt = MBPartner.getNotInvoicedAmt(getC_BPartner_ID());
+				if (MBPartner.SOCREDITSTATUS_CreditHold.equals(bp.getSOCreditStatus(notInvoicedAmt)))
+				{
+					m_processMsg = "@BPartnerOverSCreditHold@ - @TotalOpenBalance@="
+						+ bp.getTotalOpenBalance() + ", @NotInvoicedAmt@=" + notInvoicedAmt
+						+ ", @SO_CreditLimit@=" + bp.getSO_CreditLimit();
+					return DocAction.STATUS_Invalid;
+				}
 			}
 		}
 
