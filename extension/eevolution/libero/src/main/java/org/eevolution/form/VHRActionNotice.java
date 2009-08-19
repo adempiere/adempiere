@@ -61,6 +61,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.eevolution.model.MHRConcept;
+import org.eevolution.model.MHREmployee;
 import org.eevolution.model.MHRMovement;
 import org.eevolution.model.MHRPeriod;
 import org.eevolution.model.MHRProcess;
@@ -421,6 +422,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 				movementOK.setHR_Process_ID((Integer)fieldProcess.getValue());
 				movementOK.setC_BPartner_ID((Integer)fieldEmployee.getValue());
 				movementOK.setHR_Concept_ID((Integer)fieldConcept.getValue());
+				movementOK.setHR_Concept_Category_ID(conceptOK.getHR_Concept_Category_ID());
 				movementOK.setColumnType(conceptOK.getColumnType());
 				movementOK.setQty(fieldQty.getValue() != null ? (BigDecimal)fieldQty.getValue() : Env.ZERO);
 				movementOK.setAmount(fieldAmount.getValue() != null ? (BigDecimal)fieldAmount.getValue() : Env.ZERO );
@@ -428,6 +430,12 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 				movementOK.setServiceDate(fieldDate.getValue() != null ? (Timestamp)fieldDate.getValue() : null);
 				movementOK.setValidFrom((Timestamp)fieldValidFrom.getTimestamp());
 				movementOK.setValidTo((Timestamp)fieldValidFrom.getTimestamp());
+				MHREmployee employee  = MHREmployee.getActiveEmployee(Env.getCtx(), movementOK.getC_BPartner_ID(), null);
+				if (employee != null) {
+					movementOK.setHR_Department_ID(employee.getHR_Department_ID());
+					movementOK.setHR_Job_ID(employee.getHR_Job_ID());
+				}
+				movementOK.setIsRegistered(true);
 				movementOK.saveEx();
 				executeQuery();			
 				fieldValidFrom.setValue(dateEnd);
