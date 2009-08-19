@@ -116,6 +116,10 @@ public final class Adempiere
 					DATE_VERSION = properties.getProperty("DATE_VERSION");
 				if (properties.containsKey("DB_VERSION"))
 					DB_VERSION = properties.getProperty("DB_VERSION");
+				if (properties.containsKey("IMPLEMENTATION_VERSION"))
+					s_ImplementationVersion = properties.getProperty("IMPLEMENTATION_VERSION");
+				if (properties.containsKey("IMPLEMENTATION_VENDOR"))
+					s_ImplementationVendor = properties.getProperty("IMPLEMENTATION_VENDOR"); 
 			} catch (IOException e) {
 			}
 		}
