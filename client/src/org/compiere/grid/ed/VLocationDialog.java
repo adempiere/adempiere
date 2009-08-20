@@ -424,10 +424,10 @@ public class VLocationDialog extends CDialog
 	 */
 	private String lookupPostcode(MCountry country, String postcode)
 	{
-		// Initialise the lookup class.
-			AddressLookupInterface pcLookup = null;
-			try {
-				AddressLookupInterface pcLookupTmp = (AddressLookupInterface) Class
+		// Initialize the lookup class.
+		AddressLookupInterface pcLookup = null;
+		try {
+			AddressLookupInterface pcLookupTmp = (AddressLookupInterface) Class
 						.forName(country.getLookupClassName()).newInstance();
 			pcLookup = pcLookupTmp.newInstance();
 		} catch (Exception e) {

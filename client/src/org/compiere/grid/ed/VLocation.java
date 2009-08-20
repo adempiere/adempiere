@@ -211,7 +211,7 @@ public class VLocation extends JComponent
 	}	//	isReadWrite
 
 	/**
-	 *	Set Mandatory (and back bolor)
+	 *	Set Mandatory (and back color)
 	 *  @param mandatory true if mandatory
 	 */
 	public void setMandatory (boolean mandatory)

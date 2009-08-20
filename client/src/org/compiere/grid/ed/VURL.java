@@ -141,7 +141,7 @@ public class VURL extends JComponent
 		m_button.setFocusable(false);
 		this.add(m_button, BorderLayout.EAST);
 
-		//	Prefereed Size
+		//	Preferred Size
 		this.setPreferredSize(this.getPreferredSize());		//	causes r/o to be the same length
 		//	ReadWrite
 		if (isReadOnly || !isUpdateable)
@@ -221,7 +221,7 @@ public class VURL extends JComponent
 
 	/**
 	 * 	Set ReadWrite
-	 * 	@param rw read rwite
+	 * 	@param rw read/write
 	 */
 	public void setReadWrite (boolean rw)
 	{
