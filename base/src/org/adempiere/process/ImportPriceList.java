@@ -285,7 +285,7 @@ public class ImportPriceList extends SvrProcess
 				int M_PriceList_ID = imp.getM_PriceList_ID();
 				if (M_PriceList_ID == 0) {
 					// try to obtain the ID directly from DB
-					M_PriceList_ID = DB.getSQLValue(get_TrxName(), "SELECT M_PriceList_ID FROM M_PriceList WHERE Name=?", imp.getName());
+					M_PriceList_ID = DB.getSQLValue(get_TrxName(), "SELECT M_PriceList_ID FROM M_PriceList WHERE AD_Client_ID=? AND Name=?", m_AD_Client_ID, imp.getName());
 					if (M_PriceList_ID < 0)
 						M_PriceList_ID = 0;
 				}
