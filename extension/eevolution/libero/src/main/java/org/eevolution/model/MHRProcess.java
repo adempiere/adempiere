@@ -227,7 +227,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		} 
 		catch (Exception e) 
 		{
-			new AdempiereException(e);
+			throw new AdempiereException(e);
 		}
 		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -991,15 +991,18 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		{
 			column = column.toString().length() == 1 ? "Col_"+column : "Amount"+column;
 			ArrayList<Object> params = new ArrayList<Object>();
-			String sqlList = "SELECT (SELECT " +column+ " FROM HR_ListLine ll WHERE ll.HR_ListVersion_ID=lv.HR_ListVersion_ID AND "
-			+ " ( " +amount+ " BETWEEN ll.MinValue AND ll.MaxValue) ) "
-			+ " FROM HR_List l "
-			+ " INNER JOIN HR_ListVersion lv ON (lv.HR_List_ID=l.HR_List_ID)"
-			+ " WHERE l.Value = ? AND l.AD_Client_ID = ?"
-			+" AND (? BETWEEN  lv.ValidFrom AND lv.ValidTo ) ";
+			String sqlList = "SELECT " +column+
+				" FROM HR_List l " +
+				"INNER JOIN HR_ListVersion lv ON (lv.HR_List_ID=l.HR_List_ID) " +
+				"INNER JOIN HR_ListLine ll ON (ll.HR_ListVersion_ID=lv.HR_ListVersion_ID) " +
+				"WHERE l.IsActive='Y' AND lv.IsActive='Y' AND ll.IsActive='Y' AND l.Value = ? AND " +
+				"l.AD_Client_ID = ? AND " +
+				"(? BETWEEN lv.ValidFrom AND lv.ValidTo ) AND " +
+				"(? BETWEEN ll.MinValue AND	ll.MaxValue)";
 			params.add(pList);
 			params.add(getAD_Client_ID());
 			params.add(m_dateFrom);
+			params.add(BigDecimal.valueOf(amount));
 
 			value = DB.getSQLValueBDEx(get_TrxName(),sqlList,params);
 		}
