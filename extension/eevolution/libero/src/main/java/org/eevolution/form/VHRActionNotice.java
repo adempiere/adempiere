@@ -434,6 +434,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 				if (employee != null) {
 					movementOK.setHR_Department_ID(employee.getHR_Department_ID());
 					movementOK.setHR_Job_ID(employee.getHR_Job_ID());
+					movementOK.setC_Activity_ID(employee.getC_Activity_ID());
 				}
 				movementOK.setIsRegistered(true);
 				movementOK.saveEx();
