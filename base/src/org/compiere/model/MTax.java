@@ -226,15 +226,16 @@ public class MTax extends X_C_Tax
 	
 	public String toString()
 	{
-		StringBuffer sb = new StringBuffer("MTax[");
-		sb.append(get_ID()).append(",").append(getName())
+		StringBuffer sb = new StringBuffer("MTax[")
+			.append(get_ID())
+			.append(", Name = ").append(getName())
 			.append(", SO/PO=").append(getSOPOType())
-			.append(",Rate=").append(getRate())
-			.append(",C_TaxCategory_ID=").append(getC_TaxCategory_ID())
-			.append(",Summary=").append(isSummary())
-			.append(",Parent=").append(getParent_Tax_ID())
-			.append(",Country=").append(getC_Country_ID()).append("|").append(getTo_Country_ID())
-			.append(",Region=").append(getC_Region_ID()).append("|").append(getTo_Region_ID())
+			.append(", Rate=").append(getRate())
+			.append(", C_TaxCategory_ID=").append(getC_TaxCategory_ID())
+			.append(", Summary=").append(isSummary())
+			.append(", Parent=").append(getParent_Tax_ID())
+			.append(", Country=").append(getC_Country_ID()).append("|").append(getTo_Country_ID())
+			.append(", Region=").append(getC_Region_ID()).append("|").append(getTo_Region_ID())
 			.append("]");
 		return sb.toString();
 	}	//	toString

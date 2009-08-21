@@ -653,11 +653,12 @@ public class MOrderLine extends X_C_OrderLine
 	public String toString ()
 	{
 		StringBuffer sb = new StringBuffer ("MOrderLine[")
-			.append(get_ID()).append(",Line=").append(getLine())
-			.append(",Ordered=").append(getQtyOrdered())
-			.append(",Delivered=").append(getQtyDelivered())
-			.append(",Invoiced=").append(getQtyInvoiced())
-			.append(",Reserved=").append(getQtyReserved())
+			.append(get_ID())
+			.append(", Line=").append(getLine())
+			.append(", Ordered=").append(getQtyOrdered())
+			.append(", Delivered=").append(getQtyDelivered())
+			.append(", Invoiced=").append(getQtyInvoiced())
+			.append(", Reserved=").append(getQtyReserved())
 			.append(", LineNet=").append(getLineNetAmt())
 			.append ("]");
 		return sb.toString ();
@@ -788,7 +789,7 @@ public class MOrderLine extends X_C_OrderLine
 	/**************************************************************************
 	 * 	Before Save
 	 *	@param newRecord
-	 *	@return true if it can be sabed
+	 *	@return true if it can be saved
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{

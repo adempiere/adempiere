@@ -43,7 +43,7 @@ public class MOrderTax extends X_C_OrderTax
 	/**
 	 * 	Get Tax Line for Order Line
 	 *	@param line Order line
-	 *	@param precision currenct precision
+	 *	@param precision currency precision
 	 *	@param oldTax get old tax
 	 *	@param trxName transaction
 	 *	@return existing or new tax
@@ -134,7 +134,7 @@ public class MOrderTax extends X_C_OrderTax
 	
 	
 	/**************************************************************************
-	 * 	Persistency Constructor
+	 * 	Persistence Constructor
 	 *	@param ctx context
 	 *	@param ignored ignored
 	 *	@param trxName transaction
@@ -200,7 +200,7 @@ public class MOrderTax extends X_C_OrderTax
 	
 	/**************************************************************************
 	 * 	Calculate/Set Tax Amt from Order Lines
-	 * 	@return true if aclculated
+	 * 	@return true if calculated
 	 */
 	public boolean calculateTaxFromLines ()
 	{
@@ -269,10 +269,11 @@ public class MOrderTax extends X_C_OrderTax
 	 */
 	public String toString ()
 	{
-		StringBuffer sb = new StringBuffer ("MOrderTax[");
-		sb.append("C_Order_ID=").append(getC_Order_ID())
-			.append(",C_Tax_ID=").append(getC_Tax_ID())
-			.append(", Base=").append(getTaxBaseAmt()).append(",Tax=").append(getTaxAmt())
+		StringBuffer sb = new StringBuffer ("MOrderTax[")
+			.append("C_Order_ID=").append(getC_Order_ID())
+			.append(", C_Tax_ID=").append(getC_Tax_ID())
+			.append(", Base=").append(getTaxBaseAmt())
+			.append(", Tax=").append(getTaxAmt())
 			.append ("]");
 		return sb.toString ();
 	}	//	toString

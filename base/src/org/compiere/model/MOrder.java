@@ -675,7 +675,7 @@ public class MOrder extends X_C_Order implements DocAction
 
 	/**
 	 * 	Get Lines of Order.
-	 * 	(useb by web store)
+	 * 	(used by web store)
 	 * 	@return lines
 	 */
 	public MOrderLine[] getLines()
@@ -820,7 +820,7 @@ public class MOrder extends X_C_Order implements DocAction
 
 	/**
 	 * 	Set DocAction
-	 *	@param DocAction doc oction
+	 *	@param DocAction doc action
 	 *	@param forceCreation force creation
 	 */
 	public void setDocAction (String DocAction, boolean forceCreation)
@@ -831,7 +831,7 @@ public class MOrder extends X_C_Order implements DocAction
 	
 	/**
 	 * 	Set Processed.
-	 * 	Propergate to Lines/Taxes
+	 * 	Propagate to Lines/Taxes
 	 *	@param processed processed
 	 */
 	public void setProcessed (boolean processed)
