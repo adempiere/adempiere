@@ -37,7 +37,7 @@ FROM C_OrderLine ol
 	INNER JOIN C_UOM_Trl uom ON (ol.C_UOM_ID=uom.C_UOM_ID)
 	INNER JOIN C_Order i ON (ol.C_Order_ID=i.C_Order_ID)
 	LEFT OUTER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID)
-	LEFT OUTER JOIN M_Product_PO po ON (p.M_Product_ID=po.M_Product_ID)
+	LEFT OUTER JOIN M_Product_PO po ON (p.M_Product_ID=po.M_Product_ID AND i.C_BPartner_ID=po.C_BPartner_ID)
 	LEFT OUTER JOIN M_Product_Trl pt ON (ol.M_Product_ID=pt.M_Product_ID AND uom.AD_Language=pt.AD_Language)
 	LEFT OUTER JOIN S_ResourceAssignment ra ON (ol.S_ResourceAssignment_ID=ra.S_ResourceAssignment_ID)
 	LEFT OUTER JOIN C_Charge_Trl c ON (ol.C_Charge_ID=c.C_Charge_ID AND uom.AD_Language=c.AD_Language)
@@ -70,11 +70,12 @@ SELECT ol.AD_Client_ID, ol.AD_Org_ID, ol.IsActive, ol.Created, ol.CreatedBy, ol.
 	INNER JOIN M_Product_Trl pt ON (b.M_ProductBOM_ID=pt.M_Product_ID AND uom.AD_Language=pt.AD_Language)*/
 FROM PP_Product_BOM b 	
 	INNER JOIN  C_OrderLine ol ON (b.M_Product_ID=ol.M_Product_ID)
+	INNER JOIN C_Order i ON (ol.C_Order_ID=i.C_Order_ID)
 	INNER JOIN  M_Product bp ON (bp.M_Product_ID=ol.M_Product_ID -- BOM Product
 		AND bp.IsBOM='Y' AND bp.IsVerified='Y' AND bp.IsInvoicePrintDetails='Y')
 	INNER JOIN PP_Product_BOMLine bl ON (bl.PP_Product_BOM_ID=b.PP_Product_BOM_ID)
 	INNER JOIN M_Product p ON (p.M_Product_ID=bl.M_Product_ID) -- BOM line product
-	LEFT OUTER JOIN M_Product_PO po ON (p.M_Product_ID=po.M_Product_ID)
+	LEFT OUTER JOIN M_Product_PO po ON (p.M_Product_ID=po.M_Product_ID AND i.C_BPartner_ID=po.C_BPartner_ID)
 	INNER JOIN C_UOM_Trl uom ON (p.C_UOM_ID=uom.C_UOM_ID)
 	INNER JOIN M_Product_Trl pt ON (pt.M_Product_ID=bl.M_Product_ID AND uom.AD_Language=pt.AD_Language)
 UNION
