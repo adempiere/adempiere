@@ -32,6 +32,7 @@ import org.compiere.model.MCampaign;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MPayment;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
@@ -242,6 +243,13 @@ public class ARequest implements ActionListener
 			//
 			else if (m_AD_Table_ID == MRequest.Table_ID)
 				tab.setValue(MRequest.COLUMNNAME_R_RequestRelated_ID, new Integer(m_Record_ID));
+			// FR [2842165] - Order Ref link from SO line creating new request
+			else if (m_AD_Table_ID == MOrderLine.Table_ID) {
+				MOrderLine oLine = new MOrderLine(Env.getCtx(), m_Record_ID, null);
+				if (oLine != null) {
+					tab.setValue(MOrderLine.COLUMNNAME_C_Order_ID, new Integer(oLine.getC_Order_ID()));
+				}
+			}
 		}
 		AEnv.showCenterScreen(frame);
 		frame = null;

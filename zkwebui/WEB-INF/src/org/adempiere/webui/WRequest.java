@@ -1,3 +1,17 @@
+/******************************************************************************
+ * Copyright (C) 2008 Low Heng Sin                                            *
+ * Copyright (C) 2009 Idalica Corporation                                     *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ *****************************************************************************/
+
 package org.adempiere.webui;
 
 import java.sql.PreparedStatement;
@@ -11,6 +25,7 @@ import org.compiere.model.MCampaign;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MPayment;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
@@ -218,6 +233,13 @@ public class WRequest implements EventListener
 				//
 				else if (m_AD_Table_ID == MRequest.Table_ID)
 					Env.setContext(Env.getCtx(), MRequest.COLUMNNAME_R_RequestRelated_ID, new Integer(m_Record_ID));
+				// FR [2842165] - Order Ref link from SO line creating new request
+				else if (m_AD_Table_ID == MOrderLine.Table_ID) {
+					MOrderLine oLine = new MOrderLine(Env.getCtx(), m_Record_ID, null);
+					if (oLine != null) {
+						Env.setContext(Env.getCtx(), MOrderLine.COLUMNNAME_C_Order_ID, new Integer(oLine.getC_Order_ID()));
+					}
+				}
 			}
 			
 			AEnv.zoom(AD_Window_ID, query);
