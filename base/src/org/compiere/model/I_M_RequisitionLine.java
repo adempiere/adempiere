@@ -107,6 +107,21 @@ public interface I_M_RequisitionLine
 
 	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -203,6 +218,19 @@ public interface I_M_RequisitionLine
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name M_RequisitionLine_ID */
+    public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
+
+	/** Set Requisition Line.
+	  * Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID);
+
+	/** Get Requisition Line.
+	  * Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID();
+
     /** Column name M_Requisition_ID */
     public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
 
@@ -217,19 +245,6 @@ public interface I_M_RequisitionLine
 	public int getM_Requisition_ID();
 
 	public I_M_Requisition getM_Requisition() throws RuntimeException;
-
-    /** Column name M_RequisitionLine_ID */
-    public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
-
-	/** Set Requisition Line.
-	  * Material Requisition Line
-	  */
-	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID);
-
-	/** Get Requisition Line.
-	  * Material Requisition Line
-	  */
-	public int getM_RequisitionLine_ID();
 
     /** Column name PriceActual */
     public static final String COLUMNNAME_PriceActual = "PriceActual";

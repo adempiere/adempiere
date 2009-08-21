@@ -45,8 +45,8 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 			setLine (0);
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM M_RequisitionLine WHERE M_Requisition_ID=@M_Requisition_ID@
 			setLineNetAmt (Env.ZERO);
-			setM_Requisition_ID (0);
 			setM_RequisitionLine_ID (0);
+			setM_Requisition_ID (0);
 			setPriceActual (Env.ZERO);
 			setQty (Env.ZERO);
 // 1
@@ -198,6 +198,45 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
+	public I_C_UOM getC_UOM() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
+        I_C_UOM result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_UOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_UOM_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -325,6 +364,29 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Requisition Line.
+		@param M_RequisitionLine_ID 
+		Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
+	{
+		if (M_RequisitionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
+	}
+
+	/** Get Requisition Line.
+		@return Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_Requisition getM_Requisition() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Requisition.Table_Name);
@@ -359,29 +421,6 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	public int getM_Requisition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Requisition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Requisition Line.
-		@param M_RequisitionLine_ID 
-		Material Requisition Line
-	  */
-	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
-	{
-		if (M_RequisitionLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
-	}
-
-	/** Get Requisition Line.
-		@return Material Requisition Line
-	  */
-	public int getM_RequisitionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

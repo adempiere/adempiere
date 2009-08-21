@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.adempiere.model.GridTabWrapper;
 import org.compiere.util.Env;
 
 /**
@@ -45,40 +46,18 @@ public class CalloutRequisition extends CalloutEngine
 		Integer M_Product_ID = (Integer)value;
 		if (M_Product_ID == null || M_Product_ID.intValue() == 0)
 			return "";
-	//	setCalloutActive(true);
-		//
-		/**	Set Attribute
-		if (Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_Product_ID") == M_Product_ID.intValue()
-			&& Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID") != 0)
-			mTab.setValue("M_AttributeSetInstance_ID", new Integer(Env.getContextAsInt(ctx, Env.WINDOW_INFO, Env.TAB_INFO, "M_AttributeSetInstance_ID")));
-		else
-			mTab.setValue("M_AttributeSetInstance_ID", null);
-		**/	
-		int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, WindowNo, "C_BPartner_ID");
-		BigDecimal Qty = (BigDecimal)mTab.getValue("Qty");
-		boolean isSOTrx = false;
-		MProductPricing pp = new MProductPricing (M_Product_ID.intValue(), 
-			C_BPartner_ID, Qty, isSOTrx);
-		//
-		int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
-		pp.setM_PriceList_ID(M_PriceList_ID);
-		int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
-		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
-		Timestamp orderDate = (Timestamp)mTab.getValue("DateRequired");
-		pp.setPriceDate(orderDate);
-		//		
-		mTab.setValue("PriceActual", pp.getPriceStd());
-		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", pp.isEnforcePriceLimit() ? "Y" : "N");	//	not used
-		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
+		final I_M_Requisition req = GridTabWrapper.create(mTab, I_M_Requisition.class);
+		final I_M_RequisitionLine line = GridTabWrapper.create(mTab, I_M_RequisitionLine.class);
+		setPrice(ctx, WindowNo, req, line);
+		MProduct product = MProduct.get(ctx, M_Product_ID);
+		line.setC_UOM_ID(product.getC_UOM_ID());
 
-	//	setCalloutActive(false);
 		return "";
 	}	//	product
-	
+
 	/**
-	 *	Order Line - Amount.
-	 *		- called from Qty, PriceActual
-	 *		- calculates LineNetAmt
+	 * Requisition line - Qty
+	 * 	- Price, LineNetAmt
 	 *  @param ctx context
 	 *  @param WindowNo current Window No
 	 *  @param mTab Grid Tab
@@ -90,44 +69,47 @@ public class CalloutRequisition extends CalloutEngine
 	{
 		if (isCalloutActive() || value == null)
 			return "";
-
+		
+		final I_M_Requisition req = GridTabWrapper.create(mTab, I_M_Requisition.class);
+		final I_M_RequisitionLine line = GridTabWrapper.create(mTab, I_M_RequisitionLine.class);
 		//	Qty changed - recalc price
-		if (mField.getColumnName().equals("Qty") 
+		if (mField.getColumnName().equals(I_M_RequisitionLine.COLUMNNAME_Qty) 
 			&& "Y".equals(Env.getContext(ctx, WindowNo, "DiscountSchema")))
 		{
-			int M_Product_ID = Env.getContextAsInt(ctx, WindowNo, WindowNo, "M_Product_ID");
-			int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, WindowNo, "C_BPartner_ID");
-			BigDecimal Qty = (BigDecimal)value;
-			boolean isSOTrx = false;
-			MProductPricing pp = new MProductPricing (M_Product_ID, 
-				C_BPartner_ID, Qty, isSOTrx);
-			//
-			int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
-			pp.setM_PriceList_ID(M_PriceList_ID);
-			int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
-			pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
-			Timestamp orderDate = (Timestamp)mTab.getValue("DateInvoiced");
-			pp.setPriceDate(orderDate);
-			//
-			mTab.setValue("PriceActual", pp.getPriceStd());
+			setPrice(ctx, WindowNo, req, line);
 		}
 
 		int StdPrecision = Env.getContextAsInt(ctx, WindowNo, "StdPrecision");
-		BigDecimal Qty = (BigDecimal)mTab.getValue("Qty");
-		BigDecimal PriceActual = (BigDecimal)mTab.getValue("PriceActual");
-
-		//	get values
+		BigDecimal Qty = line.getQty();
+		BigDecimal PriceActual = line.getPriceActual();
 		log.fine("amt - Qty=" + Qty + ", Price=" + PriceActual + ", Precision=" + StdPrecision);
 
 		//	Multiply
 		BigDecimal LineNetAmt = Qty.multiply(PriceActual);
 		if (LineNetAmt.scale() > StdPrecision)
 			LineNetAmt = LineNetAmt.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP);
-		mTab.setValue("LineNetAmt", LineNetAmt);
+		line.setLineNetAmt(LineNetAmt);
 		log.info("amt - LineNetAmt=" + LineNetAmt);
 		//
 		return "";
 	}	//	amt
 
-	
+	private void setPrice(Properties ctx, int WindowNo, I_M_Requisition req, I_M_RequisitionLine line)
+	{
+		int C_BPartner_ID = line.getC_BPartner_ID();
+		BigDecimal Qty = line.getQty();
+		boolean isSOTrx = false;
+		MProductPricing pp = new MProductPricing (line.getM_Product_ID(), C_BPartner_ID, Qty, isSOTrx);
+		//
+		int M_PriceList_ID = req.getM_PriceList_ID();
+		pp.setM_PriceList_ID(M_PriceList_ID);
+		int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
+		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
+		Timestamp orderDate = req.getDateRequired();
+		pp.setPriceDate(orderDate);
+		//
+		line.setPriceActual(pp.getPriceStd());
+		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", pp.isEnforcePriceLimit() ? "Y" : "N");	//	not used
+		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
+	}
 }	//	CalloutRequisition

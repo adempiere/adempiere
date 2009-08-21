@@ -37,6 +37,8 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 2419978 ] Voiding PO, requisition don't set on NULL
  * 			<li>BF [ 2608617 ] Error when I want to delete a PO document
  * 			<li>BF [ 2609604 ] Add M_RequisitionLine.C_BPartner_ID
+ * 			<li>FR [ 2841841 ] Requisition Improvements
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2841841&group_id=176962&atid=879335
  */
 public class MRequisitionLine extends X_M_RequisitionLine
 {
@@ -184,6 +186,12 @@ public class MRequisitionLine extends X_M_RequisitionLine
 		return m_parent;
 	}	//	getParent
 	
+	@Override
+	public I_M_Requisition getM_Requisition()
+	{
+		return getParent();
+	}
+
 	/**
 	 * @return Date when this product is required by planner
 	 * @see MRequisition#getDateRequired()
@@ -265,6 +273,11 @@ public class MRequisitionLine extends X_M_RequisitionLine
 			setC_Charge_ID(0);
 		if (getM_AttributeSetInstance_ID() != 0 && getC_Charge_ID() != 0)
 			setM_AttributeSetInstance_ID(0);
+		// Product UOM
+		if (getM_Product_ID() > 0 && getC_UOM_ID() <= 0)
+		{
+			setC_UOM_ID(getM_Product().getC_UOM_ID());
+		}
 		//
 		if (getPriceActual().signum() == 0)
 			setPrice();
@@ -299,6 +312,12 @@ public class MRequisitionLine extends X_M_RequisitionLine
 		return updateHeader();
 	}	//	afterDelete
 	
+	@Override
+	public I_M_Product getM_Product()
+	{
+		return MProduct.get(getCtx(), getM_Product_ID());
+	}
+
 	/**
 	 * 	Update Header
 	 *	@return header updated
