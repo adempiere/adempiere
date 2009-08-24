@@ -32,7 +32,6 @@ import org.adempiere.exceptions.DBException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
-import org.compiere.report.MReportTree;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -95,32 +94,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	public static MInvoice copyFrom (MInvoice from, Timestamp dateDoc,  Timestamp dateAcct,
 		int C_DocTypeTarget_ID, boolean isSOTrx, boolean counter,
 		String trxName, boolean setOrder)
-	{	
-		MInvoice to = copyFrom ( from, dateDoc,
-				 C_DocTypeTarget_ID, isSOTrx, counter,
-				trxName, setOrder);
-		to.setDateAcct (dateAcct);
-		return to;	
-	}
-	
-	/** 
-	 *  @Deprecated
-	 * 	Create new Invoice by copying
-	 * 	@param from invoice
-	 * 	@param dateDoc date of the document date
-	 * 	@param C_DocTypeTarget_ID target doc type
-	 * 	@param isSOTrx sales order
-	 * 	@param counter create counter links
-	 * 	@param trxName trx
-	 * 	@param setOrder set Order links
-	 *	@return Invoice
-	 */
-	public static MInvoice copyFrom (MInvoice from, Timestamp dateDoc,
-		int C_DocTypeTarget_ID, boolean isSOTrx, boolean counter,
-		String trxName, boolean setOrder)
 	{
-		MInvoice to = new MInvoice (from.getCtx(), 0, null);
-		to.set_TrxName(trxName);
+		MInvoice to = new MInvoice (from.getCtx(), 0, trxName);
 		PO.copyValues (from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
 		to.set_ValueNoCheck ("C_Invoice_ID", I_ZERO);
 		to.set_ValueNoCheck ("DocumentNo", null);
@@ -133,7 +108,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		to.setIsSOTrx(isSOTrx);
 		//
 		to.setDateInvoiced (dateDoc);
-		to.setDateAcct (dateDoc);
+		to.setDateAcct (dateAcct);
 		to.setDatePrinted(null);
 		to.setIsPrinted (false);
 		//
@@ -186,6 +161,28 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (to.copyLinesFrom(from, counter, setOrder) == 0)
 			throw new IllegalStateException("Could not create Invoice Lines");
 
+		return to;
+	}
+	
+	/** 
+	 *  @Deprecated
+	 * 	Create new Invoice by copying
+	 * 	@param from invoice
+	 * 	@param dateDoc date of the document date
+	 * 	@param C_DocTypeTarget_ID target doc type
+	 * 	@param isSOTrx sales order
+	 * 	@param counter create counter links
+	 * 	@param trxName trx
+	 * 	@param setOrder set Order links
+	 *	@return Invoice
+	 */
+	public static MInvoice copyFrom (MInvoice from, Timestamp dateDoc,
+		int C_DocTypeTarget_ID, boolean isSOTrx, boolean counter,
+		String trxName, boolean setOrder)
+	{
+		MInvoice to = copyFrom ( from, dateDoc, dateDoc,
+				 C_DocTypeTarget_ID, isSOTrx, counter,
+				trxName, setOrder);
 		return to;
 	}	//	copyFrom
 
