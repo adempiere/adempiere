@@ -87,6 +87,7 @@ public class Language implements Serializable
 	private static final String AD_Language_in_ID = "in_ID";
 	private static final String AD_Language_ar_TN = "ar_TN";
 	private static final String AD_Language_hu_HU = "hu_HU";
+	private static final String AD_Language_el_GR = "el_GR";
 	
 	/***
 	 *  System Languages.
@@ -137,7 +138,10 @@ public class Language implements Serializable
 			MediaSize.ISO.A4),
 		new Language ("Espa\u00f1ol (DO)",
 			AD_Language_es_DO,  new Locale("es","DO"), new Boolean(true), "dd/MM/yyyy",
-			MediaSize.ISO.A4),			
+			MediaSize.ISO.A4),
+		new Language ("\u0395\u03bb\u03bb\u03b7\u03bd\u03b9\u03ba\u03ac (GR)",
+			AD_Language_el_GR,  new Locale("el","GR"),  new Boolean(false), "dd/MM/yyyy",
+			MediaSize.ISO.A4),
 		new Language ("Farsi",
 			AD_Language_fa_IR,  new Locale("fa","IR"),  new Boolean(false), "dd-MM-yyyy",
 			MediaSize.ISO.A4),
