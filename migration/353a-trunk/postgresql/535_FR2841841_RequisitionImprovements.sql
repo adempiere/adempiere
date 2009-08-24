@@ -132,7 +132,7 @@ update M_RequisitionLine rl set
 C_UOM_ID=(select p.C_UOM_ID from M_Product p where p.M_Product_ID=rl.M_Product_ID)
 where M_Product_ID is not null and C_UOM_ID is null;
 
-/* Update M_Product.IsPurchased:
+-- Update M_Product.IsPurchased:
 update M_Product p set IsPurchased='Y'
 where p.IsPurchased='N' and p.IsActive='Y' and p.IsSummary='N'
 and (
@@ -145,4 +145,4 @@ and (
 				where il.M_Product_ID=p.M_Product_ID and i.IsSOTrx='N')
 )
 ;
-*/
+
