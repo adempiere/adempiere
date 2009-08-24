@@ -20,7 +20,7 @@ UPDATE AD_Menu_Trl SET Name='Empleado Nómina',Description='Mantenimiento de empl
 UPDATE AD_Menu_Trl SET Name='Departamento Nómina',Description='Mantenimiento de departamentos de nómina',Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Menu_ID=53112 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Menu_Trl SET Name='Trabajo Nómina',Description='Mantenimiento de trabajos de nómina',Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Menu_ID=53113 AND AD_Language LIKE 'es_%'
+UPDATE AD_Menu_Trl SET Name='Puesto Nómina',Description='Mantenimiento de puestos de nómina',Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Menu_ID=53113 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_Menu_Trl SET Name='Nómina',Description=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Menu_ID=53114 AND AD_Language LIKE 'es_%'
@@ -98,7 +98,7 @@ UPDATE AD_WF_Node_Trl SET Name='Novedades de Nómina',Description=NULL,Help=NULL,
 UPDATE AD_WF_Node_Trl SET Name='Tipo Lista Nómina',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_WF_Node_ID=50082 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_WF_Node_Trl SET Name='Trabajo Nómina',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_WF_Node_ID=50083 AND AD_Language LIKE 'es_%'
+UPDATE AD_WF_Node_Trl SET Name='Puesto Nómina',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_WF_Node_ID=50083 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_WF_Node_Trl SET Name='Catálogo Conceptos Nómina',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:31','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_WF_Node_ID=50084 AND AD_Language LIKE 'es_%'
@@ -149,7 +149,7 @@ UPDATE AD_Ref_List_Trl SET Name='Referencia',Description=NULL,Updated=TO_TIMESTA
 UPDATE AD_Reference_Trl SET Name='RH Tipo Columna',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Reference_ID=53243 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Reference_Trl SET Name='RH Trabajo',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Reference_ID=53244 AND AD_Language LIKE 'es_%'
+UPDATE AD_Reference_Trl SET Name='RH Puesto',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Reference_ID=53244 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_Reference_Trl SET Name='RH Tipo',Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Reference_ID=53245 AND AD_Language LIKE 'es_%'
@@ -179,7 +179,7 @@ UPDATE AD_Element_Trl SET Name='Departamento Nómina',PrintName='Departamento Nóm
 UPDATE AD_Element_Trl SET Name='Empleado Nómina',PrintName='Empleado Nómina',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53391 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Element_Trl SET Name='Trabajo Nómina',PrintName='Trabajo Nómina',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53392 AND AD_Language LIKE 'es_%'
+UPDATE AD_Element_Trl SET Name='Puesto Nómina',PrintName='Puesto Nómina',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53392 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_Element_Trl SET Name='Nómina',PrintName='Nómina',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53393 AND AD_Language LIKE 'es_%'
@@ -206,10 +206,10 @@ UPDATE AD_Element_Trl SET Name='Valor Máximo',PrintName='Valor Máximo',Descripti
 UPDATE AD_Element_Trl SET Name='Valor Mínimo',PrintName='Valor Mínimo',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53400 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Element_Trl SET Name='Cantidad Trabajo',PrintName='Cantidad Trabajo',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53401 AND AD_Language LIKE 'es_%'
+UPDATE AD_Element_Trl SET Name='Cantidad Puestos',PrintName='Cantidad Puestos',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53401 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Element_Trl SET Name='Siguiente Trabajo',PrintName='Siguiente Trabajo',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53402 AND AD_Language LIKE 'es_%'
+UPDATE AD_Element_Trl SET Name='Siguiente Puesto',PrintName='Siguiente Puesto',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53402 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_Element_Trl SET Name='Categoría Concepto Nómina',PrintName='Categoría Concepto Nómina',Description=NULL,Help=NULL,PO_Description=NULL,PO_Help=NULL,PO_Name=NULL,PO_PrintName=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Element_ID=53403 AND AD_Language LIKE 'es_%'
@@ -278,7 +278,7 @@ UPDATE AD_Table_Trl SET Name='Atributo Empleado Nómina',Updated=TO_TIMESTAMP('20
 UPDATE AD_Table_Trl SET Name='Departamento Nómina',Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Table_ID=53088 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Table_Trl SET Name='Trabajo Nómina',Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Table_ID=53089 AND AD_Language LIKE 'es_%'
+UPDATE AD_Table_Trl SET Name='Puesto Nómina',Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Table_ID=53089 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_Table_Trl SET Name='Concepto Nómina',Updated=TO_TIMESTAMP('2009-08-10 16:10:32','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Table_ID=53090 AND AD_Language LIKE 'es_%'
@@ -332,7 +332,7 @@ UPDATE AD_Tab_Trl SET Name='Empleado',CommitWarning=NULL,Description='Mantenimie
 UPDATE AD_Tab_Trl SET Name='Atributo',CommitWarning=NULL,Description='Tercero',Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Tab_ID=53103 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Tab_Trl SET Name='Tercero',CommitWarning=NULL,Description='Tercero',Help='La ventana de empleados de nómina es utilizada para definir los trabajos en la estructura organizacional de la compañía.',Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Tab_ID=53104 AND AD_Language LIKE 'es_%'
+UPDATE AD_Tab_Trl SET Name='Tercero',CommitWarning=NULL,Description='Tercero',Help='La ventana de empleados de nómina es utilizada para definir los puestos en la estructura organizacional de la compañía.',Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Tab_ID=53104 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_Tab_Trl SET Name='Contabilidad Empleado',CommitWarning=NULL,Description='Define contabilidad empleado',Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Tab_ID=53105 AND AD_Language LIKE 'es_%'
@@ -350,7 +350,7 @@ UPDATE AD_Tab_Trl SET Name='Contacto (Usuario)',CommitWarning=NULL,Description='
 UPDATE AD_Tab_Trl SET Name='Departamento',CommitWarning=NULL,Description=NULL,Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Tab_ID=53109 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Tab_Trl SET Name='Trabajo',CommitWarning=NULL,Description='Mantenimiento de trabajos de nómina',Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Tab_ID=53110 AND AD_Language LIKE 'es_%'
+UPDATE AD_Tab_Trl SET Name='Puesto',CommitWarning=NULL,Description='Mantenimiento de puestos de nómina',Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Tab_ID=53110 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_Tab_Trl SET Name='Concepto',CommitWarning=NULL,Description='Mantenimiento de conceptos de nómina',Help=NULL,Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Tab_ID=53111 AND AD_Language LIKE 'es_%'
@@ -407,7 +407,7 @@ UPDATE AD_Window_Trl SET Name='Empleado Nómina',Description='Mantenimiento de em
 UPDATE AD_Window_Trl SET Name='Departamento Nómina',Description='Mantenimiento de departamentos de nómina',Help='La ventana de departamentos de nómina es utilizada para definir la estructura organizacional por compañía',Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Window_ID=53034 AND AD_Language LIKE 'es_%'
 ;
 
-UPDATE AD_Window_Trl SET Name='Trabajo Nómina',Description='Mantenimiento de trabajos de nómina',Help='La ventana de nómina de empleados es utilizada para definir los trabajos en la estructura organizacional de la compañía',Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Window_ID=53035 AND AD_Language LIKE 'es_%'
+UPDATE AD_Window_Trl SET Name='Puesto Nómina',Description='Mantenimiento de puestos de nómina',Help='La ventana de nómina de empleados es utilizada para definir los puestos en la estructura organizacional de la compañía',Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Window_ID=53035 AND AD_Language LIKE 'es_%'
 ;
 
 UPDATE AD_Window_Trl SET Name='Catálogo de Conceptos de Nómina',Description='Mantenimiento del catálogo de conceptos de nómina',Help='La ventana de catálogo de conceptos de nómina es utilizada para definir los conceptos para una nómina (por ejemplo salarios, devengados, bonificaciones y deducciones)',Updated=TO_TIMESTAMP('2009-08-10 16:10:33','YYYY-MM-DD HH24:MI:SS'),IsTranslated='Y' WHERE AD_Window_ID=53036 AND AD_Language LIKE 'es_%'
