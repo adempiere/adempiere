@@ -109,7 +109,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		to.setIsSOTrx(isSOTrx);
 		//
 		to.setDateInvoiced (dateDoc);
-		to.setDateAcct (dateDoc);
+		to.setDateAcct (from.getDateAcct());
 		to.setDatePrinted(null);
 		to.setIsPrinted (false);
 		//
