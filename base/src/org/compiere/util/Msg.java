@@ -347,7 +347,7 @@ public final class Msg
 	/**
 	 *	Get clear text for AD_Message with parameters
 	 *  @param  ctx Context to retrieve language
-	 *  @param AD_Message   Message yey
+	 *  @param AD_Message   Message key
 	 *  @param args         MessageFormat arguments
 	 *  @return translated text
 	 *  @see java.text.MessageFormat for formatting options
@@ -360,7 +360,7 @@ public final class Msg
 	/**
 	 *	Get clear text for AD_Message with parameters
 	 *  @param  language Language
-	 *  @param AD_Message   Message yey
+	 *  @param AD_Message   Message key
 	 *  @param args         MessageFormat arguments
 	 *  @return translated text
 	 *  @see java.text.MessageFormat for formatting options
@@ -373,7 +373,7 @@ public final class Msg
 	/**
 	 *	Get clear text for AD_Message with parameters
 	 *  @param ad_language  Language
-	 *  @param AD_Message   Message yey
+	 *  @param AD_Message   Message key
 	 *  @param args         MessageFormat arguments
 	 *  @return translated text
 	 *  @see java.text.MessageFormat for formatting options
