@@ -9,9 +9,9 @@ CREATE OR REPLACE VIEW RV_STORAGE
 AS 
 SELECT s.AD_Client_ID, s.AD_Org_ID,
     -- Product
-    s.M_Product_ID,p.Value,p.Name,p.Description,p.UPC,p.SKU,
-    p.C_UOM_ID,p.M_Product_Category_ID,p.Classification, p.Weight,p.Volume,p.VersionNo,
-    p.GuaranteeDays,p.GuaranteeDaysMin,
+    s.M_Product_ID, p.Value,p.Name, p.Description, p.UPC, p.SKU,
+    p.C_UOM_ID, p.M_Product_Category_ID, p.Classification, p.Weight, p.Volume, p.VersionNo,
+    p.GuaranteeDays, p.GuaranteeDaysMin,
     --  Locator
     s.M_Locator_ID, l.M_Warehouse_ID, l.X, l.Y, l.Z,
     -- Storage
@@ -22,7 +22,10 @@ SELECT s.AD_Client_ID, s.AD_Org_ID,
     asi.GuaranteeDate,  -- see PAttributeInstance.java
     daysBetween(asi.GuaranteeDate,getdate()) AS ShelfLifeDays,
     daysBetween(asi.GuaranteeDate,getdate())-p.GuaranteeDaysMin AS GoodForDays,
-    CASE WHEN COALESCE(p.GuaranteeDays,0)>0 THEN ROUND((daysBetween(asi.GuaranteeDate,getdate())/p.GuaranteeDays)*100,0) ELSE NULL END AS ShelfLifeRemainingPct
+    CASE WHEN COALESCE(p.GuaranteeDays,0)>0 
+      THEN ROUND((daysBetween(asi.GuaranteeDate,getdate())/p.GuaranteeDays)*100,0) 
+      ELSE NULL 
+    END AS ShelfLifeRemainingPct
 FROM M_Storage s
   INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)
   INNER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)

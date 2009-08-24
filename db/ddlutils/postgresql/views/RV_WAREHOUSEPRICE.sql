@@ -34,6 +34,3 @@ WHERE p.IsSummary='N' AND p.IsActive='Y' AND pr.IsActive='Y' AND w.IsActive='Y';
 --AND UPPER(p.Value) LIKE ? AND UPPER(p.Name) LIKE ? 
 --AND UPPER(p.UPC) LIKE ? AND UPPER(p.SKU) LIKE ? 
 --ORDER BY QtyAvailable DESC, Margin DESC;
-
-
-
