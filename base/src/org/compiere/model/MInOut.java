@@ -52,9 +52,9 @@ import org.compiere.util.Msg;
 public class MInOut extends X_M_InOut implements DocAction
 {
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = -1222763355238200128L;
+	private static final long serialVersionUID = 1925611141368881643L;
 
 
 	/**
@@ -167,7 +167,7 @@ public class MInOut extends X_M_InOut implements DocAction
 	 * 	@param setOrder set the order link
 	 *	@return Shipment
 	 */
-	public static MInOut copyFrom (MInOut from, Timestamp dateDoc,
+	public static MInOut copyFrom (MInOut from, Timestamp dateDoc, Timestamp dateAcct,
 		int C_DocType_ID, boolean isSOTrx, boolean counter, String trxName, boolean setOrder)
 	{
 		MInOut to = new MInOut (from.getCtx(), 0, null);
@@ -196,7 +196,7 @@ public class MInOut extends X_M_InOut implements DocAction
 
 		//
 		to.setDateOrdered (dateDoc);
-		to.setDateAcct (dateDoc);
+		to.setDateAcct (dateAcct);
 		to.setMovementDate(dateDoc);
 		to.setDatePrinted(null);
 		to.setIsPrinted (false);
@@ -263,6 +263,27 @@ public class MInOut extends X_M_InOut implements DocAction
 		return to;
 	}	//	copyFrom
 
+	/**
+	 *  @deprecated
+	 * 	Create new Shipment by copying
+	 * 	@param from shipment
+	 * 	@param dateDoc date of the document date
+	 * 	@param C_DocType_ID doc type
+	 * 	@param isSOTrx sales order
+	 * 	@param counter create counter links
+	 * 	@param trxName trx
+	 * 	@param setOrder set the order link
+	 *	@return Shipment
+	 */
+	public static MInOut copyFrom (MInOut from, Timestamp dateDoc,
+		int C_DocType_ID, boolean isSOTrx, boolean counter, String trxName, boolean setOrder)
+	{
+		MInOut to = copyFrom ( from, dateDoc, dateDoc,
+				C_DocType_ID, isSOTrx, counter,
+				trxName, setOrder);
+		return to;
+
+	}
 
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -1556,7 +1577,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		}
 
 		//	Deep Copy
-		MInOut dropShipment = copyFrom(this, getMovementDate(),
+		MInOut dropShipment = copyFrom(this, getMovementDate(), getDateAcct(),
 			C_DocTypeTarget_ID, !isSOTrx(), false, get_TrxName(), true);
 
 		int linkedOrderID = new MOrder (getCtx(), getC_Order_ID(), get_TrxName()).getLink_Order_ID();
@@ -1774,7 +1795,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		}
 
 		//	Deep Copy
-		MInOut counter = copyFrom(this, getMovementDate(),
+		MInOut counter = copyFrom(this, getMovementDate(), getDateAcct(),
 			C_DocTypeTarget_ID, !isSOTrx(), true, get_TrxName(), true);
 
 		//
@@ -1944,7 +1965,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		}
 
 		//	Deep Copy
-		MInOut reversal = copyFrom (this, getMovementDate(),
+		MInOut reversal = copyFrom (this, getMovementDate(), getDateAcct(),
 			getC_DocType_ID(), isSOTrx(), false, get_TrxName(), true);
 		if (reversal == null)
 		{

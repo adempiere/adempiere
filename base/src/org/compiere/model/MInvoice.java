@@ -57,11 +57,10 @@ import org.eevolution.model.MPPProductBOMLine;
  */
 public class MInvoice extends X_C_Invoice implements DocAction
 {
-
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = -11169828430680188L;
+	private static final long serialVersionUID = 5406556271212363271L;
 
 
 	/**
@@ -91,7 +90,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 * 	@param setOrder set Order links
 	 *	@return Invoice
 	 */
-	public static MInvoice copyFrom (MInvoice from, Timestamp dateDoc,  Timestamp dateAcct,
+	public static MInvoice copyFrom (MInvoice from, Timestamp dateDoc, Timestamp dateAcct,
 		int C_DocTypeTarget_ID, boolean isSOTrx, boolean counter,
 		String trxName, boolean setOrder)
 	{
@@ -165,7 +164,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	}
 	
 	/** 
-	 *  @Deprecated
+	 *  @deprecated
 	 * 	Create new Invoice by copying
 	 * 	@param from invoice
 	 * 	@param dateDoc date of the document date
