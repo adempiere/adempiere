@@ -84,6 +84,30 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	 * 	Create new Invoice by copying
 	 * 	@param from invoice
 	 * 	@param dateDoc date of the document date
+	 *  @param acctDate original account date 
+	 * 	@param C_DocTypeTarget_ID target doc type
+	 * 	@param isSOTrx sales order
+	 * 	@param counter create counter links
+	 * 	@param trxName trx
+	 * 	@param setOrder set Order links
+	 *	@return Invoice
+	 */
+	public static MInvoice copyFrom (MInvoice from, Timestamp dateDoc,  Timestamp dateAcct,
+		int C_DocTypeTarget_ID, boolean isSOTrx, boolean counter,
+		String trxName, boolean setOrder)
+	{	
+		MInvoice to = copyFrom ( from, dateDoc,
+				 C_DocTypeTarget_ID, isSOTrx, counter,
+				trxName, setOrder);
+		to.setDateAcct (dateAcct);
+		return to;	
+	}
+	
+	/** 
+	 *  @Deprecated
+	 * 	Create new Invoice by copying
+	 * 	@param from invoice
+	 * 	@param dateDoc date of the document date
 	 * 	@param C_DocTypeTarget_ID target doc type
 	 * 	@param isSOTrx sales order
 	 * 	@param counter create counter links
@@ -109,7 +133,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		to.setIsSOTrx(isSOTrx);
 		//
 		to.setDateInvoiced (dateDoc);
-		to.setDateAcct (from.getDateAcct());
+		to.setDateAcct (dateDoc);
 		to.setDatePrinted(null);
 		to.setIsPrinted (false);
 		//
@@ -1879,7 +1903,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		}
 
 		//	Deep Copy
-		MInvoice counter = copyFrom(this, getDateInvoiced(),
+		MInvoice counter = copyFrom(this, getDateInvoiced(), getDateAcct(),
 			C_DocTypeTarget_ID, !isSOTrx(), true, get_TrxName(), true);
 		//
 		counter.setAD_Org_ID(counterAD_Org_ID);
@@ -2055,7 +2079,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		load(get_TrxName());	//	reload allocation reversal info
 
 		//	Deep Copy
-		MInvoice reversal = copyFrom (this, getDateInvoiced(),
+		MInvoice reversal = copyFrom (this, getDateInvoiced(), getDateAcct(),
 			getC_DocType_ID(), isSOTrx(), false, get_TrxName(), true);
 		if (reversal == null)
 		{

@@ -107,7 +107,7 @@ public class MRecurring extends X_C_Recurring
 		else if (getRecurringType().equals(MRecurring.RECURRINGTYPE_Invoice))
 		{
 			MInvoice from = new MInvoice (getCtx(), getC_Invoice_ID(), get_TrxName());
-			MInvoice invoice = MInvoice.copyFrom (from, dateDoc, 
+			MInvoice invoice = MInvoice.copyFrom (from, dateDoc, dateDoc,
 				from.getC_DocType_ID(), from.isSOTrx(), false, get_TrxName(), false);
 			run.setC_Invoice_ID(invoice.getC_Invoice_ID());
 			msg += invoice.getDocumentNo();
