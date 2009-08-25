@@ -481,7 +481,11 @@ public class RequisitionPOCreate extends SvrProcess
 	 */
 	private boolean isGenerateForVendor(int C_BPartner_ID)
 	{
-		if (p_C_BP_Group_ID <= 0 && m_excludedVendors.contains(C_BPartner_ID))
+		// No filter group was set => generate for all vendors
+		if (p_C_BP_Group_ID <= 0)
+			return true;
+		
+		if (m_excludedVendors.contains(C_BPartner_ID))
 			return false;
 		//
 		boolean match = new Query(getCtx(), MBPartner.Table_Name, "C_BPartner_ID=? AND C_BP_Group_ID=?", get_TrxName())
