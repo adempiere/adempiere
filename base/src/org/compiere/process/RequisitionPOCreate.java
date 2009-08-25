@@ -19,6 +19,7 @@ package org.compiere.process;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.NoVendorForProductException;
@@ -49,6 +50,8 @@ import org.compiere.util.Msg;
  *  		<li>BF [ 2605888 ] CreatePOfromRequisition creates more PO than needed
  *  		<li>BF [ 2811718 ] Create PO from Requsition without any parameter teminate in NPE
  *  			http://sourceforge.net/tracker/?func=detail&atid=879332&aid=2811718&group_id=176962
+ *  		<li>FR [ 2844074  ] Requisition PO Create - more selection fields
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2844074&group_id=176962&atid=879335
  */
 public class RequisitionPOCreate extends SvrProcess
 {
@@ -70,6 +73,10 @@ public class RequisitionPOCreate extends SvrProcess
 	private int			p_AD_User_ID = 0;
 	/** Product				*/
 	private int			p_M_Product_ID = 0;
+	/** Product	Category	*/
+	private int			p_M_Product_Category_ID = 0;
+	/** BPartner Group	*/
+	private int			p_C_BP_Group_ID = 0;
 	/** Requisition			*/
 	private int 		p_M_Requisition_ID = 0;
 
@@ -114,6 +121,10 @@ public class RequisitionPOCreate extends SvrProcess
 				p_AD_User_ID = para[i].getParameterAsInt();
 			else if (name.equals("M_Product_ID"))
 				p_M_Product_ID = para[i].getParameterAsInt();
+			else if (name.equals("M_Product_Category_ID"))
+				p_M_Product_Category_ID = para[i].getParameterAsInt();
+			else if (name.equals("C_BP_Group_ID"))
+				p_C_BP_Group_ID = para[i].getParameterAsInt();
 			else if (name.equals("M_Requisition_ID"))
 				p_M_Requisition_ID = para[i].getParameterAsInt();
 			else if (name.equals("ConsolidateDocument"))
@@ -163,21 +174,38 @@ public class RequisitionPOCreate extends SvrProcess
 		
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer("C_OrderLine_ID IS NULL");
-		if (p_AD_Org_ID != 0)
+		if (p_AD_Org_ID > 0)
 		{
 			whereClause.append(" AND AD_Org_ID=?");
 			params.add(p_AD_Org_ID);
 		}
-		if (p_M_Product_ID != 0)
+		if (p_M_Product_ID > 0)
 		{
 			whereClause.append(" AND M_Product_ID=?");
 			params.add(p_M_Product_ID);
 		}
+		else if (p_M_Product_Category_ID > 0)
+		{
+			whereClause.append(" AND EXISTS (SELECT 1 FROM M_Product p WHERE M_RequisitionLine.M_Product_ID=p.M_Product_ID")
+				.append(" AND p.M_Product_Category_ID=?)");
+			params.add(p_M_Product_Category_ID);
+		}
+		
+		if (p_C_BP_Group_ID > 0)
+		{
+			whereClause.append(" AND (")
+			.append("M_RequisitionLine.C_BPartner_ID IS NULL")
+			.append(" OR EXISTS (SELECT 1 FROM C_BPartner bp WHERE M_RequisitionLine.C_BPartner_ID=bp.C_BPartner_ID AND bp.C_BP_Group_ID=?)")
+			.append(")");
+			params.add(p_C_BP_Group_ID);
+		}
+		
 		//
 		//	Requisition Header
 		whereClause.append(" AND EXISTS (SELECT 1 FROM M_Requisition r WHERE M_RequisitionLine.M_Requisition_ID=r.M_Requisition_ID")
-			.append(" AND r.DocStatus='CO'");
-		if (p_M_Warehouse_ID != 0)
+			.append(" AND r.DocStatus=?");
+		params.add(MRequisition.DOCSTATUS_Completed);
+		if (p_M_Warehouse_ID > 0)
 		{
 			whereClause.append(" AND r.M_Warehouse_ID=?");
 			params.add(p_M_Warehouse_ID);
@@ -207,7 +235,7 @@ public class RequisitionPOCreate extends SvrProcess
 			whereClause.append(" AND r.PriorityRule => ?");
 			params.add(p_PriorityRule);
 		}
-		if (p_AD_User_ID != 0)
+		if (p_AD_User_ID > 0)
 		{
 			whereClause.append(" AND r.AD_User_ID=?");
 			params.add(p_AD_User_ID);
@@ -277,6 +305,9 @@ public class RequisitionPOCreate extends SvrProcess
 			)
 		{
 			newLine(rLine);
+			// No Order Line was produced (vendor was not valid/allowed) => SKIP
+			if (m_orderLine == null)
+				return;
 		}
 
 		//	Update Order Line
@@ -405,6 +436,12 @@ public class RequisitionPOCreate extends SvrProcess
 				throw new NoVendorForProductException(product.getName());
 			}
 		}
+		
+		if (!isGenerateForVendor(C_BPartner_ID))
+		{
+			log.info("Skip for partner "+C_BPartner_ID);
+			return;
+		}
 
 		//	New Order - Different Vendor
 		if (m_order == null 
@@ -436,5 +473,26 @@ public class RequisitionPOCreate extends SvrProcess
 		m_M_AttributeSetInstance_ID = rLine.getM_AttributeSetInstance_ID();
 		m_orderLine.saveEx();
 	}	//	newLine
+
+	/**
+	 * Do we need to generate Purchase Orders for given Vendor 
+	 * @param C_BPartner_ID
+	 * @return true if it's allowed
+	 */
+	private boolean isGenerateForVendor(int C_BPartner_ID)
+	{
+		if (p_C_BP_Group_ID <= 0 && m_excludedVendors.contains(C_BPartner_ID))
+			return false;
+		//
+		boolean match = new Query(getCtx(), MBPartner.Table_Name, "C_BPartner_ID=? AND C_BP_Group_ID=?", get_TrxName())
+		.setParameters(new Object[]{C_BPartner_ID, p_C_BP_Group_ID})
+		.match();
+		if (!match)
+		{
+			m_excludedVendors.add(C_BPartner_ID);
+		}
+		return match;
+	}
+	private List<Integer> m_excludedVendors = new ArrayList<Integer>();
 	
 }	//	RequisitionPOCreate
