@@ -43,6 +43,7 @@ import org.compiere.apps.AMenuStartItem;
 import org.compiere.apps.AWindow;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
+import org.compiere.grid.ed.AutoCompletion;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
@@ -68,6 +69,8 @@ import org.compiere.wf.MWorkflow;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 				<li>FR [ 2048081 ] Mf. Workflow editor should display only mf. workflows
+ * 				<li>BF [ 2844102 ] Workfow Editor is displaying manufacturing routings too
+ * 					https://sourceforge.net/tracker/?func=detail&aid=2844102&group_id=176962&atid=879332
  */
 public class WFPanel extends CPanel
 	implements PropertyChangeListener, ActionListener, FormPanel
@@ -76,6 +79,13 @@ public class WFPanel extends CPanel
 	 * 
 	 */
 	private static final long serialVersionUID = 4478193785606693055L;
+	
+	/** Workflow WhereClause : General, Document Process, Document Value */
+	private static final String WORKFLOW_WhereClause = "WorkflowType IN ("
+		+DB.TO_STRING(MWorkflow.WORKFLOWTYPE_General)
+		+","+DB.TO_STRING(MWorkflow.WORKFLOWTYPE_DocumentProcess)
+		+","+DB.TO_STRING(MWorkflow.WORKFLOWTYPE_DocumentValue)
+		+")";
 
 
 	/**
@@ -84,7 +94,7 @@ public class WFPanel extends CPanel
 	 */
 	public WFPanel()
 	{
-		this (null, null, -1);
+		this (null, WORKFLOW_WhereClause, -1);
 	}	//	WFPanel
 
 	/**
@@ -93,7 +103,7 @@ public class WFPanel extends CPanel
 	 */
 	public WFPanel (AMenu menu)
 	{
-		this(menu, null, -1);
+		this(menu, WORKFLOW_WhereClause, -1);
 	}
 
 	/**
@@ -268,6 +278,7 @@ public class WFPanel extends CPanel
 		KeyNamePair[] pp = DB.getKeyNamePairs(sql, true);
 		//
 		workflow = new CComboBox(pp);
+		AutoCompletion.enable(workflow);
 		loadPanel.add(workflow);
 		workflow.addActionListener(this);
 		//
