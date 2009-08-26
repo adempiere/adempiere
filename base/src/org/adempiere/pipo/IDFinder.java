@@ -398,4 +398,9 @@ public class IDFinder {
 		
 		return id;
 	}
+	
+	public static void clearIDCache() {
+		idCache.clear();
+	}
+	
 }

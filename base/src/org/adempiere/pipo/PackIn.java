@@ -156,6 +156,9 @@ public class PackIn extends SvrProcess {
 		X_AD_Package_Imp_Proc adPackageImp = new X_AD_Package_Imp_Proc(getCtx(),
 				p_PackIn_ID, null);
 
+		// clear cache of previous runs
+		IDFinder.clearIDCache();
+
 		// Create Target directory if required
 		String packageDirectory = adPackageImp.getAD_Package_Dir();
 		if (packageDirectory == null || packageDirectory.trim().length() == 0) {
