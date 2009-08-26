@@ -570,7 +570,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 	 */
 	private void checkMaterialPolicy(MInventoryLine line, BigDecimal qtyDiff)
 	{
-		int no = MInventoryLineMA.deleteInventoryMA(line.getM_InventoryLine_ID(), get_TrxName());
+		int no = MInventoryLineMA.deleteInventoryLineMA(line.getM_InventoryLine_ID(), get_TrxName());
 		if (no > 0)
 			log.config("Delete old #" + no);
 

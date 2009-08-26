@@ -83,7 +83,21 @@ public class MInventoryLineMA extends X_M_InventoryLineMA
 	 *	@param trxName transaction
 	 *	@return number of rows deleted or -1 for error
 	 */
-	public static int deleteInventoryMA (int M_InventoryLine_ID, String trxName)
+	public static int deleteInventoryMA (int M_Inventory_ID, String trxName)
+	{
+		String sql = "DELETE FROM M_InventoryLineMA ma WHERE EXISTS "
+			+ "(SELECT * FROM M_InventoryLine l WHERE l.M_InventoryLine_ID=ma.M_InventoryLine_ID"
+			+ " AND M_Inventory_ID=" + M_Inventory_ID + ")";
+		return DB.executeUpdate(sql, trxName);
+	}	//	deleteInventoryMA
+
+	/**
+	 * 	Delete all Material Allocation for Inventory
+	 *	@param M_InventoryLine_ID inventory
+	 *	@param trxName transaction
+	 *	@return number of rows deleted or -1 for error
+	 */
+	public static int deleteInventoryLineMA (int M_InventoryLine_ID, String trxName)
 	{
 		String sql = "DELETE FROM M_InventoryLineMA ma WHERE EXISTS "
 			+ "(SELECT * FROM M_InventoryLine l WHERE l.M_InventoryLine_ID=ma.M_InventoryLine_ID"
