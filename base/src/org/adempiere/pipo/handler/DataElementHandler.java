@@ -283,7 +283,12 @@ public class DataElementHandler extends AbstractElementHandler {
 						// globalqss - bring support from XML2AD to lookupname
 						String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
 						genericPO.set_ValueOfColumn(atts.getValue("name"), new Integer(getIDbyName(ctx, m_tablename, atts.getValue("lookupname"))));
+					} else if (atts.getValue("lookupvalue") != null && !"".equals(atts.getValue("lookupvalue"))) {
+						// globalqss - bring support from XML2AD to lookupvalue
+						String m_tablename = atts.getValue("name").substring(0, atts.getValue("name").length()-3);
+						genericPO.set_ValueOfColumn(atts.getValue("name"), new Integer(getIDbyValue(ctx, m_tablename, atts.getValue("lookupvalue"))));
 					}
+
 				}
 			}
 		}

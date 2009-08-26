@@ -343,21 +343,22 @@ public class IDFinder {
 	}
 
 	/**
-	 * Get ID from Name for a table.
+	 * Get ID from Column for a table.
 	 * TODO: substitute with PO.getAllIDs
 	 *
 	 * @param tableName
+	 * @param column
 	 * @param name
 	 * @param AD_Client_ID
 	 * @param trxName
 	 */
-	public static int getIDbyName (String tableName, String name, int AD_Client_ID, String trxName) {
+	public static int getIDbyColumn (String tableName, String column, String name, int AD_Client_ID, String trxName) {
 		int id = 0;
 		
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
-			.append(".Name=")
+			.append("."+column+"=")
 			.append(name);
 		if (!tableName.startsWith("AD_"))
 			key.append(" AND AD_Client_ID=").append(AD_Client_ID);
@@ -372,7 +373,7 @@ public class IDFinder {
 			.append("FROM ")
 			.append(tableName)
 			.append(" ")
-			.append("WHERE name=?");
+			.append("WHERE "+column+"=?");
 		if (!tableName.startsWith("AD_"))
 			sql.append(" AND AD_Client_ID=?");
 		try {
@@ -388,7 +389,7 @@ public class IDFinder {
 			pstmt = null;
 		}
 		catch (Exception e) {
-			log.log(Level.SEVERE, "getIDbyName:"+e);
+			log.log(Level.SEVERE, "getIDbyColumn:"+e);
 			throw new DatabaseAccessException(e);
 		}
 		
@@ -398,6 +399,15 @@ public class IDFinder {
 		
 		return id;
 	}
+
+	public static int getIDbyName (String tableName, String name, int AD_Client_ID, String trxName) {
+		return getIDbyColumn(tableName, "Name", name, AD_Client_ID, trxName);
+	}
+
+	public static int getIDbyValue (String tableName, String name, int AD_Client_ID, String trxName) {
+		return getIDbyColumn(tableName, "Value", name, AD_Client_ID, trxName);
+	}
+
 	
 	public static void clearIDCache() {
 		idCache.clear();

@@ -167,6 +167,17 @@ public abstract class AbstractElementHandler implements ElementHandler {
 		return IDFinder.getIDbyName(tableName, name, getClientId(ctx), getTrxName(ctx));
 	}
 	
+	/**
+	 * Get ID from Value for a table.
+	 * TODO: substitute with PO.getAllIDs
+	 *
+	 * @param tableName
+	 * @param name
+	 */
+	public int getIDbyValue (Properties ctx, String tableName, String value) {
+		return IDFinder.getIDbyValue(tableName, value, getClientId(ctx), getTrxName(ctx));
+	}
+	
     /**
      *	Make backup copy of record.
      *
