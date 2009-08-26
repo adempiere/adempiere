@@ -645,7 +645,7 @@
  </row>
  <row id="288" trl="Y">
   <value column="Name" original="Cash Journal Detail">Kassenjournal-Details</value>
-  <value column="Description" original="Detail Cash Journal Information">Kassenjournal- Detailinformation</value>
+  <value column="Description" original="Detail Cash Journal Information">Kassenjournal-Detailinformation</value>
  </row>
  <row id="289" trl="Y">
   <value column="Name" original="Database export">Datenbank exportieren</value>
@@ -1700,7 +1700,7 @@
   <value column="Description" original="Maintain Performance Ratios">Verwalten von Krgebnis-Kennzahlen</value>
  </row>
  <row id="559" trl="Y">
-  <value column="Name" original="Issue Recommendation">Problemlösungs- Empfehlung</value>
+  <value column="Name" original="Issue Recommendation">Problemlösungs-Empfehlung</value>
   <value column="Description" original="Maintain Issue Recommendation">Problemlösungs-Empfehlungen verwalten</value>
  </row>
  <row id="560" trl="Y">

@@ -2054,7 +2054,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="612" trl="Y">
-  <value column="MsgText" original="&amp;Warehouse">Lager:</value>
+  <value column="MsgText" original="&amp;Warehouse">Lager</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="613" trl="Y">
@@ -3174,7 +3174,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="50014" trl="Y">
-  <value column="MsgText" original="A loop in the product category tree has been detected - the old value will be restored">Im Produktkategorie-Baum wurde eine Schleife entdeckt - der alte Wert wird wieder hergestllt.</value>
+  <value column="MsgText" original="A loop in the product category tree has been detected - the old value will be restored">Im Produktkategorie-Baum wurde eine Schleife entdeckt - der alte Wert wird wieder hergestellt.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="50015" trl="Y">

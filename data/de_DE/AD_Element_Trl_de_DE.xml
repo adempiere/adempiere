@@ -4582,8 +4582,8 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="Help" original="The Shipment/Receipt Line indicates a unique line in a Shipment/Receipt document">"Versand-/Wareneingangsposition" bezeichnet eine einzelne Zeile/Position auf einem Versand- oder Wareneingangsbeleg.</value>
   <value column="PO_Description" original="Line on Receipt document">Position auf Wareneingangsbeleg</value>
   <value column="PO_Help" original=""/>
-  <value column="PO_Name" original="Receipt Line">Wareneingangs- Position</value>
-  <value column="PO_PrintName" original="Receipt Line">Wareneingangs- Position</value>
+  <value column="PO_Name" original="Receipt Line">Wareneingangs-Position</value>
+  <value column="PO_PrintName" original="Receipt Line">Wareneingangs-Position</value>
  </row>
  <row id="1027" trl="Y">
   <value column="Name" original="Phys.Inventory">Inventur</value>
@@ -4626,8 +4626,8 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1031" trl="Y">
-  <value column="Name" original="Move Line">Warenbewegungs- Position</value>
-  <value column="PrintName" original="Move Line">Warenbewegungs- Position</value>
+  <value column="Name" original="Move Line">Warenbewegungs-Position</value>
+  <value column="PrintName" original="Move Line">Warenbewegungs-Position</value>
   <value column="Description" original="Inventory Move document Line">Eindeutige Position in einem Warenbewegungsdokument</value>
   <value column="Help" original="The Movement Line indicates the inventory movement document line (if applicable) for this transaction">"Warenbewegungs-Position" bezeichnet die Poition in dem Warenbewegungsdokument (wenn zutreffend) für diese Transaktion.</value>
   <value column="PO_Description" original=""/>
@@ -4696,8 +4696,8 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1042" trl="Y">
-  <value column="Name" original="Product Asset">Produkt-Asset</value>
-  <value column="PrintName" original="Product Asset">Produkt-Asset</value>
+  <value column="Name" original="Product Asset">Produkt-Bestand</value>
+  <value column="PrintName" original="Product Asset">Produkt-Bestand</value>
   <value column="Description" original="Account for Product Asset (Inventory)">Konto für Produkt-Asset (Bestand)</value>
   <value column="Help" original="The Product Asset Account indicates the account used for valuing this a product in inventory.">"Produkt-Asset" bezeichnet das Konto für die Bewertung eines Produktes im Bestand.</value>
   <value column="PO_Description" original=""/>
@@ -6364,7 +6364,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1308" trl="Y">
   <value column="Name" original="Posted">Verbucht</value>
   <value column="PrintName" original="Posted">Verbucht</value>
-  <value column="Description" original="Posting status">Posting status</value>
+  <value column="Description" original="Posting status">Buchungsstatus</value>
   <value column="Help" original="The Posted field indicates the status of the Generation of General Ledger Accounting Lines ">The Posted field indicates the status of the Generation of General Ledger Accounting Lines </value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -7164,7 +7164,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1418" trl="Y">
   <value column="Name" original="Proxy address">Proxy-Adresse</value>
   <value column="PrintName" original="Proxy address">Proxy-Adresse</value>
-  <value column="Description" original=" Address of your proxy server">Addresse Ihres Proxy-Servers</value>
+  <value column="Description" original=" Address of your proxy server">Adresse Ihres Proxy-Servers</value>
   <value column="Help" original="The Proxy Address must be defined if you must pass through a firewall to access your payment processor. ">"Proxy-Adresse" muss angegeben sein, wenn Sie für den Zahlungsprozessor eine Firewall passieren müssen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -7212,10 +7212,10 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1423" trl="Y">
-  <value column="Name" original="Address verified">Addresse verifiziert</value>
-  <value column="PrintName" original="Address verified">Addresse verifiziert</value>
+  <value column="Name" original="Address verified">Adresse verifiziert</value>
+  <value column="PrintName" original="Address verified">Adresse verifiziert</value>
   <value column="Description" original="This address has been verified">Diese Adresse wurde verifiziert</value>
-  <value column="Help" original="The Address Verified indicates if the address has been verified by the Credit Card Company.">"Addresse verifiziert" zeigt an, dass diese Adresse durch die Kreditkartenfirma bestätigt wurde.</value>
+  <value column="Help" original="The Address Verified indicates if the address has been verified by the Credit Card Company.">"Adresse verifiziert" zeigt an, dass diese Adresse durch die Kreditkartenfirma bestätigt wurde.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -8092,9 +8092,9 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1533" trl="Y">
-  <value column="Name" original="Payment Selection Line">Zahlungsauswahl- Position</value>
-  <value column="PrintName" original="Payment Selection Line">Zahlungsauswahl- Position</value>
-  <value column="Description" original="Payment Selection Line">Zahlungsauswahl- Position</value>
+  <value column="Name" original="Payment Selection Line">Zahlungsauswahl-Position</value>
+  <value column="PrintName" original="Payment Selection Line">Zahlungsauswahl-Position</value>
+  <value column="Description" original="Payment Selection Line">Zahlungsauswahl-Position</value>
   <value column="Help" original="The Payment Selection Line identifies a unique line in a payment">The Payment Selection Line identifies a unique line in a payment</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -12979,8 +12979,8 @@ If none is entered, the default printer is used. You specify your default printe
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2072" trl="Y">
-  <value column="Name" original="Org Assignment">Organisations- Zuordnung</value>
-  <value column="PrintName" original="Org Assignment">Organisations- Zuordnung</value>
+  <value column="Name" original="Org Assignment">Organisations-Zuordnung</value>
+  <value column="PrintName" original="Org Assignment">Organisations-Zuordnung</value>
   <value column="Description" original="Assigment to (transaction) Organization">Zuordnung zur (Vorgangs-) Organisation</value>
   <value column="Help" original="Assignment to the transacation organization (cost center).">Zuordnung zur Organisation der Transaktion (Cost-Center).</value>
   <value column="PO_Description" original=""/>
@@ -13102,7 +13102,7 @@ If none is entered, the default printer is used. You specify your default printe
  <row id="2087" trl="Y">
   <value column="Name" original="Alert">Alarmierung</value>
   <value column="PrintName" original="Alert">Alarmierung</value>
-  <value column="Description" original="Adempiere Alert">Adempiere- Alarmierung</value>
+  <value column="Description" original="Adempiere Alert">Adempiere-Alarmierung</value>
   <value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of">Adempiere Alerts allow you define system conditions you want to be alerted of</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -16490,8 +16490,8 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2448" trl="Y">
-  <value column="Name" original="Alert Recipient">Alarmierungs- Empfänger</value>
-  <value column="PrintName" original="Alert Recipient">Alarmierungs- Empfänger</value>
+  <value column="Name" original="Alert Recipient">Alarmierungs-Empfänger</value>
+  <value column="PrintName" original="Alert Recipient">Alarmierungs-Empfänger</value>
   <value column="Description" original="Recipient of the Alert Notification">Recipient of the Alert Notification</value>
   <value column="Help" original="You can send the notifications to users or roles">You can send the notifications to users or roles</value>
   <value column="PO_Description" original=""/>
@@ -19490,8 +19490,8 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2762" trl="Y">
-  <value column="Name" original="Position Category">Positions- Kategorie</value>
-  <value column="PrintName" original="Position Category">Positions- Kategorie</value>
+  <value column="Name" original="Position Category">Positions-Kategorie</value>
+  <value column="PrintName" original="Position Category">Positions-Kategorie</value>
   <value column="Description" original="Job Position Category">Job Position Category</value>
   <value column="Help" original="Classification of Job Positions">Classification of Job Positions</value>
   <value column="PO_Description" original=""/>
@@ -19700,8 +19700,8 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2786" trl="Y">
-  <value column="Name" original="BOM Component">Stücklisten- Komponente</value>
-  <value column="PrintName" original="BOM Component">Stücklisten- Komponente</value>
+  <value column="Name" original="BOM Component">Stücklisten-Komponente</value>
+  <value column="PrintName" original="BOM Component">Stücklisten-Komponente</value>
   <value column="Description" original="Bill of Material Component (Product)">Bill of Material Component (Product)</value>
   <value column="Help" original="The Bill of Material Compoment determines what products, services and outside processing is included in producing the Product. It references the operation and determines it's sequence.">The Bill of Material Compoment determines what products, services and outside processing is included in producing the Product. It references the operation and determines it's sequence.</value>
   <value column="PO_Description" original=""/>
@@ -20568,7 +20568,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="2875" trl="Y">
   <value column="Name" original="Fund Restriction">Fund Restriction</value>
   <value column="PrintName" original="Fund Restriction">Fund Restriction</value>
-  <value column="Description" original="Restriction of Funds">Finanzmittel- Restriktion</value>
+  <value column="Description" original="Restriction of Funds">Finanzmittel-Restriktion</value>
   <value column="Help" original="If defined, you can use the fund only for the accounts selected.">If defined, you can use the fund only for the accounts selected.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -21262,8 +21262,8 @@ Time represents a values at a given time (e.g. Invoice Amount on 1/1) - History 
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2948" trl="Y">
-  <value column="Name" original="Issue Recommendation">Problemlösungs- Empfehlung</value>
-  <value column="PrintName" original="Issue Recommendation">Problemlösungs- Empfehlung</value>
+  <value column="Name" original="Issue Recommendation">Problemlösungs-Empfehlung</value>
+  <value column="PrintName" original="Issue Recommendation">Problemlösungs-Empfehlung</value>
   <value column="Description" original="Recommendations how to fix an Issue">Recommendations how to fix an Issue</value>
   <value column="Help" original="Recommendations how to fix an Issue">Recommendations how to fix an Issue</value>
   <value column="PO_Description" original=""/>

@@ -15,7 +15,7 @@
  <row id="103" trl="Y">
   <value column="Name" original="Create Price List ">Preisliste erstellen </value>
   <value column="Description" original="Create Prices based on parameters of this version">Preisliste für diese Version erstellen</value>
-  <value column="Help" original="Create Prices for this pricelist version in the sequence of the Discount Schema Price List.&#10;Lines with a higher sequence overwrite existing prices.  The sequence should be from generic to specific.">Preise für die Preislisten-Version in Reihenfolge der Rabattschema-Preisliste erstellen. Zeilen mit einer höheren Folge überschreiben existierende Preise. Die Reihenfolge sollte von allgemein zu spezifisch sein..</value>
+  <value column="Help" original="Create Prices for this pricelist version in the sequence of the Discount Schema Price List.&#10;Lines with a higher sequence overwrite existing prices.  The sequence should be from generic to specific.">Preise für die Preislisten-Version in Reihenfolge der Rabattschema-Preisliste erstellen. Zeilen mit einer höheren Folge überschreiben existierende Preise. Die Reihenfolge sollte von allgemein zu spezifisch sein.</value>
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Process Order">Auftrag verarbeiten</value>
@@ -30,8 +30,7 @@
  <row id="106" trl="Y">
   <value column="Name" original="Update Quantity">Bestand aktualisieren </value>
   <value column="Description" original="The Book Quantity is updated with current book quantity">Die Buchmenge wird mit der derzeitigen Buchmenge aktualisiert</value>
-  <value column="Help" original="The Update Quantity Process will update the book quantity with the current book quantity.  ">Der Prozess "Bestand aktualisieren" aktualisiert die Buchmenge mit der derzeitigen Buchmenge
-</value>
+  <value column="Help" original="The Update Quantity Process will update the book quantity with the current book quantity.  ">Der Prozess "Bestand aktualisieren" aktualisiert die Buchmenge mit der derzeitigen Buchmenge.</value>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Process Inventory Count ">Bestandsliste verarbeiten</value>
@@ -320,7 +319,7 @@
  </row>
  <row id="170" trl="Y">
   <value column="Name" original="Cash Journal Detail">Kassenjournal-Details</value>
-  <value column="Description" original="Detail Cash Journal Information">Kassenjournal- Detailinformation</value>
+  <value column="Description" original="Detail Cash Journal Information">Kassenjournal-Detailinformation</value>
   <value column="Help" original=""/>
  </row>
  <row id="171" trl="Y">
@@ -372,7 +371,7 @@
   <value column="Name" original="Standard Cost Update">Produktkosten aktualisieren</value>
   <value column="Description" original="Set standard and future cost price">Setzt zukünftige Kostenpreise und Standard-Kostenpreise</value>
   <value column="Help" original="For Standard Costs you can set/recalculate the current or future cost price (for the cost type of the accounting schema). If the Costing Level of the Accounting Schema is set to Client, missing cost records are created. The historical costs are calculated based on the accumulated amount/quantity of the costing method.">Für Standardkosten können Sie
- den gegenwärtigen oder zukünftigen Kostenpreis setzen oder neu berechnen (für die Kostenkategorie des Buchführungsschemas). Wenn die Kostenebene des Buchführungsschemas auf "Mandant" gesetzt ist, werden fehlendeKosteneinträge erstellt. Die historischen Kosten werden basierend auf den akkumulierten Beträgen/Mengen der Kostenrechnungsmetode.</value>
+ den gegenwärtigen oder zukünftigen Kostenpreis setzen oder neu berechnen (für die Kostenkategorie des Buchführungsschemas). Wenn die Kostenebene des Buchführungsschemas auf "Mandant" gesetzt ist, werden fehlende Kosteneinträge erstellt. Die historischen Kosten werden basierend auf den akkumulierten Beträgen/Mengen der Kostenrechnungsmetode berechnet.</value>
  </row>
  <row id="183" trl="Y">
   <value column="Name" original="Product Costing Report (old)">Bericht zu Produktkosten (alt)</value>
@@ -1148,7 +1147,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
  <row id="334" trl="Y">
   <value column="Name" original="Business Partner Detail">Details Geschäftspartner</value>
   <value column="Description" original="Business Partner Detail Report">Bericht zu Geschäftspartnerdetails</value>
-  <value column="Help" original="The report list details of Business Partner, Addresses and Contacts for any active Business Partner with an Address and Contact">Dieser Bericht listet Details aller Geschäftspartner, Addressen und Kontacte für jeden aktiven Geschäftspartner mit Adresse und Kontakt.</value>
+  <value column="Help" original="The report list details of Business Partner, Addresses and Contacts for any active Business Partner with an Address and Contact">Dieser Bericht listet Details aller Geschäftspartner, Adressen und Kontakte für jeden aktiven Geschäftspartner mit Adresse und Kontakt.</value>
  </row>
  <row id="335" trl="Y">
   <value column="Name" original="Create Costing Records">Kosteneinträge generieren</value>

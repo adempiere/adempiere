@@ -117,7 +117,7 @@
   <value column="Help" original="Define the role and add the client and organizations the role has access to. You can give users access to this role and modify the access of this role to windows, forms, processes and reports as well as tasks. &lt;br&gt;&#10;If the Role User Level is Manual, the assigned acces rights are not automatically updated (e.g. if a role has a restricted number of Windows/Processes it can access). You need to add organizational access unless the role has access to all organizations. The SuperUser and the user creating a new role are assigned to the role automatically.  &lt;br&gt;&#10;If you select an Organization Tree, the user has access to the leaves of  summary organizations.&#10;Note: You cannot change the System Administrator role.">Definieren Sie eine Rolle und fügen Sie Mandanten und Organisationen hinzu, auf die die Rolle Zugriff hat. Sie können Nutzer dieser Rolle zuordnen und den Zugriff dieser Rolle auf Fenster, nicht dynamische Fenster, Prozesse, Berichte und Aufgaben modifizieren. &lt;br&gt; Wenn Sie für die Nutzer-Ebene "Manuell" selektiert haben, werden die Zugriffsrechte nicht automatisch aktualisiert (z.B. wenn eine Rolle nur auf eine begrenzte Auswahl von Fenstern/Prozessen Zugriff hat). Sie müssen Organisationsberechtigungen hinzufügen, es sei denn, die Rolle hat Zugriff auf alle Organisationen. Der SuperUser und der Nutzer, der eine neue Rolle anlegt, werden der Rolle automatisch zugeordnet. &lt;br&gt; Wenn Sie einen "Primärbaum Organisation" auswählen, hat der Nutzer Zugriff auf die Knoten von Zusammenfassungsorganisationen. Anmerkung:Sie können die Rolle "System-Administrator" nicht ändern.</value>
  </row>
  <row id="120" trl="Y">
-  <value column="Name" original="User Assignment">Nutzer- Zuordnung</value>
+  <value column="Name" original="User Assignment">Nutzer-Zuordnung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Users with this Role">Nutzer mit dieser Rolle</value>
   <value column="Help" original="The User Assignment Tab displays Users who have been defined for this Role.">Das Register "Nutzer-Zuordnung" zeigt die Nutzer mit dieser Rolle an.</value>
@@ -325,16 +325,16 @@ If the Control Amount is not zero, it is compared to the Total Debit Amount. The
   <value column="Help" original="The Document Definition Tab defines the processing parameters and controls for the document.  Note that shipments for automatic documents like POS/Warehouse Orders cannot have confirmations!">The Document Definition Tab defines the processing parameters and controls for the document.  Note that shipments for automatic documents like POS/Warehouse Orders cannot have confirmations!</value>
  </row>
  <row id="169" trl="Y">
-  <value column="Name" original="Client Info">Mandanten- Daten</value>
+  <value column="Name" original="Client Info">Mandanten-Daten</value>
   <value column="CommitWarning" original="You need re-login and restart your application server for most changes made here to be effective.">Sie müssen sich ab- und anmelden und die Anwendung neu starten, damit die meisten Änderungen gültig werden.</value>
-  <value column="Description" original="Client Info">Mandanten- Daten</value>
+  <value column="Description" original="Client Info">Mandanten-Daten</value>
   <value column="Help" original="The Client Info Tab defines the details for each client.  The accounting rules and high level defaults are defined here. The Calendar is used to determine if a period is open or closed.">The Client Info Tab defines the details for each client.  The accounting rules and high level defaults are defined here. The Calendar is used to determine if a period is open or closed.</value>
  </row>
  <row id="170" trl="Y">
-  <value column="Name" original="Organization Info">Organisations- Daten</value>
+  <value column="Name" original="Organization Info">Organisations-Daten</value>
   <value column="CommitWarning" original="You need re-login and restart your application server for most changes made here to be effective.&#10;">Sie müssen sich ab- und anmelden und die Anwendung neu starten, damit die meisten Änderungen gültig werden.</value>
   <value column="Description" original="Organization Detail Information">Organisations-Details</value>
-  <value column="Help" original="The Organization Info Tab is used to define an Organization's address, DUNS number and Tax Identification number">Das Register "Organizations-daten" dient zur Definition von Adresse, DUNS-Nummer und Steuernummer.</value>
+  <value column="Help" original="The Organization Info Tab is used to define an Organization's address, DUNS number and Tax Identification number">Das Register "Organisations-Daten" dient zur Definition von Adresse, DUNS-Nummer und Steuernummer.</value>
  </row>
  <row id="171" trl="Y">
   <value column="Name" original="Reference Translation">Reference Translation</value>
@@ -719,7 +719,7 @@ Please note that the Print Format is only used for Document Print when you want 
   <value column="Help" original="The Report Parameter Tab defines any parameters required to execute a report or process.">The Report Parameter Tab defines any parameters required to execute a report or process.</value>
  </row>
  <row id="247" trl="Y">
-  <value column="Name" original="Parameter Translation">Parameter- Übersetzung</value>
+  <value column="Name" original="Parameter Translation">Parameter-Übersetzung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -755,9 +755,9 @@ Please note that the Print Format is only used for Document Print when you want 
   <value column="Help" original="The Inventory Count Tab defines the parameters for a manual count and adjustment of inventory.  When creating the inventory count list automatically, only the actual stored products are included. The exception is when you select the equals 0 (=0) option, then zero on hand records of all stocked products is created for that location.">The Inventory Count Tab defines the parameters for a manual count and adjustment of inventory.  When creating the inventory count list automatically, only the actual stored products are included. The exception is when you select the equals 0 (=0) option, then zero on hand records of all stocked products is created for that location.</value>
  </row>
  <row id="256" trl="Y">
-  <value column="Name" original="Inventory Count Line">Bestandszählungs- Position</value>
+  <value column="Name" original="Inventory Count Line">Bestandszählungs-Position</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Inventory Count Line">Bestandszählungs- Position</value>
+  <value column="Description" original="Inventory Count Line">Bestandszählungs-Position</value>
   <value column="Help" original="The Inventory Count Line defines the counts of the individual products in inventory. Normally you would create inventory count lines automaticelly. If you create them manually, make sure that the book value is correct.&#10;You can set the Organization, if it is a charge, otherwise it is set to the header organization.">The Inventory Count Line defines the counts of the individual products in inventory. Normalerweise werden Sie die Positionen automatisch erstellen wollen. Wenn Sie sie manuell erstellen, stellen Sie sicher, dass der Buchwert korrekt ist. You can set the Organization, if it is a charge, otherwise it is set to the header organization.</value>
  </row>
  <row id="257" trl="Y">
@@ -779,13 +779,13 @@ Please note that the Print Format is only used for Document Print when you want 
   <value column="Help" original="The Move Tab defines and identifies the movement of an item or items in inventory.">The Move Tab defines and identifies the movement of an item or items in inventory.</value>
  </row>
  <row id="260" trl="Y">
-  <value column="Name" original="Move Line">Warenbewegungs- Position</value>
+  <value column="Name" original="Move Line">Warenbewegungs-Position</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Enter Inventory Movement Line">Enter Inventory Movement Line</value>
   <value column="Help" original="The Move Line Tab defines the product and quantity to be moved and the location it is moving from and to.  ">The Move Line Tab defines the product and quantity to be moved and the location it is moving from and to.  </value>
  </row>
  <row id="262" trl="Y">
-  <value column="Name" original="Product Transactions">Produkt- Transaktionen</value>
+  <value column="Name" original="Product Transactions">Produkt-Transaktionen</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Transactions for stored Products">Transaktionen für lagerhaltige Produkte</value>
   <value column="Help" original=""/>
@@ -925,7 +925,7 @@ Please note that the Print Format is only used for Document Print when you want 
   <value column="Help" original="The Shipments Tab allows you to generate, maintain, enter and process Shipments from a Vendor or Returns to a Vendor. ">The Shipments Tab allows you to generate, maintain, enter and process Shipments from a Vendor or Returns to a Vendor. </value>
  </row>
  <row id="297" trl="Y">
-  <value column="Name" original="Receipt Line">Wareneingangs- Position</value>
+  <value column="Name" original="Receipt Line">Wareneingangs-Position</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Shipment Line">Lieferschein-Position</value>
   <value column="Help" original="The Shipment Line Tab defines the individual items in a Shipment.">The Shipment Line Tab defines the individual items in a Shipment.</value>
@@ -1244,7 +1244,7 @@ The variables are replaced based on the context. First, the the User is searched
 Additional objects are used for dunning (business partner, dunning entry), asset delivery (asset) and invoice print (business partner, invoice)</value>
  </row>
  <row id="348" trl="Y">
-  <value column="Name" original="History">Anfrage- Historie</value>
+  <value column="Name" original="History">Anfrage-Historie</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Request History (Old values)">Anfrage-Historie</value>
   <value column="Help" original="The History Tab displays changes of a Request. The data displayed are the OLD (changed from) values. The new data is in the request.">The History Tab displays changes of a Request. The data displayed are the OLD (changed from) values. The new data is in the request.</value>
@@ -1269,9 +1269,9 @@ Note that access information is cached and requires re-login or reset of cache.<
   <value column="Help" original="The Payment Selection Tab defines the bank account and date of the payments to be made. You also create the payments here.">"Zahlungsauswahl" bestimmt das Konto und den Termin, zu dem die Zahlung durchgeführt wird. Hier erstellen Sie auch die Zahlungen.</value>
  </row>
  <row id="353" trl="Y">
-  <value column="Name" original="Payment Selection Line">Zahlungsauswahl- Position</value>
+  <value column="Name" original="Payment Selection Line">Zahlungsauswahl-Position</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Payment Selection Line">Zahlungsauswahl- Position</value>
+  <value column="Description" original="Payment Selection Line">Zahlungsauswahl-Position</value>
   <value column="Help" original="The Payment Selection Line Tab defines the individual invoices an organization is paying to a Vendor with this payment.">The Payment Selection Line Tab defines the individual invoices an organization is paying to a Vendor with this payment.</value>
  </row>
  <row id="354" trl="Y">
@@ -1532,7 +1532,7 @@ The SELECT definition must contain the SELECT and FROM keywords in upper case, t
   <value column="Help" original="The Request Tab defines any Request submitted by a Business Partner or internally.">Das Register "Anfrage" enthält alle Anfragen von Geschäftspartnern.</value>
  </row>
  <row id="403" trl="Y">
-  <value column="Name" original="History">Anfrage- Historie</value>
+  <value column="Name" original="History">Anfrage-Historie</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Request History (Old Values)">Anfrage-Historie</value>
   <value column="Help" original="The History Tab displays changes of a Request. The data displayed are the OLD (changed from) values. The new data is in the request.">The History Tab displays changes of a Request. The data displayed are the OLD (changed from) values. The new data is in the request.</value>
@@ -2167,7 +2167,7 @@ Note that access information is cached and requires re-login or reset of cache. 
  <row id="504" trl="Y">
   <value column="Name" original="Alert">Alarmierung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Adempiere Alert">Adempiere- Alarmierung</value>
+  <value column="Description" original="Adempiere Alert">Adempiere-Alarmierung</value>
   <value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of.">Adempiere Alerts allow you define system conditions you want to be alerted of.</value>
  </row>
  <row id="505" trl="Y">
@@ -2177,7 +2177,7 @@ Note that access information is cached and requires re-login or reset of cache. 
   <value column="Help" original="The definition of the altert or action">The definition of the altert or action</value>
  </row>
  <row id="506" trl="Y">
-  <value column="Name" original="Alert Recipient">Alarmierungs- Empfänger</value>
+  <value column="Name" original="Alert Recipient">Alarmierungs-Empfänger</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Recipient of the Alert Notification">Recipient of the Alert Notification</value>
   <value column="Help" original="You can send the notifications to users or roles">You can send the notifications to users or roles</value>
@@ -2944,13 +2944,13 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="Help" original="Maintain the information of the dunning letter line">Maintain the information of the dunning letter line</value>
  </row>
  <row id="636" trl="Y">
-  <value column="Name" original="Org Assignment">Organisations- Zuordnung</value>
+  <value column="Name" original="Org Assignment">Organisations-Zuordnung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="User Assigment to Organization">Nutzer-Zuordnung zur Organisation</value>
   <value column="Help" original="Assign Users to Organizations">Ordnen Sie Nutzer der Organisation zu</value>
  </row>
  <row id="637" trl="Y">
-  <value column="Name" original="Org Assignment">Organisations- Zuordnung</value>
+  <value column="Name" original="Org Assignment">Organisations-Zuordnung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="User Assigment to Organization">Nutzer-Zuordnung zur Organisation</value>
   <value column="Help" original="Assign Users to Organizations">Ordnen Sie Nutzer der Organisation zu</value>
@@ -3411,13 +3411,13 @@ If a BOM is referenced  and enabled in Request Type, a BOM Change Request is aut
   <value column="Help" original=""/>
  </row>
  <row id="714" trl="Y">
-  <value column="Name" original="Update Notification">Aktualisierungs- Benachrichtigung</value>
+  <value column="Name" original="Update Notification">Aktualisierungs-Benachrichtigung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="List Recipients for to receive Request Updates">List Recipients for to receive Request Updates</value>
   <value column="Help" original=""/>
  </row>
  <row id="715" trl="Y">
-  <value column="Name" original="Update Notification">Aktualisierungs- Benachrichtigung</value>
+  <value column="Name" original="Update Notification">Aktualisierungs-Benachrichtigung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="List Recipients for to receive Request Updates">List Recipients for to receive Request Updates</value>
   <value column="Help" original=""/>
@@ -3429,19 +3429,19 @@ If a BOM is referenced  and enabled in Request Type, a BOM Change Request is aut
   <value column="Help" original=""/>
  </row>
  <row id="718" trl="Y">
-  <value column="Name" original="Update Notification">Aktualisierungs- Benachrichtigung</value>
+  <value column="Name" original="Update Notification">Aktualisierungs-Benachrichtigung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="List Recipients for to receive Request Updates">List Recipients for to receive Request Updates</value>
   <value column="Help" original=""/>
  </row>
  <row id="719" trl="Y">
-  <value column="Name" original="Update Notification">Aktualisierungs- Benachrichtigung</value>
+  <value column="Name" original="Update Notification">Aktualisierungs-Benachrichtigung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="List Recipients for to receive Request Updates">List Recipients for to receive Request Updates</value>
   <value column="Help" original=""/>
  </row>
  <row id="720" trl="Y">
-  <value column="Name" original="Update Recipients">Aktualisierungs- Empfänger</value>
+  <value column="Name" original="Update Recipients">Aktualisierungs-Empfänger</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Display Recipients of Request Updates">Display Recipients of Request Updates</value>
   <value column="Help" original="List of Recipients of Request Updates (with reason).&lt;br&gt;&#10;Direct: Sales Rep, User and direct subscribers&#10;Indirect: Users with Role, Subscribers of updates for Request Category, Type, Group)">List of Recipients of Request Updates (with reason).&lt;br&gt;
@@ -3457,7 +3457,7 @@ Indirect: Users with Role, Subscribers of updates for Request Category, Type, Gr
  <row id="722" trl="Y">
   <value column="Name" original="Assignment">Zuordnung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Employee Assignment">Mitarbeiter- Zuordnung</value>
+  <value column="Description" original="Employee Assignment">Mitarbeiter-Zuordnung</value>
   <value column="Help" original=""/>
  </row>
  <row id="723" trl="Y">
@@ -3467,7 +3467,7 @@ Indirect: Users with Role, Subscribers of updates for Request Category, Type, Gr
   <value column="Help" original=""/>
  </row>
  <row id="724" trl="Y">
-  <value column="Name" original="Position Category">Positions- Kategorie</value>
+  <value column="Name" original="Position Category">Positions-Kategorie</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Job Position Categories">Verwalten von Job-Positions-Kategorien</value>
   <value column="Help" original=""/>
@@ -3497,7 +3497,7 @@ Indirect: Users with Role, Subscribers of updates for Request Category, Type, Gr
   <value column="Help" original=""/>
  </row>
  <row id="729" trl="Y">
-  <value column="Name" original="Alternative Groups">Alternativ- Gruppen</value>
+  <value column="Name" original="Alternative Groups">Alternativ-Gruppen</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Product BOM Alternative Group">Product BOM Alternative Group</value>
   <value column="Help" original="Alternative groups allow you to group Bill of Material components, which are exclusive (i.e. only one is valid). Examples different engine sizes.">Alternative groups allow you to group Bill of Material components, which are exclusive (i.e. only one is valid). Examples different engine sizes.</value>
@@ -3533,7 +3533,7 @@ Indirect: Users with Role, Subscribers of updates for Request Category, Type, Gr
   <value column="Help" original=""/>
  </row>
  <row id="735" trl="Y">
-  <value column="Name" original="BOM Change Request">Stücklisten- Änderungsauftrag</value>
+  <value column="Name" original="BOM Change Request">Stücklisten-Änderungsauftrag</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="BOM (Engineering) Change Requests">BOM (Engineering) Change Requests</value>
   <value column="Help" original="Change requests for a Bill of Materials. They can be automatically created from Requests, if enabled in the Request Type and the Request Group referres to a Bill of Materials">Change requests for a Bill of Materials. They can be automatically created from Requests, if enabled in the Request Type and the Request Group referres to a Bill of Materials</value>
@@ -3551,7 +3551,7 @@ Indirect: Users with Role, Subscribers of updates for Request Category, Type, Gr
   <value column="Help" original=""/>
  </row>
  <row id="738" trl="Y">
-  <value column="Name" original="BOM Component">Stücklisten- Komponente</value>
+  <value column="Name" original="BOM Component">Stücklisten-Komponente</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Bill of Material Component (Product)">Bill of Material Component (Product)</value>
   <value column="Help" original="The Bill of Material Compoment determines what products, services and outside processing is included in producing the Product. It references the operation and determines it's sequence.">The Bill of Material Compoment determines what products, services and outside processing is included in producing the Product. It references the operation and determines it's sequence.</value>
@@ -3746,7 +3746,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
  <row id="771" trl="Y">
   <value column="Name" original="Restriction">Einschränkung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Restriction of Funds">Finanzmittel- Restriktion</value>
+  <value column="Description" original="Restriction of Funds">Finanzmittel-Restriktion</value>
   <value column="Help" original="If defined, you can use the fund only for the accounts selected. You can select summary values.">If defined, you can use the fund only for the accounts selected. You can select summary values.</value>
  </row>
  <row id="772" trl="Y">
@@ -3831,7 +3831,7 @@ The measure must support the data, otherwise it is ignored.</value>
   <value column="Help" original="Individual calculation instruction for a ratio">Individual calculation instruction for a ratio</value>
  </row>
  <row id="786" trl="Y">
-  <value column="Name" original="Issue Recommendation">Problemlösungs- Empfehlung</value>
+  <value column="Name" original="Issue Recommendation">Problemlösungs-Empfehlung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Issue Recommendation">Problemlösungs-Empfehlungen verwalten</value>
   <value column="Help" original="Recommendations how to fix an Issue">Recommendations how to fix an Issue</value>

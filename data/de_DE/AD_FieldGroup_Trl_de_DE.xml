@@ -15,7 +15,7 @@
   <value column="Name" original="Reference">Referenz</value>
  </row>
  <row id="105" trl="Y">
-  <value column="Name" original="History">Anfrage- Historie</value>
+  <value column="Name" original="History">Anfrage-Historie</value>
  </row>
  <row id="106" trl="Y">
   <value column="Name" original="Product">Produkt</value>

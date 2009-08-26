@@ -769,7 +769,7 @@ http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)
  </row>
  <row id="276" trl="Y">
   <value column="Name" original="Alert">Alarmierung</value>
-  <value column="Description" original="Adempiere Alert">Adempiere- Alarmierung</value>
+  <value column="Description" original="Adempiere Alert">Adempiere-Alarmierung</value>
   <value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of">Adempiere Alerts allow you define system conditions you want to be alerted of</value>
  </row>
  <row id="277" trl="Y">
@@ -1152,7 +1152,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
   <value column="Help" original="Maintain internal (employee) or external positions">Maintain internal (employee) or external positions</value>
  </row>
  <row id="352" trl="Y">
-  <value column="Name" original="Position Category">Positions- Kategorie</value>
+  <value column="Name" original="Position Category">Positions-Kategorie</value>
   <value column="Description" original="Maintain Job Position Categories">Verwalten von Job-Positions-Kategorien</value>
   <value column="Help" original=""/>
  </row>
@@ -1223,7 +1223,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Help" original="Calculation instruction for a ratio">Berechnungsvorschrift für eine Kennzahl</value>
  </row>
  <row id="367" trl="Y">
-  <value column="Name" original="Issue Recommendation">Problemlösungs- Empfehlung</value>
+  <value column="Name" original="Issue Recommendation">Problemlösungs-Empfehlung</value>
   <value column="Description" original="Maintain Issue Recommendation">Problemlösungs-Empfehlungen verwalten</value>
   <value column="Help" original=""/>
  </row>
