@@ -1801,7 +1801,7 @@ K9VKSn,Statistische konten für Kinderbetreuungskosten,Statistische konten für 
 K9VKSo,"Statistische Konten für den GuV-Ausweis in ""Gutschrift bzw. Belastung auf Verbindlichkeitskonten"" bei den Zuordnungstabellen für PersHG nach KapCoRiLiG","Statistische Konten für den GuV-Ausweis in ""Gutschrift bzw. Belastung auf Verbindlichkeitskonten"" bei den Zuordnungstabellen für PersHG nach KapCoRiLiG",Memo,,,Yes,,K9VKS,,,,,,,,,,
 9980,Anteil für Verbindlichkeitskonten,Anteil für Verbindlichkeitskonten,Memo,,,No,,K9VKSo,,,,,,,,,,
 9981,Verrechnungskonto für Anteil Verbindlichkeitskonten,Verrechnungskonto für Anteil Verbindlichkeitskonten,Memo,,,No,,K9VKSo,,,,,,,,,,
-9902,Burden (Absorbed),Burden Absorbed account,Expense,,Yes,No,P_Burden_Acct,,,,,,,,,,,
+9902,Burden (Absorbed),Burden Absorbed account,Expense,,Yes,No,P_BURDEN_ACCT,,,,,,,,,,,
 9903,Cost Of Production,Cost Of Production Account,Expense,,Yes,No,P_COSTOFPRODUCTION_ACCT,,,,,,,,,,,
 9904,Floor Stock,Floor Stock Account,Asset,,Yes,No,P_FLOORSTOCK_ACCT,,,,,,,,,,,
 9905,Labor (Absorbed),Labor Absorbed account,Expense,,Yes,No,P_LABOR_ACCT,,,,,,,,,,,
