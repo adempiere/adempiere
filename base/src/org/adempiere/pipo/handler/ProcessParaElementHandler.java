@@ -94,7 +94,6 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 			
 			m_Process_para.setColumnName(atts.getValue("ColumnName"));
 			m_Process_para.setEntityType(atts.getValue("EntityType"));
-			m_Process_para.setName(atts.getValue("Name"));
 			
 			name = atts.getValue("ADElementNameID");
 			if (name != null && name.trim().length() > 0) {
