@@ -360,19 +360,8 @@ public class MRP extends SvrProcess
 					final Timestamp DateStartSchedule = rs.getTimestamp(MPPMRP.COLUMNNAME_DateStartSchedule);
 					final BigDecimal Qty = rs.getBigDecimal(MPPMRP.COLUMNNAME_Qty);
 					final int M_Product_ID = rs.getInt(MPPMRP.COLUMNNAME_M_Product_ID); 
-					
-					//MRP-150
-					//Past Due Demand
-					//Indicates that a demand order is past due.
-					if(DatePromised.compareTo(getToday()) < 0)
-					{
-						String comment = Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DatePromised)
-										 + ": " + DatePromised;
-						createMRPNote("MRP-150", AD_Org_ID, PP_MRP_ID, product, MPPMRP.getDocumentNo(PP_MRP_ID), 
-								Qty, comment);
-					}
 
-					// if demand is a forecast and this is minor today then is ignore this QtyGrossReq
+					// if demand is forecast and promised date less than or equal to today, ignore this QtyGrossReq
 					if (MPPMRP.TYPEMRP_Demand.equals(TypeMRP)
 							&& MPPMRP.ORDERTYPE_Forecast.equals(OrderType)
 							&& DatePromised.compareTo(getToday()) <= 0)
@@ -433,7 +422,18 @@ public class MRP extends SvrProcess
 					// If No Product Planning found, go to next MRP record 
 					if (m_product_planning == null)
 						continue;
-					                                          
+					
+					//MRP-150
+					//Past Due Demand
+					//Indicates that a demand order is past due.
+					if(DatePromised.compareTo(getToday()) < 0)
+					{
+						String comment = Msg.translate(getCtx(), MPPOrder.COLUMNNAME_DatePromised)
+										 + ": " + DatePromised;
+						createMRPNote("MRP-150", AD_Org_ID, PP_MRP_ID, product, MPPMRP.getDocumentNo(PP_MRP_ID), 
+								Qty, comment);
+					}
+
 					BeforePP_MRP_ID = PP_MRP_ID;
 
 					if (X_PP_Product_Planning.ORDER_POLICY_PeriodOrderQuantity.equals(m_product_planning.getOrder_Policy()))
