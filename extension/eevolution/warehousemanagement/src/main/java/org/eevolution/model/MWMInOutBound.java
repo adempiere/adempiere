@@ -1,43 +1,44 @@
-/******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
- *****************************************************************************/
+/**********************************************************************
+ * This file is part of Adempiere ERP Bazaar                          * 
+ * http://www.adempiere.org                                           * 
+ *                                                                    * 
+ * Copyright (C) Victor Perez	                                      * 
+ * Copyright (C) Contributors                                         * 
+ *                                                                    * 
+ * This program is free software; you can redistribute it and/or      * 
+ * modify it under the terms of the GNU General Public License        * 
+ * as published by the Free Software Foundation; either version 2     * 
+ * of the License, or (at your option) any later version.             * 
+ *                                                                    * 
+ * This program is distributed in the hope that it will be useful,    * 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of     * 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       * 
+ * GNU General Public License for more details.                       * 
+ *                                                                    * 
+ * You should have received a copy of the GNU General Public License  * 
+ * along with this program; if not, write to the Free Software        * 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         * 
+ * MA 02110-1301, USA.                                                * 
+ *                                                                    * 
+ * Contributors:                                                      * 
+ *  - Victor Perez (victor.perez@e-evolution.com	 )                *
+ *                                                                    *
+ * Sponsors:                                                          *
+ *  - e-Evolution (http://www.e-evolution.com/)                       *
+ **********************************************************************/
 package org.eevolution.model;
 
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.util.Collection;
-import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.MBPartner;
-import org.compiere.model.MConversionRate;
 import org.compiere.model.MDocType;
-import org.compiere.model.MLocator;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
-import org.compiere.model.MStorage;
-import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
-import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -210,7 +211,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		{
 			for (MWMInOutBoundLine line:lines) 
 			{
-				MProduct product = line.getProduct();
+				MProduct product = line.getMProduct();
 				if (product != null && product.isExcludeAutoDelivery())
 				{
 					m_processMsg = "@M_Product_ID@ "+product.getValue()+" @IsExcludeAutoDelivery@";
@@ -451,7 +452,6 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 	}	//	getLines
 	
 
-	@Override
 	public boolean processIt(String action) throws Exception {
 		// TODO Auto-generated method stub
 		return false;

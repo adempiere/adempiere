@@ -16,26 +16,18 @@
  *****************************************************************************/
 package org.adempiere.model;
 
-import java.io.File;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.Properties;
 
 import org.compiere.model.MColumn;
-import org.compiere.model.MDocType;
 import org.compiere.model.MTable;
-import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
-import org.compiere.process.DocAction;
-import org.compiere.process.DocumentEngine;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 
 /**
- * Class Model for Inbound & Outbound Operation
+ * Class Model for MViewJoin
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */

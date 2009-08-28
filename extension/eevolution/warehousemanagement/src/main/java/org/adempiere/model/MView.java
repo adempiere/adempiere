@@ -16,24 +16,14 @@
  *****************************************************************************/
 package org.adempiere.model;
 
-import java.io.File;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.compiere.model.MColumn;
-import org.compiere.model.MDocType;
 import org.compiere.model.MTable;
-import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
-import org.compiere.process.DocAction;
-import org.compiere.process.DocumentEngine;
-import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 
 /**
  * Class Model for Smart View
@@ -114,8 +104,8 @@ public class MView extends X_AD_View
 	}
 	
 	/**
-	 * return the Smart View Joins
-	 * @return String 
+	 * Get the Smart View Joins
+	 * @return String View Joins
 	 */
 	public String getJoinsTables()
 	{
@@ -138,6 +128,10 @@ public class MView extends X_AD_View
 		return tables.toString();
 	}
 	
+	/**
+	 * get from Clause
+	 * @return String from Clause
+	 */
 	public String getFromClause()
 	{
 		String fromClause = " ";
@@ -156,7 +150,11 @@ public class MView extends X_AD_View
 		
 		return fromClause + joinClause;
 	}
-	
+	/**
+	 * getViewColumn
+	 * @param AD_View_ID
+	 * @return MViewColumn 
+	 */
 	public Collection<MViewColumn> getViewColumn(int AD_View_ID)
 	{
 		final String whereClause = MViewColumn.COLUMNNAME_AD_View_ID + "=?";
@@ -166,6 +164,10 @@ public class MView extends X_AD_View
 					.list();
 	}
 	
+	/**
+	 * get Parent View Join
+	 * @return MViewJoin
+	 */
 	public MViewJoin getParentViewJoin()
 	{
 		String whereClause =  MViewJoin.COLUMNNAME_AD_View_ID + "=? AND "
@@ -177,11 +179,19 @@ public class MView extends X_AD_View
 		.firstOnly();
 	}
 	
+	/**
+	 * Parent Entity Name
+	 * @return String Table Name
+	 */
 	public String getParentEntityName()
 	{
 		return MTable.getTableName(getCtx(), getParentViewJoin().getAD_Table_ID());
 	}
 	
+	/**
+	 * get Parent Entity Alias
+	 * @return
+	 */
 	public String getParentEntityAliasName()
 	{
 		 return getParentViewJoin().getTableName();

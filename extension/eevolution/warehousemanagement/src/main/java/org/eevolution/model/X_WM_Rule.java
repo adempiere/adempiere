@@ -21,13 +21,7 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.adempiere.model.*;
-import org.compiere.model.I_AD_Rule;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Rule
@@ -49,7 +43,6 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
         {
 			setInOutBoundRule (null);
 			setInOutBoundType (null);
-			setM_Warehouse_ID (0);
 			setName (null);
 			setWM_Rule_ID (0);
         } */
@@ -142,6 +135,10 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
 	public static final String INOUTBOUNDRULE_FindAnyLocatorWithAvailableCapacity = "WMC";
 	/** Custum Interface = WMI */
 	public static final String INOUTBOUNDRULE_CustumInterface = "WMI";
+	/** For the material oldest using FIFO = WMF */
+	public static final String INOUTBOUNDRULE_ForTheMaterialOldestUsingFIFO = "WMF";
+	/** For the material most recent using LIFO = WML */
+	public static final String INOUTBOUNDRULE_ForTheMaterialMostRecentUsingLIFO = "WML";
 	/** Set Inbound & Outbound Rule.
 		@param InOutBoundRule 
 		Inbound & Outbound Rule determinated the putaway or pick location for goods stocked in the warehouse
@@ -162,8 +159,8 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
 
 	/** InOutBoundType AD_Reference_ID=1000009 */
 	public static final int INOUTBOUNDTYPE_AD_Reference_ID=1000009;
-	/** OutBound Operation = O */
-	public static final String INOUTBOUNDTYPE_OutBoundOperation = "O";
+	/** Outbound Operation = O */
+	public static final String INOUTBOUNDTYPE_OutboundOperation = "O";
 	/** Inbound Operation = I */
 	public static final String INOUTBOUNDTYPE_InboundOperation = "I";
 	/** Set Inbound & Outbound Type.
@@ -199,29 +196,6 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
 	public String getInOutboundClass () 
 	{
 		return (String)get_Value(COLUMNNAME_InOutboundClass);
-	}
-
-	/** Set Warehouse.
-		@param M_Warehouse_ID 
-		Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID)
-	{
-		if (M_Warehouse_ID < 1) 
-			set_Value (COLUMNNAME_M_Warehouse_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Warehouse_ID, Integer.valueOf(M_Warehouse_ID));
-	}
-
-	/** Get Warehouse.
-		@return Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Warehouse_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Name.

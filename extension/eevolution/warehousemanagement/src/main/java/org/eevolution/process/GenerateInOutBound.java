@@ -34,13 +34,11 @@ import java.util.logging.Level;
 
 import org.adempiere.model.X_T_Selection;
 import org.compiere.model.MLocator;
-import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MPInstance;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
 

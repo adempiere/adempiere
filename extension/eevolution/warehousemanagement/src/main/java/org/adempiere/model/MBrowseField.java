@@ -1,49 +1,53 @@
-/******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
- *****************************************************************************/
+/**********************************************************************
+ * This file is part of Adempiere ERP Bazaar                          * 
+ * http://www.adempiere.org                                           * 
+ *                                                                    * 
+ * Copyright (C) Victor Perez	                                      * 
+ * Copyright (C) Contributors                                         * 
+ *                                                                    * 
+ * This program is free software; you can redistribute it and/or      * 
+ * modify it under the terms of the GNU General Public License        * 
+ * as published by the Free Software Foundation; either version 2     * 
+ * of the License, or (at your option) any later version.             * 
+ *                                                                    * 
+ * This program is distributed in the hope that it will be useful,    * 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of     * 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the       * 
+ * GNU General Public License for more details.                       * 
+ *                                                                    * 
+ * You should have received a copy of the GNU General Public License  * 
+ * along with this program; if not, write to the Free Software        * 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,         * 
+ * MA 02110-1301, USA.                                                * 
+ *                                                                    * 
+ * Contributors:                                                      * 
+ *  - Victor Perez (victor.perez@e-evolution.com	 )                *
+ *                                                                    *
+ * Sponsors:                                                          *
+ *  - e-Evolution (http://www.e-evolution.com/)                       *
+ **********************************************************************/
 package org.adempiere.model;
 
-import java.io.File;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MColumn;
-import org.compiere.model.MDocType;
 import org.compiere.model.M_Element;
-import org.compiere.model.ModelValidationEngine;
-import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
-import org.compiere.process.DocAction;
-import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 
 /**
- * Class Model for Inbound & Outbound Operation
+ * Class Model for Browse Field
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
 public class MBrowseField extends X_AD_Browse_Field
 {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4256005864457121353L;
+	private static final long serialVersionUID = -740931492029914957L;
 	/**	Logger							*/
 	private static CLogger	s_log = CLogger.getCLogger (MBrowseField.class);
 	/** Element 						*/
@@ -139,6 +143,10 @@ public class MBrowseField extends X_AD_Browse_Field
 		return m_view_column;		
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public MBrowseField getFieldKey()
 	{
 		final String whereClause = MBrowse.COLUMNNAME_AD_Browse_ID + "=? AND "

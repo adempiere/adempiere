@@ -150,6 +150,10 @@ public class MViewColumn extends X_AD_View_Column
 		return getAD_Column().getAD_Element_ID();
 	}
 
+	/**
+	 * get AD Reference
+	 * @return AD_Reference_ID
+	 */
 	public int  getAD_Reference_ID()
 	{
 		return getAD_Column().getAD_Reference_ID();

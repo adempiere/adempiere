@@ -29,8 +29,10 @@
 
 package org.eevolution.form;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,7 +50,6 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -102,8 +103,8 @@ import org.compiere.util.Msg;
 import org.compiere.util.Splash;
 
 /**
- *
- * @author victor.perez@e-evolution.com, e-Evolution
+ * UI Browser
+ * @author victor.perez@e-evolution.com, victor.perez@e-evolution.com
  */
 public class Browser extends CFrame implements ActionListener, VetoableChangeListener, ChangeListener, ListSelectionListener, TableModelListener, ASyncProcess
 {
@@ -152,6 +153,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		initComponents();
 		statInit();
 		p_loadedOK = initBrowser ();
+		setPreferredSize(getPreferredSize());
 		
 		//
 		int no = detail.getRowCount();
@@ -172,6 +174,8 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	private MBrowse 	m_Browse = null;
 	/** Smart View								*/
 	private MView		m_View	= null;
+	
+	private static final int	WINDOW_WIDTH = 1024;	//	width of the window
 
 
 	/** Table                   */
@@ -379,7 +383,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			parameterPanel = new ProcessParameterPanel(p_WindowNo, m_pi);
 			parameterPanel.setMode(ProcessParameterPanel.MODE_HORIZONTAL);
 			parameterPanel.init();
-			processPanel.add(parameterPanel);
+			processPanel.add(parameterPanel,BorderLayout.CENTER);
 		}
 		return true;
 	}	//	initInfo
@@ -816,9 +820,10 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
         footButtonPanel = new javax.swing.JPanel();
         bCancel = new javax.swing.JButton();
         bOk = new javax.swing.JButton();
-        setupToolBar();
         processPanel = new javax.swing.JPanel();
         graphPanel = new javax.swing.JPanel();
+        
+        setupToolBar();
 
         toolsBar.setRollover(true);
 
@@ -932,23 +937,15 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
         footButtonPanel.add(bOk);
 
         footPanel.add(footButtonPanel, java.awt.BorderLayout.SOUTH);
+
+        processPanel.setLayout(new java.awt.BorderLayout());
         footPanel.add(processPanel, java.awt.BorderLayout.CENTER);
 
         searchTab.add(footPanel, java.awt.BorderLayout.SOUTH);
 
         tabsPanel.addTab("Search", searchTab);
 
-        javax.swing.GroupLayout graphPanelLayout = new javax.swing.GroupLayout(graphPanel);
-        graphPanel.setLayout(graphPanelLayout);
-        graphPanelLayout.setHorizontalGroup(
-            graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 913, Short.MAX_VALUE)
-        );
-        graphPanelLayout.setVerticalGroup(
-            graphPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 709, Short.MAX_VALUE)
-        );
-
+        graphPanel.setLayout(new java.awt.BorderLayout());
         tabsPanel.addTab("Graph", graphPanel);
 
         getContentPane().add(tabsPanel, java.awt.BorderLayout.CENTER);
@@ -1180,65 +1177,72 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		boolean multiSelection = true;
 		String whereClause = "";
 		Browser browser = 	new Browser(frame, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause);
+		//browser.setPreferredSize(getPreferredSize ());
 		browser.setVisible(true);
 		browser.pack();
 	}
+	
+	public int getAD_Browse_ID()
+	{
+		 return m_Browse.getAD_Browse_ID();
+	}
+	
+	/**
+	 * 	Get Preferred Size
+	 *	@return size
+	 */
+	public Dimension getPreferredSize ()
+	{
+		Dimension size = super.getPreferredSize ();
+		if (size.width > WINDOW_WIDTH)
+			size.width = WINDOW_WIDTH - 30;
+		return size;
+	}	//	getPreferredSize
 
-	@Override
+
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void vetoableChange(PropertyChangeEvent evt)
 			throws PropertyVetoException {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void stateChanged(ChangeEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void valueChanged(ListSelectionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void tableChanged(TableModelEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void executeASync(ProcessInfo pi) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public boolean isUILocked() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override	public void lockUI(ProcessInfo pi) {
+	public void lockUI(ProcessInfo pi) {
 		// TODO Auto-generated method stub
-		dispose();
+		
 	}
 
-	@Override
 	public void unlockUI(ProcessInfo pi) {
 		// TODO Auto-generated method stub
-	}
-	
-	public int getAD_Browse_ID()
-	{
-		 return m_Browse.getAD_Browse_ID();
+		
 	}
 }

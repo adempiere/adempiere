@@ -18,10 +18,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.adempiere.model.*;
-import org.compiere.model.I_AD_Rule;
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_Rule
@@ -157,19 +154,6 @@ public interface I_WM_Rule
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
-
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
-
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

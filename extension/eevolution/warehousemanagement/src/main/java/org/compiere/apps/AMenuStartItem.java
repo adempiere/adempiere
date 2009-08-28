@@ -384,9 +384,9 @@ public class AMenuStartItem extends Thread implements ActionListener
 		String keyColumn = "";
 		boolean multiSelection = true;
 		String whereClause = "";
-		Browser browser = new Browser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause);
-		browser.setVisible(true);
-		browser.pack();
+		ff 	= new Browser(ff, modal , WindowNo, value, browse, keyColumn,multiSelection, whereClause);
+		ff.setVisible(true);
+		ff.pack();
 		/**boolean ok = ff.openForm(AD_Form_ID);
 		if (!ok) {
 			ff.dispose();

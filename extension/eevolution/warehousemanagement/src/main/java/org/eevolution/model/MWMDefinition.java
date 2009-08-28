@@ -36,50 +36,88 @@ import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 
 /**
- * Class Model Warehouse Strategy
+ * Class Model Warehouse Management Definition
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MWMStrategy extends X_WM_Strategy
+public class MWMDefinition extends X_WM_Definition
 {
 
-	public static Collection<MWMStrategy> getByBoundType(Properties ctx ,String boundType , String trxName)
+	public static Collection<MWMDefinition> getAll(Properties ctx,String trxName)
 	{
-		final String whereClause = MWMStrategy.COLUMNNAME_InOutBoundType + "=" + boundType;
-		return new Query(ctx, MWMStrategy.Table_Name, whereClause, trxName)
-		.setClient_ID().setOnlyActiveRecords(true)
-		.list();
+		if (s_Collection != null)
+		{
+			return s_Collection;
+		}
+		
+		s_Collection = new Query(ctx,Table_Name, null ,trxName)
+			.setOnlyActiveRecords(true)
+			.setClient_ID()
+			.setOrderBy(MWMDefinition.COLUMNNAME_SeqNo)
+			.list();	
+		return s_Collection;
 	}
 	
+	public static Collection<MWMDefinition> getByOutboundType(Properties ctx,String trxName)
+	{
+		if(s_CollectionOudboudType != null)
+		{
+			return s_CollectionOudboudType;
+		}
+		//EXISTS (SELECT 1 FROM  WM_Strategy WHERE  WM_Strategy.WM_Strategy_ID = WM_Definition.WM_Strategy_ID AND  InOutBoundType = ?)
+		String whereClause = "EXISTS (SELECT 1 FROM  WM_Strategy WHERE  WM_Strategy.WM_Strategy_ID = WM_Definition.WM_Strategy_ID AND InOutBoundType = ?)";
+		
+		s_CollectionOudboudType = new Query(ctx,Table_Name, whereClause ,trxName)
+		.setOnlyActiveRecords(true)
+		.setParameters(new Object[]{MWMRule.INOUTBOUNDTYPE_OutboundOperation})
+		.setClient_ID()
+		.setOrderBy(MWMDefinition.COLUMNNAME_SeqNo)
+		.list();		
+
+		return s_CollectionOudboudType;
+	}
+	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -9114227725703466412L;
+	private static final long serialVersionUID = 3647030789608864533L;
 	/**	Logger	**/
-	private static CLogger	s_log = CLogger.getCLogger (MWMStrategy.class);
+	private static CLogger	s_log = CLogger.getCLogger (MWMDefinition.class);
+	
+	
+	/**	Cache						*/
+	private static Collection<MWMDefinition> s_Collection = null;
+	
+	/**	Cache OudboudType			*/
+	private static Collection<MWMDefinition> s_CollectionOudboudType = null;
+	
+	/**	Cache OudboudType			*/
+	private static Collection<MWMDefinition> s_CollectionInboudType = null;
+	
 	
 	/**************************************************************************
-	 * 	Warehouse Strategy
+	 * 	Warehouse Definition
 	 *	@param ctx context
-	 *	@param WM_Strategy_ID
+	 *	@param WM_Definition_ID  
 	 *	@param trxName transaction name 
 	 */
-	public MWMStrategy (Properties ctx, int WM_Strategy_ID, String trxName)
+	public MWMDefinition (Properties ctx, int WM_Definition_ID, String trxName)
 	{
-		super (ctx, WM_Strategy_ID, trxName);
-		if (WM_Strategy_ID == 0)
+		super (ctx, WM_Definition_ID, trxName);
+		if (WM_Definition_ID == 0)
 		{
 		}
 	}
 
 	/**
-	 * 	Warehouse Strategy
+	 * 	Warehouse Area
 	 *	@param ctx context
-	 *	@param WM_Strategy_ID Warehouse Strategy ID
+	 *	@param WM_Definition_ID Cahs Flow ID
 	 */
-	public MWMStrategy (Properties ctx, int WM_Strategy_ID)
+	public MWMDefinition (Properties ctx, int WM_Definition_ID)
 	{
-		this (ctx, WM_Strategy_ID, null);
+		this (ctx, WM_Definition_ID, null);
 	}
 
 	
@@ -90,24 +128,11 @@ public class MWMStrategy extends X_WM_Strategy
 	 *  @param rs result set record
 	 *	@param trxName transaction
 	 */
-	public MWMStrategy (Properties ctx, ResultSet rs, String trxName)
+	public MWMDefinition (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
 	}	//	MAsset
 
-	
-	public Collection <MWMStrategyDetail> getDetail()
-	{
-		final String whereClause = MWMStrategyDetail.COLUMNNAME_WM_Strategy_ID + "=?";
-		return new Query(getCtx() , MWMStrategyDetail.Table_Name , whereClause , get_TrxName())
-		.setClient_ID()
-		.setOnlyActiveRecords(true)
-		.setParameters(new Object[]{getWM_Strategy_ID()})
-		.setOrderBy(MWMStrategyDetail.COLUMNNAME_SeqNo)
-		.list();
-	}
-
-	
 	/**
 	 * 	String representation
 	 *	@return info
@@ -115,11 +140,17 @@ public class MWMStrategy extends X_WM_Strategy
 	@Override
 	public String toString ()
 	{
-		StringBuffer sb = new StringBuffer ("MWMStrategy[")
+		StringBuffer sb = new StringBuffer ("MWMDefinition[")
 			.append (get_ID ())
 			.append ("-")
 			.append (getName())
 			.append ("]");
 		return sb.toString ();
 	}	//	toString
+	
+	public MWMStrategy getWMStrategy()
+	{
+		return new MWMStrategy(getCtx(), getWM_Strategy_ID(), get_TrxName());
+	}
+
 }	
