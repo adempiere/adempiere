@@ -611,7 +611,7 @@ public class ImportProduct extends SvrProcess
 					BigDecimal PriceList = imp.getPriceList();
 					BigDecimal PriceStd = imp.getPriceStd();
 					BigDecimal PriceLimit = imp.getPriceLimit();
-					if (PriceStd.signum() != 0 && PriceLimit.signum() != 0 && PriceList.signum() != 0)
+					if (PriceStd.signum() != 0 || PriceLimit.signum() != 0 || PriceList.signum() != 0)
 					{
 						MProductPrice pp = MProductPrice.get(getCtx(), 
 							p_M_PriceList_Version_ID, M_Product_ID, get_TrxName());
