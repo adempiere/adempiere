@@ -202,7 +202,7 @@ public class CalloutEngine implements Callout
 
 	/**
 	 * 	Set Callout (in)active.
-     *  Deprecated as the implementation is not thread safe and
+     *  Depreciated as the implementation is not thread safe and
      *  fragile - break other callout if developer forget to call
      *  setCalloutActive(false) after calling setCalloutActive(true).
 	 *  @deprecated

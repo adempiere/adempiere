@@ -717,7 +717,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 			}
 		}
 
-		//	The Product UoM needs to be the smallest UoM - Multiplier  must be > 0
+		//	The Product UoM needs to be the smallest UoM - Multiplier must be < 0; Divider must be > 0
 		if (MSysConfig.getBooleanValue("ProductUOMConversionRateValidate", true))
 		{
 			if (getM_Product_ID() != 0 && getDivideRate().compareTo(Env.ONE) < 0)
