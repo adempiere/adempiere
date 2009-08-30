@@ -167,7 +167,7 @@ public class MPriceList extends X_M_PriceList
 	public static int getPricePrecision (Properties ctx, int M_PriceList_ID)
 	{
 		MPriceList pl = MPriceList.get(ctx, M_PriceList_ID, null);
-		return pl.getPricePrecisionInt();
+		return pl.getPricePrecision();
 	}	//	getPricePrecision
 	
 	/** Cache of Price Lists			*/
@@ -268,28 +268,5 @@ public class MPriceList extends X_M_PriceList
 		}
 		return m_precision.intValue();
 	}	//	getStandardPrecision
-	
-	
-	/**
-	 * 	Set Price Precision
-	 *	@param PricePrecision precision
-	 */
-	public void setPricePrecision (int PricePrecision)
-	{
-		setPricePrecision (BigDecimal.valueOf(PricePrecision));
-	}	//	setPricePrecision
-	
-	
-	/**
-	 * 	Get Price Precision as int
-	 *	@return precision - -1 for none
-	 */
-	public int getPricePrecisionInt ()
-	{
-		BigDecimal bd = getPricePrecision ();
-		if (bd == null)
-			return -1;
-		return bd.intValue();
-	}	//	getPricePrecisionInt
 	
 }	//	MPriceList

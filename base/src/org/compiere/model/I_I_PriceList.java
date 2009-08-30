@@ -352,12 +352,12 @@ public interface I_I_PriceList
 	/** Set Price Precision.
 	  * Precision (number of decimals) for the Price
 	  */
-	public void setPricePrecision (BigDecimal PricePrecision);
+	public void setPricePrecision (int PricePrecision);
 
 	/** Get Price Precision.
 	  * Precision (number of decimals) for the Price
 	  */
-	public BigDecimal getPricePrecision();
+	public int getPricePrecision();
 
     /** Column name PriceStd */
     public static final String COLUMNNAME_PriceStd = "PriceStd";

@@ -18,11 +18,9 @@
 package org.compiere.model;
 
 import java.lang.reflect.Constructor;
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList
@@ -49,7 +47,7 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 			setIsTaxIncluded (false);
 			setM_PriceList_ID (0);
 			setName (null);
-			setPricePrecision (Env.ZERO);
+			setPricePrecision (0);
 // 2
         } */
     }
@@ -354,19 +352,19 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 		@param PricePrecision 
 		Precision (number of decimals) for the Price
 	  */
-	public void setPricePrecision (BigDecimal PricePrecision)
+	public void setPricePrecision (int PricePrecision)
 	{
-		set_Value (COLUMNNAME_PricePrecision, PricePrecision);
+		set_Value (COLUMNNAME_PricePrecision, Integer.valueOf(PricePrecision));
 	}
 
 	/** Get Price Precision.
 		@return Precision (number of decimals) for the Price
 	  */
-	public BigDecimal getPricePrecision () 
+	public int getPricePrecision () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PricePrecision);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_PricePrecision);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

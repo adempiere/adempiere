@@ -575,20 +575,20 @@ public class X_I_PriceList extends PO implements I_I_PriceList, I_Persistent
 		@param PricePrecision 
 		Precision (number of decimals) for the Price
 	  */
-	public void setPricePrecision (BigDecimal PricePrecision)
+	public void setPricePrecision (int PricePrecision)
 	{
-		set_Value (COLUMNNAME_PricePrecision, PricePrecision);
+		set_Value (COLUMNNAME_PricePrecision, Integer.valueOf(PricePrecision));
 	}
 
 	/** Get Price Precision.
 		@return Precision (number of decimals) for the Price
 	  */
-	public BigDecimal getPricePrecision () 
+	public int getPricePrecision () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PricePrecision);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_PricePrecision);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Standard Price.
