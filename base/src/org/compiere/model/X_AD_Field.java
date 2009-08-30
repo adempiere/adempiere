@@ -421,6 +421,29 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Included Tab.
+		@param Included_Tab_ID 
+		Included Tab in this Tab (Master Dateail)
+	  */
+	public void setIncluded_Tab_ID (int Included_Tab_ID)
+	{
+		if (Included_Tab_ID < 1) 
+			set_Value (COLUMNNAME_Included_Tab_ID, null);
+		else 
+			set_Value (COLUMNNAME_Included_Tab_ID, Integer.valueOf(Included_Tab_ID));
+	}
+
+	/** Get Included Tab.
+		@return Included Tab in this Tab (Master Dateail)
+	  */
+	public int getIncluded_Tab_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Included_Tab_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Info Factory Class.
 		@param InfoFactoryClass 
 		Fully qualified class name that implements the InfoFactory interface

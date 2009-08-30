@@ -259,6 +259,19 @@ public interface I_AD_Field
 	  */
 	public String getHelp();
 
+    /** Column name Included_Tab_ID */
+    public static final String COLUMNNAME_Included_Tab_ID = "Included_Tab_ID";
+
+	/** Set Included Tab.
+	  * Included Tab in this Tab (Master Dateail)
+	  */
+	public void setIncluded_Tab_ID (int Included_Tab_ID);
+
+	/** Get Included Tab.
+	  * Included Tab in this Tab (Master Dateail)
+	  */
+	public int getIncluded_Tab_ID();
+
     /** Column name InfoFactoryClass */
     public static final String COLUMNNAME_InfoFactoryClass = "InfoFactoryClass";
 
