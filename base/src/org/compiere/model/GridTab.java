@@ -74,6 +74,8 @@ import org.compiere.util.ValueNamePair;
  *  			<li>BF [ 1742159 ] Editable number field for inactive record
  *  			<li>BF [ 1968598 ] Callout is not called if tab is processed
  *  			<li>BF [ 2104022 ] GridTab.processCallout: throws NPE if callout returns null
+ *  			<li>FR [ 2846871 ] Add method org.compiere.model.GridTab.getIncludedTabs
+ *  				https://sourceforge.net/tracker/?func=detail&aid=2846871&group_id=176962&atid=879335
  *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -2944,5 +2946,29 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 		
 	}
-
+	
+	/**
+	 * 
+	 * @return list of all tabs included in this tab
+	 */
+	public List<GridTab> getIncludedTabs()
+	{
+		List<GridTab> list = new ArrayList<GridTab>(1);
+		for (GridField field : getFields())
+		{
+			if (field.getIncluded_Tab_ID() > 0)
+			{
+				for (int i = 0; i < m_window.getTabCount(); i++)
+				{
+					final GridTab detailTab = m_window.getTab(i);
+					if (detailTab.getAD_Tab_ID() == field.getIncluded_Tab_ID())
+					{
+						list.add(detailTab);
+						break;
+					}
+				}
+			}
+		}
+		return list;
+	}
 }	//	GridTab
