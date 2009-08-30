@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,9 +10,10 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *
- * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
- * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                                                                            *
+ * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com                     *
+ * Contributor(s): Low Heng Sin hengsin@avantz.com                            *
+ *                 Teo Sarca teo.sarca@gmail.com                              *
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -34,10 +35,21 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class FieldElementHandler extends AbstractElementHandler {
-
-	public void startElement(Properties ctx, Element element)
-			throws SAXException {
+public class FieldElementHandler extends AbstractElementHandler
+{
+	public void startElement(Properties ctx, Element element) throws SAXException
+	{
+		final String include_tabname = element.attributes.getValue("ADIncludeTabNameID");
+		
+		// Set Included Tab ID if this task was previously postponed 
+		if (element.defer && element.recordId > 0 && include_tabname != null)
+		{
+			MField field = new MField(ctx, element.recordId, getTrxName(ctx));
+			setIncluded_Tab_ID(ctx, field, include_tabname);
+			field.saveEx();
+			return;
+		}
+		
 		PackIn packIn = (PackIn)ctx.get("PackInProcess");
 		String elementValue = element.getElementValue();
 		Attributes atts = element.attributes;
@@ -51,7 +63,6 @@ public class FieldElementHandler extends AbstractElementHandler {
 			}
 			String name = atts.getValue("Name");
 			String tabname = atts.getValue("ADTabNameID");
-			String include_tabname = atts.getValue("ADIncludeTabNameID");
 			String colname = atts.getValue("ADColumnNameID");
 			String tableName = atts.getValue("ADTableNameID");
 			int tableid = packIn.getTableId(tableName);
@@ -101,9 +112,8 @@ public class FieldElementHandler extends AbstractElementHandler {
 						"select AD_Field_ID from AD_Field where AD_Column_ID = ")
 						.append(columnid)
 						.append(" and AD_Tab_ID = ?");
-				int id = DB
-						.getSQLValue(getTrxName(ctx), sqlB.toString(), tabid);
-				MField m_Field = new MField(ctx, id, getTrxName(ctx));
+				int id = DB.getSQLValue(getTrxName(ctx), sqlB.toString(), tabid);
+				final MField m_Field = new MField(ctx, id, getTrxName(ctx));
 				if (id <= 0 && atts.getValue("AD_Field_ID") != null && Integer.parseInt(atts.getValue("AD_Field_ID")) <= PackOut.MAX_OFFICIAL_ID)
 					m_Field.setAD_Field_ID(Integer.parseInt(atts.getValue("AD_Field_ID")));
 				int AD_Backup_ID = -1;
@@ -114,16 +124,6 @@ public class FieldElementHandler extends AbstractElementHandler {
 				} else {
 					Object_Status = "New";
 					AD_Backup_ID = 0;
-				}
-				if(include_tabname != null)
-				{
-					StringBuffer sql = new StringBuffer("SELECT AD_Tab_ID FROM AD_Tab WHERE Name = '" + include_tabname + "'");
-					int include_tabid = DB.getSQLValue(getTrxName(ctx), sql.toString());
-					if(include_tabid > 0)
-					{
-						m_Field.setIncluded_Tab_ID(include_tabid);
-					}
-				
 				}
 			
 				m_Field.setName(atts.getValue("Name"));
@@ -170,6 +170,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
 				m_Field.setAD_Reference_Value_ID(id);
 				m_Field.setInfoFactoryClass(getStringValue(atts, "InfoFactoryClass"));
+				setIncluded_Tab_ID(ctx, m_Field, include_tabname);
 				
 				if (m_Field.save(getTrxName(ctx)) == true) {
 					record_log(ctx, 1, m_Field.getName(), "Field", m_Field
@@ -183,6 +184,12 @@ public class FieldElementHandler extends AbstractElementHandler {
 							get_IDWithColumn(ctx, "AD_Table", "TableName",
 									"AD_Field"));
 					throw new POSaveFailedException("Failed to save field definition.");
+				}
+				
+				// If Included Tab not found, then postpone this task for later processing 
+				if (m_Field.getAD_Field_ID() > 0 && include_tabname != null && m_Field.getIncluded_Tab_ID() <= 0)
+				{
+					element.defer = true;
 				}
 			} else {
 				element.defer = true;
@@ -343,5 +350,36 @@ public class FieldElementHandler extends AbstractElementHandler {
 			atts.addAttribute("", "", "ADValRuleNameID", "CDATA", "");
 		
 		return atts;
+	}
+	
+	/**
+	 * Set Included_Tab_ID (if needed)
+	 * @param ctx
+	 * @param field
+	 * @param includedTabName
+	 */
+	private void setIncluded_Tab_ID(Properties ctx, MField field, String includedTabName)
+	{
+		if (includedTabName == null)
+			return;
+		//
+		final String trxName = getTrxName(ctx);
+		final int AD_Tab_ID = field.getAD_Tab_ID();
+		if (AD_Tab_ID <= 0)
+		{
+			log.warning("AD_Tab_ID=0 ("+field+")");
+			return;
+		}
+		final int AD_Window_ID = DB.getSQLValueEx(trxName,
+				"SELECT AD_Window_ID FROM AD_Tab WHERE AD_Tab_ID=?",
+				AD_Tab_ID); 
+		final int included_Tab_ID = DB.getSQLValueEx(trxName,
+				"SELECT AD_Tab_ID FROM AD_Tab WHERE Name=? AND AD_Window_ID=? AND AD_Tab_ID<>?",
+				includedTabName, AD_Window_ID, AD_Tab_ID);
+		if(included_Tab_ID > 0)
+		{
+			field.setIncluded_Tab_ID(included_Tab_ID);
+		}
+
 	}
 }
