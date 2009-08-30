@@ -51,6 +51,7 @@ public class FieldElementHandler extends AbstractElementHandler {
 			}
 			String name = atts.getValue("Name");
 			String tabname = atts.getValue("ADTabNameID");
+			String include_tabname = atts.getValue("ADIncludeTabNameID");
 			String colname = atts.getValue("ADColumnNameID");
 			String tableName = atts.getValue("ADTableNameID");
 			int tableid = packIn.getTableId(tableName);
@@ -114,6 +115,17 @@ public class FieldElementHandler extends AbstractElementHandler {
 					Object_Status = "New";
 					AD_Backup_ID = 0;
 				}
+				if(include_tabname != null)
+				{
+					StringBuffer sql = new StringBuffer("SELECT AD_Tab_ID FROM AD_Tab WHERE Name = '" + include_tabname + "'");
+					int include_tabid = DB.getSQLValue(getTrxName(ctx), sql.toString());
+					if(include_tabid > 0)
+					{
+						m_Field.setIncluded_Tab_ID(include_tabid);
+					}
+				
+				}
+			
 				m_Field.setName(atts.getValue("Name"));
 				m_Field.setAD_Column_ID(columnid);
 				name = atts.getValue("ADFieldGroupNameID");
@@ -262,6 +274,12 @@ public class FieldElementHandler extends AbstractElementHandler {
 			atts.addAttribute("", "", "ADWindowNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADTabNameID", "CDATA", "");
+		
+		if (m_Field.getIncluded_Tab_ID() > 0) {
+			sql = "SELECT Name FROM AD_Tab WHERE AD_Tab_ID=?";
+			name = DB.getSQLValueString(null, sql, m_Field.getIncluded_Tab_ID());
+			atts.addAttribute("", "", "ADIncludeTabNameID", "CDATA", name);
+		}
 
 		atts.addAttribute("", "", "EntityType", "CDATA", (m_Field
 				.getEntityType() != null ? m_Field.getEntityType() : ""));
