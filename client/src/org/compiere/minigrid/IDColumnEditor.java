@@ -96,7 +96,8 @@ public class IDColumnEditor extends AbstractCellEditor
 		else
 		{
 			m_value = null;
-			throw new IllegalArgumentException("ICColumnEditor.getTableCellEditorComponent - value=" + value);
+			return null;
+			//throw new IllegalArgumentException("ICColumnEditor.getTableCellEditorComponent - value=" + value);
 		}
 		//  set editor value
 		m_check.setSelected(m_value.isSelected());
