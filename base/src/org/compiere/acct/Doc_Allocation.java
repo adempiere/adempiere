@@ -68,7 +68,7 @@ public class Doc_Allocation extends Doc
 		super (ass, MAllocationHdr.class, rs, DOCTYPE_Allocation, trxName);
 	}   //  Doc_Allocation
 
-	/**	Tolearance G&L				*/
+	/**	Tolerance G&L				*/
 	private static final BigDecimal	TOLERANCE = new BigDecimal (0.02);
 	/** Facts						*/
 	private ArrayList<Fact>		m_facts = null;

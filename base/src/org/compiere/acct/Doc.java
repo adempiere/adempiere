@@ -30,7 +30,6 @@ import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
@@ -54,7 +53,6 @@ import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.X_M_Production;
 import org.compiere.process.DocumentEngine;
-import org.compiere.report.MReportTree;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -1005,7 +1003,7 @@ public abstract class Doc
 	
 	/**************************************************************************
 	 *  Is the Source Document Balanced
-	 *  @return true if (source) baanced
+	 *  @return true if (source) balanced
 	 */
 	public boolean isBalanced()
 	{
@@ -1024,7 +1022,7 @@ public abstract class Doc
 	/**
 	 *  Is Document convertible to currency and Conversion Type
 	 *  @param acctSchema accounting schema
-	 *  @return true, if vonvertable to accounting currency
+	 *  @return true, if convertible to accounting currency
 	 */
 	public boolean isConvertible (MAcctSchema acctSchema)
 	{
@@ -1259,7 +1257,7 @@ public abstract class Doc
 	/** Account Type - Bank Statement - Interest Exp  */
 	public static final int     ACCTTYPE_InterestExp = 42;
 
-	/** Inventory Accounts  - Differnces	*/
+	/** Inventory Accounts  - Differences	*/
 	public static final int     ACCTTYPE_InvDifferences = 50;
 	/** Inventory Accounts - NIR		*/
 	public static final int     ACCTTYPE_NotInvoicedReceipts = 51;
@@ -1677,7 +1675,7 @@ public abstract class Doc
 	}	//	isTaxIncluded
 
 	/**
-	 * 	Set Tax Includedy
+	 * 	Set Tax Included
 	 *	@param ti Tax Included
 	 */
 	public void setIsTaxIncluded (boolean ti)
@@ -1703,7 +1701,7 @@ public abstract class Doc
 	
 	/**
 	 * 	Get GL_Category_ID
-	 *	@return categoory
+	 *	@return category
 	 */
 	public int getGL_Category_ID()
 	{
@@ -1712,7 +1710,7 @@ public abstract class Doc
 	
 	/**
 	 * 	Get GL_Category_ID
-	 *	@return categoory
+	 *	@return category
 	 */
 	public int getGL_Budget_ID()
 	{
