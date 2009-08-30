@@ -67,6 +67,8 @@ import org.compiere.util.Util;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1891082 ] NPE on MiniTable when you hide some columns
  * 				<li>FR [ 1974299 ] Add MiniTable.getSelectedKeys method
+ * 				<li>FR [ 2847295 ] MiniTable multiselection checkboxes not working
+ * 					https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2847295&group_id=176962
  */
 public class MiniTable extends CTable implements IMiniTable
 {
@@ -342,9 +344,14 @@ public class MiniTable extends CTable implements IMiniTable
 		{
 			tc.setCellRenderer(new IDColumnRenderer(m_multiSelection));
 			if (m_multiSelection)
+			{
 				tc.setCellEditor(new IDColumnEditor());
+				setColumnReadOnly(index, false);
+			}
 			else
+			{
 				tc.setCellEditor(new ROCellEditor());
+			}
 			m_minWidth.add(new Integer(10));
 			tc.setMaxWidth(20);
 			tc.setPreferredWidth(20);
