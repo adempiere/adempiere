@@ -259,7 +259,7 @@ public class CreateInvoicedAsset extends SvrProcess
 							    change.setA_QTY_Current(InvoiceLine.getQtyEntered());
 							    change.setA_QTY_Original(InvoiceLine.getQtyEntered());
 							    change.setA_Asset_CreateDate(asset.getA_Asset_CreateDate());
-							    change.setAd_User_ID(asset.getAD_User_ID());
+							    change.setAD_User_ID(asset.getAD_User_ID());
 							    change.setC_Location_ID(asset.getC_Location_ID());
 							    change.save();
 							}

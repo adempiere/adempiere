@@ -611,7 +611,7 @@ public class MAsset extends X_A_Asset
 				change.setA_QTY_Current(getA_QTY_Current());
 				change.setA_QTY_Original(getA_QTY_Original());
 				change.setA_Asset_CreateDate(getA_Asset_CreateDate());
-				change.setAd_User_ID(getAD_User_ID());
+				change.setAD_User_ID(getAD_User_ID());
 				change.setC_Location_ID(getC_Location_ID());
 				change.save();
 
@@ -732,7 +732,7 @@ public class MAsset extends X_A_Asset
 						change.setA_QTY_Current(getA_QTY_Current());
 						change.setA_QTY_Original(getA_QTY_Original());
 						change.setA_Asset_CreateDate(getA_Asset_CreateDate());		    
-						change.setAd_User_ID(getAD_User_ID());
+						change.setAD_User_ID(getAD_User_ID());
 						change.setC_Location_ID(getC_Location_ID());
 						change.save();		    
 					}

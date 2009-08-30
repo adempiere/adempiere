@@ -414,26 +414,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Ad_User_ID.
-		@param Ad_User_ID Ad_User_ID	  */
-	public void setAd_User_ID (int Ad_User_ID)
-	{
-		if (Ad_User_ID < 1) 
-			set_Value (COLUMNNAME_Ad_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_Ad_User_ID, Integer.valueOf(Ad_User_ID));
-	}
-
-	/** Get Ad_User_ID.
-		@return Ad_User_ID	  */
-	public int getAd_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ad_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Asset ID.
 		@param A_Parent_Asset_ID Asset ID	  */
 	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID)
@@ -664,6 +644,29 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return bd;
 	}
 
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set AssetAccumDepreciationAmt.
 		@param AssetAccumDepreciationAmt AssetAccumDepreciationAmt	  */
 	public void setAssetAccumDepreciationAmt (BigDecimal AssetAccumDepreciationAmt)
@@ -874,6 +877,52 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Address.
+		@param C_Location_ID 
+		Location or Address
+	  */
+	public void setC_Location_ID (int C_Location_ID)
+	{
+		if (C_Location_ID < 1) 
+			set_Value (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+	}
+
+	/** Get Address.
+		@return Location or Address
+	  */
+	public int getC_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1) 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set ChangeAmt.
 		@param ChangeAmt ChangeAmt	  */
 	public void setChangeAmt (BigDecimal ChangeAmt)
@@ -950,29 +999,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (String)get_Value(COLUMNNAME_ChangeType);
 	}
 
-	/** Set Address.
-		@param C_Location_ID 
-		Location or Address
-	  */
-	public void setC_Location_ID (int C_Location_ID)
-	{
-		if (C_Location_ID < 1) 
-			set_Value (COLUMNNAME_C_Location_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
-	}
-
-	/** Get Address.
-		@return Location or Address
-	  */
-	public int getC_Location_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set ConventionType.
 		@param ConventionType ConventionType	  */
 	public void setConventionType (int ConventionType)
@@ -985,29 +1011,6 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public int getConventionType () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_ConventionType);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Combination.
-		@param C_ValidCombination_ID 
-		Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
-	{
-		if (C_ValidCombination_ID < 1) 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
-	}
-
-	/** Get Combination.
-		@return Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

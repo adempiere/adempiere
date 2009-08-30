@@ -237,7 +237,7 @@ public class CreateGLAsset extends SvrProcess
 									    change.setC_BPartner_ID(asset.getC_BPartner_ID());
 									    change.setAssetValueAmt(JVLine.getAmtAcctDr().subtract(JVLine.getAmtAcctCr()));									    
 									    change.setA_Asset_CreateDate(asset.getA_Asset_CreateDate());
-									    change.setAd_User_ID(asset.getAD_User_ID());
+									    change.setAD_User_ID(asset.getAD_User_ID());
 									    change.setC_Location_ID(asset.getC_Location_ID());
 									    change.save();
 									}
