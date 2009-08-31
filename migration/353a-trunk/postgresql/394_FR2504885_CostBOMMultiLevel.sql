@@ -1716,1382 +1716,1106 @@ UPDATE AD_PrintFormatItem SET IsFixedWidth='Y', IsGroupBy='N', IsPageBreak='N', 
 ;
 
 -- Jan 13, 2009 12:11:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_TreeNodeMM WHERE AD_Tree_ID=10 AND Node_ID NOT IN (SELECT AD_Menu_ID FROM AD_Menu WHERE AD_Client_ID=0)
 ;
 
 -- Jan 13, 2009 12:11:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,IsActive,Node_ID,SeqNo,Updated,UpdatedBy) VALUES (0,0,10,TO_TIMESTAMP('2009-01-13 12:11:33','YYYY-MM-DD HH24:MI:SS'),100,'Y',53132,0,TO_TIMESTAMP('2009-01-13 12:11:33','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 13, 2009 12:11:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_TreeNodeMM (AD_Client_ID,AD_Org_ID,AD_Tree_ID,Created,CreatedBy,IsActive,Node_ID,SeqNo,Updated,UpdatedBy) VALUES (0,0,10,TO_TIMESTAMP('2009-01-13 12:11:33','YYYY-MM-DD HH24:MI:SS'),100,'Y',53198,0,TO_TIMESTAMP('2009-01-13 12:11:33','YYYY-MM-DD HH24:MI:SS'),100)
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Window_Access WHERE AD_Role_ID=50002
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Window_Access (AD_Window_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT w.AD_Window_ID, 50002,0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Window w INNER JOIN AD_Tab t ON (w.AD_Window_ID=t.AD_Window_ID) INNER JOIN AD_Table tt ON (t.AD_Table_ID=tt.AD_Table_ID) WHERE t.SeqNo=(SELECT MIN(SeqNo) FROM AD_Tab xt WHERE xt.AD_Window_ID=w.AD_Window_ID)AND tt.AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Process_Access WHERE AD_Role_ID=50002
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Process_Access (AD_Process_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT p.AD_Process_ID, 50002,0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Process p WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Form_Access WHERE AD_Role_ID=50002
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Form_Access (AD_Form_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT f.AD_Form_ID, 50002,0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Form f WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_WorkFlow_Access WHERE AD_Role_ID=50002
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_WorkFlow_Access (AD_WorkFlow_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT w.AD_WorkFlow_ID, 50002,0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_WorkFlow w WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Document_Action_Access WHERE AD_Role_ID=50002
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Document_Action_Access (AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,C_DocType_ID , AD_Ref_List_ID, AD_Role_ID) (SELECT 0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100, doctype.C_DocType_ID, "action".AD_Ref_List_ID, rol.AD_Role_ID FROM AD_Client client INNER JOIN C_DocType doctype ON (doctype.AD_Client_ID=client.AD_Client_ID) INNER JOIN AD_Ref_List "action" ON ("action".AD_Reference_ID=135) INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID AND rol.AD_Role_ID=50002) )
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Window_Access WHERE AD_Role_ID=50001
 ;
 
 -- Jan 13, 2009 12:12:50 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Window_Access (AD_Window_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT w.AD_Window_ID, 50001,0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Window w INNER JOIN AD_Tab t ON (w.AD_Window_ID=t.AD_Window_ID) INNER JOIN AD_Table tt ON (t.AD_Table_ID=tt.AD_Table_ID) WHERE t.SeqNo=(SELECT MIN(SeqNo) FROM AD_Tab xt WHERE xt.AD_Window_ID=w.AD_Window_ID)AND tt.AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Process_Access WHERE AD_Role_ID=50001
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Process_Access (AD_Process_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT p.AD_Process_ID, 50001,0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Process p WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Form_Access WHERE AD_Role_ID=50001
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Form_Access (AD_Form_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT f.AD_Form_ID, 50001,0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Form f WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_WorkFlow_Access WHERE AD_Role_ID=50001
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_WorkFlow_Access (AD_WorkFlow_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT w.AD_WorkFlow_ID, 50001,0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_WorkFlow w WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Document_Action_Access WHERE AD_Role_ID=50001
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Document_Action_Access (AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,C_DocType_ID , AD_Ref_List_ID, AD_Role_ID) (SELECT 0,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100, doctype.C_DocType_ID, "action".AD_Ref_List_ID, rol.AD_Role_ID FROM AD_Client client INNER JOIN C_DocType doctype ON (doctype.AD_Client_ID=client.AD_Client_ID) INNER JOIN AD_Ref_List "action" ON ("action".AD_Reference_ID=135) INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID AND rol.AD_Role_ID=50001) )
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Window_Access WHERE AD_Role_ID=0
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Window_Access (AD_Window_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT w.AD_Window_ID, 0,0,0,'Y', CURRENT_TIMESTAMP,0, CURRENT_TIMESTAMP,0,'Y' FROM AD_Window w INNER JOIN AD_Tab t ON (w.AD_Window_ID=t.AD_Window_ID) INNER JOIN AD_Table tt ON (t.AD_Table_ID=tt.AD_Table_ID) WHERE t.SeqNo=(SELECT MIN(SeqNo) FROM AD_Tab xt WHERE xt.AD_Window_ID=w.AD_Window_ID)AND tt.AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Process_Access WHERE AD_Role_ID=0
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Process_Access (AD_Process_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT p.AD_Process_ID, 0,0,0,'Y', CURRENT_TIMESTAMP,0, CURRENT_TIMESTAMP,0,'Y' FROM AD_Process p WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Form_Access WHERE AD_Role_ID=0
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Form_Access (AD_Form_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT f.AD_Form_ID, 0,0,0,'Y', CURRENT_TIMESTAMP,0, CURRENT_TIMESTAMP,0,'Y' FROM AD_Form f WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_WorkFlow_Access WHERE AD_Role_ID=0
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_WorkFlow_Access (AD_WorkFlow_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT w.AD_WorkFlow_ID, 0,0,0,'Y', CURRENT_TIMESTAMP,0, CURRENT_TIMESTAMP,0,'Y' FROM AD_WorkFlow w WHERE AccessLevel IN ('4','7','6')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Document_Action_Access WHERE AD_Role_ID=0
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Document_Action_Access (AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,C_DocType_ID , AD_Ref_List_ID, AD_Role_ID) (SELECT 0,0,'Y', CURRENT_TIMESTAMP,0, CURRENT_TIMESTAMP,0, doctype.C_DocType_ID, "action".AD_Ref_List_ID, rol.AD_Role_ID FROM AD_Client client INNER JOIN C_DocType doctype ON (doctype.AD_Client_ID=client.AD_Client_ID) INNER JOIN AD_Ref_List "action" ON ("action".AD_Reference_ID=135) INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID AND rol.AD_Role_ID=0) )
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Window_Access WHERE AD_Role_ID=102
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Window_Access (AD_Window_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT w.AD_Window_ID, 102,11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Window w INNER JOIN AD_Tab t ON (w.AD_Window_ID=t.AD_Window_ID) INNER JOIN AD_Table tt ON (t.AD_Table_ID=tt.AD_Table_ID) WHERE t.SeqNo=(SELECT MIN(SeqNo) FROM AD_Tab xt WHERE xt.AD_Window_ID=w.AD_Window_ID)AND tt.AccessLevel IN ('7','6','3','2','1')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Process_Access WHERE AD_Role_ID=102
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Process_Access (AD_Process_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT p.AD_Process_ID, 102,11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Process p WHERE AccessLevel IN ('7','6','3','2','1')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Form_Access WHERE AD_Role_ID=102
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Form_Access (AD_Form_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT f.AD_Form_ID, 102,11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Form f WHERE AccessLevel IN ('7','6','3','2','1')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_WorkFlow_Access WHERE AD_Role_ID=102
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_WorkFlow_Access (AD_WorkFlow_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT w.AD_WorkFlow_ID, 102,11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_WorkFlow w WHERE AccessLevel IN ('7','6','3','2','1')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Document_Action_Access WHERE AD_Role_ID=102
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Document_Action_Access (AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,C_DocType_ID , AD_Ref_List_ID, AD_Role_ID) (SELECT 11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100, doctype.C_DocType_ID, "action".AD_Ref_List_ID, rol.AD_Role_ID FROM AD_Client client INNER JOIN C_DocType doctype ON (doctype.AD_Client_ID=client.AD_Client_ID) INNER JOIN AD_Ref_List "action" ON ("action".AD_Reference_ID=135) INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID AND rol.AD_Role_ID=102) )
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Window_Access WHERE AD_Role_ID=103
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Window_Access (AD_Window_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT w.AD_Window_ID, 103,11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Window w INNER JOIN AD_Tab t ON (w.AD_Window_ID=t.AD_Window_ID) INNER JOIN AD_Table tt ON (t.AD_Table_ID=tt.AD_Table_ID) WHERE t.SeqNo=(SELECT MIN(SeqNo) FROM AD_Tab xt WHERE xt.AD_Window_ID=w.AD_Window_ID)AND tt.AccessLevel IN ('3','1','7') AND w.Name NOT LIKE '%(all)%'
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Process_Access WHERE AD_Role_ID=103
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Process_Access (AD_Process_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT DISTINCT p.AD_Process_ID, 103,11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Process p WHERE AccessLevel IN ('3','1','7')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Form_Access WHERE AD_Role_ID=103
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Form_Access (AD_Form_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT f.AD_Form_ID, 103,11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_Form f WHERE AccessLevel IN ('3','1','7')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_WorkFlow_Access WHERE AD_Role_ID=103
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_WorkFlow_Access (AD_WorkFlow_ID, AD_Role_ID, AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) SELECT w.AD_WorkFlow_ID, 103,11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100,'Y' FROM AD_WorkFlow w WHERE AccessLevel IN ('3','1','7')
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 DELETE FROM AD_Document_Action_Access WHERE AD_Role_ID=103
 ;
 
 -- Jan 13, 2009 12:12:51 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 INSERT INTO AD_Document_Action_Access (AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,C_DocType_ID , AD_Ref_List_ID, AD_Role_ID) (SELECT 11,0,'Y', CURRENT_TIMESTAMP,100, CURRENT_TIMESTAMP,100, doctype.C_DocType_ID, "action".AD_Ref_List_ID, rol.AD_Role_ID FROM AD_Client client INNER JOIN C_DocType doctype ON (doctype.AD_Client_ID=client.AD_Client_ID) INNER JOIN AD_Ref_List "action" ON ("action".AD_Reference_ID=135) INNER JOIN AD_Role rol ON (rol.AD_Client_ID=client.AD_Client_ID AND rol.AD_Role_ID=103) )
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:18:21 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=14, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:18:22 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=15, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:18:22 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=16, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:18:22 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=17, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:18:22 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=18, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:18:22 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=19, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:18:22 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=20, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:18:22 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=14, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=15, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=16, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=17, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=18, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=19, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:18:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=14, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=15, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=16, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=17, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=18, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:18:41 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=14, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=15, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=16, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=17, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=18, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53080
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:19:25 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=14, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=15, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=16, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=17, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53080
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:19:33 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=14, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=15, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=16, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53080
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:19:42 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=14, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=15, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53080
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:19:57 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=14, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53080
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:20:03 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=13, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53075
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53076
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53078
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53077
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53079
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53080
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53081
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53198
 ;
 
 -- Jan 13, 2009 12:20:10 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=53074, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53082
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=218
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=153
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=263
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=166
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=203
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=236
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=6, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=183
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=7, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=160
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=8, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=278
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=9, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=345
 ;
 
 -- Jan 13, 2009 12:20:26 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=10, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53014
 ;
 
 -- Jan 13, 2009 12:20:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=11, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53108
 ;
 
 -- Jan 13, 2009 12:20:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=0, SeqNo=12, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53083
 ;
 
 -- Jan 13, 2009 12:20:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=459, SeqNo=0, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=346
 ;
 
 -- Jan 13, 2009 12:20:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=459, SeqNo=1, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=53132
 ;
 
 -- Jan 13, 2009 12:20:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=459, SeqNo=2, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=193
 ;
 
 -- Jan 13, 2009 12:20:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=459, SeqNo=3, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=180
 ;
 
 -- Jan 13, 2009 12:20:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=459, SeqNo=4, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=494
 ;
 
 -- Jan 13, 2009 12:20:27 PM ECT
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_TreeNodeMM SET Parent_ID=459, SeqNo=5, Updated=CURRENT_TIMESTAMP WHERE AD_Tree_ID=10 AND Node_ID=444
 ;
 

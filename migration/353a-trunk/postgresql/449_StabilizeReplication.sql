@@ -113,67 +113,54 @@ INSERT INTO AD_Field_Trl (AD_Language,AD_Field_ID, Description,Name,Help, IsTran
 
 
 -- Apr 19, 2009 9:45:34 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=0,IsDisplayed='N' WHERE AD_Field_ID=7516
 ;
 
 -- Apr 19, 2009 9:45:34 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=10,IsDisplayed='Y' WHERE AD_Field_ID=7517
 ;
 
 -- Apr 19, 2009 9:45:34 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=20,IsDisplayed='Y' WHERE AD_Field_ID=7518
 ;
 
 -- Apr 19, 2009 9:45:34 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=30,IsDisplayed='Y' WHERE AD_Field_ID=56982
 ;
 
 -- Apr 19, 2009 9:45:34 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=90,IsDisplayed='Y' WHERE AD_Field_ID=54569
 ;
 
 -- Apr 19, 2009 9:46:51 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=0,IsDisplayed='N' WHERE AD_Field_ID=7524
 ;
 
 -- Apr 19, 2009 9:46:51 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=10,IsDisplayed='Y' WHERE AD_Field_ID=7525
 ;
 
 -- Apr 19, 2009 9:46:51 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=20,IsDisplayed='Y' WHERE AD_Field_ID=7527
 ;
 
 -- Apr 19, 2009 9:46:51 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=30,IsDisplayed='Y' WHERE AD_Field_ID=7523
 ;
 
 -- Apr 19, 2009 9:46:51 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=40,IsDisplayed='Y' WHERE AD_Field_ID=7522
 ;
 
 -- Apr 19, 2009 9:46:51 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=50,IsDisplayed='Y' WHERE AD_Field_ID=7528
 ;
 
 -- Apr 19, 2009 9:46:51 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET SeqNo=60,IsDisplayed='Y' WHERE AD_Field_ID=56983
 ;
 
 -- Apr 19, 2009 9:50:46 AM EEST
--- I forgot to set the DICTIONARY_ID_COMMENTS System Configurator
 UPDATE AD_Field SET DisplayLength=60,Updated=TO_TIMESTAMP('2009-04-19 09:50:46','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=56983
 ;
 
