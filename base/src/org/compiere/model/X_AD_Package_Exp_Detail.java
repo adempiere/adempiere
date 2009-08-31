@@ -76,6 +76,45 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
       return sb.toString();
     }
 
+	public I_AD_EntityType getAD_EntityType() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_EntityType.Table_Name);
+        I_AD_EntityType result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_EntityType)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_EntityType_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Entity Type.
+		@param AD_EntityType_ID 
+		System Entity Type
+	  */
+	public void setAD_EntityType_ID (int AD_EntityType_ID)
+	{
+		if (AD_EntityType_ID < 1) 
+			set_Value (COLUMNNAME_AD_EntityType_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_EntityType_ID, Integer.valueOf(AD_EntityType_ID));
+	}
+
+	/** Get Entity Type.
+		@return System Entity Type
+	  */
+	public int getAD_EntityType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_EntityType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_AD_Form getAD_Form() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
@@ -1016,6 +1055,8 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String TYPE_Reference = "REF";
 	/** Model Validator = MV */
 	public static final String TYPE_ModelValidator = "MV";
+	/** Entity Type = ET */
+	public static final String TYPE_EntityType = "ET";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)

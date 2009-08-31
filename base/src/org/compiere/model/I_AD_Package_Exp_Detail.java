@@ -49,6 +49,21 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_EntityType_ID */
+    public static final String COLUMNNAME_AD_EntityType_ID = "AD_EntityType_ID";
+
+	/** Set Entity Type.
+	  * System Entity Type
+	  */
+	public void setAD_EntityType_ID (int AD_EntityType_ID);
+
+	/** Get Entity Type.
+	  * System Entity Type
+	  */
+	public int getAD_EntityType_ID();
+
+	public I_AD_EntityType getAD_EntityType() throws RuntimeException;
+
     /** Column name AD_Form_ID */
     public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
 

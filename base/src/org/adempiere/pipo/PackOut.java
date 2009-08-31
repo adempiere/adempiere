@@ -43,6 +43,7 @@ import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.DynValRuleElementHandler;
+import org.adempiere.pipo.handler.EntityTypeElementHandler;
 import org.adempiere.pipo.handler.FieldGroupElementHandler;
 import org.adempiere.pipo.handler.FormElementHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
@@ -120,6 +121,7 @@ public class PackOut extends SvrProcess
     AdElementHandler adElementHandler = new AdElementHandler();
     CommonTranslationHandler translationHandler = new CommonTranslationHandler();
     ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
+    EntityTypeElementHandler entitytypeHandler = new EntityTypeElementHandler();
     
     /**
 	 *  Prepare - e.g., get Parameters.
@@ -311,6 +313,8 @@ public class PackOut extends SvrProcess
 							createPrintFormat(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID), packOutDocument);
 						else if (Type.compareTo(X_AD_Package_Exp_Detail.TYPE_ModelValidator) == 0)
 							createModelValidator(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID), packOutDocument);
+						else if (Type.compareTo(X_AD_Package_Exp_Detail.TYPE_EntityType) == 0)
+							createEntityType(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID), packOutDocument);
 						else if (Type.compareTo("C") == 0){
 							log.log(Level.INFO,"In PackOut.java handling Code or Other 2pack module creation");
 							
@@ -806,6 +810,19 @@ public class PackOut extends SvrProcess
 		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID, AD_ModelValidator_ID);
 		modelValidatorHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID);
+	}
+	
+	/**
+	 * 
+	 * @param AD_EntityType_ID
+	 * @param packOutDocument
+	 * @throws Exception
+	 */
+	public void createEntityType (int AD_EntityType_ID, TransformerHandler packOutDocument) throws Exception
+	{
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
+		entitytypeHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
 	}
 
 	

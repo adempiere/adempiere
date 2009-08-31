@@ -52,6 +52,7 @@ import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.DynValRuleElementHandler;
+import org.adempiere.pipo.handler.EntityTypeElementHandler;
 import org.adempiere.pipo.handler.FieldElementHandler;
 import org.adempiere.pipo.handler.FieldGroupElementHandler;
 import org.adempiere.pipo.handler.FormAccessElementHandler;
@@ -240,6 +241,7 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("element", new AdElementHandler());
     	handlers.put("trl", new CommonTranslationHandler());
     	handlers.put(ModelValidatorElementHandler.TAG_Name, new ModelValidatorElementHandler());
+    	handlers.put(EntityTypeElementHandler.TAG_Name, new EntityTypeElementHandler());
 	}
 	
     /**
