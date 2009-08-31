@@ -60,6 +60,7 @@ import org.adempiere.pipo.handler.ImpFormatElementHandler;
 import org.adempiere.pipo.handler.ImpFormatRowElementHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.MessageElementHandler;
+import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.OrgRoleElementHandler;
 import org.adempiere.pipo.handler.PreferenceElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
@@ -238,6 +239,7 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("fieldgroup", new FieldGroupElementHandler());
     	handlers.put("element", new AdElementHandler());
     	handlers.put("trl", new CommonTranslationHandler());
+    	handlers.put(ModelValidatorElementHandler.TAG_Name, new ModelValidatorElementHandler());
 	}
 	
     /**

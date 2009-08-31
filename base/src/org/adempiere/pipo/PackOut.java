@@ -48,6 +48,7 @@ import org.adempiere.pipo.handler.FormElementHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.MessageElementHandler;
+import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
 import org.adempiere.pipo.handler.ProcessElementHandler;
 import org.adempiere.pipo.handler.ReferenceElementHandler;
@@ -118,6 +119,7 @@ public class PackOut extends SvrProcess
     FieldGroupElementHandler fieldGroupHandler = new FieldGroupElementHandler();
     AdElementHandler adElementHandler = new AdElementHandler();
     CommonTranslationHandler translationHandler = new CommonTranslationHandler();
+    ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
     
     /**
 	 *  Prepare - e.g., get Parameters.
@@ -307,6 +309,8 @@ public class PackOut extends SvrProcess
 							createMessage(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID), packOutDocument);
 						else if (Type.compareTo("PFT") == 0)
 							createPrintFormat(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID), packOutDocument);
+						else if (Type.compareTo(X_AD_Package_Exp_Detail.TYPE_ModelValidator) == 0)
+							createModelValidator(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID), packOutDocument);
 						else if (Type.compareTo("C") == 0){
 							log.log(Level.INFO,"In PackOut.java handling Code or Other 2pack module creation");
 							
@@ -790,6 +794,20 @@ public class PackOut extends SvrProcess
 			getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID);
 		}
 	}
+	
+	/**
+	 * 
+	 * @param AD_ModelValidator_ID
+	 * @param packOutDocument
+	 * @throws Exception
+	 */
+	public void createModelValidator (int AD_ModelValidator_ID, TransformerHandler packOutDocument) throws Exception
+	{
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID, AD_ModelValidator_ID);
+		modelValidatorHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID);
+	}
+
 	
 	public void copyFile (String sourceName, String copyName ) {
 		InputStream source;  // Stream for reading from the source file.

@@ -105,6 +105,17 @@ public interface I_AD_Package_Exp_Detail
 
 	public I_AD_Message getAD_Message() throws RuntimeException;
 
+    /** Column name AD_ModelValidator_ID */
+    public static final String COLUMNNAME_AD_ModelValidator_ID = "AD_ModelValidator_ID";
+
+	/** Set Model Validator	  */
+	public void setAD_ModelValidator_ID (int AD_ModelValidator_ID);
+
+	/** Get Model Validator	  */
+	public int getAD_ModelValidator_ID();
+
+	public I_AD_ModelValidator getAD_ModelValidator() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 

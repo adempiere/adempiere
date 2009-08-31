@@ -229,6 +229,42 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
+	public I_AD_ModelValidator getAD_ModelValidator() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_ModelValidator.Table_Name);
+        I_AD_ModelValidator result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_ModelValidator)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ModelValidator_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Model Validator.
+		@param AD_ModelValidator_ID Model Validator	  */
+	public void setAD_ModelValidator_ID (int AD_ModelValidator_ID)
+	{
+		if (AD_ModelValidator_ID < 1) 
+			set_Value (COLUMNNAME_AD_ModelValidator_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ModelValidator_ID, Integer.valueOf(AD_ModelValidator_ID));
+	}
+
+	/** Get Model Validator.
+		@return Model Validator	  */
+	public int getAD_ModelValidator_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ModelValidator_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set AD_Package_Code_New.
 		@param AD_Package_Code_New AD_Package_Code_New	  */
 	public void setAD_Package_Code_New (String AD_Package_Code_New)
@@ -978,6 +1014,8 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String TYPE_PrintFormat = "PFT";
 	/** Reference = REF */
 	public static final String TYPE_Reference = "REF";
+	/** Model Validator = MV */
+	public static final String TYPE_ModelValidator = "MV";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)
