@@ -87,13 +87,14 @@ public class ExportModelValidator implements ModelValidator
 	 */
 	public void initialize (ModelValidationEngine engine, MClient client)
 	{
-		if(client !=null)
+		if (client != null)
 		{
 			m_AD_Client_ID = client.getAD_Client_ID();
 			log.info(client.toString());
 		}
 		else 
 		{
+			log.warning("Export Model Validator cannot be used as a global validator, it needs to be defined in a per-client (tenant) basis");
 			return;
 		}
 		
