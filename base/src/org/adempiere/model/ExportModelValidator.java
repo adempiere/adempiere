@@ -87,8 +87,16 @@ public class ExportModelValidator implements ModelValidator
 	 */
 	public void initialize (ModelValidationEngine engine, MClient client)
 	{
-		m_AD_Client_ID = client.getAD_Client_ID();
-		log.info(client.toString());
+		if(client !=null)
+		{
+			m_AD_Client_ID = client.getAD_Client_ID();
+			log.info(client.toString());
+		}
+		else 
+		{
+			return;
+		}
+		
 		
 		MReplicationStrategy rplStrategy = null;
 		
