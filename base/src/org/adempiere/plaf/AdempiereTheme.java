@@ -74,8 +74,9 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 	
 	//-------------------------------------------------
 	/** Theme Name	*/
-	protected static String			s_name = "Adempiere Theme";
-        public static final String	NAME = s_name;
+	protected static String		s_name = "Adempiere Theme";
+	
+    public static final String	NAME = s_name;
 	/**	Logger					*/
 	protected static Logger 	log = Logger.getLogger(org.adempiere.plaf.AdempiereTheme.class.getName());
 	/** Active Theme			*/
@@ -179,7 +180,7 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 	}
 
 	/**
-	 *  Get Seconary 1 (gray in default Metal Theme)
+	 *  Get Secondary 1 (gray in default Metal Theme)
 	 *  @return color
 	 */
 	public ColorUIResource getSecondary0()

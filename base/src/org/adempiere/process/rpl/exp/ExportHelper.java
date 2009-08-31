@@ -117,9 +117,9 @@ public class ExportHelper {
 		MClient client = MClient.get (po.getCtx(), m_AD_Client_ID);
 		log.info("Client = " + client.toString());
 		
-		log.info("TRIFON - po.getAD_Org_ID() = " + po.getAD_Org_ID());
+		log.info("po.getAD_Org_ID() = " + po.getAD_Org_ID());
 		
-		log.info("TRIFON - po.get_TrxName() = " + po.get_TrxName());
+		log.info("po.get_TrxName() = " + po.get_TrxName());
 		if (po.get_TrxName() == null || po.get_TrxName().equals("")) {
 			po.set_TrxName("exportRecord");
 		}
