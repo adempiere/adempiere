@@ -29,6 +29,7 @@ import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTab;
+import org.compiere.model.MTable;
 import org.compiere.model.X_AD_Field;
 import org.compiere.model.X_AD_Tab;
 import org.compiere.util.DB;
@@ -96,12 +97,12 @@ public class TabElementHandler extends AbstractElementHandler {
 			id = 0;
 			if (getStringValue(atts,"ADColumnSortYesNoNameID")!= null){
 				name = atts.getValue("ADColumnSortYesNoNameID");	    
-				id = get_IDWithColumn(ctx, "AD_Column", "Name", name);
+				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","Name", name, MTable.Table_Name, get_IDWithColumn(ctx,MTable.Table_Name, MTable.COLUMNNAME_TableName, atts.getValue("ADTableNameID")));
 				m_Tab.setAD_ColumnSortYesNo_ID(id);
 			}
 			if (getStringValue(atts,"ADColumnSortOrderNameID")!= null){
 				name = atts.getValue("ADColumnSortOrderNameID");	    
-				id = get_IDWithColumn(ctx, "AD_Column", "Name", name);
+				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","Name", name, MTable.Table_Name, get_IDWithColumn(ctx,MTable.Table_Name, MTable.COLUMNNAME_TableName, atts.getValue("ADTableNameID")));				
 				m_Tab.setAD_ColumnSortOrder_ID(id);
 			}
 			if (getStringValue(atts,"ADImageNameID")!= null){
