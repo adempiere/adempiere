@@ -1069,9 +1069,12 @@ public class MCostDetail extends X_M_CostDetail
 				{
 					cost.add(amt, qty);
 					//	Initial
-					if (cost.getCurrentCostPrice().signum() == 0 
-						&& cost.get_ID() == 0)
+					if (cost.getCurrentCostPrice().signum() == 0
+						&& cost.getCurrentCostPriceLL().signum() == 0
+						&& cost.is_new())
+					{
 						cost.setCurrentCostPrice(price);
+					}
 				}
 				else
 					cost.setCurrentQty(cost.getCurrentQty().add(qty));

@@ -41,10 +41,15 @@ import org.compiere.util.Trx;
  *  @author Jorg Janke
  *  @version $Id: MCost.java,v 1.6 2006/07/30 00:51:02 jjanke Exp $
  *
- *  Carlos Ruiz - globalqss - integrate bug fix from Teo Sarca
- *    [ 1619112 ] Posible problem for LastPO costing, Batch/Lot level
+ *  @author Carlos Ruiz - globalqss
+ *		<li>integrate bug fix from Teo Sarca - [ 1619112 ] Posible problem for LastPO costing, Batch/Lot level
  *
- *  FR: [ 2214883 ] Remove SQL code and Replace for Query - red1 (only non-join query)
+ *  @author Red1
+ *  	<li>FR: [ 2214883 ] Remove SQL code and Replace for Query - red1 (only non-join query)
+ *  
+ *  @author Teo Sarca
+ *  	<li>BF [ 2847648 ] Manufacture & shipment cost errors
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2847648&group_id=176962&atid=934929
  */
 public class MCost extends X_M_Cost
 {
@@ -121,10 +126,7 @@ public class MCost extends X_M_Cost
 		String costingMethod, BigDecimal qty, int C_OrderLine_ID,
 		boolean zeroCostsOK, String trxName)
 	{
-		BigDecimal currentCostPrice = null;
-		BigDecimal currentCostPriceLL = null;
 		String costElementType = null;
-		//int M_CostElement_ID = 0;
 		BigDecimal percent = null;
 		//
 		BigDecimal materialCostEach = Env.ZERO;
@@ -132,9 +134,12 @@ public class MCost extends X_M_Cost
 		BigDecimal percentage = Env.ZERO;
 		int count = 0;
 		//
-		String sql = "SELECT SUM(c.CurrentCostPrice), ce.CostElementType, ce.CostingMethod,"
-			+ " c.Percent, c.M_CostElement_ID , SUM(c.CurrentCostPriceLL) "					//	4..5
-			+ "FROM M_Cost c"
+		String sql = "SELECT"
+			+ " COALESCE(SUM(c.CurrentCostPrice),0),"		// 1
+			+ " ce.CostElementType, ce.CostingMethod,"		// 2,3
+			+ " c.Percent, c.M_CostElement_ID ,"			// 4,5
+			+ " COALESCE(SUM(c.CurrentCostPriceLL),0) "		// 6
+			+ " FROM M_Cost c"
 			+ " LEFT OUTER JOIN M_CostElement ce ON (c.M_CostElement_ID=ce.M_CostElement_ID) "
 			+ "WHERE c.AD_Client_ID=? AND c.AD_Org_ID=?"		//	#1/2
 			+ " AND c.M_Product_ID=?"							//	#3
@@ -157,25 +162,28 @@ public class MCost extends X_M_Cost
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
-				currentCostPrice = rs.getBigDecimal(1);
-				currentCostPriceLL = rs.getBigDecimal(6);
+				BigDecimal currentCostPrice = rs.getBigDecimal(1);
+				BigDecimal currentCostPriceLL = rs.getBigDecimal(6);
 				costElementType = rs.getString(2);
 				String cm = rs.getString(3);
 				percent = rs.getBigDecimal(4);
-			//	M_CostElement_ID = rs.getInt(5);
+				//M_CostElement_ID = rs.getInt(5);
 				s_log.finest("CurrentCostPrice=" + currentCostPrice
+					+ ", CurrentCostPriceLL=" + currentCostPriceLL
 					+ ", CostElementType=" + costElementType
 					+ ", CostingMethod=" + cm
 					+ ", Percent=" + percent);
 				//
-				if (currentCostPrice != null && currentCostPrice.signum() != 0)
+				if (currentCostPrice.signum() != 0 || currentCostPriceLL.signum() != 0)
 				{
 					if (cm != null)
 					{
 						materialCostEach = materialCostEach.add(currentCostPrice).add(currentCostPriceLL);
 					}
 					else
+					{
 						otherCostEach = otherCostEach.add(currentCostPrice).add(currentCostPriceLL);
+					}
 				}
 				if (percent != null && percent.signum() != 0)
 					percentage = percentage.add(percent);
