@@ -1,0 +1,8 @@
+-- Sep 1, 2009 4:33:51 PM EEST
+UPDATE AD_Column SET AD_Reference_ID=21,Updated=TO_DATE('2009-09-01 16:33:51','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=57440
+;
+
+-- Sep 1, 2009 4:34:15 PM EEST
+UPDATE AD_Column SET AD_Reference_ID=21,Updated=TO_DATE('2009-09-01 16:34:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=57443
+;
+
