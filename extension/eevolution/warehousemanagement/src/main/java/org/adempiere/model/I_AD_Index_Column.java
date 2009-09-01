@@ -21,24 +21,24 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_View_Join
+/** Generated Interface for AD_Index_Column
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_View_Join 
+public interface I_AD_Index_Column 
 {
 
-    /** TableName=AD_View_Join */
-    public static final String Table_Name = "AD_View_Join";
+    /** TableName=AD_Index_Column */
+    public static final String Table_Name = "AD_Index_Column";
 
-    /** AD_Table_ID=1000017 */
+    /** AD_Table_ID=1000043 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 6 - System - Client 
+    /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -49,6 +49,41 @@ public interface I_AD_View_Join
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_Column_ID */
+    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
+
+	/** Set Column.
+	  * Column in the table
+	  */
+	public void setAD_Column_ID (int AD_Column_ID);
+
+	/** Get Column.
+	  * Column in the table
+	  */
+	public int getAD_Column_ID();
+
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
+    /** Column name AD_Index_Column_ID */
+    public static final String COLUMNNAME_AD_Index_Column_ID = "AD_Index_Column_ID";
+
+	/** Set AD_Index_Column ID	  */
+	public void setAD_Index_Column_ID (int AD_Index_Column_ID);
+
+	/** Get AD_Index_Column ID	  */
+	public int getAD_Index_Column_ID();
+
+    /** Column name AD_Index_Table_ID */
+    public static final String COLUMNNAME_AD_Index_Table_ID = "AD_Index_Table_ID";
+
+	/** Set Table Index ID	  */
+	public void setAD_Index_Table_ID (int AD_Index_Table_ID);
+
+	/** Get Table Index ID	  */
+	public int getAD_Index_Table_ID();
+
+	public I_AD_Index_Table getAD_Index_Table() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -63,40 +98,18 @@ public interface I_AD_View_Join
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Table_ID */
-    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
+    /** Column name ColumnSQL */
+    public static final String COLUMNNAME_ColumnSQL = "ColumnSQL";
 
-	/** Set Table.
-	  * Database Table information
+	/** Set Column SQL.
+	  * Virtual Column (r/o)
 	  */
-	public void setAD_Table_ID (int AD_Table_ID);
+	public void setColumnSQL (String ColumnSQL);
 
-	/** Get Table.
-	  * Database Table information
+	/** Get Column SQL.
+	  * Virtual Column (r/o)
 	  */
-	public int getAD_Table_ID();
-
-	public I_AD_Table getAD_Table() throws RuntimeException;
-
-    /** Column name AD_View_ID */
-    public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
-
-	/** Set Smart View	  */
-	public void setAD_View_ID (int AD_View_ID);
-
-	/** Get Smart View	  */
-	public int getAD_View_ID();
-
-	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
-
-    /** Column name AD_View_Join_ID */
-    public static final String COLUMNNAME_AD_View_Join_ID = "AD_View_Join_ID";
-
-	/** Set View Entity Joins	  */
-	public void setAD_View_Join_ID (int AD_View_Join_ID);
-
-	/** Get View Entity Joins	  */
-	public int getAD_View_Join_ID();
+	public String getColumnSQL();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -114,6 +127,21 @@ public interface I_AD_View_Join
 	  */
 	public int getCreatedBy();
 
+    /** Column name EntityType */
+    public static final String COLUMNNAME_EntityType = "EntityType";
+
+	/** Set Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType);
+
+	/** Get Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public String getEntityType();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -126,28 +154,6 @@ public interface I_AD_View_Join
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name JoinPhrase */
-    public static final String COLUMNNAME_JoinPhrase = "JoinPhrase";
-
-	/** Set Join Phrase.
-	  * Defined the Join Phrase between Tables
-	  */
-	public void setJoinPhrase (String JoinPhrase);
-
-	/** Get Join Phrase.
-	  * Defined the Join Phrase between Tables
-	  */
-	public String getJoinPhrase();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -163,19 +169,6 @@ public interface I_AD_View_Join
  lowest number comes first
 	  */
 	public int getSeqNo();
-
-    /** Column name TableName */
-    public static final String COLUMNNAME_TableName = "TableName";
-
-	/** Set DB Table Name.
-	  * Name of the table in the database
-	  */
-	public void setTableName (String TableName);
-
-	/** Get DB Table Name.
-	  * Name of the table in the database
-	  */
-	public String getTableName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

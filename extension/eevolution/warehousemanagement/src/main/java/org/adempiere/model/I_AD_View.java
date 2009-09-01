@@ -66,10 +66,14 @@ public interface I_AD_View
     /** Column name AD_View_ID */
     public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
 
-	/** Set Smart View	  */
+	/** Set View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
 	public void setAD_View_ID (int AD_View_ID);
 
-	/** Get Smart View	  */
+	/** Get View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
 	public int getAD_View_ID();
 
     /** Column name Created */

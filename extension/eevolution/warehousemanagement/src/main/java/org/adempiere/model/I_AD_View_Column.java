@@ -81,33 +81,45 @@ public interface I_AD_View_Column
     /** Column name AD_View_Column_ID */
     public static final String COLUMNNAME_AD_View_Column_ID = "AD_View_Column_ID";
 
-	/** Set View Column	  */
+	/** Set View Column.
+	  * Column of View
+	  */
 	public void setAD_View_Column_ID (int AD_View_Column_ID);
 
-	/** Get View Column	  */
+	/** Get View Column.
+	  * Column of View
+	  */
 	public int getAD_View_Column_ID();
+
+    /** Column name AD_View_Definition_ID */
+    public static final String COLUMNNAME_AD_View_Definition_ID = "AD_View_Definition_ID";
+
+	/** Set View Definition.
+	  * The View Definition allow defined the tables for a view.
+	  */
+	public void setAD_View_Definition_ID (int AD_View_Definition_ID);
+
+	/** Get View Definition.
+	  * The View Definition allow defined the tables for a view.
+	  */
+	public int getAD_View_Definition_ID();
+
+	public org.adempiere.model.I_AD_View_Definition getAD_View_Definition() throws RuntimeException;
 
     /** Column name AD_View_ID */
     public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
 
-	/** Set Smart View	  */
+	/** Set View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
 	public void setAD_View_ID (int AD_View_ID);
 
-	/** Get Smart View	  */
+	/** Get View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
 	public int getAD_View_ID();
 
 	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
-
-    /** Column name AD_View_Join_ID */
-    public static final String COLUMNNAME_AD_View_Join_ID = "AD_View_Join_ID";
-
-	/** Set View Entity Joins	  */
-	public void setAD_View_Join_ID (int AD_View_Join_ID);
-
-	/** Get View Entity Joins	  */
-	public int getAD_View_Join_ID();
-
-	public org.adempiere.model.I_AD_View_Join getAD_View_Join() throws RuntimeException;
 
     /** Column name ColumnName */
     public static final String COLUMNNAME_ColumnName = "ColumnName";
@@ -121,6 +133,19 @@ public interface I_AD_View_Column
 	  * Name of the column in the database
 	  */
 	public String getColumnName();
+
+    /** Column name ColumnSQL */
+    public static final String COLUMNNAME_ColumnSQL = "ColumnSQL";
+
+	/** Set Column SQL.
+	  * Virtual Column (r/o)
+	  */
+	public void setColumnSQL (String ColumnSQL);
+
+	/** Get Column SQL.
+	  * Virtual Column (r/o)
+	  */
+	public String getColumnSQL();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -204,19 +229,6 @@ public interface I_AD_View_Column
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name SelectClause */
-    public static final String COLUMNNAME_SelectClause = "SelectClause";
-
-	/** Set Sql SELECT.
-	  * SQL SELECT clause
-	  */
-	public void setSelectClause (String SelectClause);
-
-	/** Get Sql SELECT.
-	  * SQL SELECT clause
-	  */
-	public String getSelectClause();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

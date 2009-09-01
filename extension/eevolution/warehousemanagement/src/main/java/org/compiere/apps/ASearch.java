@@ -27,9 +27,7 @@ import javax.swing.JPopupMenu;
 
 import org.compiere.apps.search.Find;
 import org.compiere.grid.GridController;
-import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.MQuery;
 import org.compiere.model.MUserQuery;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -86,27 +84,25 @@ public class ASearch implements ActionListener
 	{
 		boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(), "AD_Window"); 
 		MUserQuery[] search = MUserQuery.get(Env.getCtx(), m_gt.getAD_Tab_ID());
+		KeyNamePair pp = new KeyNamePair (0, Msg.translate(Env.getCtx(), "Find"));
+		m_list.add(pp);
+		m_popup.add(pp.toString()).addActionListener(this);
+		
 		for (MUserQuery query: search)
 		{
-			KeyNamePair pp = new KeyNamePair (query.getAD_UserQuery_ID(), query.getName());
+			pp = new KeyNamePair (query.getAD_UserQuery_ID(), query.getName());
 			m_list.add(pp);
 			m_popup.add(pp.toString()).addActionListener(this);
 		}
-		//	No Zoom
-		if (m_list.size() == 0)
-		{
-			m_popup.add(Msg.getMsg(Env.getCtx(), "NoSearchTarget"));  // Added
-			log.info("BaseLanguage=" + baseLanguage);
-		}	
-		if (m_invoker.isShowing())
+
+		if (m_invoker.isShowing() && m_list.size() > 1)
+		{			
 			m_popup.show(m_invoker, 0, m_invoker.getHeight());
-		
-		KeyNamePair pp = new KeyNamePair (0, Msg.getMsg(Env.getCtx(), "Find"));
-		m_popup.addSeparator();
-		m_popup.add(pp.toString()).addActionListener(this);  // Added
-		m_list.add(pp);
-		//m_popup.add(Msg.getMsg(Env.getCtx(), "New"));  // Added
-			
+		}	
+		else
+		{
+			launchSearch(pp);
+		}
 	}	//	getZoomTargets
 
 	

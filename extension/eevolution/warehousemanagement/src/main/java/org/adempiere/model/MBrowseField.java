@@ -45,6 +45,22 @@ public class MBrowseField extends X_AD_Browse_Field
 {
 
 	/**
+	 * get Browse Field based on View Column
+	 * @param browse
+	 * @param column
+	 * @return MBrowseField
+	 */
+	public static MBrowseField get (MBrowse browse, MViewColumn column)
+	{
+		String whereClause  = MBrowseField.COLUMNNAME_AD_Browse_ID + "=? AND "
+							+ MBrowseField.COLUMNNAME_AD_View_Column_ID + "=?";
+		return new Query(column.getCtx(),MBrowseField.Table_Name, whereClause, column.get_TrxName())
+		.setOnlyActiveRecords(true)
+		.setParameters(new Object[]{browse.getAD_Browse_ID(), column.getAD_View_Column_ID()})
+		.first();
+	}
+	
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -740931492029914957L;
@@ -93,10 +109,12 @@ public class MBrowseField extends X_AD_Browse_Field
 	/**
 	 * get MViewColumn base on MColumn
 	 * @param column
+	 * @return 
 	 */
-	public MBrowseField (MViewColumn column)
-	{
+	public MBrowseField (MBrowse browse,MViewColumn column)
+	{		
 		super(column.getCtx(), 0 , column.get_TrxName());
+		setAD_Browse_ID(browse.getAD_Browse_ID());
 		setAD_Element_ID(column.getAD_Element_ID());
 		setName(column.getColumnName());
 		setDescription(column.getDescription());
@@ -104,10 +122,31 @@ public class MBrowseField extends X_AD_Browse_Field
 		setAD_View_Column_ID(column.get_ID());
 		setIsActive(true);
 		setIsIdentifier(column.isIdentifier());
+		setIsRange(false);
+		setIsQueryCriteria(false);
 		setAD_Reference_ID(column.getAD_Reference_ID());
-		setIsKey(column.isKey());
-		setIsDisplayed(false);
+		setIsKey(false);
+		setIsDisplayed(true);
 	}
+	
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		if(is_ValueChanged(COLUMNNAME_IsKey))
+		{	
+			if(getFieldKey() != null)
+			{
+				throw new AdempiereException("Only can have one field as key");
+			}
+		}
+		//
+		return true;
+	}	//	beforeSave
+	
 	
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success)
@@ -115,11 +154,6 @@ public class MBrowseField extends X_AD_Browse_Field
 		if (!success)
 		{
 			return false;
-		}
-		
-		if(getFieldKey() != null)
-		{
-			throw new AdempiereException("Only can have one field as key");
 		}
 		
 		return success;
@@ -151,7 +185,7 @@ public class MBrowseField extends X_AD_Browse_Field
 	{
 		final String whereClause = MBrowse.COLUMNNAME_AD_Browse_ID + "=? AND "
 								 + MBrowseField.COLUMNNAME_IsKey + "=?";
-		return new Query(getCtx(),MBrowse.Table_Name,whereClause, get_TrxName())
+		return new Query(getCtx(),MBrowseField.Table_Name,whereClause, get_TrxName())
 		.setParameters(new Object[]{this.getAD_Browse_ID(),"Y"})
 		.firstOnly();
 	}

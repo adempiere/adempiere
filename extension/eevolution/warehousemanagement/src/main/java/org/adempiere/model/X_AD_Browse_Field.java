@@ -236,7 +236,9 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
     }
 
 	/** Set View Column.
-		@param AD_View_Column_ID View Column	  */
+		@param AD_View_Column_ID 
+		Column of View
+	  */
 	public void setAD_View_Column_ID (int AD_View_Column_ID)
 	{
 		if (AD_View_Column_ID < 1) 
@@ -246,7 +248,8 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 	}
 
 	/** Get View Column.
-		@return View Column	  */
+		@return Column of View
+	  */
 	public int getAD_View_Column_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Column_ID);

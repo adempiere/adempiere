@@ -73,8 +73,10 @@ public class X_AD_View extends PO implements I_AD_View, I_Persistent
       return sb.toString();
     }
 
-	/** Set Smart View.
-		@param AD_View_ID Smart View	  */
+	/** Set View.
+		@param AD_View_ID 
+		View allows you to create dynamic views of information from the dictionary application
+	  */
 	public void setAD_View_ID (int AD_View_ID)
 	{
 		if (AD_View_ID < 1) 
@@ -83,8 +85,9 @@ public class X_AD_View extends PO implements I_AD_View, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_AD_View_ID, Integer.valueOf(AD_View_ID));
 	}
 
-	/** Get Smart View.
-		@return Smart View	  */
+	/** Get View.
+		@return View allows you to create dynamic views of information from the dictionary application
+	  */
 	public int getAD_View_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_ID);

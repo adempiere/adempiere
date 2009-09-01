@@ -113,42 +113,13 @@ public class ReleaseInOutBound extends SvrProcess
 		int seq = 10;
 		for (X_T_Selection s : getSelected())
 		{
-			MWMInOutBoundLine boundline = new MWMInOutBoundLine(getCtx(), s.getT_Selection_ID(), get_TrxName());		
+			MWMInOutBoundLine boundline = new MWMInOutBoundLine(getCtx(), s.getT_Selection_ID(), get_TrxName());
+			createDDOrder(boundline);
 			seq ++;
 		}
 		return ""; //;"@DocumentNo@ " + bound.getDocumentNo();
 	}
-	
-	/**
-	 * createDO
-	 * @param MWMInOutBoundLine boundline
-	 */
-	protected void createDO(MWMInOutBoundLine boundline)
-	{
-		if(order == null)
-		{	
-			order =new MDDOrder(boundline.getCtx(), 0 , boundline.get_TrxName());
-			order.setC_DocType_ID(0);
-			//m_order.setBPartner(bp)
-		}
-		
-		WMRuleEngine engineRule = WMRuleEngine.get();
-		Collection<MStorage> storages = engineRule.getMStorage(boundline, p_WM_Area_Type_ID, p_WM_Section_Type_ID);
-		
-		for (MStorage storage: storages)
-		{			
-			MDDOrderLine orderLine = new MDDOrderLine(order);
-			orderLine.setM_Locator_ID(storage.getM_Locator_ID());
-			orderLine.setM_LocatorTo_ID(p_M_Locator_ID);
-			orderLine.setC_UOM_ID(boundline.getC_UOM_ID());
-			orderLine.setM_Product_ID(boundline.getM_Product_ID());
-			orderLine.setConfirmedQty(storage.getQtyOnHand());
-			orderLine.setQtyEntered(storage.getQtyOnHand());
-			orderLine.setQtyOrdered(storage.getQtyOnHand());
-			orderLine.saveEx();
-		}	
-	}
-	
+
 	/**
 	 * get Selected
 	 * @return collection getSelected
@@ -167,9 +138,13 @@ public class ReleaseInOutBound extends SvrProcess
 	 * @param storages
 	 * @throws AdempiereException
 	 */
-	protected void createDDOrder(MWMInOutBoundLine boundline, Collection<MStorage> storages)
+	protected void createDDOrder(MWMInOutBoundLine boundline)
 	throws AdempiereException
 	{		
+		
+			WMRuleEngine engineRule = WMRuleEngine.get();
+			Collection<MStorage> storages = engineRule.getMStorage(boundline, p_WM_Area_Type_ID, p_WM_Section_Type_ID);
+		
 			int M_Shipper_ID = 0;
 			MDDOrder order = null;
 			Integer DD_Order_ID = 0;

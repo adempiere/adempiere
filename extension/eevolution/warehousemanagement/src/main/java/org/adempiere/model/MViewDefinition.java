@@ -31,7 +31,7 @@ import org.compiere.util.CLogger;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MViewJoin extends X_AD_View_Join
+public class MViewDefinition extends X_AD_View_Definition
 {
 
 
@@ -40,16 +40,16 @@ public class MViewJoin extends X_AD_View_Join
 	 */
 	private static final long serialVersionUID = 8557695983263069806L;
 
-	public static  MViewJoin get(Properties ctx, int AD_ViewJoin_ID)
+	public static  MViewDefinition get(Properties ctx, int AD_ViewJoin_ID)
 	{
 		if (AD_ViewJoin_ID <= 0)
 			return null;
 		//
-		MViewJoin join = s_cache.get(AD_ViewJoin_ID);
+		MViewDefinition join = s_cache.get(AD_ViewJoin_ID);
 		if (join != null)
 			return join;
 		//
-		join = new MViewJoin(ctx, AD_ViewJoin_ID, null);
+		join = new MViewDefinition(ctx, AD_ViewJoin_ID, null);
 		if (join.get_ID() == AD_ViewJoin_ID)
 		{
 			s_cache.put(AD_ViewJoin_ID, join);
@@ -62,9 +62,9 @@ public class MViewJoin extends X_AD_View_Join
 	}
 
 	/**	Logger							*/
-	private static CLogger	s_log = CLogger.getCLogger (MViewJoin.class);
+	private static CLogger	s_log = CLogger.getCLogger (MViewDefinition.class);
 	/** Cache */
-	private static CCache<Integer, MViewJoin> s_cache= new CCache<Integer, MViewJoin>(Table_Name, 100);
+	private static CCache<Integer, MViewDefinition> s_cache= new CCache<Integer, MViewDefinition>(Table_Name, 100);
 	/** Parent */
 	private MView m_view = null; 
 	/**Join Table */
@@ -76,7 +76,7 @@ public class MViewJoin extends X_AD_View_Join
 	 *	@param AD_ViewJoin_ID 
 	 *	@param trxName transaction name 
 	 */
-	public MViewJoin (Properties ctx, int AD_ViewJoin_ID, String trxName)
+	public MViewDefinition (Properties ctx, int AD_ViewJoin_ID, String trxName)
 	{
 		super (ctx, AD_ViewJoin_ID, trxName);
 		if (AD_ViewJoin_ID == 0)
@@ -89,7 +89,7 @@ public class MViewJoin extends X_AD_View_Join
 	 *	@param ctx context
 	 *	@param AD_ViewJoin_ID 
 	 */
-	public MViewJoin (Properties ctx, int AD_ViewJoin_ID)
+	public MViewDefinition (Properties ctx, int AD_ViewJoin_ID)
 	{
 		this (ctx, AD_ViewJoin_ID, null);
 	}
@@ -100,7 +100,7 @@ public class MViewJoin extends X_AD_View_Join
 	 *  @param rs result set record
 	 *	@param trxName transaction
 	 */
-	public MViewJoin (Properties ctx, ResultSet rs, String trxName)
+	public MViewDefinition (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
 	}	//	MAsset
@@ -154,7 +154,7 @@ public class MViewJoin extends X_AD_View_Join
 		Collection<MColumn> atts = getEntityAttributes();
 		for (MColumn attr : atts)
 		{
-			 selectClause.append(getTableName())
+			 selectClause.append(getTableAlias())
 			 			 .append(attr.getColumnName())
 			 			 .append(",");
 		}
@@ -167,7 +167,7 @@ public class MViewJoin extends X_AD_View_Join
 		StringBuffer  joinClause = new StringBuffer("");
 				      joinClause.append(joinEntityName)
 				      			.append(" ")
-								.append(getTableName())
+								.append(getTableAlias())
 								.append("ON (")
 								.append("")
 								.append(")");
@@ -187,10 +187,10 @@ public class MViewJoin extends X_AD_View_Join
 	
 	public Collection<MViewColumn> getADViewColunms()
 	{
-		final String whereClause = MViewColumn.COLUMNNAME_AD_View_Join_ID + "=?";
+		final String whereClause = MViewColumn.COLUMNNAME_AD_View_Definition_ID + "=?";
 		
 		return new Query(getCtx(),MViewColumn.Table_Name, whereClause, get_TrxName())
-										.setParameters(new Object[]{getAD_View_Join_ID()})
+										.setParameters(new Object[]{getAD_View_Definition_ID()})
 										.list();
 	}
 }	

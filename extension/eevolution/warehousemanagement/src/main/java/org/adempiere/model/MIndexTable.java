@@ -52,14 +52,14 @@ import org.compiere.util.Env;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MTableIndex extends X_AD_TableIndex
+public class MIndexTable extends X_AD_Index_Table
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7860094120756441280L;
 	/**	Logger							*/
-	private static CLogger	s_log = CLogger.getCLogger (MTableIndex.class);
+	private static CLogger	s_log = CLogger.getCLogger (MIndexTable.class);
 	
 	/**************************************************************************
 	 * 	Table Index
@@ -67,7 +67,7 @@ public class MTableIndex extends X_AD_TableIndex
 	 *	@param AD_SmartView_ID  
 	 *	@param trxName transaction name 
 	 */
-	public MTableIndex (Properties ctx, int AD_TableIndex_ID, String trxName)
+	public MIndexTable (Properties ctx, int AD_TableIndex_ID, String trxName)
 	{
 		super (ctx, AD_TableIndex_ID, trxName);
 		if (AD_TableIndex_ID == 0)
@@ -80,7 +80,7 @@ public class MTableIndex extends X_AD_TableIndex
 	 *	@param ctx context
 	 *	@param AD_TableIndex_ID Cahs Flow ID
 	 */
-	public MTableIndex (Properties ctx, int AD_TableIndex_ID)
+	public MIndexTable (Properties ctx, int AD_TableIndex_ID)
 	{
 		this (ctx, AD_TableIndex_ID, null);
 	}
@@ -91,7 +91,7 @@ public class MTableIndex extends X_AD_TableIndex
 	 *  @param rs result set record
 	 *	@param trxName transaction
 	 */
-	public MTableIndex (Properties ctx, ResultSet rs, String trxName)
+	public MIndexTable (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
 	}	//	MAsset

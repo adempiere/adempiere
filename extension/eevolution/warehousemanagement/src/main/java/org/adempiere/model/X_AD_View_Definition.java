@@ -24,10 +24,10 @@ import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_View_Join
+/** Generated Model for AD_View_Definition
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent 
+public class X_AD_View_Definition extends PO implements I_AD_View_Definition, I_Persistent 
 {
 
 	/**
@@ -36,18 +36,18 @@ public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_AD_View_Join (Properties ctx, int AD_View_Join_ID, String trxName)
+    public X_AD_View_Definition (Properties ctx, int AD_View_Definition_ID, String trxName)
     {
-      super (ctx, AD_View_Join_ID, trxName);
-      /** if (AD_View_Join_ID == 0)
+      super (ctx, AD_View_Definition_ID, trxName);
+      /** if (AD_View_Definition_ID == 0)
         {
-			setAD_View_Join_ID (0);
-			setTableName (null);
+			setAD_View_Definition_ID (0);
+			setTableAlias (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_View_Join (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_View_Definition (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,7 +69,7 @@ public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_View_Join[")
+      StringBuffer sb = new StringBuffer ("X_AD_View_Definition[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -113,6 +113,37 @@ public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent
 		return ii.intValue();
 	}
 
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getAD_Table_ID()));
+    }
+
+	/** Set View Definition.
+		@param AD_View_Definition_ID 
+		The View Definition allow defined the tables for a view.
+	  */
+	public void setAD_View_Definition_ID (int AD_View_Definition_ID)
+	{
+		if (AD_View_Definition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Definition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Definition_ID, Integer.valueOf(AD_View_Definition_ID));
+	}
+
+	/** Get View Definition.
+		@return The View Definition allow defined the tables for a view.
+	  */
+	public int getAD_View_Definition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Definition_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View.Table_Name);
@@ -129,8 +160,10 @@ public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent
         return result;
     }
 
-	/** Set Smart View.
-		@param AD_View_ID Smart View	  */
+	/** Set View.
+		@param AD_View_ID 
+		View allows you to create dynamic views of information from the dictionary application
+	  */
 	public void setAD_View_ID (int AD_View_ID)
 	{
 		if (AD_View_ID < 1) 
@@ -139,8 +172,9 @@ public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent
 			set_Value (COLUMNNAME_AD_View_ID, Integer.valueOf(AD_View_ID));
 	}
 
-	/** Get Smart View.
-		@return Smart View	  */
+	/** Get View.
+		@return View allows you to create dynamic views of information from the dictionary application
+	  */
 	public int getAD_View_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_ID);
@@ -149,49 +183,21 @@ public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set View Entity Joins.
-		@param AD_View_Join_ID View Entity Joins	  */
-	public void setAD_View_Join_ID (int AD_View_Join_ID)
-	{
-		if (AD_View_Join_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_View_Join_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_View_Join_ID, Integer.valueOf(AD_View_Join_ID));
-	}
-
-	/** Get View Entity Joins.
-		@return View Entity Joins	  */
-	public int getAD_View_Join_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Join_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getAD_View_Join_ID()));
-    }
-
-	/** Set Join Phrase.
-		@param JoinPhrase 
-		Defined the Join Phrase between Tables
+	/** Set Join Clause.
+		@param JoinClause 
+		Defined the Join Clause between Tables
 	  */
-	public void setJoinPhrase (String JoinPhrase)
+	public void setJoinClause (String JoinClause)
 	{
-		set_Value (COLUMNNAME_JoinPhrase, JoinPhrase);
+		set_Value (COLUMNNAME_JoinClause, JoinClause);
 	}
 
-	/** Get Join Phrase.
-		@return Defined the Join Phrase between Tables
+	/** Get Join Clause.
+		@return Defined the Join Clause between Tables
 	  */
-	public String getJoinPhrase () 
+	public String getJoinClause () 
 	{
-		return (String)get_Value(COLUMNNAME_JoinPhrase);
+		return (String)get_Value(COLUMNNAME_JoinClause);
 	}
 
 	/** Set Process Now.
@@ -235,20 +241,20 @@ public class X_AD_View_Join extends PO implements I_AD_View_Join, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set DB Table Name.
-		@param TableName 
-		Name of the table in the database
+	/** Set DB Table Alias.
+		@param TableAlias 
+		Alias of the table in the view
 	  */
-	public void setTableName (String TableName)
+	public void setTableAlias (String TableAlias)
 	{
-		set_Value (COLUMNNAME_TableName, TableName);
+		set_Value (COLUMNNAME_TableAlias, TableAlias);
 	}
 
-	/** Get DB Table Name.
-		@return Name of the table in the database
+	/** Get DB Table Alias.
+		@return Alias of the table in the view
 	  */
-	public String getTableName () 
+	public String getTableAlias () 
 	{
-		return (String)get_Value(COLUMNNAME_TableName);
+		return (String)get_Value(COLUMNNAME_TableAlias);
 	}
 }

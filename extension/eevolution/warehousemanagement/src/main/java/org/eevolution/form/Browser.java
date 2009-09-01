@@ -248,7 +248,8 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		for(MBrowseField field : m_Browse.getCriteriaFields())
 		{
 			M_Element element = new M_Element(m_Browse.getCtx(),field.getAD_Element_ID(), null);
-			String title  = Msg.translate(Env.getCtx(), element.getColumnName());			
+			String title  = Msg.translate(Env.getCtx(), element.getColumnName());	
+			String name  = field.getAD_View_Column().getAD_Column().getColumnName();
 			addComponent(field, row, cols, field.getName(),title);
 			cols = cols + col;
 			
@@ -291,7 +292,8 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		else if ( DisplayType.Number == field.getAD_Reference_ID() 
 				|| DisplayType.Quantity == field.getAD_Reference_ID()
 				|| DisplayType.CostPrice == field.getAD_Reference_ID()
-				|| DisplayType.Integer == field.getAD_Reference_ID())
+				|| DisplayType.Integer == field.getAD_Reference_ID()
+				|| DisplayType.Amount == field.getAD_Reference_ID())
 		{
 			data= new VNumber(name, false, false, true, field.getAD_Reference_ID(), title);
 			data.setName(name);
@@ -305,9 +307,12 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			label.setLabelFor(data);
 			data.setBackground(AdempierePLAF.getInfoBackground());
 		}
-		else if (DisplayType.TableDir== field.getAD_Reference_ID() || DisplayType.Table == field.getAD_Reference_ID())
+		else if (	DisplayType.TableDir== field.getAD_Reference_ID() 
+				|| 	DisplayType.Table == field.getAD_Reference_ID() 
+				||	DisplayType.ID == field.getAD_Reference_ID()
+				||	DisplayType.List == field.getAD_Reference_ID())
 		{
-			data = (Component) getLookup(name, field);
+			data = (Component) getLookup(field);
 			label.setLabelFor(data);
 		}
 		else if (DisplayType.Search == field.getAD_Reference_ID())
@@ -330,19 +335,19 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	
 	}
 	
-	private Component getLookup(String name,MBrowseField field) 
+	private Component getLookup(MBrowseField field) 
 	{
 		try 
 		{
 			MViewColumn column = field.getAD_View_Column();	
+			String name = column.getAD_Column().getColumnName();
 			Language language = Language.getLoginLanguage();
-			MLookup dataL = MLookupFactory.get(m_Browse.getCtx(), p_WindowNo,
-					column.getAD_Column_ID(),
-					DisplayType.TableDir, language, name , 0, false,"");
+			MLookup dataL = MLookupFactory.get(m_Browse.getCtx(), p_WindowNo,column.getAD_Column_ID(),
+					field.getAD_Reference_ID(), language, name , field.getAD_Reference_Value_ID(), false,"");
 	
 			VLookup data = new VLookup(name, field.isMandatory(), false, true, dataL);
 			data.setBackground(AdempierePLAF.getInfoBackground());
-			data.addVetoableChangeListener(this);
+			data.addVetoableChangeListener(this);			
 			return data;
 		} 
 		catch (Exception e) {
@@ -408,7 +413,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			{	
 				m_queryColumns.add(columnName);
 			}	
-			m_queryColumnsSql.add(vcol.getSelectClause());
+			m_queryColumnsSql.add(vcol.getColumnSQL());
 			
 			//String columnName =vcol.getColumnName();
 			int displayType = field.getAD_Reference_ID();
@@ -416,7 +421,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			boolean isDisplayed = field.isDisplayed();
 			int AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
 			// teo_sarca
-			String columnSql = vcol.getSelectClause() + " AS "+ vcol.getColumnName();
+			String columnSql = vcol.getColumnSQL() + " AS "+ vcol.getColumnName();
 			if (columnSql == null || columnSql.length() == 0)
 				columnSql = columnName;
 			//  Default
@@ -448,12 +453,12 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			{
 				if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
 					colSql = new StringBuffer("(SELECT l.Name FROM AD_Ref_List l WHERE l.AD_Reference_ID=")
-						.append(AD_Reference_Value_ID).append(" AND l.Value=").append(columnSql)
+						.append(AD_Reference_Value_ID).append(" AND l.Value=").append(vcol.getColumnSQL())
 						.append(") AS ").append(columnName);
 				else
 					colSql = new StringBuffer("(SELECT t.Name FROM AD_Ref_List l, AD_Ref_List_Trl t "
 						+ "WHERE l.AD_Ref_List_ID=t.AD_Ref_List_ID AND l.AD_Reference_ID=")
-						.append(AD_Reference_Value_ID).append(" AND l.Value=").append(columnSql)
+						.append(AD_Reference_Value_ID).append(" AND l.Value=").append(vcol.getColumnSQL())
 						.append(" AND t.AD_Language='").append(Env.getAD_Language(Env.getCtx()))
 						.append("') AS ").append(columnName);
 				colClass = String.class;
@@ -521,7 +526,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			String parameter = parameters.next();
 			MBrowseField field = m_Browse.getField(parameter);
 			MViewColumn column = field.getAD_View_Column();
-			sql.append(column.getSelectClause()).append("=? ");
+			sql.append(column.getColumnSQL()).append("=? ");
 			if(parameters.hasNext())
 			{	
 				sql.append(" AND ");

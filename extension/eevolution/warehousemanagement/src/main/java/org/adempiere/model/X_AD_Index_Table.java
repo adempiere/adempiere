@@ -21,18 +21,13 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_Table;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_TableIndex
+/** Generated Model for AD_Index_Table
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_AD_TableIndex extends PO implements I_AD_TableIndex, I_Persistent 
+public class X_AD_Index_Table extends PO implements I_AD_Index_Table, I_Persistent 
 {
 
 	/**
@@ -41,12 +36,12 @@ public class X_AD_TableIndex extends PO implements I_AD_TableIndex, I_Persistent
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_AD_TableIndex (Properties ctx, int AD_TableIndex_ID, String trxName)
+    public X_AD_Index_Table (Properties ctx, int AD_Index_Table_ID, String trxName)
     {
-      super (ctx, AD_TableIndex_ID, trxName);
-      /** if (AD_TableIndex_ID == 0)
+      super (ctx, AD_Index_Table_ID, trxName);
+      /** if (AD_Index_Table_ID == 0)
         {
-			setAD_TableIndex_ID (0);
+			setAD_Index_Table_ID (0);
 			setAD_Table_ID (0);
 			setEntityType (null);
 			setName (null);
@@ -54,7 +49,7 @@ public class X_AD_TableIndex extends PO implements I_AD_TableIndex, I_Persistent
     }
 
     /** Load Constructor */
-    public X_AD_TableIndex (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_Index_Table (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -76,26 +71,26 @@ public class X_AD_TableIndex extends PO implements I_AD_TableIndex, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_TableIndex[")
+      StringBuffer sb = new StringBuffer ("X_AD_Index_Table[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
 	/** Set Table Index ID.
-		@param AD_TableIndex_ID Table Index ID	  */
-	public void setAD_TableIndex_ID (int AD_TableIndex_ID)
+		@param AD_Index_Table_ID Table Index ID	  */
+	public void setAD_Index_Table_ID (int AD_Index_Table_ID)
 	{
-		if (AD_TableIndex_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_TableIndex_ID, null);
+		if (AD_Index_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Index_Table_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_TableIndex_ID, Integer.valueOf(AD_TableIndex_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_Index_Table_ID, Integer.valueOf(AD_Index_Table_ID));
 	}
 
 	/** Get Table Index ID.
 		@return Table Index ID	  */
-	public int getAD_TableIndex_ID () 
+	public int getAD_Index_Table_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_TableIndex_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Index_Table_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

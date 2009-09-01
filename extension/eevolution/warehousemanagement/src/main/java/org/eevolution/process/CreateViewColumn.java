@@ -32,7 +32,7 @@ package org.eevolution.process;
 import java.util.logging.Level;
 
 import org.adempiere.model.MViewColumn;
-import org.adempiere.model.MViewJoin;
+import org.adempiere.model.MViewDefinition;
 import org.compiere.model.MColumn;
 import org.compiere.model.MTable;
 import org.compiere.process.ProcessInfoParameter;
@@ -72,7 +72,7 @@ public class CreateViewColumn extends SvrProcess
 	@SuppressWarnings("unchecked")
 	protected String doIt () throws Exception
 	{	
-		MViewJoin join = new MViewJoin(getCtx(), p_Record_ID, get_TrxName());
+		MViewDefinition join = new MViewDefinition(getCtx(), p_Record_ID, get_TrxName());
 		
 
 			for(MViewColumn vcol:join.getADViewColunms())
@@ -83,8 +83,8 @@ public class CreateViewColumn extends SvrProcess
 			for(MColumn attr: join.getEntityAttributes())
 			{	
 				MViewColumn column = new MViewColumn(attr);
-				column.setAD_View_Join_ID(join.getAD_View_Join_ID());
-				column.setSelectClause(join.getTableName() + "." + attr.getColumnName());
+				column.setAD_View_Definition_ID(join.getAD_View_Definition_ID());
+				column.setColumnSQL(join.getTableAlias() + "." + attr.getColumnName());
 				column.setColumnName(MTable.get(getCtx(),join.getAD_Table_ID()).getTableName()+"_"+attr.getColumnName());
 				column.setAD_View_ID(join.getAD_View_ID());
 				column.saveEx();

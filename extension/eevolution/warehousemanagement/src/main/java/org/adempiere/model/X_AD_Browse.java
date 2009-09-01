@@ -151,8 +151,10 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
         return result;
     }
 
-	/** Set Smart View.
-		@param AD_View_ID Smart View	  */
+	/** Set View.
+		@param AD_View_ID 
+		View allows you to create dynamic views of information from the dictionary application
+	  */
 	public void setAD_View_ID (int AD_View_ID)
 	{
 		if (AD_View_ID < 1) 
@@ -161,8 +163,9 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_AD_View_ID, Integer.valueOf(AD_View_ID));
 	}
 
-	/** Get Smart View.
-		@return Smart View	  */
+	/** Get View.
+		@return View allows you to create dynamic views of information from the dictionary application
+	  */
 	public int getAD_View_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_ID);
@@ -223,6 +226,30 @@ public class X_AD_Browse extends PO implements I_AD_Browse, I_Persistent
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Beta Functionality.
+		@param IsBetaFunctionality 
+		This functionality is considered Beta
+	  */
+	public void setIsBetaFunctionality (boolean IsBetaFunctionality)
+	{
+		set_Value (COLUMNNAME_IsBetaFunctionality, Boolean.valueOf(IsBetaFunctionality));
+	}
+
+	/** Get Beta Functionality.
+		@return This functionality is considered Beta
+	  */
+	public boolean isBetaFunctionality () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsBetaFunctionality);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Name.

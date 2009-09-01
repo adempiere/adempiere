@@ -18,29 +18,27 @@ package org.adempiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.compiere.model.I_AD_Column;
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_IndexColumn
+/** Generated Interface for AD_View_Definition
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_IndexColumn 
+public interface I_AD_View_Definition 
 {
 
-    /** TableName=AD_IndexColumn */
-    public static final String Table_Name = "AD_IndexColumn";
+    /** TableName=AD_View_Definition */
+    public static final String Table_Name = "AD_View_Definition";
 
-    /** AD_Table_ID=1000043 */
+    /** AD_Table_ID=1000017 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -51,30 +49,6 @@ public interface I_AD_IndexColumn
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_Column_ID */
-    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
-
-	/** Set Column.
-	  * Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID);
-
-	/** Get Column.
-	  * Column in the table
-	  */
-	public int getAD_Column_ID();
-
-	public I_AD_Column getAD_Column() throws RuntimeException;
-
-    /** Column name AD_IndexColumn_ID */
-    public static final String COLUMNNAME_AD_IndexColumn_ID = "AD_IndexColumn_ID";
-
-	/** Set AD_IndexColumn ID	  */
-	public void setAD_IndexColumn_ID (int AD_IndexColumn_ID);
-
-	/** Get AD_IndexColumn ID	  */
-	public int getAD_IndexColumn_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -89,29 +63,48 @@ public interface I_AD_IndexColumn
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_TableIndex_ID */
-    public static final String COLUMNNAME_AD_TableIndex_ID = "AD_TableIndex_ID";
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
-	/** Set Table Index ID	  */
-	public void setAD_TableIndex_ID (int AD_TableIndex_ID);
-
-	/** Get Table Index ID	  */
-	public int getAD_TableIndex_ID();
-
-	public I_AD_TableIndex getAD_TableIndex() throws RuntimeException;
-
-    /** Column name ColumnSQL */
-    public static final String COLUMNNAME_ColumnSQL = "ColumnSQL";
-
-	/** Set Column SQL.
-	  * Virtual Column (r/o)
+	/** Set Table.
+	  * Database Table information
 	  */
-	public void setColumnSQL (String ColumnSQL);
+	public void setAD_Table_ID (int AD_Table_ID);
 
-	/** Get Column SQL.
-	  * Virtual Column (r/o)
+	/** Get Table.
+	  * Database Table information
 	  */
-	public String getColumnSQL();
+	public int getAD_Table_ID();
+
+	public I_AD_Table getAD_Table() throws RuntimeException;
+
+    /** Column name AD_View_Definition_ID */
+    public static final String COLUMNNAME_AD_View_Definition_ID = "AD_View_Definition_ID";
+
+	/** Set View Definition.
+	  * The View Definition allow defined the tables for a view.
+	  */
+	public void setAD_View_Definition_ID (int AD_View_Definition_ID);
+
+	/** Get View Definition.
+	  * The View Definition allow defined the tables for a view.
+	  */
+	public int getAD_View_Definition_ID();
+
+    /** Column name AD_View_ID */
+    public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
+
+	/** Set View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
+	public void setAD_View_ID (int AD_View_ID);
+
+	/** Get View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
+	public int getAD_View_ID();
+
+	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -129,21 +122,6 @@ public interface I_AD_IndexColumn
 	  */
 	public int getCreatedBy();
 
-    /** Column name EntityType */
-    public static final String COLUMNNAME_EntityType = "EntityType";
-
-	/** Set Entity Type.
-	  * Dictionary Entity Type;
- Determines ownership and synchronization
-	  */
-	public void setEntityType (String EntityType);
-
-	/** Get Entity Type.
-	  * Dictionary Entity Type;
- Determines ownership and synchronization
-	  */
-	public String getEntityType();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -156,6 +134,28 @@ public interface I_AD_IndexColumn
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name JoinClause */
+    public static final String COLUMNNAME_JoinClause = "JoinClause";
+
+	/** Set Join Clause.
+	  * Defined the Join Clause between Tables
+	  */
+	public void setJoinClause (String JoinClause);
+
+	/** Get Join Clause.
+	  * Defined the Join Clause between Tables
+	  */
+	public String getJoinClause();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -171,6 +171,19 @@ public interface I_AD_IndexColumn
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name TableAlias */
+    public static final String COLUMNNAME_TableAlias = "TableAlias";
+
+	/** Set DB Table Alias.
+	  * Alias of the table in the view
+	  */
+	public void setTableAlias (String TableAlias);
+
+	/** Get DB Table Alias.
+	  * Alias of the table in the view
+	  */
+	public String getTableAlias();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

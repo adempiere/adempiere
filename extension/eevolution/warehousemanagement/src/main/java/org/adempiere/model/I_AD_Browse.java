@@ -90,10 +90,14 @@ public interface I_AD_Browse
     /** Column name AD_View_ID */
     public static final String COLUMNNAME_AD_View_ID = "AD_View_ID";
 
-	/** Set Smart View	  */
+	/** Set View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
 	public void setAD_View_ID (int AD_View_ID);
 
-	/** Get Smart View	  */
+	/** Get View.
+	  * View allows you to create dynamic views of information from the dictionary application
+	  */
 	public int getAD_View_ID();
 
 	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException;
@@ -167,6 +171,19 @@ public interface I_AD_Browse
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsBetaFunctionality */
+    public static final String COLUMNNAME_IsBetaFunctionality = "IsBetaFunctionality";
+
+	/** Set Beta Functionality.
+	  * This functionality is considered Beta
+	  */
+	public void setIsBetaFunctionality (boolean IsBetaFunctionality);
+
+	/** Get Beta Functionality.
+	  * This functionality is considered Beta
+	  */
+	public boolean isBetaFunctionality();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

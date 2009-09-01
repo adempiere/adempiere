@@ -18,29 +18,27 @@ package org.adempiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.compiere.model.I_AD_Table;
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_TableIndex
+/** Generated Interface for AD_SmartGraph
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_TableIndex 
+public interface I_AD_SmartGraph 
 {
 
-    /** TableName=AD_TableIndex */
-    public static final String Table_Name = "AD_TableIndex";
+    /** TableName=AD_SmartGraph */
+    public static final String Table_Name = "AD_SmartGraph";
 
-    /** AD_Table_ID=1000042 */
+    /** AD_Table_ID=1000027 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -65,29 +63,14 @@ public interface I_AD_TableIndex
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_TableIndex_ID */
-    public static final String COLUMNNAME_AD_TableIndex_ID = "AD_TableIndex_ID";
+    /** Column name AD_SmartGraph_ID */
+    public static final String COLUMNNAME_AD_SmartGraph_ID = "AD_SmartGraph_ID";
 
-	/** Set Table Index ID	  */
-	public void setAD_TableIndex_ID (int AD_TableIndex_ID);
+	/** Set Smart Graph ID	  */
+	public void setAD_SmartGraph_ID (int AD_SmartGraph_ID);
 
-	/** Get Table Index ID	  */
-	public int getAD_TableIndex_ID();
-
-    /** Column name AD_Table_ID */
-    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
-
-	/** Set Table.
-	  * Database Table information
-	  */
-	public void setAD_Table_ID (int AD_Table_ID);
-
-	/** Get Table.
-	  * Database Table information
-	  */
-	public int getAD_Table_ID();
-
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	/** Get Smart Graph ID	  */
+	public int getAD_SmartGraph_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -105,47 +88,6 @@ public interface I_AD_TableIndex
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
-    /** Column name EntityType */
-    public static final String COLUMNNAME_EntityType = "EntityType";
-
-	/** Set Entity Type.
-	  * Dictionary Entity Type;
- Determines ownership and synchronization
-	  */
-	public void setEntityType (String EntityType);
-
-	/** Get Entity Type.
-	  * Dictionary Entity Type;
- Determines ownership and synchronization
-	  */
-	public String getEntityType();
-
-    /** Column name Help */
-    public static final String COLUMNNAME_Help = "Help";
-
-	/** Set Comment/Help.
-	  * Comment or Hint
-	  */
-	public void setHelp (String Help);
-
-	/** Get Comment/Help.
-	  * Comment or Hint
-	  */
-	public String getHelp();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -158,50 +100,6 @@ public interface I_AD_TableIndex
 	  * The record is active in the system
 	  */
 	public boolean isActive();
-
-    /** Column name IsCreateConstraint */
-    public static final String COLUMNNAME_IsCreateConstraint = "IsCreateConstraint";
-
-	/** Set Create Constraint.
-	  * Create Database Constraint rather a database index
-	  */
-	public void setIsCreateConstraint (boolean IsCreateConstraint);
-
-	/** Get Create Constraint.
-	  * Create Database Constraint rather a database index
-	  */
-	public boolean isCreateConstraint();
-
-    /** Column name IsUnique */
-    public static final String COLUMNNAME_IsUnique = "IsUnique";
-
-	/** Set Unique	  */
-	public void setIsUnique (boolean IsUnique);
-
-	/** Get Unique	  */
-	public boolean isUnique();
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
-
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

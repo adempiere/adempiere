@@ -127,10 +127,14 @@ public interface I_AD_Browse_Field
     /** Column name AD_View_Column_ID */
     public static final String COLUMNNAME_AD_View_Column_ID = "AD_View_Column_ID";
 
-	/** Set View Column	  */
+	/** Set View Column.
+	  * Column of View
+	  */
 	public void setAD_View_Column_ID (int AD_View_Column_ID);
 
-	/** Get View Column	  */
+	/** Get View Column.
+	  * Column of View
+	  */
 	public int getAD_View_Column_ID();
 
 	public org.adempiere.model.I_AD_View_Column getAD_View_Column() throws RuntimeException;

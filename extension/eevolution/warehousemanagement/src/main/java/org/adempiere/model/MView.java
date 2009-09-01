@@ -93,12 +93,12 @@ public class MView extends X_AD_View
 	 * return the Smart View Joins
 	 * @return
 	 */
-	public Collection<MViewJoin> getViewJoins()
+	public Collection<MViewDefinition> getViewJoins()
 	{
 		final String whereClause = COLUMNNAME_AD_View_ID + "= ?";
-		return new Query(getCtx(), MViewJoin.Table_Name, whereClause, get_TrxName()).
+		return new Query(getCtx(), MViewDefinition.Table_Name, whereClause, get_TrxName()).
 					setParameters(new Object[]{get_ID()})
-					.setOrderBy(MViewJoin.COLUMNNAME_SeqNo)
+					.setOrderBy(MViewDefinition.COLUMNNAME_SeqNo)
 					.setOnlyActiveRecords(true)
 					.list();
 	}
@@ -110,15 +110,15 @@ public class MView extends X_AD_View
 	public String getJoinsTables()
 	{
 		final String whereClause = COLUMNNAME_AD_View_ID + "= ?";
-		Iterator<MViewJoin> joins = new Query(getCtx(), MViewJoin.Table_Name, whereClause, get_TrxName()).
+		Iterator<MViewDefinition> joins = new Query(getCtx(), MViewDefinition.Table_Name, whereClause, get_TrxName()).
 					setParameters(new Object[]{get_ID()})
-					.setOrderBy(MViewJoin.COLUMNNAME_SeqNo)
+					.setOrderBy(MViewDefinition.COLUMNNAME_SeqNo)
 					.setOnlyActiveRecords(true)
 					.iterate();
 		StringBuffer tables = new StringBuffer(""); 
 		while(joins.hasNext())
 		{
-			MViewJoin join = joins.next();
+			MViewDefinition join = joins.next();
 			tables.append(join.getAD_Table().getTableName());
 			if(joins.hasNext())
 			{	
@@ -136,15 +136,15 @@ public class MView extends X_AD_View
 	{
 		String fromClause = " ";
 		String joinClause = " ";
-		for (MViewJoin join : getViewJoins())
+		for (MViewDefinition join : getViewJoins())
 		{
-			if(join.getJoinPhrase() == null)
+			if(join.getJoinClause() == null)
 			{
-				fromClause = fromClause + join.getAD_Table().getTableName() + " " + join.getTableName();
+				fromClause = fromClause + join.getAD_Table().getTableName() + " " + join.getTableAlias();
 			}
-			else if (join.getJoinPhrase().length() > 0)
+			else if (join.getJoinClause().length() > 0)
 			{
-				joinClause = joinClause + join.getJoinPhrase() + " ";
+				joinClause = joinClause + join.getJoinClause() + " ";
 			}
 		}
 		
@@ -168,14 +168,14 @@ public class MView extends X_AD_View
 	 * get Parent View Join
 	 * @return MViewJoin
 	 */
-	public MViewJoin getParentViewJoin()
+	public MViewDefinition getParentViewJoin()
 	{
-		String whereClause =  MViewJoin.COLUMNNAME_AD_View_ID + "=? AND "
-							+ MViewJoin.COLUMNNAME_JoinPhrase +" IS NULL"; 
-		return new Query(getCtx(),MViewJoin.Table_Name, whereClause, get_TrxName())
+		String whereClause =  MViewDefinition.COLUMNNAME_AD_View_ID + "=? AND "
+							+ MViewDefinition.COLUMNNAME_JoinClause +" IS NULL"; 
+		return new Query(getCtx(),MViewDefinition.Table_Name, whereClause, get_TrxName())
 		.setParameters(new Object[]{getAD_View_ID()})
 		.setOnlyActiveRecords(true)
-		.setOrderBy( MViewJoin.COLUMNNAME_SeqNo)
+		.setOrderBy( MViewDefinition.COLUMNNAME_SeqNo)
 		.firstOnly();
 	}
 	
@@ -194,6 +194,6 @@ public class MView extends X_AD_View
 	 */
 	public String getParentEntityAliasName()
 	{
-		 return getParentViewJoin().getTableName();
+		 return getParentViewJoin().getTableAlias();
 	}
 }	

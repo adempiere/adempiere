@@ -21,18 +21,13 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_IndexColumn
+/** Generated Model for AD_Index_Column
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_AD_IndexColumn extends PO implements I_AD_IndexColumn, I_Persistent 
+public class X_AD_Index_Column extends PO implements I_AD_Index_Column, I_Persistent 
 {
 
 	/**
@@ -41,20 +36,20 @@ public class X_AD_IndexColumn extends PO implements I_AD_IndexColumn, I_Persiste
 	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
-    public X_AD_IndexColumn (Properties ctx, int AD_IndexColumn_ID, String trxName)
+    public X_AD_Index_Column (Properties ctx, int AD_Index_Column_ID, String trxName)
     {
-      super (ctx, AD_IndexColumn_ID, trxName);
-      /** if (AD_IndexColumn_ID == 0)
+      super (ctx, AD_Index_Column_ID, trxName);
+      /** if (AD_Index_Column_ID == 0)
         {
 			setAD_Column_ID (0);
-			setAD_IndexColumn_ID (0);
-			setAD_TableIndex_ID (0);
+			setAD_Index_Column_ID (0);
+			setAD_Index_Table_ID (0);
 			setEntityType (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_IndexColumn (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_Index_Column (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -76,7 +71,7 @@ public class X_AD_IndexColumn extends PO implements I_AD_IndexColumn, I_Persiste
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_IndexColumn[")
+      StringBuffer sb = new StringBuffer ("X_AD_Index_Column[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -128,34 +123,34 @@ public class X_AD_IndexColumn extends PO implements I_AD_IndexColumn, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Column_ID()));
     }
 
-	/** Set AD_IndexColumn ID.
-		@param AD_IndexColumn_ID AD_IndexColumn ID	  */
-	public void setAD_IndexColumn_ID (int AD_IndexColumn_ID)
+	/** Set AD_Index_Column ID.
+		@param AD_Index_Column_ID AD_Index_Column ID	  */
+	public void setAD_Index_Column_ID (int AD_Index_Column_ID)
 	{
-		if (AD_IndexColumn_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_IndexColumn_ID, null);
+		if (AD_Index_Column_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Index_Column_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_IndexColumn_ID, Integer.valueOf(AD_IndexColumn_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_Index_Column_ID, Integer.valueOf(AD_Index_Column_ID));
 	}
 
-	/** Get AD_IndexColumn ID.
-		@return AD_IndexColumn ID	  */
-	public int getAD_IndexColumn_ID () 
+	/** Get AD_Index_Column ID.
+		@return AD_Index_Column ID	  */
+	public int getAD_Index_Column_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_IndexColumn_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Index_Column_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public I_AD_TableIndex getAD_TableIndex() throws RuntimeException 
+	public I_AD_Index_Table getAD_Index_Table() throws RuntimeException 
     {
-        Class<?> clazz = MTable.getClass(I_AD_TableIndex.Table_Name);
-        I_AD_TableIndex result = null;
+        Class<?> clazz = MTable.getClass(I_AD_Index_Table.Table_Name);
+        I_AD_Index_Table result = null;
         try	{
 	        Constructor<?> constructor = null;
 	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_TableIndex)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_TableIndex_ID()), get_TrxName()});
+    	    result = (I_AD_Index_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Index_Table_ID()), get_TrxName()});
         } catch (Exception e) {
 	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
 	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
@@ -165,20 +160,20 @@ public class X_AD_IndexColumn extends PO implements I_AD_IndexColumn, I_Persiste
     }
 
 	/** Set Table Index ID.
-		@param AD_TableIndex_ID Table Index ID	  */
-	public void setAD_TableIndex_ID (int AD_TableIndex_ID)
+		@param AD_Index_Table_ID Table Index ID	  */
+	public void setAD_Index_Table_ID (int AD_Index_Table_ID)
 	{
-		if (AD_TableIndex_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_TableIndex_ID, null);
+		if (AD_Index_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Index_Table_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_TableIndex_ID, Integer.valueOf(AD_TableIndex_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_Index_Table_ID, Integer.valueOf(AD_Index_Table_ID));
 	}
 
 	/** Get Table Index ID.
 		@return Table Index ID	  */
-	public int getAD_TableIndex_ID () 
+	public int getAD_Index_Table_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_TableIndex_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Index_Table_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

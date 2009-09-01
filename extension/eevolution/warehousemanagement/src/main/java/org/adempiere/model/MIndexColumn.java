@@ -38,7 +38,7 @@ import org.compiere.util.CLogger;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MIndexColumn extends X_AD_TableIndex
+public class MIndexColumn extends X_AD_Index_Column
 {
 	/**
 	 * 
@@ -92,7 +92,6 @@ public class MIndexColumn extends X_AD_TableIndex
 		StringBuffer sb = new StringBuffer ("MIndexColumn[")
 			.append (get_ID ())
 			.append ("-")
-			.append (getName())
 			.append ("]");
 		return sb.toString ();
 	}	//	toString

@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 import org.compiere.model.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_View_Column
  *  @author Adempiere (generated) 
@@ -114,7 +115,9 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 	}
 
 	/** Set View Column.
-		@param AD_View_Column_ID View Column	  */
+		@param AD_View_Column_ID 
+		Column of View
+	  */
 	public void setAD_View_Column_ID (int AD_View_Column_ID)
 	{
 		if (AD_View_Column_ID < 1) 
@@ -124,10 +127,50 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 	}
 
 	/** Get View Column.
-		@return View Column	  */
+		@return Column of View
+	  */
 	public int getAD_View_Column_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Column_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.adempiere.model.I_AD_View_Definition getAD_View_Definition() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View_Definition.Table_Name);
+        org.adempiere.model.I_AD_View_Definition result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (org.adempiere.model.I_AD_View_Definition)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_View_Definition_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set View Definition.
+		@param AD_View_Definition_ID 
+		The View Definition allow defined the tables for a view.
+	  */
+	public void setAD_View_Definition_ID (int AD_View_Definition_ID)
+	{
+		if (AD_View_Definition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Definition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_View_Definition_ID, Integer.valueOf(AD_View_Definition_ID));
+	}
+
+	/** Get View Definition.
+		@return The View Definition allow defined the tables for a view.
+	  */
+	public int getAD_View_Definition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Definition_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -149,8 +192,10 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
         return result;
     }
 
-	/** Set Smart View.
-		@param AD_View_ID Smart View	  */
+	/** Set View.
+		@param AD_View_ID 
+		View allows you to create dynamic views of information from the dictionary application
+	  */
 	public void setAD_View_ID (int AD_View_ID)
 	{
 		if (AD_View_ID < 1) 
@@ -159,47 +204,12 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 			set_Value (COLUMNNAME_AD_View_ID, Integer.valueOf(AD_View_ID));
 	}
 
-	/** Get Smart View.
-		@return Smart View	  */
+	/** Get View.
+		@return View allows you to create dynamic views of information from the dictionary application
+	  */
 	public int getAD_View_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.adempiere.model.I_AD_View_Join getAD_View_Join() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View_Join.Table_Name);
-        org.adempiere.model.I_AD_View_Join result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_View_Join)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_View_Join_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set View Entity Joins.
-		@param AD_View_Join_ID View Entity Joins	  */
-	public void setAD_View_Join_ID (int AD_View_Join_ID)
-	{
-		if (AD_View_Join_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_View_Join_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_View_Join_ID, Integer.valueOf(AD_View_Join_ID));
-	}
-
-	/** Get View Entity Joins.
-		@return View Entity Joins	  */
-	public int getAD_View_Join_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_View_Join_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -220,6 +230,23 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 	public String getColumnName () 
 	{
 		return (String)get_Value(COLUMNNAME_ColumnName);
+	}
+
+	/** Set Column SQL.
+		@param ColumnSQL 
+		Virtual Column (r/o)
+	  */
+	public void setColumnSQL (String ColumnSQL)
+	{
+		set_Value (COLUMNNAME_ColumnSQL, ColumnSQL);
+	}
+
+	/** Get Column SQL.
+		@return Virtual Column (r/o)
+	  */
+	public String getColumnSQL () 
+	{
+		return (String)get_Value(COLUMNNAME_ColumnSQL);
 	}
 
 	/** Set Description.
@@ -293,20 +320,11 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set Sql SELECT.
-		@param SelectClause 
-		SQL SELECT clause
-	  */
-	public void setSelectClause (String SelectClause)
-	{
-		set_Value (COLUMNNAME_SelectClause, SelectClause);
-	}
-
-	/** Get Sql SELECT.
-		@return SQL SELECT clause
-	  */
-	public String getSelectClause () 
-	{
-		return (String)get_Value(COLUMNNAME_SelectClause);
-	}
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getName());
+    }
 }

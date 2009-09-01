@@ -21,24 +21,24 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_EntityJoinColumn
+/** Generated Interface for AD_Index_Table
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_AD_EntityJoinColumn 
+public interface I_AD_Index_Table 
 {
 
-    /** TableName=AD_EntityJoinColumn */
-    public static final String Table_Name = "AD_EntityJoinColumn";
+    /** TableName=AD_Index_Table */
+    public static final String Table_Name = "AD_Index_Table";
 
-    /** AD_Table_ID=1000028 */
+    /** AD_Table_ID=1000042 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 6 - System - Client 
+    /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
 
@@ -50,53 +50,14 @@ public interface I_AD_EntityJoinColumn
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Column_ID */
-    public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
+    /** Column name AD_Index_Table_ID */
+    public static final String COLUMNNAME_AD_Index_Table_ID = "AD_Index_Table_ID";
 
-	/** Set Column.
-	  * Column in the table
-	  */
-	public void setAD_Column_ID (int AD_Column_ID);
+	/** Set Table Index ID	  */
+	public void setAD_Index_Table_ID (int AD_Index_Table_ID);
 
-	/** Get Column.
-	  * Column in the table
-	  */
-	public int getAD_Column_ID();
-
-	public I_AD_Column getAD_Column() throws RuntimeException;
-
-    /** Column name AD_EntityJoinColumn_ID */
-    public static final String COLUMNNAME_AD_EntityJoinColumn_ID = "AD_EntityJoinColumn_ID";
-
-	/** Set Entity Join Column	  */
-	public void setAD_EntityJoinColumn_ID (int AD_EntityJoinColumn_ID);
-
-	/** Get Entity Join Column	  */
-	public int getAD_EntityJoinColumn_ID();
-
-    /** Column name AD_EntityRelationship_ID */
-    public static final String COLUMNNAME_AD_EntityRelationship_ID = "AD_EntityRelationship_ID";
-
-	/** Set Entity Relationship	  */
-	public void setAD_EntityRelationship_ID (int AD_EntityRelationship_ID);
-
-	/** Get Entity Relationship	  */
-	public int getAD_EntityRelationship_ID();
-
-	public org.adempiere.model.I_AD_EntityRelationship getAD_EntityRelationship() throws RuntimeException;
-
-    /** Column name AD_Key */
-    public static final String COLUMNNAME_AD_Key = "AD_Key";
-
-	/** Set Key column.
-	  * Unique identifier of a record
-	  */
-	public void setAD_Key (int AD_Key);
-
-	/** Get Key column.
-	  * Unique identifier of a record
-	  */
-	public int getAD_Key();
+	/** Get Table Index ID	  */
+	public int getAD_Index_Table_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -142,6 +103,47 @@ public interface I_AD_EntityJoinColumn
 	  */
 	public int getCreatedBy();
 
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
+    /** Column name EntityType */
+    public static final String COLUMNNAME_EntityType = "EntityType";
+
+	/** Set Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType);
+
+	/** Get Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public String getEntityType();
+
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
+
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
+
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -155,33 +157,49 @@ public interface I_AD_EntityJoinColumn
 	  */
 	public boolean isActive();
 
-    /** Column name IsInverse */
-    public static final String COLUMNNAME_IsInverse = "IsInverse";
+    /** Column name IsCreateConstraint */
+    public static final String COLUMNNAME_IsCreateConstraint = "IsCreateConstraint";
 
-	/** Set Is Inverse.
-	  * Inverse entity if the join is part of the inverse join definitio
+	/** Set Create Constraint.
+	  * Create Database Constraint rather a database index
 	  */
-	public void setIsInverse (boolean IsInverse);
+	public void setIsCreateConstraint (boolean IsCreateConstraint);
 
-	/** Get Is Inverse.
-	  * Inverse entity if the join is part of the inverse join definitio
+	/** Get Create Constraint.
+	  * Create Database Constraint rather a database index
 	  */
-	public boolean isInverse();
+	public boolean isCreateConstraint();
 
-    /** Column name SeqNo */
-    public static final String COLUMNNAME_SeqNo = "SeqNo";
+    /** Column name IsUnique */
+    public static final String COLUMNNAME_IsUnique = "IsUnique";
 
-	/** Set Sequence.
-	  * Method of ordering records;
- lowest number comes first
+	/** Set Unique	  */
+	public void setIsUnique (boolean IsUnique);
+
+	/** Get Unique	  */
+	public boolean isUnique();
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public void setSeqNo (int SeqNo);
+	public void setName (String Name);
 
-	/** Get Sequence.
-	  * Method of ordering records;
- lowest number comes first
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
 	  */
-	public int getSeqNo();
+	public String getName();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

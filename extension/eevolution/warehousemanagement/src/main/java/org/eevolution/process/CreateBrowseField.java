@@ -53,7 +53,7 @@ public class CreateBrowseField extends SvrProcess
 	protected void prepare ()
 	{
 		
-		p_Record_ID = getRecord_ID();
+ 		p_Record_ID = getRecord_ID();
 		ProcessInfoParameter[] parameters = getParameter();
 		for (ProcessInfoParameter para: parameters)
 		{
@@ -74,15 +74,21 @@ public class CreateBrowseField extends SvrProcess
 	{	
 		MBrowse browse = new MBrowse(getCtx(), p_Record_ID, get_TrxName());
 		MView view = browse.getAD_View();
-
-			for(MViewColumn col:view.getViewColumn(view.getAD_View_ID()))
-			{	
-				MBrowseField column = new MBrowseField(col);
-				column.setAD_Browse_ID(browse.get_ID());
-				column.setEntityType(browse.getEntityType());
-				column.saveEx();
-				addLog(col.getColumnName());
-			}		
+		int seq = 10;
+		for(MViewColumn column:view.getViewColumn(view.getAD_View_ID()))
+		{	
+			MBrowseField field = MBrowseField.get(browse, column);
+			if(field != null)
+				continue;
+			
+			field = new MBrowseField(browse, column);
+			field.setAD_Browse_ID(browse.get_ID());
+			field.setEntityType(browse.getEntityType());
+			field.setSeqNo(seq);
+			field.saveEx();
+			seq ++;
+			addLog(column.getColumnName());
+		}		
 		return "@Ok@";
 	}
 }
