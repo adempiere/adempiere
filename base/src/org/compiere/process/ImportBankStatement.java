@@ -190,7 +190,7 @@ public class ImportBankStatement extends SvrProcess
 			log.info("Set Currency=" + no);
 		//
 		sql = new StringBuffer("UPDATE I_BankStatement i "
-			+ "SET i.C_Currency_ID=(SELECT C_Currency_ID FROM C_BankAccount WHERE C_BankAccount_ID=i.C_BankAccount_ID) "
+			+ "SET C_Currency_ID=(SELECT C_Currency_ID FROM C_BankAccount WHERE C_BankAccount_ID=i.C_BankAccount_ID) "
 			+ "WHERE i.C_Currency_ID IS NULL "
 			+ "AND i.ISO_Code IS NULL").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -315,7 +315,7 @@ public class ImportBankStatement extends SvrProcess
 			+ "WHERE i.I_isImported='N' "
 			+ "AND s.C_BankStatement_ID=l.C_BankStatement_ID "
 			+ "AND i.EftTrxID IS NOT NULL AND "
-			//	Concatinate EFT Info
+			//	Concatenate EFT Info
 			+ "(l.EftTrxID||l.EftAmt||l.EftStatementLineDate||l.EftValutaDate||l.EftTrxType||l.EftCurrency||l.EftReference||s.EftStatementReference "
 			+ "||l.EftCheckNo||l.EftMemo||l.EftPayee||l.EftPayeeAccount) "
 			+ "= "

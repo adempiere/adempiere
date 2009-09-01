@@ -28,22 +28,22 @@ import org.compiere.impexp.BankStatementLoaderInterface;
  *  bank statement loader class to use.
  *  It also inserts the data into the I_BankStatement table.
  *
- *  The loader objects can acces their configuration (e.g. file, URL,
+ *  The loader objects can access their configuration (e.g. file, URL,
  *  password etc) using the corresponding get methods provided by this class.
- *  As this class is derrived from PO, "Persistent Object" it has acces to
+ *  As this class is derived from PO, "Persistent Object" it has access to
  *  the loader configuration that has been entered for this loader.
  *  How these values are interpreted is the responsibility of the loader.
  *  There are two file names provided, getFileName() and getLocalFileName().
  *  The first one is the file name as entered on the loader configuration tab,
  *  the second one is the file name parameter from the loader process.
- *  Reccomended behaviour for a file based loader would be to use the file
- *  name from the process parameter if available, and resort to the file anme
+ *  Recommended behavior for a file based loader would be to use the file
+ *  name from the process parameter if available, and resort to the file name
  *  from the loader configuration as a second option.
  *	
  *  For a HTTP based loader the file name from the loader configuration should
  *  be used to construct the URL to connect to (combined with the other parameters).
  *  In this scenario the file name from the process parameter can be used to save
- *  the aquired statement data to disk.
+ *  the acquired statement data to disk.
  *
  *	author Maarten Klinker, Eldir Tomassen
  *	@version $Id: MBankStatementLoader.java,v 1.3 2006/07/30 00:51:04 jjanke Exp $
@@ -150,7 +150,7 @@ import org.compiere.impexp.BankStatementLoaderInterface;
 	
 	/**
 	 * 	Start loading Bankstatements
-	 *	@return true if loading completed succesfully
+	 *	@return true if loading completed successfully
 	 */
 	public boolean loadLines()
 	{
@@ -188,7 +188,7 @@ import org.compiere.impexp.BankStatementLoaderInterface;
 	
 	/**
 	 * 	Load a bank statement into the I_BankStatement table
-	 *	@return Statement line was loaded succesfully
+	 *	@return Statement line was loaded successfully
 	 *	This method is called by the BankStatementLoadere whenever a complete 
 	 *	statement line has been read.
 	 */
@@ -236,7 +236,7 @@ import org.compiere.impexp.BankStatementLoaderInterface;
 		log.config( "MBankStatementLoader.importLine Reference No=" + m_loader.getReference());
 		imp.setReferenceNo(m_loader.getReference());
 		imp.setEftReference(m_loader.getReference());
-		log.config( "MBankStatementLoader.importLine Check No=" + m_loader.getReference());
+		log.config( "MBankStatementLoader.importLine Check No=" + m_loader.getCheckNo());
 		imp.setEftCheckNo(m_loader.getCheckNo());
 		log.config( "MBankStatementLoader.importLine Memo=" + m_loader.getMemo());
 		imp.setMemo(m_loader.getMemo());
@@ -283,9 +283,9 @@ import org.compiere.impexp.BankStatementLoaderInterface;
 
 	/**
 	 * 	Return the most recent error description
-	 *	@return Error discription
+	 *	@return Error description
 	 *	This is an additional error description, it can be used to provided
-	 *	descriptive iformation, such as a file name or SQL error, that can not
+	 *	descriptive information, such as a file name or SQL error, that can not
 	 *	be translated by the Adempiere message system.
 	 */
 	public String getErrorDescription()
