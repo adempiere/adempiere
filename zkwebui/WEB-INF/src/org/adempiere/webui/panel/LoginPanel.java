@@ -52,6 +52,8 @@ import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.fn.ZkFns;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -323,5 +325,13 @@ public class LoginPanel extends Window implements EventListener
 
             Clients.response("zkLocaleJavaScript", new AuScript(null, ZkFns.outLocaleJavaScript()));
         }
+
+		// This temporary validation code is added to check the reported bug
+		// [ adempiere-ZK Web Client-2832968 ] User context lost?
+		// https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2832968&group_id=176962
+		// it's harmless, if there is no bug then this must never fail
+        Session currSess = Executions.getCurrent().getDesktop().getSession();
+        currSess.setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
+		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
     }
 }

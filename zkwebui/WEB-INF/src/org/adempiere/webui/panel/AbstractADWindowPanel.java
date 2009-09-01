@@ -71,9 +71,11 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
+import org.jfree.util.Log;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -237,7 +239,25 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
      */
 	public boolean initPanel(int adWindowId, MQuery query)
     {
-        // Set AutoCommit for this Window
+		// This temporary validation code is added to check the reported bug
+		// [ adempiere-ZK Web Client-2832968 ] User context lost?
+		// https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2832968&group_id=176962
+		// it's harmless, if there is no bug then this must never fail
+		Session currSess = Executions.getCurrent().getDesktop().getSession();
+		int checkad_user_id=(Integer)currSess.getAttribute("Check_AD_User_ID");
+		if (checkad_user_id!=Env.getAD_User_ID(ctx))  
+		{
+			String msg = "Bug 2832968 SessionUser="
+					+ checkad_user_id
+					+ ", ContextUser="
+					+ Env.getAD_User_ID(ctx)
+					+ ".  Please report conditions to your system administrator or in sf tracker 2832968";
+			logger.warning(msg);
+			throw new ApplicationException(msg); 
+		}
+		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
+		
+		// Set AutoCommit for this Window
 		if (embeddedTabindex < 0)
 		{
 			Env.setAutoCommit(ctx, curWindowNo, Env.isAutoCommit(ctx));
