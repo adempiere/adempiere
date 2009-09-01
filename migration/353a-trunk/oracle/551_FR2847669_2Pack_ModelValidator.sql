@@ -18,8 +18,8 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 ALTER TABLE AD_Package_Exp_Detail ADD AD_ModelValidator_ID NUMBER(10) DEFAULT NULL 
 ;
 
-ALTER TABLE AD_Package_Exp_Detail ADD CONSTRAINT admodelvalidator_adpackageexpdetail FOREIGN KEY (AD_ModelValidator_ID)
-REFERENCES AD_ModelValidator (AD_ModelValidator_ID);
+ALTER TABLE AD_Package_Exp_Detail ADD CONSTRAINT admodval_adpackageexpdetail FOREIGN KEY (AD_ModelValidator_ID)
+REFERENCES AD_ModelValidator (AD_ModelValidator_ID); 
 
 -- Aug 31, 2009 2:32:08 PM EEST
 INSERT INTO AD_Field (AD_Client_ID,AD_Column_ID,AD_Field_ID,AD_Org_ID,AD_Tab_ID,Created,CreatedBy,DisplayLength,EntityType,IsActive,IsCentrallyMaintained,IsDisplayed,IsEncrypted,IsFieldOnly,IsHeading,IsReadOnly,IsSameLine,Name,Updated,UpdatedBy) VALUES (0,57958,57418,0,50006,TO_DATE('2009-08-31 14:32:07','YYYY-MM-DD HH24:MI:SS'),0,10,'D','Y','Y','Y','N','N','N','N','N','Model Validator',TO_DATE('2009-08-31 14:32:07','YYYY-MM-DD HH24:MI:SS'),0)

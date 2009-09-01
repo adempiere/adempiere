@@ -18,7 +18,7 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 ALTER TABLE AD_Package_Exp_Detail ADD COLUMN AD_ModelValidator_ID NUMERIC(10) DEFAULT NULL 
 ;
 
-ALTER TABLE AD_Package_Exp_Detail ADD CONSTRAINT admodelvalidator_adpackageexpdetail FOREIGN KEY (AD_ModelValidator_ID)
+ALTER TABLE AD_Package_Exp_Detail ADD CONSTRAINT admodval_adpackageexpdetail FOREIGN KEY (AD_ModelValidator_ID)
 REFERENCES AD_ModelValidator (AD_ModelValidator_ID);
 
 -- Aug 31, 2009 2:32:08 PM EEST
