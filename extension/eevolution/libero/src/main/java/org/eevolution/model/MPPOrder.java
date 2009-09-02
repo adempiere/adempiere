@@ -361,10 +361,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	@Override
 	protected boolean beforeSave(boolean newRecord)
 	{
-		if(newRecord)
-		{
-			setDefault();
-		}
 		if (getAD_Client_ID() == 0)
 		{
 			m_processMsg = "AD_Client_ID = 0";
@@ -387,6 +383,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			{
 				setM_Warehouse_ID(ii);
 			}
+		}
+		// If UOM not filled, get it from Product
+		if (getC_UOM_ID() <= 0 && getM_Product_ID() > 0)
+		{
+			setC_UOM_ID(getM_Product().getC_UOM_ID());
 		}
 		// If DateFinishSchedule is not filled, use DatePromised
 		if (getDateFinishSchedule() == null)
@@ -1459,6 +1460,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 */
 	public void setDefault()
 	{
+		setLine(10);
+		setPriorityRule(PRIORITYRULE_Medium);
 		setDescription("");
 		setQtyDelivered(Env.ZERO);
 		setQtyReject(Env.ZERO);
