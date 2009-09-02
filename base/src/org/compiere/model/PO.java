@@ -24,6 +24,7 @@ import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -73,6 +74,8 @@ import org.w3c.dom.Element;
  *			<li>FR [ 2042844 ] PO.get_Translation improvements
  *			<li>FR [ 2818369 ] Implement PO.get_ValueAs*(columnName)
  *				https://sourceforge.net/tracker/?func=detail&aid=2818369&group_id=176962&atid=879335
+ *			<li>BF [ 2849122 ] PO.AfterSave is not rollback on error
+ *				https://sourceforge.net/tracker/?func=detail&aid=2849122&group_id=176962&atid=879332
  * @author Victor Perez, e-Evolution SC
  *			<li>[ 2195894 ] Improve performance in PO engine
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
@@ -1941,21 +1944,38 @@ public abstract class PO
 		}
 
 		Trx localTrx = null;
-		if (m_trxName == null) {
+		Trx trx = null;
+		Savepoint savepoint = null;
+		if (m_trxName == null)
+		{
 			m_trxName = Trx.createTrxName("POSave");
 			localTrx = Trx.get(m_trxName, true);
+		}
+		else
+		{
+			trx = Trx.get(m_trxName, false);
 		}
 
 		//	Before Save
 		try
 		{
+			// If not a localTrx we need to set a savepoint for rollback
+			if (localTrx == null)
+				savepoint = trx.setSavepoint(null);
+			
 			if (!beforeSave(newRecord))
 			{
 				log.warning("beforeSave failed - " + toString());
-				if (localTrx != null) {
+				if (localTrx != null)
+				{
 					localTrx.rollback();
 					localTrx.close();
 					m_trxName = null;
+				}
+				else
+				{
+					trx.rollback(savepoint);
+					savepoint = null;
 				}
 				return false;
 			}
@@ -1964,15 +1984,25 @@ public abstract class PO
 		{
 			log.log(Level.WARNING, "beforeSave - " + toString(), e);
 			log.saveError("Error", e, false);
-			if (localTrx != null) {
+			if (localTrx != null)
+			{
 				localTrx.rollback();
 				localTrx.close();
 				m_trxName = null;
 			}
+			else if (savepoint != null)
+			{
+				try
+				{
+					trx.rollback(savepoint);
+				} catch (SQLException e1){}
+				savepoint = null;
+			}
 			return false;
 		}
 
-		try {
+		try
+		{
 			// Call ModelValidators TYPE_NEW/TYPE_CHANGE
 			String errorMsg = ModelValidationEngine.get().fireModelChange
 				(this, newRecord ? ModelValidator.TYPE_NEW : ModelValidator.TYPE_CHANGE);
@@ -1980,9 +2010,14 @@ public abstract class PO
 			{
 				log.warning("Validation failed - " + errorMsg);
 				log.saveError("Error", errorMsg);
-				if (localTrx != null) {
+				if (localTrx != null)
+				{
 					localTrx.rollback();
 					m_trxName = null;
+				}
+				else
+				{
+					trx.rollback(savepoint);
 				}
 				return false;
 			}
@@ -2001,6 +2036,8 @@ public abstract class PO
 				{
 					if (localTrx != null)
 						localTrx.rollback();
+					else
+						trx.rollback(savepoint);
 					return b;
 				}
 			}
@@ -2018,14 +2055,40 @@ public abstract class PO
 				{
 					if (localTrx != null)
 						localTrx.rollback();
+					else
+						trx.rollback(savepoint);
 					return b;
 				}
 			}
-		} finally {
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.WARNING, "afterSave - " + toString(), e);
+			if (localTrx != null)
+			{
+				localTrx.rollback();
+			}
+			else if (savepoint != null)
+			{
+				try
+				{
+					trx.rollback(savepoint);
+				} catch (SQLException e1){}
+				savepoint = null;
+			}
+			return false;
+		}
+		finally
+		{
 			if (localTrx != null)
 			{
 				localTrx.close();
 				m_trxName = null;
+			}
+			else
+			{
+				savepoint = null;
+				trx = null;
 			}
 		}
 	}	//	save
