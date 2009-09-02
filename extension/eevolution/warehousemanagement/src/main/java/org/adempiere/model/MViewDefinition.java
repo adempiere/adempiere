@@ -161,7 +161,7 @@ public class MViewDefinition extends X_AD_View_Definition
 		return selectClause.toString();
 	}
 	
-	public String getJoinClause()
+	/*public String getJoinClause()
 	{
 		String joinEntityName = getAD_Table().getName();
 		StringBuffer  joinClause = new StringBuffer("");
@@ -172,7 +172,7 @@ public class MViewDefinition extends X_AD_View_Definition
 								.append("")
 								.append(")");
 	    return joinClause.toString();
-	}
+	}*/
 	
 	
 	public Collection<MColumn> getEntityAttributes()

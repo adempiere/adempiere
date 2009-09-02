@@ -93,7 +93,7 @@ public class MView extends X_AD_View
 	 * return the Smart View Joins
 	 * @return
 	 */
-	public Collection<MViewDefinition> getViewJoins()
+	public Collection<MViewDefinition> getViewDefinitions()
 	{
 		final String whereClause = COLUMNNAME_AD_View_ID + "= ?";
 		return new Query(getCtx(), MViewDefinition.Table_Name, whereClause, get_TrxName()).
@@ -136,7 +136,7 @@ public class MView extends X_AD_View
 	{
 		String fromClause = " ";
 		String joinClause = " ";
-		for (MViewDefinition join : getViewJoins())
+		for (MViewDefinition join : getViewDefinitions())
 		{
 			if(join.getJoinClause() == null)
 			{
