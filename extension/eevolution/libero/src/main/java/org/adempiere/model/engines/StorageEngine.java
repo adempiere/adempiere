@@ -219,7 +219,7 @@ public class StorageEngine
 		save(line);
 	}
 	
-	public static String getTableNameMA(IDocumentLine model)
+	private static String getTableNameMA(IDocumentLine model)
 	{
 		return model.get_TableName()+"MA";
 	}
