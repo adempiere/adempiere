@@ -1,3 +1,5 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
 -- Sep 1, 2009 9:37:53 PM ECT
 -- View & Smat Browse
 INSERT INTO AD_EntityType (AD_Client_ID,AD_EntityType_ID,AD_Org_ID,Created,CreatedBy,Description,EntityType,Help,IsActive,ModelPackage,Name,Processing,Updated,UpdatedBy,Version) VALUES (0,50006,0,TO_DATE('2009-09-01 21:37:53','YYYY-MM-DD HH24:MI:SS'),0,'View & Smart Browse','EE07','License GPL2, Developer Victor Perez, Sponsor e-Evolution www.e-evolution.com
