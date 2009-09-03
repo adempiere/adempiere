@@ -12,7 +12,6 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
- *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.adempiere.model;
 
@@ -27,7 +26,7 @@ import org.compiere.model.M_Element;
 import org.compiere.util.DisplayType;
 
 /**
- * Cost Collector Callout
+ * Setting the default values from element
  *
  * @author Victor Perez www.e-evolution.com     
  */
