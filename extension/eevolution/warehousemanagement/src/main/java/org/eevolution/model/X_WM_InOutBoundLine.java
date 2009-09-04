@@ -23,21 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.adempiere.model.*;
-import org.compiere.model.I_C_Activity;
-import org.compiere.model.I_C_Campaign;
-import org.compiere.model.I_C_Charge;
-import org.compiere.model.I_C_OrderLine;
-import org.compiere.model.I_C_Project;
-import org.compiere.model.I_C_ProjectPhase;
-import org.compiere.model.I_C_ProjectTask;
-import org.compiere.model.I_C_UOM;
-import org.compiere.model.I_M_Product;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -67,8 +53,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 			setMovementQty (Env.ZERO);
 // 1
 			setProcessed (false);
-			setQtyEntered (Env.ZERO);
-// 1
 			setWM_InOutBoundLine_ID (0);
 			setWM_InOutBound_ID (0);
         } */
@@ -437,62 +421,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Confirmed Quantity.
-		@param ConfirmedQty 
-		Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty)
-	{
-		set_Value (COLUMNNAME_ConfirmedQty, ConfirmedQty);
-	}
-
-	/** Get Confirmed Quantity.
-		@return Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConfirmedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_OrderLine.Table_Name);
-        org.eevolution.model.I_DD_OrderLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_DD_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_OrderLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Distribution Order Line.
-		@param DD_OrderLine_ID Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
-	{
-		if (DD_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_DD_OrderLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
-	}
-
-	/** Get Distribution Order Line.
-		@return Distribution Order Line	  */
-	public int getDD_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -585,29 +513,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Locator.
-		@param M_Locator_ID 
-		Warehouse Locator
-	  */
-	public void setM_Locator_ID (int M_Locator_ID)
-	{
-		if (M_Locator_ID < 1) 
-			set_Value (COLUMNNAME_M_Locator_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
-	}
-
-	/** Get Locator.
-		@return Warehouse Locator
-	  */
-	public int getM_Locator_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -665,42 +570,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	public org.eevolution.model.I_PP_Order_BOMLine getPP_Order_BOMLine() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_BOMLine.Table_Name);
-        org.eevolution.model.I_PP_Order_BOMLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_PP_Order_BOMLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Order_BOMLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Manufacturing Order BOM Line.
-		@param PP_Order_BOMLine_ID Manufacturing Order BOM Line	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID)
-	{
-		if (PP_Order_BOMLine_ID < 1) 
-			set_Value (COLUMNNAME_PP_Order_BOMLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_PP_Order_BOMLine_ID, Integer.valueOf(PP_Order_BOMLine_ID));
-	}
-
-	/** Get Manufacturing Order BOM Line.
-		@return Manufacturing Order BOM Line	  */
-	public int getPP_Order_BOMLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_BOMLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Pick Date.
@@ -761,46 +630,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return false;
 	}
 
-	/** Set Quantity.
-		@param QtyEntered 
-		The Quantity Entered is based on the selected UoM
-	  */
-	public void setQtyEntered (BigDecimal QtyEntered)
-	{
-		set_Value (COLUMNNAME_QtyEntered, QtyEntered);
-	}
-
-	/** Get Quantity.
-		@return The Quantity Entered is based on the selected UoM
-	  */
-	public BigDecimal getQtyEntered () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyEntered);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Scrapped Quantity.
-		@param ScrappedQty 
-		The Quantity scrapped due to QA issues
-	  */
-	public void setScrappedQty (BigDecimal ScrappedQty)
-	{
-		set_Value (COLUMNNAME_ScrappedQty, ScrappedQty);
-	}
-
-	/** Get Scrapped Quantity.
-		@return The Quantity scrapped due to QA issues
-	  */
-	public BigDecimal getScrappedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ScrappedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Ship Date.
 		@param ShipDate 
 		Shipment Date/Time
@@ -816,26 +645,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	public Timestamp getShipDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_ShipDate);
-	}
-
-	/** Set Target Quantity.
-		@param TargetQty 
-		Target Movement Quantity
-	  */
-	public void setTargetQty (BigDecimal TargetQty)
-	{
-		set_Value (COLUMNNAME_TargetQty, TargetQty);
-	}
-
-	/** Get Target Quantity.
-		@return Target Movement Quantity
-	  */
-	public BigDecimal getTargetQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TargetQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set User List 1.

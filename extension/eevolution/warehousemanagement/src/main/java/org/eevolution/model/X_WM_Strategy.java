@@ -19,11 +19,7 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.adempiere.model.*;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Strategy
@@ -97,8 +93,8 @@ public class X_WM_Strategy extends PO implements I_WM_Strategy, I_Persistent
 
 	/** InOutBoundType AD_Reference_ID=1000009 */
 	public static final int INOUTBOUNDTYPE_AD_Reference_ID=1000009;
-	/** OutBound Operation = O */
-	public static final String INOUTBOUNDTYPE_OutBoundOperation = "O";
+	/** Outbound Operation = O */
+	public static final String INOUTBOUNDTYPE_OutboundOperation = "O";
 	/** Inbound Operation = I */
 	public static final String INOUTBOUNDTYPE_InboundOperation = "I";
 	/** Set Inbound & Outbound Type.

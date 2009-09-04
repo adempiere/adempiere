@@ -289,7 +289,7 @@ public final class WMRuleEngine {
 	public Collection<MStorage> getMStorage(MWMInOutBoundLine line , int WM_Area_Type_ID , int WM_Section_Type_ID)
 	{		
 		MWMStrategy strategy = applyDefinition(line , WM_Area_Type_ID, WM_Section_Type_ID);
-		return getMStorages(strategy, line.getMProduct().getM_Product_ID(),line.getQtyEntered(), WM_Section_Type_ID, WM_Section_Type_ID);
+		return getMStorages(strategy, line.getMProduct().getM_Product_ID(),line.getMovementQty(), WM_Section_Type_ID, WM_Section_Type_ID);
 	}
 	
 	/**
@@ -361,7 +361,7 @@ public final class WMRuleEngine {
 						bpartner.getC_BP_Group_ID(),
 						WM_Area_Type_ID,
 						WM_Section_Type_ID, 
-						MWMStrategy.INOUTBOUNDTYPE_OutBoundOperation
+						MWMStrategy.INOUTBOUNDTYPE_OutboundOperation
 					})
 			.first();
 		

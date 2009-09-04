@@ -18,16 +18,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.adempiere.model.*;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_C_Activity;
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_C_BPartner_Location;
-import org.compiere.model.I_C_Campaign;
-import org.compiere.model.I_M_Shipper;
-import org.compiere.model.I_M_Warehouse;
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_InOutBound
@@ -85,21 +76,6 @@ public interface I_WM_InOutBound
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public I_AD_User getAD_User() throws RuntimeException;
-
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
 
@@ -115,36 +91,6 @@ public interface I_WM_InOutBound
 
 	public I_C_Activity getC_Activity() throws RuntimeException;
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_BPartner_Location_ID */
-    public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
-
-	/** Set Partner Location.
-	  * Identifies the (ship to) address for this Business Partner
-	  */
-	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID);
-
-	/** Get Partner Location.
-	  * Identifies the (ship to) address for this Business Partner
-	  */
-	public int getC_BPartner_Location_ID();
-
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
-
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
@@ -159,19 +105,6 @@ public interface I_WM_InOutBound
 	public int getC_Campaign_ID();
 
 	public I_C_Campaign getC_Campaign() throws RuntimeException;
-
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
-
-	/** Set Charge.
-	  * Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID);
-
-	/** Get Charge.
-	  * Additional document charges
-	  */
-	public int getC_Charge_ID();
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -466,32 +399,6 @@ public interface I_WM_InOutBound
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
-    /** Column name MovementType */
-    public static final String COLUMNNAME_MovementType = "MovementType";
-
-	/** Set Movement Type.
-	  * Method of moving the inventory
-	  */
-	public void setMovementType (String MovementType);
-
-	/** Get Movement Type.
-	  * Method of moving the inventory
-	  */
-	public String getMovementType();
-
     /** Column name POReference */
     public static final String COLUMNNAME_POReference = "POReference";
 
@@ -552,19 +459,6 @@ public interface I_WM_InOutBound
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
-
-    /** Column name Reversal_ID */
-    public static final String COLUMNNAME_Reversal_ID = "Reversal_ID";
-
-	/** Set Reversal ID.
-	  * ID of document reversal
-	  */
-	public void setReversal_ID (int Reversal_ID);
-
-	/** Get Reversal ID.
-	  * ID of document reversal
-	  */
-	public int getReversal_ID();
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

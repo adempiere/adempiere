@@ -428,11 +428,11 @@ public final class MRole extends X_AD_Role
 			+ "FROM AD_Form f "
 			+ "WHERE AccessLevel IN ";
 		
-		String sqlBrowse = "INSERT INTO AD_SmartBrowse_Access "
-			+ "(AD_Form_ID, AD_Role_ID," 
+		String sqlBrowse = "INSERT INTO AD_Browse_Access "
+			+ "(AD_Browse_ID, AD_Role_ID," 
 			+ " AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,IsReadWrite) "
-			+ "SELECT f.AD_Form_ID, " + roleClientOrgUser
-			+ "FROM AD_Form f "
+			+ "SELECT b.AD_Browse_ID, " + roleClientOrgUser
+			+ "FROM AD_Browse b "
 			+ "WHERE AccessLevel IN ";
 
 		String sqlWorkflow = "INSERT INTO AD_WorkFlow_Access "
@@ -506,7 +506,7 @@ public final class MRole extends X_AD_Role
 		log.fine("AD_Window_ID=" + winDel + "+" + win 
 			+ ", AD_Process_ID=" + procDel + "+" + proc
 			+ ", AD_Form_ID=" + formDel + "+" + form
-			+ ", AD_SmartBrowse_ID=" + browseDel + "+" + browse
+			+ ", AD_Browse_ID=" + browseDel + "+" + browse
 			+ ", AD_Workflow_ID=" + wfDel + "+" + wf
 			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact);
 		
@@ -514,7 +514,7 @@ public final class MRole extends X_AD_Role
 		return "@AD_Window_ID@ #" + win 
 			+ " -  @AD_Process_ID@ #" + proc
 			+ " -  @AD_Form_ID@ #" + form
-			+ " -  @AD_SmartBrowse_ID@ #"+ browse
+			+ " -  @AD_Browse_ID@ #"+ browse
 			+ " -  @AD_Workflow_ID@ #" + wf
 			+ " -  @DocAction@ #" + docact;
 		

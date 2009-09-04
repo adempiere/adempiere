@@ -162,4 +162,14 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine implements IDocumentL
 		}	
 		return m_bpartner;
 	}
+
+	public int getM_Locator_ID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setM_Locator_ID(int M_Locator_ID) {
+		// TODO Auto-generated method stub
+		
+	}
 }	

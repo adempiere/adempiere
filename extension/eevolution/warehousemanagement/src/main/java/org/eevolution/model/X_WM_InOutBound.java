@@ -23,19 +23,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.adempiere.model.*;
-import org.compiere.model.I_AD_User;
-import org.compiere.model.I_C_Activity;
-import org.compiere.model.I_C_BPartner;
-import org.compiere.model.I_C_BPartner_Location;
-import org.compiere.model.I_C_Campaign;
-import org.compiere.model.I_M_Shipper;
-import org.compiere.model.I_M_Warehouse;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -56,8 +44,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
       super (ctx, WM_InOutBound_ID, trxName);
       /** if (WM_InOutBound_ID == 0)
         {
-			setC_BPartner_ID (0);
-			setC_BPartner_Location_ID (0);
 			setC_DocType_ID (0);
 			setDeliveryRule (null);
 // A
@@ -76,9 +62,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 			setIsSOTrx (false);
 // @IsSOTrx@
 			setM_Warehouse_ID (0);
-			setMovementDate (new Timestamp( System.currentTimeMillis() ));
-// @#Date@
-			setMovementType (null);
 			setPriorityRule (null);
 // 5
 			setProcessed (false);
@@ -138,45 +121,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
@@ -216,84 +160,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
-        I_C_BPartner_Location result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner_Location)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_Location_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Partner Location.
-		@param C_BPartner_Location_ID 
-		Identifies the (ship to) address for this Business Partner
-	  */
-	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID)
-	{
-		if (C_BPartner_Location_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_Location_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_Location_ID, Integer.valueOf(C_BPartner_Location_ID));
-	}
-
-	/** Get Partner Location.
-		@return Identifies the (ship to) address for this Business Partner
-	  */
-	public int getC_BPartner_Location_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Campaign getC_Campaign() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
@@ -328,29 +194,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 	public int getC_Campaign_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Campaign_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Charge.
-		@param C_Charge_ID 
-		Additional document charges
-	  */
-	public void setC_Charge_ID (int C_Charge_ID)
-	{
-		if (C_Charge_ID < 1) 
-			set_Value (COLUMNNAME_C_Charge_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
-	}
-
-	/** Get Charge.
-		@return Additional document charges
-	  */
-	public int getC_Charge_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -903,67 +746,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
-	/** MovementType AD_Reference_ID=189 */
-	public static final int MOVEMENTTYPE_AD_Reference_ID=189;
-	/** Customer Shipment = C- */
-	public static final String MOVEMENTTYPE_CustomerShipment = "C-";
-	/** Customer Returns = C+ */
-	public static final String MOVEMENTTYPE_CustomerReturns = "C+";
-	/** Vendor Receipts = V+ */
-	public static final String MOVEMENTTYPE_VendorReceipts = "V+";
-	/** Vendor Returns = V- */
-	public static final String MOVEMENTTYPE_VendorReturns = "V-";
-	/** Inventory Out = I- */
-	public static final String MOVEMENTTYPE_InventoryOut = "I-";
-	/** Inventory In = I+ */
-	public static final String MOVEMENTTYPE_InventoryIn = "I+";
-	/** Movement From = M- */
-	public static final String MOVEMENTTYPE_MovementFrom = "M-";
-	/** Movement To = M+ */
-	public static final String MOVEMENTTYPE_MovementTo = "M+";
-	/** Production + = P+ */
-	public static final String MOVEMENTTYPE_ProductionPlus = "P+";
-	/** Production - = P- */
-	public static final String MOVEMENTTYPE_Production_ = "P-";
-	/** Work Order + = W+ */
-	public static final String MOVEMENTTYPE_WorkOrderPlus = "W+";
-	/** Work Order - = W- */
-	public static final String MOVEMENTTYPE_WorkOrder_ = "W-";
-	/** Set Movement Type.
-		@param MovementType 
-		Method of moving the inventory
-	  */
-	public void setMovementType (String MovementType)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_MovementType, MovementType);
-	}
-
-	/** Get Movement Type.
-		@return Method of moving the inventory
-	  */
-	public String getMovementType () 
-	{
-		return (String)get_Value(COLUMNNAME_MovementType);
-	}
-
 	/** Set Order Reference.
 		@param POReference 
 		Transaction Reference Number (Sales Order, Purchase Order) of your Business Partner
@@ -1071,29 +853,6 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set Reversal ID.
-		@param Reversal_ID 
-		ID of document reversal
-	  */
-	public void setReversal_ID (int Reversal_ID)
-	{
-		if (Reversal_ID < 1) 
-			set_Value (COLUMNNAME_Reversal_ID, null);
-		else 
-			set_Value (COLUMNNAME_Reversal_ID, Integer.valueOf(Reversal_ID));
-	}
-
-	/** Get Reversal ID.
-		@return ID of document reversal
-	  */
-	public int getReversal_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Reversal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Sales Representative.

@@ -18,9 +18,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.adempiere.model.*;
-import org.compiere.model.MTable;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_InOutBoundLineMA

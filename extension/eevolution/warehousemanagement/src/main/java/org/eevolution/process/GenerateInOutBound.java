@@ -112,7 +112,6 @@ public class GenerateInOutBound extends SvrProcess
 		
 		bound.setM_Warehouse_ID(locator.getM_Warehouse_ID());
 		bound.setIsSOTrx(true);
-		bound.setMovementType(MWMInOutBound.MOVEMENTTYPE_CustomerShipment);		
 		bound.saveEx();
 		int seq = 10;
 		for (X_T_Selection s : getSelected())
@@ -122,7 +121,7 @@ public class GenerateInOutBound extends SvrProcess
 				boundline.setLine(seq);
 				boundline.setM_Product_ID(line.getM_Product_ID());
 				boundline.setM_AttributeSetInstance_ID(line.getM_Warehouse_ID());
-				boundline.setQtyEntered(line.getQtyOrdered().subtract(line.getQtyDelivered()));
+				boundline.setMovementQty(line.getQtyOrdered().subtract(line.getQtyDelivered()));
 				boundline.setC_UOM_ID(line.getC_UOM_ID());
 				boundline.setDescription(line.getDescription());
 				boundline.setC_OrderLine_ID(line.getC_OrderLine_ID());
