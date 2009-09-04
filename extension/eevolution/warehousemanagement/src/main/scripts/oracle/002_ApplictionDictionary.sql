@@ -1,7 +1,5 @@
--- Sep 3, 2009 8:45:44 PM ECT
--- Warehouse Management
-INSERT INTO AD_Ref_List (AD_Client_ID,AD_Org_ID,AD_Ref_List_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,53507,183,TO_DATE('2009-09-03 20:45:44','YYYY-MM-DD HH24:MI:SS'),0,'EE03','Y','Warehouse Management Order',TO_DATE('2009-09-03 20:45:44','YYYY-MM-DD HH24:MI:SS'),0,'WMO')
-;
+SET DEFINE OFF
+SET SQLBLANKLINES ON
 
 -- Sep 3, 2009 8:46:19 PM ECT
 -- Warehouse Management

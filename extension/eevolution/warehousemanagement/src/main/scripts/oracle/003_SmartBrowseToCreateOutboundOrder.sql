@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+
 -- Sep 2, 2009 1:30:20 AM ECT
 -- Warehouse Management
 INSERT INTO AD_View (AD_Client_ID,AD_Org_ID,AD_View_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,50000,TO_DATE('2009-09-02 01:30:19','YYYY-MM-DD HH24:MI:SS'),0,'Allow select the Sales Order lines to create a Outbound Order','EE07','Y','Sales Order to Picking',TO_DATE('2009-09-02 01:30:19','YYYY-MM-DD HH24:MI:SS'),0,'SalesOrderToPicking')
