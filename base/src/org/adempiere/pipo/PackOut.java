@@ -60,6 +60,7 @@ import org.adempiere.pipo.handler.TableElementHandler;
 import org.adempiere.pipo.handler.TaskElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.X_AD_Element;
 import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.model.X_AD_Package_Exp;
@@ -785,7 +786,7 @@ public class PackOut extends SvrProcess
 	 */
 	public void createTranslations (String parentTableName, int parentID, TransformerHandler packOutDocument) throws SAXException
 	{
-		if("true".equals(getCtx().getProperty("isHandleTranslations"))){
+		if (MSysConfig.getBooleanValue("2PACK_HANDLE_TRANSLATIONS", false)) {
 
 			Env.setContext(getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE,
 					parentTableName);

@@ -13,6 +13,7 @@ import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.AttributeFiller;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.ElementHandler;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
@@ -32,7 +33,7 @@ public class CommonTranslationHandler extends AbstractElementHandler implements 
 	
 	public void startElement(Properties ctx, Element element) throws SAXException {
 		
-		if(! isHandleTranslations(ctx)){
+		if(! MSysConfig.getBooleanValue("2PACK_HANDLE_TRANSLATIONS", false)){
 			return;//translation import option is disabled
 		}
 		

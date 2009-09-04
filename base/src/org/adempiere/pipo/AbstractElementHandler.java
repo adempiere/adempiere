@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,7 +10,7 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *      
+ *                                                                            *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com                     * 
  * Contributor(s): Low Heng Sin hengsin@avantz.com                            *
  *****************************************************************************/
@@ -26,7 +26,6 @@ import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
-import org.compiere.model.MSequence;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.X_AD_Package_Imp_Detail;
@@ -391,14 +390,4 @@ public abstract class AbstractElementHandler implements ElementHandler {
     	return ("".equals(s) ? null : s);
     }
     
-    /**
-     * Returns option - Is export-import of AD translations is needed
-     * @param ctx
-     * @param entityType
-     * @return boolean
-     */
-    protected boolean isHandleTranslations(Properties ctx) {
-    	
-    	return "true".equalsIgnoreCase(Env.getContext(ctx, "isHandleTranslations"));
-    }
 }
