@@ -30,7 +30,6 @@ import org.adempiere.exceptions.TaxNotFoundException;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  *	Tax Handling
@@ -63,11 +62,11 @@ public class Tax
 	 * 	@param M_Product_ID product
 	 * 	@param C_Charge_ID product
 	 * 	@param billDate invoice date
-	 * 	@param shipDate ship date
+	 * 	@param shipDate ship date (ignored)
 	 * 	@param AD_Org_ID org
-	 * 	@param M_Warehouse_ID warehouse
+	 * 	@param M_Warehouse_ID warehouse (ignored)
 	 * 	@param billC_BPartner_Location_ID invoice location
-	 * 	@param shipC_BPartner_Location_ID ship location
+	 * 	@param shipC_BPartner_Location_ID ship location (ignored)
 	 * 	@param IsSOTrx is a sales trx
 	 * 	@return C_Tax_ID
 	 *  @throws TaxCriteriaNotFoundException if a criteria was not found
@@ -92,22 +91,23 @@ public class Tax
 	 *	Get Tax ID - converts parameters to call Get Tax.
 	 *  <pre>
 	 *		C_Charge_ID					->	C_TaxCategory_ID
-	 *		billDate, shipDate			->	billDate, shipDate
+	 *		billDate					->	billDate
+	 *		shipDate					->	shipDate (ignored)
 	 *		AD_Org_ID					->	billFromC_Location_ID
-	 *		M_Warehouse_ID				->	shipFromC_Location_ID
+	 *		M_Warehouse_ID				->	shipFromC_Location_ID (ignored)
 	 *		billC_BPartner_Location_ID  ->	billToC_Location_ID
-	 *		shipC_BPartner_Location_ID 	->	shipToC_Location_ID
+	 *		shipC_BPartner_Location_ID 	->	shipToC_Location_ID (ignored)
 	 *
 	 *  if IsSOTrx is false, bill and ship are reversed
 	 *  </pre>
 	 * 	@param ctx	context
 	 * 	@param C_Charge_ID product
 	 * 	@param billDate invoice date
-	 * 	@param shipDate ship date
+	 * 	@param shipDate ship date (ignored)
 	 * 	@param AD_Org_ID org
-	 * 	@param M_Warehouse_ID warehouse
+	 * 	@param M_Warehouse_ID warehouse (ignored)
 	 * 	@param billC_BPartner_Location_ID invoice location
-	 * 	@param shipC_BPartner_Location_ID ship location
+	 * 	@param shipC_BPartner_Location_ID ship location (ignored)
 	 * 	@param IsSOTrx is a sales trx
 	 * 	@return C_Tax_ID
 	 *  @throws TaxForChangeNotFoundException if criteria not found for given change
@@ -119,14 +119,15 @@ public class Tax
 		int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
 		boolean IsSOTrx)
 	{
-		if (M_Warehouse_ID <= 0)
-			M_Warehouse_ID = Env.getContextAsInt(ctx, "M_Warehouse_ID");
-		if (M_Warehouse_ID <= 0)
-		{
-			throw new TaxForChangeNotFoundException(C_Charge_ID, AD_Org_ID, M_Warehouse_ID,
-						billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
-						"@NotFound@ @M_Warehouse_ID@");
-		}
+		/* ship location from warehouse is plainly ignored below */
+		// if (M_Warehouse_ID <= 0)
+			// M_Warehouse_ID = Env.getContextAsInt(ctx, "M_Warehouse_ID");
+		// if (M_Warehouse_ID <= 0)
+		// {
+			// throw new TaxForChangeNotFoundException(C_Charge_ID, AD_Org_ID, M_Warehouse_ID,
+						// billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
+						// "@NotFound@ @M_Warehouse_ID@");
+		// }
 		int C_TaxCategory_ID = 0;
 		int shipFromC_Location_ID = 0;
 		int shipToC_Location_ID = 0;
@@ -138,22 +139,21 @@ public class Tax
 		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt,"
 			 + " w.C_Location_ID, sl.C_Location_ID "
 			 + "FROM C_Charge c, AD_OrgInfo o,"
-			 + " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID),"
-			 + " M_Warehouse w, C_BPartner_Location sl "
+			 + " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
+			 + " LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
 			 + "WHERE c.C_Charge_ID=?"
 			 + " AND o.AD_Org_ID=?"
 			 + " AND il.C_BPartner_Location_ID=?"
-			 + " AND w.M_Warehouse_ID=?"
 			 + " AND sl.C_BPartner_Location_ID=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, C_Charge_ID);
-			pstmt.setInt (2, AD_Org_ID);
-			pstmt.setInt (3, billC_BPartner_Location_ID);
-			pstmt.setInt (4, M_Warehouse_ID);
+			pstmt.setInt (1, M_Warehouse_ID);
+			pstmt.setInt (2, C_Charge_ID);
+			pstmt.setInt (3, AD_Org_ID);
+			pstmt.setInt (4, billC_BPartner_Location_ID);
 			pstmt.setInt (5, shipC_BPartner_Location_ID);
 			rs = pstmt.executeQuery ();
 			boolean found = false;
@@ -216,22 +216,23 @@ public class Tax
 	 *	Get Tax ID - converts parameters to call Get Tax.
 	 *  <pre>
 	 *		M_Product_ID				->	C_TaxCategory_ID
-	 *		billDate, shipDate			->	billDate, shipDate
+	 *		billDate					->	billDate
+	 *		shipDate					->	shipDate (ignored)
 	 *		AD_Org_ID					->	billFromC_Location_ID
-	 *		M_Warehouse_ID				->	shipFromC_Location_ID
+	 *		M_Warehouse_ID				->	shipFromC_Location_ID (ignored)
 	 *		billC_BPartner_Location_ID  ->	billToC_Location_ID
-	 *		shipC_BPartner_Location_ID 	->	shipToC_Location_ID
+	 *		shipC_BPartner_Location_ID 	->	shipToC_Location_ID (ignored)
 	 *
 	 *  if IsSOTrx is false, bill and ship are reversed
 	 *  </pre>
 	 * 	@param ctx	context
 	 * 	@param M_Product_ID product
 	 * 	@param billDate invoice date
-	 * 	@param shipDate ship date
+	 * 	@param shipDate ship date (ignored)
 	 * 	@param AD_Org_ID org
-	 * 	@param M_Warehouse_ID warehouse
+	 * 	@param M_Warehouse_ID warehouse (ignored)
 	 * 	@param billC_BPartner_Location_ID invoice location
-	 * 	@param shipC_BPartner_Location_ID ship location
+	 * 	@param shipC_BPartner_Location_ID ship location (ignored)
 	 * 	@param IsSOTrx is a sales trx
 	 * 	@return C_Tax_ID
 	 *  If error it returns 0 and sets error log (TaxCriteriaNotFound)
@@ -259,18 +260,17 @@ public class Tax
 			sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt,"
 				+ " w.C_Location_ID, sl.C_Location_ID "
 				+ "FROM M_Product p, AD_OrgInfo o,"
-				+ " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID),"
-				+ " M_Warehouse w, C_BPartner_Location sl "
+				+ " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
+				+ " LEFT OUTER JOIN M_Warehouse w ON (w.M_Warehouse_ID=?), C_BPartner_Location sl "
 				+ "WHERE p.M_Product_ID=?"
 				+ " AND o.AD_Org_ID=?"
 				+ " AND il.C_BPartner_Location_ID=?"
-				+ " AND w.M_Warehouse_ID=?"
 				+ " AND sl.C_BPartner_Location_ID=?";
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, M_Product_ID);
-			pstmt.setInt(2, AD_Org_ID);
-			pstmt.setInt(3, billC_BPartner_Location_ID);
-			pstmt.setInt(4, M_Warehouse_ID);
+			pstmt.setInt(1, M_Warehouse_ID);
+			pstmt.setInt(2, M_Product_ID);
+			pstmt.setInt(3, AD_Org_ID);
+			pstmt.setInt(4, billC_BPartner_Location_ID);
 			pstmt.setInt(5, shipC_BPartner_Location_ID);
 			rs = pstmt.executeQuery();
 			boolean found = false;
@@ -451,7 +451,7 @@ public class Tax
 	 *	@param C_TaxCategory_ID tax category
 	 * 	@param IsSOTrx Sales Order Trx
 	 *	@param shipDate ship date (ignored)
-	 *	@param shipFromC_Locction_ID ship from (ignored)
+	 *	@param shipFromC_Location_ID ship from (ignored)
 	 *	@param shipToC_Location_ID ship to (ignored)
 	 *	@param billDate invoice date
 	 *	@param billFromC_Location_ID invoice from
@@ -461,7 +461,7 @@ public class Tax
 	 */
 	protected static int get (Properties ctx,
 		int C_TaxCategory_ID, boolean IsSOTrx,
-		Timestamp shipDate, int shipFromC_Locction_ID, int shipToC_Location_ID,
+		Timestamp shipDate, int shipFromC_Location_ID, int shipToC_Location_ID,
 		Timestamp billDate, int billFromC_Location_ID, int billToC_Location_ID)
 	{
 		//	C_TaxCategory contains CommodityCode
@@ -557,7 +557,7 @@ public class Tax
 		}	//	for all taxes
 		
 		throw new TaxNotFoundException(C_TaxCategory_ID, IsSOTrx,
-				shipDate, shipFromC_Locction_ID, shipToC_Location_ID,
+				shipDate, shipFromC_Location_ID, shipToC_Location_ID,
 				billDate, billFromC_Location_ID, billToC_Location_ID);
 	}	//	get
 	
