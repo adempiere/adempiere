@@ -73,12 +73,6 @@ import org.compiere.util.Msg;
  *
  *  @author 	Jorg Janke
  *  @version 	$Id: Info.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
- *  
- *  @author Teo Sarca
- *  		<li>FR [ 2846869 ] Info class - add more helper methods
- *  			https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2846869&group_id=176962
- * 			<li>FR [ 2847305 ] Info class improvements
- * 				https://sourceforge.net/tracker/?func=detail&aid=2847305&group_id=176962&atid=879335
  */
 public abstract class Info extends CDialog
 	implements ListSelectionListener
@@ -312,10 +306,6 @@ public abstract class Info extends CDialog
 	protected String            p_keyColumn;
 	/** Enable more than one selection  */
 	protected boolean			p_multiSelection;
-	/** Specify if the records should be checked(selected) by default (multi selection mode only) */
-	private boolean				p_isDefaultSelected = false;
-	/** True if double click on a row toggles if row is selected (multi selection mode only) */
-	private boolean				p_doubleClickTogglesSelection = false;
 	/** Initial WHERE Clause    */
 	protected String			p_whereClause = "";
 
@@ -1013,70 +1003,6 @@ public abstract class Info extends CDialog
 			return m_PO_Window_ID;
 		return m_SO_Window_ID;
 	}	//	getAD_Window_ID
-	
-	/**
-	 * 
-	 * @return Index of Key Column
-	 */
-	protected int getKeyColumnIndex()
-	{
-		return m_keyColumnIndex;
-	}
-	
-	/**
-	 * 
-	 * @return true if OK button was pressed
-	 */
-	public boolean isOkPressed()
-	{
-		return m_ok;
-	}
-	
-	/**
-	 * 
-	 * @return true if Cancel button was pressed
-	 */
-	public boolean isCancelPressed()
-	{
-		return m_cancel;
-	}
-	
-	/**
-	 * Specify if the records should be checked(selected) by default.
-	 * (for multi-selection only)
-	 * @param value
-	 */
-	public void setDefaultSelected(boolean value)
-	{
-		p_isDefaultSelected = value;
-	}
-	
-	/**
-	 * (for multi-selection only)
-	 * @return true if records are selected by default
-	 */
-	public boolean isDefaultSelected()
-	{
-		return p_isDefaultSelected;
-	}
-	
-	/**
-	 * (for multi-selection only)
-	 * @param value true if double click should toggle record selection
-	 */
-	public void setDoubleClickTogglesSelection(boolean value)
-	{
-		p_doubleClickTogglesSelection = value;
-	}
-	
-	/**
-	 * (for multi-selection only)
-	 * @return true if double click should toggle record selection
-	 */
-	public boolean isDoubleClickTogglesSelection()
-	{
-		return p_doubleClickTogglesSelection;
-	}
 
 
 	/**************************************************************************
@@ -1093,20 +1019,7 @@ public abstract class Info extends CDialog
 		if (e.getClickCount() > 1 && p_table.getSelectedRow() != -1)
 		{
 			if (p_WindowNo == 0)
-				zoom();
-			else if (p_multiSelection && isDoubleClickTogglesSelection())
-			{
-				if (m_keyColumnIndex >= 0)
-				{
-					Object data = p_table.getValueAt(p_table.getSelectedRow(), m_keyColumnIndex);
-					if (data instanceof IDColumn)
-					{
-						IDColumn id = (IDColumn)data;
-						id.setSelected(!id.isSelected());
-						p_table.setValueAt(data, p_table.getSelectedRow(), m_keyColumnIndex);
-					}
-				}
-			}
+				zoom(); 
 			else
 				dispose(true);
 		}
@@ -1171,11 +1084,7 @@ public abstract class Info extends CDialog
 						Class<?> c = p_layout[col].getColClass();
 						int colIndex = col + colOffset;
 						if (c == IDColumn.class)
-						{
 							data = new IDColumn(m_rs.getInt(colIndex));
-							if (p_multiSelection)
-								((IDColumn)data).setSelected(isDefaultSelected());
-						}
 						else if (c == Boolean.class)
 							data = new Boolean("Y".equals(m_rs.getString(colIndex)));
 						else if (c == Timestamp.class)
