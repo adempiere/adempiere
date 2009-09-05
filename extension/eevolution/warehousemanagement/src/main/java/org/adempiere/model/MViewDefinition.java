@@ -40,25 +40,25 @@ public class MViewDefinition extends X_AD_View_Definition
 	 */
 	private static final long serialVersionUID = 8557695983263069806L;
 
-	public static  MViewDefinition get(Properties ctx, int AD_ViewJoin_ID)
+	public static  MViewDefinition get(Properties ctx, int AD_View_Definition_ID)
 	{
-		if (AD_ViewJoin_ID <= 0)
+		if (AD_View_Definition_ID <= 0)
 			return null;
 		//
-		MViewDefinition join = s_cache.get(AD_ViewJoin_ID);
-		if (join != null)
-			return join;
+		MViewDefinition definition = s_cache.get(AD_View_Definition_ID);
+		if (definition != null)
+			return definition;
 		//
-		join = new MViewDefinition(ctx, AD_ViewJoin_ID, null);
-		if (join.get_ID() == AD_ViewJoin_ID)
+		definition = new MViewDefinition(ctx, AD_View_Definition_ID, null);
+		if (definition.get_ID() == AD_View_Definition_ID)
 		{
-			s_cache.put(AD_ViewJoin_ID, join);
+			s_cache.put(AD_View_Definition_ID, definition);
 		}
 		else
 		{
-			join = null;	
+			definition = null;	
 		}
-		return join; 
+		return definition; 
 	}
 
 	/**	Logger							*/
@@ -73,13 +73,13 @@ public class MViewDefinition extends X_AD_View_Definition
 	/**************************************************************************
 	 * 	Asset Constructor
 	 *	@param ctx context
-	 *	@param AD_ViewJoin_ID 
+	 *	@param AD_View_Definition_ID 
 	 *	@param trxName transaction name 
 	 */
-	public MViewDefinition (Properties ctx, int AD_ViewJoin_ID, String trxName)
+	public MViewDefinition (Properties ctx, int AD_View_Definition_ID, String trxName)
 	{
-		super (ctx, AD_ViewJoin_ID, trxName);
-		if (AD_ViewJoin_ID == 0)
+		super (ctx, AD_View_Definition_ID, trxName);
+		if (AD_View_Definition_ID == 0)
 		{
 		}
 	}
@@ -87,11 +87,11 @@ public class MViewDefinition extends X_AD_View_Definition
 	/**
 	 * 	Discontinued Asset Constructor - DO NOT USE (but don't delete either)
 	 *	@param ctx context
-	 *	@param AD_ViewJoin_ID 
+	 *	@param AD_View_Definition_ID 
 	 */
-	public MViewDefinition (Properties ctx, int AD_ViewJoin_ID)
+	public MViewDefinition (Properties ctx, int AD_View_Definition_ID)
 	{
-		this (ctx, AD_ViewJoin_ID, null);
+		this (ctx, AD_View_Definition_ID, null);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class MViewDefinition extends X_AD_View_Definition
 	@Override
 	public String toString ()
 	{
-		StringBuffer sb = new StringBuffer ("MViewJoin[")
+		StringBuffer sb = new StringBuffer ("MViewDefinition[")
 			.append (get_ID ())
 			.append ("-")
 			.append ("")

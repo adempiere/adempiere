@@ -31,14 +31,17 @@ package org.eevolution.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -178,6 +181,18 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 	{
 		return "" + getDocumentNo() + "/" ;
 	}
+	
+	/**************************************************************************
+	 * 	Process document
+	 *	@param processAction document action
+	 *	@return true if performed
+	 */
+	public boolean processIt (String processAction)
+	{
+		m_processMsg = null;
+		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
+		return engine.processIt (processAction, getDocAction());
+	}	//	processIt
 
 	/**************************************************************************
 	 *	Prepare Document
@@ -219,71 +234,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 				}
 			}
 		}
-		
-		//	Convert DocType to Target
-		if (getC_DocType_ID() != getC_DocType_ID() )
-		{
-			//	Cannot change Std to anything else if different warehouses
-			if (getC_DocType_ID() != 0)
-			{
-				MDocType dtOld = MDocType.get(getCtx(), getC_DocType_ID());
-				if (MDocType.DOCSUBTYPESO_StandardOrder.equals(dtOld.getDocSubTypeSO())		//	From SO
-					&& !MDocType.DOCSUBTYPESO_StandardOrder.equals(dt.getDocSubTypeSO()))	//	To !SO
-				{
-					for (MWMInOutBoundLine line:lines)
-					{
-						/*if (line.getM_Warehouse_ID() != getM_Warehouse_ID())
-						{
-							log.warning("different Warehouse " + line);
-							m_processMsg = "@CannotChangeDocType@";
-							return DocAction.STATUS_Invalid;
-						}*/
-					}
-				}
-			}
-			
-			//	New or in Progress/Invalid
-			if (DOCSTATUS_Drafted.equals(getDocStatus()) 
-				|| DOCSTATUS_InProgress.equals(getDocStatus())
-				|| DOCSTATUS_Invalid.equals(getDocStatus())
-				|| getC_DocType_ID() == 0)
-			{
-				setC_DocType_ID(getC_DocType_ID());
-			}
-			else	//	convert only if offer
-			{
-				if (dt.isOffer())
-					setC_DocType_ID(getC_DocType_ID());
-				else
-				{
-					m_processMsg = "@CannotChangeDocType@";
-					return DocAction.STATUS_Invalid;
-				}
-			}
-		}	//	convert DocType
-
-		//	Mandatory Product Attribute Set Instance
-		String mandatoryType = "='Y'";	//	IN ('Y','S')
-		String sql = "SELECT COUNT(*) "
-			+ "FROM C_OrderLine ol"
-			+ " INNER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID)" 
-			+ " INNER JOIN M_AttributeSet pas ON (p.M_AttributeSet_ID=pas.M_AttributeSet_ID) "
-			+ "WHERE pas.MandatoryType" + mandatoryType		
-			+ " AND (ol.M_AttributeSetInstance_ID is NULL OR ol.M_AttributeSetInstance_ID = 0)"
-			+ " AND ol.C_Order_ID=?";
-		int no = DB.getSQLValue(get_TrxName(), sql, getWM_InOutBound_ID());
-		if (no != 0)
-		{
-			m_processMsg = "@LinesWithoutProductAttribute@ (" + no + ")";
-			return DocAction.STATUS_Invalid;
-		}
-
-		/*if (!reserveStock(dt, lines))
-		{
-			m_processMsg = "Cannot reserve Stock";
-			return DocAction.STATUS_Invalid;
-		}*/
-		
+						
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
@@ -444,16 +395,10 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		if (orderClause.length() == 0)
 			orderClause = MWMInOutBoundLine.COLUMNNAME_Line;
 		//
-		return (MWMInOutBoundLine[]) new Query(getCtx(), MWMInOutBoundLine.Table_Name, whereClause.toString(), get_TrxName())
+		List<MWMInOutBoundLine> list = new Query(getCtx(), MWMInOutBoundLine.Table_Name, whereClause.toString(), get_TrxName())
 										.setParameters(new Object[]{get_ID()})
 										.setOrderBy(orderClause)
-										.list()
-										.toArray();		
+										.list();	
+		return list.toArray(new MWMInOutBoundLine[list.size()]);		
 	}	//	getLines
-	
-
-	public boolean processIt(String action) throws Exception {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }	

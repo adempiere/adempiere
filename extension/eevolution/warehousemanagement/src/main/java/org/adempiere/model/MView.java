@@ -166,17 +166,21 @@ public class MView extends X_AD_View
 	
 	/**
 	 * get Parent View Join
-	 * @return MViewJoin
+	 * @return MViewDefinition
 	 */
-	public MViewDefinition getParentViewJoin()
+	public MViewDefinition getParentViewDefinition()
 	{
+		
 		String whereClause =  MViewDefinition.COLUMNNAME_AD_View_ID + "=? AND "
-							+ MViewDefinition.COLUMNNAME_JoinClause +" IS NULL"; 
-		return new Query(getCtx(),MViewDefinition.Table_Name, whereClause, get_TrxName())
+							+ MViewDefinition.COLUMNNAME_JoinClause +" IS NULL";
+		
+		MViewDefinition definition = new Query(getCtx(),MViewDefinition.Table_Name, whereClause, get_TrxName())
 		.setParameters(new Object[]{getAD_View_ID()})
 		.setOnlyActiveRecords(true)
-		.setOrderBy( MViewDefinition.COLUMNNAME_SeqNo)
-		.firstOnly();
+		.setOrderBy(MViewDefinition.COLUMNNAME_SeqNo)
+		.first();
+		
+		return definition;
 	}
 	
 	/**
@@ -185,7 +189,7 @@ public class MView extends X_AD_View
 	 */
 	public String getParentEntityName()
 	{
-		return MTable.getTableName(getCtx(), getParentViewJoin().getAD_Table_ID());
+		return MTable.getTableName(getCtx(), getParentViewDefinition().getAD_Table_ID());
 	}
 	
 	/**
@@ -194,6 +198,6 @@ public class MView extends X_AD_View
 	 */
 	public String getParentEntityAliasName()
 	{
-		 return getParentViewJoin().getTableAlias();
+		 return getParentViewDefinition().getTableAlias();
 	}
 }	
