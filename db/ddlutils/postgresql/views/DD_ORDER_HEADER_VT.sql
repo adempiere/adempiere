@@ -1,4 +1,5 @@
 DROP VIEW DD_ORDER_HEADER_VT;
+
 CREATE OR REPLACE VIEW DD_ORDER_HEADER_VT
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
@@ -22,7 +23,7 @@ SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Update
 	o.C_Charge_ID, o.ChargeAmt,
 	o.Volume, o.Weight,
 	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID,
-	o.M_Shipper_ID, o.DeliveryRule, o.DeliveryViaRule, o.PriorityRule
+	o.M_Shipper_ID, o.DeliveryRule, o.DeliveryViaRule, o.PriorityRule, COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM DD_Order o
 	INNER JOIN C_DocType_Trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)
     INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
@@ -33,6 +34,7 @@ FROM DD_Order o
 	LEFT OUTER JOIN AD_User bpc ON (o.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting_Trl bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID AND dt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 

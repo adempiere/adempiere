@@ -14,10 +14,12 @@ SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Update
 	o.DateConfirm,o.DateDelivered,o.DateFinish, o.DateFinishSchedule,o.DateOrdered, o.DatePromised,o.QtyReject, o.QtyReserved , o.QtyScrap , o.Yield ,
 	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID,
 	--ob.PP_Product_BOM_ID,
-	ob.BOMType,ob.BOMUse, ob.Description , ob.Help , ob.M_AttributeSetInstance_ID , ob.M_Product_ID, ob.Name , ob.Revision, ob.ValidFrom , ob.ValidTo 	
+	ob.BOMType,ob.BOMUse, ob.Description , ob.Help , ob.M_AttributeSetInstance_ID , ob.M_Product_ID, ob.Name , ob.Revision, ob.ValidFrom , ob.ValidTo,
+	COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM PP_Order o
 	INNER JOIN C_DocType d ON (o.C_DocType_ID=d.C_DocType_ID)
 	INNER JOIN PP_Order_BOM ob ON (ob.PP_Order_ID=o.PP_Order_ID)
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);

@@ -1,3 +1,5 @@
+DROP VIEW C_ORDER_HEADER_VT;
+
 CREATE OR REPLACE VIEW C_ORDER_HEADER_VT
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, AD_LANGUAGE, C_ORDER_ID, ISSOTRX, 
@@ -13,7 +15,7 @@ CREATE OR REPLACE VIEW C_ORDER_HEADER_VT
  CHARGEAMT, TOTALLINES, GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, 
  ISTAXINCLUDED, VOLUME, WEIGHT, C_CAMPAIGN_ID, C_PROJECT_ID, 
  C_ACTIVITY_ID, M_SHIPPER_ID, DELIVERYRULE, DELIVERYVIARULE, PRIORITYRULE, 
- INVOICERULE)
+ INVOICERULE, LOGO_ID)
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
 	dt.AD_Language,
@@ -48,7 +50,7 @@ SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Update
 	o.M_PriceList_ID,
 	o.IsTaxIncluded, o.Volume, o.Weight,
 	o.C_Campaign_ID, o.C_Project_ID, o.C_Activity_ID,
-	o.M_Shipper_ID, o.DeliveryRule, o.DeliveryViaRule, o.PriorityRule, o.InvoiceRule
+	o.M_Shipper_ID, o.DeliveryRule, o.DeliveryViaRule, o.PriorityRule, o.InvoiceRule, COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM C_Order o
 	INNER JOIN C_DocType_Trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)
     INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
@@ -60,6 +62,7 @@ FROM C_Order o
 	LEFT OUTER JOIN AD_User bpc ON (o.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting_Trl bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID AND dt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID)
     INNER JOIN C_BPartner bbp ON (o.Bill_BPartner_ID=bbp.C_BPartner_ID)

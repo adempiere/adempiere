@@ -9,7 +9,7 @@ CREATE OR REPLACE VIEW C_INVOICE_HEADER_VT
  POSTAL, DESCRIPTION, POREFERENCE, DATEORDERED, C_CURRENCY_ID, 
  PAYMENTTERM, PAYMENTTERMNOTE, C_CHARGE_ID, CHARGEAMT, TOTALLINES, 
  GRANDTOTAL, AMTINWORDS, M_PRICELIST_ID, ISTAXINCLUDED, C_CAMPAIGN_ID, 
- C_PROJECT_ID, C_ACTIVITY_ID, ISPAID)
+ C_PROJECT_ID, C_ACTIVITY_ID, ISPAID, LOGO_ID)
 AS 
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.CreatedBy, i.Updated, i.UpdatedBy, 
 	dt.AD_Language,
@@ -38,7 +38,7 @@ SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.CreatedBy, i.Update
 	i.C_Campaign_ID,
 	i.C_Project_ID,
 	i.C_Activity_ID,
-	i.IsPaid
+	i.IsPaid, COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM C_Invoice i
 	INNER JOIN C_DocType_Trl dt ON (i.C_DocType_ID=dt.C_DocType_ID)
 	INNER JOIN C_PaymentTerm_Trl pt ON (i.C_PaymentTerm_ID=pt.C_PaymentTerm_ID AND dt.AD_Language=pt.AD_Language)
@@ -49,6 +49,7 @@ FROM C_Invoice i
 	LEFT OUTER JOIN AD_User bpc ON (i.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting_Trl bpcg on (bpc.C_Greeting_ID=bpcg.C_Greeting_ID AND dt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (i.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (i.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (i.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 

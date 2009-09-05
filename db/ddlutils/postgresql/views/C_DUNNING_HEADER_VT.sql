@@ -1,3 +1,5 @@
+DROP VIEW C_DUNNING_HEADER_VT;
+
 CREATE OR REPLACE VIEW C_DUNNING_HEADER_VT
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, AD_LANGUAGE, C_DUNNINGRUN_ID, C_DUNNINGRUNENTRY_ID, 
@@ -5,7 +7,7 @@ CREATE OR REPLACE VIEW C_DUNNING_HEADER_VT
  BPTAXID, NAICS, DUNS, ORG_LOCATION_ID, TAXID, 
  SALESREP_ID, SALESREP_NAME, BPGREETING, NAME, NAME2, 
  BPCONTACTGREETING, TITLE, PHONE, CONTACTNAME, C_LOCATION_ID, 
- REFERENCENO, POSTAL, AMT, QTY, NOTE)
+ REFERENCENO, POSTAL, AMT, QTY, NOTE, LOGO_ID)
 AS 
 SELECT dr.AD_Client_ID, dr.AD_Org_ID, dr.IsActive, dr.Created, dr.CreatedBy, dr.Updated, dr.UpdatedBy, 
 	dlt.AD_Language, dr.C_DunningRun_ID, C_DunningRunEntry_ID,
@@ -19,7 +21,7 @@ SELECT dr.AD_Client_ID, dr.AD_Org_ID, dr.IsActive, dr.Created, dr.CreatedBy, dr.
 	bpc.Title, bpc.Phone,
 	NULLIF (bpc.Name, bp.Name) AS ContactName,
 	bpl.C_Location_ID, bp.ReferenceNo, l.Postal || l.Postal_Add AS Postal,
-    dre.Amt, dre.Qty, dre.Note
+    dre.Amt, dre.Qty, dre.Note, COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM C_DunningRun dr
     INNER JOIN C_DunningLevel dl ON (dr.C_DunningLevel_ID=dl.C_DunningLevel_ID)
     INNER JOIN C_DunningLevel_Trl dlt ON (dl.C_DunningLevel_ID=dlt.C_DunningLevel_ID)
@@ -33,6 +35,7 @@ FROM C_DunningRun dr
 	LEFT OUTER JOIN C_Greeting_Trl bpcg on (bpc.C_Greeting_ID=bpcg.C_Greeting_ID
         AND dlt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (dr.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (dr.AD_Client_ID=oi.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (dre.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 

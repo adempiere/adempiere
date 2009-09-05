@@ -1,3 +1,5 @@
+DROP VIEW C_PROJECT_HEADER_VT;
+
 CREATE OR REPLACE VIEW C_PROJECT_HEADER_VT
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, AD_LANGUAGE, C_PROJECT_ID, VALUE, 
@@ -10,7 +12,7 @@ CREATE OR REPLACE VIEW C_PROJECT_HEADER_VT
  C_CURRENCY_ID, M_PRICELIST_VERSION_ID, C_CAMPAIGN_ID, PLANNEDAMT, PLANNEDQTY, 
  PLANNEDMARGINAMT, INVOICEDAMT, INVOICEDQTY, PROJECTBALANCEAMT, ISCOMMITMENT, 
  COMMITTEDAMT, COMMITTEDQTY, DATECONTRACT, DATEFINISH, ISCOMMITCEILING, 
- M_WAREHOUSE_ID)
+ M_WAREHOUSE_ID, LOGO_ID)
 AS 
 SELECT p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy, 
 	pt.AD_Language, p.C_Project_ID,
@@ -32,10 +34,11 @@ SELECT p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Update
     p.C_Campaign_ID,
     p.PlannedAmt, p.PlannedQty, p.PlannedMarginAmt, p.InvoicedAmt, p.InvoicedQty, p.ProjectBalanceAmt,
     p.IsCommitment, p.CommittedAmt, p.CommittedQty, p.DateContract, p.DateFinish, p.IsCommitCeiling,
-    p.M_Warehouse_ID
+    p.M_Warehouse_ID, COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM C_Project p
 	LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID)
 	INNER JOIN AD_OrgInfo oi ON (p.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (p.AD_Client_ID=oi.AD_Client_ID)
 	LEFT OUTER JOIN C_PaymentTerm_Trl pt ON (p.C_PaymentTerm_ID=pt.C_PaymentTerm_ID)
     LEFT OUTER JOIN C_ProjectType pjt ON (p.C_ProjectType_ID=pjt.C_ProjectType_ID)
     LEFT OUTER JOIN C_Phase pjp ON (p.C_Phase_ID=pjp.C_Phase_ID)

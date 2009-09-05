@@ -8,7 +8,7 @@ CREATE OR REPLACE VIEW M_INOUT_HEADER_V
  BPCONTACTGREETING, TITLE, PHONE, CONTACTNAME, C_LOCATION_ID, 
  POSTAL, REFERENCENO, DESCRIPTION, POREFERENCE, DATEORDERED, 
  VOLUME, WEIGHT, M_SHIPPER_ID, DELIVERYRULE, DELIVERYVIARULE, 
- PRIORITYRULE)
+ PRIORITYRULE, LOGO_ID)
 AS 
 SELECT io.AD_Client_ID, io.AD_Org_ID, io.IsActive, io.Created, io.CreatedBy, io.Updated, io.UpdatedBy,
 	cast('en_US' as varchar2(6)) AS AD_Language,
@@ -29,7 +29,7 @@ SELECT io.AD_Client_ID, io.AD_Org_ID, io.IsActive, io.Created, io.CreatedBy, io.
 	io.Description,
 	io.POReference,
 	io.DateOrdered, io.Volume, io.Weight,
-	io.M_Shipper_ID, io.DeliveryRule, io.DeliveryViaRule, io.PriorityRule
+	io.M_Shipper_ID, io.DeliveryRule, io.DeliveryViaRule, io.PriorityRule, COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM M_InOut io
 	INNER JOIN C_DocType dt ON (io.C_DocType_ID=dt.C_DocType_ID)
 	INNER JOIN C_BPartner bp ON (io.C_BPartner_ID=bp.C_BPartner_ID)
@@ -39,6 +39,7 @@ FROM M_InOut io
 	LEFT OUTER JOIN AD_User bpc ON (io.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID)
 	INNER JOIN AD_OrgInfo oi ON (io.AD_Org_ID=oi.AD_Org_ID)
+	INNER JOIN AD_ClientInfo ci ON (io.AD_Client_ID=ci.AD_Client_ID)
 	INNER JOIN M_Warehouse wh ON (io.M_Warehouse_ID=wh.M_Warehouse_ID);
 
 
