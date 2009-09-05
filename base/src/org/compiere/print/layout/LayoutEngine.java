@@ -46,6 +46,7 @@ import javax.print.DocFlavor;
 import javax.print.attribute.DocAttributeSet;
 
 import org.compiere.Adempiere;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
@@ -925,7 +926,13 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 */
 	private void createStandardHeaderFooter()
 	{
-		PrintElement element = new ImageElement(org.compiere.Adempiere.getImageLogoSmall(true));	//	48x15
+		MClientInfo ci = MClientInfo.get(Env.getCtx());
+		PrintElement element = null;
+		if (ci.getLogoReport_ID() > 0) {
+			element = new ImageElement(ci.getLogoReport_ID(), false);
+		} else {
+			element = new ImageElement(org.compiere.Adempiere.getImageLogoSmall(true));	//	48x15
+		}
 	//	element = new ImageElement(org.compiere.Adempiere.getImageLogo());	//	100x30
 		element.layout(48, 15, false, MPrintFormatItem.FIELDALIGNMENTTYPE_LeadingLeft);
 		element.setLocation(m_header.getLocation());

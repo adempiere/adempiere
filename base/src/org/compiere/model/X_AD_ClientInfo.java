@@ -476,6 +476,66 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Logo.
+		@param Logo_ID Logo	  */
+	public void setLogo_ID (int Logo_ID)
+	{
+		if (Logo_ID < 1) 
+			set_Value (COLUMNNAME_Logo_ID, null);
+		else 
+			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
+	}
+
+	/** Get Logo.
+		@return Logo	  */
+	public int getLogo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Logo Report.
+		@param LogoReport_ID Logo Report	  */
+	public void setLogoReport_ID (int LogoReport_ID)
+	{
+		if (LogoReport_ID < 1) 
+			set_Value (COLUMNNAME_LogoReport_ID, null);
+		else 
+			set_Value (COLUMNNAME_LogoReport_ID, Integer.valueOf(LogoReport_ID));
+	}
+
+	/** Get Logo Report.
+		@return Logo Report	  */
+	public int getLogoReport_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_LogoReport_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Logo Web.
+		@param LogoWeb_ID Logo Web	  */
+	public void setLogoWeb_ID (int LogoWeb_ID)
+	{
+		if (LogoWeb_ID < 1) 
+			set_Value (COLUMNNAME_LogoWeb_ID, null);
+		else 
+			set_Value (COLUMNNAME_LogoWeb_ID, Integer.valueOf(LogoWeb_ID));
+	}
+
+	/** Get Logo Web.
+		@return Logo Web	  */
+	public int getLogoWeb_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_LogoWeb_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Product for Freight.
 		@param M_ProductFreight_ID Product for Freight	  */
 	public void setM_ProductFreight_ID (int M_ProductFreight_ID)

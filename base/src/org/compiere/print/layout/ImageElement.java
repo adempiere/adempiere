@@ -183,7 +183,7 @@ public class ImageElement extends PrintElement
 	 * 	@param record_ID_ID record id from printformat or column
 	 * 	@param isAttachment flag to indicate if is attachment or is a column from DB
 	 */
-	private ImageElement(int record_ID, boolean isAttachment)
+	public ImageElement(int record_ID, boolean isAttachment)
 	{
 		if (isAttachment)
 			loadAttachment(record_ID);

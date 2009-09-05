@@ -314,6 +314,33 @@ public interface I_AD_ClientInfo
 	  */
 	public int getKeepLogDays();
 
+    /** Column name Logo_ID */
+    public static final String COLUMNNAME_Logo_ID = "Logo_ID";
+
+	/** Set Logo	  */
+	public void setLogo_ID (int Logo_ID);
+
+	/** Get Logo	  */
+	public int getLogo_ID();
+
+    /** Column name LogoReport_ID */
+    public static final String COLUMNNAME_LogoReport_ID = "LogoReport_ID";
+
+	/** Set Logo Report	  */
+	public void setLogoReport_ID (int LogoReport_ID);
+
+	/** Get Logo Report	  */
+	public int getLogoReport_ID();
+
+    /** Column name LogoWeb_ID */
+    public static final String COLUMNNAME_LogoWeb_ID = "LogoWeb_ID";
+
+	/** Set Logo Web	  */
+	public void setLogoWeb_ID (int LogoWeb_ID);
+
+	/** Get Logo Web	  */
+	public int getLogoWeb_ID();
+
     /** Column name M_ProductFreight_ID */
     public static final String COLUMNNAME_M_ProductFreight_ID = "M_ProductFreight_ID";
 

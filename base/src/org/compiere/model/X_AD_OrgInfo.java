@@ -92,7 +92,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 
 	/** Set Organization Type.
 		@param AD_OrgType_ID 
-		Organization Type allows you to categorize your organizations
+		Organization Type
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID)
 	{
@@ -103,7 +103,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	}
 
 	/** Get Organization Type.
-		@return Organization Type allows you to categorize your organizations
+		@return Organization Type
 	  */
 	public int getAD_OrgType_ID () 
 	{
@@ -213,6 +213,26 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	public String getDUNS () 
 	{
 		return (String)get_Value(COLUMNNAME_DUNS);
+	}
+
+	/** Set Logo.
+		@param Logo_ID Logo	  */
+	public void setLogo_ID (int Logo_ID)
+	{
+		if (Logo_ID < 1) 
+			set_Value (COLUMNNAME_Logo_ID, null);
+		else 
+			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
+	}
+
+	/** Get Logo.
+		@return Logo	  */
+	public int getLogo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException 

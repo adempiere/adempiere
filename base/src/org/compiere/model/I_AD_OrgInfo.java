@@ -66,12 +66,12 @@ public interface I_AD_OrgInfo
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
 	/** Set Organization Type.
-	  * Organization Type allows you to categorize your organizations
+	  * Organization Type
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID);
 
 	/** Get Organization Type.
-	  * Organization Type allows you to categorize your organizations
+	  * Organization Type
 	  */
 	public int getAD_OrgType_ID();
 
@@ -159,6 +159,15 @@ public interface I_AD_OrgInfo
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name Logo_ID */
+    public static final String COLUMNNAME_Logo_ID = "Logo_ID";
+
+	/** Set Logo	  */
+	public void setLogo_ID (int Logo_ID);
+
+	/** Get Logo	  */
+	public int getLogo_ID();
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
