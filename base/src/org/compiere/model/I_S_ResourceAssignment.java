@@ -169,19 +169,6 @@ public interface I_S_ResourceAssignment
 	  */
 	public BigDecimal getQty();
 
-    /** Column name S_ResourceAssignment_ID */
-    public static final String COLUMNNAME_S_ResourceAssignment_ID = "S_ResourceAssignment_ID";
-
-	/** Set Resource Assignment.
-	  * Resource Assignment
-	  */
-	public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID);
-
-	/** Get Resource Assignment.
-	  * Resource Assignment
-	  */
-	public int getS_ResourceAssignment_ID();
-
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -196,6 +183,19 @@ public interface I_S_ResourceAssignment
 	public int getS_Resource_ID();
 
 	public I_S_Resource getS_Resource() throws RuntimeException;
+
+    /** Column name S_ResourceAssignment_ID */
+    public static final String COLUMNNAME_S_ResourceAssignment_ID = "S_ResourceAssignment_ID";
+
+	/** Set Resource Assignment.
+	  * Resource Assignment
+	  */
+	public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID);
+
+	/** Get Resource Assignment.
+	  * Resource Assignment
+	  */
+	public int getS_ResourceAssignment_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

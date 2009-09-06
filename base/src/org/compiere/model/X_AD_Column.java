@@ -505,7 +505,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return (String)get_Value(COLUMNNAME_InfoFactoryClass);
 	}
 
-	/** Set IsAllowLogging.
+	/** Set Allow Logging.
 		@param IsAllowLogging 
 		Determine if a column must be recorded into the change log
 	  */
@@ -514,7 +514,7 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		set_Value (COLUMNNAME_IsAllowLogging, Boolean.valueOf(IsAllowLogging));
 	}
 
-	/** Get IsAllowLogging.
+	/** Get Allow Logging.
 		@return Determine if a column must be recorded into the change log
 	  */
 	public boolean isAllowLogging () 

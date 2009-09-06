@@ -1088,6 +1088,45 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_S_Resource getS_Resource() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
+        I_S_Resource result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_Value (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Setup Time.
 		@param SetupTime 
 		Setup time before starting Production
@@ -1130,45 +1169,6 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public String getSplitElement () 
 	{
 		return (String)get_Value(COLUMNNAME_SplitElement);
-	}
-
-	public I_S_Resource getS_Resource() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
-        I_S_Resource result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_Value (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** StartMode AD_Reference_ID=303 */

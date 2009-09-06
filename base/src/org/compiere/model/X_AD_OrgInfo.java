@@ -92,7 +92,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 
 	/** Set Organization Type.
 		@param AD_OrgType_ID 
-		Organization Type
+		Organization Type allows you to categorize your organizations
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID)
 	{
@@ -103,7 +103,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	}
 
 	/** Get Organization Type.
-		@return Organization Type
+		@return Organization Type allows you to categorize your organizations
 	  */
 	public int getAD_OrgType_ID () 
 	{

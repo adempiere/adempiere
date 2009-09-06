@@ -39,8 +39,8 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
       super (ctx, AD_UserBPAccess_ID, trxName);
       /** if (AD_UserBPAccess_ID == 0)
         {
-			setAD_UserBPAccess_ID (0);
 			setAD_User_ID (0);
+			setAD_UserBPAccess_ID (0);
 			setBPAccessType (null);
         } */
     }
@@ -72,29 +72,6 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set User BP Access.
-		@param AD_UserBPAccess_ID 
-		User/concat access to Business Partner information and resources
-	  */
-	public void setAD_UserBPAccess_ID (int AD_UserBPAccess_ID)
-	{
-		if (AD_UserBPAccess_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_UserBPAccess_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_UserBPAccess_ID, Integer.valueOf(AD_UserBPAccess_ID));
-	}
-
-	/** Get User BP Access.
-		@return User/concat access to Business Partner information and resources
-	  */
-	public int getAD_UserBPAccess_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserBPAccess_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_AD_User getAD_User() throws RuntimeException 
     {
@@ -130,6 +107,29 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set User BP Access.
+		@param AD_UserBPAccess_ID 
+		User/concat access to Business Partner information and resources
+	  */
+	public void setAD_UserBPAccess_ID (int AD_UserBPAccess_ID)
+	{
+		if (AD_UserBPAccess_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserBPAccess_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserBPAccess_ID, Integer.valueOf(AD_UserBPAccess_ID));
+	}
+
+	/** Get User BP Access.
+		@return User/concat access to Business Partner information and resources
+	  */
+	public int getAD_UserBPAccess_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserBPAccess_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

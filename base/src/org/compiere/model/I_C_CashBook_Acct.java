@@ -77,6 +77,21 @@ public interface I_C_CashBook_Acct
 
 	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
+    /** Column name C_CashBook_ID */
+    public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
+
+	/** Set Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID);
+
+	/** Get Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID();
+
+	public I_C_CashBook getC_CashBook() throws RuntimeException;
+
     /** Column name CB_Asset_Acct */
     public static final String COLUMNNAME_CB_Asset_Acct = "CB_Asset_Acct";
 
@@ -141,21 +156,6 @@ public interface I_C_CashBook_Acct
 	  * Cash Book Receipts Account
 	  */
 	public int getCB_Receipt_Acct();
-
-    /** Column name C_CashBook_ID */
-    public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
-
-	/** Set Cash Book.
-	  * Cash Book for recording petty cash transactions
-	  */
-	public void setC_CashBook_ID (int C_CashBook_ID);
-
-	/** Get Cash Book.
-	  * Cash Book for recording petty cash transactions
-	  */
-	public int getC_CashBook_ID();
-
-	public I_C_CashBook getC_CashBook() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

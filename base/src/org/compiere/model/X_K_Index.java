@@ -42,8 +42,8 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
       /** if (K_Index_ID == 0)
         {
 			setAD_Table_ID (0);
-			setKeyword (null);
 			setK_INDEX_ID (0);
+			setKeyword (null);
 			setRecord_ID (0);
 			setSourceUpdated (new Timestamp( System.currentTimeMillis() ));
         } */
@@ -211,6 +211,29 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 		return (String)get_Value(COLUMNNAME_Excerpt);
 	}
 
+	/** Set Index.
+		@param K_INDEX_ID 
+		Text Search Index
+	  */
+	public void setK_INDEX_ID (int K_INDEX_ID)
+	{
+		if (K_INDEX_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, Integer.valueOf(K_INDEX_ID));
+	}
+
+	/** Get Index.
+		@return Text Search Index
+	  */
+	public int getK_INDEX_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_INDEX_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Keyword.
 		@param Keyword 
 		Case insensitive keyword
@@ -235,52 +258,6 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
     {
         return new KeyNamePair(get_ID(), getKeyword());
     }
-
-	/** Set Index.
-		@param K_INDEX_ID 
-		Text Search Index
-	  */
-	public void setK_INDEX_ID (int K_INDEX_ID)
-	{
-		if (K_INDEX_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_K_INDEX_ID, Integer.valueOf(K_INDEX_ID));
-	}
-
-	/** Get Index.
-		@return Text Search Index
-	  */
-	public int getK_INDEX_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_INDEX_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Record ID.
-		@param Record_ID 
-		Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID)
-	{
-		if (Record_ID < 0) 
-			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
-	}
-
-	/** Get Record ID.
-		@return Direct internal record ID
-	  */
-	public int getRecord_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_R_RequestType getR_RequestType() throws RuntimeException 
     {
@@ -316,6 +293,29 @@ public class X_K_Index extends PO implements I_K_Index, I_Persistent
 	public int getR_RequestType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Record ID.
+		@param Record_ID 
+		Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID)
+	{
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+	}
+
+	/** Get Record ID.
+		@return Direct internal record ID
+	  */
+	public int getRecord_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

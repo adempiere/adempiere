@@ -119,19 +119,6 @@ public interface I_C_BPartner_Product
 	  */
 	public boolean isActive();
 
-    /** Column name Manufacturer */
-    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
-
-	/** Set Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer);
-
-	/** Get Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public String getManufacturer();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -146,6 +133,19 @@ public interface I_C_BPartner_Product
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name Manufacturer */
+    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
+
+	/** Set Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer);
+
+	/** Get Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public String getManufacturer();
 
     /** Column name QualityRating */
     public static final String COLUMNNAME_QualityRating = "QualityRating";

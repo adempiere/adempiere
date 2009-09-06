@@ -77,19 +77,6 @@ public interface I_C_DocType
 
 	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
-    /** Column name C_DocTypeDifference_ID */
-    public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
-
-	/** Set Difference Document.
-	  * Document type for generating in dispute Shipments
-	  */
-	public void setC_DocTypeDifference_ID (int C_DocTypeDifference_ID);
-
-	/** Get Difference Document.
-	  * Document type for generating in dispute Shipments
-	  */
-	public int getC_DocTypeDifference_ID();
-
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -102,6 +89,19 @@ public interface I_C_DocType
 	  * Document type or rules
 	  */
 	public int getC_DocType_ID();
+
+    /** Column name C_DocTypeDifference_ID */
+    public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
+
+	/** Set Difference Document.
+	  * Document type for generating in dispute Shipments
+	  */
+	public void setC_DocTypeDifference_ID (int C_DocTypeDifference_ID);
+
+	/** Get Difference Document.
+	  * Document type for generating in dispute Shipments
+	  */
+	public int getC_DocTypeDifference_ID();
 
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";

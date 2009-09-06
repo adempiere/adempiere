@@ -48,8 +48,8 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 			setM_DistributionListLine_ID (0);
 			setM_DistributionRun_ID (0);
 			setM_DistributionRunLine_ID (0);
-			setMinQty (Env.ZERO);
 			setM_Product_ID (0);
+			setMinQty (Env.ZERO);
 			setQty (Env.ZERO);
 			setRatio (Env.ZERO);
         } */
@@ -325,26 +325,6 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	/** Set Minimum Quantity.
-		@param MinQty 
-		Minimum quantity for the business partner
-	  */
-	public void setMinQty (BigDecimal MinQty)
-	{
-		set_Value (COLUMNNAME_MinQty, MinQty);
-	}
-
-	/** Get Minimum Quantity.
-		@return Minimum quantity for the business partner
-	  */
-	public BigDecimal getMinQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -382,6 +362,26 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Minimum Quantity.
+		@param MinQty 
+		Minimum quantity for the business partner
+	  */
+	public void setMinQty (BigDecimal MinQty)
+	{
+		set_Value (COLUMNNAME_MinQty, MinQty);
+	}
+
+	/** Get Minimum Quantity.
+		@return Minimum quantity for the business partner
+	  */
+	public BigDecimal getMinQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Quantity.

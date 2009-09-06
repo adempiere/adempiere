@@ -152,19 +152,6 @@ public interface I_M_Product_BOM
 	/** Get BOM Line	  */
 	public int getM_Product_BOM_ID();
 
-    /** Column name M_ProductBOM_ID */
-    public static final String COLUMNNAME_M_ProductBOM_ID = "M_ProductBOM_ID";
-
-	/** Set BOM Product.
-	  * Bill of Material Component Product
-	  */
-	public void setM_ProductBOM_ID (int M_ProductBOM_ID);
-
-	/** Get BOM Product.
-	  * Bill of Material Component Product
-	  */
-	public int getM_ProductBOM_ID();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -179,6 +166,19 @@ public interface I_M_Product_BOM
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_ProductBOM_ID */
+    public static final String COLUMNNAME_M_ProductBOM_ID = "M_ProductBOM_ID";
+
+	/** Set BOM Product.
+	  * Bill of Material Component Product
+	  */
+	public void setM_ProductBOM_ID (int M_ProductBOM_ID);
+
+	/** Get BOM Product.
+	  * Bill of Material Component Product
+	  */
+	public int getM_ProductBOM_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

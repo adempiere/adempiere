@@ -195,21 +195,6 @@ public interface I_M_BOMProduct
 	  */
 	public int getM_AttributeSetInstance_ID();
 
-    /** Column name M_BOMAlternative_ID */
-    public static final String COLUMNNAME_M_BOMAlternative_ID = "M_BOMAlternative_ID";
-
-	/** Set Alternative Group.
-	  * Product BOM Alternative Group
-	  */
-	public void setM_BOMAlternative_ID (int M_BOMAlternative_ID);
-
-	/** Get Alternative Group.
-	  * Product BOM Alternative Group
-	  */
-	public int getM_BOMAlternative_ID();
-
-	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException;
-
     /** Column name M_BOM_ID */
     public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
 
@@ -224,6 +209,21 @@ public interface I_M_BOMProduct
 	public int getM_BOM_ID();
 
 	public I_M_BOM getM_BOM() throws RuntimeException;
+
+    /** Column name M_BOMAlternative_ID */
+    public static final String COLUMNNAME_M_BOMAlternative_ID = "M_BOMAlternative_ID";
+
+	/** Set Alternative Group.
+	  * Product BOM Alternative Group
+	  */
+	public void setM_BOMAlternative_ID (int M_BOMAlternative_ID);
+
+	/** Get Alternative Group.
+	  * Product BOM Alternative Group
+	  */
+	public int getM_BOMAlternative_ID();
+
+	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException;
 
     /** Column name M_BOMProduct_ID */
     public static final String COLUMNNAME_M_BOMProduct_ID = "M_BOMProduct_ID";

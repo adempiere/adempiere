@@ -292,31 +292,6 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 		return ii.intValue();
 	}
 
-	/** Set Combination.
-		@param Combination 
-		Unique combination of account elements
-	  */
-	public void setCombination (String Combination)
-	{
-		set_ValueNoCheck (COLUMNNAME_Combination, Combination);
-	}
-
-	/** Get Combination.
-		@return Unique combination of account elements
-	  */
-	public String getCombination () 
-	{
-		return (String)get_Value(COLUMNNAME_Combination);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getCombination());
-    }
-
 	/** Set Project.
 		@param C_Project_ID 
 		Financial Project
@@ -424,6 +399,31 @@ public class X_C_ValidCombination extends PO implements I_C_ValidCombination, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Combination.
+		@param Combination 
+		Unique combination of account elements
+	  */
+	public void setCombination (String Combination)
+	{
+		set_ValueNoCheck (COLUMNNAME_Combination, Combination);
+	}
+
+	/** Get Combination.
+		@return Unique combination of account elements
+	  */
+	public String getCombination () 
+	{
+		return (String)get_Value(COLUMNNAME_Combination);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getCombination());
+    }
 
 	/** Set Description.
 		@param Description 

@@ -58,32 +58,6 @@ public interface I_I_Invoice
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name Address1 */
-    public static final String COLUMNNAME_Address1 = "Address1";
-
-	/** Set Address 1.
-	  * Address line 1 for this location
-	  */
-	public void setAddress1 (String Address1);
-
-	/** Get Address 1.
-	  * Address line 1 for this location
-	  */
-	public String getAddress1();
-
-    /** Column name Address2 */
-    public static final String COLUMNNAME_Address2 = "Address2";
-
-	/** Set Address 2.
-	  * Address line 2 for this location
-	  */
-	public void setAddress2 (String Address2);
-
-	/** Get Address 2.
-	  * Address line 2 for this location
-	  */
-	public String getAddress2();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -124,6 +98,32 @@ public interface I_I_Invoice
 	public int getAD_User_ID();
 
 	public I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name Address1 */
+    public static final String COLUMNNAME_Address1 = "Address1";
+
+	/** Set Address 1.
+	  * Address line 1 for this location
+	  */
+	public void setAddress1 (String Address1);
+
+	/** Get Address 1.
+	  * Address line 1 for this location
+	  */
+	public String getAddress1();
+
+    /** Column name Address2 */
+    public static final String COLUMNNAME_Address2 = "Address2";
+
+	/** Set Address 2.
+	  * Address line 2 for this location
+	  */
+	public void setAddress2 (String Address2);
+
+	/** Get Address 2.
+	  * Address line 2 for this location
+	  */
+	public String getAddress2();
 
     /** Column name BPartnerValue */
     public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
@@ -258,19 +258,6 @@ public interface I_I_Invoice
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name ChargeName */
-    public static final String COLUMNNAME_ChargeName = "ChargeName";
-
-	/** Set Charge Name.
-	  * Name of the Charge
-	  */
-	public void setChargeName (String ChargeName);
-
-	/** Get Charge Name.
-	  * Name of the Charge
-	  */
-	public String getChargeName();
-
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -301,19 +288,6 @@ public interface I_I_Invoice
 
 	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
-    /** Column name City */
-    public static final String COLUMNNAME_City = "City";
-
-	/** Set City.
-	  * Identifies a City
-	  */
-	public void setCity (String City);
-
-	/** Get City.
-	  * Identifies a City
-	  */
-	public String getCity();
-
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -328,32 +302,6 @@ public interface I_I_Invoice
 	public int getC_Location_ID();
 
 	public I_C_Location getC_Location() throws RuntimeException;
-
-    /** Column name ContactName */
-    public static final String COLUMNNAME_ContactName = "ContactName";
-
-	/** Set Contact Name.
-	  * Business Partner Contact Name
-	  */
-	public void setContactName (String ContactName);
-
-	/** Get Contact Name.
-	  * Business Partner Contact Name
-	  */
-	public String getContactName();
-
-    /** Column name CountryCode */
-    public static final String COLUMNNAME_CountryCode = "CountryCode";
-
-	/** Set ISO Country Code.
-	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public void setCountryCode (boolean CountryCode);
-
-	/** Get ISO Country Code.
-	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public boolean isCountryCode();
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -385,22 +333,6 @@ public interface I_I_Invoice
 
 	public I_C_Project getC_Project() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 
@@ -430,6 +362,74 @@ public interface I_I_Invoice
 	public int getC_Tax_ID();
 
 	public I_C_Tax getC_Tax() throws RuntimeException;
+
+    /** Column name ChargeName */
+    public static final String COLUMNNAME_ChargeName = "ChargeName";
+
+	/** Set Charge Name.
+	  * Name of the Charge
+	  */
+	public void setChargeName (String ChargeName);
+
+	/** Get Charge Name.
+	  * Name of the Charge
+	  */
+	public String getChargeName();
+
+    /** Column name City */
+    public static final String COLUMNNAME_City = "City";
+
+	/** Set City.
+	  * Identifies a City
+	  */
+	public void setCity (String City);
+
+	/** Get City.
+	  * Identifies a City
+	  */
+	public String getCity();
+
+    /** Column name ContactName */
+    public static final String COLUMNNAME_ContactName = "ContactName";
+
+	/** Set Contact Name.
+	  * Business Partner Contact Name
+	  */
+	public void setContactName (String ContactName);
+
+	/** Get Contact Name.
+	  * Business Partner Contact Name
+	  */
+	public String getContactName();
+
+    /** Column name CountryCode */
+    public static final String COLUMNNAME_CountryCode = "CountryCode";
+
+	/** Set ISO Country Code.
+	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public void setCountryCode (boolean CountryCode);
+
+	/** Get ISO Country Code.
+	  * Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public boolean isCountryCode();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

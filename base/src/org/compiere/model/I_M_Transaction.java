@@ -177,45 +177,6 @@ public interface I_M_Transaction
 
 	public I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
-
-    /** Column name MovementType */
-    public static final String COLUMNNAME_MovementType = "MovementType";
-
-	/** Set Movement Type.
-	  * Method of moving the inventory
-	  */
-	public void setMovementType (String MovementType);
-
-	/** Get Movement Type.
-	  * Method of moving the inventory
-	  */
-	public String getMovementType();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -254,6 +215,45 @@ public interface I_M_Transaction
 
 	/** Get Inventory Transaction	  */
 	public int getM_Transaction_ID();
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
+
+    /** Column name MovementType */
+    public static final String COLUMNNAME_MovementType = "MovementType";
+
+	/** Set Movement Type.
+	  * Method of moving the inventory
+	  */
+	public void setMovementType (String MovementType);
+
+	/** Get Movement Type.
+	  * Method of moving the inventory
+	  */
+	public String getMovementType();
 
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";

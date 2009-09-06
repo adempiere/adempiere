@@ -46,8 +46,8 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
-			setC_DunningRunEntry_ID (0);
 			setC_DunningRun_ID (0);
+			setC_DunningRunEntry_ID (0);
 			setProcessed (false);
 			setQty (Env.ZERO);
 			setSalesRep_ID (0);
@@ -258,29 +258,6 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Dunning Run Entry.
-		@param C_DunningRunEntry_ID 
-		Dunning Run Entry
-	  */
-	public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID)
-	{
-		if (C_DunningRunEntry_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_DunningRunEntry_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_DunningRunEntry_ID, Integer.valueOf(C_DunningRunEntry_ID));
-	}
-
-	/** Get Dunning Run Entry.
-		@return Dunning Run Entry
-	  */
-	public int getC_DunningRunEntry_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningRunEntry_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_DunningRun getC_DunningRun() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DunningRun.Table_Name);
@@ -327,6 +304,29 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_DunningRun_ID()));
     }
+
+	/** Set Dunning Run Entry.
+		@param C_DunningRunEntry_ID 
+		Dunning Run Entry
+	  */
+	public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID)
+	{
+		if (C_DunningRunEntry_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DunningRunEntry_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DunningRunEntry_ID, Integer.valueOf(C_DunningRunEntry_ID));
+	}
+
+	/** Get Dunning Run Entry.
+		@return Dunning Run Entry
+	  */
+	public int getC_DunningRunEntry_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningRunEntry_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Note.
 		@param Note 

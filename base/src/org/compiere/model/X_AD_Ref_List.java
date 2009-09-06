@@ -41,8 +41,8 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
       super (ctx, AD_Ref_List_ID, trxName);
       /** if (AD_Ref_List_ID == 0)
         {
-			setAD_Reference_ID (0);
 			setAD_Ref_List_ID (0);
+			setAD_Reference_ID (0);
 			setEntityType (null);
 // U
 			setName (null);
@@ -78,6 +78,29 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
       return sb.toString();
     }
 
+	/** Set Reference List.
+		@param AD_Ref_List_ID 
+		Reference List based on Table
+	  */
+	public void setAD_Ref_List_ID (int AD_Ref_List_ID)
+	{
+		if (AD_Ref_List_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, Integer.valueOf(AD_Ref_List_ID));
+	}
+
+	/** Get Reference List.
+		@return Reference List based on Table
+	  */
+	public int getAD_Ref_List_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Ref_List_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_AD_Reference getAD_Reference() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Reference.Table_Name);
@@ -112,29 +135,6 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 	public int getAD_Reference_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Reference List.
-		@param AD_Ref_List_ID 
-		Reference List based on Table
-	  */
-	public void setAD_Ref_List_ID (int AD_Ref_List_ID)
-	{
-		if (AD_Ref_List_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Ref_List_ID, Integer.valueOf(AD_Ref_List_ID));
-	}
-
-	/** Get Reference List.
-		@return Reference List based on Table
-	  */
-	public int getAD_Ref_List_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Ref_List_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

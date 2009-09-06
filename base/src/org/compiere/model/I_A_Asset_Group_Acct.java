@@ -92,14 +92,6 @@ public interface I_A_Asset_Group_Acct
 	/** Get A_Asset_Spread_Type	  */
 	public int getA_Asset_Spread_Type();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Acct */
     public static final String COLUMNNAME_A_Depreciation_Acct = "A_Depreciation_Acct";
 
@@ -190,19 +182,6 @@ public interface I_A_Asset_Group_Acct
 	/** Get Disposal Revenue	  */
 	public int getA_Disposal_Revenue();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name A_Reval_Accumdep_Offset_Cur */
     public static final String COLUMNNAME_A_Reval_Accumdep_Offset_Cur = "A_Reval_Accumdep_Offset_Cur";
 
@@ -265,6 +244,27 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Split Percentage	  */
 	public BigDecimal getA_Split_Percent();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";

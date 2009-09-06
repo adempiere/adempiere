@@ -114,19 +114,6 @@ public interface I_Test
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name CharacterData */
-    public static final String COLUMNNAME_CharacterData = "CharacterData";
-
-	/** Set Character Data.
-	  * Long Character Field
-	  */
-	public void setCharacterData (String CharacterData);
-
-	/** Get Character Data.
-	  * Long Character Field
-	  */
-	public String getCharacterData();
-
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -155,6 +142,34 @@ public interface I_Test
 
 	public I_C_Payment getC_Payment() throws RuntimeException;
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name CharacterData */
+    public static final String COLUMNNAME_CharacterData = "CharacterData";
+
+	/** Set Character Data.
+	  * Long Character Field
+	  */
+	public void setCharacterData (String CharacterData);
+
+	/** Get Character Data.
+	  * Long Character Field
+	  */
+	public String getCharacterData();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -170,21 +185,6 @@ public interface I_Test
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -315,15 +315,6 @@ public interface I_Test
 	/** Get DateTime	  */
 	public Timestamp getT_DateTime();
 
-    /** Column name Test_ID */
-    public static final String COLUMNNAME_Test_ID = "Test_ID";
-
-	/** Set Test ID	  */
-	public void setTest_ID (int Test_ID);
-
-	/** Get Test ID	  */
-	public int getTest_ID();
-
     /** Column name T_Integer */
     public static final String COLUMNNAME_T_Integer = "T_Integer";
 
@@ -350,6 +341,15 @@ public interface I_Test
 
 	/** Get Qty	  */
 	public BigDecimal getT_Qty();
+
+    /** Column name Test_ID */
+    public static final String COLUMNNAME_Test_ID = "Test_ID";
+
+	/** Set Test ID	  */
+	public void setTest_ID (int Test_ID);
+
+	/** Get Test ID	  */
+	public int getTest_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

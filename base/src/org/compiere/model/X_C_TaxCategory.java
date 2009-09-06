@@ -72,23 +72,6 @@ public class X_C_TaxCategory extends PO implements I_C_TaxCategory, I_Persistent
       return sb.toString();
     }
 
-	/** Set Commodity Code.
-		@param CommodityCode 
-		Commodity code used for tax calculation
-	  */
-	public void setCommodityCode (String CommodityCode)
-	{
-		set_Value (COLUMNNAME_CommodityCode, CommodityCode);
-	}
-
-	/** Get Commodity Code.
-		@return Commodity code used for tax calculation
-	  */
-	public String getCommodityCode () 
-	{
-		return (String)get_Value(COLUMNNAME_CommodityCode);
-	}
-
 	/** Set Tax Category.
 		@param C_TaxCategory_ID 
 		Tax Category
@@ -110,6 +93,23 @@ public class X_C_TaxCategory extends PO implements I_C_TaxCategory, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Commodity Code.
+		@param CommodityCode 
+		Commodity code used for tax calculation
+	  */
+	public void setCommodityCode (String CommodityCode)
+	{
+		set_Value (COLUMNNAME_CommodityCode, CommodityCode);
+	}
+
+	/** Get Commodity Code.
+		@return Commodity code used for tax calculation
+	  */
+	public String getCommodityCode () 
+	{
+		return (String)get_Value(COLUMNNAME_CommodityCode);
 	}
 
 	/** Set Description.

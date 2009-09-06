@@ -46,8 +46,8 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 			setAssignDateFrom (new Timestamp( System.currentTimeMillis() ));
 			setIsConfirmed (false);
 			setName (null);
-			setS_ResourceAssignment_ID (0);
 			setS_Resource_ID (0);
+			setS_ResourceAssignment_ID (0);
         } */
     }
 
@@ -191,29 +191,6 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 		return bd;
 	}
 
-	/** Set Resource Assignment.
-		@param S_ResourceAssignment_ID 
-		Resource Assignment
-	  */
-	public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID)
-	{
-		if (S_ResourceAssignment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, Integer.valueOf(S_ResourceAssignment_ID));
-	}
-
-	/** Get Resource Assignment.
-		@return Resource Assignment
-	  */
-	public int getS_ResourceAssignment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceAssignment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
@@ -260,4 +237,27 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
     {
         return new KeyNamePair(get_ID(), String.valueOf(getS_Resource_ID()));
     }
+
+	/** Set Resource Assignment.
+		@param S_ResourceAssignment_ID 
+		Resource Assignment
+	  */
+	public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID)
+	{
+		if (S_ResourceAssignment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, Integer.valueOf(S_ResourceAssignment_ID));
+	}
+
+	/** Get Resource Assignment.
+		@return Resource Assignment
+	  */
+	public int getS_ResourceAssignment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceAssignment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }

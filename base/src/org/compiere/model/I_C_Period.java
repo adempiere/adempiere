@@ -75,6 +75,21 @@ public interface I_C_Period
 	  */
 	public int getC_Period_ID();
 
+    /** Column name C_Year_ID */
+    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
+
+	/** Set Year.
+	  * Calendar Year
+	  */
+	public void setC_Year_ID (int C_Year_ID);
+
+	/** Get Year.
+	  * Calendar Year
+	  */
+	public int getC_Year_ID();
+
+	public I_C_Year getC_Year() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -90,21 +105,6 @@ public interface I_C_Period
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Year_ID */
-    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
-
-	/** Set Year.
-	  * Calendar Year
-	  */
-	public void setC_Year_ID (int C_Year_ID);
-
-	/** Get Year.
-	  * Calendar Year
-	  */
-	public int getC_Year_ID();
-
-	public I_C_Year getC_Year() throws RuntimeException;
 
     /** Column name EndDate */
     public static final String COLUMNNAME_EndDate = "EndDate";

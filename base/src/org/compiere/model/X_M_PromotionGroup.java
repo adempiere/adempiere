@@ -19,7 +19,6 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PromotionGroup

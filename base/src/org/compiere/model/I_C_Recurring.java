@@ -122,6 +122,19 @@ public interface I_C_Recurring
 
 	public I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_Recurring_ID */
+    public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
+
+	/** Set Recurring.
+	  * Recurring Document
+	  */
+	public void setC_Recurring_ID (int C_Recurring_ID);
+
+	/** Get Recurring.
+	  * Recurring Document
+	  */
+	public int getC_Recurring_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -137,19 +150,6 @@ public interface I_C_Recurring
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Recurring_ID */
-    public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
-
-	/** Set Recurring.
-	  * Recurring Document
-	  */
-	public void setC_Recurring_ID (int C_Recurring_ID);
-
-	/** Get Recurring.
-	  * Recurring Document
-	  */
-	public int getC_Recurring_ID();
 
     /** Column name DateLastRun */
     public static final String COLUMNNAME_DateLastRun = "DateLastRun";

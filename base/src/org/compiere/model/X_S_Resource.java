@@ -217,31 +217,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return false;
 	}
 
-	/** ManufacturingResourceType AD_Reference_ID=53223 */
-	public static final int MANUFACTURINGRESOURCETYPE_AD_Reference_ID=53223;
-	/** Production Line = PL */
-	public static final String MANUFACTURINGRESOURCETYPE_ProductionLine = "PL";
-	/** Plant = PT */
-	public static final String MANUFACTURINGRESOURCETYPE_Plant = "PT";
-	/** Work Center = WC */
-	public static final String MANUFACTURINGRESOURCETYPE_WorkCenter = "WC";
-	/** Work Station = WS */
-	public static final String MANUFACTURINGRESOURCETYPE_WorkStation = "WS";
-	/** Set Manufacturing Resource Type.
-		@param ManufacturingResourceType Manufacturing Resource Type	  */
-	public void setManufacturingResourceType (String ManufacturingResourceType)
-	{
-
-		set_Value (COLUMNNAME_ManufacturingResourceType, ManufacturingResourceType);
-	}
-
-	/** Get Manufacturing Resource Type.
-		@return Manufacturing Resource Type	  */
-	public String getManufacturingResourceType () 
-	{
-		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
-	}
-
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
@@ -279,6 +254,31 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** ManufacturingResourceType AD_Reference_ID=53223 */
+	public static final int MANUFACTURINGRESOURCETYPE_AD_Reference_ID=53223;
+	/** Production Line = PL */
+	public static final String MANUFACTURINGRESOURCETYPE_ProductionLine = "PL";
+	/** Plant = PT */
+	public static final String MANUFACTURINGRESOURCETYPE_Plant = "PT";
+	/** Work Center = WC */
+	public static final String MANUFACTURINGRESOURCETYPE_WorkCenter = "WC";
+	/** Work Station = WS */
+	public static final String MANUFACTURINGRESOURCETYPE_WorkStation = "WS";
+	/** Set Manufacturing Resource Type.
+		@param ManufacturingResourceType Manufacturing Resource Type	  */
+	public void setManufacturingResourceType (String ManufacturingResourceType)
+	{
+
+		set_Value (COLUMNNAME_ManufacturingResourceType, ManufacturingResourceType);
+	}
+
+	/** Get Manufacturing Resource Type.
+		@return Manufacturing Resource Type	  */
+	public String getManufacturingResourceType () 
+	{
+		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
 	}
 
 	/** Set Name.

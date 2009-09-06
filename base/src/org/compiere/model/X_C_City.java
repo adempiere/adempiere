@@ -152,23 +152,6 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Coordinates.
-		@param Coordinates 
-		Location coordinate
-	  */
-	public void setCoordinates (String Coordinates)
-	{
-		set_Value (COLUMNNAME_Coordinates, Coordinates);
-	}
-
-	/** Get Coordinates.
-		@return Location coordinate
-	  */
-	public String getCoordinates () 
-	{
-		return (String)get_Value(COLUMNNAME_Coordinates);
-	}
-
 	/** Set Region.
 		@param C_Region_ID 
 		Identifies a geographical Region
@@ -190,6 +173,23 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Coordinates.
+		@param Coordinates 
+		Location coordinate
+	  */
+	public void setCoordinates (String Coordinates)
+	{
+		set_Value (COLUMNNAME_Coordinates, Coordinates);
+	}
+
+	/** Get Coordinates.
+		@return Location coordinate
+	  */
+	public String getCoordinates () 
+	{
+		return (String)get_Value(COLUMNNAME_Coordinates);
 	}
 
 	/** Set Locode.

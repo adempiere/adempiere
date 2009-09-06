@@ -41,6 +41,19 @@ public interface I_A_RegistrationAttribute
 
     /** Load Meta Data */
 
+    /** Column name A_RegistrationAttribute_ID */
+    public static final String COLUMNNAME_A_RegistrationAttribute_ID = "A_RegistrationAttribute_ID";
+
+	/** Set Registration Attribute.
+	  * Asset Registration Attribute
+	  */
+	public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID);
+
+	/** Get Registration Attribute.
+	  * Asset Registration Attribute
+	  */
+	public int getA_RegistrationAttribute_ID();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -87,19 +100,6 @@ public interface I_A_RegistrationAttribute
 	  * Required to specify, if data type is Table or List
 	  */
 	public int getAD_Reference_Value_ID();
-
-    /** Column name A_RegistrationAttribute_ID */
-    public static final String COLUMNNAME_A_RegistrationAttribute_ID = "A_RegistrationAttribute_ID";
-
-	/** Set Registration Attribute.
-	  * Asset Registration Attribute
-	  */
-	public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID);
-
-	/** Get Registration Attribute.
-	  * Asset Registration Attribute
-	  */
-	public int getA_RegistrationAttribute_ID();
 
     /** Column name ColumnName */
     public static final String COLUMNNAME_ColumnName = "ColumnName";

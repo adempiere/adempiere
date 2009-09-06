@@ -62,6 +62,19 @@ public interface I_C_Job
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_Job_ID */
+    public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
+
+	/** Set Position.
+	  * Job Position
+	  */
+	public void setC_Job_ID (int C_Job_ID);
+
+	/** Get Position.
+	  * Job Position
+	  */
+	public int getC_Job_ID();
+
     /** Column name C_JobCategory_ID */
     public static final String COLUMNNAME_C_JobCategory_ID = "C_JobCategory_ID";
 
@@ -76,19 +89,6 @@ public interface I_C_Job
 	public int getC_JobCategory_ID();
 
 	public I_C_JobCategory getC_JobCategory() throws RuntimeException;
-
-    /** Column name C_Job_ID */
-    public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
-
-	/** Set Position.
-	  * Job Position
-	  */
-	public void setC_Job_ID (int C_Job_ID);
-
-	/** Get Position.
-	  * Job Position
-	  */
-	public int getC_Job_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

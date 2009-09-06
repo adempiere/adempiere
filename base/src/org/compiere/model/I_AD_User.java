@@ -311,12 +311,12 @@ public interface I_AD_User
     public static final String COLUMNNAME_IsFullBPAccess = "IsFullBPAccess";
 
 	/** Set Full BP Access.
-	  * The user/concat has full access to Business Partner information and resources
+	  * The user/contact has full access to Business Partner information and resources
 	  */
 	public void setIsFullBPAccess (boolean IsFullBPAccess);
 
 	/** Get Full BP Access.
-	  * The user/concat has full access to Business Partner information and resources
+	  * The user/contact has full access to Business Partner information and resources
 	  */
 	public boolean isFullBPAccess();
 

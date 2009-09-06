@@ -268,19 +268,6 @@ public interface I_M_Inventory
 	  */
 	public int getM_Inventory_ID();
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
     /** Column name M_PerpetualInv_ID */
     public static final String COLUMNNAME_M_PerpetualInv_ID = "M_PerpetualInv_ID";
 
@@ -310,6 +297,19 @@ public interface I_M_Inventory
 	public int getM_Warehouse_ID();
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";

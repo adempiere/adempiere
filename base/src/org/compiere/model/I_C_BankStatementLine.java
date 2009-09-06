@@ -135,19 +135,6 @@ public interface I_C_BankStatementLine
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
-
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -177,6 +164,19 @@ public interface I_C_BankStatementLine
 	public int getC_Payment_ID();
 
 	public I_C_Payment getC_Payment() throws RuntimeException;
+
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

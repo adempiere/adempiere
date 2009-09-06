@@ -327,12 +327,12 @@ public interface I_AD_Column
     /** Column name IsAllowLogging */
     public static final String COLUMNNAME_IsAllowLogging = "IsAllowLogging";
 
-	/** Set IsAllowLogging.
+	/** Set Allow Logging.
 	  * Determine if a column must be recorded into the change log
 	  */
 	public void setIsAllowLogging (boolean IsAllowLogging);
 
-	/** Get IsAllowLogging.
+	/** Get Allow Logging.
 	  * Determine if a column must be recorded into the change log
 	  */
 	public boolean isAllowLogging();

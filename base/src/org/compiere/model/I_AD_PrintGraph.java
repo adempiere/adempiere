@@ -106,6 +106,19 @@ public interface I_AD_PrintGraph
 	  */
 	public int getCreatedBy();
 
+    /** Column name Data_PrintFormatItem_ID */
+    public static final String COLUMNNAME_Data_PrintFormatItem_ID = "Data_PrintFormatItem_ID";
+
+	/** Set Data Column.
+	  * Data Column for Pie and Line Charts
+	  */
+	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID);
+
+	/** Get Data Column.
+	  * Data Column for Pie and Line Charts
+	  */
+	public int getData_PrintFormatItem_ID();
+
     /** Column name Data1_PrintFormatItem_ID */
     public static final String COLUMNNAME_Data1_PrintFormatItem_ID = "Data1_PrintFormatItem_ID";
 
@@ -157,19 +170,6 @@ public interface I_AD_PrintGraph
 	  * Data Column for Line Charts
 	  */
 	public int getData4_PrintFormatItem_ID();
-
-    /** Column name Data_PrintFormatItem_ID */
-    public static final String COLUMNNAME_Data_PrintFormatItem_ID = "Data_PrintFormatItem_ID";
-
-	/** Set Data Column.
-	  * Data Column for Pie and Line Charts
-	  */
-	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID);
-
-	/** Get Data Column.
-	  * Data Column for Pie and Line Charts
-	  */
-	public int getData_PrintFormatItem_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

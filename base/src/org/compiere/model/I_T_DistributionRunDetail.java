@@ -181,19 +181,6 @@ public interface I_T_DistributionRunDetail
 
 	public I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException;
 
-    /** Column name MinQty */
-    public static final String COLUMNNAME_MinQty = "MinQty";
-
-	/** Set Minimum Quantity.
-	  * Minimum quantity for the business partner
-	  */
-	public void setMinQty (BigDecimal MinQty);
-
-	/** Get Minimum Quantity.
-	  * Minimum quantity for the business partner
-	  */
-	public BigDecimal getMinQty();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -208,6 +195,19 @@ public interface I_T_DistributionRunDetail
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name MinQty */
+    public static final String COLUMNNAME_MinQty = "MinQty";
+
+	/** Set Minimum Quantity.
+	  * Minimum quantity for the business partner
+	  */
+	public void setMinQty (BigDecimal MinQty);
+
+	/** Get Minimum Quantity.
+	  * Minimum quantity for the business partner
+	  */
+	public BigDecimal getMinQty();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

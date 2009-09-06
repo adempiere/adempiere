@@ -62,6 +62,19 @@ public interface I_C_BP_Relation
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_BP_Relation_ID */
+    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
+
+	/** Set Partner Relation.
+	  * Business Partner Relation
+	  */
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
+
+	/** Get Partner Relation.
+	  * Business Partner Relation
+	  */
+	public int getC_BP_Relation_ID();
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -117,19 +130,6 @@ public interface I_C_BP_Relation
 	  * Location of the related Business Partner
 	  */
 	public int getC_BPartnerRelation_Location_ID();
-
-    /** Column name C_BP_Relation_ID */
-    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
-
-	/** Set Partner Relation.
-	  * Business Partner Relation
-	  */
-	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
-
-	/** Get Partner Relation.
-	  * Business Partner Relation
-	  */
-	public int getC_BP_Relation_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

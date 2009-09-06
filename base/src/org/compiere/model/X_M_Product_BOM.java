@@ -47,8 +47,8 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_Product_BOM WHERE M_Product_ID=@M_Product_ID@
 			setM_Product_BOM_ID (0);
-			setM_ProductBOM_ID (0);
 			setM_Product_ID (0);
+			setM_ProductBOM_ID (0);
         } */
     }
 
@@ -199,37 +199,6 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set BOM Product.
-		@param M_ProductBOM_ID 
-		Bill of Material Component Product
-	  */
-	public void setM_ProductBOM_ID (int M_ProductBOM_ID)
-	{
-		if (M_ProductBOM_ID < 1) 
-			set_Value (COLUMNNAME_M_ProductBOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
-	}
-
-	/** Get BOM Product.
-		@return Bill of Material Component Product
-	  */
-	public int getM_ProductBOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductBOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getM_ProductBOM_ID()));
-    }
-
 	public I_M_Product getM_Product() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
@@ -268,4 +237,35 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set BOM Product.
+		@param M_ProductBOM_ID 
+		Bill of Material Component Product
+	  */
+	public void setM_ProductBOM_ID (int M_ProductBOM_ID)
+	{
+		if (M_ProductBOM_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductBOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductBOM_ID, Integer.valueOf(M_ProductBOM_ID));
+	}
+
+	/** Get BOM Product.
+		@return Bill of Material Component Product
+	  */
+	public int getM_ProductBOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductBOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getM_ProductBOM_ID()));
+    }
 }

@@ -43,8 +43,8 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
       super (ctx, C_Tax_ID, trxName);
       /** if (C_Tax_ID == 0)
         {
-			setC_TaxCategory_ID (0);
 			setC_Tax_ID (0);
+			setC_TaxCategory_ID (0);
 			setIsDefault (false);
 			setIsDocumentLevel (false);
 			setIsSalesTax (false);
@@ -170,6 +170,29 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID)
+	{
+		if (C_Tax_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+	}
+
+	/** Get Tax.
+		@return Tax identifier
+	  */
+	public int getC_Tax_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
@@ -204,29 +227,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	public int getC_TaxCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Tax.
-		@param C_Tax_ID 
-		Tax identifier
-	  */
-	public void setC_Tax_ID (int C_Tax_ID)
-	{
-		if (C_Tax_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
-	}
-
-	/** Get Tax.
-		@return Tax identifier
-	  */
-	public int getC_Tax_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

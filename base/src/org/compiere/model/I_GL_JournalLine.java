@@ -78,6 +78,15 @@ public interface I_GL_JournalLine
 	/** Get Asset Related?	  */
 	public boolean isA_CreateAsset();
 
+    /** Column name A_Processed */
+    public static final String COLUMNNAME_A_Processed = "A_Processed";
+
+	/** Set A_Processed	  */
+	public void setA_Processed (boolean A_Processed);
+
+	/** Get A_Processed	  */
+	public boolean isA_Processed();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -151,15 +160,6 @@ public interface I_GL_JournalLine
 	  */
 	public BigDecimal getAmtSourceDr();
 
-    /** Column name A_Processed */
-    public static final String COLUMNNAME_A_Processed = "A_Processed";
-
-	/** Set A_Processed	  */
-	public void setA_Processed (boolean A_Processed);
-
-	/** Get A_Processed	  */
-	public boolean isA_Processed();
-
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -190,6 +190,34 @@ public interface I_GL_JournalLine
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name C_ValidCombination_ID */
+    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
+
+	/** Set Combination.
+	  * Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
+
+	/** Get Combination.
+	  * Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -206,21 +234,6 @@ public interface I_GL_JournalLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
-
     /** Column name CurrencyRate */
     public static final String COLUMNNAME_CurrencyRate = "CurrencyRate";
 
@@ -233,19 +246,6 @@ public interface I_GL_JournalLine
 	  * Currency Conversion Rate
 	  */
 	public BigDecimal getCurrencyRate();
-
-    /** Column name C_ValidCombination_ID */
-    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
-
-	/** Set Combination.
-	  * Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
-
-	/** Get Combination.
-	  * Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

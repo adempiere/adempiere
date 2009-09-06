@@ -48,8 +48,8 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 			setIsOpen (false);
 			setIsWebCanUpdate (false);
 			setName (null);
-			setR_StatusCategory_ID (0);
 			setR_Status_ID (0);
+			setR_StatusCategory_ID (0);
 			setSeqNo (0);
 			setValue (null);
         } */
@@ -277,6 +277,29 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Status.
+		@param R_Status_ID 
+		Request Status
+	  */
+	public void setR_Status_ID (int R_Status_ID)
+	{
+		if (R_Status_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Status_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Status_ID, Integer.valueOf(R_Status_ID));
+	}
+
+	/** Get Status.
+		@return Request Status
+	  */
+	public int getR_Status_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_Status_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_StatusCategory.Table_Name);
@@ -311,29 +334,6 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 	public int getR_StatusCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_StatusCategory_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Status.
-		@param R_Status_ID 
-		Request Status
-	  */
-	public void setR_Status_ID (int R_Status_ID)
-	{
-		if (R_Status_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_R_Status_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_R_Status_ID, Integer.valueOf(R_Status_ID));
-	}
-
-	/** Get Status.
-		@return Request Status
-	  */
-	public int getR_Status_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_Status_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

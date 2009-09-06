@@ -259,26 +259,6 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		return ii.intValue();
 	}
 
-	/** Set Converted Amount.
-		@param ConvertedAmt 
-		Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt)
-	{
-		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
-	}
-
-	/** Get Converted Amount.
-		@return Converted Amount
-	  */
-	public BigDecimal getConvertedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
@@ -316,6 +296,26 @@ public class X_C_CommissionDetail extends PO implements I_C_CommissionDetail, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Converted Amount.
+		@param ConvertedAmt 
+		Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt)
+	{
+		set_Value (COLUMNNAME_ConvertedAmt, ConvertedAmt);
+	}
+
+	/** Get Converted Amount.
+		@return Converted Amount
+	  */
+	public BigDecimal getConvertedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ConvertedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Info.

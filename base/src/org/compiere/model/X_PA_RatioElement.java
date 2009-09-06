@@ -43,8 +43,8 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
       /** if (PA_RatioElement_ID == 0)
         {
 			setName (null);
-			setPA_RatioElement_ID (0);
 			setPA_Ratio_ID (0);
+			setPA_RatioElement_ID (0);
 			setRatioElementType (null);
 			setRatioOperand (null);
 // P
@@ -196,29 +196,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Ratio Element.
-		@param PA_RatioElement_ID 
-		Performance Ratio Element
-	  */
-	public void setPA_RatioElement_ID (int PA_RatioElement_ID)
-	{
-		if (PA_RatioElement_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_RatioElement_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_RatioElement_ID, Integer.valueOf(PA_RatioElement_ID));
-	}
-
-	/** Get Ratio Element.
-		@return Performance Ratio Element
-	  */
-	public int getPA_RatioElement_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_RatioElement_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_PA_Ratio getPA_Ratio() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Ratio.Table_Name);
@@ -253,6 +230,29 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public int getPA_Ratio_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Ratio_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Ratio Element.
+		@param PA_RatioElement_ID 
+		Performance Ratio Element
+	  */
+	public void setPA_RatioElement_ID (int PA_RatioElement_ID)
+	{
+		if (PA_RatioElement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_RatioElement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_RatioElement_ID, Integer.valueOf(PA_RatioElement_ID));
+	}
+
+	/** Get Ratio Element.
+		@return Performance Ratio Element
+	  */
+	public int getPA_RatioElement_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_RatioElement_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

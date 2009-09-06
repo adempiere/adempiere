@@ -87,6 +87,33 @@ public interface I_A_Asset
 	/** Get A_Asset_RevalDate	  */
 	public Timestamp getA_Asset_RevalDate();
 
+    /** Column name A_Parent_Asset_ID */
+    public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
+
+	/** Set Asset ID	  */
+	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID);
+
+	/** Get Asset ID	  */
+	public int getA_Parent_Asset_ID();
+
+    /** Column name A_QTY_Current */
+    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
+
+	/** Set Quantity	  */
+	public void setA_QTY_Current (BigDecimal A_QTY_Current);
+
+	/** Get Quantity	  */
+	public BigDecimal getA_QTY_Current();
+
+    /** Column name A_QTY_Original */
+    public static final String COLUMNNAME_A_QTY_Original = "A_QTY_Original";
+
+	/** Set Original Qty	  */
+	public void setA_QTY_Original (BigDecimal A_QTY_Original);
+
+	/** Get Original Qty	  */
+	public BigDecimal getA_QTY_Original();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -122,33 +149,6 @@ public interface I_A_Asset
 	public int getAD_User_ID();
 
 	public I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name A_Parent_Asset_ID */
-    public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
-
-	/** Set Asset ID	  */
-	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID);
-
-	/** Get Asset ID	  */
-	public int getA_Parent_Asset_ID();
-
-    /** Column name A_QTY_Current */
-    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
-
-	/** Set Quantity	  */
-	public void setA_QTY_Current (BigDecimal A_QTY_Current);
-
-	/** Get Quantity	  */
-	public BigDecimal getA_QTY_Current();
-
-    /** Column name A_QTY_Original */
-    public static final String COLUMNNAME_A_QTY_Original = "A_QTY_Original";
-
-	/** Set Original Qty	  */
-	public void setA_QTY_Original (BigDecimal A_QTY_Original);
-
-	/** Get Original Qty	  */
-	public BigDecimal getA_QTY_Original();
 
     /** Column name AssetDepreciationDate */
     public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";

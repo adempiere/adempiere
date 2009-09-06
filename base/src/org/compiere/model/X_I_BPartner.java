@@ -75,40 +75,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
       return sb.toString();
     }
 
-	/** Set Address 1.
-		@param Address1 
-		Address line 1 for this location
-	  */
-	public void setAddress1 (String Address1)
-	{
-		set_Value (COLUMNNAME_Address1, Address1);
-	}
-
-	/** Get Address 1.
-		@return Address line 1 for this location
-	  */
-	public String getAddress1 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address1);
-	}
-
-	/** Set Address 2.
-		@param Address2 
-		Address line 2 for this location
-	  */
-	public void setAddress2 (String Address2)
-	{
-		set_Value (COLUMNNAME_Address2, Address2);
-	}
-
-	/** Get Address 2.
-		@return Address line 2 for this location
-	  */
-	public String getAddress2 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address2);
-	}
-
 	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
@@ -148,6 +114,40 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Address 1.
+		@param Address1 
+		Address line 1 for this location
+	  */
+	public void setAddress1 (String Address1)
+	{
+		set_Value (COLUMNNAME_Address1, Address1);
+	}
+
+	/** Get Address 1.
+		@return Address line 1 for this location
+	  */
+	public String getAddress1 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address1);
+	}
+
+	/** Set Address 2.
+		@param Address2 
+		Address line 2 for this location
+	  */
+	public void setAddress2 (String Address2)
+	{
+		set_Value (COLUMNNAME_Address2, Address2);
+	}
+
+	/** Get Address 2.
+		@return Address line 2 for this location
+	  */
+	public String getAddress2 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address2);
+	}
+
 	/** Set Birthday.
 		@param Birthday 
 		Birthday or Anniversary day
@@ -180,6 +180,45 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public String getBPContactGreeting () 
 	{
 		return (String)get_Value(COLUMNNAME_BPContactGreeting);
+	}
+
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
+        I_C_BP_Group result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException 
@@ -260,45 +299,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Country getC_Country() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
@@ -372,6 +372,45 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public int getC_Greeting_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Greeting_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_Region getC_Region() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
+        I_C_Region result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Region)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Region_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Region.
+		@param C_Region_ID 
+		Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID)
+	{
+		if (C_Region_ID < 1) 
+			set_Value (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+	}
+
+	/** Get Region.
+		@return Identifies a geographical Region
+	  */
+	public int getC_Region_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Region_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -460,45 +499,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	public String getCountryCode () 
 	{
 		return (String)get_Value(COLUMNNAME_CountryCode);
-	}
-
-	public I_C_Region getC_Region() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
-        I_C_Region result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Region)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Region_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Region.
-		@param C_Region_ID 
-		Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID)
-	{
-		if (C_Region_ID < 1) 
-			set_Value (COLUMNNAME_C_Region_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
-	}
-
-	/** Get Region.
-		@return Identifies a geographical Region
-	  */
-	public int getC_Region_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Region_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -845,23 +845,6 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return false;
 	}
 
-	/** Set Region.
-		@param RegionName 
-		Name of the Region
-	  */
-	public void setRegionName (String RegionName)
-	{
-		set_Value (COLUMNNAME_RegionName, RegionName);
-	}
-
-	/** Get Region.
-		@return Name of the Region
-	  */
-	public String getRegionName () 
-	{
-		return (String)get_Value(COLUMNNAME_RegionName);
-	}
-
 	public I_R_InterestArea getR_InterestArea() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_InterestArea.Table_Name);
@@ -899,6 +882,23 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Region.
+		@param RegionName 
+		Name of the Region
+	  */
+	public void setRegionName (String RegionName)
+	{
+		set_Value (COLUMNNAME_RegionName, RegionName);
+	}
+
+	/** Get Region.
+		@return Name of the Region
+	  */
+	public String getRegionName () 
+	{
+		return (String)get_Value(COLUMNNAME_RegionName);
 	}
 
 	/** Set Tax ID.

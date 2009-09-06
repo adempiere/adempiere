@@ -175,45 +175,6 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Asset ID.
 		@param A_Parent_Asset_ID Asset ID	  */
 	public void setA_Parent_Asset_ID (int A_Parent_Asset_ID)
@@ -266,6 +227,45 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public I_AD_User getAD_User() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
+        I_AD_User result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Asset Depreciation Date.

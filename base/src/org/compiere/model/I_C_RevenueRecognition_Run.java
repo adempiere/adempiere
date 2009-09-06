@@ -62,22 +62,6 @@ public interface I_C_RevenueRecognition_Run
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_RevenueRecognition_Plan_ID */
     public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
 
@@ -105,6 +89,22 @@ public interface I_C_RevenueRecognition_Run
 	  * Revenue Recognition Run or Process
 	  */
 	public int getC_RevenueRecognition_Run_ID();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name GL_Journal_ID */
     public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";

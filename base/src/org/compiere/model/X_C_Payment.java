@@ -107,23 +107,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
       return sb.toString();
     }
 
-	/** Set Account No.
-		@param AccountNo 
-		Account Number
-	  */
-	public void setAccountNo (String AccountNo)
-	{
-		set_Value (COLUMNNAME_AccountNo, AccountNo);
-	}
-
-	/** Get Account No.
-		@return Account Number
-	  */
-	public String getAccountNo () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountNo);
-	}
-
 	/** Set Account City.
 		@param A_City 
 		City or the Credit Card or Account Holder
@@ -156,29 +139,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public String getA_Country () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Country);
-	}
-
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
-	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
-	}
-
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Account EMail.
@@ -300,6 +260,46 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Zip);
 	}
 
+	/** Set Account No.
+		@param AccountNo 
+		Account Number
+	  */
+	public void setAccountNo (String AccountNo)
+	{
+		set_Value (COLUMNNAME_AccountNo, AccountNo);
+	}
+
+	/** Get Account No.
+		@return Account Number
+	  */
+	public String getAccountNo () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountNo);
+	}
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_Activity getC_Activity() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
@@ -378,45 +378,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_BankAccount.Table_Name);
@@ -451,6 +412,45 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public int getC_BP_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -690,43 +690,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Check No.
-		@param CheckNo 
-		Check Number
-	  */
-	public void setCheckNo (String CheckNo)
-	{
-		set_Value (COLUMNNAME_CheckNo, CheckNo);
-	}
-
-	/** Get Check No.
-		@return Check Number
-	  */
-	public String getCheckNo () 
-	{
-		return (String)get_Value(COLUMNNAME_CheckNo);
-	}
-
 	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
@@ -805,6 +768,29 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Payment.
+		@param C_Payment_ID 
+		Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID)
+	{
+		if (C_Payment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+	}
+
+	/** Get Payment.
+		@return Payment identifier
+	  */
+	public int getC_Payment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_PaymentBatch getC_PaymentBatch() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_PaymentBatch.Table_Name);
@@ -839,29 +825,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public int getC_PaymentBatch_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentBatch_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payment.
-		@param C_Payment_ID 
-		Payment identifier
-	  */
-	public void setC_Payment_ID (int C_Payment_ID)
-	{
-		if (C_Payment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
-	}
-
-	/** Get Payment.
-		@return Payment identifier
-	  */
-	public int getC_Payment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -904,6 +867,43 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Check No.
+		@param CheckNo 
+		Check Number
+	  */
+	public void setCheckNo (String CheckNo)
+	{
+		set_Value (COLUMNNAME_CheckNo, CheckNo);
+	}
+
+	/** Get Check No.
+		@return Check Number
+	  */
+	public String getCheckNo () 
+	{
+		return (String)get_Value(COLUMNNAME_CheckNo);
 	}
 
 	/** Set Exp. Month.
@@ -1705,49 +1705,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return false;
 	}
 
-	/** Set Referenced Payment.
-		@param Ref_Payment_ID Referenced Payment	  */
-	public void setRef_Payment_ID (int Ref_Payment_ID)
-	{
-		if (Ref_Payment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
-	}
-
-	/** Get Referenced Payment.
-		@return Referenced Payment	  */
-	public int getRef_Payment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_Payment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Reversal ID.
-		@param Reversal_ID 
-		ID of document reversal
-	  */
-	public void setReversal_ID (int Reversal_ID)
-	{
-		if (Reversal_ID < 1) 
-			set_Value (COLUMNNAME_Reversal_ID, null);
-		else 
-			set_Value (COLUMNNAME_Reversal_ID, Integer.valueOf(Reversal_ID));
-	}
-
-	/** Get Reversal ID.
-		@return ID of document reversal
-	  */
-	public int getReversal_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Reversal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Info.
 		@param R_Info 
 		Response info
@@ -1763,23 +1720,6 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public String getR_Info () 
 	{
 		return (String)get_Value(COLUMNNAME_R_Info);
-	}
-
-	/** Set Routing No.
-		@param RoutingNo 
-		Bank Routing Number
-	  */
-	public void setRoutingNo (String RoutingNo)
-	{
-		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
-	}
-
-	/** Get Routing No.
-		@return Bank Routing Number
-	  */
-	public String getRoutingNo () 
-	{
-		return (String)get_Value(COLUMNNAME_RoutingNo);
 	}
 
 	/** Set Reference.
@@ -1848,6 +1788,66 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public String getR_Result () 
 	{
 		return (String)get_Value(COLUMNNAME_R_Result);
+	}
+
+	/** Set Referenced Payment.
+		@param Ref_Payment_ID Referenced Payment	  */
+	public void setRef_Payment_ID (int Ref_Payment_ID)
+	{
+		if (Ref_Payment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
+	}
+
+	/** Get Referenced Payment.
+		@return Referenced Payment	  */
+	public int getRef_Payment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_Payment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Reversal ID.
+		@param Reversal_ID 
+		ID of document reversal
+	  */
+	public void setReversal_ID (int Reversal_ID)
+	{
+		if (Reversal_ID < 1) 
+			set_Value (COLUMNNAME_Reversal_ID, null);
+		else 
+			set_Value (COLUMNNAME_Reversal_ID, Integer.valueOf(Reversal_ID));
+	}
+
+	/** Get Reversal ID.
+		@return ID of document reversal
+	  */
+	public int getReversal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Reversal_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Routing No.
+		@param RoutingNo 
+		Bank Routing Number
+	  */
+	public void setRoutingNo (String RoutingNo)
+	{
+		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
+	}
+
+	/** Get Routing No.
+		@return Bank Routing Number
+	  */
+	public String getRoutingNo () 
+	{
+		return (String)get_Value(COLUMNNAME_RoutingNo);
 	}
 
 	/** Set Swipe.

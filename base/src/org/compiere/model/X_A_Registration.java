@@ -117,6 +117,29 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Registration.
+		@param A_Registration_ID 
+		User Asset Registration
+	  */
+	public void setA_Registration_ID (int A_Registration_ID)
+	{
+		if (A_Registration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
+	}
+
+	/** Get Registration.
+		@return User Asset Registration
+	  */
+	public int getA_Registration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
@@ -151,29 +174,6 @@ public class X_A_Registration extends PO implements I_A_Registration, I_Persiste
 	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Registration.
-		@param A_Registration_ID 
-		User Asset Registration
-	  */
-	public void setA_Registration_ID (int A_Registration_ID)
-	{
-		if (A_Registration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
-	}
-
-	/** Get Registration.
-		@return User Asset Registration
-	  */
-	public int getA_Registration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

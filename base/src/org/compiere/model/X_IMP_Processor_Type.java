@@ -110,9 +110,10 @@ public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_
 		@param IMP_Processor_Type_ID Import Processor Type	  */
 	public void setIMP_Processor_Type_ID (int IMP_Processor_Type_ID)
 	{
-		if (IMP_Processor_Type_ID < 1)
-			 throw new IllegalArgumentException ("IMP_Processor_Type_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_Processor_Type_ID, Integer.valueOf(IMP_Processor_Type_ID));
+		if (IMP_Processor_Type_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_Processor_Type_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_Processor_Type_ID, Integer.valueOf(IMP_Processor_Type_ID));
 	}
 
 	/** Get Import Processor Type.
@@ -129,8 +130,6 @@ public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_
 		@param JavaClass Java Class	  */
 	public void setJavaClass (String JavaClass)
 	{
-		if (JavaClass == null)
-			throw new IllegalArgumentException ("JavaClass is mandatory.");
 		set_Value (COLUMNNAME_JavaClass, JavaClass);
 	}
 
@@ -147,8 +146,6 @@ public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -166,8 +163,6 @@ public class X_IMP_Processor_Type extends PO implements I_IMP_Processor_Type, I_
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

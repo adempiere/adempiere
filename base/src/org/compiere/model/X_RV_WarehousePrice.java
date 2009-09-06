@@ -142,26 +142,6 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 		return false;
 	}
 
-	/** Set Margin %.
-		@param Margin 
-		Margin for a product as a percentage
-	  */
-	public void setMargin (BigDecimal Margin)
-	{
-		set_ValueNoCheck (COLUMNNAME_Margin, Margin);
-	}
-
-	/** Get Margin %.
-		@return Margin for a product as a percentage
-	  */
-	public BigDecimal getMargin () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Margin);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PriceList_Version.Table_Name);
@@ -277,6 +257,26 @@ public class X_RV_WarehousePrice extends PO implements I_RV_WarehousePrice, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Margin %.
+		@param Margin 
+		Margin for a product as a percentage
+	  */
+	public void setMargin (BigDecimal Margin)
+	{
+		set_ValueNoCheck (COLUMNNAME_Margin, Margin);
+	}
+
+	/** Get Margin %.
+		@return Margin for a product as a percentage
+	  */
+	public BigDecimal getMargin () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Margin);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Name.

@@ -147,26 +147,6 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
-	{
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
-	}
-
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
@@ -243,6 +223,26 @@ public class X_B_SellerFunds extends PO implements I_B_SellerFunds, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt)
+	{
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+	}
+
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Not Committed Aount.

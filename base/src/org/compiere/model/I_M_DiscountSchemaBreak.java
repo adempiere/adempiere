@@ -130,19 +130,6 @@ public interface I_M_DiscountSchemaBreak
 	  */
 	public boolean isBPartnerFlatDiscount();
 
-    /** Column name M_DiscountSchemaBreak_ID */
-    public static final String COLUMNNAME_M_DiscountSchemaBreak_ID = "M_DiscountSchemaBreak_ID";
-
-	/** Set Discount Schema Break.
-	  * Trade Discount Break
-	  */
-	public void setM_DiscountSchemaBreak_ID (int M_DiscountSchemaBreak_ID);
-
-	/** Get Discount Schema Break.
-	  * Trade Discount Break
-	  */
-	public int getM_DiscountSchemaBreak_ID();
-
     /** Column name M_DiscountSchema_ID */
     public static final String COLUMNNAME_M_DiscountSchema_ID = "M_DiscountSchema_ID";
 
@@ -157,6 +144,19 @@ public interface I_M_DiscountSchemaBreak
 	public int getM_DiscountSchema_ID();
 
 	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
+
+    /** Column name M_DiscountSchemaBreak_ID */
+    public static final String COLUMNNAME_M_DiscountSchemaBreak_ID = "M_DiscountSchemaBreak_ID";
+
+	/** Set Discount Schema Break.
+	  * Trade Discount Break
+	  */
+	public void setM_DiscountSchemaBreak_ID (int M_DiscountSchemaBreak_ID);
+
+	/** Get Discount Schema Break.
+	  * Trade Discount Break
+	  */
+	public int getM_DiscountSchemaBreak_ID();
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";

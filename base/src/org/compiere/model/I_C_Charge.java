@@ -101,6 +101,21 @@ public interface I_C_Charge
 
 	public I_C_ChargeType getC_ChargeType() throws RuntimeException;
 
+    /** Column name C_TaxCategory_ID */
+    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
+
+	/** Set Tax Category.
+	  * Tax Category
+	  */
+	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
+
+	/** Get Tax Category.
+	  * Tax Category
+	  */
+	public int getC_TaxCategory_ID();
+
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
+
     /** Column name ChargeAmt */
     public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
 
@@ -129,21 +144,6 @@ public interface I_C_Charge
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_TaxCategory_ID */
-    public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
-
-	/** Set Tax Category.
-	  * Tax Category
-	  */
-	public void setC_TaxCategory_ID (int C_TaxCategory_ID);
-
-	/** Get Tax Category.
-	  * Tax Category
-	  */
-	public int getC_TaxCategory_ID();
-
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

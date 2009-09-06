@@ -214,6 +214,27 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return false;
 	}
 
+	/** Set A_Processed.
+		@param A_Processed A_Processed	  */
+	public void setA_Processed (boolean A_Processed)
+	{
+		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
+	}
+
+	/** Get A_Processed.
+		@return A_Processed	  */
+	public boolean isA_Processed () 
+	{
+		Object oo = get_Value(COLUMNNAME_A_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -235,27 +256,6 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set A_Processed.
-		@param A_Processed A_Processed	  */
-	public void setA_Processed (boolean A_Processed)
-	{
-		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
-	}
-
-	/** Get A_Processed.
-		@return A_Processed	  */
-	public boolean isA_Processed () 
-	{
-		Object oo = get_Value(COLUMNNAME_A_Processed);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	public I_C_Activity getC_Activity() throws RuntimeException 

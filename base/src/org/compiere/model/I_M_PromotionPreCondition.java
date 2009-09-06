@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionPreCondition
@@ -165,15 +164,6 @@ public interface I_M_PromotionPreCondition
 
 	public I_M_PriceList getM_PriceList() throws RuntimeException;
 
-    /** Column name M_PromotionPreCondition_ID */
-    public static final String COLUMNNAME_M_PromotionPreCondition_ID = "M_PromotionPreCondition_ID";
-
-	/** Set Promotion Pre Condition	  */
-	public void setM_PromotionPreCondition_ID (int M_PromotionPreCondition_ID);
-
-	/** Get Promotion Pre Condition	  */
-	public int getM_PromotionPreCondition_ID();
-
     /** Column name M_Promotion_ID */
     public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
 
@@ -184,6 +174,15 @@ public interface I_M_PromotionPreCondition
 	public int getM_Promotion_ID();
 
 	public I_M_Promotion getM_Promotion() throws RuntimeException;
+
+    /** Column name M_PromotionPreCondition_ID */
+    public static final String COLUMNNAME_M_PromotionPreCondition_ID = "M_PromotionPreCondition_ID";
+
+	/** Set Promotion Pre Condition	  */
+	public void setM_PromotionPreCondition_ID (int M_PromotionPreCondition_ID);
+
+	/** Get Promotion Pre Condition	  */
+	public int getM_PromotionPreCondition_ID();
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";

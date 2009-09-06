@@ -40,9 +40,9 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
       super (ctx, CM_MediaDeploy_ID, trxName);
       /** if (CM_MediaDeploy_ID == 0)
         {
-			setCM_MediaDeploy_ID (0);
 			setCM_Media_ID (0);
 			setCM_Media_Server_ID (0);
+			setCM_MediaDeploy_ID (0);
 			setIsDeployed (false);
         } */
     }
@@ -74,29 +74,6 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Media Deploy.
-		@param CM_MediaDeploy_ID 
-		Media Deployment Log
-	  */
-	public void setCM_MediaDeploy_ID (int CM_MediaDeploy_ID)
-	{
-		if (CM_MediaDeploy_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_MediaDeploy_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_MediaDeploy_ID, Integer.valueOf(CM_MediaDeploy_ID));
-	}
-
-	/** Get Media Deploy.
-		@return Media Deployment Log
-	  */
-	public int getCM_MediaDeploy_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_MediaDeploy_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_CM_Media getCM_Media() throws RuntimeException 
     {
@@ -171,6 +148,29 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 	public int getCM_Media_Server_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Media_Server_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Media Deploy.
+		@param CM_MediaDeploy_ID 
+		Media Deployment Log
+	  */
+	public void setCM_MediaDeploy_ID (int CM_MediaDeploy_ID)
+	{
+		if (CM_MediaDeploy_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_MediaDeploy_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_MediaDeploy_ID, Integer.valueOf(CM_MediaDeploy_ID));
+	}
+
+	/** Get Media Deploy.
+		@return Media Deployment Log
+	  */
+	public int getCM_MediaDeploy_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_MediaDeploy_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

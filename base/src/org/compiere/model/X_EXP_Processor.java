@@ -109,9 +109,10 @@ public class X_EXP_Processor extends PO implements I_EXP_Processor, I_Persistent
 		@param EXP_Processor_ID Export Processor	  */
 	public void setEXP_Processor_ID (int EXP_Processor_ID)
 	{
-		if (EXP_Processor_ID < 1)
-			 throw new IllegalArgumentException ("EXP_Processor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_Processor_ID, Integer.valueOf(EXP_Processor_ID));
+		if (EXP_Processor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_EXP_Processor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_EXP_Processor_ID, Integer.valueOf(EXP_Processor_ID));
 	}
 
 	/** Get Export Processor.
@@ -144,9 +145,10 @@ public class X_EXP_Processor extends PO implements I_EXP_Processor, I_Persistent
 		@param EXP_Processor_Type_ID Export Processor Type	  */
 	public void setEXP_Processor_Type_ID (int EXP_Processor_Type_ID)
 	{
-		if (EXP_Processor_Type_ID < 1)
-			 throw new IllegalArgumentException ("EXP_Processor_Type_ID is mandatory.");
-		set_Value (COLUMNNAME_EXP_Processor_Type_ID, Integer.valueOf(EXP_Processor_Type_ID));
+		if (EXP_Processor_Type_ID < 1) 
+			set_Value (COLUMNNAME_EXP_Processor_Type_ID, null);
+		else 
+			set_Value (COLUMNNAME_EXP_Processor_Type_ID, Integer.valueOf(EXP_Processor_Type_ID));
 	}
 
 	/** Get Export Processor Type.
@@ -196,8 +198,6 @@ public class X_EXP_Processor extends PO implements I_EXP_Processor, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -246,8 +246,6 @@ public class X_EXP_Processor extends PO implements I_EXP_Processor, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

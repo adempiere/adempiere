@@ -75,40 +75,6 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
       return sb.toString();
     }
 
-	/** Set Address 1.
-		@param Address1 
-		Address line 1 for this location
-	  */
-	public void setAddress1 (String Address1)
-	{
-		set_Value (COLUMNNAME_Address1, Address1);
-	}
-
-	/** Get Address 1.
-		@return Address line 1 for this location
-	  */
-	public String getAddress1 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address1);
-	}
-
-	/** Set Address 2.
-		@param Address2 
-		Address line 2 for this location
-	  */
-	public void setAddress2 (String Address2)
-	{
-		set_Value (COLUMNNAME_Address2, Address2);
-	}
-
-	/** Get Address 2.
-		@return Address line 2 for this location
-	  */
-	public String getAddress2 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address2);
-	}
-
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -169,6 +135,40 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Address 1.
+		@param Address1 
+		Address line 1 for this location
+	  */
+	public void setAddress1 (String Address1)
+	{
+		set_Value (COLUMNNAME_Address1, Address1);
+	}
+
+	/** Get Address 1.
+		@return Address line 1 for this location
+	  */
+	public String getAddress1 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address1);
+	}
+
+	/** Set Address 2.
+		@param Address2 
+		Address line 2 for this location
+	  */
+	public void setAddress2 (String Address2)
+	{
+		set_Value (COLUMNNAME_Address2, Address2);
+	}
+
+	/** Get Address 2.
+		@return Address line 2 for this location
+	  */
+	public String getAddress2 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address2);
 	}
 
 	/** Set Invoice To.
@@ -523,40 +523,6 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge Name.
-		@param ChargeName 
-		Name of the Charge
-	  */
-	public void setChargeName (String ChargeName)
-	{
-		set_Value (COLUMNNAME_ChargeName, ChargeName);
-	}
-
-	/** Get Charge Name.
-		@return Name of the Charge
-	  */
-	public String getChargeName () 
-	{
-		return (String)get_Value(COLUMNNAME_ChargeName);
-	}
-
-	/** Set City.
-		@param City 
-		Identifies a City
-	  */
-	public void setCity (String City)
-	{
-		set_Value (COLUMNNAME_City, City);
-	}
-
-	/** Get City.
-		@return Identifies a City
-	  */
-	public String getCity () 
-	{
-		return (String)get_Value(COLUMNNAME_City);
-	}
-
 	public I_C_Location getC_Location() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Location.Table_Name);
@@ -594,23 +560,6 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Contact Name.
-		@param ContactName 
-		Business Partner Contact Name
-	  */
-	public void setContactName (String ContactName)
-	{
-		set_Value (COLUMNNAME_ContactName, ContactName);
-	}
-
-	/** Get Contact Name.
-		@return Business Partner Contact Name
-	  */
-	public String getContactName () 
-	{
-		return (String)get_Value(COLUMNNAME_ContactName);
 	}
 
 	public I_C_Order getC_Order() throws RuntimeException 
@@ -689,23 +638,6 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set ISO Country Code.
-		@param CountryCode 
-		Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public void setCountryCode (String CountryCode)
-	{
-		set_Value (COLUMNNAME_CountryCode, CountryCode);
-	}
-
-	/** Get ISO Country Code.
-		@return Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
-	  */
-	public String getCountryCode () 
-	{
-		return (String)get_Value(COLUMNNAME_CountryCode);
 	}
 
 	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
@@ -901,6 +833,74 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Charge Name.
+		@param ChargeName 
+		Name of the Charge
+	  */
+	public void setChargeName (String ChargeName)
+	{
+		set_Value (COLUMNNAME_ChargeName, ChargeName);
+	}
+
+	/** Get Charge Name.
+		@return Name of the Charge
+	  */
+	public String getChargeName () 
+	{
+		return (String)get_Value(COLUMNNAME_ChargeName);
+	}
+
+	/** Set City.
+		@param City 
+		Identifies a City
+	  */
+	public void setCity (String City)
+	{
+		set_Value (COLUMNNAME_City, City);
+	}
+
+	/** Get City.
+		@return Identifies a City
+	  */
+	public String getCity () 
+	{
+		return (String)get_Value(COLUMNNAME_City);
+	}
+
+	/** Set Contact Name.
+		@param ContactName 
+		Business Partner Contact Name
+	  */
+	public void setContactName (String ContactName)
+	{
+		set_Value (COLUMNNAME_ContactName, ContactName);
+	}
+
+	/** Get Contact Name.
+		@return Business Partner Contact Name
+	  */
+	public String getContactName () 
+	{
+		return (String)get_Value(COLUMNNAME_ContactName);
+	}
+
+	/** Set ISO Country Code.
+		@param CountryCode 
+		Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public void setCountryCode (String CountryCode)
+	{
+		set_Value (COLUMNNAME_CountryCode, CountryCode);
+	}
+
+	/** Get ISO Country Code.
+		@return Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
+	  */
+	public String getCountryCode () 
+	{
+		return (String)get_Value(COLUMNNAME_CountryCode);
 	}
 
 	/** Set Account Date.

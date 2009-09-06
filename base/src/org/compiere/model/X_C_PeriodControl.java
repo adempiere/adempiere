@@ -40,8 +40,8 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
       super (ctx, C_PeriodControl_ID, trxName);
       /** if (C_PeriodControl_ID == 0)
         {
-			setC_PeriodControl_ID (0);
 			setC_Period_ID (0);
+			setC_PeriodControl_ID (0);
 			setDocBaseType (null);
 			setPeriodAction (null);
 // N
@@ -74,34 +74,6 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
       StringBuffer sb = new StringBuffer ("X_C_PeriodControl[")
         .append(get_ID()).append("]");
       return sb.toString();
-    }
-
-	/** Set Period Control.
-		@param C_PeriodControl_ID Period Control	  */
-	public void setC_PeriodControl_ID (int C_PeriodControl_ID)
-	{
-		if (C_PeriodControl_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_PeriodControl_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_PeriodControl_ID, Integer.valueOf(C_PeriodControl_ID));
-	}
-
-	/** Get Period Control.
-		@return Period Control	  */
-	public int getC_PeriodControl_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PeriodControl_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getC_PeriodControl_ID()));
     }
 
 	public I_C_Period getC_Period() throws RuntimeException 
@@ -142,6 +114,34 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Period Control.
+		@param C_PeriodControl_ID Period Control	  */
+	public void setC_PeriodControl_ID (int C_PeriodControl_ID)
+	{
+		if (C_PeriodControl_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PeriodControl_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PeriodControl_ID, Integer.valueOf(C_PeriodControl_ID));
+	}
+
+	/** Get Period Control.
+		@return Period Control	  */
+	public int getC_PeriodControl_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PeriodControl_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getC_PeriodControl_ID()));
+    }
 
 	/** DocBaseType AD_Reference_ID=183 */
 	public static final int DOCBASETYPE_AD_Reference_ID=183;

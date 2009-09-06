@@ -143,6 +143,29 @@ public class X_M_Lot extends PO implements I_M_Lot, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Lot.
+		@param M_Lot_ID 
+		Product Lot Definition
+	  */
+	public void setM_Lot_ID (int M_Lot_ID)
+	{
+		if (M_Lot_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Lot_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Lot_ID, Integer.valueOf(M_Lot_ID));
+	}
+
+	/** Get Lot.
+		@return Product Lot Definition
+	  */
+	public int getM_Lot_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Lot_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_LotCtl getM_LotCtl() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_LotCtl.Table_Name);
@@ -177,29 +200,6 @@ public class X_M_Lot extends PO implements I_M_Lot, I_Persistent
 	public int getM_LotCtl_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_LotCtl_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Lot.
-		@param M_Lot_ID 
-		Product Lot Definition
-	  */
-	public void setM_Lot_ID (int M_Lot_ID)
-	{
-		if (M_Lot_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Lot_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Lot_ID, Integer.valueOf(M_Lot_ID));
-	}
-
-	/** Get Lot.
-		@return Product Lot Definition
-	  */
-	public int getM_Lot_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Lot_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

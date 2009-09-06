@@ -81,23 +81,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
       return sb.toString();
     }
 
-	/** Set Advertisement Text.
-		@param AdText 
-		Text of the Advertisement
-	  */
-	public void setAdText (String AdText)
-	{
-		set_Value (COLUMNNAME_AdText, AdText);
-	}
-
-	/** Get Advertisement Text.
-		@return Text of the Advertisement
-	  */
-	public String getAdText () 
-	{
-		return (String)get_Value(COLUMNNAME_AdText);
-	}
-
 	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
@@ -135,6 +118,23 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Advertisement Text.
+		@param AdText 
+		Text of the Advertisement
+	  */
+	public void setAdText (String AdText)
+	{
+		set_Value (COLUMNNAME_AdText, AdText);
+	}
+
+	/** Get Advertisement Text.
+		@return Text of the Advertisement
+	  */
+	public String getAdText () 
+	{
+		return (String)get_Value(COLUMNNAME_AdText);
 	}
 
 	/** Set Business Partner .

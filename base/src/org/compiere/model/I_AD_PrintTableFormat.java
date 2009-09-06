@@ -158,6 +158,19 @@ public interface I_AD_PrintTableFormat
 	  */
 	public String getFooterRight();
 
+    /** Column name Funct_PrintFont_ID */
+    public static final String COLUMNNAME_Funct_PrintFont_ID = "Funct_PrintFont_ID";
+
+	/** Set Function Font.
+	  * Function row Font
+	  */
+	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID);
+
+	/** Get Function Font.
+	  * Function row Font
+	  */
+	public int getFunct_PrintFont_ID();
+
     /** Column name FunctBG_PrintColor_ID */
     public static final String COLUMNNAME_FunctBG_PrintColor_ID = "FunctBG_PrintColor_ID";
 
@@ -184,18 +197,18 @@ public interface I_AD_PrintTableFormat
 	  */
 	public int getFunctFG_PrintColor_ID();
 
-    /** Column name Funct_PrintFont_ID */
-    public static final String COLUMNNAME_Funct_PrintFont_ID = "Funct_PrintFont_ID";
+    /** Column name Hdr_PrintFont_ID */
+    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
 
-	/** Set Function Font.
-	  * Function row Font
+	/** Set Header Row Font.
+	  * Header row Font
 	  */
-	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID);
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
 
-	/** Get Function Font.
-	  * Function row Font
+	/** Get Header Row Font.
+	  * Header row Font
 	  */
-	public int getFunct_PrintFont_ID();
+	public int getHdr_PrintFont_ID();
 
     /** Column name HdrLine_PrintColor_ID */
     public static final String COLUMNNAME_HdrLine_PrintColor_ID = "HdrLine_PrintColor_ID";
@@ -209,19 +222,6 @@ public interface I_AD_PrintTableFormat
 	  * Table header row line color
 	  */
 	public int getHdrLine_PrintColor_ID();
-
-    /** Column name Hdr_PrintFont_ID */
-    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
-
-	/** Set Header Row Font.
-	  * Header row Font
-	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
-
-	/** Get Header Row Font.
-	  * Header row Font
-	  */
-	public int getHdr_PrintFont_ID();
 
     /** Column name HdrStroke */
     public static final String COLUMNNAME_HdrStroke = "HdrStroke";

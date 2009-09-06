@@ -247,19 +247,6 @@ public interface I_C_Invoice
 
 	public I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
 
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
-
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -272,19 +259,6 @@ public interface I_C_Invoice
 	  * Invoice Identifier
 	  */
 	public int getC_Invoice_ID();
-
-    /** Column name CopyFrom */
-    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
-
-	/** Set Copy From.
-	  * Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom);
-
-	/** Get Copy From.
-	  * Copy From Record
-	  */
-	public String getCopyFrom();
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -345,6 +319,32 @@ public interface I_C_Invoice
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
+
+    /** Column name CopyFrom */
+    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+
+	/** Set Copy From.
+	  * Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom);
+
+	/** Get Copy From.
+	  * Copy From Record
+	  */
+	public String getCopyFrom();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

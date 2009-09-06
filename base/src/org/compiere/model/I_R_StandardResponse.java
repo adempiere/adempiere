@@ -104,19 +104,6 @@ public interface I_R_StandardResponse
 	  */
 	public String getName();
 
-    /** Column name ResponseText */
-    public static final String COLUMNNAME_ResponseText = "ResponseText";
-
-	/** Set Response Text.
-	  * Request Response Text
-	  */
-	public void setResponseText (String ResponseText);
-
-	/** Get Response Text.
-	  * Request Response Text
-	  */
-	public String getResponseText();
-
     /** Column name R_StandardResponse_ID */
     public static final String COLUMNNAME_R_StandardResponse_ID = "R_StandardResponse_ID";
 
@@ -129,6 +116,19 @@ public interface I_R_StandardResponse
 	  * Request Standard Response 
 	  */
 	public int getR_StandardResponse_ID();
+
+    /** Column name ResponseText */
+    public static final String COLUMNNAME_ResponseText = "ResponseText";
+
+	/** Set Response Text.
+	  * Request Response Text
+	  */
+	public void setResponseText (String ResponseText);
+
+	/** Get Response Text.
+	  * Request Response Text
+	  */
+	public String getResponseText();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

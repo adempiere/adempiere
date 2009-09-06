@@ -40,8 +40,8 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
       super (ctx, A_RegistrationValue_ID, trxName);
       /** if (A_RegistrationValue_ID == 0)
         {
-			setA_RegistrationAttribute_ID (0);
 			setA_Registration_ID (0);
+			setA_RegistrationAttribute_ID (0);
 			setName (null);
         } */
     }
@@ -73,6 +73,45 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_A_Registration getA_Registration() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_A_Registration.Table_Name);
+        I_A_Registration result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_A_Registration)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Registration_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Registration.
+		@param A_Registration_ID 
+		User Asset Registration
+	  */
+	public void setA_Registration_ID (int A_Registration_ID)
+	{
+		if (A_Registration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
+	}
+
+	/** Get Registration.
+		@return User Asset Registration
+	  */
+	public int getA_Registration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException 
     {
@@ -120,45 +159,6 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
     {
         return new KeyNamePair(get_ID(), String.valueOf(getA_RegistrationAttribute_ID()));
     }
-
-	public I_A_Registration getA_Registration() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_A_Registration.Table_Name);
-        I_A_Registration result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_A_Registration)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Registration_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Registration.
-		@param A_Registration_ID 
-		User Asset Registration
-	  */
-	public void setA_Registration_ID (int A_Registration_ID)
-	{
-		if (A_Registration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
-	}
-
-	/** Get Registration.
-		@return User Asset Registration
-	  */
-	public int getA_Registration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Description.
 		@param Description 

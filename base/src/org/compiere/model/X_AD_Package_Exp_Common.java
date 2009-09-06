@@ -747,6 +747,10 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	public static final String TYPE_PrintFormat = "PFT";
 	/** Reference = REF */
 	public static final String TYPE_Reference = "REF";
+	/** Model Validator = MV */
+	public static final String TYPE_ModelValidator = "MV";
+	/** Entity Type = ET */
+	public static final String TYPE_EntityType = "ET";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)

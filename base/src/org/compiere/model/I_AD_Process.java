@@ -161,6 +161,19 @@ public interface I_AD_Process
 	  */
 	public String getClassname();
 
+    /** Column name CopyFromProcess */
+    public static final String COLUMNNAME_CopyFromProcess = "CopyFromProcess";
+
+	/** Set Copy From Report and Process.
+	  * Copy settings from one report and process to another.
+	  */
+	public void setCopyFromProcess (String CopyFromProcess);
+
+	/** Get Copy From Report and Process.
+	  * Copy settings from one report and process to another.
+	  */
+	public String getCopyFromProcess();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

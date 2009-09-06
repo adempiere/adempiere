@@ -77,6 +77,19 @@ public interface I_C_RfQ_Topic
 
 	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
+    /** Column name C_RfQ_Topic_ID */
+    public static final String COLUMNNAME_C_RfQ_Topic_ID = "C_RfQ_Topic_ID";
+
+	/** Set RfQ Topic.
+	  * Topic for Request for Quotations
+	  */
+	public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID);
+
+	/** Get RfQ Topic.
+	  * Topic for Request for Quotations
+	  */
+	public int getC_RfQ_Topic_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -92,19 +105,6 @@ public interface I_C_RfQ_Topic
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RfQ_Topic_ID */
-    public static final String COLUMNNAME_C_RfQ_Topic_ID = "C_RfQ_Topic_ID";
-
-	/** Set RfQ Topic.
-	  * Topic for Request for Quotations
-	  */
-	public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID);
-
-	/** Get RfQ Topic.
-	  * Topic for Request for Quotations
-	  */
-	public int getC_RfQ_Topic_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

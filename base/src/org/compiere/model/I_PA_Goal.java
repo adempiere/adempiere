@@ -305,19 +305,6 @@ public interface I_PA_Goal
 
 	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException;
 
-    /** Column name PA_GoalParent_ID */
-    public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
-
-	/** Set Parent Goal.
-	  * Parent Goal
-	  */
-	public void setPA_GoalParent_ID (int PA_GoalParent_ID);
-
-	/** Get Parent Goal.
-	  * Parent Goal
-	  */
-	public int getPA_GoalParent_ID();
-
     /** Column name PA_Goal_ID */
     public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
 
@@ -330,6 +317,19 @@ public interface I_PA_Goal
 	  * Performance Goal
 	  */
 	public int getPA_Goal_ID();
+
+    /** Column name PA_GoalParent_ID */
+    public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
+
+	/** Set Parent Goal.
+	  * Parent Goal
+	  */
+	public void setPA_GoalParent_ID (int PA_GoalParent_ID);
+
+	/** Get Parent Goal.
+	  * Parent Goal
+	  */
+	public int getPA_GoalParent_ID();
 
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";

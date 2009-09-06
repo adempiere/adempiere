@@ -40,8 +40,8 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
       super (ctx, C_DocTypeCounter_ID, trxName);
       /** if (C_DocTypeCounter_ID == 0)
         {
-			setC_DocTypeCounter_ID (0);
 			setC_DocType_ID (0);
+			setC_DocTypeCounter_ID (0);
 			setCounter_C_DocType_ID (0);
 			setIsCreateCounter (true);
 // Y
@@ -78,29 +78,6 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
       return sb.toString();
     }
 
-	/** Set Counter Document.
-		@param C_DocTypeCounter_ID 
-		Counter Document Relationship
-	  */
-	public void setC_DocTypeCounter_ID (int C_DocTypeCounter_ID)
-	{
-		if (C_DocTypeCounter_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_DocTypeCounter_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_DocTypeCounter_ID, Integer.valueOf(C_DocTypeCounter_ID));
-	}
-
-	/** Get Counter Document.
-		@return Counter Document Relationship
-	  */
-	public int getC_DocTypeCounter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeCounter_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_DocType getC_DocType() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
@@ -135,6 +112,29 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Counter Document.
+		@param C_DocTypeCounter_ID 
+		Counter Document Relationship
+	  */
+	public void setC_DocTypeCounter_ID (int C_DocTypeCounter_ID)
+	{
+		if (C_DocTypeCounter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DocTypeCounter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocTypeCounter_ID, Integer.valueOf(C_DocTypeCounter_ID));
+	}
+
+	/** Get Counter Document.
+		@return Counter Document Relationship
+	  */
+	public int getC_DocTypeCounter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeCounter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

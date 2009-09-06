@@ -165,6 +165,21 @@ public interface I_C_InvoiceBatchLine
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+
+	/** Set Invoice.
+	  * Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID);
+
+	/** Get Invoice.
+	  * Invoice Identifier
+	  */
+	public int getC_Invoice_ID();
+
+	public I_C_Invoice getC_Invoice() throws RuntimeException;
+
     /** Column name C_InvoiceBatch_ID */
     public static final String COLUMNNAME_C_InvoiceBatch_ID = "C_InvoiceBatch_ID";
 
@@ -192,21 +207,6 @@ public interface I_C_InvoiceBatchLine
 	  * Expense Invoice Batch Line
 	  */
 	public int getC_InvoiceBatchLine_ID();
-
-    /** Column name C_Invoice_ID */
-    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
-
-	/** Set Invoice.
-	  * Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
-
-	/** Get Invoice.
-	  * Invoice Identifier
-	  */
-	public int getC_Invoice_ID();
-
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -238,6 +238,21 @@ public interface I_C_InvoiceBatchLine
 
 	public I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+
+	/** Set Tax.
+	  * Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID);
+
+	/** Get Tax.
+	  * Tax identifier
+	  */
+	public int getC_Tax_ID();
+
+	public I_C_Tax getC_Tax() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -253,21 +268,6 @@ public interface I_C_InvoiceBatchLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Tax_ID */
-    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
-
-	/** Set Tax.
-	  * Tax identifier
-	  */
-	public void setC_Tax_ID (int C_Tax_ID);
-
-	/** Get Tax.
-	  * Tax identifier
-	  */
-	public int getC_Tax_ID();
-
-	public I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

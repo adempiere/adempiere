@@ -79,20 +79,6 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
       return sb.toString();
     }
 
-	/** Set CashDrawer.
-		@param CashDrawer CashDrawer	  */
-	public void setCashDrawer (String CashDrawer)
-	{
-		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
-	}
-
-	/** Get CashDrawer.
-		@return CashDrawer	  */
-	public String getCashDrawer () 
-	{
-		return (String)get_Value(COLUMNNAME_CashDrawer);
-	}
-
 	public I_C_BankAccount getC_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
@@ -293,6 +279,20 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set CashDrawer.
+		@param CashDrawer CashDrawer	  */
+	public void setCashDrawer (String CashDrawer)
+	{
+		set_Value (COLUMNNAME_CashDrawer, CashDrawer);
+	}
+
+	/** Get CashDrawer.
+		@return CashDrawer	  */
+	public String getCashDrawer () 
+	{
+		return (String)get_Value(COLUMNNAME_CashDrawer);
 	}
 
 	/** Set Description.

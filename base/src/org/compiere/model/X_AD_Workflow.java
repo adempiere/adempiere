@@ -747,26 +747,6 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Setup Time.
-		@param SetupTime 
-		Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime)
-	{
-		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
-	}
-
-	/** Get Setup Time.
-		@return Setup time before starting Production
-	  */
-	public int getSetupTime () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_S_Resource getS_Resource() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
@@ -801,6 +781,26 @@ public class X_AD_Workflow extends PO implements I_AD_Workflow, I_Persistent
 	public int getS_Resource_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Setup Time.
+		@param SetupTime 
+		Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime)
+	{
+		set_Value (COLUMNNAME_SetupTime, Integer.valueOf(SetupTime));
+	}
+
+	/** Get Setup Time.
+		@return Setup time before starting Production
+	  */
+	public int getSetupTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SetupTime);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

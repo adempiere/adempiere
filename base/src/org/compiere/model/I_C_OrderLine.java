@@ -238,22 +238,6 @@ public interface I_C_OrderLine
 
 	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
@@ -283,6 +267,22 @@ public interface I_C_OrderLine
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DateDelivered */
     public static final String COLUMNNAME_DateDelivered = "DateDelivered";
@@ -467,6 +467,17 @@ public interface I_C_OrderLine
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_Promotion_ID */
+    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
+
+	/** Set Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID);
+
+	/** Get Promotion	  */
+	public int getM_Promotion_ID();
+
+	public I_M_Promotion getM_Promotion() throws RuntimeException;
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";

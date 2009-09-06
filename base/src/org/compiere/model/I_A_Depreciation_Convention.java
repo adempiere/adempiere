@@ -41,14 +41,6 @@ public interface I_A_Depreciation_Convention
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Convention_ID */
     public static final String COLUMNNAME_A_Depreciation_Convention_ID = "A_Depreciation_Convention_ID";
 
@@ -57,6 +49,14 @@ public interface I_A_Depreciation_Convention
 
 	/** Get A_Depreciation_Convention_ID	  */
 	public int getA_Depreciation_Convention_ID();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -148,14 +148,18 @@ public interface I_A_Depreciation_Convention
 	  */
 	public boolean isProcessed();
 
-    /** Column name Textmsg */
-    public static final String COLUMNNAME_Textmsg = "Textmsg";
+    /** Column name TextMsg */
+    public static final String COLUMNNAME_TextMsg = "TextMsg";
 
-	/** Set Textmsg	  */
-	public void setTextmsg (String Textmsg);
+	/** Set Text Message.
+	  * Text Message
+	  */
+	public void setTextMsg (String TextMsg);
 
-	/** Get Textmsg	  */
-	public String getTextmsg();
+	/** Get Text Message.
+	  * Text Message
+	  */
+	public String getTextMsg();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

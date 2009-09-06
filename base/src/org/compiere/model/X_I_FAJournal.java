@@ -99,6 +99,20 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Entry Type.
+		@param A_Entry_Type Entry Type	  */
+	public void setA_Entry_Type (String A_Entry_Type)
+	{
+		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
+	}
+
+	/** Get Entry Type.
+		@return Entry Type	  */
+	public String getA_Entry_Type () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Entry_Type);
+	}
+
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -200,20 +214,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Entry Type.
-		@param A_Entry_Type Entry Type	  */
-	public void setA_Entry_Type (String A_Entry_Type)
-	{
-		set_Value (COLUMNNAME_A_Entry_Type, A_Entry_Type);
-	}
-
-	/** Get Entry Type.
-		@return Entry Type	  */
-	public String getA_Entry_Type () 
-	{
-		return (String)get_Value(COLUMNNAME_A_Entry_Type);
 	}
 
 	/** Set Accounted Credit.
@@ -425,23 +425,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Category Name.
-		@param CategoryName 
-		Name of the Category
-	  */
-	public void setCategoryName (String CategoryName)
-	{
-		set_Value (COLUMNNAME_CategoryName, CategoryName);
-	}
-
-	/** Get Category Name.
-		@return Name of the Category
-	  */
-	public String getCategoryName () 
-	{
-		return (String)get_Value(COLUMNNAME_CategoryName);
-	}
-
 	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
@@ -621,23 +604,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Client Key.
-		@param ClientValue 
-		Key of the Client
-	  */
-	public void setClientValue (String ClientValue)
-	{
-		set_Value (COLUMNNAME_ClientValue, ClientValue);
-	}
-
-	/** Get Client Key.
-		@return Key of the Client
-	  */
-	public String getClientValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ClientValue);
-	}
-
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
@@ -682,23 +648,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Currency Type Key.
-		@param ConversionTypeValue 
-		Key value for the Currency Conversion Rate Type
-	  */
-	public void setConversionTypeValue (String ConversionTypeValue)
-	{
-		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
-	}
-
-	/** Get Currency Type Key.
-		@return Key value for the Currency Conversion Rate Type
-	  */
-	public String getConversionTypeValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ConversionTypeValue);
 	}
 
 	public I_C_Period getC_Period() throws RuntimeException 
@@ -880,6 +829,96 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_ValidCombination.Table_Name);
+        I_C_ValidCombination result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_ValidCombination)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ValidCombination_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1) 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Category Name.
+		@param CategoryName 
+		Name of the Category
+	  */
+	public void setCategoryName (String CategoryName)
+	{
+		set_Value (COLUMNNAME_CategoryName, CategoryName);
+	}
+
+	/** Get Category Name.
+		@return Name of the Category
+	  */
+	public String getCategoryName () 
+	{
+		return (String)get_Value(COLUMNNAME_CategoryName);
+	}
+
+	/** Set Client Key.
+		@param ClientValue 
+		Key of the Client
+	  */
+	public void setClientValue (String ClientValue)
+	{
+		set_Value (COLUMNNAME_ClientValue, ClientValue);
+	}
+
+	/** Get Client Key.
+		@return Key of the Client
+	  */
+	public String getClientValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ClientValue);
+	}
+
+	/** Set Currency Type Key.
+		@param ConversionTypeValue 
+		Key value for the Currency Conversion Rate Type
+	  */
+	public void setConversionTypeValue (String ConversionTypeValue)
+	{
+		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
+	}
+
+	/** Get Currency Type Key.
+		@return Key value for the Currency Conversion Rate Type
+	  */
+	public String getConversionTypeValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ConversionTypeValue);
+	}
+
 	/** Set Rate.
 		@param CurrencyRate 
 		Currency Conversion Rate
@@ -931,45 +970,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public String getCurrencyRateType () 
 	{
 		return (String)get_Value(COLUMNNAME_CurrencyRateType);
-	}
-
-	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_ValidCombination.Table_Name);
-        I_C_ValidCombination result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ValidCombination)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ValidCombination_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Combination.
-		@param C_ValidCombination_ID 
-		Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
-	{
-		if (C_ValidCombination_ID < 1) 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
-	}
-
-	/** Get Combination.
-		@return Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Account Date.
@@ -1101,45 +1101,6 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
-        I_GL_JournalBatch result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_JournalBatch)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalBatch_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Journal Batch.
-		@param GL_JournalBatch_ID 
-		General Ledger Journal Batch
-	  */
-	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
-	{
-		if (GL_JournalBatch_ID < 1) 
-			set_Value (COLUMNNAME_GL_JournalBatch_ID, null);
-		else 
-			set_Value (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
-	}
-
-	/** Get Journal Batch.
-		@return General Ledger Journal Batch
-	  */
-	public int getGL_JournalBatch_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalBatch_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_GL_Journal getGL_Journal() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
@@ -1174,6 +1135,45 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 	public int getGL_Journal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Journal_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
+        I_GL_JournalBatch result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_GL_JournalBatch)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalBatch_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Journal Batch.
+		@param GL_JournalBatch_ID 
+		General Ledger Journal Batch
+	  */
+	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID)
+	{
+		if (GL_JournalBatch_ID < 1) 
+			set_Value (COLUMNNAME_GL_JournalBatch_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_JournalBatch_ID, Integer.valueOf(GL_JournalBatch_ID));
+	}
+
+	/** Get Journal Batch.
+		@return General Ledger Journal Batch
+	  */
+	public int getGL_JournalBatch_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalBatch_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -92,6 +92,21 @@ public interface I_M_Freight
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name C_Region_ID */
+    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
+
+	/** Set Region.
+	  * Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID);
+
+	/** Get Region.
+	  * Identifies a geographical Region
+	  */
+	public int getC_Region_ID();
+
+	public I_C_Region getC_Region() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -107,21 +122,6 @@ public interface I_M_Freight
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Region_ID */
-    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
-
-	/** Set Region.
-	  * Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID);
-
-	/** Get Region.
-	  * Identifies a geographical Region
-	  */
-	public int getC_Region_ID();
-
-	public I_C_Region getC_Region() throws RuntimeException;
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -149,6 +149,19 @@ public interface I_M_Freight
 	  */
 	public boolean isActive();
 
+    /** Column name M_Freight_ID */
+    public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
+
+	/** Set Freight.
+	  * Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID);
+
+	/** Get Freight.
+	  * Freight Rate
+	  */
+	public int getM_Freight_ID();
+
     /** Column name M_FreightCategory_ID */
     public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
 
@@ -163,19 +176,6 @@ public interface I_M_Freight
 	public int getM_FreightCategory_ID();
 
 	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
-
-    /** Column name M_Freight_ID */
-    public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
-
-	/** Set Freight.
-	  * Freight Rate
-	  */
-	public void setM_Freight_ID (int M_Freight_ID);
-
-	/** Get Freight.
-	  * Freight Rate
-	  */
-	public int getM_Freight_ID();
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";

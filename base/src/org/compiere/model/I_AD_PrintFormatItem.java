@@ -107,19 +107,6 @@ public interface I_AD_PrintFormatItem
 
 	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
 
-    /** Column name AD_PrintFormatChild_ID */
-    public static final String COLUMNNAME_AD_PrintFormatChild_ID = "AD_PrintFormatChild_ID";
-
-	/** Set Included Print Format.
-	  * Print format that is included here.
-	  */
-	public void setAD_PrintFormatChild_ID (int AD_PrintFormatChild_ID);
-
-	/** Get Included Print Format.
-	  * Print format that is included here.
-	  */
-	public int getAD_PrintFormatChild_ID();
-
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 
@@ -134,6 +121,19 @@ public interface I_AD_PrintFormatItem
 	public int getAD_PrintFormat_ID();
 
 	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
+
+    /** Column name AD_PrintFormatChild_ID */
+    public static final String COLUMNNAME_AD_PrintFormatChild_ID = "AD_PrintFormatChild_ID";
+
+	/** Set Included Print Format.
+	  * Print format that is included here.
+	  */
+	public void setAD_PrintFormatChild_ID (int AD_PrintFormatChild_ID);
+
+	/** Get Included Print Format.
+	  * Print format that is included here.
+	  */
+	public int getAD_PrintFormatChild_ID();
 
     /** Column name AD_PrintFormatItem_ID */
     public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";

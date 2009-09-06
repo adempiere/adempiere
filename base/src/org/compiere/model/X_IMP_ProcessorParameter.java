@@ -128,9 +128,10 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		@param IMP_Processor_ID Import Processor	  */
 	public void setIMP_Processor_ID (int IMP_Processor_ID)
 	{
-		if (IMP_Processor_ID < 1)
-			 throw new IllegalArgumentException ("IMP_Processor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
+		if (IMP_Processor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
 	}
 
 	/** Get Import Processor.
@@ -147,9 +148,10 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
 	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
 	{
-		if (IMP_ProcessorParameter_ID < 1)
-			 throw new IllegalArgumentException ("IMP_ProcessorParameter_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
+		if (IMP_ProcessorParameter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
 	}
 
 	/** Get Import Processor Parameter.
@@ -168,8 +170,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -201,8 +201,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

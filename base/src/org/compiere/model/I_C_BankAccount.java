@@ -101,19 +101,6 @@ public interface I_C_BankAccount
 	  */
 	public String getBBAN();
 
-    /** Column name C_BankAccount_ID */
-    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
-
-	/** Set Bank Account.
-	  * Account at the Bank
-	  */
-	public void setC_BankAccount_ID (int C_BankAccount_ID);
-
-	/** Get Bank Account.
-	  * Account at the Bank
-	  */
-	public int getC_BankAccount_ID();
-
     /** Column name C_Bank_ID */
     public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
 
@@ -128,6 +115,19 @@ public interface I_C_BankAccount
 	public int getC_Bank_ID();
 
 	public I_C_Bank getC_Bank() throws RuntimeException;
+
+    /** Column name C_BankAccount_ID */
+    public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
+
+	/** Set Bank Account.
+	  * Account at the Bank
+	  */
+	public void setC_BankAccount_ID (int C_BankAccount_ID);
+
+	/** Get Bank Account.
+	  * Account at the Bank
+	  */
+	public int getC_BankAccount_ID();
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";

@@ -41,8 +41,8 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
         {
 			setAD_Table_ID (0);
 			setIsSOTrx (false);
-			setM_AttributeSetExclude_ID (0);
 			setM_AttributeSet_ID (0);
+			setM_AttributeSetExclude_ID (0);
         } */
     }
 
@@ -137,29 +137,6 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
 		return false;
 	}
 
-	/** Set Exclude Attribute Set.
-		@param M_AttributeSetExclude_ID 
-		Exclude the ability to enter Attribute Sets
-	  */
-	public void setM_AttributeSetExclude_ID (int M_AttributeSetExclude_ID)
-	{
-		if (M_AttributeSetExclude_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeSetExclude_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_AttributeSetExclude_ID, Integer.valueOf(M_AttributeSetExclude_ID));
-	}
-
-	/** Get Exclude Attribute Set.
-		@return Exclude the ability to enter Attribute Sets
-	  */
-	public int getM_AttributeSetExclude_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetExclude_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
@@ -194,6 +171,29 @@ public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclu
 	public int getM_AttributeSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSet_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Exclude Attribute Set.
+		@param M_AttributeSetExclude_ID 
+		Exclude the ability to enter Attribute Sets
+	  */
+	public void setM_AttributeSetExclude_ID (int M_AttributeSetExclude_ID)
+	{
+		if (M_AttributeSetExclude_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetExclude_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_AttributeSetExclude_ID, Integer.valueOf(M_AttributeSetExclude_ID));
+	}
+
+	/** Get Exclude Attribute Set.
+		@return Exclude the ability to enter Attribute Sets
+	  */
+	public int getM_AttributeSetExclude_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetExclude_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

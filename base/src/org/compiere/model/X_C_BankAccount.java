@@ -44,8 +44,8 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
         {
 			setAccountNo (null);
 			setBankAccountType (null);
-			setC_BankAccount_ID (0);
 			setC_Bank_ID (0);
+			setC_BankAccount_ID (0);
 			setC_Currency_ID (0);
 			setCreditLimit (Env.ZERO);
 			setCurrentBalance (Env.ZERO);
@@ -139,29 +139,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 		return (String)get_Value(COLUMNNAME_BBAN);
 	}
 
-	/** Set Bank Account.
-		@param C_BankAccount_ID 
-		Account at the Bank
-	  */
-	public void setC_BankAccount_ID (int C_BankAccount_ID)
-	{
-		if (C_BankAccount_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
-	}
-
-	/** Get Bank Account.
-		@return Account at the Bank
-	  */
-	public int getC_BankAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Bank getC_Bank() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Bank.Table_Name);
@@ -208,6 +185,29 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
     }
+
+	/** Set Bank Account.
+		@param C_BankAccount_ID 
+		Account at the Bank
+	  */
+	public void setC_BankAccount_ID (int C_BankAccount_ID)
+	{
+		if (C_BankAccount_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccount_ID, Integer.valueOf(C_BankAccount_ID));
+	}
+
+	/** Get Bank Account.
+		@return Account at the Bank
+	  */
+	public int getC_BankAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_C_Currency getC_Currency() throws RuntimeException 
     {

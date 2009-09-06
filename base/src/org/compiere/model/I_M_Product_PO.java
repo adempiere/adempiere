@@ -92,6 +92,21 @@ public interface I_M_Product_PO
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws RuntimeException;
+
     /** Column name CostPerOrder */
     public static final String COLUMNNAME_CostPerOrder = "CostPerOrder";
 
@@ -120,21 +135,6 @@ public interface I_M_Product_PO
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DeliveryTime_Actual */
     public static final String COLUMNNAME_DeliveryTime_Actual = "DeliveryTime_Actual";
@@ -214,19 +214,6 @@ public interface I_M_Product_PO
 	  */
 	public boolean isCurrentVendor();
 
-    /** Column name Manufacturer */
-    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
-
-	/** Set Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer);
-
-	/** Get Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public String getManufacturer();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -241,6 +228,19 @@ public interface I_M_Product_PO
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name Manufacturer */
+    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
+
+	/** Set Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer);
+
+	/** Get Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public String getManufacturer();
 
     /** Column name Order_Min */
     public static final String COLUMNNAME_Order_Min = "Order_Min";

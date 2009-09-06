@@ -88,21 +88,6 @@ public interface I_C_CommissionLine
 	  */
 	public BigDecimal getAmtSubtract();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -117,6 +102,21 @@ public interface I_C_CommissionLine
 	public int getC_BP_Group_ID();
 
 	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
@@ -146,6 +146,21 @@ public interface I_C_CommissionLine
 	  */
 	public int getC_CommissionLine_ID();
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name CommissionOrders */
     public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
 
@@ -174,21 +189,6 @@ public interface I_C_CommissionLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

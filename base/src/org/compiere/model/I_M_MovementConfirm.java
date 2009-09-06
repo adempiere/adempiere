@@ -184,19 +184,6 @@ public interface I_M_MovementConfirm
 
 	public I_M_Inventory getM_Inventory() throws RuntimeException;
 
-    /** Column name M_MovementConfirm_ID */
-    public static final String COLUMNNAME_M_MovementConfirm_ID = "M_MovementConfirm_ID";
-
-	/** Set Move Confirm.
-	  * Inventory Move Confirmation
-	  */
-	public void setM_MovementConfirm_ID (int M_MovementConfirm_ID);
-
-	/** Get Move Confirm.
-	  * Inventory Move Confirmation
-	  */
-	public int getM_MovementConfirm_ID();
-
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
 
@@ -211,6 +198,19 @@ public interface I_M_MovementConfirm
 	public int getM_Movement_ID();
 
 	public I_M_Movement getM_Movement() throws RuntimeException;
+
+    /** Column name M_MovementConfirm_ID */
+    public static final String COLUMNNAME_M_MovementConfirm_ID = "M_MovementConfirm_ID";
+
+	/** Set Move Confirm.
+	  * Inventory Move Confirmation
+	  */
+	public void setM_MovementConfirm_ID (int M_MovementConfirm_ID);
+
+	/** Get Move Confirm.
+	  * Inventory Move Confirmation
+	  */
+	public int getM_MovementConfirm_ID();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

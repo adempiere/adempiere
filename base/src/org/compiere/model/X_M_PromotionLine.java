@@ -22,7 +22,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
 import org.compiere.util.Env;
 
 /** Generated Model for M_PromotionLine
@@ -44,8 +43,8 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
         {
 			setIsMandatoryPL (true);
 // Y
-			setM_PromotionLine_ID (0);
 			setM_Promotion_ID (0);
+			setM_PromotionLine_ID (0);
         } */
     }
 
@@ -101,6 +100,42 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 		return false;
 	}
 
+	public I_M_Promotion getM_Promotion() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_M_Promotion.Table_Name);
+        I_M_Promotion result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_Promotion)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Promotion_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Promotion.
+		@param M_Promotion_ID Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID)
+	{
+		if (M_Promotion_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, Integer.valueOf(M_Promotion_ID));
+	}
+
+	/** Get Promotion.
+		@return Promotion	  */
+	public int getM_Promotion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PromotionGroup.Table_Name);
@@ -152,42 +187,6 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 	public int getM_PromotionLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_Promotion getM_Promotion() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_M_Promotion.Table_Name);
-        I_M_Promotion result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Promotion)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Promotion_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Promotion.
-		@param M_Promotion_ID Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID)
-	{
-		if (M_Promotion_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, Integer.valueOf(M_Promotion_ID));
-	}
-
-	/** Get Promotion.
-		@return Promotion	  */
-	public int getM_Promotion_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

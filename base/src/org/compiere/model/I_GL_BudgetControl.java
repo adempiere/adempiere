@@ -132,19 +132,6 @@ public interface I_GL_BudgetControl
 	  */
 	public String getDescription();
 
-    /** Column name GL_BudgetControl_ID */
-    public static final String COLUMNNAME_GL_BudgetControl_ID = "GL_BudgetControl_ID";
-
-	/** Set Budget Control.
-	  * Budget Control
-	  */
-	public void setGL_BudgetControl_ID (int GL_BudgetControl_ID);
-
-	/** Get Budget Control.
-	  * Budget Control
-	  */
-	public int getGL_BudgetControl_ID();
-
     /** Column name GL_Budget_ID */
     public static final String COLUMNNAME_GL_Budget_ID = "GL_Budget_ID";
 
@@ -159,6 +146,19 @@ public interface I_GL_BudgetControl
 	public int getGL_Budget_ID();
 
 	public I_GL_Budget getGL_Budget() throws RuntimeException;
+
+    /** Column name GL_BudgetControl_ID */
+    public static final String COLUMNNAME_GL_BudgetControl_ID = "GL_BudgetControl_ID";
+
+	/** Set Budget Control.
+	  * Budget Control
+	  */
+	public void setGL_BudgetControl_ID (int GL_BudgetControl_ID);
+
+	/** Get Budget Control.
+	  * Budget Control
+	  */
+	public int getGL_BudgetControl_ID();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";

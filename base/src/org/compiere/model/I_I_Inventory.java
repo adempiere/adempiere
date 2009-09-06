@@ -214,19 +214,6 @@ public interface I_I_Inventory
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -256,6 +243,19 @@ public interface I_I_Inventory
 	public int getM_Warehouse_ID();
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

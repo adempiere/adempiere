@@ -145,19 +145,6 @@ public interface I_K_Entry
 	  */
 	public int getK_Entry_ID();
 
-    /** Column name Keywords */
-    public static final String COLUMNNAME_Keywords = "Keywords";
-
-	/** Set Keywords.
-	  * List of Keywords - separated by space, comma or semicolon
-	  */
-	public void setKeywords (String Keywords);
-
-	/** Get Keywords.
-	  * List of Keywords - separated by space, comma or semicolon
-	  */
-	public String getKeywords();
-
     /** Column name K_Source_ID */
     public static final String COLUMNNAME_K_Source_ID = "K_Source_ID";
 
@@ -187,6 +174,19 @@ public interface I_K_Entry
 	public int getK_Topic_ID();
 
 	public I_K_Topic getK_Topic() throws RuntimeException;
+
+    /** Column name Keywords */
+    public static final String COLUMNNAME_Keywords = "Keywords";
+
+	/** Set Keywords.
+	  * List of Keywords - separated by space, comma or semicolon
+	  */
+	public void setKeywords (String Keywords);
+
+	/** Get Keywords.
+	  * List of Keywords - separated by space, comma or semicolon
+	  */
+	public String getKeywords();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

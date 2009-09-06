@@ -45,9 +45,9 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 			setIsDefault (false);
 			setIsSelfService (true);
 // Y
+			setM_Product_Category_ID (0);
 			setMMPolicy (null);
 // F
-			setM_Product_Category_ID (0);
 			setName (null);
 			setPlannedMargin (Env.ZERO);
 			setValue (null);
@@ -225,30 +225,6 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		return false;
 	}
 
-	/** MMPolicy AD_Reference_ID=335 */
-	public static final int MMPOLICY_AD_Reference_ID=335;
-	/** LiFo = L */
-	public static final String MMPOLICY_LiFo = "L";
-	/** FiFo = F */
-	public static final String MMPOLICY_FiFo = "F";
-	/** Set Material Policy.
-		@param MMPolicy 
-		Material Movement Policy
-	  */
-	public void setMMPolicy (String MMPolicy)
-	{
-
-		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
-	}
-
-	/** Get Material Policy.
-		@return Material Movement Policy
-	  */
-	public String getMMPolicy () 
-	{
-		return (String)get_Value(COLUMNNAME_MMPolicy);
-	}
-
 	/** Set Product Category.
 		@param M_Product_Category_ID 
 		Category of a Product
@@ -290,6 +266,30 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** MMPolicy AD_Reference_ID=335 */
+	public static final int MMPOLICY_AD_Reference_ID=335;
+	/** LiFo = L */
+	public static final String MMPOLICY_LiFo = "L";
+	/** FiFo = F */
+	public static final String MMPOLICY_FiFo = "F";
+	/** Set Material Policy.
+		@param MMPolicy 
+		Material Movement Policy
+	  */
+	public void setMMPolicy (String MMPolicy)
+	{
+
+		set_Value (COLUMNNAME_MMPolicy, MMPolicy);
+	}
+
+	/** Get Material Policy.
+		@return Material Movement Policy
+	  */
+	public String getMMPolicy () 
+	{
+		return (String)get_Value(COLUMNNAME_MMPolicy);
 	}
 
 	/** Set Name.

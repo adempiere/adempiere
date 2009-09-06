@@ -77,21 +77,6 @@ public interface I_C_PaySelectionLine
 
 	public I_C_Invoice getC_Invoice() throws RuntimeException;
 
-    /** Column name C_PaySelectionCheck_ID */
-    public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
-
-	/** Set Pay Selection Check.
-	  * Payment Selection Check
-	  */
-	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID);
-
-	/** Get Pay Selection Check.
-	  * Payment Selection Check
-	  */
-	public int getC_PaySelectionCheck_ID();
-
-	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException;
-
     /** Column name C_PaySelection_ID */
     public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
 
@@ -106,6 +91,21 @@ public interface I_C_PaySelectionLine
 	public int getC_PaySelection_ID();
 
 	public I_C_PaySelection getC_PaySelection() throws RuntimeException;
+
+    /** Column name C_PaySelectionCheck_ID */
+    public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
+
+	/** Set Pay Selection Check.
+	  * Payment Selection Check
+	  */
+	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID);
+
+	/** Get Pay Selection Check.
+	  * Payment Selection Check
+	  */
+	public int getC_PaySelectionCheck_ID();
+
+	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException;
 
     /** Column name C_PaySelectionLine_ID */
     public static final String COLUMNNAME_C_PaySelectionLine_ID = "C_PaySelectionLine_ID";

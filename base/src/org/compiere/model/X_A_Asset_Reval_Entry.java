@@ -43,10 +43,10 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
         {
 			setA_Asset_Reval_Entry_ID (0);
 			setA_Effective_Date (new Timestamp( System.currentTimeMillis() ));
+			setA_Rev_Code (null);
 			setA_Reval_Cal_Method (null);
 			setA_Reval_Effective_Date (null);
 			setA_Reval_Multiplier (null);
-			setA_Rev_Code (null);
 			setC_Currency_ID (0);
 			setDescription (null);
 			setDocumentNo (null);
@@ -126,6 +126,29 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 		return (Timestamp)get_Value(COLUMNNAME_A_Effective_Date);
 	}
 
+	/** A_Rev_Code AD_Reference_ID=53262 */
+	public static final int A_REV_CODE_AD_Reference_ID=53262;
+	/** Revaluation Code #1 = R01 */
+	public static final String A_REV_CODE_RevaluationCode1 = "R01";
+	/** Revaluation Code #2 = R02 */
+	public static final String A_REV_CODE_RevaluationCode2 = "R02";
+	/** Revaluation Code #3 = R03 */
+	public static final String A_REV_CODE_RevaluationCode3 = "R03";
+	/** Set A_Rev_Code.
+		@param A_Rev_Code A_Rev_Code	  */
+	public void setA_Rev_Code (String A_Rev_Code)
+	{
+
+		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
+	}
+
+	/** Get A_Rev_Code.
+		@return A_Rev_Code	  */
+	public String getA_Rev_Code () 
+	{
+		return (String)get_Value(COLUMNNAME_A_Rev_Code);
+	}
+
 	/** A_Reval_Cal_Method AD_Reference_ID=53259 */
 	public static final int A_REVAL_CAL_METHOD_AD_Reference_ID=53259;
 	/** Default = DFT */
@@ -191,29 +214,6 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public String getA_Reval_Multiplier () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Reval_Multiplier);
-	}
-
-	/** A_Rev_Code AD_Reference_ID=53262 */
-	public static final int A_REV_CODE_AD_Reference_ID=53262;
-	/** Revaluation Code #1 = R01 */
-	public static final String A_REV_CODE_RevaluationCode1 = "R01";
-	/** Revaluation Code #2 = R02 */
-	public static final String A_REV_CODE_RevaluationCode2 = "R02";
-	/** Revaluation Code #3 = R03 */
-	public static final String A_REV_CODE_RevaluationCode3 = "R03";
-	/** Set A_Rev_Code.
-		@param A_Rev_Code A_Rev_Code	  */
-	public void setA_Rev_Code (String A_Rev_Code)
-	{
-
-		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
-	}
-
-	/** Get A_Rev_Code.
-		@return A_Rev_Code	  */
-	public String getA_Rev_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_A_Rev_Code);
 	}
 
 	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 

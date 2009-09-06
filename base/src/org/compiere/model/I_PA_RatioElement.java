@@ -158,19 +158,6 @@ public interface I_PA_RatioElement
 
 	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException;
 
-    /** Column name PA_RatioElement_ID */
-    public static final String COLUMNNAME_PA_RatioElement_ID = "PA_RatioElement_ID";
-
-	/** Set Ratio Element.
-	  * Performance Ratio Element
-	  */
-	public void setPA_RatioElement_ID (int PA_RatioElement_ID);
-
-	/** Get Ratio Element.
-	  * Performance Ratio Element
-	  */
-	public int getPA_RatioElement_ID();
-
     /** Column name PA_Ratio_ID */
     public static final String COLUMNNAME_PA_Ratio_ID = "PA_Ratio_ID";
 
@@ -185,6 +172,19 @@ public interface I_PA_RatioElement
 	public int getPA_Ratio_ID();
 
 	public I_PA_Ratio getPA_Ratio() throws RuntimeException;
+
+    /** Column name PA_RatioElement_ID */
+    public static final String COLUMNNAME_PA_RatioElement_ID = "PA_RatioElement_ID";
+
+	/** Set Ratio Element.
+	  * Performance Ratio Element
+	  */
+	public void setPA_RatioElement_ID (int PA_RatioElement_ID);
+
+	/** Get Ratio Element.
+	  * Performance Ratio Element
+	  */
+	public int getPA_RatioElement_ID();
 
     /** Column name PA_RatioUsed_ID */
     public static final String COLUMNNAME_PA_RatioUsed_ID = "PA_RatioUsed_ID";

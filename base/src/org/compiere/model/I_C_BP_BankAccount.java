@@ -41,19 +41,6 @@ public interface I_C_BP_BankAccount
 
     /** Load Meta Data */
 
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
-
-	/** Set Account No.
-	  * Account Number
-	  */
-	public void setAccountNo (String AccountNo);
-
-	/** Get Account No.
-	  * Account Number
-	  */
-	public String getAccountNo();
-
     /** Column name A_City */
     public static final String COLUMNNAME_A_City = "A_City";
 
@@ -79,42 +66,6 @@ public interface I_C_BP_BankAccount
 	  * Country
 	  */
 	public String getA_Country();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name A_EMail */
     public static final String COLUMNNAME_A_EMail = "A_EMail";
@@ -207,6 +158,55 @@ public interface I_C_BP_BankAccount
 	  */
 	public String getA_Zip();
 
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
+
+	/** Set Account No.
+	  * Account Number
+	  */
+	public void setAccountNo (String AccountNo);
+
+	/** Get Account No.
+	  * Account Number
+	  */
+	public String getAccountNo();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws RuntimeException;
+
     /** Column name BankAccountType */
     public static final String COLUMNNAME_BankAccountType = "BankAccountType";
 
@@ -248,6 +248,19 @@ public interface I_C_BP_BankAccount
 
 	public I_C_Bank getC_Bank() throws RuntimeException;
 
+    /** Column name C_BP_BankAccount_ID */
+    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
+
+	/** Set Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
+
+	/** Get Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public int getC_BP_BankAccount_ID();
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -262,19 +275,6 @@ public interface I_C_BP_BankAccount
 	public int getC_BPartner_ID();
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_BP_BankAccount_ID */
-    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
-
-	/** Set Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
-
-	/** Get Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public int getC_BP_BankAccount_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

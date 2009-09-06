@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionLine
@@ -105,6 +104,17 @@ public interface I_M_PromotionLine
 	  */
 	public boolean isMandatoryPL();
 
+    /** Column name M_Promotion_ID */
+    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
+
+	/** Set Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID);
+
+	/** Get Promotion	  */
+	public int getM_Promotion_ID();
+
+	public I_M_Promotion getM_Promotion() throws RuntimeException;
+
     /** Column name M_PromotionGroup_ID */
     public static final String COLUMNNAME_M_PromotionGroup_ID = "M_PromotionGroup_ID";
 
@@ -124,17 +134,6 @@ public interface I_M_PromotionLine
 
 	/** Get Promotion Line	  */
 	public int getM_PromotionLine_ID();
-
-    /** Column name M_Promotion_ID */
-    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
-
-	/** Set Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID);
-
-	/** Get Promotion	  */
-	public int getM_Promotion_ID();
-
-	public I_M_Promotion getM_Promotion() throws RuntimeException;
 
     /** Column name MinimumAmt */
     public static final String COLUMNNAME_MinimumAmt = "MinimumAmt";

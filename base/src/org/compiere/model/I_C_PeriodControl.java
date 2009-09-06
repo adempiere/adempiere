@@ -62,15 +62,6 @@ public interface I_C_PeriodControl
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_PeriodControl_ID */
-    public static final String COLUMNNAME_C_PeriodControl_ID = "C_PeriodControl_ID";
-
-	/** Set Period Control	  */
-	public void setC_PeriodControl_ID (int C_PeriodControl_ID);
-
-	/** Get Period Control	  */
-	public int getC_PeriodControl_ID();
-
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 
@@ -85,6 +76,15 @@ public interface I_C_PeriodControl
 	public int getC_Period_ID();
 
 	public I_C_Period getC_Period() throws RuntimeException;
+
+    /** Column name C_PeriodControl_ID */
+    public static final String COLUMNNAME_C_PeriodControl_ID = "C_PeriodControl_ID";
+
+	/** Set Period Control	  */
+	public void setC_PeriodControl_ID (int C_PeriodControl_ID);
+
+	/** Get Period Control	  */
+	public int getC_PeriodControl_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

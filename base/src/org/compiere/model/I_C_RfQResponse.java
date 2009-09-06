@@ -122,15 +122,6 @@ public interface I_C_RfQResponse
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name CheckComplete */
-    public static final String COLUMNNAME_CheckComplete = "CheckComplete";
-
-	/** Set Check Complete	  */
-	public void setCheckComplete (String CheckComplete);
-
-	/** Get Check Complete	  */
-	public String getCheckComplete();
-
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -145,22 +136,6 @@ public interface I_C_RfQResponse
 	public int getC_Order_ID();
 
 	public I_C_Order getC_Order() throws RuntimeException;
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
 
     /** Column name C_RfQ_ID */
     public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
@@ -189,6 +164,31 @@ public interface I_C_RfQResponse
 	  * Request for Quotation Response from a potential Vendor
 	  */
 	public int getC_RfQResponse_ID();
+
+    /** Column name CheckComplete */
+    public static final String COLUMNNAME_CheckComplete = "CheckComplete";
+
+	/** Set Check Complete	  */
+	public void setCheckComplete (String CheckComplete);
+
+	/** Get Check Complete	  */
+	public String getCheckComplete();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DateInvited */
     public static final String COLUMNNAME_DateInvited = "DateInvited";

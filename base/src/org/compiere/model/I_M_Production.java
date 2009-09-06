@@ -171,19 +171,6 @@ public interface I_M_Production
 	/** Get Records created	  */
 	public boolean isCreated();
 
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
-
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
 
@@ -196,6 +183,19 @@ public interface I_M_Production
 	  * Plan for producing a product
 	  */
 	public int getM_Production_ID();
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

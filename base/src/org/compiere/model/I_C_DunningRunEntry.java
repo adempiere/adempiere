@@ -135,19 +135,6 @@ public interface I_C_DunningRunEntry
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name C_DunningRunEntry_ID */
-    public static final String COLUMNNAME_C_DunningRunEntry_ID = "C_DunningRunEntry_ID";
-
-	/** Set Dunning Run Entry.
-	  * Dunning Run Entry
-	  */
-	public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID);
-
-	/** Get Dunning Run Entry.
-	  * Dunning Run Entry
-	  */
-	public int getC_DunningRunEntry_ID();
-
     /** Column name C_DunningRun_ID */
     public static final String COLUMNNAME_C_DunningRun_ID = "C_DunningRun_ID";
 
@@ -162,6 +149,19 @@ public interface I_C_DunningRunEntry
 	public int getC_DunningRun_ID();
 
 	public I_C_DunningRun getC_DunningRun() throws RuntimeException;
+
+    /** Column name C_DunningRunEntry_ID */
+    public static final String COLUMNNAME_C_DunningRunEntry_ID = "C_DunningRunEntry_ID";
+
+	/** Set Dunning Run Entry.
+	  * Dunning Run Entry
+	  */
+	public void setC_DunningRunEntry_ID (int C_DunningRunEntry_ID);
+
+	/** Get Dunning Run Entry.
+	  * Dunning Run Entry
+	  */
+	public int getC_DunningRunEntry_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -66,10 +66,10 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 			setIsSOTrx (false);
 // @IsSOTrx@
 			setM_InOut_ID (0);
+			setM_Warehouse_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setMovementType (null);
-			setM_Warehouse_ID (0);
 			setPosted (false);
 			setPriorityRule (null);
 // 5
@@ -370,26 +370,6 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
@@ -505,6 +485,26 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Create Confirm.
@@ -1113,67 +1113,6 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
-	/** MovementType AD_Reference_ID=189 */
-	public static final int MOVEMENTTYPE_AD_Reference_ID=189;
-	/** Customer Shipment = C- */
-	public static final String MOVEMENTTYPE_CustomerShipment = "C-";
-	/** Customer Returns = C+ */
-	public static final String MOVEMENTTYPE_CustomerReturns = "C+";
-	/** Vendor Receipts = V+ */
-	public static final String MOVEMENTTYPE_VendorReceipts = "V+";
-	/** Vendor Returns = V- */
-	public static final String MOVEMENTTYPE_VendorReturns = "V-";
-	/** Inventory Out = I- */
-	public static final String MOVEMENTTYPE_InventoryOut = "I-";
-	/** Inventory In = I+ */
-	public static final String MOVEMENTTYPE_InventoryIn = "I+";
-	/** Movement From = M- */
-	public static final String MOVEMENTTYPE_MovementFrom = "M-";
-	/** Movement To = M+ */
-	public static final String MOVEMENTTYPE_MovementTo = "M+";
-	/** Production + = P+ */
-	public static final String MOVEMENTTYPE_ProductionPlus = "P+";
-	/** Production - = P- */
-	public static final String MOVEMENTTYPE_Production_ = "P-";
-	/** Work Order + = W+ */
-	public static final String MOVEMENTTYPE_WorkOrderPlus = "W+";
-	/** Work Order - = W- */
-	public static final String MOVEMENTTYPE_WorkOrder_ = "W-";
-	/** Set Movement Type.
-		@param MovementType 
-		Method of moving the inventory
-	  */
-	public void setMovementType (String MovementType)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_MovementType, MovementType);
-	}
-
-	/** Get Movement Type.
-		@return Method of moving the inventory
-	  */
-	public String getMovementType () 
-	{
-		return (String)get_Value(COLUMNNAME_MovementType);
-	}
-
 	public I_M_RMA getM_RMA() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_RMA.Table_Name);
@@ -1289,6 +1228,67 @@ public class X_M_InOut extends PO implements I_M_InOut, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
+	/** MovementType AD_Reference_ID=189 */
+	public static final int MOVEMENTTYPE_AD_Reference_ID=189;
+	/** Customer Shipment = C- */
+	public static final String MOVEMENTTYPE_CustomerShipment = "C-";
+	/** Customer Returns = C+ */
+	public static final String MOVEMENTTYPE_CustomerReturns = "C+";
+	/** Vendor Receipts = V+ */
+	public static final String MOVEMENTTYPE_VendorReceipts = "V+";
+	/** Vendor Returns = V- */
+	public static final String MOVEMENTTYPE_VendorReturns = "V-";
+	/** Inventory Out = I- */
+	public static final String MOVEMENTTYPE_InventoryOut = "I-";
+	/** Inventory In = I+ */
+	public static final String MOVEMENTTYPE_InventoryIn = "I+";
+	/** Movement From = M- */
+	public static final String MOVEMENTTYPE_MovementFrom = "M-";
+	/** Movement To = M+ */
+	public static final String MOVEMENTTYPE_MovementTo = "M+";
+	/** Production + = P+ */
+	public static final String MOVEMENTTYPE_ProductionPlus = "P+";
+	/** Production - = P- */
+	public static final String MOVEMENTTYPE_Production_ = "P-";
+	/** Work Order + = W+ */
+	public static final String MOVEMENTTYPE_WorkOrderPlus = "W+";
+	/** Work Order - = W- */
+	public static final String MOVEMENTTYPE_WorkOrder_ = "W-";
+	/** Set Movement Type.
+		@param MovementType 
+		Method of moving the inventory
+	  */
+	public void setMovementType (String MovementType)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_MovementType, MovementType);
+	}
+
+	/** Get Movement Type.
+		@return Method of moving the inventory
+	  */
+	public String getMovementType () 
+	{
+		return (String)get_Value(COLUMNNAME_MovementType);
 	}
 
 	/** Set No Packages.

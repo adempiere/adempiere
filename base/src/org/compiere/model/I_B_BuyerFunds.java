@@ -90,19 +90,6 @@ public interface I_B_BuyerFunds
 	  */
 	public int getB_BuyerFunds_ID();
 
-    /** Column name CommittedAmt */
-    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
-
-	/** Set Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt);
-
-	/** Get Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt();
-
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -132,6 +119,19 @@ public interface I_B_BuyerFunds
 	public int getC_Payment_ID();
 
 	public I_C_Payment getC_Payment() throws RuntimeException;
+
+    /** Column name CommittedAmt */
+    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
+
+	/** Set Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt);
+
+	/** Get Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

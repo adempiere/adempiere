@@ -41,14 +41,6 @@ public interface I_A_Depreciation_Table_Header
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Table_Code */
     public static final String COLUMNNAME_A_Depreciation_Table_Code = "A_Depreciation_Table_Code";
 
@@ -67,19 +59,6 @@ public interface I_A_Depreciation_Table_Header
 	/** Get A_Depreciation_Table_Header_ID	  */
 	public int getA_Depreciation_Table_Header_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name A_Table_Rate_Type */
     public static final String COLUMNNAME_A_Table_Rate_Type = "A_Table_Rate_Type";
 
@@ -97,6 +76,27 @@ public interface I_A_Depreciation_Table_Header
 
 	/** Get Period/Yearly	  */
 	public String getA_Term();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

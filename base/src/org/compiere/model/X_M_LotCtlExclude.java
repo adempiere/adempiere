@@ -41,8 +41,8 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
         {
 			setAD_Table_ID (0);
 			setIsSOTrx (false);
-			setM_LotCtlExclude_ID (0);
 			setM_LotCtl_ID (0);
+			setM_LotCtlExclude_ID (0);
         } */
     }
 
@@ -137,29 +137,6 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
 		return false;
 	}
 
-	/** Set Exclude Lot.
-		@param M_LotCtlExclude_ID 
-		Exclude the ability to create Lots in Attribute Sets
-	  */
-	public void setM_LotCtlExclude_ID (int M_LotCtlExclude_ID)
-	{
-		if (M_LotCtlExclude_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_LotCtlExclude_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_LotCtlExclude_ID, Integer.valueOf(M_LotCtlExclude_ID));
-	}
-
-	/** Get Exclude Lot.
-		@return Exclude the ability to create Lots in Attribute Sets
-	  */
-	public int getM_LotCtlExclude_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_LotCtlExclude_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_LotCtl getM_LotCtl() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_LotCtl.Table_Name);
@@ -194,6 +171,29 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
 	public int getM_LotCtl_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_LotCtl_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Exclude Lot.
+		@param M_LotCtlExclude_ID 
+		Exclude the ability to create Lots in Attribute Sets
+	  */
+	public void setM_LotCtlExclude_ID (int M_LotCtlExclude_ID)
+	{
+		if (M_LotCtlExclude_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_LotCtlExclude_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_LotCtlExclude_ID, Integer.valueOf(M_LotCtlExclude_ID));
+	}
+
+	/** Get Exclude Lot.
+		@return Exclude the ability to create Lots in Attribute Sets
+	  */
+	public int getM_LotCtlExclude_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_LotCtlExclude_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

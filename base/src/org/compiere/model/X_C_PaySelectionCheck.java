@@ -42,8 +42,8 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
       /** if (C_PaySelectionCheck_ID == 0)
         {
 			setC_BPartner_ID (0);
-			setC_PaySelectionCheck_ID (0);
 			setC_PaySelection_ID (0);
+			setC_PaySelectionCheck_ID (0);
 			setDiscountAmt (Env.ZERO);
 			setIsGeneratedDraft (false);
 // N
@@ -85,45 +85,6 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_BankAccount.Table_Name);
@@ -163,6 +124,45 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartner() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
+        I_C_BPartner result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
@@ -181,29 +181,6 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	public int getC_Payment_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Pay Selection Check.
-		@param C_PaySelectionCheck_ID 
-		Payment Selection Check
-	  */
-	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID)
-	{
-		if (C_PaySelectionCheck_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_PaySelectionCheck_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_PaySelectionCheck_ID, Integer.valueOf(C_PaySelectionCheck_ID));
-	}
-
-	/** Get Pay Selection Check.
-		@return Payment Selection Check
-	  */
-	public int getC_PaySelectionCheck_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelectionCheck_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -243,6 +220,29 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 	public int getC_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelection_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Pay Selection Check.
+		@param C_PaySelectionCheck_ID 
+		Payment Selection Check
+	  */
+	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID)
+	{
+		if (C_PaySelectionCheck_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelectionCheck_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelectionCheck_ID, Integer.valueOf(C_PaySelectionCheck_ID));
+	}
+
+	/** Get Pay Selection Check.
+		@return Payment Selection Check
+	  */
+	public int getC_PaySelectionCheck_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelectionCheck_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

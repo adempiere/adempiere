@@ -134,19 +134,6 @@ public interface I_K_IndexStop
 	  */
 	public boolean isManual();
 
-    /** Column name Keyword */
-    public static final String COLUMNNAME_Keyword = "Keyword";
-
-	/** Set Keyword.
-	  * Case insensitive keyword
-	  */
-	public void setKeyword (String Keyword);
-
-	/** Get Keyword.
-	  * Case insensitive keyword
-	  */
-	public String getKeyword();
-
     /** Column name K_IndexStop_ID */
     public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
 
@@ -159,6 +146,19 @@ public interface I_K_IndexStop
 	  * Keyword not to be indexed
 	  */
 	public int getK_IndexStop_ID();
+
+    /** Column name Keyword */
+    public static final String COLUMNNAME_Keyword = "Keyword";
+
+	/** Set Keyword.
+	  * Case insensitive keyword
+	  */
+	public void setKeyword (String Keyword);
+
+	/** Get Keyword.
+	  * Case insensitive keyword
+	  */
+	public String getKeyword();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";

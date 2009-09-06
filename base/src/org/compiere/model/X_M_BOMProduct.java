@@ -262,45 +262,6 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_M_BOMAlternative.Table_Name);
-        I_M_BOMAlternative result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_BOMAlternative)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_BOMAlternative_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Alternative Group.
-		@param M_BOMAlternative_ID 
-		Product BOM Alternative Group
-	  */
-	public void setM_BOMAlternative_ID (int M_BOMAlternative_ID)
-	{
-		if (M_BOMAlternative_ID < 1) 
-			set_Value (COLUMNNAME_M_BOMAlternative_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_BOMAlternative_ID, Integer.valueOf(M_BOMAlternative_ID));
-	}
-
-	/** Get Alternative Group.
-		@return Product BOM Alternative Group
-	  */
-	public int getM_BOMAlternative_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOMAlternative_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_BOM getM_BOM() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_BOM.Table_Name);
@@ -335,6 +296,45 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	public int getM_BOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_M_BOMAlternative.Table_Name);
+        I_M_BOMAlternative result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_M_BOMAlternative)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_BOMAlternative_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Alternative Group.
+		@param M_BOMAlternative_ID 
+		Product BOM Alternative Group
+	  */
+	public void setM_BOMAlternative_ID (int M_BOMAlternative_ID)
+	{
+		if (M_BOMAlternative_ID < 1) 
+			set_Value (COLUMNNAME_M_BOMAlternative_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_BOMAlternative_ID, Integer.valueOf(M_BOMAlternative_ID));
+	}
+
+	/** Get Alternative Group.
+		@return Product BOM Alternative Group
+	  */
+	public int getM_BOMAlternative_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOMAlternative_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

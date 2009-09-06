@@ -41,8 +41,8 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
       /** if (C_BP_EDI_ID == 0)
         {
 			setAD_Sequence_ID (0);
-			setC_BPartner_ID (0);
 			setC_BP_EDI_ID (0);
+			setC_BPartner_ID (0);
 			setCustomerNo (null);
 			setEDIType (null);
 			setEMail_Error_To (null);
@@ -109,6 +109,29 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set EDI Definition.
+		@param C_BP_EDI_ID 
+		Electronic Data Interchange
+	  */
+	public void setC_BP_EDI_ID (int C_BP_EDI_ID)
+	{
+		if (C_BP_EDI_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, Integer.valueOf(C_BP_EDI_ID));
+	}
+
+	/** Get EDI Definition.
+		@return Electronic Data Interchange
+	  */
+	public int getC_BP_EDI_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_EDI_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_BPartner getC_BPartner() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
@@ -143,29 +166,6 @@ public class X_C_BP_EDI extends PO implements I_C_BP_EDI, I_Persistent
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set EDI Definition.
-		@param C_BP_EDI_ID 
-		Electronic Data Interchange
-	  */
-	public void setC_BP_EDI_ID (int C_BP_EDI_ID)
-	{
-		if (C_BP_EDI_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_BP_EDI_ID, Integer.valueOf(C_BP_EDI_ID));
-	}
-
-	/** Get EDI Definition.
-		@return Electronic Data Interchange
-	  */
-	public int getC_BP_EDI_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_EDI_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -248,20 +248,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Copy Lines.
-		@param CopyLines Copy Lines	  */
-	public void setCopyLines (String CopyLines)
-	{
-		set_Value (COLUMNNAME_CopyLines, CopyLines);
-	}
-
-	/** Get Copy Lines.
-		@return Copy Lines	  */
-	public String getCopyLines () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyLines);
-	}
-
 	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
@@ -299,37 +285,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Create PO.
-		@param CreatePO 
-		Create Purchase Order
-	  */
-	public void setCreatePO (String CreatePO)
-	{
-		set_Value (COLUMNNAME_CreatePO, CreatePO);
-	}
-
-	/** Get Create PO.
-		@return Create Purchase Order
-	  */
-	public String getCreatePO () 
-	{
-		return (String)get_Value(COLUMNNAME_CreatePO);
-	}
-
-	/** Set Create SO.
-		@param CreateSO Create SO	  */
-	public void setCreateSO (String CreateSO)
-	{
-		set_Value (COLUMNNAME_CreateSO, CreateSO);
-	}
-
-	/** Get Create SO.
-		@return Create SO	  */
-	public String getCreateSO () 
-	{
-		return (String)get_Value(COLUMNNAME_CreateSO);
 	}
 
 	/** Set RfQ.
@@ -392,6 +347,51 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Copy Lines.
+		@param CopyLines Copy Lines	  */
+	public void setCopyLines (String CopyLines)
+	{
+		set_Value (COLUMNNAME_CopyLines, CopyLines);
+	}
+
+	/** Get Copy Lines.
+		@return Copy Lines	  */
+	public String getCopyLines () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyLines);
+	}
+
+	/** Set Create PO.
+		@param CreatePO 
+		Create Purchase Order
+	  */
+	public void setCreatePO (String CreatePO)
+	{
+		set_Value (COLUMNNAME_CreatePO, CreatePO);
+	}
+
+	/** Get Create PO.
+		@return Create Purchase Order
+	  */
+	public String getCreatePO () 
+	{
+		return (String)get_Value(COLUMNNAME_CreatePO);
+	}
+
+	/** Set Create SO.
+		@param CreateSO Create SO	  */
+	public void setCreateSO (String CreateSO)
+	{
+		set_Value (COLUMNNAME_CreateSO, CreateSO);
+	}
+
+	/** Get Create SO.
+		@return Create SO	  */
+	public String getCreateSO () 
+	{
+		return (String)get_Value(COLUMNNAME_CreateSO);
 	}
 
 	/** Set Response Date.

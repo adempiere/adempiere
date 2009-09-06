@@ -146,19 +146,6 @@ public interface I_C_CommissionDetail
 
 	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
-    /** Column name ConvertedAmt */
-    public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
-
-	/** Set Converted Amount.
-	  * Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt);
-
-	/** Get Converted Amount.
-	  * Converted Amount
-	  */
-	public BigDecimal getConvertedAmt();
-
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
 
@@ -173,6 +160,19 @@ public interface I_C_CommissionDetail
 	public int getC_OrderLine_ID();
 
 	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+
+    /** Column name ConvertedAmt */
+    public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
+
+	/** Set Converted Amount.
+	  * Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt);
+
+	/** Get Converted Amount.
+	  * Converted Amount
+	  */
+	public BigDecimal getConvertedAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

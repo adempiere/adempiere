@@ -168,14 +168,6 @@ public interface I_I_Asset
 	/** Get A_Current_Period	  */
 	public int getA_Current_Period();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Acct */
     public static final String COLUMNNAME_A_Depreciation_Acct = "A_Depreciation_Acct";
 
@@ -247,32 +239,6 @@ public interface I_I_Asset
 
 	/** Get Disposal Revenue	  */
 	public int getA_Disposal_Revenue();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
 
     /** Column name A_Life_Period */
     public static final String COLUMNNAME_A_Life_Period = "A_Life_Period";
@@ -417,6 +383,40 @@ public interface I_I_Asset
 
 	/** Get Split Percentage	  */
 	public BigDecimal getA_Split_Percent();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
 
     /** Column name AssetDepreciationDate */
     public static final String COLUMNNAME_AssetDepreciationDate = "AssetDepreciationDate";
@@ -625,14 +625,18 @@ public interface I_I_Asset
 	  */
 	public String getI_ErrorMsg();
 
-    /** Column name I_Isimported */
-    public static final String COLUMNNAME_I_Isimported = "I_Isimported";
+    /** Column name I_IsImported */
+    public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 
-	/** Set I_Isimported	  */
-	public void setI_Isimported (boolean I_Isimported);
+	/** Set Imported.
+	  * Has this import been processed
+	  */
+	public void setI_IsImported (boolean I_IsImported);
 
-	/** Get I_Isimported	  */
-	public boolean isI_Isimported();
+	/** Get Imported.
+	  * Has this import been processed
+	  */
+	public boolean isI_IsImported();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

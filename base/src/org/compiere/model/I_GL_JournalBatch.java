@@ -92,6 +92,19 @@ public interface I_GL_JournalBatch
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
+    /** Column name C_Period_ID */
+    public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
+
+	/** Set Period.
+	  * Period of the Calendar
+	  */
+	public void setC_Period_ID (int C_Period_ID);
+
+	/** Get Period.
+	  * Period of the Calendar
+	  */
+	public int getC_Period_ID();
+
     /** Column name ControlAmt */
     public static final String COLUMNNAME_ControlAmt = "ControlAmt";
 
@@ -117,19 +130,6 @@ public interface I_GL_JournalBatch
 	  * Copy From Record
 	  */
 	public String getCopyFrom();
-
-    /** Column name C_Period_ID */
-    public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
-
-	/** Set Period.
-	  * Period of the Calendar
-	  */
-	public void setC_Period_ID (int C_Period_ID);
-
-	/** Get Period.
-	  * Period of the Calendar
-	  */
-	public int getC_Period_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

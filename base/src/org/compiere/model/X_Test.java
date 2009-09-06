@@ -191,23 +191,6 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Character Data.
-		@param CharacterData 
-		Long Character Field
-	  */
-	public void setCharacterData (String CharacterData)
-	{
-		set_Value (COLUMNNAME_CharacterData, CharacterData);
-	}
-
-	/** Get Character Data.
-		@return Long Character Field
-	  */
-	public String getCharacterData () 
-	{
-		return (String)get_Value(COLUMNNAME_CharacterData);
-	}
-
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -307,6 +290,23 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Character Data.
+		@param CharacterData 
+		Long Character Field
+	  */
+	public void setCharacterData (String CharacterData)
+	{
+		set_Value (COLUMNNAME_CharacterData, CharacterData);
+	}
+
+	/** Get Character Data.
+		@return Long Character Field
+	  */
+	public String getCharacterData () 
+	{
+		return (String)get_Value(COLUMNNAME_CharacterData);
 	}
 
 	/** Set Description.
@@ -520,26 +520,6 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_T_DateTime);
 	}
 
-	/** Set Test ID.
-		@param Test_ID Test ID	  */
-	public void setTest_ID (int Test_ID)
-	{
-		if (Test_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_Test_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_Test_ID, Integer.valueOf(Test_ID));
-	}
-
-	/** Get Test ID.
-		@return Test ID	  */
-	public int getTest_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Test_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Integer.
 		@param T_Integer Integer	  */
 	public void setT_Integer (int T_Integer)
@@ -589,5 +569,25 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Test ID.
+		@param Test_ID Test ID	  */
+	public void setTest_ID (int Test_ID)
+	{
+		if (Test_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Test_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Test_ID, Integer.valueOf(Test_ID));
+	}
+
+	/** Get Test ID.
+		@return Test ID	  */
+	public int getTest_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Test_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

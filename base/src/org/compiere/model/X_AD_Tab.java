@@ -716,6 +716,29 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return (String)get_Value(COLUMNNAME_OrderByClause);
 	}
 
+	/** Set Parent Column.
+		@param Parent_Column_ID 
+		The link column on the parent tab.
+	  */
+	public void setParent_Column_ID (int Parent_Column_ID)
+	{
+		if (Parent_Column_ID < 1) 
+			set_Value (COLUMNNAME_Parent_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_Parent_Column_ID, Integer.valueOf(Parent_Column_ID));
+	}
+
+	/** Get Parent Column.
+		@return The link column on the parent tab.
+	  */
+	public int getParent_Column_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Parent_Column_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Process Now.
 		@param Processing Process Now	  */
 	public void setProcessing (boolean Processing)

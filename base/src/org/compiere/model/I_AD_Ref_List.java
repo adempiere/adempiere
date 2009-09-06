@@ -62,6 +62,19 @@ public interface I_AD_Ref_List
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_Ref_List_ID */
+    public static final String COLUMNNAME_AD_Ref_List_ID = "AD_Ref_List_ID";
+
+	/** Set Reference List.
+	  * Reference List based on Table
+	  */
+	public void setAD_Ref_List_ID (int AD_Ref_List_ID);
+
+	/** Get Reference List.
+	  * Reference List based on Table
+	  */
+	public int getAD_Ref_List_ID();
+
     /** Column name AD_Reference_ID */
     public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
 
@@ -76,19 +89,6 @@ public interface I_AD_Ref_List
 	public int getAD_Reference_ID();
 
 	public I_AD_Reference getAD_Reference() throws RuntimeException;
-
-    /** Column name AD_Ref_List_ID */
-    public static final String COLUMNNAME_AD_Ref_List_ID = "AD_Ref_List_ID";
-
-	/** Set Reference List.
-	  * Reference List based on Table
-	  */
-	public void setAD_Ref_List_ID (int AD_Ref_List_ID);
-
-	/** Get Reference List.
-	  * Reference List based on Table
-	  */
-	public int getAD_Ref_List_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

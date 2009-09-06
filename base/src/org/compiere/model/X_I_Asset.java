@@ -467,29 +467,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set A_Life_Period.
 		@param A_Life_Period A_Life_Period	  */
 	public void setA_Life_Period (int A_Life_Period)
@@ -769,6 +746,29 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Asset Depreciation Date.
@@ -1128,18 +1128,21 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return (String)get_Value(COLUMNNAME_I_ErrorMsg);
 	}
 
-	/** Set I_Isimported.
-		@param I_Isimported I_Isimported	  */
-	public void setI_Isimported (boolean I_Isimported)
+	/** Set Imported.
+		@param I_IsImported 
+		Has this import been processed
+	  */
+	public void setI_IsImported (boolean I_IsImported)
 	{
-		set_Value (COLUMNNAME_I_Isimported, Boolean.valueOf(I_Isimported));
+		set_Value (COLUMNNAME_I_IsImported, Boolean.valueOf(I_IsImported));
 	}
 
-	/** Get I_Isimported.
-		@return I_Isimported	  */
-	public boolean isI_Isimported () 
+	/** Get Imported.
+		@return Has this import been processed
+	  */
+	public boolean isI_IsImported () 
 	{
-		Object oo = get_Value(COLUMNNAME_I_Isimported);
+		Object oo = get_Value(COLUMNNAME_I_IsImported);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

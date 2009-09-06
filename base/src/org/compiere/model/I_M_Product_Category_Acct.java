@@ -368,15 +368,6 @@ public interface I_M_Product_Category_Acct
 	  */
 	public int getP_Revenue_Acct();
 
-    /** Column name Processing */
-    public static final String COLUMNNAME_Processing = "Processing";
-
-	/** Set Process Now	  */
-	public void setProcessing (boolean Processing);
-
-	/** Get Process Now	  */
-	public boolean isProcessing();
-
     /** Column name P_Scrap_Acct */
     public static final String COLUMNNAME_P_Scrap_Acct = "P_Scrap_Acct";
 
@@ -441,6 +432,15 @@ public interface I_M_Product_Category_Acct
 	  * The Work in Process account is the account used Manufacturing Order
 	  */
 	public int getP_WIP_Acct();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

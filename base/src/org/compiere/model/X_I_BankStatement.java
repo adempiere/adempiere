@@ -343,43 +343,6 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Charge Name.
-		@param ChargeName 
-		Name of the Charge
-	  */
-	public void setChargeName (String ChargeName)
-	{
-		set_Value (COLUMNNAME_ChargeName, ChargeName);
-	}
-
-	/** Get Charge Name.
-		@return Name of the Charge
-	  */
-	public String getChargeName () 
-	{
-		return (String)get_Value(COLUMNNAME_ChargeName);
-	}
-
 	public I_C_Invoice getC_Invoice() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
@@ -456,6 +419,43 @@ public class X_I_BankStatement extends PO implements I_I_BankStatement, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Charge Name.
+		@param ChargeName 
+		Name of the Charge
+	  */
+	public void setChargeName (String ChargeName)
+	{
+		set_Value (COLUMNNAME_ChargeName, ChargeName);
+	}
+
+	/** Get Charge Name.
+		@return Name of the Charge
+	  */
+	public String getChargeName () 
+	{
+		return (String)get_Value(COLUMNNAME_ChargeName);
 	}
 
 	/** Set Create Payment.

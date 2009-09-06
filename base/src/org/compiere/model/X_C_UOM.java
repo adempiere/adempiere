@@ -38,8 +38,8 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
       super (ctx, C_UOM_ID, trxName);
       /** if (C_UOM_ID == 0)
         {
-			setCostingPrecision (0);
 			setC_UOM_ID (0);
+			setCostingPrecision (0);
 			setIsDefault (false);
 			setName (null);
 			setStdPrecision (0);
@@ -75,26 +75,6 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
       return sb.toString();
     }
 
-	/** Set Costing Precision.
-		@param CostingPrecision 
-		Rounding used costing calculations
-	  */
-	public void setCostingPrecision (int CostingPrecision)
-	{
-		set_Value (COLUMNNAME_CostingPrecision, Integer.valueOf(CostingPrecision));
-	}
-
-	/** Get Costing Precision.
-		@return Rounding used costing calculations
-	  */
-	public int getCostingPrecision () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CostingPrecision);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set UOM.
 		@param C_UOM_ID 
 		Unit of Measure
@@ -113,6 +93,26 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	public int getC_UOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Costing Precision.
+		@param CostingPrecision 
+		Rounding used costing calculations
+	  */
+	public void setCostingPrecision (int CostingPrecision)
+	{
+		set_Value (COLUMNNAME_CostingPrecision, Integer.valueOf(CostingPrecision));
+	}
+
+	/** Get Costing Precision.
+		@return Rounding used costing calculations
+	  */
+	public int getCostingPrecision () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CostingPrecision);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

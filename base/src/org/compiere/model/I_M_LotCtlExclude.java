@@ -119,19 +119,6 @@ public interface I_M_LotCtlExclude
 	  */
 	public boolean isSOTrx();
 
-    /** Column name M_LotCtlExclude_ID */
-    public static final String COLUMNNAME_M_LotCtlExclude_ID = "M_LotCtlExclude_ID";
-
-	/** Set Exclude Lot.
-	  * Exclude the ability to create Lots in Attribute Sets
-	  */
-	public void setM_LotCtlExclude_ID (int M_LotCtlExclude_ID);
-
-	/** Get Exclude Lot.
-	  * Exclude the ability to create Lots in Attribute Sets
-	  */
-	public int getM_LotCtlExclude_ID();
-
     /** Column name M_LotCtl_ID */
     public static final String COLUMNNAME_M_LotCtl_ID = "M_LotCtl_ID";
 
@@ -146,6 +133,19 @@ public interface I_M_LotCtlExclude
 	public int getM_LotCtl_ID();
 
 	public I_M_LotCtl getM_LotCtl() throws RuntimeException;
+
+    /** Column name M_LotCtlExclude_ID */
+    public static final String COLUMNNAME_M_LotCtlExclude_ID = "M_LotCtlExclude_ID";
+
+	/** Set Exclude Lot.
+	  * Exclude the ability to create Lots in Attribute Sets
+	  */
+	public void setM_LotCtlExclude_ID (int M_LotCtlExclude_ID);
+
+	/** Get Exclude Lot.
+	  * Exclude the ability to create Lots in Attribute Sets
+	  */
+	public int getM_LotCtlExclude_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

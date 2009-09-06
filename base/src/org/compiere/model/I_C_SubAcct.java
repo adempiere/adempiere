@@ -77,6 +77,19 @@ public interface I_C_SubAcct
 
 	public I_C_ElementValue getC_ElementValue() throws RuntimeException;
 
+    /** Column name C_SubAcct_ID */
+    public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";
+
+	/** Set Sub Account.
+	  * Sub account for Element Value
+	  */
+	public void setC_SubAcct_ID (int C_SubAcct_ID);
+
+	/** Get Sub Account.
+	  * Sub account for Element Value
+	  */
+	public int getC_SubAcct_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -92,19 +105,6 @@ public interface I_C_SubAcct
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SubAcct_ID */
-    public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";
-
-	/** Set Sub Account.
-	  * Sub account for Element Value
-	  */
-	public void setC_SubAcct_ID (int C_SubAcct_ID);
-
-	/** Get Sub Account.
-	  * Sub account for Element Value
-	  */
-	public int getC_SubAcct_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

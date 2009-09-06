@@ -106,22 +106,6 @@ public interface I_U_RoleMenu
 	  */
 	public boolean isActive();
 
-    /** Column name Updated */
-    public static final String COLUMNNAME_Updated = "Updated";
-
-	/** Get Updated.
-	  * Date this record was updated
-	  */
-	public Timestamp getUpdated();
-
-    /** Column name UpdatedBy */
-    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
-
-	/** Get Updated By.
-	  * User who updated this records
-	  */
-	public int getUpdatedBy();
-
     /** Column name U_RoleMenu_ID */
     public static final String COLUMNNAME_U_RoleMenu_ID = "U_RoleMenu_ID";
 
@@ -141,4 +125,20 @@ public interface I_U_RoleMenu
 	public int getU_WebMenu_ID();
 
 	public I_U_WebMenu getU_WebMenu() throws RuntimeException;
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

@@ -293,32 +293,6 @@ public interface I_C_Order
 	  */
 	public int getC_DocTypeTarget_ID();
 
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
-
-    /** Column name CopyFrom */
-    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
-
-	/** Set Copy From.
-	  * Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom);
-
-	/** Get Copy From.
-	  * Copy From Record
-	  */
-	public String getCopyFrom();
-
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -391,6 +365,32 @@ public interface I_C_Order
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
+
+    /** Column name CopyFrom */
+    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+
+	/** Set Copy From.
+	  * Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom);
+
+	/** Get Copy From.
+	  * Copy From Record
+	  */
+	public String getCopyFrom();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -971,6 +971,19 @@ public interface I_C_Order
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name PromotionCode */
+    public static final String COLUMNNAME_PromotionCode = "PromotionCode";
+
+	/** Set Promotion Code.
+	  * User entered promotion code at sales time
+	  */
+	public void setPromotionCode (String PromotionCode);
+
+	/** Get Promotion Code.
+	  * User entered promotion code at sales time
+	  */
+	public String getPromotionCode();
 
     /** Column name Ref_Order_ID */
     public static final String COLUMNNAME_Ref_Order_ID = "Ref_Order_ID";

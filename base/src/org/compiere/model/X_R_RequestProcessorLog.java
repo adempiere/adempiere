@@ -131,23 +131,6 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		return false;
 	}
 
-	/** Set Reference.
-		@param Reference 
-		Reference for this record
-	  */
-	public void setReference (String Reference)
-	{
-		set_Value (COLUMNNAME_Reference, Reference);
-	}
-
-	/** Get Reference.
-		@return Reference for this record
-	  */
-	public String getReference () 
-	{
-		return (String)get_Value(COLUMNNAME_Reference);
-	}
-
 	public I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_RequestProcessor.Table_Name);
@@ -208,6 +191,23 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Reference.
+		@param Reference 
+		Reference for this record
+	  */
+	public void setReference (String Reference)
+	{
+		set_Value (COLUMNNAME_Reference, Reference);
+	}
+
+	/** Get Reference.
+		@return Reference for this record
+	  */
+	public String getReference () 
+	{
+		return (String)get_Value(COLUMNNAME_Reference);
 	}
 
 	/** Set Summary.

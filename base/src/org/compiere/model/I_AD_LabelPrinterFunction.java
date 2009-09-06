@@ -49,19 +49,6 @@ public interface I_AD_LabelPrinterFunction
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_LabelPrinterFunction_ID */
-    public static final String COLUMNNAME_AD_LabelPrinterFunction_ID = "AD_LabelPrinterFunction_ID";
-
-	/** Set Label printer Function.
-	  * Function of Label Printer
-	  */
-	public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID);
-
-	/** Get Label printer Function.
-	  * Function of Label Printer
-	  */
-	public int getAD_LabelPrinterFunction_ID();
-
     /** Column name AD_LabelPrinter_ID */
     public static final String COLUMNNAME_AD_LabelPrinter_ID = "AD_LabelPrinter_ID";
 
@@ -76,6 +63,19 @@ public interface I_AD_LabelPrinterFunction
 	public int getAD_LabelPrinter_ID();
 
 	public I_AD_LabelPrinter getAD_LabelPrinter() throws RuntimeException;
+
+    /** Column name AD_LabelPrinterFunction_ID */
+    public static final String COLUMNNAME_AD_LabelPrinterFunction_ID = "AD_LabelPrinterFunction_ID";
+
+	/** Set Label printer Function.
+	  * Function of Label Printer
+	  */
+	public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID);
+
+	/** Get Label printer Function.
+	  * Function of Label Printer
+	  */
+	public int getAD_LabelPrinterFunction_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

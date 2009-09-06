@@ -21,7 +21,6 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
 
 /** Generated Model for M_PromotionGroupLine
  *  @author Adempiere (generated) 
@@ -41,8 +40,8 @@ public class X_M_PromotionGroupLine extends PO implements I_M_PromotionGroupLine
       /** if (M_PromotionGroupLine_ID == 0)
         {
 			setM_Product_ID (0);
-			setM_PromotionGroupLine_ID (0);
 			setM_PromotionGroup_ID (0);
+			setM_PromotionGroupLine_ID (0);
         } */
     }
 
@@ -113,26 +112,6 @@ public class X_M_PromotionGroupLine extends PO implements I_M_PromotionGroupLine
 		return ii.intValue();
 	}
 
-	/** Set Promotion Group Line.
-		@param M_PromotionGroupLine_ID Promotion Group Line	  */
-	public void setM_PromotionGroupLine_ID (int M_PromotionGroupLine_ID)
-	{
-		if (M_PromotionGroupLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PromotionGroupLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PromotionGroupLine_ID, Integer.valueOf(M_PromotionGroupLine_ID));
-	}
-
-	/** Get Promotion Group Line.
-		@return Promotion Group Line	  */
-	public int getM_PromotionGroupLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionGroupLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_PromotionGroup.Table_Name);
@@ -164,6 +143,26 @@ public class X_M_PromotionGroupLine extends PO implements I_M_PromotionGroupLine
 	public int getM_PromotionGroup_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Promotion Group Line.
+		@param M_PromotionGroupLine_ID Promotion Group Line	  */
+	public void setM_PromotionGroupLine_ID (int M_PromotionGroupLine_ID)
+	{
+		if (M_PromotionGroupLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PromotionGroupLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PromotionGroupLine_ID, Integer.valueOf(M_PromotionGroupLine_ID));
+	}
+
+	/** Get Promotion Group Line.
+		@return Promotion Group Line	  */
+	public int getM_PromotionGroupLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionGroupLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

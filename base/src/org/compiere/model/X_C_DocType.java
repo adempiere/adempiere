@@ -131,29 +131,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Difference Document.
-		@param C_DocTypeDifference_ID 
-		Document type for generating in dispute Shipments
-	  */
-	public void setC_DocTypeDifference_ID (int C_DocTypeDifference_ID)
-	{
-		if (C_DocTypeDifference_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeDifference_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocTypeDifference_ID, Integer.valueOf(C_DocTypeDifference_ID));
-	}
-
-	/** Get Difference Document.
-		@return Document type for generating in dispute Shipments
-	  */
-	public int getC_DocTypeDifference_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeDifference_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Document Type.
 		@param C_DocType_ID 
 		Document type or rules
@@ -172,6 +149,29 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Difference Document.
+		@param C_DocTypeDifference_ID 
+		Document type for generating in dispute Shipments
+	  */
+	public void setC_DocTypeDifference_ID (int C_DocTypeDifference_ID)
+	{
+		if (C_DocTypeDifference_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeDifference_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeDifference_ID, Integer.valueOf(C_DocTypeDifference_ID));
+	}
+
+	/** Get Difference Document.
+		@return Document type for generating in dispute Shipments
+	  */
+	public int getC_DocTypeDifference_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeDifference_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

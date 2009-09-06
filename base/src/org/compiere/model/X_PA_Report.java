@@ -45,9 +45,9 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 			setListSources (false);
 			setListTrx (false);
 			setName (null);
+			setPA_Report_ID (0);
 			setPA_ReportColumnSet_ID (0);
 			setPA_ReportLineSet_ID (0);
-			setPA_Report_ID (0);
 			setProcessing (false);
         } */
     }
@@ -324,6 +324,29 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** Set Financial Report.
+		@param PA_Report_ID 
+		Financial Report
+	  */
+	public void setPA_Report_ID (int PA_Report_ID)
+	{
+		if (PA_Report_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
+	}
+
+	/** Get Financial Report.
+		@return Financial Report
+	  */
+	public int getPA_Report_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Report_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ReportColumnSet.Table_Name);
@@ -417,29 +440,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	public int getPA_ReportLineSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportLineSet_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Financial Report.
-		@param PA_Report_ID 
-		Financial Report
-	  */
-	public void setPA_Report_ID (int PA_Report_ID)
-	{
-		if (PA_Report_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
-	}
-
-	/** Get Financial Report.
-		@return Financial Report
-	  */
-	public int getPA_Report_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Report_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

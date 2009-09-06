@@ -21,7 +21,6 @@ import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Promotion
@@ -33,7 +32,7 @@ public class X_M_Promotion extends PO implements I_M_Promotion, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090729L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_M_Promotion (Properties ctx, int M_Promotion_ID, String trxName)

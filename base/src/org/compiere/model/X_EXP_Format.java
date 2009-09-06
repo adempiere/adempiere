@@ -97,9 +97,10 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
 	  */
 	public void setAD_Table_ID (int AD_Table_ID)
 	{
-		if (AD_Table_ID < 1)
-			 throw new IllegalArgumentException ("AD_Table_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
 	}
 
 	/** Get Table.
@@ -134,9 +135,10 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
 		@param EXP_Format_ID Export Format	  */
 	public void setEXP_Format_ID (int EXP_Format_ID)
 	{
-		if (EXP_Format_ID < 1)
-			 throw new IllegalArgumentException ("EXP_Format_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_Format_ID, Integer.valueOf(EXP_Format_ID));
+		if (EXP_Format_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_EXP_Format_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_EXP_Format_ID, Integer.valueOf(EXP_Format_ID));
 	}
 
 	/** Get Export Format.
@@ -172,8 +174,6 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -240,8 +240,6 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 
@@ -259,8 +257,6 @@ public class X_EXP_Format extends PO implements I_EXP_Format, I_Persistent
 	  */
 	public void setVersion (String Version)
 	{
-		if (Version == null)
-			throw new IllegalArgumentException ("Version is mandatory.");
 		set_Value (COLUMNNAME_Version, Version);
 	}
 

@@ -62,19 +62,6 @@ public interface I_CM_MediaDeploy
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CM_MediaDeploy_ID */
-    public static final String COLUMNNAME_CM_MediaDeploy_ID = "CM_MediaDeploy_ID";
-
-	/** Set Media Deploy.
-	  * Media Deployment Log
-	  */
-	public void setCM_MediaDeploy_ID (int CM_MediaDeploy_ID);
-
-	/** Get Media Deploy.
-	  * Media Deployment Log
-	  */
-	public int getCM_MediaDeploy_ID();
-
     /** Column name CM_Media_ID */
     public static final String COLUMNNAME_CM_Media_ID = "CM_Media_ID";
 
@@ -104,6 +91,19 @@ public interface I_CM_MediaDeploy
 	public int getCM_Media_Server_ID();
 
 	public I_CM_Media_Server getCM_Media_Server() throws RuntimeException;
+
+    /** Column name CM_MediaDeploy_ID */
+    public static final String COLUMNNAME_CM_MediaDeploy_ID = "CM_MediaDeploy_ID";
+
+	/** Set Media Deploy.
+	  * Media Deployment Log
+	  */
+	public void setCM_MediaDeploy_ID (int CM_MediaDeploy_ID);
+
+	/** Get Media Deploy.
+	  * Media Deployment Log
+	  */
+	public int getCM_MediaDeploy_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

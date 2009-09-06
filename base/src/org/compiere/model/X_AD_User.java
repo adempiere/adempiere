@@ -44,6 +44,8 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 			setAD_User_ID (0);
 			setIsFullBPAccess (true);
 // Y
+			setIsInPayroll (false);
+// N
 			setName (null);
 			setNotificationType (null);
 // E
@@ -463,7 +465,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 
 	/** Set Full BP Access.
 		@param IsFullBPAccess 
-		The user/concat has full access to Business Partner information and resources
+		The user/contact has full access to Business Partner information and resources
 	  */
 	public void setIsFullBPAccess (boolean IsFullBPAccess)
 	{
@@ -471,7 +473,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	}
 
 	/** Get Full BP Access.
-		@return The user/concat has full access to Business Partner information and resources
+		@return The user/contact has full access to Business Partner information and resources
 	  */
 	public boolean isFullBPAccess () 
 	{

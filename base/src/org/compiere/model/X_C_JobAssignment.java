@@ -42,8 +42,8 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
       /** if (C_JobAssignment_ID == 0)
         {
 			setAD_User_ID (0);
-			setC_JobAssignment_ID (0);
 			setC_Job_ID (0);
+			setC_JobAssignment_ID (0);
 			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
@@ -115,29 +115,6 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Position Assignment.
-		@param C_JobAssignment_ID 
-		Assignemt of Employee (User) to Job Position
-	  */
-	public void setC_JobAssignment_ID (int C_JobAssignment_ID)
-	{
-		if (C_JobAssignment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_JobAssignment_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_JobAssignment_ID, Integer.valueOf(C_JobAssignment_ID));
-	}
-
-	/** Get Position Assignment.
-		@return Assignemt of Employee (User) to Job Position
-	  */
-	public int getC_JobAssignment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_JobAssignment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_Job getC_Job() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Job.Table_Name);
@@ -184,6 +161,29 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_Job_ID()));
     }
+
+	/** Set Position Assignment.
+		@param C_JobAssignment_ID 
+		Assignemt of Employee (User) to Job Position
+	  */
+	public void setC_JobAssignment_ID (int C_JobAssignment_ID)
+	{
+		if (C_JobAssignment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_JobAssignment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_JobAssignment_ID, Integer.valueOf(C_JobAssignment_ID));
+	}
+
+	/** Get Position Assignment.
+		@return Assignemt of Employee (User) to Job Position
+	  */
+	public int getC_JobAssignment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_JobAssignment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Description.
 		@param Description 

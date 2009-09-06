@@ -67,8 +67,8 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 			setName (null);
 			setSalesRep_ID (0);
 			setURL (null);
-			setWebContext (null);
 			setW_Store_ID (0);
+			setWebContext (null);
         } */
     }
 
@@ -631,6 +631,29 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 		return (String)get_Value(COLUMNNAME_URL);
 	}
 
+	/** Set Web Store.
+		@param W_Store_ID 
+		A Web Store of the Client
+	  */
+	public void setW_Store_ID (int W_Store_ID)
+	{
+		if (W_Store_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Store_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Store_ID, Integer.valueOf(W_Store_ID));
+	}
+
+	/** Get Web Store.
+		@return A Web Store of the Client
+	  */
+	public int getW_Store_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_Store_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Web Context.
 		@param WebContext 
 		Web Server Context - e.g. /wstore
@@ -799,29 +822,6 @@ public class X_W_Store extends PO implements I_W_Store, I_Persistent
 	public String getWStoreEMail () 
 	{
 		return (String)get_Value(COLUMNNAME_WStoreEMail);
-	}
-
-	/** Set Web Store.
-		@param W_Store_ID 
-		A Web Store of the Client
-	  */
-	public void setW_Store_ID (int W_Store_ID)
-	{
-		if (W_Store_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_Store_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_Store_ID, Integer.valueOf(W_Store_ID));
-	}
-
-	/** Get Web Store.
-		@return A Web Store of the Client
-	  */
-	public int getW_Store_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_Store_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set WebStore User.

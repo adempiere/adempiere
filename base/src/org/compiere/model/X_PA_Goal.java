@@ -27,15 +27,15 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Goal
- *  @author Adempiere (generated)
+ *  @author Adempiere (generated) 
  *  @version Release 3.5.3a - $Id$ */
-public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
+public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090710L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_PA_Goal (Properties ctx, int PA_Goal_ID, String trxName)
@@ -43,6 +43,8 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
       super (ctx, PA_Goal_ID, trxName);
       /** if (PA_Goal_ID == 0)
         {
+			setChartType (null);
+// BC
 			setGoalPerformance (Env.ZERO);
 			setIsSummary (false);
 			setMeasureActual (Env.ZERO);
@@ -64,7 +66,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
     }
 
     /** AccessLevel
-      * @return 6 - System - Client
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -85,7 +87,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public I_AD_Role getAD_Role() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
         I_AD_Role result = null;
@@ -102,21 +104,21 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
     }
 
 	/** Set Role.
-		@param AD_Role_ID
+		@param AD_Role_ID 
 		Responsibility Role
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0)
+		if (AD_Role_ID < 0) 
 			set_Value (COLUMNNAME_AD_Role_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
 		@return Responsibility Role
 	  */
-	public int getAD_Role_ID ()
+	public int getAD_Role_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Role_ID);
 		if (ii == null)
@@ -124,7 +126,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public I_AD_User getAD_User() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
         I_AD_User result = null;
@@ -141,21 +143,21 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
     }
 
 	/** Set User/Contact.
-		@param AD_User_ID
+		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
 	  */
 	public void setAD_User_ID (int AD_User_ID)
 	{
-		if (AD_User_ID < 1)
+		if (AD_User_ID < 1) 
 			set_Value (COLUMNNAME_AD_User_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
 		@return User within the system - Internal or Business Partner Contact
 	  */
-	public int getAD_User_ID ()
+	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
 		if (ii == null)
@@ -178,7 +180,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Waterfall Chart = WC */
 	public static final String CHARTTYPE_WaterfallChart = "WC";
 	/** Set Chart Type.
-		@param ChartType
+		@param ChartType 
 		Type fo chart to render
 	  */
 	public void setChartType (String ChartType)
@@ -190,13 +192,13 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Chart Type.
 		@return Type fo chart to render
 	  */
-	public String getChartType ()
+	public String getChartType () 
 	{
 		return (String)get_Value(COLUMNNAME_ChartType);
 	}
 
 	/** Set Date From.
-		@param DateFrom
+		@param DateFrom 
 		Starting date for a range
 	  */
 	public void setDateFrom (Timestamp DateFrom)
@@ -207,13 +209,13 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Date From.
 		@return Starting date for a range
 	  */
-	public Timestamp getDateFrom ()
+	public Timestamp getDateFrom () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateFrom);
 	}
 
 	/** Set Date last run.
-		@param DateLastRun
+		@param DateLastRun 
 		Date the process was last run.
 	  */
 	public void setDateLastRun (Timestamp DateLastRun)
@@ -224,13 +226,13 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Date last run.
 		@return Date the process was last run.
 	  */
-	public Timestamp getDateLastRun ()
+	public Timestamp getDateLastRun () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateLastRun);
 	}
 
 	/** Set Date To.
-		@param DateTo
+		@param DateTo 
 		End date of a date range
 	  */
 	public void setDateTo (Timestamp DateTo)
@@ -241,13 +243,13 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Date To.
 		@return End date of a date range
 	  */
-	public Timestamp getDateTo ()
+	public Timestamp getDateTo () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateTo);
 	}
 
 	/** Set Description.
-		@param Description
+		@param Description 
 		Optional short description of the record
 	  */
 	public void setDescription (String Description)
@@ -258,13 +260,13 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Description.
 		@return Optional short description of the record
 	  */
-	public String getDescription ()
+	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
 	/** Set Performance Goal.
-		@param GoalPerformance
+		@param GoalPerformance 
 		Target achievement from 0..1
 	  */
 	public void setGoalPerformance (BigDecimal GoalPerformance)
@@ -275,7 +277,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Performance Goal.
 		@return Target achievement from 0..1
 	  */
-	public BigDecimal getGoalPerformance ()
+	public BigDecimal getGoalPerformance () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_GoalPerformance);
 		if (bd == null)
@@ -284,7 +286,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	}
 
 	/** Set Summary Level.
-		@param IsSummary
+		@param IsSummary 
 		This is a summary entity
 	  */
 	public void setIsSummary (boolean IsSummary)
@@ -295,20 +297,20 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Summary Level.
 		@return This is a summary entity
 	  */
-	public boolean isSummary ()
+	public boolean isSummary () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSummary);
-		if (oo != null)
+		if (oo != null) 
 		{
-			 if (oo instanceof Boolean)
-				 return ((Boolean)oo).booleanValue();
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
 			return "Y".equals(oo);
 		}
 		return false;
 	}
 
 	/** Set Measure Actual.
-		@param MeasureActual
+		@param MeasureActual 
 		Actual value that has been measured.
 	  */
 	public void setMeasureActual (BigDecimal MeasureActual)
@@ -319,7 +321,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Measure Actual.
 		@return Actual value that has been measured.
 	  */
-	public BigDecimal getMeasureActual ()
+	public BigDecimal getMeasureActual () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MeasureActual);
 		if (bd == null)
@@ -342,7 +344,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Day = 8 */
 	public static final String MEASUREDISPLAY_Day = "8";
 	/** Set Measure Display.
-		@param MeasureDisplay
+		@param MeasureDisplay 
 		Measure Scope initially displayed
 	  */
 	public void setMeasureDisplay (String MeasureDisplay)
@@ -354,7 +356,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Measure Display.
 		@return Measure Scope initially displayed
 	  */
-	public String getMeasureDisplay ()
+	public String getMeasureDisplay () 
 	{
 		return (String)get_Value(COLUMNNAME_MeasureDisplay);
 	}
@@ -374,7 +376,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Day = 8 */
 	public static final String MEASURESCOPE_Day = "8";
 	/** Set Measure Scope.
-		@param MeasureScope
+		@param MeasureScope 
 		Performance Measure Scope
 	  */
 	public void setMeasureScope (String MeasureScope)
@@ -386,13 +388,13 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Measure Scope.
 		@return Performance Measure Scope
 	  */
-	public String getMeasureScope ()
+	public String getMeasureScope () 
 	{
 		return (String)get_Value(COLUMNNAME_MeasureScope);
 	}
 
 	/** Set Measure Target.
-		@param MeasureTarget
+		@param MeasureTarget 
 		Target value for measure
 	  */
 	public void setMeasureTarget (BigDecimal MeasureTarget)
@@ -403,7 +405,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Measure Target.
 		@return Target value for measure
 	  */
-	public BigDecimal getMeasureTarget ()
+	public BigDecimal getMeasureTarget () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MeasureTarget);
 		if (bd == null)
@@ -412,7 +414,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	}
 
 	/** Set Name.
-		@param Name
+		@param Name 
 		Alphanumeric identifier of the entity
 	  */
 	public void setName (String Name)
@@ -423,7 +425,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Name.
 		@return Alphanumeric identifier of the entity
 	  */
-	public String getName ()
+	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
@@ -431,13 +433,13 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
     /** Get Record ID/ColumnName
         @return ID/ColumnName pair
       */
-    public KeyNamePair getKeyNamePair()
+    public KeyNamePair getKeyNamePair() 
     {
         return new KeyNamePair(get_ID(), getName());
     }
 
 	/** Set Note.
-		@param Note
+		@param Note 
 		Optional additional user defined information
 	  */
 	public void setNote (String Note)
@@ -448,12 +450,12 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Note.
 		@return Optional additional user defined information
 	  */
-	public String getNote ()
+	public String getNote () 
 	{
 		return (String)get_Value(COLUMNNAME_Note);
 	}
 
-	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException
+	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_ColorSchema.Table_Name);
         I_PA_ColorSchema result = null;
@@ -470,21 +472,21 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
     }
 
 	/** Set Color Schema.
-		@param PA_ColorSchema_ID
+		@param PA_ColorSchema_ID 
 		Performance Color Schema
 	  */
 	public void setPA_ColorSchema_ID (int PA_ColorSchema_ID)
 	{
-		if (PA_ColorSchema_ID < 1)
+		if (PA_ColorSchema_ID < 1) 
 			set_Value (COLUMNNAME_PA_ColorSchema_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_PA_ColorSchema_ID, Integer.valueOf(PA_ColorSchema_ID));
 	}
 
 	/** Get Color Schema.
 		@return Performance Color Schema
 	  */
-	public int getPA_ColorSchema_ID ()
+	public int getPA_ColorSchema_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ColorSchema_ID);
 		if (ii == null)
@@ -492,45 +494,22 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Parent Goal.
-		@param PA_GoalParent_ID
-		Parent Goal
-	  */
-	public void setPA_GoalParent_ID (int PA_GoalParent_ID)
-	{
-		if (PA_GoalParent_ID < 1)
-			set_Value (COLUMNNAME_PA_GoalParent_ID, null);
-		else
-			set_Value (COLUMNNAME_PA_GoalParent_ID, Integer.valueOf(PA_GoalParent_ID));
-	}
-
-	/** Get Parent Goal.
-		@return Parent Goal
-	  */
-	public int getPA_GoalParent_ID ()
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalParent_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Goal.
-		@param PA_Goal_ID
+		@param PA_Goal_ID 
 		Performance Goal
 	  */
 	public void setPA_Goal_ID (int PA_Goal_ID)
 	{
-		if (PA_Goal_ID < 1)
+		if (PA_Goal_ID < 1) 
 			set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, null);
-		else
+		else 
 			set_ValueNoCheck (COLUMNNAME_PA_Goal_ID, Integer.valueOf(PA_Goal_ID));
 	}
 
 	/** Get Goal.
 		@return Performance Goal
 	  */
-	public int getPA_Goal_ID ()
+	public int getPA_Goal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Goal_ID);
 		if (ii == null)
@@ -538,7 +517,30 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Measure getPA_Measure() throws RuntimeException
+	/** Set Parent Goal.
+		@param PA_GoalParent_ID 
+		Parent Goal
+	  */
+	public void setPA_GoalParent_ID (int PA_GoalParent_ID)
+	{
+		if (PA_GoalParent_ID < 1) 
+			set_Value (COLUMNNAME_PA_GoalParent_ID, null);
+		else 
+			set_Value (COLUMNNAME_PA_GoalParent_ID, Integer.valueOf(PA_GoalParent_ID));
+	}
+
+	/** Get Parent Goal.
+		@return Parent Goal
+	  */
+	public int getPA_GoalParent_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_GoalParent_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_PA_Measure getPA_Measure() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_PA_Measure.Table_Name);
         I_PA_Measure result = null;
@@ -555,21 +557,21 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
     }
 
 	/** Set Measure.
-		@param PA_Measure_ID
+		@param PA_Measure_ID 
 		Concrete Performance Measurement
 	  */
 	public void setPA_Measure_ID (int PA_Measure_ID)
 	{
-		if (PA_Measure_ID < 1)
+		if (PA_Measure_ID < 1) 
 			set_Value (COLUMNNAME_PA_Measure_ID, null);
-		else
+		else 
 			set_Value (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
 	}
 
 	/** Get Measure.
 		@return Concrete Performance Measurement
 	  */
-	public int getPA_Measure_ID ()
+	public int getPA_Measure_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Measure_ID);
 		if (ii == null)
@@ -578,7 +580,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	}
 
 	/** Set Relative Weight.
-		@param RelativeWeight
+		@param RelativeWeight 
 		Relative weight of this step (0 = ignored)
 	  */
 	public void setRelativeWeight (BigDecimal RelativeWeight)
@@ -589,7 +591,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Relative Weight.
 		@return Relative weight of this step (0 = ignored)
 	  */
-	public BigDecimal getRelativeWeight ()
+	public BigDecimal getRelativeWeight () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_RelativeWeight);
 		if (bd == null)
@@ -598,7 +600,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	}
 
 	/** Set Sequence.
-		@param SeqNo
+		@param SeqNo 
 		Method of ordering records; lowest number comes first
 	  */
 	public void setSeqNo (int SeqNo)
@@ -609,7 +611,7 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 	/** Get Sequence.
 		@return Method of ordering records; lowest number comes first
 	  */
-	public int getSeqNo ()
+	public int getSeqNo () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SeqNo);
 		if (ii == null)

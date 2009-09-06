@@ -41,14 +41,6 @@ public interface I_A_Depreciation_Method
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Method_ID */
     public static final String COLUMNNAME_A_Depreciation_Method_ID = "A_Depreciation_Method_ID";
 
@@ -57,6 +49,14 @@ public interface I_A_Depreciation_Method
 
 	/** Get Depreciation Calculation Type	  */
 	public int getA_Depreciation_Method_ID();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

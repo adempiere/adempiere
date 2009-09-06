@@ -140,6 +140,29 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Data Column.
+		@param Data_PrintFormatItem_ID 
+		Data Column for Pie and Line Charts
+	  */
+	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
+	{
+		if (Data_PrintFormatItem_ID < 1) 
+			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, null);
+		else 
+			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
+	}
+
+	/** Get Data Column.
+		@return Data Column for Pie and Line Charts
+	  */
+	public int getData_PrintFormatItem_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Data_PrintFormatItem_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Data Column 2.
 		@param Data1_PrintFormatItem_ID 
 		Data Column for Line Charts
@@ -227,29 +250,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	public int getData4_PrintFormatItem_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Data4_PrintFormatItem_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Data Column.
-		@param Data_PrintFormatItem_ID 
-		Data Column for Pie and Line Charts
-	  */
-	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
-	{
-		if (Data_PrintFormatItem_ID < 1) 
-			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, null);
-		else 
-			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
-	}
-
-	/** Get Data Column.
-		@return Data Column for Pie and Line Charts
-	  */
-	public int getData_PrintFormatItem_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Data_PrintFormatItem_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

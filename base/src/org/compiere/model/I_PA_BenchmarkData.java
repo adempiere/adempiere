@@ -143,19 +143,6 @@ public interface I_PA_BenchmarkData
 	  */
 	public String getName();
 
-    /** Column name PA_BenchmarkData_ID */
-    public static final String COLUMNNAME_PA_BenchmarkData_ID = "PA_BenchmarkData_ID";
-
-	/** Set Benchmark Data.
-	  * Performance Benchmark Data Point
-	  */
-	public void setPA_BenchmarkData_ID (int PA_BenchmarkData_ID);
-
-	/** Get Benchmark Data.
-	  * Performance Benchmark Data Point
-	  */
-	public int getPA_BenchmarkData_ID();
-
     /** Column name PA_Benchmark_ID */
     public static final String COLUMNNAME_PA_Benchmark_ID = "PA_Benchmark_ID";
 
@@ -170,6 +157,19 @@ public interface I_PA_BenchmarkData
 	public int getPA_Benchmark_ID();
 
 	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException;
+
+    /** Column name PA_BenchmarkData_ID */
+    public static final String COLUMNNAME_PA_BenchmarkData_ID = "PA_BenchmarkData_ID";
+
+	/** Set Benchmark Data.
+	  * Performance Benchmark Data Point
+	  */
+	public void setPA_BenchmarkData_ID (int PA_BenchmarkData_ID);
+
+	/** Get Benchmark Data.
+	  * Performance Benchmark Data Point
+	  */
+	public int getPA_BenchmarkData_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

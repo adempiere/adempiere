@@ -89,6 +89,15 @@ public interface I_C_InvoiceLine
 	/** Get Asset Related?	  */
 	public boolean isA_CreateAsset();
 
+    /** Column name A_Processed */
+    public static final String COLUMNNAME_A_Processed = "A_Processed";
+
+	/** Set A_Processed	  */
+	public void setA_Processed (boolean A_Processed);
+
+	/** Get A_Processed	  */
+	public boolean isA_Processed();
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -122,15 +131,6 @@ public interface I_C_InvoiceLine
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
-
-    /** Column name A_Processed */
-    public static final String COLUMNNAME_A_Processed = "A_Processed";
-
-	/** Set A_Processed	  */
-	public void setA_Processed (boolean A_Processed);
-
-	/** Get A_Processed	  */
-	public boolean isA_Processed();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -265,22 +265,6 @@ public interface I_C_InvoiceLine
 
 	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
@@ -310,6 +294,22 @@ public interface I_C_InvoiceLine
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

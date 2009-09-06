@@ -122,19 +122,6 @@ public interface I_GL_Journal
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name ControlAmt */
-    public static final String COLUMNNAME_ControlAmt = "ControlAmt";
-
-	/** Set Control Amount.
-	  * If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public void setControlAmt (BigDecimal ControlAmt);
-
-	/** Get Control Amount.
-	  * If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public BigDecimal getControlAmt();
-
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 
@@ -147,6 +134,19 @@ public interface I_GL_Journal
 	  * Period of the Calendar
 	  */
 	public int getC_Period_ID();
+
+    /** Column name ControlAmt */
+    public static final String COLUMNNAME_ControlAmt = "ControlAmt";
+
+	/** Set Control Amount.
+	  * If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public void setControlAmt (BigDecimal ControlAmt);
+
+	/** Get Control Amount.
+	  * If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public BigDecimal getControlAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -285,6 +285,19 @@ public interface I_GL_Journal
 
 	public I_GL_Category getGL_Category() throws RuntimeException;
 
+    /** Column name GL_Journal_ID */
+    public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
+
+	/** Set Journal.
+	  * General Ledger Journal
+	  */
+	public void setGL_Journal_ID (int GL_Journal_ID);
+
+	/** Get Journal.
+	  * General Ledger Journal
+	  */
+	public int getGL_Journal_ID();
+
     /** Column name GL_JournalBatch_ID */
     public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
 
@@ -299,19 +312,6 @@ public interface I_GL_Journal
 	public int getGL_JournalBatch_ID();
 
 	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException;
-
-    /** Column name GL_Journal_ID */
-    public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
-
-	/** Set Journal.
-	  * General Ledger Journal
-	  */
-	public void setGL_Journal_ID (int GL_Journal_ID);
-
-	/** Get Journal.
-	  * General Ledger Journal
-	  */
-	public int getGL_Journal_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -40,12 +40,12 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
       /** if (C_CashBook_Acct_ID == 0)
         {
 			setC_AcctSchema_ID (0);
+			setC_CashBook_ID (0);
 			setCB_Asset_Acct (0);
 			setCB_CashTransfer_Acct (0);
 			setCB_Differences_Acct (0);
 			setCB_Expense_Acct (0);
 			setCB_Receipt_Acct (0);
-			setC_CashBook_ID (0);
         } */
     }
 
@@ -111,6 +111,45 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 	public int getC_AcctSchema_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_CashBook getC_CashBook() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
+        I_C_CashBook result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_CashBook)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashBook_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Cash Book.
+		@param C_CashBook_ID 
+		Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID)
+	{
+		if (C_CashBook_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
+	}
+
+	/** Get Cash Book.
+		@return Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBook_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -211,45 +250,6 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 	public int getCB_Receipt_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CB_Receipt_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_CashBook getC_CashBook() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
-        I_C_CashBook result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_CashBook)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashBook_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Cash Book.
-		@param C_CashBook_ID 
-		Cash Book for recording petty cash transactions
-	  */
-	public void setC_CashBook_ID (int C_CashBook_ID)
-	{
-		if (C_CashBook_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
-	}
-
-	/** Get Cash Book.
-		@return Cash Book for recording petty cash transactions
-	  */
-	public int getC_CashBook_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBook_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

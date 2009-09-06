@@ -130,19 +130,6 @@ public interface I_R_RequestProcessorLog
 	  */
 	public boolean isError();
 
-    /** Column name Reference */
-    public static final String COLUMNNAME_Reference = "Reference";
-
-	/** Set Reference.
-	  * Reference for this record
-	  */
-	public void setReference (String Reference);
-
-	/** Get Reference.
-	  * Reference for this record
-	  */
-	public String getReference();
-
     /** Column name R_RequestProcessor_ID */
     public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
 
@@ -170,6 +157,19 @@ public interface I_R_RequestProcessorLog
 	  * Result of the execution of the Request Processor
 	  */
 	public int getR_RequestProcessorLog_ID();
+
+    /** Column name Reference */
+    public static final String COLUMNNAME_Reference = "Reference";
+
+	/** Set Reference.
+	  * Reference for this record
+	  */
+	public void setReference (String Reference);
+
+	/** Get Reference.
+	  * Reference for this record
+	  */
+	public String getReference();
 
     /** Column name Summary */
     public static final String COLUMNNAME_Summary = "Summary";

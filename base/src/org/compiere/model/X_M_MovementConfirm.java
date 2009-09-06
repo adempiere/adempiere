@@ -47,8 +47,8 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 			setDocumentNo (null);
 			setIsApproved (false);
 // N
-			setM_MovementConfirm_ID (0);
 			setM_Movement_ID (0);
+			setM_MovementConfirm_ID (0);
 			setProcessed (false);
         } */
     }
@@ -298,29 +298,6 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Move Confirm.
-		@param M_MovementConfirm_ID 
-		Inventory Move Confirmation
-	  */
-	public void setM_MovementConfirm_ID (int M_MovementConfirm_ID)
-	{
-		if (M_MovementConfirm_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, Integer.valueOf(M_MovementConfirm_ID));
-	}
-
-	/** Get Move Confirm.
-		@return Inventory Move Confirmation
-	  */
-	public int getM_MovementConfirm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementConfirm_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Movement getM_Movement() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Movement.Table_Name);
@@ -355,6 +332,29 @@ public class X_M_MovementConfirm extends PO implements I_M_MovementConfirm, I_Pe
 	public int getM_Movement_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Movement_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Move Confirm.
+		@param M_MovementConfirm_ID 
+		Inventory Move Confirmation
+	  */
+	public void setM_MovementConfirm_ID (int M_MovementConfirm_ID)
+	{
+		if (M_MovementConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_MovementConfirm_ID, Integer.valueOf(M_MovementConfirm_ID));
+	}
+
+	/** Get Move Confirm.
+		@return Inventory Move Confirmation
+	  */
+	public int getM_MovementConfirm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementConfirm_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

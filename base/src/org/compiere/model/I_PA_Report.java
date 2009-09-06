@@ -210,6 +210,19 @@ public interface I_PA_Report
 	  */
 	public String getName();
 
+    /** Column name PA_Report_ID */
+    public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
+
+	/** Set Financial Report.
+	  * Financial Report
+	  */
+	public void setPA_Report_ID (int PA_Report_ID);
+
+	/** Get Financial Report.
+	  * Financial Report
+	  */
+	public int getPA_Report_ID();
+
     /** Column name PA_ReportColumnSet_ID */
     public static final String COLUMNNAME_PA_ReportColumnSet_ID = "PA_ReportColumnSet_ID";
 
@@ -248,19 +261,6 @@ public interface I_PA_Report
 	public int getPA_ReportLineSet_ID();
 
 	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
-
-    /** Column name PA_Report_ID */
-    public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
-
-	/** Set Financial Report.
-	  * Financial Report
-	  */
-	public void setPA_Report_ID (int PA_Report_ID);
-
-	/** Get Financial Report.
-	  * Financial Report
-	  */
-	public int getPA_Report_ID();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

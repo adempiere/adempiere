@@ -22,7 +22,6 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-import org.compiere.model.*;
 
 /** Generated Model for M_PromotionPreCondition
  *  @author Adempiere (generated) 
@@ -33,7 +32,7 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090729L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_M_PromotionPreCondition (Properties ctx, int M_PromotionPreCondition_ID, String trxName)
@@ -41,8 +40,8 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
       super (ctx, M_PromotionPreCondition_ID, trxName);
       /** if (M_PromotionPreCondition_ID == 0)
         {
-			setM_PromotionPreCondition_ID (0);
 			setM_Promotion_ID (0);
+			setM_PromotionPreCondition_ID (0);
 			setSeqNo (0);
 // 0
 			setStartDate (new Timestamp( System.currentTimeMillis() ));
@@ -250,26 +249,6 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
 		return ii.intValue();
 	}
 
-	/** Set Promotion Pre Condition.
-		@param M_PromotionPreCondition_ID Promotion Pre Condition	  */
-	public void setM_PromotionPreCondition_ID (int M_PromotionPreCondition_ID)
-	{
-		if (M_PromotionPreCondition_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_PromotionPreCondition_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_PromotionPreCondition_ID, Integer.valueOf(M_PromotionPreCondition_ID));
-	}
-
-	/** Get Promotion Pre Condition.
-		@return Promotion Pre Condition	  */
-	public int getM_PromotionPreCondition_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionPreCondition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_Promotion getM_Promotion() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_M_Promotion.Table_Name);
@@ -301,6 +280,26 @@ public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCon
 	public int getM_Promotion_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Promotion Pre Condition.
+		@param M_PromotionPreCondition_ID Promotion Pre Condition	  */
+	public void setM_PromotionPreCondition_ID (int M_PromotionPreCondition_ID)
+	{
+		if (M_PromotionPreCondition_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_PromotionPreCondition_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_PromotionPreCondition_ID, Integer.valueOf(M_PromotionPreCondition_ID));
+	}
+
+	/** Get Promotion Pre Condition.
+		@return Promotion Pre Condition	  */
+	public int getM_PromotionPreCondition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionPreCondition_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

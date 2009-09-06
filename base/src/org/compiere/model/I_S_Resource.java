@@ -159,15 +159,6 @@ public interface I_S_Resource
 	/** Get Manufacturing Resource	  */
 	public boolean isManufacturingResource();
 
-    /** Column name ManufacturingResourceType */
-    public static final String COLUMNNAME_ManufacturingResourceType = "ManufacturingResourceType";
-
-	/** Set Manufacturing Resource Type	  */
-	public void setManufacturingResourceType (String ManufacturingResourceType);
-
-	/** Get Manufacturing Resource Type	  */
-	public String getManufacturingResourceType();
-
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
@@ -182,6 +173,15 @@ public interface I_S_Resource
 	public int getM_Warehouse_ID();
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name ManufacturingResourceType */
+    public static final String COLUMNNAME_ManufacturingResourceType = "ManufacturingResourceType";
+
+	/** Set Manufacturing Resource Type	  */
+	public void setManufacturingResourceType (String ManufacturingResourceType);
+
+	/** Get Manufacturing Resource Type	  */
+	public String getManufacturingResourceType();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

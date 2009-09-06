@@ -119,31 +119,6 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_AmountType);
 	}
 
-	/** CalculationType AD_Reference_ID=236 */
-	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
-	/** Add (Op1+Op2) = A */
-	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
-	/** Subtract (Op1-Op2) = S */
-	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
-	/** Percentage (Op1 of Op2) = P */
-	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
-	/** Add Range (Op1 to Op2) = R */
-	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
-	/** Set Calculation.
-		@param CalculationType Calculation	  */
-	public void setCalculationType (String CalculationType)
-	{
-
-		set_Value (COLUMNNAME_CalculationType, CalculationType);
-	}
-
-	/** Get Calculation.
-		@return Calculation	  */
-	public String getCalculationType () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationType);
-	}
-
 	public I_C_ElementValue getC_ElementValue() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_ElementValue.Table_Name);
@@ -181,6 +156,31 @@ public class X_I_ReportLine extends PO implements I_I_ReportLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** CalculationType AD_Reference_ID=236 */
+	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
+	/** Add (Op1+Op2) = A */
+	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
+	/** Subtract (Op1-Op2) = S */
+	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** Percentage (Op1 of Op2) = P */
+	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
+	/** Add Range (Op1 to Op2) = R */
+	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
+	/** Set Calculation.
+		@param CalculationType Calculation	  */
+	public void setCalculationType (String CalculationType)
+	{
+
+		set_Value (COLUMNNAME_CalculationType, CalculationType);
+	}
+
+	/** Get Calculation.
+		@return Calculation	  */
+	public String getCalculationType () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationType);
 	}
 
 	/** Set Description.

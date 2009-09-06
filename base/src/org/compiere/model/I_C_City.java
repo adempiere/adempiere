@@ -103,6 +103,19 @@ public interface I_C_City
 
 	public I_C_Country getC_Country() throws RuntimeException;
 
+    /** Column name C_Region_ID */
+    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
+
+	/** Set Region.
+	  * Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID);
+
+	/** Get Region.
+	  * Identifies a geographical Region
+	  */
+	public int getC_Region_ID();
+
     /** Column name Coordinates */
     public static final String COLUMNNAME_Coordinates = "Coordinates";
 
@@ -131,19 +144,6 @@ public interface I_C_City
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Region_ID */
-    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
-
-	/** Set Region.
-	  * Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID);
-
-	/** Get Region.
-	  * Identifies a geographical Region
-	  */
-	public int getC_Region_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

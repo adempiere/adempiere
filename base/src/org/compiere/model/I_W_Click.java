@@ -224,6 +224,19 @@ public interface I_W_Click
 	  */
 	public String getUserAgent();
 
+    /** Column name W_Click_ID */
+    public static final String COLUMNNAME_W_Click_ID = "W_Click_ID";
+
+	/** Set Web Click.
+	  * Individual Web Click
+	  */
+	public void setW_Click_ID (int W_Click_ID);
+
+	/** Get Web Click.
+	  * Individual Web Click
+	  */
+	public int getW_Click_ID();
+
     /** Column name W_ClickCount_ID */
     public static final String COLUMNNAME_W_ClickCount_ID = "W_ClickCount_ID";
 
@@ -238,17 +251,4 @@ public interface I_W_Click
 	public int getW_ClickCount_ID();
 
 	public I_W_ClickCount getW_ClickCount() throws RuntimeException;
-
-    /** Column name W_Click_ID */
-    public static final String COLUMNNAME_W_Click_ID = "W_Click_ID";
-
-	/** Set Web Click.
-	  * Individual Web Click
-	  */
-	public void setW_Click_ID (int W_Click_ID);
-
-	/** Get Web Click.
-	  * Individual Web Click
-	  */
-	public int getW_Click_ID();
 }

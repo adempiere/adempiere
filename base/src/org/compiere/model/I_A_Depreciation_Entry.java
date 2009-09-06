@@ -41,14 +41,6 @@ public interface I_A_Depreciation_Entry
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Entry_ID */
     public static final String COLUMNNAME_A_Depreciation_Entry_ID = "A_Depreciation_Entry_ID";
 
@@ -57,6 +49,23 @@ public interface I_A_Depreciation_Entry
 
 	/** Get A_Depreciation_Entry_ID	  */
 	public int getA_Depreciation_Entry_ID();
+
+    /** Column name A_Entry_Type */
+    public static final String COLUMNNAME_A_Entry_Type = "A_Entry_Type";
+
+	/** Set Entry Type	  */
+	public void setA_Entry_Type (String A_Entry_Type);
+
+	/** Get Entry Type	  */
+	public String getA_Entry_Type();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -70,15 +79,6 @@ public interface I_A_Depreciation_Entry
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Entry_Type */
-    public static final String COLUMNNAME_A_Entry_Type = "A_Entry_Type";
-
-	/** Set Entry Type	  */
-	public void setA_Entry_Type (String A_Entry_Type);
-
-	/** Get Entry Type	  */
-	public String getA_Entry_Type();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";

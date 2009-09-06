@@ -42,9 +42,9 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
       super (ctx, RV_BPartner_ID, trxName);
       /** if (RV_BPartner_ID == 0)
         {
+			setC_BP_Group_ID (0);
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
-			setC_BP_Group_ID (0);
 			setC_Country_ID (0);
 			setContactName (null);
 			setCountryName (null);
@@ -129,57 +129,6 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Address 1.
-		@param Address1 
-		Address line 1 for this location
-	  */
-	public void setAddress1 (String Address1)
-	{
-		set_ValueNoCheck (COLUMNNAME_Address1, Address1);
-	}
-
-	/** Get Address 1.
-		@return Address line 1 for this location
-	  */
-	public String getAddress1 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address1);
-	}
-
-	/** Set Address 2.
-		@param Address2 
-		Address line 2 for this location
-	  */
-	public void setAddress2 (String Address2)
-	{
-		set_ValueNoCheck (COLUMNNAME_Address2, Address2);
-	}
-
-	/** Get Address 2.
-		@return Address line 2 for this location
-	  */
-	public String getAddress2 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address2);
-	}
-
-	/** Set Address 3.
-		@param Address3 
-		Address Line 3 for the location
-	  */
-	public void setAddress3 (String Address3)
-	{
-		set_ValueNoCheck (COLUMNNAME_Address3, Address3);
-	}
-
-	/** Get Address 3.
-		@return Address Line 3 for the location
-	  */
-	public String getAddress3 () 
-	{
-		return (String)get_Value(COLUMNNAME_Address3);
 	}
 
 	/** AD_Language AD_Reference_ID=106 */
@@ -287,6 +236,57 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Address 1.
+		@param Address1 
+		Address line 1 for this location
+	  */
+	public void setAddress1 (String Address1)
+	{
+		set_ValueNoCheck (COLUMNNAME_Address1, Address1);
+	}
+
+	/** Get Address 1.
+		@return Address line 1 for this location
+	  */
+	public String getAddress1 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address1);
+	}
+
+	/** Set Address 2.
+		@param Address2 
+		Address line 2 for this location
+	  */
+	public void setAddress2 (String Address2)
+	{
+		set_ValueNoCheck (COLUMNNAME_Address2, Address2);
+	}
+
+	/** Get Address 2.
+		@return Address line 2 for this location
+	  */
+	public String getAddress2 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address2);
+	}
+
+	/** Set Address 3.
+		@param Address3 
+		Address Line 3 for the location
+	  */
+	public void setAddress3 (String Address3)
+	{
+		set_ValueNoCheck (COLUMNNAME_Address3, Address3);
+	}
+
+	/** Get Address 3.
+		@return Address Line 3 for the location
+	  */
+	public String getAddress3 () 
+	{
+		return (String)get_Value(COLUMNNAME_Address3);
+	}
+
 	/** Set Birthday.
 		@param Birthday 
 		Birthday or Anniversary day
@@ -342,6 +342,45 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public int getBPContactGreeting () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_BPContactGreeting);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
+        I_C_BP_Group result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -404,45 +443,6 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public int getC_BPartner_Location_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -604,6 +604,84 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
+        I_C_PaymentTerm result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_PaymentTerm)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentTerm_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Payment Term.
+		@param C_PaymentTerm_ID 
+		The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
+	{
+		if (C_PaymentTerm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
+	}
+
+	/** Get Payment Term.
+		@return The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_Region getC_Region() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
+        I_C_Region result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Region)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Region_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Region.
+		@param C_Region_ID 
+		Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID)
+	{
+		if (C_Region_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+	}
+
+	/** Get Region.
+		@return Identifies a geographical Region
+	  */
+	public int getC_Region_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Region_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set City.
 		@param City 
 		Identifies a City
@@ -687,84 +765,6 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public String getCountryName () 
 	{
 		return (String)get_Value(COLUMNNAME_CountryName);
-	}
-
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
-        I_C_PaymentTerm result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaymentTerm)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentTerm_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Payment Term.
-		@param C_PaymentTerm_ID 
-		The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID)
-	{
-		if (C_PaymentTerm_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_PaymentTerm_ID, Integer.valueOf(C_PaymentTerm_ID));
-	}
-
-	/** Get Payment Term.
-		@return The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentTerm_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Region getC_Region() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
-        I_C_Region result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Region)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Region_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Region.
-		@param C_Region_ID 
-		Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID)
-	{
-		if (C_Region_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Region_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
-	}
-
-	/** Get Region.
-		@return Identifies a geographical Region
-	  */
-	public int getC_Region_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Region_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** DeliveryRule AD_Reference_ID=151 */
@@ -1951,36 +1951,6 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return bd;
 	}
 
-	/** SOCreditStatus AD_Reference_ID=289 */
-	public static final int SOCREDITSTATUS_AD_Reference_ID=289;
-	/** Credit Stop = S */
-	public static final String SOCREDITSTATUS_CreditStop = "S";
-	/** Credit Hold = H */
-	public static final String SOCREDITSTATUS_CreditHold = "H";
-	/** Credit Watch = W */
-	public static final String SOCREDITSTATUS_CreditWatch = "W";
-	/** No Credit Check = X */
-	public static final String SOCREDITSTATUS_NoCreditCheck = "X";
-	/** Credit OK = O */
-	public static final String SOCREDITSTATUS_CreditOK = "O";
-	/** Set Credit Status.
-		@param SOCreditStatus 
-		Business Partner Credit Status
-	  */
-	public void setSOCreditStatus (String SOCreditStatus)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_SOCreditStatus, SOCreditStatus);
-	}
-
-	/** Get Credit Status.
-		@return Business Partner Credit Status
-	  */
-	public String getSOCreditStatus () 
-	{
-		return (String)get_Value(COLUMNNAME_SOCreditStatus);
-	}
-
 	/** Set Credit Used.
 		@param SO_CreditUsed 
 		Current open balance
@@ -2016,6 +1986,36 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	public String getSO_Description () 
 	{
 		return (String)get_Value(COLUMNNAME_SO_Description);
+	}
+
+	/** SOCreditStatus AD_Reference_ID=289 */
+	public static final int SOCREDITSTATUS_AD_Reference_ID=289;
+	/** Credit Stop = S */
+	public static final String SOCREDITSTATUS_CreditStop = "S";
+	/** Credit Hold = H */
+	public static final String SOCREDITSTATUS_CreditHold = "H";
+	/** Credit Watch = W */
+	public static final String SOCREDITSTATUS_CreditWatch = "W";
+	/** No Credit Check = X */
+	public static final String SOCREDITSTATUS_NoCreditCheck = "X";
+	/** Credit OK = O */
+	public static final String SOCREDITSTATUS_CreditOK = "O";
+	/** Set Credit Status.
+		@param SOCreditStatus 
+		Business Partner Credit Status
+	  */
+	public void setSOCreditStatus (String SOCreditStatus)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_SOCreditStatus, SOCreditStatus);
+	}
+
+	/** Get Credit Status.
+		@return Business Partner Credit Status
+	  */
+	public String getSOCreditStatus () 
+	{
+		return (String)get_Value(COLUMNNAME_SOCreditStatus);
 	}
 
 	/** Set Supervisor.

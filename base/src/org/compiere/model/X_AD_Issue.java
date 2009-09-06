@@ -606,131 +606,6 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProfileInfo);
 	}
 
-	/** Set Record ID.
-		@param Record_ID 
-		Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID)
-	{
-		if (Record_ID < 0) 
-			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
-	}
-
-	/** Get Record ID.
-		@return Direct internal record ID
-	  */
-	public int getRecord_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Release No.
-		@param ReleaseNo 
-		Internal Release Number
-	  */
-	public void setReleaseNo (String ReleaseNo)
-	{
-		set_ValueNoCheck (COLUMNNAME_ReleaseNo, ReleaseNo);
-	}
-
-	/** Get Release No.
-		@return Internal Release Number
-	  */
-	public String getReleaseNo () 
-	{
-		return (String)get_Value(COLUMNNAME_ReleaseNo);
-	}
-
-	/** Set Release Tag.
-		@param ReleaseTag 
-		Release Tag
-	  */
-	public void setReleaseTag (String ReleaseTag)
-	{
-		set_Value (COLUMNNAME_ReleaseTag, ReleaseTag);
-	}
-
-	/** Get Release Tag.
-		@return Release Tag
-	  */
-	public String getReleaseTag () 
-	{
-		return (String)get_Value(COLUMNNAME_ReleaseTag);
-	}
-
-	/** Set Remote Addr.
-		@param Remote_Addr 
-		Remote Address
-	  */
-	public void setRemote_Addr (String Remote_Addr)
-	{
-		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
-	}
-
-	/** Get Remote Addr.
-		@return Remote Address
-	  */
-	public String getRemote_Addr () 
-	{
-		return (String)get_Value(COLUMNNAME_Remote_Addr);
-	}
-
-	/** Set Remote Host.
-		@param Remote_Host 
-		Remote host Info
-	  */
-	public void setRemote_Host (String Remote_Host)
-	{
-		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
-	}
-
-	/** Get Remote Host.
-		@return Remote host Info
-	  */
-	public String getRemote_Host () 
-	{
-		return (String)get_Value(COLUMNNAME_Remote_Host);
-	}
-
-	/** Set Request Document No.
-		@param RequestDocumentNo 
-		Adempiere Request Document No
-	  */
-	public void setRequestDocumentNo (String RequestDocumentNo)
-	{
-		set_ValueNoCheck (COLUMNNAME_RequestDocumentNo, RequestDocumentNo);
-	}
-
-	/** Get Request Document No.
-		@return Adempiere Request Document No
-	  */
-	public String getRequestDocumentNo () 
-	{
-		return (String)get_Value(COLUMNNAME_RequestDocumentNo);
-	}
-
-	/** Set Response Text.
-		@param ResponseText 
-		Request Response Text
-	  */
-	public void setResponseText (String ResponseText)
-	{
-		set_ValueNoCheck (COLUMNNAME_ResponseText, ResponseText);
-	}
-
-	/** Get Response Text.
-		@return Request Response Text
-	  */
-	public String getResponseText () 
-	{
-		return (String)get_Value(COLUMNNAME_ResponseText);
-	}
-
 	public I_R_IssueKnown getR_IssueKnown() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_IssueKnown.Table_Name);
@@ -924,6 +799,131 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Record ID.
+		@param Record_ID 
+		Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID)
+	{
+		if (Record_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+	}
+
+	/** Get Record ID.
+		@return Direct internal record ID
+	  */
+	public int getRecord_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Release No.
+		@param ReleaseNo 
+		Internal Release Number
+	  */
+	public void setReleaseNo (String ReleaseNo)
+	{
+		set_ValueNoCheck (COLUMNNAME_ReleaseNo, ReleaseNo);
+	}
+
+	/** Get Release No.
+		@return Internal Release Number
+	  */
+	public String getReleaseNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ReleaseNo);
+	}
+
+	/** Set Release Tag.
+		@param ReleaseTag 
+		Release Tag
+	  */
+	public void setReleaseTag (String ReleaseTag)
+	{
+		set_Value (COLUMNNAME_ReleaseTag, ReleaseTag);
+	}
+
+	/** Get Release Tag.
+		@return Release Tag
+	  */
+	public String getReleaseTag () 
+	{
+		return (String)get_Value(COLUMNNAME_ReleaseTag);
+	}
+
+	/** Set Remote Addr.
+		@param Remote_Addr 
+		Remote Address
+	  */
+	public void setRemote_Addr (String Remote_Addr)
+	{
+		set_ValueNoCheck (COLUMNNAME_Remote_Addr, Remote_Addr);
+	}
+
+	/** Get Remote Addr.
+		@return Remote Address
+	  */
+	public String getRemote_Addr () 
+	{
+		return (String)get_Value(COLUMNNAME_Remote_Addr);
+	}
+
+	/** Set Remote Host.
+		@param Remote_Host 
+		Remote host Info
+	  */
+	public void setRemote_Host (String Remote_Host)
+	{
+		set_ValueNoCheck (COLUMNNAME_Remote_Host, Remote_Host);
+	}
+
+	/** Get Remote Host.
+		@return Remote host Info
+	  */
+	public String getRemote_Host () 
+	{
+		return (String)get_Value(COLUMNNAME_Remote_Host);
+	}
+
+	/** Set Request Document No.
+		@param RequestDocumentNo 
+		Adempiere Request Document No
+	  */
+	public void setRequestDocumentNo (String RequestDocumentNo)
+	{
+		set_ValueNoCheck (COLUMNNAME_RequestDocumentNo, RequestDocumentNo);
+	}
+
+	/** Get Request Document No.
+		@return Adempiere Request Document No
+	  */
+	public String getRequestDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_RequestDocumentNo);
+	}
+
+	/** Set Response Text.
+		@param ResponseText 
+		Request Response Text
+	  */
+	public void setResponseText (String ResponseText)
+	{
+		set_ValueNoCheck (COLUMNNAME_ResponseText, ResponseText);
+	}
+
+	/** Get Response Text.
+		@return Request Response Text
+	  */
+	public String getResponseText () 
+	{
+		return (String)get_Value(COLUMNNAME_ResponseText);
 	}
 
 	/** Set Source Class.

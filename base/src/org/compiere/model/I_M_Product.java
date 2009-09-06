@@ -62,35 +62,6 @@ public interface I_M_Product
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Classification */
-    public static final String COLUMNNAME_Classification = "Classification";
-
-	/** Set Classification.
-	  * Classification for grouping
-	  */
-	public void setClassification (String Classification);
-
-	/** Get Classification.
-	  * Classification for grouping
-	  */
-	public String getClassification();
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_RevenueRecognition_ID */
     public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
 
@@ -148,6 +119,35 @@ public interface I_M_Product
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name Classification */
+    public static final String COLUMNNAME_Classification = "Classification";
+
+	/** Set Classification.
+	  * Classification for grouping
+	  */
+	public void setClassification (String Classification);
+
+	/** Get Classification.
+	  * Classification for grouping
+	  */
+	public String getClassification();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -596,19 +596,6 @@ public interface I_M_Product
 
 	public I_R_MailText getR_MailText() throws RuntimeException;
 
-    /** Column name SalesRep_ID */
-    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
-
-	/** Set Sales Representative.
-	  * Sales Representative or Company Agent
-	  */
-	public void setSalesRep_ID (int SalesRep_ID);
-
-	/** Get Sales Representative.
-	  * Sales Representative or Company Agent
-	  */
-	public int getSalesRep_ID();
-
     /** Column name S_ExpenseType_ID */
     public static final String COLUMNNAME_S_ExpenseType_ID = "S_ExpenseType_ID";
 
@@ -623,6 +610,34 @@ public interface I_M_Product
 	public int getS_ExpenseType_ID();
 
 	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException;
+
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public I_S_Resource getS_Resource() throws RuntimeException;
+
+    /** Column name SalesRep_ID */
+    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
+
+	/** Set Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID);
+
+	/** Get Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID();
 
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
@@ -675,21 +690,6 @@ public interface I_M_Product
 	  * Stock Keeping Unit
 	  */
 	public String getSKU();
-
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name UnitsPerPack */
     public static final String COLUMNNAME_UnitsPerPack = "UnitsPerPack";

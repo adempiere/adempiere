@@ -206,6 +206,45 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Period getC_Period() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
+        I_C_Period result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Period)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Period_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Period.
+		@param C_Period_ID 
+		Period of the Calendar
+	  */
+	public void setC_Period_ID (int C_Period_ID)
+	{
+		if (C_Period_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+	}
+
+	/** Get Period.
+		@return Period of the Calendar
+	  */
+	public int getC_Period_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Period_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** CommitmentType AD_Reference_ID=359 */
 	public static final int COMMITMENTTYPE_AD_Reference_ID=359;
 	/** PO Commitment only = C */
@@ -300,45 +339,6 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public String getCostingMethod () 
 	{
 		return (String)get_Value(COLUMNNAME_CostingMethod);
-	}
-
-	public I_C_Period getC_Period() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
-        I_C_Period result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Period)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Period_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Period.
-		@param C_Period_ID 
-		Period of the Calendar
-	  */
-	public void setC_Period_ID (int C_Period_ID)
-	{
-		if (C_Period_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
-	}
-
-	/** Get Period.
-		@return Period of the Calendar
-	  */
-	public int getC_Period_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Period_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.

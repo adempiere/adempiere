@@ -247,6 +247,29 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		return (String)get_Value(COLUMNNAME_UserAgent);
 	}
 
+	/** Set Web Click.
+		@param W_Click_ID 
+		Individual Web Click
+	  */
+	public void setW_Click_ID (int W_Click_ID)
+	{
+		if (W_Click_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Click_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Click_ID, Integer.valueOf(W_Click_ID));
+	}
+
+	/** Get Web Click.
+		@return Individual Web Click
+	  */
+	public int getW_Click_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_Click_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_W_ClickCount getW_ClickCount() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_W_ClickCount.Table_Name);
@@ -281,29 +304,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	public int getW_ClickCount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_W_ClickCount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Web Click.
-		@param W_Click_ID 
-		Individual Web Click
-	  */
-	public void setW_Click_ID (int W_Click_ID)
-	{
-		if (W_Click_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_Click_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_Click_ID, Integer.valueOf(W_Click_ID));
-	}
-
-	/** Get Web Click.
-		@return Individual Web Click
-	  */
-	public int getW_Click_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_Click_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

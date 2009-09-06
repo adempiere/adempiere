@@ -235,6 +235,19 @@ public interface I_C_PaymentProcessor
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name C_PaymentProcessor_ID */
+    public static final String COLUMNNAME_C_PaymentProcessor_ID = "C_PaymentProcessor_ID";
+
+	/** Set Payment Processor.
+	  * Payment processor for electronic payments
+	  */
+	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID);
+
+	/** Get Payment Processor.
+	  * Payment processor for electronic payments
+	  */
+	public int getC_PaymentProcessor_ID();
+
     /** Column name Commission */
     public static final String COLUMNNAME_Commission = "Commission";
 
@@ -260,19 +273,6 @@ public interface I_C_PaymentProcessor
 	  * Fixed cost per transaction
 	  */
 	public BigDecimal getCostPerTrx();
-
-    /** Column name C_PaymentProcessor_ID */
-    public static final String COLUMNNAME_C_PaymentProcessor_ID = "C_PaymentProcessor_ID";
-
-	/** Set Payment Processor.
-	  * Payment processor for electronic payments
-	  */
-	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID);
-
-	/** Get Payment Processor.
-	  * Payment processor for electronic payments
-	  */
-	public int getC_PaymentProcessor_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

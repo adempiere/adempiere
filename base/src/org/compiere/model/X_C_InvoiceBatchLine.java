@@ -358,6 +358,45 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 		return ii.intValue();
 	}
 
+	public I_C_Invoice getC_Invoice() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
+        I_C_Invoice result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Invoice.
+		@param C_Invoice_ID 
+		Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID)
+	{
+		if (C_Invoice_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+	}
+
+	/** Get Invoice.
+		@return Invoice Identifier
+	  */
+	public int getC_Invoice_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_InvoiceBatch getC_InvoiceBatch() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_InvoiceBatch.Table_Name);
@@ -415,45 +454,6 @@ public class X_C_InvoiceBatchLine extends PO implements I_C_InvoiceBatchLine, I_
 	public int getC_InvoiceBatchLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceBatchLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Invoice getC_Invoice() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
-        I_C_Invoice result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Invoice.
-		@param C_Invoice_ID 
-		Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID)
-	{
-		if (C_Invoice_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
-	}
-
-	/** Get Invoice.
-		@return Invoice Identifier
-	  */
-	public int getC_Invoice_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

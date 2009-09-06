@@ -88,19 +88,6 @@ public interface I_I_GLJournal
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_OrgDoc_ID */
-    public static final String COLUMNNAME_AD_OrgDoc_ID = "AD_OrgDoc_ID";
-
-	/** Set Document Org.
-	  * Document Organization (independent from account organization)
-	  */
-	public void setAD_OrgDoc_ID (int AD_OrgDoc_ID);
-
-	/** Get Document Org.
-	  * Document Organization (independent from account organization)
-	  */
-	public int getAD_OrgDoc_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -113,6 +100,19 @@ public interface I_I_GLJournal
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_OrgDoc_ID */
+    public static final String COLUMNNAME_AD_OrgDoc_ID = "AD_OrgDoc_ID";
+
+	/** Set Document Org.
+	  * Document Organization (independent from account organization)
+	  */
+	public void setAD_OrgDoc_ID (int AD_OrgDoc_ID);
+
+	/** Get Document Org.
+	  * Document Organization (independent from account organization)
+	  */
+	public int getAD_OrgDoc_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -248,19 +248,6 @@ public interface I_I_GLJournal
 
 	public I_C_Activity getC_Activity() throws RuntimeException;
 
-    /** Column name CategoryName */
-    public static final String COLUMNNAME_CategoryName = "CategoryName";
-
-	/** Set Category Name.
-	  * Name of the Category
-	  */
-	public void setCategoryName (String CategoryName);
-
-	/** Get Category Name.
-	  * Name of the Category
-	  */
-	public String getCategoryName();
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -336,19 +323,6 @@ public interface I_I_GLJournal
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
 
-    /** Column name ClientValue */
-    public static final String COLUMNNAME_ClientValue = "ClientValue";
-
-	/** Set Client Key.
-	  * Key of the Client
-	  */
-	public void setClientValue (String ClientValue);
-
-	/** Get Client Key.
-	  * Key of the Client
-	  */
-	public String getClientValue();
-
     /** Column name C_LocFrom_ID */
     public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
 
@@ -374,19 +348,6 @@ public interface I_I_GLJournal
 	  * Location that inventory was moved to
 	  */
 	public int getC_LocTo_ID();
-
-    /** Column name ConversionTypeValue */
-    public static final String COLUMNNAME_ConversionTypeValue = "ConversionTypeValue";
-
-	/** Set Currency Type Key.
-	  * Key value for the Currency Conversion Rate Type
-	  */
-	public void setConversionTypeValue (String ConversionTypeValue);
-
-	/** Get Currency Type Key.
-	  * Key value for the Currency Conversion Rate Type
-	  */
-	public String getConversionTypeValue();
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
@@ -418,22 +379,6 @@ public interface I_I_GLJournal
 
 	public I_C_Project getC_Project() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
@@ -464,19 +409,6 @@ public interface I_I_GLJournal
 
 	public I_C_UOM getC_UOM() throws RuntimeException;
 
-    /** Column name CurrencyRate */
-    public static final String COLUMNNAME_CurrencyRate = "CurrencyRate";
-
-	/** Set Rate.
-	  * Currency Conversion Rate
-	  */
-	public void setCurrencyRate (BigDecimal CurrencyRate);
-
-	/** Get Rate.
-	  * Currency Conversion Rate
-	  */
-	public BigDecimal getCurrencyRate();
-
     /** Column name C_ValidCombination_ID */
     public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
 
@@ -491,6 +423,74 @@ public interface I_I_GLJournal
 	public int getC_ValidCombination_ID();
 
 	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
+
+    /** Column name CategoryName */
+    public static final String COLUMNNAME_CategoryName = "CategoryName";
+
+	/** Set Category Name.
+	  * Name of the Category
+	  */
+	public void setCategoryName (String CategoryName);
+
+	/** Get Category Name.
+	  * Name of the Category
+	  */
+	public String getCategoryName();
+
+    /** Column name ClientValue */
+    public static final String COLUMNNAME_ClientValue = "ClientValue";
+
+	/** Set Client Key.
+	  * Key of the Client
+	  */
+	public void setClientValue (String ClientValue);
+
+	/** Get Client Key.
+	  * Key of the Client
+	  */
+	public String getClientValue();
+
+    /** Column name ConversionTypeValue */
+    public static final String COLUMNNAME_ConversionTypeValue = "ConversionTypeValue";
+
+	/** Set Currency Type Key.
+	  * Key value for the Currency Conversion Rate Type
+	  */
+	public void setConversionTypeValue (String ConversionTypeValue);
+
+	/** Get Currency Type Key.
+	  * Key value for the Currency Conversion Rate Type
+	  */
+	public String getConversionTypeValue();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
+    /** Column name CurrencyRate */
+    public static final String COLUMNNAME_CurrencyRate = "CurrencyRate";
+
+	/** Set Rate.
+	  * Currency Conversion Rate
+	  */
+	public void setCurrencyRate (BigDecimal CurrencyRate);
+
+	/** Get Rate.
+	  * Currency Conversion Rate
+	  */
+	public BigDecimal getCurrencyRate();
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -561,21 +561,6 @@ public interface I_I_GLJournal
 
 	public I_GL_Category getGL_Category() throws RuntimeException;
 
-    /** Column name GL_JournalBatch_ID */
-    public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
-
-	/** Set Journal Batch.
-	  * General Ledger Journal Batch
-	  */
-	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID);
-
-	/** Get Journal Batch.
-	  * General Ledger Journal Batch
-	  */
-	public int getGL_JournalBatch_ID();
-
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException;
-
     /** Column name GL_Journal_ID */
     public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
 
@@ -590,6 +575,21 @@ public interface I_I_GLJournal
 	public int getGL_Journal_ID();
 
 	public I_GL_Journal getGL_Journal() throws RuntimeException;
+
+    /** Column name GL_JournalBatch_ID */
+    public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
+
+	/** Set Journal Batch.
+	  * General Ledger Journal Batch
+	  */
+	public void setGL_JournalBatch_ID (int GL_JournalBatch_ID);
+
+	/** Get Journal Batch.
+	  * General Ledger Journal Batch
+	  */
+	public int getGL_JournalBatch_ID();
+
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException;
 
     /** Column name GL_JournalLine_ID */
     public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";

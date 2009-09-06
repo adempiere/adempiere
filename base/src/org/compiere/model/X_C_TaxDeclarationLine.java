@@ -44,9 +44,9 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
         {
 			setC_BPartner_ID (0);
 			setC_Currency_ID (0);
+			setC_Tax_ID (0);
 			setC_TaxDeclaration_ID (0);
 			setC_TaxDeclarationLine_ID (0);
-			setC_Tax_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 			setIsManual (true);
 // Y
@@ -279,6 +279,45 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 		return ii.intValue();
 	}
 
+	public I_C_Tax getC_Tax() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
+        I_C_Tax result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Tax)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Tax_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
+
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID)
+	{
+		if (C_Tax_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+	}
+
+	/** Get Tax.
+		@return Tax identifier
+	  */
+	public int getC_Tax_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_TaxDeclaration.Table_Name);
@@ -336,45 +375,6 @@ public class X_C_TaxDeclarationLine extends PO implements I_C_TaxDeclarationLine
 	public int getC_TaxDeclarationLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclarationLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Tax getC_Tax() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
-        I_C_Tax result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Tax)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Tax_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Tax.
-		@param C_Tax_ID 
-		Tax identifier
-	  */
-	public void setC_Tax_ID (int C_Tax_ID)
-	{
-		if (C_Tax_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
-	}
-
-	/** Get Tax.
-		@return Tax identifier
-	  */
-	public int getC_Tax_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

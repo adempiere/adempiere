@@ -62,19 +62,6 @@ public interface I_AD_UserBPAccess
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_UserBPAccess_ID */
-    public static final String COLUMNNAME_AD_UserBPAccess_ID = "AD_UserBPAccess_ID";
-
-	/** Set User BP Access.
-	  * User/concat access to Business Partner information and resources
-	  */
-	public void setAD_UserBPAccess_ID (int AD_UserBPAccess_ID);
-
-	/** Get User BP Access.
-	  * User/concat access to Business Partner information and resources
-	  */
-	public int getAD_UserBPAccess_ID();
-
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
@@ -89,6 +76,19 @@ public interface I_AD_UserBPAccess
 	public int getAD_User_ID();
 
 	public I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name AD_UserBPAccess_ID */
+    public static final String COLUMNNAME_AD_UserBPAccess_ID = "AD_UserBPAccess_ID";
+
+	/** Set User BP Access.
+	  * User/concat access to Business Partner information and resources
+	  */
+	public void setAD_UserBPAccess_ID (int AD_UserBPAccess_ID);
+
+	/** Get User BP Access.
+	  * User/concat access to Business Partner information and resources
+	  */
+	public int getAD_UserBPAccess_ID();
 
     /** Column name BPAccessType */
     public static final String COLUMNNAME_BPAccessType = "BPAccessType";

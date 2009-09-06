@@ -62,15 +62,6 @@ public interface I_C_POS
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CashDrawer */
-    public static final String COLUMNNAME_CashDrawer = "CashDrawer";
-
-	/** Set CashDrawer	  */
-	public void setCashDrawer (String CashDrawer);
-
-	/** Get CashDrawer	  */
-	public String getCashDrawer();
-
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 
@@ -156,6 +147,15 @@ public interface I_C_POS
 	public int getC_POSKeyLayout_ID();
 
 	public I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException;
+
+    /** Column name CashDrawer */
+    public static final String COLUMNNAME_CashDrawer = "CashDrawer";
+
+	/** Set CashDrawer	  */
+	public void setCashDrawer (String CashDrawer);
+
+	/** Get CashDrawer	  */
+	public String getCashDrawer();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

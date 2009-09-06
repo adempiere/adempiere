@@ -50,9 +50,9 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 // @M_LocatorTo_ID@
 			setM_Movement_ID (0);
 			setM_MovementLine_ID (0);
+			setM_Product_ID (0);
 			setMovementQty (Env.ZERO);
 // 1
-			setM_Product_ID (0);
 			setProcessed (false);
 			setTargetQty (Env.ZERO);
 // 0
@@ -342,26 +342,6 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty)
-	{
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
-	}
-
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Product.
 		@param M_Product_ID 
 		Product, Service, Item
@@ -383,6 +363,26 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Processed.

@@ -42,8 +42,8 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
       super (ctx, R_RequestAction_ID, trxName);
       /** if (R_RequestAction_ID == 0)
         {
-			setR_RequestAction_ID (0);
 			setR_Request_ID (0);
+			setR_RequestAction_ID (0);
         } */
     }
 
@@ -309,34 +309,6 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
-	/** ConfidentialType AD_Reference_ID=340 */
-	public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
-	/** Public Information = A */
-	public static final String CONFIDENTIALTYPE_PublicInformation = "A";
-	/** Partner Confidential = C */
-	public static final String CONFIDENTIALTYPE_PartnerConfidential = "C";
-	/** Internal = I */
-	public static final String CONFIDENTIALTYPE_Internal = "I";
-	/** Private Information = P */
-	public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
-	/** Set Confidentiality.
-		@param ConfidentialType 
-		Type of Confidentiality
-	  */
-	public void setConfidentialType (String ConfidentialType)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_ConfidentialType, ConfidentialType);
-	}
-
-	/** Get Confidentiality.
-		@return Type of Confidentiality
-	  */
-	public String getConfidentialType () 
-	{
-		return (String)get_Value(COLUMNNAME_ConfidentialType);
-	}
-
 	public I_C_Order getC_Order() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
@@ -452,6 +424,34 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** ConfidentialType AD_Reference_ID=340 */
+	public static final int CONFIDENTIALTYPE_AD_Reference_ID=340;
+	/** Public Information = A */
+	public static final String CONFIDENTIALTYPE_PublicInformation = "A";
+	/** Partner Confidential = C */
+	public static final String CONFIDENTIALTYPE_PartnerConfidential = "C";
+	/** Internal = I */
+	public static final String CONFIDENTIALTYPE_Internal = "I";
+	/** Private Information = P */
+	public static final String CONFIDENTIALTYPE_PrivateInformation = "P";
+	/** Set Confidentiality.
+		@param ConfidentialType 
+		Type of Confidentiality
+	  */
+	public void setConfidentialType (String ConfidentialType)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_ConfidentialType, ConfidentialType);
+	}
+
+	/** Get Confidentiality.
+		@return Type of Confidentiality
+	  */
+	public String getConfidentialType () 
+	{
+		return (String)get_Value(COLUMNNAME_ConfidentialType);
 	}
 
 	/** Set Complete Plan.
@@ -949,29 +949,6 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Request History.
-		@param R_RequestAction_ID 
-		Request has been changed
-	  */
-	public void setR_RequestAction_ID (int R_RequestAction_ID)
-	{
-		if (R_RequestAction_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_R_RequestAction_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_R_RequestAction_ID, Integer.valueOf(R_RequestAction_ID));
-	}
-
-	/** Get Request History.
-		@return Request has been changed
-	  */
-	public int getR_RequestAction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestAction_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_R_Request getR_Request() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
@@ -1006,6 +983,29 @@ public class X_R_RequestAction extends PO implements I_R_RequestAction, I_Persis
 	public int getR_Request_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_Request_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Request History.
+		@param R_RequestAction_ID 
+		Request has been changed
+	  */
+	public void setR_RequestAction_ID (int R_RequestAction_ID)
+	{
+		if (R_RequestAction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_RequestAction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_RequestAction_ID, Integer.valueOf(R_RequestAction_ID));
+	}
+
+	/** Get Request History.
+		@return Request has been changed
+	  */
+	public int getR_RequestAction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestAction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

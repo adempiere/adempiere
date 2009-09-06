@@ -40,8 +40,8 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
       super (ctx, AD_WF_ProcessData_ID, trxName);
       /** if (AD_WF_ProcessData_ID == 0)
         {
-			setAD_WF_ProcessData_ID (0);
 			setAD_WF_Process_ID (0);
+			setAD_WF_ProcessData_ID (0);
 			setAttributeName (null);
         } */
     }
@@ -73,29 +73,6 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Workflow Process Data.
-		@param AD_WF_ProcessData_ID 
-		Workflow Process Context
-	  */
-	public void setAD_WF_ProcessData_ID (int AD_WF_ProcessData_ID)
-	{
-		if (AD_WF_ProcessData_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_WF_ProcessData_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_WF_ProcessData_ID, Integer.valueOf(AD_WF_ProcessData_ID));
-	}
-
-	/** Get Workflow Process Data.
-		@return Workflow Process Context
-	  */
-	public int getAD_WF_ProcessData_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_ProcessData_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_AD_WF_Process getAD_WF_Process() throws RuntimeException 
     {
@@ -143,6 +120,29 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_Process_ID()));
     }
+
+	/** Set Workflow Process Data.
+		@param AD_WF_ProcessData_ID 
+		Workflow Process Context
+	  */
+	public void setAD_WF_ProcessData_ID (int AD_WF_ProcessData_ID)
+	{
+		if (AD_WF_ProcessData_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_ProcessData_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_ProcessData_ID, Integer.valueOf(AD_WF_ProcessData_ID));
+	}
+
+	/** Get Workflow Process Data.
+		@return Workflow Process Context
+	  */
+	public int getAD_WF_ProcessData_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_ProcessData_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Attribute Name.
 		@param AttributeName 

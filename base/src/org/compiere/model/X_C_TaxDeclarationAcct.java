@@ -43,8 +43,8 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
       /** if (C_TaxDeclarationAcct_ID == 0)
         {
 			setC_AcctSchema_ID (0);
-			setC_TaxDeclarationAcct_ID (0);
 			setC_TaxDeclaration_ID (0);
+			setC_TaxDeclarationAcct_ID (0);
 			setFact_Acct_ID (0);
         } */
     }
@@ -281,24 +281,36 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	/** Set Tax Declaration Accounting.
-		@param C_TaxDeclarationAcct_ID 
-		Tax Accounting Reconciliation 
-	  */
-	public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID)
-	{
-		if (C_TaxDeclarationAcct_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, Integer.valueOf(C_TaxDeclarationAcct_ID));
-	}
+	public I_C_Tax getC_Tax() throws RuntimeException 
+    {
+        Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
+        I_C_Tax result = null;
+        try	{
+	        Constructor<?> constructor = null;
+	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
+    	    result = (I_C_Tax)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Tax_ID()), get_TrxName()});
+        } catch (Exception e) {
+	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
+	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
+           throw new RuntimeException( e );
+        }
+        return result;
+    }
 
-	/** Get Tax Declaration Accounting.
-		@return Tax Accounting Reconciliation 
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
 	  */
-	public int getC_TaxDeclarationAcct_ID () 
+	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclarationAcct_ID);
+		throw new IllegalArgumentException ("C_Tax_ID is virtual column");	}
+
+	/** Get Tax.
+		@return Tax identifier
+	  */
+	public int getC_Tax_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -343,36 +355,24 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
-        I_C_Tax result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Tax)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Tax_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Tax.
-		@param C_Tax_ID 
-		Tax identifier
+	/** Set Tax Declaration Accounting.
+		@param C_TaxDeclarationAcct_ID 
+		Tax Accounting Reconciliation 
 	  */
-	public void setC_Tax_ID (int C_Tax_ID)
+	public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID)
 	{
-		throw new IllegalArgumentException ("C_Tax_ID is virtual column");	}
+		if (C_TaxDeclarationAcct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, Integer.valueOf(C_TaxDeclarationAcct_ID));
+	}
 
-	/** Get Tax.
-		@return Tax identifier
+	/** Get Tax Declaration Accounting.
+		@return Tax Accounting Reconciliation 
 	  */
-	public int getC_Tax_ID () 
+	public int getC_TaxDeclarationAcct_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclarationAcct_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

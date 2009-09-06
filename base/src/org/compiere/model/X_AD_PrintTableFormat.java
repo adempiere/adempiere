@@ -214,6 +214,29 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return (String)get_Value(COLUMNNAME_FooterRight);
 	}
 
+	/** Set Function Font.
+		@param Funct_PrintFont_ID 
+		Function row Font
+	  */
+	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID)
+	{
+		if (Funct_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_Funct_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_Funct_PrintFont_ID, Integer.valueOf(Funct_PrintFont_ID));
+	}
+
+	/** Get Function Font.
+		@return Function row Font
+	  */
+	public int getFunct_PrintFont_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Funct_PrintFont_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Function BG Color.
 		@param FunctBG_PrintColor_ID 
 		Function Background Color
@@ -260,24 +283,24 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	/** Set Function Font.
-		@param Funct_PrintFont_ID 
-		Function row Font
+	/** Set Header Row Font.
+		@param Hdr_PrintFont_ID 
+		Header row Font
 	  */
-	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID)
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
 	{
-		if (Funct_PrintFont_ID < 1) 
-			set_Value (COLUMNNAME_Funct_PrintFont_ID, null);
+		if (Hdr_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
 		else 
-			set_Value (COLUMNNAME_Funct_PrintFont_ID, Integer.valueOf(Funct_PrintFont_ID));
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
 	}
 
-	/** Get Function Font.
-		@return Function row Font
+	/** Get Header Row Font.
+		@return Header row Font
 	  */
-	public int getFunct_PrintFont_ID () 
+	public int getHdr_PrintFont_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Funct_PrintFont_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Hdr_PrintFont_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -301,29 +324,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public int getHdrLine_PrintColor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HdrLine_PrintColor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Header Row Font.
-		@param Hdr_PrintFont_ID 
-		Header row Font
-	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
-	{
-		if (Hdr_PrintFont_ID < 1) 
-			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
-		else 
-			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
-	}
-
-	/** Get Header Row Font.
-		@return Header row Font
-	  */
-	public int getHdr_PrintFont_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Hdr_PrintFont_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

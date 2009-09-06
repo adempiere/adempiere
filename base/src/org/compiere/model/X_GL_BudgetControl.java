@@ -44,8 +44,8 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 			setC_AcctSchema_ID (0);
 			setCommitmentType (null);
 // C
-			setGL_BudgetControl_ID (0);
 			setGL_Budget_ID (0);
+			setGL_BudgetControl_ID (0);
 			setIsBeforeApproval (false);
 			setName (null);
         } */
@@ -193,29 +193,6 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Budget Control.
-		@param GL_BudgetControl_ID 
-		Budget Control
-	  */
-	public void setGL_BudgetControl_ID (int GL_BudgetControl_ID)
-	{
-		if (GL_BudgetControl_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_GL_BudgetControl_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_GL_BudgetControl_ID, Integer.valueOf(GL_BudgetControl_ID));
-	}
-
-	/** Get Budget Control.
-		@return Budget Control
-	  */
-	public int getGL_BudgetControl_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_BudgetControl_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_GL_Budget getGL_Budget() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
@@ -250,6 +227,29 @@ public class X_GL_BudgetControl extends PO implements I_GL_BudgetControl, I_Pers
 	public int getGL_Budget_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Budget_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Budget Control.
+		@param GL_BudgetControl_ID 
+		Budget Control
+	  */
+	public void setGL_BudgetControl_ID (int GL_BudgetControl_ID)
+	{
+		if (GL_BudgetControl_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_BudgetControl_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_BudgetControl_ID, Integer.valueOf(GL_BudgetControl_ID));
+	}
+
+	/** Get Budget Control.
+		@return Budget Control
+	  */
+	public int getGL_BudgetControl_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_BudgetControl_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

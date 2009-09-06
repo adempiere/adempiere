@@ -149,19 +149,6 @@ public interface I_K_Index
 	  */
 	public boolean isActive();
 
-    /** Column name Keyword */
-    public static final String COLUMNNAME_Keyword = "Keyword";
-
-	/** Set Keyword.
-	  * Case insensitive keyword
-	  */
-	public void setKeyword (String Keyword);
-
-	/** Get Keyword.
-	  * Case insensitive keyword
-	  */
-	public String getKeyword();
-
     /** Column name K_INDEX_ID */
     public static final String COLUMNNAME_K_INDEX_ID = "K_INDEX_ID";
 
@@ -175,18 +162,18 @@ public interface I_K_Index
 	  */
 	public int getK_INDEX_ID();
 
-    /** Column name Record_ID */
-    public static final String COLUMNNAME_Record_ID = "Record_ID";
+    /** Column name Keyword */
+    public static final String COLUMNNAME_Keyword = "Keyword";
 
-	/** Set Record ID.
-	  * Direct internal record ID
+	/** Set Keyword.
+	  * Case insensitive keyword
 	  */
-	public void setRecord_ID (int Record_ID);
+	public void setKeyword (String Keyword);
 
-	/** Get Record ID.
-	  * Direct internal record ID
+	/** Get Keyword.
+	  * Case insensitive keyword
 	  */
-	public int getRecord_ID();
+	public String getKeyword();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -202,6 +189,19 @@ public interface I_K_Index
 	public int getR_RequestType_ID();
 
 	public I_R_RequestType getR_RequestType() throws RuntimeException;
+
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
+
+	/** Set Record ID.
+	  * Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID);
+
+	/** Get Record ID.
+	  * Direct internal record ID
+	  */
+	public int getRecord_ID();
 
     /** Column name SourceUpdated */
     public static final String COLUMNNAME_SourceUpdated = "SourceUpdated";

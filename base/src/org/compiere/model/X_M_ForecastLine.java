@@ -49,6 +49,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 			setM_ForecastLine_ID (0);
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
+// @M_Warehouse_ID@
 			setQty (Env.ZERO);
 			setQtyCalculated (Env.ZERO);
         } */

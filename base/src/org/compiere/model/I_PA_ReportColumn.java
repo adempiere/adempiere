@@ -103,15 +103,6 @@ public interface I_PA_ReportColumn
 
 	public I_C_Activity getC_Activity() throws RuntimeException;
 
-    /** Column name CalculationType */
-    public static final String COLUMNNAME_CalculationType = "CalculationType";
-
-	/** Set Calculation	  */
-	public void setCalculationType (String CalculationType);
-
-	/** Get Calculation	  */
-	public String getCalculationType();
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -185,15 +176,6 @@ public interface I_PA_ReportColumn
 	  */
 	public int getC_Location_ID();
 
-    /** Column name ColumnType */
-    public static final String COLUMNNAME_ColumnType = "ColumnType";
-
-	/** Set Column Type	  */
-	public void setColumnType (String ColumnType);
-
-	/** Get Column Type	  */
-	public String getColumnType();
-
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -208,6 +190,39 @@ public interface I_PA_ReportColumn
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
+    /** Column name CalculationType */
+    public static final String COLUMNNAME_CalculationType = "CalculationType";
+
+	/** Set Calculation	  */
+	public void setCalculationType (String CalculationType);
+
+	/** Get Calculation	  */
+	public String getCalculationType();
+
+    /** Column name ColumnType */
+    public static final String COLUMNNAME_ColumnType = "ColumnType";
+
+	/** Set Column Type	  */
+	public void setColumnType (String ColumnType);
+
+	/** Get Column Type	  */
+	public String getColumnType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -224,21 +239,6 @@ public interface I_PA_ReportColumn
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name CurrencyType */
     public static final String COLUMNNAME_CurrencyType = "CurrencyType";

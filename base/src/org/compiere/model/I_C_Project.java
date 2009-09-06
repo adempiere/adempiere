@@ -150,45 +150,6 @@ public interface I_C_Project
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name CommittedAmt */
-    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
-
-	/** Set Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt);
-
-	/** Get Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt();
-
-    /** Column name CommittedQty */
-    public static final String COLUMNNAME_CommittedQty = "CommittedQty";
-
-	/** Set Committed Quantity.
-	  * The (legal) commitment Quantity
-	  */
-	public void setCommittedQty (BigDecimal CommittedQty);
-
-	/** Get Committed Quantity.
-	  * The (legal) commitment Quantity
-	  */
-	public BigDecimal getCommittedQty();
-
-    /** Column name CopyFrom */
-    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
-
-	/** Set Copy From.
-	  * Copy From Record
-	  */
-	public void setCopyFrom (String CopyFrom);
-
-	/** Get Copy From.
-	  * Copy From Record
-	  */
-	public String getCopyFrom();
-
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 
@@ -244,6 +205,45 @@ public interface I_C_Project
 	  * Type of the project
 	  */
 	public String getC_ProjectType_ID();
+
+    /** Column name CommittedAmt */
+    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
+
+	/** Set Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt);
+
+	/** Get Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt();
+
+    /** Column name CommittedQty */
+    public static final String COLUMNNAME_CommittedQty = "CommittedQty";
+
+	/** Set Committed Quantity.
+	  * The (legal) commitment Quantity
+	  */
+	public void setCommittedQty (BigDecimal CommittedQty);
+
+	/** Get Committed Quantity.
+	  * The (legal) commitment Quantity
+	  */
+	public BigDecimal getCommittedQty();
+
+    /** Column name CopyFrom */
+    public static final String COLUMNNAME_CopyFrom = "CopyFrom";
+
+	/** Set Copy From.
+	  * Copy From Record
+	  */
+	public void setCopyFrom (String CopyFrom);
+
+	/** Get Copy From.
+	  * Copy From Record
+	  */
+	public String getCopyFrom();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

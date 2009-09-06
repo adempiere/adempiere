@@ -75,6 +75,19 @@ public interface I_C_BP_EDI
 	  */
 	public int getAD_Sequence_ID();
 
+    /** Column name C_BP_EDI_ID */
+    public static final String COLUMNNAME_C_BP_EDI_ID = "C_BP_EDI_ID";
+
+	/** Set EDI Definition.
+	  * Electronic Data Interchange
+	  */
+	public void setC_BP_EDI_ID (int C_BP_EDI_ID);
+
+	/** Get EDI Definition.
+	  * Electronic Data Interchange
+	  */
+	public int getC_BP_EDI_ID();
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -89,19 +102,6 @@ public interface I_C_BP_EDI
 	public int getC_BPartner_ID();
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_BP_EDI_ID */
-    public static final String COLUMNNAME_C_BP_EDI_ID = "C_BP_EDI_ID";
-
-	/** Set EDI Definition.
-	  * Electronic Data Interchange
-	  */
-	public void setC_BP_EDI_ID (int C_BP_EDI_ID);
-
-	/** Get EDI Definition.
-	  * Electronic Data Interchange
-	  */
-	public int getC_BP_EDI_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -178,7 +178,7 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	  */
 	public void setFrequencyType (String FrequencyType)
 	{
-		if (FrequencyType == null) throw new IllegalArgumentException ("FrequencyType is mandatory");
+
 		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
 	}
 
@@ -225,9 +225,10 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		@param IMP_Processor_ID Import Processor	  */
 	public void setIMP_Processor_ID (int IMP_Processor_ID)
 	{
-		if (IMP_Processor_ID < 1)
-			 throw new IllegalArgumentException ("IMP_Processor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
+		if (IMP_Processor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
 	}
 
 	/** Get Import Processor.
@@ -260,9 +261,10 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		@param IMP_Processor_Type_ID Import Processor Type	  */
 	public void setIMP_Processor_Type_ID (int IMP_Processor_Type_ID)
 	{
-		if (IMP_Processor_Type_ID < 1)
-			 throw new IllegalArgumentException ("IMP_Processor_Type_ID is mandatory.");
-		set_Value (COLUMNNAME_IMP_Processor_Type_ID, Integer.valueOf(IMP_Processor_Type_ID));
+		if (IMP_Processor_Type_ID < 1) 
+			set_Value (COLUMNNAME_IMP_Processor_Type_ID, null);
+		else 
+			set_Value (COLUMNNAME_IMP_Processor_Type_ID, Integer.valueOf(IMP_Processor_Type_ID));
 	}
 
 	/** Get Import Processor Type.
@@ -301,8 +303,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -372,8 +372,6 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

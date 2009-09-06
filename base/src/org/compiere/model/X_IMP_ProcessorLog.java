@@ -145,9 +145,10 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		@param IMP_Processor_ID Import Processor	  */
 	public void setIMP_Processor_ID (int IMP_Processor_ID)
 	{
-		if (IMP_Processor_ID < 1)
-			 throw new IllegalArgumentException ("IMP_Processor_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
+		if (IMP_Processor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_Processor_ID, Integer.valueOf(IMP_Processor_ID));
 	}
 
 	/** Get Import Processor.
@@ -164,9 +165,10 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		@param IMP_ProcessorLog_ID Import Processor Log	  */
 	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID)
 	{
-		if (IMP_ProcessorLog_ID < 1)
-			 throw new IllegalArgumentException ("IMP_ProcessorLog_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, Integer.valueOf(IMP_ProcessorLog_ID));
+		if (IMP_ProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorLog_ID, Integer.valueOf(IMP_ProcessorLog_ID));
 	}
 
 	/** Get Import Processor Log.

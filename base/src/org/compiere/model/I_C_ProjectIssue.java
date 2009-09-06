@@ -186,6 +186,21 @@ public interface I_C_ProjectIssue
 	  */
 	public int getM_Locator_ID();
 
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name MovementDate */
     public static final String COLUMNNAME_MovementDate = "MovementDate";
 
@@ -211,21 +226,6 @@ public interface I_C_ProjectIssue
 	  * Quantity of a product moved.
 	  */
 	public BigDecimal getMovementQty();
-
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
-
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
-
-	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";

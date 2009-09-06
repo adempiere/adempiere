@@ -308,6 +308,23 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return (String)get_Value(COLUMNNAME_Classname);
 	}
 
+	/** Set Copy From Report and Process.
+		@param CopyFromProcess 
+		Copy settings from one report and process to another.
+	  */
+	public void setCopyFromProcess (String CopyFromProcess)
+	{
+		set_Value (COLUMNNAME_CopyFromProcess, CopyFromProcess);
+	}
+
+	/** Get Copy From Report and Process.
+		@return Copy settings from one report and process to another.
+	  */
+	public String getCopyFromProcess () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyFromProcess);
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record

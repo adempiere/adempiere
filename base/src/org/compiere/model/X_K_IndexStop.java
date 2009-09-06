@@ -42,8 +42,8 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
         {
 			setIsManual (true);
 // Y
-			setKeyword (null);
 			setK_IndexStop_ID (0);
+			setKeyword (null);
         } */
     }
 
@@ -177,6 +177,29 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 		return false;
 	}
 
+	/** Set Index Stop.
+		@param K_IndexStop_ID 
+		Keyword not to be indexed
+	  */
+	public void setK_IndexStop_ID (int K_IndexStop_ID)
+	{
+		if (K_IndexStop_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, Integer.valueOf(K_IndexStop_ID));
+	}
+
+	/** Get Index Stop.
+		@return Keyword not to be indexed
+	  */
+	public int getK_IndexStop_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_IndexStop_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Keyword.
 		@param Keyword 
 		Case insensitive keyword
@@ -201,29 +224,6 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
     {
         return new KeyNamePair(get_ID(), getKeyword());
     }
-
-	/** Set Index Stop.
-		@param K_IndexStop_ID 
-		Keyword not to be indexed
-	  */
-	public void setK_IndexStop_ID (int K_IndexStop_ID)
-	{
-		if (K_IndexStop_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, Integer.valueOf(K_IndexStop_ID));
-	}
-
-	/** Get Index Stop.
-		@return Keyword not to be indexed
-	  */
-	public int getK_IndexStop_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_IndexStop_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_R_RequestType getR_RequestType() throws RuntimeException 
     {

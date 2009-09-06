@@ -171,17 +171,20 @@ public class X_A_Depreciation_Convention extends PO implements I_A_Depreciation_
 		return false;
 	}
 
-	/** Set Textmsg.
-		@param Textmsg Textmsg	  */
-	public void setTextmsg (String Textmsg)
+	/** Set Text Message.
+		@param TextMsg 
+		Text Message
+	  */
+	public void setTextMsg (String TextMsg)
 	{
-		set_Value (COLUMNNAME_Textmsg, Textmsg);
+		set_Value (COLUMNNAME_TextMsg, TextMsg);
 	}
 
-	/** Get Textmsg.
-		@return Textmsg	  */
-	public String getTextmsg () 
+	/** Get Text Message.
+		@return Text Message
+	  */
+	public String getTextMsg () 
 	{
-		return (String)get_Value(COLUMNNAME_Textmsg);
+		return (String)get_Value(COLUMNNAME_TextMsg);
 	}
 }

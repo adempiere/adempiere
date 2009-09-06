@@ -98,9 +98,10 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	  */
 	public void setAD_Column_ID (int AD_Column_ID)
 	{
-		if (AD_Column_ID < 1)
-			 throw new IllegalArgumentException ("AD_Column_ID is mandatory.");
-		set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
 	}
 
 	/** Get Column.
@@ -227,9 +228,10 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		@param EXP_FormatLine_ID Format Line	  */
 	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID)
 	{
-		if (EXP_FormatLine_ID < 1)
-			 throw new IllegalArgumentException ("EXP_FormatLine_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
+		if (EXP_FormatLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_EXP_FormatLine_ID, Integer.valueOf(EXP_FormatLine_ID));
 	}
 
 	/** Get Format Line.
@@ -310,8 +312,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -356,7 +356,7 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	  */
 	public void setType (String Type)
 	{
-		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
+
 		set_Value (COLUMNNAME_Type, Type);
 	}
 
@@ -374,8 +374,6 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	  */
 	public void setValue (String Value)
 	{
-		if (Value == null)
-			throw new IllegalArgumentException ("Value is mandatory.");
 		set_Value (COLUMNNAME_Value, Value);
 	}
 

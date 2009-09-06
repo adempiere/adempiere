@@ -118,6 +118,19 @@ public interface I_C_Cash
 
 	public I_C_Campaign getC_Campaign() throws RuntimeException;
 
+    /** Column name C_Cash_ID */
+    public static final String COLUMNNAME_C_Cash_ID = "C_Cash_ID";
+
+	/** Set Cash Journal.
+	  * Cash Journal
+	  */
+	public void setC_Cash_ID (int C_Cash_ID);
+
+	/** Get Cash Journal.
+	  * Cash Journal
+	  */
+	public int getC_Cash_ID();
+
     /** Column name C_CashBook_ID */
     public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
 
@@ -132,19 +145,6 @@ public interface I_C_Cash
 	public int getC_CashBook_ID();
 
 	public I_C_CashBook getC_CashBook() throws RuntimeException;
-
-    /** Column name C_Cash_ID */
-    public static final String COLUMNNAME_C_Cash_ID = "C_Cash_ID";
-
-	/** Set Cash Journal.
-	  * Cash Journal
-	  */
-	public void setC_Cash_ID (int C_Cash_ID);
-
-	/** Get Cash Journal.
-	  * Cash Journal
-	  */
-	public int getC_Cash_ID();
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";

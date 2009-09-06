@@ -62,19 +62,6 @@ public interface I_C_BankAccountDoc
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BankAccountDoc_ID */
-    public static final String COLUMNNAME_C_BankAccountDoc_ID = "C_BankAccountDoc_ID";
-
-	/** Set Bank Account Document.
-	  * Checks, Transfers, etc.
-	  */
-	public void setC_BankAccountDoc_ID (int C_BankAccountDoc_ID);
-
-	/** Get Bank Account Document.
-	  * Checks, Transfers, etc.
-	  */
-	public int getC_BankAccountDoc_ID();
-
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 
@@ -89,6 +76,19 @@ public interface I_C_BankAccountDoc
 	public int getC_BankAccount_ID();
 
 	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
+
+    /** Column name C_BankAccountDoc_ID */
+    public static final String COLUMNNAME_C_BankAccountDoc_ID = "C_BankAccountDoc_ID";
+
+	/** Set Bank Account Document.
+	  * Checks, Transfers, etc.
+	  */
+	public void setC_BankAccountDoc_ID (int C_BankAccountDoc_ID);
+
+	/** Get Bank Account Document.
+	  * Checks, Transfers, etc.
+	  */
+	public int getC_BankAccountDoc_ID();
 
     /** Column name Check_PrintFormat_ID */
     public static final String COLUMNNAME_Check_PrintFormat_ID = "Check_PrintFormat_ID";

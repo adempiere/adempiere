@@ -43,8 +43,8 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
       super (ctx, C_BPartner_ID, trxName);
       /** if (C_BPartner_ID == 0)
         {
-			setC_BPartner_ID (0);
 			setC_BP_Group_ID (0);
+			setC_BPartner_ID (0);
 			setIsCustomer (false);
 			setIsEmployee (false);
 			setIsOneTime (false);
@@ -188,29 +188,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
     {
         Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
@@ -245,6 +222,29 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1393,36 +1393,6 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return bd;
 	}
 
-	/** SOCreditStatus AD_Reference_ID=289 */
-	public static final int SOCREDITSTATUS_AD_Reference_ID=289;
-	/** Credit Stop = S */
-	public static final String SOCREDITSTATUS_CreditStop = "S";
-	/** Credit Hold = H */
-	public static final String SOCREDITSTATUS_CreditHold = "H";
-	/** Credit Watch = W */
-	public static final String SOCREDITSTATUS_CreditWatch = "W";
-	/** No Credit Check = X */
-	public static final String SOCREDITSTATUS_NoCreditCheck = "X";
-	/** Credit OK = O */
-	public static final String SOCREDITSTATUS_CreditOK = "O";
-	/** Set Credit Status.
-		@param SOCreditStatus 
-		Business Partner Credit Status
-	  */
-	public void setSOCreditStatus (String SOCreditStatus)
-	{
-
-		set_Value (COLUMNNAME_SOCreditStatus, SOCreditStatus);
-	}
-
-	/** Get Credit Status.
-		@return Business Partner Credit Status
-	  */
-	public String getSOCreditStatus () 
-	{
-		return (String)get_Value(COLUMNNAME_SOCreditStatus);
-	}
-
 	/** Set Credit Used.
 		@param SO_CreditUsed 
 		Current open balance
@@ -1458,6 +1428,36 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public String getSO_Description () 
 	{
 		return (String)get_Value(COLUMNNAME_SO_Description);
+	}
+
+	/** SOCreditStatus AD_Reference_ID=289 */
+	public static final int SOCREDITSTATUS_AD_Reference_ID=289;
+	/** Credit Stop = S */
+	public static final String SOCREDITSTATUS_CreditStop = "S";
+	/** Credit Hold = H */
+	public static final String SOCREDITSTATUS_CreditHold = "H";
+	/** Credit Watch = W */
+	public static final String SOCREDITSTATUS_CreditWatch = "W";
+	/** No Credit Check = X */
+	public static final String SOCREDITSTATUS_NoCreditCheck = "X";
+	/** Credit OK = O */
+	public static final String SOCREDITSTATUS_CreditOK = "O";
+	/** Set Credit Status.
+		@param SOCreditStatus 
+		Business Partner Credit Status
+	  */
+	public void setSOCreditStatus (String SOCreditStatus)
+	{
+
+		set_Value (COLUMNNAME_SOCreditStatus, SOCreditStatus);
+	}
+
+	/** Get Credit Status.
+		@return Business Partner Credit Status
+	  */
+	public String getSOCreditStatus () 
+	{
+		return (String)get_Value(COLUMNNAME_SOCreditStatus);
 	}
 
 	/** Set Tax ID.
