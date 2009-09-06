@@ -226,6 +226,8 @@ public class MQuery implements Serializable
 			return "C_BPartner_Location_ID";
 		if (columnName.equals("Account_ID"))
 			return "C_ElementValue_ID";
+		if (columnName.equals("C_LocFrom_ID") || columnName.equals("C_LocTo_ID"))
+			return "C_Location_ID";
 		// Fix "*_To" columns
 		if (columnName.toUpperCase().endsWith("TO_ID")) {
 			return columnName.substring(0, columnName.length()-5)+"_ID";
@@ -233,7 +235,7 @@ public class MQuery implements Serializable
 		if (columnName.toUpperCase().endsWith("_TO_ID")) {
 			return columnName.substring(0, columnName.length()-6)+"_ID";
 		}
-		if (columnName.equals("AD_OrgBP_ID"))
+		if (columnName.equals("AD_OrgBP_ID") || columnName.equals("AD_OrgTrx_ID"))
 			return "AD_Org_ID";
 		//	See also GridTab.validateQuery
 		//

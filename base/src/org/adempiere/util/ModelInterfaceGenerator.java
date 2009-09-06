@@ -45,6 +45,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.model.MEntityType;
+import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
@@ -63,8 +64,13 @@ import org.compiere.util.Env;
  * 				<li>better formating of generated source  
  * 				<li>BF [ 1787833 ] ModelInterfaceGenerator: don't write timestamp
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
+ * 				<li>BF [ 1817768 ] Isolate hardcoded table direct columns
+ * 					https://sourceforge.net/tracker/?func=detail&atid=879332&aid=1817768&group_id=176962
  * 				<li>FR [ 2343096 ] Model Generator: Improve Reference Class Detection
  * 				<li>BF [ 2528434 ] ModelInterfaceGenerator: generate getters for common fields
+ * 				<li>--
+ * 				<li>FR [ 2848449 ] ModelClassGenerator: Implement model getters
+ *					https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2848449&group_id=176962
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class 
  */
@@ -97,11 +103,6 @@ public class ModelInterfaceGenerator
 	/** Logger */
 	private static CLogger log = CLogger.getCLogger(ModelInterfaceGenerator.class);
 	
-	/** EntityType */
-	private static final  MEntityType[] entityTypes = MEntityType.getEntityTypes(Env.getCtx());
-
-
-
 	public ModelInterfaceGenerator(int AD_Table_ID, String directory, String packageName) {
 		this.packageName = packageName;
 		// create column access methods
@@ -275,7 +276,7 @@ public class ModelInterfaceGenerator
 						isUpdateable, isMandatory, displayType,
 						AD_Reference_Value_ID, fieldLength, defaultValue,
 						ValueMin, ValueMax, VFormat, Callout, Name,
-						Description, virtualColumn, IsEncrypted, IsKey));
+						Description, virtualColumn, IsEncrypted, IsKey, AD_Table_ID));
 			}
 		}
 		catch (SQLException e)
@@ -316,7 +317,7 @@ public class ModelInterfaceGenerator
 			int displayType, int AD_Reference_ID, int fieldLength,
 			String defaultValue, String ValueMin, String ValueMax,
 			String VFormat, String Callout, String Name, String Description,
-			boolean virtualColumn, boolean IsEncrypted, boolean IsKey)
+			boolean virtualColumn, boolean IsEncrypted, boolean IsKey, int AD_Table_ID)
 	{
 		Class<?> clazz = getClass(columnName, displayType, AD_Reference_ID);
 		String dataType = getDataTypeName(clazz, displayType);
@@ -351,41 +352,13 @@ public class ModelInterfaceGenerator
 		
 		if (isGenerateModelGetter(columnName) && DisplayType.isID(displayType) && !IsKey)
 		{
-			if (displayType == DisplayType.TableDir
-					|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
+			String fieldName = getFieldName(columnName);
+			String referenceClassName = getReferenceClassName(AD_Table_ID, columnName, displayType, AD_Reference_ID);
+			//
+			if (fieldName != null && referenceClassName != null)
 			{
-				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
-				//begin [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class - vpj-cd 
-				String tableName = columnName.substring(0, columnName.length()-3);
-				
-				MTable table = MTable.get(Env.getCtx(), tableName);
-				if (table != null)
-				{
-					String entityType = table.getEntityType();
-					if (!"D".equals(entityType))
-					{	
-						for (int i = 0; i < entityTypes.length; i++)
-						{
-							if (entityTypes[i].getEntityType().equals(entityType))
-							{
-								String modelpackage = entityTypes[i].getModelPackage(); 
-								if (modelpackage != null)
-								{						
-									referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
-								    break; 
-								}
-							}
-						}
-					}	
-					//end [ 1785001 ]
-					
-					sb.append("\n")
-					  .append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException;")
-					;
-				}
-			} else {
-				// TODO - Handle other types
-				//sb.append("\tpublic I_"+columnName+" getI_").append(columnName).append("(){return null; };");
+				sb.append("\n")
+				  .append("\tpublic "+referenceClassName+" get").append(fieldName).append("() throws RuntimeException;");
 			}
 		}
 		addImportClass(clazz);
@@ -571,7 +544,7 @@ public class ModelInterfaceGenerator
 	 * @param columnName
 	 * @return true if a setter method should be generated
 	 */
-	public boolean isGenerateSetter(String columnName)
+	public static boolean isGenerateSetter(String columnName)
 	{
 		return
 			!"AD_Client_ID".equals(columnName)
@@ -586,9 +559,9 @@ public class ModelInterfaceGenerator
 
 	/**
 	 * @param columnName
-	 * @return true if a model getter method should be generated
+	 * @return true if a model getter method (method that is returning referenced PO) should be generated
 	 */
-	public boolean isGenerateModelGetter(String columnName)
+	public static boolean isGenerateModelGetter(String columnName)
 	{
 		return
 			!"AD_Client_ID".equals(columnName)
@@ -597,6 +570,166 @@ public class ModelInterfaceGenerator
 			&& !"UpdatedBy".equals(columnName)
 		;
 	}
+	
+	/**
+	 * 
+	 * @param AD_Table_ID
+	 * @param toEntityType
+	 * @return true if a model getter method (method that is returning referenced PO) should be generated
+	 */
+	public static boolean isGenerateModelGetterForEntity(int AD_Table_ID, String toEntityType)
+	{
+		final String fromEntityType = DB.getSQLValueString(null, "SELECT EntityType FROM AD_Table where AD_Table_ID=?", AD_Table_ID);
+		final MEntityType fromEntity = MEntityType.get(Env.getCtx(), fromEntityType);
+		final MEntityType toEntity = MEntityType.get(Env.getCtx(), toEntityType);
+		return 
+			// Same entities
+			fromEntityType.equals(toEntityType)
+			// Both are system entities
+			|| (fromEntity.isSystemMaintained() && toEntity.isSystemMaintained())
+			// Not Sys Entity referencing a Sys Entity
+			|| (!fromEntity.isSystemMaintained() && toEntity.isSystemMaintained())
+		;
+	}
+	
+	/**
+	 * Get EntityType Model Package.
+	 * @author Victor Perez - [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class
+	 * @param entityType
+	 * @return
+	 */
+	public static String getModelPackage(String entityType)
+	{
+		if ("D".equals(entityType))
+			return null;
+
+		for (MEntityType entity : MEntityType.getEntityTypes(Env.getCtx()))
+		{
+			if (entity.getEntityType().equals(entityType))
+			{
+				return entity.getModelPackage();
+			}
+		}
+		return null;
+	}
+	
+	public static String getFieldName(String columnName)
+	{
+		String fieldName;
+		if (columnName.endsWith("_ID_To"))
+			fieldName = columnName.substring(0, columnName.length() - 6) + "_To";
+		else
+			fieldName = columnName.substring(0, columnName.length() - 3);
+		return fieldName;
+	}
+	
+	public static String getReferenceClassName(int AD_Table_ID, String columnName, int displayType, int AD_Reference_ID)
+	{
+		String referenceClassName = null;
+		//
+		if (displayType == DisplayType.TableDir
+				|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
+		{
+			String refTableName = MQuery.getZoomTableName(columnName); // teo_sarca: BF [ 1817768 ] Isolate hardcoded table direct columns
+			referenceClassName = "I_"+refTableName;
+			
+			MTable table = MTable.get(Env.getCtx(), refTableName);
+			if (table != null)
+			{
+				String entityType = table.getEntityType();
+				String modelpackage = getModelPackage(entityType) ;
+				if (modelpackage != null)
+				{						
+					referenceClassName = modelpackage+"."+referenceClassName;
+				}
+				if (!isGenerateModelGetterForEntity(AD_Table_ID, entityType))
+				{
+					referenceClassName = null; 
+				}
+			}
+			else
+			{
+				throw new RuntimeException("No table found for "+refTableName);
+			}
+		}
+		else if (displayType == DisplayType.Table
+				|| (displayType == DisplayType.Search && AD_Reference_ID > 0))
+		{
+			// TODO: HARDCODED: do not generate model getter for Fact_Acct.Account_ID
+			if (AD_Table_ID == 270 && columnName.equals("Account_ID"))
+				return null;
+			// TODO: HARDCODED: do not generate model getter for GL_DistributionLine.Account_ID
+			if (AD_Table_ID == 707 && columnName.equals("Account_ID"))
+				return null;
+			//
+			final String sql = "SELECT t.TableName, t.EntityType, ck.AD_Reference_ID"
+				+" FROM AD_Ref_Table rt"
+				+" INNER JOIN AD_Table t ON (t.AD_Table_ID=rt.AD_Table_ID)"
+				+" INNER JOIN AD_Column ck ON (ck.AD_Table_ID=rt.AD_Table_ID AND ck.AD_Column_ID=rt.AD_Key)"
+				+" WHERE rt.AD_Reference_ID=?"
+			;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, AD_Reference_ID);
+				rs = pstmt.executeQuery();
+				if (rs.next())
+				{
+					final String refTableName = rs.getString(1);
+					final String entityType = rs.getString(2);
+					final int refDisplayType = rs.getInt(3);
+					if (refDisplayType == DisplayType.ID)
+					{
+						referenceClassName = "I_"+refTableName;
+						String modelpackage = getModelPackage(entityType);
+						if (modelpackage != null)
+						{
+							referenceClassName = modelpackage+"."+referenceClassName;
+						}
+						if (!isGenerateModelGetterForEntity(AD_Table_ID, entityType))
+						{
+							referenceClassName = null;
+						}
+					}
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new DBException(e, sql);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+		}
+		else if (displayType == DisplayType.Location)
+		{
+			referenceClassName = "I_C_Location";
+		}
+		else if (displayType == DisplayType.Locator)
+		{
+			referenceClassName = "I_M_Locator";
+		}
+		else if (displayType == DisplayType.Account)
+		{
+			referenceClassName = "I_C_ValidCombination";
+		}
+		else if (displayType == DisplayType.PAttribute)
+		{
+			referenceClassName = "I_M_AttributeSetInstance";
+		}
+		else
+		{
+			// TODO - Handle other types
+			//sb.append("\tpublic I_"+columnName+" getI_").append(columnName).append("(){return null; };");
+		}
+		//
+		return referenceClassName;
+	}
+
 
 	/**
 	 * String representation

@@ -34,13 +34,10 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
-import org.compiere.model.MEntityType;
-import org.compiere.model.MTable;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 
 /**
  *  Generate Model Classes extending PO.
@@ -53,12 +50,15 @@ import org.compiere.util.Env;
  * 				<li>BF [ 1781629 ] Don't use Env.NL in model class/interface generators
  * 				<li>FR [ 1781630 ] Generated class/interfaces have a lot of unused imports
  * 				<li>BF [ 1781632 ] Generated class/interfaces should be UTF-8
- * 				<li>better formating of generated source
- * 				<li>[ 1787876 ] ModelClassGenerator: list constants should be ordered
+ * 				<li>FR [ xxxxxxx ] better formating of generated source
+ * 				<li>FR [ 1787876 ] ModelClassGenerator: list constants should be ordered
  * 				<li>FR [ 1803309 ] Model generator: generate get method for Search cols
  * 				<li>FR [ 1990848 ] Generated Models: remove hardcoded field length
  * 				<li>FR [ 2343096 ] Model Generator: Improve Reference Class Detection
  * 				<li>BF [ 2780468 ] ModelClassGenerator: not generating methods for Created*
+ * 				<li>--
+ * 				<li>FR [ 2848449 ] ModelClassGenerator: Implement model getters
+ *					https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2848449&group_id=176962
  * @author Victor Perez, e-Evolution
  * 				<li>FR [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class
  */
@@ -95,9 +95,6 @@ public class ModelClassGenerator
 
 	/** Package Name */
 	private String packageName = "";
-
-	/** EntityType */
-	private static final  MEntityType[] entityTypes = MEntityType.getEntityTypes(Env.getCtx());
 
 
 	/**
@@ -314,7 +311,8 @@ public class ModelClassGenerator
 							columnName, isUpdateable, isMandatory,
 							displayType, AD_Reference_Value_ID, fieldLength,
 							defaultValue, ValueMin, ValueMax, VFormat,
-							Callout, Name, Description, virtualColumn, IsEncrypted, IsKey)
+							Callout, Name, Description, virtualColumn, IsEncrypted, IsKey,
+							AD_Table_ID)
 				);
 				//
 				if (seqNo == 1 && IsIdentifier) {
@@ -366,7 +364,8 @@ public class ModelClassGenerator
 		int displayType, int AD_Reference_ID, int fieldLength,
 		String defaultValue, String ValueMin, String ValueMax, String VFormat,
 		String Callout, String Name, String Description,
-		boolean virtualColumn, boolean IsEncrypted, boolean IsKey)
+		boolean virtualColumn, boolean IsEncrypted, boolean IsKey,
+		int AD_Table_ID)
 	{
 		Class<?> clazz = ModelInterfaceGenerator.getClass(columnName, displayType, AD_Reference_ID);
 		String dataType = ModelInterfaceGenerator.getDataTypeName(clazz, displayType);
@@ -393,64 +392,21 @@ public class ModelClassGenerator
 		// 1) Must understand which class to reference
 		if (DisplayType.isID(displayType) && !IsKey)
 		{
-			if (displayType == DisplayType.TableDir
-					|| (displayType == DisplayType.Search && AD_Reference_ID == 0))
+			String fieldName = ModelInterfaceGenerator.getFieldName(columnName);
+			String referenceClassName = ModelInterfaceGenerator.getReferenceClassName(AD_Table_ID, columnName, displayType, AD_Reference_ID);
+			//
+			if (fieldName != null && referenceClassName != null)
 			{
-				//begin [ 1785001 ] Using ModelPackage of EntityType to Generate Model Class - vpj-cd
-				String tableName = columnName.substring(0, columnName.length()-3);
-				String referenceClassName = "I_"+columnName.substring(0, columnName.length()-3);
-
-				MTable table = MTable.get(Env.getCtx(), tableName);
-				if (table != null)
-				{
-					String entityType = table.getEntityType();
-					if (!"D".equals(entityType))
-					{
-						for (int i = 0; i < entityTypes.length; i++)
-						{
-							if (entityTypes[i].getEntityType().equals(entityType))
-							{
-								String modelpackage = entityTypes[i].getModelPackage();
-								if (modelpackage != null)
-								{
-									referenceClassName = modelpackage+".I_"+columnName.substring(0, columnName.length()-3);
-								    break;
-								}
-							}
-						}
-					}
-					//end [ 1785001 ]
-					sb.append(NL)
-						.append("\tpublic "+referenceClassName+" get").append(tableName).append("() throws RuntimeException ").append(NL)
-						.append("    {").append(NL)
-					// TODO - here we can implement Lazy loading or Cache of class
-						.append("        Class<?> clazz = MTable.getClass("+referenceClassName+".Table_Name);").append(NL)
-						.append("        ").append(referenceClassName).append(" result = null;").append(NL)
-						.append("        try	{").append(NL)
-						.append("	        Constructor<?> constructor = null;").append(NL)
-	//					.append("    	    try	{").append(NL)
-						.append("	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});").append(NL)
-	//					.append("	        } catch (NoSuchMethodException e) {").append(NL)
-	//					.append("		        log.warning(\"No transaction Constructor for \" + clazz + \" Exception[\" + e.toString() + \"]\");").append(NL)
-	//					.append("        	}").append(NL)
-						// TODO - here we can implement Lazy loading or Cache of record. Like in Hibernate, objects can be loaded on demand or when master object is loaded.
-						.append("    	    result = ("+referenceClassName+")constructor.newInstance(new Object[] {getCtx(), new Integer(get"+columnName+"()), get_TrxName()});").append(NL)
-						.append("        } catch (Exception e) {").append(NL)
-						.append("	        log.log(Level.SEVERE, \"(id) - Table=\" + Table_Name + \",Class=\" + clazz, e);").append(NL)
-						.append("	        log.saveError(\"Error\", \"Table=\" + Table_Name + \",Class=\" + clazz);").append(NL)
-						.append("           throw new RuntimeException( e );").append(NL)
-						.append("        }").append(NL)
-						.append("        return result;").append(NL)
-						.append("    }").append(NL)
-					;
-				}
+				sb.append(NL)
+				.append("\tpublic "+referenceClassName+" get").append(fieldName).append("() throws RuntimeException").append(NL)
+				.append("    {").append(NL)
+				.append("\t\treturn ("+referenceClassName+")MTable.get(getCtx(), "+referenceClassName+".Table_Name)").append(NL)
+				.append("\t\t\t.getPO(get"+columnName+"(), get_TrxName());")
+				/**/
+				.append("\t}").append(NL)
+				;
 				// Add imports:
-				addImportClass(java.lang.reflect.Constructor.class);
-				addImportClass(java.util.logging.Level.class);
 				addImportClass(clazz);
-			} else {
-				// TODO - Handle other types
-				//sb.append("\tpublic I_"+columnName+" getI_").append(columnName).append("(){return null; };");
 			}
 		}
 
