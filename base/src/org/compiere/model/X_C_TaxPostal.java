@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxPostal
@@ -74,21 +72,10 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Tax getC_Tax() throws RuntimeException 
+	public I_C_Tax getC_Tax() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
-        I_C_Tax result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Tax)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Tax_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
+			.getPO(getC_Tax_ID(), get_TrxName());	}
 
 	/** Set Tax.
 		@param C_Tax_ID 

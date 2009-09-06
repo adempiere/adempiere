@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -78,6 +76,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
       return sb.toString();
     }
 
+	public I_C_ValidCombination getA_Accumdepreciation_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Accumdepreciation_Acct(), get_TrxName());	}
+
 	/** Set Accumulated Depreciation.
 		@param A_Accumdepreciation_Acct Accumulated Depreciation	  */
 	public void setA_Accumdepreciation_Acct (int A_Accumdepreciation_Acct)
@@ -94,6 +97,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getA_Asset_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Asset_Acct(), get_TrxName());	}
 
 	/** Set Asset Cost Account.
 		@param A_Asset_Acct Asset Cost Account	  */
@@ -194,6 +202,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_CreateDate);
 	}
 
+	public I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
 	/** Set Asset.
 		@param A_Asset_ID 
 		Asset used internally or by customers
@@ -254,6 +267,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
 	}
 
+	public I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException
+    {
+		return (I_A_Asset_Spread)MTable.get(getCtx(), I_A_Asset_Spread.Table_Name)
+			.getPO(getA_Asset_Spread_Type(), get_TrxName());	}
+
 	/** Set A_Asset_Spread_Type.
 		@param A_Asset_Spread_Type A_Asset_Spread_Type	  */
 	public void setA_Asset_Spread_Type (int A_Asset_Spread_Type)
@@ -271,6 +289,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getA_Depreciation_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Depreciation_Acct(), get_TrxName());	}
+
 	/** Set Depreciation Expense Account.
 		@param A_Depreciation_Acct Depreciation Expense Account	  */
 	public void setA_Depreciation_Acct (int A_Depreciation_Acct)
@@ -287,6 +310,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException
+    {
+		return (I_A_Depreciation_Method)MTable.get(getCtx(), I_A_Depreciation_Method.Table_Name)
+			.getPO(getA_Depreciation_Calc_Type(), get_TrxName());	}
 
 	/** Set Depreciation Calculation Type.
 		@param A_Depreciation_Calc_Type Depreciation Calculation Type	  */
@@ -343,6 +371,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
 	}
 
+	public I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException
+    {
+		return (I_A_Depreciation_Table_Header)MTable.get(getCtx(), I_A_Depreciation_Table_Header.Table_Name)
+			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
+
 	/** Set A_Depreciation_Table_Header_ID.
 		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID)
@@ -380,6 +413,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return bd;
 	}
 
+	public I_C_ValidCombination getA_Disposal_L() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Disposal_Loss(), get_TrxName());	}
+
 	/** Set Loss on Disposal.
 		@param A_Disposal_Loss Loss on Disposal	  */
 	public void setA_Disposal_Loss (int A_Disposal_Loss)
@@ -397,6 +435,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getA_Disposal_Reve() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Disposal_Revenue(), get_TrxName());	}
+
 	/** Set Disposal Revenue.
 		@param A_Disposal_Revenue Disposal Revenue	  */
 	public void setA_Disposal_Revenue (int A_Disposal_Revenue)
@@ -413,6 +456,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_A_Asset getA_Parent_Asset() throws RuntimeException
+    {
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_Parent_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset ID.
 		@param A_Parent_Asset_ID Asset ID	  */
@@ -644,6 +692,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return bd;
 	}
 
+	public I_AD_User getAD_User() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -792,21 +845,10 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return bd;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -854,6 +896,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+    {
+		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
+
 	/** Set Partner Location.
 		@param C_BPartner_Location_ID 
 		Identifies the (ship to) address for this Business Partner
@@ -877,6 +924,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_C_Location getC_Location() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getC_Location_ID(), get_TrxName());	}
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -899,6 +951,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
 
 	/** Set Combination.
 		@param C_ValidCombination_ID 
@@ -999,6 +1056,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (String)get_Value(COLUMNNAME_ChangeType);
 	}
 
+	public I_A_Depreciation_Convention getConventionT() throws RuntimeException
+    {
+		return (I_A_Depreciation_Convention)MTable.get(getCtx(), I_A_Depreciation_Convention.Table_Name)
+			.getPO(getConventionType(), get_TrxName());	}
+
 	/** Set ConventionType.
 		@param ConventionType ConventionType	  */
 	public void setConventionType (int ConventionType)
@@ -1032,6 +1094,11 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
+
+	public I_A_Depreciation getDepreciationT() throws RuntimeException
+    {
+		return (I_A_Depreciation)MTable.get(getCtx(), I_A_Depreciation.Table_Name)
+			.getPO(getDepreciationType(), get_TrxName());	}
 
 	/** Set DepreciationType.
 		@param DepreciationType DepreciationType	  */

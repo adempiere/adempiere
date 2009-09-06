@@ -88,6 +88,8 @@ public interface I_C_Bank
 	  */
 	public int getC_Location_ID();
 
+	public I_C_Location getC_Location() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

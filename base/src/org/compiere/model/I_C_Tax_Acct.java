@@ -134,6 +134,8 @@ public interface I_C_Tax_Acct
 	  */
 	public int getT_Credit_Acct();
 
+	public I_C_ValidCombination getT_Credit_A() throws RuntimeException;
+
     /** Column name T_Due_Acct */
     public static final String COLUMNNAME_T_Due_Acct = "T_Due_Acct";
 
@@ -146,6 +148,8 @@ public interface I_C_Tax_Acct
 	  * Account for Tax you have to pay
 	  */
 	public int getT_Due_Acct();
+
+	public I_C_ValidCombination getT_Due_A() throws RuntimeException;
 
     /** Column name T_Expense_Acct */
     public static final String COLUMNNAME_T_Expense_Acct = "T_Expense_Acct";
@@ -160,6 +164,8 @@ public interface I_C_Tax_Acct
 	  */
 	public int getT_Expense_Acct();
 
+	public I_C_ValidCombination getT_Expense_A() throws RuntimeException;
+
     /** Column name T_Liability_Acct */
     public static final String COLUMNNAME_T_Liability_Acct = "T_Liability_Acct";
 
@@ -173,6 +179,8 @@ public interface I_C_Tax_Acct
 	  */
 	public int getT_Liability_Acct();
 
+	public I_C_ValidCombination getT_Liability_A() throws RuntimeException;
+
     /** Column name T_Receivables_Acct */
     public static final String COLUMNNAME_T_Receivables_Acct = "T_Receivables_Acct";
 
@@ -185,6 +193,8 @@ public interface I_C_Tax_Acct
 	  * Account for Tax credit after tax declaration
 	  */
 	public int getT_Receivables_Acct();
+
+	public I_C_ValidCombination getT_Receivables_A() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -175,6 +175,8 @@ public interface I_M_Replenish
 	  */
 	public int getM_WarehouseSource_ID();
 
+	public I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
+
     /** Column name ReplenishType */
     public static final String COLUMNNAME_ReplenishType = "ReplenishType";
 

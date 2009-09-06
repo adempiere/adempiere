@@ -77,6 +77,11 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
       return sb.toString();
     }
 
+	public I_AD_PrintColor getAD_PrintColor1() throws RuntimeException
+    {
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor1_ID(), get_TrxName());	}
+
 	/** Set Color 1.
 		@param AD_PrintColor1_ID 
 		First color used
@@ -99,6 +104,11 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintColor getAD_PrintColor2() throws RuntimeException
+    {
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor2_ID(), get_TrxName());	}
 
 	/** Set Color 2.
 		@param AD_PrintColor2_ID 
@@ -123,6 +133,11 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_AD_PrintColor getAD_PrintColor3() throws RuntimeException
+    {
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor3_ID(), get_TrxName());	}
+
 	/** Set Color 3.
 		@param AD_PrintColor3_ID 
 		Third color used
@@ -145,6 +160,11 @@ public class X_PA_ColorSchema extends PO implements I_PA_ColorSchema, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintColor getAD_PrintColor4() throws RuntimeException
+    {
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor4_ID(), get_TrxName());	}
 
 	/** Set Color 4.
 		@param AD_PrintColor4_ID 

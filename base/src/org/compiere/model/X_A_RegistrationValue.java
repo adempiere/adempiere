@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationValue
@@ -74,21 +72,10 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
       return sb.toString();
     }
 
-	public I_A_Registration getA_Registration() throws RuntimeException 
+	public I_A_Registration getA_Registration() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_A_Registration.Table_Name);
-        I_A_Registration result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_A_Registration)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Registration_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_A_Registration)MTable.get(getCtx(), I_A_Registration.Table_Name)
+			.getPO(getA_Registration_ID(), get_TrxName());	}
 
 	/** Set Registration.
 		@param A_Registration_ID 
@@ -113,21 +100,10 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
 		return ii.intValue();
 	}
 
-	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException 
+	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_A_RegistrationAttribute.Table_Name);
-        I_A_RegistrationAttribute result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_A_RegistrationAttribute)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_RegistrationAttribute_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_A_RegistrationAttribute)MTable.get(getCtx(), I_A_RegistrationAttribute.Table_Name)
+			.getPO(getA_RegistrationAttribute_ID(), get_TrxName());	}
 
 	/** Set Registration Attribute.
 		@param A_RegistrationAttribute_ID 

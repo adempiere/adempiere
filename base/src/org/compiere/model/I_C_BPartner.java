@@ -368,6 +368,8 @@ public interface I_C_BPartner
 	  */
 	public int getInvoice_PrintFormat_ID();
 
+	public I_AD_PrintFormat getInvoice_PrintFormat() throws RuntimeException;
+
     /** Column name InvoiceRule */
     public static final String COLUMNNAME_InvoiceRule = "InvoiceRule";
 
@@ -529,6 +531,8 @@ public interface I_C_BPartner
 	  */
 	public int getM_DiscountSchema_ID();
 
+	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
+
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 
@@ -635,6 +639,8 @@ public interface I_C_BPartner
 	  */
 	public int getPO_DiscountSchema_ID();
 
+	public I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
+
     /** Column name PO_PaymentTerm_ID */
     public static final String COLUMNNAME_PO_PaymentTerm_ID = "PO_PaymentTerm_ID";
 
@@ -648,6 +654,8 @@ public interface I_C_BPartner
 	  */
 	public int getPO_PaymentTerm_ID();
 
+	public I_C_PaymentTerm getPO_PaymentTerm() throws RuntimeException;
+
     /** Column name PO_PriceList_ID */
     public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
 
@@ -660,6 +668,8 @@ public interface I_C_BPartner
 	  * Price List used by this Business Partner
 	  */
 	public int getPO_PriceList_ID();
+
+	public I_M_PriceList getPO_PriceList() throws RuntimeException;
 
     /** Column name POReference */
     public static final String COLUMNNAME_POReference = "POReference";
@@ -725,6 +735,8 @@ public interface I_C_BPartner
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SalesVolume */
     public static final String COLUMNNAME_SalesVolume = "SalesVolume";

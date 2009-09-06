@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -81,21 +79,10 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -143,21 +130,10 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ChargeType getC_ChargeType() throws RuntimeException 
+	public I_C_ChargeType getC_ChargeType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ChargeType.Table_Name);
-        I_C_ChargeType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ChargeType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ChargeType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_ChargeType)MTable.get(getCtx(), I_C_ChargeType.Table_Name)
+			.getPO(getC_ChargeType_ID(), get_TrxName());	}
 
 	/** Set Charge Type.
 		@param C_ChargeType_ID Charge Type	  */
@@ -179,21 +155,10 @@ public class X_C_Charge extends PO implements I_C_Charge, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
-        I_C_TaxCategory result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_TaxCategory)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_TaxCategory_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_TaxCategory)MTable.get(getCtx(), I_C_TaxCategory.Table_Name)
+			.getPO(getC_TaxCategory_ID(), get_TrxName());	}
 
 	/** Set Tax Category.
 		@param C_TaxCategory_ID 

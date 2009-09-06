@@ -54,6 +54,8 @@ public interface I_C_TaxDeclarationAcct
 	  */
 	public int getAccount_ID();
 
+	public I_C_ElementValue getAccount() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 

@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -81,21 +79,10 @@ public class X_C_PaySchedule extends PO implements I_C_PaySchedule, I_Persistent
       return sb.toString();
     }
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
-        I_C_PaymentTerm result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaymentTerm)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentTerm_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
 
 	/** Set Payment Term.
 		@param C_PaymentTerm_ID 

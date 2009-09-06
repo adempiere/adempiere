@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -85,21 +83,10 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
       return sb.toString();
     }
 
-	public I_C_Dunning getC_Dunning() throws RuntimeException 
+	public I_C_Dunning getC_Dunning() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
-        I_C_Dunning result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Dunning)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Dunning_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Dunning)MTable.get(getCtx(), I_C_Dunning.Table_Name)
+			.getPO(getC_Dunning_ID(), get_TrxName());	}
 
 	/** Set Dunning.
 		@param C_Dunning_ID 
@@ -144,21 +131,10 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
-        I_C_PaymentTerm result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaymentTerm)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentTerm_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
 
 	/** Set Payment Term.
 		@param C_PaymentTerm_ID 
@@ -287,6 +263,11 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public I_AD_PrintFormat getDunning_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getDunning_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Dunning Print Format.
 		@param Dunning_PrintFormat_ID 

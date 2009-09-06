@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -83,21 +81,10 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -122,21 +109,10 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
-        I_C_BPartner_Location result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner_Location)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_Location_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
 		@param C_BPartner_Location_ID 
@@ -161,21 +137,10 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionList getM_DistributionList() throws RuntimeException 
+	public I_M_DistributionList getM_DistributionList() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_DistributionList.Table_Name);
-        I_M_DistributionList result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DistributionList)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionList_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_DistributionList)MTable.get(getCtx(), I_M_DistributionList.Table_Name)
+			.getPO(getM_DistributionList_ID(), get_TrxName());	}
 
 	/** Set Distribution List.
 		@param M_DistributionList_ID 
@@ -200,21 +165,10 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException 
+	public I_M_DistributionListLine getM_DistributionListLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_DistributionListLine.Table_Name);
-        I_M_DistributionListLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DistributionListLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionListLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_DistributionListLine)MTable.get(getCtx(), I_M_DistributionListLine.Table_Name)
+			.getPO(getM_DistributionListLine_ID(), get_TrxName());	}
 
 	/** Set Distribution List Line.
 		@param M_DistributionListLine_ID 
@@ -239,21 +193,10 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_DistributionRun getM_DistributionRun() throws RuntimeException 
+	public I_M_DistributionRun getM_DistributionRun() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_DistributionRun.Table_Name);
-        I_M_DistributionRun result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DistributionRun)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionRun_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_DistributionRun)MTable.get(getCtx(), I_M_DistributionRun.Table_Name)
+			.getPO(getM_DistributionRun_ID(), get_TrxName());	}
 
 	/** Set Distribution Run.
 		@param M_DistributionRun_ID 
@@ -286,21 +229,10 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
         return new KeyNamePair(get_ID(), String.valueOf(getM_DistributionRun_ID()));
     }
 
-	public I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException 
+	public I_M_DistributionRunLine getM_DistributionRunLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_DistributionRunLine.Table_Name);
-        I_M_DistributionRunLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DistributionRunLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DistributionRunLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_DistributionRunLine)MTable.get(getCtx(), I_M_DistributionRunLine.Table_Name)
+			.getPO(getM_DistributionRunLine_ID(), get_TrxName());	}
 
 	/** Set Distribution Run Line.
 		@param M_DistributionRunLine_ID 
@@ -325,21 +257,10 @@ public class X_T_DistributionRunDetail extends PO implements I_T_DistributionRun
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 

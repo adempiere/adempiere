@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for M_TransactionAllocation
@@ -153,6 +151,11 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return false;
 	}
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
+    {
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
+
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
 		Product Attribute Set Instance
@@ -176,21 +179,10 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
-        I_M_InOutLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
@@ -215,21 +207,10 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException 
+	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
-        I_M_InventoryLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_InventoryLine)MTable.get(getCtx(), I_M_InventoryLine.Table_Name)
+			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
 
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 
@@ -254,21 +235,10 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -293,21 +263,10 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException 
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_ProductionLine.Table_Name);
-        I_M_ProductionLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_ProductionLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ProductionLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
+			.getPO(getM_ProductionLine_ID(), get_TrxName());	}
 
 	/** Set Production Line.
 		@param M_ProductionLine_ID 
@@ -332,21 +291,10 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
-	public I_M_Transaction getM_Transaction() throws RuntimeException 
+	public I_M_Transaction getM_Transaction() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Transaction.Table_Name);
-        I_M_Transaction result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Transaction)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Transaction_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Transaction)MTable.get(getCtx(), I_M_Transaction.Table_Name)
+			.getPO(getM_Transaction_ID(), get_TrxName());	}
 
 	/** Set Inventory Transaction.
 		@param M_Transaction_ID Inventory Transaction	  */
@@ -367,6 +315,11 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_InOutLine getOut_M_InOutLine() throws RuntimeException
+    {
+		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+			.getPO(getOut_M_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Out Shipment Line.
 		@param Out_M_InOutLine_ID 
@@ -391,6 +344,11 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
+	public I_M_InventoryLine getOut_M_InventoryLine() throws RuntimeException
+    {
+		return (I_M_InventoryLine)MTable.get(getCtx(), I_M_InventoryLine.Table_Name)
+			.getPO(getOut_M_InventoryLine_ID(), get_TrxName());	}
+
 	/** Set Out Inventory Line.
 		@param Out_M_InventoryLine_ID 
 		Outgoing Inventory Line
@@ -414,6 +372,11 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 		return ii.intValue();
 	}
 
+	public I_M_ProductionLine getOut_M_ProductionLine() throws RuntimeException
+    {
+		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
+			.getPO(getOut_M_ProductionLine_ID(), get_TrxName());	}
+
 	/** Set Out Production Line.
 		@param Out_M_ProductionLine_ID 
 		Outgoing Production Line
@@ -436,6 +399,11 @@ public class X_M_TransactionAllocation extends PO implements I_M_TransactionAllo
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Transaction getOut_M_Transaction() throws RuntimeException
+    {
+		return (I_M_Transaction)MTable.get(getCtx(), I_M_Transaction.Table_Name)
+			.getPO(getOut_M_Transaction_ID(), get_TrxName());	}
 
 	/** Set Out Transaction.
 		@param Out_M_Transaction_ID 

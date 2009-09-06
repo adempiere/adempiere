@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -97,21 +95,10 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return bd;
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException 
+	public I_C_Charge getC_Charge() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
-        I_C_Charge result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Charge)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Charge_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
 		@param C_Charge_ID 
@@ -193,21 +180,10 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return bd;
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
-        I_M_InOutLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
@@ -232,21 +208,10 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_RMA getM_RMA() throws RuntimeException 
+	public I_M_RMA getM_RMA() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_RMA.Table_Name);
-        I_M_RMA result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_RMA)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_RMA_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_RMA)MTable.get(getCtx(), I_M_RMA.Table_Name)
+			.getPO(getM_RMA_ID(), get_TrxName());	}
 
 	/** Set RMA.
 		@param M_RMA_ID 
@@ -385,6 +350,11 @@ public class X_M_RMALine extends PO implements I_M_RMALine, I_Persistent
 			 return Env.ZERO;
 		return bd;
 	}
+
+	public I_M_RMALine getRef_RMALine() throws RuntimeException
+    {
+		return (I_M_RMALine)MTable.get(getCtx(), I_M_RMALine.Table_Name)
+			.getPO(getRef_RMALine_ID(), get_TrxName());	}
 
 	/** Set Referenced RMA Line.
 		@param Ref_RMALine_ID Referenced RMA Line	  */

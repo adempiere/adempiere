@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReplicationStrategy
@@ -135,21 +133,10 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 		return (String)get_Value(COLUMNNAME_EntityType);
 	}
 
-	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException 
+	public org.compiere.model.I_EXP_Processor getEXP_Processor() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Processor.Table_Name);
-        org.compiere.model.I_EXP_Processor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.compiere.model.I_EXP_Processor)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Processor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_EXP_Processor)MTable.get(getCtx(), org.compiere.model.I_EXP_Processor.Table_Name)
+			.getPO(getEXP_Processor_ID(), get_TrxName());	}
 
 	/** Set Export Processor.
 		@param EXP_Processor_ID Export Processor	  */

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Note
@@ -72,6 +70,11 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_AD_Message getAD_Message() throws RuntimeException
+    {
+		return (I_AD_Message)MTable.get(getCtx(), I_AD_Message.Table_Name)
+			.getPO(getAD_Message_ID(), get_TrxName());	}
 
 	/** Set Message.
 		@param AD_Message_ID 
@@ -127,21 +130,10 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -166,21 +158,10 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 
@@ -205,21 +186,10 @@ public class X_AD_Note extends PO implements I_AD_Note, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException 
+	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_WF_Activity.Table_Name);
-        I_AD_WF_Activity result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WF_Activity)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Activity_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_WF_Activity)MTable.get(getCtx(), I_AD_WF_Activity.Table_Name)
+			.getPO(getAD_WF_Activity_ID(), get_TrxName());	}
 
 	/** Set Workflow Activity.
 		@param AD_WF_Activity_ID 

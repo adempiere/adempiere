@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -78,21 +76,10 @@ public class X_C_ServiceLevelLine extends PO implements I_C_ServiceLevelLine, I_
       return sb.toString();
     }
 
-	public I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException 
+	public I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ServiceLevel.Table_Name);
-        I_C_ServiceLevel result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ServiceLevel)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ServiceLevel_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_ServiceLevel)MTable.get(getCtx(), I_C_ServiceLevel.Table_Name)
+			.getPO(getC_ServiceLevel_ID(), get_TrxName());	}
 
 	/** Set Service Level.
 		@param C_ServiceLevel_ID 

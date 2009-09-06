@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
@@ -74,21 +72,10 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_OrgType getAD_OrgType() throws RuntimeException 
+	public I_AD_OrgType getAD_OrgType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_OrgType.Table_Name);
-        I_AD_OrgType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_OrgType)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_OrgType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_OrgType)MTable.get(getCtx(), I_AD_OrgType.Table_Name)
+			.getPO(getAD_OrgType_ID(), get_TrxName());	}
 
 	/** Set Organization Type.
 		@param AD_OrgType_ID 
@@ -113,21 +100,10 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException 
+	public I_C_Calendar getC_Calendar() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
-        I_C_Calendar result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Calendar)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Calendar_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Calendar)MTable.get(getCtx(), I_C_Calendar.Table_Name)
+			.getPO(getC_Calendar_ID(), get_TrxName());	}
 
 	/** Set Calendar.
 		@param C_Calendar_ID 
@@ -152,6 +128,11 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Location getC_Location() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getC_Location_ID(), get_TrxName());	}
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -174,6 +155,11 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Warehouse getDropShip_Warehouse() throws RuntimeException
+    {
+		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+			.getPO(getDropShip_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Drop Ship Warehouse.
 		@param DropShip_Warehouse_ID 
@@ -235,21 +221,10 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
-        I_M_Warehouse result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Warehouse)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Warehouse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
 		@param M_Warehouse_ID 
@@ -314,6 +289,11 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_ReceiptFooterMsg);
 	}
 
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
+
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval
@@ -354,6 +334,11 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_TaxID);
 	}
 
+	public I_C_Bank getTransferBank() throws RuntimeException
+    {
+		return (I_C_Bank)MTable.get(getCtx(), I_C_Bank.Table_Name)
+			.getPO(getTransferBank_ID(), get_TrxName());	}
+
 	/** Set Bank for transfers.
 		@param TransferBank_ID 
 		Bank account depending on currency will be used from this bank for doing transfers
@@ -376,6 +361,11 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_CashBook getTransferCashBook() throws RuntimeException
+    {
+		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+			.getPO(getTransferCashBook_ID(), get_TrxName());	}
 
 	/** Set CashBook for transfers.
 		@param TransferCashBook_ID CashBook for transfers	  */

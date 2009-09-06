@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for C_CashBook_Acct
  *  @author Adempiere (generated) 
@@ -77,21 +75,10 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -116,21 +103,10 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CashBook getC_CashBook() throws RuntimeException 
+	public I_C_CashBook getC_CashBook() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
-        I_C_CashBook result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_CashBook)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashBook_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+			.getPO(getC_CashBook_ID(), get_TrxName());	}
 
 	/** Set Cash Book.
 		@param C_CashBook_ID 
@@ -155,6 +131,11 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getCB_Asset_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCB_Asset_Acct(), get_TrxName());	}
+
 	/** Set Cash Book Asset.
 		@param CB_Asset_Acct 
 		Cash Book Asset Account
@@ -174,6 +155,11 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getCB_CashTransfer_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCB_CashTransfer_Acct(), get_TrxName());	}
 
 	/** Set Cash Transfer.
 		@param CB_CashTransfer_Acct 
@@ -195,6 +181,11 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getCB_Differences_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCB_Differences_Acct(), get_TrxName());	}
+
 	/** Set Cash Book Differences.
 		@param CB_Differences_Acct 
 		Cash Book Differences Account
@@ -215,6 +206,11 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getCB_Expense_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCB_Expense_Acct(), get_TrxName());	}
+
 	/** Set Cash Book Expense.
 		@param CB_Expense_Acct 
 		Cash Book Expense Account
@@ -234,6 +230,11 @@ public class X_C_CashBook_Acct extends PO implements I_C_CashBook_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getCB_Receipt_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCB_Receipt_Acct(), get_TrxName());	}
 
 	/** Set Cash Book Receipt.
 		@param CB_Receipt_Acct 

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueKnown
@@ -206,21 +204,10 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueRecommendation getR_IssueRecommendation() throws RuntimeException 
+	public I_R_IssueRecommendation getR_IssueRecommendation() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_IssueRecommendation.Table_Name);
-        I_R_IssueRecommendation result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_IssueRecommendation)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueRecommendation_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_IssueRecommendation)MTable.get(getCtx(), I_R_IssueRecommendation.Table_Name)
+			.getPO(getR_IssueRecommendation_ID(), get_TrxName());	}
 
 	/** Set Issue Recommendation.
 		@param R_IssueRecommendation_ID 
@@ -245,21 +232,10 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueStatus getR_IssueStatus() throws RuntimeException 
+	public I_R_IssueStatus getR_IssueStatus() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_IssueStatus.Table_Name);
-        I_R_IssueStatus result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_IssueStatus)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueStatus_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_IssueStatus)MTable.get(getCtx(), I_R_IssueStatus.Table_Name)
+			.getPO(getR_IssueStatus_ID(), get_TrxName());	}
 
 	/** Set Issue Status.
 		@param R_IssueStatus_ID 
@@ -284,21 +260,10 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_Request getR_Request() throws RuntimeException 
+	public I_R_Request getR_Request() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
-        I_R_Request result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_Request)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_Request_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_Request)MTable.get(getCtx(), I_R_Request.Table_Name)
+			.getPO(getR_Request_ID(), get_TrxName());	}
 
 	/** Set Request.
 		@param R_Request_ID 

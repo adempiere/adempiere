@@ -163,6 +163,8 @@ public interface I_M_InOut
 	  */
 	public int getC_Charge_ID();
 
+	public I_C_Charge getC_Charge() throws RuntimeException;
+
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -175,6 +177,8 @@ public interface I_M_InOut
 	  * Document type or rules
 	  */
 	public int getC_DocType_ID();
+
+	public I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
@@ -424,6 +428,8 @@ public interface I_M_InOut
 	  */
 	public int getDropShip_BPartner_ID();
 
+	public I_C_BPartner getDropShip_BPartner() throws RuntimeException;
+
     /** Column name DropShip_Location_ID */
     public static final String COLUMNNAME_DropShip_Location_ID = "DropShip_Location_ID";
 
@@ -437,6 +443,8 @@ public interface I_M_InOut
 	  */
 	public int getDropShip_Location_ID();
 
+	public I_C_BPartner_Location getDropShip_Location() throws RuntimeException;
+
     /** Column name DropShip_User_ID */
     public static final String COLUMNNAME_DropShip_User_ID = "DropShip_User_ID";
 
@@ -449,6 +457,8 @@ public interface I_M_InOut
 	  * Business Partner Contact for drop shipment
 	  */
 	public int getDropShip_User_ID();
+
+	public I_AD_User getDropShip_User() throws RuntimeException;
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -773,6 +783,8 @@ public interface I_M_InOut
 	  */
 	public int getReversal_ID();
 
+	public I_M_InOut getReversal() throws RuntimeException;
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -785,6 +797,8 @@ public interface I_M_InOut
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SendEMail */
     public static final String COLUMNNAME_SendEMail = "SendEMail";
@@ -854,6 +868,8 @@ public interface I_M_InOut
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -866,6 +882,8 @@ public interface I_M_InOut
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name Volume */
     public static final String COLUMNNAME_Volume = "Volume";

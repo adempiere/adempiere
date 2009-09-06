@@ -415,6 +415,8 @@ public interface I_C_InvoiceLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
@@ -641,6 +643,8 @@ public interface I_C_InvoiceLine
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -653,4 +657,6 @@ public interface I_C_InvoiceLine
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 }

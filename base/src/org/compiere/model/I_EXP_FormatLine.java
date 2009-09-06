@@ -90,6 +90,8 @@ public interface I_EXP_FormatLine
 	  */
 	public int getAD_Reference_ID();
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -140,6 +142,8 @@ public interface I_EXP_FormatLine
 
 	/** Get Embedded Format	  */
 	public int getEXP_EmbeddedFormat_ID();
+
+	public org.compiere.model.I_EXP_Format getEXP_EmbeddedFormat() throws RuntimeException;
 
     /** Column name EXP_Format_ID */
     public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";

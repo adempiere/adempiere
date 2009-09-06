@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestType
@@ -413,21 +411,10 @@ public class X_R_RequestType extends PO implements I_R_RequestType, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException 
+	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_StatusCategory.Table_Name);
-        I_R_StatusCategory result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_StatusCategory)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_StatusCategory_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_StatusCategory)MTable.get(getCtx(), I_R_StatusCategory.Table_Name)
+			.getPO(getR_StatusCategory_ID(), get_TrxName());	}
 
 	/** Set Status Category.
 		@param R_StatusCategory_ID 

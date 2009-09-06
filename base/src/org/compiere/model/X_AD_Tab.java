@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Tab
@@ -90,21 +88,10 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException 
+	public I_AD_Column getAD_Column() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
 		@param AD_Column_ID 
@@ -129,6 +116,11 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Column getAD_ColumnSortOrder() throws RuntimeException
+    {
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_ColumnSortOrder_ID(), get_TrxName());	}
+
 	/** Set Order Column.
 		@param AD_ColumnSortOrder_ID 
 		Column determining the order
@@ -151,6 +143,11 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Column getAD_ColumnSortYesNo() throws RuntimeException
+    {
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_ColumnSortYesNo_ID(), get_TrxName());	}
 
 	/** Set Included Column.
 		@param AD_ColumnSortYesNo_ID 
@@ -175,21 +172,10 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Image getAD_Image() throws RuntimeException 
+	public I_AD_Image getAD_Image() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Image.Table_Name);
-        I_AD_Image result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Image)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Image_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Image)MTable.get(getCtx(), I_AD_Image.Table_Name)
+			.getPO(getAD_Image_ID(), get_TrxName());	}
 
 	/** Set Image.
 		@param AD_Image_ID 
@@ -214,21 +200,10 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws RuntimeException 
+	public I_AD_Process getAD_Process() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
-        I_AD_Process result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
 		@param AD_Process_ID 
@@ -276,21 +251,10 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -315,21 +279,10 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException 
+	public I_AD_Window getAD_Window() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
-        I_AD_Window result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
 		@param AD_Window_ID 
@@ -482,6 +435,11 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_ImportFields);
 	}
+
+	public I_AD_Tab getIncluded_Tab() throws RuntimeException
+    {
+		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+			.getPO(getIncluded_Tab_ID(), get_TrxName());	}
 
 	/** Set Included Tab.
 		@param Included_Tab_ID 
@@ -715,6 +673,11 @@ public class X_AD_Tab extends PO implements I_AD_Tab, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_OrderByClause);
 	}
+
+	public I_AD_Column getParent_Column() throws RuntimeException
+    {
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getParent_Column_ID(), get_TrxName());	}
 
 	/** Set Parent Column.
 		@param Parent_Column_ID 

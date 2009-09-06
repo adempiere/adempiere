@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctProcessor
@@ -79,21 +77,10 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -141,21 +128,10 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -342,6 +318,11 @@ public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persis
 		}
 		return false;
 	}
+
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.
 		@param Supervisor_ID 

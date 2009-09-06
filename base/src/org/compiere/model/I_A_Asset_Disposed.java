@@ -72,6 +72,8 @@ public interface I_A_Asset_Disposed
 	/** Get A_Asset_Trade_ID	  */
 	public int getA_Asset_Trade_ID();
 
+	public I_A_Asset getA_Asset_Trade() throws RuntimeException;
+
     /** Column name A_Disposed_Date */
     public static final String COLUMNNAME_A_Disposed_Date = "A_Disposed_Date";
 
@@ -141,6 +143,8 @@ public interface I_A_Asset_Disposed
 	  * Period of the Calendar
 	  */
 	public int getC_Period_ID();
+
+	public I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

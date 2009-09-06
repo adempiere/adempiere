@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for C_ChargeType_DocType
  *  @author Adempiere (generated) 
@@ -76,21 +74,10 @@ public class X_C_ChargeType_DocType extends PO implements I_C_ChargeType_DocType
       return sb.toString();
     }
 
-	public I_C_ChargeType getC_ChargeType() throws RuntimeException 
+	public I_C_ChargeType getC_ChargeType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ChargeType.Table_Name);
-        I_C_ChargeType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ChargeType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ChargeType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_ChargeType)MTable.get(getCtx(), I_C_ChargeType.Table_Name)
+			.getPO(getC_ChargeType_ID(), get_TrxName());	}
 
 	/** Set Charge Type.
 		@param C_ChargeType_ID Charge Type	  */
@@ -112,21 +99,10 @@ public class X_C_ChargeType_DocType extends PO implements I_C_ChargeType_DocType
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException 
+	public I_C_DocType getC_DocType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
-        I_C_DocType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_DocType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_DocType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
 		@param C_DocType_ID 

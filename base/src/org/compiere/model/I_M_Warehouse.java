@@ -75,6 +75,8 @@ public interface I_M_Warehouse
 	  */
 	public int getC_Location_ID();
 
+	public I_C_Location getC_Location() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -155,6 +157,8 @@ public interface I_M_Warehouse
 	  * Optional Warehouse to replenish from
 	  */
 	public int getM_WarehouseSource_ID();
+
+	public I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

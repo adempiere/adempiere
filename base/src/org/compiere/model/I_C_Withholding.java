@@ -75,6 +75,8 @@ public interface I_C_Withholding
 	  */
 	public int getBeneficiary();
 
+	public I_C_BPartner getBenefici() throws RuntimeException;
+
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
 

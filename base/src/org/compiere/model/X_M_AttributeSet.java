@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSet
@@ -343,21 +341,10 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_LotCtl getM_LotCtl() throws RuntimeException 
+	public I_M_LotCtl getM_LotCtl() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_LotCtl.Table_Name);
-        I_M_LotCtl result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_LotCtl)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_LotCtl_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_LotCtl)MTable.get(getCtx(), I_M_LotCtl.Table_Name)
+			.getPO(getM_LotCtl_ID(), get_TrxName());	}
 
 	/** Set Lot Control.
 		@param M_LotCtl_ID 
@@ -382,21 +369,10 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException 
+	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_SerNoCtl.Table_Name);
-        I_M_SerNoCtl result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_SerNoCtl)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_SerNoCtl_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_SerNoCtl)MTable.get(getCtx(), I_M_SerNoCtl.Table_Name)
+			.getPO(getM_SerNoCtl_ID(), get_TrxName());	}
 
 	/** Set Serial No Control.
 		@param M_SerNoCtl_ID 

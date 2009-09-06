@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for C_PaySelectionCheck
@@ -85,21 +83,10 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
       return sb.toString();
     }
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException 
+	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BP_BankAccount.Table_Name);
-        I_C_BP_BankAccount result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_BankAccount)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_BankAccount_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BP_BankAccount)MTable.get(getCtx(), I_C_BP_BankAccount.Table_Name)
+			.getPO(getC_BP_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Partner Bank Account.
 		@param C_BP_BankAccount_ID 
@@ -124,21 +111,10 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -163,6 +139,11 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
+	public I_C_Payment getC_Payment() throws RuntimeException
+    {
+		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+			.getPO(getC_Payment_ID(), get_TrxName());	}
+
 	/** Set Payment.
 		@param C_Payment_ID 
 		Payment identifier
@@ -186,21 +167,10 @@ public class X_C_PaySelectionCheck extends PO implements I_C_PaySelectionCheck, 
 		return ii.intValue();
 	}
 
-	public I_C_PaySelection getC_PaySelection() throws RuntimeException 
+	public I_C_PaySelection getC_PaySelection() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_PaySelection.Table_Name);
-        I_C_PaySelection result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaySelection)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaySelection_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_PaySelection)MTable.get(getCtx(), I_C_PaySelection.Table_Name)
+			.getPO(getC_PaySelection_ID(), get_TrxName());	}
 
 	/** Set Payment Selection.
 		@param C_PaySelection_ID 

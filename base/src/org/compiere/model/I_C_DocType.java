@@ -103,6 +103,8 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeDifference_ID();
 
+	public I_C_DocType getC_DocTypeDifference() throws RuntimeException;
+
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
 
@@ -115,6 +117,8 @@ public interface I_C_DocType
 	  * Document type used for invoices generated from this sales document
 	  */
 	public int getC_DocTypeInvoice_ID();
+
+	public I_C_DocType getC_DocTypeInvoice() throws RuntimeException;
 
     /** Column name C_DocTypeProforma_ID */
     public static final String COLUMNNAME_C_DocTypeProforma_ID = "C_DocTypeProforma_ID";
@@ -129,6 +133,8 @@ public interface I_C_DocType
 	  */
 	public int getC_DocTypeProforma_ID();
 
+	public I_C_DocType getC_DocTypeProforma() throws RuntimeException;
+
     /** Column name C_DocTypeShipment_ID */
     public static final String COLUMNNAME_C_DocTypeShipment_ID = "C_DocTypeShipment_ID";
 
@@ -141,6 +147,8 @@ public interface I_C_DocType
 	  * Document type used for shipments generated from this sales document
 	  */
 	public int getC_DocTypeShipment_ID();
+
+	public I_C_DocType getC_DocTypeShipment() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -166,6 +174,8 @@ public interface I_C_DocType
 
 	/** Get Definite Sequence	  */
 	public int getDefiniteSequence_ID();
+
+	public I_AD_Sequence getDefiniteSequence() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -205,6 +215,8 @@ public interface I_C_DocType
 	  * Document sequence determines the numbering of documents
 	  */
 	public int getDocNoSequence_ID();
+
+	public I_AD_Sequence getDocNoSequence() throws RuntimeException;
 
     /** Column name DocSubTypeSO */
     public static final String COLUMNNAME_DocSubTypeSO = "DocSubTypeSO";

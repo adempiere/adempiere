@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for C_AcctProcessorLog
  *  @author Adempiere (generated) 
@@ -90,21 +88,10 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 		return (byte[])get_Value(COLUMNNAME_BinaryData);
 	}
 
-	public I_C_AcctProcessor getC_AcctProcessor() throws RuntimeException 
+	public I_C_AcctProcessor getC_AcctProcessor() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctProcessor.Table_Name);
-        I_C_AcctProcessor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctProcessor)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctProcessor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctProcessor)MTable.get(getCtx(), I_C_AcctProcessor.Table_Name)
+			.getPO(getC_AcctProcessor_ID(), get_TrxName());	}
 
 	/** Set Accounting Processor.
 		@param C_AcctProcessor_ID 

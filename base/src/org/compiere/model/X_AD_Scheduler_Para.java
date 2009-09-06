@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_Scheduler_Para
  *  @author Adempiere (generated) 
@@ -72,21 +70,10 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException 
+	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Process_Para.Table_Name);
-        I_AD_Process_Para result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process_Para)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_Para_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Process_Para)MTable.get(getCtx(), I_AD_Process_Para.Table_Name)
+			.getPO(getAD_Process_Para_ID(), get_TrxName());	}
 
 	/** Set Process Parameter.
 		@param AD_Process_Para_ID Process Parameter	  */
@@ -108,21 +95,10 @@ public class X_AD_Scheduler_Para extends PO implements I_AD_Scheduler_Para, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_Scheduler getAD_Scheduler() throws RuntimeException 
+	public I_AD_Scheduler getAD_Scheduler() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Scheduler.Table_Name);
-        I_AD_Scheduler result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Scheduler)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Scheduler_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Scheduler)MTable.get(getCtx(), I_AD_Scheduler.Table_Name)
+			.getPO(getAD_Scheduler_ID(), get_TrxName());	}
 
 	/** Set Scheduler.
 		@param AD_Scheduler_ID 

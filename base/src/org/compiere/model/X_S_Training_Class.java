@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Training_Class
@@ -94,21 +92,10 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 		return (Timestamp)get_Value(COLUMNNAME_EndDate);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -156,21 +143,10 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 		return ii.intValue();
 	}
 
-	public I_S_Training getS_Training() throws RuntimeException 
+	public I_S_Training getS_Training() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_S_Training.Table_Name);
-        I_S_Training result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Training)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Training_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_S_Training)MTable.get(getCtx(), I_S_Training.Table_Name)
+			.getPO(getS_Training_ID(), get_TrxName());	}
 
 	/** Set Training.
 		@param S_Training_ID 

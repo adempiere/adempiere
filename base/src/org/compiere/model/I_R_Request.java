@@ -195,6 +195,8 @@ public interface I_R_Request
 	  */
 	public int getC_InvoiceRequest_ID();
 
+	public I_C_Invoice getC_InvoiceRequest() throws RuntimeException;
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -492,6 +494,8 @@ public interface I_R_Request
 	  */
 	public int getM_FixChangeNotice_ID();
 
+	public I_M_ChangeNotice getM_FixChangeNotice() throws RuntimeException;
+
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -534,6 +538,8 @@ public interface I_R_Request
 	  * Product/Resource/Service used in Request
 	  */
 	public int getM_ProductSpent_ID();
+
+	public I_M_Product getM_ProductSpent() throws RuntimeException;
 
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
@@ -712,6 +718,8 @@ public interface I_R_Request
 	  */
 	public int getR_RequestRelated_ID();
 
+	public I_R_Request getR_RequestRelated() throws RuntimeException;
+
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
 
@@ -823,6 +831,8 @@ public interface I_R_Request
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name StartDate */
     public static final String COLUMNNAME_StartDate = "StartDate";

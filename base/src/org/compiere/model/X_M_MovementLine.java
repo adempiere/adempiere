@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -107,21 +105,10 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return bd;
 	}
 
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException 
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_DD_OrderLine.Table_Name);
-        org.eevolution.model.I_DD_OrderLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_DD_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getDD_OrderLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_DD_OrderLine)MTable.get(getCtx(), org.eevolution.model.I_DD_OrderLine.Table_Name)
+			.getPO(getDD_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Distribution Order Line.
 		@param DD_OrderLine_ID Distribution Order Line	  */
@@ -188,6 +175,11 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
+    {
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
+
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
 		Product Attribute Set Instance
@@ -210,6 +202,11 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException
+    {
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstanceTo_ID(), get_TrxName());	}
 
 	/** Set Attribute Set Instance To.
 		@param M_AttributeSetInstanceTo_ID 
@@ -234,6 +231,11 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
+	public I_M_Locator getM_Locator() throws RuntimeException
+    {
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_Locator_ID(), get_TrxName());	}
+
 	/** Set Locator.
 		@param M_Locator_ID 
 		Warehouse Locator
@@ -256,6 +258,11 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Locator getM_LocatorTo() throws RuntimeException
+    {
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_LocatorTo_ID(), get_TrxName());	}
 
 	/** Set Locator To.
 		@param M_LocatorTo_ID 
@@ -280,21 +287,10 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Movement getM_Movement() throws RuntimeException 
+	public I_M_Movement getM_Movement() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Movement.Table_Name);
-        I_M_Movement result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Movement)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Movement_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Movement)MTable.get(getCtx(), I_M_Movement.Table_Name)
+			.getPO(getM_Movement_ID(), get_TrxName());	}
 
 	/** Set Inventory Move.
 		@param M_Movement_ID 
@@ -341,6 +337,11 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_Product() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -408,6 +409,11 @@ public class X_M_MovementLine extends PO implements I_M_MovementLine, I_Persiste
 		}
 		return false;
 	}
+
+	public I_M_MovementLine getReversalLine() throws RuntimeException
+    {
+		return (I_M_MovementLine)MTable.get(getCtx(), I_M_MovementLine.Table_Name)
+			.getPO(getReversalLine_ID(), get_TrxName());	}
 
 	/** Set Reversal Line.
 		@param ReversalLine_ID 

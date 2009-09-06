@@ -119,6 +119,8 @@ public interface I_C_ProjectIssueMA
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";
 

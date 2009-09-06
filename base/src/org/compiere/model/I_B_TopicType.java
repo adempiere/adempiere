@@ -182,6 +182,8 @@ public interface I_B_TopicType
 	  */
 	public int getM_ProductMember_ID();
 
+	public I_M_Product getM_ProductMember() throws RuntimeException;
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 

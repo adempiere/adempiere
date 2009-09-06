@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for CM_NewsItem
  *  @author Adempiere (generated) 
@@ -90,21 +88,10 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 		return (String)get_Value(COLUMNNAME_Author);
 	}
 
-	public I_CM_NewsChannel getCM_NewsChannel() throws RuntimeException 
+	public I_CM_NewsChannel getCM_NewsChannel() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_NewsChannel.Table_Name);
-        I_CM_NewsChannel result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_NewsChannel)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_NewsChannel_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_NewsChannel)MTable.get(getCtx(), I_CM_NewsChannel.Table_Name)
+			.getPO(getCM_NewsChannel_ID(), get_TrxName());	}
 
 	/** Set News Channel.
 		@param CM_NewsChannel_ID 

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Attribute
@@ -191,21 +189,10 @@ public class X_M_Attribute extends PO implements I_M_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException 
+	public I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_AttributeSearch.Table_Name);
-        I_M_AttributeSearch result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_AttributeSearch)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_AttributeSearch_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_AttributeSearch)MTable.get(getCtx(), I_M_AttributeSearch.Table_Name)
+			.getPO(getM_AttributeSearch_ID(), get_TrxName());	}
 
 	/** Set Attribute Search.
 		@param M_AttributeSearch_ID 

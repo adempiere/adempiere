@@ -72,6 +72,11 @@ public class X_W_ClickCount extends PO implements I_W_ClickCount, I_Persistent
       return sb.toString();
     }
 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner

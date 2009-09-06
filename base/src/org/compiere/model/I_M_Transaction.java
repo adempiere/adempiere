@@ -119,6 +119,8 @@ public interface I_M_Transaction
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
@@ -161,6 +163,8 @@ public interface I_M_Transaction
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";

@@ -207,6 +207,8 @@ public interface I_RV_BPartner
 	  */
 	public int getBPartner_Parent_ID();
 
+	public I_C_BPartner getBPartner_Parent() throws RuntimeException;
+
     /** Column name BPContactGreeting */
     public static final String COLUMNNAME_BPContactGreeting = "BPContactGreeting";
 
@@ -219,6 +221,8 @@ public interface I_RV_BPartner
 	  * Greeting for Business Partner Contact
 	  */
 	public int getBPContactGreeting();
+
+	public I_C_Greeting getBPContactGreet() throws RuntimeException;
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -616,6 +620,8 @@ public interface I_RV_BPartner
 	  */
 	public int getInvoice_PrintFormat_ID();
 
+	public I_AD_PrintFormat getInvoice_PrintFormat() throws RuntimeException;
+
     /** Column name InvoiceRule */
     public static final String COLUMNNAME_InvoiceRule = "InvoiceRule";
 
@@ -954,6 +960,8 @@ public interface I_RV_BPartner
 	  */
 	public int getPO_DiscountSchema_ID();
 
+	public I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
+
     /** Column name PO_PaymentTerm_ID */
     public static final String COLUMNNAME_PO_PaymentTerm_ID = "PO_PaymentTerm_ID";
 
@@ -967,6 +975,8 @@ public interface I_RV_BPartner
 	  */
 	public int getPO_PaymentTerm_ID();
 
+	public I_C_PaymentTerm getPO_PaymentTerm() throws RuntimeException;
+
     /** Column name PO_PriceList_ID */
     public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
 
@@ -979,6 +989,8 @@ public interface I_RV_BPartner
 	  * Price List used by this Business Partner
 	  */
 	public int getPO_PriceList_ID();
+
+	public I_M_PriceList getPO_PriceList() throws RuntimeException;
 
     /** Column name POReference */
     public static final String COLUMNNAME_POReference = "POReference";
@@ -1070,6 +1082,8 @@ public interface I_RV_BPartner
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SalesVolume */
     public static final String COLUMNNAME_SalesVolume = "SalesVolume";
@@ -1200,6 +1214,8 @@ public interface I_RV_BPartner
 	  * Supervisor for this user/organization - used for escalation and approval
 	  */
 	public int getSupervisor_ID();
+
+	public I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name TaxID */
     public static final String COLUMNNAME_TaxID = "TaxID";

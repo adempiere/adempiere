@@ -118,6 +118,8 @@ public interface I_C_BP_Relation
 	  */
 	public int getC_BPartnerRelation_ID();
 
+	public I_C_BPartner getC_BPartnerRelation() throws RuntimeException;
+
     /** Column name C_BPartnerRelation_Location_ID */
     public static final String COLUMNNAME_C_BPartnerRelation_Location_ID = "C_BPartnerRelation_Location_ID";
 
@@ -130,6 +132,8 @@ public interface I_C_BP_Relation
 	  * Location of the related Business Partner
 	  */
 	public int getC_BPartnerRelation_Location_ID();
+
+	public I_C_BPartner_Location getC_BPartnerRelation_Location() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for ASP_Tab
@@ -74,21 +72,10 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException 
+	public I_AD_Tab getAD_Tab() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
-        I_AD_Tab result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Tab)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Tab_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+			.getPO(getAD_Tab_ID(), get_TrxName());	}
 
 	/** Set Tab.
 		@param AD_Tab_ID 
@@ -177,21 +164,10 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_ASP_Window getASP_Window() throws RuntimeException 
+	public I_ASP_Window getASP_Window() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_ASP_Window.Table_Name);
-        I_ASP_Window result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_ASP_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Window_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_ASP_Window)MTable.get(getCtx(), I_ASP_Window.Table_Name)
+			.getPO(getASP_Window_ID(), get_TrxName());	}
 
 	/** Set ASP Window.
 		@param ASP_Window_ID ASP Window	  */

@@ -176,6 +176,8 @@ public interface I_PA_ReportColumn
 	  */
 	public int getC_Location_ID();
 
+	public I_C_Location getC_Location() throws RuntimeException;
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -552,6 +554,8 @@ public interface I_PA_ReportColumn
 	  */
 	public int getOper_1_ID();
 
+	public I_PA_ReportColumn getOper_1() throws RuntimeException;
+
     /** Column name Oper_2_ID */
     public static final String COLUMNNAME_Oper_2_ID = "Oper_2_ID";
 
@@ -564,6 +568,8 @@ public interface I_PA_ReportColumn
 	  * Second operand for calculation
 	  */
 	public int getOper_2_ID();
+
+	public I_PA_ReportColumn getOper_2() throws RuntimeException;
 
     /** Column name Org_ID */
     public static final String COLUMNNAME_Org_ID = "Org_ID";

@@ -181,6 +181,8 @@ public interface I_T_InvoiceGL
 	  */
 	public int getC_ConversionTypeReval_ID();
 
+	public I_C_ConversionType getC_ConversionTypeReval() throws RuntimeException;
+
     /** Column name C_DocTypeReval_ID */
     public static final String COLUMNNAME_C_DocTypeReval_ID = "C_DocTypeReval_ID";
 
@@ -193,6 +195,8 @@ public interface I_T_InvoiceGL
 	  * Document Type for Revaluation Journal
 	  */
 	public int getC_DocTypeReval_ID();
+
+	public I_C_DocType getC_DocTypeReval() throws RuntimeException;
 
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";

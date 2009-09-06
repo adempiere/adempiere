@@ -204,6 +204,11 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
+	public I_U_WebMenu getParentMenu() throws RuntimeException
+    {
+		return (I_U_WebMenu)MTable.get(getCtx(), I_U_WebMenu.Table_Name)
+			.getPO(getParentMenu_ID(), get_TrxName());	}
+
 	/** Set Parent Menu.
 		@param ParentMenu_ID Parent Menu	  */
 	public void setParentMenu_ID (int ParentMenu_ID)

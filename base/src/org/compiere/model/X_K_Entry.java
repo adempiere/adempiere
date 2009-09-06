@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Entry
@@ -79,21 +77,10 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Session getAD_Session() throws RuntimeException 
+	public I_AD_Session getAD_Session() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Session.Table_Name);
-        I_AD_Session result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Session)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Session_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Session)MTable.get(getCtx(), I_AD_Session.Table_Name)
+			.getPO(getAD_Session_ID(), get_TrxName());	}
 
 	/** Set Session.
 		@param AD_Session_ID 
@@ -182,21 +169,10 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_K_Source getK_Source() throws RuntimeException 
+	public I_K_Source getK_Source() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_K_Source.Table_Name);
-        I_K_Source result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_K_Source)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_Source_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_K_Source)MTable.get(getCtx(), I_K_Source.Table_Name)
+			.getPO(getK_Source_ID(), get_TrxName());	}
 
 	/** Set Knowledge Source.
 		@param K_Source_ID 
@@ -221,21 +197,10 @@ public class X_K_Entry extends PO implements I_K_Entry, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_K_Topic getK_Topic() throws RuntimeException 
+	public I_K_Topic getK_Topic() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_K_Topic.Table_Name);
-        I_K_Topic result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_K_Topic)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_Topic_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_K_Topic)MTable.get(getCtx(), I_K_Topic.Table_Name)
+			.getPO(getK_Topic_ID(), get_TrxName());	}
 
 	/** Set Knowledge Topic.
 		@param K_Topic_ID 

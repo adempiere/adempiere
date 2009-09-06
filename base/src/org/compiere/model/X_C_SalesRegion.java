@@ -187,6 +187,11 @@ public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	public I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
+
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent

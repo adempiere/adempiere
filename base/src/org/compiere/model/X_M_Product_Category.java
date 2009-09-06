@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -82,21 +80,10 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
       return sb.toString();
     }
 
-	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException 
+	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
-        I_A_Asset_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_A_Asset_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Asset_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_A_Asset_Group)MTable.get(getCtx(), I_A_Asset_Group.Table_Name)
+			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
 
 	/** Set Asset Group.
 		@param A_Asset_Group_ID 
@@ -121,21 +108,10 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException 
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
-        I_AD_PrintColor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintColor)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintColor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Print Color.
 		@param AD_PrintColor_ID 
@@ -247,6 +223,11 @@ public class X_M_Product_Category extends PO implements I_M_Product_Category, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product_Category getM_Product_Category_Parent() throws RuntimeException
+    {
+		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
+			.getPO(getM_Product_Category_Parent_ID(), get_TrxName());	}
 
 	/** Set Parent Product Category.
 		@param M_Product_Category_Parent_ID Parent Product Category	  */

@@ -75,6 +75,11 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
       return sb.toString();
     }
 
+	public I_AD_Column getAD_Column() throws RuntimeException
+    {
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
+
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
@@ -118,6 +123,11 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 		return ii.intValue();
 	}
 
+	public I_AD_Table getAD_Table() throws RuntimeException
+    {
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
+
 	/** Set Table.
 		@param AD_Table_ID 
 		Database Table information
@@ -140,6 +150,11 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Window getAD_Window() throws RuntimeException
+    {
+		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
 		@param AD_Window_ID 
@@ -238,6 +253,11 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
+
+	public I_AD_Window getPO_Window() throws RuntimeException
+    {
+		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+			.getPO(getPO_Window_ID(), get_TrxName());	}
 
 	/** Set PO Window.
 		@param PO_Window_ID 

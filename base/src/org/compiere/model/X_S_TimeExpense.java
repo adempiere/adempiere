@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -106,6 +104,11 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 			 return Env.ZERO;
 		return bd;
 	}
+
+	public I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -305,21 +308,10 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 		return false;
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException 
+	public I_M_PriceList getM_PriceList() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
-        I_M_PriceList result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PriceList)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PriceList_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.
 		@param M_PriceList_ID 
@@ -344,21 +336,10 @@ public class X_S_TimeExpense extends PO implements I_S_TimeExpense, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
-        I_M_Warehouse result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Warehouse)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Warehouse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
 		@param M_Warehouse_ID 

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication_Run
@@ -76,21 +74,10 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
       return sb.toString();
     }
 
-	public I_AD_Replication getAD_Replication() throws RuntimeException 
+	public I_AD_Replication getAD_Replication() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Replication.Table_Name);
-        I_AD_Replication result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Replication)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Replication_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Replication)MTable.get(getCtx(), I_AD_Replication.Table_Name)
+			.getPO(getAD_Replication_ID(), get_TrxName());	}
 
 	/** Set Replication.
 		@param AD_Replication_ID 

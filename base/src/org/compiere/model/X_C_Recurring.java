@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Recurring
@@ -80,21 +78,10 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException 
+	public I_C_Invoice getC_Invoice() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
-        I_C_Invoice result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
 		@param C_Invoice_ID 
@@ -119,21 +106,10 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException 
+	public I_C_Order getC_Order() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
-        I_C_Order result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
 		@param C_Order_ID 
@@ -158,21 +134,10 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws RuntimeException 
+	public I_C_Payment getC_Payment() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
-        I_C_Payment result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.
 		@param C_Payment_ID 
@@ -197,21 +162,10 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException 
+	public I_C_Project getC_Project() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
-        I_C_Project result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
 		@param C_Project_ID 
@@ -358,21 +312,10 @@ public class X_C_Recurring extends PO implements I_C_Recurring, I_Persistent
 		return (String)get_Value(COLUMNNAME_FrequencyType);
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
-        I_GL_JournalBatch result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_JournalBatch)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalBatch_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_JournalBatch)MTable.get(getCtx(), I_GL_JournalBatch.Table_Name)
+			.getPO(getGL_JournalBatch_ID(), get_TrxName());	}
 
 	/** Set Journal Batch.
 		@param GL_JournalBatch_ID 

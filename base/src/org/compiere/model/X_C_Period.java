@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Period
@@ -102,21 +100,10 @@ public class X_C_Period extends PO implements I_C_Period, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Year getC_Year() throws RuntimeException 
+	public I_C_Year getC_Year() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Year.Table_Name);
-        I_C_Year result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Year)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Year_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Year)MTable.get(getCtx(), I_C_Year.Table_Name)
+			.getPO(getC_Year_ID(), get_TrxName());	}
 
 	/** Set Year.
 		@param C_Year_ID 

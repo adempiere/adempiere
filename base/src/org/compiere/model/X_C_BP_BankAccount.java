@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_BankAccount
@@ -253,21 +251,10 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 
@@ -344,21 +331,10 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return (String)get_Value(COLUMNNAME_BPBankAcctUse);
 	}
 
-	public I_C_Bank getC_Bank() throws RuntimeException 
+	public I_C_Bank getC_Bank() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Bank.Table_Name);
-        I_C_Bank result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Bank)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Bank_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Bank)MTable.get(getCtx(), I_C_Bank.Table_Name)
+			.getPO(getC_Bank_ID(), get_TrxName());	}
 
 	/** Set Bank.
 		@param C_Bank_ID 
@@ -406,21 +382,10 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 

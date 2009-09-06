@@ -1008,6 +1008,8 @@ public interface I_C_Payment
 	/** Get Referenced Payment	  */
 	public int getRef_Payment_ID();
 
+	public I_C_Payment getRef_Payment() throws RuntimeException;
+
     /** Column name Reversal_ID */
     public static final String COLUMNNAME_Reversal_ID = "Reversal_ID";
 
@@ -1020,6 +1022,8 @@ public interface I_C_Payment
 	  * ID of document reversal
 	  */
 	public int getReversal_ID();
+
+	public I_C_Payment getReversal() throws RuntimeException;
 
     /** Column name RoutingNo */
     public static final String COLUMNNAME_RoutingNo = "RoutingNo";
@@ -1115,6 +1119,8 @@ public interface I_C_Payment
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -1127,6 +1133,8 @@ public interface I_C_Payment
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name VoiceAuthCode */
     public static final String COLUMNNAME_VoiceAuthCode = "VoiceAuthCode";

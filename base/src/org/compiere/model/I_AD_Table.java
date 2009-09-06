@@ -310,6 +310,8 @@ public interface I_AD_Table
 	  */
 	public int getPO_Window_ID();
 
+	public I_AD_Window getPO_Window() throws RuntimeException;
+
     /** Column name ReplicationType */
     public static final String COLUMNNAME_ReplicationType = "ReplicationType";
 

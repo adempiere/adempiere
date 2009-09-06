@@ -103,6 +103,11 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
         return new KeyNamePair(get_ID(), String.valueOf(getA_Depreciation_Forecast_ID()));
     }
 
+	public I_A_Asset getA_End_Asset() throws RuntimeException
+    {
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_End_Asset_ID(), get_TrxName());	}
+
 	/** Set End Aset ID.
 		@param A_End_Asset_ID End Aset ID	  */
 	public void setA_End_Asset_ID (int A_End_Asset_ID)
@@ -122,6 +127,11 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_A_Asset getA_Start_Asset() throws RuntimeException
+    {
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_Start_Asset_ID(), get_TrxName());	}
 
 	/** Set A_Start_Asset_ID.
 		@param A_Start_Asset_ID A_Start_Asset_ID	  */

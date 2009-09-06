@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for T_InvoiceGL
@@ -87,21 +85,10 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException 
+	public I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PInstance.Table_Name);
-        I_AD_PInstance result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PInstance)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PInstance_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PInstance)MTable.get(getCtx(), I_AD_PInstance.Table_Name)
+			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
 	/** Set Process Instance.
 		@param AD_PInstance_ID 
@@ -272,6 +259,11 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		return (String)get_Value(COLUMNNAME_APAR);
 	}
 
+	public I_C_ConversionType getC_ConversionTypeReval() throws RuntimeException
+    {
+		return (I_C_ConversionType)MTable.get(getCtx(), I_C_ConversionType.Table_Name)
+			.getPO(getC_ConversionTypeReval_ID(), get_TrxName());	}
+
 	/** Set Revaluation Conversion Type.
 		@param C_ConversionTypeReval_ID 
 		Revaluation Currency Conversion Type
@@ -294,6 +286,11 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_DocType getC_DocTypeReval() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeReval_ID(), get_TrxName());	}
 
 	/** Set Revaluation Document Type.
 		@param C_DocTypeReval_ID 
@@ -318,21 +315,10 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException 
+	public I_C_Invoice getC_Invoice() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
-        I_C_Invoice result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
 		@param C_Invoice_ID 

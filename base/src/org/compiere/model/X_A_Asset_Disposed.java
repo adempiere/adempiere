@@ -135,6 +135,11 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return ii.intValue();
 	}
 
+	public I_A_Asset getA_Asset_Trade() throws RuntimeException
+    {
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_Asset_Trade_ID(), get_TrxName());	}
+
 	/** Set A_Asset_Trade_ID.
 		@param A_Asset_Trade_ID A_Asset_Trade_ID	  */
 	public void setA_Asset_Trade_ID (int A_Asset_Trade_ID)
@@ -239,6 +244,11 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 			 return Env.ZERO;
 		return bd;
 	}
+
+	public I_C_Period getC_Period() throws RuntimeException
+    {
+		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
 		@param C_Period_ID 

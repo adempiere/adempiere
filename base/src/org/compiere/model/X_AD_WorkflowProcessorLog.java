@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_WorkflowProcessorLog
  *  @author Adempiere (generated) 
@@ -73,21 +71,10 @@ public class X_AD_WorkflowProcessorLog extends PO implements I_AD_WorkflowProces
       return sb.toString();
     }
 
-	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException 
+	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_WorkflowProcessor.Table_Name);
-        I_AD_WorkflowProcessor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WorkflowProcessor)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WorkflowProcessor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_WorkflowProcessor)MTable.get(getCtx(), I_AD_WorkflowProcessor.Table_Name)
+			.getPO(getAD_WorkflowProcessor_ID(), get_TrxName());	}
 
 	/** Set Workflow Processor.
 		@param AD_WorkflowProcessor_ID 

@@ -149,4 +149,6 @@ public interface I_C_Withholding_Acct
 	  * Account for Withholdings
 	  */
 	public int getWithholding_Acct();
+
+	public I_C_ValidCombination getWithholding_A() throws RuntimeException;
 }

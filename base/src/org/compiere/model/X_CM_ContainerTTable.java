@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ContainerTTable
@@ -75,21 +73,10 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
       return sb.toString();
     }
 
-	public I_CM_Container getCM_Container() throws RuntimeException 
+	public I_CM_Container getCM_Container() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Container.Table_Name);
-        I_CM_Container result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Container)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Container_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+			.getPO(getCM_Container_ID(), get_TrxName());	}
 
 	/** Set Web Container.
 		@param CM_Container_ID 
@@ -137,21 +124,10 @@ public class X_CM_ContainerTTable extends PO implements I_CM_ContainerTTable, I_
 		return ii.intValue();
 	}
 
-	public I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException 
+	public I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_TemplateTable.Table_Name);
-        I_CM_TemplateTable result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_TemplateTable)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_TemplateTable_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_TemplateTable)MTable.get(getCtx(), I_CM_TemplateTable.Table_Name)
+			.getPO(getCM_TemplateTable_ID(), get_TrxName());	}
 
 	/** Set Template Table.
 		@param CM_TemplateTable_ID 

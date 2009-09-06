@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -80,21 +78,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Country getC_Country() throws RuntimeException 
+	public I_C_Country getC_Country() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
-        I_C_Country result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Country)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Country_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Country)MTable.get(getCtx(), I_C_Country.Table_Name)
+			.getPO(getC_Country_ID(), get_TrxName());	}
 
 	/** Set Country.
 		@param C_Country_ID 
@@ -119,21 +106,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException 
+	public I_C_Currency getC_Currency() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
-        I_C_Currency result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -158,21 +134,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Region getC_Region() throws RuntimeException 
+	public I_C_Region getC_Region() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
-        I_C_Region result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Region)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Region_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
+			.getPO(getC_Region_ID(), get_TrxName());	}
 
 	/** Set Region.
 		@param C_Region_ID 
@@ -240,21 +205,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException 
+	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_FreightCategory.Table_Name);
-        I_M_FreightCategory result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_FreightCategory)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_FreightCategory_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_FreightCategory)MTable.get(getCtx(), I_M_FreightCategory.Table_Name)
+			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
 
 	/** Set Freight Category.
 		@param M_FreightCategory_ID 
@@ -279,21 +233,10 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException 
+	public I_M_Shipper getM_Shipper() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Shipper.Table_Name);
-        I_M_Shipper result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Shipper)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Shipper_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Shipper)MTable.get(getCtx(), I_M_Shipper.Table_Name)
+			.getPO(getM_Shipper_ID(), get_TrxName());	}
 
 	/** Set Shipper.
 		@param M_Shipper_ID 
@@ -348,6 +291,11 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Region getTo_Region() throws RuntimeException
+    {
+		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
+			.getPO(getTo_Region_ID(), get_TrxName());	}
 
 	/** Set To.
 		@param To_Region_ID 

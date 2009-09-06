@@ -177,6 +177,8 @@ public interface I_C_RevenueRecognition_Plan
 	  */
 	public int getP_Revenue_Acct();
 
+	public I_C_ValidCombination getP_Revenue_A() throws RuntimeException;
+
     /** Column name RecognizedAmt */
     public static final String COLUMNNAME_RecognizedAmt = "RecognizedAmt";
 
@@ -211,6 +213,8 @@ public interface I_C_RevenueRecognition_Plan
 	  * Account for unearned revenue
 	  */
 	public int getUnEarnedRevenue_Acct();
+
+	public I_C_ValidCombination getUnEarnedRevenue_A() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_GoalRestriction
@@ -75,21 +73,10 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
       return sb.toString();
     }
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BP_Group)MTable.get(getCtx(), I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
 	/** Set Business Partner Group.
 		@param C_BP_Group_ID 
@@ -114,21 +101,10 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -183,21 +159,10 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return (String)get_Value(COLUMNNAME_GoalRestrictionType);
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
-        I_M_Product_Category result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_Category_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
+			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.
 		@param M_Product_Category_ID 
@@ -222,21 +187,10 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -309,21 +263,10 @@ public class X_PA_GoalRestriction extends PO implements I_PA_GoalRestriction, I_
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getPA_Goal() throws RuntimeException 
+	public I_PA_Goal getPA_Goal() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_Goal.Table_Name);
-        I_PA_Goal result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_Goal)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_Goal_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_Goal)MTable.get(getCtx(), I_PA_Goal.Table_Name)
+			.getPO(getPA_Goal_ID(), get_TrxName());	}
 
 	/** Set Goal.
 		@param PA_Goal_ID 

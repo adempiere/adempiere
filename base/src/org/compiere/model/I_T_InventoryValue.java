@@ -170,6 +170,8 @@ public interface I_T_InventoryValue
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_CostElement_ID */
     public static final String COLUMNNAME_M_CostElement_ID = "M_CostElement_ID";
 

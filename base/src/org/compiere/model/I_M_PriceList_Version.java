@@ -147,6 +147,8 @@ public interface I_M_PriceList_Version
 	  */
 	public int getM_Pricelist_Version_Base_ID();
 
+	public I_M_PriceList_Version getM_Pricelist_Version_Base() throws RuntimeException;
+
     /** Column name M_PriceList_Version_ID */
     public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
 

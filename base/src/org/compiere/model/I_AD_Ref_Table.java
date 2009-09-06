@@ -62,6 +62,8 @@ public interface I_AD_Ref_Table
 	  */
 	public int getAD_Display();
 
+	public I_AD_Column getAD_Disp() throws RuntimeException;
+
     /** Column name AD_Key */
     public static final String COLUMNNAME_AD_Key = "AD_Key";
 
@@ -74,6 +76,8 @@ public interface I_AD_Ref_Table
 	  * Unique identifier of a record
 	  */
 	public int getAD_Key();
+
+	public I_AD_Column getAD_() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

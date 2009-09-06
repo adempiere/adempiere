@@ -440,6 +440,8 @@ public interface I_C_OrderLine
 	  */
 	public int getLink_OrderLine_ID();
 
+	public I_C_OrderLine getLink_OrderLine() throws RuntimeException;
+
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -452,6 +454,8 @@ public interface I_C_OrderLine
 	  * Product Attribute Set Instance
 	  */
 	public int getM_AttributeSetInstance_ID();
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -506,6 +510,8 @@ public interface I_C_OrderLine
 	  * Storage Warehouse and Service Point
 	  */
 	public int getM_Warehouse_ID();
+
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
@@ -687,6 +693,8 @@ public interface I_C_OrderLine
 	  */
 	public int getRef_OrderLine_ID();
 
+	public I_C_OrderLine getRef_OrderLine() throws RuntimeException;
+
     /** Column name RRAmt */
     public static final String COLUMNNAME_RRAmt = "RRAmt";
 
@@ -755,6 +763,8 @@ public interface I_C_OrderLine
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -767,4 +777,6 @@ public interface I_C_OrderLine
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 }

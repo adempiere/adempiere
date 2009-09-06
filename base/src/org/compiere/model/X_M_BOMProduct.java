@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -239,6 +237,11 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
+    {
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
+
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
 		Product Attribute Set Instance
@@ -262,21 +265,10 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_BOM getM_BOM() throws RuntimeException 
+	public I_M_BOM getM_BOM() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_BOM.Table_Name);
-        I_M_BOM result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_BOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_BOM_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_BOM)MTable.get(getCtx(), I_M_BOM.Table_Name)
+			.getPO(getM_BOM_ID(), get_TrxName());	}
 
 	/** Set BOM.
 		@param M_BOM_ID 
@@ -301,21 +293,10 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException 
+	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_BOMAlternative.Table_Name);
-        I_M_BOMAlternative result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_BOMAlternative)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_BOMAlternative_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_BOMAlternative)MTable.get(getCtx(), I_M_BOMAlternative.Table_Name)
+			.getPO(getM_BOMAlternative_ID(), get_TrxName());	}
 
 	/** Set Alternative Group.
 		@param M_BOMAlternative_ID 
@@ -363,21 +344,10 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException 
+	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
-        I_M_ChangeNotice result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_ChangeNotice)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ChangeNotice_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_ChangeNotice)MTable.get(getCtx(), I_M_ChangeNotice.Table_Name)
+			.getPO(getM_ChangeNotice_ID(), get_TrxName());	}
 
 	/** Set Change Notice.
 		@param M_ChangeNotice_ID 
@@ -402,6 +372,11 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Product getM_ProductBOM() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_ProductBOM_ID(), get_TrxName());	}
+
 	/** Set BOM Product.
 		@param M_ProductBOM_ID 
 		Bill of Material Component Product
@@ -425,21 +400,10 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ProductOperation getM_ProductOperation() throws RuntimeException 
+	public I_M_ProductOperation getM_ProductOperation() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_ProductOperation.Table_Name);
-        I_M_ProductOperation result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_ProductOperation)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ProductOperation_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_ProductOperation)MTable.get(getCtx(), I_M_ProductOperation.Table_Name)
+			.getPO(getM_ProductOperation_ID(), get_TrxName());	}
 
 	/** Set Product Operation.
 		@param M_ProductOperation_ID 

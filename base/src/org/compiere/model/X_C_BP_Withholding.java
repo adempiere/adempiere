@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for C_BP_Withholding
  *  @author Adempiere (generated) 
@@ -74,21 +72,10 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -113,21 +100,10 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Withholding getC_Withholding() throws RuntimeException 
+	public I_C_Withholding getC_Withholding() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Withholding.Table_Name);
-        I_C_Withholding result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Withholding)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Withholding_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Withholding)MTable.get(getCtx(), I_C_Withholding.Table_Name)
+			.getPO(getC_Withholding_ID(), get_TrxName());	}
 
 	/** Set Withholding.
 		@param C_Withholding_ID 

@@ -108,6 +108,11 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getA_Accumdepreciation_Acct_() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Accumdepreciation_Acct_New(), get_TrxName());	}
+
 	/** Set New Accum Depreciation Acct.
 		@param A_Accumdepreciation_Acct_New New Accum Depreciation Acct	  */
 	public void setA_Accumdepreciation_Acct_New (int A_Accumdepreciation_Acct_New)
@@ -175,6 +180,11 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getA_Asset_Acct_() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Asset_Acct_New(), get_TrxName());	}
 
 	/** Set New Asset Cost Acct.
 		@param A_Asset_Acct_New New Asset Cost Acct	  */
@@ -275,6 +285,11 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getA_Depreciation_Acct_() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Depreciation_Acct_New(), get_TrxName());	}
+
 	/** Set New Depreciation Exp Acct.
 		@param A_Depreciation_Acct_New New Depreciation Exp Acct	  */
 	public void setA_Depreciation_Acct_New (int A_Depreciation_Acct_New)
@@ -323,6 +338,11 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getA_Disposal_Loss_() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Disposal_Loss_New(), get_TrxName());	}
+
 	/** Set New Disposal Loss.
 		@param A_Disposal_Loss_New New Disposal Loss	  */
 	public void setA_Disposal_Loss_New (int A_Disposal_Loss_New)
@@ -370,6 +390,11 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getA_Disposal_Revenue_() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Disposal_Revenue_New(), get_TrxName());	}
 
 	/** Set New Disposal Revenue.
 		@param A_Disposal_Revenue_New New Disposal Revenue	  */
@@ -495,6 +520,11 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return false;
 	}
 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+    {
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
+
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
 		Rules for accounting
@@ -517,6 +547,11 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Period getC_Period() throws RuntimeException
+    {
+		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
 		@param C_Period_ID 

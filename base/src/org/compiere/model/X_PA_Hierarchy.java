@@ -79,6 +79,11 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Tree getAD_Tree_Account() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Account_ID(), get_TrxName());	}
+
 	/** Set Account Tree.
 		@param AD_Tree_Account_ID 
 		Tree for Natural Account Tree
@@ -101,6 +106,11 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_Activity() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity Tree.
 		@param AD_Tree_Activity_ID 
@@ -125,6 +135,11 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Tree getAD_Tree_BPartner() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_BPartner_ID(), get_TrxName());	}
+
 	/** Set BPartner Tree.
 		@param AD_Tree_BPartner_ID 
 		Tree to determine business partner hierarchy
@@ -147,6 +162,11 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_Campaign() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign Tree.
 		@param AD_Tree_Campaign_ID 
@@ -171,6 +191,11 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Tree getAD_Tree_Org() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Org_ID(), get_TrxName());	}
+
 	/** Set Organization Tree.
 		@param AD_Tree_Org_ID 
 		Tree to determine organizational hierarchy
@@ -193,6 +218,11 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_Product() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Product_ID(), get_TrxName());	}
 
 	/** Set Product Tree.
 		@param AD_Tree_Product_ID 
@@ -217,6 +247,11 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Tree getAD_Tree_Project() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Project_ID(), get_TrxName());	}
+
 	/** Set Project Tree.
 		@param AD_Tree_Project_ID 
 		Tree to determine project hierarchy
@@ -239,6 +274,11 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region Tree.
 		@param AD_Tree_SalesRegion_ID 

@@ -75,6 +75,8 @@ public interface I_M_PriceList
 	  */
 	public int getBasePriceList_ID();
 
+	public I_M_PriceList getBasePriceList() throws RuntimeException;
+
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 

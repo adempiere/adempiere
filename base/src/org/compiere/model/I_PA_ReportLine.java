@@ -189,6 +189,8 @@ public interface I_PA_ReportLine
 	  */
 	public int getOper_1_ID();
 
+	public I_PA_ReportLine getOper_1() throws RuntimeException;
+
     /** Column name Oper_2_ID */
     public static final String COLUMNNAME_Oper_2_ID = "Oper_2_ID";
 
@@ -201,6 +203,8 @@ public interface I_PA_ReportLine
 	  * Second operand for calculation
 	  */
 	public int getOper_2_ID();
+
+	public I_PA_ReportLine getOper_2() throws RuntimeException;
 
     /** Column name PA_ReportLine_ID */
     public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";

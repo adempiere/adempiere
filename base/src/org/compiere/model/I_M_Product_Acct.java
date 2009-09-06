@@ -134,6 +134,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_Asset_Acct();
 
+	public I_C_ValidCombination getP_Asset_A() throws RuntimeException;
+
     /** Column name P_Burden_Acct */
     public static final String COLUMNNAME_P_Burden_Acct = "P_Burden_Acct";
 
@@ -146,6 +148,8 @@ public interface I_M_Product_Acct
 	  * The Burden account is the account used Manufacturing Order
 	  */
 	public int getP_Burden_Acct();
+
+	public I_C_ValidCombination getP_Burden_A() throws RuntimeException;
 
     /** Column name P_COGS_Acct */
     public static final String COLUMNNAME_P_COGS_Acct = "P_COGS_Acct";
@@ -160,6 +164,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_COGS_Acct();
 
+	public I_C_ValidCombination getP_COGS_A() throws RuntimeException;
+
     /** Column name P_CostAdjustment_Acct */
     public static final String COLUMNNAME_P_CostAdjustment_Acct = "P_CostAdjustment_Acct";
 
@@ -172,6 +178,8 @@ public interface I_M_Product_Acct
 	  * Product Cost Adjustment Account
 	  */
 	public int getP_CostAdjustment_Acct();
+
+	public I_C_ValidCombination getP_CostAdjustment_A() throws RuntimeException;
 
     /** Column name P_CostOfProduction_Acct */
     public static final String COLUMNNAME_P_CostOfProduction_Acct = "P_CostOfProduction_Acct";
@@ -186,6 +194,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_CostOfProduction_Acct();
 
+	public I_C_ValidCombination getP_CostOfProduction_A() throws RuntimeException;
+
     /** Column name P_Expense_Acct */
     public static final String COLUMNNAME_P_Expense_Acct = "P_Expense_Acct";
 
@@ -198,6 +208,8 @@ public interface I_M_Product_Acct
 	  * Account for Product Expense
 	  */
 	public int getP_Expense_Acct();
+
+	public I_C_ValidCombination getP_Expense_A() throws RuntimeException;
 
     /** Column name P_FloorStock_Acct */
     public static final String COLUMNNAME_P_FloorStock_Acct = "P_FloorStock_Acct";
@@ -212,6 +224,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_FloorStock_Acct();
 
+	public I_C_ValidCombination getP_FloorStock_A() throws RuntimeException;
+
     /** Column name P_InventoryClearing_Acct */
     public static final String COLUMNNAME_P_InventoryClearing_Acct = "P_InventoryClearing_Acct";
 
@@ -224,6 +238,8 @@ public interface I_M_Product_Acct
 	  * Product Inventory Clearing Account
 	  */
 	public int getP_InventoryClearing_Acct();
+
+	public I_C_ValidCombination getP_InventoryClearing_A() throws RuntimeException;
 
     /** Column name P_InvoicePriceVariance_Acct */
     public static final String COLUMNNAME_P_InvoicePriceVariance_Acct = "P_InvoicePriceVariance_Acct";
@@ -238,6 +254,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_InvoicePriceVariance_Acct();
 
+	public I_C_ValidCombination getP_InvoicePriceVariance_A() throws RuntimeException;
+
     /** Column name P_Labor_Acct */
     public static final String COLUMNNAME_P_Labor_Acct = "P_Labor_Acct";
 
@@ -250,6 +268,8 @@ public interface I_M_Product_Acct
 	  * The Labor account is the account used Manufacturing Order
 	  */
 	public int getP_Labor_Acct();
+
+	public I_C_ValidCombination getP_Labor_A() throws RuntimeException;
 
     /** Column name P_MethodChangeVariance_Acct */
     public static final String COLUMNNAME_P_MethodChangeVariance_Acct = "P_MethodChangeVariance_Acct";
@@ -264,6 +284,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_MethodChangeVariance_Acct();
 
+	public I_C_ValidCombination getP_MethodChangeVariance_A() throws RuntimeException;
+
     /** Column name P_MixVariance_Acct */
     public static final String COLUMNNAME_P_MixVariance_Acct = "P_MixVariance_Acct";
 
@@ -276,6 +298,8 @@ public interface I_M_Product_Acct
 	  * The Mix Variance account is the account used Manufacturing Order
 	  */
 	public int getP_MixVariance_Acct();
+
+	public I_C_ValidCombination getP_MixVariance_A() throws RuntimeException;
 
     /** Column name P_OutsideProcessing_Acct */
     public static final String COLUMNNAME_P_OutsideProcessing_Acct = "P_OutsideProcessing_Acct";
@@ -290,6 +314,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_OutsideProcessing_Acct();
 
+	public I_C_ValidCombination getP_OutsideProcessing_A() throws RuntimeException;
+
     /** Column name P_Overhead_Acct */
     public static final String COLUMNNAME_P_Overhead_Acct = "P_Overhead_Acct";
 
@@ -302,6 +328,8 @@ public interface I_M_Product_Acct
 	  * The Overhead account is the account used  in Manufacturing Order 
 	  */
 	public int getP_Overhead_Acct();
+
+	public I_C_ValidCombination getP_Overhead_A() throws RuntimeException;
 
     /** Column name P_PurchasePriceVariance_Acct */
     public static final String COLUMNNAME_P_PurchasePriceVariance_Acct = "P_PurchasePriceVariance_Acct";
@@ -316,6 +344,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_PurchasePriceVariance_Acct();
 
+	public I_C_ValidCombination getP_PurchasePriceVariance_A() throws RuntimeException;
+
     /** Column name P_RateVariance_Acct */
     public static final String COLUMNNAME_P_RateVariance_Acct = "P_RateVariance_Acct";
 
@@ -328,6 +358,8 @@ public interface I_M_Product_Acct
 	  * The Rate Variance account is the account used Manufacturing Order
 	  */
 	public int getP_RateVariance_Acct();
+
+	public I_C_ValidCombination getP_RateVariance_A() throws RuntimeException;
 
     /** Column name P_Revenue_Acct */
     public static final String COLUMNNAME_P_Revenue_Acct = "P_Revenue_Acct";
@@ -342,6 +374,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_Revenue_Acct();
 
+	public I_C_ValidCombination getP_Revenue_A() throws RuntimeException;
+
     /** Column name P_Scrap_Acct */
     public static final String COLUMNNAME_P_Scrap_Acct = "P_Scrap_Acct";
 
@@ -354,6 +388,8 @@ public interface I_M_Product_Acct
 	  * The Scrap account is the account used  in Manufacturing Order 
 	  */
 	public int getP_Scrap_Acct();
+
+	public I_C_ValidCombination getP_Scrap_A() throws RuntimeException;
 
     /** Column name P_TradeDiscountGrant_Acct */
     public static final String COLUMNNAME_P_TradeDiscountGrant_Acct = "P_TradeDiscountGrant_Acct";
@@ -368,6 +404,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_TradeDiscountGrant_Acct();
 
+	public I_C_ValidCombination getP_TradeDiscountGrant_A() throws RuntimeException;
+
     /** Column name P_TradeDiscountRec_Acct */
     public static final String COLUMNNAME_P_TradeDiscountRec_Acct = "P_TradeDiscountRec_Acct";
 
@@ -380,6 +418,8 @@ public interface I_M_Product_Acct
 	  * Trade Discount Receivable Account
 	  */
 	public int getP_TradeDiscountRec_Acct();
+
+	public I_C_ValidCombination getP_TradeDiscountRec_A() throws RuntimeException;
 
     /** Column name P_UsageVariance_Acct */
     public static final String COLUMNNAME_P_UsageVariance_Acct = "P_UsageVariance_Acct";
@@ -394,6 +434,8 @@ public interface I_M_Product_Acct
 	  */
 	public int getP_UsageVariance_Acct();
 
+	public I_C_ValidCombination getP_UsageVariance_A() throws RuntimeException;
+
     /** Column name P_WIP_Acct */
     public static final String COLUMNNAME_P_WIP_Acct = "P_WIP_Acct";
 
@@ -406,6 +448,8 @@ public interface I_M_Product_Acct
 	  * The Work in Process account is the account used Manufacturing Order
 	  */
 	public int getP_WIP_Acct();
+
+	public I_C_ValidCombination getP_WIP_A() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

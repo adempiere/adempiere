@@ -145,6 +145,8 @@ public interface I_M_Substitute
 	  */
 	public int getSubstitute_ID();
 
+	public I_M_Product getSubstitute() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

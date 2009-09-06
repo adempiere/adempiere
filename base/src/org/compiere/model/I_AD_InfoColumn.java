@@ -118,6 +118,8 @@ public interface I_AD_InfoColumn
 	  */
 	public int getAD_Reference_ID();
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

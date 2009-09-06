@@ -75,6 +75,8 @@ public interface I_AD_WF_NodeNext
 	  */
 	public int getAD_WF_Next_ID();
 
+	public I_AD_WF_Node getAD_WF_Next() throws RuntimeException;
+
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
 

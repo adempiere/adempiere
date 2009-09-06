@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -88,21 +86,10 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException 
+	public I_AD_Rule getAD_Rule() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Rule.Table_Name);
-        I_AD_Rule result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Rule)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Rule_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Rule)MTable.get(getCtx(), I_AD_Rule.Table_Name)
+			.getPO(getAD_Rule_ID(), get_TrxName());	}
 
 	/** Set Rule.
 		@param AD_Rule_ID Rule	  */
@@ -146,6 +133,11 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Region getC_Region() throws RuntimeException
+    {
+		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
+			.getPO(getC_Region_ID(), get_TrxName());	}
 
 	/** Set Region.
 		@param C_Region_ID 
@@ -193,21 +185,10 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
-        I_C_TaxCategory result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_TaxCategory)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_TaxCategory_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_TaxCategory)MTable.get(getCtx(), I_C_TaxCategory.Table_Name)
+			.getPO(getC_TaxCategory_ID(), get_TrxName());	}
 
 	/** Set Tax Category.
 		@param C_TaxCategory_ID 
@@ -394,6 +375,11 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	public I_C_Tax getParent_Tax() throws RuntimeException
+    {
+		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
+			.getPO(getParent_Tax_ID(), get_TrxName());	}
+
 	/** Set Parent Tax.
 		@param Parent_Tax_ID 
 		Parent Tax indicates a tax that is made up of multiple taxes
@@ -526,6 +512,11 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Region getTo_Region() throws RuntimeException
+    {
+		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
+			.getPO(getTo_Region_ID(), get_TrxName());	}
 
 	/** Set To.
 		@param To_Region_ID 

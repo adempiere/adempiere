@@ -103,6 +103,8 @@ public interface I_C_BankAccountDoc
 	  */
 	public int getCheck_PrintFormat_ID();
 
+	public I_AD_PrintFormat getCheck_PrintFormat() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

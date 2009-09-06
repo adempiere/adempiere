@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for C_Tax_Acct
  *  @author Adempiere (generated) 
@@ -77,21 +75,10 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -116,21 +103,10 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws RuntimeException 
+	public I_C_Tax getC_Tax() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Tax.Table_Name);
-        I_C_Tax result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Tax)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Tax_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
+			.getPO(getC_Tax_ID(), get_TrxName());	}
 
 	/** Set Tax.
 		@param C_Tax_ID 
@@ -155,6 +131,11 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getT_Credit_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getT_Credit_Acct(), get_TrxName());	}
+
 	/** Set Tax Credit.
 		@param T_Credit_Acct 
 		Account for Tax you can reclaim
@@ -174,6 +155,11 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getT_Due_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getT_Due_Acct(), get_TrxName());	}
 
 	/** Set Tax Due.
 		@param T_Due_Acct 
@@ -195,6 +181,11 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getT_Expense_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getT_Expense_Acct(), get_TrxName());	}
+
 	/** Set Tax Expense.
 		@param T_Expense_Acct 
 		Account for paid tax you cannot reclaim
@@ -215,6 +206,11 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getT_Liability_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getT_Liability_Acct(), get_TrxName());	}
+
 	/** Set Tax Liability.
 		@param T_Liability_Acct 
 		Account for Tax declaration liability
@@ -234,6 +230,11 @@ public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getT_Receivables_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getT_Receivables_Acct(), get_TrxName());	}
 
 	/** Set Tax Receivables.
 		@param T_Receivables_Acct 

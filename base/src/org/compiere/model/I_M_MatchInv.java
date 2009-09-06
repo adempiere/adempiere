@@ -171,6 +171,8 @@ public interface I_M_MatchInv
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 

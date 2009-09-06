@@ -75,6 +75,8 @@ public interface I_PA_Hierarchy
 	  */
 	public int getAD_Tree_Account_ID();
 
+	public I_AD_Tree getAD_Tree_Account() throws RuntimeException;
+
     /** Column name AD_Tree_Activity_ID */
     public static final String COLUMNNAME_AD_Tree_Activity_ID = "AD_Tree_Activity_ID";
 
@@ -87,6 +89,8 @@ public interface I_PA_Hierarchy
 	  * Tree to determine activity hierarchy
 	  */
 	public int getAD_Tree_Activity_ID();
+
+	public I_AD_Tree getAD_Tree_Activity() throws RuntimeException;
 
     /** Column name AD_Tree_BPartner_ID */
     public static final String COLUMNNAME_AD_Tree_BPartner_ID = "AD_Tree_BPartner_ID";
@@ -101,6 +105,8 @@ public interface I_PA_Hierarchy
 	  */
 	public int getAD_Tree_BPartner_ID();
 
+	public I_AD_Tree getAD_Tree_BPartner() throws RuntimeException;
+
     /** Column name AD_Tree_Campaign_ID */
     public static final String COLUMNNAME_AD_Tree_Campaign_ID = "AD_Tree_Campaign_ID";
 
@@ -113,6 +119,8 @@ public interface I_PA_Hierarchy
 	  * Tree to determine marketing campaign hierarchy
 	  */
 	public int getAD_Tree_Campaign_ID();
+
+	public I_AD_Tree getAD_Tree_Campaign() throws RuntimeException;
 
     /** Column name AD_Tree_Org_ID */
     public static final String COLUMNNAME_AD_Tree_Org_ID = "AD_Tree_Org_ID";
@@ -127,6 +135,8 @@ public interface I_PA_Hierarchy
 	  */
 	public int getAD_Tree_Org_ID();
 
+	public I_AD_Tree getAD_Tree_Org() throws RuntimeException;
+
     /** Column name AD_Tree_Product_ID */
     public static final String COLUMNNAME_AD_Tree_Product_ID = "AD_Tree_Product_ID";
 
@@ -139,6 +149,8 @@ public interface I_PA_Hierarchy
 	  * Tree to determine product hierarchy
 	  */
 	public int getAD_Tree_Product_ID();
+
+	public I_AD_Tree getAD_Tree_Product() throws RuntimeException;
 
     /** Column name AD_Tree_Project_ID */
     public static final String COLUMNNAME_AD_Tree_Project_ID = "AD_Tree_Project_ID";
@@ -153,6 +165,8 @@ public interface I_PA_Hierarchy
 	  */
 	public int getAD_Tree_Project_ID();
 
+	public I_AD_Tree getAD_Tree_Project() throws RuntimeException;
+
     /** Column name AD_Tree_SalesRegion_ID */
     public static final String COLUMNNAME_AD_Tree_SalesRegion_ID = "AD_Tree_SalesRegion_ID";
 
@@ -165,6 +179,8 @@ public interface I_PA_Hierarchy
 	  * Tree to determine sales regional hierarchy
 	  */
 	public int getAD_Tree_SalesRegion_ID();
+
+	public I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

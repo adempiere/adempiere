@@ -182,6 +182,8 @@ public interface I_M_Product_Category
 	/** Get Parent Product Category	  */
 	public int getM_Product_Category_Parent_ID();
 
+	public I_M_Product_Category getM_Product_Category_Parent() throws RuntimeException;
+
     /** Column name MMPolicy */
     public static final String COLUMNNAME_MMPolicy = "MMPolicy";
 

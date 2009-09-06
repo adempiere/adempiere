@@ -62,6 +62,8 @@ public interface I_AD_Find
 	  */
 	public int getAD_Column_ID();
 
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
     /** Column name AD_Find_ID */
     public static final String COLUMNNAME_AD_Find_ID = "AD_Find_ID";
 

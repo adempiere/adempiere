@@ -149,6 +149,8 @@ public interface I_T_Transaction
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -221,6 +223,8 @@ public interface I_T_Transaction
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
@@ -360,6 +364,8 @@ public interface I_T_Transaction
 	  */
 	public int getSearch_InOut_ID();
 
+	public I_M_InOutLine getSearch_InOut() throws RuntimeException;
+
     /** Column name Search_Invoice_ID */
     public static final String COLUMNNAME_Search_Invoice_ID = "Search_Invoice_ID";
 
@@ -373,6 +379,8 @@ public interface I_T_Transaction
 	  */
 	public int getSearch_Invoice_ID();
 
+	public I_C_Invoice getSearch_Invoice() throws RuntimeException;
+
     /** Column name Search_Order_ID */
     public static final String COLUMNNAME_Search_Order_ID = "Search_Order_ID";
 
@@ -385,6 +393,8 @@ public interface I_T_Transaction
 	  * Order Identifier
 	  */
 	public int getSearch_Order_ID();
+
+	public I_C_Order getSearch_Order() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ_Topic
@@ -74,21 +72,10 @@ public class X_C_RfQ_Topic extends PO implements I_C_RfQ_Topic, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException 
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
-        I_AD_PrintFormat result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintFormat)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintFormat_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
 		@param AD_PrintFormat_ID 

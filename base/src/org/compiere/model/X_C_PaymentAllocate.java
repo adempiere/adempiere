@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -100,21 +98,10 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 		return bd;
 	}
 
-	public I_C_AllocationLine getC_AllocationLine() throws RuntimeException 
+	public I_C_AllocationLine getC_AllocationLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AllocationLine.Table_Name);
-        I_C_AllocationLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AllocationLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AllocationLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AllocationLine)MTable.get(getCtx(), I_C_AllocationLine.Table_Name)
+			.getPO(getC_AllocationLine_ID(), get_TrxName());	}
 
 	/** Set Allocation Line.
 		@param C_AllocationLine_ID 
@@ -139,21 +126,10 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException 
+	public I_C_Invoice getC_Invoice() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
-        I_C_Invoice result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
 		@param C_Invoice_ID 
@@ -186,21 +162,10 @@ public class X_C_PaymentAllocate extends PO implements I_C_PaymentAllocate, I_Pe
         return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
     }
 
-	public I_C_Payment getC_Payment() throws RuntimeException 
+	public I_C_Payment getC_Payment() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
-        I_C_Payment result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.
 		@param C_Payment_ID 

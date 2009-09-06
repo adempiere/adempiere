@@ -81,6 +81,11 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Tree getAD_TreeCMC() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_TreeCMC_ID(), get_TrxName());	}
+
 	/** Set Container Tree.
 		@param AD_TreeCMC_ID 
 		Container Tree
@@ -103,6 +108,11 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_TreeCMM() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_TreeCMM_ID(), get_TrxName());	}
 
 	/** Set Media Tree.
 		@param AD_TreeCMM_ID 
@@ -127,6 +137,11 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Tree getAD_TreeCMS() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_TreeCMS_ID(), get_TrxName());	}
+
 	/** Set Stage Tree.
 		@param AD_TreeCMS_ID 
 		Stage Tree
@@ -149,6 +164,11 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_TreeCMT() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_TreeCMT_ID(), get_TrxName());	}
 
 	/** Set Template Tree.
 		@param AD_TreeCMT_ID 

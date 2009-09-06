@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PriceList_Version
@@ -96,21 +94,10 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException 
+	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_DiscountSchema.Table_Name);
-        I_M_DiscountSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DiscountSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DiscountSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_DiscountSchema)MTable.get(getCtx(), I_M_DiscountSchema.Table_Name)
+			.getPO(getM_DiscountSchema_ID(), get_TrxName());	}
 
 	/** Set Discount Schema.
 		@param M_DiscountSchema_ID 
@@ -135,21 +122,10 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException 
+	public I_M_PriceList getM_PriceList() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
-        I_M_PriceList result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PriceList)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PriceList_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.
 		@param M_PriceList_ID 
@@ -173,6 +149,11 @@ public class X_M_PriceList_Version extends PO implements I_M_PriceList_Version, 
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_PriceList_Version getM_Pricelist_Version_Base() throws RuntimeException
+    {
+		return (I_M_PriceList_Version)MTable.get(getCtx(), I_M_PriceList_Version.Table_Name)
+			.getPO(getM_Pricelist_Version_Base_ID(), get_TrxName());	}
 
 	/** Set Base Price List.
 		@param M_Pricelist_Version_Base_ID 

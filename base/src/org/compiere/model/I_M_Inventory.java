@@ -359,6 +359,8 @@ public interface I_M_Inventory
 	  */
 	public int getReversal_ID();
 
+	public I_M_Inventory getReversal() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -397,6 +399,8 @@ public interface I_M_Inventory
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -409,4 +413,6 @@ public interface I_M_Inventory
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 }

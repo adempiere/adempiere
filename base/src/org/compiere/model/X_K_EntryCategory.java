@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_EntryCategory
@@ -74,21 +72,10 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
       return sb.toString();
     }
 
-	public I_K_Category getK_Category() throws RuntimeException 
+	public I_K_Category getK_Category() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_K_Category.Table_Name);
-        I_K_Category result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_K_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_Category_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_K_Category)MTable.get(getCtx(), I_K_Category.Table_Name)
+			.getPO(getK_Category_ID(), get_TrxName());	}
 
 	/** Set Knowledge Category.
 		@param K_Category_ID 
@@ -113,21 +100,10 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
 		return ii.intValue();
 	}
 
-	public I_K_CategoryValue getK_CategoryValue() throws RuntimeException 
+	public I_K_CategoryValue getK_CategoryValue() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_K_CategoryValue.Table_Name);
-        I_K_CategoryValue result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_K_CategoryValue)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_CategoryValue_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_K_CategoryValue)MTable.get(getCtx(), I_K_CategoryValue.Table_Name)
+			.getPO(getK_CategoryValue_ID(), get_TrxName());	}
 
 	/** Set Category Value.
 		@param K_CategoryValue_ID 
@@ -160,21 +136,10 @@ public class X_K_EntryCategory extends PO implements I_K_EntryCategory, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getK_CategoryValue_ID()));
     }
 
-	public I_K_Entry getK_Entry() throws RuntimeException 
+	public I_K_Entry getK_Entry() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_K_Entry.Table_Name);
-        I_K_Entry result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_K_Entry)constructor.newInstance(new Object[] {getCtx(), new Integer(getK_Entry_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_K_Entry)MTable.get(getCtx(), I_K_Entry.Table_Name)
+			.getPO(getK_Entry_ID(), get_TrxName());	}
 
 	/** Set Entry.
 		@param K_Entry_ID 

@@ -105,6 +105,8 @@ public interface I_C_CashBook_Acct
 	  */
 	public int getCB_Asset_Acct();
 
+	public I_C_ValidCombination getCB_Asset_A() throws RuntimeException;
+
     /** Column name CB_CashTransfer_Acct */
     public static final String COLUMNNAME_CB_CashTransfer_Acct = "CB_CashTransfer_Acct";
 
@@ -117,6 +119,8 @@ public interface I_C_CashBook_Acct
 	  * Cash Transfer Clearing Account
 	  */
 	public int getCB_CashTransfer_Acct();
+
+	public I_C_ValidCombination getCB_CashTransfer_A() throws RuntimeException;
 
     /** Column name CB_Differences_Acct */
     public static final String COLUMNNAME_CB_Differences_Acct = "CB_Differences_Acct";
@@ -131,6 +135,8 @@ public interface I_C_CashBook_Acct
 	  */
 	public int getCB_Differences_Acct();
 
+	public I_C_ValidCombination getCB_Differences_A() throws RuntimeException;
+
     /** Column name CB_Expense_Acct */
     public static final String COLUMNNAME_CB_Expense_Acct = "CB_Expense_Acct";
 
@@ -144,6 +150,8 @@ public interface I_C_CashBook_Acct
 	  */
 	public int getCB_Expense_Acct();
 
+	public I_C_ValidCombination getCB_Expense_A() throws RuntimeException;
+
     /** Column name CB_Receipt_Acct */
     public static final String COLUMNNAME_CB_Receipt_Acct = "CB_Receipt_Acct";
 
@@ -156,6 +164,8 @@ public interface I_C_CashBook_Acct
 	  * Cash Book Receipts Account
 	  */
 	public int getCB_Receipt_Acct();
+
+	public I_C_ValidCombination getCB_Receipt_A() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

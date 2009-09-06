@@ -121,6 +121,8 @@ public interface I_C_Order
 	  */
 	public int getBill_BPartner_ID();
 
+	public I_C_BPartner getBill_BPartner() throws RuntimeException;
+
     /** Column name Bill_Location_ID */
     public static final String COLUMNNAME_Bill_Location_ID = "Bill_Location_ID";
 
@@ -134,6 +136,8 @@ public interface I_C_Order
 	  */
 	public int getBill_Location_ID();
 
+	public I_C_BPartner_Location getBill_Location() throws RuntimeException;
+
     /** Column name Bill_User_ID */
     public static final String COLUMNNAME_Bill_User_ID = "Bill_User_ID";
 
@@ -146,6 +150,8 @@ public interface I_C_Order
 	  * Business Partner Contact for invoicing
 	  */
 	public int getBill_User_ID();
+
+	public I_AD_User getBill_User() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -235,6 +241,8 @@ public interface I_C_Order
 	  */
 	public int getC_Charge_ID();
 
+	public I_C_Charge getC_Charge() throws RuntimeException;
+
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -292,6 +300,8 @@ public interface I_C_Order
 	  * Target document type for conversing documents
 	  */
 	public int getC_DocTypeTarget_ID();
+
+	public I_C_DocType getC_DocTypeTarget() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -551,6 +561,8 @@ public interface I_C_Order
 	  */
 	public int getDropShip_BPartner_ID();
 
+	public I_C_BPartner getDropShip_BPartner() throws RuntimeException;
+
     /** Column name DropShip_Location_ID */
     public static final String COLUMNNAME_DropShip_Location_ID = "DropShip_Location_ID";
 
@@ -564,6 +576,8 @@ public interface I_C_Order
 	  */
 	public int getDropShip_Location_ID();
 
+	public I_C_BPartner_Location getDropShip_Location() throws RuntimeException;
+
     /** Column name DropShip_User_ID */
     public static final String COLUMNNAME_DropShip_User_ID = "DropShip_User_ID";
 
@@ -576,6 +590,8 @@ public interface I_C_Order
 	  * Business Partner Contact for drop shipment
 	  */
 	public int getDropShip_User_ID();
+
+	public I_AD_User getDropShip_User() throws RuntimeException;
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -803,6 +819,8 @@ public interface I_C_Order
 	  */
 	public int getLink_Order_ID();
 
+	public I_C_Order getLink_Order() throws RuntimeException;
+
     /** Column name M_FreightCategory_ID */
     public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
 
@@ -998,6 +1016,8 @@ public interface I_C_Order
 	  */
 	public int getRef_Order_ID();
 
+	public I_C_Order getRef_Order() throws RuntimeException;
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -1010,6 +1030,8 @@ public interface I_C_Order
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SendEMail */
     public static final String COLUMNNAME_SendEMail = "SendEMail";
@@ -1066,6 +1088,8 @@ public interface I_C_Order
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -1078,6 +1102,8 @@ public interface I_C_Order
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name Volume */
     public static final String COLUMNNAME_Volume = "Volume";

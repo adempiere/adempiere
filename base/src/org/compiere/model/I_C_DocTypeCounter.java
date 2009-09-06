@@ -103,6 +103,8 @@ public interface I_C_DocTypeCounter
 	  */
 	public int getCounter_C_DocType_ID();
 
+	public I_C_DocType getCounter_C_DocType() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

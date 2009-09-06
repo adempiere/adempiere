@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -88,21 +86,10 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
       return sb.toString();
     }
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException 
+	public I_C_Invoice getC_Invoice() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
-        I_C_Invoice result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
 		@param C_Invoice_ID 
@@ -127,21 +114,10 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_PaySelection getC_PaySelection() throws RuntimeException 
+	public I_C_PaySelection getC_PaySelection() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_PaySelection.Table_Name);
-        I_C_PaySelection result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaySelection)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaySelection_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_PaySelection)MTable.get(getCtx(), I_C_PaySelection.Table_Name)
+			.getPO(getC_PaySelection_ID(), get_TrxName());	}
 
 	/** Set Payment Selection.
 		@param C_PaySelection_ID 
@@ -166,21 +142,10 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException 
+	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_PaySelectionCheck.Table_Name);
-        I_C_PaySelectionCheck result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaySelectionCheck)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaySelectionCheck_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_PaySelectionCheck)MTable.get(getCtx(), I_C_PaySelectionCheck.Table_Name)
+			.getPO(getC_PaySelectionCheck_ID(), get_TrxName());	}
 
 	/** Set Pay Selection Check.
 		@param C_PaySelectionCheck_ID 

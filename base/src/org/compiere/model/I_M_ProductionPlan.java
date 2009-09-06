@@ -130,6 +130,8 @@ public interface I_M_ProductionPlan
 	  */
 	public int getM_Locator_ID();
 
+	public I_M_Locator getM_Locator() throws RuntimeException;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -142,6 +144,8 @@ public interface I_M_ProductionPlan
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Production_ID */
     public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";

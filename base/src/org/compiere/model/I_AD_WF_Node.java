@@ -741,6 +741,8 @@ public interface I_AD_WF_Node
 	  */
 	public int getWorkflow_ID();
 
+	public I_AD_Workflow getWorkflow() throws RuntimeException;
+
     /** Column name WorkingTime */
     public static final String COLUMNNAME_WorkingTime = "WorkingTime";
 

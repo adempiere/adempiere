@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -92,21 +90,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
       return sb.toString();
     }
 
-	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException 
+	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_A_Asset_Group.Table_Name);
-        I_A_Asset_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_A_Asset_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Asset_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_A_Asset_Group)MTable.get(getCtx(), I_A_Asset_Group.Table_Name)
+			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
 
 	/** Set Asset Group.
 		@param A_Asset_Group_ID 
@@ -130,6 +117,11 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset.
 		@param A_Asset_ID 
@@ -276,21 +268,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return bd;
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
-        I_C_ConversionType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ConversionType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ConversionType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_ConversionType)MTable.get(getCtx(), I_C_ConversionType.Table_Name)
+			.getPO(getC_ConversionType_ID(), get_TrxName());	}
 
 	/** Set Currency Type.
 		@param C_ConversionType_ID 
@@ -315,21 +296,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException 
+	public I_C_Currency getC_Currency() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
-        I_C_Currency result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -354,21 +324,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException 
+	public I_C_UOM getC_UOM() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
-        I_C_UOM result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_UOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_UOM_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
 		@param C_UOM_ID 
@@ -392,6 +351,11 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
 
 	/** Set Combination.
 		@param C_ValidCombination_ID 
@@ -470,21 +434,10 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_GL_Journal getGL_Journal() throws RuntimeException 
+	public I_GL_Journal getGL_Journal() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
-        I_GL_Journal result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_Journal)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_Journal_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_Journal)MTable.get(getCtx(), I_GL_Journal.Table_Name)
+			.getPO(getGL_Journal_ID(), get_TrxName());	}
 
 	/** Set Journal.
 		@param GL_Journal_ID 

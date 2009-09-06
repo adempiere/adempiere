@@ -62,6 +62,8 @@ public interface I_AD_Note
 	  */
 	public int getAD_Message_ID();
 
+	public I_AD_Message getAD_Message() throws RuntimeException;
+
     /** Column name AD_Note_ID */
     public static final String COLUMNNAME_AD_Note_ID = "AD_Note_ID";
 

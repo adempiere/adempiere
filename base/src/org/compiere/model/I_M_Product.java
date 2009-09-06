@@ -490,6 +490,8 @@ public interface I_M_Product
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_FreightCategory_ID */
     public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
 
@@ -517,6 +519,8 @@ public interface I_M_Product
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
@@ -638,6 +642,8 @@ public interface I_M_Product
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";

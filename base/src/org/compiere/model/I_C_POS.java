@@ -90,6 +90,8 @@ public interface I_C_POS
 	  */
 	public int getC_BPartnerCashTrx_ID();
 
+	public I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException;
+
     /** Column name C_CashBook_ID */
     public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
 
@@ -293,6 +295,8 @@ public interface I_C_POS
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Advertisement
@@ -81,21 +79,10 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 
@@ -136,6 +123,11 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	{
 		return (String)get_Value(COLUMNNAME_AdText);
 	}
+
+	public I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -386,21 +378,10 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_W_ClickCount getW_ClickCount() throws RuntimeException 
+	public I_W_ClickCount getW_ClickCount() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_W_ClickCount.Table_Name);
-        I_W_ClickCount result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_W_ClickCount)constructor.newInstance(new Object[] {getCtx(), new Integer(getW_ClickCount_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_W_ClickCount)MTable.get(getCtx(), I_W_ClickCount.Table_Name)
+			.getPO(getW_ClickCount_ID(), get_TrxName());	}
 
 	/** Set Click Count.
 		@param W_ClickCount_ID 
@@ -425,21 +406,10 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_W_CounterCount getW_CounterCount() throws RuntimeException 
+	public I_W_CounterCount getW_CounterCount() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_W_CounterCount.Table_Name);
-        I_W_CounterCount result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_W_CounterCount)constructor.newInstance(new Object[] {getCtx(), new Integer(getW_CounterCount_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_W_CounterCount)MTable.get(getCtx(), I_W_CounterCount.Table_Name)
+			.getPO(getW_CounterCount_ID(), get_TrxName());	}
 
 	/** Set Counter Count.
 		@param W_CounterCount_ID 

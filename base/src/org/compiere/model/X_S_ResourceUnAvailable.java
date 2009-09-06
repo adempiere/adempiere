@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceUnAvailable
@@ -126,21 +124,10 @@ public class X_S_ResourceUnAvailable extends PO implements I_S_ResourceUnAvailab
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_S_Resource getS_Resource() throws RuntimeException 
+	public I_S_Resource getS_Resource() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
-        I_S_Resource result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
 
 	/** Set Resource.
 		@param S_Resource_ID 

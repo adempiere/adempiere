@@ -75,6 +75,8 @@ public interface I_PA_ColorSchema
 	  */
 	public int getAD_PrintColor1_ID();
 
+	public I_AD_PrintColor getAD_PrintColor1() throws RuntimeException;
+
     /** Column name AD_PrintColor2_ID */
     public static final String COLUMNNAME_AD_PrintColor2_ID = "AD_PrintColor2_ID";
 
@@ -87,6 +89,8 @@ public interface I_PA_ColorSchema
 	  * Second color used
 	  */
 	public int getAD_PrintColor2_ID();
+
+	public I_AD_PrintColor getAD_PrintColor2() throws RuntimeException;
 
     /** Column name AD_PrintColor3_ID */
     public static final String COLUMNNAME_AD_PrintColor3_ID = "AD_PrintColor3_ID";
@@ -101,6 +105,8 @@ public interface I_PA_ColorSchema
 	  */
 	public int getAD_PrintColor3_ID();
 
+	public I_AD_PrintColor getAD_PrintColor3() throws RuntimeException;
+
     /** Column name AD_PrintColor4_ID */
     public static final String COLUMNNAME_AD_PrintColor4_ID = "AD_PrintColor4_ID";
 
@@ -113,6 +119,8 @@ public interface I_PA_ColorSchema
 	  * Forth color used
 	  */
 	public int getAD_PrintColor4_ID();
+
+	public I_AD_PrintColor getAD_PrintColor4() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

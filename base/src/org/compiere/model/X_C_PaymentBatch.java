@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentBatch
@@ -100,21 +98,10 @@ public class X_C_PaymentBatch extends PO implements I_C_PaymentBatch, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_C_PaymentProcessor getC_PaymentProcessor() throws RuntimeException 
+	public I_C_PaymentProcessor getC_PaymentProcessor() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_PaymentProcessor.Table_Name);
-        I_C_PaymentProcessor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaymentProcessor)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentProcessor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_PaymentProcessor)MTable.get(getCtx(), I_C_PaymentProcessor.Table_Name)
+			.getPO(getC_PaymentProcessor_ID(), get_TrxName());	}
 
 	/** Set Payment Processor.
 		@param C_PaymentProcessor_ID 

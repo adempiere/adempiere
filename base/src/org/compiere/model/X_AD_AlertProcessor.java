@@ -263,6 +263,11 @@ public class X_AD_AlertProcessor extends PO implements I_AD_AlertProcessor, I_Pe
 		return false;
 	}
 
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
+
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

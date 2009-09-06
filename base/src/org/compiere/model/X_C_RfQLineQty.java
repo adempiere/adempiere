@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -123,21 +121,10 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 		return bd;
 	}
 
-	public I_C_RfQLine getC_RfQLine() throws RuntimeException 
+	public I_C_RfQLine getC_RfQLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_RfQLine.Table_Name);
-        I_C_RfQLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_RfQLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_RfQLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_RfQLine)MTable.get(getCtx(), I_C_RfQLine.Table_Name)
+			.getPO(getC_RfQLine_ID(), get_TrxName());	}
 
 	/** Set RfQ Line.
 		@param C_RfQLine_ID 
@@ -185,21 +172,10 @@ public class X_C_RfQLineQty extends PO implements I_C_RfQLineQty, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException 
+	public I_C_UOM getC_UOM() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
-        I_C_UOM result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_UOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_UOM_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
 		@param C_UOM_ID 

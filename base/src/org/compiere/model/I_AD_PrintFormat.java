@@ -329,6 +329,8 @@ public interface I_AD_PrintFormat
 	  */
 	public int getJasperProcess_ID();
 
+	public I_AD_Process getJasperProcess() throws RuntimeException;
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 

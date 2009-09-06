@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_NextCondition
@@ -82,21 +80,10 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException 
+	public I_AD_Column getAD_Column() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
 		@param AD_Column_ID 
@@ -144,21 +131,10 @@ public class X_AD_WF_NextCondition extends PO implements I_AD_WF_NextCondition, 
 		return ii.intValue();
 	}
 
-	public I_AD_WF_NodeNext getAD_WF_NodeNext() throws RuntimeException 
+	public I_AD_WF_NodeNext getAD_WF_NodeNext() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_WF_NodeNext.Table_Name);
-        I_AD_WF_NodeNext result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WF_NodeNext)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_NodeNext_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_WF_NodeNext)MTable.get(getCtx(), I_AD_WF_NodeNext.Table_Name)
+			.getPO(getAD_WF_NodeNext_ID(), get_TrxName());	}
 
 	/** Set Node Transition.
 		@param AD_WF_NodeNext_ID 

@@ -54,6 +54,8 @@ public interface I_C_ValidCombination
 	  */
 	public int getAccount_ID();
 
+	public I_C_ElementValue getAccount() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -129,6 +131,8 @@ public interface I_C_ValidCombination
 	  */
 	public int getC_Activity_ID();
 
+	public I_C_Activity getC_Activity() throws RuntimeException;
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -141,6 +145,8 @@ public interface I_C_ValidCombination
 	  * Identifies a Business Partner
 	  */
 	public int getC_BPartner_ID();
+
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -155,6 +161,8 @@ public interface I_C_ValidCombination
 	  */
 	public int getC_Campaign_ID();
 
+	public I_C_Campaign getC_Campaign() throws RuntimeException;
+
     /** Column name C_LocFrom_ID */
     public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
 
@@ -167,6 +175,8 @@ public interface I_C_ValidCombination
 	  * Location that inventory was moved from
 	  */
 	public int getC_LocFrom_ID();
+
+	public I_C_Location getC_LocFrom() throws RuntimeException;
 
     /** Column name C_LocTo_ID */
     public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
@@ -181,6 +191,8 @@ public interface I_C_ValidCombination
 	  */
 	public int getC_LocTo_ID();
 
+	public I_C_Location getC_LocTo() throws RuntimeException;
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -194,6 +206,8 @@ public interface I_C_ValidCombination
 	  */
 	public int getC_Project_ID();
 
+	public I_C_Project getC_Project() throws RuntimeException;
+
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
@@ -206,6 +220,8 @@ public interface I_C_ValidCombination
 	  * Sales coverage region
 	  */
 	public int getC_SalesRegion_ID();
+
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name C_SubAcct_ID */
     public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";
@@ -316,6 +332,8 @@ public interface I_C_ValidCombination
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -345,6 +363,8 @@ public interface I_C_ValidCombination
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -357,6 +377,8 @@ public interface I_C_ValidCombination
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name UserElement1_ID */
     public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";

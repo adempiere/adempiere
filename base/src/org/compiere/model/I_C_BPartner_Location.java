@@ -103,6 +103,8 @@ public interface I_C_BPartner_Location
 	  */
 	public int getC_Location_ID();
 
+	public I_C_Location getC_Location() throws RuntimeException;
+
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 

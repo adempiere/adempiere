@@ -135,6 +135,8 @@ public interface I_AD_PrintFormatItem
 	  */
 	public int getAD_PrintFormatChild_ID();
 
+	public I_AD_PrintFormat getAD_PrintFormatChild() throws RuntimeException;
+
     /** Column name AD_PrintFormatItem_ID */
     public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";
 

@@ -88,6 +88,8 @@ public interface I_S_TimeExpense
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

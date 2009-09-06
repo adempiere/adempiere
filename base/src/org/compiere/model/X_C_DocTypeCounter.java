@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocTypeCounter
@@ -78,21 +76,10 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
       return sb.toString();
     }
 
-	public I_C_DocType getC_DocType() throws RuntimeException 
+	public I_C_DocType getC_DocType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
-        I_C_DocType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_DocType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_DocType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
 		@param C_DocType_ID 
@@ -139,6 +126,11 @@ public class X_C_DocTypeCounter extends PO implements I_C_DocTypeCounter, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_DocType getCounter_C_DocType() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getCounter_C_DocType_ID(), get_TrxName());	}
 
 	/** Set Counter Document Type.
 		@param Counter_C_DocType_ID 

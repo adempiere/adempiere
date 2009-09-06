@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AlertRule
@@ -78,21 +76,10 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Alert getAD_Alert() throws RuntimeException 
+	public I_AD_Alert getAD_Alert() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Alert.Table_Name);
-        I_AD_Alert result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Alert)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Alert_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Alert)MTable.get(getCtx(), I_AD_Alert.Table_Name)
+			.getPO(getAD_Alert_ID(), get_TrxName());	}
 
 	/** Set Alert.
 		@param AD_Alert_ID 
@@ -140,21 +127,10 @@ public class X_AD_AlertRule extends PO implements I_AD_AlertRule, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 

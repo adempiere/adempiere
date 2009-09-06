@@ -103,6 +103,8 @@ public interface I_C_UOM_Conversion
 	  */
 	public int getC_UOM_To_ID();
 
+	public I_C_UOM getC_UOM_To() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 

@@ -75,6 +75,8 @@ public interface I_AD_Workbench
 	  */
 	public int getAD_Column_ID();
 
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
 

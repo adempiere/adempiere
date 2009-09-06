@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for ASP_ClientLevel
  *  @author Adempiere (generated) 
@@ -93,21 +91,10 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		return ii.intValue();
 	}
 
-	public I_ASP_Level getASP_Level() throws RuntimeException 
+	public I_ASP_Level getASP_Level() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_ASP_Level.Table_Name);
-        I_ASP_Level result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_ASP_Level)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Level_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_ASP_Level)MTable.get(getCtx(), I_ASP_Level.Table_Name)
+			.getPO(getASP_Level_ID(), get_TrxName());	}
 
 	/** Set ASP Level.
 		@param ASP_Level_ID ASP Level	  */
@@ -129,21 +116,10 @@ public class X_ASP_ClientLevel extends PO implements I_ASP_ClientLevel, I_Persis
 		return ii.intValue();
 	}
 
-	public I_ASP_Module getASP_Module() throws RuntimeException 
+	public I_ASP_Module getASP_Module() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_ASP_Module.Table_Name);
-        I_ASP_Module result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_ASP_Module)constructor.newInstance(new Object[] {getCtx(), new Integer(getASP_Module_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_ASP_Module)MTable.get(getCtx(), I_ASP_Module.Table_Name)
+			.getPO(getASP_Module_ID(), get_TrxName());	}
 
 	/** Set ASP Module.
 		@param ASP_Module_ID ASP Module	  */

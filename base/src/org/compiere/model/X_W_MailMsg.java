@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_MailMsg
@@ -248,21 +246,10 @@ public class X_W_MailMsg extends PO implements I_W_MailMsg, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_W_Store getW_Store() throws RuntimeException 
+	public I_W_Store getW_Store() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_W_Store.Table_Name);
-        I_W_Store result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_W_Store)constructor.newInstance(new Object[] {getCtx(), new Integer(getW_Store_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_W_Store)MTable.get(getCtx(), I_W_Store.Table_Name)
+			.getPO(getW_Store_ID(), get_TrxName());	}
 
 	/** Set Web Store.
 		@param W_Store_ID 

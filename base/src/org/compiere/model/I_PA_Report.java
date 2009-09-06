@@ -162,6 +162,8 @@ public interface I_PA_Report
 	  */
 	public int getJasperProcess_ID();
 
+	public I_AD_Process getJasperProcess() throws RuntimeException;
+
     /** Column name JasperProcessing */
     public static final String COLUMNNAME_JasperProcessing = "JasperProcessing";
 
@@ -250,6 +252,8 @@ public interface I_PA_Report
 	  * Define reporting cube for pre-calculation of summary accounting data.
 	  */
 	public int getPA_ReportCube_ID();
+
+	public I_PA_ReportCube getPA_ReportCube() throws RuntimeException;
 
     /** Column name PA_ReportLineSet_ID */
     public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";

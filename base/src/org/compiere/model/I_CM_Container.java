@@ -88,6 +88,8 @@ public interface I_CM_Container
 	  */
 	public int getCM_ContainerLink_ID();
 
+	public I_CM_Container getCM_ContainerLink() throws RuntimeException;
+
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
 

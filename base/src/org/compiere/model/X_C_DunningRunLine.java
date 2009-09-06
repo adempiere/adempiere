@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -105,21 +103,10 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return bd;
 	}
 
-	public I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException 
+	public I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_DunningRunEntry.Table_Name);
-        I_C_DunningRunEntry result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_DunningRunEntry)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_DunningRunEntry_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_DunningRunEntry)MTable.get(getCtx(), I_C_DunningRunEntry.Table_Name)
+			.getPO(getC_DunningRunEntry_ID(), get_TrxName());	}
 
 	/** Set Dunning Run Entry.
 		@param C_DunningRunEntry_ID 
@@ -167,21 +154,10 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException 
+	public I_C_Invoice getC_Invoice() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Invoice.Table_Name);
-        I_C_Invoice result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Invoice)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Invoice_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
 		@param C_Invoice_ID 
@@ -214,21 +190,10 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
         return new KeyNamePair(get_ID(), String.valueOf(getC_Invoice_ID()));
     }
 
-	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException 
+	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_InvoicePaySchedule.Table_Name);
-        I_C_InvoicePaySchedule result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_InvoicePaySchedule)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoicePaySchedule_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_InvoicePaySchedule)MTable.get(getCtx(), I_C_InvoicePaySchedule.Table_Name)
+			.getPO(getC_InvoicePaySchedule_ID(), get_TrxName());	}
 
 	/** Set Invoice Payment Schedule.
 		@param C_InvoicePaySchedule_ID 
@@ -253,21 +218,10 @@ public class X_C_DunningRunLine extends PO implements I_C_DunningRunLine, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws RuntimeException 
+	public I_C_Payment getC_Payment() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Payment.Table_Name);
-        I_C_Payment result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Payment)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Payment_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.
 		@param C_Payment_ID 

@@ -54,6 +54,8 @@ public interface I_PA_RatioElement
 	  */
 	public int getAccount_ID();
 
+	public I_C_ElementValue getAccount() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -198,6 +200,8 @@ public interface I_PA_RatioElement
 	  * Performace Ratio Used
 	  */
 	public int getPA_RatioUsed_ID();
+
+	public I_PA_Ratio getPA_RatioUsed() throws RuntimeException;
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";

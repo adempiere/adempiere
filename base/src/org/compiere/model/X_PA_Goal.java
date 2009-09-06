@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -87,21 +85,10 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws RuntimeException 
+	public I_AD_Role getAD_Role() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
-        I_AD_Role result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Role)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Role_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
 		@param AD_Role_ID 
@@ -126,21 +113,10 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 
@@ -455,21 +431,10 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return (String)get_Value(COLUMNNAME_Note);
 	}
 
-	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException 
+	public I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_ColorSchema.Table_Name);
-        I_PA_ColorSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_ColorSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_ColorSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_ColorSchema)MTable.get(getCtx(), I_PA_ColorSchema.Table_Name)
+			.getPO(getPA_ColorSchema_ID(), get_TrxName());	}
 
 	/** Set Color Schema.
 		@param PA_ColorSchema_ID 
@@ -517,6 +482,11 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_PA_Goal getPA_GoalParent() throws RuntimeException
+    {
+		return (I_PA_Goal)MTable.get(getCtx(), I_PA_Goal.Table_Name)
+			.getPO(getPA_GoalParent_ID(), get_TrxName());	}
+
 	/** Set Parent Goal.
 		@param PA_GoalParent_ID 
 		Parent Goal
@@ -540,21 +510,10 @@ public class X_PA_Goal extends PO implements I_PA_Goal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Measure getPA_Measure() throws RuntimeException 
+	public I_PA_Measure getPA_Measure() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_Measure.Table_Name);
-        I_PA_Measure result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_Measure)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_Measure_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_Measure)MTable.get(getCtx(), I_PA_Measure.Table_Name)
+			.getPO(getPA_Measure_ID(), get_TrxName());	}
 
 	/** Set Measure.
 		@param PA_Measure_ID 

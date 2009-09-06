@@ -134,6 +134,8 @@ public interface I_C_Project_Acct
 	  */
 	public int getPJ_Asset_Acct();
 
+	public I_C_ValidCombination getPJ_Asset_A() throws RuntimeException;
+
     /** Column name PJ_WIP_Acct */
     public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
 
@@ -146,6 +148,8 @@ public interface I_C_Project_Acct
 	  * Account for Work in Progress
 	  */
 	public int getPJ_WIP_Acct();
+
+	public I_C_ValidCombination getPJ_WIP_A() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -59,6 +59,8 @@ public interface I_A_Depreciation_Forecast
 	/** Get End Aset ID	  */
 	public int getA_End_Asset_ID();
 
+	public I_A_Asset getA_End_Asset() throws RuntimeException;
+
     /** Column name A_Start_Asset_ID */
     public static final String COLUMNNAME_A_Start_Asset_ID = "A_Start_Asset_ID";
 
@@ -67,6 +69,8 @@ public interface I_A_Depreciation_Forecast
 
 	/** Get A_Start_Asset_ID	  */
 	public int getA_Start_Asset_ID();
+
+	public I_A_Asset getA_Start_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";

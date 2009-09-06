@@ -129,6 +129,8 @@ public interface I_I_Order
 	  */
 	public int getBillTo_ID();
 
+	public I_C_BPartner_Location getBillTo() throws RuntimeException;
+
     /** Column name BPartnerValue */
     public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
 
@@ -817,6 +819,8 @@ public interface I_I_Order
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SKU */
     public static final String COLUMNNAME_SKU = "SKU";

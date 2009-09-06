@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_Registration
  *  @author Adempiere (generated) 
@@ -105,21 +103,10 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_System getAD_System() throws RuntimeException 
+	public I_AD_System getAD_System() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_System.Table_Name);
-        I_AD_System result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_System)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_System_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_System)MTable.get(getCtx(), I_AD_System.Table_Name)
+			.getPO(getAD_System_ID(), get_TrxName());	}
 
 	/** Set System.
 		@param AD_System_ID 
@@ -144,21 +131,10 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException 
+	public I_C_Currency getC_Currency() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
-        I_C_Currency result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -182,6 +158,11 @@ public class X_AD_Registration extends PO implements I_AD_Registration, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Location getC_Location() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getC_Location_ID(), get_TrxName());	}
 
 	/** Set Address.
 		@param C_Location_ID 

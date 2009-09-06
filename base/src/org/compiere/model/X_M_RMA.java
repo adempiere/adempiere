@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -108,21 +106,10 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -147,21 +134,10 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException 
+	public I_C_Currency getC_Currency() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
-        I_C_Currency result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -186,6 +162,11 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_DocType getC_DocType() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
+
 	/** Set Document Type.
 		@param C_DocType_ID 
 		Document type or rules
@@ -209,21 +190,10 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException 
+	public I_C_Order getC_Order() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Order.Table_Name);
-        I_C_Order result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Order_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
 		@param C_Order_ID 
@@ -416,6 +386,11 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	public I_M_InOut getInOut() throws RuntimeException
+    {
+		return (I_M_InOut)MTable.get(getCtx(), I_M_InOut.Table_Name)
+			.getPO(getInOut_ID(), get_TrxName());	}
+
 	/** Set Shipment/Receipt.
 		@param InOut_ID 
 		MaterialShipment Document
@@ -510,21 +485,10 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_RMAType getM_RMAType() throws RuntimeException 
+	public I_M_RMAType getM_RMAType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_RMAType.Table_Name);
-        I_M_RMAType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_RMAType)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_RMAType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_RMAType)MTable.get(getCtx(), I_M_RMAType.Table_Name)
+			.getPO(getM_RMAType_ID(), get_TrxName());	}
 
 	/** Set RMA Type.
 		@param M_RMAType_ID 
@@ -611,6 +575,11 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return false;
 	}
 
+	public I_M_RMA getRef_RMA() throws RuntimeException
+    {
+		return (I_M_RMA)MTable.get(getCtx(), I_M_RMA.Table_Name)
+			.getPO(getRef_RMA_ID(), get_TrxName());	}
+
 	/** Set Referenced RMA.
 		@param Ref_RMA_ID Referenced RMA	  */
 	public void setRef_RMA_ID (int Ref_RMA_ID)
@@ -630,6 +599,11 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.
 		@param SalesRep_ID 

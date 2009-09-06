@@ -96,6 +96,8 @@ public interface I_A_Asset
 	/** Get Asset ID	  */
 	public int getA_Parent_Asset_ID();
 
+	public I_A_Asset getA_Parent_Asset() throws RuntimeException;
+
     /** Column name A_QTY_Current */
     public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
 
@@ -231,6 +233,8 @@ public interface I_A_Asset
 	  * Business Partner (Agent or Sales Rep)
 	  */
 	public int getC_BPartnerSR_ID();
+
+	public I_C_BPartner getC_BPartnerSR() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -447,6 +451,8 @@ public interface I_A_Asset
 	  */
 	public int getLease_BPartner_ID();
 
+	public I_C_BPartner getLease_BPartner() throws RuntimeException;
+
     /** Column name LeaseTerminationDate */
     public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
 
@@ -511,6 +517,8 @@ public interface I_A_Asset
 	  * Product Attribute Set Instance
 	  */
 	public int getM_AttributeSetInstance_ID();
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";

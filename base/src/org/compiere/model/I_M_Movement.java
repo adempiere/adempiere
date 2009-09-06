@@ -88,6 +88,8 @@ public interface I_M_Movement
 	  */
 	public int getAD_User_ID();
 
+	public I_AD_User getAD_User() throws RuntimeException;
+
     /** Column name ApprovalAmt */
     public static final String COLUMNNAME_ApprovalAmt = "ApprovalAmt";
 
@@ -143,6 +145,8 @@ public interface I_M_Movement
 	  * Identifies the (ship to) address for this Business Partner
 	  */
 	public int getC_BPartner_Location_ID();
+
+	public I_C_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -528,6 +532,8 @@ public interface I_M_Movement
 	  */
 	public int getReversal_ID();
 
+	public I_M_Movement getReversal() throws RuntimeException;
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -540,6 +546,8 @@ public interface I_M_Movement
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -570,6 +578,8 @@ public interface I_M_Movement
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -582,4 +592,6 @@ public interface I_M_Movement
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 }

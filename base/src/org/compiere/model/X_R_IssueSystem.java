@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_IssueSystem
@@ -74,21 +72,10 @@ public class X_R_IssueSystem extends PO implements I_R_IssueSystem, I_Persistent
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws RuntimeException 
+	public I_A_Asset getA_Asset() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
-        I_A_Asset result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_A_Asset)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Asset_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset.
 		@param A_Asset_ID 

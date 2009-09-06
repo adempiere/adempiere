@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -77,21 +75,10 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
       return sb.toString();
     }
 
-	public I_AD_Window getAD_Window() throws RuntimeException 
+	public I_AD_Window getAD_Window() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
-        I_AD_Window result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
 		@param AD_Window_ID 
@@ -280,21 +267,10 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		return ii.intValue();
 	}
 
-	public I_PA_Goal getPA_Goal() throws RuntimeException 
+	public I_PA_Goal getPA_Goal() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_Goal.Table_Name);
-        I_PA_Goal result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_Goal)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_Goal_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_Goal)MTable.get(getCtx(), I_PA_Goal.Table_Name)
+			.getPO(getPA_Goal_ID(), get_TrxName());	}
 
 	/** Set Goal.
 		@param PA_Goal_ID 

@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for RV_BPartner
@@ -197,21 +195,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 
@@ -304,6 +291,11 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
 	}
 
+	public I_C_BPartner getBPartner_Parent() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getBPartner_Parent_ID(), get_TrxName());	}
+
 	/** Set Partner Parent.
 		@param BPartner_Parent_ID 
 		Business Partner Parent
@@ -327,6 +319,11 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Greeting getBPContactGreet() throws RuntimeException
+    {
+		return (I_C_Greeting)MTable.get(getCtx(), I_C_Greeting.Table_Name)
+			.getPO(getBPContactGreeting(), get_TrxName());	}
+
 	/** Set BP Contact Greeting.
 		@param BPContactGreeting 
 		Greeting for Business Partner Contact
@@ -347,21 +344,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BP_Group)MTable.get(getCtx(), I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
 	/** Set Business Partner Group.
 		@param C_BP_Group_ID 
@@ -409,21 +395,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
-        I_C_BPartner_Location result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner_Location)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_Location_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
 		@param C_BPartner_Location_ID 
@@ -448,21 +423,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Country getC_Country() throws RuntimeException 
+	public I_C_Country getC_Country() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
-        I_C_Country result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Country)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Country_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Country)MTable.get(getCtx(), I_C_Country.Table_Name)
+			.getPO(getC_Country_ID(), get_TrxName());	}
 
 	/** Set Country.
 		@param C_Country_ID 
@@ -487,21 +451,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Dunning getC_Dunning() throws RuntimeException 
+	public I_C_Dunning getC_Dunning() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
-        I_C_Dunning result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Dunning)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Dunning_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Dunning)MTable.get(getCtx(), I_C_Dunning.Table_Name)
+			.getPO(getC_Dunning_ID(), get_TrxName());	}
 
 	/** Set Dunning.
 		@param C_Dunning_ID 
@@ -526,21 +479,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Greeting getC_Greeting() throws RuntimeException 
+	public I_C_Greeting getC_Greeting() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Greeting.Table_Name);
-        I_C_Greeting result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Greeting)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Greeting_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Greeting)MTable.get(getCtx(), I_C_Greeting.Table_Name)
+			.getPO(getC_Greeting_ID(), get_TrxName());	}
 
 	/** Set Greeting.
 		@param C_Greeting_ID 
@@ -565,21 +507,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException 
+	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_InvoiceSchedule.Table_Name);
-        I_C_InvoiceSchedule result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_InvoiceSchedule)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceSchedule_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_InvoiceSchedule)MTable.get(getCtx(), I_C_InvoiceSchedule.Table_Name)
+			.getPO(getC_InvoiceSchedule_ID(), get_TrxName());	}
 
 	/** Set Invoice Schedule.
 		@param C_InvoiceSchedule_ID 
@@ -604,21 +535,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException 
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_PaymentTerm.Table_Name);
-        I_C_PaymentTerm result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_PaymentTerm)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_PaymentTerm_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
+			.getPO(getC_PaymentTerm_ID(), get_TrxName());	}
 
 	/** Set Payment Term.
 		@param C_PaymentTerm_ID 
@@ -643,21 +563,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Region getC_Region() throws RuntimeException 
+	public I_C_Region getC_Region() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Region.Table_Name);
-        I_C_Region result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Region)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Region_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
+			.getPO(getC_Region_ID(), get_TrxName());	}
 
 	/** Set Region.
 		@param C_Region_ID 
@@ -1029,6 +938,11 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_FreightCostRule);
 	}
 
+	public I_AD_PrintFormat getInvoice_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getInvoice_PrintFormat_ID(), get_TrxName());	}
+
 	/** Set Invoice Print Format.
 		@param Invoice_PrintFormat_ID 
 		Print Format for printing Invoices
@@ -1351,21 +1265,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return false;
 	}
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException 
+	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_DiscountSchema.Table_Name);
-        I_M_DiscountSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DiscountSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DiscountSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_DiscountSchema)MTable.get(getCtx(), I_M_DiscountSchema.Table_Name)
+			.getPO(getM_DiscountSchema_ID(), get_TrxName());	}
 
 	/** Set Discount Schema.
 		@param M_DiscountSchema_ID 
@@ -1390,21 +1293,10 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException 
+	public I_M_PriceList getM_PriceList() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
-        I_M_PriceList result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PriceList)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PriceList_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.
 		@param M_PriceList_ID 
@@ -1630,6 +1522,11 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_Phone2);
 	}
 
+	public I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException
+    {
+		return (I_M_DiscountSchema)MTable.get(getCtx(), I_M_DiscountSchema.Table_Name)
+			.getPO(getPO_DiscountSchema_ID(), get_TrxName());	}
+
 	/** Set PO Discount Schema.
 		@param PO_DiscountSchema_ID 
 		Schema to calculate the purchase trade discount percentage
@@ -1653,6 +1550,11 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_PaymentTerm getPO_PaymentTerm() throws RuntimeException
+    {
+		return (I_C_PaymentTerm)MTable.get(getCtx(), I_C_PaymentTerm.Table_Name)
+			.getPO(getPO_PaymentTerm_ID(), get_TrxName());	}
+
 	/** Set PO Payment Term.
 		@param PO_PaymentTerm_ID 
 		Payment rules for a purchase order
@@ -1675,6 +1577,11 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_PriceList getPO_PriceList() throws RuntimeException
+    {
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getPO_PriceList_ID(), get_TrxName());	}
 
 	/** Set Purchase Pricelist.
 		@param PO_PriceList_ID 
@@ -1803,6 +1710,11 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_RegionName);
 	}
+
+	public I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.
 		@param SalesRep_ID 
@@ -2017,6 +1929,11 @@ public class X_RV_BPartner extends PO implements I_RV_BPartner, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_SOCreditStatus);
 	}
+
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.
 		@param Supervisor_ID 

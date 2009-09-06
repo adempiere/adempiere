@@ -158,6 +158,8 @@ public interface I_AD_User_Substitute
 	  */
 	public int getSubstitute_ID();
 
+	public I_AD_User getSubstitute() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

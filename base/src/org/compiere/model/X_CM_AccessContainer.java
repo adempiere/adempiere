@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for CM_AccessContainer
  *  @author Adempiere (generated) 
@@ -72,21 +70,10 @@ public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_
       return sb.toString();
     }
 
-	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException 
+	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_AccessProfile.Table_Name);
-        I_CM_AccessProfile result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_AccessProfile)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_AccessProfile_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_AccessProfile)MTable.get(getCtx(), I_CM_AccessProfile.Table_Name)
+			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
 
 	/** Set Web Access Profile.
 		@param CM_AccessProfile_ID 
@@ -111,21 +98,10 @@ public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_
 		return ii.intValue();
 	}
 
-	public I_CM_Container getCM_Container() throws RuntimeException 
+	public I_CM_Container getCM_Container() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Container.Table_Name);
-        I_CM_Container result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Container)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Container_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+			.getPO(getCM_Container_ID(), get_TrxName());	}
 
 	/** Set Web Container.
 		@param CM_Container_ID 

@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for M_PromotionLine
@@ -100,21 +98,10 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 		return false;
 	}
 
-	public I_M_Promotion getM_Promotion() throws RuntimeException 
+	public I_M_Promotion getM_Promotion() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Promotion.Table_Name);
-        I_M_Promotion result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Promotion)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Promotion_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Promotion)MTable.get(getCtx(), I_M_Promotion.Table_Name)
+			.getPO(getM_Promotion_ID(), get_TrxName());	}
 
 	/** Set Promotion.
 		@param M_Promotion_ID Promotion	  */
@@ -136,21 +123,10 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 		return ii.intValue();
 	}
 
-	public I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException 
+	public I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_PromotionGroup.Table_Name);
-        I_M_PromotionGroup result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PromotionGroup)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PromotionGroup_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_PromotionGroup)MTable.get(getCtx(), I_M_PromotionGroup.Table_Name)
+			.getPO(getM_PromotionGroup_ID(), get_TrxName());	}
 
 	/** Set Promotion Group.
 		@param M_PromotionGroup_ID Promotion Group	  */

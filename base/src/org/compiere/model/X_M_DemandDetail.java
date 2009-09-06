@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DemandDetail
@@ -73,21 +71,10 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
       return sb.toString();
     }
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException 
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_OrderLine.Table_Name);
-        I_C_OrderLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_OrderLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_OrderLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
+			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
 		@param C_OrderLine_ID 
@@ -143,21 +130,10 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getM_DemandDetail_ID()));
     }
 
-	public I_M_DemandLine getM_DemandLine() throws RuntimeException 
+	public I_M_DemandLine getM_DemandLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_DemandLine.Table_Name);
-        I_M_DemandLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_DemandLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_DemandLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_DemandLine)MTable.get(getCtx(), I_M_DemandLine.Table_Name)
+			.getPO(getM_DemandLine_ID(), get_TrxName());	}
 
 	/** Set Demand Line.
 		@param M_DemandLine_ID 
@@ -182,21 +158,10 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException 
+	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_ForecastLine.Table_Name);
-        I_M_ForecastLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_ForecastLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ForecastLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_ForecastLine)MTable.get(getCtx(), I_M_ForecastLine.Table_Name)
+			.getPO(getM_ForecastLine_ID(), get_TrxName());	}
 
 	/** Set Forecast Line.
 		@param M_ForecastLine_ID 
@@ -221,21 +186,10 @@ public class X_M_DemandDetail extends PO implements I_M_DemandDetail, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException 
+	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_RequisitionLine.Table_Name);
-        I_M_RequisitionLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_RequisitionLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_RequisitionLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_RequisitionLine)MTable.get(getCtx(), I_M_RequisitionLine.Table_Name)
+			.getPO(getM_RequisitionLine_ID(), get_TrxName());	}
 
 	/** Set Requisition Line.
 		@param M_RequisitionLine_ID 

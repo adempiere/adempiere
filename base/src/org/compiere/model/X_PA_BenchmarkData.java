@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -158,21 +156,10 @@ public class X_PA_BenchmarkData extends PO implements I_PA_BenchmarkData, I_Pers
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException 
+	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_Benchmark.Table_Name);
-        I_PA_Benchmark result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_Benchmark)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_Benchmark_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_Benchmark)MTable.get(getCtx(), I_PA_Benchmark.Table_Name)
+			.getPO(getPA_Benchmark_ID(), get_TrxName());	}
 
 	/** Set Benchmark.
 		@param PA_Benchmark_ID 

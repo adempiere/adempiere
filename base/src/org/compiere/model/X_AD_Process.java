@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Process
@@ -112,21 +110,10 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
-	public I_AD_Form getAD_Form() throws RuntimeException 
+	public I_AD_Form getAD_Form() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
-        I_AD_Form result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Form)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Form_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
 		@param AD_Form_ID 
@@ -151,21 +138,10 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException 
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
-        I_AD_PrintFormat result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintFormat)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintFormat_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
 		@param AD_PrintFormat_ID 
@@ -213,21 +189,10 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getAD_ReportView() throws RuntimeException 
+	public I_AD_ReportView getAD_ReportView() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
-        I_AD_ReportView result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_ReportView)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ReportView_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_ReportView)MTable.get(getCtx(), I_AD_ReportView.Table_Name)
+			.getPO(getAD_ReportView_ID(), get_TrxName());	}
 
 	/** Set Report View.
 		@param AD_ReportView_ID 
@@ -252,21 +217,10 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
-        I_AD_Workflow result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Workflow)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Workflow_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Workflow)MTable.get(getCtx(), I_AD_Workflow.Table_Name)
+			.getPO(getAD_Workflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.
 		@param AD_Workflow_ID 

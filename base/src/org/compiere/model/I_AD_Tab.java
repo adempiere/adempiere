@@ -77,6 +77,8 @@ public interface I_AD_Tab
 	  */
 	public int getAD_ColumnSortOrder_ID();
 
+	public I_AD_Column getAD_ColumnSortOrder() throws RuntimeException;
+
     /** Column name AD_ColumnSortYesNo_ID */
     public static final String COLUMNNAME_AD_ColumnSortYesNo_ID = "AD_ColumnSortYesNo_ID";
 
@@ -89,6 +91,8 @@ public interface I_AD_Tab
 	  * Column determining if a Table Column is included in Ordering
 	  */
 	public int getAD_ColumnSortYesNo_ID();
+
+	public I_AD_Column getAD_ColumnSortYesNo() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -298,6 +302,8 @@ public interface I_AD_Tab
 	  */
 	public int getIncluded_Tab_ID();
 
+	public I_AD_Tab getIncluded_Tab() throws RuntimeException;
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -440,6 +446,8 @@ public interface I_AD_Tab
 	  * The link column on the parent tab.
 	  */
 	public int getParent_Column_ID();
+
+	public I_AD_Column getParent_Column() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

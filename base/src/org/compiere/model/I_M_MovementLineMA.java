@@ -104,6 +104,8 @@ public interface I_M_MovementLineMA
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 

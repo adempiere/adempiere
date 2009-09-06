@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for EXP_FormatLine
  *  @author Adempiere (generated) 
@@ -76,21 +74,10 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException 
+	public I_AD_Column getAD_Column() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
 		@param AD_Column_ID 
@@ -114,6 +101,11 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
 		@param AD_Reference_ID 
@@ -168,6 +160,11 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	public org.compiere.model.I_EXP_Format getEXP_EmbeddedFormat() throws RuntimeException
+    {
+		return (org.compiere.model.I_EXP_Format)MTable.get(getCtx(), org.compiere.model.I_EXP_Format.Table_Name)
+			.getPO(getEXP_EmbeddedFormat_ID(), get_TrxName());	}
+
 	/** Set Embedded Format.
 		@param EXP_EmbeddedFormat_ID Embedded Format	  */
 	public void setEXP_EmbeddedFormat_ID (int EXP_EmbeddedFormat_ID)
@@ -188,21 +185,10 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException 
+	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.compiere.model.I_EXP_Format.Table_Name);
-        org.compiere.model.I_EXP_Format result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.compiere.model.I_EXP_Format)constructor.newInstance(new Object[] {getCtx(), new Integer(getEXP_Format_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_EXP_Format)MTable.get(getCtx(), org.compiere.model.I_EXP_Format.Table_Name)
+			.getPO(getEXP_Format_ID(), get_TrxName());	}
 
 	/** Set Export Format.
 		@param EXP_Format_ID Export Format	  */

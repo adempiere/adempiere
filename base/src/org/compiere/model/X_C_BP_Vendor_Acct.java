@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for C_BP_Vendor_Acct
  *  @author Adempiere (generated) 
@@ -74,21 +72,10 @@ public class X_C_BP_Vendor_Acct extends PO implements I_C_BP_Vendor_Acct, I_Pers
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -113,21 +100,10 @@ public class X_C_BP_Vendor_Acct extends PO implements I_C_BP_Vendor_Acct, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -152,6 +128,11 @@ public class X_C_BP_Vendor_Acct extends PO implements I_C_BP_Vendor_Acct, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getV_Liability_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getV_Liability_Acct(), get_TrxName());	}
+
 	/** Set Vendor Liability.
 		@param V_Liability_Acct 
 		Account for Vendor Liability
@@ -172,6 +153,11 @@ public class X_C_BP_Vendor_Acct extends PO implements I_C_BP_Vendor_Acct, I_Pers
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getV_Liability_Services_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getV_Liability_Services_Acct(), get_TrxName());	}
+
 	/** Set Vendor Service Liability.
 		@param V_Liability_Services_Acct 
 		Account for Vender Service Liability
@@ -191,6 +177,11 @@ public class X_C_BP_Vendor_Acct extends PO implements I_C_BP_Vendor_Acct, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getV_Prepayment_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getV_Prepayment_Acct(), get_TrxName());	}
 
 	/** Set Vendor Prepayment.
 		@param V_Prepayment_Acct 

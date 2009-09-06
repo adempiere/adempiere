@@ -105,6 +105,8 @@ public interface I_C_Charge_Acct
 	  */
 	public int getCh_Expense_Acct();
 
+	public I_C_ValidCombination getCh_Expense_A() throws RuntimeException;
+
     /** Column name Ch_Revenue_Acct */
     public static final String COLUMNNAME_Ch_Revenue_Acct = "Ch_Revenue_Acct";
 
@@ -117,6 +119,8 @@ public interface I_C_Charge_Acct
 	  * Charge Revenue Account
 	  */
 	public int getCh_Revenue_Acct();
+
+	public I_C_ValidCombination getCh_Revenue_A() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

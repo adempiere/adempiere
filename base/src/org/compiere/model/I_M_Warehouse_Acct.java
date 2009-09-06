@@ -150,6 +150,8 @@ public interface I_M_Warehouse_Acct
 	  */
 	public int getW_Differences_Acct();
 
+	public I_C_ValidCombination getW_Differences_A() throws RuntimeException;
+
     /** Column name W_InvActualAdjust_Acct */
     public static final String COLUMNNAME_W_InvActualAdjust_Acct = "W_InvActualAdjust_Acct";
 
@@ -162,6 +164,8 @@ public interface I_M_Warehouse_Acct
 	  * Account for Inventory value adjustments for Actual Costing
 	  */
 	public int getW_InvActualAdjust_Acct();
+
+	public I_C_ValidCombination getW_InvActualAdjust_A() throws RuntimeException;
 
     /** Column name W_Inventory_Acct */
     public static final String COLUMNNAME_W_Inventory_Acct = "W_Inventory_Acct";
@@ -176,6 +180,8 @@ public interface I_M_Warehouse_Acct
 	  */
 	public int getW_Inventory_Acct();
 
+	public I_C_ValidCombination getW_Inventory_A() throws RuntimeException;
+
     /** Column name W_Revaluation_Acct */
     public static final String COLUMNNAME_W_Revaluation_Acct = "W_Revaluation_Acct";
 
@@ -188,4 +194,6 @@ public interface I_M_Warehouse_Acct
 	  * Account for Inventory Revaluation
 	  */
 	public int getW_Revaluation_Acct();
+
+	public I_C_ValidCombination getW_Revaluation_A() throws RuntimeException;
 }

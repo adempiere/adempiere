@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
@@ -143,21 +141,10 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -182,21 +169,10 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException 
+	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner_Location.Table_Name);
-        I_C_BPartner_Location result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner_Location)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_Location_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
 		@param C_BPartner_Location_ID 
@@ -221,21 +197,10 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Greeting getC_Greeting() throws RuntimeException 
+	public I_C_Greeting getC_Greeting() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Greeting.Table_Name);
-        I_C_Greeting result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Greeting)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Greeting_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Greeting)MTable.get(getCtx(), I_C_Greeting.Table_Name)
+			.getPO(getC_Greeting_ID(), get_TrxName());	}
 
 	/** Set Greeting.
 		@param C_Greeting_ID 
@@ -260,21 +225,10 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Job getC_Job() throws RuntimeException 
+	public I_C_Job getC_Job() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Job.Table_Name);
-        I_C_Job result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Job)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Job_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Job)MTable.get(getCtx(), I_C_Job.Table_Name)
+			.getPO(getC_Job_ID(), get_TrxName());	}
 
 	/** Set Position.
 		@param C_Job_ID 
@@ -686,6 +640,11 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		}
 		return false;
 	}
+
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.
 		@param Supervisor_ID 

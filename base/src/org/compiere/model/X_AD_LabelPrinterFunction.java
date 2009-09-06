@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LabelPrinterFunction
@@ -75,21 +73,10 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
       return sb.toString();
     }
 
-	public I_AD_LabelPrinter getAD_LabelPrinter() throws RuntimeException 
+	public I_AD_LabelPrinter getAD_LabelPrinter() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_LabelPrinter.Table_Name);
-        I_AD_LabelPrinter result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_LabelPrinter)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_LabelPrinter_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_LabelPrinter)MTable.get(getCtx(), I_AD_LabelPrinter.Table_Name)
+			.getPO(getAD_LabelPrinter_ID(), get_TrxName());	}
 
 	/** Set Label printer.
 		@param AD_LabelPrinter_ID 

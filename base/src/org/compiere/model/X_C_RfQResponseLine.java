@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for C_RfQResponseLine
  *  @author Adempiere (generated) 
@@ -76,21 +74,10 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
       return sb.toString();
     }
 
-	public I_C_RfQLine getC_RfQLine() throws RuntimeException 
+	public I_C_RfQLine getC_RfQLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_RfQLine.Table_Name);
-        I_C_RfQLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_RfQLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_RfQLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_RfQLine)MTable.get(getCtx(), I_C_RfQLine.Table_Name)
+			.getPO(getC_RfQLine_ID(), get_TrxName());	}
 
 	/** Set RfQ Line.
 		@param C_RfQLine_ID 
@@ -115,21 +102,10 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_RfQResponse getC_RfQResponse() throws RuntimeException 
+	public I_C_RfQResponse getC_RfQResponse() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_RfQResponse.Table_Name);
-        I_C_RfQResponse result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_RfQResponse)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_RfQResponse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_RfQResponse)MTable.get(getCtx(), I_C_RfQResponse.Table_Name)
+			.getPO(getC_RfQResponse_ID(), get_TrxName());	}
 
 	/** Set RfQ Response.
 		@param C_RfQResponse_ID 

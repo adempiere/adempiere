@@ -144,6 +144,8 @@ public interface I_CM_ChatEntry
 	  */
 	public int getCM_ChatEntryGrandParent_ID();
 
+	public I_CM_ChatEntry getCM_ChatEntryGrandParent() throws RuntimeException;
+
     /** Column name CM_ChatEntryParent_ID */
     public static final String COLUMNNAME_CM_ChatEntryParent_ID = "CM_ChatEntryParent_ID";
 
@@ -156,6 +158,8 @@ public interface I_CM_ChatEntry
 	  * Link to direct Parent
 	  */
 	public int getCM_ChatEntryParent_ID();
+
+	public I_CM_ChatEntry getCM_ChatEntryParent() throws RuntimeException;
 
     /** Column name ConfidentialType */
     public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";

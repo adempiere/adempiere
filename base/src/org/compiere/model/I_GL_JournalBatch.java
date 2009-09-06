@@ -105,6 +105,8 @@ public interface I_GL_JournalBatch
 	  */
 	public int getC_Period_ID();
 
+	public I_C_Period getC_Period() throws RuntimeException;
+
     /** Column name ControlAmt */
     public static final String COLUMNNAME_ControlAmt = "ControlAmt";
 
@@ -326,6 +328,8 @@ public interface I_GL_JournalBatch
 	  * ID of document reversal
 	  */
 	public int getReversal_ID();
+
+	public I_GL_JournalBatch getReversal() throws RuntimeException;
 
     /** Column name TotalCr */
     public static final String COLUMNNAME_TotalCr = "TotalCr";

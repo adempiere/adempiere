@@ -197,6 +197,8 @@ public interface I_M_ChangeRequest
 	  */
 	public int getM_FixChangeNotice_ID();
 
+	public I_M_ChangeNotice getM_FixChangeNotice() throws RuntimeException;
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PeriodControl
@@ -76,21 +74,10 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
       return sb.toString();
     }
 
-	public I_C_Period getC_Period() throws RuntimeException 
+	public I_C_Period getC_Period() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
-        I_C_Period result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Period)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Period_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
 		@param C_Period_ID 

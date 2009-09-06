@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_POS
@@ -79,21 +77,10 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException 
+	public I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BankAccount.Table_Name);
-        I_C_BankAccount result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BankAccount)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BankAccount_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+			.getPO(getC_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Bank Account.
 		@param C_BankAccount_ID 
@@ -118,6 +105,11 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartnerCashTrx_ID(), get_TrxName());	}
+
 	/** Set Template B.Partner.
 		@param C_BPartnerCashTrx_ID 
 		Business Partner used for creating new Business Partners on the fly
@@ -141,21 +133,10 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_CashBook getC_CashBook() throws RuntimeException 
+	public I_C_CashBook getC_CashBook() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
-        I_C_CashBook result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_CashBook)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashBook_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+			.getPO(getC_CashBook_ID(), get_TrxName());	}
 
 	/** Set Cash Book.
 		@param C_CashBook_ID 
@@ -180,21 +161,10 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException 
+	public I_C_DocType getC_DocType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
-        I_C_DocType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_DocType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_DocType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
 		@param C_DocType_ID 
@@ -242,21 +212,10 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException 
+	public I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_POSKeyLayout.Table_Name);
-        I_C_POSKeyLayout result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_POSKeyLayout)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_POSKeyLayout_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_POSKeyLayout)MTable.get(getCtx(), I_C_POSKeyLayout.Table_Name)
+			.getPO(getC_POSKeyLayout_ID(), get_TrxName());	}
 
 	/** Set POS Key Layout.
 		@param C_POSKeyLayout_ID 
@@ -353,21 +312,10 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return false;
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException 
+	public I_M_PriceList getM_PriceList() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
-        I_M_PriceList result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PriceList)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PriceList_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.
 		@param M_PriceList_ID 
@@ -392,21 +340,10 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
-        I_M_Warehouse result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Warehouse)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Warehouse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
 		@param M_Warehouse_ID 
@@ -472,6 +409,11 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_PrinterName);
 	}
+
+	public I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.
 		@param SalesRep_ID 

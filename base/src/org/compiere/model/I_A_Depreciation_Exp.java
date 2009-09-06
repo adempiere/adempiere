@@ -50,6 +50,8 @@ public interface I_A_Depreciation_Exp
 	/** Get A_Account_Number	  */
 	public int getA_Account_Number();
 
+	public I_C_ValidCombination getA_Account_Num() throws RuntimeException;
+
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 

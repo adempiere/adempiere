@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for CM_AccessListRole
  *  @author Adempiere (generated) 
@@ -72,21 +70,10 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws RuntimeException 
+	public I_AD_Role getAD_Role() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
-        I_AD_Role result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Role)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Role_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
 		@param AD_Role_ID 
@@ -111,21 +98,10 @@ public class X_CM_AccessListRole extends PO implements I_CM_AccessListRole, I_Pe
 		return ii.intValue();
 	}
 
-	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException 
+	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_AccessProfile.Table_Name);
-        I_CM_AccessProfile result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_AccessProfile)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_AccessProfile_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_AccessProfile)MTable.get(getCtx(), I_CM_AccessProfile.Table_Name)
+			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
 
 	/** Set Web Access Profile.
 		@param CM_AccessProfile_ID 

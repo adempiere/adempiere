@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema_GL
@@ -82,21 +80,10 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -129,6 +116,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
     }
 
+	public I_C_ValidCombination getCommitmentOffset_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCommitmentOffset_Acct(), get_TrxName());	}
+
 	/** Set Commitment Offset.
 		@param CommitmentOffset_Acct 
 		Budgetary Commitment Offset Account
@@ -148,6 +140,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getCommitmentOffsetSales_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCommitmentOffsetSales_Acct(), get_TrxName());	}
 
 	/** Set Commitment Offset Sales.
 		@param CommitmentOffsetSales_Acct 
@@ -169,6 +166,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getCurrencyBalancing_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCurrencyBalancing_Acct(), get_TrxName());	}
+
 	/** Set Currency Balancing Acct.
 		@param CurrencyBalancing_Acct 
 		Account used when a currency is out of balance
@@ -188,6 +190,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getIncomeSummary_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getIncomeSummary_Acct(), get_TrxName());	}
 
 	/** Set Income Summary Acct.
 		@param IncomeSummary_Acct 
@@ -209,6 +216,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getIntercompanyDueFrom_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getIntercompanyDueFrom_Acct(), get_TrxName());	}
+
 	/** Set Intercompany Due From Acct.
 		@param IntercompanyDueFrom_Acct 
 		Intercompany Due From / Receivables Account
@@ -228,6 +240,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getIntercompanyDueTo_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getIntercompanyDueTo_Acct(), get_TrxName());	}
 
 	/** Set Intercompany Due To Acct.
 		@param IntercompanyDueTo_Acct 
@@ -249,6 +266,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getPPVOffset_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getPPVOffset_Acct(), get_TrxName());	}
+
 	/** Set PPV Offset.
 		@param PPVOffset_Acct 
 		Purchase Price Variance Offset Account
@@ -269,6 +291,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getRetainedEarning_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getRetainedEarning_Acct(), get_TrxName());	}
+
 	/** Set Retained Earning Acct.
 		@param RetainedEarning_Acct Retained Earning Acct	  */
 	public void setRetainedEarning_Acct (int RetainedEarning_Acct)
@@ -286,6 +313,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getSuspenseBalancing_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getSuspenseBalancing_Acct(), get_TrxName());	}
+
 	/** Set Suspense Balancing Acct.
 		@param SuspenseBalancing_Acct Suspense Balancing Acct	  */
 	public void setSuspenseBalancing_Acct (int SuspenseBalancing_Acct)
@@ -302,6 +334,11 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getSuspenseError_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getSuspenseError_Acct(), get_TrxName());	}
 
 	/** Set Suspense Error Acct.
 		@param SuspenseError_Acct Suspense Error Acct	  */

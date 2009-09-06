@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormat
@@ -86,21 +84,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException 
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
-        I_AD_PrintColor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintColor)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintColor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Print Color.
 		@param AD_PrintColor_ID 
@@ -125,21 +112,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException 
+	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintFont.Table_Name);
-        I_AD_PrintFont result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintFont)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintFont_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+			.getPO(getAD_PrintFont_ID(), get_TrxName());	}
 
 	/** Set Print Font.
 		@param AD_PrintFont_ID 
@@ -187,21 +163,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintPaper getAD_PrintPaper() throws RuntimeException 
+	public I_AD_PrintPaper getAD_PrintPaper() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintPaper.Table_Name);
-        I_AD_PrintPaper result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintPaper)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintPaper_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintPaper)MTable.get(getCtx(), I_AD_PrintPaper.Table_Name)
+			.getPO(getAD_PrintPaper_ID(), get_TrxName());	}
 
 	/** Set Print Paper.
 		@param AD_PrintPaper_ID 
@@ -226,21 +191,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintTableFormat getAD_PrintTableFormat() throws RuntimeException 
+	public I_AD_PrintTableFormat getAD_PrintTableFormat() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintTableFormat.Table_Name);
-        I_AD_PrintTableFormat result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintTableFormat)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintTableFormat_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintTableFormat)MTable.get(getCtx(), I_AD_PrintTableFormat.Table_Name)
+			.getPO(getAD_PrintTableFormat_ID(), get_TrxName());	}
 
 	/** Set Print Table Format.
 		@param AD_PrintTableFormat_ID 
@@ -265,21 +219,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getAD_ReportView() throws RuntimeException 
+	public I_AD_ReportView getAD_ReportView() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_ReportView.Table_Name);
-        I_AD_ReportView result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_ReportView)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ReportView_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_ReportView)MTable.get(getCtx(), I_AD_ReportView.Table_Name)
+			.getPO(getAD_ReportView_ID(), get_TrxName());	}
 
 	/** Set Report View.
 		@param AD_ReportView_ID 
@@ -304,21 +247,10 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -540,6 +472,11 @@ public class X_AD_PrintFormat extends PO implements I_AD_PrintFormat, I_Persiste
 		}
 		return false;
 	}
+
+	public I_AD_Process getJasperProcess() throws RuntimeException
+    {
+		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+			.getPO(getJasperProcess_ID(), get_TrxName());	}
 
 	/** Set Jasper Process.
 		@param JasperProcess_ID 

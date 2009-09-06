@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -125,21 +123,10 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -218,21 +205,10 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 		return bd;
 	}
 
-	public I_W_Basket getW_Basket() throws RuntimeException 
+	public I_W_Basket getW_Basket() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_W_Basket.Table_Name);
-        I_W_Basket result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_W_Basket)constructor.newInstance(new Object[] {getCtx(), new Integer(getW_Basket_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_W_Basket)MTable.get(getCtx(), I_W_Basket.Table_Name)
+			.getPO(getW_Basket_ID(), get_TrxName());	}
 
 	/** Set W_Basket_ID.
 		@param W_Basket_ID 

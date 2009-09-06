@@ -199,6 +199,8 @@ public interface I_C_BP_Group
 	  */
 	public int getM_DiscountSchema_ID();
 
+	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
+
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 
@@ -240,6 +242,8 @@ public interface I_C_BP_Group
 	  */
 	public int getPO_DiscountSchema_ID();
 
+	public I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
+
     /** Column name PO_PriceList_ID */
     public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
 
@@ -252,6 +256,8 @@ public interface I_C_BP_Group
 	  * Price List used by this Business Partner
 	  */
 	public int getPO_PriceList_ID();
+
+	public I_M_PriceList getPO_PriceList() throws RuntimeException;
 
     /** Column name PriceMatchTolerance */
     public static final String COLUMNNAME_PriceMatchTolerance = "PriceMatchTolerance";

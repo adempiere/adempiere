@@ -195,6 +195,8 @@ public interface I_C_DunningLevel
 	  */
 	public int getDunning_PrintFormat_ID();
 
+	public I_AD_PrintFormat getDunning_PrintFormat() throws RuntimeException;
+
     /** Column name FeeAmt */
     public static final String COLUMNNAME_FeeAmt = "FeeAmt";
 

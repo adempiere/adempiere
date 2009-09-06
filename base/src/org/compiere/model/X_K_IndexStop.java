@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_IndexStop
@@ -75,21 +73,10 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
       return sb.toString();
     }
 
-	public I_C_DocType getC_DocType() throws RuntimeException 
+	public I_C_DocType getC_DocType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
-        I_C_DocType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_DocType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_DocType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
 		@param C_DocType_ID 
@@ -114,21 +101,10 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException 
+	public I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
-        I_CM_WebProject result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_WebProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_WebProject_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.
 		@param CM_WebProject_ID 
@@ -225,21 +201,10 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
         return new KeyNamePair(get_ID(), getKeyword());
     }
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException 
+	public I_R_RequestType getR_RequestType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
-        I_R_RequestType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_RequestType)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_RequestType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_RequestType)MTable.get(getCtx(), I_R_RequestType.Table_Name)
+			.getPO(getR_RequestType_ID(), get_TrxName());	}
 
 	/** Set Request Type.
 		@param R_RequestType_ID 

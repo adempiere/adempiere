@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -88,21 +86,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException 
+	public I_AD_Column getAD_Column() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
 		@param AD_Column_ID 
@@ -150,21 +137,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException 
+	public I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_FieldGroup.Table_Name);
-        I_AD_FieldGroup result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_FieldGroup)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_FieldGroup_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_FieldGroup)MTable.get(getCtx(), I_AD_FieldGroup.Table_Name)
+			.getPO(getAD_FieldGroup_ID(), get_TrxName());	}
 
 	/** Set Field Group.
 		@param AD_FieldGroup_ID 
@@ -189,6 +165,11 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
+
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -211,6 +192,11 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Reference getAD_Reference_Value() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
 
 	/** Set Reference Key.
 		@param AD_Reference_Value_ID 
@@ -235,21 +221,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException 
+	public I_AD_Tab getAD_Tab() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
-        I_AD_Tab result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Tab)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Tab_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+			.getPO(getAD_Tab_ID(), get_TrxName());	}
 
 	/** Set Tab.
 		@param AD_Tab_ID 
@@ -274,21 +249,10 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException 
+	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Val_Rule.Table_Name);
-        I_AD_Val_Rule result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Val_Rule)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Val_Rule_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Val_Rule)MTable.get(getCtx(), I_AD_Val_Rule.Table_Name)
+			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
 
 	/** Set Dynamic Validation.
 		@param AD_Val_Rule_ID 
@@ -420,6 +384,11 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Help);
 	}
+
+	public I_AD_Tab getIncluded_Tab() throws RuntimeException
+    {
+		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+			.getPO(getIncluded_Tab_ID(), get_TrxName());	}
 
 	/** Set Included Tab.
 		@param Included_Tab_ID 

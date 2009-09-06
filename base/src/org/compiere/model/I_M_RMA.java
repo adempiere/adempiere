@@ -118,6 +118,8 @@ public interface I_M_RMA
 	  */
 	public int getC_DocType_ID();
 
+	public I_C_DocType getC_DocType() throws RuntimeException;
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -240,6 +242,8 @@ public interface I_M_RMA
 	  */
 	public int getInOut_ID();
 
+	public I_M_InOut getInOut() throws RuntimeException;
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -351,6 +355,8 @@ public interface I_M_RMA
 	/** Get Referenced RMA	  */
 	public int getRef_RMA_ID();
 
+	public I_M_RMA getRef_RMA() throws RuntimeException;
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -363,6 +369,8 @@ public interface I_M_RMA
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

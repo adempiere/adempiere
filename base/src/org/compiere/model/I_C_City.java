@@ -116,6 +116,8 @@ public interface I_C_City
 	  */
 	public int getC_Region_ID();
 
+	public I_C_Region getC_Region() throws RuntimeException;
+
     /** Column name Coordinates */
     public static final String COLUMNNAME_Coordinates = "Coordinates";
 

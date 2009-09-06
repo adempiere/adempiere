@@ -62,6 +62,8 @@ public interface I_AD_Package_Imp_Backup
 	  */
 	public int getAD_Column_ID();
 
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -132,6 +134,8 @@ public interface I_AD_Package_Imp_Backup
 	  * System Reference and Validation
 	  */
 	public int getAD_Reference_ID();
+
+	public I_AD_Reference getAD_Reference() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";

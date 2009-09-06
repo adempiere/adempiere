@@ -105,6 +105,8 @@ public interface I_AD_OrgInfo
 	  */
 	public int getC_Location_ID();
 
+	public I_C_Location getC_Location() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -133,6 +135,8 @@ public interface I_AD_OrgInfo
 	  * The (logical) warehouse to use for recording drop ship receipts and shipments.
 	  */
 	public int getDropShip_Warehouse_ID();
+
+	public I_M_Warehouse getDropShip_Warehouse() throws RuntimeException;
 
     /** Column name DUNS */
     public static final String COLUMNNAME_DUNS = "DUNS";
@@ -223,6 +227,8 @@ public interface I_AD_OrgInfo
 	  */
 	public int getSupervisor_ID();
 
+	public I_AD_User getSupervisor() throws RuntimeException;
+
     /** Column name TaxID */
     public static final String COLUMNNAME_TaxID = "TaxID";
 
@@ -249,6 +255,8 @@ public interface I_AD_OrgInfo
 	  */
 	public int getTransferBank_ID();
 
+	public I_C_Bank getTransferBank() throws RuntimeException;
+
     /** Column name TransferCashBook_ID */
     public static final String COLUMNNAME_TransferCashBook_ID = "TransferCashBook_ID";
 
@@ -257,6 +265,8 @@ public interface I_AD_OrgInfo
 
 	/** Get CashBook for transfers	  */
 	public int getTransferCashBook_ID();
+
+	public I_C_CashBook getTransferCashBook() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

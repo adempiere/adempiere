@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for M_ProductPriceVendorBreak
@@ -100,6 +98,11 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 		return bd;
 	}
 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
 	/** Set Business Partner .
 		@param C_BPartner_ID 
 		Identifies a Business Partner
@@ -123,21 +126,10 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 		return ii.intValue();
 	}
 
-	public I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException 
+	public I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_PriceList_Version.Table_Name);
-        I_M_PriceList_Version result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PriceList_Version)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PriceList_Version_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_PriceList_Version)MTable.get(getCtx(), I_M_PriceList_Version.Table_Name)
+			.getPO(getM_PriceList_Version_ID(), get_TrxName());	}
 
 	/** Set Price List Version.
 		@param M_PriceList_Version_ID 
@@ -162,21 +154,10 @@ public class X_M_ProductPriceVendorBreak extends PO implements I_M_ProductPriceV
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 

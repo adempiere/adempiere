@@ -75,6 +75,8 @@ public interface I_C_BP_EDI
 	  */
 	public int getAD_Sequence_ID();
 
+	public I_AD_Sequence getAD_Sequence() throws RuntimeException;
+
     /** Column name C_BP_EDI_ID */
     public static final String COLUMNNAME_C_BP_EDI_ID = "C_BP_EDI_ID";
 

@@ -75,6 +75,11 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
       return sb.toString();
     }
 
+	public I_C_Location getC_Location() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getC_Location_ID(), get_TrxName());	}
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address
@@ -161,6 +166,11 @@ public class X_M_Warehouse extends PO implements I_M_Warehouse, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Warehouse getM_WarehouseSource() throws RuntimeException
+    {
+		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+			.getPO(getM_WarehouseSource_ID(), get_TrxName());	}
 
 	/** Set Source Warehouse.
 		@param M_WarehouseSource_ID 

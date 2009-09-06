@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AttachmentNote
@@ -76,21 +74,10 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Attachment getAD_Attachment() throws RuntimeException 
+	public I_AD_Attachment getAD_Attachment() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Attachment.Table_Name);
-        I_AD_Attachment result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Attachment)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Attachment_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Attachment)MTable.get(getCtx(), I_AD_Attachment.Table_Name)
+			.getPO(getAD_Attachment_ID(), get_TrxName());	}
 
 	/** Set Attachment.
 		@param AD_Attachment_ID 
@@ -138,21 +125,10 @@ public class X_AD_AttachmentNote extends PO implements I_AD_AttachmentNote, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 

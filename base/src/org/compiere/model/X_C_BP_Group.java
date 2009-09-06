@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -79,21 +77,10 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException 
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
-        I_AD_PrintColor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintColor)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintColor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Print Color.
 		@param AD_PrintColor_ID 
@@ -141,21 +128,10 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Dunning getC_Dunning() throws RuntimeException 
+	public I_C_Dunning getC_Dunning() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Dunning.Table_Name);
-        I_C_Dunning result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Dunning)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Dunning_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Dunning)MTable.get(getCtx(), I_C_Dunning.Table_Name)
+			.getPO(getC_Dunning_ID(), get_TrxName());	}
 
 	/** Set Dunning.
 		@param C_Dunning_ID 
@@ -265,6 +241,11 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return false;
 	}
 
+	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException
+    {
+		return (I_M_DiscountSchema)MTable.get(getCtx(), I_M_DiscountSchema.Table_Name)
+			.getPO(getM_DiscountSchema_ID(), get_TrxName());	}
+
 	/** Set Discount Schema.
 		@param M_DiscountSchema_ID 
 		Schema to calculate the trade discount percentage
@@ -288,21 +269,10 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException 
+	public I_M_PriceList getM_PriceList() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_PriceList.Table_Name);
-        I_M_PriceList result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PriceList)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PriceList_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getM_PriceList_ID(), get_TrxName());	}
 
 	/** Set Price List.
 		@param M_PriceList_ID 
@@ -352,6 +322,11 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	public I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException
+    {
+		return (I_M_DiscountSchema)MTable.get(getCtx(), I_M_DiscountSchema.Table_Name)
+			.getPO(getPO_DiscountSchema_ID(), get_TrxName());	}
+
 	/** Set PO Discount Schema.
 		@param PO_DiscountSchema_ID 
 		Schema to calculate the purchase trade discount percentage
@@ -374,6 +349,11 @@ public class X_C_BP_Group extends PO implements I_C_BP_Group, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_PriceList getPO_PriceList() throws RuntimeException
+    {
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getPO_PriceList_ID(), get_TrxName());	}
 
 	/** Set Purchase Pricelist.
 		@param PO_PriceList_ID 

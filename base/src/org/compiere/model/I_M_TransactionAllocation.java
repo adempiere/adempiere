@@ -143,6 +143,8 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
@@ -227,6 +229,8 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getOut_M_InOutLine_ID();
 
+	public I_M_InOutLine getOut_M_InOutLine() throws RuntimeException;
+
     /** Column name Out_M_InventoryLine_ID */
     public static final String COLUMNNAME_Out_M_InventoryLine_ID = "Out_M_InventoryLine_ID";
 
@@ -239,6 +243,8 @@ public interface I_M_TransactionAllocation
 	  * Outgoing Inventory Line
 	  */
 	public int getOut_M_InventoryLine_ID();
+
+	public I_M_InventoryLine getOut_M_InventoryLine() throws RuntimeException;
 
     /** Column name Out_M_ProductionLine_ID */
     public static final String COLUMNNAME_Out_M_ProductionLine_ID = "Out_M_ProductionLine_ID";
@@ -253,6 +259,8 @@ public interface I_M_TransactionAllocation
 	  */
 	public int getOut_M_ProductionLine_ID();
 
+	public I_M_ProductionLine getOut_M_ProductionLine() throws RuntimeException;
+
     /** Column name Out_M_Transaction_ID */
     public static final String COLUMNNAME_Out_M_Transaction_ID = "Out_M_Transaction_ID";
 
@@ -265,6 +273,8 @@ public interface I_M_TransactionAllocation
 	  * Outgoing Transaction
 	  */
 	public int getOut_M_Transaction_ID();
+
+	public I_M_Transaction getOut_M_Transaction() throws RuntimeException;
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";

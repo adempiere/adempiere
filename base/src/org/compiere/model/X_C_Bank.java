@@ -97,6 +97,11 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_Location getC_Location() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getC_Location_ID(), get_TrxName());	}
+
 	/** Set Address.
 		@param C_Location_ID 
 		Location or Address

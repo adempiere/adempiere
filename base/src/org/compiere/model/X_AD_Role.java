@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -154,6 +152,11 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Tree getAD_Tree_Menu() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Menu_ID(), get_TrxName());	}
+
 	/** Set Menu Tree.
 		@param AD_Tree_Menu_ID 
 		Tree of the menu
@@ -176,6 +179,11 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_Org() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Org_ID(), get_TrxName());	}
 
 	/** Set Organization Tree.
 		@param AD_Tree_Org_ID 
@@ -493,21 +501,10 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 		return bd;
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException 
+	public I_C_Currency getC_Currency() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
-        I_C_Currency result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -975,6 +972,11 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_PreferenceType);
 	}
+
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.
 		@param Supervisor_ID 

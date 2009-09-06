@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintGraph
@@ -78,21 +76,10 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException 
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
-        I_AD_PrintFormat result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintFormat)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintFormat_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
 		@param AD_PrintFormat_ID 
@@ -140,6 +127,11 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_PrintFormatItem getData_PrintFormatItem() throws RuntimeException
+    {
+		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+			.getPO(getData_PrintFormatItem_ID(), get_TrxName());	}
+
 	/** Set Data Column.
 		@param Data_PrintFormatItem_ID 
 		Data Column for Pie and Line Charts
@@ -162,6 +154,11 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormatItem getData1_PrintFormatItem() throws RuntimeException
+    {
+		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+			.getPO(getData1_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Data Column 2.
 		@param Data1_PrintFormatItem_ID 
@@ -186,6 +183,11 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_PrintFormatItem getData2_PrintFormatItem() throws RuntimeException
+    {
+		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+			.getPO(getData2_PrintFormatItem_ID(), get_TrxName());	}
+
 	/** Set Data Column 3.
 		@param Data2_PrintFormatItem_ID 
 		Data Column for Line Charts
@@ -209,6 +211,11 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_PrintFormatItem getData3_PrintFormatItem() throws RuntimeException
+    {
+		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+			.getPO(getData3_PrintFormatItem_ID(), get_TrxName());	}
+
 	/** Set Data Column 4.
 		@param Data3_PrintFormatItem_ID 
 		Data Column for Line Charts
@@ -231,6 +238,11 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormatItem getData4_PrintFormatItem() throws RuntimeException
+    {
+		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+			.getPO(getData4_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Data Column 5.
 		@param Data4_PrintFormatItem_ID 
@@ -271,6 +283,11 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public I_AD_PrintFormatItem getDescription_PrintFormatItem() throws RuntimeException
+    {
+		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+			.getPO(getDescription_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Description Column.
 		@param Description_PrintFormatItem_ID 

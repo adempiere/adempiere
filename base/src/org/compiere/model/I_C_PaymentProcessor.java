@@ -205,6 +205,8 @@ public interface I_C_PaymentProcessor
 	  */
 	public int getAD_Sequence_ID();
 
+	public I_AD_Sequence getAD_Sequence() throws RuntimeException;
+
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
 

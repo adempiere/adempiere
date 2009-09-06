@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for U_POSTerminal
  *  @author Adempiere (generated) 
@@ -101,21 +99,10 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return false;
 	}
 
-	public I_C_CashBook getC_CashBook() throws RuntimeException 
+	public I_C_CashBook getC_CashBook() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_CashBook.Table_Name);
-        I_C_CashBook result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_CashBook)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CashBook_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+			.getPO(getC_CashBook_ID(), get_TrxName());	}
 
 	/** Set Cash Book.
 		@param C_CashBook_ID 
@@ -140,6 +127,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BPartner getC_CashBPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_CashBPartner_ID(), get_TrxName());	}
+
 	/** Set Cash BPartner.
 		@param C_CashBPartner_ID 
 		BPartner to be used for Cash transactions
@@ -162,6 +154,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner getC_TemplateBPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_TemplateBPartner_ID(), get_TrxName());	}
 
 	/** Set Template BPartner.
 		@param C_TemplateBPartner_ID 
@@ -186,6 +183,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BankAccount getCard_BankAccount() throws RuntimeException
+    {
+		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+			.getPO(getCard_BankAccount_ID(), get_TrxName());	}
+
 	/** Set Card Bank Account.
 		@param Card_BankAccount_ID 
 		Bank Account on which card transactions will be processed
@@ -209,6 +211,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BankAccount getCardTransferBankAccount() throws RuntimeException
+    {
+		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+			.getPO(getCardTransferBankAccount_ID(), get_TrxName());	}
+
 	/** Set Transfer Card trx to.
 		@param CardTransferBankAccount_ID 
 		Bank account on which to transfer Card transactions
@@ -231,6 +238,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_CashBook getCardTransferCashBook() throws RuntimeException
+    {
+		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+			.getPO(getCardTransferCashBook_ID(), get_TrxName());	}
 
 	/** Set Transfer Card trx to.
 		@param CardTransferCashBook_ID 
@@ -300,6 +312,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_CashBookTransferType);
 	}
 
+	public I_C_BankAccount getCashTransferBankAccount() throws RuntimeException
+    {
+		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+			.getPO(getCashTransferBankAccount_ID(), get_TrxName());	}
+
 	/** Set Transfer Cash trx to.
 		@param CashTransferBankAccount_ID 
 		Bank Account on which to transfer all Cash transactions
@@ -322,6 +339,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_CashBook getCashTransferCashBook() throws RuntimeException
+    {
+		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+			.getPO(getCashTransferCashBook_ID(), get_TrxName());	}
 
 	/** Set Transfer Cash trx to.
 		@param CashTransferCashBook_ID 
@@ -346,6 +368,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BankAccount getCheck_BankAccount() throws RuntimeException
+    {
+		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+			.getPO(getCheck_BankAccount_ID(), get_TrxName());	}
+
 	/** Set Check Bank Account.
 		@param Check_BankAccount_ID 
 		Bank Account to be used for processing Check transactions
@@ -369,6 +396,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_BankAccount getCheckTransferBankAccount() throws RuntimeException
+    {
+		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+			.getPO(getCheckTransferBankAccount_ID(), get_TrxName());	}
+
 	/** Set Tranfer Check trx to.
 		@param CheckTransferBankAccount_ID 
 		Bank account on which to transfer Check transactions
@@ -391,6 +423,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_CashBook getCheckTransferCashBook() throws RuntimeException
+    {
+		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+			.getPO(getCheckTransferCashBook_ID(), get_TrxName());	}
 
 	/** Set Transfer Check trx to.
 		@param CheckTransferCashBook_ID 
@@ -531,21 +568,10 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException 
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Warehouse.Table_Name);
-        I_M_Warehouse result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Warehouse)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Warehouse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
+			.getPO(getM_Warehouse_ID(), get_TrxName());	}
 
 	/** Set Warehouse.
 		@param M_Warehouse_ID 
@@ -587,6 +613,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
+	public I_M_PriceList getPO_PriceList() throws RuntimeException
+    {
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getPO_PriceList_ID(), get_TrxName());	}
+
 	/** Set Purchase Pricelist.
 		@param PO_PriceList_ID 
 		Price List used by this Business Partner
@@ -627,6 +658,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return (String)get_Value(COLUMNNAME_PrinterName);
 	}
 
+	public I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
+
 	/** Set Sales Representative.
 		@param SalesRep_ID 
 		Sales Representative or Company Agent
@@ -649,6 +685,11 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_PriceList getSO_PriceList() throws RuntimeException
+    {
+		return (I_M_PriceList)MTable.get(getCtx(), I_M_PriceList.Table_Name)
+			.getPO(getSO_PriceList_ID(), get_TrxName());	}
 
 	/** Set Sales Pricelist.
 		@param SO_PriceList_ID Sales Pricelist	  */

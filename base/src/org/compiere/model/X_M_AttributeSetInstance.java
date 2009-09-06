@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSetInstance
@@ -125,21 +123,10 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException 
+	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
-        I_M_AttributeSet result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_AttributeSet)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_AttributeSet_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_AttributeSet)MTable.get(getCtx(), I_M_AttributeSet.Table_Name)
+			.getPO(getM_AttributeSet_ID(), get_TrxName());	}
 
 	/** Set Attribute Set.
 		@param M_AttributeSet_ID 
@@ -195,21 +182,10 @@ public class X_M_AttributeSetInstance extends PO implements I_M_AttributeSetInst
         return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeSetInstance_ID()));
     }
 
-	public I_M_Lot getM_Lot() throws RuntimeException 
+	public I_M_Lot getM_Lot() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Lot.Table_Name);
-        I_M_Lot result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Lot)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Lot_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Lot)MTable.get(getCtx(), I_M_Lot.Table_Name)
+			.getPO(getM_Lot_ID(), get_TrxName());	}
 
 	/** Set Lot.
 		@param M_Lot_ID 

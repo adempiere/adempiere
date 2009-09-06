@@ -105,6 +105,8 @@ public interface I_C_PaySelectionCheck
 	  */
 	public int getC_Payment_ID();
 
+	public I_C_Payment getC_Payment() throws RuntimeException;
+
     /** Column name C_PaySelection_ID */
     public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
 

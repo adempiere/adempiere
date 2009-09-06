@@ -121,6 +121,8 @@ public interface I_C_BP_Employee_Acct
 	  */
 	public int getE_Expense_Acct();
 
+	public I_C_ValidCombination getE_Expense_A() throws RuntimeException;
+
     /** Column name E_Prepayment_Acct */
     public static final String COLUMNNAME_E_Prepayment_Acct = "E_Prepayment_Acct";
 
@@ -133,6 +135,8 @@ public interface I_C_BP_Employee_Acct
 	  * Account for Employee Expense Prepayments
 	  */
 	public int getE_Prepayment_Acct();
+
+	public I_C_ValidCombination getE_Prepayment_A() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

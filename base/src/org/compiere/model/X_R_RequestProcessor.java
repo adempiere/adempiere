@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestProcessor
@@ -334,21 +332,10 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException 
+	public I_R_RequestType getR_RequestType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
-        I_R_RequestType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_RequestType)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_RequestType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_RequestType)MTable.get(getCtx(), I_R_RequestType.Table_Name)
+			.getPO(getR_RequestType_ID(), get_TrxName());	}
 
 	/** Set Request Type.
 		@param R_RequestType_ID 
@@ -392,6 +379,11 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.
 		@param Supervisor_ID 

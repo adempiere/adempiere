@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Ref_Table
@@ -78,6 +76,11 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Column getAD_Disp() throws RuntimeException
+    {
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Display(), get_TrxName());	}
+
 	/** Set Display column.
 		@param AD_Display 
 		Column that will display
@@ -97,6 +100,11 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Column getAD_() throws RuntimeException
+    {
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Key(), get_TrxName());	}
 
 	/** Set Key column.
 		@param AD_Key 
@@ -118,21 +126,10 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException 
+	public I_AD_Reference getAD_Reference() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Reference.Table_Name);
-        I_AD_Reference result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Reference)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Reference_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
 		@param AD_Reference_ID 
@@ -165,21 +162,10 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Reference_ID()));
     }
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -204,21 +190,10 @@ public class X_AD_Ref_Table extends PO implements I_AD_Ref_Table, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException 
+	public I_AD_Window getAD_Window() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
-        I_AD_Window result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
 		@param AD_Window_ID 

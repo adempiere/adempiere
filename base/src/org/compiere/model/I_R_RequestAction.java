@@ -373,6 +373,8 @@ public interface I_R_RequestAction
 	  */
 	public int getM_ProductSpent_ID();
 
+	public I_M_Product getM_ProductSpent() throws RuntimeException;
+
     /** Column name M_RMA_ID */
     public static final String COLUMNNAME_M_RMA_ID = "M_RMA_ID";
 
@@ -581,6 +583,8 @@ public interface I_R_RequestAction
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name StartDate */
     public static final String COLUMNNAME_StartDate = "StartDate";

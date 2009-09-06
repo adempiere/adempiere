@@ -208,6 +208,8 @@ public interface I_R_Status
 	  */
 	public int getNext_Status_ID();
 
+	public I_R_Status getNext_Status() throws RuntimeException;
+
     /** Column name R_Status_ID */
     public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
 
@@ -276,6 +278,8 @@ public interface I_R_Status
 	  * Automatically change the status after entry from web
 	  */
 	public int getUpdate_Status_ID();
+
+	public I_R_Status getUpdate_Status() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

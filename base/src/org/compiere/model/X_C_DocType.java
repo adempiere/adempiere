@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocType
@@ -92,21 +90,10 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException 
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
-        I_AD_PrintFormat result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintFormat)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintFormat_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
 		@param AD_PrintFormat_ID 
@@ -154,6 +141,11 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_DocType getC_DocTypeDifference() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeDifference_ID(), get_TrxName());	}
+
 	/** Set Difference Document.
 		@param C_DocTypeDifference_ID 
 		Document type for generating in dispute Shipments
@@ -176,6 +168,11 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_DocType getC_DocTypeInvoice() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeInvoice_ID(), get_TrxName());	}
 
 	/** Set Document Type for Invoice.
 		@param C_DocTypeInvoice_ID 
@@ -200,6 +197,11 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_DocType getC_DocTypeProforma() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeProforma_ID(), get_TrxName());	}
+
 	/** Set Document Type for ProForma.
 		@param C_DocTypeProforma_ID 
 		Document type used for pro forma invoices generated from this sales document
@@ -223,6 +225,11 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_DocType getC_DocTypeShipment() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeShipment_ID(), get_TrxName());	}
+
 	/** Set Document Type for Shipment.
 		@param C_DocTypeShipment_ID 
 		Document type used for shipments generated from this sales document
@@ -245,6 +252,11 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Sequence getDefiniteSequence() throws RuntimeException
+    {
+		return (I_AD_Sequence)MTable.get(getCtx(), I_AD_Sequence.Table_Name)
+			.getPO(getDefiniteSequence_ID(), get_TrxName());	}
 
 	/** Set Definite Sequence.
 		@param DefiniteSequence_ID Definite Sequence	  */
@@ -361,6 +373,11 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocBaseType);
 	}
 
+	public I_AD_Sequence getDocNoSequence() throws RuntimeException
+    {
+		return (I_AD_Sequence)MTable.get(getCtx(), I_AD_Sequence.Table_Name)
+			.getPO(getDocNoSequence_ID(), get_TrxName());	}
+
 	/** Set Document Sequence.
 		@param DocNoSequence_ID 
 		Document sequence determines the numbering of documents
@@ -457,21 +474,10 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocumentNote);
 	}
 
-	public I_GL_Category getGL_Category() throws RuntimeException 
+	public I_GL_Category getGL_Category() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
-        I_GL_Category result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_Category_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_Category)MTable.get(getCtx(), I_GL_Category.Table_Name)
+			.getPO(getGL_Category_ID(), get_TrxName());	}
 
 	/** Set GL Category.
 		@param GL_Category_ID 

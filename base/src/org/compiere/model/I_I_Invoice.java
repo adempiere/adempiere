@@ -769,6 +769,8 @@ public interface I_I_Invoice
 	  */
 	public int getSalesRep_ID();
 
+	public I_AD_User getSalesRep() throws RuntimeException;
+
     /** Column name SKU */
     public static final String COLUMNNAME_SKU = "SKU";
 

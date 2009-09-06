@@ -75,6 +75,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_Asset_Acct();
 
+	public I_C_ValidCombination getB_Asset_A() throws RuntimeException;
+
     /** Column name B_Expense_Acct */
     public static final String COLUMNNAME_B_Expense_Acct = "B_Expense_Acct";
 
@@ -87,6 +89,8 @@ public interface I_C_AcctSchema_Default
 	  * Bank Expense Account
 	  */
 	public int getB_Expense_Acct();
+
+	public I_C_ValidCombination getB_Expense_A() throws RuntimeException;
 
     /** Column name B_InterestExp_Acct */
     public static final String COLUMNNAME_B_InterestExp_Acct = "B_InterestExp_Acct";
@@ -101,6 +105,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_InterestExp_Acct();
 
+	public I_C_ValidCombination getB_InterestExp_A() throws RuntimeException;
+
     /** Column name B_InterestRev_Acct */
     public static final String COLUMNNAME_B_InterestRev_Acct = "B_InterestRev_Acct";
 
@@ -113,6 +119,8 @@ public interface I_C_AcctSchema_Default
 	  * Bank Interest Revenue Account
 	  */
 	public int getB_InterestRev_Acct();
+
+	public I_C_ValidCombination getB_InterestRev_A() throws RuntimeException;
 
     /** Column name B_InTransit_Acct */
     public static final String COLUMNNAME_B_InTransit_Acct = "B_InTransit_Acct";
@@ -127,6 +135,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_InTransit_Acct();
 
+	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException;
+
     /** Column name B_PaymentSelect_Acct */
     public static final String COLUMNNAME_B_PaymentSelect_Acct = "B_PaymentSelect_Acct";
 
@@ -139,6 +149,8 @@ public interface I_C_AcctSchema_Default
 	  * AP Payment Selection Clearing Account
 	  */
 	public int getB_PaymentSelect_Acct();
+
+	public I_C_ValidCombination getB_PaymentSelect_A() throws RuntimeException;
 
     /** Column name B_RevaluationGain_Acct */
     public static final String COLUMNNAME_B_RevaluationGain_Acct = "B_RevaluationGain_Acct";
@@ -153,6 +165,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_RevaluationGain_Acct();
 
+	public I_C_ValidCombination getB_RevaluationGain_A() throws RuntimeException;
+
     /** Column name B_RevaluationLoss_Acct */
     public static final String COLUMNNAME_B_RevaluationLoss_Acct = "B_RevaluationLoss_Acct";
 
@@ -165,6 +179,8 @@ public interface I_C_AcctSchema_Default
 	  * Bank Revaluation Loss Account
 	  */
 	public int getB_RevaluationLoss_Acct();
+
+	public I_C_ValidCombination getB_RevaluationLoss_A() throws RuntimeException;
 
     /** Column name B_SettlementGain_Acct */
     public static final String COLUMNNAME_B_SettlementGain_Acct = "B_SettlementGain_Acct";
@@ -179,6 +195,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_SettlementGain_Acct();
 
+	public I_C_ValidCombination getB_SettlementGain_A() throws RuntimeException;
+
     /** Column name B_SettlementLoss_Acct */
     public static final String COLUMNNAME_B_SettlementLoss_Acct = "B_SettlementLoss_Acct";
 
@@ -191,6 +209,8 @@ public interface I_C_AcctSchema_Default
 	  * Bank Settlement Loss Account
 	  */
 	public int getB_SettlementLoss_Acct();
+
+	public I_C_ValidCombination getB_SettlementLoss_A() throws RuntimeException;
 
     /** Column name B_UnallocatedCash_Acct */
     public static final String COLUMNNAME_B_UnallocatedCash_Acct = "B_UnallocatedCash_Acct";
@@ -205,6 +225,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getB_UnallocatedCash_Acct();
 
+	public I_C_ValidCombination getB_UnallocatedCash_A() throws RuntimeException;
+
     /** Column name B_Unidentified_Acct */
     public static final String COLUMNNAME_B_Unidentified_Acct = "B_Unidentified_Acct";
 
@@ -217,6 +239,8 @@ public interface I_C_AcctSchema_Default
 	  * Bank Unidentified Receipts Account
 	  */
 	public int getB_Unidentified_Acct();
+
+	public I_C_ValidCombination getB_Unidentified_A() throws RuntimeException;
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -246,6 +270,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getC_Prepayment_Acct();
 
+	public I_C_ValidCombination getC_Prepayment_A() throws RuntimeException;
+
     /** Column name C_Receivable_Acct */
     public static final String COLUMNNAME_C_Receivable_Acct = "C_Receivable_Acct";
 
@@ -258,6 +284,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Customer Receivables
 	  */
 	public int getC_Receivable_Acct();
+
+	public I_C_ValidCombination getC_Receivable_A() throws RuntimeException;
 
     /** Column name C_Receivable_Services_Acct */
     public static final String COLUMNNAME_C_Receivable_Services_Acct = "C_Receivable_Services_Acct";
@@ -272,6 +300,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getC_Receivable_Services_Acct();
 
+	public I_C_ValidCombination getC_Receivable_Services_A() throws RuntimeException;
+
     /** Column name CB_Asset_Acct */
     public static final String COLUMNNAME_CB_Asset_Acct = "CB_Asset_Acct";
 
@@ -284,6 +314,8 @@ public interface I_C_AcctSchema_Default
 	  * Cash Book Asset Account
 	  */
 	public int getCB_Asset_Acct();
+
+	public I_C_ValidCombination getCB_Asset_A() throws RuntimeException;
 
     /** Column name CB_CashTransfer_Acct */
     public static final String COLUMNNAME_CB_CashTransfer_Acct = "CB_CashTransfer_Acct";
@@ -298,6 +330,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getCB_CashTransfer_Acct();
 
+	public I_C_ValidCombination getCB_CashTransfer_A() throws RuntimeException;
+
     /** Column name CB_Differences_Acct */
     public static final String COLUMNNAME_CB_Differences_Acct = "CB_Differences_Acct";
 
@@ -310,6 +344,8 @@ public interface I_C_AcctSchema_Default
 	  * Cash Book Differences Account
 	  */
 	public int getCB_Differences_Acct();
+
+	public I_C_ValidCombination getCB_Differences_A() throws RuntimeException;
 
     /** Column name CB_Expense_Acct */
     public static final String COLUMNNAME_CB_Expense_Acct = "CB_Expense_Acct";
@@ -324,6 +360,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getCB_Expense_Acct();
 
+	public I_C_ValidCombination getCB_Expense_A() throws RuntimeException;
+
     /** Column name CB_Receipt_Acct */
     public static final String COLUMNNAME_CB_Receipt_Acct = "CB_Receipt_Acct";
 
@@ -336,6 +374,8 @@ public interface I_C_AcctSchema_Default
 	  * Cash Book Receipts Account
 	  */
 	public int getCB_Receipt_Acct();
+
+	public I_C_ValidCombination getCB_Receipt_A() throws RuntimeException;
 
     /** Column name Ch_Expense_Acct */
     public static final String COLUMNNAME_Ch_Expense_Acct = "Ch_Expense_Acct";
@@ -350,6 +390,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getCh_Expense_Acct();
 
+	public I_C_ValidCombination getCh_Expense_A() throws RuntimeException;
+
     /** Column name Ch_Revenue_Acct */
     public static final String COLUMNNAME_Ch_Revenue_Acct = "Ch_Revenue_Acct";
 
@@ -362,6 +404,8 @@ public interface I_C_AcctSchema_Default
 	  * Charge Revenue Account
 	  */
 	public int getCh_Revenue_Acct();
+
+	public I_C_ValidCombination getCh_Revenue_A() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -392,6 +436,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getE_Expense_Acct();
 
+	public I_C_ValidCombination getE_Expense_A() throws RuntimeException;
+
     /** Column name E_Prepayment_Acct */
     public static final String COLUMNNAME_E_Prepayment_Acct = "E_Prepayment_Acct";
 
@@ -404,6 +450,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Employee Expense Prepayments
 	  */
 	public int getE_Prepayment_Acct();
+
+	public I_C_ValidCombination getE_Prepayment_A() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -431,6 +479,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getNotInvoicedReceipts_Acct();
 
+	public I_C_ValidCombination getNotInvoicedReceipts_A() throws RuntimeException;
+
     /** Column name NotInvoicedReceivables_Acct */
     public static final String COLUMNNAME_NotInvoicedReceivables_Acct = "NotInvoicedReceivables_Acct";
 
@@ -443,6 +493,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for not invoiced Receivables
 	  */
 	public int getNotInvoicedReceivables_Acct();
+
+	public I_C_ValidCombination getNotInvoicedReceivables_A() throws RuntimeException;
 
     /** Column name NotInvoicedRevenue_Acct */
     public static final String COLUMNNAME_NotInvoicedRevenue_Acct = "NotInvoicedRevenue_Acct";
@@ -457,6 +509,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getNotInvoicedRevenue_Acct();
 
+	public I_C_ValidCombination getNotInvoicedRevenue_A() throws RuntimeException;
+
     /** Column name P_Asset_Acct */
     public static final String COLUMNNAME_P_Asset_Acct = "P_Asset_Acct";
 
@@ -469,6 +523,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Product Asset (Inventory)
 	  */
 	public int getP_Asset_Acct();
+
+	public I_C_ValidCombination getP_Asset_A() throws RuntimeException;
 
     /** Column name P_Burden_Acct */
     public static final String COLUMNNAME_P_Burden_Acct = "P_Burden_Acct";
@@ -483,6 +539,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_Burden_Acct();
 
+	public I_C_ValidCombination getP_Burden_A() throws RuntimeException;
+
     /** Column name P_COGS_Acct */
     public static final String COLUMNNAME_P_COGS_Acct = "P_COGS_Acct";
 
@@ -495,6 +553,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Cost of Goods Sold
 	  */
 	public int getP_COGS_Acct();
+
+	public I_C_ValidCombination getP_COGS_A() throws RuntimeException;
 
     /** Column name P_CostAdjustment_Acct */
     public static final String COLUMNNAME_P_CostAdjustment_Acct = "P_CostAdjustment_Acct";
@@ -509,6 +569,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_CostAdjustment_Acct();
 
+	public I_C_ValidCombination getP_CostAdjustment_A() throws RuntimeException;
+
     /** Column name P_CostOfProduction_Acct */
     public static final String COLUMNNAME_P_CostOfProduction_Acct = "P_CostOfProduction_Acct";
 
@@ -521,6 +583,8 @@ public interface I_C_AcctSchema_Default
 	  * The Cost Of Production account is the account used Manufacturing Order
 	  */
 	public int getP_CostOfProduction_Acct();
+
+	public I_C_ValidCombination getP_CostOfProduction_A() throws RuntimeException;
 
     /** Column name P_Expense_Acct */
     public static final String COLUMNNAME_P_Expense_Acct = "P_Expense_Acct";
@@ -535,6 +599,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_Expense_Acct();
 
+	public I_C_ValidCombination getP_Expense_A() throws RuntimeException;
+
     /** Column name P_FloorStock_Acct */
     public static final String COLUMNNAME_P_FloorStock_Acct = "P_FloorStock_Acct";
 
@@ -547,6 +613,8 @@ public interface I_C_AcctSchema_Default
 	  * The Floor Stock account is the account used Manufacturing Order
 	  */
 	public int getP_FloorStock_Acct();
+
+	public I_C_ValidCombination getP_FloorStock_A() throws RuntimeException;
 
     /** Column name P_InventoryClearing_Acct */
     public static final String COLUMNNAME_P_InventoryClearing_Acct = "P_InventoryClearing_Acct";
@@ -561,6 +629,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_InventoryClearing_Acct();
 
+	public I_C_ValidCombination getP_InventoryClearing_A() throws RuntimeException;
+
     /** Column name P_InvoicePriceVariance_Acct */
     public static final String COLUMNNAME_P_InvoicePriceVariance_Acct = "P_InvoicePriceVariance_Acct";
 
@@ -573,6 +643,8 @@ public interface I_C_AcctSchema_Default
 	  * Difference between Costs and Invoice Price (IPV)
 	  */
 	public int getP_InvoicePriceVariance_Acct();
+
+	public I_C_ValidCombination getP_InvoicePriceVariance_A() throws RuntimeException;
 
     /** Column name P_Labor_Acct */
     public static final String COLUMNNAME_P_Labor_Acct = "P_Labor_Acct";
@@ -587,6 +659,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_Labor_Acct();
 
+	public I_C_ValidCombination getP_Labor_A() throws RuntimeException;
+
     /** Column name P_MethodChangeVariance_Acct */
     public static final String COLUMNNAME_P_MethodChangeVariance_Acct = "P_MethodChangeVariance_Acct";
 
@@ -599,6 +673,8 @@ public interface I_C_AcctSchema_Default
 	  * The Method Change Variance account is the account used Manufacturing Order
 	  */
 	public int getP_MethodChangeVariance_Acct();
+
+	public I_C_ValidCombination getP_MethodChangeVariance_A() throws RuntimeException;
 
     /** Column name P_MixVariance_Acct */
     public static final String COLUMNNAME_P_MixVariance_Acct = "P_MixVariance_Acct";
@@ -613,6 +689,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_MixVariance_Acct();
 
+	public I_C_ValidCombination getP_MixVariance_A() throws RuntimeException;
+
     /** Column name P_OutsideProcessing_Acct */
     public static final String COLUMNNAME_P_OutsideProcessing_Acct = "P_OutsideProcessing_Acct";
 
@@ -625,6 +703,8 @@ public interface I_C_AcctSchema_Default
 	  * The Outside Processing Account is the account used in Manufacturing Order
 	  */
 	public int getP_OutsideProcessing_Acct();
+
+	public I_C_ValidCombination getP_OutsideProcessing_A() throws RuntimeException;
 
     /** Column name P_Overhead_Acct */
     public static final String COLUMNNAME_P_Overhead_Acct = "P_Overhead_Acct";
@@ -639,6 +719,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_Overhead_Acct();
 
+	public I_C_ValidCombination getP_Overhead_A() throws RuntimeException;
+
     /** Column name P_PurchasePriceVariance_Acct */
     public static final String COLUMNNAME_P_PurchasePriceVariance_Acct = "P_PurchasePriceVariance_Acct";
 
@@ -651,6 +733,8 @@ public interface I_C_AcctSchema_Default
 	  * Difference between Standard Cost and Purchase Price (PPV)
 	  */
 	public int getP_PurchasePriceVariance_Acct();
+
+	public I_C_ValidCombination getP_PurchasePriceVariance_A() throws RuntimeException;
 
     /** Column name P_RateVariance_Acct */
     public static final String COLUMNNAME_P_RateVariance_Acct = "P_RateVariance_Acct";
@@ -665,6 +749,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_RateVariance_Acct();
 
+	public I_C_ValidCombination getP_RateVariance_A() throws RuntimeException;
+
     /** Column name P_Revenue_Acct */
     public static final String COLUMNNAME_P_Revenue_Acct = "P_Revenue_Acct";
 
@@ -677,6 +763,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Product Revenue (Sales Account)
 	  */
 	public int getP_Revenue_Acct();
+
+	public I_C_ValidCombination getP_Revenue_A() throws RuntimeException;
 
     /** Column name P_Scrap_Acct */
     public static final String COLUMNNAME_P_Scrap_Acct = "P_Scrap_Acct";
@@ -691,6 +779,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_Scrap_Acct();
 
+	public I_C_ValidCombination getP_Scrap_A() throws RuntimeException;
+
     /** Column name P_TradeDiscountGrant_Acct */
     public static final String COLUMNNAME_P_TradeDiscountGrant_Acct = "P_TradeDiscountGrant_Acct";
 
@@ -703,6 +793,8 @@ public interface I_C_AcctSchema_Default
 	  * Trade Discount Granted Account
 	  */
 	public int getP_TradeDiscountGrant_Acct();
+
+	public I_C_ValidCombination getP_TradeDiscountGrant_A() throws RuntimeException;
 
     /** Column name P_TradeDiscountRec_Acct */
     public static final String COLUMNNAME_P_TradeDiscountRec_Acct = "P_TradeDiscountRec_Acct";
@@ -717,6 +809,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_TradeDiscountRec_Acct();
 
+	public I_C_ValidCombination getP_TradeDiscountRec_A() throws RuntimeException;
+
     /** Column name P_UsageVariance_Acct */
     public static final String COLUMNNAME_P_UsageVariance_Acct = "P_UsageVariance_Acct";
 
@@ -729,6 +823,8 @@ public interface I_C_AcctSchema_Default
 	  * The Usage Variance account is the account used Manufacturing Order
 	  */
 	public int getP_UsageVariance_Acct();
+
+	public I_C_ValidCombination getP_UsageVariance_A() throws RuntimeException;
 
     /** Column name P_WIP_Acct */
     public static final String COLUMNNAME_P_WIP_Acct = "P_WIP_Acct";
@@ -743,6 +839,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getP_WIP_Acct();
 
+	public I_C_ValidCombination getP_WIP_A() throws RuntimeException;
+
     /** Column name PayDiscount_Exp_Acct */
     public static final String COLUMNNAME_PayDiscount_Exp_Acct = "PayDiscount_Exp_Acct";
 
@@ -755,6 +853,8 @@ public interface I_C_AcctSchema_Default
 	  * Payment Discount Expense Account
 	  */
 	public int getPayDiscount_Exp_Acct();
+
+	public I_C_ValidCombination getPayDiscount_Exp_A() throws RuntimeException;
 
     /** Column name PayDiscount_Rev_Acct */
     public static final String COLUMNNAME_PayDiscount_Rev_Acct = "PayDiscount_Rev_Acct";
@@ -769,6 +869,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getPayDiscount_Rev_Acct();
 
+	public I_C_ValidCombination getPayDiscount_Rev_A() throws RuntimeException;
+
     /** Column name PJ_Asset_Acct */
     public static final String COLUMNNAME_PJ_Asset_Acct = "PJ_Asset_Acct";
 
@@ -782,6 +884,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getPJ_Asset_Acct();
 
+	public I_C_ValidCombination getPJ_Asset_A() throws RuntimeException;
+
     /** Column name PJ_WIP_Acct */
     public static final String COLUMNNAME_PJ_WIP_Acct = "PJ_WIP_Acct";
 
@@ -794,6 +898,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Work in Progress
 	  */
 	public int getPJ_WIP_Acct();
+
+	public I_C_ValidCombination getPJ_WIP_A() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
@@ -817,6 +923,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getRealizedGain_Acct();
 
+	public I_C_ValidCombination getRealizedGain_A() throws RuntimeException;
+
     /** Column name RealizedLoss_Acct */
     public static final String COLUMNNAME_RealizedLoss_Acct = "RealizedLoss_Acct";
 
@@ -829,6 +937,8 @@ public interface I_C_AcctSchema_Default
 	  * Realized Loss Account
 	  */
 	public int getRealizedLoss_Acct();
+
+	public I_C_ValidCombination getRealizedLoss_A() throws RuntimeException;
 
     /** Column name T_Credit_Acct */
     public static final String COLUMNNAME_T_Credit_Acct = "T_Credit_Acct";
@@ -843,6 +953,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getT_Credit_Acct();
 
+	public I_C_ValidCombination getT_Credit_A() throws RuntimeException;
+
     /** Column name T_Due_Acct */
     public static final String COLUMNNAME_T_Due_Acct = "T_Due_Acct";
 
@@ -855,6 +967,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Tax you have to pay
 	  */
 	public int getT_Due_Acct();
+
+	public I_C_ValidCombination getT_Due_A() throws RuntimeException;
 
     /** Column name T_Expense_Acct */
     public static final String COLUMNNAME_T_Expense_Acct = "T_Expense_Acct";
@@ -869,6 +983,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getT_Expense_Acct();
 
+	public I_C_ValidCombination getT_Expense_A() throws RuntimeException;
+
     /** Column name T_Liability_Acct */
     public static final String COLUMNNAME_T_Liability_Acct = "T_Liability_Acct";
 
@@ -881,6 +997,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Tax declaration liability
 	  */
 	public int getT_Liability_Acct();
+
+	public I_C_ValidCombination getT_Liability_A() throws RuntimeException;
 
     /** Column name T_Receivables_Acct */
     public static final String COLUMNNAME_T_Receivables_Acct = "T_Receivables_Acct";
@@ -895,6 +1013,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getT_Receivables_Acct();
 
+	public I_C_ValidCombination getT_Receivables_A() throws RuntimeException;
+
     /** Column name UnEarnedRevenue_Acct */
     public static final String COLUMNNAME_UnEarnedRevenue_Acct = "UnEarnedRevenue_Acct";
 
@@ -907,6 +1027,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for unearned revenue
 	  */
 	public int getUnEarnedRevenue_Acct();
+
+	public I_C_ValidCombination getUnEarnedRevenue_A() throws RuntimeException;
 
     /** Column name UnrealizedGain_Acct */
     public static final String COLUMNNAME_UnrealizedGain_Acct = "UnrealizedGain_Acct";
@@ -921,6 +1043,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getUnrealizedGain_Acct();
 
+	public I_C_ValidCombination getUnrealizedGain_A() throws RuntimeException;
+
     /** Column name UnrealizedLoss_Acct */
     public static final String COLUMNNAME_UnrealizedLoss_Acct = "UnrealizedLoss_Acct";
 
@@ -933,6 +1057,8 @@ public interface I_C_AcctSchema_Default
 	  * Unrealized Loss Account for currency revaluation
 	  */
 	public int getUnrealizedLoss_Acct();
+
+	public I_C_ValidCombination getUnrealizedLoss_A() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -963,6 +1089,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getV_Liability_Acct();
 
+	public I_C_ValidCombination getV_Liability_A() throws RuntimeException;
+
     /** Column name V_Liability_Services_Acct */
     public static final String COLUMNNAME_V_Liability_Services_Acct = "V_Liability_Services_Acct";
 
@@ -975,6 +1103,8 @@ public interface I_C_AcctSchema_Default
 	  * Account for Vender Service Liability
 	  */
 	public int getV_Liability_Services_Acct();
+
+	public I_C_ValidCombination getV_Liability_Services_A() throws RuntimeException;
 
     /** Column name V_Prepayment_Acct */
     public static final String COLUMNNAME_V_Prepayment_Acct = "V_Prepayment_Acct";
@@ -989,6 +1119,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getV_Prepayment_Acct();
 
+	public I_C_ValidCombination getV_Prepayment_A() throws RuntimeException;
+
     /** Column name W_Differences_Acct */
     public static final String COLUMNNAME_W_Differences_Acct = "W_Differences_Acct";
 
@@ -1001,6 +1133,8 @@ public interface I_C_AcctSchema_Default
 	  * Warehouse Differences Account
 	  */
 	public int getW_Differences_Acct();
+
+	public I_C_ValidCombination getW_Differences_A() throws RuntimeException;
 
     /** Column name W_InvActualAdjust_Acct */
     public static final String COLUMNNAME_W_InvActualAdjust_Acct = "W_InvActualAdjust_Acct";
@@ -1015,6 +1149,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getW_InvActualAdjust_Acct();
 
+	public I_C_ValidCombination getW_InvActualAdjust_A() throws RuntimeException;
+
     /** Column name W_Inventory_Acct */
     public static final String COLUMNNAME_W_Inventory_Acct = "W_Inventory_Acct";
 
@@ -1027,6 +1163,8 @@ public interface I_C_AcctSchema_Default
 	  * Warehouse Inventory Asset Account - Currently not used
 	  */
 	public int getW_Inventory_Acct();
+
+	public I_C_ValidCombination getW_Inventory_A() throws RuntimeException;
 
     /** Column name W_Revaluation_Acct */
     public static final String COLUMNNAME_W_Revaluation_Acct = "W_Revaluation_Acct";
@@ -1041,6 +1179,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getW_Revaluation_Acct();
 
+	public I_C_ValidCombination getW_Revaluation_A() throws RuntimeException;
+
     /** Column name Withholding_Acct */
     public static final String COLUMNNAME_Withholding_Acct = "Withholding_Acct";
 
@@ -1054,6 +1194,8 @@ public interface I_C_AcctSchema_Default
 	  */
 	public int getWithholding_Acct();
 
+	public I_C_ValidCombination getWithholding_A() throws RuntimeException;
+
     /** Column name WriteOff_Acct */
     public static final String COLUMNNAME_WriteOff_Acct = "WriteOff_Acct";
 
@@ -1066,4 +1208,6 @@ public interface I_C_AcctSchema_Default
 	  * Account for Receivables write-off
 	  */
 	public int getWriteOff_Acct();
+
+	public I_C_ValidCombination getWriteOff_A() throws RuntimeException;
 }

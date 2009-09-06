@@ -284,6 +284,8 @@ public interface I_R_RequestProcessor
 	  */
 	public int getSupervisor_ID();
 
+	public I_AD_User getSupervisor() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

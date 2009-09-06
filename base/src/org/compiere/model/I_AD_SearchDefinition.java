@@ -62,6 +62,8 @@ public interface I_AD_SearchDefinition
 	  */
 	public int getAD_Column_ID();
 
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -97,6 +99,8 @@ public interface I_AD_SearchDefinition
 	  */
 	public int getAD_Table_ID();
 
+	public I_AD_Table getAD_Table() throws RuntimeException;
+
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
 
@@ -109,6 +113,8 @@ public interface I_AD_SearchDefinition
 	  * Data entry or display window
 	  */
 	public int getAD_Window_ID();
+
+	public I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -203,6 +209,8 @@ public interface I_AD_SearchDefinition
 	  * Purchase Order Window
 	  */
 	public int getPO_Window_ID();
+
+	public I_AD_Window getPO_Window() throws RuntimeException;
 
     /** Column name Query */
     public static final String COLUMNNAME_Query = "Query";

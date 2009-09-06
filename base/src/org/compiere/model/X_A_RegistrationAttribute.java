@@ -98,6 +98,11 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 		return ii.intValue();
 	}
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
+
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -120,6 +125,11 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Reference getAD_Reference_Value() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
 
 	/** Set Reference Key.
 		@param AD_Reference_Value_ID 

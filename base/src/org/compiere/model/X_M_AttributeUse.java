@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeUse
@@ -75,21 +73,10 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
       return sb.toString();
     }
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException 
+	public I_M_Attribute getM_Attribute() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Attribute.Table_Name);
-        I_M_Attribute result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Attribute)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Attribute_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Attribute)MTable.get(getCtx(), I_M_Attribute.Table_Name)
+			.getPO(getM_Attribute_ID(), get_TrxName());	}
 
 	/** Set Attribute.
 		@param M_Attribute_ID 
@@ -114,21 +101,10 @@ public class X_M_AttributeUse extends PO implements I_M_AttributeUse, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException 
+	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
-        I_M_AttributeSet result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_AttributeSet)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_AttributeSet_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_AttributeSet)MTable.get(getCtx(), I_M_AttributeSet.Table_Name)
+			.getPO(getM_AttributeSet_ID(), get_TrxName());	}
 
 	/** Set Attribute Set.
 		@param M_AttributeSet_ID 

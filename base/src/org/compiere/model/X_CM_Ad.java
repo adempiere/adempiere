@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Ad
@@ -125,21 +123,10 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException 
+	public I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Ad_Cat.Table_Name);
-        I_CM_Ad_Cat result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Ad_Cat)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Ad_Cat_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Ad_Cat)MTable.get(getCtx(), I_CM_Ad_Cat.Table_Name)
+			.getPO(getCM_Ad_Cat_ID(), get_TrxName());	}
 
 	/** Set Advertisement Category.
 		@param CM_Ad_Cat_ID 
@@ -187,21 +174,10 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Media getCM_Media() throws RuntimeException 
+	public I_CM_Media getCM_Media() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Media.Table_Name);
-        I_CM_Media result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Media)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Media_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Media)MTable.get(getCtx(), I_CM_Media.Table_Name)
+			.getPO(getCM_Media_ID(), get_TrxName());	}
 
 	/** Set Media Item.
 		@param CM_Media_ID 

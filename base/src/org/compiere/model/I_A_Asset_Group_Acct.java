@@ -50,6 +50,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Accumulated Depreciation	  */
 	public int getA_Accumdepreciation_Acct();
 
+	public I_C_ValidCombination getA_Accumdepreciation_A() throws RuntimeException;
+
     /** Column name A_Asset_Acct */
     public static final String COLUMNNAME_A_Asset_Acct = "A_Asset_Acct";
 
@@ -58,6 +60,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Asset Cost Account	  */
 	public int getA_Asset_Acct();
+
+	public I_C_ValidCombination getA_Asset_A() throws RuntimeException;
 
     /** Column name A_Asset_Group_Acct_ID */
     public static final String COLUMNNAME_A_Asset_Group_Acct_ID = "A_Asset_Group_Acct_ID";
@@ -92,6 +96,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get A_Asset_Spread_Type	  */
 	public int getA_Asset_Spread_Type();
 
+	public I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException;
+
     /** Column name A_Depreciation_Acct */
     public static final String COLUMNNAME_A_Depreciation_Acct = "A_Depreciation_Acct";
 
@@ -101,6 +107,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Depreciation Expense Account	  */
 	public int getA_Depreciation_Acct();
 
+	public I_C_ValidCombination getA_Depreciation_A() throws RuntimeException;
+
     /** Column name A_Depreciation_Calc_Type */
     public static final String COLUMNNAME_A_Depreciation_Calc_Type = "A_Depreciation_Calc_Type";
 
@@ -109,6 +117,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Depreciation Calculation Type	  */
 	public int getA_Depreciation_Calc_Type();
+
+	public I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException;
 
     /** Column name A_Depreciation_ID */
     public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
@@ -146,6 +156,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get A_Depreciation_Table_Header_ID	  */
 	public int getA_Depreciation_Table_Header_ID();
 
+	public I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
+
     /** Column name A_Depreciation_Variable_Perc */
     public static final String COLUMNNAME_A_Depreciation_Variable_Perc = "A_Depreciation_Variable_Perc";
 
@@ -164,6 +176,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get A_Disposal_Gain	  */
 	public int getA_Disposal_Gain();
 
+	public I_C_ValidCombination getA_Disposal_G() throws RuntimeException;
+
     /** Column name A_Disposal_Loss */
     public static final String COLUMNNAME_A_Disposal_Loss = "A_Disposal_Loss";
 
@@ -172,6 +186,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Loss on Disposal	  */
 	public int getA_Disposal_Loss();
+
+	public I_C_ValidCombination getA_Disposal_L() throws RuntimeException;
 
     /** Column name A_Disposal_Revenue */
     public static final String COLUMNNAME_A_Disposal_Revenue = "A_Disposal_Revenue";
@@ -182,6 +198,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Disposal Revenue	  */
 	public int getA_Disposal_Revenue();
 
+	public I_C_ValidCombination getA_Disposal_Reve() throws RuntimeException;
+
     /** Column name A_Reval_Accumdep_Offset_Cur */
     public static final String COLUMNNAME_A_Reval_Accumdep_Offset_Cur = "A_Reval_Accumdep_Offset_Cur";
 
@@ -191,6 +209,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Revaluation Accumulated Depreciation Offset for Current Year	  */
 	public int getA_Reval_Accumdep_Offset_Cur();
 
+	public I_C_ValidCombination getA_Reval_Accumdep_Offset_() throws RuntimeException;
+
     /** Column name A_Reval_Accumdep_Offset_Prior */
     public static final String COLUMNNAME_A_Reval_Accumdep_Offset_Prior = "A_Reval_Accumdep_Offset_Prior";
 
@@ -199,6 +219,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Revaluation Accumulated Depreciation Offset for Prior Year	  */
 	public int getA_Reval_Accumdep_Offset_Prior();
+
+	public I_C_ValidCombination getA_Reval_Accumdep_Offset_Pr() throws RuntimeException;
 
     /** Column name A_Reval_Cal_Method */
     public static final String COLUMNNAME_A_Reval_Cal_Method = "A_Reval_Cal_Method";
@@ -218,6 +240,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Revaluation Cost Offset for Current Year	  */
 	public int getA_Reval_Cost_Offset();
 
+	public I_C_ValidCombination getA_Reval_Cost_Off() throws RuntimeException;
+
     /** Column name A_Reval_Cost_Offset_Prior */
     public static final String COLUMNNAME_A_Reval_Cost_Offset_Prior = "A_Reval_Cost_Offset_Prior";
 
@@ -227,6 +251,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get Revaluation Cost Offset for Prior Year	  */
 	public int getA_Reval_Cost_Offset_Prior();
 
+	public I_C_ValidCombination getA_Reval_Cost_Offset_Pr() throws RuntimeException;
+
     /** Column name A_Reval_Depexp_Offset */
     public static final String COLUMNNAME_A_Reval_Depexp_Offset = "A_Reval_Depexp_Offset";
 
@@ -235,6 +261,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get Revaluation Expense Offs	  */
 	public int getA_Reval_Depexp_Offset();
+
+	public I_C_ValidCombination getA_Reval_Depexp_Off() throws RuntimeException;
 
     /** Column name A_Split_Percent */
     public static final String COLUMNNAME_A_Split_Percent = "A_Split_Percent";
@@ -290,6 +318,8 @@ public interface I_A_Asset_Group_Acct
 	/** Get ConventionType	  */
 	public int getConventionType();
 
+	public I_A_Depreciation_Convention getConventionT() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -314,6 +344,8 @@ public interface I_A_Asset_Group_Acct
 
 	/** Get DepreciationType	  */
 	public int getDepreciationType();
+
+	public I_A_Depreciation getDepreciationT() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -99,6 +99,8 @@ public interface I_C_Tax
 	  */
 	public int getC_Region_ID();
 
+	public I_C_Region getC_Region() throws RuntimeException;
+
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
@@ -260,6 +262,8 @@ public interface I_C_Tax
 	  */
 	public int getParent_Tax_ID();
 
+	public I_C_Tax getParent_Tax() throws RuntimeException;
+
     /** Column name Rate */
     public static final String COLUMNNAME_Rate = "Rate";
 
@@ -337,6 +341,8 @@ public interface I_C_Tax
 	  * Receiving Region
 	  */
 	public int getTo_Region_ID();
+
+	public I_C_Region getTo_Region() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

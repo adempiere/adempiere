@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for A_RegistrationProduct
  *  @author Adempiere (generated) 
@@ -72,21 +70,10 @@ public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProdu
       return sb.toString();
     }
 
-	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException 
+	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_A_RegistrationAttribute.Table_Name);
-        I_A_RegistrationAttribute result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_A_RegistrationAttribute)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_RegistrationAttribute_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_A_RegistrationAttribute)MTable.get(getCtx(), I_A_RegistrationAttribute.Table_Name)
+			.getPO(getA_RegistrationAttribute_ID(), get_TrxName());	}
 
 	/** Set Registration Attribute.
 		@param A_RegistrationAttribute_ID 
@@ -128,21 +115,10 @@ public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProdu
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for ASP_ClientException
  *  @author Adempiere (generated) 
@@ -73,21 +71,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
       return sb.toString();
     }
 
-	public I_AD_Field getAD_Field() throws RuntimeException 
+	public I_AD_Field getAD_Field() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Field.Table_Name);
-        I_AD_Field result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Field)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Field_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Field)MTable.get(getCtx(), I_AD_Field.Table_Name)
+			.getPO(getAD_Field_ID(), get_TrxName());	}
 
 	/** Set Field.
 		@param AD_Field_ID 
@@ -112,21 +99,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Form getAD_Form() throws RuntimeException 
+	public I_AD_Form getAD_Form() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
-        I_AD_Form result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Form)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Form_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
 		@param AD_Form_ID 
@@ -151,21 +127,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws RuntimeException 
+	public I_AD_Process getAD_Process() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
-        I_AD_Process result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
 		@param AD_Process_ID 
@@ -190,21 +155,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException 
+	public I_AD_Process_Para getAD_Process_Para() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Process_Para.Table_Name);
-        I_AD_Process_Para result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process_Para)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_Para_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Process_Para)MTable.get(getCtx(), I_AD_Process_Para.Table_Name)
+			.getPO(getAD_Process_Para_ID(), get_TrxName());	}
 
 	/** Set Process Parameter.
 		@param AD_Process_Para_ID Process Parameter	  */
@@ -226,21 +180,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException 
+	public I_AD_Tab getAD_Tab() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Tab.Table_Name);
-        I_AD_Tab result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Tab)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Tab_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+			.getPO(getAD_Tab_ID(), get_TrxName());	}
 
 	/** Set Tab.
 		@param AD_Tab_ID 
@@ -265,21 +208,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Task getAD_Task() throws RuntimeException 
+	public I_AD_Task getAD_Task() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Task.Table_Name);
-        I_AD_Task result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Task)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Task_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Task)MTable.get(getCtx(), I_AD_Task.Table_Name)
+			.getPO(getAD_Task_ID(), get_TrxName());	}
 
 	/** Set OS Task.
 		@param AD_Task_ID 
@@ -304,21 +236,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException 
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
-        I_AD_WF_Node result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WF_Node)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Node_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_WF_Node)MTable.get(getCtx(), I_AD_WF_Node.Table_Name)
+			.getPO(getAD_WF_Node_ID(), get_TrxName());	}
 
 	/** Set Node.
 		@param AD_WF_Node_ID 
@@ -343,21 +264,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException 
+	public I_AD_Window getAD_Window() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
-        I_AD_Window result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
 		@param AD_Window_ID 
@@ -382,21 +292,10 @@ public class X_ASP_ClientException extends PO implements I_ASP_ClientException, 
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException 
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Workflow.Table_Name);
-        I_AD_Workflow result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Workflow)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Workflow_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Workflow)MTable.get(getCtx(), I_AD_Workflow.Table_Name)
+			.getPO(getAD_Workflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.
 		@param AD_Workflow_ID 

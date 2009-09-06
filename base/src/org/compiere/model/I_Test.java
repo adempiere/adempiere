@@ -50,6 +50,8 @@ public interface I_Test
 	/** Get Account_Acct	  */
 	public int getAccount_Acct();
 
+	public I_C_ValidCombination getAccount_A() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -126,6 +128,8 @@ public interface I_Test
 	  * Location or Address
 	  */
 	public int getC_Location_ID();
+
+	public I_C_Location getC_Location() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -237,6 +241,8 @@ public interface I_Test
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

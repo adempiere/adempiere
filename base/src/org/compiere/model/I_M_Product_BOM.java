@@ -180,6 +180,8 @@ public interface I_M_Product_BOM
 	  */
 	public int getM_ProductBOM_ID();
 
+	public I_M_Product getM_ProductBOM() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

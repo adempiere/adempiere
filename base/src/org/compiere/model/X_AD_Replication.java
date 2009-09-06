@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -107,21 +105,10 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException 
+	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_ReplicationStrategy.Table_Name);
-        I_AD_ReplicationStrategy result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_ReplicationStrategy)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ReplicationStrategy_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_ReplicationStrategy)MTable.get(getCtx(), I_AD_ReplicationStrategy.Table_Name)
+			.getPO(getAD_ReplicationStrategy_ID(), get_TrxName());	}
 
 	/** Set Replication Strategy.
 		@param AD_ReplicationStrategy_ID 

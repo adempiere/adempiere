@@ -105,6 +105,8 @@ public interface I_C_BP_Customer_Acct
 	  */
 	public int getC_Prepayment_Acct();
 
+	public I_C_ValidCombination getC_Prepayment_A() throws RuntimeException;
+
     /** Column name C_Receivable_Acct */
     public static final String COLUMNNAME_C_Receivable_Acct = "C_Receivable_Acct";
 
@@ -118,6 +120,8 @@ public interface I_C_BP_Customer_Acct
 	  */
 	public int getC_Receivable_Acct();
 
+	public I_C_ValidCombination getC_Receivable_A() throws RuntimeException;
+
     /** Column name C_Receivable_Services_Acct */
     public static final String COLUMNNAME_C_Receivable_Services_Acct = "C_Receivable_Services_Acct";
 
@@ -130,6 +134,8 @@ public interface I_C_BP_Customer_Acct
 	  * Customer Accounts Receivables Services Account
 	  */
 	public int getC_Receivable_Services_Acct();
+
+	public I_C_ValidCombination getC_Receivable_Services_A() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

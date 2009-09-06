@@ -120,6 +120,8 @@ public interface I_I_Conversion_Rate
 	  */
 	public int getC_Currency_ID_To();
 
+	public I_C_Currency getC_Currency_To() throws RuntimeException;
+
     /** Column name ConversionTypeValue */
     public static final String COLUMNNAME_ConversionTypeValue = "ConversionTypeValue";
 

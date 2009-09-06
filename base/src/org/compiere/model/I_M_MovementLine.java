@@ -154,6 +154,8 @@ public interface I_M_MovementLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_AttributeSetInstanceTo_ID */
     public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
 
@@ -166,6 +168,8 @@ public interface I_M_MovementLine
 	  * Target Product Attribute Set Instance
 	  */
 	public int getM_AttributeSetInstanceTo_ID();
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -180,6 +184,8 @@ public interface I_M_MovementLine
 	  */
 	public int getM_Locator_ID();
 
+	public I_M_Locator getM_Locator() throws RuntimeException;
+
     /** Column name M_LocatorTo_ID */
     public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
 
@@ -192,6 +198,8 @@ public interface I_M_MovementLine
 	  * Location inventory is moved to
 	  */
 	public int getM_LocatorTo_ID();
+
+	public I_M_Locator getM_LocatorTo() throws RuntimeException;
 
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
@@ -234,6 +242,8 @@ public interface I_M_MovementLine
 	  */
 	public int getM_Product_ID();
 
+	public I_M_Product getM_Product() throws RuntimeException;
+
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";
 
@@ -272,6 +282,8 @@ public interface I_M_MovementLine
 	  * Use to keep the reversal line ID for reversing costing purpose
 	  */
 	public int getReversalLine_ID();
+
+	public I_M_MovementLine getReversalLine() throws RuntimeException;
 
     /** Column name ScrappedQty */
     public static final String COLUMNNAME_ScrappedQty = "ScrappedQty";

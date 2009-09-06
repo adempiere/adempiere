@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Scheduler
@@ -82,21 +80,10 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Process getAD_Process() throws RuntimeException 
+	public I_AD_Process getAD_Process() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
-        I_AD_Process result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
 		@param AD_Process_ID 
@@ -352,6 +339,11 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_ScheduleType);
 	}
+
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.
 		@param Supervisor_ID 

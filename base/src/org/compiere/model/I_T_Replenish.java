@@ -176,6 +176,8 @@ public interface I_T_Replenish
 	  */
 	public int getM_WarehouseSource_ID();
 
+	public I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
+
     /** Column name Order_Min */
     public static final String COLUMNNAME_Order_Min = "Order_Min";
 

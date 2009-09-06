@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for CM_MediaDeploy
  *  @author Adempiere (generated) 
@@ -75,21 +73,10 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
       return sb.toString();
     }
 
-	public I_CM_Media getCM_Media() throws RuntimeException 
+	public I_CM_Media getCM_Media() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Media.Table_Name);
-        I_CM_Media result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Media)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Media_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Media)MTable.get(getCtx(), I_CM_Media.Table_Name)
+			.getPO(getCM_Media_ID(), get_TrxName());	}
 
 	/** Set Media Item.
 		@param CM_Media_ID 
@@ -114,21 +101,10 @@ public class X_CM_MediaDeploy extends PO implements I_CM_MediaDeploy, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_CM_Media_Server getCM_Media_Server() throws RuntimeException 
+	public I_CM_Media_Server getCM_Media_Server() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Media_Server.Table_Name);
-        I_CM_Media_Server result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Media_Server)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Media_Server_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Media_Server)MTable.get(getCtx(), I_CM_Media_Server.Table_Name)
+			.getPO(getCM_Media_Server_ID(), get_TrxName());	}
 
 	/** Set Media Server.
 		@param CM_Media_Server_ID 

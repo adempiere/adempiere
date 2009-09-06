@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -110,21 +108,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -149,21 +136,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException 
+	public I_C_ConversionType getC_ConversionType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ConversionType.Table_Name);
-        I_C_ConversionType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ConversionType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ConversionType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_ConversionType)MTable.get(getCtx(), I_C_ConversionType.Table_Name)
+			.getPO(getC_ConversionType_ID(), get_TrxName());	}
 
 	/** Set Currency Type.
 		@param C_ConversionType_ID 
@@ -188,21 +164,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException 
+	public I_C_Currency getC_Currency() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Currency.Table_Name);
-        I_C_Currency result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Currency)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Currency_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
 		@param C_Currency_ID 
@@ -227,21 +192,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException 
+	public I_C_DocType getC_DocType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_DocType.Table_Name);
-        I_C_DocType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_DocType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_DocType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
 		@param C_DocType_ID 
@@ -265,6 +219,11 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Period getC_Period() throws RuntimeException
+    {
+		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
 		@param C_Period_ID 
@@ -497,21 +456,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	public I_GL_Budget getGL_Budget() throws RuntimeException 
+	public I_GL_Budget getGL_Budget() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
-        I_GL_Budget result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_Budget)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_Budget_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_Budget)MTable.get(getCtx(), I_GL_Budget.Table_Name)
+			.getPO(getGL_Budget_ID(), get_TrxName());	}
 
 	/** Set Budget.
 		@param GL_Budget_ID 
@@ -536,21 +484,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_Category getGL_Category() throws RuntimeException 
+	public I_GL_Category getGL_Category() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_Category.Table_Name);
-        I_GL_Category result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_Category_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_Category)MTable.get(getCtx(), I_GL_Category.Table_Name)
+			.getPO(getGL_Category_ID(), get_TrxName());	}
 
 	/** Set GL Category.
 		@param GL_Category_ID 
@@ -598,21 +535,10 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException 
+	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_JournalBatch.Table_Name);
-        I_GL_JournalBatch result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_JournalBatch)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_JournalBatch_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_JournalBatch)MTable.get(getCtx(), I_GL_JournalBatch.Table_Name)
+			.getPO(getGL_JournalBatch_ID(), get_TrxName());	}
 
 	/** Set Journal Batch.
 		@param GL_JournalBatch_ID 
@@ -783,6 +709,11 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		}
 		return false;
 	}
+
+	public I_GL_Journal getReversal() throws RuntimeException
+    {
+		return (I_GL_Journal)MTable.get(getCtx(), I_GL_Journal.Table_Name)
+			.getPO(getReversal_ID(), get_TrxName());	}
 
 	/** Set Reversal ID.
 		@param Reversal_ID 

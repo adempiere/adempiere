@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Click
@@ -270,21 +268,10 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_W_ClickCount getW_ClickCount() throws RuntimeException 
+	public I_W_ClickCount getW_ClickCount() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_W_ClickCount.Table_Name);
-        I_W_ClickCount result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_W_ClickCount)constructor.newInstance(new Object[] {getCtx(), new Integer(getW_ClickCount_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_W_ClickCount)MTable.get(getCtx(), I_W_ClickCount.Table_Name)
+			.getPO(getW_ClickCount_ID(), get_TrxName());	}
 
 	/** Set Click Count.
 		@param W_ClickCount_ID 

@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -79,21 +77,10 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
       return sb.toString();
     }
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException 
+	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_InvoiceLine.Table_Name);
-        I_C_InvoiceLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_InvoiceLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_InvoiceLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_InvoiceLine)MTable.get(getCtx(), I_C_InvoiceLine.Table_Name)
+			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
 
 	/** Set Invoice Line.
 		@param C_InvoiceLine_ID 
@@ -192,21 +179,10 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return bd;
 	}
 
-	public I_M_InOutConfirm getM_InOutConfirm() throws RuntimeException 
+	public I_M_InOutConfirm getM_InOutConfirm() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_InOutConfirm.Table_Name);
-        I_M_InOutConfirm result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_InOutConfirm)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutConfirm_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_InOutConfirm)MTable.get(getCtx(), I_M_InOutConfirm.Table_Name)
+			.getPO(getM_InOutConfirm_ID(), get_TrxName());	}
 
 	/** Set Ship/Receipt Confirmation.
 		@param M_InOutConfirm_ID 
@@ -231,21 +207,10 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return ii.intValue();
 	}
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException 
+	public I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_InOutLine.Table_Name);
-        I_M_InOutLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_InOutLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
 		@param M_InOutLine_ID 
@@ -301,21 +266,10 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return ii.intValue();
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException 
+	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_InventoryLine.Table_Name);
-        I_M_InventoryLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_InventoryLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InventoryLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_InventoryLine)MTable.get(getCtx(), I_M_InventoryLine.Table_Name)
+			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
 
 	/** Set Phys.Inventory Line.
 		@param M_InventoryLine_ID 

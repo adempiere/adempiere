@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for CM_WebAccessLog
@@ -94,21 +92,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 
@@ -133,21 +120,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException 
+	public I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_BroadcastServer.Table_Name);
-        I_CM_BroadcastServer result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_BroadcastServer)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_BroadcastServer_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_BroadcastServer)MTable.get(getCtx(), I_CM_BroadcastServer.Table_Name)
+			.getPO(getCM_BroadcastServer_ID(), get_TrxName());	}
 
 	/** Set Broadcast Server.
 		@param CM_BroadcastServer_ID 
@@ -172,21 +148,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_Media getCM_Media() throws RuntimeException 
+	public I_CM_Media getCM_Media() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Media.Table_Name);
-        I_CM_Media result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Media)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Media_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Media)MTable.get(getCtx(), I_CM_Media.Table_Name)
+			.getPO(getCM_Media_ID(), get_TrxName());	}
 
 	/** Set Media Item.
 		@param CM_Media_ID 
@@ -234,21 +199,10 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException 
+	public I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
-        I_CM_WebProject result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_WebProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_WebProject_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.
 		@param CM_WebProject_ID 

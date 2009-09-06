@@ -302,6 +302,8 @@ public interface I_M_InOutLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -342,6 +344,8 @@ public interface I_M_InOutLine
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -443,6 +447,8 @@ public interface I_M_InOutLine
 	  */
 	public int getReversalLine_ID();
 
+	public I_M_InOutLine getReversalLine() throws RuntimeException;
+
     /** Column name ScrappedQty */
     public static final String COLUMNNAME_ScrappedQty = "ScrappedQty";
 
@@ -498,6 +504,8 @@ public interface I_M_InOutLine
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -510,4 +518,6 @@ public interface I_M_InOutLine
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 }

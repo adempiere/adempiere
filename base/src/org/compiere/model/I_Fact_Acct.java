@@ -256,6 +256,8 @@ public interface I_Fact_Acct
 	  */
 	public int getC_LocFrom_ID();
 
+	public I_C_Location getC_LocFrom() throws RuntimeException;
+
     /** Column name C_LocTo_ID */
     public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
 
@@ -268,6 +270,8 @@ public interface I_Fact_Acct
 	  * Location that inventory was moved to
 	  */
 	public int getC_LocTo_ID();
+
+	public I_C_Location getC_LocTo() throws RuntimeException;
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
@@ -607,6 +611,8 @@ public interface I_Fact_Acct
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -619,6 +625,8 @@ public interface I_Fact_Acct
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name UserElement1_ID */
     public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";

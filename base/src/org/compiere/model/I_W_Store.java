@@ -357,6 +357,8 @@ public interface I_W_Store
 	  */
 	public int getSalesRep_ID();
 
+	public I_AD_User getSalesRep() throws RuntimeException;
+
     /** Column name Stylesheet */
     public static final String COLUMNNAME_Stylesheet = "Stylesheet";
 

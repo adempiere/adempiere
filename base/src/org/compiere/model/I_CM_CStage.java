@@ -88,6 +88,8 @@ public interface I_CM_CStage
 	  */
 	public int getCM_CStageLink_ID();
 
+	public I_CM_CStage getCM_CStageLink() throws RuntimeException;
+
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
 

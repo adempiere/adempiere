@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -104,21 +102,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
       return sb.toString();
     }
 
-	public I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException 
+	public I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_RevenueRecognition.Table_Name);
-        I_C_RevenueRecognition result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_RevenueRecognition)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_RevenueRecognition_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_RevenueRecognition)MTable.get(getCtx(), I_C_RevenueRecognition.Table_Name)
+			.getPO(getC_RevenueRecognition_ID(), get_TrxName());	}
 
 	/** Set Revenue Recognition.
 		@param C_RevenueRecognition_ID 
@@ -166,21 +153,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException 
+	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_TaxCategory.Table_Name);
-        I_C_TaxCategory result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_TaxCategory)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_TaxCategory_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_TaxCategory)MTable.get(getCtx(), I_C_TaxCategory.Table_Name)
+			.getPO(getC_TaxCategory_ID(), get_TrxName());	}
 
 	/** Set Tax Category.
 		@param C_TaxCategory_ID 
@@ -205,21 +181,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException 
+	public I_C_UOM getC_UOM() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_UOM.Table_Name);
-        I_C_UOM result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_UOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_UOM_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
 		@param C_UOM_ID 
@@ -760,21 +725,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException 
+	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_AttributeSet.Table_Name);
-        I_M_AttributeSet result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_AttributeSet)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_AttributeSet_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_AttributeSet)MTable.get(getCtx(), I_M_AttributeSet.Table_Name)
+			.getPO(getM_AttributeSet_ID(), get_TrxName());	}
 
 	/** Set Attribute Set.
 		@param M_AttributeSet_ID 
@@ -799,6 +753,11 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
+    {
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
+
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
 		Product Attribute Set Instance
@@ -822,21 +781,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException 
+	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_FreightCategory.Table_Name);
-        I_M_FreightCategory result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_FreightCategory)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_FreightCategory_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_FreightCategory)MTable.get(getCtx(), I_M_FreightCategory.Table_Name)
+			.getPO(getM_FreightCategory_ID(), get_TrxName());	}
 
 	/** Set Freight Category.
 		@param M_FreightCategory_ID 
@@ -861,6 +809,11 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_M_Locator getM_Locator() throws RuntimeException
+    {
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_Locator_ID(), get_TrxName());	}
+
 	/** Set Locator.
 		@param M_Locator_ID 
 		Warehouse Locator
@@ -884,21 +837,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product_Category getM_Product_Category() throws RuntimeException 
+	public I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product_Category.Table_Name);
-        I_M_Product_Category result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_Category_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
+			.getPO(getM_Product_Category_ID(), get_TrxName());	}
 
 	/** Set Product Category.
 		@param M_Product_Category_ID 
@@ -1014,21 +956,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProductType);
 	}
 
-	public I_R_MailText getR_MailText() throws RuntimeException 
+	public I_R_MailText getR_MailText() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_MailText.Table_Name);
-        I_R_MailText result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_MailText)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_MailText_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getR_MailText_ID(), get_TrxName());	}
 
 	/** Set Mail Template.
 		@param R_MailText_ID 
@@ -1053,21 +984,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException 
+	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_S_ExpenseType.Table_Name);
-        I_S_ExpenseType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_ExpenseType)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_ExpenseType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_S_ExpenseType)MTable.get(getCtx(), I_S_ExpenseType.Table_Name)
+			.getPO(getS_ExpenseType_ID(), get_TrxName());	}
 
 	/** Set Expense Type.
 		@param S_ExpenseType_ID 
@@ -1092,21 +1012,10 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_S_Resource getS_Resource() throws RuntimeException 
+	public I_S_Resource getS_Resource() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_S_Resource.Table_Name);
-        I_S_Resource result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_S_Resource)constructor.newInstance(new Object[] {getCtx(), new Integer(getS_Resource_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
 
 	/** Set Resource.
 		@param S_Resource_ID 
@@ -1130,6 +1039,11 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.
 		@param SalesRep_ID 

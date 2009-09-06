@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for M_PromotionReward
@@ -100,21 +98,10 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return bd;
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException 
+	public I_C_Charge getC_Charge() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Charge.Table_Name);
-        I_C_Charge result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Charge)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Charge_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
 		@param C_Charge_ID 
@@ -211,21 +198,10 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return false;
 	}
 
-	public I_M_Promotion getM_Promotion() throws RuntimeException 
+	public I_M_Promotion getM_Promotion() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Promotion.Table_Name);
-        I_M_Promotion result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Promotion)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Promotion_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Promotion)MTable.get(getCtx(), I_M_Promotion.Table_Name)
+			.getPO(getM_Promotion_ID(), get_TrxName());	}
 
 	/** Set Promotion.
 		@param M_Promotion_ID Promotion	  */
@@ -247,21 +223,10 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_PromotionDistribution getM_PromotionDistribution() throws RuntimeException 
+	public I_M_PromotionDistribution getM_PromotionDistribution() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_PromotionDistribution.Table_Name);
-        I_M_PromotionDistribution result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_PromotionDistribution)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_PromotionDistribution_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_PromotionDistribution)MTable.get(getCtx(), I_M_PromotionDistribution.Table_Name)
+			.getPO(getM_PromotionDistribution_ID(), get_TrxName());	}
 
 	/** Set Promotion Distribution.
 		@param M_PromotionDistribution_ID Promotion Distribution	  */
@@ -302,6 +267,11 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_PromotionDistribution getM_TargetDistribution() throws RuntimeException
+    {
+		return (I_M_PromotionDistribution)MTable.get(getCtx(), I_M_PromotionDistribution.Table_Name)
+			.getPO(getM_TargetDistribution_ID(), get_TrxName());	}
 
 	/** Set Target distribution.
 		@param M_TargetDistribution_ID 

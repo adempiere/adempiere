@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Job
@@ -99,21 +97,10 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_JobCategory getC_JobCategory() throws RuntimeException 
+	public I_C_JobCategory getC_JobCategory() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_JobCategory.Table_Name);
-        I_C_JobCategory result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_JobCategory)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_JobCategory_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_JobCategory)MTable.get(getCtx(), I_C_JobCategory.Table_Name)
+			.getPO(getC_JobCategory_ID(), get_TrxName());	}
 
 	/** Set Position Category.
 		@param C_JobCategory_ID 

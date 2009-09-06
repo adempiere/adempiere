@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Group_Acct
@@ -86,21 +84,10 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -125,21 +112,10 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException 
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BP_Group.Table_Name);
-        I_C_BP_Group result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BP_Group)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BP_Group_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BP_Group)MTable.get(getCtx(), I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
 	/** Set Business Partner Group.
 		@param C_BP_Group_ID 
@@ -172,6 +148,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getC_BP_Group_ID()));
     }
 
+	public I_C_ValidCombination getC_Prepayment_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getC_Prepayment_Acct(), get_TrxName());	}
+
 	/** Set Customer Prepayment.
 		@param C_Prepayment_Acct 
 		Account for customer prepayments
@@ -191,6 +172,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getC_Receivable_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getC_Receivable_Acct(), get_TrxName());	}
 
 	/** Set Customer Receivables.
 		@param C_Receivable_Acct 
@@ -212,6 +198,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getC_Receivable_Services_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getC_Receivable_Services_Acct(), get_TrxName());	}
+
 	/** Set Receivable Services.
 		@param C_Receivable_Services_Acct 
 		Customer Accounts Receivables Services Account
@@ -231,6 +222,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getNotInvoicedReceipts_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getNotInvoicedReceipts_Acct(), get_TrxName());	}
 
 	/** Set Not-invoiced Receipts.
 		@param NotInvoicedReceipts_Acct 
@@ -252,6 +248,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getNotInvoicedReceivables_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getNotInvoicedReceivables_Acct(), get_TrxName());	}
+
 	/** Set Not-invoiced Receivables.
 		@param NotInvoicedReceivables_Acct 
 		Account for not invoiced Receivables
@@ -271,6 +272,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getNotInvoicedRevenue_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getNotInvoicedRevenue_Acct(), get_TrxName());	}
 
 	/** Set Not-invoiced Revenue.
 		@param NotInvoicedRevenue_Acct 
@@ -292,6 +298,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getPayDiscount_Exp_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getPayDiscount_Exp_Acct(), get_TrxName());	}
+
 	/** Set Payment Discount Expense.
 		@param PayDiscount_Exp_Acct 
 		Payment Discount Expense Account
@@ -311,6 +322,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getPayDiscount_Rev_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getPayDiscount_Rev_Acct(), get_TrxName());	}
 
 	/** Set Payment Discount Revenue.
 		@param PayDiscount_Rev_Acct 
@@ -353,6 +369,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 		return false;
 	}
 
+	public I_C_ValidCombination getUnEarnedRevenue_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getUnEarnedRevenue_Acct(), get_TrxName());	}
+
 	/** Set Unearned Revenue.
 		@param UnEarnedRevenue_Acct 
 		Account for unearned revenue
@@ -372,6 +393,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getV_Liability_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getV_Liability_Acct(), get_TrxName());	}
 
 	/** Set Vendor Liability.
 		@param V_Liability_Acct 
@@ -393,6 +419,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getV_Liability_Services_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getV_Liability_Services_Acct(), get_TrxName());	}
+
 	/** Set Vendor Service Liability.
 		@param V_Liability_Services_Acct 
 		Account for Vender Service Liability
@@ -413,6 +444,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getV_Prepayment_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getV_Prepayment_Acct(), get_TrxName());	}
+
 	/** Set Vendor Prepayment.
 		@param V_Prepayment_Acct 
 		Account for Vendor Prepayments
@@ -432,6 +468,11 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getWriteOff_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getWriteOff_Acct(), get_TrxName());	}
 
 	/** Set Write-off.
 		@param WriteOff_Acct 

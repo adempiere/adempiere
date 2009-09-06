@@ -120,6 +120,8 @@ public interface I_C_Project
 	  */
 	public int getC_BPartnerSR_ID();
 
+	public I_C_BPartner getC_BPartnerSR() throws RuntimeException;
+
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
 
@@ -585,6 +587,8 @@ public interface I_C_Project
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

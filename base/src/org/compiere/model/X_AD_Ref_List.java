@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Ref_List
@@ -101,21 +99,10 @@ public class X_AD_Ref_List extends PO implements I_AD_Ref_List, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException 
+	public I_AD_Reference getAD_Reference() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Reference.Table_Name);
-        I_AD_Reference result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Reference)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Reference_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
 		@param AD_Reference_ID 

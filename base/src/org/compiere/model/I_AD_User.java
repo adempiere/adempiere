@@ -459,6 +459,8 @@ public interface I_AD_User
 	  */
 	public int getSupervisor_ID();
 
+	public I_AD_User getSupervisor() throws RuntimeException;
+
     /** Column name Title */
     public static final String COLUMNNAME_Title = "Title";
 

@@ -178,6 +178,8 @@ public interface I_C_Invoice
 	  */
 	public int getC_Charge_ID();
 
+	public I_C_Charge getC_Charge() throws RuntimeException;
+
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -235,6 +237,8 @@ public interface I_C_Invoice
 	  * Target document type for conversing documents
 	  */
 	public int getC_DocTypeTarget_ID();
+
+	public I_C_DocType getC_DocTypeTarget() throws RuntimeException;
 
     /** Column name C_DunningLevel_ID */
     public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
@@ -783,6 +787,8 @@ public interface I_C_Invoice
 	  */
 	public int getReversal_ID();
 
+	public I_C_Invoice getReversal() throws RuntimeException;
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -795,6 +801,8 @@ public interface I_C_Invoice
 	  * Sales Representative or Company Agent
 	  */
 	public int getSalesRep_ID();
+
+	public I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name SendEMail */
     public static final String COLUMNNAME_SendEMail = "SendEMail";
@@ -851,6 +859,8 @@ public interface I_C_Invoice
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -863,4 +873,6 @@ public interface I_C_Invoice
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 }

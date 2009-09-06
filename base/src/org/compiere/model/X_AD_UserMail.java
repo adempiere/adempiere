@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserMail
@@ -73,21 +71,10 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 
@@ -215,21 +202,10 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 		return (String)get_Value(COLUMNNAME_MessageID);
 	}
 
-	public I_R_MailText getR_MailText() throws RuntimeException 
+	public I_R_MailText getR_MailText() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_MailText.Table_Name);
-        I_R_MailText result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_MailText)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_MailText_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getR_MailText_ID(), get_TrxName());	}
 
 	/** Set Mail Template.
 		@param R_MailText_ID 
@@ -271,21 +247,10 @@ public class X_AD_UserMail extends PO implements I_AD_UserMail, I_Persistent
 		return (String)get_Value(COLUMNNAME_Subject);
 	}
 
-	public I_W_MailMsg getW_MailMsg() throws RuntimeException 
+	public I_W_MailMsg getW_MailMsg() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_W_MailMsg.Table_Name);
-        I_W_MailMsg result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_W_MailMsg)constructor.newInstance(new Object[] {getCtx(), new Integer(getW_MailMsg_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_W_MailMsg)MTable.get(getCtx(), I_W_MailMsg.Table_Name)
+			.getPO(getW_MailMsg_ID(), get_TrxName());	}
 
 	/** Set Mail Message.
 		@param W_MailMsg_ID 

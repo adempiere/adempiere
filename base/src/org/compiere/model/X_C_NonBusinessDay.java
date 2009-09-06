@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_NonBusinessDay
@@ -75,21 +73,10 @@ public class X_C_NonBusinessDay extends PO implements I_C_NonBusinessDay, I_Pers
       return sb.toString();
     }
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException 
+	public I_C_Calendar getC_Calendar() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
-        I_C_Calendar result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Calendar)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Calendar_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Calendar)MTable.get(getCtx(), I_C_Calendar.Table_Name)
+			.getPO(getC_Calendar_ID(), get_TrxName());	}
 
 	/** Set Calendar.
 		@param C_Calendar_ID 

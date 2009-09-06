@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 
 /** Generated Model for Fact_Acct_Summary
@@ -81,6 +79,11 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
       return sb.toString();
     }
 
+	public I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
 	/** Set Account.
 		@param Account_ID 
 		Account used
@@ -103,6 +106,11 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (I_AD_Org)MTable.get(getCtx(), I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -167,21 +175,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return bd;
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -206,21 +203,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws RuntimeException 
+	public I_C_Activity getC_Activity() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Activity.Table_Name);
-        I_C_Activity result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Activity)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Activity_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
+			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
 		@param C_Activity_ID 
@@ -245,21 +231,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -284,21 +259,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException 
+	public I_C_Campaign getC_Campaign() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Campaign.Table_Name);
-        I_C_Campaign result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Campaign)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Campaign_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
 		@param C_Campaign_ID 
@@ -323,6 +287,11 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
+	public I_C_Location getC_LocFrom() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getC_LocFrom_ID(), get_TrxName());	}
+
 	/** Set Location From.
 		@param C_LocFrom_ID 
 		Location that inventory was moved from
@@ -345,6 +314,11 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Location getC_LocTo() throws RuntimeException
+    {
+		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+			.getPO(getC_LocTo_ID(), get_TrxName());	}
 
 	/** Set Location To.
 		@param C_LocTo_ID 
@@ -369,21 +343,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Period getC_Period() throws RuntimeException 
+	public I_C_Period getC_Period() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Period.Table_Name);
-        I_C_Period result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Period)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Period_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
 		@param C_Period_ID 
@@ -408,21 +371,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException 
+	public I_C_Project getC_Project() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Project.Table_Name);
-        I_C_Project result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Project)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Project_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
 		@param C_Project_ID 
@@ -447,21 +399,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException 
+	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ProjectPhase.Table_Name);
-        I_C_ProjectPhase result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ProjectPhase)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectPhase_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_ProjectPhase)MTable.get(getCtx(), I_C_ProjectPhase.Table_Name)
+			.getPO(getC_ProjectPhase_ID(), get_TrxName());	}
 
 	/** Set Project Phase.
 		@param C_ProjectPhase_ID 
@@ -486,21 +427,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException 
+	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ProjectTask.Table_Name);
-        I_C_ProjectTask result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ProjectTask)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectTask_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_ProjectTask)MTable.get(getCtx(), I_C_ProjectTask.Table_Name)
+			.getPO(getC_ProjectTask_ID(), get_TrxName());	}
 
 	/** Set Project Task.
 		@param C_ProjectTask_ID 
@@ -525,21 +455,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException 
+	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_SalesRegion.Table_Name);
-        I_C_SalesRegion result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_SalesRegion)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_SalesRegion_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_SalesRegion)MTable.get(getCtx(), I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region.
 		@param C_SalesRegion_ID 
@@ -564,21 +483,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_SubAcct getC_SubAcct() throws RuntimeException 
+	public I_C_SubAcct getC_SubAcct() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_SubAcct.Table_Name);
-        I_C_SubAcct result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_SubAcct)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_SubAcct_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_SubAcct)MTable.get(getCtx(), I_C_SubAcct.Table_Name)
+			.getPO(getC_SubAcct_ID(), get_TrxName());	}
 
 	/** Set Sub Account.
 		@param C_SubAcct_ID 
@@ -620,21 +528,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return (Timestamp)get_Value(COLUMNNAME_DateAcct);
 	}
 
-	public I_GL_Budget getGL_Budget() throws RuntimeException 
+	public I_GL_Budget getGL_Budget() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
-        I_GL_Budget result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_Budget)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_Budget_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_Budget)MTable.get(getCtx(), I_GL_Budget.Table_Name)
+			.getPO(getGL_Budget_ID(), get_TrxName());	}
 
 	/** Set Budget.
 		@param GL_Budget_ID 
@@ -659,21 +556,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException 
+	public I_M_Product getM_Product() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Product.Table_Name);
-        I_M_Product result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Product)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Product_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
 		@param M_Product_ID 
@@ -698,21 +584,10 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return ii.intValue();
 	}
 
-	public I_PA_ReportCube getPA_ReportCube() throws RuntimeException 
+	public I_PA_ReportCube getPA_ReportCube() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_ReportCube.Table_Name);
-        I_PA_ReportCube result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_ReportCube)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_ReportCube_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_ReportCube)MTable.get(getCtx(), I_PA_ReportCube.Table_Name)
+			.getPO(getPA_ReportCube_ID(), get_TrxName());	}
 
 	/** Set Report Cube.
 		@param PA_ReportCube_ID 
@@ -781,6 +656,11 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 		return bd;
 	}
 
+	public I_C_ElementValue getUser1() throws RuntimeException
+    {
+		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+			.getPO(getUser1_ID(), get_TrxName());	}
+
 	/** Set User List 1.
 		@param User1_ID 
 		User defined list element #1
@@ -803,6 +683,11 @@ public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ElementValue getUser2() throws RuntimeException
+    {
+		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.
 		@param User2_ID 

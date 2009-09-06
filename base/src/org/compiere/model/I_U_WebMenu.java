@@ -184,6 +184,8 @@ public interface I_U_WebMenu
 	/** Get Parent Menu	  */
 	public int getParentMenu_ID();
 
+	public I_U_WebMenu getParentMenu() throws RuntimeException;
+
     /** Column name Position */
     public static final String COLUMNNAME_Position = "Position";
 

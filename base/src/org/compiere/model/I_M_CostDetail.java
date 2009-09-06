@@ -229,6 +229,8 @@ public interface I_M_CostDetail
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_CostDetail_ID */
     public static final String COLUMNNAME_M_CostDetail_ID = "M_CostDetail_ID";
 

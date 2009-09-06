@@ -195,6 +195,8 @@ public interface I_M_BOMProduct
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_BOM_ID */
     public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
 
@@ -265,6 +267,8 @@ public interface I_M_BOMProduct
 	  * Bill of Material Component Product
 	  */
 	public int getM_ProductBOM_ID();
+
+	public I_M_Product getM_ProductBOM() throws RuntimeException;
 
     /** Column name M_ProductOperation_ID */
     public static final String COLUMNNAME_M_ProductOperation_ID = "M_ProductOperation_ID";

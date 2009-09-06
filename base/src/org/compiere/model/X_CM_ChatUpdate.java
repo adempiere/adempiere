@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for CM_ChatUpdate
  *  @author Adempiere (generated) 
@@ -73,21 +71,10 @@ public class X_CM_ChatUpdate extends PO implements I_CM_ChatUpdate, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException 
+	public I_AD_User getAD_User() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_User.Table_Name);
-        I_AD_User result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_User)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_User_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
 		@param AD_User_ID 
@@ -112,21 +99,10 @@ public class X_CM_ChatUpdate extends PO implements I_CM_ChatUpdate, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Chat getCM_Chat() throws RuntimeException 
+	public I_CM_Chat getCM_Chat() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Chat.Table_Name);
-        I_CM_Chat result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Chat)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Chat_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Chat)MTable.get(getCtx(), I_CM_Chat.Table_Name)
+			.getPO(getCM_Chat_ID(), get_TrxName());	}
 
 	/** Set Chat.
 		@param CM_Chat_ID 

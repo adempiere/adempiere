@@ -150,6 +150,8 @@ public interface I_C_BP_Vendor_Acct
 	  */
 	public int getV_Liability_Acct();
 
+	public I_C_ValidCombination getV_Liability_A() throws RuntimeException;
+
     /** Column name V_Liability_Services_Acct */
     public static final String COLUMNNAME_V_Liability_Services_Acct = "V_Liability_Services_Acct";
 
@@ -163,6 +165,8 @@ public interface I_C_BP_Vendor_Acct
 	  */
 	public int getV_Liability_Services_Acct();
 
+	public I_C_ValidCombination getV_Liability_Services_A() throws RuntimeException;
+
     /** Column name V_Prepayment_Acct */
     public static final String COLUMNNAME_V_Prepayment_Acct = "V_Prepayment_Acct";
 
@@ -175,4 +179,6 @@ public interface I_C_BP_Vendor_Acct
 	  * Account for Vendor Prepayments
 	  */
 	public int getV_Prepayment_Acct();
+
+	public I_C_ValidCombination getV_Prepayment_A() throws RuntimeException;
 }

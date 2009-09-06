@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_DesktopWorkbench
@@ -75,21 +73,10 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
       return sb.toString();
     }
 
-	public I_AD_Desktop getAD_Desktop() throws RuntimeException 
+	public I_AD_Desktop getAD_Desktop() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Desktop.Table_Name);
-        I_AD_Desktop result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Desktop)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Desktop_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Desktop)MTable.get(getCtx(), I_AD_Desktop.Table_Name)
+			.getPO(getAD_Desktop_ID(), get_TrxName());	}
 
 	/** Set Desktop.
 		@param AD_Desktop_ID 
@@ -134,21 +121,10 @@ public class X_AD_DesktopWorkbench extends PO implements I_AD_DesktopWorkbench, 
 		return ii.intValue();
 	}
 
-	public I_AD_Workbench getAD_Workbench() throws RuntimeException 
+	public I_AD_Workbench getAD_Workbench() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Workbench.Table_Name);
-        I_AD_Workbench result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Workbench)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Workbench_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Workbench)MTable.get(getCtx(), I_AD_Workbench.Table_Name)
+			.getPO(getAD_Workbench_ID(), get_TrxName());	}
 
 	/** Set Workbench.
 		@param AD_Workbench_ID 

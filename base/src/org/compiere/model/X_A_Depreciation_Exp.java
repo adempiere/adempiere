@@ -81,6 +81,11 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
       return sb.toString();
     }
 
+	public I_C_ValidCombination getA_Account_Num() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getA_Account_Number(), get_TrxName());	}
+
 	/** Set A_Account_Number.
 		@param A_Account_Number A_Account_Number	  */
 	public void setA_Account_Number (int A_Account_Number)

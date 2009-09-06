@@ -119,6 +119,8 @@ public interface I_C_InterOrg_Acct
 	  */
 	public int getIntercompanyDueFrom_Acct();
 
+	public I_C_ValidCombination getIntercompanyDueFrom_A() throws RuntimeException;
+
     /** Column name IntercompanyDueTo_Acct */
     public static final String COLUMNNAME_IntercompanyDueTo_Acct = "IntercompanyDueTo_Acct";
 
@@ -131,6 +133,8 @@ public interface I_C_InterOrg_Acct
 	  * Intercompany Due To / Payable Account
 	  */
 	public int getIntercompanyDueTo_Acct();
+
+	public I_C_ValidCombination getIntercompanyDueTo_A() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

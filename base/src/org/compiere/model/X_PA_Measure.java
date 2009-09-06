@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -79,21 +77,10 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
       return sb.toString();
     }
 
-	public I_C_ProjectType getC_ProjectType() throws RuntimeException 
+	public I_C_ProjectType getC_ProjectType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_ProjectType.Table_Name);
-        I_C_ProjectType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_ProjectType)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_ProjectType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_ProjectType)MTable.get(getCtx(), I_C_ProjectType.Table_Name)
+			.getPO(getC_ProjectType_ID(), get_TrxName());	}
 
 	/** Set Project Type.
 		@param C_ProjectType_ID 
@@ -272,21 +259,10 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException 
+	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_Benchmark.Table_Name);
-        I_PA_Benchmark result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_Benchmark)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_Benchmark_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_Benchmark)MTable.get(getCtx(), I_PA_Benchmark.Table_Name)
+			.getPO(getPA_Benchmark_ID(), get_TrxName());	}
 
 	/** Set Benchmark.
 		@param PA_Benchmark_ID 
@@ -311,21 +287,10 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Hierarchy getPA_Hierarchy() throws RuntimeException 
+	public I_PA_Hierarchy getPA_Hierarchy() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_Hierarchy.Table_Name);
-        I_PA_Hierarchy result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_Hierarchy)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_Hierarchy_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_Hierarchy)MTable.get(getCtx(), I_PA_Hierarchy.Table_Name)
+			.getPO(getPA_Hierarchy_ID(), get_TrxName());	}
 
 	/** Set Reporting Hierarchy.
 		@param PA_Hierarchy_ID 
@@ -373,21 +338,10 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException 
+	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_MeasureCalc.Table_Name);
-        I_PA_MeasureCalc result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_MeasureCalc)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_MeasureCalc_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_MeasureCalc)MTable.get(getCtx(), I_PA_MeasureCalc.Table_Name)
+			.getPO(getPA_MeasureCalc_ID(), get_TrxName());	}
 
 	/** Set Measure Calculation.
 		@param PA_MeasureCalc_ID 
@@ -412,21 +366,10 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_Ratio getPA_Ratio() throws RuntimeException 
+	public I_PA_Ratio getPA_Ratio() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_Ratio.Table_Name);
-        I_PA_Ratio result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_Ratio)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_Ratio_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_Ratio)MTable.get(getCtx(), I_PA_Ratio.Table_Name)
+			.getPO(getPA_Ratio_ID(), get_TrxName());	}
 
 	/** Set Ratio.
 		@param PA_Ratio_ID 
@@ -451,21 +394,10 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException 
+	public I_R_RequestType getR_RequestType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_RequestType.Table_Name);
-        I_R_RequestType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_RequestType)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_RequestType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_RequestType)MTable.get(getCtx(), I_R_RequestType.Table_Name)
+			.getPO(getR_RequestType_ID(), get_TrxName());	}
 
 	/** Set Request Type.
 		@param R_RequestType_ID 

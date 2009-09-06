@@ -158,6 +158,8 @@ public interface I_M_InventoryLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
 
@@ -199,6 +201,8 @@ public interface I_M_InventoryLine
 	  */
 	public int getM_Locator_ID();
 
+	public I_M_Locator getM_Locator() throws RuntimeException;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -211,6 +215,8 @@ public interface I_M_InventoryLine
 	  * Product, Service, Item
 	  */
 	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -285,6 +291,8 @@ public interface I_M_InventoryLine
 	  * Use to keep the reversal line ID for reversing costing purpose
 	  */
 	public int getReversalLine_ID();
+
+	public I_M_InventoryLine getReversalLine() throws RuntimeException;
 
     /** Column name UPC */
     public static final String COLUMNNAME_UPC = "UPC";

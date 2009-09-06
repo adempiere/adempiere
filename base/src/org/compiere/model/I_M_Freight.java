@@ -218,6 +218,8 @@ public interface I_M_Freight
 	  */
 	public int getTo_Region_ID();
 
+	public I_C_Region getTo_Region() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

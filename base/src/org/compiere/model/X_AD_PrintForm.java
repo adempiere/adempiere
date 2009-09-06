@@ -111,6 +111,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	public I_R_MailText getDistrib_Order_MailText() throws RuntimeException
+    {
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getDistrib_Order_MailText_ID(), get_TrxName());	}
+
 	/** Set Distribution Order Mail Text.
 		@param Distrib_Order_MailText_ID 
 		Email text used for sending Distribution Order
@@ -133,6 +138,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormat getDistrib_Order_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getDistrib_Order_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Distribution Order Print Format.
 		@param Distrib_Order_PrintFormat_ID 
@@ -157,6 +167,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_R_MailText getInvoice_MailText() throws RuntimeException
+    {
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getInvoice_MailText_ID(), get_TrxName());	}
+
 	/** Set Invoice Mail Text.
 		@param Invoice_MailText_ID 
 		Email text used for sending invoices
@@ -179,6 +194,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormat getInvoice_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getInvoice_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Invoice Print Format.
 		@param Invoice_PrintFormat_ID 
@@ -203,6 +223,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_R_MailText getManuf_Order_MailText() throws RuntimeException
+    {
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getManuf_Order_MailText_ID(), get_TrxName());	}
+
 	/** Set Manufacturing Order Mail Text.
 		@param Manuf_Order_MailText_ID 
 		Email text used for sending Manufacturing Order
@@ -225,6 +250,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormat getManuf_Order_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getManuf_Order_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order Print Format.
 		@param Manuf_Order_PrintFormat_ID 
@@ -274,6 +304,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	public I_R_MailText getOrder_MailText() throws RuntimeException
+    {
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getOrder_MailText_ID(), get_TrxName());	}
+
 	/** Set Order Mail Text.
 		@param Order_MailText_ID 
 		Email text used for sending order acknowledgements or quotations
@@ -296,6 +331,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormat getOrder_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getOrder_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Order Print Format.
 		@param Order_PrintFormat_ID 
@@ -320,6 +360,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_R_MailText getProject_MailText() throws RuntimeException
+    {
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getProject_MailText_ID(), get_TrxName());	}
+
 	/** Set Project Mail Text.
 		@param Project_MailText_ID 
 		Standard text for Project EMails
@@ -342,6 +387,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormat getProject_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getProject_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Project Print Format.
 		@param Project_PrintFormat_ID 
@@ -366,6 +416,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_R_MailText getRemittance_MailText() throws RuntimeException
+    {
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getRemittance_MailText_ID(), get_TrxName());	}
+
 	/** Set Remittance Mail Text.
 		@param Remittance_MailText_ID 
 		Email text used for sending payment remittances
@@ -388,6 +443,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormat getRemittance_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getRemittance_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Remittance Print Format.
 		@param Remittance_PrintFormat_ID 
@@ -412,6 +472,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_R_MailText getShipment_MailText() throws RuntimeException
+    {
+		return (I_R_MailText)MTable.get(getCtx(), I_R_MailText.Table_Name)
+			.getPO(getShipment_MailText_ID(), get_TrxName());	}
+
 	/** Set Shipment Mail Text.
 		@param Shipment_MailText_ID 
 		Email text used for sending delivery notes
@@ -434,6 +499,11 @@ public class X_AD_PrintForm extends PO implements I_AD_PrintForm, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_PrintFormat getShipment_PrintFormat() throws RuntimeException
+    {
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getShipment_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Shipment Print Format.
 		@param Shipment_PrintFormat_ID 

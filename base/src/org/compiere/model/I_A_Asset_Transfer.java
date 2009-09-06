@@ -59,6 +59,8 @@ public interface I_A_Asset_Transfer
 	/** Get New Accum Depreciation Acct	  */
 	public int getA_Accumdepreciation_Acct_New();
 
+	public I_C_ValidCombination getA_Accumdepreciation_Acct_() throws RuntimeException;
+
     /** Column name A_Accumdepreciation_Acct_Str */
     public static final String COLUMNNAME_A_Accumdepreciation_Acct_Str = "A_Accumdepreciation_Acct_Str";
 
@@ -94,6 +96,8 @@ public interface I_A_Asset_Transfer
 
 	/** Get New Asset Cost Acct	  */
 	public int getA_Asset_Acct_New();
+
+	public I_C_ValidCombination getA_Asset_Acct_() throws RuntimeException;
 
     /** Column name A_Asset_Acct_Str */
     public static final String COLUMNNAME_A_Asset_Acct_Str = "A_Asset_Acct_Str";
@@ -144,6 +148,8 @@ public interface I_A_Asset_Transfer
 	/** Get New Depreciation Exp Acct	  */
 	public int getA_Depreciation_Acct_New();
 
+	public I_C_ValidCombination getA_Depreciation_Acct_() throws RuntimeException;
+
     /** Column name A_Depreciation_Acct_Str */
     public static final String COLUMNNAME_A_Depreciation_Acct_Str = "A_Depreciation_Acct_Str";
 
@@ -171,6 +177,8 @@ public interface I_A_Asset_Transfer
 	/** Get New Disposal Loss	  */
 	public int getA_Disposal_Loss_New();
 
+	public I_C_ValidCombination getA_Disposal_Loss_() throws RuntimeException;
+
     /** Column name A_Disposal_Loss_Str */
     public static final String COLUMNNAME_A_Disposal_Loss_Str = "A_Disposal_Loss_Str";
 
@@ -197,6 +205,8 @@ public interface I_A_Asset_Transfer
 
 	/** Get New Disposal Revenue	  */
 	public int getA_Disposal_Revenue_New();
+
+	public I_C_ValidCombination getA_Disposal_Revenue_() throws RuntimeException;
 
     /** Column name A_Disposal_Revenue_Str */
     public static final String COLUMNNAME_A_Disposal_Revenue_Str = "A_Disposal_Revenue_Str";
@@ -286,6 +296,8 @@ public interface I_A_Asset_Transfer
 	  */
 	public int getC_AcctSchema_ID();
 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
 
@@ -298,6 +310,8 @@ public interface I_A_Asset_Transfer
 	  * Period of the Calendar
 	  */
 	public int getC_Period_ID();
+
+	public I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

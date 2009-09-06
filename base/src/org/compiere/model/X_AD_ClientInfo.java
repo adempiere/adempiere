@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_ClientInfo
  *  @author Adempiere (generated) 
@@ -71,6 +69,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Tree getAD_Tree_Activity() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Activity_ID(), get_TrxName());	}
+
 	/** Set Activity Tree.
 		@param AD_Tree_Activity_ID 
 		Tree to determine activity hierarchy
@@ -93,6 +96,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_BPartner() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_BPartner_ID(), get_TrxName());	}
 
 	/** Set BPartner Tree.
 		@param AD_Tree_BPartner_ID 
@@ -117,6 +125,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Tree getAD_Tree_Campaign() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Campaign_ID(), get_TrxName());	}
+
 	/** Set Campaign Tree.
 		@param AD_Tree_Campaign_ID 
 		Tree to determine marketing campaign hierarchy
@@ -139,6 +152,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_Menu() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Menu_ID(), get_TrxName());	}
 
 	/** Set Menu Tree.
 		@param AD_Tree_Menu_ID 
@@ -163,6 +181,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Tree getAD_Tree_Org() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Org_ID(), get_TrxName());	}
+
 	/** Set Organization Tree.
 		@param AD_Tree_Org_ID 
 		Tree to determine organizational hierarchy
@@ -185,6 +208,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_Product() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Product_ID(), get_TrxName());	}
 
 	/** Set Product Tree.
 		@param AD_Tree_Product_ID 
@@ -209,6 +237,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_AD_Tree getAD_Tree_Project() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_Project_ID(), get_TrxName());	}
+
 	/** Set Project Tree.
 		@param AD_Tree_Project_ID 
 		Tree to determine project hierarchy
@@ -231,6 +264,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Tree getAD_Tree_SalesRegion() throws RuntimeException
+    {
+		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+			.getPO(getAD_Tree_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region Tree.
 		@param AD_Tree_SalesRegion_ID 
@@ -255,6 +293,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_AcctSchema getC_AcctSchema1() throws RuntimeException
+    {
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema1_ID(), get_TrxName());	}
+
 	/** Set Primary Accounting Schema.
 		@param C_AcctSchema1_ID 
 		Primary rules for accounting
@@ -277,6 +320,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_BPartner getC_BPartnerCashTrx() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartnerCashTrx_ID(), get_TrxName());	}
 
 	/** Set Template B.Partner.
 		@param C_BPartnerCashTrx_ID 
@@ -301,21 +349,10 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException 
+	public I_C_Calendar getC_Calendar() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
-        I_C_Calendar result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Calendar)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Calendar_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Calendar)MTable.get(getCtx(), I_C_Calendar.Table_Name)
+			.getPO(getC_Calendar_ID(), get_TrxName());	}
 
 	/** Set Calendar.
 		@param C_Calendar_ID 
@@ -340,6 +377,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_UOM getC_UOM_Length() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_Length_ID(), get_TrxName());	}
+
 	/** Set UOM for Length.
 		@param C_UOM_Length_ID 
 		Standard Unit of Measure for Length
@@ -362,6 +404,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_UOM getC_UOM_Time() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_Time_ID(), get_TrxName());	}
 
 	/** Set UOM for Time.
 		@param C_UOM_Time_ID 
@@ -386,6 +433,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_UOM getC_UOM_Volume() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_Volume_ID(), get_TrxName());	}
+
 	/** Set UOM for Volume.
 		@param C_UOM_Volume_ID 
 		Standard Unit of Measure for Volume
@@ -408,6 +460,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_UOM getC_UOM_Weight() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_Weight_ID(), get_TrxName());	}
 
 	/** Set UOM for Weight.
 		@param C_UOM_Weight_ID 
@@ -535,6 +592,11 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_M_Product getM_ProductFreight() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_ProductFreight_ID(), get_TrxName());	}
 
 	/** Set Product for Freight.
 		@param M_ProductFreight_ID Product for Freight	  */

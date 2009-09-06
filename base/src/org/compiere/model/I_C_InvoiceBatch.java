@@ -247,6 +247,8 @@ public interface I_C_InvoiceBatch
 	  */
 	public int getSalesRep_ID();
 
+	public I_AD_User getSalesRep() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

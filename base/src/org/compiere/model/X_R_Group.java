@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_Group
@@ -107,21 +105,10 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException 
+	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_ChangeNotice.Table_Name);
-        I_M_ChangeNotice result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_ChangeNotice)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_ChangeNotice_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_ChangeNotice)MTable.get(getCtx(), I_M_ChangeNotice.Table_Name)
+			.getPO(getM_ChangeNotice_ID(), get_TrxName());	}
 
 	/** Set Change Notice.
 		@param M_ChangeNotice_ID 
@@ -171,21 +158,10 @@ public class X_R_Group extends PO implements I_R_Group, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException 
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Product_BOM.Table_Name);
-        org.eevolution.model.I_PP_Product_BOM result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_PP_Product_BOM)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Product_BOM_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
+			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
 
 	/** Set BOM & Formula.
 		@param PP_Product_BOM_ID 

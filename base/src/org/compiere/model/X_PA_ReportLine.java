@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportLine
@@ -167,21 +165,10 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_GL_Budget getGL_Budget() throws RuntimeException 
+	public I_GL_Budget getGL_Budget() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_Budget.Table_Name);
-        I_GL_Budget result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_Budget)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_Budget_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_Budget)MTable.get(getCtx(), I_GL_Budget.Table_Name)
+			.getPO(getGL_Budget_ID(), get_TrxName());	}
 
 	/** Set Budget.
 		@param GL_Budget_ID 
@@ -276,6 +263,11 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
+	public I_PA_ReportLine getOper_1() throws RuntimeException
+    {
+		return (I_PA_ReportLine)MTable.get(getCtx(), I_PA_ReportLine.Table_Name)
+			.getPO(getOper_1_ID(), get_TrxName());	}
+
 	/** Set Operand 1.
 		@param Oper_1_ID 
 		First operand for calculation
@@ -298,6 +290,11 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_PA_ReportLine getOper_2() throws RuntimeException
+    {
+		return (I_PA_ReportLine)MTable.get(getCtx(), I_PA_ReportLine.Table_Name)
+			.getPO(getOper_2_ID(), get_TrxName());	}
 
 	/** Set Operand 2.
 		@param Oper_2_ID 
@@ -342,21 +339,10 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException 
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_ReportLineSet.Table_Name);
-        I_PA_ReportLineSet result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_ReportLineSet)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_ReportLineSet_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_ReportLineSet)MTable.get(getCtx(), I_PA_ReportLineSet.Table_Name)
+			.getPO(getPA_ReportLineSet_ID(), get_TrxName());	}
 
 	/** Set Report Line Set.
 		@param PA_ReportLineSet_ID Report Line Set	  */

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_InfoColumn
@@ -81,21 +79,10 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Element getAD_Element() throws RuntimeException 
+	public I_AD_Element getAD_Element() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Element.Table_Name);
-        I_AD_Element result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Element)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Element_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Element)MTable.get(getCtx(), I_AD_Element.Table_Name)
+			.getPO(getAD_Element_ID(), get_TrxName());	}
 
 	/** Set System Element.
 		@param AD_Element_ID 
@@ -143,21 +130,10 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_InfoWindow getAD_InfoWindow() throws RuntimeException 
+	public I_AD_InfoWindow getAD_InfoWindow() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_InfoWindow.Table_Name);
-        I_AD_InfoWindow result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_InfoWindow)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_InfoWindow_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_InfoWindow)MTable.get(getCtx(), I_AD_InfoWindow.Table_Name)
+			.getPO(getAD_InfoWindow_ID(), get_TrxName());	}
 
 	/** Set Info Window.
 		@param AD_InfoWindow_ID 
@@ -181,6 +157,11 @@ public class X_AD_InfoColumn extends PO implements I_AD_InfoColumn, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
 		@param AD_Reference_ID 

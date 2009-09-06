@@ -88,6 +88,8 @@ public interface I_A_RegistrationAttribute
 	  */
 	public int getAD_Reference_ID();
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException;
+
     /** Column name AD_Reference_Value_ID */
     public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
 
@@ -100,6 +102,8 @@ public interface I_A_RegistrationAttribute
 	  * Required to specify, if data type is Table or List
 	  */
 	public int getAD_Reference_Value_ID();
+
+	public I_AD_Reference getAD_Reference_Value() throws RuntimeException;
 
     /** Column name ColumnName */
     public static final String COLUMNNAME_ColumnName = "ColumnName";

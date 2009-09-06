@@ -105,6 +105,8 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getC_Prepayment_Acct();
 
+	public I_C_ValidCombination getC_Prepayment_A() throws RuntimeException;
+
     /** Column name C_Receivable_Acct */
     public static final String COLUMNNAME_C_Receivable_Acct = "C_Receivable_Acct";
 
@@ -118,6 +120,8 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getC_Receivable_Acct();
 
+	public I_C_ValidCombination getC_Receivable_A() throws RuntimeException;
+
     /** Column name C_Receivable_Services_Acct */
     public static final String COLUMNNAME_C_Receivable_Services_Acct = "C_Receivable_Services_Acct";
 
@@ -130,6 +134,8 @@ public interface I_C_BP_Group_Acct
 	  * Customer Accounts Receivables Services Account
 	  */
 	public int getC_Receivable_Services_Acct();
+
+	public I_C_ValidCombination getC_Receivable_Services_A() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -173,6 +179,8 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getNotInvoicedReceipts_Acct();
 
+	public I_C_ValidCombination getNotInvoicedReceipts_A() throws RuntimeException;
+
     /** Column name NotInvoicedReceivables_Acct */
     public static final String COLUMNNAME_NotInvoicedReceivables_Acct = "NotInvoicedReceivables_Acct";
 
@@ -185,6 +193,8 @@ public interface I_C_BP_Group_Acct
 	  * Account for not invoiced Receivables
 	  */
 	public int getNotInvoicedReceivables_Acct();
+
+	public I_C_ValidCombination getNotInvoicedReceivables_A() throws RuntimeException;
 
     /** Column name NotInvoicedRevenue_Acct */
     public static final String COLUMNNAME_NotInvoicedRevenue_Acct = "NotInvoicedRevenue_Acct";
@@ -199,6 +209,8 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getNotInvoicedRevenue_Acct();
 
+	public I_C_ValidCombination getNotInvoicedRevenue_A() throws RuntimeException;
+
     /** Column name PayDiscount_Exp_Acct */
     public static final String COLUMNNAME_PayDiscount_Exp_Acct = "PayDiscount_Exp_Acct";
 
@@ -212,6 +224,8 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getPayDiscount_Exp_Acct();
 
+	public I_C_ValidCombination getPayDiscount_Exp_A() throws RuntimeException;
+
     /** Column name PayDiscount_Rev_Acct */
     public static final String COLUMNNAME_PayDiscount_Rev_Acct = "PayDiscount_Rev_Acct";
 
@@ -224,6 +238,8 @@ public interface I_C_BP_Group_Acct
 	  * Payment Discount Revenue Account
 	  */
 	public int getPayDiscount_Rev_Acct();
+
+	public I_C_ValidCombination getPayDiscount_Rev_A() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
@@ -246,6 +262,8 @@ public interface I_C_BP_Group_Acct
 	  * Account for unearned revenue
 	  */
 	public int getUnEarnedRevenue_Acct();
+
+	public I_C_ValidCombination getUnEarnedRevenue_A() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -276,6 +294,8 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getV_Liability_Acct();
 
+	public I_C_ValidCombination getV_Liability_A() throws RuntimeException;
+
     /** Column name V_Liability_Services_Acct */
     public static final String COLUMNNAME_V_Liability_Services_Acct = "V_Liability_Services_Acct";
 
@@ -288,6 +308,8 @@ public interface I_C_BP_Group_Acct
 	  * Account for Vender Service Liability
 	  */
 	public int getV_Liability_Services_Acct();
+
+	public I_C_ValidCombination getV_Liability_Services_A() throws RuntimeException;
 
     /** Column name V_Prepayment_Acct */
     public static final String COLUMNNAME_V_Prepayment_Acct = "V_Prepayment_Acct";
@@ -302,6 +324,8 @@ public interface I_C_BP_Group_Acct
 	  */
 	public int getV_Prepayment_Acct();
 
+	public I_C_ValidCombination getV_Prepayment_A() throws RuntimeException;
+
     /** Column name WriteOff_Acct */
     public static final String COLUMNNAME_WriteOff_Acct = "WriteOff_Acct";
 
@@ -314,4 +338,6 @@ public interface I_C_BP_Group_Acct
 	  * Account for Receivables write-off
 	  */
 	public int getWriteOff_Acct();
+
+	public I_C_ValidCombination getWriteOff_A() throws RuntimeException;
 }

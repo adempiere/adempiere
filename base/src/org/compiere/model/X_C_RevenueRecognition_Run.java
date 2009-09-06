@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -77,21 +75,10 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
       return sb.toString();
     }
 
-	public I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException 
+	public I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_RevenueRecognition_Plan.Table_Name);
-        I_C_RevenueRecognition_Plan result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_RevenueRecognition_Plan)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_RevenueRecognition_Plan_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_RevenueRecognition_Plan)MTable.get(getCtx(), I_C_RevenueRecognition_Plan.Table_Name)
+			.getPO(getC_RevenueRecognition_Plan_ID(), get_TrxName());	}
 
 	/** Set Revenue Recognition Plan.
 		@param C_RevenueRecognition_Plan_ID 
@@ -147,21 +134,10 @@ public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecogni
 		return ii.intValue();
 	}
 
-	public I_GL_Journal getGL_Journal() throws RuntimeException 
+	public I_GL_Journal getGL_Journal() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_GL_Journal.Table_Name);
-        I_GL_Journal result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_GL_Journal)constructor.newInstance(new Object[] {getCtx(), new Integer(getGL_Journal_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_GL_Journal)MTable.get(getCtx(), I_GL_Journal.Table_Name)
+			.getPO(getGL_Journal_ID(), get_TrxName());	}
 
 	/** Set Journal.
 		@param GL_Journal_ID 

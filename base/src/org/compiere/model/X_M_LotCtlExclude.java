@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for M_LotCtlExclude
  *  @author Adempiere (generated) 
@@ -74,21 +72,10 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -137,21 +124,10 @@ public class X_M_LotCtlExclude extends PO implements I_M_LotCtlExclude, I_Persis
 		return false;
 	}
 
-	public I_M_LotCtl getM_LotCtl() throws RuntimeException 
+	public I_M_LotCtl getM_LotCtl() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_LotCtl.Table_Name);
-        I_M_LotCtl result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_LotCtl)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_LotCtl_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_LotCtl)MTable.get(getCtx(), I_M_LotCtl.Table_Name)
+			.getPO(getM_LotCtl_ID(), get_TrxName());	}
 
 	/** Set Lot Control.
 		@param M_LotCtl_ID 

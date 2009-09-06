@@ -103,6 +103,8 @@ public interface I_C_Conversion_Rate
 	  */
 	public int getC_Currency_ID();
 
+	public I_C_Currency getC_Currency() throws RuntimeException;
+
     /** Column name C_Currency_ID_To */
     public static final String COLUMNNAME_C_Currency_ID_To = "C_Currency_ID_To";
 
@@ -115,6 +117,8 @@ public interface I_C_Conversion_Rate
 	  * Target currency
 	  */
 	public int getC_Currency_ID_To();
+
+	public I_C_Currency getC_Currency_To() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

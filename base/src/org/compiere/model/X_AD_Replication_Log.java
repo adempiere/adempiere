@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication_Log
@@ -98,21 +96,10 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
 		return ii.intValue();
 	}
 
-	public I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException 
+	public I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Replication_Run.Table_Name);
-        I_AD_Replication_Run result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Replication_Run)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Replication_Run_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Replication_Run)MTable.get(getCtx(), I_AD_Replication_Run.Table_Name)
+			.getPO(getAD_Replication_Run_ID(), get_TrxName());	}
 
 	/** Set Replication Run.
 		@param AD_Replication_Run_ID 
@@ -145,21 +132,10 @@ public class X_AD_Replication_Log extends PO implements I_AD_Replication_Log, I_
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Replication_Run_ID()));
     }
 
-	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException 
+	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_ReplicationTable.Table_Name);
-        I_AD_ReplicationTable result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_ReplicationTable)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_ReplicationTable_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_ReplicationTable)MTable.get(getCtx(), I_AD_ReplicationTable.Table_Name)
+			.getPO(getAD_ReplicationTable_ID(), get_TrxName());	}
 
 	/** Set Replication Table.
 		@param AD_ReplicationTable_ID 

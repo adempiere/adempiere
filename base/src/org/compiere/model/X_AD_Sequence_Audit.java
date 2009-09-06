@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_Sequence_Audit
  *  @author Adempiere (generated) 
@@ -74,21 +72,10 @@ public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Sequence getAD_Sequence() throws RuntimeException 
+	public I_AD_Sequence getAD_Sequence() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Sequence.Table_Name);
-        I_AD_Sequence result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Sequence)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Sequence_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Sequence)MTable.get(getCtx(), I_AD_Sequence.Table_Name)
+			.getPO(getAD_Sequence_ID(), get_TrxName());	}
 
 	/** Set Sequence.
 		@param AD_Sequence_ID 
@@ -113,21 +100,10 @@ public class X_AD_Sequence_Audit extends PO implements I_AD_Sequence_Audit, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 

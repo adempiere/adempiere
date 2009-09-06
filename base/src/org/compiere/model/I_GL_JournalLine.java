@@ -69,6 +69,8 @@ public interface I_GL_JournalLine
 	  */
 	public int getA_Asset_ID();
 
+	public I_A_Asset getA_Asset() throws RuntimeException;
+
     /** Column name A_CreateAsset */
     public static final String COLUMNNAME_A_CreateAsset = "A_CreateAsset";
 
@@ -217,6 +219,8 @@ public interface I_GL_JournalLine
 	  * Valid Account Combination
 	  */
 	public int getC_ValidCombination_ID();
+
+	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

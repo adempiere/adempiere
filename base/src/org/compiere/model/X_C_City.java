@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_City
@@ -113,21 +111,10 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Country getC_Country() throws RuntimeException 
+	public I_C_Country getC_Country() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Country.Table_Name);
-        I_C_Country result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Country)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Country_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Country)MTable.get(getCtx(), I_C_Country.Table_Name)
+			.getPO(getC_Country_ID(), get_TrxName());	}
 
 	/** Set Country.
 		@param C_Country_ID 
@@ -151,6 +138,11 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_Region getC_Region() throws RuntimeException
+    {
+		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
+			.getPO(getC_Region_ID(), get_TrxName());	}
 
 	/** Set Region.
 		@param C_Region_ID 

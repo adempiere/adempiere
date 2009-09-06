@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for M_SerNoCtlExclude
  *  @author Adempiere (generated) 
@@ -74,21 +72,10 @@ public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Table getAD_Table() throws RuntimeException 
+	public I_AD_Table getAD_Table() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Table.Table_Name);
-        I_AD_Table result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Table)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Table_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
 		@param AD_Table_ID 
@@ -137,21 +124,10 @@ public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Pe
 		return false;
 	}
 
-	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException 
+	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_SerNoCtl.Table_Name);
-        I_M_SerNoCtl result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_SerNoCtl)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_SerNoCtl_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_SerNoCtl)MTable.get(getCtx(), I_M_SerNoCtl.Table_Name)
+			.getPO(getM_SerNoCtl_ID(), get_TrxName());	}
 
 	/** Set Serial No Control.
 		@param M_SerNoCtl_ID 

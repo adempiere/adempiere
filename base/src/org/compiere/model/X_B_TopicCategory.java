@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_TopicCategory
@@ -97,21 +95,10 @@ public class X_B_TopicCategory extends PO implements I_B_TopicCategory, I_Persis
 		return ii.intValue();
 	}
 
-	public I_B_TopicType getB_TopicType() throws RuntimeException 
+	public I_B_TopicType getB_TopicType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_B_TopicType.Table_Name);
-        I_B_TopicType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_B_TopicType)constructor.newInstance(new Object[] {getCtx(), new Integer(getB_TopicType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_B_TopicType)MTable.get(getCtx(), I_B_TopicType.Table_Name)
+			.getPO(getB_TopicType_ID(), get_TrxName());	}
 
 	/** Set Topic Type.
 		@param B_TopicType_ID 

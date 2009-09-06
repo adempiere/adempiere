@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Subscription_Delivery
@@ -104,21 +102,10 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
         return new KeyNamePair(get_ID(), String.valueOf(getC_Subscription_Delivery_ID()));
     }
 
-	public I_C_Subscription getC_Subscription() throws RuntimeException 
+	public I_C_Subscription getC_Subscription() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Subscription.Table_Name);
-        I_C_Subscription result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Subscription)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Subscription_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Subscription)MTable.get(getCtx(), I_C_Subscription.Table_Name)
+			.getPO(getC_Subscription_ID(), get_TrxName());	}
 
 	/** Set Subscription.
 		@param C_Subscription_ID 

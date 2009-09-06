@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
@@ -80,21 +78,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException 
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintFormat.Table_Name);
-        I_AD_PrintFormat result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintFormat)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintFormat_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
 		@param AD_PrintFormat_ID 
@@ -119,21 +106,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -158,21 +134,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException 
+	public I_C_Calendar getC_Calendar() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_Calendar.Table_Name);
-        I_C_Calendar result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_Calendar)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_Calendar_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_Calendar)MTable.get(getCtx(), I_C_Calendar.Table_Name)
+			.getPO(getC_Calendar_ID(), get_TrxName());	}
 
 	/** Set Calendar.
 		@param C_Calendar_ID 
@@ -213,6 +178,11 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Description);
 	}
+
+	public I_AD_Process getJasperProcess() throws RuntimeException
+    {
+		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+			.getPO(getJasperProcess_ID(), get_TrxName());	}
 
 	/** Set Jasper Process.
 		@param JasperProcess_ID 
@@ -347,21 +317,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException 
+	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_ReportColumnSet.Table_Name);
-        I_PA_ReportColumnSet result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_ReportColumnSet)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_ReportColumnSet_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_ReportColumnSet)MTable.get(getCtx(), I_PA_ReportColumnSet.Table_Name)
+			.getPO(getPA_ReportColumnSet_ID(), get_TrxName());	}
 
 	/** Set Report Column Set.
 		@param PA_ReportColumnSet_ID 
@@ -386,6 +345,11 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_PA_ReportCube getPA_ReportCube() throws RuntimeException
+    {
+		return (I_PA_ReportCube)MTable.get(getCtx(), I_PA_ReportCube.Table_Name)
+			.getPO(getPA_ReportCube_ID(), get_TrxName());	}
+
 	/** Set Report Cube.
 		@param PA_ReportCube_ID 
 		Define reporting cube for pre-calculation of summary accounting data.
@@ -409,21 +373,10 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException 
+	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_ReportLineSet.Table_Name);
-        I_PA_ReportLineSet result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_ReportLineSet)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_ReportLineSet_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_ReportLineSet)MTable.get(getCtx(), I_PA_ReportLineSet.Table_Name)
+			.getPO(getPA_ReportLineSet_ID(), get_TrxName());	}
 
 	/** Set Report Line Set.
 		@param PA_ReportLineSet_ID Report Line Set	  */

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Issue
@@ -85,21 +83,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
       return sb.toString();
     }
 
-	public I_A_Asset getA_Asset() throws RuntimeException 
+	public I_A_Asset getA_Asset() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_A_Asset.Table_Name);
-        I_A_Asset result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_A_Asset)constructor.newInstance(new Object[] {getCtx(), new Integer(getA_Asset_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset.
 		@param A_Asset_ID 
@@ -124,21 +111,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Form getAD_Form() throws RuntimeException 
+	public I_AD_Form getAD_Form() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Form.Table_Name);
-        I_AD_Form result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Form)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Form_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
 		@param AD_Form_ID 
@@ -186,21 +162,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws RuntimeException 
+	public I_AD_Process getAD_Process() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
-        I_AD_Process result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
 		@param AD_Process_ID 
@@ -225,21 +190,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Window getAD_Window() throws RuntimeException 
+	public I_AD_Window getAD_Window() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Window.Table_Name);
-        I_AD_Window result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Window)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Window_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
 		@param AD_Window_ID 
@@ -606,21 +560,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return (String)get_Value(COLUMNNAME_ProfileInfo);
 	}
 
-	public I_R_IssueKnown getR_IssueKnown() throws RuntimeException 
+	public I_R_IssueKnown getR_IssueKnown() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_IssueKnown.Table_Name);
-        I_R_IssueKnown result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_IssueKnown)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueKnown_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_IssueKnown)MTable.get(getCtx(), I_R_IssueKnown.Table_Name)
+			.getPO(getR_IssueKnown_ID(), get_TrxName());	}
 
 	/** Set Known Issue.
 		@param R_IssueKnown_ID 
@@ -645,21 +588,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueProject getR_IssueProject() throws RuntimeException 
+	public I_R_IssueProject getR_IssueProject() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_IssueProject.Table_Name);
-        I_R_IssueProject result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_IssueProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueProject_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_IssueProject)MTable.get(getCtx(), I_R_IssueProject.Table_Name)
+			.getPO(getR_IssueProject_ID(), get_TrxName());	}
 
 	/** Set Issue Project.
 		@param R_IssueProject_ID 
@@ -684,21 +616,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueSystem getR_IssueSystem() throws RuntimeException 
+	public I_R_IssueSystem getR_IssueSystem() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_IssueSystem.Table_Name);
-        I_R_IssueSystem result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_IssueSystem)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueSystem_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_IssueSystem)MTable.get(getCtx(), I_R_IssueSystem.Table_Name)
+			.getPO(getR_IssueSystem_ID(), get_TrxName());	}
 
 	/** Set Issue System.
 		@param R_IssueSystem_ID 
@@ -723,21 +644,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueUser getR_IssueUser() throws RuntimeException 
+	public I_R_IssueUser getR_IssueUser() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_IssueUser.Table_Name);
-        I_R_IssueUser result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_IssueUser)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_IssueUser_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_IssueUser)MTable.get(getCtx(), I_R_IssueUser.Table_Name)
+			.getPO(getR_IssueUser_ID(), get_TrxName());	}
 
 	/** Set IssueUser.
 		@param R_IssueUser_ID 
@@ -762,21 +672,10 @@ public class X_AD_Issue extends PO implements I_AD_Issue, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_Request getR_Request() throws RuntimeException 
+	public I_R_Request getR_Request() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
-        I_R_Request result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_Request)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_Request_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_Request)MTable.get(getCtx(), I_R_Request.Table_Name)
+			.getPO(getR_Request_ID(), get_TrxName());	}
 
 	/** Set Request.
 		@param R_Request_ID 

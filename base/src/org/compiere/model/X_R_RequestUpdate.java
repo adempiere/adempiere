@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -122,6 +120,11 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return (Timestamp)get_Value(COLUMNNAME_EndTime);
 	}
 
+	public I_M_Product getM_ProductSpent() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_ProductSpent_ID(), get_TrxName());	}
+
 	/** Set Product Used.
 		@param M_ProductSpent_ID 
 		Product/Resource/Service used in Request
@@ -185,21 +188,10 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return bd;
 	}
 
-	public I_R_Request getR_Request() throws RuntimeException 
+	public I_R_Request getR_Request() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_R_Request.Table_Name);
-        I_R_Request result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_R_Request)constructor.newInstance(new Object[] {getCtx(), new Integer(getR_Request_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_R_Request)MTable.get(getCtx(), I_R_Request.Table_Name)
+			.getPO(getR_Request_ID(), get_TrxName());	}
 
 	/** Set Request.
 		@param R_Request_ID 

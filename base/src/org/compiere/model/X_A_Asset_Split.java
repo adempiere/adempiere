@@ -168,6 +168,11 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_A_Asset getA_Asset_To() throws RuntimeException
+    {
+		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID_To(), get_TrxName());	}
+
 	/** Set To Asset ID.
 		@param A_Asset_ID_To To Asset ID	  */
 	public void setA_Asset_ID_To (int A_Asset_ID_To)
@@ -344,6 +349,11 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		}
 		return false;
 	}
+
+	public I_C_Period getC_Period() throws RuntimeException
+    {
+		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
 		@param C_Period_ID 

@@ -88,6 +88,8 @@ public interface I_I_ElementValue
 	  */
 	public int getAD_Column_ID();
 
+	public I_AD_Column getAD_Column() throws RuntimeException;
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -289,6 +291,8 @@ public interface I_I_ElementValue
 	  * The parent (summary) account
 	  */
 	public int getParentElementValue_ID();
+
+	public I_C_ElementValue getParentElementValue() throws RuntimeException;
 
     /** Column name ParentValue */
     public static final String COLUMNNAME_ParentValue = "ParentValue";

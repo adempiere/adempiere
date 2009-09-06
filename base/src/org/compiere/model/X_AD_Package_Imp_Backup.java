@@ -72,6 +72,11 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
       return sb.toString();
     }
 
+	public I_AD_Column getAD_Column() throws RuntimeException
+    {
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
+
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table
@@ -190,6 +195,11 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Imp_Org_Dir);
 	}
+
+	public I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
 		@param AD_Reference_ID 

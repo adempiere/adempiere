@@ -262,6 +262,8 @@ public interface I_M_RMALine
 	/** Get Referenced RMA Line	  */
 	public int getRef_RMALine_ID();
 
+	public I_M_RMALine getRef_RMALine() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

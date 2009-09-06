@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Counter
@@ -270,21 +268,10 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_W_CounterCount getW_CounterCount() throws RuntimeException 
+	public I_W_CounterCount getW_CounterCount() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_W_CounterCount.Table_Name);
-        I_W_CounterCount result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_W_CounterCount)constructor.newInstance(new Object[] {getCtx(), new Integer(getW_CounterCount_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_W_CounterCount)MTable.get(getCtx(), I_W_CounterCount.Table_Name)
+			.getPO(getW_CounterCount_ID(), get_TrxName());	}
 
 	/** Set Counter Count.
 		@param W_CounterCount_ID 

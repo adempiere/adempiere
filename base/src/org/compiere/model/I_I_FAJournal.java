@@ -76,6 +76,8 @@ public interface I_I_FAJournal
 	  */
 	public int getAccount_ID();
 
+	public I_C_ElementValue getAccount() throws RuntimeException;
+
     /** Column name AccountValue */
     public static final String COLUMNNAME_AccountValue = "AccountValue";
 
@@ -918,6 +920,8 @@ public interface I_I_FAJournal
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -930,6 +934,8 @@ public interface I_I_FAJournal
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 
     /** Column name UserElement1_ID */
     public static final String COLUMNNAME_UserElement1_ID = "UserElement1_ID";

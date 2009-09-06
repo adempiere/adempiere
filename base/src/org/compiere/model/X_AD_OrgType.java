@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_OrgType
@@ -96,21 +94,10 @@ public class X_AD_OrgType extends PO implements I_AD_OrgType, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException 
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_PrintColor.Table_Name);
-        I_AD_PrintColor result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_PrintColor)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_PrintColor_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Print Color.
 		@param AD_PrintColor_ID 

@@ -130,6 +130,8 @@ public interface I_R_RequestUpdate
 	  */
 	public int getM_ProductSpent_ID();
 
+	public I_M_Product getM_ProductSpent() throws RuntimeException;
+
     /** Column name QtyInvoiced */
     public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
 

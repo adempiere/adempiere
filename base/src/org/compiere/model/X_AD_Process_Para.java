@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Process_Para
@@ -85,21 +83,10 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Element getAD_Element() throws RuntimeException 
+	public I_AD_Element getAD_Element() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Element.Table_Name);
-        I_AD_Element result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Element)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Element_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Element)MTable.get(getCtx(), I_AD_Element.Table_Name)
+			.getPO(getAD_Element_ID(), get_TrxName());	}
 
 	/** Set System Element.
 		@param AD_Element_ID 
@@ -124,21 +111,10 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_Process getAD_Process() throws RuntimeException 
+	public I_AD_Process getAD_Process() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Process.Table_Name);
-        I_AD_Process result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Process_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
 		@param AD_Process_ID 
@@ -183,6 +159,11 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 		return ii.intValue();
 	}
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
+
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -205,6 +186,11 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Reference getAD_Reference_Value() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
 
 	/** Set Reference Key.
 		@param AD_Reference_Value_ID 
@@ -229,21 +215,10 @@ public class X_AD_Process_Para extends PO implements I_AD_Process_Para, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException 
+	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Val_Rule.Table_Name);
-        I_AD_Val_Rule result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Val_Rule)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Val_Rule_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Val_Rule)MTable.get(getCtx(), I_AD_Val_Rule.Table_Name)
+			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
 
 	/** Set Dynamic Validation.
 		@param AD_Val_Rule_ID 

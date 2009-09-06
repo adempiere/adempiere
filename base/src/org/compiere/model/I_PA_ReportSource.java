@@ -133,6 +133,8 @@ public interface I_PA_ReportSource
 	  */
 	public int getC_ElementValue_ID();
 
+	public I_C_ElementValue getC_ElementValue() throws RuntimeException;
+
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -145,6 +147,8 @@ public interface I_PA_ReportSource
 	  * Location or Address
 	  */
 	public int getC_Location_ID();
+
+	public I_C_Location getC_Location() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";

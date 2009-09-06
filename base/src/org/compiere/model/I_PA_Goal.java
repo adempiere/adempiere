@@ -331,6 +331,8 @@ public interface I_PA_Goal
 	  */
 	public int getPA_GoalParent_ID();
 
+	public I_PA_Goal getPA_GoalParent() throws RuntimeException;
+
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
 

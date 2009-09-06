@@ -90,6 +90,8 @@ public interface I_A_Asset_Split
 	/** Get To Asset ID	  */
 	public int getA_Asset_ID_To();
 
+	public I_A_Asset getA_Asset_To() throws RuntimeException;
+
     /** Column name A_Asset_Split_ID */
     public static final String COLUMNNAME_A_Asset_Split_ID = "A_Asset_Split_ID";
 
@@ -195,6 +197,8 @@ public interface I_A_Asset_Split
 	  * Period of the Calendar
 	  */
 	public int getC_Period_ID();
+
+	public I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

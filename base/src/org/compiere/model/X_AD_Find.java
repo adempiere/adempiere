@@ -79,6 +79,11 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Column getAD_Column() throws RuntimeException
+    {
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
+
 	/** Set Column.
 		@param AD_Column_ID 
 		Column in the table

@@ -237,6 +237,11 @@ public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Pers
 		return false;
 	}
 
+	public I_AD_User getSupervisor() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getSupervisor_ID(), get_TrxName());	}
+
 	/** Set Supervisor.
 		@param Supervisor_ID 
 		Supervisor for this user/organization - used for escalation and approval

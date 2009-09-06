@@ -202,6 +202,8 @@ public interface I_M_PromotionReward
 	  */
 	public int getM_TargetDistribution_ID();
 
+	public I_M_PromotionDistribution getM_TargetDistribution() throws RuntimeException;
+
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
 

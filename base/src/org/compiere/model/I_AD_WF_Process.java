@@ -105,6 +105,8 @@ public interface I_AD_WF_Process
 	  */
 	public int getAD_User_ID();
 
+	public I_AD_User getAD_User() throws RuntimeException;
+
     /** Column name AD_WF_Process_ID */
     public static final String COLUMNNAME_AD_WF_Process_ID = "AD_WF_Process_ID";
 

@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for IMP_Processor
  *  @author Adempiere (generated) 
@@ -241,21 +239,10 @@ public class X_IMP_Processor extends PO implements I_IMP_Processor, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_IMP_Processor_Type getIMP_Processor_Type() throws RuntimeException 
+	public org.compiere.model.I_IMP_Processor_Type getIMP_Processor_Type() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.compiere.model.I_IMP_Processor_Type.Table_Name);
-        org.compiere.model.I_IMP_Processor_Type result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.compiere.model.I_IMP_Processor_Type)constructor.newInstance(new Object[] {getCtx(), new Integer(getIMP_Processor_Type_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.compiere.model.I_IMP_Processor_Type)MTable.get(getCtx(), org.compiere.model.I_IMP_Processor_Type.Table_Name)
+			.getPO(getIMP_Processor_Type_ID(), get_TrxName());	}
 
 	/** Set Import Processor Type.
 		@param IMP_Processor_Type_ID Import Processor Type	  */

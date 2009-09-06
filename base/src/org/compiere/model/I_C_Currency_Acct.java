@@ -134,6 +134,8 @@ public interface I_C_Currency_Acct
 	  */
 	public int getRealizedGain_Acct();
 
+	public I_C_ValidCombination getRealizedGain_A() throws RuntimeException;
+
     /** Column name RealizedLoss_Acct */
     public static final String COLUMNNAME_RealizedLoss_Acct = "RealizedLoss_Acct";
 
@@ -146,6 +148,8 @@ public interface I_C_Currency_Acct
 	  * Realized Loss Account
 	  */
 	public int getRealizedLoss_Acct();
+
+	public I_C_ValidCombination getRealizedLoss_A() throws RuntimeException;
 
     /** Column name UnrealizedGain_Acct */
     public static final String COLUMNNAME_UnrealizedGain_Acct = "UnrealizedGain_Acct";
@@ -160,6 +164,8 @@ public interface I_C_Currency_Acct
 	  */
 	public int getUnrealizedGain_Acct();
 
+	public I_C_ValidCombination getUnrealizedGain_A() throws RuntimeException;
+
     /** Column name UnrealizedLoss_Acct */
     public static final String COLUMNNAME_UnrealizedLoss_Acct = "UnrealizedLoss_Acct";
 
@@ -172,6 +178,8 @@ public interface I_C_Currency_Acct
 	  * Unrealized Loss Account for currency revaluation
 	  */
 	public int getUnrealizedLoss_Acct();
+
+	public I_C_ValidCombination getUnrealizedLoss_A() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

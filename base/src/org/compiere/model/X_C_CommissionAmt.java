@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -122,21 +120,10 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CommissionLine getC_CommissionLine() throws RuntimeException 
+	public I_C_CommissionLine getC_CommissionLine() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_CommissionLine.Table_Name);
-        I_C_CommissionLine result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_CommissionLine)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CommissionLine_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_CommissionLine)MTable.get(getCtx(), I_C_CommissionLine.Table_Name)
+			.getPO(getC_CommissionLine_ID(), get_TrxName());	}
 
 	/** Set Commission Line.
 		@param C_CommissionLine_ID 
@@ -161,21 +148,10 @@ public class X_C_CommissionAmt extends PO implements I_C_CommissionAmt, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_CommissionRun getC_CommissionRun() throws RuntimeException 
+	public I_C_CommissionRun getC_CommissionRun() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_CommissionRun.Table_Name);
-        I_C_CommissionRun result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_CommissionRun)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_CommissionRun_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_CommissionRun)MTable.get(getCtx(), I_C_CommissionRun.Table_Name)
+			.getPO(getC_CommissionRun_ID(), get_TrxName());	}
 
 	/** Set Commission Run.
 		@param C_CommissionRun_ID 

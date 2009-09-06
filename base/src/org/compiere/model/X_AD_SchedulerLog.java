@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for AD_SchedulerLog
  *  @author Adempiere (generated) 
@@ -73,21 +71,10 @@ public class X_AD_SchedulerLog extends PO implements I_AD_SchedulerLog, I_Persis
       return sb.toString();
     }
 
-	public I_AD_Scheduler getAD_Scheduler() throws RuntimeException 
+	public I_AD_Scheduler getAD_Scheduler() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Scheduler.Table_Name);
-        I_AD_Scheduler result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Scheduler)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Scheduler_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Scheduler)MTable.get(getCtx(), I_AD_Scheduler.Table_Name)
+			.getPO(getAD_Scheduler_ID(), get_TrxName());	}
 
 	/** Set Scheduler.
 		@param AD_Scheduler_ID 

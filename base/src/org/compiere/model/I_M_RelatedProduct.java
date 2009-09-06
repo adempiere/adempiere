@@ -145,6 +145,8 @@ public interface I_M_RelatedProduct
 	  */
 	public int getRelatedProduct_ID();
 
+	public I_M_Product getRelatedProduct() throws RuntimeException;
+
     /** Column name RelatedProductType */
     public static final String COLUMNNAME_RelatedProductType = "RelatedProductType";
 

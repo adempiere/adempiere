@@ -90,6 +90,8 @@ public interface I_C_ProjectLine
 	  */
 	public int getC_OrderPO_ID();
 
+	public I_C_Order getC_OrderPO() throws RuntimeException;
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 

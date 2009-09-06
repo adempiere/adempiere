@@ -146,6 +146,8 @@ public interface I_GL_DistributionLine
 	  */
 	public int getC_LocFrom_ID();
 
+	public I_C_Location getC_LocFrom() throws RuntimeException;
+
     /** Column name C_LocTo_ID */
     public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
 
@@ -158,6 +160,8 @@ public interface I_GL_DistributionLine
 	  * Location that inventory was moved to
 	  */
 	public int getC_LocTo_ID();
+
+	public I_C_Location getC_LocTo() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -511,6 +515,8 @@ public interface I_GL_DistributionLine
 	  */
 	public int getUser1_ID();
 
+	public I_C_ElementValue getUser1() throws RuntimeException;
+
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
 
@@ -523,4 +529,6 @@ public interface I_GL_DistributionLine
 	  * User defined list element #2
 	  */
 	public int getUser2_ID();
+
+	public I_C_ElementValue getUser2() throws RuntimeException;
 }

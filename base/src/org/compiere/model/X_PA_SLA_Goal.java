@@ -17,12 +17,10 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -81,21 +79,10 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException 
+	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_BPartner.Table_Name);
-        I_C_BPartner result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_BPartner)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_BPartner_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
 		@param C_BPartner_ID 
@@ -236,21 +223,10 @@ public class X_PA_SLA_Goal extends PO implements I_PA_SLA_Goal, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_SLA_Criteria getPA_SLA_Criteria() throws RuntimeException 
+	public I_PA_SLA_Criteria getPA_SLA_Criteria() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_PA_SLA_Criteria.Table_Name);
-        I_PA_SLA_Criteria result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_PA_SLA_Criteria)constructor.newInstance(new Object[] {getCtx(), new Integer(getPA_SLA_Criteria_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_PA_SLA_Criteria)MTable.get(getCtx(), I_PA_SLA_Criteria.Table_Name)
+			.getPO(getPA_SLA_Criteria_ID(), get_TrxName());	}
 
 	/** Set SLA Criteria.
 		@param PA_SLA_Criteria_ID 

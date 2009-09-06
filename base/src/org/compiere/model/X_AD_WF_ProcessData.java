@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_ProcessData
@@ -74,21 +72,10 @@ public class X_AD_WF_ProcessData extends PO implements I_AD_WF_ProcessData, I_Pe
       return sb.toString();
     }
 
-	public I_AD_WF_Process getAD_WF_Process() throws RuntimeException 
+	public I_AD_WF_Process getAD_WF_Process() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_WF_Process.Table_Name);
-        I_AD_WF_Process result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WF_Process)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Process_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_WF_Process)MTable.get(getCtx(), I_AD_WF_Process.Table_Name)
+			.getPO(getAD_WF_Process_ID(), get_TrxName());	}
 
 	/** Set Workflow Process.
 		@param AD_WF_Process_ID 

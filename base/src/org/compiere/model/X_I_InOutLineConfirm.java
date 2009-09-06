@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
@@ -226,21 +224,10 @@ public class X_I_InOutLineConfirm extends PO implements I_I_InOutLineConfirm, I_
 		return false;
 	}
 
-	public I_M_InOutLineConfirm getM_InOutLineConfirm() throws RuntimeException 
+	public I_M_InOutLineConfirm getM_InOutLineConfirm() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_InOutLineConfirm.Table_Name);
-        I_M_InOutLineConfirm result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_InOutLineConfirm)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_InOutLineConfirm_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_InOutLineConfirm)MTable.get(getCtx(), I_M_InOutLineConfirm.Table_Name)
+			.getPO(getM_InOutLineConfirm_ID(), get_TrxName());	}
 
 	/** Set Ship/Receipt Confirmation Line.
 		@param M_InOutLineConfirm_ID 

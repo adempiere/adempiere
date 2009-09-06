@@ -75,6 +75,8 @@ public interface I_C_Commission
 	  */
 	public int getC_BPartner_ID();
 
+	public I_C_BPartner getC_BPartner() throws RuntimeException;
+
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
 

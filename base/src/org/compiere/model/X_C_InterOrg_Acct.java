@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for C_InterOrg_Acct
  *  @author Adempiere (generated) 
@@ -97,21 +95,10 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException 
+	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_C_AcctSchema.Table_Name);
-        I_C_AcctSchema result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_C_AcctSchema)constructor.newInstance(new Object[] {getCtx(), new Integer(getC_AcctSchema_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
 		@param C_AcctSchema_ID 
@@ -136,6 +123,11 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getIntercompanyDueFrom_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getIntercompanyDueFrom_Acct(), get_TrxName());	}
+
 	/** Set Intercompany Due From Acct.
 		@param IntercompanyDueFrom_Acct 
 		Intercompany Due From / Receivables Account
@@ -155,6 +147,11 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_ValidCombination getIntercompanyDueTo_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getIntercompanyDueTo_Acct(), get_TrxName());	}
 
 	/** Set Intercompany Due To Acct.
 		@param IntercompanyDueTo_Acct 

@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_WebProject_Domain
@@ -75,21 +73,10 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
       return sb.toString();
     }
 
-	public I_CM_Container getCM_Container() throws RuntimeException 
+	public I_CM_Container getCM_Container() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_Container.Table_Name);
-        I_CM_Container result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_Container)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_Container_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+			.getPO(getCM_Container_ID(), get_TrxName());	}
 
 	/** Set Web Container.
 		@param CM_Container_ID 
@@ -137,21 +124,10 @@ public class X_CM_WebProject_Domain extends PO implements I_CM_WebProject_Domain
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException 
+	public I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_CM_WebProject.Table_Name);
-        I_CM_WebProject result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_CM_WebProject)constructor.newInstance(new Object[] {getCtx(), new Integer(getCM_WebProject_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.
 		@param CM_WebProject_ID 
