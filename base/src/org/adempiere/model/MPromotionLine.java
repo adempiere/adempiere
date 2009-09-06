@@ -16,6 +16,8 @@ package org.adempiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.model.X_M_PromotionLine;
+
 public class MPromotionLine extends X_M_PromotionLine {
 
 	private static final long serialVersionUID = -8284722914757724765L;

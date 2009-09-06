@@ -29,10 +29,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_M_Promotion;
+import org.compiere.model.I_M_PromotionDistribution;
+import org.compiere.model.I_M_PromotionLine;
+import org.compiere.model.I_M_PromotionReward;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
+import org.compiere.model.X_M_PromotionDistribution;
+import org.compiere.model.X_M_PromotionLine;
+import org.compiere.model.X_M_PromotionReward;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

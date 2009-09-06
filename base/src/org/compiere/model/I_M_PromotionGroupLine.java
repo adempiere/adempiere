@@ -14,24 +14,24 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for M_PromotionDistribution
+/** Generated Interface for M_PromotionGroupLine
  *  @author Adempiere (generated) 
  *  @version Release 3.5.3a
  */
-public interface I_M_PromotionDistribution 
+public interface I_M_PromotionGroupLine 
 {
 
-    /** TableName=M_PromotionDistribution */
-    public static final String Table_Name = "M_PromotionDistribution";
+    /** TableName=M_PromotionGroupLine */
+    public static final String Table_Name = "M_PromotionGroupLine";
 
-    /** AD_Table_ID=53181 */
+    /** AD_Table_ID=53177 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -79,32 +79,6 @@ public interface I_M_PromotionDistribution
 	  */
 	public int getCreatedBy();
 
-    /** Column name DistributionSorting */
-    public static final String COLUMNNAME_DistributionSorting = "DistributionSorting";
-
-	/** Set Distribution Sorting.
-	  * Quantity distribution sorting by unit price
-	  */
-	public void setDistributionSorting (String DistributionSorting);
-
-	/** Get Distribution Sorting.
-	  * Quantity distribution sorting by unit price
-	  */
-	public String getDistributionSorting();
-
-    /** Column name DistributionType */
-    public static final String COLUMNNAME_DistributionType = "DistributionType";
-
-	/** Set Distribution Type.
-	  * Type of quantity distribution calculation using comparison qty and order qty as operand
-	  */
-	public void setDistributionType (String DistributionType);
-
-	/** Get Distribution Type.
-	  * Type of quantity distribution calculation using comparison qty and order qty as operand
-	  */
-	public String getDistributionType();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -118,77 +92,40 @@ public interface I_M_PromotionDistribution
 	  */
 	public boolean isActive();
 
-    /** Column name M_PromotionDistribution_ID */
-    public static final String COLUMNNAME_M_PromotionDistribution_ID = "M_PromotionDistribution_ID";
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
-	/** Set Promotion Distribution	  */
-	public void setM_PromotionDistribution_ID (int M_PromotionDistribution_ID);
-
-	/** Get Promotion Distribution	  */
-	public int getM_PromotionDistribution_ID();
-
-    /** Column name M_PromotionLine_ID */
-    public static final String COLUMNNAME_M_PromotionLine_ID = "M_PromotionLine_ID";
-
-	/** Set Promotion Line	  */
-	public void setM_PromotionLine_ID (int M_PromotionLine_ID);
-
-	/** Get Promotion Line	  */
-	public int getM_PromotionLine_ID();
-
-	public I_M_PromotionLine getM_PromotionLine() throws RuntimeException;
-
-    /** Column name M_Promotion_ID */
-    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
-
-	/** Set Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID);
-
-	/** Get Promotion	  */
-	public int getM_Promotion_ID();
-
-	public I_M_Promotion getM_Promotion() throws RuntimeException;
-
-    /** Column name Operation */
-    public static final String COLUMNNAME_Operation = "Operation";
-
-	/** Set Operation.
-	  * Compare Operation
+	/** Set Product.
+	  * Product, Service, Item
 	  */
-	public void setOperation (String Operation);
+	public void setM_Product_ID (int M_Product_ID);
 
-	/** Get Operation.
-	  * Compare Operation
+	/** Get Product.
+	  * Product, Service, Item
 	  */
-	public String getOperation();
+	public int getM_Product_ID();
 
-    /** Column name Qty */
-    public static final String COLUMNNAME_Qty = "Qty";
+	public I_M_Product getM_Product() throws RuntimeException;
 
-	/** Set Quantity.
-	  * Quantity
-	  */
-	public void setQty (BigDecimal Qty);
+    /** Column name M_PromotionGroupLine_ID */
+    public static final String COLUMNNAME_M_PromotionGroupLine_ID = "M_PromotionGroupLine_ID";
 
-	/** Get Quantity.
-	  * Quantity
-	  */
-	public BigDecimal getQty();
+	/** Set Promotion Group Line	  */
+	public void setM_PromotionGroupLine_ID (int M_PromotionGroupLine_ID);
 
-    /** Column name SeqNo */
-    public static final String COLUMNNAME_SeqNo = "SeqNo";
+	/** Get Promotion Group Line	  */
+	public int getM_PromotionGroupLine_ID();
 
-	/** Set Sequence.
-	  * Method of ordering records;
- lowest number comes first
-	  */
-	public void setSeqNo (int SeqNo);
+    /** Column name M_PromotionGroup_ID */
+    public static final String COLUMNNAME_M_PromotionGroup_ID = "M_PromotionGroup_ID";
 
-	/** Get Sequence.
-	  * Method of ordering records;
- lowest number comes first
-	  */
-	public int getSeqNo();
+	/** Set Promotion Group	  */
+	public void setM_PromotionGroup_ID (int M_PromotionGroup_ID);
+
+	/** Get Promotion Group	  */
+	public int getM_PromotionGroup_ID();
+
+	public I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
