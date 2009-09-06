@@ -1237,18 +1237,21 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (String)get_Value(COLUMNNAME_PostingType);
 	}
 
-	/** Set Serno.
-		@param Serno Serno	  */
-	public void setSerno (String Serno)
+	/** Set Serial No.
+		@param SerNo 
+		Product Serial Number 
+	  */
+	public void setSerNo (String SerNo)
 	{
-		set_ValueNoCheck (COLUMNNAME_Serno, Serno);
+		set_ValueNoCheck (COLUMNNAME_SerNo, SerNo);
 	}
 
-	/** Get Serno.
-		@return Serno	  */
-	public String getSerno () 
+	/** Get Serial No.
+		@return Product Serial Number 
+	  */
+	public String getSerNo () 
 	{
-		return (String)get_Value(COLUMNNAME_Serno);
+		return (String)get_Value(COLUMNNAME_SerNo);
 	}
 
 	/** Set Details.
@@ -1325,17 +1328,20 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Versionno.
-		@param Versionno Versionno	  */
-	public void setVersionno (String Versionno)
+	/** Set Version No.
+		@param VersionNo 
+		Version Number
+	  */
+	public void setVersionNo (String VersionNo)
 	{
-		set_ValueNoCheck (COLUMNNAME_Versionno, Versionno);
+		set_ValueNoCheck (COLUMNNAME_VersionNo, VersionNo);
 	}
 
-	/** Get Versionno.
-		@return Versionno	  */
-	public String getVersionno () 
+	/** Get Version No.
+		@return Version Number
+	  */
+	public String getVersionNo () 
 	{
-		return (String)get_Value(COLUMNNAME_Versionno);
+		return (String)get_Value(COLUMNNAME_VersionNo);
 	}
 }

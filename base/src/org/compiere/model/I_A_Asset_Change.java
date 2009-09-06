@@ -703,14 +703,18 @@ public interface I_A_Asset_Change
 	  */
 	public String getPostingType();
 
-    /** Column name Serno */
-    public static final String COLUMNNAME_Serno = "Serno";
+    /** Column name SerNo */
+    public static final String COLUMNNAME_SerNo = "SerNo";
 
-	/** Set Serno	  */
-	public void setSerno (String Serno);
+	/** Set Serial No.
+	  * Product Serial Number 
+	  */
+	public void setSerNo (String SerNo);
 
-	/** Get Serno	  */
-	public String getSerno();
+	/** Get Serial No.
+	  * Product Serial Number 
+	  */
+	public String getSerNo();
 
     /** Column name TextDetails */
     public static final String COLUMNNAME_TextDetails = "TextDetails";
@@ -776,12 +780,16 @@ public interface I_A_Asset_Change
 	  */
 	public int getUseUnits();
 
-    /** Column name Versionno */
-    public static final String COLUMNNAME_Versionno = "Versionno";
+    /** Column name VersionNo */
+    public static final String COLUMNNAME_VersionNo = "VersionNo";
 
-	/** Set Versionno	  */
-	public void setVersionno (String Versionno);
+	/** Set Version No.
+	  * Version Number
+	  */
+	public void setVersionNo (String VersionNo);
 
-	/** Get Versionno	  */
-	public String getVersionno();
+	/** Get Version No.
+	  * Version Number
+	  */
+	public String getVersionNo();
 }

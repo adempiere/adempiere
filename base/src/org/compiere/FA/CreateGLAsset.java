@@ -226,8 +226,8 @@ public class CreateGLAsset extends SvrProcess
 										change.setIsDepreciated(asset.isDepreciated());
 										change.setIsFullyDepreciated(asset.isFullyDepreciated());
 										change.setLot(asset.getLot());
-										change.setSerno(asset.getSerNo());
-										change.setVersionno(asset.getVersionNo());
+										change.setSerNo(asset.getSerNo());
+										change.setVersionNo(asset.getVersionNo());
 									    change.setUseLifeMonths(asset.getUseLifeMonths());
 									    change.setUseLifeYears(asset.getUseLifeYears());
 									    change.setLifeUseUnits(asset.getLifeUseUnits());

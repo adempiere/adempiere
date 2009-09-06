@@ -289,8 +289,8 @@ public class AssetSplit extends SvrProcess
 			    MRefList RefList = new MRefList (getCtx(), 0, null);	
 				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));   
 			    change.setLot(AssetNew.getLot());
-				change.setSerno(AssetNew.getSerNo());
-				change.setVersionno(AssetNew.getVersionNo());
+				change.setSerNo(AssetNew.getSerNo());
+				change.setVersionNo(AssetNew.getVersionNo());
 			    change.setUseLifeMonths(AssetNew.getUseLifeMonths());
 			    change.setUseLifeYears(AssetNew.getUseLifeYears());
 			    change.setLifeUseUnits(AssetNew.getLifeUseUnits());
@@ -413,8 +413,8 @@ public class AssetSplit extends SvrProcess
 			    MRefList RefList = new MRefList (getCtx(), 0, null);	
 				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));   
 			    change.setLot(AssetNew.getLot());
-				change.setSerno(AssetNew.getSerNo());
-				change.setVersionno(AssetNew.getVersionNo());
+				change.setSerNo(AssetNew.getSerNo());
+				change.setVersionNo(AssetNew.getVersionNo());
 			    change.setUseLifeMonths(AssetNew.getUseLifeMonths());
 			    change.setUseLifeYears(AssetNew.getUseLifeYears());
 			    change.setLifeUseUnits(AssetNew.getLifeUseUnits());

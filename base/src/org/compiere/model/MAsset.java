@@ -599,8 +599,8 @@ public class MAsset extends X_A_Asset
 				change.setIsDepreciated(isDepreciated());
 				change.setIsFullyDepreciated(isFullyDepreciated());
 				change.setLot(getLot());
-				change.setSerno(getSerNo());
-				change.setVersionno(getVersionNo());
+				change.setSerNo(getSerNo());
+				change.setVersionNo(getVersionNo());
 				change.setUseLifeMonths(getUseLifeMonths());
 				change.setUseLifeYears(getUseLifeYears());
 				change.setLifeUseUnits(getLifeUseUnits());
@@ -713,8 +713,8 @@ public class MAsset extends X_A_Asset
 						MRefList RefList = new MRefList (getCtx(), 0, get_TrxName());	
 						change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "UPD"));
 						change.setLot(getLot());
-						change.setSerno(getSerNo());
-						change.setVersionno(getVersionNo());
+						change.setSerNo(getSerNo());
+						change.setVersionNo(getVersionNo());
 						change.setA_Parent_Asset_ID(getA_Parent_Asset_ID());
 						change.setUseLifeMonths(getUseLifeMonths());
 						change.setUseLifeYears(getUseLifeYears());
