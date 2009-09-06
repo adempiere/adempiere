@@ -37,7 +37,7 @@ public class MSysConfig extends X_AD_SysConfig
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8163525037701786038L;
+	private static final long serialVersionUID = -5271070197457739666L;
 
 	/**
 	 * 	Standard Constructor
@@ -499,4 +499,14 @@ public class MSysConfig extends X_AD_SysConfig
 		return true;
 	}	//	beforeSave
 
+	@Override
+	public String toString()
+	{
+		return getClass().getSimpleName()+"["+get_ID()
+			+", "+getName()+"="+getValue()
+			+", ConfigurationLevel="+getConfigurationLevel()
+			+", Client|Org="+getAD_Client_ID()+"|"+getAD_Org_ID()
+			+", EntityType="+getEntityType()
+			+"]";
+	}
 }	//	MSysConfig
