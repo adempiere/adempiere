@@ -12,16 +12,14 @@
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
- * Contributor(s): Low Heng Sin hengsin@avantz.com
+ * Contributor(s):	Low Heng Sin hengsin@avantz.com
+ * 					Teo Sarca, teo.sarca@gmail.com
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
@@ -30,9 +28,9 @@ import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MMessage;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Message;
 import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -86,39 +84,48 @@ public class MessageElementHandler extends AbstractElementHandler {
 	public void endElement(Properties ctx, Element element) throws SAXException {
 	}
 
-	public void create(Properties ctx, TransformerHandler document)
-			throws SAXException {
-		int AD_Message_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID);
-		if (messages.contains(AD_Message_ID))
-			return;
-		messages.add(AD_Message_ID);
-		String sql = "SELECT value FROM AD_Message WHERE  AD_Message_ID= " + AD_Message_ID;
-		AttributesImpl atts = new AttributesImpl();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		pstmt = DB.prepareStatement (sql, getTrxName(ctx));		
-
-		try {
-
-			rs = pstmt.executeQuery();		
-
-			while (rs.next())
-			{
-				X_AD_Message m_Message = new X_AD_Message (ctx, AD_Message_ID, null);										
-				createMessageBinding(atts,m_Message);	
-				document.startElement("","","message",atts);
-				document.endElement("","","message");
-			}
-		}
-
-		catch (Exception e){
-			log.log(Level.SEVERE,"getProcess", e);
-		}
-		finally
+	public void create(Properties ctx, TransformerHandler document) throws SAXException
+	{
+		for (X_AD_Message message : getMessages(ctx))
 		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+			if (messages.contains(message.getAD_Message_ID()))
+				continue;
+			messages.add(message.getAD_Message_ID());
+			//
+			AttributesImpl atts = new AttributesImpl();
+			createMessageBinding(atts, message);	
+			document.startElement("","","message",atts);
+			document.endElement("","","message");
 		}
+	}
+	
+	private List<X_AD_Message> getMessages(Properties ctx)
+	{
+		int AD_Message_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID);
+		int AD_EntityType_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
+		String whereClause;
+		Object[] params;
+		if (AD_Message_ID > 0)
+		{
+			whereClause = X_AD_Message.COLUMNNAME_AD_Message_ID+"=?";
+			params = new Object[]{AD_Message_ID};
+		}
+		else if (AD_EntityType_ID > 0)
+		{
+			whereClause = " EXISTS (SELECT 1 FROM AD_EntityType et"
+				+" WHERE et.AD_EntityType_ID=? AND et.EntityType=AD_Message.EntityType)";
+			params = new Object[]{AD_EntityType_ID};
+		}
+		else
+		{
+			throw new IllegalArgumentException("AD_Message_ID and AD_EntityType_ID not found");
+		}
+		
+		List<X_AD_Message> list = new Query(ctx, X_AD_Message.Table_Name, whereClause, null)
+		.setParameters(params)
+		.setOrderBy(X_AD_Message.COLUMNNAME_AD_Message_ID)
+		.list();
+		return list;
 	}
 
 	private AttributesImpl createMessageBinding( AttributesImpl atts, X_AD_Message m_Message) 

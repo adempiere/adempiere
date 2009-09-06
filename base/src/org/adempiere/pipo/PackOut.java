@@ -85,6 +85,9 @@ import org.xml.sax.helpers.AttributesImpl;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1819315 ] PackOut: fix xml indentation not working
  * 			<li>BF [ 1819319 ] PackOut: use just active AD_Package_Exp_Detail lines
+ * 			<li>--
+ * 			<li>FR [ 2847727 ] 2pack export all messages for a entity type functionality
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2847727&group_id=176962
  */
 
 public class PackOut extends SvrProcess
@@ -263,15 +266,20 @@ public class PackOut extends SvrProcess
 				
 				packOutDocument.startElement("","","adempiereAD",atts);		
 				atts.clear();
-				String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+p_PackOut_ID+" AND IsActive='Y' ORDER BY Line ASC";
 				
+				final String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+p_PackOut_ID+" AND IsActive='Y' ORDER BY Line ASC";
 				PreparedStatement pstmt = null;		
-				pstmt = DB.prepareStatement (sql, get_TrxName());
-				
-				try {			
-					ResultSet rs = pstmt.executeQuery();
-					while (rs.next()){
-						String Type = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Type);
+				ResultSet rs = null;
+				try
+				{			
+					pstmt = DB.prepareStatement (sql, get_TrxName());
+					rs = pstmt.executeQuery();
+					while (rs.next())
+					{
+						final String Type = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Type);
+						final int AD_EntityType_ID = rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
+						Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
+						//
 						log.info(rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Line));
 						if (Type.compareTo("M") == 0){
 							createMenu(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Menu_ID), packOutDocument );
@@ -315,7 +323,7 @@ public class PackOut extends SvrProcess
 						else if (Type.compareTo(X_AD_Package_Exp_Detail.TYPE_ModelValidator) == 0)
 							createModelValidator(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID), packOutDocument);
 						else if (Type.compareTo(X_AD_Package_Exp_Detail.TYPE_EntityType) == 0)
-							createEntityType(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID), packOutDocument);
+							createEntityType(AD_EntityType_ID, packOutDocument);
 						else if (Type.compareTo("C") == 0){
 							log.log(Level.INFO,"In PackOut.java handling Code or Other 2pack module creation");
 							
@@ -389,20 +397,13 @@ public class PackOut extends SvrProcess
 							packageDocument.endElement("","","filenotes");
 						}
 					}
-					rs.close();
-					pstmt.close();
-					pstmt = null;
+					//
+					getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
 				}
 				finally
 				{
-					try
-					{
-						if (pstmt != null)
-							pstmt.close ();
-					}
-					catch (Exception e)
-					{}
-					pstmt = null;
+					DB.close(rs, pstmt);
+					rs = null; pstmt = null;
 				}
 				atts.clear();
 				//no longer use
@@ -821,9 +822,9 @@ public class PackOut extends SvrProcess
 	 */
 	public void createEntityType (int AD_EntityType_ID, TransformerHandler packOutDocument) throws Exception
 	{
-		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
+		//Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
 		entitytypeHandler.create(getCtx(), packOutDocument);
-		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
+		//getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
 	}
 
 	
