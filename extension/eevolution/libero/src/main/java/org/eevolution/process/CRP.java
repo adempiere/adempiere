@@ -34,6 +34,8 @@ import org.eevolution.exceptions.CRPException;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPOrderNode;
 import org.eevolution.model.MPPOrderWorkflow;
+import org.eevolution.model.RoutingService;
+import org.eevolution.model.RoutingServiceFactory;
 import org.eevolution.model.reasoner.CRPReasoner;
 
 /**
@@ -56,6 +58,8 @@ public class CRP extends SvrProcess
 	private int p_MaxIterationsNo = -1;
 	public static final String SYSCONFIG_MaxIterationsNo = "CRP.MaxIterationsNo";
 	public static final int DEFAULT_MaxIterationsNo = 1000;
+	
+	public RoutingService routingService = null;
 	
 	/** CRP Reasoner */
 	private CRPReasoner reasoner;
@@ -84,6 +88,7 @@ public class CRP extends SvrProcess
 	protected String doIt() throws Exception
 	{
 		reasoner = new CRPReasoner();
+		routingService = RoutingServiceFactory.get().getRoutingService(getAD_Client_ID());
 		return runCRP();
 	} 
 
@@ -251,8 +256,9 @@ public class CRP extends SvrProcess
 				+ node.getWaitingTime()
 		;
 		// ... and its qty dependend working time ... (Use the present required duration time to notice later changes)
-		totalDuration += qty.doubleValue() * node.getDuration(); 
-
+		final BigDecimal workingTime = routingService.estimateWorkingTime(node, qty);
+		totalDuration += workingTime.doubleValue();
+		
 		// Returns the total duration of a node in milliseconds.
 		return (long)(totalDuration * commonBase * 1000);
 	}
