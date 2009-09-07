@@ -386,7 +386,7 @@ public class MRP extends SvrProcess
 								BeforeDateStartSchedule =  POQDateStartSchedule; 
 								calculatePlan(AD_Client_ID, AD_Org_ID,M_Warehouse_ID ,BeforePP_MRP_ID , product ,BeforeDateStartSchedule);
 							}
-							else if (X_PP_Product_Planning.ORDER_POLICY_LoteForLote.equals(m_product_planning.getOrder_Policy())
+							else if (X_PP_Product_Planning.ORDER_POLICY_Lot_For_Lot.equals(m_product_planning.getOrder_Policy())
 									&& BeforeDateStartSchedule.compareTo(Planning_Horizon) <= 0)
 							{
 								// TODO: Q: when we have this situation because on LFL we balance the Demand imediately
@@ -459,7 +459,7 @@ public class MRP extends SvrProcess
 						}
 					}
 					// If  Order_Policy = LoteForLote then always create new range for next period and put QtyGrossReqs          
-					else if (X_PP_Product_Planning.ORDER_POLICY_LoteForLote.equals(m_product_planning.getOrder_Policy()))
+					else if (X_PP_Product_Planning.ORDER_POLICY_Lot_For_Lot.equals(m_product_planning.getOrder_Policy()))
 					{                                                                                                                                           
 						QtyGrossReqs = Qty;
 						BeforeDateStartSchedule = DatePromised; 		
@@ -477,7 +477,7 @@ public class MRP extends SvrProcess
 						BeforeDateStartSchedule =  POQDateStartSchedule; 
 						calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,BeforePP_MRP_ID , product ,BeforeDateStartSchedule);
 					}
-					else if (X_PP_Product_Planning.ORDER_POLICY_LoteForLote.equals(m_product_planning.getOrder_Policy())
+					else if (X_PP_Product_Planning.ORDER_POLICY_Lot_For_Lot.equals(m_product_planning.getOrder_Policy())
 							&& BeforeDateStartSchedule.compareTo(Planning_Horizon) <= 0 )
 					{
 						calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,BeforePP_MRP_ID , product ,BeforeDateStartSchedule );
@@ -596,7 +596,7 @@ public class MRP extends SvrProcess
 		}
 		if (pp2.getOrder_Policy() == null)
 		{
-			pp2.setOrder_Policy(X_PP_Product_Planning.ORDER_POLICY_LoteForLote);
+			pp2.setOrder_Policy(X_PP_Product_Planning.ORDER_POLICY_Lot_For_Lot);
 		}
 
 		//Find Vendor

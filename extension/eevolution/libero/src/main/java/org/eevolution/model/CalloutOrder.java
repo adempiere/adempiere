@@ -160,7 +160,7 @@ public class CalloutOrder extends CalloutEngine
 	 * @param order manufacturing order
 	 * @return product planning data (never return null) 
 	 */
-	private static I_PP_Product_Planning getPP_Product_Planning(Properties ctx, I_PP_Order order)
+	protected static I_PP_Product_Planning getPP_Product_Planning(Properties ctx, I_PP_Order order)
 	{
 		I_PP_Product_Planning pp = MPPProductPlanning.find(ctx,
 				order.getAD_Org_ID(), order.getM_Warehouse_ID(),
