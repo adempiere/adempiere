@@ -162,9 +162,9 @@ public class DefaultRoutingServiceImpl implements RoutingService
 		return (requiredTime.multiply(WeeklyFactor)).divide(AvailableDayTime, 0, RoundingMode.UP);
 	}
 
-	protected BigDecimal convertDurationToResourceUOM(BigDecimal duration, I_AD_WF_Node node)
+	protected BigDecimal convertDurationToResourceUOM(BigDecimal duration, int S_Resource_ID, I_AD_WF_Node node)
 	{
-		MResource resource = MResource.get(Env.getCtx(), node.getS_Resource_ID());
+		MResource resource = MResource.get(Env.getCtx(), S_Resource_ID);
 		I_AD_Workflow wf = MWorkflow.get(Env.getCtx(), node.getAD_Workflow_ID());
 		I_C_UOM resourceUOM = MUOM.get(Env.getCtx(), resource.getC_UOM_ID());
 		return convertDuration(duration, wf.getDurationUnit(), resourceUOM);
@@ -178,32 +178,33 @@ public class DefaultRoutingServiceImpl implements RoutingService
 	 * @param trxName
 	 * @return resource rate in resource's UOM
 	 */
-	protected BigDecimal getResouceRate(I_AD_WF_Node node, I_PP_Cost_Collector cc, CostDimension d, String trxName)
+	protected BigDecimal getResouceRate(int S_Resource_ID, I_AD_WF_Node node, I_PP_Cost_Collector cc, CostDimension d, String trxName)
 	{
-		final int S_Resource_ID = node.getS_Resource_ID();
 		if (S_Resource_ID <= 0)
 			return Env.ZERO;
 		MResource resource = MResource.get(Env.getCtx(), S_Resource_ID);
-		final int M_Product_ID = resource.getProduct().get_ID();
+		final int M_Product_ID = resource.getProduct().getM_Product_ID();
 		return d.setM_Product_ID(M_Product_ID)
 		.toQuery(MCost.class, trxName)
 		.sum(MCost.COLUMNNAME_CurrentCostPrice);
 	}
 	
-	protected BigDecimal getBaseValue(I_AD_WF_Node node, I_PP_Cost_Collector cc)
+	protected BigDecimal getBaseValue(int S_Resource_ID, I_AD_WF_Node node, I_PP_Cost_Collector cc)
 	{
-		MResource resource = MResource.get(Env.getCtx(), node.getS_Resource_ID());
-		MUOM uom = MUOM.get(Env.getCtx(), resource.getC_UOM_ID());
+		final Properties ctx = (node instanceof PO ? ((PO)node).getCtx() : Env.getCtx());
+		final MResource resource = MResource.get(ctx, S_Resource_ID);
+		final MUOM resourceUOM = MUOM.get(ctx, resource.getC_UOM_ID());
 		//
-		if (isTime(uom))
+		if (isTime(resourceUOM))
 		{
 			BigDecimal duration = calculateDuration(node, cc);
-			BigDecimal convertedDuration = convertDurationToResourceUOM(duration, node);
+			I_AD_Workflow wf = MWorkflow.get(ctx, node.getAD_Workflow_ID());
+			BigDecimal convertedDuration = convertDuration(duration, wf.getDurationUnit(), resourceUOM);
 			return convertedDuration;
 		}
 		else
 		{
-			throw new AdempiereException("@NotSupported@ @C_UOM_ID@ - "+uom);
+			throw new AdempiereException("@NotSupported@ @C_UOM_ID@ - "+resourceUOM);
 		}
 	}
 
@@ -217,12 +218,15 @@ public class DefaultRoutingServiceImpl implements RoutingService
 	 */
 	protected BigDecimal calculateCost(I_AD_WF_Node node, I_PP_Cost_Collector cc, CostDimension d, String trxName)
 	{
-		BigDecimal rate = getResouceRate(node, cc, d, trxName);
+		int S_Resource_ID = d.getS_Resource_ID();
+		if (S_Resource_ID <= 0)
+			S_Resource_ID = node.getS_Resource_ID();
+		BigDecimal rate = getResouceRate(S_Resource_ID, node, cc, d, trxName);
 		if (rate.signum() == 0)
 		{
 			return Env.ZERO;
 		}
-		BigDecimal base = getBaseValue(node, cc);
+		BigDecimal base = getBaseValue(S_Resource_ID, node, cc);
 		BigDecimal cost = base.multiply(rate);
 		cost = roundCost(cost, d.getC_AcctSchema_ID());
 

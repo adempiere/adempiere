@@ -23,6 +23,7 @@ public class CostDimension
 	private int AD_Client_ID;
 	private int AD_Org_ID;
 	private int M_Product_ID;
+	private int S_Resource_ID;
 	private int M_AttributeSetInstance_ID;
 	private int M_CostType_ID;
 	private int C_AcctSchema_ID;
@@ -37,7 +38,7 @@ public class CostDimension
 		this.M_CostType_ID = M_CostType_ID;
 		this.C_AcctSchema_ID = as.get_ID();
 		this.M_CostElement_ID = M_CostElement_ID;
-		setCostingLevel(product, as);
+		updateForProduct(product, as);
 	}
 	
 	public CostDimension(int client_ID, int org_ID, int product_ID, int attributeSetInstance_ID, int costType_ID, int acctSchema_ID, int costElement_ID)
@@ -50,7 +51,7 @@ public class CostDimension
 		this.C_AcctSchema_ID = acctSchema_ID;
 		this.M_CostElement_ID = costElement_ID;
 		//
-		setCostingLevel(null, null);
+		updateForProduct(null, null);
 	}
 
 	/**
@@ -74,7 +75,7 @@ public class CostDimension
 		return Env.getCtx(); // TODO
 	}
 
-	private void setCostingLevel(MProduct product, MAcctSchema as)
+	private void updateForProduct(MProduct product, MAcctSchema as)
 	{
 		if (product == null)
 		{
@@ -104,6 +105,8 @@ public class CostDimension
 		{
 			AD_Org_ID = 0;
 		}
+		//
+		this.S_Resource_ID = product.getS_Resource_ID();
 	}
 
 	/**
@@ -129,12 +132,17 @@ public class CostDimension
 	{
 		return M_Product_ID;
 	}
-
+	
+	public int getS_Resource_ID()
+	{
+		return S_Resource_ID;
+	}
+	
 	public CostDimension setM_Product_ID(int M_Product_ID)
 	{
 		CostDimension d = new CostDimension(this);
 		d.M_Product_ID = M_Product_ID;
-		d.setCostingLevel(null, null);
+		d.updateForProduct(null, null);
 		//
 		return d;
 	}
@@ -143,7 +151,7 @@ public class CostDimension
 	{
 		CostDimension d = new CostDimension(this);
 		d.M_Product_ID = product.get_ID();
-		d.setCostingLevel(product, null);
+		d.updateForProduct(product, null);
 		return d;
 	}
 

@@ -411,6 +411,29 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		loadStorage(false);
 		return m_qtyAvailable;
 	}
+	
+	/**
+	 * @return recorded Qty Usage Variance so far
+	 */
+	public BigDecimal getQtyVariance()
+	{
+		final String whereClause = I_PP_Cost_Collector.COLUMNNAME_PP_Order_BOMLine_ID+"=?"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_PP_Order_ID+"=?"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_DocStatus+" IN (?,?)"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_CostCollectorType+"=?"
+		;
+		BigDecimal qtyUsageVariance = new Query(getCtx(), I_PP_Cost_Collector.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{
+				getPP_Order_BOMLine_ID(),
+				getPP_Order_ID(),
+				X_PP_Cost_Collector.DOCSTATUS_Completed,
+				X_PP_Cost_Collector.DOCSTATUS_Closed,
+				X_PP_Cost_Collector.COSTCOLLECTORTYPE_UsegeVariance
+		})
+		.sum(I_PP_Cost_Collector.COLUMNNAME_MovementQty);
+		//
+		return qtyUsageVariance;
+	}
 
 	/**
 	 * @return storage Qty On Hand

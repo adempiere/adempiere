@@ -499,4 +499,35 @@ public class MPPOrderNode extends X_PP_Order_Node
 		}
 		setDateFinish(dateFinish);
 	}
+	
+	public BigDecimal getVariance(String costCollectorType, String columnName)
+	{
+		final String whereClause = I_PP_Cost_Collector.COLUMNNAME_PP_Order_Node_ID+"=?"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_PP_Order_ID+"=?"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_DocStatus+" IN (?,?)"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_CostCollectorType+"=?"
+		;
+		BigDecimal variance = new Query(getCtx(), I_PP_Cost_Collector.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{
+				getPP_Order_Node_ID(),
+				getPP_Order_ID(),
+				X_PP_Cost_Collector.DOCSTATUS_Completed, X_PP_Cost_Collector.DOCSTATUS_Closed,
+				costCollectorType,
+		})
+		.sum(columnName);
+		//
+		return variance;
+	}
+	
+	public BigDecimal getSetupTimeUsageVariance()
+	{
+		return getVariance(X_PP_Cost_Collector.COSTCOLLECTORTYPE_UsegeVariance,
+				X_PP_Cost_Collector.COLUMNNAME_SetupTimeReal);
+	}
+	
+	public BigDecimal getDurationUsageVariance()
+	{
+		return getVariance(X_PP_Cost_Collector.COSTCOLLECTORTYPE_UsegeVariance,
+				X_PP_Cost_Collector.COLUMNNAME_DurationReal);
+	}
 }

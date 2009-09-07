@@ -33,6 +33,7 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MCost;
 import org.compiere.model.MDocType;
+import org.compiere.model.MLocator;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
@@ -906,6 +907,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			throw new AdempiereException("Cannot close this document because do not exist transactions"); // TODO: Create Message for Translation
 		}
 			
+		createVariances();
+		
 		for(MPPOrderBOMLine line : getLines())
 		{
 			BigDecimal old = line.getQtyRequiered();
@@ -1536,4 +1539,125 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		}	
 	}
 	
+	public void createVariances()
+	{
+		// TODO: Cost variances still beta
+		if (!MClient.get(getCtx(), getAD_Client_ID()).isUseBetaFunctions())
+			return;
+		
+		for (MPPOrderBOMLine line : getLines(true))
+		{
+			createUsageVariance(line);
+		}
+		m_lines = null; // needs to be requeried
+		//
+		MPPOrderWorkflow orderWorkflow = getMPPOrderWorkflow();
+		if (orderWorkflow != null)
+		{
+			for (MPPOrderNode node : orderWorkflow.getNodes(true))
+			{
+				createUsageVariance(node);
+			}
+		}
+		//orderWorkflow.m_nodes = null;  // TODO: reset nodes cache
+	}
+	
+	private void createUsageVariance(I_PP_Order_BOMLine bomLine)
+	{
+		MPPOrder order = this;
+		Timestamp movementDate = order.getUpdated();
+		MPPOrderBOMLine line = (MPPOrderBOMLine)bomLine;
+
+		// If QtyBatch and QtyBOM is zero, than this is a method variance
+		// (a product that "was not" in BOM was used)
+		if (line.getQtyBatch().signum() == 0 && line.getQtyBOM().signum() == 0)
+		{
+			return;
+		}
+		
+		final BigDecimal qtyUsageVariancePrev = line.getQtyVariance();	// Previous booked usage variance
+		final BigDecimal qtyOpen = line.getQtyOpen();
+		// Current usage variance = QtyOpen - Previous Usage Variance 
+		final BigDecimal qtyUsageVariance = qtyOpen.subtract(qtyUsageVariancePrev);
+		//
+		if (qtyUsageVariance.signum() == 0)
+		{
+			return;
+		}
+		// Get Locator
+		int M_Locator_ID = line.getM_Locator_ID();
+		if (M_Locator_ID <= 0)
+		{
+			MLocator locator = MLocator.getDefault(MWarehouse.get(order.getCtx(), order.getM_Warehouse_ID()));
+			if (locator != null)
+			{
+				M_Locator_ID = locator.getM_Locator_ID();
+			}
+		}
+		//
+		MPPCostCollector.createCollector(
+				order,
+				line.getM_Product_ID(),
+				M_Locator_ID,
+				line.getM_AttributeSetInstance_ID(),
+				order.getS_Resource_ID(),
+				line.getPP_Order_BOMLine_ID(),
+				0, //PP_Order_Node_ID,
+				MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), // C_DocType_ID,
+				MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance,
+				movementDate,
+				qtyUsageVariance, // Qty
+				Env.ZERO, // scrap,
+				Env.ZERO, // reject,
+				0, //durationSetup,
+				Env.ZERO // duration
+		);
+	}
+	
+	private void createUsageVariance(I_PP_Order_Node orderNode)
+	{
+		MPPOrder order = this;
+		final Timestamp movementDate = order.getUpdated();
+		final MPPOrderNode node = (MPPOrderNode)orderNode;
+		//
+		final BigDecimal setupTimeReal = BigDecimal.valueOf(node.getSetupTimeReal());
+		final BigDecimal durationReal = BigDecimal.valueOf(node.getDurationReal());
+		if (setupTimeReal.signum() == 0 && durationReal.signum() == 0)
+		{
+			// nothing reported on this activity => it's not a variance, this will be auto-reported on close
+			return;
+		}
+		//
+		final BigDecimal setupTimeVariancePrev = node.getSetupTimeUsageVariance();
+		final BigDecimal durationVariancePrev = node.getDurationUsageVariance();
+		final BigDecimal setupTimeRequired = BigDecimal.valueOf(node.getSetupTimeRequiered());
+		final BigDecimal durationRequired = BigDecimal.valueOf(node.getDurationRequiered());
+		final BigDecimal qtyOpen = node.getQtyToDeliver();
+		//
+		final BigDecimal setupTimeVariance = setupTimeRequired.subtract(setupTimeReal).subtract(setupTimeVariancePrev);
+		final BigDecimal durationVariance = durationRequired.subtract(durationReal).subtract(durationVariancePrev);
+		//
+		if (qtyOpen.signum() == 0 && setupTimeVariance.signum() == 0 && durationVariance.signum() == 0)
+		{
+			return;
+		}
+		//
+		MPPCostCollector.createCollector(
+				order,
+				order.getM_Product_ID(),
+				order.getM_Locator_ID(),
+				order.getM_AttributeSetInstance_ID(),
+				node.getS_Resource_ID(),
+				0, //PP_Order_BOMLine_ID
+				node.getPP_Order_Node_ID(),
+				MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), // C_DocType_ID
+				MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance,
+				movementDate,
+				qtyOpen, // Qty
+				Env.ZERO, // scrap,
+				Env.ZERO, // reject,
+				setupTimeVariance.intValueExact(), //durationSetup,
+				durationVariance // duration
+		);
+	}
 } // MPPOrder
