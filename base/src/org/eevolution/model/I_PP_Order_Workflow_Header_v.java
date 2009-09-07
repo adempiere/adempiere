@@ -18,6 +18,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.adempiere.model.*;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -89,7 +90,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
+	public I_AD_Workflow getAD_Workflow();
 
     /** Column name Assay */
     public static final String COLUMNNAME_Assay = "Assay";
@@ -130,7 +131,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
+	public I_C_Activity getC_Activity();
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -145,7 +146,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
+	public I_C_Campaign getC_Campaign();
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -160,7 +161,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
+	public I_C_DocType getC_DocType();
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -175,7 +176,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getC_OrderLine_ID();
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
+	public I_C_OrderLine getC_OrderLine();
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -190,7 +191,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public I_C_Project getC_Project();
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -205,7 +206,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getC_UOM_ID();
 
-	public I_C_UOM getC_UOM() throws RuntimeException;
+	public I_C_UOM getC_UOM();
 
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
@@ -498,7 +499,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public I_M_Warehouse getM_Warehouse();
 
     /** Column name MovingTime */
     public static final String COLUMNNAME_MovingTime = "MovingTime";
@@ -535,6 +536,8 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getOrg_Location_ID();
 
+	public I_C_Location getOrg_Location();
+
     /** Column name OverlapUnits */
     public static final String COLUMNNAME_OverlapUnits = "OverlapUnits";
 
@@ -548,6 +551,17 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public BigDecimal getOverlapUnits();
 
+    /** Column name Planner_ID */
+    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+
+	/** Set Planner	  */
+	public void setPlanner_ID (int Planner_ID);
+
+	/** Get Planner	  */
+	public int getPlanner_ID();
+
+	public I_AD_User getPlanner();
+
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
@@ -557,7 +571,7 @@ public interface I_PP_Order_Workflow_Header_v
 	/** Get Manufacturing Order	  */
 	public int getPP_Order_ID();
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+	public org.eevolution.model.I_PP_Order getPP_Order();
 
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
@@ -572,16 +586,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getPP_Product_BOM_ID();
 
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
-
-    /** Column name Planner_ID */
-    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
-
-	/** Set Planner	  */
-	public void setPlanner_ID (int Planner_ID);
-
-	/** Get Planner	  */
-	public int getPlanner_ID();
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM();
 
     /** Column name PriorityRule */
     public static final String COLUMNNAME_PriorityRule = "PriorityRule";
@@ -609,15 +614,6 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public boolean isPublishStatus();
 
-    /** Column name QtyBatchSize */
-    public static final String COLUMNNAME_QtyBatchSize = "QtyBatchSize";
-
-	/** Set Qty Batch Size	  */
-	public void setQtyBatchSize (BigDecimal QtyBatchSize);
-
-	/** Get Qty Batch Size	  */
-	public BigDecimal getQtyBatchSize();
-
     /** Column name QtyBatchs */
     public static final String COLUMNNAME_QtyBatchs = "QtyBatchs";
 
@@ -626,6 +622,15 @@ public interface I_PP_Order_Workflow_Header_v
 
 	/** Get Qty Batchs	  */
 	public BigDecimal getQtyBatchs();
+
+    /** Column name QtyBatchSize */
+    public static final String COLUMNNAME_QtyBatchSize = "QtyBatchSize";
+
+	/** Set Qty Batch Size	  */
+	public void setQtyBatchSize (BigDecimal QtyBatchSize);
+
+	/** Get Qty Batch Size	  */
+	public BigDecimal getQtyBatchSize();
 
     /** Column name QtyDelivered */
     public static final String COLUMNNAME_QtyDelivered = "QtyDelivered";
@@ -723,7 +728,7 @@ public interface I_PP_Order_Workflow_Header_v
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws RuntimeException;
+	public I_S_Resource getS_Resource();
 
     /** Column name SalesRep_Name */
     public static final String COLUMNNAME_SalesRep_Name = "SalesRep_Name";
@@ -866,6 +871,8 @@ public interface I_PP_Order_Workflow_Header_v
 	  * Warehouse Location/Address
 	  */
 	public int getWarehouse_Location_ID();
+
+	public I_C_Location getWarehouse_Location();
 
     /** Column name WorkflowType */
     public static final String COLUMNNAME_WorkflowType = "WorkflowType";

@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -77,45 +75,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException 
-    {
-        Class<?> clazz = MTable.getClass(I_AD_Reference.Table_Name);
-        I_AD_Reference result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Reference)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Reference_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
-
-	/** Set Reference.
-		@param AD_Reference_ID 
-		System Reference and Validation
-	  */
-	public void setAD_Reference_ID (int AD_Reference_ID)
-	{
-		if (AD_Reference_ID < 1) 
-			set_Value (COLUMNNAME_AD_Reference_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
-	}
-
-	/** Get Reference.
-		@return System Reference and Validation
-	  */
-	public int getAD_Reference_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** AccountSign AD_Reference_ID=118 */
 	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
 	/** Natural = N */
@@ -142,6 +101,34 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccountSign);
 	}
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
+
+	/** Set Reference.
+		@param AD_Reference_ID 
+		System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID)
+	{
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+	}
+
+	/** Get Reference.
+		@return System Reference and Validation
+	  */
+	public int getAD_Reference_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** ColumnType AD_Reference_ID=53243 */
 	public static final int COLUMNTYPE_AD_Reference_ID=53243;
 	/** Amount = A */
@@ -156,7 +143,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		@param ColumnType Column Type	  */
 	public void setColumnType (String ColumnType)
 	{
-		if (ColumnType == null) throw new IllegalArgumentException ("ColumnType is mandatory");
+
 		set_Value (COLUMNNAME_ColumnType, ColumnType);
 	}
 
@@ -184,21 +171,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.eevolution.model.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException 
+	public org.eevolution.model.I_HR_Concept_Category getHR_Concept_Category() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Concept_Category.Table_Name);
-        org.eevolution.model.I_HR_Concept_Category result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Concept_Category)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Concept_Category_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Concept_Category)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Category.Table_Name)
+			.getPO(getHR_Concept_Category_ID(), get_TrxName());	}
 
 	/** Set Payroll Concept Category.
 		@param HR_Concept_Category_ID Payroll Concept Category	  */
@@ -224,9 +200,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		@param HR_Concept_ID Payroll Concept	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
-		if (HR_Concept_ID < 1)
-			 throw new IllegalArgumentException ("HR_Concept_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
+		if (HR_Concept_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Concept_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
 	/** Get Payroll Concept.
@@ -239,21 +216,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException 
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Department.Table_Name);
-        org.eevolution.model.I_HR_Department result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Department)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Department_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
+			.getPO(getHR_Department_ID(), get_TrxName());	}
 
 	/** Set Payroll Department.
 		@param HR_Department_ID Payroll Department	  */
@@ -275,21 +241,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException 
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Job.Table_Name);
-        org.eevolution.model.I_HR_Job result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Job)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Job_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Job)MTable.get(getCtx(), org.eevolution.model.I_HR_Job.Table_Name)
+			.getPO(getHR_Job_ID(), get_TrxName());	}
 
 	/** Set Payroll Job.
 		@param HR_Job_ID Payroll Job	  */
@@ -311,21 +266,10 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException 
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Payroll.Table_Name);
-        org.eevolution.model.I_HR_Payroll result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Payroll)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Payroll_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
 		@param HR_Payroll_ID Payroll	  */
@@ -521,8 +465,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
@@ -570,7 +512,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	  */
 	public void setType (String Type)
 	{
-		if (Type == null) throw new IllegalArgumentException ("Type is mandatory");
+
 		set_Value (COLUMNNAME_Type, Type);
 	}
 

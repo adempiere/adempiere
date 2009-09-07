@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -34,7 +32,7 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_HR_List (Properties ctx, int HR_List_ID, String trxName)
@@ -92,21 +90,10 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException 
+	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Department.Table_Name);
-        org.eevolution.model.I_HR_Department result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Department)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Department_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
+			.getPO(getHR_Department_ID(), get_TrxName());	}
 
 	/** Set Payroll Department.
 		@param HR_Department_ID Payroll Department	  */
@@ -128,21 +115,10 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException 
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Employee.Table_Name);
-        org.eevolution.model.I_HR_Employee result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Employee)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Employee_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Employee)MTable.get(getCtx(), org.eevolution.model.I_HR_Employee.Table_Name)
+			.getPO(getHR_Employee_ID(), get_TrxName());	}
 
 	/** Set Payroll Employee.
 		@param HR_Employee_ID Payroll Employee	  */
@@ -164,21 +140,30 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_ListType getHR_ListType() throws RuntimeException 
+	/** Set Payroll List.
+		@param HR_List_ID Payroll List	  */
+	public void setHR_List_ID (int HR_List_ID)
+	{
+		if (HR_List_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_List_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
+	}
+
+	/** Get Payroll List.
+		@return Payroll List	  */
+	public int getHR_List_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_HR_ListType getHR_ListType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_ListType.Table_Name);
-        org.eevolution.model.I_HR_ListType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_ListType)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_ListType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_ListType)MTable.get(getCtx(), org.eevolution.model.I_HR_ListType.Table_Name)
+			.getPO(getHR_ListType_ID(), get_TrxName());	}
 
 	/** Set Payroll List Type.
 		@param HR_ListType_ID Payroll List Type	  */
@@ -200,40 +185,10 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Payroll List.
-		@param HR_List_ID Payroll List	  */
-	public void setHR_List_ID (int HR_List_ID)
-	{
-		if (HR_List_ID < 1)
-			 throw new IllegalArgumentException ("HR_List_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_HR_List_ID, Integer.valueOf(HR_List_ID));
-	}
-
-	/** Get Payroll List.
-		@return Payroll List	  */
-	public int getHR_List_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_List_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException 
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Payroll.Table_Name);
-        org.eevolution.model.I_HR_Payroll result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Payroll)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Payroll_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
 		@param HR_Payroll_ID Payroll	  */
@@ -285,8 +240,6 @@ public class X_HR_List extends PO implements I_HR_List, I_Persistent
 	  */
 	public void setName (String Name)
 	{
-		if (Name == null)
-			throw new IllegalArgumentException ("Name is mandatory.");
 		set_Value (COLUMNNAME_Name, Name);
 	}
 

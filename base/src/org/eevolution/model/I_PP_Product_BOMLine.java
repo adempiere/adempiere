@@ -276,6 +276,8 @@ public interface I_PP_Product_BOMLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_ChangeNotice_ID */
     public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
 
@@ -306,19 +308,6 @@ public interface I_PP_Product_BOMLine
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name PP_Product_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
-
-	/** Set BOM Line.
-	  * BOM Line
-	  */
-	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
-
-	/** Get BOM Line.
-	  * BOM Line
-	  */
-	public int getPP_Product_BOMLine_ID();
-
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
@@ -334,18 +323,18 @@ public interface I_PP_Product_BOMLine
 
 	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
 
-    /** Column name QtyBOM */
-    public static final String COLUMNNAME_QtyBOM = "QtyBOM";
+    /** Column name PP_Product_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
 
-	/** Set Quantity.
-	  * Indicate the Quantity  use in this BOM
+	/** Set BOM Line.
+	  * BOM Line
 	  */
-	public void setQtyBOM (BigDecimal QtyBOM);
+	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
 
-	/** Get Quantity.
-	  * Indicate the Quantity  use in this BOM
+	/** Get BOM Line.
+	  * BOM Line
 	  */
-	public BigDecimal getQtyBOM();
+	public int getPP_Product_BOMLine_ID();
 
     /** Column name QtyBatch */
     public static final String COLUMNNAME_QtyBatch = "QtyBatch";
@@ -359,6 +348,19 @@ public interface I_PP_Product_BOMLine
 	  * Indicate the Quantity % use in this Formula
 	  */
 	public BigDecimal getQtyBatch();
+
+    /** Column name QtyBOM */
+    public static final String COLUMNNAME_QtyBOM = "QtyBOM";
+
+	/** Set Quantity.
+	  * Indicate the Quantity  use in this BOM
+	  */
+	public void setQtyBOM (BigDecimal QtyBOM);
+
+	/** Get Quantity.
+	  * Indicate the Quantity  use in this BOM
+	  */
+	public BigDecimal getQtyBOM();
 
     /** Column name Scrap */
     public static final String COLUMNNAME_Scrap = "Scrap";

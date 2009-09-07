@@ -105,6 +105,8 @@ public interface I_PP_Cost_CollectorMA
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";
 
@@ -118,15 +120,6 @@ public interface I_PP_Cost_CollectorMA
 	  */
 	public BigDecimal getMovementQty();
 
-    /** Column name PP_Cost_CollectorMA_ID */
-    public static final String COLUMNNAME_PP_Cost_CollectorMA_ID = "PP_Cost_CollectorMA_ID";
-
-	/** Set Manufacturing Order MA	  */
-	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID);
-
-	/** Get Manufacturing Order MA	  */
-	public int getPP_Cost_CollectorMA_ID();
-
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";
 
@@ -137,6 +130,15 @@ public interface I_PP_Cost_CollectorMA
 	public int getPP_Cost_Collector_ID();
 
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException;
+
+    /** Column name PP_Cost_CollectorMA_ID */
+    public static final String COLUMNNAME_PP_Cost_CollectorMA_ID = "PP_Cost_CollectorMA_ID";
+
+	/** Set Manufacturing Order MA	  */
+	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID);
+
+	/** Get Manufacturing Order MA	  */
+	public int getPP_Cost_CollectorMA_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

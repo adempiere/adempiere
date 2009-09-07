@@ -106,19 +106,6 @@ public interface I_T_BOMLine
 	  */
 	public BigDecimal getCost();
 
-    /** Column name CostStandard */
-    public static final String COLUMNNAME_CostStandard = "CostStandard";
-
-	/** Set Standard Cost.
-	  * Standard Costs
-	  */
-	public void setCostStandard (BigDecimal CostStandard);
-
-	/** Get Standard Cost.
-	  * Standard Costs
-	  */
-	public BigDecimal getCostStandard();
-
     /** Column name CostingMethod */
     public static final String COLUMNNAME_CostingMethod = "CostingMethod";
 
@@ -131,6 +118,19 @@ public interface I_T_BOMLine
 	  * Indicates how Costs will be calculated
 	  */
 	public String getCostingMethod();
+
+    /** Column name CostStandard */
+    public static final String COLUMNNAME_CostStandard = "CostStandard";
+
+	/** Set Standard Cost.
+	  * Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard);
+
+	/** Get Standard Cost.
+	  * Standard Costs
+	  */
+	public BigDecimal getCostStandard();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -294,21 +294,6 @@ public interface I_T_BOMLine
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name PP_Product_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
-
-	/** Set BOM Line.
-	  * BOM Line
-	  */
-	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
-
-	/** Get BOM Line.
-	  * BOM Line
-	  */
-	public int getPP_Product_BOMLine_ID();
-
-	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException;
-
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
@@ -323,6 +308,21 @@ public interface I_T_BOMLine
 	public int getPP_Product_BOM_ID();
 
 	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+
+    /** Column name PP_Product_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
+
+	/** Set BOM Line.
+	  * BOM Line
+	  */
+	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
+
+	/** Get BOM Line.
+	  * BOM Line
+	  */
+	public int getPP_Product_BOMLine_ID();
+
+	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException;
 
     /** Column name QtyBOM */
     public static final String COLUMNNAME_QtyBOM = "QtyBOM";

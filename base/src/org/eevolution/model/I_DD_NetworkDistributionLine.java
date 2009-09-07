@@ -79,15 +79,6 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_NetworkDistributionLine_ID */
-    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
-
-	/** Set Network Distribution Line	  */
-	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
-
-	/** Get Network Distribution Line	  */
-	public int getDD_NetworkDistributionLine_ID();
-
     /** Column name DD_NetworkDistribution_ID */
     public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
 
@@ -98,6 +89,15 @@ public interface I_DD_NetworkDistributionLine
 	public int getDD_NetworkDistribution_ID();
 
 	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
+
+    /** Column name DD_NetworkDistributionLine_ID */
+    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
+
+	/** Set Network Distribution Line	  */
+	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
+
+	/** Get Network Distribution Line	  */
+	public int getDD_NetworkDistributionLine_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -127,6 +127,21 @@ public interface I_DD_NetworkDistributionLine
 
 	public I_M_Shipper getM_Shipper() throws RuntimeException;
 
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
     /** Column name M_WarehouseSource_ID */
     public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
@@ -140,18 +155,7 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getM_WarehouseSource_ID();
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
-
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
-
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
+	public I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
 
     /** Column name Percent */
     public static final String COLUMNNAME_Percent = "Percent";

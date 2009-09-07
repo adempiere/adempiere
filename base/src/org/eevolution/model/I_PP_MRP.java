@@ -78,21 +78,6 @@ public interface I_PP_MRP
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_OrderLine_ID */
-    public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
-
-	/** Set Sales Order Line.
-	  * Sales Order Line
-	  */
-	public void setC_OrderLine_ID (int C_OrderLine_ID);
-
-	/** Get Sales Order Line.
-	  * Sales Order Line
-	  */
-	public int getC_OrderLine_ID();
-
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
-
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -107,6 +92,21 @@ public interface I_PP_MRP
 	public int getC_Order_ID();
 
 	public I_C_Order getC_Order() throws RuntimeException;
+
+    /** Column name C_OrderLine_ID */
+    public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
+
+	/** Set Sales Order Line.
+	  * Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID);
+
+	/** Get Sales Order Line.
+	  * Sales Order Line
+	  */
+	public int getC_OrderLine_ID();
+
+	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -123,28 +123,6 @@ public interface I_PP_MRP
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name DD_OrderLine_ID */
-    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
-
-	/** Set Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
-
-	/** Get Distribution Order Line	  */
-	public int getDD_OrderLine_ID();
-
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
-
-    /** Column name DD_Order_ID */
-    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
-
-	/** Set Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID);
-
-	/** Get Distribution Order	  */
-	public int getDD_Order_ID();
-
-	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
 
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
@@ -217,6 +195,28 @@ public interface I_PP_MRP
 	/** Get DateStartSchedule	  */
 	public Timestamp getDateStartSchedule();
 
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
+
+    /** Column name DD_OrderLine_ID */
+    public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
+
+	/** Set Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID);
+
+	/** Get Distribution Order Line	  */
+	public int getDD_OrderLine_ID();
+
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -269,21 +269,6 @@ public interface I_PP_MRP
 	  */
 	public boolean isAvailable();
 
-    /** Column name M_ForecastLine_ID */
-    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
-
-	/** Set Forecast Line.
-	  * Forecast Line
-	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
-
-	/** Get Forecast Line.
-	  * Forecast Line
-	  */
-	public int getM_ForecastLine_ID();
-
-	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
-
     /** Column name M_Forecast_ID */
     public static final String COLUMNNAME_M_Forecast_ID = "M_Forecast_ID";
 
@@ -298,6 +283,21 @@ public interface I_PP_MRP
 	public int getM_Forecast_ID();
 
 	public I_M_Forecast getM_Forecast() throws RuntimeException;
+
+    /** Column name M_ForecastLine_ID */
+    public static final String COLUMNNAME_M_ForecastLine_ID = "M_ForecastLine_ID";
+
+	/** Set Forecast Line.
+	  * Forecast Line
+	  */
+	public void setM_ForecastLine_ID (int M_ForecastLine_ID);
+
+	/** Get Forecast Line.
+	  * Forecast Line
+	  */
+	public int getM_ForecastLine_ID();
+
+	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -314,21 +314,6 @@ public interface I_PP_MRP
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_RequisitionLine_ID */
-    public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
-
-	/** Set Requisition Line.
-	  * Material Requisition Line
-	  */
-	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID);
-
-	/** Get Requisition Line.
-	  * Material Requisition Line
-	  */
-	public int getM_RequisitionLine_ID();
-
-	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
-
     /** Column name M_Requisition_ID */
     public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
 
@@ -343,6 +328,21 @@ public interface I_PP_MRP
 	public int getM_Requisition_ID();
 
 	public I_M_Requisition getM_Requisition() throws RuntimeException;
+
+    /** Column name M_RequisitionLine_ID */
+    public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
+
+	/** Set Requisition Line.
+	  * Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID);
+
+	/** Get Requisition Line.
+	  * Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID();
+
+	public I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -381,6 +381,17 @@ public interface I_PP_MRP
 	/** Get OrderType	  */
 	public String getOrderType();
 
+    /** Column name Planner_ID */
+    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
+
+	/** Set Planner	  */
+	public void setPlanner_ID (int Planner_ID);
+
+	/** Get Planner	  */
+	public int getPlanner_ID();
+
+	public I_AD_User getPlanner() throws RuntimeException;
+
     /** Column name PP_MRP_ID */
     public static final String COLUMNNAME_PP_MRP_ID = "PP_MRP_ID";
 
@@ -411,15 +422,6 @@ public interface I_PP_MRP
 	public int getPP_Order_ID();
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
-
-    /** Column name Planner_ID */
-    public static final String COLUMNNAME_Planner_ID = "Planner_ID";
-
-	/** Set Planner	  */
-	public void setPlanner_ID (int Planner_ID);
-
-	/** Get Planner	  */
-	public int getPlanner_ID();
 
     /** Column name Priority */
     public static final String COLUMNNAME_Priority = "Priority";

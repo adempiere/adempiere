@@ -182,7 +182,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		// Set default : Order_Policy
 		if (getOrder_Policy() == null)
 		{
-			setOrder_Policy(ORDER_POLICY_LoteForLote);
+			setOrder_Policy(ORDER_POLICY_Lot_For_Lot);
 		}
 		//
 		// Check Order_Min < Order_Max

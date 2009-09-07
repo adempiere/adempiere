@@ -76,6 +76,8 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getAD_User_ID();
 
+	public I_AD_User getAD_User() throws RuntimeException;
+
     /** Column name Assay */
     public static final String COLUMNNAME_Assay = "Assay";
 
@@ -302,6 +304,8 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_AttributeSetInstance_ID();
 
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
     /** Column name M_ChangeNotice_ID */
     public static final String COLUMNNAME_M_ChangeNotice_ID = "M_ChangeNotice_ID";
 
@@ -329,6 +333,8 @@ public interface I_PP_Order_BOMLine
 	  * Warehouse Locator
 	  */
 	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -360,15 +366,6 @@ public interface I_PP_Order_BOMLine
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name PP_Order_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
-
-	/** Set Manufacturing Order BOM Line	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
-
-	/** Get Manufacturing Order BOM Line	  */
-	public int getPP_Order_BOMLine_ID();
-
     /** Column name PP_Order_BOM_ID */
     public static final String COLUMNNAME_PP_Order_BOM_ID = "PP_Order_BOM_ID";
 
@@ -380,6 +377,15 @@ public interface I_PP_Order_BOMLine
 
 	public org.eevolution.model.I_PP_Order_BOM getPP_Order_BOM() throws RuntimeException;
 
+    /** Column name PP_Order_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
+
+	/** Set Manufacturing Order BOM Line	  */
+	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
+
+	/** Get Manufacturing Order BOM Line	  */
+	public int getPP_Order_BOMLine_ID();
+
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
@@ -390,19 +396,6 @@ public interface I_PP_Order_BOMLine
 	public int getPP_Order_ID();
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
-
-    /** Column name QtyBOM */
-    public static final String COLUMNNAME_QtyBOM = "QtyBOM";
-
-	/** Set Quantity.
-	  * Indicate the Quantity  use in this BOM
-	  */
-	public void setQtyBOM (BigDecimal QtyBOM);
-
-	/** Get Quantity.
-	  * Indicate the Quantity  use in this BOM
-	  */
-	public BigDecimal getQtyBOM();
 
     /** Column name QtyBatch */
     public static final String COLUMNNAME_QtyBatch = "QtyBatch";
@@ -416,6 +409,19 @@ public interface I_PP_Order_BOMLine
 	  * Indicate the Quantity % use in this Formula
 	  */
 	public BigDecimal getQtyBatch();
+
+    /** Column name QtyBOM */
+    public static final String COLUMNNAME_QtyBOM = "QtyBOM";
+
+	/** Set Quantity.
+	  * Indicate the Quantity  use in this BOM
+	  */
+	public void setQtyBOM (BigDecimal QtyBOM);
+
+	/** Get Quantity.
+	  * Indicate the Quantity  use in this BOM
+	  */
+	public BigDecimal getQtyBOM();
 
     /** Column name QtyDelivered */
     public static final String COLUMNNAME_QtyDelivered = "QtyDelivered";

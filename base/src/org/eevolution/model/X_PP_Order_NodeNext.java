@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 
 /** Generated Model for PP_Order_NodeNext
@@ -78,6 +76,11 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
       return sb.toString();
     }
 
+	public I_AD_WF_Node getAD_WF_Next() throws RuntimeException
+    {
+		return (I_AD_WF_Node)MTable.get(getCtx(), I_AD_WF_Node.Table_Name)
+			.getPO(getAD_WF_Next_ID(), get_TrxName());	}
+
 	/** Set Next Node.
 		@param AD_WF_Next_ID 
 		Next Node in workflow
@@ -101,21 +104,10 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException 
+	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_WF_Node.Table_Name);
-        I_AD_WF_Node result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_WF_Node)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_WF_Node_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_WF_Node)MTable.get(getCtx(), I_AD_WF_Node.Table_Name)
+			.getPO(getAD_WF_Node_ID(), get_TrxName());	}
 
 	/** Set Node.
 		@param AD_WF_Node_ID 
@@ -201,21 +193,10 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return false;
 	}
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException 
+	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order.Table_Name);
-        org.eevolution.model.I_PP_Order result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_PP_Order)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Order_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_PP_Order)MTable.get(getCtx(), org.eevolution.model.I_PP_Order.Table_Name)
+			.getPO(getPP_Order_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order.
 		@param PP_Order_ID Manufacturing Order	  */
@@ -237,6 +218,11 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Next() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Order_Node)MTable.get(getCtx(), org.eevolution.model.I_PP_Order_Node.Table_Name)
+			.getPO(getPP_Order_Next_ID(), get_TrxName());	}
+
 	/** Set Manufacturing Order Activity Next.
 		@param PP_Order_Next_ID Manufacturing Order Activity Next	  */
 	public void setPP_Order_Next_ID (int PP_Order_Next_ID)
@@ -257,41 +243,10 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Manufacturing Order Activity Next.
-		@param PP_Order_NodeNext_ID Manufacturing Order Activity Next	  */
-	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID)
-	{
-		if (PP_Order_NodeNext_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, Integer.valueOf(PP_Order_NodeNext_ID));
-	}
-
-	/** Get Manufacturing Order Activity Next.
-		@return Manufacturing Order Activity Next	  */
-	public int getPP_Order_NodeNext_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_NodeNext_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException 
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Order_Node.Table_Name);
-        org.eevolution.model.I_PP_Order_Node result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_PP_Order_Node)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Order_Node_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_PP_Order_Node)MTable.get(getCtx(), org.eevolution.model.I_PP_Order_Node.Table_Name)
+			.getPO(getPP_Order_Node_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order Activity.
 		@param PP_Order_Node_ID Manufacturing Order Activity	  */
@@ -308,6 +263,26 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Manufacturing Order Activity Next.
+		@param PP_Order_NodeNext_ID Manufacturing Order Activity Next	  */
+	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID)
+	{
+		if (PP_Order_NodeNext_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, Integer.valueOf(PP_Order_NodeNext_ID));
+	}
+
+	/** Get Manufacturing Order Activity Next.
+		@return Manufacturing Order Activity Next	  */
+	public int getPP_Order_NodeNext_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_NodeNext_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

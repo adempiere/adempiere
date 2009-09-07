@@ -18,6 +18,7 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.adempiere.model.*;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -76,7 +77,7 @@ public interface I_PP_Order_Node_v
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public I_C_BPartner getC_BPartner();
 
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
@@ -305,7 +306,7 @@ public interface I_PP_Order_Node_v
 	/** Get Manufacturing Order	  */
 	public int getPP_Order_ID();
 
-	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
+	public org.eevolution.model.I_PP_Order getPP_Order();
 
     /** Column name PP_Order_Node_ID */
     public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
@@ -316,7 +317,7 @@ public interface I_PP_Order_Node_v
 	/** Get Manufacturing Order Activity	  */
 	public int getPP_Order_Node_ID();
 
-	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException;
+	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node();
 
     /** Column name PP_Order_Workflow_ID */
     public static final String COLUMNNAME_PP_Order_Workflow_ID = "PP_Order_Workflow_ID";
@@ -327,7 +328,7 @@ public interface I_PP_Order_Node_v
 	/** Get Manufacturing Order Workflow	  */
 	public int getPP_Order_Workflow_ID();
 
-	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow() throws RuntimeException;
+	public org.eevolution.model.I_PP_Order_Workflow getPP_Order_Workflow();
 
     /** Column name Priority */
     public static final String COLUMNNAME_Priority = "Priority";
@@ -399,7 +400,7 @@ public interface I_PP_Order_Node_v
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws RuntimeException;
+	public I_S_Resource getS_Resource();
 
     /** Column name SetupTime */
     public static final String COLUMNNAME_SetupTime = "SetupTime";

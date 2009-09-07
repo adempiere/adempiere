@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 
 /** Generated Model for QM_SpecificationLine
@@ -100,21 +98,10 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 		return (String)get_Value(COLUMNNAME_AndOr);
 	}
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException 
+	public I_M_Attribute getM_Attribute() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_M_Attribute.Table_Name);
-        I_M_Attribute result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_M_Attribute)constructor.newInstance(new Object[] {getCtx(), new Integer(getM_Attribute_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_M_Attribute)MTable.get(getCtx(), I_M_Attribute.Table_Name)
+			.getPO(getM_Attribute_ID(), get_TrxName());	}
 
 	/** Set Attribute.
 		@param M_Attribute_ID 
@@ -177,41 +164,10 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 		return (String)get_Value(COLUMNNAME_Operation);
 	}
 
-	/** Set QM_SpecificationLine_ID.
-		@param QM_SpecificationLine_ID QM_SpecificationLine_ID	  */
-	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
-	{
-		if (QM_SpecificationLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
-	}
-
-	/** Get QM_SpecificationLine_ID.
-		@return QM_SpecificationLine_ID	  */
-	public int getQM_SpecificationLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_QM_Specification getQM_Specification() throws RuntimeException 
+	public org.eevolution.model.I_QM_Specification getQM_Specification() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_QM_Specification.Table_Name);
-        org.eevolution.model.I_QM_Specification result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_QM_Specification)constructor.newInstance(new Object[] {getCtx(), new Integer(getQM_Specification_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_QM_Specification)MTable.get(getCtx(), org.eevolution.model.I_QM_Specification.Table_Name)
+			.getPO(getQM_Specification_ID(), get_TrxName());	}
 
 	/** Set Quality Specification.
 		@param QM_Specification_ID Quality Specification	  */
@@ -228,6 +184,26 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public int getQM_Specification_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QM_Specification_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set QM_SpecificationLine_ID.
+		@param QM_SpecificationLine_ID QM_SpecificationLine_ID	  */
+	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
+	{
+		if (QM_SpecificationLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
+	}
+
+	/** Get QM_SpecificationLine_ID.
+		@return QM_SpecificationLine_ID	  */
+	public int getQM_SpecificationLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

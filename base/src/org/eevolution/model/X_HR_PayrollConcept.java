@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -33,7 +31,7 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20081221L;
 
     /** Standard Constructor */
     public X_HR_PayrollConcept (Properties ctx, int HR_PayrollConcept_ID, String trxName)
@@ -42,8 +40,8 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
       /** if (HR_PayrollConcept_ID == 0)
         {
 			setHR_Concept_ID (0);
-			setHR_PayrollConcept_ID (0);
 			setHR_Payroll_ID (0);
+			setHR_PayrollConcept_ID (0);
 			setIsPrinted (false);
 // N
         } */
@@ -77,21 +75,10 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException 
+	public I_AD_Rule getAD_Rule() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Rule.Table_Name);
-        I_AD_Rule result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Rule)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Rule_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Rule)MTable.get(getCtx(), I_AD_Rule.Table_Name)
+			.getPO(getAD_Rule_ID(), get_TrxName());	}
 
 	/** Set Rule.
 		@param AD_Rule_ID Rule	  */
@@ -113,29 +100,19 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException 
+	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Concept.Table_Name);
-        org.eevolution.model.I_HR_Concept result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Concept)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Concept_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Concept)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept.Table_Name)
+			.getPO(getHR_Concept_ID(), get_TrxName());	}
 
 	/** Set Payroll Concept.
 		@param HR_Concept_ID Payroll Concept	  */
 	public void setHR_Concept_ID (int HR_Concept_ID)
 	{
-		if (HR_Concept_ID < 1)
-			 throw new IllegalArgumentException ("HR_Concept_ID is mandatory.");
-		set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
+		if (HR_Concept_ID < 1) 
+			set_Value (COLUMNNAME_HR_Concept_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Concept_ID, Integer.valueOf(HR_Concept_ID));
 	}
 
 	/** Get Payroll Concept.
@@ -148,48 +125,19 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Payroll Concept.
-		@param HR_PayrollConcept_ID Payroll Concept	  */
-	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID)
-	{
-		if (HR_PayrollConcept_ID < 1)
-			 throw new IllegalArgumentException ("HR_PayrollConcept_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_HR_PayrollConcept_ID, Integer.valueOf(HR_PayrollConcept_ID));
-	}
-
-	/** Get Payroll Concept.
-		@return Payroll Concept	  */
-	public int getHR_PayrollConcept_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PayrollConcept_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException 
+	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_HR_Payroll.Table_Name);
-        org.eevolution.model.I_HR_Payroll result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_HR_Payroll)constructor.newInstance(new Object[] {getCtx(), new Integer(getHR_Payroll_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
+			.getPO(getHR_Payroll_ID(), get_TrxName());	}
 
 	/** Set Payroll.
 		@param HR_Payroll_ID Payroll	  */
 	public void setHR_Payroll_ID (int HR_Payroll_ID)
 	{
-		if (HR_Payroll_ID < 1)
-			 throw new IllegalArgumentException ("HR_Payroll_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_HR_Payroll_ID, Integer.valueOf(HR_Payroll_ID));
+		if (HR_Payroll_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Payroll_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Payroll_ID, Integer.valueOf(HR_Payroll_ID));
 	}
 
 	/** Get Payroll.
@@ -197,6 +145,26 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Payroll Concept.
+		@param HR_PayrollConcept_ID Payroll Concept	  */
+	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID)
+	{
+		if (HR_PayrollConcept_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_PayrollConcept_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_PayrollConcept_ID, Integer.valueOf(HR_PayrollConcept_ID));
+	}
+
+	/** Get Payroll Concept.
+		@return Payroll Concept	  */
+	public int getHR_PayrollConcept_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PayrollConcept_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

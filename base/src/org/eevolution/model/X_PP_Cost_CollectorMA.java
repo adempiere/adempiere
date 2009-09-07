@@ -17,11 +17,9 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.Env;
 
@@ -44,8 +42,8 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
         {
 			setM_AttributeSetInstance_ID (0);
 			setMovementQty (Env.ZERO);
-			setPP_Cost_CollectorMA_ID (0);
 			setPP_Cost_Collector_ID (0);
+			setPP_Cost_CollectorMA_ID (0);
         } */
     }
 
@@ -76,6 +74,11 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
+    {
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
 
 	/** Set Attribute Set Instance.
 		@param M_AttributeSetInstance_ID 
@@ -120,41 +123,10 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
 		return bd;
 	}
 
-	/** Set Manufacturing Order MA.
-		@param PP_Cost_CollectorMA_ID Manufacturing Order MA	  */
-	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID)
-	{
-		if (PP_Cost_CollectorMA_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, Integer.valueOf(PP_Cost_CollectorMA_ID));
-	}
-
-	/** Get Manufacturing Order MA.
-		@return Manufacturing Order MA	  */
-	public int getPP_Cost_CollectorMA_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_CollectorMA_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException 
+	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.eevolution.model.I_PP_Cost_Collector.Table_Name);
-        org.eevolution.model.I_PP_Cost_Collector result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.eevolution.model.I_PP_Cost_Collector)constructor.newInstance(new Object[] {getCtx(), new Integer(getPP_Cost_Collector_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.eevolution.model.I_PP_Cost_Collector)MTable.get(getCtx(), org.eevolution.model.I_PP_Cost_Collector.Table_Name)
+			.getPO(getPP_Cost_Collector_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Cost Collector.
 		@param PP_Cost_Collector_ID Manufacturing Cost Collector	  */
@@ -171,6 +143,26 @@ public class X_PP_Cost_CollectorMA extends PO implements I_PP_Cost_CollectorMA, 
 	public int getPP_Cost_Collector_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_Collector_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Manufacturing Order MA.
+		@param PP_Cost_CollectorMA_ID Manufacturing Order MA	  */
+	public void setPP_Cost_CollectorMA_ID (int PP_Cost_CollectorMA_ID)
+	{
+		if (PP_Cost_CollectorMA_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Cost_CollectorMA_ID, Integer.valueOf(PP_Cost_CollectorMA_ID));
+	}
+
+	/** Get Manufacturing Order MA.
+		@return Manufacturing Order MA	  */
+	public int getPP_Cost_CollectorMA_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Cost_CollectorMA_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
