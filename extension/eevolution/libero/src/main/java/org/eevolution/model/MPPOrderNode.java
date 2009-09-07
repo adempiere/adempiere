@@ -45,21 +45,46 @@ public class MPPOrderNode extends X_PP_Order_Node
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 	Get WF Node from Cache
-	 *	@param ctx context
-	 *	@param PP_Order_Node_ID id
-	 *	@return MPPOrderNode
+	 * Get WF Node from Cache
+	 * @param ctx context
+	 * @param PP_Order_Node_ID id
+	 * @return MPPOrderNode
+	 * @deprecated Use {@link #get(Properties, int, String)}
 	 */
 	public static MPPOrderNode get (Properties ctx, int PP_Order_Node_ID)
 	{
+		return get(ctx, PP_Order_Node_ID, null); 
+	}
+	
+	/**
+	 * Get WF Node. If trxName is null, cache will be used.
+	 * @param ctx context
+	 * @param PP_Order_Node_ID id
+	 * @param trxName
+	 * @return MPPOrderNode
+	 */
+	public static MPPOrderNode get (Properties ctx, int PP_Order_Node_ID, String trxName)
+	{
 		if (PP_Order_Node_ID <= 0)
 			return null;
-		MPPOrderNode retValue = s_cache.get (PP_Order_Node_ID);
-		if (retValue != null)
-			return retValue;
-		retValue = new MPPOrderNode (ctx, PP_Order_Node_ID, null);
-		if (retValue.get_ID () != 0)
+		MPPOrderNode retValue = null;
+		if (trxName == null)
+		{
+			retValue = s_cache.get (PP_Order_Node_ID);
+			if (retValue != null)
+				return retValue;
+		}
+		//
+		retValue = new MPPOrderNode (ctx, PP_Order_Node_ID, trxName);
+		if (retValue.getPP_Order_Node_ID() <= 0)
+		{
+			retValue = null;
+		}
+		if (retValue != null && trxName == null)
+		{
 			s_cache.put (PP_Order_Node_ID, retValue);
+		}
+		//
 		return retValue;
 	}	//	get
 
@@ -244,7 +269,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	{
 		return getQtyRequiered().subtract(getQtyDelivered());
 	}
-
+	
 	/**
 	 * 	Get Number of Next Nodes
 	 * 	@return number of next nodes

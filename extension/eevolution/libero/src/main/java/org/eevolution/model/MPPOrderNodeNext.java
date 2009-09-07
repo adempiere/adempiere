@@ -143,7 +143,7 @@ public class MPPOrderNodeNext extends X_PP_Order_NodeNext
 	{
 		if (m_toJoinAnd == null && getPP_Order_Next_ID() != 0)
 		{
-			MPPOrderNode next = MPPOrderNode.get(getCtx(), getPP_Order_Next_ID());
+			MPPOrderNode next = MPPOrderNode.get(getCtx(), getPP_Order_Next_ID(), get_TrxName());
 			setToJoinAnd(MPPOrderNode.JOINELEMENT_AND.equals(next.getJoinElement()));
 		}
 		if (m_toJoinAnd != null)

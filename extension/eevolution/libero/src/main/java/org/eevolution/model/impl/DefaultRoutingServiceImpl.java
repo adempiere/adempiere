@@ -60,8 +60,9 @@ public class DefaultRoutingServiceImpl implements RoutingService
 	
 	public BigDecimal estimateWorkingTime(I_PP_Cost_Collector cc)
 	{
-		BigDecimal qty = cc.getMovementQty();
-		MPPOrderNode node = MPPOrderNode.get(Env.getCtx(), cc.getPP_Order_Node_ID());
+		final String trxName = (cc instanceof PO ? ((PO)cc).get_TrxName() : null);
+		final BigDecimal qty = cc.getMovementQty();
+		MPPOrderNode node = MPPOrderNode.get(Env.getCtx(), cc.getPP_Order_Node_ID(), trxName);
 		return estimateWorkingTime(node, qty);
 	}
 
