@@ -50,6 +50,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -64,9 +65,9 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.compiere.apps.ADialog;
-import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.StatusBar;
+import org.compiere.grid.GridController;
 import org.compiere.grid.ed.AutoCompletion;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
@@ -75,6 +76,7 @@ import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
+import org.compiere.model.GridTab;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
@@ -94,6 +96,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
@@ -107,6 +110,9 @@ import org.compiere.util.ValueNamePair;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2564070 ] Saving user queries can produce unnecessary db errors
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * 			<li>RF [ 2853359 ] Popup Menu for Lookup Record
+ * 			<li>http://sourceforge.net/tracker/?func=detail&aid=2853359&group_id=176962&atid=879335
  */
 public final class Find extends CDialog
 		implements ActionListener, ChangeListener, DataStatusListener
@@ -114,7 +120,24 @@ public final class Find extends CDialog
 	private static final long serialVersionUID = 6414604433732835410L;
 	
 	private int m_AD_Tab_ID;
-
+	
+	/**
+	 * Find Constructor
+	 * @param owner Frame Dialog Onwer
+	 * @param targetWindowNo WindowNo of target window
+	 * @param gc Grid Controller
+	 * @param gridTab GridTab
+	 * @param minRecords number of minimum records
+	 */
+	public Find (Frame owner, int targetWindowNo, GridController gc ,GridTab gridTab, int minRecords)
+	{
+		this(owner, targetWindowNo, gridTab.getName(), gridTab.getAD_Tab_ID(),
+				gridTab.getAD_Table_ID(), gridTab.getTableName(), gridTab.getWhereExtended(),
+				GridField.createFields(Env.getCtx(), targetWindowNo, 0, gridTab.getAD_Tab_ID()),  minRecords);
+		m_gt = gridTab;
+		m_gc = gc;
+	}
+	
 	/**
 	 *	Find Constructor
 	 *	@param owner Frame Dialog Onwer
@@ -130,7 +153,6 @@ public final class Find extends CDialog
 		int AD_Table_ID, String tableName, String whereExtended,
 		GridField[] findFields, int minRecords)
 	{
-		super(owner, Msg.getMsg(Env.getCtx(), "Find") + ": " + title, true);
 		log.info(title);
 		//
 		m_targetWindowNo = targetWindowNo;
@@ -163,9 +185,11 @@ public final class Find extends CDialog
 		}
 		//
 		this.getRootPane().setDefaultButton(confirmPanelS.getOKButton());
-		AEnv.showCenterWindow(owner, this);
 	}	//	Find
-
+	
+	GridController m_gc ;
+	GridTab m_gt;
+	
 	/** Target Window No            */
 	private int				m_targetWindowNo;
 	/**	Table ID					*/
@@ -205,6 +229,11 @@ public final class Find extends CDialog
 	public static final int		FIELDLENGTH = 20;
 	/** Reference ID for Yes/No	*/
 	public static final int		AD_REFERENCE_ID_YESNO = 319;
+	
+	/**	The Popup						*/
+	private JPopupMenu 	m_popup = new JPopupMenu("SearchMenu");
+	/**	The Option List					*/
+	private ArrayList<KeyNamePair>	m_list = new ArrayList<KeyNamePair>();
 	
 	//
 	private CPanel southPanel = new CPanel();
@@ -551,7 +580,7 @@ public final class Find extends CDialog
 	/**
 	 *  Init Find GridController
 	 */
-	private void initFindAdvanced()
+	public void initFindAdvanced()
 	{
 		log.config("");
 		advancedTable.setModel(new DefaultTableModel(0, 4));
@@ -718,7 +747,7 @@ public final class Find extends CDialog
 	public void actionPerformed (ActionEvent e)
 	{
 		log.info(e.getActionCommand());
-		//
+		
 		if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 			cmd_cancel();
 		else if (e.getActionCommand().equals(ConfirmPanel.A_REFRESH))
@@ -796,7 +825,7 @@ public final class Find extends CDialog
 		}
 	}	//	actionPerformed
 
-	private void parseUserQuery(MUserQuery userQuery) {
+	public void parseUserQuery(MUserQuery userQuery) {
 		String code = userQuery.getCode();
 		String[] segments = code.split(Pattern.quote(SEGMENT_SEPARATOR));
 		advancedTable.stopEditor(true);
@@ -945,7 +974,7 @@ public final class Find extends CDialog
 	/**
 	 *	Advanced OK Button pressed
 	 */
-	private void cmd_ok_Advanced()
+	public void cmd_ok_Advanced()
 	{
 		m_isCancel = false; // teo_sarca [ 1708717 ]
 		//	save pending
@@ -1107,7 +1136,7 @@ public final class Find extends CDialog
 		}
 	}	//	cmd_save
 
-	private void refreshUserQueries() 
+	public void refreshUserQueries() 
 	{
 		Object selected = fQueryName.getSelectedItem();
 		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
@@ -1462,6 +1491,11 @@ public final class Find extends CDialog
 		//
 		if (query != null)
 			statusBar.setStatusToolTip (query.getWhereClause());
+		if(m_gt != null && m_gc!= null)
+		{	
+			m_gt.setQuery(getQuery());
+			m_gc.query(false, 0, 0);
+		}	
 		return m_total;
 	}	//	getNoOfRecords
 
@@ -1535,5 +1569,4 @@ public final class Find extends CDialog
 			return comp;
 		}
 	}	// ProxyRenderer
-
 }	//	Find
