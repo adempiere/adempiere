@@ -835,10 +835,11 @@ public class MTable extends X_AD_Table
 		{	
 			if(getTableName().endsWith("_Trl") || getTableName().endsWith("_Access"))
 				return;
-			M_Element element = M_Element.get(getCtx(), getTableName()+"_ID");
+			
+			M_Element element = M_Element.get(getCtx(), getTableName()+"_ID", get_TrxName());
 			if(element != null)
 				return;				
-			element = new M_Element(getCtx(), 0 , this.get_TrxName());
+			element = new M_Element(getCtx(), 0 , get_TrxName());
 			element.setColumnName(getTableName()+"_ID");
 			element.setName(getName() + " ID");
 			element.setPrintName(getName() + " ID");
