@@ -136,6 +136,11 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		{	
 			cc.setIsSubcontracting(PP_Order_Node_ID);
 		}
+		// If this is an material issue, we should use BOM Line's UOM
+		if (PP_Order_BOMLine_ID > 0)
+		{
+			cc.setC_UOM_ID(0); // we set the BOM Line UOM on beforeSave
+		}
 		cc.saveEx();
 		if (!cc.processIt(MPPCostCollector.DOCACTION_Complete))
 		{
@@ -645,14 +650,27 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			}
 		}
 		//
+		if (isIssue())
+		{
+			if (getPP_Order_BOMLine_ID() <= 0)
+			{
+				throw new FillMandatoryException(COLUMNNAME_PP_Order_BOMLine_ID);
+			}
+			// If no UOM, use the UOM from BOMLine
+			if (getC_UOM_ID() <= 0)
+			{
+				setC_UOM_ID(getPP_Order_BOMLine().getC_UOM_ID());
+			}
+			// If Cost Collector UOM differs from BOM Line UOM then throw exception because this conversion is not supported yet
+			if (getC_UOM_ID() != getPP_Order_BOMLine().getC_UOM_ID())
+			{
+				throw new AdempiereException("@PP_Cost_Collector_ID@ @C_UOM_ID@ <> @PP_Order_BOMLine_ID@ @C_UOM_ID@");
+			}
+		}
+
 		if (isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl) && getPP_Order_Node_ID() <= 0)
 		{
 			throw new FillMandatoryException(COLUMNNAME_PP_Order_Node_ID);
-		}
-		//
-		if (isIssue() && getPP_Order_BOMLine_ID() <= 0)
-		{
-			throw new FillMandatoryException(COLUMNNAME_PP_Order_BOMLine_ID);
 		}
 		return true;
 	}
@@ -916,7 +934,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 	 **/
 	public void setIsSubcontracting(int PP_Order_Node_ID)
 	{
-		setIsSubcontracting(MPPOrderNode.get(getCtx(), PP_Order_Node_ID).isSubcontracting());
+		
+		setIsSubcontracting(MPPOrderNode.get(getCtx(), PP_Order_Node_ID, get_TrxName()).isSubcontracting());
 	}
 
 }	//	MPPCostCollector
