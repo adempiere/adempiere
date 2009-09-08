@@ -120,23 +120,20 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        }
 	        getComponent().setCols(displayLength);
 
-	        if (!tableEditor)
+	        if (gridField.getDisplayType() == DisplayType.Text)
 	        {
-		        if (gridField.getDisplayType() == DisplayType.Text)
-		        {
-		            getComponent().setMultiline(true);
-		            getComponent().setRows(3);
-		        }
-		        else if (gridField.getDisplayType() == DisplayType.TextLong)
-		        {
-		            getComponent().setMultiline(true);
-		            getComponent().setRows(5);
-		        }
-		        else if (gridField.getDisplayType() == DisplayType.Memo)
-		        {
-		            getComponent().setMultiline(true);
-		            getComponent().setRows(8);
-		        }
+	            getComponent().setMultiline(true);
+	            getComponent().setRows(3);
+	        }
+	        else if (gridField.getDisplayType() == DisplayType.TextLong)
+	        {
+	            getComponent().setMultiline(true);
+	            getComponent().setRows(5);
+	        }
+	        else if (gridField.getDisplayType() == DisplayType.Memo)
+	        {
+	            getComponent().setMultiline(true);
+	            getComponent().setRows(8);
 	        }
 
 	        if (getComponent() instanceof Textbox)
