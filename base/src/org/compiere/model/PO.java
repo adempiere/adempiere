@@ -1954,6 +1954,14 @@ public abstract class PO
 		else
 		{
 			trx = Trx.get(m_trxName, false);
+			if (trx == null)
+			{
+				// Using a trx that was previously closed or never opened
+				// Creating and starting the transaction right here, but please note
+				// that this is not a good practice
+				trx = Trx.get(m_trxName, true);
+				log.warning("Transaction closed or never opened ("+m_trxName+") => starting now");
+			}
 		}
 
 		//	Before Save
