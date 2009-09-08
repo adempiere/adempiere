@@ -98,7 +98,7 @@ public class ImportInventory extends SvrProcess
 			sql = new StringBuffer ("DELETE I_Inventory "
 				  + "WHERE I_IsImported='Y'").append (clientCheck);
 			no = DB.executeUpdate (sql.toString (), get_TrxName());
-			log.fine("Delete Old Impored =" + no);
+			log.fine("Delete Old Imported=" + no);
 		}
 
 		//	Set Client, Org, Location, IsActive, Created/Updated

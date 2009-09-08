@@ -179,7 +179,7 @@ public class ImportProduct extends SvrProcess
 			"Discontinued","DiscontinuedBy","ImageURL","DescriptionURL"};
 		for (int i = 0; i < strFields.length; i++)
 		{
-			sql = new StringBuffer ("UPDATE I_PRODUCT i "
+			sql = new StringBuffer ("UPDATE I_Product i "
 				+ "SET ").append(strFields[i]).append(" = (SELECT ").append(strFields[i]).append(" FROM M_Product p"
 				+ " WHERE i.M_Product_ID=p.M_Product_ID AND i.AD_Client_ID=p.AD_Client_ID) "
 				+ "WHERE M_Product_ID IS NOT NULL"

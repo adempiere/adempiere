@@ -218,7 +218,7 @@ public class ImportGLJournal extends SvrProcess
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
-			log.warning ("Invalid Category=" + no);
+			log.warning ("Invalid GLCategory=" + no);
 
 		//	Set Currency
 		sql = new StringBuffer ("UPDATE I_GLJournal i "

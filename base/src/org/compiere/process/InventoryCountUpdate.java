@@ -115,7 +115,7 @@ public class InventoryCountUpdate extends SvrProcess
 				+ "SET QtyCount=0 "
 				+ "WHERE M_Inventory_ID=" + p_M_Inventory_ID;
 			no = DB.executeUpdate(sql, get_TrxName());
-			log.info("Set Cont to Zero=" + no);
+			log.info("Set Count to Zero=" + no);
 		}
 		
 		if (multiple > 0)
