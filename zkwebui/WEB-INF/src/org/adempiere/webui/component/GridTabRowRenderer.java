@@ -36,6 +36,7 @@ import org.compiere.model.GridTab;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.NamePair;
+import org.zkoss.xml.XMLs;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -229,6 +230,8 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		String display = text;
 		if (text != null && text.length() > MAX_TEXT_LENGTH)
 			display = text.substring(0, MAX_TEXT_LENGTH - 3) + "...";
+		if (display != null)
+			display = XMLs.encodeText(display);
 		label.appendChild(new Text(display));
 		if (text != null && text.length() > MAX_TEXT_LENGTH)
 			label.setDynamicProperty("title", text);
