@@ -40,6 +40,9 @@ import org.eevolution.model.MPPOrderNode;
  * @version 1.0, October 14th 2005
  * 
  * @author Teo Sarca, http://www.arhipac.ro
+ * @author Cristi Pup, http://www.arhipac.ro
+ * 			<li>BF [ 2854937 ] CRP calculate wrong DateFinishSchedule 
+ * 				https://sourceforge.net/tracker/?func=detail&atid=934929&aid=2854937&group_id=176962
  */
 public class CRPReasoner
 {
@@ -122,7 +125,7 @@ public class CRPReasoner
 			whereClause.append(" AND ").append(MPPOrder.COLUMNNAME_S_Resource_ID).append("=?");
 			params.add(S_Resource_ID);
 		}
-
+		
 		return new Query(getCtx(), MPPOrder.Table_Name, whereClause.toString(), trxName)
 					.setParameters(params)
 					.setOnlyActiveRecords(true)
@@ -198,12 +201,11 @@ public class CRPReasoner
 	{
 		Timestamp date = dateTime;
 		int direction = isScheduleBackward ? -1 : +1; 
-		for (int i = 1; i <= 7; i++)
+		if (!t.isDayAvailable(date))
 		{
-			date = TimeUtil.addDays(date, i * direction);
-			if (t.isDayAvailable(date))
+			for (int i = 1; i <= 7; i++)
 			{
-				break;
+				date = TimeUtil.addDays(date, i * direction);
 			}
 		}
 		return date;
