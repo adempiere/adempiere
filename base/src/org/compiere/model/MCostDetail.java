@@ -35,6 +35,9 @@ import org.compiere.util.Env;
  *  	<li>BF: 1568752 Average invoice costing: landed costs incorrectly applied
  *  @author Armen Rizal & Bayu Cahya
  *  	<li>BF [ 2129781 ] Cost Detail not created properly for multi acc schema
+ *  @author Teo Sarca
+ *  	<li>BF [ 2847648 ] Manufacture & shipment cost errors
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2847648&group_id=176962&atid=934929
  *  @version $Id: MCostDetail.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  *  
  */
@@ -944,15 +947,20 @@ public class MCostDetail extends X_M_CostDetail
 			}
 			else if (ce.isStandardCosting())
 			{
-				if (cost.getCurrentCostPrice().signum() == 0)
+				// Update cost record only if newly created.
+				// Elsewhere we risk to set the CurrentCostPrice to an undesired price. 
+				if (cost.is_new()
+						&& cost.getCurrentCostPrice().signum() == 0
+						&& cost.getCurrentCostPriceLL().signum() == 0)
 				{
 					cost.setCurrentCostPrice(price);
 					//	seed initial price
-					if (cost.getCurrentCostPrice().signum() == 0 
-						&& cost.get_ID() == 0)
-						cost.setCurrentCostPrice(
-							MCost.getSeedCosts(product, M_ASI_ID, 
+					if (cost.getCurrentCostPrice().signum() == 0)
+					{
+						cost.setCurrentCostPrice(MCost.getSeedCosts(product, M_ASI_ID, 
 								as, Org_ID, ce.getCostingMethod(), getC_OrderLine_ID()));
+						log.finest("Inv - Standard - CurrentCostPrice(seed)="+cost.getCurrentCostPrice()+", price="+price);
+					}
 				}
 				cost.add(amt, qty);
 				log.finer("Inv - Standard - " + cost);
@@ -1074,10 +1082,13 @@ public class MCostDetail extends X_M_CostDetail
 						&& cost.is_new())
 					{
 						cost.setCurrentCostPrice(price);
+						log.finest("QtyAdjust - Standard - CurrentCostPrice="+price);
 					}
 				}
 				else
+				{
 					cost.setCurrentQty(cost.getCurrentQty().add(qty));
+				}
 				log.finer("QtyAdjust - Standard - " + cost);
 			}
 			else if (ce.isUserDefined())
