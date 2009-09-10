@@ -29,6 +29,9 @@ import org.compiere.util.Msg;
  *  Journal Line Model
  *
  *	@author Jorg Janke
+ *	@author Cristina Ghita
+ *  	<li>BF [ 2855807 ] AD_Org_ID from account 
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2855807&group_id=176962&atid=879332
  *	@version $Id: MJournalLine.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  */
 public class MJournalLine extends X_GL_JournalLine
@@ -304,7 +307,17 @@ public class MJournalLine extends X_GL_JournalLine
 		if (newRecord 
 			|| is_ValueChanged("C_ValidCombination_ID")
 			|| is_ValueChanged("AD_Org_ID"))
-			setAD_Org_ID(getAccount().getAD_Org_ID());
+		{
+			int AD_Org_ID = getAccount().getAD_Org_ID(); 
+			if(AD_Org_ID > 0) 
+			{	 
+				setAD_Org_ID(AD_Org_ID); 
+			} 
+			else  
+			{ 
+				setAD_Org_ID(getParent().getAD_Org_ID()); 
+			} 
+		}
 		return true;
 	}	//	beforeSave
 	
