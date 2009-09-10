@@ -706,6 +706,13 @@ public class ImportInvoice extends SvrProcess
 				// globalqss - import invoice with charges
 				if (imp.getC_Charge_ID() != 0)
 					line.setC_Charge_ID(imp.getC_Charge_ID());
+				// globalqss - [2855673] - assign dimensions to lines also in case they're different 
+				if (imp.getC_Activity_ID() != 0)
+					line.setC_Activity_ID(imp.getC_Activity_ID());
+				if (imp.getC_Campaign_ID() != 0)
+					line.setC_Campaign_ID(imp.getC_Campaign_ID());
+				if (imp.getC_Project_ID() != 0)
+					line.setC_Project_ID(imp.getC_Project_ID());
 				//
 				line.setQty(imp.getQtyOrdered());
 				line.setPrice();
