@@ -368,7 +368,7 @@
   <value column="Help" original="When selected, the database column definition is updated based on your entries in the Column definition of the Application Dictionary. Note that not all changes are supported by the database and may result in an error.">Wenn selektiert, wird die Tabellenspalte basierend auf Ihrer Spaltendefinition im Application Dictionary aktualisiert. Beachten Sie, dass nicht alle Änderungen von der Datenbank unterstützt werden und manche Vorgaben zu einem Fehler führen können.</value>
  </row>
  <row id="182" trl="Y">
-  <value column="Name" original="Standard Cost Update">Produktkosten aktualisieren</value>
+  <value column="Name" original="Standard Cost Update">Standardkosten aktualisieren</value>
   <value column="Description" original="Set standard and future cost price">Setzt zukünftige Kostenpreise und Standard-Kostenpreise</value>
   <value column="Help" original="For Standard Costs you can set/recalculate the current or future cost price (for the cost type of the accounting schema). If the Costing Level of the Accounting Schema is set to Client, missing cost records are created. The historical costs are calculated based on the accumulated amount/quantity of the costing method.">Für Standardkosten können Sie
  den gegenwärtigen oder zukünftigen Kostenpreis setzen oder neu berechnen (für die Kostenkategorie des Buchführungsschemas). Wenn die Kostenebene des Buchführungsschemas auf "Mandant" gesetzt ist, werden fehlende Kosteneinträge erstellt. Die historischen Kosten werden basierend auf den akkumulierten Beträgen/Mengen der Kostenrechnungsmetode berechnet.</value>
@@ -757,9 +757,9 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
   <value column="Help" original=""/>
  </row>
  <row id="258" trl="Y">
-  <value column="Name" original="Sequence Check">Nummernfolgen überprüfen</value>
-  <value column="Description" original="Check System and Document Sequences">Überprüfen von System- und Beleg-Nummernfolgen</value>
-  <value column="Help" original="Check that System and Document sequences are correct.  Run this process, if you get Duplicate Key error messages.">Überprüfen, dass System- und Beleg-Nummernfolgen korrekt sind. Starten Sie diesen Prozess, wenn Sie Fehlermeldungen wie "Doppelte Einträge" bekommen.</value>
+  <value column="Name" original="Sequence Check">Nummernkreisn überprüfen</value>
+  <value column="Description" original="Check System and Document Sequences">Überprüfen von System- und Beleg-Nummernkreisn</value>
+  <value column="Help" original="Check that System and Document sequences are correct.  Run this process, if you get Duplicate Key error messages.">Überprüfen, dass System- und Beleg-Nummernkreisn korrekt sind. Starten Sie diesen Prozess, wenn Sie Fehlermeldungen wie "Doppelte Einträge" bekommen.</value>
  </row>
  <row id="259" trl="Y">
   <value column="Name" original="Create Orders">Aufträge erstellen</value>
@@ -1310,7 +1310,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
   <value column="Help" original=""/>
  </row>
  <row id="53068" trl="Y">
-  <value column="Name" original="Update Sequence No">Nummernfolge aktualisieren</value>
+  <value column="Name" original="Update Sequence No">Nummernkreis aktualisieren</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>

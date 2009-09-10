@@ -65,7 +65,7 @@
  <row id="110" trl="Y">
   <value column="Name" original="Menu">Menü</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Maintain Menu">Verwalten des Menüs</value>
+  <value column="Description" original="Maintain Menu">Menü verwalten</value>
   <value column="Help" original="The Menu Tab defines the tree structured menu which will be used for the selected Organization. Note that the name and description will be automatically synchronized (overwritten), if not a summary node.">Das Register "Menü" das als Baum strukkturierte Menü, das für die gewählte Organisation verwendet wird. Beachten Sie, dass Name und Beschreibung automatisch synchronisiert (überschrieben) werden, wenn es sich nicht um einen Zusammenfassungseintrag handelt.</value>
  </row>
  <row id="111" trl="Y">
@@ -235,7 +235,7 @@ When adding a new organization, you must re-login to be able to access the new o
  <row id="146" trl="Y">
   <value column="Name" original="Sequence">Reihenfolge</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Sequence Definition">Definition der Nummernfolge</value>
+  <value column="Description" original="Sequence Definition">Definition der Nummernkreise</value>
   <value column="Help" original="The Sequence Tab defines the numeric sequencing to use for documents.  These can also include a alpha suffix and / or prefix.">The Sequence Tab defines the numeric sequencing to use for documents.  These can also include a alpha suffix and / or prefix.</value>
  </row>
  <row id="148" trl="Y">
@@ -1484,7 +1484,7 @@ The SELECT definition must contain the SELECT and FROM keywords in upper case, t
   <value column="Help" original=""/>
  </row>
  <row id="393" trl="Y">
-  <value column="Name" original="Window Customization">Fenster-Einstellung</value>
+  <value column="Name" original="Window Customization">Fensteranpassung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -3821,7 +3821,7 @@ The measure must support the data, otherwise it is ignored.</value>
  <row id="784" trl="Y">
   <value column="Name" original="Ratio">Kennzahl</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Performance Ratio">Ergabnis - Kennzahl</value>
+  <value column="Description" original="Performance Ratio">Ergebnis - Kennzahl</value>
   <value column="Help" original="Calculation instruction set  for a performance ratio">Calculation instruction set  for a performance ratio</value>
  </row>
  <row id="785" trl="Y">
@@ -3903,7 +3903,7 @@ The measure must support the data, otherwise it is ignored.</value>
   <value column="Help" original="A web project is the meta definition which will contain later on all data within the Web Content Management Project. ">A web project is the meta definition which will contain later on all data within the Web Content Management Project. </value>
  </row>
  <row id="801" trl="Y">
-  <value column="Name" original="Domain">Domäne</value>
+  <value column="Name" original="Domain">Internetadresse</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Web Project Domains">Maintain Web Project Domains</value>
   <value column="Help" original="Link between the Web Project and the public URLs (Domains)">Link between the Web Project and the public URLs (Domains)</value>
@@ -4041,7 +4041,7 @@ The measure must support the data, otherwise it is ignored.</value>
   <value column="Help" original=""/>
  </row>
  <row id="825" trl="Y">
-  <value column="Name" original="Template Table">Vorlagewn-Tabelle</value>
+  <value column="Name" original="Template Table">Vorlagen-Tabelle</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Template Tables">Maintain Template Tables</value>
   <value column="Help" original="Link a Template with a Table">Link a Template with a Table</value>

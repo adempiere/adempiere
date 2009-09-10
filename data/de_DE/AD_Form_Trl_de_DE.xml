@@ -100,7 +100,7 @@
  <row id="119" trl="Y">
   <value column="Name" original="Performance Indicators">Ergebnis - Kennzahlen</value>
   <value column="Description" original="View Performance Indicators">Anzeige der Ergebnis-Kennzahlen</value>
-  <value column="Help" original="View all Performance Indicators and Goals">Alle Ziele und Kennzahlen für das Ergabnis ansehen.</value>
+  <value column="Help" original="View all Performance Indicators and Goals">Alle Ziele und Kennzahlen für das Ergebnis ansehen.</value>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Product Attribute Grid">Produkt-Merkmal-Matrix</value>

@@ -19,8 +19,8 @@
   <value column="Description" original="Maintain Currency Conversion Rates">Umrechnungskurse für Währungen verwalten</value>
  </row>
  <row id="104" trl="Y">
-  <value column="Name" original="Calendar Year and Period">Kalendarjahr und Periode</value>
-  <value column="Description" original="Maintain Calendars Years Periods">Kalendarjahre und Perioden verwalten </value>
+  <value column="Name" original="Calendar Year and Period">Kalenderjahr und Periode</value>
+  <value column="Description" original="Maintain Calendars Years Periods">Kalenderjahre und Perioden verwalten </value>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Account Element">Kontenart</value>
@@ -164,7 +164,7 @@
  </row>
  <row id="144" trl="Y">
   <value column="Name" original="Menu">Menü</value>
-  <value column="Description" original="Maintain Menu">Verwalten des Menüs</value>
+  <value column="Description" original="Maintain Menu">Menü verwalten</value>
  </row>
  <row id="145" trl="Y">
   <value column="Name" original="Language">Sprache</value>
@@ -187,7 +187,7 @@
   <value column="Description" original="Maintain User Responsibilities">Verwalten von Nutzer-Verantwortlichkeiten</value>
  </row>
  <row id="151" trl="Y">
-  <value column="Name" original="Document Sequence">Nummernfolgen für Belege</value>
+  <value column="Name" original="Document Sequence">Belegnummernkreis</value>
   <value column="Description" original="Maintain System and Document Sequences">Nummernkreise für System und Dokumente verwalten</value>
  </row>
  <row id="152" trl="Y">
@@ -420,7 +420,7 @@
   <value column="Description" original="Display Error Messages">Fehlermeldungen anzeigen</value>
  </row>
  <row id="222" trl="Y">
-  <value column="Name" original="Import Loader Format">Import-Formate</value>
+  <value column="Name" original="Import Loader Format">Import-Dateiformate</value>
   <value column="Description" original="Maintain Import Loader Formats">Verwaltung von Importformaten für das Ladeprogramm</value>
  </row>
  <row id="223" trl="Y">
@@ -489,7 +489,7 @@
  </row>
  <row id="240" trl="Y">
   <value column="Name" original="Cashbook">Kassenbuch</value>
-  <value column="Description" original="Maintain Cashbook">Kassenbuch</value>
+  <value column="Description" original="Maintain Cashbook">Kassenbuch verwalten</value>
  </row>
  <row id="241" trl="Y">
   <value column="Name" original="Cash Journal">Kassenjournal</value>
@@ -561,7 +561,7 @@
  </row>
  <row id="264" trl="Y">
   <value column="Name" original="Commission Run">Provisions-Lauf</value>
-  <value column="Description" original="Check and modify Commissions">Kommissionen überprüfen und modifizieren</value>
+  <value column="Description" original="Check and modify Commissions">Provisionen überprüfen und modifizieren</value>
  </row>
  <row id="265" trl="Y">
   <value column="Name" original="Accounting Setup">Einrichtung Buchführung</value>
@@ -724,7 +724,7 @@
   <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Abgleich Bestellungen, Lieferscheine und Lieferantenrechnungen</value>
  </row>
  <row id="313" trl="Y">
-  <value column="Name" original="Standard Cost Update">Produktkosten aktualisieren</value>
+  <value column="Name" original="Standard Cost Update">Standardkosten aktualisieren</value>
   <value column="Description" original="Set standard and future cost price">Setzt zukünftige Kostenpreise und Standard-Kostenpreise</value>
  </row>
  <row id="314" trl="Y">
@@ -1312,8 +1312,8 @@
   <value column="Description" original=""/>
  </row>
  <row id="461" trl="Y">
-  <value column="Name" original="Sequence Check">Nummernfolgen überprüfen</value>
-  <value column="Description" original="Check System and Document Sequences">Überprüfen von System- und Beleg-Nummernfolgen</value>
+  <value column="Name" original="Sequence Check">Nummernkreisn überprüfen</value>
+  <value column="Description" original="Check System and Document Sequences">Überprüfen von System- und Beleg-Nummernkreisn</value>
  </row>
  <row id="462" trl="Y">
   <value column="Name" original="Dunning Run">Mahnlauf</value>
@@ -1536,7 +1536,7 @@
   <value column="Description" original="Expense Invoice Batch">Daten für einen Rechnungslauf definieren</value>
  </row>
  <row id="517" trl="Y">
-  <value column="Name" original="Window Customization">Fenster-Einstellung</value>
+  <value column="Name" original="Window Customization">Fensteranpassung</value>
   <value column="Description" original="Define Window Customization for Role/User">Fenster-Anpassung für Rollen bzw. Nutzer definieren</value>
  </row>
  <row id="518" trl="Y">
@@ -1696,8 +1696,8 @@
   <value column="Description" original="Performance Benchmark">Vergleichsgrößen für Ergebnis</value>
  </row>
  <row id="558" trl="Y">
-  <value column="Name" original="Performance Ratio">Ergabnis - Kennzahl</value>
-  <value column="Description" original="Maintain Performance Ratios">Verwalten von Krgebnis-Kennzahlen</value>
+  <value column="Name" original="Performance Ratio">Ergebnis - Kennzahl</value>
+  <value column="Description" original="Maintain Performance Ratios">Verwalten von Ergebnis-Kennzahlen</value>
  </row>
  <row id="559" trl="Y">
   <value column="Name" original="Issue Recommendation">Problemlösungs-Empfehlung</value>
@@ -1888,7 +1888,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="53087" trl="Y">
-  <value column="Name" original="Update Sequence No">Nummernfolge aktualisieren</value>
+  <value column="Name" original="Update Sequence No">Nummernkreis aktualisieren</value>
   <value column="Description" original=""/>
  </row>
  <row id="53089" trl="Y">

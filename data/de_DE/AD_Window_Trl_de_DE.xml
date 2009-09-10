@@ -29,7 +29,7 @@
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Menu">Menü</value>
-  <value column="Description" original="Maintain Menu">Verwalten des Menüs</value>
+  <value column="Description" original="Maintain Menu">Menü verwalten</value>
   <value column="Help" original="The Maintain Menu Window defines the Menu which will display.  It is for System Admin use only.  The menu items that each user will see depends upon the security defined.">Auf dem Fenster "Menü" werden die angezeigten Menüpunkte verwaltet. Nur für den System-Administrator. Welche Menüeinträge ein Nutzer sieht, hängt von den Sicherheitseinstellungen ab.</value>
  </row>
  <row id="106" trl="Y">
@@ -63,7 +63,7 @@
   <value column="Help" original="The Role Window allows you to define the different roles that users of this system will have.  Roles control access to windows, tasks, reports, etc. For a client an Administrator and User role are predefined. You may add additional roles to control access for specific functionality or data.&#10;You can add users to the role.&#10;Note that access information is cached and requires re-login or reset of cache.">Das Fenster "Rolle" ermöglicht Ihnen, die verschiedenen Rollen zu verwalten die die Nutzer dieses Systems einnehmen können. Eine Rolle kontrolliert den Zugriff auf Fenster, Prozesse, Berichte usw. Für jeden Mandanten sind je eine Administrator- und Nutzer-Rolle vordefiniert. Sie können weitere Rollen zur Regelung des Zugriffs auf bestimmte Funktionalitäten oder Daten einrichten. Sie können Nutzer zu der Rolle hinzufügen. Beachten Sie, dass Zugriffsinformation im Cache gespeichert werden und daher eine Neuanmeldung oder ein Leeren des Cache erforderlich sind.</value>
  </row>
  <row id="112" trl="Y">
-  <value column="Name" original="Document Sequence">Nummernfolgen für Belege</value>
+  <value column="Name" original="Document Sequence">Belegnummernkreis</value>
   <value column="Description" original="Maintain System and Document Sequences">Nummernkreise für System und Dokumente verwalten</value>
   <value column="Help" original="The Sequence Window defines how document numbers will be sequenced.&#10;Change the way document numbers are generated. You may add a prefix or a suffix or change the current number.">Im Fenster "Nummernkreis" wird definiert, wie die Abfolge von Dokumentennummern ist. Sie können die Art der Nummernerzeugung beeinflussen. Definieren Sie z.B. einen Präfix oder Suffix oder ändern Sie die derzeitige Nummer.</value>
  </row>
@@ -88,9 +88,9 @@
   <value column="Help" original="The Conversion Rates window is used to define the conversion rates that will be used when converting document amounts from one currency to another. Note that only the multiply rate is used; The divide rate is for visualization only.">Das Fenster "Währungskurs" ermöglicht, Kurse für die Umrechnung von Beträgen auf Belegen in verschiedenen Währungen zu pflegen. Beachten Sie, dass nur der Faktor zur Umrechnung verwendet wird, der Divisor dient nur zur Anzeige.</value>
  </row>
  <row id="117" trl="Y">
-  <value column="Name" original="Calendar Year and Period">Kalendarjahr und Periode</value>
-  <value column="Description" original="Maintain Calendars Years Periods">Kalendarjahre und Perioden verwalten </value>
-  <value column="Help" original="The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June).">"Kalendarjahr und Periode" ermöglicht, die Kalender für Periodenkontrolle und Berichtssteuerung zu verwalten. Es ist auch möglich, nicht-standard Kalender anzulegen (z.B. für Geschäftsjahre von Juli bis Juni).</value>
+  <value column="Name" original="Calendar Year and Period">Kalenderjahr und Periode</value>
+  <value column="Description" original="Maintain Calendars Years Periods">Kalenderjahre und Perioden verwalten </value>
+  <value column="Help" original="The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June).">"Kalenderjahr und Periode" ermöglicht, die Kalender für Periodenkontrolle und Berichtssteuerung zu verwalten. Es ist auch möglich, nicht-standard Kalender anzulegen (z.B. für Geschäftsjahre von Juli bis Juni).</value>
  </row>
  <row id="118" trl="Y">
   <value column="Name" original="Account Element">Kontenart</value>
@@ -366,9 +366,9 @@
   <value column="Help" original="The Error Message Window displays all error messages generated.  This is for System Admin use only.  The records must be manually deleted.">Dieses Fenster zeigt alle erzeugten Fehlermeldungen. Es ist nur für die Nutzung durch den System-Administrator. Die Einträge müssen manuell gelöscht werden.</value>
  </row>
  <row id="189" trl="Y">
-  <value column="Name" original="Import Loader Format">Import-Formate</value>
+  <value column="Name" original="Import Loader Format">Import-Dateiformate</value>
   <value column="Description" original="Maintain Import Loader Formats">Verwaltung von Importformaten für das Ladeprogramm</value>
-  <value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported.">Das Fenster "Import-Formate" ermöglicht, die Dateistruktur für zu importierende Informationen zu definieren.
+  <value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported.">Das Fenster "Import-Dateiformate" ermöglicht, die Dateistruktur für zu importierende Informationen zu definieren.
 </value>
  </row>
  <row id="191" trl="Y">
@@ -532,7 +532,7 @@ Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z
   <value column="Help" original="View detals of matched purchase order lines to invoice lines and material receipt lines">Details der Zuordnung von Bestell-Positionen zu Rechnungs- und Wareneingangs-Positionen anzeigen.</value>
  </row>
  <row id="229" trl="Y">
-  <value column="Name" original="Window Customization">Fenster-Einstellung</value>
+  <value column="Name" original="Window Customization">Fensteranpassung</value>
   <value column="Description" original="Define Window Customization for Role/User">Fenster-Anpassung für Rolle bzw. Nutzer definieren</value>
   <value column="Help" original="The customization values defined here overwrite/replace the default system definition if defined.">Die hier definierten Anpassungen überschreiben bzw. ersetzen die Standardeinstellungen.</value>
  </row>
@@ -1218,8 +1218,8 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Help" original="Data Series to compare internal performance with (e.g. stock price, ...)">Daten-Serien um das interne Ergbnis gegen Vergleichsgrößen (z.B. Aktien-Kurse, ...) zu stellen</value>
  </row>
  <row id="366" trl="Y">
-  <value column="Name" original="Performance Ratio">Ergabnis - Kennzahl</value>
-  <value column="Description" original="Maintain Performance Ratios">Verwalten von Krgebnis-Kennzahlen</value>
+  <value column="Name" original="Performance Ratio">Ergebnis - Kennzahl</value>
+  <value column="Description" original="Maintain Performance Ratios">Verwalten von Ergebnis-Kennzahlen</value>
   <value column="Help" original="Calculation instruction for a ratio">Berechnungsvorschrift für eine Kennzahl</value>
  </row>
  <row id="367" trl="Y">
