@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -75,21 +73,10 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException 
+	public I_AD_Column getAD_Column() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Column.Table_Name);
-        I_AD_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
 		@param AD_Column_ID 
@@ -137,21 +124,10 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.adempiere.model.I_AD_View_Definition getAD_View_Definition() throws RuntimeException 
+	public org.adempiere.model.I_AD_View_Definition getAD_View_Definition() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View_Definition.Table_Name);
-        org.adempiere.model.I_AD_View_Definition result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_View_Definition)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_View_Definition_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.adempiere.model.I_AD_View_Definition)MTable.get(getCtx(), org.adempiere.model.I_AD_View_Definition.Table_Name)
+			.getPO(getAD_View_Definition_ID(), get_TrxName());	}
 
 	/** Set View Definition.
 		@param AD_View_Definition_ID 
@@ -176,21 +152,10 @@ public class X_AD_View_Column extends PO implements I_AD_View_Column, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException 
+	public org.adempiere.model.I_AD_View getAD_View() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View.Table_Name);
-        org.adempiere.model.I_AD_View result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_View)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_View_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.adempiere.model.I_AD_View)MTable.get(getCtx(), org.adempiere.model.I_AD_View.Table_Name)
+			.getPO(getAD_View_ID(), get_TrxName());	}
 
 	/** Set View.
 		@param AD_View_ID 

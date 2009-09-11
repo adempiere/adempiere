@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
@@ -98,21 +96,10 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
-	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException 
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_Browse.Table_Name);
-        org.adempiere.model.I_AD_Browse result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_Browse)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Browse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.adempiere.model.I_AD_Browse)MTable.get(getCtx(), org.adempiere.model.I_AD_Browse.Table_Name)
+			.getPO(getAD_Browse_ID(), get_TrxName());	}
 
 	/** Set Smart Browse.
 		@param AD_Browse_ID Smart Browse	  */
@@ -134,21 +121,10 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
-	public I_AD_Element getAD_Element() throws RuntimeException 
+	public I_AD_Element getAD_Element() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Element.Table_Name);
-        I_AD_Element result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Element)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Element_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Element)MTable.get(getCtx(), I_AD_Element.Table_Name)
+			.getPO(getAD_Element_ID(), get_TrxName());	}
 
 	/** Set System Element.
 		@param AD_Element_ID 
@@ -173,6 +149,11 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
+
 	/** Set Reference.
 		@param AD_Reference_ID 
 		System Reference and Validation
@@ -195,6 +176,11 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_AD_Reference getAD_Reference_Value() throws RuntimeException
+    {
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
 
 	/** Set Reference Key.
 		@param AD_Reference_Value_ID 
@@ -219,21 +205,10 @@ public class X_AD_Browse_Field extends PO implements I_AD_Browse_Field, I_Persis
 		return ii.intValue();
 	}
 
-	public org.adempiere.model.I_AD_View_Column getAD_View_Column() throws RuntimeException 
+	public org.adempiere.model.I_AD_View_Column getAD_View_Column() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_View_Column.Table_Name);
-        org.adempiere.model.I_AD_View_Column result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_View_Column)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_View_Column_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.adempiere.model.I_AD_View_Column)MTable.get(getCtx(), org.adempiere.model.I_AD_View_Column.Table_Name)
+			.getPO(getAD_View_Column_ID(), get_TrxName());	}
 
 	/** Set View Column.
 		@param AD_View_Column_ID 

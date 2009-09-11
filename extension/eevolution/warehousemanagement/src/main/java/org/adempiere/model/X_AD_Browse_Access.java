@@ -17,10 +17,8 @@
 /** Generated Model - DO NOT CHANGE */
 package org.adempiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.model.*;
 
 /** Generated Model for AD_Browse_Access
@@ -74,21 +72,10 @@ public class X_AD_Browse_Access extends PO implements I_AD_Browse_Access, I_Pers
       return sb.toString();
     }
 
-	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException 
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(org.adempiere.model.I_AD_Browse.Table_Name);
-        org.adempiere.model.I_AD_Browse result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (org.adempiere.model.I_AD_Browse)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Browse_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (org.adempiere.model.I_AD_Browse)MTable.get(getCtx(), org.adempiere.model.I_AD_Browse.Table_Name)
+			.getPO(getAD_Browse_ID(), get_TrxName());	}
 
 	/** Set Smart Browse.
 		@param AD_Browse_ID Smart Browse	  */
@@ -110,21 +97,10 @@ public class X_AD_Browse_Access extends PO implements I_AD_Browse_Access, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_Role getAD_Role() throws RuntimeException 
+	public I_AD_Role getAD_Role() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
-        I_AD_Role result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Role)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Role_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
 		@param AD_Role_ID 

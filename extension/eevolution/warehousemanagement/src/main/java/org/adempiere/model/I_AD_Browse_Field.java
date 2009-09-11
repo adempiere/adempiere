@@ -111,6 +111,8 @@ public interface I_AD_Browse_Field
 	  */
 	public int getAD_Reference_ID();
 
+	public I_AD_Reference getAD_Reference() throws RuntimeException;
+
     /** Column name AD_Reference_Value_ID */
     public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
 
@@ -123,6 +125,8 @@ public interface I_AD_Browse_Field
 	  * Required to specify, if data type is Table or List
 	  */
 	public int getAD_Reference_Value_ID();
+
+	public I_AD_Reference getAD_Reference_Value() throws RuntimeException;
 
     /** Column name AD_View_Column_ID */
     public static final String COLUMNNAME_AD_View_Column_ID = "AD_View_Column_ID";
