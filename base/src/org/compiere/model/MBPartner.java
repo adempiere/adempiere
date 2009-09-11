@@ -263,6 +263,7 @@ public class MBPartner extends X_C_BPartner
 			setIsEmployee (false);
 			setIsSalesRep (false);
 			setIsTaxExempt(false);
+			setIsPOTaxExempt(false);
 			setIsDiscountPrinted(false);
 			//
 			setSO_CreditLimit (Env.ZERO);

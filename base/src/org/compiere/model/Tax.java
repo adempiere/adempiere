@@ -134,9 +134,11 @@ public class Tax
 		int billFromC_Location_ID = 0;
 		int billToC_Location_ID = 0;
 		String IsTaxExempt = null;
+		String IsSOTaxExempt = null;
+		String IsPOTaxExempt = null;
 
 		//	Get all at once
-		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt,"
+		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt,"
 			 + " w.C_Location_ID, sl.C_Location_ID "
 			 + "FROM C_Charge c, AD_OrgInfo o,"
 			 + " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
@@ -162,9 +164,11 @@ public class Tax
 				C_TaxCategory_ID = rs.getInt (1);
 				billFromC_Location_ID = rs.getInt (2);
 				billToC_Location_ID = rs.getInt (3);
-				IsTaxExempt = rs.getString (4);
-				shipFromC_Location_ID = rs.getInt (5);
-				shipToC_Location_ID = rs.getInt (6);
+				IsSOTaxExempt = rs.getString (4);
+				IsPOTaxExempt = rs.getString (5);
+				IsTaxExempt = IsSOTrx ? IsSOTaxExempt : IsPOTaxExempt;
+				shipFromC_Location_ID = rs.getInt (6);
+				shipToC_Location_ID = rs.getInt (7);
 				found = true;
 			}
 			DB.close(rs, pstmt);
@@ -250,6 +254,8 @@ public class Tax
 		int billFromC_Location_ID = 0;
 		int billToC_Location_ID = 0;
 		String IsTaxExempt = null;
+		String IsSOTaxExempt = null;
+		String IsPOTaxExempt = null;
 
 		String sql = null;
 		PreparedStatement pstmt = null;
@@ -257,7 +263,7 @@ public class Tax
 		try
 		{
 			//	Get all at once
-			sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt,"
+			sql = "SELECT p.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt, "
 				+ " w.C_Location_ID, sl.C_Location_ID "
 				+ "FROM M_Product p, AD_OrgInfo o,"
 				+ " C_BPartner_Location il INNER JOIN C_BPartner b ON (il.C_BPartner_ID=b.C_BPartner_ID) "
@@ -279,9 +285,11 @@ public class Tax
 				C_TaxCategory_ID = rs.getInt(1);
 				billFromC_Location_ID = rs.getInt(2);
 				billToC_Location_ID = rs.getInt(3);
-				IsTaxExempt = rs.getString(4);
-				shipFromC_Location_ID = rs.getInt(5);
-				shipToC_Location_ID = rs.getInt(6);
+				IsSOTaxExempt = rs.getString(4);
+				IsPOTaxExempt = rs.getString(5);
+				IsTaxExempt = IsSOTrx ? IsSOTaxExempt : IsPOTaxExempt;
+				shipFromC_Location_ID = rs.getInt(6);
+				shipToC_Location_ID = rs.getInt(7);
 				found = true;
 			}
 			DB.close(rs, pstmt);
@@ -339,7 +347,7 @@ public class Tax
 
 		//	billC_BPartner_Location_ID  ->	billToC_Location_ID
 			variable = "BillTo_ID";
-			sql = "SELECT l.C_Location_ID, b.IsTaxExempt "
+			sql = "SELECT l.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt "
 				+ " FROM C_BPartner_Location l"
 				+ " INNER JOIN C_BPartner b ON (l.C_BPartner_ID=b.C_BPartner_ID) "
 				+ " WHERE C_BPartner_Location_ID=?";
@@ -350,7 +358,9 @@ public class Tax
 			if (rs.next())
 			{
 				billToC_Location_ID = rs.getInt(1);
-				IsTaxExempt = rs.getString(2);
+				IsSOTaxExempt = rs.getString(2);
+				IsPOTaxExempt = rs.getString(3);
+				IsTaxExempt = IsSOTrx ? IsSOTaxExempt : IsPOTaxExempt;
 				found = true;
 			}
 			DB.close(rs, pstmt);
