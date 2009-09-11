@@ -148,9 +148,6 @@ public class MSequence extends X_AD_Sequence
 
 					// Get the table
 					MTable table = MTable.get(Env.getCtx(), TableName);
-					boolean hasEntityType = false;
-					if (table.getColumn("EntityType") != null)
-						hasEntityType = true;
 
 					int AD_Sequence_ID = rs.getInt(4);
 					boolean gotFromHTTP = false;
@@ -178,8 +175,14 @@ public class MSequence extends X_AD_Sequence
 
 					}
 
+					boolean queryProjectServer = false;
+					if (table.getColumn("EntityType") != null)
+						queryProjectServer = true;
+					if (!queryProjectServer && MSequence.Table_Name.equalsIgnoreCase(TableName))
+						queryProjectServer = true;
+					
 					// If not official dictionary try to get the ID from http custom server - if configured
-					if (hasEntityType && ( ! adempiereSys ) && ( ! isExceptionCentralized(TableName) ) ) {
+					if (queryProjectServer && ( ! adempiereSys ) && ( ! isExceptionCentralized(TableName) ) ) {
 
 						String isUseProjectCentralizedID = MSysConfig.getValue("PROJECT_ID_USE_CENTRALIZED_ID", "N"); // defaults to N
 						if (isUseProjectCentralizedID.equals("Y")) {
