@@ -99,7 +99,7 @@ import de.schaeffer.compiere.tools.DocumentSearch;
 /**
  *  Tree Panel displays trees.
  *  <br>
- *	When a node is selected, a propertyChange (NODE_SELECTION) event is fired
+ *	When a node is selected by Left Click, a propertyChange (NODE_SELECTION) event is fired
  *  <pre>
  *		PropertyChangeListener -
  *			treePanel.addPropertyChangeListener(VTreePanel.NODE_SELECTION, this);
@@ -362,8 +362,10 @@ public final class VTreePanel extends CPanel
 
 	private JScrollPane barScrollPane;
 
-	/**	Property Listener NodeSelected			*/
+	/**	Property Listener NodeSelected	by Left Click		*/
 	public static final String NODE_SELECTION = "NodeSelected";
+	/**	Property Listener NodeSelected	by Right Click		*/
+	public static final String NODE_SELECTION_RIGHT = "NodeSelectedRight";
 
 	/**
 	 *  Static Component initialization.
@@ -443,8 +445,10 @@ public final class VTreePanel extends CPanel
 		//
 		popMenuTree.setLightWeightPopupEnabled(false);
 		popMenuTree.add(mBarAdd);
-		popMenuTree.addSeparator();
 		popMenuTree.add(mFrom);
+		if(!m_hasBar){
+			popMenuTree.addSeparator();
+		}
 		popMenuTree.add(mTo);
 		popMenuBar.setLightWeightPopupEnabled(false);
 		popMenuBar.add(mBarRemove);
@@ -811,11 +815,21 @@ public final class VTreePanel extends CPanel
 				&& SwingUtilities.isRightMouseButton(e)
 				&& tree.getSelectionPath() != null)         //  need select first
 			{
-				// MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
-			    //	if (nd.isLeaf())                    //  only leaves
-				{
+				int selRow = tree.getRowForLocation(e.getX(), e.getY());
+				TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+				if(selRow != -1){
+					tree.setSelectionPath(selPath);
+					
 					Rectangle r = tree.getPathBounds(tree.getSelectionPath());
-					popMenuTree.show(tree, (int)r.getMaxX(), (int)r.getY());
+					if(r!=null){
+						popMenuTree.show(tree, (int)r.getMaxX(), (int)r.getY());
+					}else{
+					  popMenuTree.show(tree, e.getX(), e.getY());
+					}
+					if(m_hasBar){
+						MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
+						firePropertyChange(NODE_SELECTION_RIGHT, null, nd);
+					}
 				}
 			}
 		}   //  JTree

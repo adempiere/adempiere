@@ -317,6 +317,7 @@ public final class AMenu extends CFrame
 		mainLayout.setVgap(2);
 		//
 		treePanel.addPropertyChangeListener(VTreePanel.NODE_SELECTION, this);
+		treePanel.addPropertyChangeListener(VTreePanel.NODE_SELECTION_RIGHT, this);
 		//
 		infoPanel.setLayout(infoLayout);
 		infoLayout.setColumns(2);
@@ -574,6 +575,12 @@ public final class AMenu extends CFrame
 	 */
 	public void propertyChange(PropertyChangeEvent e)
 	{
+		if(e.getPropertyName().equals(VTreePanel.NODE_SELECTION_RIGHT)){
+			MTreeNode nd = (MTreeNode)e.getNewValue();
+			progressBar.setString(nd.toString());
+			return;
+		}
+		
 		MTreeNode nd = (MTreeNode)e.getNewValue();
 		log.info(nd.getNode_ID() + " - " + nd.toString());
 
