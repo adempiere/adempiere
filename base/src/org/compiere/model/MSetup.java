@@ -41,6 +41,8 @@ import org.compiere.util.Trx;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1795384 ] Setup: create default accounts records is too rigid
+ * @author Carlos Ruiz - globalqss
+ * 			<li>Setup correctly IsSOTrx for return documents
  */
 public final class MSetup
 {
@@ -587,7 +589,7 @@ public final class MSetup
 
 		//	Base DocumentTypes
 		int ii = createDocType("GL Journal", Msg.getElement(m_ctx, "GL_Journal_ID"), 
-			MDocType.DOCBASETYPE_GLJournal, null, 0, 0, 1000, GL_GL);
+			MDocType.DOCBASETYPE_GLJournal, null, 0, 0, 1000, GL_GL, false);
 		if (ii == 0)
 		{
 			String err = "Document Type not created";
@@ -597,114 +599,114 @@ public final class MSetup
 			return false;
 		}
 		createDocType("GL Journal Batch", Msg.getElement(m_ctx, "GL_JournalBatch_ID"), 
-			MDocType.DOCBASETYPE_GLJournal, null, 0, 0, 100, GL_GL);
+			MDocType.DOCBASETYPE_GLJournal, null, 0, 0, 100, GL_GL, false);
 		//	MDocType.DOCBASETYPE_GLDocument
 		//
 		int DT_I = createDocType("AR Invoice", Msg.getElement(m_ctx, "C_Invoice_ID", true), 
-			MDocType.DOCBASETYPE_ARInvoice, null, 0, 0, 100000, GL_ARI);
+			MDocType.DOCBASETYPE_ARInvoice, null, 0, 0, 100000, GL_ARI, false);
 		int DT_II = createDocType("AR Invoice Indirect", Msg.getElement(m_ctx, "C_Invoice_ID", true), 
-			MDocType.DOCBASETYPE_ARInvoice, null, 0, 0, 150000, GL_ARI);
+			MDocType.DOCBASETYPE_ARInvoice, null, 0, 0, 150000, GL_ARI, false);
 		int DT_IC = createDocType("AR Credit Memo", Msg.getMsg(m_ctx, "CreditMemo"), 
-			MDocType.DOCBASETYPE_ARCreditMemo, null, 0, 0, 170000, GL_ARI);
+			MDocType.DOCBASETYPE_ARCreditMemo, null, 0, 0, 170000, GL_ARI, false);
 		//	MDocType.DOCBASETYPE_ARProFormaInvoice
 		
 		createDocType("AP Invoice", Msg.getElement(m_ctx, "C_Invoice_ID", false), 
-			MDocType.DOCBASETYPE_APInvoice, null, 0, 0, 0, GL_API);
+			MDocType.DOCBASETYPE_APInvoice, null, 0, 0, 0, GL_API, false);
 		int DT_IPC = createDocType("AP CreditMemo", Msg.getMsg(m_ctx, "CreditMemo"), 
-			MDocType.DOCBASETYPE_APCreditMemo, null, 0, 0, 0, GL_API);
+			MDocType.DOCBASETYPE_APCreditMemo, null, 0, 0, 0, GL_API, false);
 		createDocType("Match Invoice", Msg.getElement(m_ctx, "M_MatchInv_ID", false), 
-			MDocType.DOCBASETYPE_MatchInvoice, null, 0, 0, 390000, GL_API);
+			MDocType.DOCBASETYPE_MatchInvoice, null, 0, 0, 390000, GL_API, false);
 		
 		createDocType("AR Receipt", Msg.getElement(m_ctx, "C_Payment_ID", true), 
-			MDocType.DOCBASETYPE_ARReceipt, null, 0, 0, 0, GL_ARR);
+			MDocType.DOCBASETYPE_ARReceipt, null, 0, 0, 0, GL_ARR, false);
 		createDocType("AP Payment", Msg.getElement(m_ctx, "C_Payment_ID", false), 
-			MDocType.DOCBASETYPE_APPayment, null, 0, 0, 0, GL_APP);
+			MDocType.DOCBASETYPE_APPayment, null, 0, 0, 0, GL_APP, false);
 		createDocType("Allocation", "Allocation", 
-			MDocType.DOCBASETYPE_PaymentAllocation, null, 0, 0, 490000, GL_CASH);
+			MDocType.DOCBASETYPE_PaymentAllocation, null, 0, 0, 490000, GL_CASH, false);
 
 		int DT_S  = createDocType("MM Shipment", "Delivery Note", 
-			MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 500000, GL_MM);
+			MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 500000, GL_MM, false);
 		int DT_SI = createDocType("MM Shipment Indirect", "Delivery Note", 
-			MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 550000, GL_MM);
-		int DT_VRM = createDocType("MM Vendor Return", "Vendor Returns", 
-	            MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 590000, GL_MM);
+			MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 550000, GL_MM, false);
+		int DT_VRM = createDocType("MM Vendor Return", "Vendor Return", 
+	            MDocType.DOCBASETYPE_MaterialDelivery, null, 0, 0, 590000, GL_MM, true);
 		
 		createDocType("MM Receipt", "Vendor Delivery", 
-			MDocType.DOCBASETYPE_MaterialReceipt, null, 0, 0, 0, GL_MM);
-		int DT_RM = createDocType("MM Returns", "Customer Returns", 
-			MDocType.DOCBASETYPE_MaterialReceipt, null, 0, 0, 570000, GL_MM);
+			MDocType.DOCBASETYPE_MaterialReceipt, null, 0, 0, 0, GL_MM, false);
+		int DT_RM = createDocType("MM Customer Return", "Customer Return", 
+			MDocType.DOCBASETYPE_MaterialReceipt, null, 0, 0, 570000, GL_MM, true);
 		
 		createDocType("Purchase Order", Msg.getElement(m_ctx, "C_Order_ID", false), 
-			MDocType.DOCBASETYPE_PurchaseOrder, null, 0, 0, 800000, GL_None);
+			MDocType.DOCBASETYPE_PurchaseOrder, null, 0, 0, 800000, GL_None, false);
 		createDocType("Match PO", Msg.getElement(m_ctx, "M_MatchPO_ID", false), 
-			MDocType.DOCBASETYPE_MatchPO, null, 0, 0, 890000, GL_None);
+			MDocType.DOCBASETYPE_MatchPO, null, 0, 0, 890000, GL_None, false);
 		createDocType("Purchase Requisition", Msg.getElement(m_ctx, "M_Requisition_ID", false), 
-			MDocType.DOCBASETYPE_PurchaseRequisition, null, 0, 0, 900000, GL_None);
+			MDocType.DOCBASETYPE_PurchaseRequisition, null, 0, 0, 900000, GL_None, false);
 		createDocType("Vendor Return Material", "Vendor Return Material Authorization",
 		    MDocType.DOCBASETYPE_PurchaseOrder, MDocType.DOCSUBTYPESO_ReturnMaterial, DT_VRM, 
-		    DT_IPC, 990000, GL_MM);
+		    DT_IPC, 990000, GL_MM, false);
 		        
 		createDocType("Bank Statement", Msg.getElement(m_ctx, "C_BankStatemet_ID", true), 
-			MDocType.DOCBASETYPE_BankStatement, null, 0, 0, 700000, GL_CASH);
+			MDocType.DOCBASETYPE_BankStatement, null, 0, 0, 700000, GL_CASH, false);
 		createDocType("Cash Journal", Msg.getElement(m_ctx, "C_Cash_ID", true),
-			MDocType.DOCBASETYPE_CashJournal, null, 0, 0, 750000, GL_CASH);
+			MDocType.DOCBASETYPE_CashJournal, null, 0, 0, 750000, GL_CASH, false);
 		
 		createDocType("Material Movement", Msg.getElement(m_ctx, "M_Movement_ID", false),
-			MDocType.DOCBASETYPE_MaterialMovement, null, 0, 0, 610000, GL_MM);
+			MDocType.DOCBASETYPE_MaterialMovement, null, 0, 0, 610000, GL_MM, false);
 		createDocType("Physical Inventory", Msg.getElement(m_ctx, "M_Inventory_ID", false), 
-			MDocType.DOCBASETYPE_MaterialPhysicalInventory, null, 0, 0, 620000, GL_MM);
+			MDocType.DOCBASETYPE_MaterialPhysicalInventory, null, 0, 0, 620000, GL_MM, false);
 		createDocType("Material Production", Msg.getElement(m_ctx, "M_Production_ID", false), 
-			MDocType.DOCBASETYPE_MaterialProduction, null, 0, 0, 630000, GL_MM);
+			MDocType.DOCBASETYPE_MaterialProduction, null, 0, 0, 630000, GL_MM, false);
 		createDocType("Project Issue", Msg.getElement(m_ctx, "C_ProjectIssue_ID", false), 
-			MDocType.DOCBASETYPE_ProjectIssue, null, 0, 0, 640000, GL_MM);
+			MDocType.DOCBASETYPE_ProjectIssue, null, 0, 0, 640000, GL_MM, false);
 
 		//  Order Entry
 		createDocType("Binding offer", "Quotation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_Quotation, 
-			0, 0, 10000, GL_None);
+			0, 0, 10000, GL_None, false);
 		createDocType("Non binding offer", "Proposal", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_Proposal, 
-			0, 0, 20000, GL_None);
+			0, 0, 20000, GL_None, false);
 		createDocType("Prepay Order", "Prepay Order", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_PrepayOrder, 
-			DT_S, DT_I, 30000, GL_None);
-		createDocType("Return Material", "Return Material Authorization", 
+			DT_S, DT_I, 30000, GL_None, false);
+		createDocType("Customer Return Material", "Customer Return Material Authorization", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_ReturnMaterial, 
-			DT_RM, DT_IC, 30000, GL_None);
+			DT_RM, DT_IC, 30000, GL_None, false);
 		createDocType("Standard Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_StandardOrder, 
-			DT_S, DT_I, 50000, GL_None);
+			DT_S, DT_I, 50000, GL_None, false);
 		createDocType("Credit Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_OnCreditOrder, 
-			DT_SI, DT_I, 60000, GL_None);   //  RE
+			DT_SI, DT_I, 60000, GL_None, false);   //  RE
 		createDocType("Warehouse Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_WarehouseOrder, 
-			DT_S, DT_I,	70000, GL_None);    //  LS
+			DT_S, DT_I,	70000, GL_None, false);    //  LS
 		
 		//Manufacturing Document
 		createDocType("Manufacturing Order", "Manufacturing Order", 
 			MDocType.DOCBASETYPE_ManufacturingOrder, null,
-			0, 0, 80000, GL_Manufacturing);
+			0, 0, 80000, GL_Manufacturing, false);
 		createDocType("Manufacturing Cost Collector","Cost Collector", 
 			MDocType.DOCBASETYPE_ManufacturingCostCollector, null, 
-			0, 0, 81000, GL_Manufacturing);
+			0, 0, 81000, GL_Manufacturing, false);
 		createDocType("Maintenance Order","Maintenance Order",
 			MDocType.DOCBASETYPE_MaintenanceOrder, null,
-			0, 0, 86000, GL_Manufacturing);
+			0, 0, 86000, GL_Manufacturing, false);
 		createDocType("Quality Order","Quality Order",
 				MDocType.DOCBASETYPE_QualityOrder, null,
-			0, 0, 87000, GL_Manufacturing);
-		createDocType("Distribution Order","Distribution Orde", 
+			0, 0, 87000, GL_Manufacturing, false);
+		createDocType("Distribution Order","Distribution Order", 
 			MDocType.DOCBASETYPE_DistributionOrder, null,
-			0, 0, 88000, GL_Distribution);
+			0, 0, 88000, GL_Distribution, false);
 		//Payroll
 		createDocType("Payroll","Payroll", 
 			MDocType.DOCBASETYPE_Payroll, null,
-			0, 0, 90000, GL_Payroll);
-			
+			0, 0, 90000, GL_Payroll, false);
+
 		int DT = createDocType("POS Order", "Order Confirmation", 
 			MDocType.DOCBASETYPE_SalesOrder, MDocType.DOCSUBTYPESO_POSOrder, 
-			DT_SI, DT_II, 80000, GL_None);    // Bar
+			DT_SI, DT_II, 80000, GL_None, false);    // Bar
 		//	POS As Default for window SO
 		createPreference("C_DocTypeTarget_ID", String.valueOf(DT), 143);
 
@@ -823,12 +825,13 @@ public final class MSetup
 	 *  @param C_DocTypeInvoice_ID invoice doc
 	 *  @param StartNo start doc no
 	 *  @param GL_Category_ID gl category
+	 *  @param isReturnTrx is return trx
 	 *  @return C_DocType_ID doc type or 0 for error
 	 */
 	private int createDocType (String Name, String PrintName,
 		String DocBaseType, String DocSubTypeSO,
 		int C_DocTypeShipment_ID, int C_DocTypeInvoice_ID,
-		int StartNo, int GL_Category_ID)
+		int StartNo, int GL_Category_ID, boolean isReturnTrx)
 	{
 		MSequence sequence = null;
 		if (StartNo != 0)
@@ -860,6 +863,8 @@ public final class MSetup
 			dt.setDocNoSequence_ID(sequence.getAD_Sequence_ID());
 		}
 		dt.setIsSOTrx();
+		if (isReturnTrx)
+			dt.setIsSOTrx(!dt.isSOTrx());
 		if (!dt.save())
 		{
 			log.log(Level.SEVERE, "DocType NOT created - " + Name);

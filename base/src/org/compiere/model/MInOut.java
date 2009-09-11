@@ -351,13 +351,22 @@ public class MInOut extends X_M_InOut implements DocAction
 		//
 		setM_Warehouse_ID (order.getM_Warehouse_ID());
 		setIsSOTrx (order.isSOTrx());
-		setMovementType (order.isSOTrx() ? MOVEMENTTYPE_CustomerShipment : MOVEMENTTYPE_VendorReceipts);
 		if (C_DocTypeShipment_ID == 0)
 			C_DocTypeShipment_ID = DB.getSQLValue(null,
 				"SELECT C_DocTypeShipment_ID FROM C_DocType WHERE C_DocType_ID=?",
 				order.getC_DocType_ID());
 		setC_DocType_ID (C_DocTypeShipment_ID);
 
+		// patch suggested by Armen
+		// setMovementType (order.isSOTrx() ? MOVEMENTTYPE_CustomerShipment : MOVEMENTTYPE_VendorReceipts);
+		String movementTypeShipment = null;
+		MDocType dtShipment = new MDocType(order.getCtx(), C_DocTypeShipment_ID, order.get_TrxName()); 
+		if (dtShipment.getDocBaseType().equals(MDocType.DOCBASETYPE_MaterialDelivery)) 
+			movementTypeShipment = dtShipment.isSOTrx() ? MOVEMENTTYPE_CustomerShipment : MOVEMENTTYPE_VendorReturns; 
+		else if (dtShipment.getDocBaseType().equals(MDocType.DOCBASETYPE_MaterialReceipt)) 
+			movementTypeShipment = dtShipment.isSOTrx() ? MOVEMENTTYPE_CustomerReturns : MOVEMENTTYPE_VendorReceipts;  
+		setMovementType (movementTypeShipment); 
+		
 		//	Default - Today
 		if (movementDate != null)
 			setMovementDate (movementDate);
