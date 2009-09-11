@@ -128,21 +128,21 @@ INSERT INTO AD_Val_Rule (Name,Type,Code,CreatedBy,Updated,UpdatedBy,Created,AD_V
 UPDATE AD_Column SET AD_Val_Rule_ID=52058,Updated=TO_TIMESTAMP('2009-08-21 13:42:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=11501
 ;
 
-update M_RequisitionLine rl set
-C_UOM_ID=(select p.C_UOM_ID from M_Product p where p.M_Product_ID=rl.M_Product_ID)
+update M_RequisitionLine set
+C_UOM_ID=(select p.C_UOM_ID from M_Product p where p.M_Product_ID=M_RequisitionLine.M_Product_ID)
 where M_Product_ID is not null and C_UOM_ID is null;
 
 -- Update M_Product.IsPurchased:
-update M_Product p set IsPurchased='Y'
-where p.IsPurchased='N' and p.IsActive='Y' and p.IsSummary='N'
+update M_Product set IsPurchased='Y'
+where M_Product.IsPurchased='N' and M_Product.IsActive='Y' and M_Product.IsSummary='N'
 and (
-	exists (select 1 from M_RequisitionLine rl where rl.M_Product_ID=p.M_Product_ID)
+	exists (select 1 from M_RequisitionLine rl where rl.M_Product_ID=M_Product.M_Product_ID)
 	or exists (select 1 from C_OrderLine ol
 				inner join C_Order o on (o.C_Order_ID=ol.C_Order_ID)
-				where ol.M_Product_ID=p.M_Product_ID and o.IsSOTrx='N')
+				where ol.M_Product_ID=M_Product.M_Product_ID and o.IsSOTrx='N')
 	or exists (select 1 from C_InvoiceLine il
 				inner join C_Invoice i on (i.C_Invoice_ID=il.C_Invoice_ID)
-				where il.M_Product_ID=p.M_Product_ID and i.IsSOTrx='N')
+				where il.M_Product_ID=M_Product.M_Product_ID and i.IsSOTrx='N')
 )
 ;
 
