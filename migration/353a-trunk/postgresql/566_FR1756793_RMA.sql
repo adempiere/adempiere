@@ -3552,3 +3552,7 @@ UPDATE AD_Tab SET IsSingleRow='Y',Updated=TO_TIMESTAMP('2009-09-11 01:19:45','YY
 UPDATE AD_Tab SET IsSingleRow='Y',Updated=TO_TIMESTAMP('2009-09-11 01:20:02','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Tab_ID=53276
 ;
 
+-- update wrongly created document types on other tenants
+update c_doctype set issotrx = 'N' where docbasetype = 'MMS' and name = 'MM Vendor Return';
+
+update c_doctype set issotrx = 'Y' where docbasetype = 'MMR' and name = 'MM Returns';
