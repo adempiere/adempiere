@@ -300,7 +300,8 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			label.setLabelFor(data);
 			data.setBackground(AdempierePLAF.getInfoBackground());
 		}
-		else if (DisplayType.Date== field.getAD_Reference_ID())
+		else if (DisplayType.Date== field.getAD_Reference_ID() 
+			  || DisplayType.DateTime== field.getAD_Reference_ID())
 		{
 			data= new VDate();
 			data.setName(name);
