@@ -1604,7 +1604,9 @@ public class CConnection implements Serializable, Cloneable
 	 * @return true if server is embedded in process
 	 */
 	public static boolean isServerEmbedded() {
-		return "true".equalsIgnoreCase(System.getProperty(SERVER_EMBEDDED));
+		// defaults to true - it can be disabled passing this parameter to the JVM
+		//   -Dorg.adempiere.server.embedded=false
+		return ! "false".equalsIgnoreCase(System.getProperty(SERVER_EMBEDDED));
 	}
 
 	public void setAppServerCredential(String principal, String credential)
