@@ -38,8 +38,8 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
       super (ctx, C_UOM_ID, trxName);
       /** if (C_UOM_ID == 0)
         {
-			setC_UOM_ID (0);
 			setCostingPrecision (0);
+			setC_UOM_ID (0);
 			setIsDefault (false);
 			setName (null);
 			setStdPrecision (0);
@@ -75,6 +75,26 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
       return sb.toString();
     }
 
+	/** Set Costing Precision.
+		@param CostingPrecision 
+		Rounding used costing calculations
+	  */
+	public void setCostingPrecision (int CostingPrecision)
+	{
+		set_Value (COLUMNNAME_CostingPrecision, Integer.valueOf(CostingPrecision));
+	}
+
+	/** Get Costing Precision.
+		@return Rounding used costing calculations
+	  */
+	public int getCostingPrecision () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CostingPrecision);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set UOM.
 		@param C_UOM_ID 
 		Unit of Measure
@@ -93,26 +113,6 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	public int getC_UOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Costing Precision.
-		@param CostingPrecision 
-		Rounding used costing calculations
-	  */
-	public void setCostingPrecision (int CostingPrecision)
-	{
-		set_Value (COLUMNNAME_CostingPrecision, Integer.valueOf(CostingPrecision));
-	}
-
-	/** Get Costing Precision.
-		@return Rounding used costing calculations
-	  */
-	public int getCostingPrecision () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CostingPrecision);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -219,6 +219,65 @@ public class X_C_UOM extends PO implements I_C_UOM, I_Persistent
 	public String getUOMSymbol () 
 	{
 		return (String)get_Value(COLUMNNAME_UOMSymbol);
+	}
+
+	/** UOMType AD_Reference_ID=53323 */
+	public static final int UOMTYPE_AD_Reference_ID=53323;
+	/** Angle = AN */
+	public static final String UOMTYPE_Angle = "AN";
+	/** Area = AR */
+	public static final String UOMTYPE_Area = "AR";
+	/** Data Storage = DS */
+	public static final String UOMTYPE_DataStorage = "DS";
+	/** Density = DE */
+	public static final String UOMTYPE_Density = "DE";
+	/** Energy = EN */
+	public static final String UOMTYPE_Energy = "EN";
+	/** Force = FO */
+	public static final String UOMTYPE_Force = "FO";
+	/** Kitchen Measures = KI */
+	public static final String UOMTYPE_KitchenMeasures = "KI";
+	/** Length = LE */
+	public static final String UOMTYPE_Length = "LE";
+	/** Power = PO */
+	public static final String UOMTYPE_Power = "PO";
+	/** Pressure = PR */
+	public static final String UOMTYPE_Pressure = "PR";
+	/** Temperature = TE */
+	public static final String UOMTYPE_Temperature = "TE";
+	/** Time = TM */
+	public static final String UOMTYPE_Time = "TM";
+	/** Torque = TO */
+	public static final String UOMTYPE_Torque = "TO";
+	/** Velocity = VE */
+	public static final String UOMTYPE_Velocity = "VE";
+	/** Volume Liquid = VL */
+	public static final String UOMTYPE_VolumeLiquid = "VL";
+	/** Volume Dry = VD */
+	public static final String UOMTYPE_VolumeDry = "VD";
+	/** Weigth = WE */
+	public static final String UOMTYPE_Weigth = "WE";
+	/** Currency = CU */
+	public static final String UOMTYPE_Currency = "CU";
+	/** Data Speed = DV */
+	public static final String UOMTYPE_DataSpeed = "DV";
+	/** Frequency = FR */
+	public static final String UOMTYPE_Frequency = "FR";
+	/** Other = OT */
+	public static final String UOMTYPE_Other = "OT";
+	/** Set UOM Type.
+		@param UOMType UOM Type	  */
+	public void setUOMType (String UOMType)
+	{
+
+		set_Value (COLUMNNAME_UOMType, UOMType);
+	}
+
+	/** Get UOM Type.
+		@return UOM Type	  */
+	public String getUOMType () 
+	{
+		return (String)get_Value(COLUMNNAME_UOMType);
 	}
 
 	/** Set UOM Code.

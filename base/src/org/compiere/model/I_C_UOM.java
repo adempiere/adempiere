@@ -62,19 +62,6 @@ public interface I_C_UOM
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
     /** Column name CostingPrecision */
     public static final String COLUMNNAME_CostingPrecision = "CostingPrecision";
 
@@ -103,6 +90,19 @@ public interface I_C_UOM
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -181,6 +181,15 @@ public interface I_C_UOM
 	  * Symbol for a Unit of Measure
 	  */
 	public String getUOMSymbol();
+
+    /** Column name UOMType */
+    public static final String COLUMNNAME_UOMType = "UOMType";
+
+	/** Set UOM Type	  */
+	public void setUOMType (String UOMType);
+
+	/** Get UOM Type	  */
+	public String getUOMType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
