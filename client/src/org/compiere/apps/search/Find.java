@@ -141,7 +141,7 @@ public final class Find extends CDialog
 		m_findFields = findFields;
 		//
 		m_query = new MQuery (tableName);
-		m_query.addRestriction(whereExtended);
+		m_query.addRestriction(Env.parseContext(Env.getCtx(), m_targetWindowNo, whereExtended, false));
 		//	Required for Column Validation
 		Env.setContext(Env.getCtx(), m_targetWindowNo, "Find_Table_ID", m_AD_Table_ID);
 		//  Context for Advanced Search Grid is WINDOW_FIND
@@ -870,6 +870,7 @@ public final class Find extends CDialog
 	{
 		//	Create Query String
 		m_query = new MQuery(m_tableName);
+		m_query.addRestriction(Env.parseContext(Env.getCtx(), m_targetWindowNo, m_whereExtended, false));
 		if (hasValue && !valueField.getText().equals("%") && valueField.getText().length() != 0)
 		{
 			String value = valueField.getText().toUpperCase();
@@ -995,6 +996,7 @@ public final class Find extends CDialog
 		advancedTable.stopEditor(true);
 		//
 		m_query = new MQuery(m_tableName);
+		m_query.addRestriction(Env.parseContext(Env.getCtx(), m_targetWindowNo, m_whereExtended, false));
 		StringBuffer code = new StringBuffer();
 		for (int row = 0; row < advancedTable.getRowCount(); row++)
 		{
@@ -1047,9 +1049,7 @@ public final class Find extends CDialog
 				if (!(parsedValue instanceof Integer)) {
 					continue;
 				}
-				m_query
-
-				.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()));
+				m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()));
 			}
 			else
 				m_query.addRestriction(ColumnSQL, Operator, parsedValue,

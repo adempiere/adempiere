@@ -60,7 +60,7 @@ public class AReport implements ActionListener
 	 */
 	public AReport (int AD_Table_ID, JComponent invoker, MQuery	query)
 	{
-		new AReport(AD_Table_ID, invoker, query, null, 0);
+		this (AD_Table_ID, invoker, query, null, 0);
 	}
 	
 	/**
@@ -89,6 +89,34 @@ public class AReport implements ActionListener
 		getPrintFormats (AD_Table_ID, invoker);
 	}	//	AReport
 
+	/**
+	 *	Constructor
+	 *
+	 *  @param AD_Table_ID table
+	 *  @param invoker component to display popup (optional)
+	 *  @param query query
+	 *  @param parent The invoking parent window
+	 *  @param whereExtended The filtering where clause
+	 *  @param WindowNo The invoking parent window number
+	 */
+	public AReport (int AD_Table_ID, JComponent invoker, MQuery	query, ASyncProcess parent, int WindowNo, String whereExtended)
+	{
+		log.config("AD_Table_ID=" + AD_Table_ID + " " + query);
+		if (!MRole.getDefault().isCanReport(AD_Table_ID))
+		{
+			ADialog.error(0, invoker, "AccessCannotReport", query.getTableName());
+			return;
+		}
+
+		m_query = query;
+		this.parent = parent;
+		this.WindowNo = WindowNo;
+		this.m_whereExtended = whereExtended;
+
+		//	See What is there
+		getPrintFormats (AD_Table_ID, invoker);
+	}	//	AReport
+
 	/**	The Query						*/
 	private MQuery	 	m_query;
 	/**	The Popup						*/
@@ -99,6 +127,8 @@ public class AReport implements ActionListener
 	private static CLogger log = CLogger.getCLogger(AReport.class);
 	/** The parent window for locking/unlocking during process execution */
 	ASyncProcess parent;
+	/** The filter to apply to this report */
+	String m_whereExtended;
 	/** The parent window number */
 	int WindowNo;
 
@@ -204,6 +234,7 @@ public class AReport implements ActionListener
 		{
 			// It's a default report using the standard printing engine
 			ReportEngine re = new ReportEngine (Env.getCtx(), pf, m_query, info);
+			re.setWhereExtended(m_whereExtended);
 			ReportCtl.preview(re);
 		}
 	}	//	launchReport

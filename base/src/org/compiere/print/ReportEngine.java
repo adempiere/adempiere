@@ -158,6 +158,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private View			m_view = null;
 	/** Transaction Name 		*/
 	private String 			m_trxName = null;
+	/** Where filter */
+	private String 			m_whereExtended = null;
 	
 	/**
 	 * 	Set PrintFormat.
@@ -1571,5 +1573,13 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	//	re.print(false, 1, false, "Epson Stylus COLOR 900 ESC/P 2");	//	Dialog
 		System.exit(0);
 	}	//	main
-	
+
+	public void setWhereExtended(String whereExtended) {
+		m_whereExtended = whereExtended;
+	}
+
+	public String getWhereExtended() {
+		return m_whereExtended;
+	}
+ 	
 }	//	ReportEngine

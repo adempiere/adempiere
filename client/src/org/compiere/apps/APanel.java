@@ -893,7 +893,7 @@ public final class APanel extends CPanel
 		if (query != null && query.isActive() && !role.isQueryMax(query.getRecordCount()))
 			return query;
 		//
-		StringBuffer where = new StringBuffer();
+		StringBuffer where = new StringBuffer(mTab.getWhereExtended());
 		//	Query automatically if high volume and no query
 		boolean require = mTab.isHighVolume();
 		if (!require && !m_onlyCurrentRows)				//	No Trx Window
@@ -1947,7 +1947,7 @@ public final class APanel extends CPanel
 					infoName, infoDisplay);
 		}
 
-		new AReport (m_curTab.getAD_Table_ID(), aReport.getButton(), query, this, m_curWindowNo);
+		new AReport (m_curTab.getAD_Table_ID(), aReport.getButton(), query, this, m_curWindowNo, m_curTab.getWhereExtended());
 	}	//	cmd_report
 
 	

@@ -1159,7 +1159,7 @@ public class Viewer extends CFrame
 		else
 		{
 			Find find = new Find (this, m_WindowNo, title,
-				AD_Tab_ID, AD_Table_ID, tableName, "", findFields, 1);
+					AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine.getWhereExtended(), findFields, 1);
 			m_reportEngine.setQuery(find.getQuery());
 			find.dispose();
 			find = null;
