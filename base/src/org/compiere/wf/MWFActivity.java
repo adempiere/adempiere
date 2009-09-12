@@ -1009,6 +1009,19 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				m_emails = new ArrayList<String>();
 				sendEMail();
 				setTextMsg(m_emails.toString());
+			} else
+			{
+				MClient client = MClient.get(getCtx(), getAD_Client_ID());
+				MMailText mailtext = new MMailText(getCtx(),getNode().getR_MailText_ID(),null);
+
+				String subject = getNode().getDescription()
+				+ ": " + mailtext.getMailHeader();
+
+				String message = mailtext.getMailText(true)
+				+ "\n-----\n" + getNodeHelp();
+				String to = getNode().getEMail();
+
+				client.sendEMail(to, subject, message, null);
 			}
 			return true;	//	done
 		}	//	EMail
