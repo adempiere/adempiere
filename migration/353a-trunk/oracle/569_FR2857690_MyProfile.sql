@@ -8,7 +8,7 @@ INSERT INTO AD_Window_Trl (AD_Language,AD_Window_ID, Description,Help,Name, IsTr
 ;
 
 -- Sep 12, 2009 2:22:01 PM COT
-INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,Help,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy,WhereClause) VALUES (0,0,53282,114,53100,TO_DATE('2009-09-12 14:22:01','YYYY-MM-DD HH24:MI:SS'),100,'Maintain User or Business Partner Contact','D','N','The User Tab defines the log in for Users who have access to the system.  For application access, users need to have a role assigned.','N','Y','N','N','N','N','Y','N','N','User Contact','N',10,0,TO_DATE('2009-09-12 14:22:01','YYYY-MM-DD HH24:MI:SS'),100,'AD_User_ID=@#AD_User_ID@')
+INSERT INTO AD_Tab (AD_Client_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,HasTree,Help,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy,WhereClause) VALUES (0,0,53282,114,53100,TO_DATE('2009-09-12 14:22:01','YYYY-MM-DD HH24:MI:SS'),100,'Maintain User or Business Partner Contact','D','N','The User Tab defines the log in for Users who have access to the system.  For application access, users need to have a role assigned.','N','Y','N','N','N','N','Y','N','N','User Contact','N',10,0,TO_DATE('2009-09-12 14:22:01','YYYY-MM-DD HH24:MI:SS'),100,'AD_User.AD_User_ID=@#AD_User_ID@')
 ;
 
 -- Sep 12, 2009 2:22:01 PM COT
