@@ -38,6 +38,7 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MConversionRate;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MMailText;
 import org.compiere.model.MNote;
 import org.compiere.model.MOrg;
@@ -57,9 +58,9 @@ import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
-import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trace;
 import org.compiere.util.Trx;
@@ -78,8 +79,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2104882570953130237L;
-
+	private static final long serialVersionUID = 1584816335412184476L;
 
 	/**
 	 * 	Get Activities for table/record 
@@ -1491,6 +1491,11 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	 */
 	private void postImmediate()
 	{
+		String trxName = null;
+		if (Ini.isClient() && CConnection.isServerEmbedded())
+			trxName = m_postImmediate.get_TrxName();
+		if (MFactAcct.thereAreFacts(m_postImmediate.get_Table_ID(), m_postImmediate.get_ID(), trxName))
+			return;  // the document was already posted in DocumentEngine.processIt
 		if (CConnection.get().isAppsServerOK(false))
 		{
 			try
@@ -1501,7 +1506,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					String error = server.postImmediate(Env.getRemoteCallCtx(Env.getCtx()), 
 						m_postImmediate.getAD_Client_ID(),
 						m_postImmediate.get_Table_ID(), m_postImmediate.get_ID(), 
-						true, null);
+						true, trxName);
 					m_postImmediate.get_Logger().config("Server: " + error == null ? "OK" : error);
 					return;
 				}

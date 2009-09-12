@@ -39,7 +39,7 @@ public class MFactAcct extends X_Fact_Acct
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5251847162314796574L;
+	private static final long serialVersionUID = -5110168625445057323L;
 
 	/**
 	 * Delete Accounting
@@ -134,5 +134,20 @@ public class MFactAcct extends X_Fact_Acct
 			acct.save();
 		return acct;
 	}	//	getMAccount
+
+	/**
+	 * Check if there are already accounting facts for the document
+	 * @param AD_Table_ID table
+	 * @param Record_ID record
+	 * @param trxName transaction
+	 * @return true/false meaning if there are records or not
+	 * @throws DBException on database exception
+	 */
+	public static boolean thereAreFacts(int AD_Table_ID, int Record_ID, String trxName) throws DBException
+	{
+		final String sql = "SELECT 1 FROM Fact_Acct WHERE AD_Table_ID=? AND Record_ID=?";
+		int one = DB.getSQLValue(trxName, sql, new Object[]{AD_Table_ID, Record_ID});
+		return (one == 1);
+	}
 	
 }	//	MFactAcct

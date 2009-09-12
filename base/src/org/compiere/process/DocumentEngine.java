@@ -285,8 +285,9 @@ public class DocumentEngine implements DocAction
 					return false;
 			}
 			status = completeIt();
-			if (m_document != null 
-				&& !Ini.isClient())		//	Post Immediate if on Server
+			if (m_document != null
+					&& (   (Ini.isClient() && CConnection.isServerEmbedded()) 
+						|| !Ini.isClient())) // Post Immediate if on Server or embedded server
 			{
 				MClient client = MClient.get(m_document.getCtx(), m_document.getAD_Client_ID());
 				if (STATUS_Completed.equals(status) && client.isPostImmediate())
@@ -464,10 +465,13 @@ public class DocumentEngine implements DocAction
 			Server server = CConnection.get().getServer();
 			if (server != null)
 			{
+				String trxName = null;
+				if (Ini.isClient() && CConnection.isServerEmbedded())
+					trxName = m_document.get_TrxName();
 				String error = server.postImmediate(Env.getRemoteCallCtx(Env.getCtx()), 
 					m_document.getAD_Client_ID(),
 					m_document.get_Table_ID(), m_document.get_ID(), 
-					true, null);
+					true, trxName);
 				m_document.get_Logger().config("Server: " + error == null ? "OK" : error);
 				return error == null;
 			}
