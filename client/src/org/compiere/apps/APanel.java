@@ -123,9 +123,7 @@ import org.compiere.util.Util;
  * 				<li>BF [ 1996056 ] Report error message is not displayed
  * 				<li>BF [ 1998575 ] Document Print is discarding any error
  *  @author victor.perez@e-evolution.com 
- *  			<li>FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
- * 				<li>FR [ 2853359 ] Popup Menu for Lookup Record
- * 				<li>http://sourceforge.net/tracker/?func=detail&aid=2853359&group_id=176962&atid=879335
+ *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
  *  @autor tobi42, metas GmBH
  *  			<li>BF [ 2799362 ] You can press New button a lot of times
  * 
@@ -2057,7 +2055,26 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_find()
 	{
-		new ASearch(aFind.getButton(),Env.getFrame(this), m_curWindowNo,m_curGC, m_curTab);
+		if (m_curTab == null)
+			return;
+		cmd_save(false);
+		//	Gets Fields from AD_Field_v
+		GridField[] findFields = GridField.createFields(m_ctx, m_curWindowNo, 0, m_curTab.getAD_Tab_ID());
+		Find find = new Find (Env.getFrame(this), m_curWindowNo, m_curTab.getName(),
+			m_curTab.getAD_Tab_ID(), m_curTab.getAD_Table_ID(), m_curTab.getTableName(), 
+			m_curTab.getWhereExtended(), findFields, 1);
+		MQuery query = find.getQuery();
+		find.dispose();
+		find = null;
+
+		//	Confirmed query
+		if (query != null)
+		{
+			m_onlyCurrentRows = false;      	//  search history too
+			m_curTab.setQuery(query);
+			m_curGC.query(m_onlyCurrentRows, m_onlyCurrentDays, 0);   //  autoSize
+		}
+		aFind.setPressed(m_curTab.isQueryActive());
 	}	//	cmd_find
 
 	/**
