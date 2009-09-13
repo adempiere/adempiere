@@ -154,7 +154,7 @@ public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener
 		//Document Type Sales Order/Vendor RMA
         lDocType.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
         cmbDocType.addItem(new KeyNamePair(MOrder.Table_ID, Msg.translate(Env.getCtx(), "Order")));
-        cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
+        cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "CustomerRMA")));
         cmbDocType.addActionListener(this);
         
         panel.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InvGenerateSel"));//@@

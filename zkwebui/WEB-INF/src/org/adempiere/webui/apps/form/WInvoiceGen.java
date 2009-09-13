@@ -144,7 +144,7 @@ public class WInvoiceGen extends InvoiceGen implements IFormController, EventLis
 //      Document Type Sales Order/Vendor RMA
         lDocType.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
         cmbDocType.addItem(new KeyNamePair(MOrder.Table_ID, Msg.translate(Env.getCtx(), "Order")));
-        cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
+        cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "CustomerRMA")));
         cmbDocType.addActionListener(form);
         cmbDocType.setSelectedIndex(0);
         

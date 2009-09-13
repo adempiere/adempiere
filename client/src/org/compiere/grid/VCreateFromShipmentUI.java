@@ -61,6 +61,10 @@ import org.compiere.util.Msg;
 
 public class VCreateFromShipmentUI extends CreateFromShipment implements ActionListener, VetoableChangeListener
 {
+	private static final int WINDOW_CUSTOMER_RETURN = 53097;
+
+	private static final int WINDOW_RETURN_TO_VENDOR = 53098;
+
 	private VCreateFromDialog dialog;
 
 	public VCreateFromShipmentUI(GridTab mTab)
@@ -157,6 +161,8 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 	 */
     private void jbInit() throws Exception
     {
+    	boolean isRMAWindow = ((getGridTab().getAD_Window_ID() == WINDOW_RETURN_TO_VENDOR) || (getGridTab().getAD_Window_ID() == WINDOW_CUSTOMER_RETURN)); 
+    	
     	bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
     	orderLabel.setText(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
     	locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
@@ -177,15 +183,17 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
     		parameterStdPanel.add(bPartnerField, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
     				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
     	
-    	parameterStdPanel.add(orderLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
-    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-    	parameterStdPanel.add(orderField,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
-    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	if (! isRMAWindow) {
+        	parameterStdPanel.add(orderLabel, new GridBagConstraints(2, 0, 1, 1, 0.0, 0.0
+        			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+        	parameterStdPanel.add(orderField,  new GridBagConstraints(3, 0, 1, 1, 0.0, 0.0
+        			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
 
-    	parameterStdPanel.add(invoiceLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
-    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-    	parameterStdPanel.add(invoiceField,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
-    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+        	parameterStdPanel.add(invoiceLabel, new GridBagConstraints(2, 1, 1, 1, 0.0, 0.0
+        			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+        	parameterStdPanel.add(invoiceField,  new GridBagConstraints(3, 1, 1, 1, 0.0, 0.0
+        			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	}
     	
     	parameterStdPanel.add(locatorLabel, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
     			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
@@ -198,11 +206,13 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
         parameterStdPanel.add(upcField, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
                 ,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
     	
-    	// Add RMA document selection to panel
-    	parameterStdPanel.add(rmaLabel, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
-    			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-    	parameterStdPanel.add(rmaField,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
-    			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	if (isRMAWindow) {
+        	// Add RMA document selection to panel
+        	parameterStdPanel.add(rmaLabel, new GridBagConstraints(2, 2, 1, 1, 0.0, 0.0
+        			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
+        	parameterStdPanel.add(rmaField,  new GridBagConstraints(3, 2, 1, 1, 0.0, 0.0
+        			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 5), 0, 0));
+    	}
     }   //  jbInit
 
 	/*************************************************************************/

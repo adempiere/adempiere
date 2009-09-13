@@ -59,8 +59,10 @@ import org.zkoss.zul.Space;
 
 public class WCreateFromShipmentUI extends CreateFromShipment implements EventListener, ValueChangeListener
 {
-	private static final long serialVersionUID = 1L;
-	
+	private static final int WINDOW_CUSTOMER_RETURN = 53097;
+
+	private static final int WINDOW_RETURN_TO_VENDOR = 53098;
+
 	private WCreateFromWindow window;
 	
 	public WCreateFromShipmentUI(GridTab tab) 
@@ -147,7 +149,9 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 	
 	protected void zkInit() throws Exception
 	{
-		bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
+    	boolean isRMAWindow = ((getGridTab().getAD_Window_ID() == WINDOW_RETURN_TO_VENDOR) || (getGridTab().getAD_Window_ID() == WINDOW_CUSTOMER_RETURN)); 
+
+    	bPartnerLabel.setText(Msg.getElement(Env.getCtx(), "C_BPartner_ID"));
 		orderLabel.setText(Msg.getElement(Env.getCtx(), "C_Order_ID", false));
 		invoiceLabel.setText(Msg.getElement(Env.getCtx(), "C_Invoice_ID", false));
         rmaLabel.setText(Msg.translate(Env.getCtx(), "M_RMA_ID"));
@@ -176,25 +180,31 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 		row.appendChild(bPartnerLabel.rightAlign());
 		if (bPartnerField != null)
 			row.appendChild(bPartnerField.getComponent());
-		row.appendChild(orderLabel.rightAlign());
-		row.appendChild(orderField);
+    	if (! isRMAWindow) {
+    		row.appendChild(orderLabel.rightAlign());
+    		row.appendChild(orderField);
+    	}
 		
 		row = rows.newRow();
 		row.appendChild(locatorLabel.rightAlign());
 		row.appendChild(locatorField.getComponent());
-		row.appendChild(invoiceLabel.rightAlign());
-		row.appendChild(invoiceField);		
+    	if (! isRMAWindow) {
+    		row.appendChild(invoiceLabel.rightAlign());
+    		row.appendChild(invoiceField);		
+    	}
         
 		row = rows.newRow();
 		row.appendChild(new Space());
 		row.appendChild(sameWarehouseCb);
 		
-        // Add RMA document selection to panel
 		row = rows.newRow();
 		row.appendChild(upcLabel.rightAlign());
 		row.appendChild(upcField.getComponent());
-        row.appendChild(rmaLabel.rightAlign());
-        row.appendChild(rmaField);
+    	if (isRMAWindow) {
+            // Add RMA document selection to panel
+            row.appendChild(rmaLabel.rightAlign());
+            row.appendChild(rmaField);
+    	}
 	}
 
 	private boolean 	m_actionActive = false;

@@ -122,7 +122,7 @@ public class InvoiceGen extends GenForm
 	}
 	
 	/**
-	 * Get SQL for Vendor RMA that need to be shipped
+	 * Get SQL for Customer RMA that need to be invoiced
 	 * @return sql
 	 */
 	private String getRMASql()
@@ -134,15 +134,15 @@ public class InvoiceGen extends GenForm
         sql.append("INNER JOIN C_BPartner bp ON rma.C_BPartner_ID=bp.C_BPartner_ID ");
         sql.append("INNER JOIN M_InOut io ON rma.InOut_ID=io.M_InOut_ID ");
         sql.append("WHERE rma.DocStatus='CO' ");
-        sql.append("AND dt.DocBaseType = 'POO' ");
-        sql.append("AND NOT EXISTS (SELECT * FROM C_Invoice i ");
-        sql.append("WHERE i.M_RMA_ID=rma.M_RMA_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
-        sql.append("AND EXISTS (SELECT * FROM C_InvoiceLine il INNER JOIN M_InOutLine iol ");
-        sql.append("ON il.M_InOutLine_ID=iol.M_InOutLine_ID INNER JOIN C_Invoice i ");
-        sql.append("ON i.C_Invoice_ID=il.C_Invoice_ID WHERE i.DocStatus IN ('CO', 'CL') ");
-        sql.append("AND iol.M_InOutLine_ID IN ");
-        sql.append("(SELECT M_InOutLine_ID FROM M_RMALine rl WHERE rl.M_RMA_ID=rma.M_RMA_ID ");
-        sql.append("AND rl.M_InOutLine_ID IS NOT NULL)) ");
+        sql.append("AND dt.DocBaseType = 'SOO' ");
+        // sql.append("AND NOT EXISTS (SELECT * FROM C_Invoice i ");
+        // sql.append("WHERE i.M_RMA_ID=rma.M_RMA_ID AND i.DocStatus IN ('IP', 'CO', 'CL')) ");
+        // sql.append("AND EXISTS (SELECT * FROM C_InvoiceLine il INNER JOIN M_InOutLine iol ");
+        // sql.append("ON il.M_InOutLine_ID=iol.M_InOutLine_ID INNER JOIN C_Invoice i ");
+        // sql.append("ON i.C_Invoice_ID=il.C_Invoice_ID WHERE i.DocStatus IN ('CO', 'CL') ");
+        // sql.append("AND iol.M_InOutLine_ID IN ");
+        // sql.append("(SELECT M_InOutLine_ID FROM M_RMALine rl WHERE rl.M_RMA_ID=rma.M_RMA_ID ");
+        // sql.append("AND rl.M_InOutLine_ID IS NOT NULL)) ");
         sql.append("AND rma.AD_Client_ID=?");
         
         if (m_AD_Org_ID != null)

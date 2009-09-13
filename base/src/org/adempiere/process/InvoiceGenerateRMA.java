@@ -88,7 +88,7 @@ public class InvoiceGenerateRMA extends SvrProcess
         }
         
         String sql = "SELECT rma.M_RMA_ID FROM M_RMA rma, T_Selection "
-            + "WHERE rma.DocStatus='CO' AND rma.IsSOTrx='N' AND rma.AD_Client_ID=? "
+            + "WHERE rma.DocStatus='CO' AND rma.IsSOTrx='Y' AND rma.AD_Client_ID=? "
             + "AND rma.M_RMA_ID = T_Selection.T_Selection_ID " 
             + "AND T_Selection.AD_PInstance_ID=? ";
         
@@ -164,9 +164,9 @@ public class InvoiceGenerateRMA extends SvrProcess
         
         for (MRMALine rmaLine : rmaLines)
         {
-            if (!rmaLine.isShipLineInvoiced() && rmaLine.getM_InOutLine_ID() != 0)
+            if (rmaLine.getM_InOutLine_ID() == 0)
             {
-                throw new IllegalStateException("No invoice line - RMA = " 
+                throw new IllegalStateException("No customer return line - RMA = " 
                         + rma.getDocumentNo() + ", Line = " + rmaLine.getLine());
             }
             
