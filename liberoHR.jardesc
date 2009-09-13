@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-<jar path="adempiereTrunk/install/build/Adempiere/packages/libero/lib/packages.jar"/>
-<options buildIfNeeded="true" compress="true" descriptionLocation="/adempiereLibero/libero.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+<jar path="adempiereTrunk/lib/liberoHR.jar"/>
+<options buildIfNeeded="true" compress="true" descriptionLocation="/adempiereLiberoHR/liberoHR.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
 <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
@@ -11,9 +11,7 @@
 </sealing>
 </manifest>
 <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-<javaElement handleIdentifier="=adempiereLibero/extension\/eevolution\/libero\/src\/main\/java"/>
-<javaElement handleIdentifier="=adempiereLibero/extension\/eevolution\/mm\/src\/main\/java"/>
-<javaElement handleIdentifier="=adempiereLibero/extension\/eevolution\/libero\/src\/test\/java"/>
+<javaElement handleIdentifier="=adempiereLiberoHR/extension\/eevolution\/libero\/src\/main\/java"/>
 </selectedElements>
 <fatjar builder="org.eclipse.jdt.ui.plain_jar_builder" launchConfig=""/>
 </jardesc>
