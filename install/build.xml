@@ -144,6 +144,15 @@
 	<mkdir dir="${build.dir}/Adempiere/images"/>
   	<mkdir dir="${build.dir}/Adempiere/packages"/>
   	<mkdir dir="${build.dir}/Adempiere/zkpackages"/>
+  	
+	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG"/>
+	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG/lib"/>
+  	<copy file="../lib/liberoMFG.jar" tofile="${build.dir}/Adempiere/packages/liberoMFG/lib/packages.jar"/>
+  	
+  	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR"/>
+  	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR/lib"/>
+  	<copy file="../lib/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/packages.jar"/>
+  	
 
 	<!-- Base Directory			-->
 	<copy todir="${build.dir}/Adempiere">
