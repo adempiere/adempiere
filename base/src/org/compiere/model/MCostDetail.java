@@ -979,24 +979,33 @@ public class MCostDetail extends X_M_CostDetail
 				if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
 					MAcctSchema.COSTINGMETHOD_AverageInvoice.equals(costingMethod))
 				{
-					if (cost.getCurrentQty().compareTo(Env.ZERO) == 0)
+					/**	Problem with Landed Costs: certain cost element may not occur in every purchases, 
+					 *  causing the average calculation of that cost element wrongly took the current qty.
+					 *  
+					 *  Solution:
+					 *  Make sure the current qty is reflecting the actual qty in storage
+					 */
+					String sql = "SELECT COALESCE(SUM(QtyOnHand),0) FROM M_Storage"					
+						+ " WHERE AD_Client_ID=" + cost.getAD_Client_ID()
+						+ " AND M_Product_ID=" + cost.getM_Product_ID();
+					//Costing Level
+					String CostingLevel = product.getCostingLevel(as);			
+					if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+						sql += " AND AD_Org_ID=" + cost.getAD_Org_ID();
+					else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+						sql += " AND M_AttributeSetInstance_ID=" + M_ASI_ID;	
+					//
+					BigDecimal qtyOnhand = DB.getSQLValueBD(get_TrxName(), sql);					
+					if (qtyOnhand.signum() != 0)
 					{
-						//initialize current qty for new landed cost element 
-						String sql = "SELECT QtyOnHand FROM M_Storage"					
-							+ " WHERE AD_Client_ID=" + cost.getAD_Client_ID()
-							+ " AND AD_Org_ID=" + cost.getAD_Org_ID()
-							+ " AND M_Product_ID=" + cost.getM_Product_ID()
-							+ " AND M_AttributeSetInstance_ID=" + M_ASI_ID;				
-						if (M_ASI_ID == 0)
-							sql = "SELECT SUM(QtyOnHand) FROM M_Storage"
-								+ " WHERE AD_Client_ID=" + cost.getAD_Client_ID()
-								+ " AND AD_Org_ID=" + cost.getAD_Org_ID()
-								+ " AND M_Product_ID=" + cost.getM_Product_ID();
-						BigDecimal bd = DB.getSQLValueBD(get_TrxName(), sql);
-						if (bd != null)
-							cost.setCurrentQty(bd.subtract(qty)); // (initial qty = onhand qty - allocated qty)
+						BigDecimal oldSum = cost.getCurrentCostPrice().multiply(cost.getCurrentQty());
+						BigDecimal sumAmt = oldSum.add(amt);	//	amt is total already
+						BigDecimal costs = sumAmt.divide(qtyOnhand, precision, BigDecimal.ROUND_HALF_UP);
+						cost.setCurrentCostPrice(costs);
 					}
-					cost.setWeightedAverage(amt, qty); //also get averaged
+					cost.setCumulatedAmt(cost.getCumulatedAmt().add(amt));
+					cost.setCumulatedQty(cost.getCumulatedQty().add(qty));
+					cost.setCurrentQty(qtyOnhand);						
 				}
 				else //original logic from Compiere
 				{
@@ -1005,7 +1014,7 @@ public class MCostDetail extends X_M_CostDetail
 					cost.add(amt, qty);
 				}
 				// end AZ
-				log.finer("Inv - none - " + cost);
+				log.finer("Inv - Landed Costs - " + cost);
 			}
 		//	else
 		//		log.warning("Inv - " + ce + " - " + cost);
@@ -1107,6 +1116,52 @@ public class MCostDetail extends X_M_CostDetail
 			}
 			else
 				log.warning("QtyAdjust - " + ce + " - " + cost);
+			
+			//AZ Goodwill
+			//Also update Landed Costs to reflect the actual qty in storage
+			String costingMethod = ce.getCostingMethod();
+			if (MAcctSchema.COSTINGMETHOD_AveragePO.equals(costingMethod) ||
+				MAcctSchema.COSTINGMETHOD_AverageInvoice.equals(costingMethod))
+			{				
+				MCostElement[] lce = MCostElement.getNonCostingMethods(this);
+				if (lce.length > 0)
+				{					
+					String sql = "SELECT COALESCE(SUM(QtyOnHand),0) FROM M_Storage"					
+						+ " WHERE AD_Client_ID=" + cost.getAD_Client_ID()
+						+ " AND M_Product_ID=" + cost.getM_Product_ID();
+					//Costing Level
+					String CostingLevel = product.getCostingLevel(as);
+					if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+						sql += " AND AD_Org_ID=" + cost.getAD_Org_ID();
+					else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
+						sql += " AND M_AttributeSetInstance_ID=" + M_ASI_ID;	
+					//
+					BigDecimal qtyOnhand = DB.getSQLValueBD(get_TrxName(), sql);
+					for (int i = 0 ; i < lce.length ; i++)
+					{
+						MCost lCost = MCost.get(getCtx(), cost.getAD_Client_ID(), cost.getAD_Org_ID(), 
+							cost.getM_Product_ID(), cost.getM_CostType_ID(), cost.getC_AcctSchema_ID(), 
+							lce[i].getM_CostElement_ID(), cost.getM_AttributeSetInstance_ID(), get_TrxName());
+						if (lCost != null)
+						{
+							if (qtyOnhand.signum() != 0)
+							{
+								// new average cost
+								BigDecimal oldSum = lCost.getCurrentCostPrice().multiply(lCost.getCurrentQty());
+								BigDecimal costs = oldSum.divide(qtyOnhand, precision, BigDecimal.ROUND_HALF_UP);
+								lCost.setCurrentCostPrice(costs);	
+							}
+							lCost.setCurrentQty(qtyOnhand);
+							if (!lCost.save())
+							{
+								log.warning("Update Landed Costs (Qty) fail: " + lce + " - " + lCost);
+								return false;
+							}
+						}
+					}					
+				}//end-if
+			}
+			//end AZ
 		}
 		else	//	unknown or no id
 		{
