@@ -29,13 +29,14 @@
 
 package org.eevolution.process;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.logging.Level;
 
-import org.adempiere.model.X_T_Selection;
+import org.compiere.model.I_C_OrderLine;
+import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MPInstance;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -43,7 +44,7 @@ import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
 
 /**
- *	
+ *	Generate Outbound Document based Sales Order Lines and the Smart Browser Filter  
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
  *  @version $Id: $
  */
@@ -53,8 +54,11 @@ public class GenerateInOutBound extends SvrProcess
 	protected int p_Record_ID = 0;	
 	protected int p_M_Locator_ID = 0;
 	protected String p_DocAction = null;
-	protected int p_WM_Area_ID = 0;
+	protected Timestamp p_ShipDate = null;
+	protected Timestamp p_PickDate = null;
 	protected int p_C_DocType_ID = 0;
+	protected String p_DeliveryRule = null;
+	protected String p_POReference = null;
 	
 	
 	/**
@@ -69,21 +73,33 @@ public class GenerateInOutBound extends SvrProcess
 			String name = para.getParameterName();
 			if (para.getParameter() == null)
 				;
-			else if (name.equals("WM_Area_ID"))
+			else if (name.equals("ShipDate"))
 			{
-				p_WM_Area_ID = para.getParameterAsInt();
+				p_ShipDate =  (Timestamp)para.getParameter();
+			}
+			else if (name.equals("PickDate"))
+			{
+				p_PickDate =  (Timestamp)para.getParameter();
+			}
+			else if (name.equals("POReference"))
+			{
+				p_POReference =  (String)para.getParameter();
 			}
 			else if (name.equals("M_Locator_ID"))
 			{
-				p_M_Locator_ID = para.getParameterAsInt();
+				p_M_Locator_ID =  para.getParameterAsInt();
 			}
-			else if (name.equals("DocAction"))
+			else if (name.equals("DeliveryRule"))
 			{
-				p_DocAction = (String)para.getParameter();
+				p_DeliveryRule =  (String)para.getParameter();
 			}
 			else if (name.equals("C_DocType_ID"))
 			{
 				p_C_DocType_ID = para.getParameterAsInt();
+			}
+			else if (name.equals("DocAction"))
+			{
+				p_DocAction = (String)para.getParameter();
 			}
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
@@ -98,44 +114,56 @@ public class GenerateInOutBound extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		MLocator locator = MLocator.get(getCtx(), p_M_Locator_ID);
-		MWMInOutBound bound = new MWMInOutBound(getCtx(), 0 , get_TrxName());
+		MWMInOutBound outbound = new MWMInOutBound(getCtx(), 0 , get_TrxName());
+		
+		outbound.setShipDate(p_ShipDate);
+		outbound.setPickDate(p_PickDate);
+		if(p_POReference != null)
+		{	
+			outbound.setPOReference(p_POReference);
+		}	
+		
+		if(p_DeliveryRule != null)
+		{	
+			outbound.setDeliveryRule(p_DeliveryRule);
+		}	
+		
 		if(p_C_DocType_ID > 0)
-			bound.setC_DocType_ID(p_C_DocType_ID);
-		else	
-			bound.setC_DocType_ID(103);
-		
-		bound.setDocStatus(MWMInOutBound.DOCSTATUS_Drafted);
-		if(p_DocAction != null)
-			bound.setDocAction(p_DocAction);
+			outbound.setC_DocType_ID(p_C_DocType_ID);
 		else
-			bound.setDocAction(MWMInOutBound.ACTION_Complete);
+		{	
+			int C_DocType_ID=MDocType.getDocType(MDocType.DOCBASETYPE_WarehouseManagementOrder);
+			outbound.setC_DocType_ID(C_DocType_ID);
+		}	
 		
-		bound.setM_Warehouse_ID(locator.getM_Warehouse_ID());
-		bound.setIsSOTrx(true);
-		bound.saveEx();
+		if(p_DocAction != null)
+			outbound.setDocAction(p_DocAction);
+		else
+			outbound.setDocAction(MWMInOutBound.ACTION_Prepare);
+		
+		outbound.setDocStatus(MWMInOutBound.DOCSTATUS_Drafted);
+		outbound.setM_Warehouse_ID(locator.getM_Warehouse_ID());
+		outbound.setIsSOTrx(true);
+		outbound.saveEx();
 		int seq = 10;
-		for (X_T_Selection s : getSelected())
+		String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=C_OrderLine.C_OrderLine_ID)";		
+		Collection <MOrderLine> olines = new Query(getCtx(), I_C_OrderLine.Table_Name, whereClause, get_TrxName())
+										.setClient_ID()
+										.setParameters(new Object[]{getAD_PInstance_ID()	})
+										.list();
+		for (MOrderLine oline : olines)
 		{
-				MOrderLine line = new MOrderLine(getCtx(), s.getT_Selection_ID(), get_TrxName());
-				MWMInOutBoundLine boundline = new MWMInOutBoundLine(bound);
+				MWMInOutBoundLine boundline = new MWMInOutBoundLine(outbound);
 				boundline.setLine(seq);
-				boundline.setM_Product_ID(line.getM_Product_ID());
-				boundline.setM_AttributeSetInstance_ID(line.getM_Warehouse_ID());
-				boundline.setMovementQty(line.getQtyOrdered().subtract(line.getQtyDelivered()));
-				boundline.setC_UOM_ID(line.getC_UOM_ID());
-				boundline.setDescription(line.getDescription());
-				boundline.setC_OrderLine_ID(line.getC_OrderLine_ID());
+				boundline.setM_Product_ID(oline.getM_Product_ID());
+				boundline.setM_AttributeSetInstance_ID(oline.getM_AttributeSetInstance_ID());
+				boundline.setMovementQty(oline.getQtyOrdered().subtract(oline.getQtyDelivered()));
+				boundline.setC_UOM_ID(oline.getC_UOM_ID());
+				boundline.setDescription(oline.getDescription());
+				boundline.setC_OrderLine_ID(oline.getC_OrderLine_ID());
 				boundline.saveEx();
 				seq ++;
 		}
-		return "@DocumentNo@ " + bound.getDocumentNo();
-	}
-	
-	protected Collection<X_T_Selection> getSelected()
-	{
-		final String whereClause = MPInstance.COLUMNNAME_AD_PInstance_ID + "= ?";
-		return new Query(getCtx(),X_T_Selection.Table_Name,whereClause, get_TrxName())
-		.setParameters(new Object[]{this.getAD_PInstance_ID()})
-		.list();
+		return "@DocumentNo@ " + outbound.getDocumentNo();
 	}
 }
