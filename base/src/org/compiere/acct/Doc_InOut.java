@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.compiere.model.MTax;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
@@ -41,6 +43,7 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
+ * 			<li>BF [ 2858043 ] Correct Included Tax in Average Costing
  *  @version  $Id: Doc_InOut.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
  */
 public class Doc_InOut extends Doc
@@ -364,13 +367,28 @@ public class Doc_InOut extends Doc
 					if (C_OrderLine_ID > 0) 
 					{
 					    MOrderLine orderLine = new MOrderLine (getCtx(), C_OrderLine_ID, getTrxName());
-					    costs = orderLine.getPriceCost();
-					    if (costs == null || costs.signum() == 0)
-						   costs = orderLine.getPriceActual();
-					    costs = costs.multiply(line.getQty());
 					    // Elaine 2008/06/26 
 					    C_Currency_ID = orderLine.getC_Currency_ID();
 					    //
+					    costs = orderLine.getPriceCost();
+					    if (costs == null || costs.signum() == 0)
+					    {
+					    	costs = orderLine.getPriceActual();
+							//	Goodwill: Correct included Tax
+					    	int C_Tax_ID = orderLine.getC_Tax_ID();
+							if (orderLine.isTaxIncluded() && C_Tax_ID != 0)
+							{
+								MTax tax = MTax.get(getCtx(), C_Tax_ID);
+								if (!tax.isZeroTax())
+								{
+									int stdPrecision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
+									BigDecimal costTax = tax.calculateTax(costs, true, stdPrecision);
+									log.fine("Costs=" + costs + " - Tax=" + costTax);
+									costs = costs.subtract(costTax);
+								}
+							}	//	correct included Tax					    	
+					    }
+					    costs = costs.multiply(line.getQty());
                     }
                     else
                     {

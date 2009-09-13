@@ -46,6 +46,7 @@ import org.compiere.util.Env;
  *
  *  @author Armen Rizal, Goodwill Consulting
  *  		<li>BF [ 2215840 ] MatchPO Bug Collection
+ *  		<li>BF [ 2858043 ] Correct Included Tax in Average Costing
  *
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
@@ -874,7 +875,22 @@ public class MMatchPO extends X_M_MatchPO
 				// Purchase Order Line
 				BigDecimal poCost = oLine.getPriceCost();
 				if (poCost == null || poCost.signum() == 0)
+				{
 					poCost = oLine.getPriceActual();
+					//	Goodwill: Correct included Tax
+			    	int C_Tax_ID = oLine.getC_Tax_ID();
+					if (oLine.isTaxIncluded() && C_Tax_ID != 0)
+					{
+						MTax tax = MTax.get(getCtx(), C_Tax_ID);
+						if (!tax.isZeroTax())
+						{
+							int stdPrecision = MCurrency.getStdPrecision(getCtx(), oLine.getC_Currency_ID());
+							BigDecimal costTax = tax.calculateTax(poCost, true, stdPrecision);
+							log.fine("Costs=" + poCost + " - Tax=" + costTax);
+							poCost = poCost.subtract(costTax);
+						}
+					}	//	correct included Tax
+				}
 										
 				// Source from Doc_MatchPO.createFacts(MAcctSchema)
 				MInOutLine receiptLine = new MInOutLine (getCtx(), getM_InOutLine_ID(), get_TrxName());	
