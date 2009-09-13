@@ -948,11 +948,25 @@ public class MInventory extends X_M_Inventory implements DocAction
 				continue;
 			}
 			
-			ProductCost pc = new ProductCost (Env.getCtx(), 
-					line.getM_Product_ID(), M_AttributeSetInstance_ID, line.get_TrxName());
-			pc.setQty(qty);
-			BigDecimal costs = pc.getProductCosts(as, line.getAD_Org_ID(), as.getCostingMethod(), 
-					0,false);			
+			BigDecimal costs = Env.ZERO;
+			if (isReversal())
+			{				
+				String sql = "SELECT amt * -1 FROM M_CostDetail WHERE M_InventoryLine_ID=?"; // negate costs				
+				MProduct product = new MProduct(getCtx(), line.getM_Product_ID(), line.get_TrxName());
+				String CostingLevel = product.getCostingLevel(as);
+				if (MAcctSchema.COSTINGLEVEL_Organization.equals(CostingLevel))
+					sql = sql + " AND AD_Org_ID=" + getAD_Org_ID(); 
+				else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel) && M_AttributeSetInstance_ID != 0)
+					sql = sql + " AND M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID;
+				costs = DB.getSQLValueBD(line.get_TrxName(), sql, line.getReversalLine_ID());
+			}
+			else 
+			{
+				ProductCost pc = new ProductCost (getCtx(), 
+						line.getM_Product_ID(), M_AttributeSetInstance_ID, line.get_TrxName());
+				pc.setQty(qty);
+				costs = pc.getProductCosts(as, line.getAD_Org_ID(), as.getCostingMethod(), 0,false);							
+			}
 			if (costs == null || costs.signum() == 0)
 			{
 				return "No Costs for " + line.getProduct().getName();
