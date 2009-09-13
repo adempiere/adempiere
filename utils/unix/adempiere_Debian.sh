@@ -22,6 +22,8 @@ ADEMPIEREUSER=adempiere
 # in this case you can comment the source lines for ENVFILE below
 # detected some problems with Hardy Heron ubuntu using the bash source command
 ENVFILE=/home/adempiere/.bashrc
+# STOPMESSAGE="Halting VM" # Message when using java 5
+STOPMESSAGE="INFO.*\[Server\].*Shutting down the server" # Message when using java 6
 
 . /lib/lsb/init-functions
  
@@ -92,7 +94,7 @@ stop () {
 	ITERATIONS=0
 	while [ $STATUSTEST -eq 0 ] ; do
 	    sleep 2
-	    tail -n 5 $LASTLOG | grep -q 'Halting VM' && STATUSTEST=1
+	    tail -n 9 $LASTLOG | grep -q "$STOPMESSAGE" && STATUSTEST=1
 	    echo -n "."
 	    ITERATIONS=`expr $ITERATIONS + 1`
 	    if [ $ITERATIONS -gt $MAXITERATIONS ]

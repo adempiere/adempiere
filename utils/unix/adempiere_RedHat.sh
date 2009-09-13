@@ -20,6 +20,8 @@
 EXECDIR=/home/adempiere/Adempiere
 ENVFILE=/home/adempiere/.bash_profile
 ADEMPIEREUSER=adempiere
+# STOPMESSAGE="Halting VM" # Message when using java 5
+STOPMESSAGE="INFO.*\[Server\].*Shutting down the server" # Message when using java 6
 
 . /etc/rc.d/init.d/functions
  
@@ -29,7 +31,7 @@ MAXITERATIONS=60 # 2 seconds every iteration, max wait 2 minutes)
 
 getadempierestatus() {
     ADEMPIERESTATUSSTRING=$(ps ax | grep -v grep | grep $EXECDIR)
-    echo $ADEMPIERESTATUSSTRING | grep $EXECDIR &> /dev/null
+    echo $ADEMPIERESTATUSSTRING | grep -q $EXECDIR
     ADEMPIERESTATUS=$?
 }
 
@@ -51,7 +53,7 @@ start () {
 	ITERATIONS=0
 	while [ $STATUSTEST -eq 0 ] ; do
 	    sleep 2
-	    tail -n 5 $LOGFILE | grep 'INFO.*\[Server\].*Started in' &> /dev/null && STATUSTEST=1
+	    tail -n 5 $LOGFILE | grep -q 'INFO.*\[Server\].*Started in' && STATUSTEST=1
 	    echo -n "."
 	    ITERATIONS=`expr $ITERATIONS + 1`
 	    if [ $ITERATIONS -gt $MAXITERATIONS ]
@@ -91,7 +93,7 @@ stop () {
 	ITERATIONS=0
 	while [ $STATUSTEST -eq 0 ] ; do
 	    sleep 2
-	    tail -n 5 $LASTLOG | grep 'Halting VM' &> /dev/null && STATUSTEST=1
+	    tail -n 9 $LASTLOG | grep -q "$STOPMESSAGE" && STATUSTEST=1
 	    echo -n "."
 	    ITERATIONS=`expr $ITERATIONS + 1`
 	    if [ $ITERATIONS -gt $MAXITERATIONS ]
