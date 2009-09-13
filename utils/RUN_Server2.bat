@@ -14,7 +14,7 @@
 
 :JBOSS
 @Set NOPAUSE=Yes
-@Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE%
+@Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @Call %JBOSS_HOME%\bin\run -c adempiere -b %ADEMPIERE_APPS_SERVER%

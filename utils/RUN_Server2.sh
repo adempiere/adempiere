@@ -15,7 +15,7 @@ fi
 SECURE=
 
 # headless option if you don't have X installed on the server
-JAVA_OPTS="-server $ADEMPIERE_JAVA_OPTIONS $SECURE -Djava.awt.headless=true"
+JAVA_OPTS="-server $ADEMPIERE_JAVA_OPTIONS $SECURE -Djava.awt.headless=true -Dorg.adempiere.server.embedded=true"
 
 export JAVA_OPTS
 
