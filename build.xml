@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Libero" default="createDistribution" basedir=".">
+	<description>
+	    This buildfile is used to build the extend subproject within 
+	    the Adempiere project.
+	  </description>
+
+	  <!-- set global properties for this build -->
+	  <property name="src" value="src"/>
+	  <property name="build.dir" value="build"/>
+	  <property name="dist.dir" value="."/>
+	  <property name="jar.path" value="../lib"/>
+	  <property name="jar.name" value="adempiereLibero"/>
+
+	  <!-- set path to include the necessary jar files for javac -->
+	  <path id="project.class.path">
+	    <pathelement path="${classpath}"/>
+	    <pathelement path="${jar.path}/CCTools.jar"/>
+		<pathelement path="${jar.path}/jboss.jar"/>
+	    <pathelement path="../base/build"/>
+	    <pathelement path="../tools/lib/junit.jar"/>
+	    <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
+		<fileset dir="../tools/lib/testing/">
+			<include name="*.jar"/>
+		</fileset> 
+	  </path>
+
+	  <target name="init" description="initialization target">
+	    <echo message="=========== Build Extend"/>
+	    <!-- create the time stamp -->
+	    <tstamp/>
+	    <!-- create the build directory structure used by compile -->
+	    <mkdir dir="${build.dir}"/>
+	    <!-- check for the distribution directory -->
+	    <available file="${dist.dir}" type="dir" property="dist.dir.exists"/>
+	  </target>
+
+	  <target name="makedir" depends="init" unless="dist.dir.exists">
+	    <!-- create the distribution directory if not available -->
+	    <mkdir dir="${dist}/${dist.dir}"/>
+	  </target>
+	  
+	  <target name="compile" depends="makedir">
+	    <!-- compile the java code from ${src} into ${build.dir} -->
+	    <javac srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+	      <classpath refid="project.class.path"/>
+	    </javac>
+	    <!-- copy all image & sound files from src to the build directory -->
+	    <copy todir="${build.dir}">
+	      <fileset dir="${src}">
+	        <include name="**/images/*"/>
+	        <include name="**/*.gif"/>
+	        <include name="**/*.jpg"/>
+	        <include name="**/*.wav"/>
+	        <include name="**/*.htm"/>
+	        <include name="**/*.html"/>
+	        <include name="**/*.properties"/>
+	        <exclude name="**/package.html"/>
+	      </fileset>
+	    </copy>
+	  </target>
+	
+	
+	  <!-- ======================================================= -->
+	  <!-- Create Distribution                                     -->
+	  <!-- ======================================================= -->
+	  <target name="createDistribution">
+	  </target>	
+</project>	
