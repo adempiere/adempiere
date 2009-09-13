@@ -28,7 +28,6 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.compiere.db.CConnection;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
@@ -57,7 +56,6 @@ import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
@@ -375,7 +373,7 @@ public abstract class Doc
 	 * 	@param defaultDocumentType default document type or null
 	 * 	@param trxName trx
 	 */
-	Doc (MAcctSchema[] ass, Class<?> clazz, ResultSet rs, String defaultDocumentType, String trxName)
+	Doc (MAcctSchema[] ass, Class clazz, ResultSet rs, String defaultDocumentType, String trxName)
 	{
 		p_Status = STATUS_Error;
 		m_ass = ass;
@@ -386,7 +384,7 @@ public abstract class Doc
 		className = className.substring(className.lastIndexOf('.')+1);
 		try
 		{
-			Constructor<?> constructor = clazz.getConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
+			Constructor constructor = clazz.getConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
 			p_po = (PO)constructor.newInstance(new Object[]{m_ctx, rs, trxName});
 		}
 		catch (Exception e)
@@ -566,12 +564,7 @@ public abstract class Doc
 			sql.append(" AND (Processing='N' OR Processing IS NULL)");
 		if (!repost)
 			sql.append(" AND Posted='N'");
-		// Set transaction to lock record
-		String trxName = null;	//	outside trx
-		if (Ini.isClient() && CConnection.isServerEmbedded())
-			trxName = getTrxName();  //  within trx if server embedded in client
-		//
-		if (DB.executeUpdate(sql.toString(), trxName) == 1)
+		if (DB.executeUpdate(sql.toString(), null) == 1)	//	outside trx
 			log.info("Locked: " + get_TableName() + "_ID=" + get_ID());
 		else
 		{

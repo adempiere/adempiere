@@ -31,7 +31,6 @@ import javax.ejb.Stateless;
 import org.adempiere.util.ProcessUtil;
 import org.compiere.Adempiere;
 import org.compiere.acct.Doc;
-import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.interfaces.ServerLocal;
 import org.compiere.interfaces.ServerRemote;
@@ -44,7 +43,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.CacheMgt;
 import org.compiere.util.EMail;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 
 /**
  * 	Adempiere Server Bean.
@@ -99,9 +97,7 @@ public class ServerBean implements ServerRemote, ServerLocal
 
 		m_postCount++;
 		MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, AD_Client_ID);
-		if (! (Ini.isClient() && CConnection.isServerEmbedded()))
-			trxName = null;
-		return Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, trxName);
+		return Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, null);
 	}	//	postImmediate
 
 	/*************************************************************************
