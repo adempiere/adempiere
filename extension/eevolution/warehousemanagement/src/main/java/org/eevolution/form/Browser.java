@@ -311,26 +311,13 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		else if (	DisplayType.TableDir== field.getAD_Reference_ID() 
 				|| 	DisplayType.Table == field.getAD_Reference_ID() 
 				||	DisplayType.ID == field.getAD_Reference_ID()
-				||	DisplayType.List == field.getAD_Reference_ID())
+				||	DisplayType.List == field.getAD_Reference_ID()
+				||	DisplayType.Search == field.getAD_Reference_ID())
 		{
 			data = (Component) getLookup(field);
 			label.setLabelFor(data);
 		}
-		else if (DisplayType.Search == field.getAD_Reference_ID())
-		{
-			M_Element element = new M_Element(m_Browse.getCtx(), field.getAD_Element_ID(), null);
-			MViewColumn column = field.getAD_View_Column();
-			data	= new VLookup(element.getColumnName(),true, false, true,
-					MLookupFactory.get (Env.getCtx(), p_WindowNo,  0, column.getAD_Column_ID() ,DisplayType.Search))			
-			{
-				private static final long serialVersionUID = 1L;
-				public void setValue(Object arg0) {  				
-					super.setValue(arg0);
-				};
-			}; 
-			data.setBackground(AdempierePLAF.getInfoBackground());
-			label.setLabelFor(data);
-		}		
+		
 		searchPanel.add(label	, new ALayoutConstraint(row,col));
 		searchPanel.add(data	, new ALayoutConstraint(row,col+1));
 	
@@ -341,14 +328,16 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		try 
 		{
 			MViewColumn column = field.getAD_View_Column();	
-			String name = column.getAD_Column().getColumnName();
+			//String name = field.getName()//column.getAD_Column().getColumnName();
+				
 			Language language = Language.getLoginLanguage();
 			MLookup dataL = MLookupFactory.get(m_Browse.getCtx(), p_WindowNo,column.getAD_Column_ID(),
-					field.getAD_Reference_ID(), language, name , field.getAD_Reference_Value_ID(), false,"");
+					field.getAD_Reference_ID(), language, column.getAD_Column().getColumnName() , field.getAD_Reference_Value_ID(), false,"");
 	
-			VLookup data = new VLookup(name, field.isMandatory(), false, true, dataL);
+			VLookup data = new VLookup(column.getAD_Column().getColumnName(), field.isMandatory(), false, true, dataL);
 			data.setBackground(AdempierePLAF.getInfoBackground());
-			data.addVetoableChangeListener(this);			
+			data.addVetoableChangeListener(this);	
+			data.setName(field.getName());
 			return data;
 		} 
 		catch (Exception e) {
@@ -417,10 +406,10 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			m_queryColumnsSql.add(vcol.getColumnSQL());
 			
 			//String columnName =vcol.getColumnName();
+			Language language = Language.getLanguage(Env.getAD_Language(m_Browse.getCtx()));
 			int displayType = field.getAD_Reference_ID();
 			boolean isKey = field.isKey();
 			boolean isDisplayed = field.isDisplayed();
-			int AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
 			// teo_sarca
 			String columnSql = vcol.getColumnSQL() + " AS "+ vcol.getColumnName();
 			if (columnSql == null || columnSql.length() == 0)
@@ -439,11 +428,21 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			else if (DisplayType.Number 	== displayType || 
 					 DisplayType.Quantity 	== displayType)
 				colClass = Double.class;
-			else if (DisplayType.Integer 	== displayType || 
-					 DisplayType.TableDir 	== displayType || 
-					 DisplayType.Table 		== displayType || 
-					 DisplayType.Search 	== displayType)
+			else if (DisplayType.Integer 	== displayType)					
 				colClass = Integer.class;
+			else if (DisplayType.TableDir 	== displayType || 
+					 DisplayType.Search 	== displayType)
+			{
+				String alias = vcol.getAD_View_Definition().getTableAlias();
+				colSql = new StringBuffer("(" + MLookupFactory.getLookup_TableDirEmbed(language, columnName , alias) + ") AS "+ vcol.getColumnName());
+				colClass = String.class;
+			}
+			else if(DisplayType.Table 		== displayType)
+			{
+				String alias = vcol.getAD_View_Definition().getTableAlias();
+				colSql = new StringBuffer("(" + MLookupFactory.getLookup_TableEmbed (language, columnName , alias ,field.getAD_Reference_Value_ID()) + ") AS "+ vcol.getColumnName());
+				colClass = String.class;
+			}	
 			else if (DisplayType.String 	== displayType || 
 					 DisplayType.Text 		== displayType || 
 					 DisplayType.Memo 		== displayType)
@@ -451,17 +450,8 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			else if (DisplayType.isDate(displayType))
 				colClass = Timestamp.class;
 			else if (DisplayType.List		== displayType)
-			{
-				if (Env.isBaseLanguage(Env.getCtx(), "AD_Ref_List"))
-					colSql = new StringBuffer("(SELECT l.Name FROM AD_Ref_List l WHERE l.AD_Reference_ID=")
-						.append(AD_Reference_Value_ID).append(" AND l.Value=").append(vcol.getColumnSQL())
-						.append(") AS ").append(columnName);
-				else
-					colSql = new StringBuffer("(SELECT t.Name FROM AD_Ref_List l, AD_Ref_List_Trl t "
-						+ "WHERE l.AD_Ref_List_ID=t.AD_Ref_List_ID AND l.AD_Reference_ID=")
-						.append(AD_Reference_Value_ID).append(" AND l.Value=").append(vcol.getColumnSQL())
-						.append(" AND t.AD_Language='").append(Env.getAD_Language(Env.getCtx()))
-						.append("') AS ").append(columnName);
+			{				
+				colSql =new StringBuffer("(" + MLookupFactory.getLookup_ListEmbed(language, field.getAD_Reference_Value_ID(), columnName) + ")");
 				colClass = String.class;
 			}
 			if (colClass != null)
@@ -515,7 +505,8 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 	 */
 	protected String getSQLWhere()
 	{
-		StringBuffer sql = new StringBuffer("");
+		
+		StringBuffer sql = new StringBuffer(" AND " + m_Browse.getWhereClause());
 		if(getParameters().size() > 0)
 		{
 			sql.append(" AND ");
@@ -548,7 +539,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			for (Component c : searchPanel.getComponents())
 			{	
 				String name = c.getName();
-				if(name == null)
+				if(name == null || name.startsWith("L_"))
 					continue;
 				MBrowseField field = m_Browse.getField(name);
 				if(field == null)
@@ -560,16 +551,25 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 					{	
 						VLookup component = (VLookup) c;
 						addParameter(component.getName(), component.getValue());
+						continue;
 					}	
 					if(c instanceof VString)
 					{	
 						VString component  = (VString) c;
 						addParameter(component.getName(), component.getValue());
+						continue;
 					}	
 					if(c instanceof VCheckBox)
 					{
 						VCheckBox component  = (VCheckBox) c;
 						addParameter(component.getName(), component.getValue());
+						continue;
+					}
+					if(c instanceof VDate)
+					{
+						VDate component  = (VDate) c;
+						addParameter(component.getName(), component.getValue());
+						continue;
 					}
 				}	
 			}
@@ -777,6 +777,221 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			return ADialog.ask(p_WindowNo, this, "InfoHighRecordCount", String.valueOf(no));
 		return true;
 	}	//	testCount
+		
+	/**
+	 *	Save Selection	- Called by dispose
+	 */
+	protected void saveSelection ()
+	{
+		//	Already disposed
+		if (detail == null)
+			return;
+
+		log.config( "OK=" + m_ok);
+		if (!m_ok)      //  did not press OK
+		{
+			m_results.clear();
+			detail.removeAll();
+			detail = null;
+			return;
+		}
+
+		//	Multi Selection
+		if (p_multiSelection)
+		{
+			m_results.addAll(getSelectedRowKeys());
+		}
+		else    //  singleSelection
+		{
+			Integer data = getSelectedRowKey();
+			if (data != null)
+				m_results.add(data);
+		}
+		log.config(getSelectedSQL());
+
+		//	Save Settings of detail info screens
+		//saveSelectionDetail();
+		//	Clean-up
+		detail.removeAll();
+		detail= null;
+	}	//	saveSelection
+	
+	/**
+	 *	Get where clause for (first) selected key
+	 *  @return WHERE Clause
+	 */
+	public String getSelectedSQL()
+	{
+		//	No results
+		Collection<Integer> keys = getSelectedKeys();
+		if (keys == null || keys.size() == 0)
+		{
+			log.config("No Results - OK=" 
+				+ m_ok + ", Cancel=" + m_cancel);
+			return "";
+		}
+		//
+		StringBuffer sb = new StringBuffer(getKeyColumn());
+		if (keys.size() > 1)
+			sb.append(" IN (");
+		else
+			sb.append("=");
+
+		//	Add elements
+		for (Integer key : keys)
+		{
+			if (getKeyColumn().endsWith("_ID"))
+				sb.append(key.toString()).append(",");
+			else
+				sb.append("'").append(key.toString()).append("',");
+		}
+
+		sb.replace(sb.length()-1, sb.length(), "");
+		if (keys.size() > 1)
+			sb.append(")");
+		return sb.toString();
+	}	//	getSelectedSQL;
+	
+	/**
+	 *  Get Key Column Name
+	 *  @return column name
+	 */
+	protected String getKeyColumn()
+	{
+		return p_keyColumn;
+	}   //  getKeyColumn
+	
+	/**
+	 *  Save Selection Details
+	 *	To be overwritten by concrete classes
+	 */
+	protected void saveSelectionDetail()          {}
+	
+	/**
+	 *  Get the key of currently selected row
+	 *  @return selected key
+	 */
+	protected Integer getSelectedRowKey()
+	{
+		ArrayList<Integer> selectedDataList = getSelectedRowKeys();
+		if (selectedDataList.size() == 0)
+		{
+			return null;
+		}
+		else
+		{
+			return selectedDataList.get(0);
+		}
+	}   //  getSelectedRowKey
+	
+	/**
+     *  Get the keys of selected row/s based on layout defined in prepareTable
+     *  @return IDs if selection present
+     *  @author ashley
+     */
+    protected ArrayList<Integer> getSelectedRowKeys()
+    {
+        ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
+        
+        if (m_keyColumnIndex == -1)
+        {
+            return selectedDataList;
+        }
+        
+        if (p_multiSelection)
+        {
+        	int rows = detail.getRowCount();
+            for (int row = 0; row < rows; row++)
+            {
+                Object data = detail.getModel().getValueAt(row, m_keyColumnIndex);
+                if (data instanceof IDColumn)
+                {
+                    IDColumn dataColumn = (IDColumn)data;
+                    if (dataColumn.isSelected())
+                    {
+                        selectedDataList.add(dataColumn.getRecord_ID());
+                    }
+                }
+            }
+        }
+        
+        if (selectedDataList.size() == 0)
+        {
+        	int row = detail.getSelectedRow();
+    		if (row != -1 && m_keyColumnIndex != -1)
+    		{
+    			Object data = detail.getModel().getValueAt(row, m_keyColumnIndex);
+    			if (data instanceof IDColumn)
+    				selectedDataList.add(((IDColumn)data).getRecord_ID());
+    			if (data instanceof Integer)
+    				selectedDataList.add((Integer)data);
+    		}
+        }
+      
+        return selectedDataList;
+    }   //  getSelectedRowKeys
+
+	/**
+	 *	Get selected Keys
+	 *  @return selected keys (Integers)
+	 */
+	public Collection getSelectedKeys()
+	{
+		if (!m_ok || m_results.size() == 0)
+			return null;	
+		return m_results;
+	}	//	getSelectedKeys;
+
+	/**
+	 *	Get (first) selected Key
+	 *  @return selected key
+	 */
+	public Object getSelectedKey()
+	{
+		if (!m_ok || m_results.size() == 0)
+			return null;
+		return m_results.get(0);
+	}	//	getSelectedKey
+	
+	/**
+	 *	Dispose and save Selection
+	 *	@param ok OK pressed
+	 */
+	public void dispose(boolean ok)
+	{
+		log.config("OK=" + ok);
+		m_ok = ok;
+
+		//  End Worker
+		if (m_worker != null)
+		{
+			//  worker continues, but it does not block UI
+			if (m_worker.isAlive())
+				m_worker.interrupt();
+			log.config("Worker alive=" + m_worker.isAlive());
+		}
+		m_worker = null;
+		//
+		saveSelection();
+		removeAll();
+		super.dispose();
+		
+		int AD_Process_ID = m_Browse.getAD_Process_ID();
+		if(AD_Process_ID <= 0)
+			return;
+
+		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		instance.saveEx();
+		
+		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(), null);
+		//call process
+		m_pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		parameterPanel.saveParameters();
+		//	Execute Process
+		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), m_pi, null);
+		worker.start();     //  complete tasks in unlockUI / generateShipments_complete
+	}	//	dispose
+
 
 	private void setupToolBar()
 	{
@@ -962,31 +1177,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
     }//GEN-LAST:event_bZoomActionPerformed
 
     private void bOkActionPerformed(java.awt.event.ActionEvent evt) {                                    
-        // TODO add your handling code here:
-    	if(detail.getSelectedRowCount() == 0)
-    		dispose();
-		//	Prepare Process
-		int AD_Process_ID = m_Browse.getAD_Process_ID();
-		if(AD_Process_ID <= 0)
-			return;
-
-		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
-		instance.saveEx();
-		for(Integer row : detail.getSelectedRows())
-		{
-			IDColumn id = (IDColumn)detail.getValueAt(row, 0);
-			X_T_Selection selection = new X_T_Selection(Env.getCtx(), 0 , null);
-			selection.setT_Selection_ID(id.getRecord_ID());
-			selection.setAD_PInstance_ID(instance.get_ID());
-			selection.saveEx();
-		}					
-		//call process
-		m_pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-		parameterPanel.saveParameters();
-		//	Execute Process
-		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), m_pi, null);
-		worker.start();     //  complete tasks in unlockUI / generateShipments_complete
-    	
+     dispose(true);
     }   
     
     private void bCancelActionPerformed(java.awt.event.ActionEvent evt) {                                    
@@ -996,7 +1187,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
     
     private void bSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSearchActionPerformed
         // TODO add your handling code here:
-       	this.executeQuery();
+       	executeQuery();
     }//GEN-LAST:event_bSearchActionPerformed
 
     private void bFindActionPerformed(java.awt.event.ActionEvent evt) {                                      
