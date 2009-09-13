@@ -51,6 +51,7 @@ import org.compiere.model.GridWindowVO;
 import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.process.DocumentEngine;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CMenuItem;
@@ -898,40 +899,8 @@ public final class AEnv
 			+ ", AD_Table_ID=" + AD_Table_ID + "/" + Record_ID
 			+ ", Force=" + force);
 
-		String error = null;
-		//  try to get from Server when enabled
-		if (isServerActive())
-		{
-			log.config("trying server");
-			try
-			{
-				s_server = CConnection.get().getServer();
-				if (s_server != null)
-				{
-					error = s_server.postImmediate(Env.getCtx(), AD_Client_ID, 
-						AD_Table_ID, Record_ID, force, null);
-					log.config("from Server: " + error== null ? "OK" : error);
-				}
-				else
-				{
-					ADialog.error(WindowNo, null, "NoAppsServer");
-					return "NoAppsServer";
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.WARNING, "(RE)", e);
-				error = e.getMessage();
-				if (error == null)
-					error = "Exception: " + e.toString();
-				s_server = null;
-			}
-		}
-		else
-		{
-			ADialog.error(WindowNo, null, "NoAppsServer");
-			return "NoAppsServer";
-		}
+		String error = DocumentEngine.postImmediate(Env.getCtx(), AD_Client_ID, AD_Table_ID, Record_ID, force, null);
+
 		return error;
 	}   //  postImmediate
 

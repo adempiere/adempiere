@@ -26,8 +26,10 @@ import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 
+import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
+import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
@@ -458,25 +460,9 @@ public class DocumentEngine implements DocAction
 		if (!isValidAction(ACTION_Post) 
 			|| m_document == null)
 			return false;
-		try
-		{
-			//	Should work on Client and Server
-			Server server = CConnection.get().getServer();
-			if (server != null)
-			{
-				String error = server.postImmediate(Env.getRemoteCallCtx(Env.getCtx()), 
-					m_document.getAD_Client_ID(),
-					m_document.get_Table_ID(), m_document.get_ID(), 
-					true, null);
-				m_document.get_Logger().config("Server: " + error == null ? "OK" : error);
-				return error == null;
-			}
-		}
-		catch (Exception e)
-		{
-			m_document.get_Logger().config("(ex) " + e.getMessage());
-		}
-		return false;
+
+		String error = DocumentEngine.postImmediate(Env.getCtx(), m_document.getAD_Client_ID(), m_document.get_Table_ID(), m_document.get_ID(), true, m_document.get_TrxName());
+		return (error == null);
 	}	//	postIt
 	
 	/**
@@ -1227,4 +1213,56 @@ public class DocumentEngine implements DocAction
 		}
 		return validOptions.size();
 	}
+
+	/**
+	 *  Post Immediate
+	 *
+	 *	@param	ctx Client Context
+	 *  @param  AD_Client_ID    Client ID of Document
+	 *  @param  AD_Table_ID     Table ID of Document
+	 *  @param  Record_ID       Record ID of this document
+	 *  @param  force           force posting
+	 *  @param  trxName			ignore, retained for backward compatibility
+	 *  @return null, if success or error message
+	 */
+	public static String postImmediate (Properties ctx, 
+		int AD_Client_ID, int AD_Table_ID, int Record_ID, boolean force, String trxName)
+	{
+		String error = null;
+		if (MClient.isClientAccounting()) {
+			log.info ("Table=" + AD_Table_ID + ", Record=" + Record_ID);
+			MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, AD_Client_ID);
+			error = Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, trxName);
+			return error;
+		}
+		
+		//  try to get from Server when enabled
+		if (CConnection.get().isAppsServerOK(true))
+		{
+			log.config("trying server");
+			try
+			{
+				Server server = CConnection.get().getServer();
+				if (server != null)
+				{
+					Properties p = Env.getRemoteCallCtx(Env.getCtx());
+					error = server.postImmediate(p, AD_Client_ID,
+						AD_Table_ID, Record_ID, force, null); // don't pass transaction to server
+					log.config("from Server: " + error== null ? "OK" : error);
+				}
+				else
+				{
+					error = "NoAppsServer";
+				}
+			}
+			catch (Exception e)
+			{
+				log.log(Level.WARNING, "(RE)", e);
+				error = e.getMessage();
+			}
+		}
+		
+		return error;
+	}	//	postImmediate
+	
 }	//	DocumentEnine

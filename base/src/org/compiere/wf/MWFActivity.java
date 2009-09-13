@@ -31,13 +31,12 @@ import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.db.CConnection;
-import org.compiere.interfaces.Server;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MConversionRate;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MMailText;
 import org.compiere.model.MNote;
 import org.compiere.model.MOrg;
@@ -55,9 +54,9 @@ import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Activity;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
-import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -78,8 +77,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2104882570953130237L;
-
+	private static final long serialVersionUID = 1584816335412184476L;
 
 	/**
 	 * 	Get Activities for table/record 
@@ -898,10 +896,10 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					throw e;
 				}
 				//	Post Immediate
-				if (success && DocAction.ACTION_Complete.equals(m_node.getDocAction()))
+				if (success && DocAction.STATUS_Completed.equals(doc.getDocStatus()) && DocAction.ACTION_Complete.equals(m_node.getDocAction()))
 				{
 					MClient client = MClient.get(doc.getCtx(), doc.getAD_Client_ID());
-					if (client.isPostImmediate())
+					if (client.isPostImmediate() || MClient.isClientAccountingImmediate())
 						m_postImmediate = doc;
 				}
 				//
@@ -1504,30 +1502,13 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	 */
 	private void postImmediate()
 	{
-		if (CConnection.get().isAppsServerOK(false))
-		{
-			try
-			{
-				Server server = CConnection.get().getServer();
-				if (server != null)
-				{
-					String error = server.postImmediate(Env.getRemoteCallCtx(Env.getCtx()), 
-						m_postImmediate.getAD_Client_ID(),
-						m_postImmediate.get_Table_ID(), m_postImmediate.get_ID(), 
-						true, null);
-					m_postImmediate.get_Logger().config("Server: " + error == null ? "OK" : error);
-					return;
-				}
-				else
-					m_postImmediate.get_Logger().config("NoAppsServer");
-			}
-			catch (Exception e)
-			{
-				m_postImmediate.get_Logger().config("(RE) " + e.getMessage());
-			}
-		}
+		if (MFactAcct.alreadyPosted(m_postImmediate.get_Table_ID(), m_postImmediate.get_ID(), m_postImmediate.get_TrxName()))
+			return;
+		
+		String error = DocumentEngine.postImmediate(m_postImmediate.getCtx(),
+				m_postImmediate.getAD_Client_ID(), m_postImmediate.get_Table_ID(), m_postImmediate.get_ID(), true,
+				m_postImmediate.get_TrxName());
 	}	//	PostImmediate
-	
 	
 	/*********************************
 	 * 	Send EMail

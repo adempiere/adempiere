@@ -33,6 +33,7 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
+import org.compiere.model.MClient;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
@@ -373,7 +374,7 @@ public abstract class Doc
 	 * 	@param defaultDocumentType default document type or null
 	 * 	@param trxName trx
 	 */
-	Doc (MAcctSchema[] ass, Class clazz, ResultSet rs, String defaultDocumentType, String trxName)
+	Doc (MAcctSchema[] ass, Class<?> clazz, ResultSet rs, String defaultDocumentType, String trxName)
 	{
 		p_Status = STATUS_Error;
 		m_ass = ass;
@@ -384,7 +385,7 @@ public abstract class Doc
 		className = className.substring(className.lastIndexOf('.')+1);
 		try
 		{
-			Constructor constructor = clazz.getConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
+			Constructor<?> constructor = clazz.getConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
 			p_po = (PO)constructor.newInstance(new Object[]{m_ctx, rs, trxName});
 		}
 		catch (Exception e)
@@ -539,7 +540,7 @@ public abstract class Doc
 	{
 		if (m_DocStatus == null)
 			;	//	return "No DocStatus for DocumentNo=" + getDocumentNo();
-		else if (m_DocStatus.equals(DocumentEngine.STATUS_Completed) 
+		else if (m_DocStatus.equals(DocumentEngine.STATUS_Completed)
 			|| m_DocStatus.equals(DocumentEngine.STATUS_Closed)
 			|| m_DocStatus.equals(DocumentEngine.STATUS_Voided)
 			|| m_DocStatus.equals(DocumentEngine.STATUS_Reversed))
@@ -556,6 +557,9 @@ public abstract class Doc
 		}
 		
 		//  Lock Record ----
+		String trxName = null;	//	outside trx if on server
+		if (MClient.isClientAccounting())
+			trxName = getTrxName(); // on trx if it's in client
 		StringBuffer sql = new StringBuffer ("UPDATE ");
 		sql.append(get_TableName()).append( " SET Processing='Y' WHERE ")
 			.append(get_TableName()).append("_ID=").append(get_ID())
@@ -564,7 +568,7 @@ public abstract class Doc
 			sql.append(" AND (Processing='N' OR Processing IS NULL)");
 		if (!repost)
 			sql.append(" AND Posted='N'");
-		if (DB.executeUpdate(sql.toString(), null) == 1)	//	outside trx
+		if (DB.executeUpdate(sql.toString(), trxName) == 1)
 			log.info("Locked: " + get_TableName() + "_ID=" + get_ID());
 		else
 		{
@@ -646,7 +650,7 @@ public abstract class Doc
 
 		String validatorMsg = null;
 		// Call validator on before post
-		if (!p_Status.equals(STATUS_Error)) {			
+		if (p_Status.equals(STATUS_Posted)) {			
 			validatorMsg = ModelValidationEngine.get().fireDocValidate(getPO(), ModelValidator.TIMING_BEFORE_POST);
 			if (validatorMsg != null) {
 				p_Status = STATUS_Error;
@@ -658,7 +662,7 @@ public abstract class Doc
 		//  commitFact
 		p_Status = postCommit (p_Status);
 
-		if (!p_Status.equals(STATUS_Error)) {
+		if (p_Status.equals(STATUS_Posted)) {
 			validatorMsg = ModelValidationEngine.get().fireDocValidate(getPO(), ModelValidator.TIMING_AFTER_POST);
 			if (validatorMsg != null) {
 				p_Status = STATUS_Error;
@@ -693,6 +697,7 @@ public abstract class Doc
 				.append(", Balanced=").append(isBalanced());
 			note.setTextMsg(Text.toString());
 			note.save();
+			p_Error = Text.toString();
 		}
 
 		//  dispose facts
@@ -1053,7 +1058,7 @@ public abstract class Doc
 		Iterator<Integer> it = set.iterator();
 		while (it.hasNext() && convertible)
 		{
-			int C_Currency_ID = ((Integer)it.next()).intValue();
+			int C_Currency_ID = it.next().intValue();
 			if (C_Currency_ID != acctSchema.getC_Currency_ID())
 			{
 				BigDecimal amt = MConversionRate.getRate (C_Currency_ID, acctSchema.getC_Currency_ID(),

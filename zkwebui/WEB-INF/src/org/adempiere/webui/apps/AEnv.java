@@ -38,13 +38,13 @@ import javax.servlet.ServletRequest;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.window.FDialog;
 import org.compiere.apps.ALogin;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.Lookup;
 import org.compiere.model.MQuery;
+import org.compiere.process.DocumentEngine;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -339,41 +339,10 @@ public final class AEnv
 		log.config("Window=" + WindowNo
 			+ ", AD_Table_ID=" + AD_Table_ID + "/" + Record_ID
 			+ ", Force=" + force);
+		
+		String error = DocumentEngine.postImmediate(Env.getCtx(), AD_Client_ID, AD_Table_ID, Record_ID, force, null);
 
-		String error = null;
-		//  try to get from Server when enabled
-		if (isServerActive())
-		{
-			log.config("trying server");
-			try
-			{
-				Server server = CConnection.get().getServer();
-				if (server != null)
-				{
-					Properties p = Env.getRemoteCallCtx(Env.getCtx());
-					error = server.postImmediate(p, AD_Client_ID,
-						AD_Table_ID, Record_ID, force, null);
-					log.config("from Server: " + error== null ? "OK" : error);
-				}
-				else
-				{
-					FDialog.error(WindowNo, "", "NoApps Server");
-					return "NoAppsServer";
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.WARNING, "(RE)", e);
-				error = e.getMessage();
-			}
-		}
-		else
-		{
-			FDialog.error(WindowNo, "", "NoAppsServer");
-			return "NoAppsServer";
-		}
 		return error;
-
 	}   //  postImmediate
 
 	/**

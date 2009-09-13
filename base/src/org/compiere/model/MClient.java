@@ -56,8 +56,7 @@ public class MClient extends X_AD_Client
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -295299248474003249L;
-
+	private static final long serialVersionUID = -6345228636481802120L;
 
 	/**
 	 * 	Get client
@@ -890,7 +889,7 @@ public class MClient extends X_AD_Client
 				if (server != null)
 				{	//	See ServerBean
 					if (html && message != null)
-						message = email.HTML_MAIL_MARKER + message;
+						message = EMail.HTML_MAIL_MARKER + message;
 					email = server.createEMail(Env.getRemoteCallCtx(getCtx()), getAD_Client_ID(),
 						from.getAD_User_ID(),
 						to, subject, message);
@@ -913,5 +912,39 @@ public class MClient extends X_AD_Client
 			email.createAuthenticator (from.getEMailUser(), from.getEMailUserPW());
 		return email;
 	}	//	createEMail
-	
+
+	/*
+	 * Is Client Accounting enabled?
+	 * CLIENT_ACCOUNTING parameter allow the next values
+	 *   D - Disabled (default)
+	 *   Q - Queue (enabled to post by hand - queue documents for posterior processing)
+	 *   I - Immediate (immediate post - allow complete on errors)
+	 *   
+	 *	@return boolean representing if client accounting is enabled and it's on a client
+	 */
+	private static final String CLIENT_ACCOUNTING_DISABLED = "D";
+	private static final String CLIENT_ACCOUNTING_QUEUE = "Q";
+	private static final String CLIENT_ACCOUNTING_IMMEDIATE = "I";
+
+	public static boolean isClientAccounting() {
+		String ca = MSysConfig.getValue("CLIENT_ACCOUNTING",
+				CLIENT_ACCOUNTING_DISABLED, // default
+				Env.getAD_Client_ID(Env.getCtx()));
+		return (ca.equalsIgnoreCase(CLIENT_ACCOUNTING_IMMEDIATE) || ca.equalsIgnoreCase(CLIENT_ACCOUNTING_QUEUE));
+	}
+
+	public static boolean isClientAccountingQueue() {
+		String ca = MSysConfig.getValue("CLIENT_ACCOUNTING",
+				CLIENT_ACCOUNTING_DISABLED, // default
+				Env.getAD_Client_ID(Env.getCtx()));
+		return ca.equalsIgnoreCase(CLIENT_ACCOUNTING_QUEUE);
+	}
+
+	public static boolean isClientAccountingImmediate() {
+		String ca = MSysConfig.getValue("CLIENT_ACCOUNTING",
+				CLIENT_ACCOUNTING_DISABLED, // default
+				Env.getAD_Client_ID(Env.getCtx()));
+		return ca.equalsIgnoreCase(CLIENT_ACCOUNTING_IMMEDIATE);
+	}
+
 }	//	MClient
