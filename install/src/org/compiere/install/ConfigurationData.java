@@ -560,10 +560,9 @@ public class ConfigurationData
 	private boolean testMailServer(InetAddress	mailServer, InternetAddress adminEMail,
 		String mailUser, String mailPassword)
 	{
-		boolean isGmail = mailServer.getHostName().equalsIgnoreCase("smtp.gmail.com");
 		boolean smtpOK = false;
 		boolean imapOK = false;
-		if (testPort (mailServer, isGmail ? 587 : 25, true))
+		if (testPort (mailServer, 25, true))
 		{
 			log.config("OK: SMTP Server contacted");
 			smtpOK = true;
@@ -571,11 +570,11 @@ public class ConfigurationData
 		else
 			log.info("SMTP Server NOT available");
 		//
-		if (testPort (mailServer, isGmail ? 995 : 110, true))
+		if (testPort (mailServer, 110, true))
 			log.config("OK: POP3 Server contacted");
 		else
 			log.info("POP3 Server NOT available");
-		if (testPort (mailServer, isGmail ? 993 : 143, true))
+		if (testPort (mailServer, 143, true))
 		{
 			log.config("OK: IMAP4 Server contacted");
 			imapOK = true;
@@ -627,11 +626,6 @@ public class ConfigurationData
 		props.put("mail.host", mailServer.getHostName());
 		props.put("mail.user", mailUser);
 		props.put("mail.smtp.auth", "true");
-		if (isGmail) {
-			props.put("impa.smtp.port", "993");
-			props.put("mail.store.protocol", "imaps");
-		}
-
 		log.config("Connecting to " + mailServer.getHostName());
 		//
 		Session session = null;
@@ -643,7 +637,7 @@ public class ConfigurationData
 			session.setDebug (CLogMgt.isLevelFinest());
 			log.config("Session=" + session);
 			//	Connect to Store
-			store = session.getStore(isGmail ? "imaps" : "imap");
+			store = session.getStore("imap");
 			log.config("Store=" + store);
 		}
 		catch (NoSuchProviderException nsp)
