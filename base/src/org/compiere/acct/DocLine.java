@@ -273,7 +273,7 @@ public class DocLine
 
 		if (PriceList != null && Qty != null)
 			m_ListAmt = PriceList.multiply(Qty);
-		if (m_ListAmt.equals(Env.ZERO))
+		if (m_ListAmt.compareTo(Env.ZERO) == 0)
 			m_ListAmt = m_LineNetAmt;
 		m_DiscountAmt = m_ListAmt.subtract(m_LineNetAmt);
 		//
