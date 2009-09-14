@@ -32,7 +32,7 @@ FROM C_DunningRun dr
 	LEFT OUTER JOIN AD_User bpc ON (dre.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting bpcg on (bpc.C_Greeting_ID=bpcg.C_Greeting_ID)
 	INNER JOIN AD_OrgInfo oi ON (dr.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (dr.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (dr.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (dre.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 
@@ -77,7 +77,7 @@ FROM C_DunningRun dr
 	LEFT OUTER JOIN C_Greeting_Trl bpcg on (bpc.C_Greeting_ID=bpcg.C_Greeting_ID
         AND dlt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (dr.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (dr.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (dr.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (dre.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 
@@ -138,7 +138,7 @@ FROM C_Invoice i
 	LEFT OUTER JOIN AD_User bpc ON (i.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting bpcg on (bpc.C_Greeting_ID=bpcg.C_Greeting_ID)
 	INNER JOIN AD_OrgInfo oi ON (i.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (i.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (i.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (i.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 
@@ -199,7 +199,7 @@ FROM C_Invoice i
 	LEFT OUTER JOIN AD_User bpc ON (i.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting_Trl bpcg on (bpc.C_Greeting_ID=bpcg.C_Greeting_ID AND dt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (i.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (i.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (i.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (i.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 
@@ -271,7 +271,7 @@ FROM C_Order o
 	LEFT OUTER JOIN AD_User bpc ON (o.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID)
     INNER JOIN C_BPartner bbp ON (o.Bill_BPartner_ID=bbp.C_BPartner_ID)
@@ -346,7 +346,7 @@ FROM C_Order o
 	LEFT OUTER JOIN AD_User bpc ON (o.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting_Trl bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID AND dt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID)
     INNER JOIN C_BPartner bbp ON (o.Bill_BPartner_ID=bbp.C_BPartner_ID)
@@ -397,7 +397,7 @@ SELECT p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Update
 FROM C_Project p
 	LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID)
 	INNER JOIN AD_OrgInfo oi ON (p.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (p.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (p.AD_Client_ID=ci.AD_Client_ID)
     LEFT OUTER JOIN C_ProjectType pjt ON (p.C_ProjectType_ID=pjt.C_ProjectType_ID)
     LEFT OUTER JOIN C_Phase pjp ON (p.C_Phase_ID=pjp.C_Phase_ID)
 	LEFT OUTER JOIN AD_User u ON (p.SalesRep_ID=u.AD_User_ID)
@@ -452,7 +452,7 @@ SELECT p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Update
 FROM C_Project p
 	LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID)
 	INNER JOIN AD_OrgInfo oi ON (p.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (p.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (p.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN C_PaymentTerm_Trl pt ON (p.C_PaymentTerm_ID=pt.C_PaymentTerm_ID)
     LEFT OUTER JOIN C_ProjectType pjt ON (p.C_ProjectType_ID=pjt.C_ProjectType_ID)
     LEFT OUTER JOIN C_Phase pjp ON (p.C_Phase_ID=pjp.C_Phase_ID)
@@ -503,7 +503,7 @@ FROM DD_Order o
 	LEFT OUTER JOIN AD_User bpc ON (o.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 
@@ -548,7 +548,7 @@ FROM DD_Order o
 	LEFT OUTER JOIN AD_User bpc ON (o.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting_Trl bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID AND dt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.SalesRep_ID=u.AD_User_ID)
 	LEFT OUTER JOIN C_BPartner ubp ON (u.C_BPartner_ID=ubp.C_BPartner_ID);
 
@@ -600,7 +600,7 @@ FROM M_InOut io
 	LEFT OUTER JOIN AD_User bpc ON (io.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID)
 	INNER JOIN AD_OrgInfo oi ON (io.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (io.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (io.AD_Client_ID=ci.AD_Client_ID)
 	INNER JOIN M_Warehouse wh ON (io.M_Warehouse_ID=wh.M_Warehouse_ID);
 
 
@@ -650,7 +650,7 @@ FROM M_InOut io
 	LEFT OUTER JOIN AD_User bpc ON (io.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting_Trl bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID AND dt.AD_Language=bpcg.AD_Language)
 	INNER JOIN AD_OrgInfo oi ON (io.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (io.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (io.AD_Client_ID=ci.AD_Client_ID)
 	INNER JOIN M_Warehouse wh ON (io.M_Warehouse_ID=wh.M_Warehouse_ID);
 
 
@@ -682,7 +682,7 @@ FROM PP_Order o
 	INNER JOIN PP_Order_BOM ob ON (ob.PP_Order_ID=o.PP_Order_ID)
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
 
 
@@ -712,7 +712,7 @@ FROM PP_Order o
 	INNER JOIN PP_Order_BOM_Trl obt ON (obt.PP_Order_BOM_ID=ob.PP_Order_BOM_ID)
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
 
 
@@ -737,7 +737,7 @@ FROM PP_Order o
 	INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
 
 
@@ -765,7 +765,7 @@ FROM PP_Order o
 	INNER JOIN C_DocType_trl dt ON (o.C_DocType_ID=dt.C_DocType_ID)
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
 
 
@@ -802,7 +802,7 @@ FROM PP_Order o
 	INNER JOIN C_DocType d ON (o.C_DocType_ID=d.C_DocType_ID)
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
 
 
@@ -836,7 +836,7 @@ FROM PP_Order o
 	INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);
 
 

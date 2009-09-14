@@ -28,5 +28,5 @@ FROM PP_Order o
 	INNER JOIN C_DocType d ON (o.C_DocType_ID=d.C_DocType_ID)
 	INNER JOIN M_Warehouse wh ON (o.M_Warehouse_ID=wh.M_Warehouse_ID)
 	INNER JOIN AD_OrgInfo oi ON (o.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (o.AD_Client_ID=ci.AD_Client_ID)
 	LEFT OUTER JOIN AD_User u ON (o.Planner_ID=u.AD_User_ID);

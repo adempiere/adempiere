@@ -41,7 +41,7 @@ FROM M_InOut io
 	LEFT OUTER JOIN AD_User bpc ON (io.AD_User_ID=bpc.AD_User_ID)
 	LEFT OUTER JOIN C_Greeting bpcg ON (bpc.C_Greeting_ID=bpcg.C_Greeting_ID)
 	INNER JOIN AD_OrgInfo oi ON (io.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (io.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (io.AD_Client_ID=ci.AD_Client_ID)
 	INNER JOIN M_Warehouse wh ON (io.M_Warehouse_ID=wh.M_Warehouse_ID);
 
 

@@ -38,7 +38,7 @@ SELECT p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Update
 FROM C_Project p
 	LEFT OUTER JOIN C_BPartner bp ON (p.C_BPartner_ID=bp.C_BPartner_ID)
 	INNER JOIN AD_OrgInfo oi ON (p.AD_Org_ID=oi.AD_Org_ID)
-	INNER JOIN AD_ClientInfo ci ON (p.AD_Client_ID=oi.AD_Client_ID)
+	INNER JOIN AD_ClientInfo ci ON (p.AD_Client_ID=ci.AD_Client_ID)
     LEFT OUTER JOIN C_ProjectType pjt ON (p.C_ProjectType_ID=pjt.C_ProjectType_ID)
     LEFT OUTER JOIN C_Phase pjp ON (p.C_Phase_ID=pjp.C_Phase_ID)
 	LEFT OUTER JOIN AD_User u ON (p.SalesRep_ID=u.AD_User_ID)
