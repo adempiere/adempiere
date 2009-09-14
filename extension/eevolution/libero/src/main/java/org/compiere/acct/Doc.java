@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -33,6 +33,7 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
+import org.compiere.model.MClient;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
@@ -60,6 +61,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.model.MHRProcess;
 import org.eevolution.model.MPPCostCollector;
+
 /**
  *  Posting Document Root.
  *
@@ -385,7 +387,7 @@ public abstract class Doc
 	 * 	@param defaultDocumentType default document type or null
 	 * 	@param trxName trx
 	 */
-	Doc (MAcctSchema[] ass, Class clazz, ResultSet rs, String defaultDocumentType, String trxName)
+	Doc (MAcctSchema[] ass, Class<?> clazz, ResultSet rs, String defaultDocumentType, String trxName)
 	{
 		p_Status = STATUS_Error;
 		m_ass = ass;
@@ -396,7 +398,7 @@ public abstract class Doc
 		className = className.substring(className.lastIndexOf('.')+1);
 		try
 		{
-			Constructor constructor = clazz.getConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
+			Constructor<?> constructor = clazz.getConstructor(new Class[]{Properties.class, ResultSet.class, String.class});
 			p_po = (PO)constructor.newInstance(new Object[]{m_ctx, rs, trxName});
 		}
 		catch (Exception e)
@@ -491,7 +493,7 @@ public abstract class Doc
 	 * 	Get Context
 	 *	@return context
 	 */
-	protected Properties getCtx()
+	public Properties getCtx()
 	{
 		return m_ctx;
 	}	//	getCtx
@@ -568,6 +570,9 @@ public abstract class Doc
 		}
 		
 		//  Lock Record ----
+		String trxName = null;	//	outside trx if on server
+		if (MClient.isClientAccounting())
+			trxName = getTrxName(); // on trx if it's in client
 		StringBuffer sql = new StringBuffer ("UPDATE ");
 		sql.append(get_TableName()).append( " SET Processing='Y' WHERE ")
 			.append(get_TableName()).append("_ID=").append(get_ID())
@@ -576,7 +581,7 @@ public abstract class Doc
 			sql.append(" AND (Processing='N' OR Processing IS NULL)");
 		if (!repost)
 			sql.append(" AND Posted='N'");
-		if (DB.executeUpdate(sql.toString(), null) == 1)	//	outside trx
+		if (DB.executeUpdate(sql.toString(), trxName) == 1)
 			log.info("Locked: " + get_TableName() + "_ID=" + get_ID());
 		else
 		{
@@ -658,7 +663,7 @@ public abstract class Doc
 
 		String validatorMsg = null;
 		// Call validator on before post
-		if (!p_Status.equals(STATUS_Error)) {			
+		if (p_Status.equals(STATUS_Posted)) {			
 			validatorMsg = ModelValidationEngine.get().fireDocValidate(getPO(), ModelValidator.TIMING_BEFORE_POST);
 			if (validatorMsg != null) {
 				p_Status = STATUS_Error;
@@ -670,7 +675,7 @@ public abstract class Doc
 		//  commitFact
 		p_Status = postCommit (p_Status);
 
-		if (!p_Status.equals(STATUS_Error)) {
+		if (p_Status.equals(STATUS_Posted)) {
 			validatorMsg = ModelValidationEngine.get().fireDocValidate(getPO(), ModelValidator.TIMING_AFTER_POST);
 			if (validatorMsg != null) {
 				p_Status = STATUS_Error;
@@ -705,6 +710,7 @@ public abstract class Doc
 				.append(", Balanced=").append(isBalanced());
 			note.setTextMsg(Text.toString());
 			note.save();
+			p_Error = Text.toString();
 		}
 
 		//  dispose facts
@@ -889,7 +895,7 @@ public abstract class Doc
 	 * 	Get Trx Name and create Transaction
 	 *	@return Trx Name
 	 */
-	protected String getTrxName()
+	public String getTrxName()
 	{
 		return m_trxName;
 	}	//	getTrxName
@@ -1015,7 +1021,7 @@ public abstract class Doc
 	
 	/**************************************************************************
 	 *  Is the Source Document Balanced
-	 *  @return true if (source) baanced
+	 *  @return true if (source) balanced
 	 */
 	public boolean isBalanced()
 	{
@@ -1034,7 +1040,7 @@ public abstract class Doc
 	/**
 	 *  Is Document convertible to currency and Conversion Type
 	 *  @param acctSchema accounting schema
-	 *  @return true, if vonvertable to accounting currency
+	 *  @return true, if convertible to accounting currency
 	 */
 	public boolean isConvertible (MAcctSchema acctSchema)
 	{
@@ -1065,7 +1071,7 @@ public abstract class Doc
 		Iterator<Integer> it = set.iterator();
 		while (it.hasNext() && convertible)
 		{
-			int C_Currency_ID = ((Integer)it.next()).intValue();
+			int C_Currency_ID = it.next().intValue();
 			if (C_Currency_ID != acctSchema.getC_Currency_ID())
 			{
 				BigDecimal amt = MConversionRate.getRate (C_Currency_ID, acctSchema.getC_Currency_ID(),
@@ -1269,7 +1275,7 @@ public abstract class Doc
 	/** Account Type - Bank Statement - Interest Exp  */
 	public static final int     ACCTTYPE_InterestExp = 42;
 
-	/** Inventory Accounts  - Differnces	*/
+	/** Inventory Accounts  - Differences	*/
 	public static final int     ACCTTYPE_InvDifferences = 50;
 	/** Inventory Accounts - NIR		*/
 	public static final int     ACCTTYPE_NotInvoicedReceipts = 51;
@@ -1687,7 +1693,7 @@ public abstract class Doc
 	}	//	isTaxIncluded
 
 	/**
-	 * 	Set Tax Includedy
+	 * 	Set Tax Included
 	 *	@param ti Tax Included
 	 */
 	public void setIsTaxIncluded (boolean ti)
@@ -1713,7 +1719,7 @@ public abstract class Doc
 	
 	/**
 	 * 	Get GL_Category_ID
-	 *	@return categoory
+	 *	@return category
 	 */
 	public int getGL_Category_ID()
 	{
@@ -1722,7 +1728,7 @@ public abstract class Doc
 	
 	/**
 	 * 	Get GL_Category_ID
-	 *	@return categoory
+	 *	@return category
 	 */
 	public int getGL_Budget_ID()
 	{
