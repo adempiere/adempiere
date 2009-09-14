@@ -59,7 +59,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.eevolution.model.MHRProcess;
+//import org.eevolution.model.MHRProcess;
 import org.eevolution.model.MPPCostCollector;
 
 /**
@@ -140,7 +140,7 @@ public abstract class Doc
 		MMatchPO.Table_ID,		    //  M_MatchPO
 		MProjectIssue.Table_ID,		//	C_ProjectIssue
 		MRequisition.Table_ID,		//	M_Requisition
-		MHRProcess.Table_ID,		//  HR_Process
+//		MHRProcess.Table_ID,		//  HR_Process
 		MPPCostCollector.Table_ID   //  PP_CostCollector
 	};
 	
@@ -161,7 +161,7 @@ public abstract class Doc
 		MMatchPO.Table_Name,	    //  M_MatchPO
 		MProjectIssue.Table_Name,	//	C_ProjectIssue
 		MRequisition.Table_Name,	//	M_Requisition
-		MHRProcess.Table_Name,		//  HR_Process
+//		MHRProcess.Table_Name,		//  HR_Process
 		MPPCostCollector.Table_Name //  PP_CostCollector
 	};
 
@@ -346,8 +346,8 @@ public abstract class Doc
 			doc = new Doc_ProjectIssue (ass, rs, trxName);
 		else if (AD_Table_ID == MRequisition.Table_ID)
 			doc = new Doc_Requisition (ass, rs, trxName);
-		else if (AD_Table_ID == MHRProcess.Table_ID)
-			doc = new Doc_Payroll (ass, rs, trxName);
+//		else if (AD_Table_ID == MHRProcess.Table_ID)
+//			doc = new Doc_Payroll (ass, rs, trxName);
 		else if (AD_Table_ID == MPPCostCollector.Table_ID)
 			doc = new Doc_CostCollector (ass, rs, trxName);
 		if (doc == null)
