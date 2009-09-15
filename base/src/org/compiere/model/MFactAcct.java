@@ -146,7 +146,7 @@ public class MFactAcct extends X_Fact_Acct
 	public static boolean alreadyPosted(int AD_Table_ID, int Record_ID, String trxName) throws DBException
 	{
 		final String sql = "SELECT 1 FROM Fact_Acct WHERE AD_Table_ID=? AND Record_ID=?";
-		int one = DB.getSQLValue(trxName, sql, new Object[]{AD_Table_ID, Record_ID}, trxName);
+		int one = DB.getSQLValue(trxName, sql, new Object[]{AD_Table_ID, Record_ID});
 		return (one == 1);
 	}
 	
