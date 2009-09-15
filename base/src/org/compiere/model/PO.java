@@ -76,6 +76,8 @@ import org.w3c.dom.Element;
  *				https://sourceforge.net/tracker/?func=detail&aid=2818369&group_id=176962&atid=879335
  *			<li>BF [ 2849122 ] PO.AfterSave is not rollback on error
  *				https://sourceforge.net/tracker/?func=detail&aid=2849122&group_id=176962&atid=879332
+ *			<li>BF [ 2859125 ] Can't set AD_OrgBP_ID
+ *				https://sourceforge.net/tracker/index.php?func=detail&aid=2859125&group_id=176962&atid=879332
  * @author Victor Perez, e-Evolution SC
  *			<li>[ 2195894 ] Improve performance in PO engine
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
@@ -667,8 +669,13 @@ public abstract class PO
 		}
 		if (ColumnName.endsWith("_ID") && value instanceof String )
 		{
-			log.severe("Invalid Data Type for " + ColumnName + "=" + value);
-			value = Integer.parseInt((String)value);
+			// Convert to Integer only if info class is Integer - teo_sarca [ 2859125 ]
+			Class<?> clazz = p_info.getColumnClass(p_info.getColumnIndex(ColumnName));
+			if (Integer.class == clazz)
+			{
+				log.severe("Invalid Data Type for " + ColumnName + "=" + value);
+				value = Integer.parseInt((String)value);
+			}
 		}
 
 		return set_Value (index, value);

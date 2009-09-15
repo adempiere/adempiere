@@ -2,6 +2,7 @@ package test.functional;
 
 import java.util.Properties;
 
+import org.compiere.model.MBPartner;
 import org.compiere.model.MTest;
 import org.compiere.model.POInfo;
 import org.compiere.util.DB;
@@ -172,5 +173,33 @@ public class POTest extends AdempiereTestCase
 			String name = DB.getSQLValueStringEx(null, sql, test2.get_ID());
 			assertEquals("Object should not be modified(2) -- id="+test2, test.getName(), name);
 		}
+	}
+	
+	/**
+	 * BF [ 2859125 ] Can't set AD_OrgBP_ID
+	 * https://sourceforge.net/tracker/index.php?func=detail&aid=2859125&group_id=176962&atid=879332#
+	 */
+	public void testAD_OrgBP_ID_Issue() throws Exception
+	{
+		MBPartner bp = new MBPartner(getCtx(), 50004, getTrxName()); // Store Central
+		//
+		// Try to change AD_OrgBP_ID field value to a new value
+		final int old_org_id = bp.getAD_OrgBP_ID_Int();
+		int new_org_id = 50005; // Store East Org
+		if (old_org_id == new_org_id)
+		{
+			new_org_id = 12; // Store Central
+		}
+		bp.setAD_OrgBP_ID(new_org_id);
+		//
+		// Following line throws:
+		// java.lang.ClassCastException: java.lang.Integer cannot be cast to java.lang.String
+		// at org.compiere.model.X_C_BPartner.getAD_OrgBP_ID(X_C_BPartner.java:165)
+		// at org.compiere.model.MBPartner.getAD_OrgBP_ID_Int(MBPartner.java:602)
+		// at test.functional.POTest.testAD_OrgBP_ID_Issue(POTest.java:192)
+		bp.getAD_OrgBP_ID_Int();
+		//
+		// Test save:
+		bp.saveEx();
 	}
 }
