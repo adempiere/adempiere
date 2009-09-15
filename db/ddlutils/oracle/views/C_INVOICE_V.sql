@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW C_INVOICE_V
  C_BPARTNER_LOCATION_ID, AD_USER_ID, POREFERENCE, DATEORDERED, C_CURRENCY_ID, 
  C_CONVERSIONTYPE_ID, PAYMENTRULE, C_PAYMENTTERM_ID, C_CHARGE_ID, M_PRICELIST_ID, 
  C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, ISPRINTED, ISDISCOUNTPRINTED, 
- ISPAID, ISINDISPUTE, ISPAYSCHEDULEVALID, C_INVOICEPAYSCHEDULE_ID, INVOICECOLLECTIONTYPE, 
+ ISPAID, ISINDISPUTE, ISPAYSCHEDULEVALID, C_INVOICEPAYSCHEDULE_ID, INVOICECOLLECTIONTYPE,DUNNINGGRACE, 
  CHARGEAMT, TOTALLINES, GRANDTOTAL, MULTIPLIER, MULTIPLIERAP, 
  DOCBASETYPE, DUEDATE
  )
@@ -19,7 +19,7 @@ SELECT i.C_Invoice_ID, i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.Cre
     i.AD_User_ID, i.POReference, i.DateOrdered, i.C_Currency_ID, i.C_ConversionType_ID, i.PaymentRule,
     i.C_PaymentTerm_ID, i.C_Charge_ID, i.M_PriceList_ID, i.C_Campaign_ID, i.C_Project_ID,
     i.C_Activity_ID, i.IsPrinted, i.IsDiscountPrinted, i.IsPaid, i.IsInDispute,
-    i.IsPayScheduleValid, cast(null as number) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,
+    i.IsPayScheduleValid, cast(null as number) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType,i.DunningGrace,
     (CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.ChargeAmt*-1 ELSE i.ChargeAmt END)  AS ChargeAmt,
     (CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.TotalLines*-1 ELSE i.TotalLines END) AS TotalLines,
     (CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.GrandTotal*-1 ELSE i.GrandTotal END) AS GrandTotal,
@@ -38,7 +38,7 @@ SELECT i.C_Invoice_ID, i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.Cre
     i.AD_User_ID, i.POReference, i.DateOrdered, i.C_Currency_ID, i.C_ConversionType_ID, i.PaymentRule,
     i.C_PaymentTerm_ID, i.C_Charge_ID, i.M_PriceList_ID, i.C_Campaign_ID, i.C_Project_ID,
     i.C_Activity_ID, i.IsPrinted, i.IsDiscountPrinted, i.IsPaid, i.IsInDispute,
-    i.IsPayScheduleValid, ips.C_InvoicePaySchedule_ID, i.InvoiceCollectionType,
+    i.IsPayScheduleValid, ips.C_InvoicePaySchedule_ID, i.InvoiceCollectionType, i.DunningGrace,
     null AS ChargeAmt,
     null AS TotalLines,
     CASE WHEN charAt(d.DocBaseType,3)='C' THEN ips.DueAmt*-1 ELSE ips.DueAmt END AS GrandTotal,
