@@ -532,24 +532,27 @@ public class MInvoice extends X_C_Invoice implements DocAction
         // Check if Shipment/Receipt is based on RMA
         if (ship.getM_RMA_ID() != 0)
         {
-            MRMA rma = new MRMA(getCtx(), ship.getM_RMA_ID(), get_TrxName());
-            MOrder rmaOrder = rma.getOriginalOrder();
             setM_RMA_ID(ship.getM_RMA_ID());
-            setIsSOTrx(rma.isSOTrx());
-            setM_PriceList_ID(rmaOrder.getM_PriceList_ID());
-            setIsTaxIncluded(rmaOrder.isTaxIncluded());
-            setC_Currency_ID(rmaOrder.getC_Currency_ID());
-            setC_ConversionType_ID(rmaOrder.getC_ConversionType_ID());
-            setPaymentRule(rmaOrder.getPaymentRule());
-            setC_PaymentTerm_ID(rmaOrder.getC_PaymentTerm_ID());
 
+            MRMA rma = new MRMA(getCtx(), ship.getM_RMA_ID(), get_TrxName());
             // Retrieves the invoice DocType
             MDocType dt = MDocType.get(getCtx(), rma.getC_DocType_ID());
             if (dt.getC_DocTypeInvoice_ID() != 0)
             {
                 setC_DocTypeTarget_ID(dt.getC_DocTypeInvoice_ID());
             }
-            setC_BPartner_Location_ID(rmaOrder.getBill_Location_ID());
+            setIsSOTrx(rma.isSOTrx());
+
+            MOrder rmaOrder = rma.getOriginalOrder();
+            if (rmaOrder != null) {
+                setM_PriceList_ID(rmaOrder.getM_PriceList_ID());
+                setIsTaxIncluded(rmaOrder.isTaxIncluded());
+                setC_Currency_ID(rmaOrder.getC_Currency_ID());
+                setC_ConversionType_ID(rmaOrder.getC_ConversionType_ID());
+                setPaymentRule(rmaOrder.getPaymentRule());
+                setC_PaymentTerm_ID(rmaOrder.getC_PaymentTerm_ID());
+                setC_BPartner_Location_ID(rmaOrder.getBill_Location_ID());
+            }
         }
 
 	}	//	setShipment

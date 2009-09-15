@@ -101,7 +101,8 @@ public class MRMALine extends X_M_RMALine
         if (m_ioLine != null)
         {
             // Get pricing details (Based on invoice if found, on order otherwise)
-            if (m_ioLine.isInvoiced() && getInvoiceLineId() != 0)
+            //   --> m_ioLine.isInvoiced just work for sales orders - so it doesn't work for purchases
+            if (getInvoiceLineId() != 0)
             {
                 MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), getInvoiceLineId(), get_TrxName());
                 precision = invoiceLine.getPrecision();

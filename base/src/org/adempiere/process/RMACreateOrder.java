@@ -24,24 +24,24 @@ import org.compiere.model.MRMALine;
 import org.compiere.process.SvrProcess;
 
 /**
- *  Creates Sales Order from RMA document
+ *  Creates Order from RMA document
  *
  *  @author Ashley Ramdass
  */
 
 public class RMACreateOrder extends SvrProcess
 {
+	
+	private int rmaId = 0;
     @Override
     protected void prepare()
     {
-        
+        rmaId = getRecord_ID();
     }
     
     @Override
     protected String doIt() throws Exception
     {
-        int rmaId = getRecord_ID();
-        
         // Load RMA
         MRMA rma = new MRMA(getCtx(), rmaId, get_TrxName());
         
@@ -114,8 +114,6 @@ public class RMACreateOrder extends SvrProcess
         {
             throw new IllegalStateException("Could not update RMA document");
         }
-        
-        commit();
         
         return "Order Created: " + order.getDocumentNo();
     }

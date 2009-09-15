@@ -85,6 +85,55 @@ public class CalloutInOut extends CalloutEngine
 		return "";
 	}	//	order
 
+	/**
+	 * 	M_RMA - RMA Defaults.
+	 *	@param ctx
+	 *	@param WindowNo
+	 *	@param mTab
+	 *	@param mField
+	 *	@param value
+	 *	@return error message or ""
+	 */
+	public String rma (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		Integer M_RMA_ID = (Integer)value;
+		if (M_RMA_ID == null || M_RMA_ID.intValue() == 0)
+			return "";
+		//	No Callout Active to fire dependent values
+		if (isCalloutActive())	//	prevent recursive
+			return "";
+
+		//	Get Details
+		MRMA rma = new MRMA (ctx, M_RMA_ID.intValue(), null);
+        MInOut originalReceipt = rma.getShipment();
+		if (rma.get_ID() != 0)
+		{
+			mTab.setValue("DateOrdered", originalReceipt.getDateOrdered());
+			mTab.setValue("POReference", originalReceipt.getPOReference());
+			mTab.setValue("AD_Org_ID", new Integer(originalReceipt.getAD_Org_ID()));
+			mTab.setValue("AD_OrgTrx_ID", new Integer(originalReceipt.getAD_OrgTrx_ID()));
+			mTab.setValue("C_Activity_ID", new Integer(originalReceipt.getC_Activity_ID()));
+			mTab.setValue("C_Campaign_ID", new Integer(originalReceipt.getC_Campaign_ID()));
+			mTab.setValue("C_Project_ID", new Integer(originalReceipt.getC_Project_ID()));
+			mTab.setValue("User1_ID", new Integer(originalReceipt.getUser1_ID()));
+			mTab.setValue("User2_ID", new Integer(originalReceipt.getUser2_ID()));
+			mTab.setValue("M_Warehouse_ID", new Integer(originalReceipt.getM_Warehouse_ID()));
+			//
+			mTab.setValue("DeliveryRule", originalReceipt.getDeliveryRule());
+			mTab.setValue("DeliveryViaRule", originalReceipt.getDeliveryViaRule());
+			mTab.setValue("M_Shipper_ID", new Integer(originalReceipt.getM_Shipper_ID()));
+			mTab.setValue("FreightCostRule", originalReceipt.getFreightCostRule());
+			mTab.setValue("FreightAmt", originalReceipt.getFreightAmt());
+
+			mTab.setValue("C_BPartner_ID", new Integer(originalReceipt.getC_BPartner_ID()));
+
+			//[ 1867464 ]
+			mTab.setValue("C_BPartner_Location_ID", new Integer(originalReceipt.getC_BPartner_Location_ID()));
+			mTab.setValue("AD_User_ID", new Integer(originalReceipt.getAD_User_ID()));
+		}
+		return "";
+	}	//	rma
+
 
 	/**
 	 *	InOut - DocType.
@@ -365,6 +414,51 @@ public class CalloutInOut extends CalloutEngine
 		}
 		return "";
 	}	//	orderLine
+
+	/**************************************************************************
+	 * 	RMALine Callout
+	 *	@param ctx context
+	 *	@param WindowNo window no
+	 *	@param mTab tab model
+	 *	@param mField field model
+	 *	@param value new value
+	 *	@return error message or ""
+	 */
+	public String rmaLine (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		Integer M_RMALine_id = (Integer)value;
+		if (M_RMALine_id == null || M_RMALine_id.intValue() == 0)
+			return "";
+
+		//	Get Details
+		MRMALine rl = new MRMALine (ctx, M_RMALine_id.intValue(), null);
+		if (rl.get_ID() != 0)
+		{
+			if (rl.getC_Charge_ID() > 0 && rl.getM_Product_ID() <= 0) {
+				mTab.setValue("C_Charge_ID", new Integer(rl.getC_Charge_ID()));
+			}
+			else {
+				mTab.setValue("M_Product_ID", new Integer(rl.getM_Product_ID()));
+				mTab.setValue("M_AttributeSetInstance_ID", new Integer(rl.getM_AttributeSetInstance_ID()));
+			}
+			//
+			mTab.setValue("C_UOM_ID", new Integer(rl.getC_UOM_ID()));
+			BigDecimal MovementQty = rl.getQty().subtract(rl.getQtyDelivered());
+			mTab.setValue("MovementQty", MovementQty);
+			BigDecimal QtyEntered = MovementQty;
+			mTab.setValue("QtyEntered", QtyEntered);
+			//
+			mTab.setValue("C_Activity_ID", new Integer(rl.getC_Activity_ID()));
+			mTab.setValue("C_Campaign_ID", new Integer(rl.getC_Campaign_ID()));
+			mTab.setValue("C_Project_ID", new Integer(rl.getC_Project_ID()));
+			mTab.setValue("C_ProjectPhase_ID", new Integer(rl.getC_ProjectPhase_ID()));
+			mTab.setValue("C_ProjectTask_ID", new Integer(rl.getC_ProjectTask_ID()));
+			mTab.setValue("AD_OrgTrx_ID", new Integer(rl.getAD_OrgTrx_ID()));
+			mTab.setValue("User1_ID", new Integer(rl.getUser1_ID()));
+			mTab.setValue("User2_ID", new Integer(rl.getUser2_ID()));
+		}
+		return "";
+	}	//	rmaLine
 
 	/**
 	 *	M_InOutLine - Default UOM/Locator for Product.
