@@ -5,7 +5,7 @@
 # mode (the default mode -- this strips out all the "commit" statements)
 # and a commit mode for deployment. You need to pipe the output of this
 # script into sqlplus, for example:
-# ./migrate_oracle.sh 313-314/ commit | sqlplus adempiere/adempiere
+# export NLS_LANG=AMERICAN_AMERICA.UTF8 ; ./migrate_oracle.sh 313-314/ commit | sqlplus adempiere/adempiere
 
 # Contributed by Chris Farley - northernbrewer
 
