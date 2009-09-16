@@ -35,7 +35,7 @@ public class DocLine_Bank extends DocLine
 	 *  @param line statement line
 	 *  @param doc header
 	 */
-	public DocLine_Bank (MBankStatementLine line, Doc_Bank doc)
+	public DocLine_Bank (MBankStatementLine line, Doc_BankStatement doc)
 	{
 		super (line, doc);
 		m_C_Payment_ID = line.getC_Payment_ID();

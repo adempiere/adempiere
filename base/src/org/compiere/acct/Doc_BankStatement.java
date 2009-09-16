@@ -44,7 +44,7 @@ import org.compiere.util.Env;
  * 				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
  *  
  */
-public class Doc_Bank extends Doc
+public class Doc_BankStatement extends Doc
 {
 	/**
 	 *  Constructor
@@ -52,7 +52,7 @@ public class Doc_Bank extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	public Doc_Bank (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_BankStatement (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super (ass, MBankStatement.class, rs, DOCTYPE_BankStatement, trxName);
 	}	//	Doc_Bank

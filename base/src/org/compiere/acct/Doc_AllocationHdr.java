@@ -55,7 +55,7 @@ import org.compiere.util.Env;
  *  BF [ 2019262 ] Allocation posting currency gain/loss omits line reference
  *  
  */
-public class Doc_Allocation extends Doc
+public class Doc_AllocationHdr extends Doc
 {
 	/**
 	 *  Constructor
@@ -63,7 +63,7 @@ public class Doc_Allocation extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	public Doc_Allocation (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_AllocationHdr (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super (ass, MAllocationHdr.class, rs, DOCTYPE_Allocation, trxName);
 	}   //  Doc_Allocation
