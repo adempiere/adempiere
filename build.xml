@@ -1,69 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="Libero" default="createDistribution" basedir=".">
-	<description>
-	    This buildfile is used to build the extend subproject within 
-	    the Adempiere project.
-	  </description>
+<project name="Libero" default="dist" basedir=".">
+    <description>
+        Building Libero liberoHR.jar
+        by
+        bcahya
+        http://sistematika.web.id
+    </description>
+  <!-- set global properties for this build -->
+  <property file="build.properties"/>
+  <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
+  <property name="src" location="extension/eevolution/libero/src/main"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
 
-	  <!-- set global properties for this build -->
-	  <property name="src" value="src"/>
-	  <property name="build.dir" value="build"/>
-	  <property name="dist.dir" value="."/>
-	  <property name="jar.path" value="../lib"/>
-	  <property name="jar.name" value="adempiereLibero"/>
+  <path id="lib.class.path">
+     <fileset dir="${env.ADEMPIERE_HOME}/lib">
+        <include name="*.jar"/>
+     </fileset>
+  </path>
 
-	  <!-- set path to include the necessary jar files for javac -->
-	  <path id="project.class.path">
-	    <pathelement path="${classpath}"/>
-	    <pathelement path="${jar.path}/CCTools.jar"/>
-		<pathelement path="${jar.path}/jboss.jar"/>
-	    <pathelement path="../base/build"/>
-	    <pathelement path="../tools/lib/junit.jar"/>
-	    <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
-		<fileset dir="../tools/lib/testing/">
-			<include name="*.jar"/>
-		</fileset> 
-	  </path>
+  <target name="init" depends="clean">
+    <echo message="Trunk location: ${adempiere.trunk}"/>
+    <echo message="ADempiere home: ${env.ADEMPIERE_HOME}"/>
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
 
-	  <target name="init" description="initialization target">
-	    <echo message="=========== Build Extend"/>
-	    <!-- create the time stamp -->
-	    <tstamp/>
-	    <!-- create the build directory structure used by compile -->
-	    <mkdir dir="${build.dir}"/>
-	    <!-- check for the distribution directory -->
-	    <available file="${dist.dir}" type="dir" property="dist.dir.exists"/>
-	  </target>
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac srcdir="${src}" destdir="${build}">
+      <exclude name="**/org/eevolution/plugin/*.java"/>
+      <classpath refid="lib.class.path"/>
+    </javac>
 
-	  <target name="makedir" depends="init" unless="dist.dir.exists">
-	    <!-- create the distribution directory if not available -->
-	    <mkdir dir="${dist}/${dist.dir}"/>
-	  </target>
-	  
-	  <target name="compile" depends="makedir">
-	    <!-- compile the java code from ${src} into ${build.dir} -->
-	    <javac srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
-	      <classpath refid="project.class.path"/>
-	    </javac>
-	    <!-- copy all image & sound files from src to the build directory -->
-	    <copy todir="${build.dir}">
-	      <fileset dir="${src}">
-	        <include name="**/images/*"/>
-	        <include name="**/*.gif"/>
-	        <include name="**/*.jpg"/>
-	        <include name="**/*.wav"/>
-	        <include name="**/*.htm"/>
-	        <include name="**/*.html"/>
-	        <include name="**/*.properties"/>
-	        <exclude name="**/package.html"/>
-	      </fileset>
-	    </copy>
-	  </target>
-	
-	
-	  <!-- ======================================================= -->
-	  <!-- Create Distribution                                     -->
-	  <!-- ======================================================= -->
-	  <target name="createDistribution">
-	  </target>	
-</project>	
+  </target>
+
+  <target name="dist" depends="compile"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/liberoHR.jar" basedir="${build}"/>
+
+    <!-- Create target Libero deployment -->
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/libero/lib"/>
+
+    <!-- Transfer liberoHR.jar -->
+    <copy file="${dist}/lib/liberoHR.jar" todir="${env.ADEMPIERE_HOME}/packages/libero/lib"/>
+    <copy file="${dist}/lib/liberoHR.jar" todir="${adempiere.trunk}/packages"/>
+
+  </target>
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+</project>
