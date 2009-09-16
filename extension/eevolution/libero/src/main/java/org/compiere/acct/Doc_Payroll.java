@@ -45,13 +45,15 @@ public class Doc_Payroll extends Doc
 {
 	public MHRProcess process = null;
 	
+	/** Process Payroll **/
+	public static final String	DOCTYPE_Payroll			= "HRP";
 	/**
 	 *  Constructor
 	 * 	@param ass accounting schema
 	 * 	@param rs record
 	 * 	@parem trxName trx
 	 */
-	protected Doc_Payroll (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_Payroll (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MHRProcess.class, rs, DOCTYPE_Payroll, trxName);
 	}	//	Doc_Payroll
