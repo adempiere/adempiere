@@ -41,7 +41,7 @@ import org.eevolution.model.X_HR_Concept_Acct;
  *  @version  $Id: Doc_Payroll.java,v 1.1 2007/01/20 00:40:02 ogomezi Exp $
  *  @author Cristina Ghita, www.arhipac.ro
  */
-public class Doc_HRPayroll extends Doc
+public class Doc_HRProcess extends Doc
 {
 	public MHRProcess process = null;
 	
@@ -53,7 +53,7 @@ public class Doc_HRPayroll extends Doc
 	 * 	@param rs record
 	 * 	@parem trxName trx
 	 */
-	public Doc_HRPayroll (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_HRProcess (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MHRProcess.class, rs, DOCTYPE_Payroll, trxName);
 	}	//	Doc_Payroll

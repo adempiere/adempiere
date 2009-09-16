@@ -35,7 +35,7 @@ public class DocLine_Payroll extends DocLine
 	 *  @param line Payroll line
 	 *  @param doc header
 	 */
-	public DocLine_Payroll (MHRMovement line, Doc_HRPayroll doc)
+	public DocLine_Payroll (MHRMovement line, Doc_HRProcess doc)
 	{
 		super (line, doc);
 		int C_BPartner_ID = line.getC_BPartner_ID();
