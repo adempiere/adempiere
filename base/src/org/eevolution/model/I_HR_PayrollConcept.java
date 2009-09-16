@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_PayrollConcept
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_HR_PayrollConcept 
 {
@@ -101,6 +101,15 @@ public interface I_HR_PayrollConcept
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
 
+    /** Column name HR_PayrollConcept_ID */
+    public static final String COLUMNNAME_HR_PayrollConcept_ID = "HR_PayrollConcept_ID";
+
+	/** Set Payroll Concept	  */
+	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID);
+
+	/** Get Payroll Concept	  */
+	public int getHR_PayrollConcept_ID();
+
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
 
@@ -111,15 +120,6 @@ public interface I_HR_PayrollConcept
 	public int getHR_Payroll_ID();
 
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
-
-    /** Column name HR_PayrollConcept_ID */
-    public static final String COLUMNNAME_HR_PayrollConcept_ID = "HR_PayrollConcept_ID";
-
-	/** Set Payroll Concept	  */
-	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID);
-
-	/** Get Payroll Concept	  */
-	public int getHR_PayrollConcept_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

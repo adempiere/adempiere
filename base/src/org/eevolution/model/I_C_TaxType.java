@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_TaxType 
 {
@@ -63,15 +63,6 @@ public interface I_C_TaxType
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_TaxType_ID */
-    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
-
-	/** Set Tax Type	  */
-	public void setC_TaxType_ID (int C_TaxType_ID);
-
-	/** Get Tax Type	  */
-	public int getC_TaxType_ID();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -87,6 +78,15 @@ public interface I_C_TaxType
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_TaxType_ID */
+    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
+
+	/** Set Tax Type	  */
+	public void setC_TaxType_ID (int C_TaxType_ID);
+
+	/** Get Tax Type	  */
+	public int getC_TaxType_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

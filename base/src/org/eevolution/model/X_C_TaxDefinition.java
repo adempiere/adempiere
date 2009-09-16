@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_TaxDefinition (Properties ctx, int C_TaxDefinition_ID, String trxName)
@@ -81,7 +81,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 
 	/** Set Organization Type.
 		@param AD_OrgType_ID 
-		Organization Type allows you to categorize your organizations
+		Organization Type
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID)
 	{
@@ -92,39 +92,11 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 	}
 
 	/** Get Organization Type.
-		@return Organization Type allows you to categorize your organizations
+		@return Organization Type
 	  */
 	public int getAD_OrgType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException
-    {
-		return (I_C_BP_Group)MTable.get(getCtx(), I_C_BP_Group.Table_Name)
-			.getPO(getC_BP_Group_ID(), get_TrxName());	}
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -158,29 +130,29 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws RuntimeException
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
-		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
-			.getPO(getC_Tax_ID(), get_TrxName());	}
+		return (I_C_BP_Group)MTable.get(getCtx(), I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
 
-	/** Set Tax.
-		@param C_Tax_ID 
-		Tax identifier
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
 	  */
-	public void setC_Tax_ID (int C_Tax_ID)
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
 	{
-		if (C_Tax_ID < 1) 
-			set_Value (COLUMNNAME_C_Tax_ID, null);
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
 	}
 
-	/** Get Tax.
-		@return Tax identifier
+	/** Get Business Partner Group.
+		@return Business Partner Group
 	  */
-	public int getC_Tax_ID () 
+	public int getC_BP_Group_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -284,6 +256,34 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return ii.intValue();
 	}
 
+	public I_C_Tax getC_Tax() throws RuntimeException
+    {
+		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
+			.getPO(getC_Tax_ID(), get_TrxName());	}
+
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID)
+	{
+		if (C_Tax_ID < 1) 
+			set_Value (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+	}
+
+	/** Get Tax.
+		@return Tax identifier
+	  */
+	public int getC_Tax_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException
     {
 		return (org.eevolution.model.I_C_TaxType)MTable.get(getCtx(), org.eevolution.model.I_C_TaxType.Table_Name)
@@ -367,6 +367,40 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 		return false;
 	}
 
+	/** Set Max Taxable.
+		@param MaxTaxable Max Taxable	  */
+	public void setMaxTaxable (int MaxTaxable)
+	{
+		set_Value (COLUMNNAME_MaxTaxable, Integer.valueOf(MaxTaxable));
+	}
+
+	/** Get Max Taxable.
+		@return Max Taxable	  */
+	public int getMaxTaxable () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_MaxTaxable);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Min Taxable.
+		@param MinTaxable Min Taxable	  */
+	public void setMinTaxable (int MinTaxable)
+	{
+		set_Value (COLUMNNAME_MinTaxable, Integer.valueOf(MinTaxable));
+	}
+
+	/** Get Min Taxable.
+		@return Min Taxable	  */
+	public int getMinTaxable () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_MinTaxable);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
 		return (I_M_Product_Category)MTable.get(getCtx(), I_M_Product_Category.Table_Name)
@@ -418,40 +452,6 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Max Taxable.
-		@param MaxTaxable Max Taxable	  */
-	public void setMaxTaxable (int MaxTaxable)
-	{
-		set_Value (COLUMNNAME_MaxTaxable, Integer.valueOf(MaxTaxable));
-	}
-
-	/** Get Max Taxable.
-		@return Max Taxable	  */
-	public int getMaxTaxable () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_MaxTaxable);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Min Taxable.
-		@param MinTaxable Min Taxable	  */
-	public void setMinTaxable (int MinTaxable)
-	{
-		set_Value (COLUMNNAME_MinTaxable, Integer.valueOf(MinTaxable));
-	}
-
-	/** Get Min Taxable.
-		@return Min Taxable	  */
-	public int getMinTaxable () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_MinTaxable);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

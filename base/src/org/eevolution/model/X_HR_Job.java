@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Job
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_HR_Job extends PO implements I_HR_Job, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_HR_Job (Properties ctx, int HR_Job_ID, String trxName)
@@ -39,7 +39,6 @@ public class X_HR_Job extends PO implements I_HR_Job, I_Persistent
       super (ctx, HR_Job_ID, trxName);
       /** if (HR_Job_ID == 0)
         {
-			setHR_Department_ID (0);
 			setHR_Job_ID (0);
 			setName (null);
         } */

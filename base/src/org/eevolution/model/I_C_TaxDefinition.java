@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_TaxDefinition 
 {
@@ -67,31 +67,16 @@ public interface I_C_TaxDefinition
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
 	/** Set Organization Type.
-	  * Organization Type allows you to categorize your organizations
+	  * Organization Type
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID);
 
 	/** Get Organization Type.
-	  * Organization Type allows you to categorize your organizations
+	  * Organization Type
 	  */
 	public int getAD_OrgType_ID();
 
 	public I_AD_OrgType getAD_OrgType() throws RuntimeException;
-
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -108,20 +93,36 @@ public interface I_C_TaxDefinition
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_Tax_ID */
-    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
-	/** Set Tax.
-	  * Tax identifier
+	/** Set Business Partner Group.
+	  * Business Partner Group
 	  */
-	public void setC_Tax_ID (int C_Tax_ID);
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
 
-	/** Get Tax.
-	  * Tax identifier
+	/** Get Business Partner Group.
+	  * Business Partner Group
 	  */
-	public int getC_Tax_ID();
+	public int getC_BP_Group_ID();
 
-	public I_C_Tax getC_Tax() throws RuntimeException;
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name C_TaxBase_ID */
     public static final String COLUMNNAME_C_TaxBase_ID = "C_TaxBase_ID";
@@ -169,6 +170,21 @@ public interface I_C_TaxDefinition
 
 	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws RuntimeException;
 
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+
+	/** Set Tax.
+	  * Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID);
+
+	/** Get Tax.
+	  * Tax identifier
+	  */
+	public int getC_Tax_ID();
+
+	public I_C_Tax getC_Tax() throws RuntimeException;
+
     /** Column name C_TaxType_ID */
     public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
 
@@ -179,22 +195,6 @@ public interface I_C_TaxDefinition
 	public int getC_TaxType_ID();
 
 	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException;
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -248,6 +248,24 @@ public interface I_C_TaxDefinition
 	  */
 	public boolean isInvoiced();
 
+    /** Column name MaxTaxable */
+    public static final String COLUMNNAME_MaxTaxable = "MaxTaxable";
+
+	/** Set Max Taxable	  */
+	public void setMaxTaxable (int MaxTaxable);
+
+	/** Get Max Taxable	  */
+	public int getMaxTaxable();
+
+    /** Column name MinTaxable */
+    public static final String COLUMNNAME_MinTaxable = "MinTaxable";
+
+	/** Set Min Taxable	  */
+	public void setMinTaxable (int MinTaxable);
+
+	/** Get Min Taxable	  */
+	public int getMinTaxable();
+
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 
@@ -277,24 +295,6 @@ public interface I_C_TaxDefinition
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name MaxTaxable */
-    public static final String COLUMNNAME_MaxTaxable = "MaxTaxable";
-
-	/** Set Max Taxable	  */
-	public void setMaxTaxable (int MaxTaxable);
-
-	/** Get Max Taxable	  */
-	public int getMaxTaxable();
-
-    /** Column name MinTaxable */
-    public static final String COLUMNNAME_MinTaxable = "MinTaxable";
-
-	/** Set Min Taxable	  */
-	public void setMinTaxable (int MinTaxable);
-
-	/** Get Min Taxable	  */
-	public int getMinTaxable();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for RV_PP_WIP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_RV_PP_WIP extends PO implements I_RV_PP_WIP, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_RV_PP_WIP (Properties ctx, int RV_PP_WIP_ID, String trxName)

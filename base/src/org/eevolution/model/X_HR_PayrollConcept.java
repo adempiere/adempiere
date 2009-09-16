@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PayrollConcept
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_HR_PayrollConcept (Properties ctx, int HR_PayrollConcept_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
       /** if (HR_PayrollConcept_ID == 0)
         {
 			setHR_Concept_ID (0);
-			setHR_Payroll_ID (0);
 			setHR_PayrollConcept_ID (0);
+			setHR_Payroll_ID (0);
 			setIsPrinted (false);
 // N
         } */
@@ -125,6 +125,26 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Payroll Concept.
+		@param HR_PayrollConcept_ID Payroll Concept	  */
+	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID)
+	{
+		if (HR_PayrollConcept_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_PayrollConcept_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_PayrollConcept_ID, Integer.valueOf(HR_PayrollConcept_ID));
+	}
+
+	/** Get Payroll Concept.
+		@return Payroll Concept	  */
+	public int getHR_PayrollConcept_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PayrollConcept_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Payroll)MTable.get(getCtx(), org.eevolution.model.I_HR_Payroll.Table_Name)
@@ -145,26 +165,6 @@ public class X_HR_PayrollConcept extends PO implements I_HR_PayrollConcept, I_Pe
 	public int getHR_Payroll_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Payroll_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll Concept.
-		@param HR_PayrollConcept_ID Payroll Concept	  */
-	public void setHR_PayrollConcept_ID (int HR_PayrollConcept_ID)
-	{
-		if (HR_PayrollConcept_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_PayrollConcept_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_PayrollConcept_ID, Integer.valueOf(HR_PayrollConcept_ID));
-	}
-
-	/** Get Payroll Concept.
-		@return Payroll Concept	  */
-	public int getHR_PayrollConcept_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PayrollConcept_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
