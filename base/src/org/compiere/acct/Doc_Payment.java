@@ -45,7 +45,7 @@ public class Doc_Payment extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_Payment (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_Payment (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super (ass, MPayment.class, rs, null, trxName);
 	}	//	Doc_Payment

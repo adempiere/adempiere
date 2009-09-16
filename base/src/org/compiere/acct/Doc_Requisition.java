@@ -47,7 +47,7 @@ public class Doc_Requisition extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_Requisition (MAcctSchema[]  ass, ResultSet rs, String trxName)
+	public Doc_Requisition (MAcctSchema[]  ass, ResultSet rs, String trxName)
 	{
 		super (ass, MRequisition.class, rs, DOCTYPE_PurchaseRequisition, trxName);
 	}	//	Doc_Requisition

@@ -28,32 +28,20 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MAllocationHdr;
-import org.compiere.model.MBankStatement;
-import org.compiere.model.MCash;
 import org.compiere.model.MClient;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MDocType;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInventory;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MJournal;
-import org.compiere.model.MMatchInv;
-import org.compiere.model.MMatchPO;
-import org.compiere.model.MMovement;
 import org.compiere.model.MNote;
-import org.compiere.model.MOrder;
-import org.compiere.model.MPayment;
 import org.compiere.model.MPeriod;
-import org.compiere.model.MProjectIssue;
-import org.compiere.model.MRequisition;
+import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
-import org.compiere.model.X_M_Production;
 import org.compiere.process.DocumentEngine;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -122,42 +110,10 @@ import org.compiere.util.Trx;
 public abstract class Doc
 {
 	/** AD_Table_ID's of documents          */
-	public static int[]  documentsTableID = new int[] {
-		MInvoice.Table_ID,			//  C_Invoice
-		MAllocationHdr.Table_ID,    //  C_Allocation
-		MCash.Table_ID,			    //  C_Cash
-		MBankStatement.Table_ID,    //  C_BankStatement
-		MOrder.Table_ID,		    //  C_Order
-		MPayment.Table_ID, 			//  C_Payment
-		MInOut.Table_ID,			//  M_InOut
-		MInventory.Table_ID,	    //  M_Inventory
-		MMovement.Table_ID,		    //  M_Movement
-		X_M_Production.Table_ID,    //  M_Production
-		MJournal.Table_ID,			//  GL_Journal
-		MMatchInv.Table_ID,		    //  M_MatchInv
-		MMatchPO.Table_ID,		    //  M_MatchPO
-		MProjectIssue.Table_ID,		//	C_ProjectIssue
-		MRequisition.Table_ID,		//	M_Requisition
-	};
+	private static int[]  documentsTableID = null;
 	
 	/** Table Names of documents          */
-	public static String[]  documentsTableName = new String[] {
-		MInvoice.Table_Name,		//  C_Invoice
-		MAllocationHdr.Table_Name,	//  C_Allocation
-		MCash.Table_Name,		    //  C_Cash
-		MBankStatement.Table_Name,	//  C_BankStatement
-		MOrder.Table_Name,		    //  C_Order
-		MPayment.Table_Name,		//  C_Payment
-		MInOut.Table_Name,			//  M_InOut
-		MInventory.Table_Name,	    //  M_Inventory
-		MMovement.Table_Name,	    //  M_Movement
-		X_M_Production.Table_Name,	//  M_Production
-		MJournal.Table_Name,		//  GL_Journal
-		MMatchInv.Table_Name,	    //  M_MatchInv
-		MMatchPO.Table_Name,	    //  M_MatchPO
-		MProjectIssue.Table_Name,	//	C_ProjectIssue
-		MRequisition.Table_Name,	//	M_Requisition
-	};
+	private static String[]  documentsTableName = null;
 
 	/**************************************************************************
 	 * 	 Document Types
@@ -251,11 +207,11 @@ public abstract class Doc
 	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, int Record_ID, String trxName)
 	{
 		String TableName = null;
-		for (int i = 0; i < documentsTableID.length; i++)
+		for (int i = 0; i < getDocumentsTableID().length; i++)
 		{
-			if (documentsTableID[i] == AD_Table_ID)
+			if (getDocumentsTableID()[i] == AD_Table_ID)
 			{
-				TableName = documentsTableName[i];
+				TableName = getDocumentsTableName()[i];
 				break;
 			}
 		}
@@ -303,40 +259,77 @@ public abstract class Doc
 	 *  @param rs ResultSet
 	 *  @param trxName transaction name
 	 *  @return Document
+	 * @throws AdempiereUserError 
 	 */
-	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, ResultSet rs, String trxName)
+	public static Doc get (MAcctSchema[] ass, int AD_Table_ID, ResultSet rs, String trxName) throws AdempiereUserError
 	{
 		Doc doc = null;
-		if (AD_Table_ID ==  MInvoice.Table_ID)
-			doc = new Doc_Invoice (ass, rs, trxName);
-		else if (AD_Table_ID == MAllocationHdr.Table_ID)
-			doc = new Doc_Allocation (ass, rs, trxName);
-		else if (AD_Table_ID == MCash.Table_ID)
-			doc = new Doc_Cash (ass, rs, trxName);
-		else if (AD_Table_ID == MBankStatement.Table_ID)
-			doc = new Doc_Bank (ass, rs, trxName);
-		else if (AD_Table_ID == MOrder.Table_ID)
-			doc = new Doc_Order (ass, rs, trxName);
-		else if (AD_Table_ID == MPayment.Table_ID)
-			doc = new Doc_Payment (ass, rs, trxName);
-		else if (AD_Table_ID == MInOut.Table_ID)
-			doc = new Doc_InOut (ass, rs, trxName);
-		else if (AD_Table_ID == MInventory.Table_ID)
-			doc = new Doc_Inventory (ass, rs, trxName);
-		else if (AD_Table_ID == MMovement.Table_ID)
-			doc = new Doc_Movement (ass, rs, trxName);
-		else if (AD_Table_ID == X_M_Production.Table_ID)
-			doc = new Doc_Production (ass, rs, trxName);
-		else if (AD_Table_ID == MJournal.Table_ID)
-			doc = new Doc_GLJournal (ass, rs, trxName);
-		else if (AD_Table_ID == MMatchInv.Table_ID)
-			doc = new Doc_MatchInv (ass, rs, trxName);
-		else if (AD_Table_ID == MMatchPO.Table_ID)
-			doc = new Doc_MatchPO (ass, rs, trxName);
-		else if (AD_Table_ID == MProjectIssue.Table_ID)
-			doc = new Doc_ProjectIssue (ass, rs, trxName);
-		else if (AD_Table_ID == MRequisition.Table_ID)
-			doc = new Doc_Requisition (ass, rs, trxName);
+		
+		/* Classname of the Doc class follows this convention:
+		 * if the prefix (letters before the first underscore _) is 1 character, then the class is Doc_TableWithoutPrefixWithoutUnderscores
+		 * otherwise Doc_WholeTableWithoutUnderscores
+		 * i.e. following this query
+              SELECT t.ad_table_id, tablename, 
+              	CASE 
+              		WHEN instr(tablename, '_') = 2 
+              		THEN 'Doc_' || substr(tablename, 3) 
+              		WHEN instr(tablename, '_') > 2 
+              		THEN 'Doc_' || 
+              		ELSE '' 
+              	REPLACE
+              		(
+              			tablename, '_', ''
+              		)
+              	END AS classname 
+              FROM ad_table t, ad_column C 
+              WHERE t.ad_table_id = C.ad_table_id AND
+              	C.columnname = 'Posted' AND
+              	isview = 'N' 
+              ORDER BY 1
+		 * This is:
+		 * 224		GL_Journal			Doc_GLJournal
+		 * 259		C_Order				Doc_Order
+		 * 318		C_Invoice			Doc_Invoice
+		 * 319		M_InOut				Doc_InOut
+		 * 321		M_Inventory			Doc_Inventory
+		 * 323		M_Movement			Doc_Movement
+		 * 325		M_Production		Doc_Production
+		 * 335		C_Payment			Doc_Payment
+		 * 392		C_BankStatement		Doc_BankStatement
+		 * 407		C_Cash				Doc_Cash
+		 * 472		M_MatchInv			Doc_MatchInv
+		 * 473		M_MatchPO			Doc_MatchPO
+		 * 623		C_ProjectIssue		Doc_ProjectIssue
+		 * 702		M_Requisition		Doc_Requisition
+		 * 735		C_AllocationHdr		Doc_AllocationHdr
+		 * 53027	PP_Order			Doc_PPOrder
+		 * 53035	PP_Cost_Collector	Doc_PPCostCollector
+		 * 53037	DD_Order			Doc_DDOrder
+		 * 53092	HR_Process			Doc_HRProcess
+		 */
+		
+		String tableName = MTable.getTableName(Env.getCtx(), AD_Table_ID);
+		String packageName = "org.compiere.acct";
+		String className = null;
+
+		int firstUnderscore = tableName.indexOf("_");
+		if (firstUnderscore == 1)
+			className = packageName + ".Doc_" + tableName.substring(2).replaceAll("_", "");
+		else
+			className = packageName + ".Doc_" + tableName.replaceAll("_", "");
+		
+		try
+		{
+			Class<?> cClass = Class.forName(className);
+			Constructor<?> cnstr = cClass.getConstructor(new Class[] {MAcctSchema[].class, ResultSet.class, String.class});
+			doc = (Doc) cnstr.newInstance(ass, rs, trxName);
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, "Doc Class invalid: " + className + " (" + e.toString() + ")");
+			throw new AdempiereUserError("Doc Class invalid: " + className + " (" + e.toString() + ")");
+		}
+
 		if (doc == null)
 			s_log.log(Level.SEVERE, "Unknown AD_Table_ID=" + AD_Table_ID);
 		return doc;
@@ -2240,6 +2233,61 @@ public abstract class Doc
 	 */
 	public ArrayList<Fact> getFacts() {
 		return m_fact;
+	}
+
+	/*
+	 * Array of tables with Post column
+	 */
+	public static int[] getDocumentsTableID() {
+		fillDocumentsTableArrays();
+		return documentsTableID;
+	}
+
+	public static String[] getDocumentsTableName() {
+		fillDocumentsTableArrays();
+		return documentsTableName;
+	}
+
+	private static void fillDocumentsTableArrays() {
+		if (documentsTableID == null) {
+			String sql = "SELECT t.AD_Table_ID, t.TableName " +
+					"FROM AD_Table t, AD_Column c " +
+					"WHERE t.AD_Table_ID=c.AD_Table_ID AND " +
+					"c.ColumnName='Posted' AND " +
+					"IsView='N' " +
+					"ORDER BY t.AD_Table_ID";
+			ArrayList<Integer> tableIDs = new ArrayList<Integer>();
+			ArrayList<String> tableNames = new ArrayList<String>();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql, null);
+				rs = pstmt.executeQuery();
+				while (rs.next())
+				{
+					tableIDs.add(rs.getInt(1));
+					tableNames.add(rs.getString(2));
+				}
+			}
+			catch (SQLException e)
+			{
+				throw new DBException(e, sql);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
+			}
+			//	Convert to array
+			documentsTableID = new int[tableIDs.size()];
+			documentsTableName = new String[tableIDs.size()];
+			for (int i = 0; i < documentsTableID.length; i++)
+			{
+				documentsTableID[i] = tableIDs.get(i);
+				documentsTableName[i] = tableNames.get(i);
+			}
+		}
 	}
 	
 }   //  Doc

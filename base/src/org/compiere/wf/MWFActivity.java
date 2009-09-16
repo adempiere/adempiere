@@ -794,7 +794,11 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			
 			//end vpj-cd e-evolution 03/08/2005 PostgreSQL
 			if (m_postImmediate != null)
-				postImmediate();
+				try {
+					postImmediate();
+				} catch (Exception e) {
+					log.warning("Error posting document: " + e.toString());
+				}  // ignore any error in this posting
 		}
 		catch (Exception e)
 		{

@@ -88,10 +88,10 @@ public class AcctProcessor extends AdempiereServer
 	 */
 	private void postSession()
 	{
-		for (int i = 0; i < Doc.documentsTableID.length; i++)
+		for (int i = 0; i < Doc.getDocumentsTableID().length; i++)
 		{
-			int AD_Table_ID = Doc.documentsTableID[i];
-			String TableName = Doc.documentsTableName[i];
+			int AD_Table_ID = Doc.getDocumentsTableID()[i];
+			String TableName = Doc.getDocumentsTableName()[i];
 			//	Post only special documents
 			if (m_model.getAD_Table_ID() != 0 
 				&& m_model.getAD_Table_ID() != AD_Table_ID)

@@ -44,7 +44,7 @@ public class Doc_GLJournal extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_GLJournal (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_GLJournal (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MJournal.class, rs, null, trxName);
 	}	//	Doc_GL_Journal

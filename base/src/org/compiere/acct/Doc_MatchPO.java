@@ -54,7 +54,7 @@ public class Doc_MatchPO extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_MatchPO (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_MatchPO (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MMatchPO.class, rs, DOCTYPE_MatMatchPO, trxName);
 	}   //  Doc_MatchPO

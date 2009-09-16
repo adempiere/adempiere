@@ -57,7 +57,7 @@ public class Doc_Invoice extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_Invoice(MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_Invoice(MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super (ass, MInvoice.class, rs, null, trxName);
 	}	//	Doc_Invoice

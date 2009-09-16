@@ -53,7 +53,7 @@ public class Doc_Order extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_Order (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_Order (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super (ass, MOrder.class, rs, null, trxName);
 	}	//	Doc_Order

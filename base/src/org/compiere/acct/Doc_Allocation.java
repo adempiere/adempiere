@@ -63,7 +63,7 @@ public class Doc_Allocation extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_Allocation (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_Allocation (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super (ass, MAllocationHdr.class, rs, DOCTYPE_Allocation, trxName);
 	}   //  Doc_Allocation

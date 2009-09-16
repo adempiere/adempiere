@@ -55,7 +55,7 @@ public class Doc_MatchInv extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_MatchInv (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_MatchInv (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MMatchInv.class, rs, DOCTYPE_MatMatchInv, trxName);
 	}   //  Doc_MatchInv

@@ -52,7 +52,7 @@ public class Doc_Bank extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_Bank (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_Bank (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super (ass, MBankStatement.class, rs, DOCTYPE_BankStatement, trxName);
 	}	//	Doc_Bank

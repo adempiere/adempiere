@@ -115,10 +115,10 @@ public class ClientAcctProcessor extends SvrProcess
 	 */
 	private void postSession()
 	{
-		for (int i = 0; i < Doc.documentsTableID.length; i++)
+		for (int i = 0; i < Doc.getDocumentsTableID().length; i++)
 		{
-			int AD_Table_ID = Doc.documentsTableID[i];
-			String TableName = Doc.documentsTableName[i];
+			int AD_Table_ID = Doc.getDocumentsTableID()[i];
+			String TableName = Doc.getDocumentsTableName()[i];
 			//	Post only special documents
 			if (p_AD_Table_ID != 0 
 				&& p_AD_Table_ID != AD_Table_ID)
