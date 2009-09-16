@@ -240,8 +240,6 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 			return DocAction.STATUS_Invalid;
 		
 		m_justPrepared = true;
-	//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare 
-	//		setDocAction(DOCACTION_Complete);
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 
@@ -301,6 +299,13 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		}
 		
 		setProcessed(true);
+		MWMInOutBoundLine[] lines = getLines(true, MWMInOutBoundLine.COLUMNNAME_Line);
+		for (MWMInOutBoundLine line : lines)
+		{
+			line.setProcessed(true);
+			line.saveEx();
+		}
+	
 		setDocAction(DOCACTION_Close);
 
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);

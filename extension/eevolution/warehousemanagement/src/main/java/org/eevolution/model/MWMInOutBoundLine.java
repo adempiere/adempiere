@@ -28,6 +28,7 @@
  **********************************************************************/
 package org.eevolution.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
@@ -163,6 +164,10 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine implements IDocumentL
 		return m_bpartner;
 	}
 
+	public BigDecimal getQtyToPick()
+	{
+		return getMovementQty().subtract(getPickedQty());
+	}
 	public int getM_Locator_ID() {
 		// TODO Auto-generated method stub
 		return 0;
