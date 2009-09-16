@@ -19,6 +19,11 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.desktop.AbstractDesktop;
+import org.adempiere.webui.panel.ADWindowPanel;
+import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.ADWindow;
+import org.compiere.model.GridTab;
 import org.compiere.model.MAsset;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCampaign;
@@ -195,54 +200,60 @@ public class WRequest implements EventListener
 			}
 			
 			int AD_Window_ID = 232;		//	232=all - 201=my
+			ADWindow frame = SessionManager.getAppDesktop().openWindow(AD_Window_ID);
+			if(frame == null)
+				return;
+			//	New - set Table/Record
 			if (e.getTarget() == m_new)
 			{
-				Env.setContext(Env.getCtx(), "AD_Table_ID", new Integer(m_AD_Table_ID));
-				Env.setContext(Env.getCtx(), "Record_ID", new Integer(m_Record_ID));
+				GridTab tab = frame.getADWindowPanel().getActiveGridTab();
+				tab.dataNew (false);
+				tab.setValue("AD_Table_ID", new Integer(m_AD_Table_ID));
+				tab.setValue("Record_ID", new Integer(m_Record_ID));
 				//
 				if (m_C_BPartner_ID != 0)
-					Env.setContext(Env.getCtx(), "C_BPartner_ID", new Integer(m_C_BPartner_ID));
+					tab.setValue("C_BPartner_ID", new Integer(m_C_BPartner_ID));
 				//
 				if (m_AD_Table_ID == MBPartner.Table_ID)
-					Env.setContext(Env.getCtx(), "C_BPartner_ID", new Integer(m_Record_ID));
+					tab.setValue("C_BPartner_ID", new Integer(m_Record_ID));
 				else if (m_AD_Table_ID == MUser.Table_ID)
-					Env.setContext(Env.getCtx(), "AD_User_ID", new Integer(m_Record_ID));
+					tab.setValue("AD_User_ID", new Integer(m_Record_ID));
 				//
 				else if (m_AD_Table_ID == MProject.Table_ID)
-					Env.setContext(Env.getCtx(), "C_Project_ID", new Integer(m_Record_ID));
+					tab.setValue("C_Project_ID", new Integer(m_Record_ID));
 				else if (m_AD_Table_ID == MAsset.Table_ID)
-					Env.setContext(Env.getCtx(), "A_Asset_ID", new Integer(m_Record_ID));
+					tab.setValue("A_Asset_ID", new Integer(m_Record_ID));
 				//
 				else if (m_AD_Table_ID == MOrder.Table_ID)
-					Env.setContext(Env.getCtx(), "C_Order_ID", new Integer(m_Record_ID));
+					tab.setValue("C_Order_ID", new Integer(m_Record_ID));
 				else if (m_AD_Table_ID == MInvoice.Table_ID)
-					Env.setContext(Env.getCtx(), "C_Invoice_ID", new Integer(m_Record_ID));
+					tab.setValue("C_Invoice_ID", new Integer(m_Record_ID));
 				//
 				else if (m_AD_Table_ID == MProduct.Table_ID)
-					Env.setContext(Env.getCtx(), "M_Product_ID", new Integer(m_Record_ID));
+					tab.setValue("M_Product_ID", new Integer(m_Record_ID));
 				else if (m_AD_Table_ID == MPayment.Table_ID)
-					Env.setContext(Env.getCtx(), "C_Payment_ID", new Integer(m_Record_ID));
+					tab.setValue("C_Payment_ID", new Integer(m_Record_ID));
 				//
 				else if (m_AD_Table_ID == MInOut.Table_ID)
-					Env.setContext(Env.getCtx(), "M_InOut_ID", new Integer(m_Record_ID));
+					tab.setValue("M_InOut_ID", new Integer(m_Record_ID));
 				else if (m_AD_Table_ID == MRMA.Table_ID)
-					Env.setContext(Env.getCtx(), "M_RMA_ID", new Integer(m_Record_ID));
+					tab.setValue("M_RMA_ID", new Integer(m_Record_ID));
 				//
 				else if (m_AD_Table_ID == MCampaign.Table_ID)
-					Env.setContext(Env.getCtx(), "C_Campaign_ID", new Integer(m_Record_ID));
+					tab.setValue("C_Campaign_ID", new Integer(m_Record_ID));
 				//
 				else if (m_AD_Table_ID == MRequest.Table_ID)
-					Env.setContext(Env.getCtx(), MRequest.COLUMNNAME_R_RequestRelated_ID, new Integer(m_Record_ID));
+					tab.setValue(MRequest.COLUMNNAME_R_RequestRelated_ID, new Integer(m_Record_ID));
 				// FR [2842165] - Order Ref link from SO line creating new request
 				else if (m_AD_Table_ID == MOrderLine.Table_ID) {
 					MOrderLine oLine = new MOrderLine(Env.getCtx(), m_Record_ID, null);
 					if (oLine != null) {
-						Env.setContext(Env.getCtx(), MOrderLine.COLUMNNAME_C_Order_ID, new Integer(oLine.getC_Order_ID()));
+						tab.setValue(MOrderLine.COLUMNNAME_C_Order_ID, new Integer(oLine.getC_Order_ID()));
 					}
 				}
 			}
 			
-			AEnv.zoom(AD_Window_ID, query);
+			frame = null;
 		}
 	}
 }
