@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationAttribute
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAttribute, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_A_RegistrationAttribute (Properties ctx, int A_RegistrationAttribute_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
       super (ctx, A_RegistrationAttribute_ID, trxName);
       /** if (A_RegistrationAttribute_ID == 0)
         {
-			setA_RegistrationAttribute_ID (0);
 			setAD_Reference_ID (0);
+			setA_RegistrationAttribute_ID (0);
 			setIsSelfService (true);
 // Y
 			setName (null);
@@ -74,29 +74,6 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Registration Attribute.
-		@param A_RegistrationAttribute_ID 
-		Asset Registration Attribute
-	  */
-	public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID)
-	{
-		if (A_RegistrationAttribute_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, Integer.valueOf(A_RegistrationAttribute_ID));
-	}
-
-	/** Get Registration Attribute.
-		@return Asset Registration Attribute
-	  */
-	public int getA_RegistrationAttribute_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_RegistrationAttribute_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_AD_Reference getAD_Reference() throws RuntimeException
     {
@@ -149,6 +126,29 @@ public class X_A_RegistrationAttribute extends PO implements I_A_RegistrationAtt
 	public int getAD_Reference_Value_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_Value_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Registration Attribute.
+		@param A_RegistrationAttribute_ID 
+		Asset Registration Attribute
+	  */
+	public void setA_RegistrationAttribute_ID (int A_RegistrationAttribute_ID)
+	{
+		if (A_RegistrationAttribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_RegistrationAttribute_ID, Integer.valueOf(A_RegistrationAttribute_ID));
+	}
+
+	/** Get Registration Attribute.
+		@return Asset Registration Attribute
+	  */
+	public int getA_RegistrationAttribute_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_RegistrationAttribute_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

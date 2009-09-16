@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionDistribution
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_PromotionDistribution 
 {
@@ -117,6 +117,15 @@ public interface I_M_PromotionDistribution
 	  */
 	public boolean isActive();
 
+    /** Column name M_PromotionDistribution_ID */
+    public static final String COLUMNNAME_M_PromotionDistribution_ID = "M_PromotionDistribution_ID";
+
+	/** Set Promotion Distribution	  */
+	public void setM_PromotionDistribution_ID (int M_PromotionDistribution_ID);
+
+	/** Get Promotion Distribution	  */
+	public int getM_PromotionDistribution_ID();
+
     /** Column name M_Promotion_ID */
     public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
 
@@ -127,15 +136,6 @@ public interface I_M_PromotionDistribution
 	public int getM_Promotion_ID();
 
 	public I_M_Promotion getM_Promotion() throws RuntimeException;
-
-    /** Column name M_PromotionDistribution_ID */
-    public static final String COLUMNNAME_M_PromotionDistribution_ID = "M_PromotionDistribution_ID";
-
-	/** Set Promotion Distribution	  */
-	public void setM_PromotionDistribution_ID (int M_PromotionDistribution_ID);
-
-	/** Get Promotion Distribution	  */
-	public int getM_PromotionDistribution_ID();
 
     /** Column name M_PromotionLine_ID */
     public static final String COLUMNNAME_M_PromotionLine_ID = "M_PromotionLine_ID";

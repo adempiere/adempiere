@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_InOutLineConfirm 
 {
@@ -173,6 +173,19 @@ public interface I_M_InOutLineConfirm
 
 	public I_M_InOutConfirm getM_InOutConfirm() throws RuntimeException;
 
+    /** Column name M_InOutLineConfirm_ID */
+    public static final String COLUMNNAME_M_InOutLineConfirm_ID = "M_InOutLineConfirm_ID";
+
+	/** Set Ship/Receipt Confirmation Line.
+	  * Material Shipment or Receipt Confirmation Line
+	  */
+	public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID);
+
+	/** Get Ship/Receipt Confirmation Line.
+	  * Material Shipment or Receipt Confirmation Line
+	  */
+	public int getM_InOutLineConfirm_ID();
+
     /** Column name M_InOutLine_ID */
     public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
@@ -187,19 +200,6 @@ public interface I_M_InOutLineConfirm
 	public int getM_InOutLine_ID();
 
 	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
-
-    /** Column name M_InOutLineConfirm_ID */
-    public static final String COLUMNNAME_M_InOutLineConfirm_ID = "M_InOutLineConfirm_ID";
-
-	/** Set Ship/Receipt Confirmation Line.
-	  * Material Shipment or Receipt Confirmation Line
-	  */
-	public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID);
-
-	/** Get Ship/Receipt Confirmation Line.
-	  * Material Shipment or Receipt Confirmation Line
-	  */
-	public int getM_InOutLineConfirm_ID();
 
     /** Column name M_InventoryLine_ID */
     public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_MovementLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_MovementLineConfirm 
 {
@@ -160,6 +160,19 @@ public interface I_M_MovementLineConfirm
 
 	public I_M_MovementConfirm getM_MovementConfirm() throws RuntimeException;
 
+    /** Column name M_MovementLineConfirm_ID */
+    public static final String COLUMNNAME_M_MovementLineConfirm_ID = "M_MovementLineConfirm_ID";
+
+	/** Set Move Line Confirm.
+	  * Inventory Move Line Confirmation
+	  */
+	public void setM_MovementLineConfirm_ID (int M_MovementLineConfirm_ID);
+
+	/** Get Move Line Confirm.
+	  * Inventory Move Line Confirmation
+	  */
+	public int getM_MovementLineConfirm_ID();
+
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 
@@ -174,19 +187,6 @@ public interface I_M_MovementLineConfirm
 	public int getM_MovementLine_ID();
 
 	public I_M_MovementLine getM_MovementLine() throws RuntimeException;
-
-    /** Column name M_MovementLineConfirm_ID */
-    public static final String COLUMNNAME_M_MovementLineConfirm_ID = "M_MovementLineConfirm_ID";
-
-	/** Set Move Line Confirm.
-	  * Inventory Move Line Confirmation
-	  */
-	public void setM_MovementLineConfirm_ID (int M_MovementLineConfirm_ID);
-
-	/** Get Move Line Confirm.
-	  * Inventory Move Line Confirmation
-	  */
-	public int getM_MovementLineConfirm_ID();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

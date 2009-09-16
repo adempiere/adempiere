@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_S_ResourceType (Properties ctx, int S_ResourceType_ID, String trxName)
@@ -117,6 +117,23 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 		return false;
 	}
 
+	/** Set Chargeable Quantity.
+		@param ChargeableQty Chargeable Quantity	  */
+	public void setChargeableQty (int ChargeableQty)
+	{
+		set_Value (COLUMNNAME_ChargeableQty, Integer.valueOf(ChargeableQty));
+	}
+
+	/** Get Chargeable Quantity.
+		@return Chargeable Quantity	  */
+	public int getChargeableQty () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException
     {
 		return (I_C_TaxCategory)MTable.get(getCtx(), I_C_TaxCategory.Table_Name)
@@ -168,23 +185,6 @@ public class X_S_ResourceType extends PO implements I_S_ResourceType, I_Persiste
 	public int getC_UOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Chargeable Quantity.
-		@param ChargeableQty Chargeable Quantity	  */
-	public void setChargeableQty (int ChargeableQty)
-	{
-		set_Value (COLUMNNAME_ChargeableQty, Integer.valueOf(ChargeableQty));
-	}
-
-	/** Get Chargeable Quantity.
-		@return Chargeable Quantity	  */
-	public int getChargeableQty () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_ChargeableQty);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

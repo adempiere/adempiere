@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for B_Topic
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_B_Topic 
 {
@@ -62,19 +62,6 @@ public interface I_B_Topic
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name B_Topic_ID */
-    public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
-
-	/** Set Topic.
-	  * Auction Topic
-	  */
-	public void setB_Topic_ID (int B_Topic_ID);
-
-	/** Get Topic.
-	  * Auction Topic
-	  */
-	public int getB_Topic_ID();
-
     /** Column name B_TopicCategory_ID */
     public static final String COLUMNNAME_B_TopicCategory_ID = "B_TopicCategory_ID";
 
@@ -89,6 +76,19 @@ public interface I_B_Topic
 	public int getB_TopicCategory_ID();
 
 	public I_B_TopicCategory getB_TopicCategory() throws RuntimeException;
+
+    /** Column name B_Topic_ID */
+    public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
+
+	/** Set Topic.
+	  * Auction Topic
+	  */
+	public void setB_Topic_ID (int B_Topic_ID);
+
+	/** Get Topic.
+	  * Auction Topic
+	  */
+	public int getB_Topic_ID();
 
     /** Column name B_TopicType_ID */
     public static final String COLUMNNAME_B_TopicType_ID = "B_TopicType_ID";

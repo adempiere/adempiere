@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_MovementLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfirm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_MovementLineConfirm (Properties ctx, int M_MovementLineConfirm_ID, String trxName)
@@ -43,8 +43,8 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 			setConfirmedQty (Env.ZERO);
 			setDifferenceQty (Env.ZERO);
 			setM_MovementConfirm_ID (0);
-			setM_MovementLine_ID (0);
 			setM_MovementLineConfirm_ID (0);
+			setM_MovementLine_ID (0);
 			setProcessed (false);
 			setScrappedQty (Env.ZERO);
 			setTargetQty (Env.ZERO);
@@ -200,6 +200,29 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
         return new KeyNamePair(get_ID(), String.valueOf(getM_MovementConfirm_ID()));
     }
 
+	/** Set Move Line Confirm.
+		@param M_MovementLineConfirm_ID 
+		Inventory Move Line Confirmation
+	  */
+	public void setM_MovementLineConfirm_ID (int M_MovementLineConfirm_ID)
+	{
+		if (M_MovementLineConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_MovementLineConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_MovementLineConfirm_ID, Integer.valueOf(M_MovementLineConfirm_ID));
+	}
+
+	/** Get Move Line Confirm.
+		@return Inventory Move Line Confirmation
+	  */
+	public int getM_MovementLineConfirm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementLineConfirm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_MovementLine getM_MovementLine() throws RuntimeException
     {
 		return (I_M_MovementLine)MTable.get(getCtx(), I_M_MovementLine.Table_Name)
@@ -223,29 +246,6 @@ public class X_M_MovementLineConfirm extends PO implements I_M_MovementLineConfi
 	public int getM_MovementLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Move Line Confirm.
-		@param M_MovementLineConfirm_ID 
-		Inventory Move Line Confirmation
-	  */
-	public void setM_MovementLineConfirm_ID (int M_MovementLineConfirm_ID)
-	{
-		if (M_MovementLineConfirm_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_MovementLineConfirm_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_MovementLineConfirm_ID, Integer.valueOf(M_MovementLineConfirm_ID));
-	}
-
-	/** Get Move Line Confirm.
-		@return Inventory Move Line Confirmation
-	  */
-	public int getM_MovementLineConfirm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementLineConfirm_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

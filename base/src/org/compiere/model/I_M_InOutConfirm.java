@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InOutConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_InOutConfirm 
 {
@@ -245,6 +245,19 @@ public interface I_M_InOutConfirm
 	  */
 	public boolean isInDispute();
 
+    /** Column name M_InOutConfirm_ID */
+    public static final String COLUMNNAME_M_InOutConfirm_ID = "M_InOutConfirm_ID";
+
+	/** Set Ship/Receipt Confirmation.
+	  * Material Shipment or Receipt Confirmation
+	  */
+	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID);
+
+	/** Get Ship/Receipt Confirmation.
+	  * Material Shipment or Receipt Confirmation
+	  */
+	public int getM_InOutConfirm_ID();
+
     /** Column name M_InOut_ID */
     public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
 
@@ -259,19 +272,6 @@ public interface I_M_InOutConfirm
 	public int getM_InOut_ID();
 
 	public I_M_InOut getM_InOut() throws RuntimeException;
-
-    /** Column name M_InOutConfirm_ID */
-    public static final String COLUMNNAME_M_InOutConfirm_ID = "M_InOutConfirm_ID";
-
-	/** Set Ship/Receipt Confirmation.
-	  * Material Shipment or Receipt Confirmation
-	  */
-	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID);
-
-	/** Get Ship/Receipt Confirmation.
-	  * Material Shipment or Receipt Confirmation
-	  */
-	public int getM_InOutConfirm_ID();
 
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";

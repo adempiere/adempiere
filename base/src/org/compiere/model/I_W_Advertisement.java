@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Advertisement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_W_Advertisement 
 {
@@ -62,6 +62,19 @@ public interface I_W_Advertisement
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AdText */
+    public static final String COLUMNNAME_AdText = "AdText";
+
+	/** Set Advertisement Text.
+	  * Text of the Advertisement
+	  */
+	public void setAdText (String AdText);
+
+	/** Get Advertisement Text.
+	  * Text of the Advertisement
+	  */
+	public String getAdText();
+
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
@@ -76,19 +89,6 @@ public interface I_W_Advertisement
 	public int getAD_User_ID();
 
 	public I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name AdText */
-    public static final String COLUMNNAME_AdText = "AdText";
-
-	/** Set Advertisement Text.
-	  * Text of the Advertisement
-	  */
-	public void setAdText (String AdText);
-
-	/** Get Advertisement Text.
-	  * Text of the Advertisement
-	  */
-	public String getAdText();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";

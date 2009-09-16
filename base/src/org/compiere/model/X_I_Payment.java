@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_I_Payment extends PO implements I_I_Payment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_I_Payment (Properties ctx, int I_Payment_ID, String trxName)
@@ -72,6 +72,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Account No.
+		@param AccountNo 
+		Account Number
+	  */
+	public void setAccountNo (String AccountNo)
+	{
+		set_Value (COLUMNNAME_AccountNo, AccountNo);
+	}
+
+	/** Get Account No.
+		@return Account Number
+	  */
+	public String getAccountNo () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountNo);
+	}
 
 	/** Set Account City.
 		@param A_City 
@@ -224,23 +241,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	public String getA_Zip () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Zip);
-	}
-
-	/** Set Account No.
-		@param AccountNo 
-		Account Number
-	  */
-	public void setAccountNo (String AccountNo)
-	{
-		set_Value (COLUMNNAME_AccountNo, AccountNo);
-	}
-
-	/** Get Account No.
-		@return Account Number
-	  */
-	public String getAccountNo () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
 	/** Set Bank Account No.
@@ -417,6 +417,60 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Charge amount.
+		@param ChargeAmt 
+		Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt)
+	{
+		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
+	}
+
+	/** Get Charge amount.
+		@return Charge Amount
+	  */
+	public BigDecimal getChargeAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Charge Name.
+		@param ChargeName 
+		Name of the Charge
+	  */
+	public void setChargeName (String ChargeName)
+	{
+		set_Value (COLUMNNAME_ChargeName, ChargeName);
+	}
+
+	/** Get Charge Name.
+		@return Name of the Charge
+	  */
+	public String getChargeName () 
+	{
+		return (String)get_Value(COLUMNNAME_ChargeName);
+	}
+
+	/** Set Check No.
+		@param CheckNo 
+		Check Number
+	  */
+	public void setCheckNo (String CheckNo)
+	{
+		set_Value (COLUMNNAME_CheckNo, CheckNo);
+	}
+
+	/** Get Check No.
+		@return Check Number
+	  */
+	public String getCheckNo () 
+	{
+		return (String)get_Value(COLUMNNAME_CheckNo);
+	}
+
 	public I_C_Invoice getC_Invoice() throws RuntimeException
     {
 		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
@@ -471,60 +525,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Charge amount.
-		@param ChargeAmt 
-		Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt)
-	{
-		set_Value (COLUMNNAME_ChargeAmt, ChargeAmt);
-	}
-
-	/** Get Charge amount.
-		@return Charge Amount
-	  */
-	public BigDecimal getChargeAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ChargeAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Charge Name.
-		@param ChargeName 
-		Name of the Charge
-	  */
-	public void setChargeName (String ChargeName)
-	{
-		set_Value (COLUMNNAME_ChargeName, ChargeName);
-	}
-
-	/** Get Charge Name.
-		@return Name of the Charge
-	  */
-	public String getChargeName () 
-	{
-		return (String)get_Value(COLUMNNAME_ChargeName);
-	}
-
-	/** Set Check No.
-		@param CheckNo 
-		Check Number
-	  */
-	public void setCheckNo (String CheckNo)
-	{
-		set_Value (COLUMNNAME_CheckNo, CheckNo);
-	}
-
-	/** Get Check No.
-		@return Check Number
-	  */
-	public String getCheckNo () 
-	{
-		return (String)get_Value(COLUMNNAME_CheckNo);
 	}
 
 	/** Set Exp. Month.
@@ -764,6 +764,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return false;
 	}
 
+	/** Set Invoice Document No.
+		@param InvoiceDocumentNo 
+		Document Number of the Invoice
+	  */
+	public void setInvoiceDocumentNo (String InvoiceDocumentNo)
+	{
+		set_Value (COLUMNNAME_InvoiceDocumentNo, InvoiceDocumentNo);
+	}
+
+	/** Get Invoice Document No.
+		@return Document Number of the Invoice
+	  */
+	public String getInvoiceDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_InvoiceDocumentNo);
+	}
+
 	/** Set Import Payment.
 		@param I_Payment_ID 
 		Import Payment
@@ -785,23 +802,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Invoice Document No.
-		@param InvoiceDocumentNo 
-		Document Number of the Invoice
-	  */
-	public void setInvoiceDocumentNo (String InvoiceDocumentNo)
-	{
-		set_Value (COLUMNNAME_InvoiceDocumentNo, InvoiceDocumentNo);
-	}
-
-	/** Get Invoice Document No.
-		@return Document Number of the Invoice
-	  */
-	public String getInvoiceDocumentNo () 
-	{
-		return (String)get_Value(COLUMNNAME_InvoiceDocumentNo);
 	}
 
 	/** Set Approved.
@@ -1111,6 +1111,23 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_R_Info);
 	}
 
+	/** Set Routing No.
+		@param RoutingNo 
+		Bank Routing Number
+	  */
+	public void setRoutingNo (String RoutingNo)
+	{
+		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
+	}
+
+	/** Get Routing No.
+		@return Bank Routing Number
+	  */
+	public String getRoutingNo () 
+	{
+		return (String)get_Value(COLUMNNAME_RoutingNo);
+	}
+
 	/** Set Reference.
 		@param R_PnRef 
 		Payment reference
@@ -1160,23 +1177,6 @@ public class X_I_Payment extends PO implements I_I_Payment, I_Persistent
 	public String getR_Result () 
 	{
 		return (String)get_Value(COLUMNNAME_R_Result);
-	}
-
-	/** Set Routing No.
-		@param RoutingNo 
-		Bank Routing Number
-	  */
-	public void setRoutingNo (String RoutingNo)
-	{
-		set_Value (COLUMNNAME_RoutingNo, RoutingNo);
-	}
-
-	/** Get Routing No.
-		@return Bank Routing Number
-	  */
-	public String getRoutingNo () 
-	{
-		return (String)get_Value(COLUMNNAME_RoutingNo);
 	}
 
 	/** Set Swipe.

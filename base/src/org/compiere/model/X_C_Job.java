@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Job
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_Job extends PO implements I_C_Job, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_Job (Properties ctx, int C_Job_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
       super (ctx, C_Job_ID, trxName);
       /** if (C_Job_ID == 0)
         {
-			setC_Job_ID (0);
 			setC_JobCategory_ID (0);
+			setC_Job_ID (0);
 			setIsEmployee (true);
 // Y
 			setName (null);
@@ -74,29 +74,6 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
       return sb.toString();
     }
 
-	/** Set Position.
-		@param C_Job_ID 
-		Job Position
-	  */
-	public void setC_Job_ID (int C_Job_ID)
-	{
-		if (C_Job_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Job_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
-	}
-
-	/** Get Position.
-		@return Job Position
-	  */
-	public int getC_Job_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Job_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_JobCategory getC_JobCategory() throws RuntimeException
     {
 		return (I_C_JobCategory)MTable.get(getCtx(), I_C_JobCategory.Table_Name)
@@ -120,6 +97,29 @@ public class X_C_Job extends PO implements I_C_Job, I_Persistent
 	public int getC_JobCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_JobCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Position.
+		@param C_Job_ID 
+		Job Position
+	  */
+	public void setC_Job_ID (int C_Job_ID)
+	{
+		if (C_Job_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Job_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Job_ID, Integer.valueOf(C_Job_ID));
+	}
+
+	/** Get Position.
+		@return Job Position
+	  */
+	public int getC_Job_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Job_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

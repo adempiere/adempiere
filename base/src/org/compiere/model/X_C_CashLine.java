@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_CashLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_CashLine (Properties ctx, int C_CashLine_ID, String trxName)
@@ -41,10 +41,10 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
       /** if (C_CashLine_ID == 0)
         {
 			setAmount (Env.ZERO);
-			setC_Cash_ID (0);
-			setC_CashLine_ID (0);
 			setCashType (null);
 // E
+			setC_Cash_ID (0);
+			setC_CashLine_ID (0);
 			setLine (0);
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM C_CashLine WHERE C_Cash_ID=@C_Cash_ID@
 			setProcessed (false);
@@ -97,6 +97,38 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** CashType AD_Reference_ID=217 */
+	public static final int CASHTYPE_AD_Reference_ID=217;
+	/** Bank Account Transfer = T */
+	public static final String CASHTYPE_BankAccountTransfer = "T";
+	/** Invoice = I */
+	public static final String CASHTYPE_Invoice = "I";
+	/** General Expense = E */
+	public static final String CASHTYPE_GeneralExpense = "E";
+	/** General Receipts = R */
+	public static final String CASHTYPE_GeneralReceipts = "R";
+	/** Charge = C */
+	public static final String CASHTYPE_Charge = "C";
+	/** Difference = D */
+	public static final String CASHTYPE_Difference = "D";
+	/** Set Cash Type.
+		@param CashType 
+		Source of Cash
+	  */
+	public void setCashType (String CashType)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_CashType, CashType);
+	}
+
+	/** Get Cash Type.
+		@return Source of Cash
+	  */
+	public String getCashType () 
+	{
+		return (String)get_Value(COLUMNNAME_CashType);
 	}
 
 	public I_C_BankAccount getC_BankAccount() throws RuntimeException
@@ -296,38 +328,6 @@ public class X_C_CashLine extends PO implements I_C_CashLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** CashType AD_Reference_ID=217 */
-	public static final int CASHTYPE_AD_Reference_ID=217;
-	/** Bank Account Transfer = T */
-	public static final String CASHTYPE_BankAccountTransfer = "T";
-	/** Invoice = I */
-	public static final String CASHTYPE_Invoice = "I";
-	/** General Expense = E */
-	public static final String CASHTYPE_GeneralExpense = "E";
-	/** General Receipts = R */
-	public static final String CASHTYPE_GeneralReceipts = "R";
-	/** Charge = C */
-	public static final String CASHTYPE_Charge = "C";
-	/** Difference = D */
-	public static final String CASHTYPE_Difference = "D";
-	/** Set Cash Type.
-		@param CashType 
-		Source of Cash
-	  */
-	public void setCashType (String CashType)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_CashType, CashType);
-	}
-
-	/** Get Cash Type.
-		@return Source of Cash
-	  */
-	public String getCashType () 
-	{
-		return (String)get_Value(COLUMNNAME_CashType);
 	}
 
 	/** Set Description.

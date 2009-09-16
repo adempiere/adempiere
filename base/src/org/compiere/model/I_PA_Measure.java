@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_PA_Measure 
 {
@@ -62,6 +62,19 @@ public interface I_PA_Measure
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name CalculationClass */
+    public static final String COLUMNNAME_CalculationClass = "CalculationClass";
+
+	/** Set Calculation Class.
+	  * Java Class for calculation, implementing Interface Measure
+	  */
+	public void setCalculationClass (String CalculationClass);
+
+	/** Get Calculation Class.
+	  * Java Class for calculation, implementing Interface Measure
+	  */
+	public String getCalculationClass();
+
     /** Column name C_ProjectType_ID */
     public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
 
@@ -76,19 +89,6 @@ public interface I_PA_Measure
 	public int getC_ProjectType_ID();
 
 	public I_C_ProjectType getC_ProjectType() throws RuntimeException;
-
-    /** Column name CalculationClass */
-    public static final String COLUMNNAME_CalculationClass = "CalculationClass";
-
-	/** Set Calculation Class.
-	  * Java Class for calculation, implementing Interface Measure
-	  */
-	public void setCalculationClass (String CalculationClass);
-
-	/** Get Calculation Class.
-	  * Java Class for calculation, implementing Interface Measure
-	  */
-	public String getCalculationClass();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -227,19 +227,6 @@ public interface I_PA_Measure
 
 	public I_PA_Hierarchy getPA_Hierarchy() throws RuntimeException;
 
-    /** Column name PA_Measure_ID */
-    public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
-
-	/** Set Measure.
-	  * Concrete Performance Measurement
-	  */
-	public void setPA_Measure_ID (int PA_Measure_ID);
-
-	/** Get Measure.
-	  * Concrete Performance Measurement
-	  */
-	public int getPA_Measure_ID();
-
     /** Column name PA_MeasureCalc_ID */
     public static final String COLUMNNAME_PA_MeasureCalc_ID = "PA_MeasureCalc_ID";
 
@@ -254,6 +241,19 @@ public interface I_PA_Measure
 	public int getPA_MeasureCalc_ID();
 
 	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException;
+
+    /** Column name PA_Measure_ID */
+    public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
+
+	/** Set Measure.
+	  * Concrete Performance Measurement
+	  */
+	public void setPA_Measure_ID (int PA_Measure_ID);
+
+	/** Get Measure.
+	  * Concrete Performance Measurement
+	  */
+	public int getPA_Measure_ID();
 
     /** Column name PA_Ratio_ID */
     public static final String COLUMNNAME_PA_Ratio_ID = "PA_Ratio_ID";

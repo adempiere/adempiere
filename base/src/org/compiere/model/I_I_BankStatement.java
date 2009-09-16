@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_BankStatement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_I_BankStatement 
 {
@@ -178,6 +178,32 @@ public interface I_I_BankStatement
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name ChargeAmt */
+    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
+
+	/** Set Charge amount.
+	  * Charge Amount
+	  */
+	public void setChargeAmt (BigDecimal ChargeAmt);
+
+	/** Get Charge amount.
+	  * Charge Amount
+	  */
+	public BigDecimal getChargeAmt();
+
+    /** Column name ChargeName */
+    public static final String COLUMNNAME_ChargeName = "ChargeName";
+
+	/** Set Charge Name.
+	  * Name of the Charge
+	  */
+	public void setChargeName (String ChargeName);
+
+	/** Get Charge Name.
+	  * Name of the Charge
+	  */
+	public String getChargeName();
+
     /** Column name C_Invoice_ID */
     public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
@@ -207,32 +233,6 @@ public interface I_I_BankStatement
 	public int getC_Payment_ID();
 
 	public I_C_Payment getC_Payment() throws RuntimeException;
-
-    /** Column name ChargeAmt */
-    public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
-
-	/** Set Charge amount.
-	  * Charge Amount
-	  */
-	public void setChargeAmt (BigDecimal ChargeAmt);
-
-	/** Get Charge amount.
-	  * Charge Amount
-	  */
-	public BigDecimal getChargeAmt();
-
-    /** Column name ChargeName */
-    public static final String COLUMNNAME_ChargeName = "ChargeName";
-
-	/** Set Charge Name.
-	  * Name of the Charge
-	  */
-	public void setChargeName (String ChargeName);
-
-	/** Get Charge Name.
-	  * Name of the Charge
-	  */
-	public String getChargeName();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

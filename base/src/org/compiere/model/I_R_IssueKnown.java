@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_IssueKnown
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_R_IssueKnown 
 {
@@ -165,6 +165,19 @@ public interface I_R_IssueKnown
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name ReleaseNo */
+    public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
+
+	/** Set Release No.
+	  * Internal Release Number
+	  */
+	public void setReleaseNo (String ReleaseNo);
+
+	/** Get Release No.
+	  * Internal Release Number
+	  */
+	public String getReleaseNo();
+
     /** Column name R_IssueKnown_ID */
     public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
 
@@ -222,19 +235,6 @@ public interface I_R_IssueKnown
 	public int getR_Request_ID();
 
 	public I_R_Request getR_Request() throws RuntimeException;
-
-    /** Column name ReleaseNo */
-    public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
-
-	/** Set Release No.
-	  * Internal Release Number
-	  */
-	public void setReleaseNo (String ReleaseNo);
-
-	/** Get Release No.
-	  * Internal Release Number
-	  */
-	public String getReleaseNo();
 
     /** Column name SourceClassName */
     public static final String COLUMNNAME_SourceClassName = "SourceClassName";

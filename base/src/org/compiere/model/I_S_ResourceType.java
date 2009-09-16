@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for S_ResourceType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_S_ResourceType 
 {
@@ -75,6 +75,31 @@ public interface I_S_ResourceType
 	  */
 	public boolean isAllowUoMFractions();
 
+    /** Column name ChargeableQty */
+    public static final String COLUMNNAME_ChargeableQty = "ChargeableQty";
+
+	/** Set Chargeable Quantity	  */
+	public void setChargeableQty (int ChargeableQty);
+
+	/** Get Chargeable Quantity	  */
+	public int getChargeableQty();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name C_TaxCategory_ID */
     public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
 
@@ -104,31 +129,6 @@ public interface I_S_ResourceType
 	public int getC_UOM_ID();
 
 	public I_C_UOM getC_UOM() throws RuntimeException;
-
-    /** Column name ChargeableQty */
-    public static final String COLUMNNAME_ChargeableQty = "ChargeableQty";
-
-	/** Set Chargeable Quantity	  */
-	public void setChargeableQty (int ChargeableQty);
-
-	/** Get Chargeable Quantity	  */
-	public int getChargeableQty();
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

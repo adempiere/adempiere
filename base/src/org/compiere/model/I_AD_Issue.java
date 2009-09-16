@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Issue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_AD_Issue 
 {
@@ -381,81 +381,6 @@ public interface I_AD_Issue
 	  */
 	public String getProfileInfo();
 
-    /** Column name R_IssueKnown_ID */
-    public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
-
-	/** Set Known Issue.
-	  * Known Issue
-	  */
-	public void setR_IssueKnown_ID (int R_IssueKnown_ID);
-
-	/** Get Known Issue.
-	  * Known Issue
-	  */
-	public int getR_IssueKnown_ID();
-
-	public I_R_IssueKnown getR_IssueKnown() throws RuntimeException;
-
-    /** Column name R_IssueProject_ID */
-    public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
-
-	/** Set Issue Project.
-	  * Implementation Projects
-	  */
-	public void setR_IssueProject_ID (int R_IssueProject_ID);
-
-	/** Get Issue Project.
-	  * Implementation Projects
-	  */
-	public int getR_IssueProject_ID();
-
-	public I_R_IssueProject getR_IssueProject() throws RuntimeException;
-
-    /** Column name R_IssueSystem_ID */
-    public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
-
-	/** Set Issue System.
-	  * System creating the issue
-	  */
-	public void setR_IssueSystem_ID (int R_IssueSystem_ID);
-
-	/** Get Issue System.
-	  * System creating the issue
-	  */
-	public int getR_IssueSystem_ID();
-
-	public I_R_IssueSystem getR_IssueSystem() throws RuntimeException;
-
-    /** Column name R_IssueUser_ID */
-    public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
-
-	/** Set IssueUser.
-	  * User who reported issues
-	  */
-	public void setR_IssueUser_ID (int R_IssueUser_ID);
-
-	/** Get IssueUser.
-	  * User who reported issues
-	  */
-	public int getR_IssueUser_ID();
-
-	public I_R_IssueUser getR_IssueUser() throws RuntimeException;
-
-    /** Column name R_Request_ID */
-    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
-
-	/** Set Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public void setR_Request_ID (int R_Request_ID);
-
-	/** Get Request.
-	  * Request from a Business Partner or Prospect
-	  */
-	public int getR_Request_ID();
-
-	public I_R_Request getR_Request() throws RuntimeException;
-
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";
 
@@ -546,6 +471,81 @@ public interface I_AD_Issue
 	  * Request Response Text
 	  */
 	public String getResponseText();
+
+    /** Column name R_IssueKnown_ID */
+    public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
+
+	/** Set Known Issue.
+	  * Known Issue
+	  */
+	public void setR_IssueKnown_ID (int R_IssueKnown_ID);
+
+	/** Get Known Issue.
+	  * Known Issue
+	  */
+	public int getR_IssueKnown_ID();
+
+	public I_R_IssueKnown getR_IssueKnown() throws RuntimeException;
+
+    /** Column name R_IssueProject_ID */
+    public static final String COLUMNNAME_R_IssueProject_ID = "R_IssueProject_ID";
+
+	/** Set Issue Project.
+	  * Implementation Projects
+	  */
+	public void setR_IssueProject_ID (int R_IssueProject_ID);
+
+	/** Get Issue Project.
+	  * Implementation Projects
+	  */
+	public int getR_IssueProject_ID();
+
+	public I_R_IssueProject getR_IssueProject() throws RuntimeException;
+
+    /** Column name R_IssueSystem_ID */
+    public static final String COLUMNNAME_R_IssueSystem_ID = "R_IssueSystem_ID";
+
+	/** Set Issue System.
+	  * System creating the issue
+	  */
+	public void setR_IssueSystem_ID (int R_IssueSystem_ID);
+
+	/** Get Issue System.
+	  * System creating the issue
+	  */
+	public int getR_IssueSystem_ID();
+
+	public I_R_IssueSystem getR_IssueSystem() throws RuntimeException;
+
+    /** Column name R_IssueUser_ID */
+    public static final String COLUMNNAME_R_IssueUser_ID = "R_IssueUser_ID";
+
+	/** Set IssueUser.
+	  * User who reported issues
+	  */
+	public void setR_IssueUser_ID (int R_IssueUser_ID);
+
+	/** Get IssueUser.
+	  * User who reported issues
+	  */
+	public int getR_IssueUser_ID();
+
+	public I_R_IssueUser getR_IssueUser() throws RuntimeException;
+
+    /** Column name R_Request_ID */
+    public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
+
+	/** Set Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public void setR_Request_ID (int R_Request_ID);
+
+	/** Get Request.
+	  * Request from a Business Partner or Prospect
+	  */
+	public int getR_Request_ID();
+
+	public I_R_Request getR_Request() throws RuntimeException;
 
     /** Column name SourceClassName */
     public static final String COLUMNNAME_SourceClassName = "SourceClassName";

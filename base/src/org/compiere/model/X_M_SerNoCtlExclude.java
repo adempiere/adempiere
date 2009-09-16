@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for M_SerNoCtlExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_SerNoCtlExclude (Properties ctx, int M_SerNoCtlExclude_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Pe
         {
 			setAD_Table_ID (0);
 			setIsSOTrx (false);
-			setM_SerNoCtl_ID (0);
 			setM_SerNoCtlExclude_ID (0);
+			setM_SerNoCtl_ID (0);
         } */
     }
 
@@ -124,6 +124,29 @@ public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Pe
 		return false;
 	}
 
+	/** Set Exclude SerNo.
+		@param M_SerNoCtlExclude_ID 
+		Exclude the ability to create Serial Numbers in Attribute Sets
+	  */
+	public void setM_SerNoCtlExclude_ID (int M_SerNoCtlExclude_ID)
+	{
+		if (M_SerNoCtlExclude_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_SerNoCtlExclude_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_SerNoCtlExclude_ID, Integer.valueOf(M_SerNoCtlExclude_ID));
+	}
+
+	/** Get Exclude SerNo.
+		@return Exclude the ability to create Serial Numbers in Attribute Sets
+	  */
+	public int getM_SerNoCtlExclude_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_SerNoCtlExclude_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException
     {
 		return (I_M_SerNoCtl)MTable.get(getCtx(), I_M_SerNoCtl.Table_Name)
@@ -147,29 +170,6 @@ public class X_M_SerNoCtlExclude extends PO implements I_M_SerNoCtlExclude, I_Pe
 	public int getM_SerNoCtl_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_SerNoCtl_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Exclude SerNo.
-		@param M_SerNoCtlExclude_ID 
-		Exclude the ability to create Serial Numbers in Attribute Sets
-	  */
-	public void setM_SerNoCtlExclude_ID (int M_SerNoCtlExclude_ID)
-	{
-		if (M_SerNoCtlExclude_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_SerNoCtlExclude_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_SerNoCtlExclude_ID, Integer.valueOf(M_SerNoCtlExclude_ID));
-	}
-
-	/** Get Exclude SerNo.
-		@return Exclude the ability to create Serial Numbers in Attribute Sets
-	  */
-	public int getM_SerNoCtlExclude_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_SerNoCtlExclude_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

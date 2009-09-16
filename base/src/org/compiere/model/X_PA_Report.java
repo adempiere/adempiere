@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_PA_Report extends PO implements I_PA_Report, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_PA_Report (Properties ctx, int PA_Report_ID, String trxName)
@@ -43,8 +43,8 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 			setListSources (false);
 			setListTrx (false);
 			setName (null);
-			setPA_Report_ID (0);
 			setPA_ReportColumnSet_ID (0);
+			setPA_Report_ID (0);
 			setPA_ReportLineSet_ID (0);
 			setProcessing (false);
         } */
@@ -294,29 +294,6 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Financial Report.
-		@param PA_Report_ID 
-		Financial Report
-	  */
-	public void setPA_Report_ID (int PA_Report_ID)
-	{
-		if (PA_Report_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
-	}
-
-	/** Get Financial Report.
-		@return Financial Report
-	  */
-	public int getPA_Report_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Report_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException
     {
 		return (I_PA_ReportColumnSet)MTable.get(getCtx(), I_PA_ReportColumnSet.Table_Name)
@@ -368,6 +345,29 @@ public class X_PA_Report extends PO implements I_PA_Report, I_Persistent
 	public int getPA_ReportCube_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportCube_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Financial Report.
+		@param PA_Report_ID 
+		Financial Report
+	  */
+	public void setPA_Report_ID (int PA_Report_ID)
+	{
+		if (PA_Report_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Report_ID, Integer.valueOf(PA_Report_ID));
+	}
+
+	/** Get Financial Report.
+		@return Financial Report
+	  */
+	public int getPA_Report_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Report_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

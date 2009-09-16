@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_AD_OrgInfo 
 {
@@ -66,12 +66,12 @@ public interface I_AD_OrgInfo
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
 	/** Set Organization Type.
-	  * Organization Type allows you to categorize your organizations
+	  * Organization Type
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID);
 
 	/** Get Organization Type.
-	  * Organization Type allows you to categorize your organizations
+	  * Organization Type
 	  */
 	public int getAD_OrgType_ID();
 

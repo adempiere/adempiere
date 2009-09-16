@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintGraph
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_AD_PrintGraph (Properties ctx, int AD_PrintGraph_ID, String trxName)
@@ -122,34 +122,6 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	public int getAD_PrintGraph_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintGraph_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_PrintFormatItem getData_PrintFormatItem() throws RuntimeException
-    {
-		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
-			.getPO(getData_PrintFormatItem_ID(), get_TrxName());	}
-
-	/** Set Data Column.
-		@param Data_PrintFormatItem_ID 
-		Data Column for Pie and Line Charts
-	  */
-	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
-	{
-		if (Data_PrintFormatItem_ID < 1) 
-			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, null);
-		else 
-			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
-	}
-
-	/** Get Data Column.
-		@return Data Column for Pie and Line Charts
-	  */
-	public int getData_PrintFormatItem_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Data_PrintFormatItem_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -262,6 +234,34 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	public int getData4_PrintFormatItem_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Data4_PrintFormatItem_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_PrintFormatItem getData_PrintFormatItem() throws RuntimeException
+    {
+		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+			.getPO(getData_PrintFormatItem_ID(), get_TrxName());	}
+
+	/** Set Data Column.
+		@param Data_PrintFormatItem_ID 
+		Data Column for Pie and Line Charts
+	  */
+	public void setData_PrintFormatItem_ID (int Data_PrintFormatItem_ID)
+	{
+		if (Data_PrintFormatItem_ID < 1) 
+			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, null);
+		else 
+			set_Value (COLUMNNAME_Data_PrintFormatItem_ID, Integer.valueOf(Data_PrintFormatItem_ID));
+	}
+
+	/** Get Data Column.
+		@return Data Column for Pie and Line Charts
+	  */
+	public int getData_PrintFormatItem_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Data_PrintFormatItem_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

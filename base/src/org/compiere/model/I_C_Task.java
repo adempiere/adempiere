@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Task
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_Task 
 {
@@ -77,19 +77,6 @@ public interface I_C_Task
 
 	public I_C_Phase getC_Phase() throws RuntimeException;
 
-    /** Column name C_Task_ID */
-    public static final String COLUMNNAME_C_Task_ID = "C_Task_ID";
-
-	/** Set Standard Task.
-	  * Standard Project Type Task
-	  */
-	public void setC_Task_ID (int C_Task_ID);
-
-	/** Get Standard Task.
-	  * Standard Project Type Task
-	  */
-	public int getC_Task_ID();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -105,6 +92,19 @@ public interface I_C_Task
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_Task_ID */
+    public static final String COLUMNNAME_C_Task_ID = "C_Task_ID";
+
+	/** Set Standard Task.
+	  * Standard Project Type Task
+	  */
+	public void setC_Task_ID (int C_Task_ID);
+
+	/** Get Standard Task.
+	  * Standard Project Type Task
+	  */
+	public int getC_Task_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

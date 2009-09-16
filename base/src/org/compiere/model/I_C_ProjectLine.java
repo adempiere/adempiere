@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_ProjectLine 
 {
@@ -61,6 +61,32 @@ public interface I_C_ProjectLine
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name CommittedAmt */
+    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
+
+	/** Set Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt);
+
+	/** Get Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt();
+
+    /** Column name CommittedQty */
+    public static final String COLUMNNAME_CommittedQty = "CommittedQty";
+
+	/** Set Committed Quantity.
+	  * The (legal) commitment Quantity
+	  */
+	public void setCommittedQty (BigDecimal CommittedQty);
+
+	/** Get Committed Quantity.
+	  * The (legal) commitment Quantity
+	  */
+	public BigDecimal getCommittedQty();
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -164,32 +190,6 @@ public interface I_C_ProjectLine
 	public int getC_ProjectTask_ID();
 
 	public I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
-
-    /** Column name CommittedAmt */
-    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
-
-	/** Set Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt);
-
-	/** Get Committed Amount.
-	  * The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt();
-
-    /** Column name CommittedQty */
-    public static final String COLUMNNAME_CommittedQty = "CommittedQty";
-
-	/** Set Committed Quantity.
-	  * The (legal) commitment Quantity
-	  */
-	public void setCommittedQty (BigDecimal CommittedQty);
-
-	/** Get Committed Quantity.
-	  * The (legal) commitment Quantity
-	  */
-	public BigDecimal getCommittedQty();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

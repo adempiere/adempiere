@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_RfQResponse (Properties ctx, int C_RfQResponse_ID, String trxName)
@@ -196,6 +196,20 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Check Complete.
+		@param CheckComplete Check Complete	  */
+	public void setCheckComplete (String CheckComplete)
+	{
+		set_Value (COLUMNNAME_CheckComplete, CheckComplete);
+	}
+
+	/** Get Check Complete.
+		@return Check Complete	  */
+	public String getCheckComplete () 
+	{
+		return (String)get_Value(COLUMNNAME_CheckComplete);
+	}
+
 	public I_C_Order getC_Order() throws RuntimeException
     {
 		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
@@ -273,20 +287,6 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Check Complete.
-		@param CheckComplete Check Complete	  */
-	public void setCheckComplete (String CheckComplete)
-	{
-		set_Value (COLUMNNAME_CheckComplete, CheckComplete);
-	}
-
-	/** Get Check Complete.
-		@return Check Complete	  */
-	public String getCheckComplete () 
-	{
-		return (String)get_Value(COLUMNNAME_CheckComplete);
 	}
 
 	/** Set Invited.

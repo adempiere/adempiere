@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxDeclarationAcct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_TaxDeclarationAcct 
 {
@@ -174,20 +174,34 @@ public interface I_C_TaxDeclarationAcct
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name C_Tax_ID */
-    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set Tax.
-	  * Tax identifier
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_Tax_ID (int C_Tax_ID);
+	public Timestamp getCreated();
 
-	/** Get Tax.
-	  * Tax identifier
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_Tax_ID();
+	public int getCreatedBy();
 
-	public I_C_Tax getC_Tax() throws RuntimeException;
+    /** Column name C_TaxDeclarationAcct_ID */
+    public static final String COLUMNNAME_C_TaxDeclarationAcct_ID = "C_TaxDeclarationAcct_ID";
+
+	/** Set Tax Declaration Accounting.
+	  * Tax Accounting Reconciliation 
+	  */
+	public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID);
+
+	/** Get Tax Declaration Accounting.
+	  * Tax Accounting Reconciliation 
+	  */
+	public int getC_TaxDeclarationAcct_ID();
 
     /** Column name C_TaxDeclaration_ID */
     public static final String COLUMNNAME_C_TaxDeclaration_ID = "C_TaxDeclaration_ID";
@@ -204,34 +218,20 @@ public interface I_C_TaxDeclarationAcct
 
 	public I_C_TaxDeclaration getC_TaxDeclaration() throws RuntimeException;
 
-    /** Column name C_TaxDeclarationAcct_ID */
-    public static final String COLUMNNAME_C_TaxDeclarationAcct_ID = "C_TaxDeclarationAcct_ID";
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
-	/** Set Tax Declaration Accounting.
-	  * Tax Accounting Reconciliation 
+	/** Set Tax.
+	  * Tax identifier
 	  */
-	public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID);
+	public void setC_Tax_ID (int C_Tax_ID);
 
-	/** Get Tax Declaration Accounting.
-	  * Tax Accounting Reconciliation 
+	/** Get Tax.
+	  * Tax identifier
 	  */
-	public int getC_TaxDeclarationAcct_ID();
+	public int getC_Tax_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
+	public I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

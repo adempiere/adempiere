@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for Test
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_Test extends PO implements I_Test, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_Test (Properties ctx, int Test_ID, String trxName)
@@ -172,6 +172,23 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Character Data.
+		@param CharacterData 
+		Long Character Field
+	  */
+	public void setCharacterData (String CharacterData)
+	{
+		set_Value (COLUMNNAME_CharacterData, CharacterData);
+	}
+
+	/** Get Character Data.
+		@return Long Character Field
+	  */
+	public String getCharacterData () 
+	{
+		return (String)get_Value(COLUMNNAME_CharacterData);
+	}
+
 	public I_C_Location getC_Location() throws RuntimeException
     {
 		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
@@ -254,23 +271,6 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Character Data.
-		@param CharacterData 
-		Long Character Field
-	  */
-	public void setCharacterData (String CharacterData)
-	{
-		set_Value (COLUMNNAME_CharacterData, CharacterData);
-	}
-
-	/** Get Character Data.
-		@return Long Character Field
-	  */
-	public String getCharacterData () 
-	{
-		return (String)get_Value(COLUMNNAME_CharacterData);
 	}
 
 	/** Set Description.
@@ -478,6 +478,26 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_T_DateTime);
 	}
 
+	/** Set Test ID.
+		@param Test_ID Test ID	  */
+	public void setTest_ID (int Test_ID)
+	{
+		if (Test_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Test_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Test_ID, Integer.valueOf(Test_ID));
+	}
+
+	/** Get Test ID.
+		@return Test ID	  */
+	public int getTest_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Test_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Integer.
 		@param T_Integer Integer	  */
 	public void setT_Integer (int T_Integer)
@@ -527,25 +547,5 @@ public class X_Test extends PO implements I_Test, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Test ID.
-		@param Test_ID Test ID	  */
-	public void setTest_ID (int Test_ID)
-	{
-		if (Test_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_Test_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_Test_ID, Integer.valueOf(Test_ID));
-	}
-
-	/** Get Test ID.
-		@return Test ID	  */
-	public int getTest_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Test_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 }

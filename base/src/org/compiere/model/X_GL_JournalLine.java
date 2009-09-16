@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_GL_JournalLine (Properties ctx, int GL_JournalLine_ID, String trxName)
@@ -48,9 +48,9 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 			setC_ConversionType_ID (0);
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_ValidCombination_ID (0);
 			setCurrencyRate (Env.ZERO);
 // @CurrencyRate@;1
+			setC_ValidCombination_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @DateAcct@
 			setGL_Journal_ID (0);
@@ -167,27 +167,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return false;
 	}
 
-	/** Set A_Processed.
-		@param A_Processed A_Processed	  */
-	public void setA_Processed (boolean A_Processed)
-	{
-		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
-	}
-
-	/** Get A_Processed.
-		@return A_Processed	  */
-	public boolean isA_Processed () 
-	{
-		Object oo = get_Value(COLUMNNAME_A_Processed);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Accounted Credit.
 		@param AmtAcctCr 
 		Accounted Credit Amount
@@ -266,6 +245,27 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set A_Processed.
+		@param A_Processed A_Processed	  */
+	public void setA_Processed (boolean A_Processed)
+	{
+		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
+	}
+
+	/** Get A_Processed.
+		@return A_Processed	  */
+	public boolean isA_Processed () 
+	{
+		Object oo = get_Value(COLUMNNAME_A_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	public I_C_ConversionType getC_ConversionType() throws RuntimeException
@@ -352,6 +352,26 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Rate.
+		@param CurrencyRate 
+		Currency Conversion Rate
+	  */
+	public void setCurrencyRate (BigDecimal CurrencyRate)
+	{
+		set_ValueNoCheck (COLUMNNAME_CurrencyRate, CurrencyRate);
+	}
+
+	/** Get Rate.
+		@return Currency Conversion Rate
+	  */
+	public BigDecimal getCurrencyRate () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrencyRate);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -378,26 +398,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Rate.
-		@param CurrencyRate 
-		Currency Conversion Rate
-	  */
-	public void setCurrencyRate (BigDecimal CurrencyRate)
-	{
-		set_ValueNoCheck (COLUMNNAME_CurrencyRate, CurrencyRate);
-	}
-
-	/** Get Rate.
-		@return Currency Conversion Rate
-	  */
-	public BigDecimal getCurrencyRate () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrencyRate);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Account Date.

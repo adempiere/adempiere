@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ProductDownload
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_ProductDownload 
 {
@@ -104,6 +104,19 @@ public interface I_M_ProductDownload
 	  */
 	public boolean isActive();
 
+    /** Column name M_ProductDownload_ID */
+    public static final String COLUMNNAME_M_ProductDownload_ID = "M_ProductDownload_ID";
+
+	/** Set Product Download.
+	  * Product downloads
+	  */
+	public void setM_ProductDownload_ID (int M_ProductDownload_ID);
+
+	/** Get Product Download.
+	  * Product downloads
+	  */
+	public int getM_ProductDownload_ID();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -118,19 +131,6 @@ public interface I_M_ProductDownload
 	public int getM_Product_ID();
 
 	public I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name M_ProductDownload_ID */
-    public static final String COLUMNNAME_M_ProductDownload_ID = "M_ProductDownload_ID";
-
-	/** Set Product Download.
-	  * Product downloads
-	  */
-	public void setM_ProductDownload_ID (int M_ProductDownload_ID);
-
-	/** Get Product Download.
-	  * Product downloads
-	  */
-	public int getM_ProductDownload_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

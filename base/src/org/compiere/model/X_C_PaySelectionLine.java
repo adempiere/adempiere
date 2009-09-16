@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_PaySelectionLine (Properties ctx, int C_PaySelectionLine_ID, String trxName)
@@ -114,34 +114,6 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 		return ii.intValue();
 	}
 
-	public I_C_PaySelection getC_PaySelection() throws RuntimeException
-    {
-		return (I_C_PaySelection)MTable.get(getCtx(), I_C_PaySelection.Table_Name)
-			.getPO(getC_PaySelection_ID(), get_TrxName());	}
-
-	/** Set Payment Selection.
-		@param C_PaySelection_ID 
-		Payment Selection
-	  */
-	public void setC_PaySelection_ID (int C_PaySelection_ID)
-	{
-		if (C_PaySelection_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, Integer.valueOf(C_PaySelection_ID));
-	}
-
-	/** Get Payment Selection.
-		@return Payment Selection
-	  */
-	public int getC_PaySelection_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelection_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_PaySelectionCheck getC_PaySelectionCheck() throws RuntimeException
     {
 		return (I_C_PaySelectionCheck)MTable.get(getCtx(), I_C_PaySelectionCheck.Table_Name)
@@ -165,6 +137,34 @@ public class X_C_PaySelectionLine extends PO implements I_C_PaySelectionLine, I_
 	public int getC_PaySelectionCheck_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelectionCheck_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_PaySelection getC_PaySelection() throws RuntimeException
+    {
+		return (I_C_PaySelection)MTable.get(getCtx(), I_C_PaySelection.Table_Name)
+			.getPO(getC_PaySelection_ID(), get_TrxName());	}
+
+	/** Set Payment Selection.
+		@param C_PaySelection_ID 
+		Payment Selection
+	  */
+	public void setC_PaySelection_ID (int C_PaySelection_ID)
+	{
+		if (C_PaySelection_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaySelection_ID, Integer.valueOf(C_PaySelection_ID));
+	}
+
+	/** Get Payment Selection.
+		@return Payment Selection
+	  */
+	public int getC_PaySelection_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaySelection_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

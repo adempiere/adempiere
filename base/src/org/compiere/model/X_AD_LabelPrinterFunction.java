@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LabelPrinterFunction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFunction, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_AD_LabelPrinterFunction (Properties ctx, int AD_LabelPrinterFunction_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
       super (ctx, AD_LabelPrinterFunction_ID, trxName);
       /** if (AD_LabelPrinterFunction_ID == 0)
         {
-			setAD_LabelPrinter_ID (0);
 			setAD_LabelPrinterFunction_ID (0);
+			setAD_LabelPrinter_ID (0);
 			setIsXYPosition (false);
 			setName (null);
         } */
@@ -73,6 +73,29 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
       return sb.toString();
     }
 
+	/** Set Label printer Function.
+		@param AD_LabelPrinterFunction_ID 
+		Function of Label Printer
+	  */
+	public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID)
+	{
+		if (AD_LabelPrinterFunction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_LabelPrinterFunction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_LabelPrinterFunction_ID, Integer.valueOf(AD_LabelPrinterFunction_ID));
+	}
+
+	/** Get Label printer Function.
+		@return Function of Label Printer
+	  */
+	public int getAD_LabelPrinterFunction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_LabelPrinterFunction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_AD_LabelPrinter getAD_LabelPrinter() throws RuntimeException
     {
 		return (I_AD_LabelPrinter)MTable.get(getCtx(), I_AD_LabelPrinter.Table_Name)
@@ -96,29 +119,6 @@ public class X_AD_LabelPrinterFunction extends PO implements I_AD_LabelPrinterFu
 	public int getAD_LabelPrinter_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_LabelPrinter_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Label printer Function.
-		@param AD_LabelPrinterFunction_ID 
-		Function of Label Printer
-	  */
-	public void setAD_LabelPrinterFunction_ID (int AD_LabelPrinterFunction_ID)
-	{
-		if (AD_LabelPrinterFunction_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_LabelPrinterFunction_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_LabelPrinterFunction_ID, Integer.valueOf(AD_LabelPrinterFunction_ID));
-	}
-
-	/** Get Label printer Function.
-		@return Function of Label Printer
-	  */
-	public int getAD_LabelPrinterFunction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_LabelPrinterFunction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

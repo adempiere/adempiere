@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxDeclarationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_TaxDeclarationLine 
 {
@@ -137,20 +137,21 @@ public interface I_C_TaxDeclarationLine
 
 	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
-    /** Column name C_Tax_ID */
-    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set Tax.
-	  * Tax identifier
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_Tax_ID (int C_Tax_ID);
+	public Timestamp getCreated();
 
-	/** Get Tax.
-	  * Tax identifier
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_Tax_ID();
-
-	public I_C_Tax getC_Tax() throws RuntimeException;
+	public int getCreatedBy();
 
     /** Column name C_TaxDeclaration_ID */
     public static final String COLUMNNAME_C_TaxDeclaration_ID = "C_TaxDeclaration_ID";
@@ -180,21 +181,20 @@ public interface I_C_TaxDeclarationLine
 	  */
 	public int getC_TaxDeclarationLine_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set Tax.
+	  * Tax identifier
 	  */
-	public Timestamp getCreated();
+	public void setC_Tax_ID (int C_Tax_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get Tax.
+	  * Tax identifier
 	  */
-	public int getCreatedBy();
+	public int getC_Tax_ID();
+
+	public I_C_Tax getC_Tax() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";

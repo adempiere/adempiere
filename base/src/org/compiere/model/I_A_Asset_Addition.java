@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Addition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_A_Asset_Addition 
 {
@@ -72,24 +72,6 @@ public interface I_A_Asset_Addition
 	/** Get Capital vs Expense	  */
 	public String getA_CapvsExp();
 
-    /** Column name A_QTY_Current */
-    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
-
-	/** Set Quantity	  */
-	public void setA_QTY_Current (BigDecimal A_QTY_Current);
-
-	/** Get Quantity	  */
-	public BigDecimal getA_QTY_Current();
-
-    /** Column name A_SourceType */
-    public static final String COLUMNNAME_A_SourceType = "A_SourceType";
-
-	/** Set Source of Entry	  */
-	public void setA_SourceType (String A_SourceType);
-
-	/** Get Source of Entry	  */
-	public String getA_SourceType();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -110,6 +92,24 @@ public interface I_A_Asset_Addition
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_QTY_Current */
+    public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
+
+	/** Set Quantity	  */
+	public void setA_QTY_Current (BigDecimal A_QTY_Current);
+
+	/** Get Quantity	  */
+	public BigDecimal getA_QTY_Current();
+
+    /** Column name A_SourceType */
+    public static final String COLUMNNAME_A_SourceType = "A_SourceType";
+
+	/** Set Source of Entry	  */
+	public void setA_SourceType (String A_SourceType);
+
+	/** Get Source of Entry	  */
+	public String getA_SourceType();
 
     /** Column name AssetValueAmt */
     public static final String COLUMNNAME_AssetValueAmt = "AssetValueAmt";

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_R_RequestUpdate (Properties ctx, int R_RequestUpdate_ID, String trxName)
@@ -188,6 +188,23 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return bd;
 	}
 
+	/** Set Result.
+		@param Result 
+		Result of the action taken
+	  */
+	public void setResult (String Result)
+	{
+		set_ValueNoCheck (COLUMNNAME_Result, Result);
+	}
+
+	/** Get Result.
+		@return Result of the action taken
+	  */
+	public String getResult () 
+	{
+		return (String)get_Value(COLUMNNAME_Result);
+	}
+
 	public I_R_Request getR_Request() throws RuntimeException
     {
 		return (I_R_Request)MTable.get(getCtx(), I_R_Request.Table_Name)
@@ -246,23 +263,6 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
     {
         return new KeyNamePair(get_ID(), String.valueOf(getR_RequestUpdate_ID()));
     }
-
-	/** Set Result.
-		@param Result 
-		Result of the action taken
-	  */
-	public void setResult (String Result)
-	{
-		set_ValueNoCheck (COLUMNNAME_Result, Result);
-	}
-
-	/** Get Result.
-		@return Result of the action taken
-	  */
-	public String getResult () 
-	{
-		return (String)get_Value(COLUMNNAME_Result);
-	}
 
 	/** Set Start Time.
 		@param StartTime 

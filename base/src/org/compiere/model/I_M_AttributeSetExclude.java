@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_AttributeSetExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_AttributeSetExclude 
 {
@@ -119,6 +119,19 @@ public interface I_M_AttributeSetExclude
 	  */
 	public boolean isSOTrx();
 
+    /** Column name M_AttributeSetExclude_ID */
+    public static final String COLUMNNAME_M_AttributeSetExclude_ID = "M_AttributeSetExclude_ID";
+
+	/** Set Exclude Attribute Set.
+	  * Exclude the ability to enter Attribute Sets
+	  */
+	public void setM_AttributeSetExclude_ID (int M_AttributeSetExclude_ID);
+
+	/** Get Exclude Attribute Set.
+	  * Exclude the ability to enter Attribute Sets
+	  */
+	public int getM_AttributeSetExclude_ID();
+
     /** Column name M_AttributeSet_ID */
     public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
 
@@ -133,19 +146,6 @@ public interface I_M_AttributeSetExclude
 	public int getM_AttributeSet_ID();
 
 	public I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
-
-    /** Column name M_AttributeSetExclude_ID */
-    public static final String COLUMNNAME_M_AttributeSetExclude_ID = "M_AttributeSetExclude_ID";
-
-	/** Set Exclude Attribute Set.
-	  * Exclude the ability to enter Attribute Sets
-	  */
-	public void setM_AttributeSetExclude_ID (int M_AttributeSetExclude_ID);
-
-	/** Get Exclude Attribute Set.
-	  * Exclude the ability to enter Attribute Sets
-	  */
-	public int getM_AttributeSetExclude_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

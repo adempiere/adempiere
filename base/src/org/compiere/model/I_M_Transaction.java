@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_Transaction 
 {
@@ -181,45 +181,6 @@ public interface I_M_Transaction
 
 	public I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
-
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
-
-	public I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name M_ProductionLine_ID */
-    public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
-
-	/** Set Production Line.
-	  * Document Line representing a production
-	  */
-	public void setM_ProductionLine_ID (int M_ProductionLine_ID);
-
-	/** Get Production Line.
-	  * Document Line representing a production
-	  */
-	public int getM_ProductionLine_ID();
-
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
-
-    /** Column name M_Transaction_ID */
-    public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
-
-	/** Set Inventory Transaction	  */
-	public void setM_Transaction_ID (int M_Transaction_ID);
-
-	/** Get Inventory Transaction	  */
-	public int getM_Transaction_ID();
-
     /** Column name MovementDate */
     public static final String COLUMNNAME_MovementDate = "MovementDate";
 
@@ -258,6 +219,45 @@ public interface I_M_Transaction
 	  * Method of moving the inventory
 	  */
 	public String getMovementType();
+
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_ProductionLine_ID */
+    public static final String COLUMNNAME_M_ProductionLine_ID = "M_ProductionLine_ID";
+
+	/** Set Production Line.
+	  * Document Line representing a production
+	  */
+	public void setM_ProductionLine_ID (int M_ProductionLine_ID);
+
+	/** Get Production Line.
+	  * Document Line representing a production
+	  */
+	public int getM_ProductionLine_ID();
+
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException;
+
+    /** Column name M_Transaction_ID */
+    public static final String COLUMNNAME_M_Transaction_ID = "M_Transaction_ID";
+
+	/** Set Inventory Transaction	  */
+	public void setM_Transaction_ID (int M_Transaction_ID);
+
+	/** Get Inventory Transaction	  */
+	public int getM_Transaction_ID();
 
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";

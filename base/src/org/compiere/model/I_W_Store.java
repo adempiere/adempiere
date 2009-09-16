@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Store
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_W_Store 
 {
@@ -401,19 +401,6 @@ public interface I_W_Store
 	  */
 	public String getURL();
 
-    /** Column name W_Store_ID */
-    public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
-
-	/** Set Web Store.
-	  * A Web Store of the Client
-	  */
-	public void setW_Store_ID (int W_Store_ID);
-
-	/** Get Web Store.
-	  * A Web Store of the Client
-	  */
-	public int getW_Store_ID();
-
     /** Column name WebContext */
     public static final String COLUMNNAME_WebContext = "WebContext";
 
@@ -543,6 +530,19 @@ public interface I_W_Store
 	  * EMail address used as the sender (From)
 	  */
 	public String getWStoreEMail();
+
+    /** Column name W_Store_ID */
+    public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
+
+	/** Set Web Store.
+	  * A Web Store of the Client
+	  */
+	public void setW_Store_ID (int W_Store_ID);
+
+	/** Get Web Store.
+	  * A Web Store of the Client
+	  */
+	public int getW_Store_ID();
 
     /** Column name WStoreUser */
     public static final String COLUMNNAME_WStoreUser = "WStoreUser";

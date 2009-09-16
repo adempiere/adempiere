@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_BOMProduct 
 {
@@ -197,21 +197,6 @@ public interface I_M_BOMProduct
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
-    /** Column name M_BOM_ID */
-    public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
-
-	/** Set BOM.
-	  * Bill of Material
-	  */
-	public void setM_BOM_ID (int M_BOM_ID);
-
-	/** Get BOM.
-	  * Bill of Material
-	  */
-	public int getM_BOM_ID();
-
-	public I_M_BOM getM_BOM() throws RuntimeException;
-
     /** Column name M_BOMAlternative_ID */
     public static final String COLUMNNAME_M_BOMAlternative_ID = "M_BOMAlternative_ID";
 
@@ -226,6 +211,21 @@ public interface I_M_BOMProduct
 	public int getM_BOMAlternative_ID();
 
 	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException;
+
+    /** Column name M_BOM_ID */
+    public static final String COLUMNNAME_M_BOM_ID = "M_BOM_ID";
+
+	/** Set BOM.
+	  * Bill of Material
+	  */
+	public void setM_BOM_ID (int M_BOM_ID);
+
+	/** Get BOM.
+	  * Bill of Material
+	  */
+	public int getM_BOM_ID();
+
+	public I_M_BOM getM_BOM() throws RuntimeException;
 
     /** Column name M_BOMProduct_ID */
     public static final String COLUMNNAME_M_BOMProduct_ID = "M_BOMProduct_ID";

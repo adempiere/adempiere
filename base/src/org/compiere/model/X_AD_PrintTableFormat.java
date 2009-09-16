@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_AD_PrintTableFormat (Properties ctx, int AD_PrintTableFormat_ID, String trxName)
@@ -201,34 +201,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return (String)get_Value(COLUMNNAME_FooterRight);
 	}
 
-	public I_AD_PrintFont getFunct_PrintFont() throws RuntimeException
-    {
-		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
-			.getPO(getFunct_PrintFont_ID(), get_TrxName());	}
-
-	/** Set Function Font.
-		@param Funct_PrintFont_ID 
-		Function row Font
-	  */
-	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID)
-	{
-		if (Funct_PrintFont_ID < 1) 
-			set_Value (COLUMNNAME_Funct_PrintFont_ID, null);
-		else 
-			set_Value (COLUMNNAME_Funct_PrintFont_ID, Integer.valueOf(Funct_PrintFont_ID));
-	}
-
-	/** Get Function Font.
-		@return Function row Font
-	  */
-	public int getFunct_PrintFont_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Funct_PrintFont_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_PrintColor getFunctBG_PrintColor() throws RuntimeException
     {
 		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
@@ -285,29 +257,29 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getHdr_PrintFont() throws RuntimeException
+	public I_AD_PrintFont getFunct_PrintFont() throws RuntimeException
     {
 		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
-			.getPO(getHdr_PrintFont_ID(), get_TrxName());	}
+			.getPO(getFunct_PrintFont_ID(), get_TrxName());	}
 
-	/** Set Header Row Font.
-		@param Hdr_PrintFont_ID 
-		Header row Font
+	/** Set Function Font.
+		@param Funct_PrintFont_ID 
+		Function row Font
 	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
+	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID)
 	{
-		if (Hdr_PrintFont_ID < 1) 
-			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
+		if (Funct_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_Funct_PrintFont_ID, null);
 		else 
-			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
+			set_Value (COLUMNNAME_Funct_PrintFont_ID, Integer.valueOf(Funct_PrintFont_ID));
 	}
 
-	/** Get Header Row Font.
-		@return Header row Font
+	/** Get Function Font.
+		@return Function row Font
 	  */
-	public int getHdr_PrintFont_ID () 
+	public int getFunct_PrintFont_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Hdr_PrintFont_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Funct_PrintFont_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -336,6 +308,34 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public int getHdrLine_PrintColor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HdrLine_PrintColor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_PrintFont getHdr_PrintFont() throws RuntimeException
+    {
+		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+			.getPO(getHdr_PrintFont_ID(), get_TrxName());	}
+
+	/** Set Header Row Font.
+		@param Hdr_PrintFont_ID 
+		Header row Font
+	  */
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
+	{
+		if (Hdr_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
+	}
+
+	/** Get Header Row Font.
+		@return Header row Font
+	  */
+	public int getHdr_PrintFont_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Hdr_PrintFont_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_JobAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_JobAssignment 
 {
@@ -77,6 +77,19 @@ public interface I_C_JobAssignment
 
 	public I_AD_User getAD_User() throws RuntimeException;
 
+    /** Column name C_JobAssignment_ID */
+    public static final String COLUMNNAME_C_JobAssignment_ID = "C_JobAssignment_ID";
+
+	/** Set Position Assignment.
+	  * Assignemt of Employee (User) to Job Position
+	  */
+	public void setC_JobAssignment_ID (int C_JobAssignment_ID);
+
+	/** Get Position Assignment.
+	  * Assignemt of Employee (User) to Job Position
+	  */
+	public int getC_JobAssignment_ID();
+
     /** Column name C_Job_ID */
     public static final String COLUMNNAME_C_Job_ID = "C_Job_ID";
 
@@ -91,19 +104,6 @@ public interface I_C_JobAssignment
 	public int getC_Job_ID();
 
 	public I_C_Job getC_Job() throws RuntimeException;
-
-    /** Column name C_JobAssignment_ID */
-    public static final String COLUMNNAME_C_JobAssignment_ID = "C_JobAssignment_ID";
-
-	/** Set Position Assignment.
-	  * Assignemt of Employee (User) to Job Position
-	  */
-	public void setC_JobAssignment_ID (int C_JobAssignment_ID);
-
-	/** Get Position Assignment.
-	  * Assignemt of Employee (User) to Job Position
-	  */
-	public int getC_JobAssignment_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

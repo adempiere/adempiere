@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_Withholding 
 {
@@ -92,19 +92,6 @@ public interface I_C_Withholding
 
 	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
 
-    /** Column name C_Withholding_ID */
-    public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
-
-	/** Set Withholding.
-	  * Withholding type defined
-	  */
-	public void setC_Withholding_ID (int C_Withholding_ID);
-
-	/** Get Withholding.
-	  * Withholding type defined
-	  */
-	public int getC_Withholding_ID();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -120,6 +107,19 @@ public interface I_C_Withholding
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_Withholding_ID */
+    public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
+
+	/** Set Withholding.
+	  * Withholding type defined
+	  */
+	public void setC_Withholding_ID (int C_Withholding_ID);
+
+	/** Get Withholding.
+	  * Withholding type defined
+	  */
+	public int getC_Withholding_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

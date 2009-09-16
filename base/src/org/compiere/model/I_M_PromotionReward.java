@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionReward
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_PromotionReward 
 {
@@ -158,17 +158,6 @@ public interface I_M_PromotionReward
 	  */
 	public boolean isSameDistribution();
 
-    /** Column name M_Promotion_ID */
-    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
-
-	/** Set Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID);
-
-	/** Get Promotion	  */
-	public int getM_Promotion_ID();
-
-	public I_M_Promotion getM_Promotion() throws RuntimeException;
-
     /** Column name M_PromotionDistribution_ID */
     public static final String COLUMNNAME_M_PromotionDistribution_ID = "M_PromotionDistribution_ID";
 
@@ -179,6 +168,17 @@ public interface I_M_PromotionReward
 	public int getM_PromotionDistribution_ID();
 
 	public I_M_PromotionDistribution getM_PromotionDistribution() throws RuntimeException;
+
+    /** Column name M_Promotion_ID */
+    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
+
+	/** Set Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID);
+
+	/** Get Promotion	  */
+	public int getM_Promotion_ID();
+
+	public I_M_Promotion getM_Promotion() throws RuntimeException;
 
     /** Column name M_PromotionReward_ID */
     public static final String COLUMNNAME_M_PromotionReward_ID = "M_PromotionReward_ID";

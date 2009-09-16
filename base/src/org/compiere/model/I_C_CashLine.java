@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CashLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_CashLine 
 {
@@ -74,6 +74,19 @@ public interface I_C_CashLine
 	  * Amount in a defined currency
 	  */
 	public BigDecimal getAmount();
+
+    /** Column name CashType */
+    public static final String COLUMNNAME_CashType = "CashType";
+
+	/** Set Cash Type.
+	  * Source of Cash
+	  */
+	public void setCashType (String CashType);
+
+	/** Get Cash Type.
+	  * Source of Cash
+	  */
+	public String getCashType();
 
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
@@ -177,19 +190,6 @@ public interface I_C_CashLine
 	public int getC_Payment_ID();
 
 	public I_C_Payment getC_Payment() throws RuntimeException;
-
-    /** Column name CashType */
-    public static final String COLUMNNAME_CashType = "CashType";
-
-	/** Set Cash Type.
-	  * Source of Cash
-	  */
-	public void setCashType (String CashType);
-
-	/** Get Cash Type.
-	  * Source of Cash
-	  */
-	public String getCashType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

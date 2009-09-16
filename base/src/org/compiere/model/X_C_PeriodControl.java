@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PeriodControl
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_PeriodControl (Properties ctx, int C_PeriodControl_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
       super (ctx, C_PeriodControl_ID, trxName);
       /** if (C_PeriodControl_ID == 0)
         {
-			setC_Period_ID (0);
 			setC_PeriodControl_ID (0);
+			setC_Period_ID (0);
 			setDocBaseType (null);
 			setPeriodAction (null);
 // N
@@ -74,34 +74,6 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
       return sb.toString();
     }
 
-	public I_C_Period getC_Period() throws RuntimeException
-    {
-		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
-			.getPO(getC_Period_ID(), get_TrxName());	}
-
-	/** Set Period.
-		@param C_Period_ID 
-		Period of the Calendar
-	  */
-	public void setC_Period_ID (int C_Period_ID)
-	{
-		if (C_Period_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
-	}
-
-	/** Get Period.
-		@return Period of the Calendar
-	  */
-	public int getC_Period_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Period_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Period Control.
 		@param C_PeriodControl_ID Period Control	  */
 	public void setC_PeriodControl_ID (int C_PeriodControl_ID)
@@ -129,6 +101,34 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_PeriodControl_ID()));
     }
+
+	public I_C_Period getC_Period() throws RuntimeException
+    {
+		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+			.getPO(getC_Period_ID(), get_TrxName());	}
+
+	/** Set Period.
+		@param C_Period_ID 
+		Period of the Calendar
+	  */
+	public void setC_Period_ID (int C_Period_ID)
+	{
+		if (C_Period_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+	}
+
+	/** Get Period.
+		@return Period of the Calendar
+	  */
+	public int getC_Period_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Period_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** DocBaseType AD_Reference_ID=183 */
 	public static final int DOCBASETYPE_AD_Reference_ID=183;

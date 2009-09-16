@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for CM_AccessContainer
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_CM_AccessContainer (Properties ctx, int CM_AccessContainer_ID, String trxName)

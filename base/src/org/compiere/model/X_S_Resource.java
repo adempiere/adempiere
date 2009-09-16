@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_S_Resource extends PO implements I_S_Resource, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_S_Resource (Properties ctx, int S_Resource_ID, String trxName)
@@ -204,6 +204,31 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		return false;
 	}
 
+	/** ManufacturingResourceType AD_Reference_ID=53223 */
+	public static final int MANUFACTURINGRESOURCETYPE_AD_Reference_ID=53223;
+	/** Production Line = PL */
+	public static final String MANUFACTURINGRESOURCETYPE_ProductionLine = "PL";
+	/** Plant = PT */
+	public static final String MANUFACTURINGRESOURCETYPE_Plant = "PT";
+	/** Work Center = WC */
+	public static final String MANUFACTURINGRESOURCETYPE_WorkCenter = "WC";
+	/** Work Station = WS */
+	public static final String MANUFACTURINGRESOURCETYPE_WorkStation = "WS";
+	/** Set Manufacturing Resource Type.
+		@param ManufacturingResourceType Manufacturing Resource Type	  */
+	public void setManufacturingResourceType (String ManufacturingResourceType)
+	{
+
+		set_Value (COLUMNNAME_ManufacturingResourceType, ManufacturingResourceType);
+	}
+
+	/** Get Manufacturing Resource Type.
+		@return Manufacturing Resource Type	  */
+	public String getManufacturingResourceType () 
+	{
+		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
+	}
+
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
 		return (I_M_Warehouse)MTable.get(getCtx(), I_M_Warehouse.Table_Name)
@@ -230,31 +255,6 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** ManufacturingResourceType AD_Reference_ID=53223 */
-	public static final int MANUFACTURINGRESOURCETYPE_AD_Reference_ID=53223;
-	/** Production Line = PL */
-	public static final String MANUFACTURINGRESOURCETYPE_ProductionLine = "PL";
-	/** Plant = PT */
-	public static final String MANUFACTURINGRESOURCETYPE_Plant = "PT";
-	/** Work Center = WC */
-	public static final String MANUFACTURINGRESOURCETYPE_WorkCenter = "WC";
-	/** Work Station = WS */
-	public static final String MANUFACTURINGRESOURCETYPE_WorkStation = "WS";
-	/** Set Manufacturing Resource Type.
-		@param ManufacturingResourceType Manufacturing Resource Type	  */
-	public void setManufacturingResourceType (String ManufacturingResourceType)
-	{
-
-		set_Value (COLUMNNAME_ManufacturingResourceType, ManufacturingResourceType);
-	}
-
-	/** Get Manufacturing Resource Type.
-		@return Manufacturing Resource Type	  */
-	public String getManufacturingResourceType () 
-	{
-		return (String)get_Value(COLUMNNAME_ManufacturingResourceType);
 	}
 
 	/** Set Name.

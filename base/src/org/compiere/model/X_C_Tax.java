@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_Tax extends PO implements I_C_Tax, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_Tax (Properties ctx, int C_Tax_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
       super (ctx, C_Tax_ID, trxName);
       /** if (C_Tax_ID == 0)
         {
-			setC_Tax_ID (0);
 			setC_TaxCategory_ID (0);
+			setC_Tax_ID (0);
 			setIsDefault (false);
 			setIsDocumentLevel (false);
 			setIsSalesTax (false);
@@ -162,29 +162,6 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Tax.
-		@param C_Tax_ID 
-		Tax identifier
-	  */
-	public void setC_Tax_ID (int C_Tax_ID)
-	{
-		if (C_Tax_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
-	}
-
-	/** Get Tax.
-		@return Tax identifier
-	  */
-	public int getC_Tax_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException
     {
 		return (I_C_TaxCategory)MTable.get(getCtx(), I_C_TaxCategory.Table_Name)
@@ -208,6 +185,29 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 	public int getC_TaxCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID)
+	{
+		if (C_Tax_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
+	}
+
+	/** Get Tax.
+		@return Tax identifier
+	  */
+	public int getC_Tax_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -326,17 +326,17 @@ public class X_C_Tax extends PO implements I_C_Tax, I_Persistent
 		return false;
 	}
 
-	/** Set Tax exempt.
+	/** Set SO Tax exempt.
 		@param IsTaxExempt 
-		Business partner is exempt from tax
+		Business partner is exempt from tax on sales
 	  */
 	public void setIsTaxExempt (boolean IsTaxExempt)
 	{
 		set_Value (COLUMNNAME_IsTaxExempt, Boolean.valueOf(IsTaxExempt));
 	}
 
-	/** Get Tax exempt.
-		@return Business partner is exempt from tax
+	/** Get SO Tax exempt.
+		@return Business partner is exempt from tax on sales
 	  */
 	public boolean isTaxExempt () 
 	{

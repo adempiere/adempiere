@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_City
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_City extends PO implements I_C_City, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_City (Properties ctx, int C_City_ID, String trxName)
@@ -139,6 +139,23 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Coordinates.
+		@param Coordinates 
+		Location coordinate
+	  */
+	public void setCoordinates (String Coordinates)
+	{
+		set_Value (COLUMNNAME_Coordinates, Coordinates);
+	}
+
+	/** Get Coordinates.
+		@return Location coordinate
+	  */
+	public String getCoordinates () 
+	{
+		return (String)get_Value(COLUMNNAME_Coordinates);
+	}
+
 	public I_C_Region getC_Region() throws RuntimeException
     {
 		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
@@ -165,23 +182,6 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Coordinates.
-		@param Coordinates 
-		Location coordinate
-	  */
-	public void setCoordinates (String Coordinates)
-	{
-		set_Value (COLUMNNAME_Coordinates, Coordinates);
-	}
-
-	/** Get Coordinates.
-		@return Location coordinate
-	  */
-	public String getCoordinates () 
-	{
-		return (String)get_Value(COLUMNNAME_Coordinates);
 	}
 
 	/** Set Locode.

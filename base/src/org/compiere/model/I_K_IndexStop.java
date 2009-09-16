@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_IndexStop
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_K_IndexStop 
 {
@@ -134,19 +134,6 @@ public interface I_K_IndexStop
 	  */
 	public boolean isManual();
 
-    /** Column name K_IndexStop_ID */
-    public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
-
-	/** Set Index Stop.
-	  * Keyword not to be indexed
-	  */
-	public void setK_IndexStop_ID (int K_IndexStop_ID);
-
-	/** Get Index Stop.
-	  * Keyword not to be indexed
-	  */
-	public int getK_IndexStop_ID();
-
     /** Column name Keyword */
     public static final String COLUMNNAME_Keyword = "Keyword";
 
@@ -159,6 +146,19 @@ public interface I_K_IndexStop
 	  * Case insensitive keyword
 	  */
 	public String getKeyword();
+
+    /** Column name K_IndexStop_ID */
+    public static final String COLUMNNAME_K_IndexStop_ID = "K_IndexStop_ID";
+
+	/** Set Index Stop.
+	  * Keyword not to be indexed
+	  */
+	public void setK_IndexStop_ID (int K_IndexStop_ID);
+
+	/** Get Index Stop.
+	  * Keyword not to be indexed
+	  */
+	public int getK_IndexStop_ID();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";

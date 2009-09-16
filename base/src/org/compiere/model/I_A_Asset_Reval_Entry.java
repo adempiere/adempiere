@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Reval_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_A_Asset_Reval_Entry 
 {
@@ -50,6 +50,27 @@ public interface I_A_Asset_Reval_Entry
 	/** Get A_Asset_Reval_Entry_ID	  */
 	public int getA_Asset_Reval_Entry_ID();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Effective_Date */
     public static final String COLUMNNAME_A_Effective_Date = "A_Effective_Date";
 
@@ -58,15 +79,6 @@ public interface I_A_Asset_Reval_Entry
 
 	/** Get A_Effective_Date	  */
 	public Timestamp getA_Effective_Date();
-
-    /** Column name A_Rev_Code */
-    public static final String COLUMNNAME_A_Rev_Code = "A_Rev_Code";
-
-	/** Set A_Rev_Code	  */
-	public void setA_Rev_Code (String A_Rev_Code);
-
-	/** Get A_Rev_Code	  */
-	public String getA_Rev_Code();
 
     /** Column name A_Reval_Cal_Method */
     public static final String COLUMNNAME_A_Reval_Cal_Method = "A_Reval_Cal_Method";
@@ -95,26 +107,14 @@ public interface I_A_Asset_Reval_Entry
 	/** Get A_Reval_Multiplier	  */
 	public String getA_Reval_Multiplier();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+    /** Column name A_Rev_Code */
+    public static final String COLUMNNAME_A_Rev_Code = "A_Rev_Code";
 
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
+	/** Set A_Rev_Code	  */
+	public void setA_Rev_Code (String A_Rev_Code);
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
+	/** Get A_Rev_Code	  */
+	public String getA_Rev_Code();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";

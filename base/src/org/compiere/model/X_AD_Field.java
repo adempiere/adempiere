@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -114,29 +114,6 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Field.
-		@param AD_Field_ID 
-		Field on a database table
-	  */
-	public void setAD_Field_ID (int AD_Field_ID)
-	{
-		if (AD_Field_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Field_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Field_ID, Integer.valueOf(AD_Field_ID));
-	}
-
-	/** Get Field.
-		@return Field on a database table
-	  */
-	public int getAD_Field_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Field_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException
     {
 		return (I_AD_FieldGroup)MTable.get(getCtx(), I_AD_FieldGroup.Table_Name)
@@ -160,6 +137,29 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public int getAD_FieldGroup_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_FieldGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Field.
+		@param AD_Field_ID 
+		Field on a database table
+	  */
+	public void setAD_Field_ID (int AD_Field_ID)
+	{
+		if (AD_Field_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Field_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Field_ID, Integer.valueOf(AD_Field_ID));
+	}
+
+	/** Get Field.
+		@return Field on a database table
+	  */
+	public int getAD_Field_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Field_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

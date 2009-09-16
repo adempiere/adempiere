@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_Request
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_R_Request 
 {
@@ -197,6 +197,45 @@ public interface I_R_Request
 
 	public I_C_Invoice getC_InvoiceRequest() throws RuntimeException;
 
+    /** Column name CloseDate */
+    public static final String COLUMNNAME_CloseDate = "CloseDate";
+
+	/** Set Close Date.
+	  * Close Date
+	  */
+	public void setCloseDate (Timestamp CloseDate);
+
+	/** Get Close Date.
+	  * Close Date
+	  */
+	public Timestamp getCloseDate();
+
+    /** Column name ConfidentialType */
+    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
+
+	/** Set Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public void setConfidentialType (String ConfidentialType);
+
+	/** Get Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public String getConfidentialType();
+
+    /** Column name ConfidentialTypeEntry */
+    public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
+
+	/** Set Entry Confidentiality.
+	  * Confidentiality of the individual entry
+	  */
+	public void setConfidentialTypeEntry (String ConfidentialTypeEntry);
+
+	/** Get Entry Confidentiality.
+	  * Confidentiality of the individual entry
+	  */
+	public String getConfidentialTypeEntry();
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -241,45 +280,6 @@ public interface I_R_Request
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name CloseDate */
-    public static final String COLUMNNAME_CloseDate = "CloseDate";
-
-	/** Set Close Date.
-	  * Close Date
-	  */
-	public void setCloseDate (Timestamp CloseDate);
-
-	/** Get Close Date.
-	  * Close Date
-	  */
-	public Timestamp getCloseDate();
-
-    /** Column name ConfidentialType */
-    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
-
-	/** Set Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public void setConfidentialType (String ConfidentialType);
-
-	/** Get Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public String getConfidentialType();
-
-    /** Column name ConfidentialTypeEntry */
-    public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
-
-	/** Set Entry Confidentiality.
-	  * Confidentiality of the individual entry
-	  */
-	public void setConfidentialTypeEntry (String ConfidentialTypeEntry);
-
-	/** Get Entry Confidentiality.
-	  * Confidentiality of the individual entry
-	  */
-	public String getConfidentialTypeEntry();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -662,6 +662,45 @@ public interface I_R_Request
 
 	public I_R_Category getR_Category() throws RuntimeException;
 
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
+
+	/** Set Record ID.
+	  * Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID);
+
+	/** Get Record ID.
+	  * Direct internal record ID
+	  */
+	public int getRecord_ID();
+
+    /** Column name RequestAmt */
+    public static final String COLUMNNAME_RequestAmt = "RequestAmt";
+
+	/** Set Request Amount.
+	  * Amount associated with this request
+	  */
+	public void setRequestAmt (BigDecimal RequestAmt);
+
+	/** Get Request Amount.
+	  * Amount associated with this request
+	  */
+	public BigDecimal getRequestAmt();
+
+    /** Column name Result */
+    public static final String COLUMNNAME_Result = "Result";
+
+	/** Set Result.
+	  * Result of the action taken
+	  */
+	public void setResult (String Result);
+
+	/** Get Result.
+	  * Result of the action taken
+	  */
+	public String getResult();
+
     /** Column name R_Group_ID */
     public static final String COLUMNNAME_R_Group_ID = "R_Group_ID";
 
@@ -779,45 +818,6 @@ public interface I_R_Request
 	public int getR_Status_ID();
 
 	public I_R_Status getR_Status() throws RuntimeException;
-
-    /** Column name Record_ID */
-    public static final String COLUMNNAME_Record_ID = "Record_ID";
-
-	/** Set Record ID.
-	  * Direct internal record ID
-	  */
-	public void setRecord_ID (int Record_ID);
-
-	/** Get Record ID.
-	  * Direct internal record ID
-	  */
-	public int getRecord_ID();
-
-    /** Column name RequestAmt */
-    public static final String COLUMNNAME_RequestAmt = "RequestAmt";
-
-	/** Set Request Amount.
-	  * Amount associated with this request
-	  */
-	public void setRequestAmt (BigDecimal RequestAmt);
-
-	/** Get Request Amount.
-	  * Amount associated with this request
-	  */
-	public BigDecimal getRequestAmt();
-
-    /** Column name Result */
-    public static final String COLUMNNAME_Result = "Result";
-
-	/** Set Result.
-	  * Result of the action taken
-	  */
-	public void setResult (String Result);
-
-	/** Get Result.
-	  * Result of the action taken
-	  */
-	public String getResult();
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

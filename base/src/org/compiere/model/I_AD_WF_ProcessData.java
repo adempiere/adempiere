@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_WF_ProcessData
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_AD_WF_ProcessData 
 {
@@ -62,6 +62,19 @@ public interface I_AD_WF_ProcessData
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_WF_ProcessData_ID */
+    public static final String COLUMNNAME_AD_WF_ProcessData_ID = "AD_WF_ProcessData_ID";
+
+	/** Set Workflow Process Data.
+	  * Workflow Process Context
+	  */
+	public void setAD_WF_ProcessData_ID (int AD_WF_ProcessData_ID);
+
+	/** Get Workflow Process Data.
+	  * Workflow Process Context
+	  */
+	public int getAD_WF_ProcessData_ID();
+
     /** Column name AD_WF_Process_ID */
     public static final String COLUMNNAME_AD_WF_Process_ID = "AD_WF_Process_ID";
 
@@ -76,19 +89,6 @@ public interface I_AD_WF_ProcessData
 	public int getAD_WF_Process_ID();
 
 	public I_AD_WF_Process getAD_WF_Process() throws RuntimeException;
-
-    /** Column name AD_WF_ProcessData_ID */
-    public static final String COLUMNNAME_AD_WF_ProcessData_ID = "AD_WF_ProcessData_ID";
-
-	/** Set Workflow Process Data.
-	  * Workflow Process Context
-	  */
-	public void setAD_WF_ProcessData_ID (int AD_WF_ProcessData_ID);
-
-	/** Get Workflow Process Data.
-	  * Workflow Process Context
-	  */
-	public int getAD_WF_ProcessData_ID();
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_SerNoCtlExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_SerNoCtlExclude 
 {
@@ -119,6 +119,19 @@ public interface I_M_SerNoCtlExclude
 	  */
 	public boolean isSOTrx();
 
+    /** Column name M_SerNoCtlExclude_ID */
+    public static final String COLUMNNAME_M_SerNoCtlExclude_ID = "M_SerNoCtlExclude_ID";
+
+	/** Set Exclude SerNo.
+	  * Exclude the ability to create Serial Numbers in Attribute Sets
+	  */
+	public void setM_SerNoCtlExclude_ID (int M_SerNoCtlExclude_ID);
+
+	/** Get Exclude SerNo.
+	  * Exclude the ability to create Serial Numbers in Attribute Sets
+	  */
+	public int getM_SerNoCtlExclude_ID();
+
     /** Column name M_SerNoCtl_ID */
     public static final String COLUMNNAME_M_SerNoCtl_ID = "M_SerNoCtl_ID";
 
@@ -133,19 +146,6 @@ public interface I_M_SerNoCtlExclude
 	public int getM_SerNoCtl_ID();
 
 	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException;
-
-    /** Column name M_SerNoCtlExclude_ID */
-    public static final String COLUMNNAME_M_SerNoCtlExclude_ID = "M_SerNoCtlExclude_ID";
-
-	/** Set Exclude SerNo.
-	  * Exclude the ability to create Serial Numbers in Attribute Sets
-	  */
-	public void setM_SerNoCtlExclude_ID (int M_SerNoCtlExclude_ID);
-
-	/** Get Exclude SerNo.
-	  * Exclude the ability to create Serial Numbers in Attribute Sets
-	  */
-	public int getM_SerNoCtlExclude_ID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

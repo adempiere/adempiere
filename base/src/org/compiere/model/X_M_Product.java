@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_Product extends PO implements I_M_Product, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_Product (Properties ctx, int M_Product_ID, String trxName)
@@ -102,6 +102,23 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
       return sb.toString();
     }
 
+	/** Set Classification.
+		@param Classification 
+		Classification for grouping
+	  */
+	public void setClassification (String Classification)
+	{
+		set_Value (COLUMNNAME_Classification, Classification);
+	}
+
+	/** Get Classification.
+		@return Classification for grouping
+	  */
+	public String getClassification () 
+	{
+		return (String)get_Value(COLUMNNAME_Classification);
+	}
+
 	public I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException
     {
 		return (I_C_RevenueRecognition)MTable.get(getCtx(), I_C_RevenueRecognition.Table_Name)
@@ -129,6 +146,11 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_SubscriptionType getC_SubscriptionType() throws RuntimeException
+    {
+		return (I_C_SubscriptionType)MTable.get(getCtx(), I_C_SubscriptionType.Table_Name)
+			.getPO(getC_SubscriptionType_ID(), get_TrxName());	}
 
 	/** Set Subscription Type.
 		@param C_SubscriptionType_ID 
@@ -207,23 +229,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Classification.
-		@param Classification 
-		Classification for grouping
-	  */
-	public void setClassification (String Classification)
-	{
-		set_Value (COLUMNNAME_Classification, Classification);
-	}
-
-	/** Get Classification.
-		@return Classification for grouping
-	  */
-	public String getClassification () 
-	{
-		return (String)get_Value(COLUMNNAME_Classification);
 	}
 
 	/** Set Description.
@@ -984,62 +989,6 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException
-    {
-		return (I_S_ExpenseType)MTable.get(getCtx(), I_S_ExpenseType.Table_Name)
-			.getPO(getS_ExpenseType_ID(), get_TrxName());	}
-
-	/** Set Expense Type.
-		@param S_ExpenseType_ID 
-		Expense report type
-	  */
-	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
-	{
-		if (S_ExpenseType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
-	}
-
-	/** Get Expense Type.
-		@return Expense report type
-	  */
-	public int getS_ExpenseType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_ExpenseType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_S_Resource getS_Resource() throws RuntimeException
-    {
-		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
-			.getPO(getS_Resource_ID(), get_TrxName());	}
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_AD_User getSalesRep() throws RuntimeException
     {
 		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
@@ -1063,6 +1012,34 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public int getSalesRep_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_S_ExpenseType getS_ExpenseType() throws RuntimeException
+    {
+		return (I_S_ExpenseType)MTable.get(getCtx(), I_S_ExpenseType.Table_Name)
+			.getPO(getS_ExpenseType_ID(), get_TrxName());	}
+
+	/** Set Expense Type.
+		@param S_ExpenseType_ID 
+		Expense report type
+	  */
+	public void setS_ExpenseType_ID (int S_ExpenseType_ID)
+	{
+		if (S_ExpenseType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ExpenseType_ID, Integer.valueOf(S_ExpenseType_ID));
+	}
+
+	/** Get Expense Type.
+		@return Expense report type
+	  */
+	public int getS_ExpenseType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_ExpenseType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1143,6 +1120,34 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public String getSKU () 
 	{
 		return (String)get_Value(COLUMNNAME_SKU);
+	}
+
+	public I_S_Resource getS_Resource() throws RuntimeException
+    {
+		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
+
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID)
+	{
+		if (S_Resource_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
+	}
+
+	/** Get Resource.
+		@return Resource
+	  */
+	public int getS_Resource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set UnitsPerPack.

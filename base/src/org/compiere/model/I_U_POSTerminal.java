@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for U_POSTerminal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_U_POSTerminal 
 {
@@ -74,51 +74,6 @@ public interface I_U_POSTerminal
 	  * Whether to automatically lock the terminal when till is closed
 	  */
 	public boolean isAutoLock();
-
-    /** Column name C_CashBook_ID */
-    public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
-
-	/** Set Cash Book.
-	  * Cash Book for recording petty cash transactions
-	  */
-	public void setC_CashBook_ID (int C_CashBook_ID);
-
-	/** Get Cash Book.
-	  * Cash Book for recording petty cash transactions
-	  */
-	public int getC_CashBook_ID();
-
-	public I_C_CashBook getC_CashBook() throws RuntimeException;
-
-    /** Column name C_CashBPartner_ID */
-    public static final String COLUMNNAME_C_CashBPartner_ID = "C_CashBPartner_ID";
-
-	/** Set Cash BPartner.
-	  * BPartner to be used for Cash transactions
-	  */
-	public void setC_CashBPartner_ID (int C_CashBPartner_ID);
-
-	/** Get Cash BPartner.
-	  * BPartner to be used for Cash transactions
-	  */
-	public int getC_CashBPartner_ID();
-
-	public I_C_BPartner getC_CashBPartner() throws RuntimeException;
-
-    /** Column name C_TemplateBPartner_ID */
-    public static final String COLUMNNAME_C_TemplateBPartner_ID = "C_TemplateBPartner_ID";
-
-	/** Set Template BPartner.
-	  * BPartner that is to be used as template when new customers are created
-	  */
-	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID);
-
-	/** Get Template BPartner.
-	  * BPartner that is to be used as template when new customers are created
-	  */
-	public int getC_TemplateBPartner_ID();
-
-	public I_C_BPartner getC_TemplateBPartner() throws RuntimeException;
 
     /** Column name Card_BankAccount_ID */
     public static final String COLUMNNAME_Card_BankAccount_ID = "Card_BankAccount_ID";
@@ -217,6 +172,36 @@ public interface I_U_POSTerminal
 
 	public I_C_CashBook getCashTransferCashBook() throws RuntimeException;
 
+    /** Column name C_CashBook_ID */
+    public static final String COLUMNNAME_C_CashBook_ID = "C_CashBook_ID";
+
+	/** Set Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID);
+
+	/** Get Cash Book.
+	  * Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID();
+
+	public I_C_CashBook getC_CashBook() throws RuntimeException;
+
+    /** Column name C_CashBPartner_ID */
+    public static final String COLUMNNAME_C_CashBPartner_ID = "C_CashBPartner_ID";
+
+	/** Set Cash BPartner.
+	  * BPartner to be used for Cash transactions
+	  */
+	public void setC_CashBPartner_ID (int C_CashBPartner_ID);
+
+	/** Get Cash BPartner.
+	  * BPartner to be used for Cash transactions
+	  */
+	public int getC_CashBPartner_ID();
+
+	public I_C_BPartner getC_CashBPartner() throws RuntimeException;
+
     /** Column name Check_BankAccount_ID */
     public static final String COLUMNNAME_Check_BankAccount_ID = "Check_BankAccount_ID";
 
@@ -286,6 +271,21 @@ public interface I_U_POSTerminal
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_TemplateBPartner_ID */
+    public static final String COLUMNNAME_C_TemplateBPartner_ID = "C_TemplateBPartner_ID";
+
+	/** Set Template BPartner.
+	  * BPartner that is to be used as template when new customers are created
+	  */
+	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID);
+
+	/** Get Template BPartner.
+	  * BPartner that is to be used as template when new customers are created
+	  */
+	public int getC_TemplateBPartner_ID();
+
+	public I_C_BPartner getC_TemplateBPartner() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -447,15 +447,6 @@ public interface I_U_POSTerminal
 
 	public I_M_PriceList getSO_PriceList() throws RuntimeException;
 
-    /** Column name U_POSTerminal_ID */
-    public static final String COLUMNNAME_U_POSTerminal_ID = "U_POSTerminal_ID";
-
-	/** Set POS Terminal	  */
-	public void setU_POSTerminal_ID (int U_POSTerminal_ID);
-
-	/** Get POS Terminal	  */
-	public int getU_POSTerminal_ID();
-
     /** Column name UnlockingTime */
     public static final String COLUMNNAME_UnlockingTime = "UnlockingTime";
 
@@ -484,6 +475,15 @@ public interface I_U_POSTerminal
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name U_POSTerminal_ID */
+    public static final String COLUMNNAME_U_POSTerminal_ID = "U_POSTerminal_ID";
+
+	/** Set POS Terminal	  */
+	public void setU_POSTerminal_ID (int U_POSTerminal_ID);
+
+	/** Get POS Terminal	  */
+	public int getU_POSTerminal_ID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

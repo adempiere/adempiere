@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Relation
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_BP_Relation (Properties ctx, int C_BP_Relation_ID, String trxName)
@@ -38,10 +38,10 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
       super (ctx, C_BP_Relation_ID, trxName);
       /** if (C_BP_Relation_ID == 0)
         {
-			setC_BP_Relation_ID (0);
 			setC_BPartner_ID (0);
 			setC_BPartnerRelation_ID (0);
 			setC_BPartnerRelation_Location_ID (0);
+			setC_BP_Relation_ID (0);
 			setIsBillTo (false);
 			setIsPayFrom (false);
 			setIsRemitTo (false);
@@ -78,29 +78,6 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Partner Relation.
-		@param C_BP_Relation_ID 
-		Business Partner Relation
-	  */
-	public void setC_BP_Relation_ID (int C_BP_Relation_ID)
-	{
-		if (C_BP_Relation_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
-	}
-
-	/** Get Partner Relation.
-		@return Business Partner Relation
-	  */
-	public int getC_BP_Relation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Relation_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException
     {
@@ -209,6 +186,29 @@ public class X_C_BP_Relation extends PO implements I_C_BP_Relation, I_Persistent
 	public int getC_BPartnerRelation_Location_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartnerRelation_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Partner Relation.
+		@param C_BP_Relation_ID 
+		Business Partner Relation
+	  */
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID)
+	{
+		if (C_BP_Relation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BP_Relation_ID, Integer.valueOf(C_BP_Relation_ID));
+	}
+
+	/** Get Partner Relation.
+		@return Business Partner Relation
+	  */
+	public int getC_BP_Relation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Relation_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

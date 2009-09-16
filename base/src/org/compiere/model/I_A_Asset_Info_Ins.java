@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Info_Ins
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_A_Asset_Info_Ins 
 {
@@ -63,6 +63,27 @@ public interface I_A_Asset_Info_Ins
 	/** Get A_Asset_Info_Ins_ID	  */
 	public int getA_Asset_Info_Ins_ID();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Ins_Premium */
     public static final String COLUMNNAME_A_Ins_Premium = "A_Ins_Premium";
 
@@ -72,15 +93,6 @@ public interface I_A_Asset_Info_Ins
 	/** Get Insurance Premium	  */
 	public BigDecimal getA_Ins_Premium();
 
-    /** Column name A_Ins_Value */
-    public static final String COLUMNNAME_A_Ins_Value = "A_Ins_Value";
-
-	/** Set Insured Value	  */
-	public void setA_Ins_Value (BigDecimal A_Ins_Value);
-
-	/** Get Insured Value	  */
-	public BigDecimal getA_Ins_Value();
-
     /** Column name A_Insurance_Co */
     public static final String COLUMNNAME_A_Insurance_Co = "A_Insurance_Co";
 
@@ -89,6 +101,15 @@ public interface I_A_Asset_Info_Ins
 
 	/** Get Insurance Company	  */
 	public String getA_Insurance_Co();
+
+    /** Column name A_Ins_Value */
+    public static final String COLUMNNAME_A_Ins_Value = "A_Ins_Value";
+
+	/** Set Insured Value	  */
+	public void setA_Ins_Value (BigDecimal A_Ins_Value);
+
+	/** Get Insured Value	  */
+	public BigDecimal getA_Ins_Value();
 
     /** Column name A_Policy_No */
     public static final String COLUMNNAME_A_Policy_No = "A_Policy_No";
@@ -116,27 +137,6 @@ public interface I_A_Asset_Info_Ins
 
 	/** Get Replacement Costs	  */
 	public BigDecimal getA_Replace_Cost();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

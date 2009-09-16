@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Counter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_W_Counter extends PO implements I_W_Counter, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_W_Counter (Properties ctx, int W_Counter_ID, String trxName)
@@ -245,29 +245,6 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		return (String)get_Value(COLUMNNAME_UserAgent);
 	}
 
-	/** Set Web Counter.
-		@param W_Counter_ID 
-		Individual Count hit
-	  */
-	public void setW_Counter_ID (int W_Counter_ID)
-	{
-		if (W_Counter_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, Integer.valueOf(W_Counter_ID));
-	}
-
-	/** Get Web Counter.
-		@return Individual Count hit
-	  */
-	public int getW_Counter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_Counter_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_W_CounterCount getW_CounterCount() throws RuntimeException
     {
 		return (I_W_CounterCount)MTable.get(getCtx(), I_W_CounterCount.Table_Name)
@@ -291,6 +268,29 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	public int getW_CounterCount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_W_CounterCount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Web Counter.
+		@param W_Counter_ID 
+		Individual Count hit
+	  */
+	public void setW_Counter_ID (int W_Counter_ID)
+	{
+		if (W_Counter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_Counter_ID, Integer.valueOf(W_Counter_ID));
+	}
+
+	/** Get Web Counter.
+		@return Individual Count hit
+	  */
+	public int getW_Counter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_Counter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

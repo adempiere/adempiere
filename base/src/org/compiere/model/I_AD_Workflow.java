@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_AD_Workflow 
 {
@@ -436,6 +436,19 @@ public interface I_AD_Workflow
 	/** Get Queuing Time	  */
 	public int getQueuingTime();
 
+    /** Column name SetupTime */
+    public static final String COLUMNNAME_SetupTime = "SetupTime";
+
+	/** Set Setup Time.
+	  * Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime);
+
+	/** Get Setup Time.
+	  * Setup time before starting Production
+	  */
+	public int getSetupTime();
+
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -450,19 +463,6 @@ public interface I_AD_Workflow
 	public int getS_Resource_ID();
 
 	public I_S_Resource getS_Resource() throws RuntimeException;
-
-    /** Column name SetupTime */
-    public static final String COLUMNNAME_SetupTime = "SetupTime";
-
-	/** Set Setup Time.
-	  * Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime);
-
-	/** Get Setup Time.
-	  * Setup time before starting Production
-	  */
-	public int getSetupTime();
 
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";

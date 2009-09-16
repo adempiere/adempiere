@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_AttributeSet
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_AttributeSet (Properties ctx, int M_AttributeSet_ID, String trxName)
@@ -45,8 +45,8 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 			setIsLotMandatory (false);
 			setIsSerNo (false);
 			setIsSerNoMandatory (false);
-			setM_AttributeSet_ID (0);
 			setMandatoryType (null);
+			setM_AttributeSet_ID (0);
 			setName (null);
         } */
     }
@@ -318,6 +318,32 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return (String)get_Value(COLUMNNAME_LotCharSOverwrite);
 	}
 
+	/** MandatoryType AD_Reference_ID=324 */
+	public static final int MANDATORYTYPE_AD_Reference_ID=324;
+	/** Not Mandatary = N */
+	public static final String MANDATORYTYPE_NotMandatary = "N";
+	/** Always Mandatory = Y */
+	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
+	/** When Shipping = S */
+	public static final String MANDATORYTYPE_WhenShipping = "S";
+	/** Set Mandatory Type.
+		@param MandatoryType 
+		The specification of a Product Attribute Instance is mandatory
+	  */
+	public void setMandatoryType (String MandatoryType)
+	{
+
+		set_Value (COLUMNNAME_MandatoryType, MandatoryType);
+	}
+
+	/** Get Mandatory Type.
+		@return The specification of a Product Attribute Instance is mandatory
+	  */
+	public String getMandatoryType () 
+	{
+		return (String)get_Value(COLUMNNAME_MandatoryType);
+	}
+
 	/** Set Attribute Set.
 		@param M_AttributeSet_ID 
 		Product Attribute Set
@@ -395,32 +421,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** MandatoryType AD_Reference_ID=324 */
-	public static final int MANDATORYTYPE_AD_Reference_ID=324;
-	/** Not Mandatary = N */
-	public static final String MANDATORYTYPE_NotMandatary = "N";
-	/** Always Mandatory = Y */
-	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
-	/** When Shipping = S */
-	public static final String MANDATORYTYPE_WhenShipping = "S";
-	/** Set Mandatory Type.
-		@param MandatoryType 
-		The specification of a Product Attribute Instance is mandatory
-	  */
-	public void setMandatoryType (String MandatoryType)
-	{
-
-		set_Value (COLUMNNAME_MandatoryType, MandatoryType);
-	}
-
-	/** Get Mandatory Type.
-		@return The specification of a Product Attribute Instance is mandatory
-	  */
-	public String getMandatoryType () 
-	{
-		return (String)get_Value(COLUMNNAME_MandatoryType);
 	}
 
 	/** Set Name.

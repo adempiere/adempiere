@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Org
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_AD_Org extends PO implements I_AD_Org, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_AD_Org (Properties ctx, int AD_Org_ID, String trxName)
@@ -72,21 +72,32 @@ public class X_AD_Org extends PO implements I_AD_Org, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException
+    {
+		return (I_AD_ReplicationStrategy)MTable.get(getCtx(), I_AD_ReplicationStrategy.Table_Name)
+			.getPO(getAD_ReplicationStrategy_ID(), get_TrxName());	}
+
 	/** Set Replication Strategy.
 		@param AD_ReplicationStrategy_ID 
 		Data Replication Strategy
 	  */
-	public void setAD_ReplicationStrategy_ID (String AD_ReplicationStrategy_ID)
+	public void setAD_ReplicationStrategy_ID (int AD_ReplicationStrategy_ID)
 	{
-		set_Value (COLUMNNAME_AD_ReplicationStrategy_ID, AD_ReplicationStrategy_ID);
+		if (AD_ReplicationStrategy_ID < 1) 
+			set_Value (COLUMNNAME_AD_ReplicationStrategy_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ReplicationStrategy_ID, Integer.valueOf(AD_ReplicationStrategy_ID));
 	}
 
 	/** Get Replication Strategy.
 		@return Data Replication Strategy
 	  */
-	public String getAD_ReplicationStrategy_ID () 
+	public int getAD_ReplicationStrategy_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_AD_ReplicationStrategy_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ReplicationStrategy_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Description.

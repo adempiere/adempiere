@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_RegistrationValue
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_A_RegistrationValue (Properties ctx, int A_RegistrationValue_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
       super (ctx, A_RegistrationValue_ID, trxName);
       /** if (A_RegistrationValue_ID == 0)
         {
-			setA_Registration_ID (0);
 			setA_RegistrationAttribute_ID (0);
+			setA_Registration_ID (0);
 			setName (null);
         } */
     }
@@ -71,34 +71,6 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_A_Registration getA_Registration() throws RuntimeException
-    {
-		return (I_A_Registration)MTable.get(getCtx(), I_A_Registration.Table_Name)
-			.getPO(getA_Registration_ID(), get_TrxName());	}
-
-	/** Set Registration.
-		@param A_Registration_ID 
-		User Asset Registration
-	  */
-	public void setA_Registration_ID (int A_Registration_ID)
-	{
-		if (A_Registration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
-	}
-
-	/** Get Registration.
-		@return User Asset Registration
-	  */
-	public int getA_Registration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException
     {
@@ -135,6 +107,34 @@ public class X_A_RegistrationValue extends PO implements I_A_RegistrationValue, 
     {
         return new KeyNamePair(get_ID(), String.valueOf(getA_RegistrationAttribute_ID()));
     }
+
+	public I_A_Registration getA_Registration() throws RuntimeException
+    {
+		return (I_A_Registration)MTable.get(getCtx(), I_A_Registration.Table_Name)
+			.getPO(getA_Registration_ID(), get_TrxName());	}
+
+	/** Set Registration.
+		@param A_Registration_ID 
+		User Asset Registration
+	  */
+	public void setA_Registration_ID (int A_Registration_ID)
+	{
+		if (A_Registration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_A_Registration_ID, Integer.valueOf(A_Registration_ID));
+	}
+
+	/** Get Registration.
+		@return User Asset Registration
+	  */
+	public int getA_Registration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_A_Registration_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Description.
 		@param Description 

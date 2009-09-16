@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for U_POSTerminal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_U_POSTerminal (Properties ctx, int U_POSTerminal_ID, String trxName)
@@ -40,9 +40,9 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
         {
 			setAutoLock (false);
 // N
+			setCashBookTransferType (null);
 			setC_CashBook_ID (0);
 			setC_CashBPartner_ID (0);
-			setCashBookTransferType (null);
 			setU_POSTerminal_ID (0);
         } */
     }
@@ -97,90 +97,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	public I_C_CashBook getC_CashBook() throws RuntimeException
-    {
-		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
-			.getPO(getC_CashBook_ID(), get_TrxName());	}
-
-	/** Set Cash Book.
-		@param C_CashBook_ID 
-		Cash Book for recording petty cash transactions
-	  */
-	public void setC_CashBook_ID (int C_CashBook_ID)
-	{
-		if (C_CashBook_ID < 1) 
-			set_Value (COLUMNNAME_C_CashBook_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
-	}
-
-	/** Get Cash Book.
-		@return Cash Book for recording petty cash transactions
-	  */
-	public int getC_CashBook_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBook_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BPartner getC_CashBPartner() throws RuntimeException
-    {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
-			.getPO(getC_CashBPartner_ID(), get_TrxName());	}
-
-	/** Set Cash BPartner.
-		@param C_CashBPartner_ID 
-		BPartner to be used for Cash transactions
-	  */
-	public void setC_CashBPartner_ID (int C_CashBPartner_ID)
-	{
-		if (C_CashBPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_CashBPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_CashBPartner_ID, Integer.valueOf(C_CashBPartner_ID));
-	}
-
-	/** Get Cash BPartner.
-		@return BPartner to be used for Cash transactions
-	  */
-	public int getC_CashBPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_BPartner getC_TemplateBPartner() throws RuntimeException
-    {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
-			.getPO(getC_TemplateBPartner_ID(), get_TrxName());	}
-
-	/** Set Template BPartner.
-		@param C_TemplateBPartner_ID 
-		BPartner that is to be used as template when new customers are created
-	  */
-	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID)
-	{
-		if (C_TemplateBPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_TemplateBPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_TemplateBPartner_ID, Integer.valueOf(C_TemplateBPartner_ID));
-	}
-
-	/** Get Template BPartner.
-		@return BPartner that is to be used as template when new customers are created
-	  */
-	public int getC_TemplateBPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_TemplateBPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public I_C_BankAccount getCard_BankAccount() throws RuntimeException
@@ -368,6 +284,62 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_CashBook getC_CashBook() throws RuntimeException
+    {
+		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
+			.getPO(getC_CashBook_ID(), get_TrxName());	}
+
+	/** Set Cash Book.
+		@param C_CashBook_ID 
+		Cash Book for recording petty cash transactions
+	  */
+	public void setC_CashBook_ID (int C_CashBook_ID)
+	{
+		if (C_CashBook_ID < 1) 
+			set_Value (COLUMNNAME_C_CashBook_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CashBook_ID, Integer.valueOf(C_CashBook_ID));
+	}
+
+	/** Get Cash Book.
+		@return Cash Book for recording petty cash transactions
+	  */
+	public int getC_CashBook_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBook_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_BPartner getC_CashBPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_CashBPartner_ID(), get_TrxName());	}
+
+	/** Set Cash BPartner.
+		@param C_CashBPartner_ID 
+		BPartner to be used for Cash transactions
+	  */
+	public void setC_CashBPartner_ID (int C_CashBPartner_ID)
+	{
+		if (C_CashBPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_CashBPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_CashBPartner_ID, Integer.valueOf(C_CashBPartner_ID));
+	}
+
+	/** Get Cash BPartner.
+		@return BPartner to be used for Cash transactions
+	  */
+	public int getC_CashBPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_BankAccount getCheck_BankAccount() throws RuntimeException
     {
 		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
@@ -471,6 +443,34 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 	public String getCheckTransferType () 
 	{
 		return (String)get_Value(COLUMNNAME_CheckTransferType);
+	}
+
+	public I_C_BPartner getC_TemplateBPartner() throws RuntimeException
+    {
+		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+			.getPO(getC_TemplateBPartner_ID(), get_TrxName());	}
+
+	/** Set Template BPartner.
+		@param C_TemplateBPartner_ID 
+		BPartner that is to be used as template when new customers are created
+	  */
+	public void setC_TemplateBPartner_ID (int C_TemplateBPartner_ID)
+	{
+		if (C_TemplateBPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_TemplateBPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_TemplateBPartner_ID, Integer.valueOf(C_TemplateBPartner_ID));
+	}
+
+	/** Get Template BPartner.
+		@return BPartner that is to be used as template when new customers are created
+	  */
+	public int getC_TemplateBPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TemplateBPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -711,6 +711,23 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set UnlockingTime.
+		@param UnlockingTime 
+		Time at which the terminal should be unlocked
+	  */
+	public void setUnlockingTime (Timestamp UnlockingTime)
+	{
+		set_Value (COLUMNNAME_UnlockingTime, UnlockingTime);
+	}
+
+	/** Get UnlockingTime.
+		@return Time at which the terminal should be unlocked
+	  */
+	public Timestamp getUnlockingTime () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_UnlockingTime);
+	}
+
 	/** Set POS Terminal.
 		@param U_POSTerminal_ID POS Terminal	  */
 	public void setU_POSTerminal_ID (int U_POSTerminal_ID)
@@ -729,23 +746,6 @@ public class X_U_POSTerminal extends PO implements I_U_POSTerminal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set UnlockingTime.
-		@param UnlockingTime 
-		Time at which the terminal should be unlocked
-	  */
-	public void setUnlockingTime (Timestamp UnlockingTime)
-	{
-		set_Value (COLUMNNAME_UnlockingTime, UnlockingTime);
-	}
-
-	/** Get UnlockingTime.
-		@return Time at which the terminal should be unlocked
-	  */
-	public Timestamp getUnlockingTime () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_UnlockingTime);
 	}
 
 	/** Set Search Key.

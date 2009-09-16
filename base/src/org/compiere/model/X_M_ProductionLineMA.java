@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductionLineMA
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_ProductionLineMA (Properties ctx, int M_ProductionLineMA_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
       /** if (M_ProductionLineMA_ID == 0)
         {
 			setM_AttributeSetInstance_ID (0);
-			setM_ProductionLine_ID (0);
 			setMovementQty (Env.ZERO);
+			setM_ProductionLine_ID (0);
         } */
     }
 
@@ -102,6 +102,26 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
 		return ii.intValue();
 	}
 
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty)
+	{
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
+	}
+
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException
     {
 		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
@@ -137,24 +157,4 @@ public class X_M_ProductionLineMA extends PO implements I_M_ProductionLineMA, I_
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_ProductionLine_ID()));
     }
-
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty)
-	{
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
-	}
-
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
 }

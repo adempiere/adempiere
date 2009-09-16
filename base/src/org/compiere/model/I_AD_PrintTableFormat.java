@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintTableFormat
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_AD_PrintTableFormat 
 {
@@ -158,21 +158,6 @@ public interface I_AD_PrintTableFormat
 	  */
 	public String getFooterRight();
 
-    /** Column name Funct_PrintFont_ID */
-    public static final String COLUMNNAME_Funct_PrintFont_ID = "Funct_PrintFont_ID";
-
-	/** Set Function Font.
-	  * Function row Font
-	  */
-	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID);
-
-	/** Get Function Font.
-	  * Function row Font
-	  */
-	public int getFunct_PrintFont_ID();
-
-	public I_AD_PrintFont getFunct_PrintFont() throws RuntimeException;
-
     /** Column name FunctBG_PrintColor_ID */
     public static final String COLUMNNAME_FunctBG_PrintColor_ID = "FunctBG_PrintColor_ID";
 
@@ -203,20 +188,20 @@ public interface I_AD_PrintTableFormat
 
 	public I_AD_PrintColor getFunctFG_PrintColor() throws RuntimeException;
 
-    /** Column name Hdr_PrintFont_ID */
-    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
+    /** Column name Funct_PrintFont_ID */
+    public static final String COLUMNNAME_Funct_PrintFont_ID = "Funct_PrintFont_ID";
 
-	/** Set Header Row Font.
-	  * Header row Font
+	/** Set Function Font.
+	  * Function row Font
 	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
+	public void setFunct_PrintFont_ID (int Funct_PrintFont_ID);
 
-	/** Get Header Row Font.
-	  * Header row Font
+	/** Get Function Font.
+	  * Function row Font
 	  */
-	public int getHdr_PrintFont_ID();
+	public int getFunct_PrintFont_ID();
 
-	public I_AD_PrintFont getHdr_PrintFont() throws RuntimeException;
+	public I_AD_PrintFont getFunct_PrintFont() throws RuntimeException;
 
     /** Column name HdrLine_PrintColor_ID */
     public static final String COLUMNNAME_HdrLine_PrintColor_ID = "HdrLine_PrintColor_ID";
@@ -232,6 +217,21 @@ public interface I_AD_PrintTableFormat
 	public int getHdrLine_PrintColor_ID();
 
 	public I_AD_PrintColor getHdrLine_PrintColor() throws RuntimeException;
+
+    /** Column name Hdr_PrintFont_ID */
+    public static final String COLUMNNAME_Hdr_PrintFont_ID = "Hdr_PrintFont_ID";
+
+	/** Set Header Row Font.
+	  * Header row Font
+	  */
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID);
+
+	/** Get Header Row Font.
+	  * Header row Font
+	  */
+	public int getHdr_PrintFont_ID();
+
+	public I_AD_PrintFont getHdr_PrintFont() throws RuntimeException;
 
     /** Column name HdrStroke */
     public static final String COLUMNNAME_HdrStroke = "HdrStroke";

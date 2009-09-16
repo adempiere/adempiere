@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_R_RequestProcessor 
 {
@@ -230,6 +230,19 @@ public interface I_R_RequestProcessor
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name RemindDays */
+    public static final String COLUMNNAME_RemindDays = "RemindDays";
+
+	/** Set Reminder Days.
+	  * Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public void setRemindDays (int RemindDays);
+
+	/** Get Reminder Days.
+	  * Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public int getRemindDays();
+
     /** Column name R_RequestProcessor_ID */
     public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
 
@@ -257,19 +270,6 @@ public interface I_R_RequestProcessor
 	public int getR_RequestType_ID();
 
 	public I_R_RequestType getR_RequestType() throws RuntimeException;
-
-    /** Column name RemindDays */
-    public static final String COLUMNNAME_RemindDays = "RemindDays";
-
-	/** Set Reminder Days.
-	  * Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public void setRemindDays (int RemindDays);
-
-	/** Get Reminder Days.
-	  * Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public int getRemindDays();
 
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";

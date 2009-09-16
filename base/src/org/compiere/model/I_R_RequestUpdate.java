@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_R_RequestUpdate 
 {
@@ -158,6 +158,19 @@ public interface I_R_RequestUpdate
 	  */
 	public BigDecimal getQtySpent();
 
+    /** Column name Result */
+    public static final String COLUMNNAME_Result = "Result";
+
+	/** Set Result.
+	  * Result of the action taken
+	  */
+	public void setResult (String Result);
+
+	/** Get Result.
+	  * Result of the action taken
+	  */
+	public String getResult();
+
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 
@@ -185,19 +198,6 @@ public interface I_R_RequestUpdate
 	  * Request Updates
 	  */
 	public int getR_RequestUpdate_ID();
-
-    /** Column name Result */
-    public static final String COLUMNNAME_Result = "Result";
-
-	/** Set Result.
-	  * Result of the action taken
-	  */
-	public void setResult (String Result);
-
-	/** Get Result.
-	  * Result of the action taken
-	  */
-	public String getResult();
 
     /** Column name StartTime */
     public static final String COLUMNNAME_StartTime = "StartTime";

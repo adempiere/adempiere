@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_BOMProduct (Properties ctx, int M_BOMProduct_ID, String trxName)
@@ -265,34 +265,6 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_BOM getM_BOM() throws RuntimeException
-    {
-		return (I_M_BOM)MTable.get(getCtx(), I_M_BOM.Table_Name)
-			.getPO(getM_BOM_ID(), get_TrxName());	}
-
-	/** Set BOM.
-		@param M_BOM_ID 
-		Bill of Material
-	  */
-	public void setM_BOM_ID (int M_BOM_ID)
-	{
-		if (M_BOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
-	}
-
-	/** Get BOM.
-		@return Bill of Material
-	  */
-	public int getM_BOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException
     {
 		return (I_M_BOMAlternative)MTable.get(getCtx(), I_M_BOMAlternative.Table_Name)
@@ -316,6 +288,34 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	public int getM_BOMAlternative_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOMAlternative_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_BOM getM_BOM() throws RuntimeException
+    {
+		return (I_M_BOM)MTable.get(getCtx(), I_M_BOM.Table_Name)
+			.getPO(getM_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM.
+		@param M_BOM_ID 
+		Bill of Material
+	  */
+	public void setM_BOM_ID (int M_BOM_ID)
+	{
+		if (M_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
+	}
+
+	/** Get BOM.
+		@return Bill of Material
+	  */
+	public int getM_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOM_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

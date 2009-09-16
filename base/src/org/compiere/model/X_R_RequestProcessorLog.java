@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_R_RequestProcessorLog (Properties ctx, int R_RequestProcessorLog_ID, String trxName)
@@ -129,6 +129,23 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		return false;
 	}
 
+	/** Set Reference.
+		@param Reference 
+		Reference for this record
+	  */
+	public void setReference (String Reference)
+	{
+		set_Value (COLUMNNAME_Reference, Reference);
+	}
+
+	/** Get Reference.
+		@return Reference for this record
+	  */
+	public String getReference () 
+	{
+		return (String)get_Value(COLUMNNAME_Reference);
+	}
+
 	public I_R_RequestProcessor getR_RequestProcessor() throws RuntimeException
     {
 		return (I_R_RequestProcessor)MTable.get(getCtx(), I_R_RequestProcessor.Table_Name)
@@ -178,23 +195,6 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Reference.
-		@param Reference 
-		Reference for this record
-	  */
-	public void setReference (String Reference)
-	{
-		set_Value (COLUMNNAME_Reference, Reference);
-	}
-
-	/** Get Reference.
-		@return Reference for this record
-	  */
-	public String getReference () 
-	{
-		return (String)get_Value(COLUMNNAME_Reference);
 	}
 
 	/** Set Summary.

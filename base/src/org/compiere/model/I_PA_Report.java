@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Report
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_PA_Report 
 {
@@ -212,19 +212,6 @@ public interface I_PA_Report
 	  */
 	public String getName();
 
-    /** Column name PA_Report_ID */
-    public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
-
-	/** Set Financial Report.
-	  * Financial Report
-	  */
-	public void setPA_Report_ID (int PA_Report_ID);
-
-	/** Get Financial Report.
-	  * Financial Report
-	  */
-	public int getPA_Report_ID();
-
     /** Column name PA_ReportColumnSet_ID */
     public static final String COLUMNNAME_PA_ReportColumnSet_ID = "PA_ReportColumnSet_ID";
 
@@ -254,6 +241,19 @@ public interface I_PA_Report
 	public int getPA_ReportCube_ID();
 
 	public I_PA_ReportCube getPA_ReportCube() throws RuntimeException;
+
+    /** Column name PA_Report_ID */
+    public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
+
+	/** Set Financial Report.
+	  * Financial Report
+	  */
+	public void setPA_Report_ID (int PA_Report_ID);
+
+	/** Get Financial Report.
+	  * Financial Report
+	  */
+	public int getPA_Report_ID();
 
     /** Column name PA_ReportLineSet_ID */
     public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DocTypeCounter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_DocTypeCounter 
 {
@@ -62,6 +62,19 @@ public interface I_C_DocTypeCounter
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_DocTypeCounter_ID */
+    public static final String COLUMNNAME_C_DocTypeCounter_ID = "C_DocTypeCounter_ID";
+
+	/** Set Counter Document.
+	  * Counter Document Relationship
+	  */
+	public void setC_DocTypeCounter_ID (int C_DocTypeCounter_ID);
+
+	/** Get Counter Document.
+	  * Counter Document Relationship
+	  */
+	public int getC_DocTypeCounter_ID();
+
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
 
@@ -76,19 +89,6 @@ public interface I_C_DocTypeCounter
 	public int getC_DocType_ID();
 
 	public I_C_DocType getC_DocType() throws RuntimeException;
-
-    /** Column name C_DocTypeCounter_ID */
-    public static final String COLUMNNAME_C_DocTypeCounter_ID = "C_DocTypeCounter_ID";
-
-	/** Set Counter Document.
-	  * Counter Document Relationship
-	  */
-	public void setC_DocTypeCounter_ID (int C_DocTypeCounter_ID);
-
-	/** Get Counter Document.
-	  * Counter Document Relationship
-	  */
-	public int getC_DocTypeCounter_ID();
 
     /** Column name Counter_C_DocType_ID */
     public static final String COLUMNNAME_Counter_C_DocType_ID = "Counter_C_DocType_ID";

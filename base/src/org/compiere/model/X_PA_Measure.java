@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Measure
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_PA_Measure (Properties ctx, int PA_Measure_ID, String trxName)
@@ -77,6 +77,23 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
       return sb.toString();
     }
 
+	/** Set Calculation Class.
+		@param CalculationClass 
+		Java Class for calculation, implementing Interface Measure
+	  */
+	public void setCalculationClass (String CalculationClass)
+	{
+		set_Value (COLUMNNAME_CalculationClass, CalculationClass);
+	}
+
+	/** Get Calculation Class.
+		@return Java Class for calculation, implementing Interface Measure
+	  */
+	public String getCalculationClass () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationClass);
+	}
+
 	public I_C_ProjectType getC_ProjectType() throws RuntimeException
     {
 		return (I_C_ProjectType)MTable.get(getCtx(), I_C_ProjectType.Table_Name)
@@ -103,23 +120,6 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Calculation Class.
-		@param CalculationClass 
-		Java Class for calculation, implementing Interface Measure
-	  */
-	public void setCalculationClass (String CalculationClass)
-	{
-		set_Value (COLUMNNAME_CalculationClass, CalculationClass);
-	}
-
-	/** Get Calculation Class.
-		@return Java Class for calculation, implementing Interface Measure
-	  */
-	public String getCalculationClass () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationClass);
 	}
 
 	/** Set Description.
@@ -315,29 +315,6 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Measure.
-		@param PA_Measure_ID 
-		Concrete Performance Measurement
-	  */
-	public void setPA_Measure_ID (int PA_Measure_ID)
-	{
-		if (PA_Measure_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
-	}
-
-	/** Get Measure.
-		@return Concrete Performance Measurement
-	  */
-	public int getPA_Measure_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Measure_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException
     {
 		return (I_PA_MeasureCalc)MTable.get(getCtx(), I_PA_MeasureCalc.Table_Name)
@@ -361,6 +338,29 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	public int getPA_MeasureCalc_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_MeasureCalc_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Measure.
+		@param PA_Measure_ID 
+		Concrete Performance Measurement
+	  */
+	public void setPA_Measure_ID (int PA_Measure_ID)
+	{
+		if (PA_Measure_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Measure_ID, Integer.valueOf(PA_Measure_ID));
+	}
+
+	/** Get Measure.
+		@return Concrete Performance Measurement
+	  */
+	public int getPA_Measure_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Measure_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

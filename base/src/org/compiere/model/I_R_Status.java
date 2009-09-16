@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_Status
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_R_Status 
 {
@@ -210,19 +210,6 @@ public interface I_R_Status
 
 	public I_R_Status getNext_Status() throws RuntimeException;
 
-    /** Column name R_Status_ID */
-    public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
-
-	/** Set Status.
-	  * Request Status
-	  */
-	public void setR_Status_ID (int R_Status_ID);
-
-	/** Get Status.
-	  * Request Status
-	  */
-	public int getR_Status_ID();
-
     /** Column name R_StatusCategory_ID */
     public static final String COLUMNNAME_R_StatusCategory_ID = "R_StatusCategory_ID";
 
@@ -237,6 +224,19 @@ public interface I_R_Status
 	public int getR_StatusCategory_ID();
 
 	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException;
+
+    /** Column name R_Status_ID */
+    public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
+
+	/** Set Status.
+	  * Request Status
+	  */
+	public void setR_Status_ID (int R_Status_ID);
+
+	/** Get Status.
+	  * Request Status
+	  */
+	public int getR_Status_ID();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -266,21 +266,6 @@ public interface I_R_Status
 	  */
 	public int getTimeoutDays();
 
-    /** Column name Update_Status_ID */
-    public static final String COLUMNNAME_Update_Status_ID = "Update_Status_ID";
-
-	/** Set Update Status.
-	  * Automatically change the status after entry from web
-	  */
-	public void setUpdate_Status_ID (int Update_Status_ID);
-
-	/** Get Update Status.
-	  * Automatically change the status after entry from web
-	  */
-	public int getUpdate_Status_ID();
-
-	public I_R_Status getUpdate_Status() throws RuntimeException;
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -296,6 +281,21 @@ public interface I_R_Status
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name Update_Status_ID */
+    public static final String COLUMNNAME_Update_Status_ID = "Update_Status_ID";
+
+	/** Set Update Status.
+	  * Automatically change the status after entry from web
+	  */
+	public void setUpdate_Status_ID (int Update_Status_ID);
+
+	/** Get Update Status.
+	  * Automatically change the status after entry from web
+	  */
+	public int getUpdate_Status_ID();
+
+	public I_R_Status getUpdate_Status() throws RuntimeException;
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

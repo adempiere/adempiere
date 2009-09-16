@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Cash
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_Cash extends PO implements I_C_Cash, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_Cash (Properties ctx, int C_Cash_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
       /** if (C_Cash_ID == 0)
         {
 			setBeginningBalance (Env.ZERO);
-			setC_Cash_ID (0);
 			setC_CashBook_ID (0);
+			setC_Cash_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDocAction (null);
@@ -189,29 +189,6 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Cash Journal.
-		@param C_Cash_ID 
-		Cash Journal
-	  */
-	public void setC_Cash_ID (int C_Cash_ID)
-	{
-		if (C_Cash_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Cash_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Cash_ID, Integer.valueOf(C_Cash_ID));
-	}
-
-	/** Get Cash Journal.
-		@return Cash Journal
-	  */
-	public int getC_Cash_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Cash_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_CashBook getC_CashBook() throws RuntimeException
     {
 		return (I_C_CashBook)MTable.get(getCtx(), I_C_CashBook.Table_Name)
@@ -235,6 +212,29 @@ public class X_C_Cash extends PO implements I_C_Cash, I_Persistent
 	public int getC_CashBook_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_CashBook_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Cash Journal.
+		@param C_Cash_ID 
+		Cash Journal
+	  */
+	public void setC_Cash_ID (int C_Cash_ID)
+	{
+		if (C_Cash_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Cash_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Cash_ID, Integer.valueOf(C_Cash_ID));
+	}
+
+	/** Get Cash Journal.
+		@return Cash Journal
+	  */
+	public int getC_Cash_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Cash_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

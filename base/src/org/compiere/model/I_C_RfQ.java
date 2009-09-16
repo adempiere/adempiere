@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQ
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_RfQ 
 {
@@ -122,6 +122,15 @@ public interface I_C_RfQ
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name CopyLines */
+    public static final String COLUMNNAME_CopyLines = "CopyLines";
+
+	/** Set Copy Lines	  */
+	public void setCopyLines (String CopyLines);
+
+	/** Get Copy Lines	  */
+	public String getCopyLines();
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -136,43 +145,6 @@ public interface I_C_RfQ
 	public int getC_Order_ID();
 
 	public I_C_Order getC_Order() throws RuntimeException;
-
-    /** Column name C_RfQ_ID */
-    public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
-
-	/** Set RfQ.
-	  * Request for Quotation
-	  */
-	public void setC_RfQ_ID (int C_RfQ_ID);
-
-	/** Get RfQ.
-	  * Request for Quotation
-	  */
-	public int getC_RfQ_ID();
-
-    /** Column name C_RfQ_Topic_ID */
-    public static final String COLUMNNAME_C_RfQ_Topic_ID = "C_RfQ_Topic_ID";
-
-	/** Set RfQ Topic.
-	  * Topic for Request for Quotations
-	  */
-	public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID);
-
-	/** Get RfQ Topic.
-	  * Topic for Request for Quotations
-	  */
-	public int getC_RfQ_Topic_ID();
-
-	public I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException;
-
-    /** Column name CopyLines */
-    public static final String COLUMNNAME_CopyLines = "CopyLines";
-
-	/** Set Copy Lines	  */
-	public void setCopyLines (String CopyLines);
-
-	/** Get Copy Lines	  */
-	public String getCopyLines();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -211,6 +183,34 @@ public interface I_C_RfQ
 
 	/** Get Create SO	  */
 	public String getCreateSO();
+
+    /** Column name C_RfQ_ID */
+    public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
+
+	/** Set RfQ.
+	  * Request for Quotation
+	  */
+	public void setC_RfQ_ID (int C_RfQ_ID);
+
+	/** Get RfQ.
+	  * Request for Quotation
+	  */
+	public int getC_RfQ_ID();
+
+    /** Column name C_RfQ_Topic_ID */
+    public static final String COLUMNNAME_C_RfQ_Topic_ID = "C_RfQ_Topic_ID";
+
+	/** Set RfQ Topic.
+	  * Topic for Request for Quotations
+	  */
+	public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID);
+
+	/** Get RfQ Topic.
+	  * Topic for Request for Quotations
+	  */
+	public int getC_RfQ_Topic_ID();
+
+	public I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException;
 
     /** Column name DateResponse */
     public static final String COLUMNNAME_DateResponse = "DateResponse";

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_CM_ChatEntry (Properties ctx, int CM_ChatEntry_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 			setCharacterData (null);
 			setChatEntryType (null);
 // N
-			setCM_Chat_ID (0);
 			setCM_ChatEntry_ID (0);
+			setCM_Chat_ID (0);
 			setConfidentialType (null);
         } */
     }
@@ -146,29 +146,29 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 		return (String)get_Value(COLUMNNAME_ChatEntryType);
 	}
 
-	public I_CM_Chat getCM_Chat() throws RuntimeException
+	public I_CM_ChatEntry getCM_ChatEntryGrandParent() throws RuntimeException
     {
-		return (I_CM_Chat)MTable.get(getCtx(), I_CM_Chat.Table_Name)
-			.getPO(getCM_Chat_ID(), get_TrxName());	}
+		return (I_CM_ChatEntry)MTable.get(getCtx(), I_CM_ChatEntry.Table_Name)
+			.getPO(getCM_ChatEntryGrandParent_ID(), get_TrxName());	}
 
-	/** Set Chat.
-		@param CM_Chat_ID 
-		Chat or discussion thread
+	/** Set Chat Entry Grandparent.
+		@param CM_ChatEntryGrandParent_ID 
+		Link to Grand Parent (root level)
 	  */
-	public void setCM_Chat_ID (int CM_Chat_ID)
+	public void setCM_ChatEntryGrandParent_ID (int CM_ChatEntryGrandParent_ID)
 	{
-		if (CM_Chat_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, null);
+		if (CM_ChatEntryGrandParent_ID < 1) 
+			set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
+			set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, Integer.valueOf(CM_ChatEntryGrandParent_ID));
 	}
 
-	/** Get Chat.
-		@return Chat or discussion thread
+	/** Get Chat Entry Grandparent.
+		@return Link to Grand Parent (root level)
 	  */
-	public int getCM_Chat_ID () 
+	public int getCM_ChatEntryGrandParent_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Chat_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatEntryGrandParent_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -205,34 +205,6 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getCM_ChatEntry_ID()));
     }
 
-	public I_CM_ChatEntry getCM_ChatEntryGrandParent() throws RuntimeException
-    {
-		return (I_CM_ChatEntry)MTable.get(getCtx(), I_CM_ChatEntry.Table_Name)
-			.getPO(getCM_ChatEntryGrandParent_ID(), get_TrxName());	}
-
-	/** Set Chat Entry Grandparent.
-		@param CM_ChatEntryGrandParent_ID 
-		Link to Grand Parent (root level)
-	  */
-	public void setCM_ChatEntryGrandParent_ID (int CM_ChatEntryGrandParent_ID)
-	{
-		if (CM_ChatEntryGrandParent_ID < 1) 
-			set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, null);
-		else 
-			set_Value (COLUMNNAME_CM_ChatEntryGrandParent_ID, Integer.valueOf(CM_ChatEntryGrandParent_ID));
-	}
-
-	/** Get Chat Entry Grandparent.
-		@return Link to Grand Parent (root level)
-	  */
-	public int getCM_ChatEntryGrandParent_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatEntryGrandParent_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_CM_ChatEntry getCM_ChatEntryParent() throws RuntimeException
     {
 		return (I_CM_ChatEntry)MTable.get(getCtx(), I_CM_ChatEntry.Table_Name)
@@ -256,6 +228,34 @@ public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent
 	public int getCM_ChatEntryParent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatEntryParent_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_CM_Chat getCM_Chat() throws RuntimeException
+    {
+		return (I_CM_Chat)MTable.get(getCtx(), I_CM_Chat.Table_Name)
+			.getPO(getCM_Chat_ID(), get_TrxName());	}
+
+	/** Set Chat.
+		@param CM_Chat_ID 
+		Chat or discussion thread
+	  */
+	public void setCM_Chat_ID (int CM_Chat_ID)
+	{
+		if (CM_Chat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
+	}
+
+	/** Get Chat.
+		@return Chat or discussion thread
+	  */
+	public int getCM_Chat_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Chat_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

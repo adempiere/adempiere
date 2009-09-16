@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Remuneration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_Remuneration 
 {
@@ -62,19 +62,6 @@ public interface I_C_Remuneration
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Remuneration_ID */
-    public static final String COLUMNNAME_C_Remuneration_ID = "C_Remuneration_ID";
-
-	/** Set Remuneration.
-	  * Wage or Salary
-	  */
-	public void setC_Remuneration_ID (int C_Remuneration_ID);
-
-	/** Get Remuneration.
-	  * Wage or Salary
-	  */
-	public int getC_Remuneration_ID();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -90,6 +77,19 @@ public interface I_C_Remuneration
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_Remuneration_ID */
+    public static final String COLUMNNAME_C_Remuneration_ID = "C_Remuneration_ID";
+
+	/** Set Remuneration.
+	  * Wage or Salary
+	  */
+	public void setC_Remuneration_ID (int C_Remuneration_ID);
+
+	/** Get Remuneration.
+	  * Wage or Salary
+	  */
+	public int getC_Remuneration_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

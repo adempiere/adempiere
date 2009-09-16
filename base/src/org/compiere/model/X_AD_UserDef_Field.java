@@ -17,22 +17,20 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserDef_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_AD_UserDef_Field (Properties ctx, int AD_UserDef_Field_ID, String trxName)
@@ -80,21 +78,10 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Field getAD_Field() throws RuntimeException 
+	public I_AD_Field getAD_Field() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Field.Table_Name);
-        I_AD_Field result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Field)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Field_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_Field)MTable.get(getCtx(), I_AD_Field.Table_Name)
+			.getPO(getAD_Field_ID(), get_TrxName());	}
 
 	/** Set Field.
 		@param AD_Field_ID 
@@ -139,21 +126,10 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_UserDef_Tab getAD_UserDef_Tab() throws RuntimeException 
+	public I_AD_UserDef_Tab getAD_UserDef_Tab() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_UserDef_Tab.Table_Name);
-        I_AD_UserDef_Tab result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_UserDef_Tab)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_UserDef_Tab_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw new RuntimeException( e );
-        }
-        return result;
-    }
+		return (I_AD_UserDef_Tab)MTable.get(getCtx(), I_AD_UserDef_Tab.Table_Name)
+			.getPO(getAD_UserDef_Tab_ID(), get_TrxName());	}
 
 	/** Set User defined Tab.
 		@param AD_UserDef_Tab_ID User defined Tab	  */

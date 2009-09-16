@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_CM_ChatEntry 
 {
@@ -103,34 +103,6 @@ public interface I_CM_ChatEntry
 	  */
 	public String getChatEntryType();
 
-    /** Column name CM_Chat_ID */
-    public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";
-
-	/** Set Chat.
-	  * Chat or discussion thread
-	  */
-	public void setCM_Chat_ID (int CM_Chat_ID);
-
-	/** Get Chat.
-	  * Chat or discussion thread
-	  */
-	public int getCM_Chat_ID();
-
-	public I_CM_Chat getCM_Chat() throws RuntimeException;
-
-    /** Column name CM_ChatEntry_ID */
-    public static final String COLUMNNAME_CM_ChatEntry_ID = "CM_ChatEntry_ID";
-
-	/** Set Chat Entry.
-	  * Individual Chat / Discussion Entry
-	  */
-	public void setCM_ChatEntry_ID (int CM_ChatEntry_ID);
-
-	/** Get Chat Entry.
-	  * Individual Chat / Discussion Entry
-	  */
-	public int getCM_ChatEntry_ID();
-
     /** Column name CM_ChatEntryGrandParent_ID */
     public static final String COLUMNNAME_CM_ChatEntryGrandParent_ID = "CM_ChatEntryGrandParent_ID";
 
@@ -146,6 +118,19 @@ public interface I_CM_ChatEntry
 
 	public I_CM_ChatEntry getCM_ChatEntryGrandParent() throws RuntimeException;
 
+    /** Column name CM_ChatEntry_ID */
+    public static final String COLUMNNAME_CM_ChatEntry_ID = "CM_ChatEntry_ID";
+
+	/** Set Chat Entry.
+	  * Individual Chat / Discussion Entry
+	  */
+	public void setCM_ChatEntry_ID (int CM_ChatEntry_ID);
+
+	/** Get Chat Entry.
+	  * Individual Chat / Discussion Entry
+	  */
+	public int getCM_ChatEntry_ID();
+
     /** Column name CM_ChatEntryParent_ID */
     public static final String COLUMNNAME_CM_ChatEntryParent_ID = "CM_ChatEntryParent_ID";
 
@@ -160,6 +145,21 @@ public interface I_CM_ChatEntry
 	public int getCM_ChatEntryParent_ID();
 
 	public I_CM_ChatEntry getCM_ChatEntryParent() throws RuntimeException;
+
+    /** Column name CM_Chat_ID */
+    public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";
+
+	/** Set Chat.
+	  * Chat or discussion thread
+	  */
+	public void setCM_Chat_ID (int CM_Chat_ID);
+
+	/** Get Chat.
+	  * Chat or discussion thread
+	  */
+	public int getCM_Chat_ID();
+
+	public I_CM_Chat getCM_Chat() throws RuntimeException;
 
     /** Column name ConfidentialType */
     public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";

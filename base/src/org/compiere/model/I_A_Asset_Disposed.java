@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Disposed
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_A_Asset_Disposed 
 {
@@ -74,6 +74,14 @@ public interface I_A_Asset_Disposed
 
 	public I_A_Asset getA_Asset_Trade() throws RuntimeException;
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
     /** Column name A_Disposed_Date */
     public static final String COLUMNNAME_A_Disposed_Date = "A_Disposed_Date";
 
@@ -101,23 +109,6 @@ public interface I_A_Asset_Disposed
 	/** Get Disposed Reason Code	  */
 	public String getA_Disposed_Reason();
 
-    /** Column name A_Proceeds */
-    public static final String COLUMNNAME_A_Proceeds = "A_Proceeds";
-
-	/** Set A_Proceeds	  */
-	public void setA_Proceeds (BigDecimal A_Proceeds);
-
-	/** Get A_Proceeds	  */
-	public BigDecimal getA_Proceeds();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -130,6 +121,15 @@ public interface I_A_Asset_Disposed
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Proceeds */
+    public static final String COLUMNNAME_A_Proceeds = "A_Proceeds";
+
+	/** Set A_Proceeds	  */
+	public void setA_Proceeds (BigDecimal A_Proceeds);
+
+	/** Get A_Proceeds	  */
+	public BigDecimal getA_Proceeds();
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";

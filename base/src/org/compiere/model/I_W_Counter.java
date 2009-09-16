@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Counter
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_W_Counter 
 {
@@ -220,19 +220,6 @@ public interface I_W_Counter
 	  */
 	public String getUserAgent();
 
-    /** Column name W_Counter_ID */
-    public static final String COLUMNNAME_W_Counter_ID = "W_Counter_ID";
-
-	/** Set Web Counter.
-	  * Individual Count hit
-	  */
-	public void setW_Counter_ID (int W_Counter_ID);
-
-	/** Get Web Counter.
-	  * Individual Count hit
-	  */
-	public int getW_Counter_ID();
-
     /** Column name W_CounterCount_ID */
     public static final String COLUMNNAME_W_CounterCount_ID = "W_CounterCount_ID";
 
@@ -247,4 +234,17 @@ public interface I_W_Counter
 	public int getW_CounterCount_ID();
 
 	public I_W_CounterCount getW_CounterCount() throws RuntimeException;
+
+    /** Column name W_Counter_ID */
+    public static final String COLUMNNAME_W_Counter_ID = "W_Counter_ID";
+
+	/** Set Web Counter.
+	  * Individual Count hit
+	  */
+	public void setW_Counter_ID (int W_Counter_ID);
+
+	/** Get Web Counter.
+	  * Individual Count hit
+	  */
+	public int getW_Counter_ID();
 }

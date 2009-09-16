@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for C_TaxDeclarationAcct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_TaxDeclarationAcct (Properties ctx, int C_TaxDeclarationAcct_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
       /** if (C_TaxDeclarationAcct_ID == 0)
         {
 			setC_AcctSchema_ID (0);
-			setC_TaxDeclaration_ID (0);
 			setC_TaxDeclarationAcct_ID (0);
+			setC_TaxDeclaration_ID (0);
 			setFact_Acct_ID (0);
         } */
     }
@@ -251,25 +251,24 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws RuntimeException
-    {
-		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
-			.getPO(getC_Tax_ID(), get_TrxName());	}
-
-	/** Set Tax.
-		@param C_Tax_ID 
-		Tax identifier
+	/** Set Tax Declaration Accounting.
+		@param C_TaxDeclarationAcct_ID 
+		Tax Accounting Reconciliation 
 	  */
-	public void setC_Tax_ID (int C_Tax_ID)
+	public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID)
 	{
-		throw new IllegalArgumentException ("C_Tax_ID is virtual column");	}
+		if (C_TaxDeclarationAcct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, Integer.valueOf(C_TaxDeclarationAcct_ID));
+	}
 
-	/** Get Tax.
-		@return Tax identifier
+	/** Get Tax Declaration Accounting.
+		@return Tax Accounting Reconciliation 
 	  */
-	public int getC_Tax_ID () 
+	public int getC_TaxDeclarationAcct_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclarationAcct_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -303,24 +302,25 @@ public class X_C_TaxDeclarationAcct extends PO implements I_C_TaxDeclarationAcct
 		return ii.intValue();
 	}
 
-	/** Set Tax Declaration Accounting.
-		@param C_TaxDeclarationAcct_ID 
-		Tax Accounting Reconciliation 
-	  */
-	public void setC_TaxDeclarationAcct_ID (int C_TaxDeclarationAcct_ID)
-	{
-		if (C_TaxDeclarationAcct_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_TaxDeclarationAcct_ID, Integer.valueOf(C_TaxDeclarationAcct_ID));
-	}
+	public I_C_Tax getC_Tax() throws RuntimeException
+    {
+		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
+			.getPO(getC_Tax_ID(), get_TrxName());	}
 
-	/** Get Tax Declaration Accounting.
-		@return Tax Accounting Reconciliation 
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
 	  */
-	public int getC_TaxDeclarationAcct_ID () 
+	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxDeclarationAcct_ID);
+		throw new IllegalArgumentException ("C_Tax_ID is virtual column");	}
+
+	/** Get Tax.
+		@return Tax identifier
+	  */
+	public int getC_Tax_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

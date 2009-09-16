@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutLineConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_InOutLineConfirm (Properties ctx, int M_InOutLineConfirm_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
         {
 			setConfirmedQty (Env.ZERO);
 			setM_InOutConfirm_ID (0);
-			setM_InOutLine_ID (0);
 			setM_InOutLineConfirm_ID (0);
+			setM_InOutLine_ID (0);
 			setProcessed (false);
 			setTargetQty (Env.ZERO);
         } */
@@ -207,6 +207,29 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
 		return ii.intValue();
 	}
 
+	/** Set Ship/Receipt Confirmation Line.
+		@param M_InOutLineConfirm_ID 
+		Material Shipment or Receipt Confirmation Line
+	  */
+	public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID)
+	{
+		if (M_InOutLineConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLineConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutLineConfirm_ID, Integer.valueOf(M_InOutLineConfirm_ID));
+	}
+
+	/** Get Ship/Receipt Confirmation Line.
+		@return Material Shipment or Receipt Confirmation Line
+	  */
+	public int getM_InOutLineConfirm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLineConfirm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
 		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
@@ -242,29 +265,6 @@ public class X_M_InOutLineConfirm extends PO implements I_M_InOutLineConfirm, I_
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_InOutLine_ID()));
     }
-
-	/** Set Ship/Receipt Confirmation Line.
-		@param M_InOutLineConfirm_ID 
-		Material Shipment or Receipt Confirmation Line
-	  */
-	public void setM_InOutLineConfirm_ID (int M_InOutLineConfirm_ID)
-	{
-		if (M_InOutLineConfirm_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_InOutLineConfirm_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_InOutLineConfirm_ID, Integer.valueOf(M_InOutLineConfirm_ID));
-	}
-
-	/** Get Ship/Receipt Confirmation Line.
-		@return Material Shipment or Receipt Confirmation Line
-	  */
-	public int getM_InOutLineConfirm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLineConfirm_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException
     {

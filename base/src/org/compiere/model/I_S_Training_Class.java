@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for S_Training_Class
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_S_Training_Class 
 {
@@ -119,6 +119,19 @@ public interface I_S_Training_Class
 
 	public I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name StartDate */
+    public static final String COLUMNNAME_StartDate = "StartDate";
+
+	/** Set Start Date.
+	  * First effective day (inclusive)
+	  */
+	public void setStartDate (Timestamp StartDate);
+
+	/** Get Start Date.
+	  * First effective day (inclusive)
+	  */
+	public Timestamp getStartDate();
+
     /** Column name S_Training_Class_ID */
     public static final String COLUMNNAME_S_Training_Class_ID = "S_Training_Class_ID";
 
@@ -146,19 +159,6 @@ public interface I_S_Training_Class
 	public int getS_Training_ID();
 
 	public I_S_Training getS_Training() throws RuntimeException;
-
-    /** Column name StartDate */
-    public static final String COLUMNNAME_StartDate = "StartDate";
-
-	/** Set Start Date.
-	  * First effective day (inclusive)
-	  */
-	public void setStartDate (Timestamp StartDate);
-
-	/** Get Start Date.
-	  * First effective day (inclusive)
-	  */
-	public Timestamp getStartDate();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

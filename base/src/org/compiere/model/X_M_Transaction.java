@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_Transaction extends PO implements I_M_Transaction, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_Transaction (Properties ctx, int M_Transaction_ID, String trxName)
@@ -43,11 +43,11 @@ public class X_M_Transaction extends PO implements I_M_Transaction, I_Persistent
         {
 			setM_AttributeSetInstance_ID (0);
 			setM_Locator_ID (0);
-			setM_Product_ID (0);
-			setM_Transaction_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 			setMovementQty (Env.ZERO);
 			setMovementType (null);
+			setM_Product_ID (0);
+			setM_Transaction_ID (0);
         } */
     }
 
@@ -247,82 +247,6 @@ public class X_M_Transaction extends PO implements I_M_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
-    {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
-			.getPO(getM_Product_ID(), get_TrxName());	}
-
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID)
-	{
-		if (M_Product_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
-	}
-
-	/** Get Product.
-		@return Product, Service, Item
-	  */
-	public int getM_Product_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException
-    {
-		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
-			.getPO(getM_ProductionLine_ID(), get_TrxName());	}
-
-	/** Set Production Line.
-		@param M_ProductionLine_ID 
-		Document Line representing a production
-	  */
-	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
-	{
-		if (M_ProductionLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ProductionLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
-	}
-
-	/** Get Production Line.
-		@return Document Line representing a production
-	  */
-	public int getM_ProductionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Inventory Transaction.
-		@param M_Transaction_ID Inventory Transaction	  */
-	public void setM_Transaction_ID (int M_Transaction_ID)
-	{
-		if (M_Transaction_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Transaction_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
-	}
-
-	/** Get Inventory Transaction.
-		@return Inventory Transaction	  */
-	public int getM_Transaction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Transaction_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Movement Date.
 		@param MovementDate 
 		Date a product was moved in or out of inventory
@@ -410,6 +334,82 @@ public class X_M_Transaction extends PO implements I_M_Transaction, I_Persistent
 	public String getMovementType () 
 	{
 		return (String)get_Value(COLUMNNAME_MovementType);
+	}
+
+	public I_M_Product getM_Product() throws RuntimeException
+    {
+		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException
+    {
+		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
+			.getPO(getM_ProductionLine_ID(), get_TrxName());	}
+
+	/** Set Production Line.
+		@param M_ProductionLine_ID 
+		Document Line representing a production
+	  */
+	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
+	{
+		if (M_ProductionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
+	}
+
+	/** Get Production Line.
+		@return Document Line representing a production
+	  */
+	public int getM_ProductionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Inventory Transaction.
+		@param M_Transaction_ID Inventory Transaction	  */
+	public void setM_Transaction_ID (int M_Transaction_ID)
+	{
+		if (M_Transaction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Transaction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
+	}
+
+	/** Get Inventory Transaction.
+		@return Inventory Transaction	  */
+	public int getM_Transaction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Transaction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException

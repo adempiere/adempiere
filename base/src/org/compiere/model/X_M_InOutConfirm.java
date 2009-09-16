@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_InOutConfirm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_InOutConfirm (Properties ctx, int M_InOutConfirm_ID, String trxName)
@@ -50,8 +50,8 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 			setIsCancelled (false);
 			setIsInDispute (false);
 // N
-			setM_InOut_ID (0);
 			setM_InOutConfirm_ID (0);
+			setM_InOut_ID (0);
 			setProcessed (false);
         } */
     }
@@ -399,6 +399,29 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return false;
 	}
 
+	/** Set Ship/Receipt Confirmation.
+		@param M_InOutConfirm_ID 
+		Material Shipment or Receipt Confirmation
+	  */
+	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
+	{
+		if (M_InOutConfirm_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, Integer.valueOf(M_InOutConfirm_ID));
+	}
+
+	/** Get Ship/Receipt Confirmation.
+		@return Material Shipment or Receipt Confirmation
+	  */
+	public int getM_InOutConfirm_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutConfirm_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_InOut getM_InOut() throws RuntimeException
     {
 		return (I_M_InOut)MTable.get(getCtx(), I_M_InOut.Table_Name)
@@ -422,29 +445,6 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	public int getM_InOut_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOut_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Ship/Receipt Confirmation.
-		@param M_InOutConfirm_ID 
-		Material Shipment or Receipt Confirmation
-	  */
-	public void setM_InOutConfirm_ID (int M_InOutConfirm_ID)
-	{
-		if (M_InOutConfirm_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_InOutConfirm_ID, Integer.valueOf(M_InOutConfirm_ID));
-	}
-
-	/** Get Ship/Receipt Confirmation.
-		@return Material Shipment or Receipt Confirmation
-	  */
-	public int getM_InOutConfirm_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutConfirm_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

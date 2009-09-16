@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_Tax 
 {
@@ -86,6 +86,22 @@ public interface I_C_Tax
 	  */
 	public int getC_Country_ID();
 
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name C_Region_ID */
     public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
 
@@ -100,19 +116,6 @@ public interface I_C_Tax
 	public int getC_Region_ID();
 
 	public I_C_Region getC_Region() throws RuntimeException;
-
-    /** Column name C_Tax_ID */
-    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
-
-	/** Set Tax.
-	  * Tax identifier
-	  */
-	public void setC_Tax_ID (int C_Tax_ID);
-
-	/** Get Tax.
-	  * Tax identifier
-	  */
-	public int getC_Tax_ID();
 
     /** Column name C_TaxCategory_ID */
     public static final String COLUMNNAME_C_TaxCategory_ID = "C_TaxCategory_ID";
@@ -129,21 +132,18 @@ public interface I_C_Tax
 
 	public I_C_TaxCategory getC_TaxCategory() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set Tax.
+	  * Tax identifier
 	  */
-	public Timestamp getCreated();
+	public void setC_Tax_ID (int C_Tax_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get Tax.
+	  * Tax identifier
 	  */
-	public int getCreatedBy();
+	public int getC_Tax_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -226,13 +226,13 @@ public interface I_C_Tax
     /** Column name IsTaxExempt */
     public static final String COLUMNNAME_IsTaxExempt = "IsTaxExempt";
 
-	/** Set Tax exempt.
-	  * Business partner is exempt from tax
+	/** Set SO Tax exempt.
+	  * Business partner is exempt from tax on sales
 	  */
 	public void setIsTaxExempt (boolean IsTaxExempt);
 
-	/** Get Tax exempt.
-	  * Business partner is exempt from tax
+	/** Get SO Tax exempt.
+	  * Business partner is exempt from tax on sales
 	  */
 	public boolean isTaxExempt();
 

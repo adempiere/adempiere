@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaymentAllocate
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_PaymentAllocate 
 {
@@ -105,6 +105,19 @@ public interface I_C_PaymentAllocate
 
 	public I_C_Invoice getC_Invoice() throws RuntimeException;
 
+    /** Column name C_PaymentAllocate_ID */
+    public static final String COLUMNNAME_C_PaymentAllocate_ID = "C_PaymentAllocate_ID";
+
+	/** Set Allocate Payment.
+	  * Allocate Payment to Invoices
+	  */
+	public void setC_PaymentAllocate_ID (int C_PaymentAllocate_ID);
+
+	/** Get Allocate Payment.
+	  * Allocate Payment to Invoices
+	  */
+	public int getC_PaymentAllocate_ID();
+
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 
@@ -119,19 +132,6 @@ public interface I_C_PaymentAllocate
 	public int getC_Payment_ID();
 
 	public I_C_Payment getC_Payment() throws RuntimeException;
-
-    /** Column name C_PaymentAllocate_ID */
-    public static final String COLUMNNAME_C_PaymentAllocate_ID = "C_PaymentAllocate_ID";
-
-	/** Set Allocate Payment.
-	  * Allocate Payment to Invoices
-	  */
-	public void setC_PaymentAllocate_ID (int C_PaymentAllocate_ID);
-
-	/** Get Allocate Payment.
-	  * Allocate Payment to Invoices
-	  */
-	public int getC_PaymentAllocate_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

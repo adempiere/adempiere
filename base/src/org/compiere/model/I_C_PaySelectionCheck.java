@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_PaySelectionCheck 
 {
@@ -62,21 +62,6 @@ public interface I_C_PaySelectionCheck
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BP_BankAccount_ID */
-    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
-
-	/** Set Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
-
-	/** Get Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public int getC_BP_BankAccount_ID();
-
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -91,6 +76,21 @@ public interface I_C_PaySelectionCheck
 	public int getC_BPartner_ID();
 
 	public I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BP_BankAccount_ID */
+    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
+
+	/** Set Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
+
+	/** Get Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public int getC_BP_BankAccount_ID();
+
+	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -107,6 +107,19 @@ public interface I_C_PaySelectionCheck
 
 	public I_C_Payment getC_Payment() throws RuntimeException;
 
+    /** Column name C_PaySelectionCheck_ID */
+    public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
+
+	/** Set Pay Selection Check.
+	  * Payment Selection Check
+	  */
+	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID);
+
+	/** Get Pay Selection Check.
+	  * Payment Selection Check
+	  */
+	public int getC_PaySelectionCheck_ID();
+
     /** Column name C_PaySelection_ID */
     public static final String COLUMNNAME_C_PaySelection_ID = "C_PaySelection_ID";
 
@@ -121,19 +134,6 @@ public interface I_C_PaySelectionCheck
 	public int getC_PaySelection_ID();
 
 	public I_C_PaySelection getC_PaySelection() throws RuntimeException;
-
-    /** Column name C_PaySelectionCheck_ID */
-    public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
-
-	/** Set Pay Selection Check.
-	  * Payment Selection Check
-	  */
-	public void setC_PaySelectionCheck_ID (int C_PaySelectionCheck_ID);
-
-	/** Get Pay Selection Check.
-	  * Payment Selection Check
-	  */
-	public int getC_PaySelectionCheck_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

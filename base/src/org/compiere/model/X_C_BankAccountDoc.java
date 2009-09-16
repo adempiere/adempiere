@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccountDoc
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_C_BankAccountDoc (Properties ctx, int C_BankAccountDoc_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
       super (ctx, C_BankAccountDoc_ID, trxName);
       /** if (C_BankAccountDoc_ID == 0)
         {
-			setC_BankAccount_ID (0);
 			setC_BankAccountDoc_ID (0);
+			setC_BankAccount_ID (0);
 			setCurrentNext (0);
 			setName (null);
 			setPaymentRule (null);
@@ -74,6 +74,29 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
       return sb.toString();
     }
 
+	/** Set Bank Account Document.
+		@param C_BankAccountDoc_ID 
+		Checks, Transfers, etc.
+	  */
+	public void setC_BankAccountDoc_ID (int C_BankAccountDoc_ID)
+	{
+		if (C_BankAccountDoc_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccountDoc_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BankAccountDoc_ID, Integer.valueOf(C_BankAccountDoc_ID));
+	}
+
+	/** Get Bank Account Document.
+		@return Checks, Transfers, etc.
+	  */
+	public int getC_BankAccountDoc_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccountDoc_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
 		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
@@ -97,29 +120,6 @@ public class X_C_BankAccountDoc extends PO implements I_C_BankAccountDoc, I_Pers
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Bank Account Document.
-		@param C_BankAccountDoc_ID 
-		Checks, Transfers, etc.
-	  */
-	public void setC_BankAccountDoc_ID (int C_BankAccountDoc_ID)
-	{
-		if (C_BankAccountDoc_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BankAccountDoc_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_BankAccountDoc_ID, Integer.valueOf(C_BankAccountDoc_ID));
-	}
-
-	/** Get Bank Account Document.
-		@return Checks, Transfers, etc.
-	  */
-	public int getC_BankAccountDoc_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccountDoc_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

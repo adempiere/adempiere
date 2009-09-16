@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Registration
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_A_Registration 
 {
@@ -55,19 +55,6 @@ public interface I_A_Registration
 	public int getA_Asset_ID();
 
 	public I_A_Asset getA_Asset() throws RuntimeException;
-
-    /** Column name A_Registration_ID */
-    public static final String COLUMNNAME_A_Registration_ID = "A_Registration_ID";
-
-	/** Set Registration.
-	  * User Asset Registration
-	  */
-	public void setA_Registration_ID (int A_Registration_ID);
-
-	/** Get Registration.
-	  * User Asset Registration
-	  */
-	public int getA_Registration_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -104,6 +91,19 @@ public interface I_A_Registration
 	public int getAD_User_ID();
 
 	public I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name A_Registration_ID */
+    public static final String COLUMNNAME_A_Registration_ID = "A_Registration_ID";
+
+	/** Set Registration.
+	  * User Asset Registration
+	  */
+	public void setA_Registration_ID (int A_Registration_ID);
+
+	/** Get Registration.
+	  * User Asset Registration
+	  */
+	public int getA_Registration_ID();
 
     /** Column name AssetServiceDate */
     public static final String COLUMNNAME_AssetServiceDate = "AssetServiceDate";

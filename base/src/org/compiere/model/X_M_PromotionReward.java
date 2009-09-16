@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_PromotionReward
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_PromotionReward (Properties ctx, int M_PromotionReward_ID, String trxName)
@@ -198,31 +198,6 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 		return false;
 	}
 
-	public I_M_Promotion getM_Promotion() throws RuntimeException
-    {
-		return (I_M_Promotion)MTable.get(getCtx(), I_M_Promotion.Table_Name)
-			.getPO(getM_Promotion_ID(), get_TrxName());	}
-
-	/** Set Promotion.
-		@param M_Promotion_ID Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID)
-	{
-		if (M_Promotion_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, Integer.valueOf(M_Promotion_ID));
-	}
-
-	/** Get Promotion.
-		@return Promotion	  */
-	public int getM_Promotion_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_PromotionDistribution getM_PromotionDistribution() throws RuntimeException
     {
 		return (I_M_PromotionDistribution)MTable.get(getCtx(), I_M_PromotionDistribution.Table_Name)
@@ -243,6 +218,31 @@ public class X_M_PromotionReward extends PO implements I_M_PromotionReward, I_Pe
 	public int getM_PromotionDistribution_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionDistribution_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_M_Promotion getM_Promotion() throws RuntimeException
+    {
+		return (I_M_Promotion)MTable.get(getCtx(), I_M_Promotion.Table_Name)
+			.getPO(getM_Promotion_ID(), get_TrxName());	}
+
+	/** Set Promotion.
+		@param M_Promotion_ID Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID)
+	{
+		if (M_Promotion_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, Integer.valueOf(M_Promotion_ID));
+	}
+
+	/** Get Promotion.
+		@return Promotion	  */
+	public int getM_Promotion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

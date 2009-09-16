@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_ProductDownload
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_ProductDownload (Properties ctx, int M_ProductDownload_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
       /** if (M_ProductDownload_ID == 0)
         {
 			setDownloadURL (null);
-			setM_Product_ID (0);
 			setM_ProductDownload_ID (0);
+			setM_Product_ID (0);
 			setName (null);
         } */
     }
@@ -90,6 +90,29 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 		return (String)get_Value(COLUMNNAME_DownloadURL);
 	}
 
+	/** Set Product Download.
+		@param M_ProductDownload_ID 
+		Product downloads
+	  */
+	public void setM_ProductDownload_ID (int M_ProductDownload_ID)
+	{
+		if (M_ProductDownload_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductDownload_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductDownload_ID, Integer.valueOf(M_ProductDownload_ID));
+	}
+
+	/** Get Product Download.
+		@return Product downloads
+	  */
+	public int getM_ProductDownload_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductDownload_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_Product getM_Product() throws RuntimeException
     {
 		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
@@ -113,29 +136,6 @@ public class X_M_ProductDownload extends PO implements I_M_ProductDownload, I_Pe
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Product Download.
-		@param M_ProductDownload_ID 
-		Product downloads
-	  */
-	public void setM_ProductDownload_ID (int M_ProductDownload_ID)
-	{
-		if (M_ProductDownload_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ProductDownload_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ProductDownload_ID, Integer.valueOf(M_ProductDownload_ID));
-	}
-
-	/** Get Product Download.
-		@return Product downloads
-	  */
-	public int getM_ProductDownload_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductDownload_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

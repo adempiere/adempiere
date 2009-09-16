@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_Product_Category 
 {
@@ -160,6 +160,19 @@ public interface I_M_Product_Category
 	  */
 	public boolean isSelfService();
 
+    /** Column name MMPolicy */
+    public static final String COLUMNNAME_MMPolicy = "MMPolicy";
+
+	/** Set Material Policy.
+	  * Material Movement Policy
+	  */
+	public void setMMPolicy (String MMPolicy);
+
+	/** Get Material Policy.
+	  * Material Movement Policy
+	  */
+	public String getMMPolicy();
+
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 
@@ -183,19 +196,6 @@ public interface I_M_Product_Category
 	public int getM_Product_Category_Parent_ID();
 
 	public I_M_Product_Category getM_Product_Category_Parent() throws RuntimeException;
-
-    /** Column name MMPolicy */
-    public static final String COLUMNNAME_MMPolicy = "MMPolicy";
-
-	/** Set Material Policy.
-	  * Material Movement Policy
-	  */
-	public void setMMPolicy (String MMPolicy);
-
-	/** Get Material Policy.
-	  * Material Movement Policy
-	  */
-	public String getMMPolicy();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

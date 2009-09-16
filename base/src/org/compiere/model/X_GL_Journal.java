@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Journal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_GL_Journal (Properties ctx, int GL_Journal_ID, String trxName)
@@ -220,6 +220,26 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Control Amount.
+		@param ControlAmt 
+		If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public void setControlAmt (BigDecimal ControlAmt)
+	{
+		set_Value (COLUMNNAME_ControlAmt, ControlAmt);
+	}
+
+	/** Get Control Amount.
+		@return If not zero, the Debit amount of the document must be equal this amount
+	  */
+	public BigDecimal getControlAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ControlAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public I_C_Period getC_Period() throws RuntimeException
     {
 		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
@@ -246,26 +266,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Control Amount.
-		@param ControlAmt 
-		If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public void setControlAmt (BigDecimal ControlAmt)
-	{
-		set_Value (COLUMNNAME_ControlAmt, ControlAmt);
-	}
-
-	/** Get Control Amount.
-		@return If not zero, the Debit amount of the document must be equal this amount
-	  */
-	public BigDecimal getControlAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ControlAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** Set Rate.
@@ -512,29 +512,6 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Journal.
-		@param GL_Journal_ID 
-		General Ledger Journal
-	  */
-	public void setGL_Journal_ID (int GL_Journal_ID)
-	{
-		if (GL_Journal_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
-	}
-
-	/** Get Journal.
-		@return General Ledger Journal
-	  */
-	public int getGL_Journal_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Journal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
     {
 		return (I_GL_JournalBatch)MTable.get(getCtx(), I_GL_JournalBatch.Table_Name)
@@ -558,6 +535,29 @@ public class X_GL_Journal extends PO implements I_GL_Journal, I_Persistent
 	public int getGL_JournalBatch_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalBatch_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Journal.
+		@param GL_Journal_ID 
+		General Ledger Journal
+	  */
+	public void setGL_Journal_ID (int GL_Journal_ID)
+	{
+		if (GL_Journal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
+	}
+
+	/** Get Journal.
+		@return General Ledger Journal
+	  */
+	public int getGL_Journal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Journal_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

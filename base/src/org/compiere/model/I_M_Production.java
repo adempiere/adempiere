@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Production
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_M_Production 
 {
@@ -171,19 +171,6 @@ public interface I_M_Production
 	/** Get Records created	  */
 	public boolean isCreated();
 
-    /** Column name M_Production_ID */
-    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
-
-	/** Set Production.
-	  * Plan for producing a product
-	  */
-	public void setM_Production_ID (int M_Production_ID);
-
-	/** Get Production.
-	  * Plan for producing a product
-	  */
-	public int getM_Production_ID();
-
     /** Column name MovementDate */
     public static final String COLUMNNAME_MovementDate = "MovementDate";
 
@@ -196,6 +183,19 @@ public interface I_M_Production
 	  * Date a product was moved in or out of inventory
 	  */
 	public Timestamp getMovementDate();
+
+    /** Column name M_Production_ID */
+    public static final String COLUMNNAME_M_Production_ID = "M_Production_ID";
+
+	/** Set Production.
+	  * Plan for producing a product
+	  */
+	public void setM_Production_ID (int M_Production_ID);
+
+	/** Get Production.
+	  * Plan for producing a product
+	  */
+	public int getM_Production_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

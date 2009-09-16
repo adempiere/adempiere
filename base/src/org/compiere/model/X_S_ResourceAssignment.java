@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_ResourceAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_S_ResourceAssignment (Properties ctx, int S_ResourceAssignment_ID, String trxName)
@@ -44,8 +44,8 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 			setAssignDateFrom (new Timestamp( System.currentTimeMillis() ));
 			setIsConfirmed (false);
 			setName (null);
-			setS_Resource_ID (0);
 			setS_ResourceAssignment_ID (0);
+			setS_Resource_ID (0);
         } */
     }
 
@@ -189,6 +189,29 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 		return bd;
 	}
 
+	/** Set Resource Assignment.
+		@param S_ResourceAssignment_ID 
+		Resource Assignment
+	  */
+	public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID)
+	{
+		if (S_ResourceAssignment_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, Integer.valueOf(S_ResourceAssignment_ID));
+	}
+
+	/** Get Resource Assignment.
+		@return Resource Assignment
+	  */
+	public int getS_ResourceAssignment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceAssignment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_S_Resource getS_Resource() throws RuntimeException
     {
 		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
@@ -224,27 +247,4 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
     {
         return new KeyNamePair(get_ID(), String.valueOf(getS_Resource_ID()));
     }
-
-	/** Set Resource Assignment.
-		@param S_ResourceAssignment_ID 
-		Resource Assignment
-	  */
-	public void setS_ResourceAssignment_ID (int S_ResourceAssignment_ID)
-	{
-		if (S_ResourceAssignment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_ResourceAssignment_ID, Integer.valueOf(S_ResourceAssignment_ID));
-	}
-
-	/** Get Resource Assignment.
-		@return Resource Assignment
-	  */
-	public int getS_ResourceAssignment_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_ResourceAssignment_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 }

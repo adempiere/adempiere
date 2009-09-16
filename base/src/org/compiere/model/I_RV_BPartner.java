@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for RV_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_RV_BPartner 
 {
@@ -75,73 +75,6 @@ public interface I_RV_BPartner
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Language */
-    public static final String COLUMNNAME_AD_Language = "AD_Language";
-
-	/** Set Language.
-	  * Language for this entity
-	  */
-	public void setAD_Language (String AD_Language);
-
-	/** Get Language.
-	  * Language for this entity
-	  */
-	public String getAD_Language();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_OrgBP_ID */
-    public static final String COLUMNNAME_AD_OrgBP_ID = "AD_OrgBP_ID";
-
-	/** Set Linked Organization.
-	  * The Business Partner is another Organization for explicit Inter-Org transactions
-	  */
-	public void setAD_OrgBP_ID (int AD_OrgBP_ID);
-
-	/** Get Linked Organization.
-	  * The Business Partner is another Organization for explicit Inter-Org transactions
-	  */
-	public int getAD_OrgBP_ID();
-
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
-
-	/** Set Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
-
-	/** Get Trx Organization.
-	  * Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
-
-	public I_AD_User getAD_User() throws RuntimeException;
-
     /** Column name Address1 */
     public static final String COLUMNNAME_Address1 = "Address1";
 
@@ -180,6 +113,73 @@ public interface I_RV_BPartner
 	  * Address Line 3 for the location
 	  */
 	public String getAddress3();
+
+    /** Column name AD_Language */
+    public static final String COLUMNNAME_AD_Language = "AD_Language";
+
+	/** Set Language.
+	  * Language for this entity
+	  */
+	public void setAD_Language (String AD_Language);
+
+	/** Get Language.
+	  * Language for this entity
+	  */
+	public String getAD_Language();
+
+    /** Column name AD_OrgBP_ID */
+    public static final String COLUMNNAME_AD_OrgBP_ID = "AD_OrgBP_ID";
+
+	/** Set Linked Organization.
+	  * The Business Partner is another Organization for explicit Inter-Org transactions
+	  */
+	public void setAD_OrgBP_ID (int AD_OrgBP_ID);
+
+	/** Get Linked Organization.
+	  * The Business Partner is another Organization for explicit Inter-Org transactions
+	  */
+	public int getAD_OrgBP_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
+	public I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
@@ -224,21 +224,6 @@ public interface I_RV_BPartner
 
 	public I_C_Greeting getBPContactGreet() throws RuntimeException;
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -266,6 +251,21 @@ public interface I_RV_BPartner
 	public int getC_BPartner_Location_ID();
 
 	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
@@ -326,36 +326,6 @@ public interface I_RV_BPartner
 	public int getC_InvoiceSchedule_ID();
 
 	public I_C_InvoiceSchedule getC_InvoiceSchedule() throws RuntimeException;
-
-    /** Column name C_PaymentTerm_ID */
-    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
-
-	/** Set Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
-
-	/** Get Payment Term.
-	  * The terms of Payment (timing, discount)
-	  */
-	public int getC_PaymentTerm_ID();
-
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
-
-    /** Column name C_Region_ID */
-    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
-
-	/** Set Region.
-	  * Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID);
-
-	/** Get Region.
-	  * Identifies a geographical Region
-	  */
-	public int getC_Region_ID();
-
-	public I_C_Region getC_Region() throws RuntimeException;
 
     /** Column name City */
     public static final String COLUMNNAME_City = "City";
@@ -422,6 +392,21 @@ public interface I_RV_BPartner
 	  */
 	public String getCountryName();
 
+    /** Column name C_PaymentTerm_ID */
+    public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
+
+	/** Set Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public void setC_PaymentTerm_ID (int C_PaymentTerm_ID);
+
+	/** Get Payment Term.
+	  * The terms of Payment (timing, discount)
+	  */
+	public int getC_PaymentTerm_ID();
+
+	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -437,6 +422,21 @@ public interface I_RV_BPartner
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_Region_ID */
+    public static final String COLUMNNAME_C_Region_ID = "C_Region_ID";
+
+	/** Set Region.
+	  * Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID);
+
+	/** Get Region.
+	  * Identifies a geographical Region
+	  */
+	public int getC_Region_ID();
+
+	public I_C_Region getC_Region() throws RuntimeException;
 
     /** Column name DeliveryRule */
     public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
@@ -738,13 +738,13 @@ public interface I_RV_BPartner
     /** Column name IsTaxExempt */
     public static final String COLUMNNAME_IsTaxExempt = "IsTaxExempt";
 
-	/** Set Tax exempt.
-	  * Business partner is exempt from tax
+	/** Set SO Tax exempt.
+	  * Business partner is exempt from tax on sales
 	  */
 	public void setIsTaxExempt (boolean IsTaxExempt);
 
-	/** Get Tax exempt.
-	  * Business partner is exempt from tax
+	/** Get SO Tax exempt.
+	  * Business partner is exempt from tax on sales
 	  */
 	public boolean isTaxExempt();
 
@@ -1163,6 +1163,19 @@ public interface I_RV_BPartner
 	  */
 	public BigDecimal getSO_CreditLimit();
 
+    /** Column name SOCreditStatus */
+    public static final String COLUMNNAME_SOCreditStatus = "SOCreditStatus";
+
+	/** Set Credit Status.
+	  * Business Partner Credit Status
+	  */
+	public void setSOCreditStatus (String SOCreditStatus);
+
+	/** Get Credit Status.
+	  * Business Partner Credit Status
+	  */
+	public String getSOCreditStatus();
+
     /** Column name SO_CreditUsed */
     public static final String COLUMNNAME_SO_CreditUsed = "SO_CreditUsed";
 
@@ -1188,19 +1201,6 @@ public interface I_RV_BPartner
 	  * Description to be used on orders
 	  */
 	public String getSO_Description();
-
-    /** Column name SOCreditStatus */
-    public static final String COLUMNNAME_SOCreditStatus = "SOCreditStatus";
-
-	/** Set Credit Status.
-	  * Business Partner Credit Status
-	  */
-	public void setSOCreditStatus (String SOCreditStatus);
-
-	/** Get Credit Status.
-	  * Business Partner Credit Status
-	  */
-	public String getSOCreditStatus();
 
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";

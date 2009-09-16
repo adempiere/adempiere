@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestAction
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_R_RequestAction 
 {
@@ -152,6 +152,19 @@ public interface I_R_RequestAction
 
 	public I_C_Invoice getC_Invoice() throws RuntimeException;
 
+    /** Column name ConfidentialType */
+    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
+
+	/** Set Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public void setConfidentialType (String ConfidentialType);
+
+	/** Get Confidentiality.
+	  * Type of Confidentiality
+	  */
+	public String getConfidentialType();
+
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
@@ -196,19 +209,6 @@ public interface I_R_RequestAction
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name ConfidentialType */
-    public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
-
-	/** Set Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public void setConfidentialType (String ConfidentialType);
-
-	/** Get Confidentiality.
-	  * Type of Confidentiality
-	  */
-	public String getConfidentialType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -498,6 +498,19 @@ public interface I_R_RequestAction
 
 	public I_R_Group getR_Group() throws RuntimeException;
 
+    /** Column name R_RequestAction_ID */
+    public static final String COLUMNNAME_R_RequestAction_ID = "R_RequestAction_ID";
+
+	/** Set Request History.
+	  * Request has been changed
+	  */
+	public void setR_RequestAction_ID (int R_RequestAction_ID);
+
+	/** Get Request History.
+	  * Request has been changed
+	  */
+	public int getR_RequestAction_ID();
+
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
 
@@ -512,19 +525,6 @@ public interface I_R_RequestAction
 	public int getR_Request_ID();
 
 	public I_R_Request getR_Request() throws RuntimeException;
-
-    /** Column name R_RequestAction_ID */
-    public static final String COLUMNNAME_R_RequestAction_ID = "R_RequestAction_ID";
-
-	/** Set Request History.
-	  * Request has been changed
-	  */
-	public void setR_RequestAction_ID (int R_RequestAction_ID);
-
-	/** Get Request History.
-	  * Request has been changed
-	  */
-	public int getR_RequestAction_ID();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Delivery
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_A_Asset_Delivery (Properties ctx, int A_Asset_Delivery_ID, String trxName)
@@ -220,6 +220,23 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
+	/** Set Message ID.
+		@param MessageID 
+		EMail Message ID
+	  */
+	public void setMessageID (String MessageID)
+	{
+		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
+	}
+
+	/** Get Message ID.
+		@return EMail Message ID
+	  */
+	public String getMessageID () 
+	{
+		return (String)get_Value(COLUMNNAME_MessageID);
+	}
+
 	public I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
 		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
@@ -248,6 +265,31 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_ValueNoCheck (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
+    }
+
 	public I_M_ProductDownload getM_ProductDownload() throws RuntimeException
     {
 		return (I_M_ProductDownload)MTable.get(getCtx(), I_M_ProductDownload.Table_Name)
@@ -275,48 +317,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
-
-	/** Set Message ID.
-		@param MessageID 
-		EMail Message ID
-	  */
-	public void setMessageID (String MessageID)
-	{
-		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
-	}
-
-	/** Get Message ID.
-		@return EMail Message ID
-	  */
-	public String getMessageID () 
-	{
-		return (String)get_Value(COLUMNNAME_MessageID);
-	}
-
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_ValueNoCheck (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
-    }
 
 	/** Set Referrer.
 		@param Referrer 

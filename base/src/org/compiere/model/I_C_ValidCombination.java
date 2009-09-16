@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ValidCombination
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_C_ValidCombination 
 {
@@ -193,6 +193,19 @@ public interface I_C_ValidCombination
 
 	public I_C_Location getC_LocTo() throws RuntimeException;
 
+    /** Column name Combination */
+    public static final String COLUMNNAME_Combination = "Combination";
+
+	/** Set Combination.
+	  * Unique combination of account elements
+	  */
+	public void setCombination (String Combination);
+
+	/** Get Combination.
+	  * Unique combination of account elements
+	  */
+	public String getCombination();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -207,6 +220,22 @@ public interface I_C_ValidCombination
 	public int getC_Project_ID();
 
 	public I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
@@ -250,35 +279,6 @@ public interface I_C_ValidCombination
 	  * Valid Account Combination
 	  */
 	public int getC_ValidCombination_ID();
-
-    /** Column name Combination */
-    public static final String COLUMNNAME_Combination = "Combination";
-
-	/** Set Combination.
-	  * Unique combination of account elements
-	  */
-	public void setCombination (String Combination);
-
-	/** Get Combination.
-	  * Unique combination of account elements
-	  */
-	public String getCombination();
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

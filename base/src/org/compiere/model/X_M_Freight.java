@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a - $Id$ */
+ *  @version Release 3.5.4a - $Id$ */
 public class X_M_Freight extends PO implements I_M_Freight, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20081221L;
+	private static final long serialVersionUID = 20090915L;
 
     /** Standard Constructor */
     public X_M_Freight (Properties ctx, int M_Freight_ID, String trxName)
@@ -43,8 +43,8 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
         {
 			setC_Currency_ID (0);
 			setFreightAmt (Env.ZERO);
-			setM_Freight_ID (0);
 			setM_FreightCategory_ID (0);
+			setM_Freight_ID (0);
 			setM_Shipper_ID (0);
 			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
@@ -182,29 +182,6 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 		return bd;
 	}
 
-	/** Set Freight.
-		@param M_Freight_ID 
-		Freight Rate
-	  */
-	public void setM_Freight_ID (int M_Freight_ID)
-	{
-		if (M_Freight_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, Integer.valueOf(M_Freight_ID));
-	}
-
-	/** Get Freight.
-		@return Freight Rate
-	  */
-	public int getM_Freight_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_FreightCategory getM_FreightCategory() throws RuntimeException
     {
 		return (I_M_FreightCategory)MTable.get(getCtx(), I_M_FreightCategory.Table_Name)
@@ -228,6 +205,29 @@ public class X_M_Freight extends PO implements I_M_Freight, I_Persistent
 	public int getM_FreightCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Freight.
+		@param M_Freight_ID 
+		Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID)
+	{
+		if (M_Freight_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Freight_ID, Integer.valueOf(M_Freight_ID));
+	}
+
+	/** Get Freight.
+		@return Freight Rate
+	  */
+	public int getM_Freight_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

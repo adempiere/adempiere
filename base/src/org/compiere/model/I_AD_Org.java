@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Org
  *  @author Adempiere (generated) 
- *  @version Release 3.5.3a
+ *  @version Release 3.5.4a
  */
 public interface I_AD_Org 
 {
@@ -68,12 +68,14 @@ public interface I_AD_Org
 	/** Set Replication Strategy.
 	  * Data Replication Strategy
 	  */
-	public void setAD_ReplicationStrategy_ID (String AD_ReplicationStrategy_ID);
+	public void setAD_ReplicationStrategy_ID (int AD_ReplicationStrategy_ID);
 
 	/** Get Replication Strategy.
 	  * Data Replication Strategy
 	  */
-	public String getAD_ReplicationStrategy_ID();
+	public int getAD_ReplicationStrategy_ID();
+
+	public I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
