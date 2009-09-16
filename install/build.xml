@@ -152,7 +152,8 @@
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR"/>
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR/lib"/>
   	<copy file="../packages/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/liberoHR.jar"/>
-  	
+
+  	<copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib"/>
 
 	<!-- Base Directory			-->
 	<copy todir="${build.dir}/Adempiere">

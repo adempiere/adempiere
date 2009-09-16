@@ -6,6 +6,8 @@
 
 PROCESS=$$
 TMPDIR=/tmp
+TMPLISADEMPIEREORIGINAL=$TMPDIR/lisadempiereoriginal$PROCESS.txt
+TMPLISWEBUIORIGINAL=$TMPDIR/liswebuioriginal$PROCESS.txt
 TMPLISPATCHES=$TMPDIR/lispatches$PROCESS.txt
 TMPLISCUST=$TMPDIR/liscustomization$PROCESS.txt
 TMPLISPACK=$TMPDIR/lispackages$PROCESS.txt
@@ -16,6 +18,16 @@ TMPLISZKCUST=$TMPDIR/liszkcustomization$PROCESS.txt
 TMPLISZKPACK=$TMPDIR/liszkpackages$PROCESS.txt
 TMPLISZKALLPACK=$TMPDIR/liszkallpackages$PROCESS.txt
 TMPLISZKUNQPACK=$TMPDIR/liszkunqpackages$PROCESS.txt
+
+jar tf AdempiereOriginal.jar |
+    fgrep -v META-INF |
+    fgrep .class |
+    sort > $TMPLISADEMPIEREORIGINAL
+
+jar tf webuiOriginal.war |
+    fgrep -v META-INF |
+    fgrep .class |
+    sort > $TMPLISWEBUIORIGINAL
 
 jar tf patches.jar |
     fgrep -v META-INF |
@@ -72,6 +84,18 @@ sort -o $TMPLISZKALLPACK $TMPLISZKALLPACK
 sort -u -o $TMPLISZKUNQPACK $TMPLISZKALLPACK
 
 
+if [ `comm -12 $TMPLISPACK $TMPLISADEMPIEREORIGINAL | wc -l` -ne 0 ]
+then
+    echo "** WARNING: Package classes are overwritting Adempiere classes. Package will take precedence"
+    comm -12 $TMPLISPACK $TMPLISADEMPIEREORIGINAL
+fi
+
+if [ `comm -12 $TMPLISZKPACK $TMPLISWEBUIORIGINAL | wc -l` -ne 0 ]
+then
+    echo "** WARNING: ZK Package classes are overwritting ZK webui original classes. ZK Package will take precedence"
+    comm -12 $TMPLISZKPACK $TMPLISWEBUIORIGINAL
+fi
+
 if [ `comm -12 $TMPLISPATCHES $TMPLISCUST | wc -l` -ne 0 ]
 then
     echo "** WARNING: Dup files in customization and patches.  Customization will take precedence"
@@ -120,4 +144,4 @@ then
     comm -23 $TMPLISZKALLPACK $TMPLISZKUNQPACK
 fi
 
-rm -f $TMPLISPATCHES $TMPLISCUST $TMPLISPACK $TMPLISALLPACK $TMPLISUNQPACK $TMPLISZKPATCHES $TMPLISZKCUST $TMPLISZKPACK $TMPLISZKALLPACK $TMPLISZKUNQPACK
+rm -f $TMPLISADEMPIEREORIGINAL $TMPLISWEBUIORIGINAL $TMPLISPATCHES $TMPLISCUST $TMPLISPACK $TMPLISALLPACK $TMPLISUNQPACK $TMPLISZKPATCHES $TMPLISZKCUST $TMPLISZKPACK $TMPLISZKALLPACK $TMPLISZKUNQPACK
