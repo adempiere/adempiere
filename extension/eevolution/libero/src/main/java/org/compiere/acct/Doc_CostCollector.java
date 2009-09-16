@@ -55,7 +55,7 @@ public class Doc_CostCollector extends Doc
 	 * 	@param rs record
 	 * 	@param trxName trx
 	 */
-	protected Doc_CostCollector (MAcctSchema[] ass, ResultSet rs, String trxName)
+	public Doc_CostCollector (MAcctSchema[] ass, ResultSet rs, String trxName)
 	{
 		super(ass, MPPCostCollector.class, rs, MDocType.DOCBASETYPE_ManufacturingCostCollector, trxName);
 	}   //Doc Cost Collector
