@@ -38,6 +38,10 @@ import org.compiere.util.ValueNamePair;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MQuery.java,v 1.4 2006/07/30 00:58:04 jjanke Exp $
+ * 
+ * @author Teo Sarca
+ * 		<li>BF [ 2860022 ] MQuery.get() is generating restictions for unexisting column
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2860022&group_id=176962&atid=879332
  */
 public class MQuery implements Serializable
 {
@@ -53,8 +57,14 @@ public class MQuery implements Serializable
 		s_log.info("AD_PInstance_ID=" + AD_PInstance_ID + ", TableName=" + TableName);
 		MQuery query = new MQuery(TableName);
 		//	Temporary Tables - add qualifier (not displayed)
+		boolean isTemporaryTable = false;
+		MTable table = null;
 		if (TableName.startsWith("T_"))
+		{
 			query.addRestriction(TableName + ".AD_PInstance_ID=" + AD_PInstance_ID);
+			isTemporaryTable = true;
+			table = MTable.get(ctx, TableName);
+		}
 		query.m_AD_PInstance_ID = AD_PInstance_ID;
 
 		//	How many rows do we have?
@@ -129,6 +139,14 @@ public class MQuery implements Serializable
 				s_log.fine(ParameterName + " S=" + P_String + "-" + P_String_To
 					+ ", N=" + P_Number + "-" + P_Number_To + ", D=" + P_Date + "-" + P_Date_To
 					+ "; Name=" + Name + ", Info=" + Info + "-" + Info_To + ", Range=" + isRange);
+				//
+				// Check if the parameter exists as column in our table.
+				// This condition applies only to temporary tables - teo_sarca [ 2860022 ]
+				if(isTemporaryTable && table != null && table.getColumn(ParameterName) == null)
+				{
+					s_log.info("Skip parameter "+ParameterName+" because there is no column in table "+TableName);
+					continue;
+				}
 
 				//-------------------------------------------------------------
 				if (P_String != null)
