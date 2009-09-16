@@ -147,11 +147,11 @@
   	
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG"/>
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG/lib"/>
-  	<copy file="../lib/liberoMFG.jar" tofile="${build.dir}/Adempiere/packages/liberoMFG/lib/packages.jar"/>
+  	<copy file="../packages/liberoMFG.jar" tofile="${build.dir}/Adempiere/packages/liberoMFG/lib/liberoMFG.jar"/>
   	
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR"/>
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR/lib"/>
-  	<copy file="../lib/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/packages.jar"/>
+  	<copy file="../packages/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/liberoHR.jar"/>
   	
 
 	<!-- Base Directory			-->
