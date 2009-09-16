@@ -36,7 +36,6 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.ValueNamePair;
-import org.eevolution.model.X_RV_PP_Product_BOMLine;
 import org.eevolution.model.X_T_BOMLine;
 
 /**
@@ -111,6 +110,9 @@ public class PrintBOM extends SvrProcess
 		return "@OK@";
 	} // doIt
 
+	private static final int X_RV_PP_Product_BOMLine_Table_ID = 53063;
+	private static final String X_RV_PP_Product_BOMLine_Table_Name = "RV_PP_Product_BOMLine";
+	
 	/**
 	 * Print result generate for this report
 	 */
@@ -121,7 +123,7 @@ public class PrintBOM extends SvrProcess
 		int pfid = 0;
 		
 		// get print format for client, else copy system to client  
-		RowSet pfrs = MPrintFormat.getAccessiblePrintFormats(X_RV_PP_Product_BOMLine.Table_ID, -1, null);
+		RowSet pfrs = MPrintFormat.getAccessiblePrintFormats(X_RV_PP_Product_BOMLine_Table_ID, -1, null);
 		pfrs.next();
 		pfid = pfrs.getInt("AD_PrintFormat_ID");
 		
@@ -134,11 +136,11 @@ public class PrintBOM extends SvrProcess
 		pf.setLanguage(language);
 		pf.setTranslationLanguage(language);
 		// query
-		MQuery query = MQuery.get(getCtx(), AD_PInstance_ID, X_RV_PP_Product_BOMLine.Table_Name);
+		MQuery query = MQuery.get(getCtx(), AD_PInstance_ID, X_RV_PP_Product_BOMLine_Table_Name);
 		query.addRestriction("AD_PInstance_ID", MQuery.EQUAL, AD_PInstance_ID);
 
-		PrintInfo info = new PrintInfo(X_RV_PP_Product_BOMLine.Table_Name, 
-				X_RV_PP_Product_BOMLine.Table_ID, getRecord_ID());
+		PrintInfo info = new PrintInfo(X_RV_PP_Product_BOMLine_Table_Name, 
+				X_RV_PP_Product_BOMLine_Table_ID, getRecord_ID());
 		ReportEngine re = new ReportEngine(getCtx(), pf, query, info);
 
 		ReportCtl.preview(re);
