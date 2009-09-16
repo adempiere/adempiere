@@ -47,7 +47,7 @@ import org.eevolution.model.RoutingServiceFactory;
  *  </pre>
  *  @author victor.perez@e-evolution.com http://www.e-evolution.com
  */
-public class Doc_CostCollector extends Doc
+public class Doc_PPCostCollector extends Doc
 {
 	/**
 	 *  Constructor
@@ -476,4 +476,4 @@ public class Doc_CostCollector extends Doc
 		.firstIdOnly();
 		return MProduct.get(ctx, M_Product_ID);
 	}
-}   //  Doc Cost Collector
+}   //  Doc_PPCostCollector
