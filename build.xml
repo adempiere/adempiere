@@ -46,10 +46,10 @@
     <jar jarfile="${dist}/lib/liberoHR.jar" basedir="${build}"/>
 
     <!-- Create target Libero deployment -->
-    <mkdir dir="${env.ADEMPIERE_HOME}/packages/libero/lib"/>
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/liberoHR/lib"/>
 
     <!-- Transfer liberoHR.jar -->
-    <copy file="${dist}/lib/liberoHR.jar" todir="${env.ADEMPIERE_HOME}/packages/libero/lib"/>
+    <copy file="${dist}/lib/liberoHR.jar" todir="${env.ADEMPIERE_HOME}/packages/liberoHR/lib"/>
     <copy file="${dist}/lib/liberoHR.jar" todir="${adempiere.trunk}/packages"/>
 
   </target>
