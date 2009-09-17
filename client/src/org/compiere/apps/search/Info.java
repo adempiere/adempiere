@@ -80,6 +80,8 @@ import org.compiere.util.Msg;
  *  			https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2846869&group_id=176962
  * 			<li>FR [ 2847305 ] Info class improvements
  * 				https://sourceforge.net/tracker/?func=detail&aid=2847305&group_id=176962&atid=879335
+ * 			<li>BF [ 2860556 ] Info class throws false error
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2860556&group_id=176962&atid=879332
  */
 public abstract class Info extends CDialog
 	implements ListSelectionListener
@@ -634,6 +636,11 @@ public abstract class Info extends CDialog
         	int rows = p_table.getRowCount();
             for (int row = 0; row < rows; row++)
             {
+            	// If this is the Totals row (last row), we need to skip it - teo_sarca [ 2860556 ]
+                if (p_table.getShowTotals() && row == rows - 1)
+                {
+                	continue;
+                }
                 Object data = p_table.getModel().getValueAt(row, m_keyColumnIndex);
                 if (data instanceof IDColumn)
                 {
