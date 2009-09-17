@@ -19,7 +19,7 @@
  </row>
  <row id="443" trl="Y">
   <value column="Name" original="Account">Konto</value>
-  <value column="Description" original="Account used">Konto </value>
+  <value column="Description" original="Account used">Konto</value>
   <value column="Help" original="The (natural) account used">Konto</value>
  </row>
  <row id="452" trl="Y">

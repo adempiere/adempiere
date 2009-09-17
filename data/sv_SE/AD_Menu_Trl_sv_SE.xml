@@ -3,2520 +3,1551 @@
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="sv_SE" table="AD_Menu">
  <row id="100" trl="Y">
-  <value column="Name" original="Invoice Inquiry">Sök faktura
-        </value>
+  <value column="Name" original="Invoice Inquiry">Sök faktura</value>
   <value column="Description" original=""/>
  </row>
  <row id="101" trl="Y">
-  <value column="Name" original="Task">Uppgifter
-        </value>
-  <value column="Description" original="Maintain Tasks">Underhåll uppgifter
-        </value>
+  <value column="Name" original="Task">Uppgifter</value>
+  <value column="Description" original="Maintain Tasks">Underhåll uppgifter</value>
  </row>
  <row id="102" trl="Y">
-  <value column="Name" original="Currency">Valuta
-        </value>
-  <value column="Description" original="Maintain Currencies">Underhåll valutor
-        </value>
+  <value column="Name" original="Currency">Valuta</value>
+  <value column="Description" original="Maintain Currencies">Underhåll valutor</value>
  </row>
  <row id="103" trl="Y">
-  <value column="Name" original="Currency Rate">Växlingskurser
-        </value>
-  <value column="Description" original="Maintain Currency Conversion Rates">Underhåll valutaväxlingskurser.
-        </value>
+  <value column="Name" original="Currency Rate">Växlingskurser</value>
+  <value column="Description" original="Maintain Currency Conversion Rates">Underhåll valutaväxlingskurser.</value>
  </row>
  <row id="104" trl="Y">
-  <value column="Name" original="Calendar Year and Period">Kalenderår och period
-        </value>
-  <value column="Description" original="Maintain Calendars Years Periods">Underhåll kalenderår och period
-        </value>
+  <value column="Name" original="Calendar Year and Period">Kalenderår och period</value>
+  <value column="Description" original="Maintain Calendars Years Periods">Underhåll kalenderår och period</value>
  </row>
  <row id="105" trl="Y">
-  <value column="Name" original="Account Element">Kontoelement
-        </value>
-  <value column="Description" original="Maintain Account Elements">Underhåll kontoelement
-        </value>
+  <value column="Name" original="Account Element">Kontoelement</value>
+  <value column="Description" original="Maintain Account Elements">Underhåll kontoelement</value>
  </row>
  <row id="106" trl="Y">
-  <value column="Name" original="Account Combination">Kontokombinationer
-        </value>
-  <value column="Description" original="Maintain Valid Account Combinations ">Underhåll aktuella kontokombinationer
-        </value>
+  <value column="Name" original="Account Combination">Kontokombinationer</value>
+  <value column="Description" original="Maintain Valid Account Combinations ">Underhåll aktuella kontokombinationer</value>
  </row>
  <row id="107" trl="Y">
-  <value column="Name" original="Unit of Measure">Enhet
-        </value>
-  <value column="Description" original="Maintain Unit of Measure ">Underhåll av enheter
-        </value>
+  <value column="Name" original="Unit of Measure">Enhet</value>
+  <value column="Description" original="Maintain Unit of Measure ">Underhåll av enheter</value>
  </row>
  <row id="108" trl="Y">
-  <value column="Name" original="Location">Adress
-        </value>
-  <value column="Description" original="Maintain Location Address">Underhåll adress
-        </value>
+  <value column="Name" original="Location">Adress</value>
+  <value column="Description" original="Maintain Location Address">Underhåll adress</value>
  </row>
  <row id="109" trl="Y">
-  <value column="Name" original="Country Region and City">Regioner och städer
-        </value>
-  <value column="Description" original="Maintain Countries Regions and Cities">Underhåll regioner och städer
-        </value>
+  <value column="Name" original="Country Region and City">Regioner och städer</value>
+  <value column="Description" original="Maintain Countries Regions and Cities">Underhåll regioner och städer</value>
  </row>
  <row id="110" trl="Y">
-  <value column="Name" original="Business Partner">Affärspartner
-        </value>
-  <value column="Description" original="Maintain Business Partners">Underhåll affärspartner
-        </value>
+  <value column="Name" original="Business Partner">Affärspartner</value>
+  <value column="Description" original="Maintain Business Partners">Underhåll affärspartner</value>
  </row>
  <row id="111" trl="Y">
-  <value column="Name" original="Accounting Schema">Kontoplan
-        </value>
-  <value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Underhåll kontoplan - För att se gjorda ändringar måste du logga in på nytt
-        </value>
+  <value column="Name" original="Accounting Schema">Kontoplan</value>
+  <value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Underhåll kontoplan - För att se gjorda ändringar måste du logga in på nytt</value>
  </row>
  <row id="113" trl="Y">
-  <value column="Name" original="Test">Test
-        </value>
-  <value column="Description" original="Test Screen">Testbild
-        </value>
+  <value column="Name" original="Test">Test</value>
+  <value column="Description" original="Test Screen">Testbild</value>
  </row>
  <row id="114" trl="Y">
-  <value column="Name" original="Attachment">Bilaga
-        </value>
-  <value column="Description" original="Maintain Attachments">Underhåll bilagor
-        </value>
+  <value column="Name" original="Attachment">Bilaga</value>
+  <value column="Description" original="Maintain Attachments">Underhåll bilagor</value>
  </row>
  <row id="115" trl="Y">
-  <value column="Name" original="Preference">Standardvärden
-        </value>
-  <value column="Description" original="Maintain System Client Org and User Preferences">Underhåll system, klient, organisation och användares standardvärden
-        </value>
+  <value column="Name" original="Preference">Standardvärden</value>
+  <value column="Description" original="Maintain System Client Org and User Preferences">Underhåll system, klient, organisation och användares standardvärden</value>
  </row>
  <row id="116" trl="Y">
-  <value column="Name" original="Project (Service)">Projekt
-        </value>
-  <value column="Description" original="Maintain Service Projects">Underhållprojekt
-        </value>
+  <value column="Name" original="Project (Service)">Projekt</value>
+  <value column="Description" original="Maintain Service Projects">Underhållprojekt</value>
  </row>
  <row id="117" trl="Y">
-  <value column="Name" original="GL Category">Huvudbokskategorier
-        </value>
-  <value column="Description" original="Maintain General Ledger Categories">Underhåll huvudbokskategorier
-        </value>
+  <value column="Name" original="GL Category">Huvudbokskategorier</value>
+  <value column="Description" original="Maintain General Ledger Categories">Underhåll huvudbokskategorier</value>
  </row>
  <row id="118" trl="Y">
-  <value column="Name" original="GL Journal">Manuellt verifikat
-        </value>
-  <value column="Description" original="Enter and change Manual Journal Entries">Registrera och förändra manuella verifikat
-        </value>
+  <value column="Name" original="GL Journal">Manuellt verifikat</value>
+  <value column="Description" original="Enter and change Manual Journal Entries">Registrera och förändra manuella verifikat</value>
  </row>
  <row id="120" trl="Y">
-  <value column="Name" original="Activity (ABC)">Aktivitet (ABC)
-        </value>
-  <value column="Description" original="Maintain Activities for Activity Based Costing">Underhåll aktiviteter för ABC, Aktivitetsbaserad kostnadskalkylering
-        </value>
+  <value column="Name" original="Activity (ABC)">Aktivitet (ABC)</value>
+  <value column="Description" original="Maintain Activities for Activity Based Costing">Underhåll aktiviteter för ABC, Aktivitetsbaserad kostnadskalkylering</value>
  </row>
  <row id="121" trl="Y">
-  <value column="Name" original="Document Type">Dokumenttyp
-        </value>
-  <value column="Description" original="Maintain Document Types">Underhåll dokumenttyper
-        </value>
+  <value column="Name" original="Document Type">Dokumenttyp</value>
+  <value column="Description" original="Maintain Document Types">Underhåll dokumenttyper</value>
  </row>
  <row id="123" trl="Y">
-  <value column="Name" original="Tax Rate">Momssats
-        </value>
-  <value column="Description" original="Maintain Taxes and their Rates">Underhåll momssatser och deras procentsatser
-        </value>
+  <value column="Name" original="Tax Rate">Momssats</value>
+  <value column="Description" original="Maintain Taxes and their Rates">Underhåll momssatser och deras procentsatser</value>
  </row>
  <row id="124" trl="Y">
-  <value column="Name" original="Tax Category">Momskategori
-        </value>
-  <value column="Description" original="Maintain Tax Categories">Underhåll momskategorier
-        </value>
+  <value column="Name" original="Tax Category">Momskategori</value>
+  <value column="Description" original="Maintain Tax Categories">Underhåll momskategorier</value>
  </row>
  <row id="125" trl="Y">
-  <value column="Name" original="Warehouse &amp; Locators">Lagerlokaler och adresser
-        </value>
-  <value column="Description" original="Maintain Warehouses and Locators">Underhåll lagerlokaler och adresser.
-        </value>
+  <value column="Name" original="Warehouse &amp; Locators">Lagerlokaler och adresser</value>
+  <value column="Description" original="Maintain Warehouses and Locators">Underhåll lagerlokaler och adresser.</value>
  </row>
  <row id="126" trl="Y">
-  <value column="Name" original="Product">Produkt
-        </value>
-  <value column="Description" original="Maintain Products">Underhåll produkter
-        </value>
+  <value column="Name" original="Product">Produkt</value>
+  <value column="Description" original="Maintain Products">Underhåll produkter</value>
  </row>
  <row id="127" trl="Y">
-  <value column="Name" original="Payment Term">Betalningsvillkor
-        </value>
-  <value column="Description" original="Maintain Payment Terms">Underhåll betalningsvillkor
-        </value>
+  <value column="Name" original="Payment Term">Betalningsvillkor</value>
+  <value column="Description" original="Maintain Payment Terms">Underhåll betalningsvillkor</value>
  </row>
  <row id="128" trl="Y">
-  <value column="Name" original="Shipper">Leveranssätt
-        </value>
-  <value column="Description" original="Maintain Shippers">Underhåll leveranssätt
-        </value>
+  <value column="Name" original="Shipper">Leveranssätt</value>
+  <value column="Description" original="Maintain Shippers">Underhåll leveranssätt</value>
  </row>
  <row id="129" trl="Y">
-  <value column="Name" original="Sales Order">Kundorder
-        </value>
-  <value column="Description" original="Enter and change sales orders">Skapa och uppdatera kundordrar
-        </value>
+  <value column="Name" original="Sales Order">Kundorder</value>
+  <value column="Description" original="Enter and change sales orders">Skapa och uppdatera kundordrar</value>
  </row>
  <row id="130" trl="Y">
-  <value column="Name" original="Product Category">Produktkategori
-        </value>
-  <value column="Description" original="Maintain Product Categories">Underhåll produktkategori
-        </value>
+  <value column="Name" original="Product Category">Produktkategori</value>
+  <value column="Description" original="Maintain Product Categories">Underhåll produktkategori</value>
  </row>
  <row id="132" trl="Y">
-  <value column="Name" original="Price List">Prislista
-        </value>
-  <value column="Description" original="Maintain Product Price Lists">Underhåll produktprislistor
-        </value>
+  <value column="Name" original="Price List">Prislista</value>
+  <value column="Description" original="Maintain Product Price Lists">Underhåll produktprislistor</value>
  </row>
  <row id="133" trl="Y">
-  <value column="Name" original="Invoice Schedule">Samlingsfakturering
-        </value>
-  <value column="Description" original="Maintain Invoicing Schedule">Underhåll schema för automatisk samfakturering
-        </value>
+  <value column="Name" original="Invoice Schedule">Samlingsfakturering</value>
+  <value column="Description" original="Maintain Invoicing Schedule">Underhåll schema för automatisk samfakturering</value>
  </row>
  <row id="134" trl="Y">
-  <value column="Name" original="Marketing Campaign">Marknadskampanj
-        </value>
-  <value column="Description" original="Maintain Marketing Campaigns">Underhåll marknadskampanjer
-        </value>
+  <value column="Name" original="Marketing Campaign">Marknadskampanj</value>
+  <value column="Description" original="Maintain Marketing Campaigns">Underhåll marknadskampanjer</value>
  </row>
  <row id="135" trl="Y">
-  <value column="Name" original="GL Budget">Budget
-        </value>
-  <value column="Description" original="Maintain General Ledger Budgets">Underhåll budgetar
-        </value>
+  <value column="Name" original="GL Budget">Budget</value>
+  <value column="Description" original="Maintain General Ledger Budgets">Underhåll budgetar</value>
  </row>
  <row id="136" trl="Y">
-  <value column="Name" original="Marketing Channel">Marknadsföringskanal
-        </value>
-  <value column="Description" original="Maintain Marketing  Channels">Underhåll marknadsföringskanaler
-        </value>
+  <value column="Name" original="Marketing Channel">Marknadsföringskanal</value>
+  <value column="Description" original="Maintain Marketing  Channels">Underhåll marknadsföringskanaler</value>
  </row>
  <row id="137" trl="Y">
-  <value column="Name" original="Sales Region">Säljregion
-        </value>
-  <value column="Description" original="Maintain Sales Regions">Underhåll säljregioner
-        </value>
+  <value column="Name" original="Sales Region">Säljregion</value>
+  <value column="Description" original="Maintain Sales Regions">Underhåll säljregioner</value>
  </row>
  <row id="138" trl="Y">
-  <value column="Name" original="Element">Element
-        </value>
-  <value column="Description" original="Maintain System Elements">Underhåll fältelement
-        </value>
+  <value column="Name" original="Element">Element</value>
+  <value column="Description" original="Maintain System Elements">Underhåll fältelement</value>
  </row>
  <row id="139" trl="Y">
-  <value column="Name" original="Table and Column">Tabeller och kolumner
-        </value>
-  <value column="Description" original="Maintain Tables and Columns">Underhåll av tabeller och kolumner
-        </value>
+  <value column="Name" original="Table and Column">Tabeller och kolumner</value>
+  <value column="Description" original="Maintain Tables and Columns">Underhåll av tabeller och kolumner</value>
  </row>
  <row id="140" trl="Y">
-  <value column="Name" original="Reference">Standardvärden
-        </value>
-  <value column="Description" original="Maintain System References">Underhåll systemets standardvärden
-        </value>
+  <value column="Name" original="Reference">Standardvärden</value>
+  <value column="Description" original="Maintain System References">Underhåll systemets standardvärden</value>
  </row>
  <row id="141" trl="Y">
-  <value column="Name" original="Window, Tab &amp; Field">Fönster, flik och fält
-        </value>
-  <value column="Description" original="Maintain Windows, Tabs &amp; Fields">Underhåll fönster, flikar och fält.
-        </value>
+  <value column="Name" original="Window, Tab &amp; Field">Fönster, flik och fält</value>
+  <value column="Description" original="Maintain Windows, Tabs &amp; Fields">Underhåll fönster, flikar och fält.</value>
  </row>
  <row id="142" trl="Y">
-  <value column="Name" original="Validation Rules">Valideringsregler
-        </value>
-  <value column="Description" original="Maintain dynamic Validation Rules for columns and fields">Underhåll dynamiska valideringsregler för kolumner och fält.
-        </value>
+  <value column="Name" original="Validation Rules">Valideringsregler</value>
+  <value column="Description" original="Maintain dynamic Validation Rules for columns and fields">Underhåll dynamiska valideringsregler för kolumner och fält.</value>
  </row>
  <row id="143" trl="Y">
-  <value column="Name" original="Message">Meddelande
-        </value>
-  <value column="Description" original="Maintain Information and Error Messages">Underhåll information och felmeddelanden
-        </value>
+  <value column="Name" original="Message">Meddelande</value>
+  <value column="Description" original="Maintain Information and Error Messages">Underhåll information och felmeddelanden</value>
  </row>
  <row id="144" trl="Y">
-  <value column="Name" original="Menu">Meny
-        </value>
-  <value column="Description" original="Maintain Menu">Underhåll meny
-        </value>
+  <value column="Name" original="Menu">Meny</value>
+  <value column="Description" original="Maintain Menu">Underhåll meny</value>
  </row>
  <row id="145" trl="Y">
-  <value column="Name" original="Language">Språk
-        </value>
-  <value column="Description" original="Maintain Languages">Underhåll språk
-        </value>
+  <value column="Name" original="Language">Språk</value>
+  <value column="Description" original="Maintain Languages">Underhåll språk</value>
  </row>
  <row id="147" trl="Y">
-  <value column="Name" original="User">Användare
-        </value>
-  <value column="Description" original="Maintain Users of the system">Underhåll systemanvändare.
-        </value>
+  <value column="Name" original="User">Användare</value>
+  <value column="Description" original="Maintain Users of the system">Underhåll systemanvändare.</value>
  </row>
  <row id="148" trl="Y">
-  <value column="Name" original="Client">Klient
-        </value>
-  <value column="Description" original="Maintain Clients/Tenants">Underhåll klienter
-        </value>
+  <value column="Name" original="Client">Klient</value>
+  <value column="Description" original="Maintain Clients/Tenants">Underhåll klienter</value>
  </row>
  <row id="149" trl="Y">
-  <value column="Name" original="Organization">Organisation
-        </value>
-  <value column="Description" original="Maintain Organizations">Underhåll organisationer
-        </value>
+  <value column="Name" original="Organization">Organisation</value>
+  <value column="Description" original="Maintain Organizations">Underhåll organisationer</value>
  </row>
  <row id="150" trl="Y">
-  <value column="Name" original="Role">Roll
-        </value>
-  <value column="Description" original="Maintain User Responsibilities">Underhåll användarroller
-        </value>
+  <value column="Name" original="Role">Roll</value>
+  <value column="Description" original="Maintain User Responsibilities">Underhåll användarroller</value>
  </row>
  <row id="151" trl="Y">
-  <value column="Name" original="Document Sequence">Dokumentsekvens
-        </value>
-  <value column="Description" original="Maintain System and Document Sequences">Underhåll system och dokumentsekvenser
-        </value>
+  <value column="Name" original="Document Sequence">Dokumentsekvens</value>
+  <value column="Description" original="Maintain System and Document Sequences">Underhåll system och dokumentsekvenser</value>
  </row>
  <row id="152" trl="Y">
-  <value column="Name" original="Workflow">Arbetsflöde
-        </value>
-  <value column="Description" original="Maintain Workflow">Underhåll arbetsflöde
-        </value>
+  <value column="Name" original="Workflow">Arbetsflöde</value>
+  <value column="Description" original="Maintain Workflow">Underhåll arbetsflöde</value>
  </row>
  <row id="153" trl="Y">
-  <value column="Name" original="Application Dictionary">Ordlista
-        </value>
-  <value column="Description" original="Maintain Application Dictionary">Underhåll av affärssystemets ordlista
-        </value>
+  <value column="Name" original="Application Dictionary">Ordlista</value>
+  <value column="Description" original="Maintain Application Dictionary">Underhåll av affärssystemets ordlista</value>
  </row>
  <row id="155" trl="Y">
-  <value column="Name" original="General Rules">Inställningar
-        </value>
+  <value column="Name" original="General Rules">Inställningar</value>
   <value column="Description" original=""/>
  </row>
  <row id="156" trl="Y">
-  <value column="Name" original="Client Rules">Inställningar klient
-        </value>
-  <value column="Description" original="Maintain Client Rules">Underhåll av inställningar för klient
-        </value>
+  <value column="Name" original="Client Rules">Inställningar klient</value>
+  <value column="Description" original="Maintain Client Rules">Underhåll av inställningar för klient</value>
  </row>
  <row id="157" trl="Y">
-  <value column="Name" original="Data">Data
-        </value>
-  <value column="Description" original="Maintain Data">Underhåll data
-        </value>
+  <value column="Name" original="Data">Data</value>
+  <value column="Description" original="Maintain Data">Underhåll data</value>
  </row>
  <row id="158" trl="Y">
-  <value column="Name" original="Performance Measurement">Resultatmätning
-        </value>
+  <value column="Name" original="Performance Measurement">Resultatmätning</value>
   <value column="Description" original=""/>
  </row>
  <row id="159" trl="Y">
-  <value column="Name" original="Utility">Grunddata
-        </value>
+  <value column="Name" original="Utility">Grunddata</value>
   <value column="Description" original=""/>
  </row>
  <row id="160" trl="Y">
-  <value column="Name" original="Project Management">Projektstyrning
-        </value>
+  <value column="Name" original="Project Management">Projektstyrning</value>
   <value column="Description" original=""/>
  </row>
  <row id="161" trl="Y">
-  <value column="Name" original="System Rules">Systeminställningar
-        </value>
-  <value column="Description" original="General System Rules">Övergripande systeminställningar
-        </value>
+  <value column="Name" original="System Rules">Systeminställningar</value>
+  <value column="Description" original="General System Rules">Övergripande systeminställningar</value>
  </row>
  <row id="163" trl="Y">
-  <value column="Name" original="Data Import">Importera data
-        </value>
+  <value column="Name" original="Data Import">Importera data</value>
   <value column="Description" original=""/>
  </row>
  <row id="164" trl="Y">
-  <value column="Name" original="Accounting Rules">Inställningar bokföring
-        </value>
+  <value column="Name" original="Accounting Rules">Inställningar bokföring</value>
   <value column="Description" original=""/>
  </row>
  <row id="165" trl="Y">
-  <value column="Name" original="Business Partner Rules">Regler affärspartner
-        </value>
+  <value column="Name" original="Business Partner Rules">Regler affärspartner</value>
   <value column="Description" original=""/>
  </row>
  <row id="166" trl="Y">
-  <value column="Name" original="Quote-to-Invoice">Offert till faktura
-        </value>
+  <value column="Name" original="Quote-to-Invoice">Offert till faktura</value>
   <value column="Description" original=""/>
  </row>
  <row id="167" trl="Y">
-  <value column="Name" original="Products">Produkt
-        </value>
-  <value column="Description" original="Products">Produkt
-        </value>
+  <value column="Name" original="Products">Produkt</value>
+  <value column="Description" original="Products">Produkt</value>
  </row>
  <row id="169" trl="Y">
-  <value column="Name" original="Accounting Fact Details">Kontodetaljer
-        </value>
-  <value column="Description" original="Query Accounting Facts">Fråga kontodetaljer
-        </value>
+  <value column="Name" original="Accounting Fact Details">Kontodetaljer</value>
+  <value column="Description" original="Query Accounting Facts">Fråga kontodetaljer</value>
  </row>
  <row id="170" trl="Y">
-  <value column="Name" original="Tree">Träd och noder
-        </value>
-  <value column="Description" original="Maintain Tree definition">Underhåll trädstrukturdefinition
-        </value>
+  <value column="Name" original="Tree">Träd och noder</value>
+  <value column="Description" original="Maintain Tree definition">Underhåll trädstrukturdefinition</value>
  </row>
  <row id="171" trl="Y">
-  <value column="Name" original="Bank">Bank
-        </value>
-  <value column="Description" original="Maintain Bank">Maintain Bank
-        </value>
+  <value column="Name" original="Bank">Bank</value>
+  <value column="Description" original="Maintain Bank">Maintain Bank</value>
  </row>
  <row id="172" trl="Y">
-  <value column="Name" original="Dunning">Påminnelseavisering
-        </value>
-  <value column="Description" original="Maintain Dunning Levels">Underhåll påminnelseaviseringar
-        </value>
+  <value column="Name" original="Dunning">Påminnelseavisering</value>
+  <value column="Description" original="Maintain Dunning Levels">Underhåll påminnelseaviseringar</value>
  </row>
  <row id="173" trl="Y">
-  <value column="Name" original="Withholding (1099)">Undanhållande (1099)
-        </value>
-  <value column="Description" original="Maintain Withholding Certificates">Underhåll undanhållande
-        </value>
+  <value column="Name" original="Withholding (1099)">Undanhållande (1099)</value>
+  <value column="Description" original="Maintain Withholding Certificates">Underhåll undanhållande</value>
  </row>
  <row id="174" trl="Y">
-  <value column="Name" original="Charge">Avgift
-        </value>
-  <value column="Description" original="Maintain Charges">Underhåll avgifter
-        </value>
+  <value column="Name" original="Charge">Avgift</value>
+  <value column="Description" original="Maintain Charges">Underhåll avgifter</value>
  </row>
  <row id="175" trl="Y">
-  <value column="Name" original="Organization Rules">Inställningar organisation
-        </value>
+  <value column="Name" original="Organization Rules">Inställningar organisation</value>
   <value column="Description" original=""/>
  </row>
  <row id="176" trl="Y">
-  <value column="Name" original="Report &amp; Process">Rapporter och processer
-        </value>
-  <value column="Description" original="Maintain Reports &amp; Processes">Underhåll rapporter och processer
-        </value>
+  <value column="Name" original="Report &amp; Process">Rapporter och processer</value>
+  <value column="Description" original="Maintain Reports &amp; Processes">Underhåll rapporter och processer</value>
  </row>
  <row id="178" trl="Y">
-  <value column="Name" original="Invoice (Customer)">Kundfaktura
-        </value>
-  <value column="Description" original="">Behandling av kundfakturor
-        </value>
+  <value column="Name" original="Invoice (Customer)">Kundfaktura</value>
+  <value column="Description" original="">Behandling av kundfakturor</value>
  </row>
  <row id="179" trl="Y">
-  <value column="Name" original="Physical Inventory">Inventering
-        </value>
-  <value column="Description" original="Enter Physical Inventory">Registrera inventering
-        </value>
+  <value column="Name" original="Physical Inventory">Inventering</value>
+  <value column="Description" original="Enter Physical Inventory">Registrera inventering</value>
  </row>
  <row id="180" trl="Y">
-  <value column="Name" original="Shipment (Customer)">Leverans (kund)
-        </value>
-  <value column="Description" original="Customer Inventory Shipments Customer Returns">Kundleveranser från lager
-        </value>
+  <value column="Name" original="Shipment (Customer)">Leverans (kund)</value>
+  <value column="Description" original="Customer Inventory Shipments Customer Returns">Kundleveranser från lager</value>
  </row>
  <row id="181" trl="Y">
-  <value column="Name" original="Inventory Move">Lagerförflyttning
-        </value>
-  <value column="Description" original="Inventory Move">Lagerförflyttning
-        </value>
+  <value column="Name" original="Inventory Move">Lagerförflyttning</value>
+  <value column="Description" original="Inventory Move">Lagerförflyttning</value>
  </row>
  <row id="183" trl="Y">
-  <value column="Name" original="Material Management">Lager
-        </value>
-  <value column="Description" original="">Lager
-        </value>
+  <value column="Name" original="Material Management">Lager</value>
+  <value column="Description" original="">Lager</value>
  </row>
  <row id="185" trl="Y">
-  <value column="Name" original="Import Business Partner">Importera affärspartner
-        </value>
-  <value column="Description" original="Import Business Partner">Importera affärspartner
-        </value>
+  <value column="Name" original="Import Business Partner">Importera affärspartner</value>
+  <value column="Description" original="Import Business Partner">Importera affärspartner</value>
  </row>
  <row id="186" trl="Y">
-  <value column="Name" original="Revenue Recognition">Inläsning av intäkter
-        </value>
-  <value column="Description" original="Revenue Recognition Rules">Regler för inläsning av intäkter
-        </value>
+  <value column="Name" original="Revenue Recognition">Inläsning av intäkter</value>
+  <value column="Description" original="Revenue Recognition Rules">Regler för inläsning av intäkter</value>
  </row>
  <row id="187" trl="Y">
-  <value column="Name" original="Perpetual Inventory">Rullande inventering
-        </value>
-  <value column="Description" original="Maintain Perpetual Inventory Rules">Underhåll regler för rullande inventering
-        </value>
+  <value column="Name" original="Perpetual Inventory">Rullande inventering</value>
+  <value column="Description" original="Maintain Perpetual Inventory Rules">Underhåll regler för rullande inventering</value>
  </row>
  <row id="188" trl="Y">
-  <value column="Name" original="Vendor Details">Produkter per leverantör
-        </value>
-  <value column="Description" original="Maintain Vendor Details">Visa/underhåll produkter per leverantör
-        </value>
+  <value column="Name" original="Vendor Details">Produkter per leverantör</value>
+  <value column="Description" original="Maintain Vendor Details">Visa/underhåll produkter per leverantör</value>
  </row>
  <row id="190" trl="Y">
-  <value column="Name" original="Greeting">Hälsning
-        </value>
-  <value column="Description" original="Maintain Greetings">Underhåll hälsningar
-        </value>
+  <value column="Name" original="Greeting">Hälsning</value>
+  <value column="Description" original="Maintain Greetings">Underhåll hälsningar</value>
  </row>
  <row id="192" trl="Y">
-  <value column="Name" original="Generate Invoices">Skapa fakturor
-        </value>
-  <value column="Description" original="Generate and print Invoices from open Orders">Skapa och skriv ut fakturor.
-        </value>
+  <value column="Name" original="Generate Invoices">Skapa fakturor</value>
+  <value column="Description" original="Generate and print Invoices from open Orders">Skapa och skriv ut fakturor.</value>
  </row>
  <row id="193" trl="Y">
-  <value column="Name" original="Generate Shipments">Skapa leveranser
-        </value>
+  <value column="Name" original="Generate Shipments">Skapa leveranser</value>
   <value column="Description" original="Generate and print Shipments from open Orders"/>
  </row>
  <row id="194" trl="Y">
-  <value column="Name" original="Order Transactions">Ordertransaktioner
-        </value>
-  <value column="Description" original="Sales Order Transaction Report ">Kundorderrapport
-        </value>
+  <value column="Name" original="Order Transactions">Ordertransaktioner</value>
+  <value column="Description" original="Sales Order Transaction Report ">Kundorderrapport</value>
  </row>
  <row id="195" trl="Y">
-  <value column="Name" original="Open Orders">Öppna order
-        </value>
+  <value column="Name" original="Open Orders">Öppna order</value>
   <value column="Description" original="Open Order Report"/>
  </row>
  <row id="196" trl="Y">
-  <value column="Name" original="Replenish Report">Lagerpåfyllnadsrapport
-        </value>
-  <value column="Description" original="Inventory Replenish Report">Rapport över lagervaror som behöver fyllas på.
-        </value>
+  <value column="Name" original="Replenish Report">Lagerpåfyllnadsrapport</value>
+  <value column="Description" original="Inventory Replenish Report">Rapport över lagervaror som behöver fyllas på.</value>
  </row>
  <row id="197" trl="Y">
-  <value column="Name" original="Product Transaction Summary">Sammanställning över lagertransaktioner
-        </value>
-  <value column="Description" original="Product Transaction Summary">Sammanställning över lagertransaktioner
-        </value>
+  <value column="Name" original="Product Transaction Summary">Sammanställning över lagertransaktioner</value>
+  <value column="Description" original="Product Transaction Summary">Sammanställning över lagertransaktioner</value>
  </row>
  <row id="199" trl="Y">
-  <value column="Name" original="Order Drilldown">Orderdetaljer
-        </value>
+  <value column="Name" original="Order Drilldown">Orderdetaljer</value>
   <value column="Description" original=""/>
  </row>
  <row id="200" trl="Y">
-  <value column="Name" original="Request Processor">Förfrågeprocess
-        </value>
-  <value column="Description" original="Define Request Processors">Definiera förfrågeprocesser
-        </value>
+  <value column="Name" original="Request Processor">Förfrågeprocess</value>
+  <value column="Description" original="Define Request Processors">Definiera förfrågeprocesser</value>
  </row>
  <row id="201" trl="Y">
-  <value column="Name" original="Report View">Rapportvy
-        </value>
-  <value column="Description" original="Maintain Report Views">Underhåll raportvyer
-        </value>
+  <value column="Name" original="Report View">Rapportvy</value>
+  <value column="Description" original="Maintain Report Views">Underhåll raportvyer</value>
  </row>
  <row id="202" trl="Y">
-  <value column="Name" original="Invoice Transactions (Acct)">Fakturatransaktioner
-        </value>
-  <value column="Description" original="Invoice Transactions by Accounting Date">Fakturatransaktioner
-        </value>
+  <value column="Name" original="Invoice Transactions (Acct)">Fakturatransaktioner</value>
+  <value column="Description" original="Invoice Transactions by Accounting Date">Fakturatransaktioner</value>
  </row>
  <row id="203" trl="Y">
-  <value column="Name" original="Requisition-to-Invoice">Rekvisition till faktura
-        </value>
+  <value column="Name" original="Requisition-to-Invoice">Rekvisition till faktura</value>
   <value column="Description" original=""/>
  </row>
  <row id="204" trl="Y">
-  <value column="Name" original="Material Receipt">Inleverans
-        </value>
-  <value column="Description" original="Vendor Shipments (Receipts)">Inleverans från leverantör (mottagningskvitto)
-        </value>
+  <value column="Name" original="Material Receipt">Inleverans</value>
+  <value column="Description" original="Vendor Shipments (Receipts)">Inleverans från leverantör (mottagningskvitto)</value>
  </row>
  <row id="205" trl="Y">
-  <value column="Name" original="Purchase Order">Inköpsorder
-        </value>
-  <value column="Description" original="Manage Purchase Orders">Hantera inköpsorder
-        </value>
+  <value column="Name" original="Purchase Order">Inköpsorder</value>
+  <value column="Description" original="Manage Purchase Orders">Hantera inköpsorder</value>
  </row>
  <row id="206" trl="Y">
-  <value column="Name" original="Invoice (Vendor)">Leverantörsfaktura
-        </value>
-  <value column="Description" original="Vendor Invoice Entry">Behandling av leverantörsfakturor
-        </value>
+  <value column="Name" original="Invoice (Vendor)">Leverantörsfaktura</value>
+  <value column="Description" original="Vendor Invoice Entry">Behandling av leverantörsfakturor</value>
  </row>
  <row id="208" trl="Y">
-  <value column="Name" original="EDI Definition">EDI-definition
-        </value>
-  <value column="Description" original="Maintain EDI Definition">Underhåll EDI-definition
-        </value>
+  <value column="Name" original="EDI Definition">EDI-definition</value>
+  <value column="Description" original="Maintain EDI Definition">Underhåll EDI-definition</value>
  </row>
  <row id="209" trl="Y">
-  <value column="Name" original="EDI Transaction">EDI-transaktion
-        </value>
+  <value column="Name" original="EDI Transaction">EDI-transaktion</value>
   <value column="Description" original=""/>
  </row>
  <row id="210" trl="Y">
-  <value column="Name" original="Daily Invoice">Daglig fakturering
-        </value>
+  <value column="Name" original="Daily Invoice">Daglig fakturering</value>
   <value column="Description" original="Imvoice Report per Day"/>
  </row>
  <row id="211" trl="Y">
-  <value column="Name" original="Monthly Invoice">Månatlig fakturering
-        </value>
+  <value column="Name" original="Monthly Invoice">Månatlig fakturering</value>
   <value column="Description" original="Imvoice Report per Month"/>
  </row>
  <row id="212" trl="Y">
-  <value column="Name" original="Monthly Invoice Product">Månatlig fakturering produkt
-        </value>
+  <value column="Name" original="Monthly Invoice Product">Månatlig fakturering produkt</value>
   <value column="Description" original="Imvoice Report by Product per Month"/>
  </row>
  <row id="213" trl="Y">
-  <value column="Name" original="Weekly Invoice Product">Veckovis fakturering av produkt
-        </value>
+  <value column="Name" original="Weekly Invoice Product">Veckovis fakturering av produkt</value>
   <value column="Description" original="Imvoice Report by Product per Week"/>
  </row>
  <row id="214" trl="Y">
-  <value column="Name" original="Monthly Invoice Vendor">Månatlig fakturering leverantör
-        </value>
+  <value column="Name" original="Monthly Invoice Vendor">Månatlig fakturering leverantör</value>
   <value column="Description" original="Imvoice Report by Product Vendor per Month"/>
  </row>
  <row id="215" trl="Y">
-  <value column="Name" original="Weekly Invoice">Veckovis fakturering
-        </value>
+  <value column="Name" original="Weekly Invoice">Veckovis fakturering</value>
   <value column="Description" original="Imvoice Report per Week"/>
  </row>
  <row id="216" trl="Y">
-  <value column="Name" original="Form">Formulär
-        </value>
-  <value column="Description" original="Special Forms">Special formulär
-        </value>
+  <value column="Name" original="Form">Formulär</value>
+  <value column="Description" original="Special Forms">Special formulär</value>
  </row>
  <row id="217" trl="Y">
-  <value column="Name" original="Generate Invoices (manual)">Generera faktura (manuell)
-        </value>
-  <value column="Description" original="Select and generate invoices">Välj och generera faktura
-        </value>
+  <value column="Name" original="Generate Invoices (manual)">Generera faktura (manuell)</value>
+  <value column="Description" original="Select and generate invoices">Välj och generera faktura</value>
  </row>
  <row id="218" trl="Y">
-  <value column="Name" original="System Admin">Systemadministration
-        </value>
+  <value column="Name" original="System Admin">Systemadministration</value>
   <value column="Description" original=""/>
  </row>
  <row id="219" trl="Y">
-  <value column="Name" original="Project Setup and Use">Att skapa och använda projekt
-        </value>
-  <value column="Description" original="Setup of projects and project reporting">Sätta upp projekt och projektrapportering
-        </value>
+  <value column="Name" original="Project Setup and Use">Att skapa och använda projekt</value>
+  <value column="Description" original="Setup of projects and project reporting">Sätta upp projekt och projektrapportering</value>
  </row>
  <row id="220" trl="Y">
-  <value column="Name" original="Java Version">Javaversion
-        </value>
-  <value column="Description" original="Displays the version of the default Java VM">Visar version av förvald (default) Java VM
-        </value>
+  <value column="Name" original="Java Version">Javaversion</value>
+  <value column="Description" original="Displays the version of the default Java VM">Visar version av förvald (default) Java VM</value>
  </row>
  <row id="221" trl="Y">
-  <value column="Name" original="Error Message">Felmeddelande
-        </value>
-  <value column="Description" original="Display Error Messages">Visa felmeddelanden
-        </value>
+  <value column="Name" original="Error Message">Felmeddelande</value>
+  <value column="Description" original="Display Error Messages">Visa felmeddelanden</value>
  </row>
  <row id="222" trl="Y">
-  <value column="Name" original="Import Loader Format">Importera inläsningsformat
-        </value>
-  <value column="Description" original="Maintain Import Loader Formats">Underhåll inläsningsformat
-        </value>
+  <value column="Name" original="Import Loader Format">Importera inläsningsformat</value>
+  <value column="Description" original="Maintain Import Loader Formats">Underhåll inläsningsformat</value>
  </row>
  <row id="223" trl="Y">
-  <value column="Name" original="Import File Loader">Filimportör
-        </value>
-  <value column="Description" original="Load flat Files into import tables">Filimportör importerar och öppnar fil
-        </value>
+  <value column="Name" original="Import File Loader">Filimportör</value>
+  <value column="Description" original="Load flat Files into import tables">Filimportör importerar och öppnar fil</value>
  </row>
  <row id="224" trl="Y">
-  <value column="Name" original="Language Setup">Lägg in [nytt] språk
-        </value>
-  <value column="Description" original="Setup a new Language of the system and translate elements">Lägg in ett nytt språk i systemet och översätt alla element
-        </value>
+  <value column="Name" original="Language Setup">Lägg in [nytt] språk</value>
+  <value column="Description" original="Setup a new Language of the system and translate elements">Lägg in ett nytt språk i systemet och översätt alla element</value>
  </row>
  <row id="225" trl="Y">
-  <value column="Name" original="Initial Client Setup">Skapa klient
-        </value>
-  <value column="Description" original="Initial Client Setup">Gör alla grundinställningar för en ny klient
-        </value>
+  <value column="Name" original="Initial Client Setup">Skapa klient</value>
+  <value column="Description" original="Initial Client Setup">Gör alla grundinställningar för en ny klient</value>
  </row>
  <row id="226" trl="Y">
-  <value column="Name" original="Tire Storage">Däcklager
-        </value>
-  <value column="Description" original="Maintain storage of tires">Underhåll däcklager
-        </value>
+  <value column="Name" original="Tire Storage">Däcklager</value>
+  <value column="Description" original="Maintain storage of tires">Underhåll däcklager</value>
  </row>
  <row id="227" trl="Y">
-  <value column="Name" original="Vendor Selection">Välj leverantör
-        </value>
-  <value column="Description" original="Products with more than one vendor">Produkter med mer än en leverantör
-        </value>
+  <value column="Name" original="Vendor Selection">Välj leverantör</value>
+  <value column="Description" original="Products with more than one vendor">Produkter med mer än en leverantör</value>
  </row>
  <row id="228" trl="Y">
-  <value column="Name" original="Production">Produktion
-        </value>
-  <value column="Description" original="Production based on Bill of Materials">Sammansatta artiklar baserade på produktion
-        </value>
+  <value column="Name" original="Production">Produktion</value>
+  <value column="Description" original="Production based on Bill of Materials">Sammansatta artiklar baserade på produktion</value>
  </row>
  <row id="229" trl="Y">
-  <value column="Name" original="Material Transactions">Materialtransaktioner
-        </value>
-  <value column="Description" original="Material Transactions">Materialtransaktioner
-        </value>
+  <value column="Name" original="Material Transactions">Materialtransaktioner</value>
+  <value column="Description" original="Material Transactions">Materialtransaktioner</value>
  </row>
  <row id="230" trl="Y">
-  <value column="Name" original="Quarterly Invoice Customer by Product">Kvartalsvis fakturering kund per produkt
-        </value>
+  <value column="Name" original="Quarterly Invoice Customer by Product">Kvartalsvis fakturering kund per produkt</value>
   <value column="Description" original="Invoice Report by Customer and Product per Quarter"/>
  </row>
  <row id="231" trl="Y">
-  <value column="Name" original="Quarterly Invoice Customer by Vendor">Kvartalsvis fakturering kund per leverantör
-        </value>
+  <value column="Name" original="Quarterly Invoice Customer by Vendor">Kvartalsvis fakturering kund per leverantör</value>
   <value column="Description" original="Invoice Report by Customer and Product Vendor per Quarter"/>
  </row>
  <row id="232" trl="Y">
-  <value column="Name" original="Business Partner Group">Affärspartnergrupp
-        </value>
-  <value column="Description" original="Maintain Business Partner Groups">Underhåll affärspartnergrupp
-        </value>
+  <value column="Name" original="Business Partner Group">Affärspartnergrupp</value>
+  <value column="Description" original="Maintain Business Partner Groups">Underhåll affärspartnergrupp</value>
  </row>
  <row id="233" trl="Y">
-  <value column="Name" original="Notice">Meddelande
-        </value>
-  <value column="Description" original="View System Notices">Visa systemmeddelanden
-        </value>
+  <value column="Name" original="Notice">Meddelande</value>
+  <value column="Description" original="View System Notices">Visa systemmeddelanden</value>
  </row>
  <row id="234" trl="Y">
-  <value column="Name" original="Bank Statement">Bankkontoutdrag
-        </value>
-  <value column="Description" original="Process Bank Statements">Bearbeta bankkontoutdrag
-        </value>
+  <value column="Name" original="Bank Statement">Bankkontoutdrag</value>
+  <value column="Description" original="Process Bank Statements">Bearbeta bankkontoutdrag</value>
  </row>
  <row id="235" trl="Y">
-  <value column="Name" original="Payment">Betalning
-        </value>
-  <value column="Description" original="Process Payments and Receipts">Bearbeta betalningar
-        </value>
+  <value column="Name" original="Payment">Betalning</value>
+  <value column="Description" original="Process Payments and Receipts">Bearbeta betalningar</value>
  </row>
  <row id="236" trl="Y">
-  <value column="Name" original="Open Items">Öppna poster
-        </value>
+  <value column="Name" original="Open Items">Öppna poster</value>
   <value column="Description" original=""/>
  </row>
  <row id="237" trl="Y">
-  <value column="Name" original="Request">Förfrågan
-        </value>
-  <value column="Description" original="Work on your requests">Arbeta med förfrågningar tilldelade dig
-        </value>
+  <value column="Name" original="Request">Förfrågan</value>
+  <value column="Description" original="Work on your requests">Arbeta med förfrågningar tilldelade dig</value>
  </row>
  <row id="238" trl="Y">
-  <value column="Name" original="Mail Template">E-postmall
-        </value>
-  <value column="Description" original="Maintain Mail Template">Underhåll e-postmall
-        </value>
+  <value column="Name" original="Mail Template">E-postmall</value>
+  <value column="Description" original="Maintain Mail Template">Underhåll e-postmall</value>
  </row>
  <row id="239" trl="Y">
-  <value column="Name" original="Custom Attribute">Standard egenskaper
-        </value>
-  <value column="Description" original="Maintain custom entity attributes">Underhåll standard egenskaper
-        </value>
+  <value column="Name" original="Custom Attribute">Standard egenskaper</value>
+  <value column="Description" original="Maintain custom entity attributes">Underhåll standard egenskaper</value>
  </row>
  <row id="240" trl="Y">
-  <value column="Name" original="Cashbook">Kassabok
-        </value>
-  <value column="Description" original="Maintain Cashbook">Underhåll kassabok
-        </value>
+  <value column="Name" original="Cashbook">Kassabok</value>
+  <value column="Description" original="Maintain Cashbook">Underhåll kassabok</value>
  </row>
  <row id="241" trl="Y">
-  <value column="Name" original="Cash Journal">Kassajournal
-        </value>
-  <value column="Description" original="Cash transactions">Kontanttransaktioner
-        </value>
+  <value column="Name" original="Cash Journal">Kassajournal</value>
+  <value column="Description" original="Cash transactions">Kontanttransaktioner</value>
  </row>
  <row id="243" trl="Y">
-  <value column="Name" original="Open Items">Reskontra
-        </value>
-  <value column="Description" original="Open Item List">Reskontrasammanställning
-        </value>
+  <value column="Name" original="Open Items">Reskontra</value>
+  <value column="Description" original="Open Item List">Reskontrasammanställning</value>
  </row>
  <row id="244" trl="Y">
-  <value column="Name" original="Unreconciled Payments">Ej avstämda betalningar
-        </value>
-  <value column="Description" original="Payments not reconciled with Bank Statement">Betalningar som inte stämts av mot bankkontoutdrag
-        </value>
+  <value column="Name" original="Unreconciled Payments">Ej avstämda betalningar</value>
+  <value column="Description" original="Payments not reconciled with Bank Statement">Betalningar som inte stämts av mot bankkontoutdrag</value>
  </row>
  <row id="245" trl="Y">
-  <value column="Name" original="Payment Allocation">Allokera betalning
-        </value>
-  <value column="Description" original="Allocate invoices and payments">Betalningsallokering för fakturor och betalningar
-        </value>
+  <value column="Name" original="Payment Allocation">Allokera betalning</value>
+  <value column="Description" original="Allocate invoices and payments">Betalningsallokering för fakturor och betalningar</value>
  </row>
  <row id="246" trl="Y">
-  <value column="Name" original="Payment Allocation">Betalning
-        </value>
-  <value column="Description" original="Payment - Invoice - Allocation">Betalning av faktura
-        </value>
+  <value column="Name" original="Payment Allocation">Betalning</value>
+  <value column="Description" original="Payment - Invoice - Allocation">Betalning av faktura</value>
  </row>
  <row id="249" trl="Y">
-  <value column="Name" original="Field Group">Fältgrupp
-        </value>
-  <value column="Description" original="Define Field Group">Definiera fältgrupp
-        </value>
+  <value column="Name" original="Field Group">Fältgrupp</value>
+  <value column="Description" original="Define Field Group">Definiera fältgrupp</value>
  </row>
  <row id="251" trl="Y">
-  <value column="Name" original="View Allocation">Korrigera allokering
-        </value>
-  <value column="Description" original="View and Reverse Allocations ">Korrigera allokeringar
-        </value>
+  <value column="Name" original="View Allocation">Korrigera allokering</value>
+  <value column="Description" original="View and Reverse Allocations ">Korrigera allokeringar</value>
  </row>
  <row id="252" trl="Y">
-  <value column="Name" original="Invoice Transactions (Doc)">Fakturasammanställning
-        </value>
-  <value column="Description" original="Invoice Transactions by Invoice Date">Fakturasammanställning
-        </value>
+  <value column="Name" original="Invoice Transactions (Doc)">Fakturasammanställning</value>
+  <value column="Description" original="Invoice Transactions by Invoice Date">Fakturasammanställning</value>
  </row>
  <row id="253" trl="Y">
-  <value column="Name" original="Invoice Detail &amp; Margin">Fakturadetaljer
-        </value>
+  <value column="Name" original="Invoice Detail &amp; Margin">Fakturadetaljer</value>
   <value column="Description" original="Invoice (Line) Detail and Margin Report"/>
  </row>
  <row id="254" trl="Y">
-  <value column="Name" original="Generate Charges">Generera debitering
-        </value>
-  <value column="Description" original="Generate Charges from natural accounts">Genererar debitering från bokföringskonto
-        </value>
+  <value column="Name" original="Generate Charges">Generera debitering</value>
+  <value column="Description" original="Generate Charges from natural accounts">Genererar debitering från bokföringskonto</value>
  </row>
  <row id="255" trl="Y">
-  <value column="Name" original="Payment Selection">Urval för betalning
-        </value>
-  <value column="Description" original="Select Invoices for Payment">Välj fakturor att betala
-        </value>
+  <value column="Name" original="Payment Selection">Urval för betalning</value>
+  <value column="Description" original="Select Invoices for Payment">Välj fakturor att betala</value>
  </row>
  <row id="256" trl="Y">
-  <value column="Name" original="Product Transaction Value">Lagertransaktioner med värde
-        </value>
-  <value column="Description" original="Product Transaction Value">Lagertransaktioner med värde
-        </value>
+  <value column="Name" original="Product Transaction Value">Lagertransaktioner med värde</value>
+  <value column="Description" original="Product Transaction Value">Lagertransaktioner med värde</value>
  </row>
  <row id="257" trl="Y">
-  <value column="Name" original="Commission">Provision
-        </value>
-  <value column="Description" original="Maintain Commissions and Royalties">Underhåll provisioner och royalties.
-        </value>
+  <value column="Name" original="Commission">Provision</value>
+  <value column="Description" original="Maintain Commissions and Royalties">Underhåll provisioner och royalties.</value>
  </row>
  <row id="258" trl="Y">
-  <value column="Name" original="Project Reporting">Projektcykel
-        </value>
-  <value column="Description" original="Maintain Project Reporting Cycles">Underhåll projektcykler
-        </value>
+  <value column="Name" original="Project Reporting">Projektcykel</value>
+  <value column="Description" original="Maintain Project Reporting Cycles">Underhåll projektcykler</value>
  </row>
  <row id="260" trl="Y">
-  <value column="Name" original="Project Status Summary">Sammanfattande projektstatus
-        </value>
-  <value column="Description" original="Project Status of Project Cycle">Projektstatus i relation till projektcykel
-        </value>
+  <value column="Name" original="Project Status Summary">Sammanfattande projektstatus</value>
+  <value column="Description" original="Project Status of Project Cycle">Projektstatus i relation till projektcykel</value>
  </row>
  <row id="261" trl="Y">
-  <value column="Name" original="Initial Client Setup Review">Skapa ny klient - översikt av inställningar
-        </value>
-  <value column="Description" original="Review of system level setup of a new  Client">Granskning av inställningar på systemnivå för en ny klient
-        </value>
+  <value column="Name" original="Initial Client Setup Review">Skapa ny klient - översikt av inställningar</value>
+  <value column="Description" original="Review of system level setup of a new  Client">Granskning av inställningar på systemnivå för en ny klient</value>
  </row>
  <row id="263" trl="Y">
-  <value column="Name" original="Partner Relations">Partners
-        </value>
-  <value column="Description" original="Customer Relations and Partner Management">Kundrelationer/Customer Relations och styrning av partnerskap/Partner Management
-        </value>
+  <value column="Name" original="Partner Relations">Partners</value>
+  <value column="Description" original="Customer Relations and Partner Management">Kundrelationer/Customer Relations och styrning av partnerskap/Partner Management</value>
  </row>
  <row id="264" trl="Y">
-  <value column="Name" original="Commission Run">Provisions resultat
-        </value>
-  <value column="Description" original="Check and modify Commissions">Kontrollera och modifiera provision:
-        </value>
+  <value column="Name" original="Commission Run">Provisions resultat</value>
+  <value column="Description" original="Check and modify Commissions">Kontrollera och modifiera provision:</value>
  </row>
  <row id="265" trl="Y">
-  <value column="Name" original="Accounting Setup">Bokföringsinställningar
-        </value>
-  <value column="Description" original="Review and change Accounting Setup">Granska och ändra bokföringsinställningar
-        </value>
+  <value column="Name" original="Accounting Setup">Bokföringsinställningar</value>
+  <value column="Description" original="Review and change Accounting Setup">Granska och ändra bokföringsinställningar</value>
  </row>
  <row id="266" trl="Y">
-  <value column="Name" original="Business Partner Setup">Affärspartnerinställningar
-        </value>
-  <value column="Description" original="Setup Business Partner Rules">Gör inställningar för affärspartners
-        </value>
+  <value column="Name" original="Business Partner Setup">Affärspartnerinställningar</value>
+  <value column="Description" original="Setup Business Partner Rules">Gör inställningar för affärspartners</value>
  </row>
  <row id="267" trl="Y">
-  <value column="Name" original="Price List Setup">Lägg in [ny] prislista
-        </value>
-  <value column="Description" original="Define your Price Lists and Discounts">Definiera prislistor och rabatter
-        </value>
+  <value column="Name" original="Price List Setup">Lägg in [ny] prislista</value>
+  <value column="Description" original="Define your Price Lists and Discounts">Definiera prislistor och rabatter</value>
  </row>
  <row id="268" trl="Y">
-  <value column="Name" original="Product Setup">Lägg in [ny] produkt
-        </value>
-  <value column="Description" original="Set up Products">Lägg in ny produkt
-        </value>
+  <value column="Name" original="Product Setup">Lägg in [ny] produkt</value>
+  <value column="Description" original="Set up Products">Lägg in ny produkt</value>
  </row>
  <row id="269" trl="Y">
-  <value column="Name" original="Sales Setup">Inställningar försäljning
-        </value>
-  <value column="Description" original="Setup Sales">Gör inställningar för försäljning
-        </value>
+  <value column="Name" original="Sales Setup">Inställningar försäljning</value>
+  <value column="Description" original="Setup Sales">Gör inställningar för försäljning</value>
  </row>
  <row id="270" trl="Y">
-  <value column="Name" original="Tax Setup">Inställningar skatter/moms
-        </value>
-  <value column="Description" original="Setup tax calculation">Gör inställningar för beräkning av skatter/moms
-        </value>
+  <value column="Name" original="Tax Setup">Inställningar skatter/moms</value>
+  <value column="Description" original="Setup tax calculation">Gör inställningar för beräkning av skatter/moms</value>
  </row>
  <row id="271" trl="Y">
-  <value column="Name" original="Service">Service/Tjänster
-        </value>
-  <value column="Description" original="Service Management">Service Management / Organisation/styrning av [service-]tjänster
-        </value>
+  <value column="Name" original="Service">Service/Tjänster</value>
+  <value column="Description" original="Service Management">Service Management / Organisation/styrning av [service-]tjänster</value>
  </row>
  <row id="272" trl="Y">
-  <value column="Name" original="Sales and Marketing">Försäljning och marknadsföring
-        </value>
+  <value column="Name" original="Sales and Marketing">Försäljning och marknadsföring</value>
   <value column="Description" original=""/>
  </row>
  <row id="273" trl="Y">
-  <value column="Name" original="Performance Achievement">Resultatmål
-        </value>
-  <value column="Description" original="Define Performance Achievements">Definiera resultatmål
-        </value>
+  <value column="Name" original="Performance Achievement">Resultatmål</value>
+  <value column="Description" original="Define Performance Achievements">Definiera resultatmål</value>
  </row>
  <row id="274" trl="Y">
-  <value column="Name" original="Performance Color">Uppföljningsfärger
-        </value>
-  <value column="Description" original="Color used for Performance Analysis">Färgskala som används för resultatuppföljning.
-        </value>
+  <value column="Name" original="Performance Color">Uppföljningsfärger</value>
+  <value column="Description" original="Color used for Performance Analysis">Färgskala som används för resultatuppföljning.</value>
  </row>
  <row id="275" trl="Y">
-  <value column="Name" original="Performance Goal">Resultatmål
-        </value>
-  <value column="Description" original="Define Performance Goals">Definiera resultatmål
-        </value>
+  <value column="Name" original="Performance Goal">Resultatmål</value>
+  <value column="Description" original="Define Performance Goals">Definiera resultatmål</value>
  </row>
  <row id="276" trl="Y">
-  <value column="Name" original="Performance Measure Calculation">Beräkning av resultatmått
-        </value>
-  <value column="Description" original="Define how you calculate your performance measures">Definiera hur olika resultatmått beräknas
-        </value>
+  <value column="Name" original="Performance Measure Calculation">Beräkning av resultatmått</value>
+  <value column="Description" original="Define how you calculate your performance measures">Definiera hur olika resultatmått beräknas</value>
  </row>
  <row id="277" trl="Y">
-  <value column="Name" original="Performance Measurement Setup">Inställningar resultatmätning
-        </value>
-  <value column="Description" original="Setup your Performance Measurement">Gör inställningar för resultatmätning
-        </value>
+  <value column="Name" original="Performance Measurement Setup">Inställningar resultatmätning</value>
+  <value column="Description" original="Setup your Performance Measurement">Gör inställningar för resultatmätning</value>
  </row>
  <row id="278" trl="Y">
-  <value column="Name" original="Performance Analysis">Inköp
-        </value>
+  <value column="Name" original="Performance Analysis">Resultatanalys</value>
   <value column="Description" original=""/>
  </row>
  <row id="279" trl="Y">
-  <value column="Name" original="Performance Measure">Resultatmått
-        </value>
-  <value column="Description" original="Define your Performance Measures">Definiera resultatmått
-        </value>
+  <value column="Name" original="Performance Measure">Resultatmått</value>
+  <value column="Description" original="Define your Performance Measures">Definiera resultatmått</value>
  </row>
  <row id="280" trl="Y">
-  <value column="Name" original="Financial Reporting">Ekonomiska rapporter
-        </value>
+  <value column="Name" original="Financial Reporting">Ekonomiska rapporter</value>
   <value column="Description" original=""/>
  </row>
  <row id="281" trl="Y">
-  <value column="Name" original="Financial Report">Ekonomiska rapporter
-        </value>
-  <value column="Description" original="Maintain Financial Reports">Underhåll av ekonomiska rapporter
-        </value>
+  <value column="Name" original="Financial Report">Ekonomiska rapporter</value>
+  <value column="Description" original="Maintain Financial Reports">Underhåll av ekonomiska rapporter</value>
  </row>
  <row id="282" trl="Y">
-  <value column="Name" original="Report Column Set">Rapportkolumner
-        </value>
-  <value column="Description" original="Maintain Financial Report Column Sets">Underhåll rapportkolumner för ekonomiska rapporter.
-        </value>
+  <value column="Name" original="Report Column Set">Rapportkolumner</value>
+  <value column="Description" original="Maintain Financial Report Column Sets">Underhåll rapportkolumner för ekonomiska rapporter.</value>
  </row>
  <row id="283" trl="Y">
-  <value column="Name" original="Report Line Set">Rapportrad
-        </value>
-  <value column="Description" original="Maintain Financial Report Line Sets">Underhåll rapportrader på ekonomiska rapporter.
-        </value>
+  <value column="Name" original="Report Line Set">Rapportrad</value>
+  <value column="Description" original="Maintain Financial Report Line Sets">Underhåll rapportrader på ekonomiska rapporter.</value>
  </row>
  <row id="284" trl="Y">
-  <value column="Name" original="Service Level">Servicenivå
-        </value>
-  <value column="Description" original="Maintain Service Levels">Underhåll servicenivå
-        </value>
+  <value column="Name" original="Service Level">Servicenivå</value>
+  <value column="Description" original="Maintain Service Levels">Underhåll servicenivå</value>
  </row>
  <row id="286" trl="Y">
-  <value column="Name" original="Payment Selection (manual)">Välj betalning (manuell)
-        </value>
-  <value column="Description" original="Manual Payment Selection">Manuellt val av betalning
-        </value>
+  <value column="Name" original="Payment Selection (manual)">Välj betalning (manuell)</value>
+  <value column="Description" original="Manual Payment Selection">Manuellt val av betalning</value>
  </row>
  <row id="287" trl="Y">
-  <value column="Name" original="Payment Print/Export">Utskrift/export av betalning
-        </value>
-  <value column="Description" original="Print or export your payments">Skriv ut eller exportera betalningsuppgifter
-        </value>
+  <value column="Name" original="Payment Print/Export">Utskrift/export av betalning</value>
+  <value column="Description" original="Print or export your payments">Skriv ut eller exportera betalningsuppgifter</value>
  </row>
  <row id="288" trl="Y">
-  <value column="Name" original="Cash Journal Detail">Kassarapport
-        </value>
-  <value column="Description" original="Detail Cash Journal Information">Rapport över kassatransaktioner (kontant).
-        </value>
+  <value column="Name" original="Cash Journal Detail">Kassarapport</value>
+  <value column="Description" original="Detail Cash Journal Information">Rapport över kassatransaktioner (kontant).</value>
  </row>
  <row id="289" trl="Y">
-  <value column="Name" original="Database export">Exportera databasen
-        </value>
-  <value column="Description" original="Export (save) the database">Exportera (spara) databasen
-        </value>
+  <value column="Name" original="Database export">Exportera databasen</value>
+  <value column="Description" original="Export (save) the database">Exportera (spara) databasen</value>
  </row>
  <row id="290" trl="Y">
-  <value column="Name" original="Find (indirect use)">Sök (indirekt användning)
-        </value>
-  <value column="Description" original="Find Dialog (indirect use)">Sökdialog (indirekt användning)
-        </value>
+  <value column="Name" original="Find (indirect use)">Sök (indirekt användning)</value>
+  <value column="Description" original="Find Dialog (indirect use)">Sökdialog (indirekt användning)</value>
  </row>
  <row id="292" trl="Y">
-  <value column="Name" original="Material Transactions (indirect use)">Godsförflyttningar (indirekt användning)
-        </value>
-  <value column="Description" original="Material Transactions (indirect use)">Godsförflyttningar (indirekt användning)
-        </value>
+  <value column="Name" original="Material Transactions (indirect use)">Godsförflyttningar (indirekt användning)</value>
+  <value column="Description" original="Material Transactions (indirect use)">Godsförflyttningar (indirekt användning)</value>
  </row>
  <row id="293" trl="Y">
-  <value column="Name" original="Print Form">Utskriftsformulär
-        </value>
-  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Underhåll utskriftsformulär (fakturor, checkar etc).
-        </value>
+  <value column="Name" original="Print Form">Utskriftsformulär</value>
+  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Underhåll utskriftsformulär (fakturor, checkar etc).</value>
  </row>
  <row id="294" trl="Y">
-  <value column="Name" original="System Color">Systemfärger
-        </value>
-  <value column="Description" original="Maintain System Colors">Underhåll systemfärger
-        </value>
+  <value column="Name" original="System Color">Systemfärger</value>
+  <value column="Description" original="Maintain System Colors">Underhåll systemfärger</value>
  </row>
  <row id="295" trl="Y">
-  <value column="Name" original="Desktop">Skrivbord
-        </value>
-  <value column="Description" original="Maintain Desktop">Underhåll skrivbord
-        </value>
+  <value column="Name" original="Desktop">Skrivbord</value>
+  <value column="Description" original="Maintain Desktop">Underhåll skrivbord</value>
  </row>
  <row id="296" trl="Y">
-  <value column="Name" original="System Image">Systembild
-        </value>
-  <value column="Description" original="Maintain Images and Icons">Underhåll bilder
-        </value>
+  <value column="Name" original="System Image">Systembild</value>
+  <value column="Description" original="Maintain Images and Icons">Underhåll bilder</value>
  </row>
  <row id="298" trl="Y">
-  <value column="Name" original="User Window">Användarfönster
-        </value>
-  <value column="Description" original="Define User Window Customization">Definiera användarfönster anpassning
-        </value>
+  <value column="Name" original="User Window">Användarfönster</value>
+  <value column="Description" original="Define User Window Customization">Definiera användarfönster anpassning</value>
  </row>
  <row id="300" trl="Y">
-  <value column="Name" original="Workbench">Arbetsbänk
-        </value>
-  <value column="Description" original="Maintain Workbench">Underhåll arbetsbänk
-        </value>
+  <value column="Name" original="Workbench">Arbetsbänk</value>
+  <value column="Description" original="Maintain Workbench">Underhåll arbetsbänk</value>
  </row>
  <row id="301" trl="Y">
-  <value column="Name" original="Sales">Försäljning
-        </value>
+  <value column="Name" original="Sales">Försäljning</value>
   <value column="Description" original=""/>
  </row>
  <row id="302" trl="Y">
-  <value column="Name" original="Database transfer">Transferera databasen
-        </value>
-  <value column="Description" original="Transfer the database">Transferera databasen
-        </value>
+  <value column="Name" original="Database transfer">Transferera databasen</value>
+  <value column="Description" original="Transfer the database">Transferera databasen</value>
  </row>
  <row id="303" trl="Y">
-  <value column="Name" original="Synchronize Terminology">Synkronisera terminologi
-        </value>
-  <value column="Description" original="Synchronize the terminology within the system.">Synkronisera terminologin i systemet.
-        </value>
+  <value column="Name" original="Synchronize Terminology">Synkronisera terminologi</value>
+  <value column="Description" original="Synchronize the terminology within the system.">Synkronisera terminologin i systemet.</value>
  </row>
  <row id="304" trl="Y">
-  <value column="Name" original="Receivables Write-Off">Slutleverera öppna inleveranser
-        </value>
-  <value column="Description" original="Write off open receivables">Skriv av/slutleverera öppna inleveranser
-        </value>
+  <value column="Name" original="Receivables Write-Off">Slutleverera öppna inleveranser</value>
+  <value column="Description" original="Write off open receivables">Skriv av/slutleverera öppna inleveranser</value>
  </row>
  <row id="306" trl="Y">
-  <value column="Name" original="Resubmit Posting">Gör om konteringar
-        </value>
-  <value column="Description" original="Resubmit posting of documents with posting errors">Gör om konteringar av dokument med konteringsfel
-        </value>
+  <value column="Name" original="Resubmit Posting">Gör om konteringar</value>
+  <value column="Description" original="Resubmit posting of documents with posting errors">Gör om konteringar av dokument med konteringsfel</value>
  </row>
  <row id="307" trl="Y">
-  <value column="Name" original="Reset Accounting">Återställ konteringar
-        </value>
-  <value column="Description" original="Reset Accounting Entries ** Stop Accounting Server before starting **">Återställ konteringar
-        </value>
+  <value column="Name" original="Reset Accounting">Återställ konteringar</value>
+  <value column="Description" original="Reset Accounting Entries ** Stop Accounting Server before starting **">Återställ konteringar</value>
  </row>
  <row id="308" trl="Y">
-  <value column="Name" original="Request (all)">Alla förfrågningar
-        </value>
-  <value column="Description" original="View and work on all requests">Visa och hantera alla förfrågningar
-        </value>
+  <value column="Name" original="Request (all)">Alla förfrågningar</value>
+  <value column="Description" original="View and work on all requests">Visa och hantera alla förfrågningar</value>
  </row>
  <row id="309" trl="Y">
-  <value column="Name" original="Request Setup">Inställningar förfrågan
-        </value>
-  <value column="Description" original="Set up the client to process requests">Lägg upp klienten för att bearbeta förfrågan
-        </value>
+  <value column="Name" original="Request Setup">Inställningar förfrågan</value>
+  <value column="Description" original="Set up the client to process requests">Lägg upp klienten för att bearbeta förfrågan</value>
  </row>
  <row id="310" trl="Y">
-  <value column="Name" original="Discount Schema">Rabattschema
-        </value>
-  <value column="Description" original="Maintain Trade Discount Schema">Underhåll rabattschema
-        </value>
+  <value column="Name" original="Discount Schema">Rabattschema</value>
+  <value column="Description" original="Maintain Trade Discount Schema">Underhåll rabattschema</value>
  </row>
  <row id="311" trl="Y">
-  <value column="Name" original="Inventory Valuation Report">Lagervärdesrapport
-        </value>
-  <value column="Description" original="Inventory Valuation Report">Lagervärdesrapport
-        </value>
+  <value column="Name" original="Inventory Valuation Report">Lagervärdesrapport</value>
+  <value column="Description" original="Inventory Valuation Report">Lagervärdesrapport</value>
  </row>
  <row id="312" trl="Y">
-  <value column="Name" original="Matching PO-Receipt-Invoice">Koppla köporder-kvitto-faktura
-        </value>
-  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Kopplar ihop köporder med kvitto, leverantörsfaktura etc
-        </value>
+  <value column="Name" original="Matching PO-Receipt-Invoice">Koppla köporder-kvitto-faktura</value>
+  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Kopplar ihop köporder med kvitto, leverantörsfaktura etc</value>
  </row>
  <row id="313" trl="Y">
-  <value column="Name" original="Product Cost Update">Uppdatering av produktkostnad
-        </value>
-  <value column="Description" original="Sets future cost price and standard cost price">Sätter kommande kostpris och standardkostpris för aktuell(a) produkter
-        </value>
+  <value column="Name" original="Product Cost Update">Uppdatering av produktkostnad</value>
+  <value column="Description" original="Sets future cost price and standard cost price">Sätter kommande kostpris och standardkostpris för aktuell(a) produkter</value>
  </row>
  <row id="314" trl="Y">
-  <value column="Name" original="Product Costing Report">Kostnadsrapport produkter
-        </value>
-  <value column="Description" original="Product Cost Report">Kostnadsrapport produkter
-        </value>
+  <value column="Name" original="Product Costing Report">Kostnadsrapport produkter</value>
+  <value column="Description" original="Product Cost Report">Kostnadsrapport produkter</value>
  </row>
  <row id="315" trl="Y">
-  <value column="Name" original="Matched Invoices">Matcha fakturor
-        </value>
-  <value column="Description" original="View Matched Invoices">Visa matchade fakturor
-        </value>
+  <value column="Name" original="Matched Invoices">Matcha fakturor</value>
+  <value column="Description" original="View Matched Invoices">Visa matchade fakturor</value>
  </row>
  <row id="316" trl="Y">
-  <value column="Name" original="Matched Purchase Orders">Matcha inköpsorder
-        </value>
-  <value column="Description" original="View Matched Purchase Orders">Visa matchade inköpsorder
-        </value>
+  <value column="Name" original="Matched Purchase Orders">Matcha inköpsorder</value>
+  <value column="Description" original="View Matched Purchase Orders">Visa matchade inköpsorder</value>
  </row>
  <row id="317" trl="Y">
-  <value column="Name" original="Expense Type">Utgiftstyp
-        </value>
-  <value column="Description" original="Maintain Expense Report Types">Underhåll utgiftstyper som du vill rapoprtera på.
-        </value>
+  <value column="Name" original="Expense Type">Utgiftstyp</value>
+  <value column="Description" original="Maintain Expense Report Types">Underhåll utgiftstyper som du vill rapoprtera på.</value>
  </row>
  <row id="318" trl="Y">
-  <value column="Name" original="Expense Report">Utgiftsrapport
-        </value>
-  <value column="Description" original="Time and Expense Report">Tid och utgiftsrapport
-        </value>
+  <value column="Name" original="Expense Report">Utgiftsrapport</value>
+  <value column="Description" original="Time and Expense Report">Tid och utgiftsrapport</value>
  </row>
  <row id="319" trl="Y">
-  <value column="Name" original="Resource">Resurs
-        </value>
-  <value column="Description" original="Maintain Resources">Underhåll resurser
-        </value>
+  <value column="Name" original="Resource">Resurs</value>
+  <value column="Description" original="Maintain Resources">Underhåll resurser</value>
  </row>
  <row id="320" trl="Y">
-  <value column="Name" original="Resource Type">Resurstyp
-        </value>
-  <value column="Description" original="Maintain Resource Types">Underhåll rersurstyper
-        </value>
+  <value column="Name" original="Resource Type">Resurstyp</value>
+  <value column="Description" original="Maintain Resource Types">Underhåll rersurstyper</value>
  </row>
  <row id="321" trl="Y">
-  <value column="Name" original="Recompile DB Objects">Kompilera om databasobjekt
-        </value>
-  <value column="Description" original="Recompile Database Objects">Kompilera om databasobjekt
-        </value>
+  <value column="Name" original="Recompile DB Objects">Kompilera om databasobjekt</value>
+  <value column="Description" original="Recompile Database Objects">Kompilera om databasobjekt</value>
  </row>
  <row id="322" trl="Y">
-  <value column="Name" original="Print Format">Utskriftsformat
-        </value>
-  <value column="Description" original="Maintain Print Format">Underhåll utskriftsformat
-        </value>
+  <value column="Name" original="Print Format">Utskriftsformat</value>
+  <value column="Description" original="Maintain Print Format">Underhåll utskriftsformat</value>
  </row>
  <row id="323" trl="Y">
-  <value column="Name" original="Print Font">Utskriftsteckensnitt
-        </value>
-  <value column="Description" original="Maintain Print Font">Underhåll utskriftsteckensnitt
-        </value>
+  <value column="Name" original="Print Font">Utskriftsteckensnitt</value>
+  <value column="Description" original="Maintain Print Font">Underhåll utskriftsteckensnitt</value>
  </row>
  <row id="324" trl="Y">
-  <value column="Name" original="Print Color">Utskriftsfärg
-        </value>
-  <value column="Description" original="Maintain Print Color">Underhåll av utskriftsfärg
-        </value>
+  <value column="Name" original="Print Color">Utskriftsfärg</value>
+  <value column="Description" original="Maintain Print Color">Underhåll av utskriftsfärg</value>
  </row>
  <row id="325" trl="Y">
-  <value column="Name" original="Print Paper">Utskriftspapper
-        </value>
-  <value column="Description" original="Maintain Print Paper">Underhåll utskriftspapper
-        </value>
+  <value column="Name" original="Print Paper">Utskriftspapper</value>
+  <value column="Description" original="Maintain Print Paper">Underhåll utskriftspapper</value>
  </row>
  <row id="326" trl="Y">
-  <value column="Name" original="Printing">Utskrift
-        </value>
-  <value column="Description" original="Print Definition">Utskriftsdefinitioner
-        </value>
+  <value column="Name" original="Printing">Utskrift</value>
+  <value column="Description" original="Print Definition">Utskriftsdefinitioner</value>
  </row>
  <row id="327" trl="Y">
-  <value column="Name" original="Expenses (to be invoiced)">Utgifter (ej fakturerade)
-        </value>
-  <value column="Description" original="View expenses and charges not invoiced to customers">Visa ej fakturerade utgifter
-        </value>
+  <value column="Name" original="Expenses (to be invoiced)">Utgifter (ej fakturerade)</value>
+  <value column="Description" original="View expenses and charges not invoiced to customers">Visa ej fakturerade utgifter</value>
  </row>
  <row id="328" trl="Y">
-  <value column="Name" original="Create Sales Orders from Expense">Skapa kundfaktura baserat på direkta kostnader
-        </value>
-  <value column="Description" original="Create Sales Orders for Customers from Expense Reports">Skapar kundfaktura baserad på direkta kostnader.
-        </value>
+  <value column="Name" original="Create Sales Orders from Expense">Skapa kundfaktura baserat på direkta kostnader</value>
+  <value column="Description" original="Create Sales Orders for Customers from Expense Reports">Skapar kundfaktura baserad på direkta kostnader.</value>
  </row>
  <row id="329" trl="Y">
-  <value column="Name" original="Create AP Expense Invoices">Skapa utbetalningar till anställda
-        </value>
-  <value column="Description" original="Create AP Invoices from Expenses to be paid to employees">Skapar utbetalningsunderlag till anställda.
-        </value>
+  <value column="Name" original="Create AP Expense Invoices">Skapa utbetalningar till anställda</value>
+  <value column="Description" original="Create AP Invoices from Expenses to be paid to employees">Skapar utbetalningsunderlag till anställda.</value>
  </row>
  <row id="331" trl="Y">
-  <value column="Name" original="Print Table Format">Utskrift av tabell
-        </value>
-  <value column="Description" original="Define Report Table Format">Definiera utskrift av tabellformat
-        </value>
+  <value column="Name" original="Print Table Format">Utskrift av tabell</value>
+  <value column="Description" original="Define Report Table Format">Definiera utskrift av tabellformat</value>
  </row>
  <row id="332" trl="Y">
-  <value column="Name" original="Request Type">Typ av förfrågan
-        </value>
-  <value column="Description" original="Maintain Request Types">Underhåll typer av förfrågningar
-        </value>
+  <value column="Name" original="Request Type">Typ av förfrågan</value>
+  <value column="Description" original="Maintain Request Types">Underhåll typer av förfrågningar</value>
  </row>
  <row id="333" trl="Y">
-  <value column="Name" original="Interest Area">Intresseområde
-        </value>
-  <value column="Description" original="Interest Area or Topic">Intresseområde eller ämne
-        </value>
+  <value column="Name" original="Interest Area">Intresseområde</value>
+  <value column="Description" original="Interest Area or Topic">Intresseområde eller ämne</value>
  </row>
  <row id="334" trl="Y">
-  <value column="Name" original="System">System
-        </value>
-  <value column="Description" original="System Definition and Registration">Systemdefinition
-        </value>
+  <value column="Name" original="System">System</value>
+  <value column="Description" original="System Definition and Registration">Systemdefinition</value>
  </row>
  <row id="335" trl="Y">
-  <value column="Name" original="Generate PO from Sales Order">Skapa inköpsorder från kundorder
-        </value>
-  <value column="Description" original="Create Purchase Order from Sales Orders">Skapa inköpsorder från kundorder
-        </value>
+  <value column="Name" original="Generate PO from Sales Order">Skapa inköpsorder från kundorder</value>
+  <value column="Description" original="Create Purchase Order from Sales Orders">Skapa inköpsorder från kundorder</value>
  </row>
  <row id="336" trl="Y">
-  <value column="Name" original="Translation Import/Export">Importera/exportera översättning
-        </value>
-  <value column="Description" original="Import or Export Language Translation">Importera eller exportera språköversättning
-        </value>
+  <value column="Name" original="Translation Import/Export">Importera/exportera översättning</value>
+  <value column="Description" original="Import or Export Language Translation">Importera eller exportera språköversättning</value>
  </row>
  <row id="337" trl="Y">
-  <value column="Name" original="Reopen Request">Öppna avslutad förfrågan
-        </value>
-  <value column="Description" original="Reopen closed requests">Öppna tidigare avslutad förfrågan
-        </value>
+  <value column="Name" original="Reopen Request">Öppna avslutad förfrågan</value>
+  <value column="Description" original="Reopen closed requests">Öppna tidigare avslutad förfrågan</value>
  </row>
  <row id="338" trl="Y">
-  <value column="Name" original="Import Report Line Set">Importera rapportraderinställningar
-        </value>
-  <value column="Description" original="Import Report Line Sets">Importera rapportraderinställningar
-        </value>
+  <value column="Name" original="Import Report Line Set">Importera rapportraderinställningar</value>
+  <value column="Description" original="Import Report Line Sets">Importera rapportraderinställningar</value>
  </row>
  <row id="339" trl="Y">
-  <value column="Name" original="Import Account">Importera konto
-        </value>
-  <value column="Description" original="Import Natural Account Values">Importera konto
-        </value>
+  <value column="Name" original="Import Account">Importera konto</value>
+  <value column="Description" original="Import Natural Account Values">Importera konto</value>
  </row>
  <row id="340" trl="Y">
-  <value column="Name" original="Import Product">Importera produkter
-        </value>
-  <value column="Description" original="Import Products">Improtera produkter
-        </value>
+  <value column="Name" original="Import Product">Importera produkter</value>
+  <value column="Description" original="Import Products">Improtera produkter</value>
  </row>
  <row id="341" trl="Y">
-  <value column="Name" original="System Translation Check">Språköversättning
-        </value>
-  <value column="Description" original="Check System Language Translations">Kontrollera språköversättning
-        </value>
+  <value column="Name" original="System Translation Check">Språköversättning</value>
+  <value column="Description" original="Check System Language Translations">Kontrollera språköversättning</value>
  </row>
  <row id="342" trl="Y">
-  <value column="Name" original="Asset">Individ
-        </value>
-  <value column="Description" original="Asset used internally or by customers">Individ används endera internt eller av kund
-        </value>
+  <value column="Name" original="Asset">Individ</value>
+  <value column="Description" original="Asset used internally or by customers">Individ används endera internt eller av kund</value>
  </row>
  <row id="343" trl="Y">
-  <value column="Name" original="Asset Group">Grupp av individer
-        </value>
-  <value column="Description" original="Group of Assets">Grupp av individer
-        </value>
+  <value column="Name" original="Asset Group">Grupp av individer</value>
+  <value column="Description" original="Group of Assets">Grupp av individer</value>
  </row>
  <row id="344" trl="Y">
-  <value column="Name" original="Training">Utbildning
-        </value>
-  <value column="Description" original="Repeated Training">Återkommande utbildningar
-        </value>
+  <value column="Name" original="Training">Utbildning</value>
+  <value column="Description" original="Repeated Training">Återkommande utbildningar</value>
  </row>
  <row id="345" trl="Y">
-  <value column="Name" original="Assets">Tillgångar
-        </value>
+  <value column="Name" original="Assets">Anläggningsregister</value>
   <value column="Description" original=""/>
  </row>
  <row id="346" trl="Y">
-  <value column="Name" original="Generate Shipments (manual)">Generera leverans (manuell)
-        </value>
-  <value column="Description" original="Select and generate shipments">Välj och generera leverans
-        </value>
+  <value column="Name" original="Generate Shipments (manual)">Generera leverans (manuell)</value>
+  <value column="Description" original="Select and generate shipments">Välj och generera leverans</value>
  </row>
  <row id="347" trl="Y">
-  <value column="Name" original="Print Invoices">Skriv ut fakturor
-        </value>
-  <value column="Description" original="Print Invoices to paper or send PDF">Skriv ut fakturor på skrivare eller skapa PDF-dokument.
-        </value>
+  <value column="Name" original="Print Invoices">Skriv ut fakturor</value>
+  <value column="Description" original="Print Invoices to paper or send PDF">Skriv ut fakturor på skrivare eller skapa PDF-dokument.</value>
  </row>
  <row id="348" trl="Y">
-  <value column="Name" original="Deliver Assets">Leverera tillgångar
-        </value>
-  <value column="Description" original="Deliver Customer Assets electronically">Leverera kundtillgångar elektroniskt.
-        </value>
+  <value column="Name" original="Deliver Assets">Leverera tillgångar</value>
+  <value column="Description" original="Deliver Customer Assets electronically">Leverera kundtillgångar elektroniskt.</value>
  </row>
  <row id="349" trl="Y">
-  <value column="Name" original="Expenses (not reimbursed)">Utgifter (ej utbetalda)
-        </value>
-  <value column="Description" original="View expenses and charges not reimbursed">Visa utgifter och avgifter som inte betalats ut
-        </value>
+  <value column="Name" original="Expenses (not reimbursed)">Utgifter (ej utbetalda)</value>
+  <value column="Description" original="View expenses and charges not reimbursed">Visa utgifter och avgifter som inte betalats ut</value>
  </row>
  <row id="350" trl="Y">
-  <value column="Name" original="Statement of Accounts">Kontosammanställning
-        </value>
-  <value column="Description" original="Report Account Statement Beginning Balance and Transactions">Rapport över ingående balans och transaktioner på givet konto och period
-        </value>
+  <value column="Name" original="Statement of Accounts">Kontosammanställning</value>
+  <value column="Description" original="Report Account Statement Beginning Balance and Transactions">Rapport över ingående balans och transaktioner på givet konto och period</value>
  </row>
  <row id="351" trl="Y">
-  <value column="Name" original="SQL Process">SQL-bearbetning
-        </value>
-  <value column="Description" original="Process SQL Statements">Process SQL Statements -- Bearbeta uppgifter från SQL-sökning
-        </value>
+  <value column="Name" original="SQL Process">SQL-bearbetning</value>
+  <value column="Description" original="Process SQL Statements">Process SQL Statements -- Bearbeta uppgifter från SQL-sökning</value>
  </row>
  <row id="352" trl="Y">
-  <value column="Name" original="Accounting Fact Balances">Bokförda saldon
-        </value>
-  <value column="Description" original="Query Accounting Daily Balances">Sök bokfört saldo, per dag
-        </value>
+  <value column="Name" original="Accounting Fact Balances">Bokförda saldon</value>
+  <value column="Description" original="Query Accounting Daily Balances">Sök bokfört saldo, per dag</value>
  </row>
  <row id="353" trl="Y">
-  <value column="Name" original="Attribute Set">Egenskapslista
-        </value>
-  <value column="Description" original="Maintain Product Attribute Set">Underhåll produkts egenskapslista
-        </value>
+  <value column="Name" original="Attribute Set">Egenskapslista</value>
+  <value column="Description" original="Maintain Product Attribute Set">Underhåll produkts egenskapslista</value>
  </row>
  <row id="354" trl="Y">
-  <value column="Name" original="Serial No Control">Serienummerkontroll
-        </value>
-  <value column="Description" original="Product Serial Number Control">Produktserienummerkontroll
-        </value>
+  <value column="Name" original="Serial No Control">Serienummerkontroll</value>
+  <value column="Description" original="Product Serial Number Control">Produktserienummerkontroll</value>
  </row>
  <row id="355" trl="Y">
-  <value column="Name" original="Lot Control">Batchkontroll
-        </value>
-  <value column="Description" original="Product Lot Control">Batchkontroll
-        </value>
+  <value column="Name" original="Lot Control">Batchkontroll</value>
+  <value column="Description" original="Product Lot Control">Batchkontroll</value>
  </row>
  <row id="356" trl="Y">
-  <value column="Name" original="Lot">Parti
-        </value>
-  <value column="Description" original="Product Lot Definition">Ett specifikt parti av en produkt
-        </value>
+  <value column="Name" original="Lot">Parti</value>
+  <value column="Description" original="Product Lot Definition">Ett specifikt parti av en produkt</value>
  </row>
  <row id="357" trl="Y">
-  <value column="Name" original="Product Attributes">Produktegenskaper
-        </value>
+  <value column="Name" original="Product Attributes">Produktegenskaper</value>
   <value column="Description" original=""/>
  </row>
  <row id="358" trl="Y">
-  <value column="Name" original="Attribute Search">Egenskapssökning
-        </value>
-  <value column="Description" original="Common Search Attribute ">Vanlig egenskapssökning
-        </value>
+  <value column="Name" original="Attribute Search">Egenskapssökning</value>
+  <value column="Description" original="Common Search Attribute ">Vanlig egenskapssökning</value>
  </row>
  <row id="359" trl="Y">
-  <value column="Name" original="Attribute">Egenskap
-        </value>
-  <value column="Description" original="Product Attribute">Produktegenskaper
-        </value>
+  <value column="Name" original="Attribute">Egenskap</value>
+  <value column="Description" original="Product Attribute">Produktegenskaper</value>
  </row>
  <row id="360" trl="Y">
-  <value column="Name" original="Expense Invoice (Alpha)">Utgiftsfaktura (Alpha)
-        </value>
-  <value column="Description" original="Payables expense invoices - This is Alpha Functionality">Utgiftsfaktura - alpha-funktionalitet
-        </value>
+  <value column="Name" original="Expense Invoice (Alpha)">Utgiftsfaktura (Alpha)</value>
+  <value column="Description" original="Payables expense invoices - This is Alpha Functionality">Utgiftsfaktura - alpha-funktionalitet</value>
  </row>
  <row id="361" trl="Y">
-  <value column="Name" original="Recurring">Återkommande
-        </value>
-  <value column="Description" original="Recurring Document">Återkommande dokument
-        </value>
+  <value column="Name" original="Recurring">Återkommande</value>
+  <value column="Description" original="Recurring Document">Återkommande dokument</value>
  </row>
  <row id="362" trl="Y">
-  <value column="Name" original="Role Data Access">Rollåtkomst
-        </value>
-  <value column="Description" original="Maintain Data Access Rules">Underhåll dataåtkomstregler
-        </value>
+  <value column="Name" original="Role Data Access">Rollåtkomst</value>
+  <value column="Description" original="Maintain Data Access Rules">Underhåll dataåtkomstregler</value>
  </row>
  <row id="363" trl="Y">
-  <value column="Name" original="Import Inventory">Importera lager
-        </value>
-  <value column="Description" original="Import Inventory Transactions">Importera lagertransaktioner
-        </value>
+  <value column="Name" original="Import Inventory">Importera lager</value>
+  <value column="Description" original="Import Inventory Transactions">Importera lagertransaktioner</value>
  </row>
  <row id="364" trl="Y">
-  <value column="Name" original="Project Type">Projekttyp
-        </value>
-  <value column="Description" original="Maintain Project Type and Phase">Underhåll projekttyper och faser
-        </value>
+  <value column="Name" original="Project Type">Projekttyp</value>
+  <value column="Description" original="Maintain Project Type and Phase">Underhåll projekttyper och faser</value>
  </row>
  <row id="365" trl="Y">
-  <value column="Name" original="Print Label">Etikett
-        </value>
-  <value column="Description" original="Print Label Format">Etikettformat
-        </value>
+  <value column="Name" original="Print Label">Etikett</value>
+  <value column="Description" original="Print Label Format">Etikettformat</value>
  </row>
  <row id="366" trl="Y">
-  <value column="Name" original="Session Audit">Session
-        </value>
-  <value column="Description" original="List of User Sessions">Lista över användarsessioner
-        </value>
+  <value column="Name" original="Session Audit">Session</value>
+  <value column="Description" original="List of User Sessions">Lista över användarsessioner</value>
  </row>
  <row id="367" trl="Y">
-  <value column="Name" original="Security">Säkerhet
-        </value>
+  <value column="Name" original="Security">Säkerhet</value>
   <value column="Description" original=""/>
  </row>
  <row id="368" trl="Y">
-  <value column="Name" original="Change Audit">Förändringslogg
-        </value>
-  <value column="Description" original="Log of data changes">Logg över dataförändringar
-        </value>
+  <value column="Name" original="Change Audit">Förändringslogg</value>
+  <value column="Description" original="Log of data changes">Logg över dataförändringar</value>
  </row>
  <row id="369" trl="Y">
-  <value column="Name" original="Time Type">Tidstyper
-        </value>
-  <value column="Description" original="Maintain Time Recording Type">Underhåll olika tidstyper för registrering
-        </value>
+  <value column="Name" original="Time Type">Tidstyper</value>
+  <value column="Description" original="Maintain Time Recording Type">Underhåll olika tidstyper för registrering</value>
  </row>
  <row id="370" trl="Y">
-  <value column="Name" original="Cost Type">Kostnadsslag
-        </value>
-  <value column="Description" original="Maintain Cost Types">Underhåll kostnadsslag
-        </value>
+  <value column="Name" original="Cost Type">Kostnadsslag</value>
+  <value column="Description" original="Maintain Cost Types">Underhåll kostnadsslag</value>
  </row>
  <row id="371" trl="Y">
-  <value column="Name" original="Advertisement">Annonsering
-        </value>
-  <value column="Description" original="Web Advertisement">Webbannonsering
-        </value>
+  <value column="Name" original="Advertisement">Annonsering</value>
+  <value column="Description" original="Web Advertisement">Webbannonsering</value>
  </row>
  <row id="372" trl="Y">
-  <value column="Name" original="Web">Webb
-        </value>
+  <value column="Name" original="Web">Webb</value>
   <value column="Description" original=""/>
  </row>
  <row id="373" trl="Y">
-  <value column="Name" original="Import Bank Statement">Importera bankkontoutdrag
-        </value>
-  <value column="Description" original="Import Bank Statements">Importera bankkontoutdrag
-        </value>
+  <value column="Name" original="Import Bank Statement">Importera bankkontoutdrag</value>
+  <value column="Description" original="Import Bank Statements">Importera bankkontoutdrag</value>
  </row>
  <row id="374" trl="Y">
-  <value column="Name" original="Import Payment">Importera betalningar
-        </value>
-  <value column="Description" original="Import Payments">Importera betalningar
-        </value>
+  <value column="Name" original="Import Payment">Importera betalningar</value>
+  <value column="Description" original="Import Payments">Importera betalningar</value>
  </row>
  <row id="375" trl="Y">
-  <value column="Name" original="Click">Klick
-        </value>
-  <value column="Description" original="Maintain Web Click">Underhåll webbklick
-        </value>
+  <value column="Name" original="Click">Klick</value>
+  <value column="Description" original="Maintain Web Click">Underhåll webbklick</value>
  </row>
  <row id="376" trl="Y">
-  <value column="Name" original="Import Order">Importera order
-        </value>
-  <value column="Description" original="Import Orders">Importera order
-        </value>
+  <value column="Name" original="Import Order">Importera order</value>
+  <value column="Description" original="Import Orders">Importera order</value>
  </row>
  <row id="377" trl="Y">
-  <value column="Name" original="Invoice Payment Schedule">Fakturabetalschema
-        </value>
-  <value column="Description" original="Maintain Invoice Payment Schedule">Underhåll fakturabetalschemat
-        </value>
+  <value column="Name" original="Invoice Payment Schedule">Fakturabetalschema</value>
+  <value column="Description" original="Maintain Invoice Payment Schedule">Underhåll fakturabetalschemat</value>
  </row>
  <row id="378" trl="Y">
-  <value column="Name" original="Import GL Journal">Importera verifikat
-        </value>
-  <value column="Description" original="Import General Ledger Journals">Importera verifikat
-        </value>
+  <value column="Name" original="Import GL Journal">Importera verifikat</value>
+  <value column="Description" original="Import General Ledger Journals">Importera verifikat</value>
  </row>
  <row id="379" trl="Y">
-  <value column="Name" original="Alert">Varning
-        </value>
-  <value column="Description" original="Adempiere Alert">Adempiere-varning
-        </value>
+  <value column="Name" original="Alert">Varning</value>
+  <value column="Description" original="Adempiere Alert">Adempiere-varning</value>
  </row>
  <row id="380" trl="Y">
-  <value column="Name" original="Counter">Räknare
-        </value>
-  <value column="Description" original="Web Counter">Webbräknare
-        </value>
+  <value column="Name" original="Counter">Räknare</value>
+  <value column="Description" original="Web Counter">Webbräknare</value>
  </row>
  <row id="381" trl="Y">
-  <value column="Name" original="Freight Category">Fraktkategorier
-        </value>
-  <value column="Description" original="Maintain Freight Categories">Underhåll fraktkategorier
-        </value>
+  <value column="Name" original="Freight Category">Fraktkategorier</value>
+  <value column="Description" original="Maintain Freight Categories">Underhåll fraktkategorier</value>
  </row>
  <row id="382" trl="Y">
-  <value column="Name" original="Import Invoice">Importera fakturor
-        </value>
-  <value column="Description" original="Import Invoices">Importera fakturor
-        </value>
+  <value column="Name" original="Import Invoice">Importera fakturor</value>
+  <value column="Description" original="Import Invoices">Importera fakturor</value>
  </row>
  <row id="383" trl="Y">
-  <value column="Name" original="Cache Reset">Nollställ cache
-        </value>
-  <value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">Nollställ systemets cache minne. **Stäng alla fönster innan du fortsätter**
-        </value>
+  <value column="Name" original="Cache Reset">Nollställ cache</value>
+  <value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">Nollställ systemets cache minne. **Stäng alla fönster innan du fortsätter**</value>
  </row>
  <row id="384" trl="Y">
-  <value column="Name" original="Accounting Dimensions">Kontodimensioner
-        </value>
-  <value column="Description" original="Maintain Non-Account Dimension Trees">Underhåll icke-kontorelaterade trädstrukturer
-        </value>
+  <value column="Name" original="Accounting Dimensions">Kontodimensioner</value>
+  <value column="Description" original="Maintain Non-Account Dimension Trees">Underhåll icke-kontorelaterade trädstrukturer</value>
  </row>
  <row id="385" trl="Y">
-  <value column="Name" original="Replication">Replikering
-        </value>
-  <value column="Description" original="Maintain Data Replication Targets">Underhåll mål för datareplikeringsfunktion
-        </value>
+  <value column="Name" original="Replication">Replikering</value>
+  <value column="Description" original="Maintain Data Replication Targets">Underhåll mål för datareplikeringsfunktion</value>
  </row>
  <row id="386" trl="Y">
-  <value column="Name" original="Replication Strategy">Replikeringsstrategi
-        </value>
-  <value column="Description" original="Maintain Data Replication Strategy">Underhåll datareplikeringsstrategi
-        </value>
+  <value column="Name" original="Replication Strategy">Replikeringsstrategi</value>
+  <value column="Description" original="Maintain Data Replication Strategy">Underhåll datareplikeringsstrategi</value>
  </row>
  <row id="387" trl="Y">
-  <value column="Name" original="Project (Order)">Projekt (order)
-        </value>
-  <value column="Description" original="Maintain Sales Order Projects and Work Orders">Underhåll kundorder som ska genereras från projekt.
-        </value>
+  <value column="Name" original="Project (Order)">Projekt (order)</value>
+  <value column="Description" original="Maintain Sales Order Projects and Work Orders">Underhåll kundorder som ska genereras från projekt.</value>
  </row>
  <row id="388" trl="Y">
-  <value column="Name" original="Knowledge Base">Kunskapsbas
-        </value>
-  <value column="Description" original="Maintain Knowledge Base">Underhåll kunskapsbas
-        </value>
+  <value column="Name" original="Knowledge Base">Kunskapsbas</value>
+  <value column="Description" original="Maintain Knowledge Base">Underhåll kunskapsbas</value>
  </row>
  <row id="389" trl="Y">
-  <value column="Name" original="Knowledge Category">Kunskapskategori
-        </value>
-  <value column="Description" original="Maintain Knoweledge Categories and Values">Underhåll kunskapskategorier och värden.
-        </value>
+  <value column="Name" original="Knowledge Category">Kunskapskategori</value>
+  <value column="Description" original="Maintain Knoweledge Categories and Values">Underhåll kunskapskategorier och värden.</value>
  </row>
  <row id="390" trl="Y">
-  <value column="Name" original="Knowledge Synonym">Kunskapssynonym
-        </value>
-  <value column="Description" original="Knowlege Keyword Synonym">Nyckelordssynonym
-        </value>
+  <value column="Name" original="Knowledge Synonym">Kunskapssynonym</value>
+  <value column="Description" original="Knowlege Keyword Synonym">Nyckelordssynonym</value>
  </row>
  <row id="391" trl="Y">
-  <value column="Name" original="Knowledge Source">Kunskapskälla
-        </value>
-  <value column="Description" original="Source of Knowledge Entries">Källa för registrering i kunskapsbas.
-        </value>
+  <value column="Name" original="Knowledge Source">Kunskapskälla</value>
+  <value column="Description" original="Source of Knowledge Entries">Källa för registrering i kunskapsbas.</value>
  </row>
  <row id="392" trl="Y">
-  <value column="Name" original="Knowledge">Kunskap
-        </value>
+  <value column="Name" original="Knowledge">Kunskap</value>
   <value column="Description" original=""/>
  </row>
  <row id="393" trl="Y">
-  <value column="Name" original="Update Accounting Balance">Uppdatera kontobalansen
-        </value>
-  <value column="Description" original="Update Daily Accounting Balances">Uppdatera kontobalansen
-        </value>
+  <value column="Name" original="Update Accounting Balance">Uppdatera kontobalansen</value>
+  <value column="Description" original="Update Daily Accounting Balances">Uppdatera kontobalansen</value>
  </row>
  <row id="394" trl="Y">
-  <value column="Name" original="Business Partner Info">Affärspartnerinformation
-        </value>
-  <value column="Description" original="Document Information of Business Partners">Information om dokument för affärspartners.
-        </value>
+  <value column="Name" original="Business Partner Info">Affärspartnerinformation</value>
+  <value column="Description" original="Document Information of Business Partners">Information om dokument för affärspartners.</value>
  </row>
  <row id="395" trl="Y">
-  <value column="Name" original="Replication Setup">Inställningar replikering
-        </value>
-  <value column="Description" original="Setup of data replication">Inställningar för replikering
-        </value>
+  <value column="Name" original="Replication Setup">Inställningar replikering</value>
+  <value column="Description" original="Setup of data replication">Inställningar för replikering</value>
  </row>
  <row id="396" trl="Y">
-  <value column="Name" original="Send Mail Text">Skicka e-post
-        </value>
-  <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Skicka e-post till aktiva prenumeranter inom ett intresseområde eller en affärspartnergrupp från en utvald användare
-        </value>
+  <value column="Name" original="Send Mail Text">Skicka e-post</value>
+  <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Skicka e-post till aktiva prenumeranter inom ett intresseområde eller en affärspartnergrupp från en utvald användare</value>
  </row>
  <row id="397" trl="Y">
-  <value column="Name" original="Merge Entities">Sammanslagning av enheter
-        </value>
-  <value column="Description" original="Merge From Entity to To Entity - Delete From">Slå samman "Frånenhet" och "Tillenhet", radera "Frånenhet"
-        </value>
+  <value column="Name" original="Merge Entities">Sammanslagning av enheter</value>
+  <value column="Description" original="Merge From Entity to To Entity - Delete From">Slå samman "Frånenhet" och "Tillenhet", radera "Frånenhet"</value>
  </row>
  <row id="398" trl="Y">
-  <value column="Name" original="Project Cycle Report">Projektcykelrapport
-        </value>
-  <value column="Description" original="Report Projects based on Project Cycle">Rapport över projekt baserad på projektets cykler
-        </value>
+  <value column="Name" original="Project Cycle Report">Projektcykelrapport</value>
+  <value column="Description" original="Report Projects based on Project Cycle">Rapport över projekt baserad på projektets cykler</value>
  </row>
  <row id="399" trl="Y">
-  <value column="Name" original="Customer Assets">Kundtillgångar
-        </value>
-  <value column="Description" original="Report Customer Assets with Delivery Count">Skapa rapport över kundtillgångar med leveransnotering
-        </value>
+  <value column="Name" original="Customer Assets">Kundtillgångar</value>
+  <value column="Description" original="Report Customer Assets with Delivery Count">Skapa rapport över kundtillgångar med leveransnotering</value>
  </row>
  <row id="400" trl="Y">
-  <value column="Name" original="Asset Delivery Details">Leverade tillgångar
-        </value>
-  <value column="Description" original="Report Asset Deliveries Details">Rapport över tillgångar levererade till kund.
-        </value>
+  <value column="Name" original="Asset Delivery Details">Leverade tillgångar</value>
+  <value column="Description" original="Report Asset Deliveries Details">Rapport över tillgångar levererade till kund.</value>
  </row>
  <row id="401" trl="Y">
-  <value column="Name" original="Issue to Project">Tilldela projekt
-        </value>
-  <value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">Tilldela material till projekt baserat på leveranskvitto eller manuell lagerförflyttning
-        </value>
+  <value column="Name" original="Issue to Project">Tilldela projekt</value>
+  <value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">Tilldela material till projekt baserat på leveranskvitto eller manuell lagerförflyttning</value>
  </row>
  <row id="402" trl="Y">
-  <value column="Name" original="Generate PO from Project">Skapa inköpsorder från projekt.
-        </value>
-  <value column="Description" original="Generate PO from Project Line(s)">Skapa inköpsorder från projektrader.
-        </value>
+  <value column="Name" original="Generate PO from Project">Skapa inköpsorder från projekt.</value>
+  <value column="Description" original="Generate PO from Project Line(s)">Skapa inköpsorder från projektrader.</value>
  </row>
  <row id="403" trl="Y">
-  <value column="Name" original="Project Detail Accounting Report">Detaljerad projektredovisningsapport
-        </value>
-  <value column="Description" original="Accounting Fact Details of Project">Detaljerad sammanställning av redovisningsinformation för projekt
-        </value>
+  <value column="Name" original="Project Detail Accounting Report">Detaljerad projektredovisningsapport</value>
+  <value column="Description" original="Accounting Fact Details of Project">Detaljerad sammanställning av redovisningsinformation för projekt</value>
  </row>
  <row id="404" trl="Y">
-  <value column="Name" original="Project Lines not Issued">Projektrader är inte knutna
-        </value>
-  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Visar rader på en arbetsorder eller ett tillgångsprojekt som inte är knutna till respektive projekt
-        </value>
+  <value column="Name" original="Project Lines not Issued">Projektrader är inte knutna</value>
+  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Visar rader på en arbetsorder eller ett tillgångsprojekt som inte är knutna till respektive projekt</value>
  </row>
  <row id="405" trl="Y">
-  <value column="Name" original="Project POs not Issued">Inköpsorder från projekt ej knutna till projekt
-        </value>
-  <value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Listar inköpsordrar genererade från projekt som ännu inte redovisats till rätt projekt.
-        </value>
+  <value column="Name" original="Project POs not Issued">Inköpsorder från projekt ej knutna till projekt</value>
+  <value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Listar inköpsordrar genererade från projekt som ännu inte redovisats till rätt projekt.</value>
  </row>
  <row id="406" trl="Y">
-  <value column="Name" original="RePrice Order/Invoice">Räkna om pris på order/faktura
-        </value>
-  <value column="Description" original="Recalculate the price based on the latest price list version of an open order or invoice">Räkna om priset på en öppen (icke avslutad) order eller faktura baserat på den senaste prislisteversionen.
-        </value>
+  <value column="Name" original="RePrice Order/Invoice">Räkna om pris på order/faktura</value>
+  <value column="Description" original="Recalculate the price based on the latest price list version of an open order or invoice">Räkna om priset på en öppen (icke avslutad) order eller faktura baserat på den senaste prislisteversionen.</value>
  </row>
  <row id="407" trl="Y">
-  <value column="Name" original="Quote convert">Konvertera förslag/offert
-        </value>
-  <value column="Description" original="Convert open Proposal or Quotation to Order">Konvertera öppet förslag till offert eller order
-        </value>
+  <value column="Name" original="Quote convert">Konvertera förslag/offert</value>
+  <value column="Description" original="Convert open Proposal or Quotation to Order">Konvertera öppet förslag till offert eller order</value>
  </row>
  <row id="408" trl="Y">
-  <value column="Name" original="Label Printer">Etikettskrivare
-        </value>
-  <value column="Description" original="Maintain Label Printer Definition">Underhåll etikettskrivardefinition
-        </value>
+  <value column="Name" original="Label Printer">Etikettskrivare</value>
+  <value column="Description" original="Maintain Label Printer Definition">Underhåll etikettskrivardefinition</value>
  </row>
  <row id="409" trl="Y">
-  <value column="Name" original="Verify Document Types">Verifiera dokumenttyper
-        </value>
-  <value column="Description" original="Verify Document Types">Verifiera dokumenttyper
-        </value>
+  <value column="Name" original="Verify Document Types">Verifiera dokumenttyper</value>
+  <value column="Description" original="Verify Document Types">Verifiera dokumenttyper</value>
  </row>
  <row id="410" trl="Y">
-  <value column="Name" original="Project Margin (Work Order)">Projektmarginal (Arbetsorder)
-        </value>
-  <value column="Description" original="Work Order Project Lines (planned revenue) vs. Project Issues (costs)">Jämförelse mellan projektets förväntade intäkter och kostnader
-        </value>
+  <value column="Name" original="Project Margin (Work Order)">Projektmarginal (Arbetsorder)</value>
+  <value column="Description" original="Work Order Project Lines (planned revenue) vs. Project Issues (costs)">Jämförelse mellan projektets förväntade intäkter och kostnader</value>
  </row>
  <row id="411" trl="Y">
-  <value column="Name" original="Storage Detail">Lagerdetaljer
-        </value>
-  <value column="Description" original="Storage Detail Report">Lagerdetaljrapport
-        </value>
+  <value column="Name" original="Storage Detail">Lagerdetaljer</value>
+  <value column="Description" original="Storage Detail Report">Lagerdetaljrapport</value>
  </row>
  <row id="412" trl="Y">
-  <value column="Name" original="Transaction Detail">Detaljrapport över transaktioner
-        </value>
-  <value column="Description" original="Transaction Detail Report">Detaljerad rapport över transaktioner
-        </value>
+  <value column="Name" original="Transaction Detail">Detaljrapport över transaktioner</value>
+  <value column="Description" original="Transaction Detail Report">Detaljerad rapport över transaktioner</value>
  </row>
  <row id="413" trl="Y">
-  <value column="Name" original="Aging">Att betala
-        </value>
-  <value column="Description" original="Aging Report">Rapport över kommande betalningar
-        </value>
+  <value column="Name" original="Aging">Att betala</value>
+  <value column="Description" original="Aging Report">Rapport över kommande betalningar</value>
  </row>
  <row id="414" trl="Y">
-  <value column="Name" original="Agent Info">Säljarinformation
-        </value>
-  <value column="Description" original="Company Agent (Sales Rep) Information">Information om företagsrepresentant (säljare)
-        </value>
+  <value column="Name" original="Agent Info">Säljarinformation</value>
+  <value column="Description" original="Company Agent (Sales Rep) Information">Information om företagsrepresentant (säljare)</value>
  </row>
  <row id="415" trl="Y">
-  <value column="Name" original="Clicks Monthy">Klick per månad
-        </value>
-  <value column="Description" original="Clicks per Month">Klick per månad
-        </value>
+  <value column="Name" original="Clicks Monthy">Klick per månad</value>
+  <value column="Description" original="Clicks per Month">Klick per månad</value>
  </row>
  <row id="416" trl="Y">
-  <value column="Name" original="Clicks Unprocessed">Antal ej räknade klick
-        </value>
-  <value column="Description" original="Unprocessed Clicks">Antal ej räknade klick
-        </value>
+  <value column="Name" original="Clicks Unprocessed">Antal ej räknade klick</value>
+  <value column="Description" original="Unprocessed Clicks">Antal ej räknade klick</value>
  </row>
  <row id="417" trl="Y">
-  <value column="Name" original="UnPosted Documents">Okonterade dokument
-        </value>
-  <value column="Description" original="Unposted Documents">Okonterade dokument
-        </value>
+  <value column="Name" original="UnPosted Documents">Okonterade dokument</value>
+  <value column="Description" original="Unposted Documents">Okonterade dokument</value>
  </row>
  <row id="418" trl="Y">
-  <value column="Name" original="Currency Type">Växlingsprincip
-        </value>
-  <value column="Description" original="Maintain Currency Conversion Rate Types">Underhåll och definiera olika växlingsprinciper
-        </value>
+  <value column="Name" original="Currency Type">Växlingsprincip</value>
+  <value column="Description" original="Maintain Currency Conversion Rate Types">Underhåll och definiera olika växlingsprinciper</value>
  </row>
  <row id="419" trl="Y">
-  <value column="Name" original="POS">Kassa (första utkast)
-        </value>
-  <value column="Description" original="Point Of Sales Terminal">Kassa
-        </value>
+  <value column="Name" original="POS">Kassa (första utkast)</value>
+  <value column="Description" original="Point Of Sales Terminal">Kassa</value>
  </row>
  <row id="420" trl="Y">
-  <value column="Name" original="Business Partner Organization">Affärspartnerorganisation
-        </value>
-  <value column="Description" original="Set and verify Organization ownership of Business Partners">Definiera och förändra organisation för affärspartner.
-        </value>
+  <value column="Name" original="Business Partner Organization">Affärspartnerorganisation</value>
+  <value column="Description" original="Set and verify Organization ownership of Business Partners">Definiera och förändra organisation för affärspartner.</value>
  </row>
  <row id="421" trl="Y">
-  <value column="Name" original="Product Organization">Produkthierarki
-        </value>
-  <value column="Description" original="Set and verify Organization ownership of Products">Definiera hierarki och struktur för produkter
-        </value>
+  <value column="Name" original="Product Organization">Produkthierarki</value>
+  <value column="Description" original="Set and verify Organization ownership of Products">Definiera hierarki och struktur för produkter</value>
  </row>
  <row id="422" trl="Y">
-  <value column="Name" original="Warehouse Organization">Lagerorganisation
-        </value>
-  <value column="Description" original="Set and verify Organization ownership of Warehouse">Ange och verifiera organisationsägandeskap för lager
-        </value>
+  <value column="Name" original="Warehouse Organization">Lagerorganisation</value>
+  <value column="Description" original="Set and verify Organization ownership of Warehouse">Ange och verifiera organisationsägandeskap för lager</value>
  </row>
  <row id="423" trl="Y">
-  <value column="Name" original="Load Bank Statement">Läs in banktransaktion
-        </value>
-  <value column="Description" original="Load Bank Statement">Läs in banktransaktion
-        </value>
+  <value column="Name" original="Load Bank Statement">Läs in banktransaktion</value>
+  <value column="Description" original="Load Bank Statement">Läs in banktransaktion</value>
  </row>
  <row id="424" trl="Y">
-  <value column="Name" original="Delete Import">Radera import
-        </value>
-  <value column="Description" original="Delete all data in Import Table">Radera all data i importtabellen.
-        </value>
+  <value column="Name" original="Delete Import">Radera import</value>
+  <value column="Description" original="Delete all data in Import Table">Radera all data i importtabellen.</value>
  </row>
  <row id="425" trl="Y">
-  <value column="Name" original="Import Currency Rate">Importera valutaväxlingskurs
-        </value>
-  <value column="Description" original="Import Currency Conversion Rates">Importera valutaväxlingskurs
-        </value>
+  <value column="Name" original="Import Currency Rate">Importera valutaväxlingskurs</value>
+  <value column="Description" original="Import Currency Conversion Rates">Importera valutaväxlingskurs</value>
  </row>
  <row id="426" trl="Y">
-  <value column="Name" original="BOM Drop">Lämna över sammansatt produkt
-        </value>
-  <value column="Description" original="Drop (expand) Bill of Materials">Lämna över (expandera) sammansatt produkt
-        </value>
+  <value column="Name" original="BOM Drop">Lämna över sammansatt produkt</value>
+  <value column="Description" original="Drop (expand) Bill of Materials">Lämna över (expandera) sammansatt produkt</value>
  </row>
  <row id="427" trl="Y">
-  <value column="Name" original="Workflow Responsible">Ansvarig för arbetsflöde
-        </value>
-  <value column="Description" original="Responsible for Workflow Execution">Ansvarig för utförande av arbetsflöde
-        </value>
+  <value column="Name" original="Workflow Responsible">Ansvarig för arbetsflöde</value>
+  <value column="Description" original="Responsible for Workflow Execution">Ansvarig för utförande av arbetsflöde</value>
  </row>
  <row id="428" trl="Y">
-  <value column="Name" original="Workflow Process">Arbetsflödesprocess
-        </value>
-  <value column="Description" original="Monitor workflow processes">Övervaka arbetsflödesprocesser
-        </value>
+  <value column="Name" original="Workflow Process">Arbetsflödesprocess</value>
+  <value column="Description" original="Monitor workflow processes">Övervaka arbetsflödesprocesser</value>
  </row>
  <row id="429" trl="Y">
-  <value column="Name" original="Workflow Activities (all)">Arbetsflödesaktivitet
-        </value>
-  <value column="Description" original="Monitor all Workflow activities">Övervaka dina aktiva arbetsflödesaktiviteter.
-        </value>
+  <value column="Name" original="Workflow Activities (all)">Arbetsflödesaktivitet</value>
+  <value column="Description" original="Monitor all Workflow activities">Övervaka dina aktiva arbetsflödesaktiviteter.</value>
  </row>
  <row id="430" trl="Y">
-  <value column="Name" original="Registration Attributes">Registrerade egenskaper
-        </value>
-  <value column="Description" original="Asset Registration Attributes">Registrerade individegenskaper
-        </value>
+  <value column="Name" original="Registration Attributes">Registrerade egenskaper</value>
+  <value column="Description" original="Asset Registration Attributes">Registrerade individegenskaper</value>
  </row>
  <row id="431" trl="Y">
-  <value column="Name" original="Registration">Registrering
-        </value>
-  <value column="Description" original="User Asset Registration">Tillgångsanvändarregistrering
-        </value>
+  <value column="Name" original="Registration">Registrering</value>
+  <value column="Description" original="User Asset Registration">Tillgångsanvändarregistrering</value>
  </row>
  <row id="432" trl="Y">
-  <value column="Name" original="Invoice Tax">Momsredovisning fakturering
-        </value>
-  <value column="Description" original="Invoice Tax Reconsiliation">Avstämning momsredovisning fakturering
-        </value>
+  <value column="Name" original="Invoice Tax">Momsredovisning fakturering</value>
+  <value column="Description" original="Invoice Tax Reconsiliation">Avstämning momsredovisning fakturering</value>
  </row>
  <row id="433" trl="Y">
-  <value column="Name" original="Accounting Fact Details">Transaktioner på konto
-        </value>
-  <value column="Description" original="Accounting Fact Details Report">Rapport över transaktioner på kontot
-        </value>
+  <value column="Name" original="Accounting Fact Details">Transaktioner på konto</value>
+  <value column="Description" original="Accounting Fact Details Report">Rapport över transaktioner på kontot</value>
  </row>
  <row id="434" trl="Y">
-  <value column="Name" original="Accounting Fact Daily">Kontoinformation per dag
-        </value>
-  <value column="Description" original="Accounting Fact Details summarized by Accounting Date">Kontoinformation sammanfattad per redovisningsdag
-        </value>
+  <value column="Name" original="Accounting Fact Daily">Kontoinformation per dag</value>
+  <value column="Description" original="Accounting Fact Details summarized by Accounting Date">Kontoinformation sammanfattad per redovisningsdag</value>
  </row>
  <row id="435" trl="Y">
-  <value column="Name" original="Accounting Fact Period">Transaktioner per period
-        </value>
-  <value column="Description" original="Accounting Fact Details summarized by Accounting Period">Transaktioner på kontot sammanfattade per redovisningsperiod
-        </value>
+  <value column="Name" original="Accounting Fact Period">Transaktioner per period</value>
+  <value column="Description" original="Accounting Fact Details summarized by Accounting Period">Transaktioner på kontot sammanfattade per redovisningsperiod</value>
  </row>
  <row id="436" trl="Y">
-  <value column="Name" original="Reopen Order">Öppna avslutad order
-        </value>
-  <value column="Description" original="Open previously closed Order">Öppna tidigare avslutad order
-        </value>
+  <value column="Name" original="Reopen Order">Öppna avslutad order</value>
+  <value column="Description" original="Open previously closed Order">Öppna tidigare avslutad order</value>
  </row>
  <row id="437" trl="Y">
-  <value column="Name" original="Bank Statement Matcher">Kontoutdragsmatchning
-        </value>
-  <value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">Algoritm för att matcha banktransaktioner till affärspartners, fakturor och betalningar.
-        </value>
+  <value column="Name" original="Bank Statement Matcher">Kontoutdragsmatchning</value>
+  <value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">Algoritm för att matcha banktransaktioner till affärspartners, fakturor och betalningar.</value>
  </row>
  <row id="438" trl="Y">
-  <value column="Name" original="Payment Batch">Betalningsbatch
-        </value>
-  <value column="Description" original="Process Payment Patches for EFT">Bearbeta batch av betalningar för elektronisk överföring.
-        </value>
+  <value column="Name" original="Payment Batch">Betalningsbatch</value>
+  <value column="Description" original="Process Payment Patches for EFT">Bearbeta batch av betalningar för elektronisk överföring.</value>
  </row>
  <row id="439" trl="N">
-  <value column="Name" original="Workflow Processor">Workflow Processor
-        </value>
-  <value column="Description" original="Maintain Workflow Processor and Logs">Maintain Workflow Processor and Logs
-        </value>
+  <value column="Name" original="Workflow Processor">Workflow Processor</value>
+  <value column="Description" original="Maintain Workflow Processor and Logs">Maintain Workflow Processor and Logs</value>
  </row>
  <row id="440" trl="N">
-  <value column="Name" original="Accounting Processor">Accounting Processor
-        </value>
-  <value column="Description" original="Maintain Accounting Processor and Logs">Maintain Accounting Processor and Logs
-        </value>
+  <value column="Name" original="Accounting Processor">Accounting Processor</value>
+  <value column="Description" original="Maintain Accounting Processor and Logs">Maintain Accounting Processor and Logs</value>
  </row>
  <row id="441" trl="N">
-  <value column="Name" original="Organization Type">Organization Type
-        </value>
-  <value column="Description" original="Maintain Organization Types">Maintain Organization Types
-        </value>
+  <value column="Name" original="Organization Type">Organization Type</value>
+  <value column="Description" original="Maintain Organization Types">Maintain Organization Types</value>
  </row>
  <row id="442" trl="N">
-  <value column="Name" original="Auction Buyer">Auction Buyer
-        </value>
-  <value column="Description" original="Maintain Auction Buyer Information">Maintain Auction Buyer Information
-        </value>
+  <value column="Name" original="Auction Buyer">Auction Buyer</value>
+  <value column="Description" original="Maintain Auction Buyer Information">Maintain Auction Buyer Information</value>
  </row>
  <row id="443" trl="N">
-  <value column="Name" original="Auction Seller">Auction Seller
-        </value>
-  <value column="Description" original="Maintain Auction Seller Information">Maintain Auction Seller Information
-        </value>
+  <value column="Name" original="Auction Seller">Auction Seller</value>
+  <value column="Description" original="Maintain Auction Seller Information">Maintain Auction Seller Information</value>
  </row>
  <row id="444" trl="N">
-  <value column="Name" original="Package">Package
-        </value>
-  <value column="Description" original="Manage Shipment Packages">Manage Shipment Packages
-        </value>
+  <value column="Name" original="Package">Package</value>
+  <value column="Description" original="Manage Shipment Packages">Manage Shipment Packages</value>
  </row>
  <row id="445" trl="N">
-  <value column="Name" original="Distribution List">Distribution List
-        </value>
-  <value column="Description" original="Maintain Distribution Lists">Maintain Distribution Lists
-        </value>
+  <value column="Name" original="Distribution List">Distribution List</value>
+  <value column="Description" original="Maintain Distribution Lists">Maintain Distribution Lists</value>
  </row>
  <row id="446" trl="N">
-  <value column="Name" original="Alert Processor">Alert Processor
-        </value>
-  <value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">Maintain Alert Processor/Server Parameter and Logs
-        </value>
+  <value column="Name" original="Alert Processor">Alert Processor</value>
+  <value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">Maintain Alert Processor/Server Parameter and Logs</value>
  </row>
  <row id="447" trl="N">
-  <value column="Name" original="Bid Topic">Bid Topic
-        </value>
-  <value column="Description" original="Topic with Bids and Offers">Topic with Bids and Offers
-        </value>
+  <value column="Name" original="Bid Topic">Bid Topic</value>
+  <value column="Description" original="Topic with Bids and Offers">Topic with Bids and Offers</value>
  </row>
  <row id="448" trl="N">
-  <value column="Name" original="Subscription Type">Subscription Type
-        </value>
-  <value column="Description" original="Maintain Subscription Types">Maintain Subscription Types
-        </value>
+  <value column="Name" original="Subscription Type">Subscription Type</value>
+  <value column="Description" original="Maintain Subscription Types">Maintain Subscription Types</value>
  </row>
  <row id="449" trl="N">
-  <value column="Name" original="Subscription">Subscription
-        </value>
-  <value column="Description" original="Maintain Subscriptions and Deliveries">Maintain Subscriptions and Deliveries
-        </value>
+  <value column="Name" original="Subscription">Subscription</value>
+  <value column="Description" original="Maintain Subscriptions and Deliveries">Maintain Subscriptions and Deliveries</value>
  </row>
  <row id="450" trl="N">
-  <value column="Name" original="Scheduler">Scheduler
-        </value>
-  <value column="Description" original="Maintain Schedule Processes and Logs">Maintain Schedule Processes and Logs
-        </value>
+  <value column="Name" original="Scheduler">Scheduler</value>
+  <value column="Description" original="Maintain Schedule Processes and Logs">Maintain Schedule Processes and Logs</value>
  </row>
  <row id="451" trl="N">
-  <value column="Name" original="Partner Relation">Partner Relation
-        </value>
-  <value column="Description" original="Maintain Business Partner Relations">Maintain Business Partner Relations
-        </value>
+  <value column="Name" original="Partner Relation">Partner Relation</value>
+  <value column="Description" original="Maintain Business Partner Relations">Maintain Business Partner Relations</value>
  </row>
  <row id="452" trl="N">
-  <value column="Name" original="RfQ Topic">RfQ Topic
-        </value>
-  <value column="Description" original="Maintain RfQ Topics and Subscribers">Maintain RfQ Topics and Subscribers
-        </value>
+  <value column="Name" original="RfQ Topic">RfQ Topic</value>
+  <value column="Description" original="Maintain RfQ Topics and Subscribers">Maintain RfQ Topics and Subscribers</value>
  </row>
  <row id="453" trl="N">
-  <value column="Name" original="Auction Topic Type">Auction Topic Type
-        </value>
-  <value column="Description" original="Maintain Auction Topic Type and Categories">Maintain Auction Topic Type and Categories
-        </value>
+  <value column="Name" original="Auction Topic Type">Auction Topic Type</value>
+  <value column="Description" original="Maintain Auction Topic Type and Categories">Maintain Auction Topic Type and Categories</value>
  </row>
  <row id="454" trl="N">
-  <value column="Name" original="RfQ">RfQ
-        </value>
-  <value column="Description" original="Manage Request for Quotations">Manage Request for Quotations
-        </value>
+  <value column="Name" original="RfQ">RfQ</value>
+  <value column="Description" original="Manage Request for Quotations">Manage Request for Quotations</value>
  </row>
  <row id="455" trl="N">
-  <value column="Name" original="RMA">RMA
-        </value>
-  <value column="Description" original="Manage Return Material Authorization">Manage Return Material Authorization
-        </value>
+  <value column="Name" original="RMA">RMA</value>
+  <value column="Description" original="Manage Return Material Authorization">Manage Return Material Authorization</value>
  </row>
  <row id="456" trl="N">
-  <value column="Name" original="Server">Server
-        </value>
-  <value column="Description" original="Adempiere Server Maintenance">Adempiere Server Maintenance
-        </value>
+  <value column="Name" original="Server">Server</value>
+  <value column="Description" original="Adempiere Server Maintenance">Adempiere Server Maintenance</value>
  </row>
  <row id="457" trl="N">
-  <value column="Name" original="Sales Orders">Sales Orders
-        </value>
+  <value column="Name" original="Sales Orders">Sales Orders</value>
   <value column="Description" original=""/>
  </row>
  <row id="458" trl="N">
-  <value column="Name" original="Sales Invoices">Sales Invoices
-        </value>
+  <value column="Name" original="Sales Invoices">Sales Invoices</value>
   <value column="Description" original=""/>
  </row>
  <row id="459" trl="N">
-  <value column="Name" original="Shipments">Shipments
-        </value>
+  <value column="Name" original="Shipments">Shipments</value>
   <value column="Description" original=""/>
  </row>
  <row id="460" trl="N">
-  <value column="Name" original="Market Place">Market Place
-        </value>
+  <value column="Name" original="Market Place">Market Place</value>
   <value column="Description" original=""/>
  </row>
  <row id="461" trl="N">
-  <value column="Name" original="Sequence Check">Sequence Check
-        </value>
-  <value column="Description" original="Check System and Document Sequences">Check System and Document Sequences
-        </value>
+  <value column="Name" original="Sequence Check">Sequence Check</value>
+  <value column="Description" original="Check System and Document Sequences">Check System and Document Sequences</value>
  </row>
  <row id="462" trl="N">
-  <value column="Name" original="Dunning Run">Dunning Run
-        </value>
-  <value column="Description" original="Manage Dunning Runs">Manage Dunning Runs
-        </value>
+  <value column="Name" original="Dunning Run">Dunning Run</value>
+  <value column="Description" original="Manage Dunning Runs">Manage Dunning Runs</value>
  </row>
  <row id="463" trl="N">
-  <value column="Name" original="Requisition">Requisition
-        </value>
-  <value column="Description" original="Material Requisition">Material Requisition
-        </value>
+  <value column="Name" original="Requisition">Requisition</value>
+  <value column="Description" original="Material Requisition">Material Requisition</value>
  </row>
  <row id="464" trl="N">
-  <value column="Name" original="GL Distribution">GL Distribution
-        </value>
-  <value column="Description" original="General Ledger Distribution">General Ledger Distribution
-        </value>
+  <value column="Name" original="GL Distribution">GL Distribution</value>
+  <value column="Description" original="General Ledger Distribution">General Ledger Distribution</value>
  </row>
  <row id="465" trl="N">
-  <value column="Name" original="Tree Maintenance">Tree Maintenance
-        </value>
-  <value column="Description" original="Maintain Trees">Maintain Trees
-        </value>
+  <value column="Name" original="Tree Maintenance">Tree Maintenance</value>
+  <value column="Description" original="Maintain Trees">Maintain Trees</value>
  </row>
  <row id="466" trl="N">
-  <value column="Name" original="RfQ Response">RfQ Response
-        </value>
-  <value column="Description" original="Manage RfQ Responses">Manage RfQ Responses
-        </value>
+  <value column="Name" original="RfQ Response">RfQ Response</value>
+  <value column="Description" original="Manage RfQ Responses">Manage RfQ Responses</value>
  </row>
  <row id="467" trl="N">
-  <value column="Name" original="RfQ Response">RfQ Response
-        </value>
-  <value column="Description" original="Detail RfQ Responses">Detail RfQ Responses
-        </value>
+  <value column="Name" original="RfQ Response">RfQ Response</value>
+  <value column="Description" original="Detail RfQ Responses">Detail RfQ Responses</value>
  </row>
  <row id="468" trl="N">
-  <value column="Name" original="RfQ Unanswered">RfQ Unanswered
-        </value>
-  <value column="Description" original="Outstanding RfQ Responses">Outstanding RfQ Responses
-        </value>
+  <value column="Name" original="RfQ Unanswered">RfQ Unanswered</value>
+  <value column="Description" original="Outstanding RfQ Responses">Outstanding RfQ Responses</value>
  </row>
  <row id="469" trl="N">
-  <value column="Name" original="Workflow Editor">Workflow Editor
-        </value>
-  <value column="Description" original="Edit Workflows">Edit Workflows
-        </value>
+  <value column="Name" original="Workflow Editor">Workflow Editor</value>
+  <value column="Description" original="Edit Workflows">Edit Workflows</value>
  </row>
  <row id="470" trl="N">
-  <value column="Name" original="Workflow Activities">Workflow Activities
-        </value>
-  <value column="Description" original="My active workflow activities">My active workflow activities
-        </value>
+  <value column="Name" original="Workflow Activities">Workflow Activities</value>
+  <value column="Description" original="My active workflow activities">My active workflow activities</value>
  </row>
  <row id="471" trl="N">
-  <value column="Name" original="Open Requisitions">Open Requisitions
-        </value>
-  <value column="Description" original="Detail Open Requisition Information">Detail Open Requisition Information
-        </value>
+  <value column="Name" original="Open Requisitions">Open Requisitions</value>
+  <value column="Description" original="Detail Open Requisition Information">Detail Open Requisition Information</value>
  </row>
  <row id="472" trl="N">
-  <value column="Name" original="Distribution Run">Distribution Run
-        </value>
-  <value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">Distribution Run create Orders to distribute products to a selected list of partners
-        </value>
+  <value column="Name" original="Distribution Run">Distribution Run</value>
+  <value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">Distribution Run create Orders to distribute products to a selected list of partners</value>
  </row>
  <row id="473" trl="N">
-  <value column="Name" original="UnLink Business Partner Org">UnLink Business Partner Org
-        </value>
-  <value column="Description" original="UnLink Business Partner from an Organization">UnLink Business Partner from an Organization
-        </value>
+  <value column="Name" original="UnLink Business Partner Org">UnLink Business Partner Org</value>
+  <value column="Description" original="UnLink Business Partner from an Organization">UnLink Business Partner from an Organization</value>
  </row>
  <row id="474" trl="N">
-  <value column="Name" original="Asset Delivery Month">Asset Delivery Month
-        </value>
-  <value column="Description" original="Report Asset Deliveries Summary per month">Report Asset Deliveries Summary per month
-        </value>
+  <value column="Name" original="Asset Delivery Month">Asset Delivery Month</value>
+  <value column="Description" original="Report Asset Deliveries Summary per month">Report Asset Deliveries Summary per month</value>
  </row>
  <row id="475" trl="N">
-  <value column="Name" original="Access Audit">Access Audit
-        </value>
-  <value column="Description" original="Log of Access to data or resources">Log of Access to data or resources
-        </value>
+  <value column="Name" original="Access Audit">Access Audit</value>
+  <value column="Description" original="Log of Access to data or resources">Log of Access to data or resources</value>
  </row>
  <row id="476" trl="N">
-  <value column="Name" original="Counter Document">Counter Document
-        </value>
-  <value column="Description" original="Maintain Counter Document Types">Maintain Counter Document Types
-        </value>
+  <value column="Name" original="Counter Document">Counter Document</value>
+  <value column="Description" original="Maintain Counter Document Types">Maintain Counter Document Types</value>
  </row>
  <row id="477" trl="N">
-  <value column="Name" original="Demand">Demand
-        </value>
-  <value column="Description" original="Maintain Material Demand">Maintain Material Demand
-        </value>
+  <value column="Name" original="Demand">Demand</value>
+  <value column="Description" original="Maintain Material Demand">Maintain Material Demand</value>
  </row>
  <row id="478" trl="N">
-  <value column="Name" original="Forecast">Forecast
-        </value>
-  <value column="Description" original="Maintain Material Forecast">Maintain Material Forecast
-        </value>
+  <value column="Name" original="Forecast">Forecast</value>
+  <value column="Description" original="Maintain Material Forecast">Maintain Material Forecast</value>
  </row>
  <row id="479" trl="N">
-  <value column="Name" original="Ship/Receipt Confirm">Ship/Receipt Confirm
-        </value>
-  <value column="Description" original="Material Shipment or Receipt Confirmation">Material Shipment or Receipt Confirmation
-        </value>
+  <value column="Name" original="Ship/Receipt Confirm">Ship/Receipt Confirm</value>
+  <value column="Description" original="Material Shipment or Receipt Confirmation">Material Shipment or Receipt Confirmation</value>
  </row>
  <row id="480" trl="N">
-  <value column="Name" original="RMA Type">RMA Type
-        </value>
-  <value column="Description" original="Return Material Authorization Type">Return Material Authorization Type
-        </value>
+  <value column="Name" original="RMA Type">RMA Type</value>
+  <value column="Description" original="Return Material Authorization Type">Return Material Authorization Type</value>
  </row>
  <row id="481" trl="N">
-  <value column="Name" original="Open Confirmation Details">Open Confirmation Details
-        </value>
-  <value column="Description" original="Open Shipment or Receipt Confirmation Details">Open Shipment or Receipt Confirmation Details
-        </value>
+  <value column="Name" original="Open Confirmation Details">Open Confirmation Details</value>
+  <value column="Description" original="Open Shipment or Receipt Confirmation Details">Open Shipment or Receipt Confirmation Details</value>
  </row>
  <row id="482" trl="N">
-  <value column="Name" original="Open Confirmations">Open Confirmations
-        </value>
-  <value column="Description" original="Open Shipment or Receipt Confirmations">Open Shipment or Receipt Confirmations
-        </value>
+  <value column="Name" original="Open Confirmations">Open Confirmations</value>
+  <value column="Description" original="Open Shipment or Receipt Confirmations">Open Shipment or Receipt Confirmations</value>
  </row>
  <row id="483" trl="N">
-  <value column="Name" original="Process Audit">Process Audit
-        </value>
-  <value column="Description" original="Audit process use">Audit process use
-        </value>
+  <value column="Name" original="Process Audit">Process Audit</value>
+  <value column="Description" original="Audit process use">Audit process use</value>
  </row>
  <row id="484" trl="N">
-  <value column="Name" original="Move Confirmation">Move Confirmation
-        </value>
-  <value column="Description" original="Confirm Inventory Moves">Confirm Inventory Moves
-        </value>
+  <value column="Name" original="Move Confirmation">Move Confirmation</value>
+  <value column="Description" original="Confirm Inventory Moves">Confirm Inventory Moves</value>
  </row>
  <row id="485" trl="N">
-  <value column="Name" original="Print Format Detail">Print Format Detail
-        </value>
-  <value column="Description" original="Print Format Detail Report">Print Format Detail Report
-        </value>
+  <value column="Name" original="Print Format Detail">Print Format Detail</value>
+  <value column="Description" original="Print Format Detail Report">Print Format Detail Report</value>
  </row>
  <row id="486" trl="N">
-  <value column="Name" original="Import Confirmations">Import Confirmations
-        </value>
-  <value column="Description" original="Import Receipt/Shipment Confirmation Lines">Import Receipt/Shipment Confirmation Lines
-        </value>
+  <value column="Name" original="Import Confirmations">Import Confirmations</value>
+  <value column="Description" original="Import Receipt/Shipment Confirmation Lines">Import Receipt/Shipment Confirmation Lines</value>
  </row>
  <row id="487" trl="N">
-  <value column="Name" original="Reset Password">Reset Password
-        </value>
-  <value column="Description" original="Reset Passwords for User">Reset Passwords for User
-        </value>
+  <value column="Name" original="Reset Password">Reset Password</value>
+  <value column="Description" original="Reset Passwords for User">Reset Passwords for User</value>
  </row>
  <row id="488" trl="N">
-  <value column="Name" original="SLA Criteria">SLA Criteria
-        </value>
-  <value column="Description" original="Service Level Agreement Criteria">Service Level Agreement Criteria
-        </value>
+  <value column="Name" original="SLA Criteria">SLA Criteria</value>
+  <value column="Description" original="Service Level Agreement Criteria">Service Level Agreement Criteria</value>
  </row>
  <row id="489" trl="N">
-  <value column="Name" original="SLA by Partner">SLA by Partner
-        </value>
-  <value column="Description" original="Service Level Agreement">Service Level Agreement
-        </value>
+  <value column="Name" original="SLA by Partner">SLA by Partner</value>
+  <value column="Description" original="Service Level Agreement">Service Level Agreement</value>
  </row>
  <row id="490" trl="N">
-  <value column="Name" original="Price List Schema">Price List Schema
-        </value>
-  <value column="Description" original="Maintain Price List Schema">Maintain Price List Schema
-        </value>
+  <value column="Name" original="Price List Schema">Price List Schema</value>
+  <value column="Description" original="Maintain Price List Schema">Maintain Price List Schema</value>
  </row>
  <row id="491" trl="N">
-  <value column="Name" original="POS Terminal">POS Terminal
-        </value>
-  <value column="Description" original="Maintain your Point of Sales Terminal">Maintain your Point of Sales Terminal
-        </value>
+  <value column="Name" original="POS Terminal">POS Terminal</value>
+  <value column="Description" original="Maintain your Point of Sales Terminal">Maintain your Point of Sales Terminal</value>
  </row>
  <row id="492" trl="N">
-  <value column="Name" original="POS Key Layout">POS Key Layout
-        </value>
-  <value column="Description" original="POS Function Key Layout">POS Function Key Layout
-        </value>
+  <value column="Name" original="POS Key Layout">POS Key Layout</value>
+  <value column="Description" original="POS Function Key Layout">POS Function Key Layout</value>
  </row>
  <row id="493" trl="N">
-  <value column="Name" original="Material Receipt Details">Material Receipt Details
-        </value>
-  <value column="Description" original="Material Receipt Detail Information">Material Receipt Detail Information
-        </value>
+  <value column="Name" original="Material Receipt Details">Material Receipt Details</value>
+  <value column="Description" original="Material Receipt Detail Information">Material Receipt Detail Information</value>
  </row>
  <row id="494" trl="N">
-  <value column="Name" original="Shipment Details">Shipment Details
-        </value>
-  <value column="Description" original="Shipment Detail Information">Shipment Detail Information
-        </value>
+  <value column="Name" original="Shipment Details">Shipment Details</value>
+  <value column="Description" original="Shipment Detail Information">Shipment Detail Information</value>
  </row>
  <row id="495" trl="N">
-  <value column="Name" original="Role Access Update">Role Access Update
-        </value>
-  <value column="Description" original="Update the access rights of a role or roles of a client">Update the access rights of a role or roles of a client
-        </value>
+  <value column="Name" original="Role Access Update">Role Access Update</value>
+  <value column="Description" original="Update the access rights of a role or roles of a client">Update the access rights of a role or roles of a client</value>
  </row>
  <row id="496" trl="N">
-  <value column="Name" original="Reset Allocation">Reset Allocation
-        </value>
-  <value column="Description" original="Reset (delete) allocation of invoices to payments">Reset (delete) allocation of invoices to payments
-        </value>
+  <value column="Name" original="Reset Allocation">Reset Allocation</value>
+  <value column="Description" original="Reset (delete) allocation of invoices to payments">Reset (delete) allocation of invoices to payments</value>
  </row>
  <row id="497" trl="N">
-  <value column="Name" original="Auto Allocation">Auto Allocation
-        </value>
-  <value column="Description" original="Automatic allocation of invoices to payments">Automatic allocation of invoices to payments
-        </value>
+  <value column="Name" original="Auto Allocation">Auto Allocation</value>
+  <value column="Description" original="Automatic allocation of invoices to payments">Automatic allocation of invoices to payments</value>
  </row>
  <row id="498" trl="Y">
-  <value column="Name" original="GL Journal">Manuellt verifikat
-        </value>
-  <value column="Description" original="Enter and change Manual Journal Entries">Registrera och förändra manuella verifikat
-        </value>
+  <value column="Name" original="GL Journal">Manuellt verifikat</value>
+  <value column="Description" original="Enter and change Manual Journal Entries">Registrera och förändra manuella verifikat</value>
  </row>
  <row id="499" trl="Y">
-  <value column="Name" original="Bank">Bank
-        </value>
-  <value column="Description" original="Maintain Bank">Underhåll bankinformation
-        </value>
+  <value column="Name" original="Bank">Bank</value>
+  <value column="Description" original="Maintain Bank">Underhåll bankinformation</value>
  </row>
  <row id="500" trl="Y">
-  <value column="Name" original="Invoice (Vendor)">Omkostnadsfaktura
-        </value>
-  <value column="Description" original="Vendor Invoice Entry">Behandling av leverantörsfakturor
-        </value>
+  <value column="Name" original="Invoice (Vendor)">Omkostnadsfaktura</value>
+  <value column="Description" original="Vendor Invoice Entry">Behandling av leverantörsfakturor</value>
  </row>
  <row id="501" trl="Y">
-  <value column="Name" original="Business Partner">Affärspartner
-        </value>
-  <value column="Description" original="Maintain Business Partners">Underhåll affärspartner
-        </value>
+  <value column="Name" original="Business Partner">Affärspartner</value>
+  <value column="Description" original="Maintain Business Partners">Underhåll affärspartner</value>
  </row>
  <row id="502" trl="Y">
-  <value column="Name" original="Payment">Betalning
-        </value>
-  <value column="Description" original="Process Payments and Receipts">Bearbeta betalningar
-        </value>
+  <value column="Name" original="Payment">Betalning</value>
+  <value column="Description" original="Process Payments and Receipts">Bearbeta betalningar</value>
  </row>
  <row id="503" trl="Y">
-  <value column="Name" original="Invoice (Customer)">Kundfaktura
-        </value>
-  <value column="Description" original="Customer Invoice Entry">Behandling av kundfakturor
-        </value>
+  <value column="Name" original="Invoice (Customer)">Kundfaktura</value>
+  <value column="Description" original="Customer Invoice Entry">Behandling av kundfakturor</value>
  </row>
  <row id="504" trl="Y">
-  <value column="Name" original="Settings">Inställningar
-        </value>
-  <value column="Description" original="Settings">Inställningar
-        </value>
+  <value column="Name" original="Settings">Inställningar</value>
+  <value column="Description" original="Settings">Inställningar</value>
  </row>
  <row id="505" trl="Y">
-  <value column="Name" original="Settings_inventory">Inställningar lager
-        </value>
-  <value column="Description" original="Settings_inventory">Inställningar lager
-        </value>
+  <value column="Name" original="Settings_inventory">Inställningar lager</value>
+  <value column="Description" original="Settings_inventory">Inställningar lager</value>
  </row>
  <row id="506" trl="Y">
-  <value column="Name" original="Products">Produkt
-        </value>
-  <value column="Description" original="Products">Produkt
-        </value>
+  <value column="Name" original="Products">Produkt</value>
+  <value column="Description" original="Products">Produkt</value>
  </row>
  <row id="507" trl="Y">
-  <value column="Name" original="Material Management">Lager
-        </value>
-  <value column="Description" original="Material Management">Lager
-        </value>
+  <value column="Name" original="Material Management">Lager</value>
+  <value column="Description" original="Material Management">Lager</value>
  </row>
  <row id="508" trl="Y">
-  <value column="Name" original="Settings_MM">Inställningar
-        </value>
-  <value column="Description" original="Settings_MM">Inställningar
-        </value>
+  <value column="Name" original="Settings_MM">Inställningar</value>
+  <value column="Description" original="Settings_MM">Inställningar</value>
  </row>
  <row id="509" trl="Y">
-  <value column="Name" original="Sales">Försäljning
-        </value>
-  <value column="Description" original="Sales">Försäljning
-        </value>
+  <value column="Name" original="Sales">Försäljning</value>
+  <value column="Description" original="Sales">Försäljning</value>
  </row>
  <row id="510" trl="Y">
-  <value column="Name" original="Sales_settings">Inställningar
-        </value>
-  <value column="Description" original="Sales_Settings">Inställningar försäljning
-        </value>
+  <value column="Name" original="Sales_settings">Inställningar</value>
+  <value column="Description" original="Sales_Settings">Inställningar försäljning</value>
  </row>
  <row id="511" trl="Y">
-  <value column="Name" original="Reskontra">Reskontra
-        </value>
-  <value column="Description" original="Reskontra">Reskontra
-        </value>
+  <value column="Name" original="Reskontra">Reskontra</value>
+  <value column="Description" original="Reskontra">Reskontra</value>
  </row>
  <row id="512" trl="Y">
-  <value column="Name" original="Accounting">Bokföring
-        </value>
-  <value column="Description" original="Accounting">Bokföring
-        </value>
+  <value column="Name" original="Accounting">Bokföring</value>
+  <value column="Description" original="Accounting">Bokföring</value>
  </row>
  <row id="513" trl="Y">
-  <value column="Name" original="Settings_Partners">Inställningar
-        </value>
-  <value column="Description" original="Settings_Partners">Inställningar affärspartners
-        </value>
- </row>
- <row id="1000000" trl="Y">
-  <value column="Name" original="XX_Supplier_Invoice_Report">Leverantörsfakturarapport
-        </value>
-  <value column="Description" original="XX_Supplier_Invoice_Report">Leverantörsfakturarapport
-        </value>
- </row>
- <row id="1000001" trl="Y">
-  <value column="Name" original="XX_OpenItem">Reskontra
-        </value>
-  <value column="Description" original="XX_OpenItem">Reskontra
-        </value>
- </row>
- <row id="1000002" trl="Y">
-  <value column="Name" original="XX Cash Journal">Kassa Bokföring
-        </value>
-  <value column="Description" original="XX Cash Journal">Kassa Bokföring
-        </value>
- </row>
- <row id="1000003" trl="Y">
-  <value column="Name" original="Kassa">Kassa
-        </value>
-  <value column="Description" original="Kassa">Kassa
-        </value>
- </row>
- <row id="1000005" trl="N">
-  <value column="Name" original="XX_Product">XX_Product
-        </value>
-  <value column="Description" original="XX_Product">XX_Product
-        </value>
- </row>
- <row id="1000006" trl="Y">
-  <value column="Name" original="Payment Bankgiro">Betalning Bankgiro
-        </value>
-  <value column="Description" original="Payment Bankgiro">Betalning Bankgiro
-        </value>
- </row>
- <row id="1000007" trl="Y">
-  <value column="Name" original="Kassa">Kassa
-        </value>
-  <value column="Description" original="Kassa">Kassa
-        </value>
- </row>
- <row id="1000009" trl="Y">
-  <value column="Name" original="XX Product Maintenace">Produkt underhåll
-        </value>
-  <value column="Description" original="XX Product Maintenace">Produkt underhåll
-        </value>
- </row>
- <row id="1000012" trl="Y">
-  <value column="Name" original="XX_Cash_Report">Kassarapport
-        </value>
-  <value column="Description" original="XX_Cash_Report">Kassarapport
-        </value>
- </row>
- <row id="1000013" trl="Y">
-  <value column="Name" original="XX_Acct_Day_Report">Kontorapport per dag
-        </value>
-  <value column="Description" original="XX_Acct_Day_Report">Kontorapport per dag
-        </value>
- </row>
- <row id="1000014" trl="Y">
-  <value column="Name" original="XX_Invoice_ProdCat_Day">Försäljning per produktkategori och dag
-        </value>
-  <value column="Description" original="">Försäljning per produktkategori och dag
-        </value>
- </row>
- <row id="1000015" trl="Y">
-  <value column="Name" original="Reports">Rapporter
-        </value>
-  <value column="Description" original="Reports">Rapporter
-        </value>
- </row>
- <row id="1000016" trl="Y">
-  <value column="Name" original="Reports">Rapporter
-        </value>
-  <value column="Description" original="Reports">Rapporter
-        </value>
- </row>
- <row id="1000017" trl="Y">
-  <value column="Name" original="Reports">Rapporter
-        </value>
-  <value column="Description" original="Reports">Rapporter
-        </value>
- </row>
- <row id="1000018" trl="Y">
-  <value column="Name" original="Reports">Rapporter
-        </value>
-  <value column="Description" original="Reports">Rapporter
-        </value>
- </row>
- <row id="1000019" trl="Y">
-  <value column="Name" original="Reports">Rapporter
-        </value>
-  <value column="Description" original="Reports">Rapporter
-        </value>
- </row>
- <row id="1000020" trl="N">
-  <value column="Name" original="Reports">Rapporter
-        </value>
-  <value column="Description" original="Reports">Rapporter
-        </value>
- </row>
- <row id="1000021" trl="Y">
-  <value column="Name" original="Reports">Rapporter
-        </value>
-  <value column="Description" original="Reports">Rapporter
-        </value>
- </row>
- <row id="1000022" trl="Y">
-  <value column="Name" original="Reports">Rapporter
-        </value>
-  <value column="Description" original="Reports">Rapporter
-        </value>
- </row>
- <row id="1000023" trl="Y">
-  <value column="Name" original="XX_Invoice_Prod_Day">Försäljning per produkt och dag
-        </value>
-  <value column="Description" original="">Försäljning per produkt och dag
-        </value>
- </row>
- <row id="1000024" trl="Y">
-  <value column="Name" original="XX_Invoice_Prod_Week">Försäljning per produkt och vecka
-        </value>
-  <value column="Description" original="">Försäljning per produkt och vecka
-        </value>
- </row>
- <row id="1000025" trl="Y">
-  <value column="Name" original="XX_Invoice_Prod_Month">Försäljning per produkt och månad
-        </value>
-  <value column="Description" original="">Försäljning per produkt och månad
-        </value>
- </row>
- <row id="1000026" trl="Y">
-  <value column="Name" original="XX_Invoice_ProdCat_Week">Försäljning per produktkategori och vecka
-        </value>
-  <value column="Description" original="">Försäljning per produktkategori och vecka
-        </value>
- </row>
- <row id="1000027" trl="Y">
-  <value column="Name" original="XX_Invoice_ProdCat_Month">Försäljning per produktkategori och månad
-        </value>
-  <value column="Description" original="">Försäljning per produktkategori och månad
-        </value>
- </row>
- <row id="1000028" trl="Y">
-  <value column="Name" original="XX_Customer_Invoice_Report2">Kundfakturarapport
-        </value>
-  <value column="Description" original="">Kundfakturarapport
-        </value>
- </row>
- <row id="1000029" trl="Y">
-  <value column="Name" original="XX_Customer_Invoice_Journal2">Kundfakturajournal
-        </value>
-  <value column="Description" original="XX_Customer_Invoice_Journal2">Kundfakturajournal
-        </value>
- </row>
- <row id="1000030" trl="Y">
-  <value column="Name" original="Ny leverantör">Ny leverantör
-        </value>
-  <value column="Description" original="Lägg upp ny leverantör, prislista och produkter">Lägg upp ny leverantör, prislista och produkter
-        </value>
- </row>
- <row id="1000031" trl="Y">
-  <value column="Name" original="Leverantörsfaktura">Leverantörsfaktura
-        </value>
-  <value column="Description" original="Kontrollera om produken finns skapa sedan leverantörsfaktura,inleverans och leverantörsfaktura journal">Kontrollera om produken finns skapa sedan leverantörsfaktura,inleverans och leverantörsfaktura journal
-        </value>
- </row>
- <row id="1000032" trl="Y">
-  <value column="Name" original="XX_Product_Maintenace">Produkt/Priser per leverantör
-        </value>
-  <value column="Description" original="">Produkt/Priser per leverantör
-        </value>
- </row>
- <row id="81000000" trl="Y">
-  <value column="Name" original="XX_Customer_Invoice_Journal">Kontantjournal
-        </value>
-  <value column="Description" original="XX_Customer_Invoice_Journal">Kontantjournal
-        </value>
- </row>
- <row id="81000001" trl="Y">
-  <value column="Name" original="XX_Customer_Invoice_Report">Dagsförsäljning
-        </value>
-  <value column="Description" original="XX_Customer_Invoice_Report">Dagsförsäljning
-        </value>
- </row>
- <row id="81000004" trl="Y">
-  <value column="Name" original="XX_Supplier_Invoice_Journal">Leverantörsfakturajournal
-        </value>
-  <value column="Description" original="XX_Supplier_Invoice_Journal">Leverantörsfakturajournal
-        </value>
- </row>
- <row id="81000005" trl="Y">
-  <value column="Name" original="XX_Payment_Journal">Betaljournal
-        </value>
-  <value column="Description" original="XX_Payment_Journal">Betaljournal
-        </value>
- </row>
- <row id="81000006" trl="Y">
-  <value column="Name" original="XX_Allocation_Journal">Utbetalningsjournal
-        </value>
-  <value column="Description" original="XX_Allocation_Journal">Utbetalningsjournal
-        </value>
- </row>
- <row id="81000007" trl="Y">
-  <value column="Name" original="XX_GL_Journal">Verifikatslista
-        </value>
-  <value column="Description" original="XX_GL_Journal">Verifikatslista
-        </value>
- </row>
- <row id="81000008" trl="Y">
-  <value column="Name" original="XX_InOut_Journal">Lagerförflyttningar
-        </value>
-  <value column="Description" original="XX_InOut_Journal">Lagerförflyttningar
-        </value>
- </row>
- <row id="91000002" trl="Y">
-  <value column="Name" original="XX Import Products">Importera produkter
-        </value>
-  <value column="Description" original="XX Import Products">Importera produkter
-        </value>
- </row>
- <row id="91000003" trl="Y">
-  <value column="Name" original="XX Import Order">Importera order
-        </value>
-  <value column="Description" original="XX Import Order">Importera order
-        </value>
- </row>
- <row id="91000004" trl="Y">
-  <value column="Name" original="XX Price Maintenace">Pris underhåll
-        </value>
-  <value column="Description" original="XX Price Maintenace">Pris underhåll
-        </value>
+  <value column="Name" original="Settings_Partners">Inställningar</value>
+  <value column="Description" original="Settings_Partners">Inställningar affärspartners</value>
  </row>
 </adempiereTrl>

@@ -48,7 +48,7 @@
   <value column="Name" original="Standard Cost">Standardkostnad</value>
  </row>
  <row id="116" trl="Y">
-  <value column="Name" original="Actual Costs">Verklig kostnad</value>
+  <value column="Name" original="Actual Costs">Faktiska kostnader</value>
  </row>
  <row id="117" trl="Y">
   <value column="Name" original="Statistics">Statistik</value>
@@ -60,7 +60,7 @@
   <value column="Name" original="Request Management">Administration av förfrågningar</value>
  </row>
  <row id="120" trl="Y">
-  <value column="Name" original="Web Store">WebStore</value>
+  <value column="Name" original="Web Store">Webbshop</value>
  </row>
  <row id="121" trl="Y">
   <value column="Name" original="Internal">Intern</value>
@@ -69,7 +69,7 @@
   <value column="Name" original="External">Extern</value>
  </row>
  <row id="123" trl="Y">
-  <value column="Name" original="Common">Allmän</value>
+  <value column="Name" original="Common">Allmänt</value>
  </row>
  <row id="124" trl="Y">
   <value column="Name" original="Shipment">Leverans</value>
@@ -100,11 +100,5 @@
  </row>
  <row id="133" trl="Y">
   <value column="Name" original="Selection">Urval</value>
- </row>
- <row id="91000003" trl="Y">
-  <value column="Name" original="Pris">Pris</value>
- </row>
- <row id="91000004" trl="Y">
-  <value column="Name" original="Order">Order</value>
  </row>
 </adempiereTrl>

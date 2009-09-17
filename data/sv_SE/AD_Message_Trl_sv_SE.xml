@@ -51,20 +51,20 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="113" trl="Y">
-  <value column="MsgText" original="You cannot change the record">Det går inte att ändra posten. </value>
-  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas. </value>
+  <value column="MsgText" original="You cannot change the record">Det går inte att ändra posten</value>
+  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas</value>
  </row>
  <row id="114" trl="Y">
-  <value column="MsgText" original="You cannot delete this record">Det går inte att radera posten. </value>
-  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas. </value>
+  <value column="MsgText" original="You cannot delete this record">Det går inte att radera posten</value>
+  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas</value>
  </row>
  <row id="115" trl="Y">
-  <value column="MsgText" original="You cannot insert a record">Det går inte att infoga en post. </value>
-  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas. </value>
+  <value column="MsgText" original="You cannot insert a record">Det går inte att infoga en post</value>
+  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas</value>
  </row>
  <row id="116" trl="Y">
-  <value column="MsgText" original="You cannot update this record">Det går inte att uppdatera posten. </value>
-  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas. </value>
+  <value column="MsgText" original="You cannot update this record">Det går inte att uppdatera posten</value>
+  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas</value>
  </row>
  <row id="117" trl="Y">
   <value column="MsgText" original="Client &amp; Organization Data">Klient- och organisationsinformation</value>
@@ -75,11 +75,11 @@
   <value column="MsgTip" original="If not a transaction, you can deactivate the recorrd with deselecting the 'Active' flag ">Det går inte att radera poster i denna fil eftersom posterna sparas för att kunna granskas i framtiden. Avmarkera kryssrutan Aktiv för att avaktivera post. </value>
  </row>
  <row id="119" trl="Y">
-  <value column="MsgText" original="Organization Data">Organisationsinformation </value>
+  <value column="MsgText" original="Organization Data">Organisationsinformation</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="120" trl="Y">
-  <value column="MsgText" original="Shared Data">Delad information </value>
+  <value column="MsgText" original="Shared Data">Delad information</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="121" trl="Y">
@@ -87,16 +87,16 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="122" trl="Y">
-  <value column="MsgText" original="System &amp; Client Data">System- och företagsinformation</value>
+  <value column="MsgText" original="System &amp; Client Data">System- och klientinformation</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="123" trl="Y">
-  <value column="MsgText" original="With your current role, you cannot update this information">Det går inte att uppdatera informationen med den inloggade rollen. </value>
-  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas. </value>
+  <value column="MsgText" original="With your current role, you cannot update this information">Det går inte att uppdatera informationen med den inloggade rollen</value>
+  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas</value>
  </row>
  <row id="124" trl="Y">
-  <value column="MsgText" original="With your current role and settings, you cannot view this information">Det går inte att se informationen med den inloggade rollen. </value>
-  <value column="MsgTip" original="You don't have the privileges (your Role does not allow to access the information) - or - set profile (e.g. if you want to see accounting records, Show Accounting must be set)">Behörighet saknas. </value>
+  <value column="MsgText" original="With your current role and settings, you cannot view this information">Det går inte att se informationen med den inloggade rollen</value>
+  <value column="MsgTip" original="You don't have the privileges (your Role does not allow to access the information) - or - set profile (e.g. if you want to see accounting records, Show Accounting must be set)">Behörighet saknas</value>
  </row>
  <row id="125" trl="Y">
   <value column="MsgText" original="© Jorg Janke - ComPiere, Inc. 1999-2002">© Jorg Janke - ComPiere, Inc. 1999-2002</value>
@@ -107,7 +107,7 @@
   <value column="MsgTip" original="Phone (203) 445-8182">Phone (203) 445-8182</value>
  </row>
  <row id="127" trl="Y">
-  <value column="MsgText" original="Adempiere Online">Accorto direktanslutet</value>
+  <value column="MsgText" original="Adempiere Online">Adempiere Online</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="128" trl="Y">
@@ -119,19 +119,19 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="130" trl="Y">
-  <value column="MsgText" original="Account not updated">Konto uppdateras inte. </value>
+  <value column="MsgText" original="Account not updated">Kontot ej uppdaterat</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="131" trl="Y">
-  <value column="MsgText" original="Account Viewer">Visa kontoinformation</value>
+  <value column="MsgText" original="Account Viewer">Kontoanalys</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="132" trl="Y">
-  <value column="MsgText" original="This action is not allowed in this context">Felaktig handling. Denna aktivitet är inte tillåten. </value>
+  <value column="MsgText" original="This action is not allowed in this context">Denna handling är inte tillåten här</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="133" trl="Y">
-  <value column="MsgText" original="This action is not supported">Felaktig handling. Det finns inte stöd för denna aktivitet. </value>
+  <value column="MsgText" original="This action is not supported">Denna handling stöds inte</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="134" trl="Y">
@@ -151,31 +151,31 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="138" trl="Y">
-  <value column="MsgText" original="Prefer selecting a matching invoice and payment pair and process each at a time.">Välj en faktura och betalning som hör ihop och bearbeta en i taget. </value>
+  <value column="MsgText" original="Prefer selecting a matching invoice and payment pair and process each at a time.">Välj en faktura och betalning som hör ihop och bearbeta en i taget.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="139" trl="Y">
-  <value column="MsgText" original="Record cannot be changed">Posten kan inte ändras. </value>
+  <value column="MsgText" original="Record cannot be changed">Posten kan inte ändras.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="140" trl="Y">
-  <value column="MsgText" original="Amount">Summa</value>
+  <value column="MsgText" original="Amount">Belopp</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="141" trl="Y">
-  <value column="MsgText" original="Amount Due">Skuldsumma</value>
+  <value column="MsgText" original="Amount Due">Skuldbelopp</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="142" trl="Y">
-  <value column="MsgText" original="Payment Amount">Betalningssumma</value>
+  <value column="MsgText" original="Payment Amount">Betalningsbelopp</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="143" trl="Y">
-  <value column="MsgText" original="From Amount">Summa från </value>
+  <value column="MsgText" original="From Amount">Belopp från</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="144" trl="Y">
-  <value column="MsgText" original="Amount To">Summa till</value>
+  <value column="MsgText" original="Amount To">Belopp till</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="145" trl="Y">
@@ -183,19 +183,19 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="146" trl="Y">
-  <value column="MsgText" original="Applied">Valt belopp</value>
+  <value column="MsgText" original="Applied">Applicerad</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="147" trl="Y">
-  <value column="MsgText" original="At first record">Första posten </value>
+  <value column="MsgText" original="At first record">Vid första posten</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="148" trl="Y">
-  <value column="MsgText" original="At last record">Sista posten</value>
+  <value column="MsgText" original="At last record">Vid sista posten</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="149" trl="Y">
-  <value column="MsgText" original="Attachment">Bifoga</value>
+  <value column="MsgText" original="Attachment">Bilaga</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="150" trl="Y">
@@ -203,7 +203,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="151" trl="Y">
-  <value column="MsgText" original="Select a file to attach to this entity">Välj den fil du vill bifoga </value>
+  <value column="MsgText" original="Select a file to attach to this entity">Välj den fil du vill bifoga</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="152" trl="Y">
@@ -211,20 +211,20 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="153" trl="Y">
-  <value column="MsgText" original="Cannot add Attachment to this entity">Kan inte lägga till bilaga till denna enhet</value>
+  <value column="MsgText" original="Cannot add Attachment to this entity">Kan inte lägga till bilaga till denna entitet</value>
   <value column="MsgTip" original="Attachments require a single key and this entity is probably an Association (with two keys) or an entity without an unique numeric key.">Bilagor kräver ett enkelt sökbegrepp och den efterfrågade enheten är förmodligen en sammanslagning av två sökbegrepp eller en enhet utan ett unikt numeriskt sökbegrepp. </value>
  </row>
  <row id="154" trl="Y">
-  <value column="MsgText" original="Automatic Write-Off">Beräkna automatiskt</value>
-  <value column="MsgTip" original="Automatic calculation of write-off amount to close the open item"/>
+  <value column="MsgText" original="Automatic Write-Off">Skriv av automatiskt</value>
+  <value column="MsgTip" original="Automatic calculation of write-off amount to close the open item">Automatisk avskrivning av understigande belopp</value>
  </row>
  <row id="155" trl="Y">
-  <value column="MsgText" original="Automatic Commit">Automatspara</value>
-  <value column="MsgTip" original="Automatic saving of data">Spara automatiskt </value>
+  <value column="MsgText" original="Automatic Commit">Spara automatiskt</value>
+  <value column="MsgTip" original="Automatic saving of data">Spara automatiskt</value>
  </row>
  <row id="156" trl="Y">
   <value column="MsgText" original="Automatic Login">Logga in automatiskt</value>
-  <value column="MsgTip" original="Log in with current user ID automatically">Logga in med nuvarande användaridentitet automatiskt. </value>
+  <value column="MsgTip" original="Log in with current user ID automatically">Logga in med nuvarande användaridentitet automatiskt.</value>
  </row>
  <row id="157" trl="Y">
   <value column="MsgText" original="Available Choices">Tillgängliga alternativ</value>
@@ -235,7 +235,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="159" trl="Y">
-  <value column="MsgText" original="Business Partner not saved">Affärspartner sparas inte</value>
+  <value column="MsgText" original="Business Partner not saved">Affärspartner ej sparad</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="160" trl="Y">
@@ -267,7 +267,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="167" trl="Y">
-  <value column="MsgText" original="Cancel Query">Ångra förfrågan</value>
+  <value column="MsgText" original="Cancel Query">Ångra fråga</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="168" trl="Y">
@@ -275,11 +275,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="169" trl="Y">
-  <value column="MsgText" original="You cannot delete this record, please de-activate it.">Det går inte att radera denna post, men det går att avaktivera den. </value>
+  <value column="MsgText" original="You cannot delete this record, please de-activate it.">Det går inte att radera denna post, men det går att avaktivera den.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="170" trl="Y">
-  <value column="MsgText" original="Cannot delete completed/processed transactions">Kan inte radera slutförda transaktioner </value>
+  <value column="MsgText" original="Cannot delete completed/processed transactions">Kan inte radera slutförda transaktioner</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="171" trl="Y">
@@ -355,11 +355,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="189" trl="Y">
-  <value column="MsgText" original="Update copied record and save or ignore">Uppdatera kopierad post och sedan spara eller ignorera. </value>
+  <value column="MsgText" original="Update copied record and save or ignore">Uppdatera kopierad post och sedan spara eller ignorera</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="190" trl="Y">
-  <value column="MsgText" original="Could not copy: ">Kan inte kopiera </value>
+  <value column="MsgText" original="Could not copy: ">Kunde inte kopiera: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="191" trl="Y">
@@ -399,15 +399,15 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="200" trl="Y">
-  <value column="MsgText" original="There seems to be a Credit Card Number problem.&#10;Continue?">Det är problem med kreditkortsnumret. Vill du fortsätta? </value>
+  <value column="MsgText" original="There seems to be a Credit Card Number problem.&#10;Continue?">Det är problem med kreditkortsnumret. Vill du fortsätta?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="201" trl="Y">
-  <value column="MsgText" original="Credit Card Validation Code not correct.">Felaktigt kreditkortsvalideringsnummer </value>
+  <value column="MsgText" original="Credit Card Validation Code not correct.">Felaktig CCV kod</value>
   <value column="MsgTip" original="You find the four digit validation number printed on AMEX right above the credit card number. On other cards it is a three digit number printed on the signature field after the credit card number.">Det fyrsiffriga valideringsnumret finns på AMEX-kort ovanför kreditkortsnumret. På andra kreditkort är det ett tresiffrigt nummer tryckt på signaturfältet efter kreditkortsnumret. </value>
  </row>
  <row id="202" trl="Y">
-  <value column="MsgText" original="Note: Over Credit Limit ">Övertrassering av krediten </value>
+  <value column="MsgText" original="Note: Over Credit Limit ">Övertrassering av kreditlimit</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="203" trl="Y">
@@ -427,7 +427,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="207" trl="Y">
-  <value column="MsgText" original="Data refreshed from database">Informationen uppdaterad från databasen</value>
+  <value column="MsgText" original="Data refreshed from database">Information uppdaterad från databasen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="208" trl="Y">
@@ -443,11 +443,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="211" trl="Y">
-  <value column="MsgText" original="Date to">Tilldatum </value>
+  <value column="MsgText" original="Date to">Tilldatum</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="212" trl="Y">
-  <value column="MsgText" original="Trace Level">Debugnivå</value>
+  <value column="MsgText" original="Trace Level">Spårningsnivå</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="213" trl="Y">
@@ -459,7 +459,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="215" trl="Y">
-  <value column="MsgText" original="Could not delete record: ">Kan inte radera post </value>
+  <value column="MsgText" original="Could not delete record: ">Kan inte radera post: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="216" trl="Y">
@@ -487,7 +487,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="222" trl="Y">
-  <value column="MsgText" original="Trade Discount">Branschrabatt </value>
+  <value column="MsgText" original="Trade Discount">Handelsrabatt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="223" trl="Y">
@@ -503,7 +503,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="226" trl="Y">
-  <value column="MsgText" original="Display Quantity">Visa kvantitet</value>
+  <value column="MsgText" original="Display Quantity">Visa antal</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="227" trl="Y">
@@ -539,7 +539,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="235" trl="Y">
-  <value column="MsgText" original="Editor">Anteckningsprogram</value>
+  <value column="MsgText" original="Editor">Editor</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="236" trl="Y">
@@ -559,7 +559,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="240" trl="Y">
-  <value column="MsgText" original="Error: ">Fel</value>
+  <value column="MsgText" original="Error: ">Fel: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="241" trl="Y">
@@ -567,11 +567,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="242" trl="Y">
-  <value column="MsgText" original="Exit Application">Avsluta applikation</value>
+  <value column="MsgText" original="Exit Application">Avsluta ADempiere</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="243" trl="Y">
-  <value column="MsgText" original="Are you sure you want to exit the application?">Är du säker på att du vill avsluta applikationen? </value>
+  <value column="MsgText" original="Are you sure you want to exit the application?">Är du säker på att du vill avsluta ADempiere? </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="244" trl="Y">
@@ -579,7 +579,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="245" trl="Y">
-  <value column="MsgText" original="Expand Tree">Expandera trädstruktur </value>
+  <value column="MsgText" original="Expand Tree">Expandera träd</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="246" trl="Y">
@@ -591,7 +591,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="248" trl="Y">
-  <value column="MsgText" original="Export">Exportera poster</value>
+  <value column="MsgText" original="Export">Exportera</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="249" trl="Y">
@@ -603,7 +603,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="251" trl="Y">
-  <value column="MsgText" original="Process failed: ">Bearbetning misslyckas</value>
+  <value column="MsgText" original="Process failed: ">Processen misslyckades: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="252" trl="Y">
@@ -639,15 +639,15 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="260" trl="Y">
-  <value column="MsgText" original="Select a Import Format">Välj ett importeringsformat</value>
+  <value column="MsgText" original="Select a Import Format">Välj ett importformat</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="261" trl="Y">
-  <value column="MsgText" original="Rows in file / loaded and ready to import:">Rader i filen/laddade och färdiga för import</value>
+  <value column="MsgText" original="Rows in file / loaded and ready to import:">Rader i filen/laddade och färdiga för import:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="262" trl="Y">
-  <value column="MsgText" original="Invalid File Extension">Felaktig filändelse </value>
+  <value column="MsgText" original="Invalid File Extension">Felaktig filändelse</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="263" trl="Y">
@@ -683,15 +683,15 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="271" trl="Y">
-  <value column="MsgText" original="Available Columns">Sök tillgängliga kolumner</value>
+  <value column="MsgText" original="Available Columns">Tillgängliga kolumner</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="272" trl="Y">
-  <value column="MsgText" original="Select columns and order them">Sök kolumner och sortera dem </value>
+  <value column="MsgText" original="Select columns and order them">Välj kolumner och sortera dem </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="273" trl="Y">
-  <value column="MsgText" original="Selected Columns">Framsökta kolumner</value>
+  <value column="MsgText" original="Selected Columns">Valda kolumner</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="274" trl="Y">
@@ -723,11 +723,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="281" trl="Y">
-  <value column="MsgText" original="Callout Function not found">Hittar inte anrop</value>
+  <value column="MsgText" original="Callout Function not found">Hittar inte Callout-anrop</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="282" trl="Y">
-  <value column="MsgText" original="Callout Function Error">Anrop misslyckas</value>
+  <value column="MsgText" original="Callout Function Error">Callout anrop misslyckades</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="283" trl="Y">
@@ -767,7 +767,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="292" trl="Y">
-  <value column="MsgText" original="History records">Föregående poster</value>
+  <value column="MsgText" original="History records">Historik</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="293" trl="Y">
@@ -775,7 +775,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="294" trl="Y">
-  <value column="MsgText" original="Host">Värddator</value>
+  <value column="MsgText" original="Host">Server</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="295" trl="Y">
@@ -795,31 +795,31 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="299" trl="Y">
-  <value column="MsgText" original="Account Info">Kontoinformation</value>
+  <value column="MsgText" original="Account Info">Bokföring</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="300" trl="Y">
-  <value column="MsgText" original="Business Partner Info">Affärspartnerinformation</value>
+  <value column="MsgText" original="Business Partner Info">Affärspartners</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="301" trl="Y">
-  <value column="MsgText" original="Shipment Info">Leveransinformation</value>
+  <value column="MsgText" original="Shipment Info">Leveranser</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="302" trl="Y">
-  <value column="MsgText" original="Invoice Info">Fakturainformation</value>
+  <value column="MsgText" original="Invoice Info">Fakturor</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="303" trl="Y">
-  <value column="MsgText" original="Order Info">Orderinformation</value>
+  <value column="MsgText" original="Order Info">Ordrar</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="304" trl="Y">
-  <value column="MsgText" original="Payment Info">Betalningsinformation </value>
+  <value column="MsgText" original="Payment Info">Betalningar</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="305" trl="Y">
-  <value column="MsgText" original="Product Info">Produktinformation</value>
+  <value column="MsgText" original="Product Info">Produkter</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="306" trl="Y">
@@ -839,7 +839,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="310" trl="Y">
-  <value column="MsgText" original="Select shipments to generate invoices">Välj leverans för att generera faktura.</value>
+  <value column="MsgText" original="Select shipments to generate invoices">Välj leveranser för att generera fakturor.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="311" trl="Y">
@@ -851,19 +851,19 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="313" trl="Y">
-  <value column="MsgText" original="Receipt (Shipment) already exists for this invoice">Kvitto för leverans finns redan för denna faktura. Receipt (Shipment) already exists for this invoive</value>
+  <value column="MsgText" original="Receipt (Shipment) already exists for this invoice">In/utleverans finns redan för denna faktura</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="314" trl="Y">
-  <value column="MsgText" original="Document must be completed first">Dokumentet behöver kompletteras</value>
+  <value column="MsgText" original="Document must be completed first">Dokumentet behöver slutföras först</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="315" trl="Y">
-  <value column="MsgText" original="Insert Item here">Infoga post här </value>
+  <value column="MsgText" original="Insert Item here">Infoga post här</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="316" trl="Y">
-  <value column="MsgText" original="Move Item">Flytta post </value>
+  <value column="MsgText" original="Move Item">Flytta post</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="317" trl="Y">
@@ -887,7 +887,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="322" trl="Y">
-  <value column="MsgText" original="Loading ....">Laddar... </value>
+  <value column="MsgText" original="Loading ....">Laddar...</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="323" trl="Y">
@@ -943,11 +943,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="336" trl="Y">
-  <value column="MsgText" original="Menu cannot load: ">Menyladdningsfel</value>
+  <value column="MsgText" original="Menu cannot load: ">Menyladdningsfel :</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="337" trl="Y">
-  <value column="MsgText" original="Message not sent.&#10;&#10;Problem: ">Meddelandet kan inte skickas. Problem: </value>
+  <value column="MsgText" original="Message not sent.&#10;&#10;Problem: ">Meddelandet ej skickat. Problem: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="338" trl="Y">
@@ -963,7 +963,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="341" trl="Y">
-  <value column="MsgText" original="Multi-Currency">Multipel valutahantering</value>
+  <value column="MsgText" original="Multi-Currency">Multipla valutor</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="342" trl="Y">
@@ -995,7 +995,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="349" trl="Y">
-  <value column="MsgText" original="Could not add new record:">Kan inte lägga till ny post</value>
+  <value column="MsgText" original="Could not add new record:">Kan inte lägga till ny post:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="350" trl="Y">
@@ -1035,7 +1035,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="359" trl="Y">
-  <value column="MsgText" original="Did not find valid Accounting Information.">Kan inte hitta giltig kontoinformation</value>
+  <value column="MsgText" original="Did not find valid Accounting Information.">Kan inte hitta giltig bokföringsinformation</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="360" trl="Y">
@@ -1043,11 +1043,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="361" trl="Y">
-  <value column="MsgText" original="Not sufficient on stock:">Finns inte tillräckligt i lager</value>
+  <value column="MsgText" original="Not sufficient on stock:">Finns inte tillräckligt i lager: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="362" trl="Y">
-  <value column="MsgText" original="* Not found *">Hittar inte</value>
+  <value column="MsgText" original="* Not found *">* Hittar inte *</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="363" trl="Y">
@@ -1055,11 +1055,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="364" trl="Y">
-  <value column="MsgText" original="Not Unique:">Är inte unik </value>
+  <value column="MsgText" original="Not Unique:">Är inte unik:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="365" trl="Y">
-  <value column="MsgText" original="Number of Rows x Columns">Antal rader i X-kolumn</value>
+  <value column="MsgText" original="Number of Rows x Columns">Antal rader i X-kolumner</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="366" trl="Y">
@@ -1067,7 +1067,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="367" trl="Y">
-  <value column="MsgText" original="Show old/completed Transactions">Visa gamla/fullständiga transaktioner</value>
+  <value column="MsgText" original="Show old/completed Transactions">Visa gamla/slutförda transaktioner</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="368" trl="Y">
@@ -1103,19 +1103,19 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="376" trl="Y">
-  <value column="MsgText" original="Order by">Sortera</value>
+  <value column="MsgText" original="Order by">Sortera på</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="377" trl="Y">
-  <value column="MsgText" original="{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}">{0} Rad(er) - {1,number,#,##0.00} -  Totalt: {2,number,#,##0.00} {3} - Förväntad total:  {5,number,#,##0.00} - Diff:  {6,number,#,##0.00} </value>
+  <value column="MsgText" original="{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}">{0} Rad(er) - {1,number,#,##0.00} -  Totalt: {2,number,#,##0.00} {3} =  {4,number,#,##0.00}</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="378" trl="Y">
-  <value column="MsgText" original="Org">Organisation</value>
+  <value column="MsgText" original="Org">Org</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="379" trl="Y">
-  <value column="MsgText" original="Another Process for this record is active, retry later">En annan process för denna post är aktiv. Försök igen senare. </value>
+  <value column="MsgText" original="Another Process for this record is active, retry later">En annan process för denna post är aktiv. Försök igen senare</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="380" trl="Y">
@@ -1163,11 +1163,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="391" trl="Y">
-  <value column="MsgText" original="Payment Allocation">Betalningsfördelning</value>
+  <value column="MsgText" original="Payment Allocation">Betalningsallokering</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="392" trl="Y">
-  <value column="MsgText" original="Bank Account Number is not valid">Felaktigt bankkkontonummer</value>
+  <value column="MsgText" original="Bank Account Number is not valid">Felaktigt bankkontonummer</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="393" trl="Y">
@@ -1175,39 +1175,39 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="394" trl="Y">
-  <value column="MsgText" original="Bank Routing Number is not valid">Felaktigt bankclearingnummer</value>
+  <value column="MsgText" original="Bank Routing Number is not valid">Felaktigt clearingnummer</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="395" trl="Y">
-  <value column="MsgText" original="Enter the payment after completing the transaction">Skriv in betalningen efter att transaktionen är komplett</value>
+  <value column="MsgText" original="Enter the payment after completing the transaction">Skriv in betalningen efter att transaktionen är slutförd</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="396" trl="Y">
-  <value column="MsgText" original="Created Payment:">Betalning skapad</value>
+  <value column="MsgText" original="Created Payment:">Betalning skapad:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="397" trl="Y">
-  <value column="MsgText" original="Payment discount">Betalningsrabatt</value>
+  <value column="MsgText" original="Payment discount">Betalrabatt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="398" trl="Y">
-  <value column="MsgText" original="An error occurred when processing the payment:">Ett fel uppstod vid bearbetningen av betalningen</value>
+  <value column="MsgText" original="An error occurred when processing the payment:">Ett fel uppstod vid bearbetningen av betalningen:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="399" trl="Y">
-  <value column="MsgText" original="No Payment Processor for this Payment Type.">Finns ingen betalningsbearbetning för denna betalningstyp</value>
-  <value column="MsgTip" original="Create Payment Processor for your Bank Account.">Skapa betalningsbearbetning för detta bankkonto.</value>
+  <value column="MsgText" original="No Payment Processor for this Payment Type.">Finns ingen betalningsmotor för denna betalningstyp</value>
+  <value column="MsgTip" original="Create Payment Processor for your Bank Account.">Skapa betalningsmotor för detta bankkonto.</value>
  </row>
  <row id="400" trl="Y">
-  <value column="MsgText" original="Payment process failed">Betalningsbearbetning misslyckas</value>
+  <value column="MsgText" original="Payment process failed">Betalningsprocess misslyckas</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="401" trl="Y">
-  <value column="MsgText" original="Payment successfully processed">Betalningsbearbetning klar</value>
+  <value column="MsgText" original="Payment successfully processed">Betalning bearbetad</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="402" trl="Y">
-  <value column="MsgText" original="The amount is zero.&#10;Enter the payment after completing the transaction">Summan är noll. Ange betalningen efter att transaktionen är fullständig. </value>
+  <value column="MsgText" original="The amount is zero.&#10;Enter the payment after completing the transaction">Summan är noll. Ange betalningen efter att transaktionen är slutförd</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="403" trl="Y">
@@ -1219,7 +1219,7 @@
   <value column="MsgTip" original="Check setup of Calendar and Accounting Schema as well as Accounting Schema assignment to Client or Organization">Kontrollera inställning för kalender och kontoplan och även koppling av kontoplan till respektive klient eller organisation.</value>
  </row>
  <row id="405" trl="Y">
-  <value column="MsgText" original="No valid period for this accounting date.">Hittar inte giltig datumperiod för detta konto </value>
+  <value column="MsgText" original="No valid period for this accounting date.">Hittar inte giltig period för detta datum.</value>
   <value column="MsgTip" original="Check your calendar setup.">Kontrollera kalenderinställning </value>
  </row>
  <row id="406" trl="Y">
@@ -1227,15 +1227,15 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="407" trl="Y">
-  <value column="MsgText" original="Document must be Complete or Closed to view Accounting">Dokumentet måste vara fullständigt eller stängt för att kunna visa redovisning</value>
+  <value column="MsgText" original="Document must be Complete or Closed to view Accounting">Dokumentet måste vara slutfört eller stängt för att kunna visa bokföringen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="408" trl="Y">
-  <value column="MsgText" original="Post now and create Accounting entries?">Verkställ nu och skapa kontotransaktioner</value>
+  <value column="MsgText" original="Post now and create Accounting entries?">Kontera nu?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="409" trl="Y">
-  <value column="MsgText" original="Posting: Server Error">Verkställning: Serverfel </value>
+  <value column="MsgText" original="Posting: Server Error">Kontering: Serverfel </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="410" trl="Y">
@@ -1247,28 +1247,28 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="412" trl="Y">
-  <value column="MsgText" original="Posting Error">Verkställningsfel</value>
+  <value column="MsgText" original="Posting Error">Konteringsfel</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="413" trl="Y">
-  <value column="MsgText" original="Posting Error">Verkställningsfel</value>
+  <value column="MsgText" original="Posting Error">Konteringsfel</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="414" trl="Y">
-  <value column="MsgText" original="Posting Error: Source Not Balanced">Verkställningsfel: Källan är inte balanserad</value>
+  <value column="MsgText" original="Posting Error: Source Not Balanced">Konteringsfel: Källan är inte balanserad</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="415" trl="Y">
-  <value column="MsgText" original="Posting Error: Source Currency not convertible">Verkställningsfel: Källvaluta kan inte konverteras</value>
-  <value column="MsgTip" original="Define exchange rate from the source currency to your accounting currencies">Definiera växlingskurs från källvalutan till valutan som används i kontot.</value>
+  <value column="MsgText" original="Posting Error: Source Currency not convertible">Konteringsfel: Kan inte omvandla till bokföringsvaluta.</value>
+  <value column="MsgTip" original="Define exchange rate from the source currency to your accounting currencies">Definiera växlingskurs för dokumentets valuta till bokföringsvalutan.</value>
  </row>
  <row id="416" trl="Y">
-  <value column="MsgText" original="Posting Error: Invalid Account">Verkställningsfel: Kontot felaktigt</value>
-  <value column="MsgTip" original="Account is no longer Active; Reactivate account value or choose new">Kontot är inte aktivt. Aktivera kontovärdet eller välj ett nytt. </value>
+  <value column="MsgText" original="Posting Error: Invalid Account">Konteringsfel: Felaktigt konto</value>
+  <value column="MsgTip" original="Account is no longer Active; Reactivate account value or choose new">Kontot är inte längre aktivt. Aktivera kontot eller justera konteringsreglerna.</value>
  </row>
  <row id="417" trl="Y">
-  <value column="MsgText" original="Posting Error: Period Closed">Verkställningsfel: Period stängd</value>
-  <value column="MsgTip" original="(Re-) Open Period or change Accounting Date">(Åter-) Öppna period eller ändra bokföringsdatum. </value>
+  <value column="MsgText" original="Posting Error: Period Closed">Konteringsfel: Perioden stängd</value>
+  <value column="MsgTip" original="(Re-) Open Period or change Accounting Date">(Åter-) öppna perioden eller ändra bokföringsdatum</value>
  </row>
  <row id="418" trl="Y">
   <value column="MsgText" original="Preference">Inställningar</value>
@@ -1319,11 +1319,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="430" trl="Y">
-  <value column="MsgText" original="Print Screen">Skärmutskrift</value>
+  <value column="MsgText" original="Print Screen">Skärmdump</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="431" trl="Y">
-  <value column="MsgText" original="Page Setup">Utskriftsformat</value>
+  <value column="MsgText" original="Page Setup">Anpassa sida</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="432" trl="Y">
@@ -1343,31 +1343,31 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="436" trl="Y">
-  <value column="MsgText" original="Is the printout OK ?">Är utskriften OK? </value>
+  <value column="MsgText" original="Is the printout OK ?">Är utskriften OK?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="437" trl="Y">
-  <value column="MsgText" original="Process">Bearbetning</value>
+  <value column="MsgText" original="Process">Process</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="438" trl="Y">
-  <value column="MsgText" original="Process cancelled">Bearbetning avbryts</value>
+  <value column="MsgText" original="Process cancelled">Processen avbruten</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="439" trl="Y">
-  <value column="MsgText" original="Process failed">Bearbetning misslyckas</value>
+  <value column="MsgText" original="Process failed">Processen misslyckades</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="440" trl="Y">
-  <value column="MsgText" original="Cannot start process - No procedure name">Kan inte starta bearbetning - saknar procedurnamn</value>
+  <value column="MsgText" original="Cannot start process - No procedure name">Kan inte starta processen - saknar procedurnamn</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="441" trl="Y">
-  <value column="MsgText" original="Process finished successful">Bearbetning klar</value>
+  <value column="MsgText" original="Process finished successful">Processen klar</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="442" trl="Y">
-  <value column="MsgText" original="Process failed during execution">Bearbetning misslyckas vid körning</value>
+  <value column="MsgText" original="Process failed during execution">Processen misslyckades vid körning</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="443" trl="Y">
@@ -1383,19 +1383,19 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="446" trl="Y">
-  <value column="MsgText" original="Process could not be submitted">Bearbetning kan inte slutföras</value>
+  <value column="MsgText" original="Process could not be submitted">Processen kunde inte påbörjas</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="447" trl="Y">
-  <value column="MsgText" original="Processing ... Please wait ...">Bearbetning pågår... </value>
+  <value column="MsgText" original="Processing ... Please wait ...">Process pågår... </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="448" trl="Y">
-  <value column="MsgText" original="Available">Tillgänglig mängd</value>
+  <value column="MsgText" original="Available">Tillgänglig</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="449" trl="Y">
-  <value column="MsgText" original="Quantity">Mängd</value>
+  <value column="MsgText" original="Quantity">Antal</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="450" trl="Y">
@@ -1403,7 +1403,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="451" trl="Y">
-  <value column="MsgText" original="Query Cancel">Abryt förfrågan</value>
+  <value column="MsgText" original="Query Cancel">Avbryt fråga</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="452" trl="Y">
@@ -1411,19 +1411,19 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="453" trl="Y">
-  <value column="MsgText" original="Enter Query criteria">Skriv in frågekriterier</value>
+  <value column="MsgText" original="Enter Query criteria">Skriv in frågekriterium</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="454" trl="Y">
-  <value column="MsgText" original="Query Execute">Utför förfrågan</value>
+  <value column="MsgText" original="Query Execute">Utför frågan</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="455" trl="Y">
-  <value column="MsgText" original="Include in Query">Inkludera i förfrågan</value>
+  <value column="MsgText" original="Include in Query">Inkludera i frågan</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="456" trl="Y">
-  <value column="MsgText" original="No records with these criteria.  Do you want to change the query criteria?">Hittar inga poster med dessa kriterier. Vill du ändra frågekriterier? </value>
+  <value column="MsgText" original="No records with these criteria.  Do you want to change the query criteria?">Hittar inga poster med dessa kriterier. Vill du ändra frågekriterier?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="457" trl="Y">
@@ -1431,11 +1431,11 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="458" trl="Y">
-  <value column="MsgText" original="Re-Post ">Verkställ igen</value>
+  <value column="MsgText" original="Re-Post ">Kontera igen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="459" trl="Y">
-  <value column="MsgText" original="Repost document recreates accounting for this document">Verkställ dokument igen återskapar bokföringen för detta dokument.</value>
+  <value column="MsgText" original="Repost document recreates accounting for this document">Kontera igen gör om bokföringen för detta dokument.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="460" trl="Y">
@@ -1467,7 +1467,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="467" trl="Y">
-  <value column="MsgText" original="Could not refresh data: ">Kan inte uppdatera informationen:</value>
+  <value column="MsgText" original="Could not refresh data: ">Kan inte uppdatera informationen: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="468" trl="Y">
@@ -1487,7 +1487,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="472" trl="Y">
-  <value column="MsgText" original="Remittance Advice">Faktueringsinformationsmeddelande</value>
+  <value column="MsgText" original="Remittance Advice">Remittance Advice</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="473" trl="Y">
@@ -1495,7 +1495,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="474" trl="Y">
-  <value column="MsgText" original="Report Find">Hitta utskrift </value>
+  <value column="MsgText" original="Report Find">Hitta rapport</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="475" trl="Y">
@@ -1539,19 +1539,19 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="485" trl="Y">
-  <value column="MsgText" original="Escalated Request {0} to {1}">Eskalera: Förfrågan {0}</value>
+  <value column="MsgText" original="Escalated Request {0} to {1}">Eskalerat: Förfrågan {0}</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="486" trl="Y">
-  <value column="MsgText" original="Enter required information: ">Skriv in informationen som krävs</value>
+  <value column="MsgText" original="Enter required information: ">Fyll i obligatoriska fält: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="487" trl="Y">
-  <value column="MsgText" original="Revenue">Intäkt</value>
+  <value column="MsgText" original="Revenue">Omsättning</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="488" trl="Y">
-  <value column="MsgText" original="Reversed by document">Återkallelsedokument</value>
+  <value column="MsgText" original="Reversed by document">Reverserad av dokument</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="489" trl="Y">
@@ -1563,8 +1563,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="491" trl="Y">
-  <value column="MsgText" original="Product is reserved or was already delivered or invoiced.  Set quantity to zero.&#10;Details: ">Produkten är reserverad eller är redan levererad eller fakturerad. Sätt kvantiteten till noll. 
-Detaljer: </value>
+  <value column="MsgText" original="Product is reserved or was already delivered or invoiced.  Set quantity to zero.&#10;Details: ">Produkten är reserverad eller är redan levererad eller fakturerad. Sätt antal till noll.&#10;Detaljer:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="492" trl="Y">
@@ -1586,7 +1585,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="496" trl="Y">
-  <value column="MsgText" original="Same Quantity">Samma mängd</value>
+  <value column="MsgText" original="Same Quantity">Samma antal</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="497" trl="Y">
@@ -1598,23 +1597,23 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="499" trl="Y">
-  <value column="MsgText" original="Save Info in Cookie">Spara information i kaka</value>
+  <value column="MsgText" original="Save Info in Cookie">Spara information i cookie</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="500" trl="Y">
-  <value column="MsgText" original="Could not save changes: ">Kan inte spara ändringarna</value>
+  <value column="MsgText" original="Could not save changes: ">Kan inte spara ändringarna: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="501" trl="Y">
-  <value column="MsgText" original="Could not save changes - data was changed after query.">Kan inte spara ändringarna - informationen ändrades efter att frågan utfördes. </value>
-  <value column="MsgTip" original="System will re-query record.">Systemet kommer att utföra frågan en gång till. </value>
+  <value column="MsgText" original="Could not save changes - data was changed after query.">Kan inte spara ändringarna - informationen ändrades efter att frågan utfördes.</value>
+  <value column="MsgTip" original="System will re-query record.">Systemet kommer att uppdatera från posten från databasen.</value>
  </row>
  <row id="502" trl="Y">
   <value column="MsgText" original="Could not save record - Require unique data: ">Kan inte spara posten - unik information krävs: </value>
   <value column="MsgTip" original="Please change information.">Ändra informationen så att den blir unik. </value>
  </row>
  <row id="503" trl="Y">
-  <value column="MsgText" original="Record not saved. Row not found!">Posten kan inte sparas. Hittar inte raden. </value>
+  <value column="MsgText" original="Record not saved. Row not found!">Posten kan inte sparas. Hittar inte raden!</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="504" trl="Y">
@@ -1622,7 +1621,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="505" trl="Y">
-  <value column="MsgText" original="Could not post record: ">Kan inte spara posten:</value>
+  <value column="MsgText" original="Could not post record: ">Kan inte kontera posten:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="506" trl="Y">
@@ -1662,7 +1661,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="515" trl="Y">
-  <value column="MsgText" original="Search records">Sök post</value>
+  <value column="MsgText" original="Search records">Sök poster</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="516" trl="Y">
@@ -1694,7 +1693,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="523" trl="Y">
-  <value column="MsgText" original="Rows found - Enter query criteria (optionally with %)">rader funna vid utsökning (för att söka på del av ord, inled med %) </value>
+  <value column="MsgText" original="Rows found - Enter query criteria (optionally with %)">rader funna vid sökning (för att söka på del av ord, inled med %) </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="524" trl="Y">
@@ -1702,7 +1701,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="525" trl="Y">
-  <value column="MsgText" original="Available Choices">Välj bland tillgängliga alternativ</value>
+  <value column="MsgText" original="Available Choices">Tillgängliga alternativ</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="526" trl="Y">
@@ -1730,7 +1729,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="532" trl="Y">
-  <value column="MsgText" original="Move columns wanted into the Selected box and sequence their order">Flytta de önskade kolumnerna till urvalsrutan och sortera dem i ordning. </value>
+  <value column="MsgText" original="Move columns wanted into the Selected box and sequence their order">Flytta de önskade kolumnerna till urvalsrutan och sortera dem i ordning.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="533" trl="Y">
@@ -1754,15 +1753,15 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="538" trl="Y">
-  <value column="MsgText" original="Could not find document sequence:">Kan inte hitta dokumentets ordningsföljd </value>
-  <value column="MsgTip" original="Check Document Definition and Document Sequence Rules">Kontrollera dokumentets definition och regler för dokumentets ordningsföljd</value>
+  <value column="MsgText" original="Could not find document sequence:">Kan inte hitta dokumentets löpnummer: </value>
+  <value column="MsgTip" original="Check Document Definition and Document Sequence Rules">Kontrollera dokumentets definition och regler för dokumentets löpnummer</value>
  </row>
  <row id="539" trl="Y">
   <value column="MsgText" original="Could not find next Table ID sequence">Kan inte hitta nästa tabellidentitet i ordningsföljd</value>
   <value column="MsgTip" original="Check with your System Administrator">Kontakta systemadministratören</value>
  </row>
  <row id="540" trl="Y">
-  <value column="MsgText" original="Could not find Sequence for: ">Kan inte hitta ordningsföljd för: </value>
+  <value column="MsgText" original="Could not find Sequence for: ">Kan inte hitta löpnummer för: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="541" trl="Y">
@@ -1770,19 +1769,19 @@ Detaljer: </value>
   <value column="MsgTip" original="Create complex objects on application server (slow communication lines)">Skapa objekt på applikationsserver (slow communication lines)</value>
  </row>
  <row id="542" trl="Y">
-  <value column="MsgText" original="Document must be completed first">Dokumentet måste kompletteras</value>
+  <value column="MsgText" original="Document must be completed first">Dokumentet måste slutföras först</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="543" trl="Y">
-  <value column="MsgText" original="Show Accounting Tabs">Visa kontoflik</value>
-  <value column="MsgTip" original="Show accounting information">Visa kontoinformation</value>
+  <value column="MsgText" original="Show Accounting Tabs">Visa bokföringsflikar</value>
+  <value column="MsgTip" original="Show accounting information">Visa bokföringsinformation</value>
  </row>
  <row id="544" trl="Y">
-  <value column="MsgText" original="Show Translation Tabs">Visa översättningsflik</value>
+  <value column="MsgText" original="Show Translation Tabs">Visa översättningsflikar</value>
   <value column="MsgTip" original="Show translation information">Visa översättningsinformation</value>
  </row>
  <row id="545" trl="Y">
-  <value column="MsgText" original="Single-Record Display">Visa endast en post</value>
+  <value column="MsgText" original="Single-Record Display">Visa endast en post åt gången</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="546" trl="Y">
@@ -1802,15 +1801,15 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="550" trl="Y">
-  <value column="MsgText" original="Do you want to start the Process?">Vill du starta bearbetningen? </value>
+  <value column="MsgText" original="Do you want to start the Process?">Vill du starta processen? </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="551" trl="Y">
-  <value column="MsgText" original="Start selected Report">Starta vald utskrift</value>
+  <value column="MsgText" original="Start selected Report">Kör vald rapport</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="552" trl="Y">
-  <value column="MsgText" original="Start Reports">Starta utskrifter</value>
+  <value column="MsgText" original="Start Reports">Kör rapporter</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="553" trl="Y">
@@ -1822,7 +1821,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="555" trl="Y">
-  <value column="MsgText" original="Process completed successfully">Bearbetning klar</value>
+  <value column="MsgText" original="Process completed successfully">Processen slutförd</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="556" trl="Y">
@@ -1838,7 +1837,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="559" trl="Y">
-  <value column="MsgText" original="Cannot execute task: ">Kan inte utföra arbetsuppgift</value>
+  <value column="MsgText" original="Cannot execute task: ">Kan inte utföra uppgift: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="560" trl="Y">
@@ -1846,11 +1845,11 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="561" trl="Y">
-  <value column="MsgText" original="Criteria for Tax not found">Kan inte hitta kriterier för skatt </value>
+  <value column="MsgText" original="Criteria for Tax not found">Kan inte hitta kriterier för skatt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="562" trl="Y">
-  <value column="MsgText" original="Could not find tax">Kan inte hitta momssats eller momskategori. Kontrollera att rätt affärspartner är vald. </value>
+  <value column="MsgText" original="Could not find tax">Kan inte hitta skatt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="563" trl="Y">
@@ -1858,7 +1857,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="564" trl="Y">
-  <value column="MsgText" original="Timeout - Try to check results later">Tiden slut - kontrollera resultat senare</value>
+  <value column="MsgText" original="Timeout - Try to check results later">Timeout - kontrollera resultat senare</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="565" trl="Y">
@@ -1874,19 +1873,19 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="568" trl="Y">
-  <value column="MsgText" original="Totals">Totalsummor</value>
+  <value column="MsgText" original="Totals">Totaler</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="569" trl="Y">
-  <value column="MsgText" original="Trx">Transaktioner</value>
+  <value column="MsgText" original="Trx">Trx</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="570" trl="Y">
-  <value column="MsgText" original="User Interface Theme">Användargränssnitt färgvalstema</value>
-  <value column="MsgTip" original="Window  - Metal - Adempiere">Fönster - metall - Adempiere </value>
+  <value column="MsgText" original="User Interface Theme">Teman</value>
+  <value column="MsgTip" original="Window  - Metal - Adempiere">Fönster - Metall - Adempiere </value>
  </row>
  <row id="571" trl="Y">
-  <value column="MsgText" original="Under Limit Price">Under minimipris</value>
+  <value column="MsgText" original="Under Limit Price">Under limitpris</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="572" trl="Y">
@@ -1914,7 +1913,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="578" trl="Y">
-  <value column="MsgText" original="User and Password inconsistent">Användare och lösenord passar inte ihop</value>
+  <value column="MsgText" original="User and Password inconsistent">Användare och lösenord matchar inte</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="579" trl="Y">
@@ -1922,7 +1921,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="580" trl="Y">
-  <value column="MsgText" original="For some payments, there were not enough rooms for all remittance lines.&#10;Do you want to print separate Remittance advice ?">För några betalningar finns inte tillräcklig plats för alla betalningsrader. Vill du skriva ut separata faktueringsinformationsmeddelanden? </value>
+  <value column="MsgText" original="For some payments, there were not enough rooms for all remittance lines.&#10;Do you want to print separate Remittance advice ?">För några betalningar finns inte tillräcklig plats för alla betalningsrader. Vill du skriva ut separata betalningsmeddelanden? </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="581" trl="Y">
@@ -1934,7 +1933,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="583" trl="Y">
-  <value column="MsgText" original="Do you want to print Remittance Advice ?">Vill du skriva faktueringsinformationsmeddelande? </value>
+  <value column="MsgText" original="Do you want to print Remittance Advice ?">Vill du skriva betalningsmeddelande? </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="584" trl="Y">
@@ -1958,7 +1957,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="589" trl="Y">
-  <value column="MsgText" original="Print/export generated Payments?">Utskrifts/exportgenererade betalningar?</value>
+  <value column="MsgText" original="Print/export generated Payments?">Skriv ut/exportera genererade betalningar?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="590" trl="Y">
@@ -1966,11 +1965,11 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="591" trl="Y">
-  <value column="MsgText" original="Material Transaction Info">Transaktionsinformation för material</value>
+  <value column="MsgText" original="Material Transaction Info">Materialtransaktioner</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="592" trl="Y">
-  <value column="MsgText" original="Key">Sökbegrepp</value>
+  <value column="MsgText" original="Key">Nyckel</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="593" trl="Y">
@@ -2002,7 +2001,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="600" trl="Y">
-  <value column="MsgText" original="Graph">Graf</value>
+  <value column="MsgText" original="Graph">Diagram</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="601" trl="Y">
@@ -2038,7 +2037,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="609" trl="Y">
-  <value column="MsgText" original="Please upgrade your Browser, if dependent field selections remain empty after change of Role.">Uppgradera din browser, om tomma fält visas efter att du loggat in med ny roll. </value>
+  <value column="MsgText" original="Please upgrade your Browser, if dependent field selections remain empty after change of Role.">Uppgradera din browser, om tomma fält visas efter att du loggat in med ny roll.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="610" trl="Y">
@@ -2138,11 +2137,11 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="634" trl="Y">
-  <value column="MsgText" original="Landscape">Liggande A4</value>
+  <value column="MsgText" original="Landscape">Liggande</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="635" trl="Y">
-  <value column="MsgText" original="Portrait">Stående A4</value>
+  <value column="MsgText" original="Portrait">Stående</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="636" trl="Y">
@@ -2150,7 +2149,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="637" trl="Y">
-  <value column="MsgText" original="Operator">Operator</value>
+  <value column="MsgText" original="Operator">Operatör</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="638" trl="Y">
@@ -2166,15 +2165,15 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="641" trl="Y">
-  <value column="MsgText" original="Data Rows">Rader för information</value>
+  <value column="MsgText" original="Data Rows">Datarader</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="642" trl="Y">
-  <value column="MsgText" original="Data Columns">Kolumner för information</value>
+  <value column="MsgText" original="Data Columns">Datakolumner</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="643" trl="Y">
-  <value column="MsgText" original="No Document Print Format defined">Inget utskriftsformat definierat </value>
+  <value column="MsgText" original="No Document Print Format defined">Inget utskriftsformat definierat</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="644" trl="Y">
@@ -2182,7 +2181,7 @@ Detaljer: </value>
   <value column="MsgTip" original="If you do not have Multi-Lingual Document enabled, you can translate a Report here.">Om det inte finns flerspråksdokument tillgängliga går det att översätta en rapport här.</value>
  </row>
  <row id="645" trl="Y">
-  <value column="MsgText" original="Translate">Översätta</value>
+  <value column="MsgText" original="Translate">Översätt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="646" trl="Y">
@@ -2194,11 +2193,11 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="648" trl="Y">
-  <value column="MsgText" original="Count">Beräkna</value>
+  <value column="MsgText" original="Count">Antal</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="649" trl="Y">
-  <value column="MsgText" original="Screen Shot">Skärmbild</value>
+  <value column="MsgText" original="Screen Shot">Skärmdump</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="650" trl="Y">
@@ -2218,11 +2217,11 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="654" trl="Y">
-  <value column="MsgText" original="How long back in History?">Visa föregående poster hur långt tillbaka i tiden?</value>
+  <value column="MsgText" original="How long back in History?">Hur långt tillbaka i tiden?</value>
   <value column="MsgTip" original="View history records back in time.">Visa föregående poster</value>
  </row>
  <row id="655" trl="Y">
-  <value column="MsgText" original="To be matched">Kommer att matchas</value>
+  <value column="MsgText" original="To be matched">Att matchas</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="656" trl="Y">
@@ -2230,15 +2229,15 @@ Detaljer: </value>
   <value column="MsgTip" original="Store Password for fast Login (security risk)">Spara lösenord för snabb inloggning (säkerhetsrisk)</value>
  </row>
  <row id="657" trl="Y">
-  <value column="MsgText" original="Cash Journal Info">lnformation om kassajournal</value>
+  <value column="MsgText" original="Cash Journal Info">Kassajournal</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="658" trl="Y">
-  <value column="MsgText" original="Resource Info">Resursinformation</value>
+  <value column="MsgText" original="Resource Info">Resurser</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="659" trl="Y">
-  <value column="MsgText" original="Absolute Amount">Totalsumma</value>
+  <value column="MsgText" original="Absolute Amount">Absolutbelopp</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="660" trl="Y">
@@ -2266,7 +2265,7 @@ Detaljer: </value>
   <value column="MsgTip" original="Format: Accounting__.csv">Format: Konto__.csv</value>
  </row>
  <row id="666" trl="Y">
-  <value column="MsgText" original="No Exempt Tax found (define tax exempt tax rate)">Hittar ingen skattebefrielse (definiera skattesats för skattebefrielse)</value>
+  <value column="MsgText" original="No Exempt Tax found (define tax exempt tax rate)">Hittar ingen nollskattesats (definiera en skattesats för skattebefrielse)</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="667" trl="Y">
@@ -2274,15 +2273,15 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="668" trl="Y">
-  <value column="MsgText" original="Generating shipments">Generera leverans</value>
+  <value column="MsgText" original="Generating shipments">Skapa leveranser</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="670" trl="Y">
-  <value column="MsgText" original="Select orders to generate shipments">Välj order för att generera leverans</value>
+  <value column="MsgText" original="Select orders to generate shipments">Välj ordrar för att skapa leveranser</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="671" trl="Y">
-  <value column="MsgText" original="Shipments are generated depending on the &quot;Delivery Rule&quot; selection in the Order">Leveranser genereras beroende på vilken leveransregel som väljs vid order.</value>
+  <value column="MsgText" original="Shipments are generated depending on the &quot;Delivery Rule&quot; selection in the Order">Leveranser skapas beroende på vilken leveransregel som väljs på ordern</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="672" trl="Y">
@@ -2302,7 +2301,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="676" trl="Y">
-  <value column="MsgText" original="Invalid Arguments - Check Parameters">Ogiltigt argument - kontrollera parameter</value>
+  <value column="MsgText" original="Invalid Arguments - Check Parameters">Ogiltigt argument - kontrollera parametrar</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="677" trl="Y">
@@ -2318,7 +2317,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="680" trl="Y">
-  <value column="MsgText" original="Online Payment Failed">Onlinebetalning misslyckas</value>
+  <value column="MsgText" original="Online Payment Failed">Onlinebetalning misslyckades</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="688" trl="Y">
@@ -2326,7 +2325,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="689" trl="Y">
-  <value column="MsgText" original="Merge From (deleted)">Sammanfoga från (blir raderad)</value>
+  <value column="MsgText" original="Merge From (deleted)">Sammanfoga från (raderas)</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="690" trl="Y">
@@ -2342,12 +2341,12 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="693" trl="Y">
-  <value column="MsgText" original="Merge Error - Please review:">Sammanfogningsfel</value>
+  <value column="MsgText" original="Merge Error - Please review:">Sammanfogningsfel: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="694" trl="Y">
   <value column="MsgText" original="Language Setup Error">Språkinställningsfel</value>
-  <value column="MsgTip" original="Check Language Setup">Kontrollera språkinställning</value>
+  <value column="MsgTip" original="Check Language Setup">Kontrollera språkinställningar</value>
  </row>
  <row id="695" trl="Y">
   <value column="MsgText" original="No Product Attribute Set defined">Ingen produktegenskapsklass definierad</value>
@@ -2362,15 +2361,15 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="698" trl="Y">
-  <value column="MsgText" original="Context">Parametervärden</value>
+  <value column="MsgText" original="Context">Kontext</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="699" trl="Y">
-  <value column="MsgText" original="Asset Info">Information om individ</value>
+  <value column="MsgText" original="Asset Info">Inventarier</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="700" trl="Y">
-  <value column="MsgText" original="Reset">Starta om</value>
+  <value column="MsgText" original="Reset">Nollställ</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="701" trl="Y">
@@ -2378,7 +2377,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="702" trl="Y">
-  <value column="MsgText" original="Product Attribute Instance">Produktegenskap</value>
+  <value column="MsgText" original="Product Attribute Instance">Produktegenskapsinstans</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="703" trl="Y">
@@ -2390,16 +2389,16 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="705" trl="Y">
-  <value column="MsgText" original="Product Attribute Info">Produktegenskapsinformation </value>
+  <value column="MsgText" original="Product Attribute Info">Produktegenskaper</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="706" trl="Y">
-  <value column="MsgText" original="You cannot create Reports for this Information.">Det går inte att skapa utskrifter med denna information. </value>
-  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas. </value>
+  <value column="MsgText" original="You cannot create Reports for this Information.">Det går inte att skapa rapporter för denna information</value>
+  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas</value>
  </row>
  <row id="707" trl="Y">
-  <value column="MsgText" original="You cannot export this Information.">Det går inte att exportera informationen. </value>
-  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas. </value>
+  <value column="MsgText" original="You cannot export this Information.">Det går inte att exportera informationen</value>
+  <value column="MsgTip" original="You don't have the privileges">Behörighet saknas</value>
  </row>
  <row id="708" trl="Y">
   <value column="MsgText" original="Client Data">Klientinformation</value>
@@ -2422,8 +2421,8 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="713" trl="Y">
-  <value column="MsgText" original="Dictionary Maintenance">Underhåll av lexikon</value>
-  <value column="MsgTip" original="Only for internal Adempiere Dictionary Maintenence - DO NOT SELECT">Endast för internt underhåll av Adempieres lexikon - välj inte det här</value>
+  <value column="MsgText" original="Dictionary Maintenance">Underhåll av Application Directory</value>
+  <value column="MsgTip" original="Only for internal Adempiere Dictionary Maintenence - DO NOT SELECT">Endast för internt underhåll av Adempieres Application Directory - välj inte det här</value>
  </row>
  <row id="714" trl="Y">
   <value column="MsgText" original="Not Translated">Inte översatt</value>
@@ -2438,7 +2437,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="717" trl="Y">
-  <value column="MsgText" original="Edit Record">Gör ändringar i posten</value>
+  <value column="MsgText" original="Edit Record">Redigera post</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="718" trl="Y">
@@ -2446,7 +2445,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="719" trl="Y">
-  <value column="MsgText" original="Document has Lines without MANDATORY Product Attribute Set Instance - complete first">Obligatoriskt egenskapsvärde saknas</value>
+  <value column="MsgText" original="Document has Lines without MANDATORY Product Attribute Set Instance - complete first">Obligatoriskt egenskapsvärde saknas på rader - slutför först</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="720" trl="Y">
@@ -2466,7 +2465,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="724" trl="Y">
-  <value column="MsgText" original="Underline">Stryka under</value>
+  <value column="MsgText" original="Underline">Understruket</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="725" trl="Y">
@@ -2538,7 +2537,7 @@ Detaljer: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="744" trl="Y">
-  <value column="MsgText" original="Save Attachment to Disk">Spara bilaga </value>
+  <value column="MsgText" original="Save Attachment to Disk">Spara bilaga till disk</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="745" trl="Y">
@@ -2555,7 +2554,7 @@ Detaljer: </value>
 Version = {2} - Parti = {3} - SerNo = {4}
 Garantidatum = {5,date,short}
 
-Tack för att du använder Adempiere Individhantering</value>
+Tack för att du använder Adempiere anläggninsregister</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="748" trl="N">
@@ -2766,118 +2765,6 @@ Example: To convert Each to Pair, the Multiply Rate is 0.5</value>
  </row>
  <row id="799" trl="N">
   <value column="MsgText" original="Alert Workflow Activity Over Priority {0}">Alert Workflow Activity Over Priority {0}</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000000" trl="Y">
-  <value column="MsgText" original="TXE">TXE</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000001" trl="Y">
-  <value column="MsgText" original="Complete Payment, existing Bankgiro file will be deleted">Bekräfta betalning, befintlig bankgirofil kommer att tas bort</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000002" trl="Y">
-  <value column="MsgText" original="Currency code may only be SEK / EUR">Betalning kan endast ske i SEK och EUR</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000003" trl="Y">
-  <value column="MsgText" original="Currency Problem">Valuta problem</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000004" trl="Y">
-  <value column="MsgText" original="OCR Problem">OCR problem</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000005" trl="Y">
-  <value column="MsgText" original="OCR number is not valid">OCR numret är inte giltigt</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000006" trl="Y">
-  <value column="MsgText" original="Bankgiro number for client is not valid">Avsändande bankgironummer är ogiltigt</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000007" trl="Y">
-  <value column="MsgText" original="Bankgiro Problem">Bankgiro problem</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000008" trl="Y">
-  <value column="MsgText" original="Bankgiro number for business partner ">Bankgironumer för affärspartner </value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000009" trl="Y">
-  <value column="MsgText" original=" not valid"> inte giltigt</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000010" trl="Y">
-  <value column="MsgText" original="Debet and kredit differs">Debet- och kreditbeloppen är inte lika</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000013" trl="Y">
-  <value column="MsgText" original="Send Product">Skicka produkter</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000014" trl="Y">
-  <value column="MsgText" original="Send Price">Skicka priser</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000018" trl="Y">
-  <value column="MsgText" original="Send User">Skicka användare</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000019" trl="Y">
-  <value column="MsgText" original="Collect Reciept">Hämta kvitto</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000020" trl="N">
-  <value column="MsgText" original="Status">Status</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000021" trl="Y">
-  <value column="MsgText" original="Product send">Produkter skickade</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000022" trl="Y">
-  <value column="MsgText" original="Price send">Priser skickade</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000023" trl="Y">
-  <value column="MsgText" original="User send">Användare skickade</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000024" trl="Y">
-  <value column="MsgText" original="Reciept collected">Kvitton hämtade</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000025" trl="Y">
-  <value column="MsgText" original="Failed">Överföring misslyckades</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000026" trl="Y">
-  <value column="MsgText" original="Fields for both debet and credit has values">Både fälten för debet och kredit har värden</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000027" trl="Y">
-  <value column="MsgText" original="Stated reference number already exists">Angiven fakturareferens finns redan</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000028" trl="Y">
-  <value column="MsgText" original="No refernece number stated">Fakturareferens är inte angivet</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000029" trl="Y">
-  <value column="MsgText" original="Existing bankgiro file will be deleted">Befintlig bankgirofil kommer att tas bort</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000032" trl="Y">
-  <value column="MsgText" original="Total Debet: {0,number,#,##0.00} - Total Credit: {1,number,#,##0.00} - Diff: {2,number,#,##0.00}">Total Debet: {0,number,#,##0.00} - Total Kredit: {1,number,#,##0.00} - Diff: {2,number,#,##0.00}</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000033" trl="Y">
-  <value column="MsgText" original="Order Reference">Fakturareferens</value>
-  <value column="MsgTip" original=""/>
- </row>
- <row id="1000034" trl="Y">
-  <value column="MsgText" original="StatedIdAlreadyExists">Angivet id finns redan</value>
   <value column="MsgTip" original=""/>
  </row>
 </adempiereTrl>

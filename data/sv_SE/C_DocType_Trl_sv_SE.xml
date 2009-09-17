@@ -3,113 +3,113 @@
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="sv_SE" table="C_DocType">
  <row id="0" trl="Y">
-  <value column="Name" original="** New **">** New **</value>
-  <value column="PrintName" original="** New **">** New **</value>
-  <value column="DocumentNote" original="** NO INVOICE **">** NO INVOICE **</value>
+  <value column="Name" original="** New **">** Nytt **</value>
+  <value column="PrintName" original="** New **">** Nytt **</value>
+  <value column="DocumentNote" original="** NO INVOICE **">** EJ FAKTURA **</value>
  </row>
  <row id="115" trl="Y">
-  <value column="Name" original="GL Journal">GL Journal</value>
-  <value column="PrintName" original="Journal">Journal</value>
+  <value column="Name" original="GL Journal">Verifikat</value>
+  <value column="PrintName" original="Journal">Verifikat</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="116" trl="Y">
-  <value column="Name" original="AR Invoice">AR Invoice</value>
-  <value column="PrintName" original="Invoice">Invoice</value>
+  <value column="Name" original="AR Invoice">Kundfaktura</value>
+  <value column="PrintName" original="Invoice">Faktura</value>
   <value column="DocumentNote" original="Document Type Note for general and promotional text.">Document Type Note for general and promotional text.</value>
  </row>
  <row id="117" trl="Y">
-  <value column="Name" original="AR Invoice Indirect">AR Invoice Indirect</value>
-  <value column="PrintName" original="Invoice">Invoice</value>
+  <value column="Name" original="AR Invoice Indirect">Kundfaktura indirekt</value>
+  <value column="PrintName" original="Invoice">Faktura</value>
   <value column="DocumentNote" original="Document Type Note for general and promotional text.">Document Type Note for general and promotional text.</value>
  </row>
  <row id="118" trl="Y">
-  <value column="Name" original="AR Credit Memo">AR Credit Memo</value>
-  <value column="PrintName" original="Credit Memo">Credit Memo</value>
+  <value column="Name" original="AR Credit Memo">Kundkreditfaktura</value>
+  <value column="PrintName" original="Credit Memo">Kreditfaktura</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="119" trl="Y">
-  <value column="Name" original="AR Receipt">AR Receipt</value>
-  <value column="PrintName" original="Receipt">Receipt</value>
+  <value column="Name" original="AR Receipt">Kundinbetalning</value>
+  <value column="PrintName" original="Receipt">Inbetalning</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="120" trl="Y">
-  <value column="Name" original="MM Shipment">MM Shipment</value>
-  <value column="PrintName" original="Delivery Note">Delivery Note</value>
+  <value column="Name" original="MM Shipment">Utleverans</value>
+  <value column="PrintName" original="Delivery Note">Följesedel</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="121" trl="Y">
-  <value column="Name" original="MM Shipment Indirect">MM Shipment Indirect</value>
-  <value column="PrintName" original="Delivery Note">Delivery Note</value>
+  <value column="Name" original="MM Shipment Indirect">Utleverans</value>
+  <value column="PrintName" original="Delivery Note">Följesedel</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="122" trl="Y">
-  <value column="Name" original="MM Receipt">MM Receipt</value>
-  <value column="PrintName" original="Vendor Delivery">Vendor Delivery</value>
+  <value column="Name" original="MM Receipt">Inleverans</value>
+  <value column="PrintName" original="Vendor Delivery">Följesedel</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="123" trl="Y">
-  <value column="Name" original="AP Invoice">AP Invoice</value>
-  <value column="PrintName" original="Vendor Invoice">Vendor Invoice</value>
+  <value column="Name" original="AP Invoice">Leverantörsfaktura</value>
+  <value column="PrintName" original="Vendor Invoice">Leverantörsfaktura</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="124" trl="Y">
-  <value column="Name" original="AP CreditMemo">AP CreditMemo</value>
-  <value column="PrintName" original="Vendor Credit Memo">Vendor Credit Memo</value>
+  <value column="Name" original="AP CreditMemo">Leverantörskreditfaktura</value>
+  <value column="PrintName" original="Vendor Credit Memo">Leverantörskreditfaktura</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="125" trl="Y">
-  <value column="Name" original="AP Payment">AP Payment</value>
-  <value column="PrintName" original="Vendor Payment">Vendor Payment</value>
+  <value column="Name" original="AP Payment">Leverantörsbetalning</value>
+  <value column="PrintName" original="Vendor Payment">Leverantörsbetalning</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="126" trl="Y">
-  <value column="Name" original="Purchase Order">Purchase Order</value>
-  <value column="PrintName" original="Purchase Order">Purchase Order</value>
+  <value column="Name" original="Purchase Order">Inköpsorder</value>
+  <value column="PrintName" original="Purchase Order">Inköpsorder</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="127" trl="Y">
-  <value column="Name" original="Purchase Requisition">Purchase Requisition</value>
-  <value column="PrintName" original="Purchase Requisition">Purchase Requisition</value>
+  <value column="Name" original="Purchase Requisition">Inköpsrekvisition</value>
+  <value column="PrintName" original="Purchase Requisition">Inköpsrekvisition</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="128" trl="Y">
-  <value column="Name" original="Quotation">Quotation</value>
-  <value column="PrintName" original="Quotation">Quotation</value>
+  <value column="Name" original="Quotation">Anbud</value>
+  <value column="PrintName" original="Quotation">Anbud</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="129" trl="Y">
-  <value column="Name" original="Proposal">Proposal</value>
-  <value column="PrintName" original="Proposal">Proposal</value>
+  <value column="Name" original="Proposal">Ej bindande anbud</value>
+  <value column="PrintName" original="Proposal">Ej bindande anbud</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="130" trl="Y">
-  <value column="Name" original="Prepay Order">Prepay Order</value>
-  <value column="PrintName" original="Prepay Order">Prepay Order</value>
+  <value column="Name" original="Prepay Order">Förskottsbetalningsorder</value>
+  <value column="PrintName" original="Prepay Order">Förskottsbetalningsorder</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="131" trl="Y">
-  <value column="Name" original="Return Material">Return Material</value>
-  <value column="PrintName" original="Return Material Authorization">Return Material Authorization</value>
+  <value column="Name" original="Return Material">Varuretur</value>
+  <value column="PrintName" original="Return Material Authorization">Varuretur</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="132" trl="Y">
   <value column="Name" original="Standard Order">Standard Order</value>
-  <value column="PrintName" original="Order Confirmation">Order Confirmation</value>
+  <value column="PrintName" original="Orderbekräftelse">Orderbekräftelse</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="133" trl="Y">
-  <value column="Name" original="On Credit Order">On Credit Order</value>
-  <value column="PrintName" original="Order Confirmation">Order Confirmation</value>
+  <value column="Name" original="On Credit Order">Kreditorder</value>
+  <value column="PrintName" original="Orderbekräftelse">Orderbekräftelse</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="134" trl="Y">
-  <value column="Name" original="Warehouse Order">Warehouse Order</value>
-  <value column="PrintName" original="Order Confirmation">Order Confirmation</value>
+  <value column="Name" original="Warehouse Order">Lagerorder</value>
+  <value column="PrintName" original="Orderbekräftelse">Orderbekräftelse</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="135" trl="Y">
-  <value column="Name" original="POS Order">POS Order</value>
-  <value column="PrintName" original="Order Confirmation">Order Confirmation</value>
+  <value column="Name" original="POS Order">Kassaorder</value>
+  <value column="PrintName" original="Orderbekräftelse">Orderbekräftelse</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="136" trl="Y">
@@ -118,33 +118,33 @@
   <value column="DocumentNote" original=""/>
  </row>
  <row id="137" trl="Y">
-  <value column="Name" original="Payment Allocation">Payment Allocation</value>
-  <value column="PrintName" original="Payment Allocation">Payment Allocation</value>
+  <value column="Name" original="Payment Allocation">Betalningsallokering</value>
+  <value column="PrintName" original="Payment Allocation">Betalningsallokering</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="138" trl="Y">
-  <value column="Name" original="Match Invoice">Match Invoice</value>
-  <value column="PrintName" original="Match Invoice">Match Invoice</value>
+  <value column="Name" original="Match Invoice">Matcha faktura</value>
+  <value column="PrintName" original="Match Invoice">Matcha faktura</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="139" trl="Y">
-  <value column="Name" original="Material Production">Material Production</value>
-  <value column="PrintName" original="Material Production">Material Production</value>
+  <value column="Name" original="Material Production">Material Produktion</value>
+  <value column="PrintName" original="Material Production">Material Produktion</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="140" trl="Y">
-  <value column="Name" original="GL Document">GL Document</value>
-  <value column="PrintName" original="GL Document">GL Document</value>
+  <value column="Name" original="GL Document">Verifikat</value>
+  <value column="PrintName" original="GL Document">Verifikat</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="141" trl="Y">
-  <value column="Name" original="Cash Journal">Cash Journal</value>
-  <value column="PrintName" original="Cash Journal">Cash Journal</value>
+  <value column="Name" original="Cash Journal">Kassajournal</value>
+  <value column="PrintName" original="Cash Journal">Kassajournal</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="142" trl="Y">
-  <value column="Name" original="Match PO">Match PO</value>
-  <value column="PrintName" original="Match PO">Match PO</value>
+  <value column="Name" original="Match PO">Matcha inköpsorder</value>
+  <value column="PrintName" original="Match PO">Match inköpsorder</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="143" trl="Y">
@@ -182,479 +182,4 @@
   <value column="PrintName" original="Return Material">Return Material</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000000" trl="N">
-  <value column="Name" original="Manuellt verifikat">GL Journal</value>
-  <value column="PrintName" original="Manuellt verifikat">Journal</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000001" trl="N">
-  <value column="Name" original="Verifikat batch">GL Journal Batch</value>
-  <value column="PrintName" original="Verifikat batch">Journal Batch</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000002" trl="N">
-  <value column="Name" original="Kundfaktura">AR Invoice</value>
-  <value column="PrintName" original="Kundfaktura">Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000003" trl="N">
-  <value column="Name" original="Kassaförsäljning">AR Invoice Indirect</value>
-  <value column="PrintName" original="Kassaförsäljning">Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000004" trl="N">
-  <value column="Name" original="Kundkreditfaktura">AR Credit Memo</value>
-  <value column="PrintName" original="Kundkreditfaktura">Credit Memo</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000005" trl="N">
-  <value column="Name" original="Leverantörsfaktura">AP Invoice</value>
-  <value column="PrintName" original="Leverantörsfaktura">Vendor Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000006" trl="N">
-  <value column="Name" original="Leverantörsfaktura kredit">AP CreditMemo</value>
-  <value column="PrintName" original="Leverantörsfaktura kredit">Vendor Credit Memo</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000007" trl="N">
-  <value column="Name" original="Matcha faktura">Match Invoice</value>
-  <value column="PrintName" original="Matcha faktura">Match Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000008" trl="N">
-  <value column="Name" original="Inbetalning">AR Receipt</value>
-  <value column="PrintName" original="Kundinbetalning">Customer Payment</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000009" trl="N">
-  <value column="Name" original="Leverantörsbetalning">AP Payment</value>
-  <value column="PrintName" original="Leverantörsbetalning">Vendor Payment</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000010" trl="N">
-  <value column="Name" original="Allokering">Allocation</value>
-  <value column="PrintName" original="Allokering">Allocation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000011" trl="N">
-  <value column="Name" original="Utleverans">MM Shipment</value>
-  <value column="PrintName" original="Följesedel">Delivery Note</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000012" trl="N">
-  <value column="Name" original="MM Shipment Indirect">MM Shipment Indirect</value>
-  <value column="PrintName" original="Delivery Note">Delivery Note</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000013" trl="N">
-  <value column="Name" original="Inleverans">MM Receipt</value>
-  <value column="PrintName" original="Inleverans från leverantör">Vendor Delivery</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000014" trl="N">
-  <value column="Name" original="Returer">MM Returns</value>
-  <value column="PrintName" original="Kundreturer">Customer Returns</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000015" trl="N">
-  <value column="Name" original="Inköpsorder">Purchase Order</value>
-  <value column="PrintName" original="Inköpsorder">Purchase Order</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000016" trl="N">
-  <value column="Name" original="Matcha inköpsorder">Match PO</value>
-  <value column="PrintName" original="Matcha inköpsorder">Patch PO</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000017" trl="N">
-  <value column="Name" original="Inköpsrekvisition">Purchase Requisition</value>
-  <value column="PrintName" original="Inköpsrekvisition">Purchase Requisition</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000018" trl="N">
-  <value column="Name" original="Bankkontoutdrag">Bank Statement</value>
-  <value column="PrintName" original="Bankkontoutdrag">Bank Statement</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000019" trl="N">
-  <value column="Name" original="Kassajournal">Cash Journal</value>
-  <value column="PrintName" original="Kassajournal">Cash Journal</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000020" trl="N">
-  <value column="Name" original="Lagerförflyttning">Material Movement</value>
-  <value column="PrintName" original="Lagerförflyttning">Material Movement</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000021" trl="N">
-  <value column="Name" original="Inventering">Physical Inventory</value>
-  <value column="PrintName" original="Inventering">Physical Inventory</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000022" trl="N">
-  <value column="Name" original="Material i produktion">Material Production</value>
-  <value column="PrintName" original="Material i produktion">Material Production</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000023" trl="N">
-  <value column="Name" original="Project Issue">Project Issue</value>
-  <value column="PrintName" original="Project Issue">Project Issue</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000024" trl="N">
-  <value column="Name" original="Quotation">Binding offer</value>
-  <value column="PrintName" original="Quotation">Quotation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000025" trl="N">
-  <value column="Name" original="Offert">Non binding offer</value>
-  <value column="PrintName" original="Offert/Kostnadsförslag">Proposal</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000026" trl="N">
-  <value column="Name" original="Prepay Order">Prepay Order</value>
-  <value column="PrintName" original="Prepay Order">Prepay Order</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000027" trl="N">
-  <value column="Name" original="Retur">Return Material</value>
-  <value column="PrintName" original="Return Material Authorization (RMA)">Return Material Authorization</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000028" trl="N">
-  <value column="Name" original="Direktleverans">Standard Order</value>
-  <value column="PrintName" original="Direktleverans">Order Confirmation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000029" trl="N">
-  <value column="Name" original="Credit Order">Credit Order</value>
-  <value column="PrintName" original="Order Confirmation">Order Confirmation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000030" trl="N">
-  <value column="Name" original="Lagerorder">Warehouse Order</value>
-  <value column="PrintName" original="Lagerorder">Order Confirmation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000031" trl="N">
-  <value column="Name" original="POS Order">POS Order</value>
-  <value column="PrintName" original="Kontantorder">Order Confirmation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000032" trl="N">
-  <value column="Name" original="AP Credit Memo">AP Credit Memo</value>
-  <value column="PrintName" original="AP Credit Memo">AP Credit Memo</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000033" trl="N">
-  <value column="Name" original="AR Credit Memo">AR Credit Memo</value>
-  <value column="PrintName" original="AR Credit Memo">AR Credit Memo</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000034" trl="N">
-  <value column="Name" original="Bank Statement">Bank Statement</value>
-  <value column="PrintName" original="Bank Statement">Bank Statement</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000035" trl="N">
-  <value column="Name" original="Cash Journal">Cash Journal</value>
-  <value column="PrintName" original="Cash Journal">Cash Journal</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000036" trl="N">
-  <value column="Name" original="Payment Allocation">Payment Allocation</value>
-  <value column="PrintName" original="Payment Allocation">Payment Allocation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000037" trl="N">
-  <value column="Name" original="GL Journal">GL Journal</value>
-  <value column="PrintName" original="GL Journal">GL Journal</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000039" trl="N">
-  <value column="Name" original="GL Document">GL Document</value>
-  <value column="PrintName" original="GL Document">GL Document</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000040" trl="N">
-  <value column="Name" original="AP Invoice">AP Invoice</value>
-  <value column="PrintName" original="AP Invoice">AP Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000041" trl="N">
-  <value column="Name" original="AP Payment">AP Payment</value>
-  <value column="PrintName" original="AP Payment">AP Payment</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000042" trl="N">
-  <value column="Name" original="AR Invoice">AR Invoice</value>
-  <value column="PrintName" original="AR Invoice">AR Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000043" trl="N">
-  <value column="Name" original="AR Receipt">AR Receipt</value>
-  <value column="PrintName" original="AR Receipt">AR Receipt</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000044" trl="N">
-  <value column="Name" original="Sales Order">Sales Order</value>
-  <value column="PrintName" original="Sales Order">Sales Order</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000045" trl="N">
-  <value column="Name" original="AR Pro Forma Invoice">AR Pro Forma Invoice</value>
-  <value column="PrintName" original="AR Pro Forma Invoice">AR Pro Forma Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000046" trl="N">
-  <value column="Name" original="Material Delivery">Material Delivery</value>
-  <value column="PrintName" original="Material Delivery">Material Delivery</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000047" trl="N">
-  <value column="Name" original="Material Receipt">Material Receipt</value>
-  <value column="PrintName" original="Material Receipt">Material Receipt</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000048" trl="N">
-  <value column="Name" original="Material Movement">Material Movement</value>
-  <value column="PrintName" original="Material Movement">Material Movement</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000049" trl="N">
-  <value column="Name" original="Purchase Order">Purchase Order</value>
-  <value column="PrintName" original="Purchase Order">Purchase Order</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000050" trl="N">
-  <value column="Name" original="Purchase Requisition">Purchase Requisition</value>
-  <value column="PrintName" original="Purchase Requisition">Purchase Requisition</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000051" trl="N">
-  <value column="Name" original="Material Physical Inventory">Material Physical Inventory</value>
-  <value column="PrintName" original="Material Physical Inventory">Material Physical Inventory</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000052" trl="N">
-  <value column="Name" original="Material Production">Material Production</value>
-  <value column="PrintName" original="Material Production">Material Production</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000053" trl="N">
-  <value column="Name" original="Match Invoice">Match Invoice</value>
-  <value column="PrintName" original="Match Invoice">Match Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000054" trl="N">
-  <value column="Name" original="Match PO">Match PO</value>
-  <value column="PrintName" original="Match PO">Match PO</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000000" trl="N">
-  <value column="Name" original="Manuellt verifikat-KD">Manuellt verifikat-KD</value>
-  <value column="PrintName" original="Manuellt verifikat">Manuellt verifikat</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000001" trl="N">
-  <value column="Name" original="Verifikat batch-KD">Verifikat batch-KD</value>
-  <value column="PrintName" original="Verifikat batch">Verifikat batch</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000002" trl="N">
-  <value column="Name" original="Kundfaktura-KD">Kundfaktura-KD</value>
-  <value column="PrintName" original="Kundfaktura">Kundfaktura</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000003" trl="N">
-  <value column="Name" original="Kassaförsäljning-KD">Kassaförsäljning-KD</value>
-  <value column="PrintName" original="Kassaförsäljning">Kassaförsäljning</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000004" trl="N">
-  <value column="Name" original="Kundkreditfaktura-KD">Kundkreditfaktura-KD</value>
-  <value column="PrintName" original="Kundkreditfaktura">Kundkreditfaktura</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000005" trl="N">
-  <value column="Name" original="Leverantörsfaktura-KD">Leverantörsfaktura-KD</value>
-  <value column="PrintName" original="Leverantörsfaktura">Leverantörsfaktura</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000006" trl="N">
-  <value column="Name" original="Leverantörsfaktura kredit-KD">Leverantörsfaktura kredit-KD</value>
-  <value column="PrintName" original="Leverantörsfaktura kredit">Leverantörsfaktura kredit</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000007" trl="N">
-  <value column="Name" original="Matcha faktura-KD">Matcha faktura-KD</value>
-  <value column="PrintName" original="Matcha faktura">Matcha faktura</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000008" trl="N">
-  <value column="Name" original="Inbetalning-KD">Inbetalning-KD</value>
-  <value column="PrintName" original="Kundinbetalning">Kundinbetalning</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000009" trl="N">
-  <value column="Name" original="Leverantörsbetalning-KD">Leverantörsbetalning-KD</value>
-  <value column="PrintName" original="Leverantörsbetalning">Leverantörsbetalning</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000010" trl="N">
-  <value column="Name" original="Allokering-KD">Allokering-KD</value>
-  <value column="PrintName" original="Allokering">Allokering</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000011" trl="N">
-  <value column="Name" original="Utleverans-KD">Utleverans-KD</value>
-  <value column="PrintName" original="Följesedel">Följesedel</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000012" trl="N">
-  <value column="Name" original="MM Shipment Indirect-KD">MM Shipment Indirect-KD</value>
-  <value column="PrintName" original="Delivery Note">Delivery Note</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000013" trl="N">
-  <value column="Name" original="Inleverans-KD">Inleverans-KD</value>
-  <value column="PrintName" original="Inleverans från leverantör">Inleverans från leverantör</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000014" trl="N">
-  <value column="Name" original="Returer-KD">Returer-KD</value>
-  <value column="PrintName" original="Kundreturer">Kundreturer</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000015" trl="N">
-  <value column="Name" original="Inköpsorder-KD">Inköpsorder-KD</value>
-  <value column="PrintName" original="Inköpsorder">Inköpsorder</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000016" trl="N">
-  <value column="Name" original="Matcha inköpsorder-KD">Matcha inköpsorder-KD</value>
-  <value column="PrintName" original="Matcha inköpsorder">Matcha inköpsorder</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000018" trl="N">
-  <value column="Name" original="Bankkontoutdrag-KD">Bankkontoutdrag-KD</value>
-  <value column="PrintName" original="Bankkontoutdrag">Bankkontoutdrag</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000019" trl="N">
-  <value column="Name" original="Kassajournal-KD">Kassajournal-KD</value>
-  <value column="PrintName" original="Kassajournal">Kassajournal</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000020" trl="N">
-  <value column="Name" original="Lagerförflyttning-KD">Lagerförflyttning-KD</value>
-  <value column="PrintName" original="Lagerförflyttning">Lagerförflyttning</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000021" trl="N">
-  <value column="Name" original="Inventering-KD">Inventering-KD</value>
-  <value column="PrintName" original="Inventering">Inventering</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000022" trl="N">
-  <value column="Name" original="Material i produktion-KD">Material i produktion-KD</value>
-  <value column="PrintName" original="Material i produktion">Material i produktion</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000023" trl="N">
-  <value column="Name" original="Project Issue-KD">Project Issue-KD</value>
-  <value column="PrintName" original="Project Issue">Project Issue</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000025" trl="N">
-  <value column="Name" original="Offert-KD">Offert-KD</value>
-  <value column="PrintName" original="Offert/Kostnadsförslag">Offert/Kostnadsförslag</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000027" trl="N">
-  <value column="Name" original="Retur-KD">Retur-KD</value>
-  <value column="PrintName" original="Return Material Authorization (RMA)">Return Material Authorization (RMA)</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000028" trl="N">
-  <value column="Name" original="Direktleverans-KD">Direktleverans-KD</value>
-  <value column="PrintName" original="Direktleverans">Direktleverans</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000030" trl="N">
-  <value column="Name" original="Lagerorder-KD">Lagerorder-KD</value>
-  <value column="PrintName" original="Lagerorder">Lagerorder</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000031" trl="N">
-  <value column="Name" original="POS Order-KD">POS Order-KD</value>
-  <value column="PrintName" original="Kontantorder">Kontantorder</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000034" trl="N">
-  <value column="Name" original="Bank Statement-KD">Bank Statement-KD</value>
-  <value column="PrintName" original="Bank Statement">Bank Statement</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000035" trl="N">
-  <value column="Name" original="Cash Journal-KD">Cash Journal-KD</value>
-  <value column="PrintName" original="Cash Journal">Cash Journal</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000036" trl="N">
-  <value column="Name" original="Payment Allocation-KD">Payment Allocation-KD</value>
-  <value column="PrintName" original="Payment Allocation">Payment Allocation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000039" trl="N">
-  <value column="Name" original="GL Document-KD">GL Document-KD</value>
-  <value column="PrintName" original="GL Document">GL Document</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000044" trl="N">
-  <value column="Name" original="Sales Order-KD">Sales Order-KD</value>
-  <value column="PrintName" original="Sales Order">Sales Order</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000046" trl="N">
-  <value column="Name" original="Material Delivery-KD">Material Delivery-KD</value>
-  <value column="PrintName" original="Material Delivery">Material Delivery</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000047" trl="N">
-  <value column="Name" original="Material Receipt-KD">Material Receipt-KD</value>
-  <value column="PrintName" original="Material Receipt">Material Receipt</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000049" trl="N">
-  <value column="Name" original="Purchase Order-KD">Purchase Order-KD</value>
-  <value column="PrintName" original="Purchase Order">Purchase Order</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000050" trl="N">
-  <value column="Name" original="Purchase Requisition-KD">Purchase Requisition-KD</value>
-  <value column="PrintName" original="Purchase Requisition">Purchase Requisition</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000051" trl="N">
-  <value column="Name" original="Material Physical Inventory-KD">Material Physical Inventory-KD</value>
-  <value column="PrintName" original="Material Physical Inventory">Material Physical Inventory</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000052" trl="N">
-  <value column="Name" original="Material Production-KD">Material Production-KD</value>
-  <value column="PrintName" original="Material Production">Material Production</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000053" trl="N">
-  <value column="Name" original="Match Invoice-KD">Match Invoice-KD</value>
-  <value column="PrintName" original="Match Invoice">Match Invoice</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="9000054" trl="N">
-  <value column="Name" original="Match PO-KD">Match PO-KD</value>
-  <value column="PrintName" original="Match PO">Match PO</value>
-  <value column="DocumentNote" original=""/>
- </row>
-</adempiereTrl>
+ </adempiereTrl>

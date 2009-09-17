@@ -3,8 +3,8 @@
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="sv_SE" table="AD_Form">
  <row id="100" trl="Y">
-  <value column="Name" original="Generate Invoices (manual)">Generera faktura (manuell)</value>
-  <value column="Description" original="Select and generate invoices">Välj och generera faktura</value>
+  <value column="Name" original="Generate Invoices (manual)">Generera fakturor (manuell)</value>
+  <value column="Description" original="Select and generate invoices">Välj och generera fakturor</value>
   <value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for."/>
  </row>
  <row id="101" trl="Y">
@@ -38,13 +38,13 @@
   <value column="Help" original=""/>
  </row>
  <row id="107" trl="Y">
-  <value column="Name" original="Payment Selection (manual)">Välj betalning (manuell)</value>
-  <value column="Description" original="Manual Payment Selection">Manuellt val av betalning</value>
+  <value column="Name" original="Payment Selection (manual)">Utbetalningar (manuell)</value>
+  <value column="Description" original="Manual Payment Selection">Manuellt val av utbetalning</value>
   <value column="Help" original="Select vendor invoices for payment"/>
  </row>
  <row id="108" trl="Y">
-  <value column="Name" original="Matching PO-Receipt-Invoice">Koppla köporder-kvitto-faktura</value>
-  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Kopplar ihop köporder med kvitto, leverantörsfaktura etc</value>
+  <value column="Name" original="Matching PO-Receipt-Invoice">Koppla inköpsorder-leverans-faktura</value>
+  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Kopplar ihop köporder med inleverans leverantörsfaktura etc</value>
   <value column="Help" original="Make sure that the Receipts and Invoices are processed. If you want to match partial shipment, make sure that &quot;Same Quantity&quot; is not selected."/>
  </row>
  <row id="109" trl="Y">
@@ -53,8 +53,8 @@
   <value column="Help" original="Export/Import Translation info to/from xml for translation in external tool. Please note that the Language MUST be an enabled and verified System Langage."/>
  </row>
  <row id="110" trl="Y">
-  <value column="Name" original="Generate Shipments (manual)">Generera leverans (manuell)</value>
-  <value column="Description" original="Select and generate shipments">Välj och generera leverans</value>
+  <value column="Name" original="Generate Shipments (manual)">Generera utleveranser (manuell)</value>
+  <value column="Description" original="Select and generate shipments">Välj och generera utleveranser</value>
   <value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for."/>
  </row>
  <row id="111" trl="Y">
@@ -74,12 +74,12 @@ Alla uppgifter rörande "Frånenheten" (t ex Kund A) skrivs över med "Tillenhet
 </value>
  </row>
  <row id="113" trl="Y">
-  <value column="Name" original="POS">Kassa (första utkast)</value>
-  <value column="Description" original="Point Of Sales Terminal">Kassa</value>
+  <value column="Name" original="POS">Kassaterminal</value>
+  <value column="Description" original="Point Of Sales Terminal">Kassaterminal</value>
   <value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized."/>
  </row>
  <row id="114" trl="Y">
-  <value column="Name" original="BOM Drop">Lämna över sammansatt produkt</value>
+  <value column="Name" original="BOM Drop">Expandera sammansatt produkt</value>
   <value column="Description" original="Drop (expand) Bill of Materials">Lämna över (expandera) sammansatt produkt</value>
   <value column="Help" original="Drop the extended Bill of Materials into an Order, Invoice, etc.  The documents need to be in a Drafted stage.  Make sure that the items included in the BOM are on the price list of the Order, Invoice, etc. as otherwise the price will be zero!">Släpp iväg den utökade sammansatta produkten till en order, faktura etc. Underliggande dokument måste ha status "utkast". Kontrollera att alla ingående delar finns med i prislistan för ordern, fakturan etc eftersom priset annars sätts till noll!</value>
  </row>
@@ -89,18 +89,13 @@ Alla uppgifter rörande "Frånenheten" (t ex Kund A) skrivs över med "Tillenhet
   <value column="Help" original="View and change trees. Maintain the entries in their specific Windows.">View and change trees. Maintain the entries in their specific Windows.</value>
  </row>
  <row id="116" trl="N">
-  <value column="Name" original="Workflow Editor">Workflow Editor</value>
+  <value column="Name" original="Workflow Editor">Arbetsflödeseditor</value>
   <value column="Description" original="Edit Workflows">Edit Workflows</value>
   <value column="Help" original="Edit the graphical layout of workflows">Edit the graphical layout of workflows</value>
  </row>
  <row id="117" trl="N">
-  <value column="Name" original="Workflow Activities">Workflow Activities</value>
+  <value column="Name" original="Workflow Activities">Arbetsflödesaktiviteter</value>
   <value column="Description" original="My active workflow activities">My active workflow activities</value>
   <value column="Help" original="View active worflow activities">View active worflow activities</value>
- </row>
- <row id="1000000" trl="Y">
-  <value column="Name" original="Payment Bankgiro">Betalning Bankgiro</value>
-  <value column="Description" original="Payment Bankgiro">Betalning Bankgiro</value>
-  <value column="Help" original="Select vendor invoices for payment">Sök leverantörs- eller kundfakturor. Markera de fakturor som ska betalas. Tryck på knappen Skriv ut, gör eventuellt utskrift av rapporten, stäng därefter rapportfönstret och välj knappen Bearbetning. Om markerade fakturor är leverantörsfakturor kommer dessa att skapa rader i bankgirofilen. Affärspartnern måste ha ett bankgironummer angivet och betalningen måste vara i SEK eller EUR.</value>
  </row>
 </adempiereTrl>
