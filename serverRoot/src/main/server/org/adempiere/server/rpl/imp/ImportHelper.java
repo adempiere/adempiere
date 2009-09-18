@@ -70,6 +70,9 @@ import org.w3c.dom.NodeList;
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 				<li>BF[2836406] Error when try get ID but do not is the first field
  * 				<li>
+ * @author michael.judd@akunagroup.com, http://www.akunagroup.com
+ * 				<li> BF[2861697] Incorrect string conversion
+ * 				<li> https://sourceforge.net/tracker/index.php?func=detail&aid=2861697&group_id=176962&atid=879332
  */
 public class ImportHelper {
 
@@ -643,7 +646,7 @@ public class ImportHelper {
 						|| col.getAD_Reference_ID() == DisplayType.TableDir
 						|| col.getAD_Reference_ID() == DisplayType.Table)
 				{
-					String stringValue = (String)values[i];
+					String stringValue = (String)values[i].toString();
 					int value = Integer.parseInt(stringValue);
 					pstmt.setInt(i+1, value);
 					log.info("pstmt.setInt["+(i+1)+"] = [" + value +"]");				
