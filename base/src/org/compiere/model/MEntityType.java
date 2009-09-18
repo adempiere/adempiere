@@ -23,7 +23,6 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 /**
  * 	Enitity Type Model
@@ -36,6 +35,8 @@ import org.compiere.util.DB;
  * 			https://sourceforge.net/tracker/?func=detail&aid=2827777&group_id=176962&atid=879332
  * 		<li>FR [ 2827786 ] Introduce MEntityType.get(Properties ctx, String entityType)
  * 			https://sourceforge.net/tracker/?func=detail&aid=2827786&group_id=176962&atid=879335
+ * 		<li>BF [ 2861194 ] EntityType is not using normal PO framework for getting IDs
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2861194&group_id=176962&atid=879332
  */
 public class MEntityType extends X_AD_EntityType
 {
@@ -198,20 +199,6 @@ public class MEntityType extends X_AD_EntityType
 	private static final int s_maxAD_EntityType_ID = 1000000;
 	
 	/**
-	 * 	Set AD_EntityType_ID
-	 */
-	private void setAD_EntityType_ID()
-	{
-		int AD_EntityType_ID = getAD_EntityType_ID();
-		if (AD_EntityType_ID == 0)
-		{
-			String sql = "SELECT NVL(MAX(AD_EntityType_ID), 999999) FROM AD_EntityType WHERE AD_EntityType_ID > 1000";
-			AD_EntityType_ID= DB.getSQLValue (get_TrxName(), sql);
-			setAD_EntityType_ID(AD_EntityType_ID+1);
-		}
-	}	//	setAD_EntityType_ID
-	
-	/**
 	 * Is System Maintained.
 	 * Any Entity Type with ID < 1000000.
 	 * @return true if D/C/U/CUST/A/EXT/XX (ID < 1000000)
@@ -276,7 +263,7 @@ public class MEntityType extends X_AD_EntityType
 				return false;
 			}
 			*/
-			setAD_EntityType_ID();
+			//setAD_EntityType_ID();
 		}	//	new
 		s_entityTypes = null;	//	reset
 		return true;
