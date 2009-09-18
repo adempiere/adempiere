@@ -257,10 +257,7 @@ public class ReportCtl
 		ReportEngine re = ReportEngine.get (Env.getCtx(), type, Record_ID);
 		if (re == null)
 		{
-			if(Ini.isClient())
-				ADialog.error(0, null, "NoDocPrintFormat");
-			else
-				FDialog.error(0, (Component) null, "NoDocPrintFormat");
+			ADialog.error(0, null, "NoDocPrintFormat");
 			return false;
 		}
 		
