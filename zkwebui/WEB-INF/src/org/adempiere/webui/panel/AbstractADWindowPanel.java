@@ -1188,8 +1188,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         FindWindow find = new FindWindow (curTab.getWindowNo(), curTab.getName(),
             curTab.getAD_Table_ID(), curTab.getTableName(),
             curTab.getWhereExtended(), findFields, 1, curTab.getAD_Tab_ID());
-        find.setVisible(true);
-        AEnv.showWindow(find);
 
         if (!find.isCancel())
         {

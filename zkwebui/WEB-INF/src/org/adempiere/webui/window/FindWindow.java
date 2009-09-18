@@ -33,6 +33,7 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.Grid;
@@ -211,6 +212,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 
         if (m_total < minRecords)
         {
+        	dispose();
             return;
         }
         this.setBorder("normal");
@@ -220,6 +222,9 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         this.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
         this.setClosable(false);
         this.setSizable(true);
+        
+        this.setVisible(true);
+        AEnv.showWindow(this);
     }
     /**
      * initialise lookup record tab
