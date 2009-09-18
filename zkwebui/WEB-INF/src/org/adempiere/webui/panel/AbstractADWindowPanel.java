@@ -494,8 +494,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
                     where.toString(), findFields, 10, mTab.getAD_Tab_ID()); // no query below 10
             if (find.getTitle() != null && find.getTitle().length() > 0) {
             	// Title is not set when the number of rows is below the minRecords parameter (10)
-                find.setVisible(true);
-                AEnv.showWindow(find);
                 if (!find.isCancel())
                 {
                 	query = find.getQuery();
