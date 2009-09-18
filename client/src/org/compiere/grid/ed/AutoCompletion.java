@@ -35,6 +35,8 @@ import org.compiere.swing.CComboBox;
  * 			<li>BF [ 1820778 ] ESC(cancel editing) key not working if you are on VComboBox
  * 			<li>BF [ 1898001 ] AutoComplete: Exception when selecting a text
  * 			<li>FR [ 2552854 ] Combobox AutoCompletion should ignore diacritics
+ * @author tobi42, www.metas.de
+ *			<li>BF [ 2861223 ] AutoComplete: Ignoring Whitespace in Search String
  */
 public class AutoCompletion extends PlainDocument {
 	/**
@@ -268,14 +270,14 @@ public class AutoCompletion extends PlainDocument {
 	}
 	
 	/**
-	 * Checks if str1 starts with str2 (ignores case, trim whitespaces, strip diacritics)
+	 * Checks if str1 starts with str2 (ignores case, trim leading whitespaces, strip diacritics)
 	 * @param str1
 	 * @param str2
 	 * @return true if str1 starts with str2
 	 */ 
 	protected boolean startsWithIgnoreCase(String str1, String str2) {
-		String s1 = org.compiere.util.Util.stripDiacritics(str1.toUpperCase()).trim();
-		String s2 = org.compiere.util.Util.stripDiacritics(str2.toUpperCase()).trim();
+		String s1 = org.compiere.util.Util.stripDiacritics(str1.toUpperCase()).replaceAll("^\\s+", "");;
+		String s2 = org.compiere.util.Util.stripDiacritics(str2.toUpperCase()).replaceAll("^\\s+", "");;
 		return s1.startsWith(s2);
 	}
 
