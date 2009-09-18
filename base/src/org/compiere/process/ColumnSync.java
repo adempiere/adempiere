@@ -34,6 +34,10 @@ import org.compiere.util.ValueNamePair;
  *	
  *  @author Victor Perez, Jorg Janke
  *  @version $Id: ColumnSync.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  
+ *  @author Teo Sarca
+ *  	<li>BF [ 2854358 ] SyncColumn should load table in transaction
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2854358&group_id=176962&atid=879332
  */
 public class ColumnSync extends SvrProcess
 {
@@ -71,7 +75,7 @@ public class ColumnSync extends SvrProcess
 		if (column.get_ID() == 0)
 			throw new AdempiereUserError("@NotFound@ @AD_Column_ID@ " + p_AD_Column_ID);
 		
-		MTable table = MTable.get(getCtx(), column.getAD_Table_ID());
+		MTable table = new MTable(getCtx(), column.getAD_Table_ID(), get_TrxName());
 		if (table.get_ID() == 0)
 			throw new AdempiereUserError("@NotFound@ @AD_Table_ID@ " + column.getAD_Table_ID());
 		
