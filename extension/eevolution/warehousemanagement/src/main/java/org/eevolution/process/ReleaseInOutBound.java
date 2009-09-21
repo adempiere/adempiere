@@ -47,6 +47,7 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTable;
+import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.Query;
@@ -149,7 +150,7 @@ public class ReleaseInOutBound extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=WM_InOutBoundLine.WM_InOutboundLine_ID)";		
-		Collection <MWMInOutBoundLine> lines = new Query(getCtx(), I_WM_InOutBoundLine.Table_Name, whereClause, get_TrxName())
+		Collection <MWMInOutBoundLine> lines = new Query(getCtx(), I_WM_InOutBoundLine.Table_Name, whereClause,null)
 										.setClient_ID()
 										.setParameters(new Object[]{getAD_PInstance_ID()})
 										.list();
@@ -173,6 +174,13 @@ public class ReleaseInOutBound extends SvrProcess
 			seq ++;
 		}
 		
+		if(order != null && p_DocAction != null)
+		{
+			order.setDocAction(p_DocAction);
+			order.setDocStatus(MDDOrder.STATUS_InProgress);
+			order.completeIt();
+			order.save();
+		}	
 		
 		if(p_IsPrintPickList && order != null)
 		{
@@ -186,7 +194,7 @@ public class ReleaseInOutBound extends SvrProcess
 			re.print(); // prints only original
 		}
 		
-		return "@DocumentNo@ " + order.getDocumentNo();
+		return "" ;//@DocumentNo@ " + order.getDocumentNo();
 	}
 
 	
@@ -199,107 +207,128 @@ public class ReleaseInOutBound extends SvrProcess
 		
 			WMRuleEngine engineRule = WMRuleEngine.get();
 			Collection<MStorage> storages = engineRule.getMStorage(boundline, p_WM_Area_Type_ID, p_WM_Section_Type_ID);
-		
+			
 			int M_Shipper_ID = 0;
-			MDDOrder order = null;
-			//get the warehouse in transit
-			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), m_locator.getAD_Org_ID());
-			if (wsts == null)
-			{	
-				throw new AdempiereException("Do not exist Transit Warehouse");
-			}
-				
-			//Org Must be linked to BPartner
-			MOrg org = MOrg.get(getCtx(),  m_locator.getAD_Org_ID());
-			int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
-			if (C_BPartner_ID == 0)
-			{
-				throw new AdempiereException("Do not exist Business Parter link for organization:" + org.getName());
-			}
-				
-			MBPartner bp = MBPartner.get(getCtx(), C_BPartner_ID);
-			
-			if(order == null)
-			{
-				order = new MDDOrder(getCtx() , 0 , get_TrxName());
-				order.setAD_Org_ID(m_locator.getAD_Org_ID());
-				order.setC_BPartner_ID(C_BPartner_ID);
-				if(p_C_DocType_ID > 0)
-				{	
-					order.setC_DocType_ID(p_C_DocType_ID);
-				}	
-				else
-				{
-					order.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_DistributionOrder));
-				}
-				
-				order.setM_Warehouse_ID(wsts[0].get_ID());
-				if(p_DocAction != null)
-				{	
-					order.setDocAction(p_DocAction);
-				}
-				else
-				{
-					order.setDocAction(MDDOrder.DOCACTION_Prepare);
-				}
-				
-				order.setDateOrdered(getToday());                       
-				order.setDatePromised(getToday());
-				order.setM_Shipper_ID(M_Shipper_ID);	    	                
-				order.setIsInDispute(false);
-				order.setIsInTransit(false);
-				order.setSalesRep_ID(bp.getPrimaryAD_User_ID());
-				order.saveEx();
-			}
-	
 			BigDecimal qtySupply = Env.ZERO;
-			for (MStorage storage: storages)
-			{			
-				if (qtySupply.compareTo(boundline.getQtyToPick()) <= 0)
-				{
-					MDDOrderLine oline = new MDDOrderLine(order);
-					oline.setM_Locator_ID(storage.getM_Locator_ID());
-					oline.setM_LocatorTo_ID(p_M_Locator_ID);
-					oline.setC_UOM_ID(boundline.getC_UOM_ID());
-					oline.setM_Product_ID(boundline.getM_Product_ID());
-					oline.setDateOrdered(getToday());                       
-					oline.setDatePromised(boundline.getPickDate());
-					oline.setConfirmedQty(storage.getQtyOnHand());
-					oline.setQtyEntered(storage.getQtyOnHand());
-					oline.setQtyOrdered(storage.getQtyOnHand());
-					oline.setTargetQty(storage.getQtyOnHand());
-					oline.setIsInvoiced(false);
-					oline.saveEx();
-					qtySupply = qtySupply.add(storage.getQtyOnHand());					
+			if(storages != null && storages.size() > 0)
+			{	
+				//get the warehouse in transit
+				MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), m_locator.getAD_Org_ID());
+				if (wsts == null || wsts.length == 0)
+				{	
+					throw new AdempiereException("Do not exist Transit Warehouse");
 				}
-				else
-				{
-					break;
-				}				
-			}
-			
-			if (p_IsCreateSupply && qtySupply.compareTo(boundline.getQtyToPick()) < 0)
-			{
-				MProduct product = MProduct.get(getCtx(), boundline.getM_Product_ID());
 				
-				BigDecimal QtyPlanned = boundline.getQtyToPick().subtract(qtySupply);
-				// Requisition
-				if (product.isPurchased()) // then create M_Requisition
+	
+				//Org Must be linked to BPartner
+				MOrg org = MOrg.get(getCtx(),  m_locator.getAD_Org_ID());
+				int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
+				if (C_BPartner_ID == 0)
 				{
-					createRequisition(product, QtyPlanned ,boundline.getPickDate());
+					throw new AdempiereException("Do not exist Business Parter link for organization:" + org.getName());
 				}
-				// Manufacturing Order
-				else if (product.isBOM())
+					
+				MBPartner bp = MBPartner.get(getCtx(), C_BPartner_ID);
+				
+				if(order == null)
 				{
-					MOrderLine ol = boundline.getMOrderLine();
-					MPPMRP.createMOMakeTo(ol, QtyPlanned);	
+					order = new MDDOrder(getCtx() , 0 , get_TrxName());
+					order.setAD_Org_ID(m_locator.getAD_Org_ID());
+					order.setC_BPartner_ID(C_BPartner_ID);
+					if(p_C_DocType_ID > 0)
+					{	
+						order.setC_DocType_ID(p_C_DocType_ID);
+					}	
+					else
+					{
+						order.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_DistributionOrder));
+					}
+					
+					order.setM_Warehouse_ID(wsts[0].get_ID());
+					if(p_DocAction != null)
+					{	
+						order.setDocAction(p_DocAction);
+					}
+					else
+					{
+						order.setDocAction(MDDOrder.DOCACTION_Prepare);
+					}
+					
+					MUser[] users = MUser.getOfBPartner(getCtx(), bp.getC_BPartner_ID(), get_TrxName());
+					if (users == null || users.length == 0)
+					{	
+						throw new AdempiereException("Do not exist Users for this Business Partner"+ bp.getName());						
+					}
+					
+					order.setDateOrdered(getToday());                       
+					order.setDatePromised(getToday());
+			
+					order.setAD_User_ID(users[0].getAD_User_ID());
+					order.setM_Shipper_ID(M_Shipper_ID);	    	                
+					order.setIsInDispute(false);
+					order.setIsInTransit(false);
+					order.setSalesRep_ID(bp.getPrimaryAD_User_ID());
+					order.saveEx();
 				}
-				else
+		
+	
+					for (MStorage storage: storages)
+					{			
+						MDDOrderLine oline = new MDDOrderLine(order);
+						oline.setM_Locator_ID(storage.getM_Locator_ID());
+						oline.setM_LocatorTo_ID(p_M_Locator_ID);
+						oline.setC_UOM_ID(boundline.getC_UOM_ID());
+						oline.setM_Product_ID(boundline.getM_Product_ID());
+						oline.setDateOrdered(getToday());                       
+						oline.setDatePromised(boundline.getPickDate());
+						oline.set_ValueOfColumn(MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID, boundline.getWM_InOutBoundLine_ID());
+						oline.setIsInvoiced(false);
+					
+						
+						if (boundline.getQtyToPick().subtract(qtySupply).compareTo(storage.getQtyOnHand()) < 0)
+						{
+							oline.setConfirmedQty(boundline.getQtyToPick());
+							oline.setQtyEntered(boundline.getQtyToPick());
+							oline.setQtyOrdered(boundline.getQtyToPick());
+							oline.setTargetQty(boundline.getQtyToPick());
+							qtySupply = qtySupply.add(boundline.getQtyToPick());					
+						}
+						else
+						{
+	
+							oline.setConfirmedQty(storage.getQtyOnHand());
+							oline.setQtyEntered(storage.getQtyOnHand());
+							oline.setQtyOrdered(storage.getQtyOnHand());
+							oline.setTargetQty(storage.getQtyOnHand());						
+							qtySupply = qtySupply.add(storage.getQtyOnHand());				
+						}				
+						
+						oline.saveEx();
+					}
+				}
+				
+				if (p_IsCreateSupply && qtySupply.compareTo(boundline.getQtyToPick()) < 0)
 				{
-					throw new IllegalStateException("Internal Error: Don't know what document to "
-													+"create for "+product.getName());
-				}	
-			}
+					MProduct product = MProduct.get(getCtx(), boundline.getM_Product_ID());
+					
+					BigDecimal QtyPlanned = boundline.getQtyToPick().subtract(qtySupply);
+					// Requisition
+					if (product.isPurchased()) // then create M_Requisition
+					{
+						createRequisition(product, QtyPlanned ,boundline.getPickDate());
+					}
+					// Manufacturing Order
+					else if (product.isBOM())
+					{
+						MOrderLine ol = boundline.getMOrderLine();
+						MPPMRP.createMOMakeTo(ol, QtyPlanned);	
+					}
+					else
+					{
+						throw new IllegalStateException("Internal Error: Don't know what document to "
+														+"create for "+product.getName());
+					}	
+				}
 	}
 	
 	/**
