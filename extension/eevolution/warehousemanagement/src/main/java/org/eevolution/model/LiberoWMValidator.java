@@ -12,44 +12,21 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
- *                 Teo Sarca, www.arhipac.ro                                  *
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.util.Collection;
-
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClient;
-import org.compiere.model.MForecastLine;
-import org.compiere.model.MInOut;
-import org.compiere.model.MInOutLine;
-import org.compiere.model.MLocator;
-import org.compiere.model.MMovement;
-import org.compiere.model.MMovementLine;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MProduct;
-import org.compiere.model.MRequisition;
-import org.compiere.model.MRequisitionLine;
-import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
-import org.compiere.model.Query;
-import org.compiere.model.X_M_Forecast;
-import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 
 /**
  * Libero Validator 
  *	
  * @author Victor Perez
- * @author Trifon Trifonov
- *		<li>[ 2270421 ] Can not complete Shipment (Customer)</li>
- * @author Teo Sarca, www.arhipac.ro
  */
 public class LiberoWMValidator implements ModelValidator
 {
