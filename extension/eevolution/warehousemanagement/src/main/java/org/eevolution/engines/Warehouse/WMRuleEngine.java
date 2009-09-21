@@ -31,6 +31,7 @@ package org.eevolution.engines.Warehouse;
 
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -289,7 +290,7 @@ public final class WMRuleEngine {
 	public Collection<MStorage> getMStorage(MWMInOutBoundLine line , int WM_Area_Type_ID , int WM_Section_Type_ID)
 	{		
 		MWMStrategy strategy = applyDefinition(line , WM_Area_Type_ID, WM_Section_Type_ID);
-		return getMStorages(strategy, line.getMProduct().getM_Product_ID(),line.getMovementQty(), WM_Section_Type_ID, WM_Section_Type_ID);
+		return getMStorages(strategy, line.getMProduct().getM_Product_ID(),line.getM_AttributeSetInstance_ID(),line.getMovementQty(), WM_Section_Type_ID, WM_Section_Type_ID);
 	}
 	
 	/**
@@ -414,7 +415,7 @@ public final class WMRuleEngine {
 	 * @param WM_Section_Type_ID
 	 * @return Collection of Storage
 	 */
-	public static Collection <MStorage> getMStorages(MWMStrategy strategy,int M_Product_ID,BigDecimal qtyToDeliver,int WM_Area_Type_ID , int WM_Section_Type_ID)
+	public static Collection <MStorage> getMStorages(MWMStrategy strategy,int M_Product_ID,int M_AttributeSetInstance_ID, BigDecimal qtyToDeliver,int WM_Area_Type_ID , int WM_Section_Type_ID)
 	{
 		ArrayList<MStorage> targetStorages = new ArrayList();
 		WMRuleEngine engine = WMRuleEngine.get();
@@ -422,10 +423,15 @@ public final class WMRuleEngine {
 		{
 			MWMRule rule = (MWMRule) detail.getWM_Rule();
 			WMRuleInterface implementation = engine.getWMRuleFactory(engine.getClassName(rule));
+
 			Collection<MStorage> storages = implementation.getStorage(
 					strategy.getCtx(), 
-					M_Product_ID, 
+					strategy.getM_Warehouse_ID(),
+					M_Product_ID,
+					M_AttributeSetInstance_ID,
 					qtyToDeliver,
+					WM_Area_Type_ID,
+					WM_Section_Type_ID,
 					strategy.get_TrxName());
 			
 				for(MStorage storage : storages)

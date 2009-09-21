@@ -30,6 +30,7 @@
 package org.eevolution.engines.Warehouse;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -42,6 +43,5 @@ public interface WMRuleInterface
 			int M_Warehouse_ID,int M_Product_ID, int WM_Area_Type_ID,
 			int WM_Section_Type_ID, String trxName);
 	
-	public abstract Collection<MStorage> getStorage (Properties ctx, 
-			int M_Product_ID, BigDecimal qtyToDelivery ,String trxName);
+	public abstract Collection<MStorage> getStorage(Properties ctx, int M_Warehouse_ID , int M_Product_ID, int M_AttributeSetInstance_ID, BigDecimal qtyToDelivery, int WM_Area_Type_ID , int WM_Section_Type_ID, String trxName);				
 }
