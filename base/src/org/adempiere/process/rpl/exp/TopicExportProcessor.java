@@ -61,7 +61,9 @@ import org.w3c.dom.Document;
  * @author Antonio Cañaveral, e-Evolution
  * 				<li>[ 2195051 ] Implementing Message Transaction
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195051&group_id=176962&atid=879335
-
+ * @author Michael Judd
+ *				<li>[ 2862500 ]   	 TopicExporter TransformerFactory setAttribute error
+ *				<li>https://sourceforge.net/tracker/?func=detail&aid=2862500&group_id=176962&atid=879332
  */
 public class TopicExportProcessor implements IExportProcessor {
 
@@ -123,7 +125,9 @@ public class TopicExportProcessor implements IExportProcessor {
         
 		// Construct Transformer Factory and Transformer
         TransformerFactory tranFactory = TransformerFactory.newInstance();
-        tranFactory.setAttribute("indent-number", Integer.valueOf(1));
+        String jVersion = System.getProperty("java.version");
+		if (jVersion.startsWith("1.5.0"))
+			tranFactory.setAttribute("indent-number", Integer.valueOf(1));
         
         Transformer aTransformer = tranFactory.newTransformer();
         aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
