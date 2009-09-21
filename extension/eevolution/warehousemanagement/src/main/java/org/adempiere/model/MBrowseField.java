@@ -184,9 +184,10 @@ public class MBrowseField extends X_AD_Browse_Field
 	public MBrowseField getFieldKey()
 	{
 		final String whereClause = MBrowse.COLUMNNAME_AD_Browse_ID + "=? AND "
-								 + MBrowseField.COLUMNNAME_IsKey + "=?";
+								 + MBrowseField.COLUMNNAME_IsKey + "=? AND "
+								 + MBrowseField.COLUMNNAME_Name + "!=? ";
 		return new Query(getCtx(),MBrowseField.Table_Name,whereClause, get_TrxName())
-		.setParameters(new Object[]{this.getAD_Browse_ID(),"Y"})
+		.setParameters(new Object[]{this.getAD_Browse_ID(),"Y", getName()})
 		.firstOnly();
 	}
 	/**
