@@ -73,6 +73,9 @@ import org.w3c.dom.NodeList;
  * @author michael.judd@akunagroup.com, http://www.akunagroup.com
  * 				<li> BF[2861697] Incorrect string conversion
  * 				<li> https://sourceforge.net/tracker/index.php?func=detail&aid=2861697&group_id=176962&atid=879332
+ * @author michael.judd@akunagroup.com, http://www.akunagroup.com
+ * 				<li> BF[2863095] Missing DisplayType.Search in ImportHelper
+ * 				<li> https://sourceforge.net/tracker/?func=detail&aid=2863095&group_id=176962&atid=879332
  */
 public class ImportHelper {
 
@@ -429,7 +432,7 @@ public class ImportHelper {
 								value = new Integer( intValue );
 							}else
 								value=null;
-							log.info("Abut to set int value of column ["+column.getColumnName()+"]=["+value+"]");
+							log.info("About to set int value of column ["+column.getColumnName()+"]=["+value+"]");
 							po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), value);
 							log.info("Set int value of column ["+column.getColumnName()+"]=["+value+"]");
 						} else if (column.getAD_Reference_ID() == DisplayType.Amount
@@ -644,7 +647,8 @@ public class ImportHelper {
 				else if(col.getAD_Reference_ID() == DisplayType.Integer
 						|| col.getAD_Reference_ID() == DisplayType.ID
 						|| col.getAD_Reference_ID() == DisplayType.TableDir
-						|| col.getAD_Reference_ID() == DisplayType.Table)
+						|| col.getAD_Reference_ID() == DisplayType.Table
+						|| col.getAD_Reference_ID() == DisplayType.Search)
 				{
 					String stringValue = (String)values[i].toString();
 					int value = Integer.parseInt(stringValue);
