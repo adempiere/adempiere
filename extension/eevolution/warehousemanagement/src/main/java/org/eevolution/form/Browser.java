@@ -101,6 +101,8 @@ import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 
 /**
  * UI Browser
@@ -418,7 +420,9 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 			StringBuffer colSql = new StringBuffer(columnSql);
 			Class colClass = null;
 			if (isKey)
+			{	
 				colClass = IDColumn.class;
+			}	
 			else if (!isDisplayed)
 				;
 			else if (DisplayType.YesNo 		== displayType)
@@ -451,12 +455,13 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 				colClass = Timestamp.class;
 			else if (DisplayType.List		== displayType)
 			{				
-				colSql =new StringBuffer("(" + MLookupFactory.getLookup_ListEmbed(language, field.getAD_Reference_Value_ID(), columnName) + ")");
+				colSql =new StringBuffer("(" + MLookupFactory.getLookup_ListEmbed(language, field.getAD_Reference_Value_ID(), vcol.getColumnSQL()) + ")");
 				colClass = String.class;
 			}
 			if (colClass != null)
 			{
-				list.add(new Info_Column(Msg.translate(Env.getCtx(), columnName), colSql.toString(), colClass));
+				Info_Column infocol = new Info_Column(Msg.translate(Env.getCtx(), columnName), colSql.toString(), colClass);	
+				list.add(infocol);
 				log.finest("Added Column=" + columnName);
 			}
 			else
@@ -473,10 +478,10 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		//log.finest("Table " + tableName + ", ID=" + AD_Table_ID 
 		//	+ ", QueryColumns #" + m_queryColumns.size());
 		//	Only 4 Query Columns
-		while (m_queryColumns.size() > 4) {
+		/*while (m_queryColumns.size() > 4) {
 			m_queryColumns.remove(m_queryColumns.size()-1);
 			m_queryColumnsSql.remove(m_queryColumnsSql.size()-1);
-		}
+		}*/
 		
 		//  Set Title
 		String title = Msg.translate(Env.getCtx(), m_Browse.getName()); 
@@ -976,11 +981,10 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		removeAll();
 		super.dispose();
 		
-		int AD_Process_ID = m_Browse.getAD_Process_ID();
-		if(AD_Process_ID <= 0)
+		if(m_Browse.getAD_Process_ID() <= 0)
 			return;
-
-		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		
+		MPInstance instance = new MPInstance(Env.getCtx(), m_Browse.getAD_Process_ID(), 0);
 		instance.saveEx();
 		
 		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelectedKeys(), null);
