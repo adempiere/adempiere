@@ -29,6 +29,7 @@
 package org.eevolution.model;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Properties;
 
@@ -57,11 +58,12 @@ public class MWMSectionDetail extends X_WM_Section_Detail
 	 */
 	public  static Collection<MLocator> getMLocators(MWMSection section)
 	{
-		String whereClause = COLUMNNAME_WM_Section_ID + "=?";
-		return new Query(section.getCtx(), MWMSectionDetail.Table_Name, whereClause, section.get_TrxName())
+		ArrayList locators = new ArrayList();  
+		String whereClause = "EXISTS (SELECT 1 FROM WM_Section_Detail sd WHERE sd.WM_Section_ID = ? AND sd.M_Locator_ID=M_Locator.M_Locator_ID) ";
+		return new Query(section.getCtx(), MLocator.Table_Name, whereClause, section.get_TrxName())
 			.setOnlyActiveRecords(true)
 			.setParameters(new Object[]{section.getWM_Section_ID()})
-			.list();
+			.list();	
 	}
 	
 	
