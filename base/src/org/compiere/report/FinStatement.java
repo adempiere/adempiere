@@ -47,7 +47,10 @@ import org.compiere.util.Msg;
  *
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org 
- *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
+ *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+ *  
+ *  @author Armen Rizal, Goodwill Consulting
+ *  	<li>FR [2857076] User Element 1 and 2 completion - https://sourceforge.net/tracker/?func=detail&aid=2857076&group_id=176962&atid=879335
  */
 public class FinStatement extends SvrProcess
 {
@@ -75,6 +78,16 @@ public class FinStatement extends SvrProcess
 	private int					p_C_SalesRegion_ID = 0;
 	/**	Campaign Parameter				*/
 	private int					p_C_Campaign_ID = 0;
+	//AZ Goodwill
+	/** User List 1 Parameter				*/
+	private int					p_User1_ID = 0;
+	/** User List 2 Parameter				*/
+	private int					p_User2_ID = 0;
+	/** User Element 1 Parameter			*/
+	private int					p_UserElement1_ID = 0;
+	/** User Element 2 Parameter			*/
+	private int					p_UserElement2_ID = 0;
+	//end AZ
 	/** Hierarchy						*/
 	private int					p_PA_Hierarchy_ID = 0;
 
@@ -129,6 +142,16 @@ public class FinStatement extends SvrProcess
 				p_C_SalesRegion_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("C_Campaign_ID"))
 				p_C_Campaign_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			//AZ Goodwill
+			else if (name.equals("User1_ID"))
+				p_User1_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("User2_ID"))
+				p_User2_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("UserElement1_ID"))
+				p_UserElement1_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("UserElement2_ID"))
+				p_UserElement2_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			//end AZ
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -168,6 +191,23 @@ public class FinStatement extends SvrProcess
 		if (p_C_SalesRegion_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
 				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_SalesRegion, p_C_SalesRegion_ID));
+		//AZ Goodwill
+		//	Optional User1_ID
+		if (p_User1_ID != 0)
+			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
+				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList1, p_User1_ID));
+		//  Optional User2_ID
+		if (p_User2_ID != 0)
+			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
+				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList2, p_User2_ID));
+		//	Optional UserElement1_ID
+		if (p_UserElement1_ID != 0)
+			m_parameterWhere.append(" AND UserElement1_ID=").append(p_UserElement1_ID);
+		//  Optional UserElement2_ID
+		if (p_UserElement2_ID != 0)
+			m_parameterWhere.append(" AND UserElement2_ID=").append(p_UserElement2_ID);	
+		//end AZ
+		
 		//
 		setDateAcct();
 		sb.append(" - DateAcct ").append(p_DateAcct_From).append("-").append(p_DateAcct_To);

@@ -40,6 +40,9 @@ import org.compiere.util.TimeUtil;
  *  Financial Report Engine
  *
  *  @author Jorg Janke
+ *  @author Armen Rizal, Goodwill Consulting
+ *  	<li>FR [2857076] User Element 1 and 2 completion - https://sourceforge.net/tracker/?func=detail&aid=2857076&group_id=176962&atid=879335
+ *  
  *  @version $Id: FinReport.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  */
 public class FinReport extends SvrProcess
@@ -60,6 +63,16 @@ public class FinReport extends SvrProcess
 	private int					p_C_SalesRegion_ID = 0;
 	/**	Campaign Parameter				*/
 	private int					p_C_Campaign_ID = 0;
+	//AZ Goodwill
+	/** User 1 Parameter				*/
+	private int					p_User1_ID = 0;
+	/** User 2 Parameter				*/
+	private int					p_User2_ID = 0;
+	/** User Element 1 Parameter		*/
+	private int					p_UserElement1_ID = 0;
+	/** User Element 2 Parameter		*/
+	private int					p_UserElement2_ID = 0;
+	//end AZ
 	/** Details before Lines			*/
 	private boolean				p_DetailsSourceFirst = false;
 	/** Hierarchy						*/
@@ -116,6 +129,16 @@ public class FinReport extends SvrProcess
 				p_C_SalesRegion_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("C_Campaign_ID"))
 				p_C_Campaign_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			//AZ Goodwill
+			else if (name.equals("User1_ID"))
+				p_User1_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("User2_ID"))
+				p_User2_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("UserElement1_ID"))
+				p_UserElement1_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("UserElement2_ID"))
+				p_UserElement2_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			//end AZ			
 			else if (name.equals("DetailsSourceFirst"))
 				p_DetailsSourceFirst = "Y".equals(para[i].getParameter());
 			else if (name.equals("PA_ReportCube_ID"))
@@ -152,6 +175,22 @@ public class FinReport extends SvrProcess
 		if (p_C_SalesRegion_ID != 0)
 			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
 				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_SalesRegion, p_C_SalesRegion_ID));
+		//AZ Goodwill
+		//	Optional User1_ID
+		if (p_User1_ID != 0)
+			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
+				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList1, p_User1_ID));
+		//  Optional User2_ID
+		if (p_User2_ID != 0)
+			m_parameterWhere.append(" AND ").append(MReportTree.getWhereClause(getCtx(), 
+				p_PA_Hierarchy_ID, MAcctSchemaElement.ELEMENTTYPE_UserList2, p_User2_ID));
+		//	Optional UserElement1_ID
+		if (p_UserElement1_ID != 0)
+			m_parameterWhere.append(" AND UserElement1_ID=").append(p_UserElement1_ID);
+		//  Optional UserElement2_ID
+		if (p_UserElement2_ID != 0)
+			m_parameterWhere.append(" AND UserElement2_ID=").append(p_UserElement2_ID);	
+		//end AZ
 
 		//	Load Report Definition
 		m_report = new MReport (getCtx(), getRecord_ID(), null);
