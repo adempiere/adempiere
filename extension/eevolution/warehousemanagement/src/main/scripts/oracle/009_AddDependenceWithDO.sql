@@ -1,3 +1,6 @@
+SET DEFINE OFF
+SET SQLBLANKLINES ON
+
 -- Sep 18, 2009 10:51:24 PM ECT
 -- Warehouse Management
 UPDATE AD_Browse SET WhereClause='NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty >= M_InOutLine.MovementQty)  AND iob.IsSOTrx=''Y'' AND iob.DocStatus=''CO'' AND iobl.PickedQty > iobl.MovementQty',Updated=TO_DATE('2009-09-18 22:51:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Browse_ID=50002
