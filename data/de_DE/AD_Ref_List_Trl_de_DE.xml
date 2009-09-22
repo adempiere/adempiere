@@ -323,8 +323,8 @@
   <value column="Description" original="Set all quantities to zero and complete transaction">Alle Werte auf Null setzen und Vorgang fertig stellen</value>
  </row>
  <row id="183" trl="Y">
-  <value column="Name" original="Close">Schliessen</value>
-  <value column="Description" original="Finally close this transaction. It cannot be re-activated.">Vorgang endgültig schliessen. Er kann nicht reaktiviert werden.</value>
+  <value column="Name" original="Close">Schließen</value>
+  <value column="Description" original="Finally close this transaction. It cannot be re-activated.">Vorgang endgültig schließen. Er kann nicht reaktiviert werden.</value>
  </row>
  <row id="184" trl="Y">
   <value column="Name" original="Reverse - Correct">Stornieren - Korrektur</value>
@@ -795,7 +795,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="330" trl="Y">
-  <value column="Name" original="Purchase Requisition">Bestell-Bedarf</value>
+  <value column="Name" original="Purchase Requisition">Bestellanforderung</value>
   <value column="Description" original=""/>
  </row>
  <row id="331" trl="Y">
@@ -1031,7 +1031,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="390" trl="Y">
-  <value column="Name" original="Constant">Konstant</value>
+  <value column="Name" original="Constant">Konstante</value>
   <value column="Description" original=""/>
  </row>
  <row id="391" trl="Y">
@@ -1387,7 +1387,7 @@
   <value column="Description" original="Application Dictionary (synchronized)">Application Dictionary (synchronized)</value>
  </row>
  <row id="488" trl="Y">
-  <value column="Name" original="Adempiere">Adempiere</value>
+  <value column="Name" original="Adempiere">ADempiere</value>
   <value column="Description" original="Adempiere Application (synchronized)">Adempiere Application (synchronized)</value>
  </row>
  <row id="489" trl="Y">
@@ -2183,7 +2183,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="693" trl="Y">
-  <value column="Name" original="Requisition">Bedarf</value>
+  <value column="Name" original="Requisition">Bestellanforderung</value>
   <value column="Description" original=""/>
  </row>
  <row id="695" trl="Y">
@@ -2683,7 +2683,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="821" trl="Y">
-  <value column="Name" original=" 90% Finishing"> 90% Abschliessend</value>
+  <value column="Name" original=" 90% Finishing"> 90% Abschließend</value>
   <value column="Description" original=""/>
  </row>
  <row id="822" trl="Y">

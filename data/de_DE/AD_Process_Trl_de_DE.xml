@@ -95,7 +95,7 @@
  <row id="119" trl="Y">
   <value column="Name" original="Generate Invoices">Rechnungen generieren</value>
   <value column="Description" original="Generate and print Invoices from open Orders">Rechnungen generieren und drucken</value>
-  <value column="Help" original="Invoices for open Orders are created based on the invoice rule of the Order.&#10;If several Orders of a business partner have the same bill location, the orders can be consolidated into one Invoice.">Rechnungen für offene Aufträge werden auf Basis der Rechnungsstellung des Auftrages angelegt. Wenn mehrere Aufträge eines Geschäftspartners die gleiche Rechnungsadresse haben, können diese in eine Rechnung konsolidiert werden</value>
+  <value column="Help" original="Invoices for open Orders are created based on the invoice rule of the Order.&#10;If several Orders of a business partner have the same bill location, the orders can be consolidated into one Invoice.">Rechnungen für offene Aufträge werden auf Basis der Rechnungsstellung des Auftrages angelegt. Wenn mehrere Aufträge eines Geschäftspartners die gleiche Rechnungsanschrift haben, können diese in eine Rechnung konsolidiert werden</value>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Order Transactions">Auftrags-Vorgänge</value>
@@ -426,7 +426,7 @@
  <row id="193" trl="Y">
   <value column="Name" original="Generate PO from Sales Order">Bestellung aus Auftrag generieren</value>
   <value column="Description" original="Create Purchase Order from Sales Orders">Bestellung aus Auftrag generieren</value>
-  <value column="Help" original="After completing sales orders, you can create one or more purchase orders for each sales order. A purchase order references always only one sales order (i.e. no consolidation of sales orders). &#10;The Organization of the Sales Order is used to create the Purchase Order. If a (default) PO document type is defined on Organization level, that is used instead of the document types defined on Client level.&#10;&#10;POs are created for all sales order lines where the product has a current vendor, the vendor has a Vendor Price List with all Products on the most current Price List Version. The Unit of Measure is copied; PO and SO can have different currencies.&#10;&#10;Once the process is run, you need to synchronize the SO/PO manually (e.g. in case of additional lines and changed lines (product &amp; quantity).&#10;">Nach Fertgstellung von Aufträgen können Sie eine oder mehrere Bestellungen für jeden Auftrag erstellen. Eine Bestellung bezieht sich immer nur auf einen Auftrag (d.h. keine Konsolidierung von Aufträgen). Die Organisation des Auftrages wird bei der Erstellung der Bestellung verwendet. Wenn eine (Standard-) Belegart für Bestellungen auf Organisationsebene definiert ist, wird diese verwendet statt der auf Mandantenebene definierten. Bestellungen werden für alle Auftragspositionen erstellt, auf denen das Produkt einen gegenwärtigen Lieferanten hat und dieser Lieferant eine Verkaufspreisliste mit allen Produkten auf der aktuellsten Preislistenversion hat. Die Maßeinheit wird kopiert; Bestellung und Auftrag können verschiedene Währungen haben. Nachdem der Prozeß beendet ist, müssen Sie Auftrag und Bestellung manuell synchronisieren (z.B. im Fall von zusätzlichen Positionen und geänderten Positionen (Produkt und Menge)).</value>
+  <value column="Help" original="After completing sales orders, you can create one or more purchase orders for each sales order. A purchase order references always only one sales order (i.e. no consolidation of sales orders). &#10;The Organization of the Sales Order is used to create the Purchase Order. If a (default) PO document type is defined on Organization level, that is used instead of the document types defined on Client level.&#10;&#10;POs are created for all sales order lines where the product has a current vendor, the vendor has a Vendor Price List with all Products on the most current Price List Version. The Unit of Measure is copied; PO and SO can have different currencies.&#10;&#10;Once the process is run, you need to synchronize the SO/PO manually (e.g. in case of additional lines and changed lines (product &amp; quantity).&#10;">Nach Fertgstellung von Aufträgen können Sie eine oder mehrere Bestellungen für jeden Auftrag erstellen. Eine Bestellung bezieht sich immer nur auf einen Auftrag (d.h. keine Konsolidierung von Aufträgen). Die Organisation des Auftrages wird bei der Erstellung der Bestellung verwendet. Wenn eine (Standard-) Belegart für Bestellungen auf Organisationsebene definiert ist, wird diese verwendet statt der auf Mandantenebene definierten. Bestellungen werden für alle Auftragspositionen erstellt, auf denen das Produkt einen gegenwärtigen Lieferanten hat und dieser Lieferant eine Verkaufspreisliste mit allen Produkten auf der aktuellsten Preislistenversion hat. Die Maßeinheit wird kopiert; Bestellung und Auftrag können verschiedene Währungen haben. Nachdem der Prozess beendet ist, müssen Sie Auftrag und Bestellung manuell synchronisieren (z.B. im Fall von zusätzlichen Positionen und geänderten Positionen (Produkt und Menge)).</value>
  </row>
  <row id="194" trl="Y">
   <value column="Name" original="Import Business Partners">Geschäftspartner importieren</value>
@@ -486,7 +486,7 @@
  <row id="205" trl="Y">
   <value column="Name" original="Cache Reset">Cache leeren</value>
   <value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">Cache des Systems leeren ** Schließen Sie alle Fenster, bevor Sie fortsetzen **</value>
-  <value column="Help" original="To increase performance, Adempiere caches repeatedly used data. This process clears the local cache.">Um die Leistung der Anwendung zu steigern, speichert Compiere wiederholt genutzte Daten zwischen. Dieser Prozeß löscht den dafür genutzten lokalen Cache.</value>
+  <value column="Help" original="To increase performance, Adempiere caches repeatedly used data. This process clears the local cache.">Um die Leistung der Anwendung zu steigern, speichert Compiere wiederholt genutzte Daten zwischen. Dieser Prozess löscht den dafür genutzten lokalen Cache.</value>
  </row>
  <row id="206" trl="Y">
   <value column="Name" original="Import Orders">Aufträge und Bestellungen importieren</value>
@@ -524,7 +524,7 @@
   <value column="Help" original=""/>
  </row>
  <row id="213" trl="Y">
-  <value column="Name" original="Start Process">Prozeß starten</value>
+  <value column="Name" original="Start Process">Prozess starten</value>
   <value column="Description" original="Start Recurring Run">Wiederholte Ausführung starten</value>
   <value column="Help" original=""/>
  </row>
@@ -764,7 +764,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="259" trl="Y">
   <value column="Name" original="Create Orders">Aufträge erstellen</value>
   <value column="Description" original="Create orders based on Distribution List line items">Aufträge basierend auf Positionen der Verteilungslisten erstellen</value>
-  <value column="Help" original="Please note that due to rounding, the total quantity of the order(s) is likely to be higher then the quantity entered.">Beachten Sie, daß durch Rundung die Gesamt-Menge des/der Auftrags/Aufträge wahrscheinlich höher  als die eingebene Menge ist.</value>
+  <value column="Help" original="Please note that due to rounding, the total quantity of the order(s) is likely to be higher then the quantity entered.">Beachten Sie, dass durch Rundung die Gesamt-Menge des/der Auftrags/Aufträge wahrscheinlich höher  als die eingebene Menge ist.</value>
  </row>
  <row id="260" trl="Y">
   <value column="Name" original="Link Organization">Mit Organisation verknüpfen</value>
@@ -817,14 +817,14 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
   <value column="Help" original="Close the RfQ and all it's Responses">Die Ausschreibung und alle Antworten dazu schließen</value>
  </row>
  <row id="270" trl="Y">
-  <value column="Name" original="Open Requisitions">Offene Anforderungen</value>
+  <value column="Name" original="Open Requisitions">Offene Bestellanforderungen</value>
   <value column="Description" original="Detail Open Requisition Information">Detaillierte Information zu offenen Anforderungen</value>
   <value column="Help" original=""/>
  </row>
  <row id="271" trl="Y">
   <value column="Name" original="Create Orders">Aufträge erstellen</value>
   <value column="Description" original="Create orders based on Distribution List line items">Aufträge basierend auf Positionen der Verteilungslisten erstellen</value>
-  <value column="Help" original="Please note that due to rounding, the total quantity of the order(s) is likely to be higher then the quantity entered.">Beachten Sie, daß durch Rundung die Gesamt-Menge des/der Auftrags/Aufträge wahrscheinlich höher  als die eingebene Menge ist.</value>
+  <value column="Help" original="Please note that due to rounding, the total quantity of the order(s) is likely to be higher then the quantity entered.">Beachten Sie, dass durch Rundung die Gesamt-Menge des/der Auftrags/Aufträge wahrscheinlich höher  als die eingebene Menge ist.</value>
  </row>
  <row id="272" trl="Y">
   <value column="Name" original="UnLink Business Partner Org">Verknüpfung Geschäftspartner - Organisation aufheben</value>
@@ -919,12 +919,12 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  <row id="290" trl="Y">
   <value column="Name" original="Inventory Move Print">Warenbewegung drucken</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original="Create/Copy your own Format and Process">Erstellen/kopieren Sie Ihr eigenes Format und Ihren eigenen Prozeß</value>
+  <value column="Help" original="Create/Copy your own Format and Process">Erstellen/kopieren Sie Ihr eigenes Format und Ihren eigenen Prozess</value>
  </row>
  <row id="291" trl="Y">
   <value column="Name" original="Physical Inventory Print">Physischen Warenbestand drucken</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
-  <value column="Help" original="Create/Copy your own Format and Process">Erstellen/kopieren Sie Ihr eigenes Format und Ihren eigenen Prozeß</value>
+  <value column="Help" original="Create/Copy your own Format and Process">Erstellen/kopieren Sie Ihr eigenes Format und Ihren eigenen Prozess</value>
  </row>
  <row id="292" trl="Y">
   <value column="Name" original="Shipment Confirmation">Lieferungsbestätigung</value>
@@ -932,7 +932,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
   <value column="Help" original=""/>
  </row>
  <row id="293" trl="Y">
-  <value column="Name" original="Material Receipt Details">Warenezugangs-Details</value>
+  <value column="Name" original="Material Receipt Details">Warenzugangs-Details</value>
   <value column="Description" original="Material Receipt Detail Information">Detailinformationen zu Warenzugang</value>
   <value column="Help" original="The report provides Material Repecipt Header and Line with locator information.">Der Bericht bietet Warenzugangs-Kopf und -Positionen mit Lagerort.</value>
  </row>
@@ -1160,9 +1160,9 @@ Note that support is restricted to setup and test, but not data recovery.</value
   <value column="Help" original=""/>
  </row>
  <row id="337" trl="Y">
-  <value column="Name" original="Create PO from Requisition">Bestellung aus Bedarf erzeugen</value>
-  <value column="Description" original="Create Purchase Orders from Requisitions">Bestellung aus Bedarf erzeugen</value>
-  <value column="Help" original="Create Purchase orders from Purchase Requisitions.">Bestellung aus Bedarf erzeugen.</value>
+  <value column="Name" original="Create PO from Requisition">Bestellung aus Bestellanforderung erzeugen</value>
+  <value column="Description" original="Create Purchase Orders from Requisitions">Bestellung aus Bestellanforderung erzeugen</value>
+  <value column="Help" original="Create Purchase orders from Purchase Requisitions.">Bestellung aus Bestellanforderung erzeugen.</value>
  </row>
  <row id="338" trl="Y">
   <value column="Name" original="Create GL/Default">Create GL/Default</value>

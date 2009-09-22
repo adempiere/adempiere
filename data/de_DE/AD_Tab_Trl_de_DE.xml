@@ -99,7 +99,7 @@
   <value column="Help" original=""/>
  </row>
  <row id="117" trl="Y">
-  <value column="Name" original="Window Translation">Übersetzung - Fenster</value>
+  <value column="Name" original="Window Translation">Übersetzung: Fenster</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -1830,25 +1830,25 @@ Adempiere tries to map to existing products, if the UPC, the Key and the Vendor 
   <value column="Help" original="The Language needs to be a (verified) System Language">Die Sprache muss eine (verifizierte) System-Sprache sein</value>
  </row>
  <row id="446" trl="Y">
-  <value column="Name" original="Element Translation">Übersetzung - Element</value>
+  <value column="Name" original="Element Translation">Übersetzung: Element</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="447" trl="Y">
-  <value column="Name" original="Message Translation">Übersetzung - Meldung</value>
+  <value column="Name" original="Message Translation">Übersetzung: Meldung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="448" trl="Y">
-  <value column="Name" original="Window Translation">Übersetzung - Fenster</value>
+  <value column="Name" original="Window Translation">Übersetzung: Fenster</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
  <row id="449" trl="Y">
-  <value column="Name" original="Process Translation">Übersetzung - Prozess</value>
+  <value column="Name" original="Process Translation">Übersetzung: Prozess</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -2167,7 +2167,7 @@ Note that access information is cached and requires re-login or reset of cache. 
  <row id="504" trl="Y">
   <value column="Name" original="Alert">Alarmierung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Adempiere Alert">Adempiere-Alarmierung</value>
+  <value column="Description" original="Adempiere Alert">ADempiere-Alarmierung</value>
   <value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of.">Adempiere Alerts allow you define system conditions you want to be alerted of.</value>
  </row>
  <row id="505" trl="Y">
@@ -2974,13 +2974,13 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="Help" original="For local tax, you may have to define a list of (ranges of) postal codes or ZIPs">For local tax, you may have to define a list of (ranges of) postal codes or ZIPs</value>
  </row>
  <row id="641" trl="Y">
-  <value column="Name" original="Requisition">Bedarf</value>
+  <value column="Name" original="Requisition">Bestellanforderung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Material Requisition">Maintain Material Requisition</value>
   <value column="Help" original=""/>
  </row>
  <row id="642" trl="Y">
-  <value column="Name" original="Requisition Line">Bedarfs-Position</value>
+  <value column="Name" original="Requisition Line">Bestellanforderungsposition</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Material Requisition Line">Material Requisition Line</value>
   <value column="Help" original=""/>
@@ -3405,7 +3405,7 @@ If a BOM is referenced  and enabled in Request Type, a BOM Change Request is aut
   <value column="Help" original=""/>
  </row>
  <row id="713" trl="Y">
-  <value column="Name" original="Message Translation">Übersetzung - Meldung</value>
+  <value column="Name" original="Message Translation">Übersetzung: Meldung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -3726,7 +3726,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Help" original=""/>
  </row>
  <row id="768" trl="Y">
-  <value column="Name" original="Requisition Lines">Bedarfs-Positionen</value>
+  <value column="Name" original="Requisition Lines">Bestellanforderungspositionen</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Related Purchase Requisition Lines">Related Purchase Requisition Lines</value>
   <value column="Help" original=""/>
@@ -4150,7 +4150,7 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Help" original="The Info window is used to search and select records as well as display information relevant to the selection.">The Info window is used to search and select records as well as display information relevant to the selection.</value>
  </row>
  <row id="843" trl="Y">
-  <value column="Name" original="Window Translation">Übersetzung - Fenster</value>
+  <value column="Name" original="Window Translation">Übersetzung: Fenster</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Info Window Translation">Info Window Translation</value>
   <value column="Help" original=""/>

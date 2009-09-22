@@ -33,7 +33,7 @@ You may want to check also the following Workflows:
  <row id="106" trl="Y">
   <value column="Name" original="Business Partner Setup">Einrichtung Geschäftspartner</value>
   <value column="Description" original="Setup Business Partner Rules">Referenz-Einträge für Geschäftspartner anlegen</value>
-  <value column="Help" original="This workflow defines the Business Partners and the supporting rules.">Dieser Workflow definiert Geschäftspartner und zugehörige  Referenz-Einträge.</value>
+  <value column="Help" original="This workflow defines the Business Partners and the supporting rules.">Dieser Workflow definiert Geschäftspartner und zugehörige Referenz-Einträge.</value>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Product Setup">Einrichtung Produkt</value>

@@ -99,7 +99,7 @@
   <value column="MsgTip" original="You don't have the privileges (your Role does not allow to access the information) - or - set profile (e.g. if you want to see accounting records, Show Accounting must be set)">Sie haben nicht die notwendigen Zugriffsrechte</value>
  </row>
  <row id="125" trl="Y">
-  <value column="MsgText" original="Adempiere, Inc.">Adempiere.</value>
+  <value column="MsgText" original="Adempiere, Inc.">ADempiere.</value>
   <value column="MsgTip" original="http://www.adempiere.org">http://www.adempiere.org</value>
  </row>
  <row id="126" trl="Y">
@@ -107,7 +107,7 @@
   <value column="MsgTip" original="Phone (203) 445-8182">Tel: TBD</value>
  </row>
  <row id="127" trl="Y">
-  <value column="MsgText" original="Adempiere Online">Adempiere-Online</value>
+  <value column="MsgText" original="Adempiere Online">ADempiere-Online</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="128" trl="Y">
@@ -571,7 +571,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="243" trl="Y">
-  <value column="MsgText" original="Are you sure you want to exit the application?">Sind Sie sicher, daß Sie die Anwendung beenden wollen?</value>
+  <value column="MsgText" original="Are you sure you want to exit the application?">Sind Sie sicher, dass Sie die Anwendung beenden wollen?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="244" trl="Y">
@@ -603,7 +603,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="251" trl="Y">
-  <value column="MsgText" original="Process failed: ">Prozeß fehlgeschlagen: </value>
+  <value column="MsgText" original="Process failed: ">Prozess fehlgeschlagen: </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="252" trl="Y">
@@ -844,7 +844,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="311" trl="Y">
-  <value column="MsgText" original="One or more Product is more than once in the count list.  Lines deactivated.">Ein oder mehrere Produkte mehr als einmal in der Zählliste.  Zeilen deaktiviert.</value>
+  <value column="MsgText" original="One or more Product is more than once in the count list.  Lines deactivated.">Ein oder mehrere Produkte mehr als einmal in der Zählliste. Zeilen deaktiviert.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="312" trl="Y">
@@ -1108,7 +1108,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="377" trl="Y">
-  <value column="MsgText" original="{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}">{0} Zeile(n) - {1,number,#,##0.00} - Gesamt: {2,number,#,##0.00} {3} = {4,number,#,##0.00}</value>
+  <value column="MsgText" original="{0} Line(s) - {1,number,#,##0.00} -  Total: {2,number,#,##0.00}  {3}  =  {4,number,#,##0.00}">{0} Position(en) - {1,number,#,##0.00} - Gesamt: {2,number,#,##0.00} {3} = {4,number,#,##0.00}</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="378" trl="Y">
@@ -1116,7 +1116,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="379" trl="Y">
-  <value column="MsgText" original="Another Process for this record is active, retry later">Ein anderer Prozeß ist aktiv für diesen Datensatz; Später versuchen</value>
+  <value column="MsgText" original="Another Process for this record is active, retry later">Ein anderer Prozess ist aktiv für diesen Datensatz; Später versuchen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="380" trl="Y">
@@ -1148,7 +1148,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="387" trl="Y">
-  <value column="MsgText" original="Error:  Parameter missing">Fehler:  Parameter fehlt</value>
+  <value column="MsgText" original="Error:  Parameter missing">Fehler: Parameter fehlt</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="388" trl="Y">
@@ -1385,7 +1385,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="446" trl="Y">
-  <value column="MsgText" original="Process could not be submitted">Prozeß konnte nicht gestartet werden</value>
+  <value column="MsgText" original="Process could not be submitted">Prozess konnte nicht gestartet werden</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="447" trl="Y">
@@ -1805,7 +1805,7 @@ Kein Empfänger (An) - Kontakt überprüfen!</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="550" trl="Y">
-  <value column="MsgText" original="Do you want to start the Process?">Soll der Prozeß gestartet werden?</value>
+  <value column="MsgText" original="Do you want to start the Process?">Soll der Prozess gestartet werden?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="551" trl="Y">
@@ -1825,7 +1825,7 @@ Kein Empfänger (An) - Kontakt überprüfen!</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="555" trl="Y">
-  <value column="MsgText" original="Process completed successfully">Prozeß erfolgreich abgeschlossen</value>
+  <value column="MsgText" original="Process completed successfully">Prozess erfolgreich abgeschlossen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="556" trl="Y">
@@ -2098,7 +2098,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="623" trl="Y">
-  <value column="MsgText" original="{0} Line(s) - Total: {1,number,#,##0.00} {2}">{0} Zeile(n) - Summe: {1,number,#,##0.00} {2}</value>
+  <value column="MsgText" original="{0} Line(s) - Total: {1,number,#,##0.00} {2}">{0} Position(en) - Summe: {1,number,#,##0.00} {2}</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="624" trl="Y">
@@ -2363,7 +2363,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="697" trl="Y">
-  <value column="MsgText" original="No Products with Attributes to select">Keine Produkte mit Attributen zum auswählen</value>
+  <value column="MsgText" original="No Products with Attributes to select">Keine Produkte mit Attributen zum Auswählen</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="698" trl="Y">
@@ -2428,7 +2428,7 @@ Do you want to print separate Remittance advice ?</value>
  </row>
  <row id="713" trl="Y">
   <value column="MsgText" original="Dictionary Maintenance">Dictionary Maintenance</value>
-  <value column="MsgTip" original="Only for internal Adempiere Dictionary Maintenence - DO NOT SELECT">Nur für Adempiere-interne Verwaltung des Dictionary - NICHT AUSWÄHLEN</value>
+  <value column="MsgTip" original="Only for internal Adempiere Dictionary Maintenence - DO NOT SELECT">Nur für ADempiere-interne Verwaltung des Dictionary - NICHT AUSWÄHLEN</value>
  </row>
  <row id="714" trl="Y">
   <value column="MsgText" original="No Translation">Sprachpaket Deutsch Version 2007-05 (c) action42 GmbH</value>
@@ -2555,7 +2555,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="747" trl="Y">
-  <value column="MsgText" original="Download {0} for {1}&#10;&#10;Version = {2} - Lot = {3} - SerNo = {4}&#10;Guarantee Date = {5,date,short}&#10;&#10;Thank you for using Adempiere Customer Asset Management&#10;">Herunterladen von {0} für {1}  Version = {2} - Los = {3} - Serien-Nr. = {4} Guarantie-Datum = {5,date,short}  Vielen Dank für die Nutzung der Adempiere-Kundenasset-Verwaltung </value>
+  <value column="MsgText" original="Download {0} for {1}&#10;&#10;Version = {2} - Lot = {3} - SerNo = {4}&#10;Guarantee Date = {5,date,short}&#10;&#10;Thank you for using Adempiere Customer Asset Management&#10;">Herunterladen von {0} für {1} Version = {2} - Los = {3} - Serien-Nr. = {4} Garantie-Datum = {5,date,short} Vielen Dank für die Nutzung der ADempiere-Kundenasset-Verwaltung </value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="748" trl="Y">
@@ -2822,7 +2822,7 @@ Do you want to print separate Remittance advice ?</value>
  </row>
  <row id="813" trl="Y">
   <value column="MsgText" original="Trace File">Protokoll-Datei</value>
-  <value column="MsgTip" original="Create Trace file in Adempiere directory or in user home directory">Protokoll-Datei (Trace) für die Fehlersuche im Adempiere-Verzeichnis oder im Home-Verzeichnis des Benutzers anlegen</value>
+  <value column="MsgTip" original="Create Trace file in Adempiere directory or in user home directory">Protokoll-Datei (Trace) für die Fehlersuche im ADempiere-Verzeichnis oder im Home-Verzeichnis des Benutzers anlegen</value>
  </row>
  <row id="814" trl="Y">
   <value column="MsgText" original="Run Processes on Server">Prozesse auf dem Server starten</value>
@@ -2881,7 +2881,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="828" trl="Y">
-  <value column="MsgText" original="{0} Line(s) {1,number,#,##0.00}  - Total: {2,number,#,##0.00}">{0} Position(en) {1,number,#,##0.00}  - Gesamt: {2,number,#,##0.00}</value>
+  <value column="MsgText" original="{0} Line(s) {1,number,#,##0.00}  - Total: {2,number,#,##0.00}">{0} Position(en) {1,number,#,##0.00} - Gesamt: {2,number,#,##0.00}</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="829" trl="Y">
@@ -2970,7 +2970,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="850" trl="Y">
-  <value column="MsgText" original="You subscribed to this Interest Area. To unsubscribe, log in, go to Interest Area and click Un-subscribe.">Sie haben sich für dieses Interessengebiet angemeldet. Zum abmelden melden Sie sich bitte in Adempiere an, gehen Sie zum Bereich "Interessengebiet" und wählen Sie "Abmelden".</value>
+  <value column="MsgText" original="You subscribed to this Interest Area. To unsubscribe, log in, go to Interest Area and click Un-subscribe.">Sie haben sich für dieses Interessengebiet angemeldet. Zum abmelden melden Sie sich bitte in ADempiere an, gehen Sie zum Bereich "Interessengebiet" und wählen Sie "Abmelden".</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="851" trl="Y">
@@ -3134,7 +3134,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="50002" trl="Y">
-  <value column="MsgText" original="Validate Connection on Startup">Verbindung beim Start velidieren</value>
+  <value column="MsgText" original="Validate Connection on Startup">Verbindung beim Start validieren</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="50003" trl="Y">
@@ -3598,7 +3598,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52103" trl="Y">
-  <value column="MsgText" original="Close">Schliessen</value>
+  <value column="MsgText" original="Close">Schließen</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52104" trl="Y">

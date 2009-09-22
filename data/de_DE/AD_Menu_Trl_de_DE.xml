@@ -985,7 +985,7 @@
  </row>
  <row id="379" trl="Y">
   <value column="Name" original="Alert">Alarmierung</value>
-  <value column="Description" original="Adempiere Alert">Adempiere-Alarmierung</value>
+  <value column="Description" original="Adempiere Alert">ADempiere-Alarmierung</value>
  </row>
  <row id="380" trl="Y">
   <value column="Name" original="Counter">Zähler</value>
@@ -1293,7 +1293,7 @@
  </row>
  <row id="456" trl="Y">
   <value column="Name" original="Server">Server</value>
-  <value column="Description" original="Adempiere Server Maintenance">Adempiere-Server-Verwaltung</value>
+  <value column="Description" original="Adempiere Server Maintenance">ADempiere-Server-Verwaltung</value>
  </row>
  <row id="457" trl="Y">
   <value column="Name" original="Sales Orders">Aufträge</value>
@@ -1320,8 +1320,8 @@
   <value column="Description" original="Manage Dunning Runs">Mahnläufe verwalten</value>
  </row>
  <row id="463" trl="Y">
-  <value column="Name" original="Requisition">Bedarf</value>
-  <value column="Description" original="Material Requisition">Materialbedarf</value>
+  <value column="Name" original="Requisition">Bestellanforderung</value>
+  <value column="Description" original="Material Requisition">Bestellanforderung</value>
  </row>
  <row id="464" trl="Y">
   <value column="Name" original="GL Distribution">Hauptbuch - Aufteilung</value>
@@ -1352,7 +1352,7 @@
   <value column="Description" original="My active workflow activities">Meine aktiven Workflow</value>
  </row>
  <row id="471" trl="Y">
-  <value column="Name" original="Open Requisitions">Offene Anforderungen</value>
+  <value column="Name" original="Open Requisitions">Offene Bestellanforderungen</value>
   <value column="Description" original="Detail Open Requisition Information">Detaillierte Information zu offenen Anforderungen</value>
  </row>
  <row id="472" trl="Y">
@@ -1440,7 +1440,7 @@
   <value column="Description" original="POS Function Key Layout">Anordnung der Funktionstasten für POS</value>
  </row>
  <row id="493" trl="Y">
-  <value column="Name" original="Material Receipt Details">Warenezugangs-Details</value>
+  <value column="Name" original="Material Receipt Details">Warenzugangs-Details</value>
   <value column="Description" original="Material Receipt Detail Information">Detailinformationen zu Warenzugang</value>
  </row>
  <row id="494" trl="Y">
@@ -1473,7 +1473,7 @@
  </row>
  <row id="501" trl="Y">
   <value column="Name" original="Workflow">Workflow</value>
-  <value column="Description" original="Adempiere Workflow">Adempiere-Workflow</value>
+  <value column="Description" original="Adempiere Workflow">ADempiere-Workflow</value>
  </row>
  <row id="502" trl="Y">
   <value column="Name" original="Trial Balance">Probesaldo</value>
@@ -1660,8 +1660,8 @@
   <value column="Description" original="Define Reporting Hierarchy">Definition von Berichts-Hierarchien</value>
  </row>
  <row id="549" trl="Y">
-  <value column="Name" original="Create PO from Requisition">Bestellung aus Bedarf erzeugen</value>
-  <value column="Description" original="Create Purchase Orders from Requisitions">Bestellung aus Bedarf erzeugen</value>
+  <value column="Name" original="Create PO from Requisition">Bestellung aus Bestellanforderung erzeugen</value>
+  <value column="Description" original="Create Purchase Orders from Requisitions">Bestellung aus Bestellanforderung erzeugen</value>
  </row>
  <row id="550" trl="Y">
   <value column="Name" original="Budget Control">Budgetkontrolle</value>

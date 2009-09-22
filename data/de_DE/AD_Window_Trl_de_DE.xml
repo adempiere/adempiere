@@ -110,7 +110,7 @@
  <row id="122" trl="Y">
   <value column="Name" original="Country Region and City">Land, Region, Stadt</value>
   <value column="Description" original="Maintain Countries Regions and Cities">Länder, Regionen und Städte verwalten</value>
-  <value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level.">Hier definieren Sie die verschiedenen Einträge, die Sie im Adressfeld verwenden können.  Das Format des Adressfeldes wird dadurch definiert sowie die Zuordnung von Regionen zu Ländern und  Städten zu Regionen oder Ländern. 
+  <value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level.">Hier definieren Sie die verschiedenen Einträge, die Sie im Adressfeld verwenden können. Das Format des Adressfeldes wird dadurch definiert sowie die Zuordnung von Regionen zu Ländern und  Städten zu Regionen oder Ländern. 
  &lt;p&gt;Sie definieren Länder üblicherweise nur auf Systemebene.</value>
  </row>
  <row id="123" trl="Y">
@@ -121,7 +121,7 @@
  <row id="125" trl="Y">
   <value column="Name" original="Accounting Schema">Buchführungs-Schema</value>
   <value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Buchführungs-Schemata verwalten - Bitte neu anmelden damit Änderungen wirksam werden</value>
-  <value column="Help" original="The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.&#10;Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.&#10;">Das Fenster "Buchführungs-Schema" definiert eine Buchführungsmethode und die zur Kontenstruktur gehörigen Elemente.  Definieren und aktivieren Sie Elemente für die detaillierte Buchführung bezogen auf Geschäftspartner, Produkte, Standorte usw.  Überprüfen und ändern Sie Hauptbuch- und Standard-Konten.  Die tatsächlich verwendeten Konten in einer Transaktion hängen von der durchführenden Organisation ab. Der Großteil der Information wird aus dem Kontext gewonnen.</value>
+  <value column="Help" original="The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.&#10;Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.&#10;">Das Fenster "Buchführungs-Schema" definiert eine Buchführungsmethode und die zur Kontenstruktur gehörigen Elemente. Definieren und aktivieren Sie Elemente für die detaillierte Buchführung bezogen auf Geschäftspartner, Produkte, Standorte usw. Überprüfen und ändern Sie Hauptbuch- und Standard-Konten. Die tatsächlich verwendeten Konten in einer Transaktion hängen von der durchführenden Organisation ab. Der Großteil der Information wird aus dem Kontext gewonnen.</value>
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Test">Test</value>
@@ -161,7 +161,7 @@
  <row id="135" trl="Y">
   <value column="Name" original="Document Type">Belegart</value>
   <value column="Description" original="Maintain Document Types">Belegarten verwalten</value>
-  <value column="Help" original="The Document Type Window defines any document to be used in the system.  Each document type provides the basis for processing of each document and controls the printed name and document sequence used.  ">Dieses Fenster definiert alle im System verwendbaren Belegarten.  Eine Belegart bildet die Basis für die Belegverarbeitung und bestimmrt die Bezeichnung beim Druck und den verwendeten Nummernkreis.</value>
+  <value column="Help" original="The Document Type Window defines any document to be used in the system.  Each document type provides the basis for processing of each document and controls the printed name and document sequence used.  ">Dieses Fenster definiert alle im System verwendbaren Belegarten. Eine Belegart bildet die Basis für die Belegverarbeitung und bestimmrt die Bezeichnung beim Druck und den verwendeten Nummernkreis.</value>
  </row>
  <row id="137" trl="Y">
   <value column="Name" original="Tax Rate">Steuersatz</value>
@@ -181,12 +181,12 @@
  <row id="140" trl="Y">
   <value column="Name" original="Product">Produkt</value>
   <value column="Description" original="Maintain Products">Verwalten von Produkten</value>
-  <value column="Help" original="The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.">Das Fenster "Produkt" definiert alle Produkte, die von einer Organisation verwendet werden. Dies schliesst die ein, die an Kunden verkauft werden und solche, die von Lieferanten eingekauft werden.</value>
+  <value column="Help" original="The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.">Das Fenster "Produkt" definiert alle Produkte, die von einer Organisation verwendet werden. Dies schließt die ein, die an Kunden verkauft werden und solche, die von Lieferanten eingekauft werden.</value>
  </row>
  <row id="141" trl="Y">
   <value column="Name" original="Payment Term">Zahlungskondition</value>
   <value column="Description" original="Maintain Payment Terms">Zahlungskonditionen verwalten</value>
-  <value column="Help" original="The Payment Terms Window defines the different payment terms that you offer your customers and that are offered to you by your vendors.  Each invoice must contain a Payment Term.  On the standard invoice, the Name and the Document Note of the Payment Term is printed.">Das Fenster "Zahlungskondition" definiert die verschiedenen Zahlungskonditionen, die Sie Ihren Kunden bieten und die Ihre Lieferanten Ihnen bieten.  Jeder Rechnung müssen Zahlungskonditionen zugeordnet sein. Auf der Standardrechnung werden die Felder Name und Notiz der Zahlungskondition gedruckt.</value>
+  <value column="Help" original="The Payment Terms Window defines the different payment terms that you offer your customers and that are offered to you by your vendors.  Each invoice must contain a Payment Term.  On the standard invoice, the Name and the Document Note of the Payment Term is printed.">Das Fenster "Zahlungskondition" definiert die verschiedenen Zahlungskonditionen, die Sie Ihren Kunden bieten und die Ihre Lieferanten Ihnen bieten. Jeder Rechnung müssen Zahlungskonditionen zugeordnet sein. Auf der Standardrechnung werden die Felder Name und Notiz der Zahlungskondition gedruckt.</value>
  </row>
  <row id="142" trl="Y">
   <value column="Name" original="Shipper">Lieferweg</value>
@@ -291,7 +291,7 @@
  <row id="169" trl="Y">
   <value column="Name" original="Shipment (Customer)">Lieferauftrag</value>
   <value column="Description" original="Customer Inventory Shipments Customer Returns">Warenlieferungen an den Kunden und Rücksendungen durch den Kunden</value>
-  <value column="Help" original="The Shipment Window defines shipments made or to be made to a customer.  They are generated from an Customer Order.  The Shipment Document will generate the Customer Invoice.">Das Fenster "Lieferauftrag" definiert durchzuführende oder bereits durchgeführte Lieferungen an einen Kunden.  Sie werden aus Kundenaufträgen generiert.  Der Lieferauftrag selbst generiert eine Rechnung für den Kunden.</value>
+  <value column="Help" original="The Shipment Window defines shipments made or to be made to a customer.  They are generated from an Customer Order.  The Shipment Document will generate the Customer Invoice.">Das Fenster "Lieferauftrag" definiert durchzuführende oder bereits durchgeführte Lieferungen an einen Kunden. Sie werden aus Kundenaufträgen generiert. Der Lieferauftrag selbst generiert eine Rechnung für den Kunden.</value>
  </row>
  <row id="170" trl="Y">
   <value column="Name" original="Inventory Move">Warenbewegung</value>
@@ -358,7 +358,7 @@
  <row id="187" trl="Y">
   <value column="Name" original="Form">Fenster (nicht dynamisch)</value>
   <value column="Description" original="Special Forms">Spezielle Fenster</value>
-  <value column="Help" original="The Forms Window defines any window which is not automatically generated.  For System Admin use only.">Hier werden die Fenster definiert, die nicht dynamisch aus dem Data Dictionary generiert werden.  Nur zur Verwendung durch den System-Administrator.</value>
+  <value column="Help" original="The Forms Window defines any window which is not automatically generated.  For System Admin use only.">Hier werden die Fenster definiert, die nicht dynamisch aus dem Data Dictionary generiert werden. Nur zur Verwendung durch den System-Administrator.</value>
  </row>
  <row id="188" trl="Y">
   <value column="Name" original="Error Message">Fehlermeldung</value>
@@ -473,7 +473,7 @@ Any restrictions for Organizations, Business Partners, Products, etc. are  as Pe
  <row id="215" trl="Y">
   <value column="Name" original="Performance Measure">Ergebnis - Kenngröße</value>
   <value column="Description" original="Define your Performance Measures">Definition von Ergebnise-Kenngrößen</value>
-  <value column="Help" original="The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame.">Das Fenster "Ergebnis - Kenngröße" ermöglicht, Regeln und Beschränkungen für Kenngrößen festzulegen.  Sie können z.B. die Kenngrößenermittlung für den Verkauf auf eine bestimmte Produktkategorie und einen bestimmten Zeitraum einschränken.</value>
+  <value column="Help" original="The Performance Measure Window allows you to define the rules and restrictions for performance measurement.  You can, for example, restrict performance measurement to sales for a certain product category for a defined time frame.">Das Fenster "Ergebnis - Kenngröße" ermöglicht, Regeln und Beschränkungen für Kenngrößen festzulegen. Sie können z.B. die Kenngrößenermittlung für den Verkauf auf eine bestimmte Produktkategorie und einen bestimmten Zeitraum einschränken.</value>
  </row>
  <row id="216" trl="Y">
   <value column="Name" original="Financial Report">Finanz-Bericht</value>
@@ -508,8 +508,8 @@ Any restrictions for Organizations, Business Partners, Products, etc. are  as Pe
  <row id="224" trl="Y">
   <value column="Name" original="Print Form">Druck - Formulare</value>
   <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Verwalten von Druckformularen (Rechnungen, Schecks, ..)</value>
-  <value column="Help" original="Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;&#10;The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*).">Definieren Sie hier die Dokumente, die Sie in diesem Mandanten / dieser Organisation verwenden.  Beachten Sie, dass das Scheckformat im Fenster "Bank" zugeordnet wird.&lt;p&gt;
-Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z.B. ein spezifisches Formular für eine Rechnung für den Export).  Die nächste Ebene ist der Satz der Druckformate, den Sie für die druckende Organisation definiert haben. Der Standardsatz ist dann der Satz, der für alle Organisationen diese Mandanten definiert ist (Organisation=*).</value>
+  <value column="Help" original="Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;&#10;The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*).">Definieren Sie hier die Dokumente, die Sie in diesem Mandanten / dieser Organisation verwenden. Beachten Sie, dass das Scheckformat im Fenster "Bank" zugeordnet wird.&lt;p&gt;
+Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z.B. ein spezifisches Formular für eine Rechnung für den Export). Die nächste Ebene ist der Satz der Druckformate, den Sie für die druckende Organisation definiert haben. Der Standardsatz ist dann der Satz, der für alle Organisationen diese Mandanten definiert ist (Organisation=*).</value>
  </row>
  <row id="225" trl="Y">
   <value column="Name" original="System Color">System-Farbe</value>
@@ -769,7 +769,7 @@ http://www.adempiere.com/wstore/counter to the page (e.g. display a 1x1 image)
  </row>
  <row id="276" trl="Y">
   <value column="Name" original="Alert">Alarmierung</value>
-  <value column="Description" original="Adempiere Alert">Adempiere-Alarmierung</value>
+  <value column="Description" original="Adempiere Alert">ADempiere-Alarmierung</value>
   <value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of">Adempiere Alerts allow you define system conditions you want to be alerted of</value>
  </row>
  <row id="277" trl="Y">
@@ -1002,7 +1002,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
   <value column="Help" original="Manage Dunning Runs">Mahnläufe verwalten</value>
  </row>
  <row id="322" trl="Y">
-  <value column="Name" original="Requisition">Bedarf</value>
+  <value column="Name" original="Requisition">Bestellanforderung</value>
   <value column="Description" original="Material Requisition">Materialbedarf</value>
   <value column="Help" original="Enter and maintain Material Requisitions. Material Requisition can be created automatically via Replenishment.  You create generate optionally consolidated Purchase Orders.">Enter and maintain Material Requisitions. Material Requisition can be created automatically via Replenishment.  You create generate optionally consolidated Purchase Orders.</value>
  </row>
@@ -1029,7 +1029,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  <row id="327" trl="Y">
   <value column="Name" original="Counter Document">Gegenbeleg</value>
   <value column="Description" original="Maintain Counter Document Types">Arten von Gegenbelegen verwalten</value>
-  <value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)">Wenn Sie explizite Belege für Inter0rganisations-Buchungen verwenden (nach der Zuordnung eines Geschäftspartners zu einer Organistion), können Sie hier festlegen, von welcher Belegart der Gegenbeleg ist, basierend auf  der Belegart des Ursprungsvorgangs. Beispiel: ein "Standard-Auftrag" erzeugt eine "Standard-Bestellung". Wenn Sie hier eine Beziehung definieren, überschreiben Sie damit den Standardeintrag in der Belegarten-Definition. Damit können Sie eine bestimmte Zuordnung treffen. If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)</value>
+  <value column="Help" original="When using explicit documents for inter-org transaction (after linking a Business Partner to an Organization), you can determine what document type the counter document is based on the document type of the original transaction.  Example: a &quot;Standard Order&quot; creates a &quot;Standard PO&quot;. &#10;If you define a relationship here, you overwrite the default counter document type in the Document Type definition. This allows you to define a specific mapping.&#10;If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)">Wenn Sie explizite Belege für Inter0rganisations-Buchungen verwenden (nach der Zuordnung eines Geschäftspartners zu einer Organistion), können Sie hier festlegen, von welcher Belegart der Gegenbeleg ist, basierend auf der Belegart des Ursprungsvorgangs. Beispiel: ein "Standard-Auftrag" erzeugt eine "Standard-Bestellung". Wenn Sie hier eine Beziehung definieren, überschreiben Sie damit den Standardeintrag in der Belegarten-Definition. Damit können Sie eine bestimmte Zuordnung treffen. If not defined, the first matching document type is used (e.g. AR Invoice - first AP Invoice document type)</value>
  </row>
  <row id="328" trl="Y">
   <value column="Name" original="Forecast">Prognose</value>

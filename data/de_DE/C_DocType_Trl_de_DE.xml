@@ -68,8 +68,8 @@
   <value column="DocumentNote" original=""/>
  </row>
  <row id="127" trl="Y">
-  <value column="Name" original="Purchase Requisition">Bestell-Bedarf</value>
-  <value column="PrintName" original="Purchase Requisition">Bestell-Bedarf</value>
+  <value column="Name" original="Purchase Requisition">Bestellanforderung</value>
+  <value column="PrintName" original="Purchase Requisition">Bestellanforderung</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="128" trl="Y">

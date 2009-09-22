@@ -45,8 +45,8 @@
  <row id="106" trl="Y">
   <value column="Name" original="System Element">System-Element</value>
   <value column="PrintName" original="Element">Element</value>
-  <value column="Description" original="System Element enables the central maintenance of column description and help.">Das "System-Element" ermöglicht die zentrale  Verwaltung von Spaltenbeschreibungen und Hilfetexten.</value>
-  <value column="Help" original="The System Element allows for the central maintenance of help, descriptions and terminology for a database column.">Das "System-Element" ermöglicht die zentrale  Verwaltung von Hilfe, Beschreibung und Terminologie für eine Tabellenspalte.</value>
+  <value column="Description" original="System Element enables the central maintenance of column description and help.">Das "System-Element" ermöglicht die zentrale Verwaltung von Spaltenbeschreibungen und Hilfetexten.</value>
+  <value column="Help" original="The System Element allows for the central maintenance of help, descriptions and terminology for a database column.">Das "System-Element" ermöglicht die zentrale Verwaltung von Hilfe, Beschreibung und Terminologie für eine Tabellenspalte.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -325,7 +325,7 @@
  <row id="139" trl="Y">
   <value column="Name" original="Dynamic Validation">Dynamische Validierung</value>
   <value column="PrintName" original="Validation">Validierung</value>
-  <value column="Description" original="Dynamic Validation Rule">Regel für die  dynamische Validierung</value>
+  <value column="Description" original="Dynamic Validation Rule">Regel für die dynamische Validierung</value>
   <value column="Help" original="These rules define how an entry is determined to valid. You can use variables for dynamic (context sensitive) validation.">Diese Regeln bestimmen, wie ein Eintrag als gültig bewertet wird. Sie können Variablen für eine dynamische (kontextbezogene) Validierung verwenden.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -556,7 +556,7 @@
   <value column="Name" original="Automatic Period Control">Automatische Periodenkontrolle</value>
   <value column="PrintName" original="Automatic Period Control">Automatische Periodenkontrolle</value>
   <value column="Description" original="If selected, the periods are automatically opened and closed">Wenn selektiert, werden die Buchungsperioden automatisch geöffnet und geschlossen</value>
-  <value column="Help" original="In the Automatic Period Control, periods are opened and closed based on the current date.  If the Manual alternative is activated, you have to open and close periods explicitly.">Bei der "Automatischen Periodenkontrolle" werden die Buchungsperioden basierend auf dem aktuellen Datum automatisch geöffnet und geschlossen. Wenn die Alternative "Manuell" selektiert ist, müssen Sie die Perioden explizit öffnen und schliessen.</value>
+  <value column="Help" original="In the Automatic Period Control, periods are opened and closed based on the current date.  If the Manual alternative is activated, you have to open and close periods explicitly.">Bei der "Automatischen Periodenkontrolle" werden die Buchungsperioden basierend auf dem aktuellen Datum automatisch geöffnet und geschlossen. Wenn die Alternative "Manuell" selektiert ist, müssen Sie die Perioden explizit öffnen und schließen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -646,7 +646,7 @@
   <value column="Name" original="Calendar">Kalender</value>
   <value column="PrintName" original="Calendar">Kalender</value>
   <value column="Description" original="Accounting Calendar Name">Bezeichnung des Buchführungs-Kalenders</value>
-  <value column="Help" original="The Calendar uniquely identifies an accounting calendar.  Multiple calendars can be used.  For example you may need a standard calendar that runs from Jan 1 to Dec 31 and a fiscal calendar that runs from July 1 to June 30.">"Kalender" bezeichnet einen eindeutigen Kalender für die Buchhaltung. Es können mehrere Kalender verwendet werden. Z.B. können Sie einen Standardkalender definieren, der vom 1. Jan. bis zum 31. Dez. läuft und einen  fiskalischen, der vom 1. Jul. bis zum 30. Jun. läuft.</value>
+  <value column="Help" original="The Calendar uniquely identifies an accounting calendar.  Multiple calendars can be used.  For example you may need a standard calendar that runs from Jan 1 to Dec 31 and a fiscal calendar that runs from July 1 to June 30.">"Kalender" bezeichnet einen eindeutigen Kalender für die Buchhaltung. Es können mehrere Kalender verwendet werden. Z.B. können Sie einen Standardkalender definieren, der vom 1. Jan. bis zum 31. Dez. läuft und einen fiskalischen, der vom 1. Jul. bis zum 30. Jun. läuft.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -946,7 +946,7 @@
   <value column="Name" original="Callout">Externe Funktion</value>
   <value column="PrintName" original="Callout">Externe Funktion</value>
   <value column="Description" original="Fully qualified class names and method - separated by semicolons">Voll qualifizierte Klassennamen und Methoden - separiert durch Semicolon</value>
-  <value column="Help" original="A Callout allow you to create Java extensions to perform certain tasks always after a value changed. Callouts should not be used for validation but consquences of a user selecting a certain value.&#10;The callout is a Java class implementing org.compiere.model.Callout and a method name to call.  Example: &quot;org.compiere.model.CalloutRequest.copyText&quot; instanciates the class &quot;CalloutRequest&quot; and calls the method &quot;copyText&quot;. You can have multiple callouts by separating them via a semicolon">Ein Callout ermöglicht Ihnen die Definition von  Java-Erweiterungen, die immer nach einer Änderung des Wertes ausgeführt werden. Callouts sollten nicht zur Validierung eines Wertes sondern zur Realisierung von Konsequenzen der Auswahl eines bestimmten Wertes durch den Nutzer verwendet werden. Der Callout ist eine Java-Klasse, die org.compiere.model.Callout implementiert sowie ein zu rufender Methodenname. Beispiel: "org.compiere.model.CalloutRequest.copyText" instanziiert die Klasse "CalloutRequest" und ruft die Methode "copyText". Sie können mehrere Callouts angeben, die Sie durch ein Semikolon trennen.</value>
+  <value column="Help" original="A Callout allow you to create Java extensions to perform certain tasks always after a value changed. Callouts should not be used for validation but consquences of a user selecting a certain value.&#10;The callout is a Java class implementing org.compiere.model.Callout and a method name to call.  Example: &quot;org.compiere.model.CalloutRequest.copyText&quot; instanciates the class &quot;CalloutRequest&quot; and calls the method &quot;copyText&quot;. You can have multiple callouts by separating them via a semicolon">Ein Callout ermöglicht Ihnen die Definition von Java-Erweiterungen, die immer nach einer Änderung des Wertes ausgeführt werden. Callouts sollten nicht zur Validierung eines Wertes sondern zur Realisierung von Konsequenzen der Auswahl eines bestimmten Wertes durch den Nutzer verwendet werden. Der Callout ist eine Java-Klasse, die org.compiere.model.Callout implementiert sowie ein zu rufender Methodenname. Beispiel: "org.compiere.model.CalloutRequest.copyText" instanziiert die Klasse "CalloutRequest" und ruft die Methode "copyText". Sie können mehrere Callouts angeben, die Sie durch ein Semikolon trennen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -2336,9 +2336,9 @@
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="441" trl="Y">
-  <value column="Name" original="Line Amount">Zeilennetto</value>
-  <value column="PrintName" original="Line Amt">Zeilennetto</value>
-  <value column="Description" original="Line Extended Amount (Quantity * Actual Price) without Freight and Charges">Nettowert Zeile (Menge * Einzelpreis) ohne Fracht und Gebühren</value>
+  <value column="Name" original="Line Amount">Positionsnetto</value>
+  <value column="PrintName" original="Line Amt">Positionsnetto</value>
+  <value column="Description" original="Line Extended Amount (Quantity * Actual Price) without Freight and Charges">Nettowert Position (Menge * Einzelpreis) ohne Fracht und Gebühren</value>
   <value column="Help" original="Indicates the extended line amount based on the quantity and the actual price.  Any additional charges or freight are not included.  The Amount may or may not include tax.  If the price list is inclusive tax, the line amount is the same as the line total.">Indicates the extended line amount based on the quantity and the actual price.  Any additional charges or freight are not included.  The Amount may or may not include tax.  If the price list is inclusive tax, the line amount is the same as the line total.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -2559,7 +2559,7 @@
   <value column="Name" original="Purchase Pricelist">Einkaufspreisliste</value>
   <value column="PrintName" original="Purchase Pricelist">Einkaufspreisliste</value>
   <value column="Description" original="Price List used by this Business Partner">Preisliste die von diesem Geschäftspartenr verwendet wird</value>
-  <value column="Help" original="Identifies the price list used by a Vendor for products purchased by this organization.">Gibt die Preisliste an, die von einem Lieferanten für Produkte die von dieser Organisation eingekauft werden  verwendet wird.</value>
+  <value column="Help" original="Identifies the price list used by a Vendor for products purchased by this organization.">Gibt die Preisliste an, die von einem Lieferanten für Produkte die von dieser Organisation eingekauft werden verwendet wird.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3687,7 +3687,7 @@ Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fe
   <value column="Name" original="Workflow">Workflow</value>
   <value column="PrintName" original="Workflow">Workflow</value>
   <value column="Description" original="Workflow or tasks">Workflow oder Aufgabe</value>
-  <value column="Help" original="The Workflow field identifies a unique workflow.   A workflow is a grouping of related tasks, in a specified sequence and optionally including approvals">Definiert einen einzigartigen Workflow im System. Ein Workflow ist eine Gruppierung von miteinander in  Beziehung stehenden Aufgaben, die in einer festgelegten Reihenfolge ablaufen. Der Workflow kann optional notwendige Freigabebestätigungen beinhalten.</value>
+  <value column="Help" original="The Workflow field identifies a unique workflow.   A workflow is a grouping of related tasks, in a specified sequence and optionally including approvals">Definiert einen einzigartigen Workflow im System. Ein Workflow ist eine Gruppierung von miteinander in Beziehung stehenden Aufgaben, die in einer festgelegten Reihenfolge ablaufen. Der Workflow kann optional notwendige Freigabebestätigungen beinhalten.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -4810,8 +4810,8 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1059" trl="Y">
-  <value column="Name" original="Max. Value">Max.  Wert</value>
-  <value column="PrintName" original="Max. Value">Max.  Wert</value>
+  <value column="Name" original="Max. Value">Max. Wert</value>
+  <value column="PrintName" original="Max. Value">Max. Wert</value>
   <value column="Description" original="Maximum Value for a field">Maximaler Wert für ein Feld</value>
   <value column="Help" original="The Maximum Value indicates the highest allowable value for a field">"Max. Wert" gibt den maximal zulässigen Wert für ein Feld an</value>
   <value column="PO_Description" original=""/>
@@ -5173,7 +5173,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="Name" original="Next Business Day">Nächster Geschäftstag</value>
   <value column="PrintName" original="Next Business Day">Nächster Geschäftstag</value>
   <value column="Description" original="Payment due on the next business day">Zahlung fällig am nächsten Geschäftstag</value>
-  <value column="Help" original="The Next Business Day checkbox indicates that payment is due on the next business day after invoice or delivery.">Das Auswahlfeld "Nächster Geschäftstag" zeigt an, dass die Zahlung am nächsten Geschäftstag nach Rechnungsstellung  oder Lieferung fällig ist.</value>
+  <value column="Help" original="The Next Business Day checkbox indicates that payment is due on the next business day after invoice or delivery.">Das Auswahlfeld "Nächster Geschäftstag" zeigt an, dass die Zahlung am nächsten Geschäftstag nach Rechnungsstellung oder Lieferung fällig ist.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5524,7 +5524,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1171" trl="Y">
   <value column="Name" original="Greeting">Anrede</value>
   <value column="PrintName" original="Greeting">Anrede</value>
-  <value column="Description" original="For letters, e.g. &quot;Dear {0}&quot; or &quot;Dear Mr. {0}&quot; - At runtime, &quot;{0}&quot; is replaced by the name">Für Briefe - z.B. "Sehr geehrter {0}" oder "Sehr geehrter Herr {0}" - Zur Laufzeit wird  "{0}" durch den Namen ersetzt</value>
+  <value column="Description" original="For letters, e.g. &quot;Dear {0}&quot; or &quot;Dear Mr. {0}&quot; - At runtime, &quot;{0}&quot; is replaced by the name">Für Briefe - z.B. "Sehr geehrter {0}" oder "Sehr geehrter Herr {0}" - Zur Laufzeit wird "{0}" durch den Namen ersetzt</value>
   <value column="Help" original="The Greeting indicates what will print on letters sent to a Business Partner.">Anrede definiert, was auf einem Brief an einen Geschäftspartner gedruckt wird.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -5584,7 +5584,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1177" trl="Y">
   <value column="Name" original="Verified">Bestätigt</value>
   <value column="PrintName" original="Verified">Verified</value>
-  <value column="Description" original="The BOM configuration has been verified">Die "Bestätigt"-Checkbox zeigt an, ob die Zusammenstellung/Konfiguration für dieses Produkt bestätigt worden ist.  (Gilt nur für Produkte, die eine Stückliste enthalten)</value>
+  <value column="Description" original="The BOM configuration has been verified">Die "Bestätigt"-Checkbox zeigt an, ob die Zusammenstellung/Konfiguration für dieses Produkt bestätigt worden ist. (Gilt nur für Produkte, die eine Stückliste enthalten)</value>
   <value column="Help" original="The Verified check box indicates if the configuration of this product has been verified.  This is used for products that consist of a bill of materials">Die "Bestätigt"-Checkbox zeigt an, ob die Zusammenstellung/Konfiguration für dieses Produkt bestätigt worden ist. Diese Funktion wird für Produkte genutzt, die eine Stückliste (BOM) enthalten.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -6004,9 +6004,9 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1264" trl="Y">
-  <value column="Name" original="Error EMail">Fehler-EMail</value>
-  <value column="PrintName" original="Error EMail">Fehler-EMail</value>
-  <value column="Description" original="Email address to send error messages to">EMail-Adresse für die Zusendung von Fehlermeldungen</value>
+  <value column="Name" original="Error EMail">Fehler-E-Mail</value>
+  <value column="PrintName" original="Error EMail">Fehler-E-Mail</value>
+  <value column="Description" original="Email address to send error messages to">E-Mail-Adresse für die Zusendung von Fehlermeldungen</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -6016,7 +6016,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1265" trl="Y">
   <value column="Name" original="From EMail">E-Mail Von</value>
   <value column="PrintName" original="From EMail">E-Mail Von</value>
-  <value column="Description" original="Full EMail address used to send requests - e.g. edi@organization.com">Vollqualifizierte EMail-Adresse für das Versenden von Anfragen - z.B. edi@beispielorganisation.de</value>
+  <value column="Description" original="Full EMail address used to send requests - e.g. edi@organization.com">Vollqualifizierte E-Mail-Adresse für das Versenden von Anfragen - z.B. edi@beispielorganisation.de</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -6036,7 +6036,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1267" trl="Y">
   <value column="Name" original="From EMail User ID">E-Mail-NutzerID Von</value>
   <value column="PrintName" original="From EMail User">E-Mail-Nutzer Von</value>
-  <value column="Description" original="User ID of the sending EMail address (on default SMTP Host) - e.g. edi">NutzerID der absendenden EMail-Adresse (auf dem Standard-SMTP-Server) - z.B. edi</value>
+  <value column="Description" original="User ID of the sending EMail address (on default SMTP Host) - e.g. edi">NutzerID der absendenden E-Mail-Adresse (auf dem Standard-SMTP-Server) - z.B. edi</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -6044,10 +6044,10 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1268" trl="Y">
-  <value column="Name" original="Info EMail">Info-EMail</value>
-  <value column="PrintName" original="Info EMail">Info-EMail</value>
-  <value column="Description" original="EMail address to send informational messages and copies">EMail-Adresse zur Versendung von informativen Nachrichten und Kopien</value>
-  <value column="Help" original="The Info EMail address indicates the address to use when sending informational messages or copies of other messages.">"Info-EMail" bezeichnet die Absendeadresse zur Versendung von informativen Nachrichten oder Kopien von anderen Mitteilungen</value>
+  <value column="Name" original="Info EMail">Info-E-Mail</value>
+  <value column="PrintName" original="Info EMail">Info-E-Mail</value>
+  <value column="Description" original="EMail address to send informational messages and copies">E-Mail-Adresse zur Versendung von informativen Nachrichten und Kopien</value>
+  <value column="Help" original="The Info EMail address indicates the address to use when sending informational messages or copies of other messages.">"Info-E-Mail" bezeichnet die Absendeadresse zur Versendung von informativen Nachrichten oder Kopien von anderen Mitteilungen</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -6056,7 +6056,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1269" trl="Y">
   <value column="Name" original="To EMail">E-Mail An</value>
   <value column="PrintName" original="To EMail">E-Mail An</value>
-  <value column="Description" original="EMail address to send requests to - e.g. edi@manufacturer.com ">Vollqualifizierte EMail-Adresse für das Zusenden von Anfragen - z.B. edi@beispielhersteller.de</value>
+  <value column="Description" original="EMail address to send requests to - e.g. edi@manufacturer.com ">Vollqualifizierte E-Mail-Adresse für das Zusenden von Anfragen - z.B. edi@beispielhersteller.de</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -6516,7 +6516,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1326" trl="Y">
   <value column="Name" original="Bill of Materials">Stückliste</value>
   <value column="PrintName" original="BOM">Stückliste</value>
-  <value column="Description" original="Bill of Materials">Das Selektionsfeld Stückliste zeigt an, ob dieses Produkt eine Stückliste enthält, d.h. aus  verschiedenen Unterteilen zusammengesetzt/erstellt wurde</value>
+  <value column="Description" original="Bill of Materials">Das Selektionsfeld Stückliste zeigt an, ob dieses Produkt eine Stückliste enthält, d.h. aus verschiedenen Unterteilen zusammengesetzt/erstellt wurde</value>
   <value column="Help" original="The Bill of Materials check box indicates if this product consists of a bill of materials.">Das Selektionsfeld "Stückliste" zeigt an, ob dieses Produkt eine Stückliste beinhaltet</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -7966,7 +7966,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
  <row id="1515" trl="Y">
   <value column="Name" original="Mail Template">E-Mail-Vorlage</value>
   <value column="PrintName" original="Mail Template">E-Mail-Vorlage</value>
-  <value column="Description" original="Text templates for mailings">Textvorlage für EMail</value>
+  <value column="Description" original="Text templates for mailings">Textvorlage für E-Mail</value>
   <value column="Help" original="The Mail Template indicates the mail template for return messages. Mail text can include variables.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;&#10;So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;&#10;For Multi-Lingual systems, the template is translated based on the Business Partner's language selection.">The Mail Template indicates the mail template for return messages. Mail text can include variables. Priorität bei der Analyse haben Nutzer/Kontakt, Geschäftspartner und dann die weiteren Objekte (wie Anfrage, mahnung, Workflow, usw.).&lt;br&gt; Also wird @Name@ primär durch den Namen des Nutzer/Kontakt ersetzt wenn einer definiert ist, dann durch den Namen des Geschäftspartners wenn der definiert ist und dann durch den Namen eines der oben angegebenen Objekte.&lt;br&gt;In mehrsprachigen Systemen wird die Übersetzung der Vorlage basierend auf der Auswahl der Sprache für den Geschäftspartner verwendet.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -8971,8 +8971,8 @@ The same applies to vendor invoices.</value>
  <row id="1639" trl="Y">
   <value column="Name" original="Image">Grafik/Bild</value>
   <value column="PrintName" original="Image">Bild</value>
-  <value column="Description" original="Image or Icon">Grafiken oder Symbole  können genutzt werden um unterstützte Grafikformate anzeigen zu lassen (.gif, .jpg, .png).</value>
-  <value column="Help" original="Images and Icon can be used to display supported graphic formats (gif, jpg, png).&#10;You can either load the image (in the database) or point to a graphic via a URI (i.e. it can point to a resource, http address)">Grafiken oder Symbole  können genutzt werden um unterstützte Grafikformate anzeigen zu lassen (.gif, .jpg, .png).
+  <value column="Description" original="Image or Icon">Grafiken oder Symbole können genutzt werden um unterstützte Grafikformate anzeigen zu lassen (.gif, .jpg, .png).</value>
+  <value column="Help" original="Images and Icon can be used to display supported graphic formats (gif, jpg, png).&#10;You can either load the image (in the database) or point to a graphic via a URI (i.e. it can point to a resource, http address)">Grafiken oder Symbole können genutzt werden um unterstützte Grafikformate anzeigen zu lassen (.gif, .jpg, .png).
 Man kann die Grafik entweder laden (in die Datenbank) oder auf die Grafik mit Hilfe einer URL zeigen(z.B. auf eine Ressource oder http-Adresse).</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -9252,7 +9252,7 @@ Man kann die Grafik entweder laden (in die Datenbank) oder auf die Grafik mit Hi
  <row id="1673" trl="Y">
   <value column="Name" original="Only Discount">Nur Skonto</value>
   <value column="PrintName" original="Only Discount">Nur Skonto</value>
-  <value column="Description" original="Include only invoices where we would get payment discount">Nur Rechnungen einbeziehen, für die  Skonto gewährt wird.</value>
+  <value column="Description" original="Include only invoices where we would get payment discount">Nur Rechnungen einbeziehen, für die Skonto gewährt wird.</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -9482,10 +9482,10 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1698" trl="Y">
-  <value column="Name" original="Request EMail">Anfrage-EMail</value>
-  <value column="PrintName" original="Request EMail">Anfrage-EMail</value>
-  <value column="Description" original="EMail address to send automated mails from or receive mails for automated processing (fully qualified)">EMail-Adresse für den Versand oder Empfang bei automatischer Verarbeitung (voll qualifiziert)</value>
-  <value column="Help" original="EMails for requests, alerts and escalation are sent from this email address as well as delivery information if the sales rep does not have an email account. The address must be filly qualified (e.g. joe.smith@company.com) and should be a valid address.">EMails for requests, alerts and escalation are sent from this email address as well as delivery information if the sales rep does not have an email account. The address must be filly qualified (e.g. joe.smith@company.com) and should be a valid address.</value>
+  <value column="Name" original="Request EMail">Anfrage-E-Mail</value>
+  <value column="PrintName" original="Request EMail">Anfrage-E-Mail</value>
+  <value column="Description" original="EMail address to send automated mails from or receive mails for automated processing (fully qualified)">E-Mail-Adresse für den Versand oder Empfang bei automatischer Verarbeitung (voll qualifiziert)</value>
+  <value column="Help" original="EMails for requests, alerts and escalation are sent from this email address as well as delivery information if the sales rep does not have an email account. The address must be filly qualified (e.g. joe.smith@company.com) and should be a valid address.">E-Mails for requests, alerts and escalation are sent from this email address as well as delivery information if the sales rep does not have an email account. The address must be filly qualified (e.g. joe.smith@company.com) and should be a valid address.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -9494,7 +9494,7 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
  <row id="1699" trl="Y">
   <value column="Name" original="Request Folder">Anfrage-Verzeichnis</value>
   <value column="PrintName" original="Request Folder">Anfrage-Verzeichnis</value>
-  <value column="Description" original="EMail folder to process incoming emails; if empty INBOX is used">EMail-Verzeichnis für die Verarbeitung eigehender EMails; wenn leer wird INBOX verwendet</value>
+  <value column="Description" original="EMail folder to process incoming emails; if empty INBOX is used">E-Mail-Verzeichnis für die Verarbeitung eigehender E-Mails; wenn leer wird INBOX verwendet</value>
   <value column="Help" original="Email folder used to read emails to process as requests, If left empty the default mailbox (INBOX) will be used. Requires IMAP services.">Email folder used to read emails to process as requests, If left empty the default mailbox (INBOX) will be used. Requires IMAP services.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -9504,7 +9504,7 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
  <row id="1700" trl="Y">
   <value column="Name" original="Request User">Anfrage-Nutzer</value>
   <value column="PrintName" original="Request User">Anfrage-Nutzer</value>
-  <value column="Description" original="User Name (ID) of the email owner">Nutzer-Name (ID) des EMail-Kontos</value>
+  <value column="Description" original="User Name (ID) of the email owner">Nutzer-Name (ID) des E-Mail-Kontos</value>
   <value column="Help" original="EMail user name for requests, alerts and escalation are sent from this email address as well as delivery information if the sales rep does not have an email account. Required, if your mail server requires authentification as well as for processing incoming mails.">EMail user name for requests, alerts and escalation are sent from this email address as well as delivery information if the sales rep does not have an email account. Required, if your mail server requires authentification as well as for processing incoming mails.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -9514,7 +9514,7 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
  <row id="1701" trl="Y">
   <value column="Name" original="Request User Password">Passwort Anfrage-Nutzer</value>
   <value column="PrintName" original="Request User PW">Passwort Anfrage-Nutzer</value>
-  <value column="Description" original="Password of the user name (ID) for mail processing">Passwort des Nutzer-Namens (ID) für den EMail-Zugriff</value>
+  <value column="Description" original="Password of the user name (ID) for mail processing">Passwort des Nutzer-Namens (ID) für den E-Mail-Zugriff</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -10824,7 +10824,7 @@ where the two last digits refer to minutes and the two or three first digits ind
   <value column="Name" original="Multi Lingual Documents">Multisprachliche Dokumente</value>
   <value column="PrintName" original="Multi Lingual Documents">Multisprachliche Dokumente</value>
   <value column="Description" original="Documents are Multi Lingual">Dokumente sind mehrsprachig verwendet</value>
-  <value column="Help" original="If selected, you enable multi lingual documents and need to maintain translations for entities used in documents (examples: Products, Payment Terms, ...).&lt;br&gt;&#10;Please note, that the base language is always English.">Wenn ausgewählt, müssen Sie Übersetzungen für alle in den Dokumenten verwendeten Elementen pflegen  (Beispiel: Produkte, Zahlungsbedingungen, Anrede, ...).&lt;br&gt;
+  <value column="Help" original="If selected, you enable multi lingual documents and need to maintain translations for entities used in documents (examples: Products, Payment Terms, ...).&lt;br&gt;&#10;Please note, that the base language is always English.">Wenn ausgewählt, müssen Sie Übersetzungen für alle in den Dokumenten verwendeten Elementen pflegen (Beispiel: Produkte, Zahlungsbedingungen, Anrede, ...).&lt;br&gt;
 Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -11285,7 +11285,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="Name" original="Opt-out Date">Datum der Abmeldung</value>
   <value column="PrintName" original="Opt-Out">Abmeldung</value>
   <value column="Description" original="Date the contact opted out">Datum, zu dem der Kontakt sich abgemeldet hat</value>
-  <value column="Help" original="If the field has a date, the customer opted out (unsubscribed) and cannot receive mails for the Interest Area">Wenn dieses Feld ein Datum enthält, hat der Kunde sich zu diesem Bereich abgemeldet und kann dazu keine EMails mehr empfangen.</value>
+  <value column="Help" original="If the field has a date, the customer opted out (unsubscribed) and cannot receive mails for the Interest Area">Wenn dieses Feld ein Datum enthält, hat der Kunde sich zu diesem Bereich abgemeldet und kann dazu keine E-Mails mehr empfangen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -11322,10 +11322,10 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1896" trl="Y">
-  <value column="Name" original="EMail User ID">EMail Nutzer-ID</value>
+  <value column="Name" original="EMail User ID">E-Mail Nutzer-ID</value>
   <value column="PrintName" original="EMail User">Email Nutzer</value>
   <value column="Description" original="User Name (ID) in the Mail System">Nutzer-Name/Konto (ID) im EMail-System</value>
-  <value column="Help" original="The user name in the mail system is usually the string before the @ of your email address.  Required if the mail server requires authentification to send emails.">The user name in the mail system is usually the string before the @ of your email address. Notwendig, wenn der EMail-SErver eine Anmeldung vor dem Versenden von EMails verlangt.</value>
+  <value column="Help" original="The user name in the mail system is usually the string before the @ of your email address.  Required if the mail server requires authentification to send emails.">The user name in the mail system is usually the string before the @ of your email address. Notwendig, wenn der E-Mail-Server eine Anmeldung vor dem Versenden von E-Mails verlangt.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -11335,7 +11335,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="Name" original="EMail User Password">Passwort EMail-Nutzer</value>
   <value column="PrintName" original="EMail Password">EMail-Passwort</value>
   <value column="Description" original="Password of your email user id">Passwort Ihrer EMail Nutzer-ID</value>
-  <value column="Help" original="Required if the mail server requires authentification to send emails.">Notwendig, wenn der EMail-SErver eine Anmeldung vor dem Versenden von EMails verlangt.</value>
+  <value column="Help" original="Required if the mail server requires authentification to send emails.">Notwendig, wenn der E-Mail-Server eine Anmeldung vor dem Versenden von E-Mails verlangt.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -11344,7 +11344,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
  <row id="1898" trl="Y">
   <value column="Name" original="SMTP Authentication">SMTP-Anmeldung</value>
   <value column="PrintName" original="SMTP Authentication">SMTP-Anmeldung</value>
-  <value column="Description" original="Your mail server requires Authentication">Ihr EMail-Server verlangt eine Anmeldung</value>
+  <value column="Description" original="Your mail server requires Authentication">Ihr E-Mail-Server verlangt eine Anmeldung</value>
   <value column="Help" original="Some email servers require authentication before sending emails.  If yes, users are required to define their email user name and password.  If authentication is required and no user name and password is required, delivery will fail.">Some email servers require authentication before sending emails.  If yes, users are required to define their email user name and password.  If authentication is required and no user name and password is required, delivery will fail.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -11385,7 +11385,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="Name" original="Registered EMail">Registrierte E-Mail</value>
   <value column="PrintName" original="Registered EMail">Registrierte E-Mail</value>
   <value column="Description" original="Email of the responsible for the System">E-Mail des Verantwortlichen für das System</value>
-  <value column="Help" original="Email of the responsible person for the system (registered in WebStore)">EMail des Verantwortlichen für das System (im WebShop registriert)</value>
+  <value column="Help" original="Email of the responsible person for the system (registered in WebStore)">E-Mail des Verantwortlichen für das System (im WebShop registriert)</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -11834,7 +11834,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
  <row id="1950" trl="Y">
   <value column="Name" original="Delivery Confirmation">Zustellquittierung</value>
   <value column="PrintName" original="Delivery Confirmation">Zustellquittierung</value>
-  <value column="Description" original="EMail Delivery confirmation">EMail Zustellquittierung</value>
+  <value column="Description" original="EMail Delivery confirmation">E-Mail Zustellquittierung</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -11854,7 +11854,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
  <row id="1952" trl="Y">
   <value column="Name" original="Message ID">Message-ID</value>
   <value column="PrintName" original="Message ID">Message-ID</value>
-  <value column="Description" original="EMail Message ID">EMail Message-ID</value>
+  <value column="Description" original="EMail Message ID">E-Mail Message-ID</value>
   <value column="Help" original="SMTP Message ID for tracking purposes">SMTP Message-ID für Nachverfolgungszwecke</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -12252,10 +12252,10 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1993" trl="Y">
-  <value column="Name" original="Web Order EMail">Webauftrags-EMail</value>
-  <value column="PrintName" original="Web Order EMail">Webauftrags-EMail</value>
-  <value column="Description" original="EMail address to receive notifications when web orders were processed">EMail-Adresse für den Empfang von Benachrichtigungen bei Verarbeitung von Aufträgen</value>
-  <value column="Help" original="When processig a web order, a confirmation is sent to the EMail addess of the customer from the request EMail address copying this email address when entered.">Bei der Verarbeitung eines Webauftrages wird eine Bestätigung von der Anfrage-EMail an die EMail-Adresse des Kunden versandt - mit Kopie an diese Adresse (wenn eingegeben).</value>
+  <value column="Name" original="Web Order EMail">Webauftrags-E-Mail</value>
+  <value column="PrintName" original="Web Order EMail">Webauftrags-E-Mail</value>
+  <value column="Description" original="EMail address to receive notifications when web orders were processed">E-Mail-Adresse für den Empfang von Benachrichtigungen bei Verarbeitung von Aufträgen</value>
+  <value column="Help" original="When processig a web order, a confirmation is sent to the EMail addess of the customer from the request EMail address copying this email address when entered.">Bei der Verarbeitung eines Webauftrages wird eine Bestätigung von der Anfrage-E-Mail an die E-Mail-Adresse des Kunden versandt - mit Kopie an diese Adresse (wenn eingegeben).</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -12575,7 +12575,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="Name" original="BOM Type">Stücklisten-Zugehörigkeit</value>
   <value column="PrintName" original="BOM Type">Stücklisten-Zugehörigkeit</value>
   <value column="Description" original="Type of BOM">Art der Zugehörigkeit zur Stückliste</value>
-  <value column="Help" original="The type of Bills of Materials determines the state">Art der Zugehörigkeit eines Produktes zur Stückliste. Ein Standard-Produkt (default) ist immer in der Stückliste enthalten. Ein optionales Produkt kann in "Stückliste einfügen" ausgewählt werden. Wenn ein Teil zu einer der Alternativgruppen gehört, können Sie eine der Alternativen mit der Funktion "Stückliste einfügen" auswählen  (z.B.: alternativ 64/256/512 MB Speicher).</value>
+  <value column="Help" original="The type of Bills of Materials determines the state">Art der Zugehörigkeit eines Produktes zur Stückliste. Ein Standard-Produkt (default) ist immer in der Stückliste enthalten. Ein optionales Produkt kann in "Stückliste einfügen" ausgewählt werden. Wenn ein Teil zu einer der Alternativgruppen gehört, können Sie eine der Alternativen mit der Funktion "Stückliste einfügen" auswählen (z.B.: alternativ 64/256/512 MB Speicher).</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -12672,8 +12672,8 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2040" trl="Y">
-  <value column="Name" original="Invoice Location">Rechnungsstandort</value>
-  <value column="PrintName" original="Invoice Location">Rechnungsstandort</value>
+  <value column="Name" original="Invoice Location">Rechnungsanschrift</value>
+  <value column="PrintName" original="Invoice Location">Rechnungsanschrift</value>
   <value column="Description" original="Business Partner Location for invoicing">Standort des Geschäftspartners für die Rechnungsstellung</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -13108,7 +13108,7 @@ Customer Self Services (CSS), auf deutsch Kundenselbstbedienung (KSB), sind Dien
  <row id="2087" trl="Y">
   <value column="Name" original="Alert">Alarmierung</value>
   <value column="PrintName" original="Alert">Alarmierung</value>
-  <value column="Description" original="Adempiere Alert">Adempiere-Alarmierung</value>
+  <value column="Description" original="Adempiere Alert">ADempiere-Alarmierung</value>
   <value column="Help" original="Adempiere Alerts allow you define system conditions you want to be alerted of">Adempiere Alerts allow you define system conditions you want to be alerted of</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -13915,7 +13915,7 @@ Purchase Tax: tax charged when purchasing - examples: Use Tax, Input VAT (receiv
  <row id="2172" trl="Y">
   <value column="Name" original="Attach Asset">Asset hinzufügen</value>
   <value column="PrintName" original="Attach Asset">Asset hinzufügen</value>
-  <value column="Description" original="Attach Asset to be delivered per email">Asset zur Auslieferung per EMail hinzufügen</value>
+  <value column="Description" original="Attach Asset to be delivered per email">Asset zur Auslieferung per E-Mail hinzufügen</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -14052,7 +14052,7 @@ Diese Funktion eröffnet die Möglichkeit, Zeilen mit beschreibende Details einz
  </row>
  <row id="2186" trl="Y">
   <value column="Name" original="Close Document">Close Document</value>
-  <value column="PrintName" original="Close">Schliessen</value>
+  <value column="PrintName" original="Close">Schließen</value>
   <value column="Description" original="Close Document (process)">Beleg schließen (verarbeiten)</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -14091,10 +14091,10 @@ Diese Funktion eröffnet die Möglichkeit, Zeilen mit beschreibende Details einz
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2190" trl="Y">
-  <value column="Name" original="Verification Info">Überprüfung EMail</value>
-  <value column="PrintName" original="Verify Info">Überprüfung EMail</value>
-  <value column="Description" original="Verification information of EMail Address">Überprüfung der EMail-Adresse</value>
-  <value column="Help" original="The field contains additional information how the EMail Address has been verified">Dieses Feld enthält das Datum, an dem die EMail-Adresse verifiziert wurde.</value>
+  <value column="Name" original="Verification Info">Überprüfung E-Mail</value>
+  <value column="PrintName" original="Verify Info">Überprüfung E-Mail</value>
+  <value column="Description" original="Verification information of EMail Address">Überprüfung der E-Mail-Adresse</value>
+  <value column="Help" original="The field contains additional information how the EMail Address has been verified">Dieses Feld enthält das Datum, an dem die E-Mail-Adresse verifiziert wurde.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -14558,7 +14558,7 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="Name" original="Min Shelf Life %">Mindesthaltbarkeit %</value>
   <value column="PrintName" original="Min Shelf Life %">Mindesthaltbarkeit %</value>
   <value column="Description" original="Minimum Shelf Life in percent based on Product Instance Guarantee Date">Mindesthaltbarkeit in Prozent, bezogen auf das Mindesthaltbarkeitsdatum einer Produktinstanz</value>
-  <value column="Help" original="Miminum Shelf Life of products with Guarantee Date instance. If &gt; 0 you cannot select products with a shelf life ((Guarantee Date-Today) / Guarantee Days) less than the minum shelf life, unless you select &quot;Show All&quot;">Mindesthaltbarkeit von Produkten mit einem garanierten Mindesthaltbarkeitsdatum. Falls dieses &gt;0 ist, kann man kein Produkt mit Haltbarkeit ((Haltbarkeitsdatum - Heutiges Datum)/(Resthaltbarkeitsdatum in Tagen) auswählen, außer es wird die Option "Alles auswählen" gewählt.</value>
+  <value column="Help" original="Miminum Shelf Life of products with Guarantee Date instance. If &gt; 0 you cannot select products with a shelf life ((Guarantee Date-Today) / Guarantee Days) less than the minum shelf life, unless you select &quot;Show All&quot;">Mindesthaltbarkeit von Produkten mit einem garantierten Mindesthaltbarkeitsdatum. Falls dieses größer null ist, kann man kein Produkt mit Haltbarkeit ((Haltbarkeitsdatum - Heutiges Datum)/(Resthaltbarkeitsdatum in Tagen)) auswählen, außer es wird die Option "Alles auswählen" gewählt.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -14970,7 +14970,7 @@ In the display of products in the Web Store, the product is displayed in the ini
   <value column="Name" original="Bank Statement Loader">Ladeprogramm Bankauszug</value>
   <value column="PrintName" original="Bank Statement Loader">Ladeprogramm Bankauszug</value>
   <value column="Description" original="Definition of Bank Statement Loader (SWIFT, OFX)">Definition des Ladeprogrammes für den Bankauszug (SWIFT, OFX)</value>
-  <value column="Help" original="The loader definition privides the parameters to load bank statements from EFT formats like SWIFT (MT940) or OFX">Die Angabe des Ladeprogrammes definiert die Parameter für das Laden von Bankauszügen in ELV-Formaten wie  SWIFT (MT940) oder OFX.</value>
+  <value column="Help" original="The loader definition privides the parameters to load bank statements from EFT formats like SWIFT (MT940) or OFX">Die Angabe des Ladeprogrammes definiert die Parameter für das Laden von Bankauszügen in ELV-Formaten wie SWIFT (MT940) oder OFX.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -15120,7 +15120,7 @@ In the display of products in the Web Store, the product is displayed in the ini
   <value column="Name" original="Create Reciprocal Rate">Erzeuge reziproken Kurs</value>
   <value column="PrintName" original="Create Reciprocal">Erzeuge reziproken Kurs</value>
   <value column="Description" original="Create Reciprocal Rate from current information">Erzeuge reziproken Kurs aus der Information</value>
-  <value column="Help" original="If selected, the imported USD-&gt;EUR rate is used to create/calculate the reciprocal rate EUR-&gt;USD.">Wenn selektiert wird z.B. der importierte Kurs  USD-&gt;EUR  verwendet, um den Kurs EUR-&gt;USD zu erstellen.</value>
+  <value column="Help" original="If selected, the imported USD-&gt;EUR rate is used to create/calculate the reciprocal rate EUR-&gt;USD.">Wenn selektiert wird z.B. der importierte Kurs USD-&gt;EUR verwendet, um den Kurs EUR-&gt;USD zu erstellen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -15423,7 +15423,7 @@ durch das System erfolgt. Manuell bedeutet, die Auslösung erfolgt ausschließli
   <value column="Name" original="Split Element">Ausgehende Ereignisse</value>
   <value column="PrintName" original="Split Element">Split Element</value>
   <value column="Description" original="Semantics for multiple outgoing Transitions">Semantische Regeln für mehrere ausgehende Ereignisse. AND oder XOR.</value>
-  <value column="Help" original="Semantics for multiple outgoing Transitions for a Node/Activity.  AND represents multiple concurrent threads - XOR represents the first transition with a true Transaition condition.">Semantische Regeln für mehrere von einem Knoten/einer Aktivität ausgehende  Ereignisse. 
+  <value column="Help" original="Semantics for multiple outgoing Transitions for a Node/Activity.  AND represents multiple concurrent threads - XOR represents the first transition with a true Transaition condition.">Semantische Regeln für mehrere von einem Knoten/einer Aktivität ausgehende Ereignisse. 
 AND bedeutet mehrere Vorgänge/Aktivitäten gleichzeitig.
 XOR bedeutet der erste Vorgang/Aktivität bei dem die Auslöse-Bedingung erfüllt(=TRUE) ist.</value>
   <value column="PO_Description" original=""/>
@@ -16544,8 +16544,8 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2452" trl="Y">
-  <value column="Name" original="Requisition">Bedarf</value>
-  <value column="PrintName" original="Requisition">Bedarf</value>
+  <value column="Name" original="Requisition">Bestellanfoderung</value>
+  <value column="PrintName" original="Requisition">Bestellanforderung</value>
   <value column="Description" original="Material Requisition">Materialbedarf</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -16554,8 +16554,8 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2453" trl="Y">
-  <value column="Name" original="Requisition Line">Bedarfs-Position</value>
-  <value column="PrintName" original="Requisition Line">Bedarfs-Position</value>
+  <value column="Name" original="Requisition Line">Bestellanforderderungsposition</value>
+  <value column="PrintName" original="Requisition Line">Bestellanforderungsposition</value>
   <value column="Description" original="Material Requisition Line">Material Requisition Line</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -18292,7 +18292,7 @@ The Remind Days are the days when the next email reminder is sent.</value>
   <value column="Name" original="Inactivity Alert Days">Tage bis Untätigkeitsalarmierung</value>
   <value column="PrintName" original="Inactivity Alert Days">Tage bis Untätigkeitsalarmierung</value>
   <value column="Description" original="Send Alert when there is no activity after days (0= no alert)">Sende Benachrichtigung, wenn nach x Tagen keine Aktivität (0 = keine Benachrichtigung)</value>
-  <value column="Help" original="An email alert is sent when the request shows no activity for the number of days defined.">Eine EMail-Benachrichtigung wird versandt, wenn zu dieser Anfrage nach der definierten Anzahl von Tagen keine Aktivität ausgeführt wurde.</value>
+  <value column="Help" original="An email alert is sent when the request shows no activity for the number of days defined.">Eine E-Mail-Benachrichtigung wird versandt, wenn zu dieser Anfrage nach der definierten Anzahl von Tagen keine Aktivität ausgeführt wurde.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -18301,8 +18301,8 @@ The Remind Days are the days when the next email reminder is sent.</value>
  <row id="2635" trl="Y">
   <value column="Name" original="Alert over Priority">Alarm "Über Priorität"</value>
   <value column="PrintName" original="Alert over Priority">Alarm "Über Priorität"</value>
-  <value column="Description" original="Send alert email when over priority">Sende Alarmierungs-EMail wenn über Priorität</value>
-  <value column="Help" original="Send alert email when a suspended activity is over the  priority defined">Sende eine Alarmierungs-EMail wenn die unterbrochene Aktivität oberhalb der definierten Priorität ist</value>
+  <value column="Description" original="Send alert email when over priority">Sende Alarmierungs-E-Mail wenn über Priorität</value>
+  <value column="Help" original="Send alert email when a suspended activity is over the  priority defined">Sende eine Alarmierungs-E-Mail wenn die unterbrochene Aktivität oberhalb der definierten Priorität ist</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -18582,7 +18582,7 @@ The Remind Days are the days when the next email reminder is sent.</value>
   <value column="Name" original="IBAN">IBAN</value>
   <value column="PrintName" original="IBAN">IBAN</value>
   <value column="Description" original="International Bank Account Number">International Bank Account Number</value>
-  <value column="Help" original="If your bank provides an International Bank Account Number, enter it here&#10;Details ISO 13616 and http://www.ecbs.org. The account number has the maximum length of 22 characters (without spaces). The IBAN is often printed with a apace after 4 characters. Do not enter the spaces in Adempiere.">Geben Sie hier die IBAN (International Bank Account Number) ein. Details unter ISO13616 bzw. http://www.ecbs.org. Die IBAN hat maximal 22 Stellen (ohne Leerzeichen). Die IBAN wird oft mit Leerzeichen nach jeweils vier Stellen angegeben. Geben Sie in Adempiere keine Leerstellen mit ein.</value>
+  <value column="Help" original="If your bank provides an International Bank Account Number, enter it here&#10;Details ISO 13616 and http://www.ecbs.org. The account number has the maximum length of 22 characters (without spaces). The IBAN is often printed with a apace after 4 characters. Do not enter the spaces in Adempiere.">Geben Sie hier die IBAN (International Bank Account Number) ein. Details unter ISO13616 bzw. http://www.ecbs.org. Die IBAN hat maximal 22 Stellen (ohne Leerzeichen). Die IBAN wird oft mit Leerzeichen nach jeweils vier Stellen angegeben. Geben Sie in ADempiere keine Leerstellen mit ein.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -18641,7 +18641,7 @@ The Remind Days are the days when the next email reminder is sent.</value>
  <row id="2670" trl="Y">
   <value column="Name" original="Model Validation Classes">Modell-Validierungs-Klassen</value>
   <value column="PrintName" original="Model Validation Classes">Modell-Validierungs-Klassen</value>
-  <value column="Description" original="List of data model validation classes separated by ;">Liste von Modell-Validierungs-Klassen, separiert durch  ;</value>
+  <value column="Description" original="List of data model validation classes separated by ;">Liste von Modell-Validierungs-Klassen, separiert durch ;</value>
   <value column="Help" original="List of classes implementing the interface org.compiere.model.ModelValidator, separaed by semicolon.&#10;The class is called for the client and alows to validate documents in the prepare stage and monitor model changes.">Liste von Klassen, die das Interface org.compiere.model.ModelValidator implementieren, separiert durch Semikolon. Die Klassen werden für den Compiere-Client aufgerufen und erlauben die Validierung von Dokumenten im Vorbereitungs-Schritt und das Überwachen von Modelländerungen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -18662,7 +18662,7 @@ The Remind Days are the days when the next email reminder is sent.</value>
   <value column="Name" original="Auto Archive">Automatische Archivierung</value>
   <value column="PrintName" original="Auto Archive">Automatische Archivierung</value>
   <value column="Description" original="Enable and level of automatic Archive of documents">Ermöglichen und einstellen des Grades der automatischen Archivierung</value>
-  <value column="Help" original="Adempiere allows to automatically create archives of Documents (e.g. Invoices) or Reports. You view the archived material with the Archive Viewer">Adempiere ermöglicht, Archive aller Belege (z.B. Rechnungen) oder Berichte automatisch anzulegen. Sie können sich das archivierte Material mit dem Archiv-Betrachter ansehen.</value>
+  <value column="Help" original="Adempiere allows to automatically create archives of Documents (e.g. Invoices) or Reports. You view the archived material with the Archive Viewer">ADempiere ermöglicht, Archive aller Belege (z.B. Rechnungen) oder Berichte automatisch anzulegen. Sie können sich das archivierte Material mit dem Archiv-Betrachter ansehen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -19150,9 +19150,9 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2726" trl="Y">
-  <value column="Name" original="EMail Verify">EMail überprüft</value>
-  <value column="PrintName" original="EMail Verify">EMail überprüft</value>
-  <value column="Description" original="Date Email was verified">Datum der EMail-Überprüfung</value>
+  <value column="Name" original="EMail Verify">E-Mail überprüft</value>
+  <value column="PrintName" original="EMail Verify">E-Mail überprüft</value>
+  <value column="Description" original="Date Email was verified">Datum der E-Mail-Überprüfung</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -19173,7 +19173,7 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="Name" original="Mail Text 2">Mail Text 2</value>
   <value column="PrintName" original="Mail Text 2">Mail Text 2</value>
   <value column="Description" original="Optional second text part used for Mail message">Optional second text part used for Mail message</value>
-  <value column="Help" original="The Mail Text indicates the text used for mail messages.">"EMailtext" zeigt den in der EMail-Mitteilung verwendeten Text an.</value>
+  <value column="Help" original="The Mail Text indicates the text used for mail messages.">"E-Mailtext" zeigt den in der E-Mail-Mitteilung verwendeten Text an.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -19183,7 +19183,7 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="Name" original="Mail Text 3">Mail Text 3</value>
   <value column="PrintName" original="Mail Text 3">Mail Text 3</value>
   <value column="Description" original="Optional third text part used for Mail message">Optional third text part used for Mail message</value>
-  <value column="Help" original="The Mail Text indicates the text used for mail messages.">"EMailtext" zeigt den in der EMail-Mitteilung verwendeten Text an.</value>
+  <value column="Help" original="The Mail Text indicates the text used for mail messages.">"E-Mailtext" zeigt den in der E-Mail-Mitteilung verwendeten Text an.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -19352,7 +19352,7 @@ Example: "Updated-Created" would list the age of the entry in days</value>
  <row id="2746" trl="Y">
   <value column="Name" original="Mail Message">EMail-Mitteilung</value>
   <value column="PrintName" original="Mail Message">EMail-Mitteilung</value>
-  <value column="Description" original="Web Store Mail Message Template">Vorlage für EMail-Mitteilung im Webshop</value>
+  <value column="Description" original="Web Store Mail Message Template">Vorlage für E-Mail-Mitteilung im Webshop</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -19372,7 +19372,7 @@ Example: "Updated-Created" would list the age of the entry in days</value>
  <row id="2748" trl="Y">
   <value column="Name" original="Subject">Betreff</value>
   <value column="PrintName" original="Subject">Betreff</value>
-  <value column="Description" original="Email Message Subject">EMail Betreff</value>
+  <value column="Description" original="Email Message Subject">E-Mail Betreff</value>
   <value column="Help" original="Subject of the EMail ">Subject of the EMail </value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -19410,10 +19410,10 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2752" trl="Y">
-  <value column="Name" original="User Mail">EMail des Nutzers</value>
-  <value column="PrintName" original="User Mail">EMail des Nutzers</value>
-  <value column="Description" original="Mail sent to the user">An diesen Nutzer gesandte EMail</value>
-  <value column="Help" original="Archive of mails sent to users">Archiv der an diesen Nutzer gesandten EMails.</value>
+  <value column="Name" original="User Mail">E-Mail des Nutzers</value>
+  <value column="PrintName" original="User Mail">E-Mail des Nutzers</value>
+  <value column="Description" original="Mail sent to the user">An diesen Nutzer gesandte E-Mail</value>
+  <value column="Help" original="Archive of mails sent to users">Archiv der an diesen Nutzer gesandten E-Mails.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -19443,7 +19443,7 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="Name" original="Notification Type">Benachrichtigungs-Art</value>
   <value column="PrintName" original="Notification Type">Benachrichtigungs-Art</value>
   <value column="Description" original="Type of Notifications">Art der Benachrichtigung</value>
-  <value column="Help" original="Emails or Notification sent out for Request Updates, etc.">EMail oder Nachricht bei aktualisierter Anfrage usw.</value>
+  <value column="Help" original="Emails or Notification sent out for Request Updates, etc.">E-Mail oder Nachricht bei aktualisierter Anfrage usw.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -19920,9 +19920,9 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2806" trl="Y">
-  <value column="Name" original="EMail Test">EMail Test</value>
-  <value column="PrintName" original="EMail Test">EMail Test</value>
-  <value column="Description" original="Test EMail">Teste EMail</value>
+  <value column="Name" original="EMail Test">E-Mail Test</value>
+  <value column="PrintName" original="EMail Test">E-Mail Test</value>
+  <value column="Description" original="Test EMail">Teste E-Mail</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -19940,9 +19940,9 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2808" trl="Y">
-  <value column="Name" original="Server EMail">Server EMail</value>
-  <value column="PrintName" original="Server EMail">Server EMail</value>
-  <value column="Description" original="Send EMail from Server">Sende EMail vom Server</value>
+  <value column="Name" original="Server EMail">Server E-Mail</value>
+  <value column="PrintName" original="Server EMail">Server E-Mail</value>
+  <value column="Description" original="Send EMail from Server">Sende E-Mail vom Server</value>
   <value column="Help" original="When selected, mail is sent from the server rather then the client.  This decreases availability.  You would select this when you do not want to enable email relay for the client addresses in your mail server.">When selected, mail is sent from the server rather then the client.  This decreases availability.  You would select this when you do not want to enable email relay for the client addresses in your mail server.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -20024,7 +20024,7 @@ The web context usually starts with / and needs to be a valid context name (not 
   <value column="Name" original="Costing Level">Kostenrechnungsstufe</value>
   <value column="PrintName" original="Costing Level">Kostenrechnungsstufe</value>
   <value column="Description" original="The lowest level to accumulate Costing Information">Die unterste Stufe um Kosteninformation zu kumulieren</value>
-  <value column="Help" original="If you want to maintain different costs per organization (warehouse) or per Batch/Lot, you need to make sure that you define the costs for each of the organizations or batch/lot. The Costing Level is defined per Accounting Schema and can be overwritten by Product Category and Accounting Schema.">Wenn Sie verschiedene Kosten pro Organisation (Lager) oder pro Charge/Los verwalten möchten dann stellen Sie sicher, dass Sie diese für jede Organistaion und jede Charge bzw. jedes Los definieren. Die Kostenrechnungsstufe ist pro Kontenrahmens definiert und kann durch die Produktkategorie oder  den Kontenrahmen überschrieben werden.</value>
+  <value column="Help" original="If you want to maintain different costs per organization (warehouse) or per Batch/Lot, you need to make sure that you define the costs for each of the organizations or batch/lot. The Costing Level is defined per Accounting Schema and can be overwritten by Product Category and Accounting Schema.">Wenn Sie verschiedene Kosten pro Organisation (Lager) oder pro Charge/Los verwalten möchten dann stellen Sie sicher, dass Sie diese für jede Organistaion und jede Charge bzw. jedes Los definieren. Die Kostenrechnungsstufe ist pro Kontenrahmens definiert und kann durch die Produktkategorie oder den Kontenrahmen überschrieben werden.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -24250,7 +24250,7 @@ O - org configurable parameter</value>
   <value column="Name" original="Units by Cycles">Einheiten/Zeiteinheit</value>
   <value column="PrintName" original="Units by Cycles">UnitsCycles</value>
   <value column="Description" original="The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.">Zeigt an, wieviele Produkteinheiten pro angegebener Zeiteinheit gefertigt werden können. Kann anstelle des Bearbeitungszeiten-Feldes genutzt werden.</value>
-  <value column="Help" original="When Units by Cycles are defined the duration time is the total of time to manufactured the units">Zeigt an, wieviele Produkteinheiten pro angegebener Zeiteinheit gefertigt werden können. Kann anstelle des Bearbeitungszeiten-Feldes genutzt werden,  wo angegeben wird, wie lange es dauert, genau ein Produkt zu fertigen.</value>
+  <value column="Help" original="When Units by Cycles are defined the duration time is the total of time to manufactured the units">Zeigt an, wieviele Produkteinheiten pro angegebener Zeiteinheit gefertigt werden können. Kann anstelle des Bearbeitungszeiten-Feldes genutzt werden, wo angegeben wird, wie lange es dauert, genau ein Produkt zu fertigen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -24349,7 +24349,7 @@ O - org configurable parameter</value>
  <row id="53249" trl="Y">
   <value column="Name" original="Component Type">Typ der Komponente</value>
   <value column="PrintName" original="Component Type">Component Type</value>
-  <value column="Description" original="Component Type for a Bill of Material or Formula">Es gibt 8 Typen von Komponenten, eine Komponente kann einem Typen zugeordnet werden. Beispiele für Typen:  Komponente, Option, Verpackung...</value>
+  <value column="Description" original="Component Type for a Bill of Material or Formula">Es gibt 8 Typen von Komponenten, eine Komponente kann einem Typen zugeordnet werden. Beispiele für Typen: Komponente, Option, Verpackung...</value>
   <value column="Help" original="The Component Type can be:&#10;&#10;1.- By Product: Define a By Product as Component into BOM&#10;2.- Component: Define a normal Component into BOM &#10;3.- Option: Define an Option for Product Configure BOM&#10;4.- Phantom: Define a Phantom as Component into BOM&#10;5.- Packing: Define a Packing as Component into BOM&#10;6.- Planning : Define Planning as Component into BOM&#10;7.- Tools: Define Tools as Component into BOM&#10;8.- Variant: Define Variant  for Product Configure BOM&#10;">The Component Type can be:
 
 1.- By Product: Define a By Product as Component into BOM
@@ -24510,7 +24510,7 @@ Use the field Backflush Group for grouping the component in a Backflush Method.<
  <row id="53265" trl="Y">
   <value column="Name" original="Order Period">Bestellperiode</value>
   <value column="PrintName" original="Order Period">Order Period</value>
-  <value column="Description" original="">Legt fest, innerhalb welchen Zeitraums der MRP-Prozess die Bedarfe zu einer einzelen Bestellung zusammengefasst werden</value>
+  <value column="Description" original="">Legt fest, innerhalb welchen Zeitraums der MRP-Prozess die Bedarfe zu einer einzelnen Bestellung zusammengefasst werden</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -24648,7 +24648,7 @@ Use the field Backflush Group for grouping the component in a Backflush Method.<
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53280" trl="Y">
-  <value column="Name" original="DateStart">Tatsächlicher  Start</value>
+  <value column="Name" original="DateStart">Tatsächlicher Start</value>
   <value column="PrintName" original="DateStart">DateStart</value>
   <value column="Description" original="">Zeigt den tatsächlichen Zeitpunkt an, an dem der erste Arbeitsschritt für einen Fertigungsauftrag durchgeführt wurde.</value>
   <value column="Help" original="">It is the date when the first manufacturing order movement is reported, this movement can be an inventory or labor movement.</value>
