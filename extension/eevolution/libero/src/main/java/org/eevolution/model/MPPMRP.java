@@ -60,9 +60,137 @@ import org.eevolution.exceptions.NoPlantForWarehouseException;
  */
 public class MPPMRP extends X_PP_MRP
 {
-	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8347092433127181737L;
 	private static CLogger s_log = CLogger.getCLogger(MPPMRP.class);
+	
+	
+	public static MPPOrder createMOMakeTo(MOrderLine ol, BigDecimal qty)
+	{
+		MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
+		if (order == null)
+		{
+			final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+" IN (?,?)"
+						   +" AND "+MPPProductBOM.COLUMNNAME_BOMUse+"=?"
+						   +" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
+			MPPProductBOM bom = new Query(ol.getCtx(), MPPProductBOM.Table_Name, whereClause,ol.get_TrxName())
+						.setParameters(new Object[]{
+								MPPProductBOM.BOMTYPE_Make_To_Order, 
+								MPPProductBOM.BOMTYPE_Make_To_Kit, 
+								MPPProductBOM.BOMUSE_Manufacturing,
+								ol.getM_Product_ID()})
+						.firstOnly();	
+			
+			MPPProductPlanning pp = null;
+			//Validate the BOM based in planning data 
+			if(bom == null)
+			{
+				pp = MPPProductPlanning.find(ol.getCtx(), ol.getAD_Org_ID(), 0, 0, ol.getM_Product_ID(), null); 
+				if(pp != null)
+				{	
+					bom = (MPPProductBOM) pp.getPP_Product_BOM();
+					if( bom != null
+						&& !MPPProductBOM.BOMTYPE_Make_To_Order.equals(bom.getBOMType())
+						&& !MPPProductBOM.BOMTYPE_Make_To_Kit.equals(bom.getBOMType()) )
+					{
+						bom = null;
+					}
+				}
+			}
+			if (bom != null) 
+			{		
+				final MProduct product = MProduct.get(ol.getCtx(), ol.getM_Product_ID());   
+				final int plant_id = MPPProductPlanning.getPlantForWarehouse(ol.getM_Warehouse_ID());
+				if(plant_id <= 0)
+				{
+					throw new NoPlantForWarehouseException(ol.getM_Warehouse_ID());
+				}
+				MWorkflow workflow = MWorkflow.get(ol.getCtx(), MWorkflow.getWorkflowSearchKey(product));
+				//Validate the workflow based in planning data 						
+				if(workflow == null && pp != null)
+				{
+					workflow = pp.getAD_Workflow();
+				}
+				//
+				if (plant_id > 0 && workflow != null)
+				{
+					RoutingService routingService = RoutingServiceFactory.get().getRoutingService(ol.getCtx());
+					int duration = routingService.calculateDuration(workflow,
+							MResource.get(ol.getCtx(), plant_id),
+							ol.getQtyOrdered()).intValueExact(); 
+					//
+					order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());
+					//comment for Manufacturing Order
+					order.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
+							+ " "
+							+ Msg.translate(ol.getCtx(), MOrder.COLUMNNAME_C_Order_ID) 
+							+ " : "
+							+ ol.getParent().getDocumentNo());
+					order.setC_OrderLine_ID(ol.getC_OrderLine_ID());
+					order.setS_Resource_ID(plant_id);
+					order.setM_Warehouse_ID(ol.getM_Warehouse_ID());
+					order.setM_Product_ID(ol.getM_Product_ID());
+					order.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
+					order.setPP_Product_BOM_ID(bom.get_ID());
+					order.setAD_Workflow_ID(workflow.get_ID());
+					order.setPlanner_ID(ol.getParent().getSalesRep_ID());
+					order.setLine(10);
+					order.setDateOrdered(ol.getDateOrdered());                       
+					order.setDatePromised(ol.getDatePromised());
+					order.setDateStartSchedule(TimeUtil.addDays(ol.getDatePromised(), 0 - duration));
+					order.setDateFinishSchedule(ol.getDatePromised());
+					order.setC_UOM_ID(ol.getC_UOM_ID());
+					order.setQty(qty);
+					order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
+					order.saveEx();  
+					order.setDocStatus(order.prepareIt());
+					order.setDocAction(MPPOrder.ACTION_Complete);
+					order.saveEx();
+					//comment for Order Line
+					ol.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
+							+ " "
+							+ Msg.translate(ol.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+							+ " : "
+							+ order.getDocumentNo());
+					ol.saveEx();
+				}
+			}    
+		}
+		else
+		{    
+			if (!order.isProcessed())
+			{
+				//if you chance product in order line the Manufacturing order is void
+				if(order.getM_Product_ID() != ol.getM_Product_ID())
+				{
+					order.setDescription("");
+					order.setQtyEntered(Env.ZERO);
+					order.setC_OrderLine_ID(0);
+					order.voidIt();
+					order.setDocStatus(MPPOrder.DOCSTATUS_Voided);
+					order.setDocAction(MPPOrder.ACTION_None);
+					order.save();
+					ol.setDescription("");
+					ol.saveEx();
+					
+				}
+				if(order.getQtyEntered().compareTo(ol.getQtyEntered()) != 0)
+				{	
+					order.setQty(ol.getQtyEntered());
+					order.saveEx();
+				}	
+				if(order.getDatePromised().compareTo(ol.getDatePromised()) != 0)
+				{
+					order.setDatePromised(ol.getDatePromised());
+					order.saveEx();
+				}
+			}    
+		}    
+	return order;
+	}
 	
 	private static HashMap<String, String[]> s_sourceColumnNames = new HashMap<String, String[]>();
 	static
@@ -442,127 +570,8 @@ public class MPPMRP extends X_PP_MRP
 		String DocSubTypeSO = dt.getDocSubTypeSO();
 		if(MDocType.DOCSUBTYPESO_StandardOrder.equals(DocSubTypeSO))
 		{
-			MPPOrder order = MPPOrder.forC_OrderLine_ID(ol.getCtx(), ol.get_ID(), ol.get_TrxName());
-			if (order == null)
-			{
-				final String whereClause = MPPProductBOM.COLUMNNAME_BOMType+" IN (?,?)"
-							   +" AND "+MPPProductBOM.COLUMNNAME_BOMUse+"=?"
-							   +" AND "+MPPProductBOM.COLUMNNAME_M_Product_ID+"=?";
-				MPPProductBOM bom = new Query(ol.getCtx(), MPPProductBOM.Table_Name, whereClause, null)
-							.setParameters(new Object[]{
-									MPPProductBOM.BOMTYPE_Make_To_Order, 
-									MPPProductBOM.BOMTYPE_Make_To_Kit, 
-									MPPProductBOM.BOMUSE_Manufacturing,
-									ol.getM_Product_ID()})
-							.firstOnly();	
-				
-				MPPProductPlanning pp = null;
-				//Validate the BOM based in planning data 
-				if(bom == null)
-				{
-					pp = MPPProductPlanning.find(ol.getCtx(), ol.getAD_Org_ID(), 0, 0, ol.getM_Product_ID(), null); 
-					if(pp != null)
-					{	
-						bom = (MPPProductBOM) pp.getPP_Product_BOM();
-						if( bom != null
-							&& !MPPProductBOM.BOMTYPE_Make_To_Order.equals(bom.getBOMType())
-							&& !MPPProductBOM.BOMTYPE_Make_To_Kit.equals(bom.getBOMType()) )
-						{
-							bom = null;
-						}
-					}
-				}
-				if (bom != null) 
-				{		
-					final MProduct product = MProduct.get(ol.getCtx(), ol.getM_Product_ID());   
-					final int plant_id = MPPProductPlanning.getPlantForWarehouse(ol.getM_Warehouse_ID());
-					if(plant_id <= 0)
-					{
-						throw new NoPlantForWarehouseException(ol.getM_Warehouse_ID());
-					}
-					MWorkflow workflow = MWorkflow.get(ol.getCtx(), MWorkflow.getWorkflowSearchKey(product));
-					//Validate the workflow based in planning data 						
-					if(workflow == null && pp != null)
-					{
-						workflow = pp.getAD_Workflow();
-					}
-					//
-					if (plant_id > 0 && workflow != null)
-					{
-						RoutingService routingService = RoutingServiceFactory.get().getRoutingService(ol.getCtx());
-						int duration = routingService.calculateDuration(workflow,
-								MResource.get(ol.getCtx(), plant_id),
-								ol.getQtyOrdered()).intValueExact(); 
-						//
-						order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());
-						//comment for Manufacturing Order
-						order.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
-								+ " "
-								+ Msg.translate(ol.getCtx(), MOrder.COLUMNNAME_C_Order_ID) 
-								+ " : "
-								+ o.getDocumentNo());
-						order.setC_OrderLine_ID(ol.getC_OrderLine_ID());
-						order.setS_Resource_ID(plant_id);
-						order.setM_Warehouse_ID(ol.getM_Warehouse_ID());
-						order.setM_Product_ID(ol.getM_Product_ID());
-						order.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
-						order.setPP_Product_BOM_ID(bom.get_ID());
-						order.setAD_Workflow_ID(workflow.get_ID());
-						order.setPlanner_ID(ol.getParent().getSalesRep_ID());
-						order.setLine(10);
-						order.setDateOrdered(ol.getDateOrdered());                       
-						order.setDatePromised(ol.getDatePromised());
-						order.setDateStartSchedule(TimeUtil.addDays(ol.getDatePromised(), 0 - duration));
-						order.setDateFinishSchedule(ol.getDatePromised());
-						order.setC_UOM_ID(ol.getC_UOM_ID());
-						order.setQty(ol.getQtyOrdered());
-						order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
-						order.saveEx();  
-						order.setDocStatus(order.prepareIt());
-						order.setDocAction(MPPOrder.ACTION_Complete);
-						order.saveEx();
-						//comment for Order Line
-						ol.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
-								+ " "
-								+ Msg.translate(ol.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
-								+ " : "
-								+ order.getDocumentNo());
-						ol.saveEx();
-					}
-				}    
-			}
-			else
-			{    
-				if (!order.isProcessed())
-				{
-					//if you chance product in order line the Manufacturing order is void
-					if(order.getM_Product_ID() != ol.getM_Product_ID())
-					{
-						order.setDescription("");
-						order.setQtyEntered(Env.ZERO);
-						order.setC_OrderLine_ID(0);
-						order.voidIt();
-						order.setDocStatus(MPPOrder.DOCSTATUS_Voided);
-						order.setDocAction(MPPOrder.ACTION_None);
-						order.save();
-						ol.setDescription("");
-						ol.saveEx();
-						
-					}
-					if(order.getQtyEntered().compareTo(ol.getQtyEntered()) != 0)
-					{	
-						order.setQty(ol.getQtyEntered());
-						order.saveEx();
-					}	
-					if(order.getDatePromised().compareTo(ol.getDatePromised()) != 0)
-					{
-						order.setDatePromised(ol.getDatePromised());
-						order.saveEx();
-					}
-				}    
-			}    
-		}
-		
+			MPPMRP.createMOMakeTo(ol, ol.getQtyOrdered());
+		}	
 		return;
 	}
 
