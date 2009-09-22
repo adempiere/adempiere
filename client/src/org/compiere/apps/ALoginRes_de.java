@@ -31,21 +31,21 @@ public final class ALoginRes_de extends ListResourceBundle
 	/** Translation Content     */
 	static final Object[][] contents = new String[][]
 	{
-	{ "Connection",     "Verbindung" },
-	{ "Defaults",       "Standard Werte" },
-	{ "Login",          "Adempiere Anmeldung" },
+	{ "Connection",     "Anmeldung" },
+	{ "Defaults",       "Standardwerte" },
+	{ "Login",          "Adempiere-Anmeldung" },
 	{ "File",           "Datei" },
 	{ "Exit",           "Beenden" },
 	{ "Help",           "Hilfe" },
 	{ "About",          "\u00dcber" },
-	{ "Host",           "Rechner" },
+	{ "Host",           "Server" },
 	{ "Database",       "Datenbank" },
-	{ "User",           "Benutzer" },
-	{ "EnterUser",      "Answendungs-Benutzer eingeben" },
-	{ "Password",       "Kennwort" },
-	{ "EnterPassword",  "Anwendungs-Kennwort eingeben" },
+	{ "User",           "Nutzer" },
+	{ "EnterUser",      "Nutzer eingeben" },
+	{ "Password",       "Passwort" },
+	{ "EnterPassword",  "Passwort eingeben" },
 	{ "Language",       "Sprache" },
-	{ "SelectLanguage", "Anwendungs-Sprache ausw\u00e4hlen" },
+	{ "SelectLanguage", "Sprache ausw\u00e4hlen" },
 	{ "Role",           "Rolle" },
 	{ "Client",         "Mandant" },
 	{ "Organization",   "Organisation" },
@@ -55,14 +55,14 @@ public final class ALoginRes_de extends ListResourceBundle
 	{ "Connected",      "Verbunden" },
 	{ "NotConnected",   "Nicht verbunden" },
 	{ "DatabaseNotFound", "Datenbank nicht gefunden" },
-	{ "UserPwdError",   "Benutzer und Kennwort stimmen nicht \u00fcberein" },
+	{ "UserPwdError",   "Nutzer oder Passwort nicht korrekt" },
 	{ "RoleNotFound",   "Rolle nicht gefunden/komplett" },
-	{ "Authorized",     "Authorisiert" },
+	{ "Authorized",     "Nutzer ist angemeldet" },
 	{ "Ok",             "Ok" },
 	{ "Cancel",         "Abbruch" },
-	{ "VersionConflict", "Versions Konflikt:" },
-	{ "VersionInfo",    "Server <> Arbeitsstation" },
-	{ "PleaseUpgrade",  "Bitte das Aktualisierung-Programm (update) starten" }
+	{ "VersionConflict", "Versions-Konflikt:" },
+	{ "VersionInfo",    "Versions-Information" },
+	{ "PleaseUpgrade",  "Bitte eine Versions-Aktualisierung veranlassen" }
 	};
 
 	/**

@@ -29,29 +29,29 @@ public class DBRes_de extends ListResourceBundle
 	/** Data        */
 	static final Object[][] contents = new String[][]
 	{
-	{ "CConnectionDialog",  "Adempiere Verbindung" },
+	{ "CConnectionDialog",  "Adempiere-Verbindung" },
 	{ "Name",               "Name" },
-	{ "AppsHost",           "Applikationsserver" },
-	{ "AppsPort",           "Port Applikationsserver" },
-	{ "TestApps",           "Test Applikationsserver" },
-	{ "DBHost",             "Datenbank Server" },
-	{ "DBPort",             "Datenbank Port" },
-	{ "DBName",             "Datenbank Name" },
-	{ "DBUidPwd",           "Nutzer / Kennwort" },
-	{ "ViaFirewall",        "�ber Firewall" },
-	{ "FWHost",             "Firewall Server" },
-	{ "FWPort",             "Firewall Port" },
-	{ "TestConnection",     "Teste Datenbankverbindung" },
-	{ "Type",               "Datenbank Typ" },
-	{ "BequeathConnection", "Bequeath Connection" },
-	{ "Overwrite",          "ueberschreiben" },
+	{ "AppsHost",           "Applikations-Server" },
+	{ "AppsPort",           "Applikations-Port" },
+	{ "TestApps",           "Teste Verbindung zur Applikation" },
+	{ "DBHost",             "Datenbank-Server" },
+	{ "DBPort",             "Datenbank-Port" },
+	{ "DBName",             "Datenbank-Name" },
+	{ "DBUidPwd",           "Nutzer / Passwort" },
+	{ "ViaFirewall",        "ber Firewall" },
+	{ "FWHost",             "Firewall-Server" },
+	{ "FWPort",             "Firewall-Port" },
+	{ "TestConnection",     "Teste Verbindung zur Datenbank" },
+	{ "Type",               "Datenbank-Typ" },
+	{ "BequeathConnection", "Bequeath-Verbindung" },
+	{ "Overwrite",          "berschreiben" },
 	{ "ConnectionProfile",	"Verbindungsprofil" },
 	{ "LAN",		 		"LAN" },
 	{ "TerminalServer",		"Terminal Server" },
 	{ "VPN",		 		"VPN" },
 	{ "WAN", 				"WAN" },
 	{ "ConnectionError",    "Verbindungsfehler" },
-	{ "ServerNotActive",    "Rechner nicht erreichbar" }
+	{ "ServerNotActive",    "Server nicht erreichbar" }
 	};
 
 	/**
