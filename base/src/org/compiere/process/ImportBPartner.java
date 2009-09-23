@@ -324,6 +324,9 @@ implements ImportProcess
 					{
 						bp = new MBPartner(impBP);
 						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
+						
+						setTypeOfBPartner(impBP,bp);
+						
 						if (bp.save())
 						{
 							impBP.setC_BPartner_ID(bp.getC_BPartner_ID());
@@ -361,6 +364,9 @@ implements ImportProcess
 						if (impBP.getC_BP_Group_ID() != 0)
 							bp.setC_BP_Group_ID(impBP.getC_BP_Group_ID());
 						ModelValidationEngine.get().fireImportValidate(this, impBP, bp, ImportValidator.TIMING_AFTER_IMPORT);
+						
+						setTypeOfBPartner(impBP,bp);
+						
 						//
 						if (bp.save())
 						{
@@ -606,4 +612,26 @@ implements ImportProcess
 	{
 		return X_I_BPartner.Table_Name;
 	}
+	
+	/**
+	 * Set type of Business Partner 
+	 *
+	 * @param X_I_BPartner impBP
+	 * @param MBPartner bp
+	 */
+	private void setTypeOfBPartner(X_I_BPartner impBP, MBPartner bp){
+		if (impBP.isVendor()){		
+			bp.setIsVendor(true);
+			bp.setIsCustomer(false); // It is put to false since by default in C_BPartner is true
+		}
+		if (impBP.isEmployee()){ 		
+			bp.setIsEmployee(true);
+			bp.setIsCustomer(false); // It is put to false since by default in C_BPartner is true
+		}
+		// it has to be the last if, to subscribe the bp.setIsCustomer (false) of the other two
+		if (impBP.isCustomer()){		
+			bp.setIsCustomer(true);
+		}
+	}	// setTypeOfBPartner
+	
 }	//	ImportBPartner

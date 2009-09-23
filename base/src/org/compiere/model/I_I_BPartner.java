@@ -426,6 +426,45 @@ public interface I_I_BPartner
 	  */
 	public boolean isActive();
 
+	 /** Column name IsCustomer */
+    public static final String COLUMNNAME_IsCustomer = "IsCustomer";
+
+	/** Set Customer.
+	  * Indicates if this Business Partner is a Customer
+	  */
+	public void setIsCustomer (boolean IsCustomer);
+
+	/** Get Customer.
+	  * Indicates if this Business Partner is a Customer
+	  */
+	public boolean isCustomer();
+
+	/** Column name IsEmployee */
+    public static final String COLUMNNAME_IsEmployee = "IsEmployee";
+
+	/** Set Employee.
+	  * Indicates if  this Business Partner is an employee
+	  */
+	public void setIsEmployee (boolean IsEmployee);
+
+	/** Get Employee.
+	  * Indicates if  this Business Partner is an employee
+	  */
+	public boolean isEmployee();
+	
+	 /** Column name IsVendor */
+    public static final String COLUMNNAME_IsVendor = "IsVendor";
+
+	/** Set Vendor.
+	  * Indicates if this Business Partner is a Vendor
+	  */
+	public void setIsVendor (boolean IsVendor);
+
+	/** Get Vendor.
+	  * Indicates if this Business Partner is a Vendor
+	  */
+	public boolean isVendor();
+	
     /** Column name NAICS */
     public static final String COLUMNNAME_NAICS = "NAICS";
 

@@ -584,6 +584,78 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_InterestAreaName);
 	}
+	
+	/** Set Customer.
+		@param IsCustomer 
+		Indicates if this Business Partner is a Customer
+	  */
+	public void setIsCustomer (boolean IsCustomer)
+	{
+		set_Value (COLUMNNAME_IsCustomer, Boolean.valueOf(IsCustomer));
+	}
+	
+	/** Get Customer.
+		@return Indicates if this Business Partner is a Customer
+	  */
+	public boolean isCustomer () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCustomer);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+	
+	/** Set Employee.
+		@param IsEmployee 
+		Indicates if  this Business Partner is an employee
+	  */
+	public void setIsEmployee (boolean IsEmployee)
+	{
+		set_Value (COLUMNNAME_IsEmployee, Boolean.valueOf(IsEmployee));
+	}
+	
+	/** Get Employee.
+		@return Indicates if  this Business Partner is an employee
+	  */
+	public boolean isEmployee () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsEmployee);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+	
+	/** Set Vendor.
+		@param IsVendor 
+		Indicates if this Business Partner is a Vendor
+	  */
+	public void setIsVendor (boolean IsVendor)
+	{
+		set_Value (COLUMNNAME_IsVendor, Boolean.valueOf(IsVendor));
+	}
+	
+	/** Get Vendor.
+		@return Indicates if this Business Partner is a Vendor
+	  */
+	public boolean isVendor () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsVendor);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
 
 	/** Set NAICS/SIC.
 		@param NAICS 
