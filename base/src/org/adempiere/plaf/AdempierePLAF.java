@@ -271,11 +271,11 @@ public final class AdempierePLAF
 
 	/****** Available L&F ****************************************************/
 
-	/** Availablle Looks    */
+	/** Available Looks    */
 	private static ValueNamePair[]  s_looks = null;
 	/** Default PLAF        */
 	private static ValueNamePair    s_defaultPLAF = null;
-	/** Availablle Themes   */
+	/** Available Themes   */
 	private static ValueNamePair[]  s_metalThemes = null;
 	private static ValueNamePair[]  s_plasticThemes = null;
 
@@ -320,11 +320,11 @@ public final class AdempierePLAF
 		//e-evolution vpj-cd 19102006
 		vp = new ValueNamePair("org.compiere.plaf.CompiereLookAndFeel", CompiereLookAndFeel.NAME);
 		plafList.add (vp);
+		
+		//Metal
 		s_vp_compiereTheme = new ValueNamePair("org.compiere.plaf.CompiereThemeBlueMetal", CompiereThemeBlueMetal.NAME);
 		metalThemes.add (s_vp_compiereTheme);
 		metalThemes.add (new ValueNamePair("org.compiere.plaf.CompiereThemeIce", CompiereThemeIce.NAME));
-		
-		//Metal
 		s_vp_metalTheme = new ValueNamePair("javax.swing.plaf.metal.OceanTheme", "Ocean");
 		metalThemes.add (s_vp_metalTheme);
 		metalThemes.add (new ValueNamePair("javax.swing.plaf.metal.DefaultMetalTheme", "Steel"));
