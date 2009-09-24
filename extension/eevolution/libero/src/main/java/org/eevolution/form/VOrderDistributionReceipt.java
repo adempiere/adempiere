@@ -460,7 +460,7 @@ public class VOrderDistributionReceipt extends CPanel
 		movement.setDeliveryRule(order.getDeliveryRule());
 		movement.setDeliveryViaRule(order.getDeliveryViaRule());
 		movement.setDocAction(MMovement.ACTION_Prepare);
-		movement.setDocStatus(MMovement.DOCACTION_Complete);
+		movement.setDocStatus(MMovement.DOCSTATUS_Drafted);
 		
 		if (!movement.save())
 			 throw new AdempiereException("Can not save Inventory Move");
@@ -477,7 +477,7 @@ public class VOrderDistributionReceipt extends CPanel
 				 throw new AdempiereException("Error in Qty");
 			
 			line.setOrderLine(oline, QtyDeliver, true);
-			line.save();
+			line.saveEx();
 		}
 		
 		movement.completeIt();
