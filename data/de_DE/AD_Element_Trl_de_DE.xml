@@ -196,7 +196,7 @@
   <value column="Name" original="Sequence">Reihenfolge</value>
   <value column="PrintName" original="Sequence">Reihenfolge</value>
   <value column="Description" original="Document Sequence">Belegnummernkreis</value>
-  <value column="Help" original="The Sequence defines the numbering sequence to be used for documents.">Der Nummernkreis bestimmt, welche Nummernkreis für eine Belegart verwendet wird.</value>
+  <value column="Help" original="The Sequence defines the numbering sequence to be used for documents.">Der Nummernkreis bestimmt, welcher Nummernkreis für eine Belegart verwendet wird.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
