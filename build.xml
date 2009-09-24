@@ -15,6 +15,8 @@
 	<property name="src.dir" value="${basedir}/WEB-INF/src"/>
 	<property name="classes.dir" value="${basedir}/WEB-INF/classes"/>
 	<property name="dist.dir" value="${basedir}/dist"/>
+	<property name="deploy.dir" value="${basedir}/deploy"/>
+	<property name="deploy.name" value="webservice"/>
 	<property name="WEBINF.dir" value="${basedir}/WEB-INF"/>
         <!-- <property name="Adempiere.dir" value="${basedir}/../lib"></property>  To enable when integrated in trunk -->
 
@@ -52,6 +54,7 @@
 	   <delete dir="${classes.dir}/com" />
 	   <delete dir="${classes.dir}/net" />
 	   <delete dir="${dist.dir}" />
+		<delete file="${deploy.dir}/lib/${war.name}.war" />
 	</target>
 
 	<target name="xmlbean" description="generate jar file from xmlbean xsd">
@@ -78,9 +81,10 @@
 	<target name="war" depends="compile">
 		<echo message="=========== Build ADInterface Web Services ==========="/>
 		<delete dir="${dist.dir}" />
+		<delete file="${deploy.dir}/lib/${war.name}.war" />
 		
-		<mkdir dir="${dist.dir}"/>
-		
+		<mkdir dir="${dist.dir}" />
+	
 		<war
 		  warfile="${dist.dir}/${war.name}.war"
 		  webxml="${WEBINF.dir}/web.xml">
@@ -97,11 +101,17 @@
 		      		**/web.xml,
 		      		testScripts/**,
 		      		migration/**,
-		      		WEB-INF/lib/*-sources.jar"
+		      		WEB-INF/lib/*-sources.jar,
+		      	deploy/**"
 		      		>
 		      </fileset>
 		</war>
 		
-		<!-- <copy file="${dist.dir}/${war.name}.war" tofile="../lib/${war.name}.war"/> To enable when integrated in trunk-->
+		 <copy file="${dist.dir}/${war.name}.war" tofile="${deploy.dir}/lib/${war.name}.war"/> 
+		
+		<zip
+			zipfile="${dist.dir}/${deploy.name}.zip">
+		  <fileset dir="${deploy.dir}" />
+		</zip>
 	</target>
 </project>
