@@ -408,6 +408,7 @@ public final class VNumber extends JComponent
 		{
 			log.log(Level.SEVERE, "Value=" + value, e);
 		}
+		m_text.setText(m_format.format(0));
 		if (m_displayType == DisplayType.Integer)
 			return new Integer(0);
 		return Env.ZERO;
