@@ -95,28 +95,27 @@ public class MovementGenerate extends SvrProcess
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
+		for (ProcessInfoParameter para: getParameter())
 		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
+			String name = para.getParameterName();
+			if (para.getParameter() == null)
 				;
 			else if (name.equals("M_Warehouse_ID"))
-				p_M_Warehouse_ID = para[i].getParameterAsInt();
+				p_M_Warehouse_ID = para.getParameterAsInt();
 			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = para[i].getParameterAsInt();
+				p_C_BPartner_ID = para.getParameterAsInt();
 			else if (name.equals("DatePromised"))
-				p_DatePromised = (Timestamp)para[i].getParameter();
+				p_DatePromised = (Timestamp)para.getParameter();
 			else if (name.equals("Selection"))
-				p_Selection = "Y".equals(para[i].getParameter());
+				p_Selection = "Y".equals(para.getParameter());
 			else if (name.equals("IsUnconfirmedInOut"))
-				p_IsUnconfirmedInOut = "Y".equals(para[i].getParameter());
+				p_IsUnconfirmedInOut = "Y".equals(para.getParameter());
 			else if (name.equals("ConsolidateDocument"))
-				p_ConsolidateDocument = "Y".equals(para[i].getParameter());
+				p_ConsolidateDocument = "Y".equals(para.getParameter());
 			else if (name.equals("DocAction"))
-				p_docAction = (String)para[i].getParameter();
+				p_docAction = (String)para.getParameter();
 			else if (name.equals("MovementDate"))
-                p_DateShipped = (Timestamp)para[i].getParameter();
+                p_DateShipped = (Timestamp)para.getParameter();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 			
@@ -224,14 +223,16 @@ public class MovementGenerate extends SvrProcess
 				if (!p_ConsolidateDocument 
 					|| (m_movement != null 
 					&& (m_movement.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID()
-						|| m_movement.getM_Shipper_ID() != order.getM_Shipper_ID() )))
+					|| m_movement.getM_Shipper_ID() != order.getM_Shipper_ID() )))
+				{
 					completeMovement();
+				}
 				log.fine("check: " + order + " - DeliveryRule=" + order.getDeliveryRule());
 				//
 				Timestamp minGuaranteeDate = m_movementDate;
 				boolean completeOrder = MDDOrder.DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule());
 				//	OrderLine WHERE
-				String where = " AND " + p_M_Warehouse_ID + " IN (SELECT l.M_Warehouse_ID FROM M_Locator l WHERE l.M_Locator_ID=M_Locator_ID) ";
+				String where = " " + p_M_Warehouse_ID + " IN (SELECT l.M_Warehouse_ID FROM M_Locator l WHERE l.M_Locator_ID=M_Locator_ID) ";
 				if (p_DatePromised != null)
 					where += " AND (TRUNC(DatePromised)<=" + DB.TO_DATE(p_DatePromised, true)
 						+ " OR DatePromised IS NULL)";		
