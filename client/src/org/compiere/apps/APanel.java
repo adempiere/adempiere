@@ -467,6 +467,7 @@ public final class APanel extends CPanel
 		toolBar.addSeparator();
 		toolBar.add(aHelp.getButton());			//	F1
 		toolBar.add(aNew.getButton());
+		toolBar.add(aCopy.getButton());
 		toolBar.add(aDelete.getButton());
 		toolBar.add(aDeleteSelection.getButton());
 		toolBar.add(aSave.getButton());
@@ -1041,6 +1042,8 @@ public final class APanel extends CPanel
 		//	update Change
 		
 		boolean changed = e.isChanged() || e.isInserting();
+		int changedColumn = e.getChangedColumn();
+		boolean inserting = e.isInserting();
 		
 		if(e.getAD_Message() != null && e.getAD_Message().equals("Saved"))
 			changed = false;
@@ -1048,8 +1051,7 @@ public final class APanel extends CPanel
 		boolean insertRecord = !readOnly;
 		if (insertRecord)
 			insertRecord = m_curTab.isInsertRecord();
-//		aNew.setEnabled(!changed && insertRecord);
-		aNew.setEnabled(insertRecord);
+		aNew.setEnabled(((inserting && changedColumn>0) || !inserting) && insertRecord);
 		aCopy.setEnabled(!changed && insertRecord);
 		aRefresh.setEnabled(!changed);
 		aDelete.setEnabled(!changed && !readOnly);
