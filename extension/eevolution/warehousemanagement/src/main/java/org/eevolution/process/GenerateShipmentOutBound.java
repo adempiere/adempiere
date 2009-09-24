@@ -55,6 +55,7 @@ import org.compiere.process.SvrProcess;
 import org.compiere.util.Msg;
 import org.eevolution.engines.Warehouse.WMRuleEngine;
 import org.eevolution.model.I_WM_InOutBound;
+import org.eevolution.model.I_WM_InOutBoundLine;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
 import org.eevolution.model.MWMInOutBound;
@@ -73,7 +74,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 
 	protected String p_DocAction = null;
 	protected boolean p_IsIncludeNotAvailable = false;
-	private Timestamp Today = new Timestamp (System.currentTimeMillis());  
+	protected Timestamp p_MovementDate = null;
 	private Hashtable m_shipments = new Hashtable();
 	
 	
@@ -93,9 +94,13 @@ public class GenerateShipmentOutBound extends SvrProcess
 			{
 				p_DocAction = (String)para.getParameter();
 			}
-			else if (name.equals("WM_Section_Type_ID"))
+			else if (name.equals("IsIncludeNotAvailable"))
 			{
 				p_IsIncludeNotAvailable = "Y".equals(para.getParameter());
+			}
+			else if (name.equals("MovementDate"))
+			{
+				p_MovementDate = (Timestamp)para.getParameter();
 			}
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
@@ -110,49 +115,19 @@ public class GenerateShipmentOutBound extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=WM_InOutBoundLine.WM_InOutboundLine_ID)";		
-		Collection <MWMInOutBound>  bounds = new Query(getCtx(), I_WM_InOutBound.Table_Name, whereClause, get_TrxName())
+		Collection <MWMInOutBoundLine>  boundlines = new Query(getCtx(), I_WM_InOutBoundLine.Table_Name, whereClause, get_TrxName())
 										.setClient_ID()
 										.setParameters(new Object[]{getAD_PInstance_ID()})
 										.list();
 		
 		int seq = 10;
-		for (MWMInOutBound bound: bounds)
+		for (MWMInOutBoundLine boundline: boundlines)
 		{
-			if(MWMInOutBound.DOCSTATUS_Completed.equals(bound.getDocStatus()))
+			if(boundline.getQtyToShip().signum() > 0 || p_IsIncludeNotAvailable)
 			{	
-				createInOut(bound);
+				createMInOut(boundline);
 			}	
 			seq ++;
-		}
-		return ""; //;"@DocumentNo@ " + bound.getDocumentNo();
-	}	
-	
-	/**
-	 * create Distribution Order
-	 * @param boundline
-	 * @param storages
-	 * @throws AdempiereException
-	 */
-	protected void createInOut(MWMInOutBound bound)
-	throws AdempiereException
-	{				
-		MWMInOutBoundLine[] lines = bound.getLines(true, MWMInOutBoundLine.COLUMNNAME_PickedQty); 
-		for (MWMInOutBoundLine line : lines)		
-		{
-			if (p_IsIncludeNotAvailable)
-			{
-				MOrderLine oline = new MOrderLine(line.getCtx(),line.getC_OrderLine_ID(), line.get_TrxName());
-				createMInOut(oline,line);
-			}
-			else if(line.getQtyToPick().signum() == 0)
-			{
-				MOrderLine oline = new MOrderLine(line.getCtx(),line.getC_OrderLine_ID(), line.get_TrxName());
-				if(oline.getQtyOrdered().subtract(oline.getQtyDelivered()).signum() > 0)
-				{	
-					createMInOut(oline,line);
-				}	
-			}
-			
 		}
 		
 		Enumeration shipments = m_shipments.elements();
@@ -161,18 +136,34 @@ public class GenerateShipmentOutBound extends SvrProcess
 			MInOut inout = (MInOut) shipments.nextElement();
 			inout.completeIt();
 			inout.saveEx();
-		}	
-	}
+		}			
+		return ""; //;"@DocumentNo@ " + bound.getDocumentNo();
+	}	
 	
-	public void createMInOut(MOrderLine oline, MWMInOutBoundLine line)
+
+	/**
+	 * Create Shipment to Out Bound Order
+	 * @param Out Bound Order Line
+	 */
+	public void createMInOut(MWMInOutBoundLine line)
 	{
+		MOrderLine oline = line.getMOrderLine();
+		if(line.getPickedQty().subtract(oline.getQtyDelivered()).signum() <= 0 )		
+		{
+			return;
+		}
+		
+		MLocator standing = line.getMLocator();
 		MInOut inout = getMInOut(oline);
-		MInOutLine shipmetLine = new MInOutLine(line.getCtx(), 0 , line.get_TrxName());
-		shipmetLine.setM_InOut_ID(inout.getM_InOut_ID());
-		shipmetLine.setM_Product_ID(line.getM_Product_ID());
-		shipmetLine.setQtyEntered(line.getPickedQty());
-		shipmetLine.setC_OrderLine_ID(oline.getC_OrderLine_ID());
-		shipmetLine.saveEx();
+		inout.saveEx();
+		MInOutLine shipmentLine = new MInOutLine(line.getCtx(), 0 , line.get_TrxName());
+		shipmentLine.setM_InOut_ID(inout.getM_InOut_ID());
+		shipmentLine.setM_Locator_ID(standing.getM_Locator_ID());
+		shipmentLine.setM_Product_ID(line.getM_Product_ID());
+		shipmentLine.setQtyEntered(line.getPickedQty());
+		shipmentLine.setMovementQty(line.getPickedQty().subtract(oline.getQtyDelivered()));
+		shipmentLine.setC_OrderLine_ID(oline.getC_OrderLine_ID());
+		shipmentLine.saveEx();
 	}	
 		
 	/**
@@ -197,6 +188,11 @@ public class GenerateShipmentOutBound extends SvrProcess
 		}
 	}
 	
+	/**
+	 * Create Shipment heder
+	 * @param oline Sales Order Line
+	 * @return MInOut return the Shipment header
+	 */
 	private MInOut getMInOut(MOrderLine oline)
 	{
 
@@ -206,17 +202,8 @@ public class GenerateShipmentOutBound extends SvrProcess
 			return inout;
 		}	
 		MOrder order = oline.getParent();
-		inout = new MInOut(order,getDocType(MDocType.DOCBASETYPE_MaterialDelivery), getToday());
+		inout = new MInOut(order,getDocType(MDocType.DOCBASETYPE_MaterialDelivery), p_MovementDate);
 		m_shipments.put(order.getC_Order_ID(), inout);
 		return inout;
-	}
-	
-	/**
-	 * getToday 
-	 * @return Timestamp with today
-	 */
-	protected Timestamp getToday()
-	{
-		return this.Today;
 	}
 }
