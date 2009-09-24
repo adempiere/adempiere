@@ -3233,7 +3233,7 @@ public abstract class PO
 			s_acctColumns = new ArrayList<String>();
 			String sql = "SELECT c.ColumnName "
 				+ "FROM AD_Column c INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
-				+ "WHERE t.TableName=? AND c.IsActive='Y' AND c.AD_Reference_ID=25 ORDER BY 1";
+				+ "WHERE t.TableName=? AND c.IsActive='Y' AND c.AD_Reference_ID=25 ORDER BY c.ColumnName";
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try

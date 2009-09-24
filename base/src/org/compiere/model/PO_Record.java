@@ -177,7 +177,7 @@ public class PO_Record
 	 */
 	static void validate ()
 	{
-		String sql = "SELECT AD_Table_ID, TableName FROM AD_Table WHERE IsView='N' ORDER BY 2";
+		String sql = "SELECT AD_Table_ID, TableName FROM AD_Table WHERE IsView='N' ORDER BY TableName";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try

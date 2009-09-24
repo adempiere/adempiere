@@ -72,11 +72,11 @@ public class MRoleTest extends TestCase
 		// add test code here
 		String sql = m_role.addAccessSQL(
 			"SELECT r.a,r.b,r.c FROM AD_Role r WHERE EXISTS "
-			+ "(SELECT AD_Column c WHERE c.a=c.b) ORDER BY 1",
+			+ "(SELECT AD_Column c WHERE c.a=c.b) ORDER BY r.a",
 			"r", 
 			MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 		System.out.println(sql);
-		assertEquals(sql, "SELECT r.a,r.b,r.c FROM AD_Role r WHERE EXISTS (SELECT AD_Column c WHERE c.a=c.b) AND r.AD_Client_ID=0 AND r.AD_Org_ID=0 ORDER BY 1");
+		assertEquals(sql, "SELECT r.a,r.b,r.c FROM AD_Role r WHERE EXISTS (SELECT AD_Column c WHERE c.a=c.b) AND r.AD_Client_ID=0 AND r.AD_Org_ID=0 ORDER BY r.a");
 	}
 
 

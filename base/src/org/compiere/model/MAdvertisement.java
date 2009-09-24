@@ -155,7 +155,7 @@ public class MAdvertisement extends X_W_Advertisement
 			if (m_SalesRep_ID == 0)
 				m_SalesRep_ID = DB.getSQLValue(null,
 					"SELECT AD_User_ID FROM AD_User "
-					+ "WHERE C_BPartner_ID=? AND IsActive='Y' ORDER BY 1", getC_BPartner_ID());
+					+ "WHERE C_BPartner_ID=? AND IsActive='Y' ORDER BY AD_User_ID", getC_BPartner_ID());
 		}
 		return m_SalesRep_ID;
 	}	//	getSalesRep_ID

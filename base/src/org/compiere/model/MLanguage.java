@@ -330,7 +330,7 @@ public class MLanguage extends X_AD_Language
 	 */
 	public int maintain (boolean add)
 	{
-		String sql = "SELECT TableName FROM AD_Table WHERE TableName LIKE '%_Trl' ORDER BY 1";
+		String sql = "SELECT TableName FROM AD_Table WHERE TableName LIKE '%_Trl' ORDER BY TableName";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int retNo = 0;
@@ -384,7 +384,7 @@ public class MLanguage extends X_AD_Language
 			+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
 			+ "WHERE t.TableName=?"
 			+ "  AND c.IsTranslated='Y' AND c.IsActive='Y' "
-			+ "ORDER BY 1";
+			+ "ORDER BY c.ColumnName";
 		ArrayList<String> columns = new ArrayList<String>(5);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

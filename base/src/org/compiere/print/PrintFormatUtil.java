@@ -108,7 +108,7 @@ public class PrintFormatUtil
 				+ " AND pfi.AD_Column_ID=c.AD_Column_ID"
 				+ " AND pfi.AD_PrintFormat_ID=?)"	//	1 
 			+ " AND c.AD_Table_ID=? "				//	2
-			+ "ORDER BY 1";
+			+ "ORDER BY c.AD_Column_ID";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int counter = 0;

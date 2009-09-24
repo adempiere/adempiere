@@ -136,7 +136,7 @@ public class TranslationDialog extends CPanel
 		String sql = "SELECT Name, AD_Client_ID "
 			+ "FROM AD_Client "
 			+ "WHERE IsActive='Y' "
-			+ "ORDER BY 2";
+			+ "ORDER BY AD_Client_ID";
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
@@ -158,7 +158,7 @@ public class TranslationDialog extends CPanel
 		sql = "SELECT Name, AD_Language "
 			+ "FROM AD_Language "
 			+ "WHERE IsActive='Y' AND (IsSystemLanguage='Y' OR IsBaseLanguage='Y')"
-			+ "ORDER BY 1";
+			+ "ORDER BY Name";
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
@@ -181,7 +181,7 @@ public class TranslationDialog extends CPanel
 		sql = "SELECT Name, TableName "
 			+ "FROM AD_Table "
 			+ "WHERE TableName LIKE '%_Trl' AND TableName<>'AD_Column_Trl' "
-			+ "ORDER BY 1";
+			+ "ORDER BY Name";
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
