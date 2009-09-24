@@ -127,7 +127,7 @@ public class WebDoc
 		return create (false, title, false);
 	}   //  create
 
-	/** Non brealing Space					*/
+	/** Non breaking Space					*/
 	public static final String	NBSP	= "&nbsp;";
 	
 	
@@ -163,10 +163,9 @@ public class WebDoc
 			return;
 		
 		//	css, js
-		if (javaClient)
-			m_head.addElement(new link("http://www.adempiere.com/css/standard.css", link.REL_STYLESHEET, link.TYPE_CSS));
-		else
-		{
+		if (javaClient) {
+			m_head.addElement(new StoredHtmlSrc("STYLE", "org/compiere/images/standard.css")); //TODO 
+		} else {
 			m_head.addElement(new link(WebEnv.getStylesheetURL(), link.REL_STYLESHEET, link.TYPE_CSS));
 			m_head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/standard.js")));
 		}
@@ -186,15 +185,17 @@ public class WebDoc
 		//	Logo
 		m_topRight = new td().setAlign("right");
 		
-		if (javaClient)
-			m_topRight.addElement(new img("http://www.adempiere.com/images/adempiere64x32.png")
-				.setAlign(AlignType.RIGHT).setAlt("Adempiere Inc."));
-		else
-			if(title.equals(""))
+		if (javaClient) {
+			m_topRight.addElement(
+				new img("res:org/compiere/images/AD10030.png")
+				.setAlign(AlignType.RIGHT).setAlt("Adempiere"));
+		} else {
+			if (title.equals("")) {
 				m_topRight.addElement(WebEnv.getLogo());
-			else
+			} else {
 				m_topRight.addElement(new h1(title));
-
+			}
+		}
 		m_topRow.addElement(m_topRight);
 		m_table.addElement(m_topRow);		
 		//
@@ -338,7 +339,7 @@ public class WebDoc
 
 	/**
 	 * 	Add Window Center
-	 * 	@param nowrap set nowrap in td
+	 * 	@param nowrap set no wrap in td
 	 *	@return empty single center td
 	 */
 	public td addWindowCenter(boolean nowrap)
@@ -401,4 +402,5 @@ public class WebDoc
 		doc.output(System.out);
 		System.out.println("---------");
 	}   //  main
+
 }   //  WDoc

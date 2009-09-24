@@ -184,7 +184,7 @@ public class WebEnv
 
 	
 	/**************************************************************************
-	 *  Get Base Directory entrry.
+	 *  Get Base Directory entry.
 	 *  <br>
 	 *  /adempiere/
 	 *  @param entry file entry or path
