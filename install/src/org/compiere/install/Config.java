@@ -116,7 +116,7 @@ public abstract class Config
 	 *	@param cb ckeck box
 	 *	@param resString resource string key
 	 *	@param pass true if test passed
-	 *	@param critical true if critial
+	 *	@param critical true if critical
 	 *	@param errorMsg error Message
 	 */
 	void signalOK (CCheckBox cb, String resString, 
@@ -126,7 +126,7 @@ public abstract class Config
 	}	//	signalOK
 
 	/**
-	 * 	Get Web Store Context Names separared by ,
+	 * 	Get Web Store Context Names separated by ,
 	 *	@param con connection
 	 *	@return String of Web Store Names - e.g. /wstore
 	 */

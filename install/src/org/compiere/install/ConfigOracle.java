@@ -32,7 +32,7 @@ import org.compiere.db.DB_Oracle;
 
 
 /**
- *	Oracle Confguration
+ *	Oracle Configuration
  *	
  *  @author Jorg Janke
  *  @version $Id: ConfigOracle.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $

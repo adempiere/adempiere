@@ -37,7 +37,7 @@ public class ConfigPostgreSQL extends Config
 		super (data);
 	}	//	ConfigPostgreSQL
 
-	/** Discoverd TNS			*/
+	/** Discovered TNS			*/
 	private String[] 			p_discovered = null;
 	/**	PostgreSQL DB Info			*/
 	private DB_PostgreSQL			p_db = new DB_PostgreSQL();
