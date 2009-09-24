@@ -104,6 +104,7 @@ public class AcctViewer extends CFrame
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		m_data = new AcctViewerData (Env.getCtx(), Env.createWindowNo(this), 
 			AD_Client_ID, AD_Table_ID);
+		AEnv.addToWindowManager(this);
 		//
 		try
 		{
