@@ -45,11 +45,11 @@
         <form action="advertisementServlet" method="post" enctype="application/x-www-form-urlencoded" name="advertisement" target="_top" id="advertisement">
         <tr> 
           <th>Name</th>
-          <td><input name="Name" type="text" value="<c:out value='${ad.name}'/>" size="40" maxlength="40"></td>
+          <td><input name="Name" type="text" value="<c:out value='${ad.name}'/>" size="40" maxlength="40" /></td>
         </tr>
         <tr> 
           <th>Description</th>
-          <td><input name="Description" type="text" value="<c:out value='${ad.description}'/>" size="60" maxlength="60"></td>
+          <td><input name="Description" type="text" value="<c:out value='${ad.description}'/>" size="60" maxlength="60" /></td>
         </tr>
         <tr> 
           <th>Image URL</th>

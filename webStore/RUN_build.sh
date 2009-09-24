@@ -10,7 +10,7 @@ cd $SAVED_DIR			#back to the saved directory
 .  $UTILS_DEV/myDevEnv.sh	#call environment
 echo done
 if [ ! $ADEMPIERE_ENV==Y ] ; then
-    echo "Can't set developemeent environemnt - check myDevEnv.sh"
+    echo "Can't set development environment - check myDevEnv.sh"
     exit 1
 fi
 

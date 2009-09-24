@@ -40,18 +40,18 @@
           <td> 
 		    <a name="<c:out value='${ad.salesRep_ID}'/>"></a>
 		    <a href="http://www.adempiere.com/wstore/click?<c:out value='${ad.clickTargetURL}'/>" target="_blank"> 
-            <img src="<c:out value='${ad.imageURL}'/>" alt="<c:out value='${ad.name}'/>" border="0" align="left"></a> 
-            <img src="<c:out value='${ad.webParam2}'/>" alt="<c:out value='${ad.webParam1}'/>" border="0" align="right"> 
-            &nbsp; <b><c:out value='${ad.description}'/></b>
-			<br>
-            &nbsp; <a href="http://www.adempiere.com/wstore/request.jsp?SalesRep_ID=<c:out value='${ad.salesRep_ID}'/>">Contact</a>
-			<br>
-            &nbsp; <a href="http://www.adempiere.com/wstore/basketServlet?M_Product_ID=1000018&SalesRep_ID=<c:out value='${ad.salesRep_ID}'/>">Buy Next Step</a>
-			<br>
-			&nbsp; <i><c:out value='${ad.webParam3}' escapeXml='false'/></i>
-			<p><c:out value='${ad.adText}' escapeXml='false'/></p>
-			<p><c:out value='${ad.webParam4}' escapeXml='false'/></p>
-          </td>
+		    <img src="<c:out value='${ad.imageURL}'/>" alt="<c:out value='${ad.name}'/>" border="0" align="left" /></a> 
+		    <img src="<c:out value='${ad.webParam2}'/>" alt="<c:out value='${ad.webParam1}'/>" border="0" align="right" /> 
+		    &nbsp; <b><c:out value='${ad.description}'/></b>
+				<br>
+		    &nbsp; <a href="http://www.adempiere.com/wstore/request.jsp?SalesRep_ID=<c:out value='${ad.salesRep_ID}'/>">Contact</a>
+				<br>
+		    &nbsp; <a href="http://www.adempiere.com/wstore/basketServlet?M_Product_ID=1000018&SalesRep_ID=<c:out value='${ad.salesRep_ID}'/>">Buy Next Step</a>
+				<br>
+				&nbsp; <i><c:out value='${ad.webParam3}' escapeXml='false'/></i>
+				<p><c:out value='${ad.adText}' escapeXml='false'/></p>
+				<p><c:out value='${ad.webParam4}' escapeXml='false'/></p>
+		  </td>
         </tr>
         </c:forEach> 
       </table>

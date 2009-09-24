@@ -26,9 +26,9 @@
               <legend>Search</legend>
 
               <label id="productSearch" for="SearchString">Product </label>
-              <input name="SearchString" type="text" id="SearchString">
+              <input name="SearchString" type="text" id="SearchString" />
               <cws:productCategoryList/>
-              <input type="submit" name="Submit" value="Search">
+              <input type="submit" name="Submit" value="Search" />
               <c:if test='${priceList.notAllPrices}'>
                 <p><i>Not all Products displayed - enter Search criteria to limit selection</i></p>
               </c:if>
@@ -39,8 +39,8 @@
       </form>
       <br/>
       <form action="basketServlet" method="post" enctype="application/x-www-form-urlencoded" name="products" id="products">
-        <input name="M_PriceList_ID" type="hidden" value="<c:out value='${priceList.priceList_ID}'/>">
-        <input name="M_PriceList_Version_ID" type="hidden" value="<c:out value='${priceList.priceList_Version_ID}'/>">
+        <input name="M_PriceList_ID" type="hidden" value="<c:out value='${priceList.priceList_ID}'/>" />
+        <input name="M_PriceList_Version_ID" type="hidden" value="<c:out value='${priceList.priceList_Version_ID}'/>" />
         <table class="contentTable">
           <tr> 
             <th colspan="2" align="left">Product</th>
@@ -62,8 +62,8 @@
         		</c:otherwise>
         	</c:choose>
         	<tr> 
-            <td class="<c:out value='${rowClass}' />"><c:if test='${not empty product.imageURL}'><img src="<c:out value='${product.imageURL}'/>"></c:if></td>
-            <td class="<c:out value='${rowClass}' />"> <input name="Name_<c:out value='${product.id}'/>" type="hidden" value="<c:out value='${product.name}'/>">
+            <td class="<c:out value='${rowClass}' />"><c:if test='${not empty product.imageURL}'><img src="<c:out value='${product.imageURL}'/>" /></c:if></td>
+            <td class="<c:out value='${rowClass}' />"> <input name="Name_<c:out value='${product.id}'/>" type="hidden" value="<c:out value='${product.name}'/>" />
                 <c:choose>
                     <c:when test="${not empty product.descriptionURL}">
                         <a href="<c:out value='${product.descriptionURL}'/>" target="pd"><c:out value="${product.name}"/></a>
@@ -74,11 +74,11 @@
                 </c:choose>
 			</td>
             <td class="<c:out value='${rowClass}' />"><c:out value='${product.description}'/> <c:if test="${empty product.description}">&nbsp;</c:if></td>
-            <td class="<c:out value='${rowClass}' /> amount"> <input name="Price_<c:out value='${product.id}'/>" type="hidden" value="<c:out value='${product.price}'/>"> 
+            <td class="<c:out value='${rowClass}' /> amount"> <input name="Price_<c:out value='${product.id}'/>" type="hidden" value="<c:out value='${product.price}'/>" /> 
               <fmt:formatNumber value='${product.price}' type="currency" currencySymbol="" /> </td>
-            <td class="<c:out value='${rowClass}' /> quantity"> <input name="Qty_<c:out value='${product.id}'/>" type="text" id="qty_<c:out value='${product.id}'/>" value="1" size="5" maxlength="5"></td>
+            <td class="<c:out value='${rowClass}' /> quantity"> <input name="Qty_<c:out value='${product.id}'/>" type="text" id="qty_<c:out value='${product.id}'/>" value="1" size="5" maxlength="5" /></td>
             <td class="<c:out value='${rowClass}' />"><c:out value='${product.uomName}'/>&nbsp;</td>
-            <td class="<c:out value='${rowClass}' />"> <input name="Add_<c:out value='${product.id}'/>" type="submit" id="Add_<c:out value='${product.id}'/>" value="Add"></td>
+            <td class="<c:out value='${rowClass}' />"> <input name="Add_<c:out value='${product.id}'/>" type="submit" id="Add_<c:out value='${product.id}'/>" value="Add" /></td>
             <td class="<c:out value='${rowClass}'/> availProduct"><!-- c:out value='$ {product.available}'/ -->&nbsp;</td>
           </tr>
           </c:forEach> 

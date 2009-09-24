@@ -90,7 +90,7 @@
 		    <c:if test='${asset.downloadable}'>
 		  	  <c:forEach items='${asset.downloadURLs}' var='addlDL'>
 		    	<a href="<c:out value='http://${ctx.context}/'/>assetServlet/<c:out value='${addlDL}'/>.zip?Asset_ID=<c:out value='${asset.a_Asset_ID}'/>&PD=<c:out value='${addlDL}'/>" target="_blank">
-		  	  	<img src="assetDownload.gif" alt="Download <c:out value='${addlDL}'/>" width="24" height="24" border="0"></a><br>
+		  	  	<img src="assetDownload.gif" alt="Download <c:out value='${addlDL}'/>" width="24" height="24" border="0" /></a><br>
 			  </c:forEach>
 			</c:if>
 		    <c:if test='${not asset.downloadable}'>

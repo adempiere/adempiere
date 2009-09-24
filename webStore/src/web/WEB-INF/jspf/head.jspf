@@ -15,6 +15,6 @@
 <link href="<c:out value='${ctx.Stylesheet}-print.css'/>" rel="stylesheet" type="text/css" media="print"/>
 <script src="/adempiere/standard.js" language="JavaScript" type="text/JavaScript"></script>
 <script src="/adempiere/wstore.js" language="JavaScript" type="text/JavaScript"></script>
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="Adempiere Web Store">
+<meta http-equiv="pragma" content="no-cache"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta name="description" content="Adempiere Web Store"/>

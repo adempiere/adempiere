@@ -34,7 +34,7 @@
           <td class="oddRow">
 		    <c:choose>
 		    <c:when test='${not empty webOrder}'>
-			  <a href="invoiceServlet/I_<c:out value='${webOrder.invoiceInfo}'/>.pdf?Invoice_ID=<c:out value='${webOrder.invoice_ID}'/>" target="_blank"><img src="pdf.gif" alt="Get Invoice PDF" width="30" height="30" border="0" align="right"></a>
+			  <a href="invoiceServlet/I_<c:out value='${webOrder.invoiceInfo}'/>.pdf?Invoice_ID=<c:out value='${webOrder.invoice_ID}'/>" target="_blank"><img src="pdf.gif" alt="Get Invoice PDF" width="30" height="30" border="0" align="right" /></a>
 			  <c:out value='${webOrder.invoiceInfo}'/>
 			</c:when>  
 		    <c:otherwise>

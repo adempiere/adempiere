@@ -50,7 +50,7 @@
           <td class="<c:out value='${rowClass}' />"><fmt:formatDate value='${invoice.dateInvoiced}'/></td>
           <td class="<c:out value='${rowClass}' /> amount"><fmt:formatNumber value='${invoice.totalLines}' type="currency" currencySymbol=""/></td>
           <td class="<c:out value='${rowClass}' /> amount"><c:out value='${invoice.currencyISO}'/>&nbsp;<fmt:formatNumber value='${invoice.grandTotal}' type="currency" currencySymbol=""/></td>
-          <td class="<c:out value='${rowClass}' />"><a href="invoiceServlet/I_<c:out value='${invoice.documentNo}'/>.pdf?Invoice_ID=<c:out value='${invoice.c_Invoice_ID}'/>" target="_blank"><img src="pdf.gif" alt="Get Invoice Image" width="30" height="30" border="0"></a></td>
+          <td class="<c:out value='${rowClass}' />"><a href="invoiceServlet/I_<c:out value='${invoice.documentNo}'/>.pdf?Invoice_ID=<c:out value='${invoice.c_Invoice_ID}'/>" target="_blank"><img src="pdf.gif" alt="Get Invoice Image" width="30" height="30" border="0" /></a></td>
           <td class="<c:out value='${rowClass}' />"><c:if test='${not invoice.paid}'><b>Not </b></c:if>Paid</td>
         </tr>
         </c:forEach> 

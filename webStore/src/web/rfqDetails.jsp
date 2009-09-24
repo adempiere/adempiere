@@ -67,7 +67,7 @@
                                 <c:out value='${rfq.help}'/>
                                 <c:if test='${rfq.pdfAttachment}'>
                                     <br>
-                                    <a href="rfqServlet/RfQ_<c:out value='${rfq.c_RfQ_ID}'/>.pdf?C_RfQ_ID=<c:out value='${rfq.c_RfQ_ID}'/>" target="_blank"><img src="pdf.gif" alt="Get Report" width="30" height="30" border="0"></a>
+                                    <a href="rfqServlet/RfQ_<c:out value='${rfq.c_RfQ_ID}'/>.pdf?C_RfQ_ID=<c:out value='${rfq.c_RfQ_ID}'/>" target="_blank"><img src="pdf.gif" alt="Get Report" width="30" height="30" border="0" /></a>
                                 </c:if>
                                 <br/>
                                 <textarea name="Help" rows="3" id="Help"><c:out value='${rfqResponse.help}'/></textarea>                            </td>
@@ -75,7 +75,7 @@
                                 By <fmt:formatDate value='${rfq.dateResponse}' dateStyle='short'/>
                                 <br/>
                                 <fmt:formatDate value='${rfqResponse.dateResponse}' dateStyle='short'/>
-                                <br>Total: <input name="Price" type="text" id="Price" value="<fmt:formatNumber value='${rfqResponse.price}' type='currency' currencySymbol=''/>" size="15">
+                                <br>Total: <input name="Price" type="text" id="Price" value="<fmt:formatNumber value='${rfqResponse.price}' type='currency' currencySymbol=''/>" size="15" />
                             </td>
                             <td class="oddRow lineItem">
                                 <fmt:formatDate value='${rfq.dateWorkStart}' dateStyle='short'/>
@@ -95,7 +95,7 @@
                             <td class="oddRow lineItem">
                                  <c:out value='${rfq.deliveryDays}'/>
                                 <br/>
-                                <input name="DeliveryDays" type="text" id="DeliveryDays" value="<c:out value='${rfqResponse.deliveryDays}'/>" size="4" maxlength="4">
+                                <input name="DeliveryDays" type="text" id="DeliveryDays" value="<c:out value='${rfqResponse.deliveryDays}'/>" size="4" maxlength="4" />
                             </td>
                             <td class="oddRow lineItem">
                                 days
@@ -168,7 +168,7 @@
                                                     -
                                                 </td>
                                                 <td class="<c:out value='${rowClass}' />">
-                                                    <input name="DeliveryDays_<c:out value='${line.c_RfQResponseLine_ID}'/>" type="text" id="DeliveryDays" value="<c:out value='${line.deliveryDays}'/>" size="4" maxlength="4">
+                                                    <input name="DeliveryDays_<c:out value='${line.c_RfQResponseLine_ID}'/>" type="text" id="DeliveryDays" value="<c:out value='${line.deliveryDays}'/>" size="4" maxlength="4" />
                                                 </td>
                                                 <td class="<c:out value='${rowClass}' />">
                                                     days
@@ -198,10 +198,10 @@
                                                     </td>
                                                     <c:if test='${not rfq.quoteTotalAmtOnly}'>
                                                         <td class="<c:out value='${rowClass}' /> amount">
-                                                            <input name="Price_<c:out value='${qty.c_RfQResponseLineQty_ID}'/>" type="text" id="Price" value="<fmt:formatNumber value='${qty.price}' type='currency' currencySymbol=''/>" size="15">
+                                                            <input name="Price_<c:out value='${qty.c_RfQResponseLineQty_ID}'/>" type="text" id="Price" value="<fmt:formatNumber value='${qty.price}' type='currency' currencySymbol=''/>" size="15" />
                                                         </td>
                                                         <td class="<c:out value='${rowClass}' /> amount">
-                                                            <input name="Discount_<c:out value='${qty.c_RfQResponseLineQty_ID}'/>" type="text" id="Discount" value="<c:out value='${qty.discount}'/>" size="15">
+                                                            <input name="Discount_<c:out value='${qty.c_RfQResponseLineQty_ID}'/>" type="text" id="Discount" value="<c:out value='${qty.discount}'/>" size="15" />
                                                         </td>
                                                     </c:if>
                                                 </tr>

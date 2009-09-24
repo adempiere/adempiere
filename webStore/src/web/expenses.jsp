@@ -308,11 +308,11 @@ function updateTaskListCallback()
     <c:choose>
     	<c:when test="${info.expenses}.size() > 0">
 			<div class="tableNav">
-				<img src="wfStart24.gif" onclick="alert('CLICK');">
-				<img src="wfBack24.gif" onclick="alert('CLICK');">
+				<img src="wfStart24.gif" onclick="alert('CLICK');" />
+				<img src="wfBack24.gif" onclick="alert('CLICK');" />
 				Page 1
-				<img src="wfNext24.gif" onclick="alert('CLICK');">
-				<img src="wfEnd24.gif" onclick="alert('CLICK');">
+				<img src="wfNext24.gif" onclick="alert('CLICK');" />
+				<img src="wfEnd24.gif" onclick="alert('CLICK');" />
 			</div>
 		</c:when>
 	</c:choose>
@@ -355,11 +355,11 @@ function updateTaskListCallback()
     <c:choose>
     	<c:when test="${info.expenses}.size() > 0">
 			<div class="tableNav">
-				<img src="wfStart24.gif" onclick="alert('CLICK');">
-				<img src="wfBack24.gif" onclick="alert('CLICK');">
+				<img src="wfStart24.gif" onclick="alert('CLICK');" />
+				<img src="wfBack24.gif" onclick="alert('CLICK');" />
 				Page 1
-				<img src="wfNext24.gif" onclick="alert('CLICK');">
-				<img src="wfEnd24.gif" onclick="alert('CLICK');">
+				<img src="wfNext24.gif" onclick="alert('CLICK');" />
+				<img src="wfEnd24.gif" onclick="alert('CLICK');" />
 			</div>
 		</c:when>
 	</c:choose>

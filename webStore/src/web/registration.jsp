@@ -41,28 +41,28 @@
               <legend>New Registration</legend>
               
               <label for="Name">Name</label>
-              <input name="Name" type="text" id="Name" value="<c:out value='${registration.name}'/>" size="60" maxlength="60">
+              <input name="Name" type="text" id="Name" value="<c:out value='${registration.name}'/>" size="60" maxlength="60" />
               <br/>
 
               <label for="Description">Description</label>
-              <input name="Description" type="text" id="Description" value="<c:out value='${registration.description}'/>" size="60" maxlength="255">
+              <input name="Description" type="text" id="Description" value="<c:out value='${registration.description}'/>" size="60" maxlength="255" />
               <br/>
 
               <label for="AssetServiceDate">Service Date</label>
-              <input name="AssetServiceDate" type="text" id="AssetServiceDate" value="<fmt:formatDate value='${registration.assetServiceDate}'/>" size="20">
+              <input name="AssetServiceDate" type="text" id="AssetServiceDate" value="<fmt:formatDate value='${registration.assetServiceDate}'/>" size="20" />
               <br/>
 
               <label for="InProduction">In Production</label>
-              <input <c:if test='${registration.inProduction}'>checked</c:if> name="InProduction" type="checkbox" id="InProduction" value="IsInProduction">
+              <input <c:if test='${registration.inProduction}'>checked</c:if> name="InProduction" type="checkbox" id="InProduction" value="IsInProduction" />
               <br/>
 
               <label for="AllowPublish">Allow Publication</label>
-              <input <c:if test='${registration.allowPublish}'>checked</c:if> name="AllowPublish" type="checkbox" id="AllowPublish" value="IsAllowPublish">
+              <input <c:if test='${registration.allowPublish}'>checked</c:if> name="AllowPublish" type="checkbox" id="AllowPublish" value="IsAllowPublish" />
               <br/>
 
                 <c:forEach items='${registration.values}' var='rvalue'>
                     <label for="<c:out value='${rvalue.registrationAttribute}'/>"><c:out value='${rvalue.registrationAttributeDescription}'/></label>
-                    <input name="<c:out value='${rvalue.registrationAttribute}'/>" type="text" id="<c:out value='${rvalue.registrationAttribute}'/>" value="<c:out value='${rvalue.name}'/>" size="30" maxlength="60">
+                    <input name="<c:out value='${rvalue.registrationAttribute}'/>" type="text" id="<c:out value='${rvalue.registrationAttribute}'/>" value="<c:out value='${rvalue.name}'/>" size="30" maxlength="60" />
                     <br/>
                 </c:forEach>
 

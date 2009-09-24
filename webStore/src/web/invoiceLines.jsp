@@ -48,7 +48,7 @@
           <td class="oddRow"><fmt:formatDate value='${invoice.dateInvoiced}'/></td>
           <td class="oddRow amount"><fmt:formatNumber value='${invoice.totalLines}' type="currency" currencySymbol=""/></td>
           <td class="oddRow amount"><c:out value='${invoice.currencyISO}'/>&nbsp;<fmt:formatNumber value='${invoice.grandTotal}' type="currency" currencySymbol=""/></td>
-          <td class="oddRow"><a href="invoiceServlet/I_<c:out value='${invoice.documentNo}'/>.pdf?Invoice_ID=<c:out value='${invoice.c_Invoice_ID}'/>" target="_blank"><img src="pdf.gif" alt="Get Invoice Image" width="30" height="30" border="0"></a></td>
+          <td class="oddRow"><a href="invoiceServlet/I_<c:out value='${invoice.documentNo}'/>.pdf?Invoice_ID=<c:out value='${invoice.c_Invoice_ID}'/>" target="_blank"><img src="pdf.gif" alt="Get Invoice Image" width="30" height="30" border="0" /></a></td>
           <td class="oddRow"><c:if test='${invoice.paid}'>Paid</c:if><c:if test='${not invoice.paid}'> 
             <input type="submit" name="InvoicePay" value="Pay <c:out value='${invoice.openAmt}'/>" 
 			  onClick="window.top.location.replace('paymentServlet?C_Invoice_ID=<c:out value='${invoice.c_Invoice_ID}'/>&Amt=<c:out value='${invoice.openAmt}'/>');">
