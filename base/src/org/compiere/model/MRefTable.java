@@ -30,7 +30,7 @@ public class MRefTable extends X_AD_Ref_Table
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
-	 *	@param AD_Reference_ID id
+	 *	@param AD_Ref_Table_ID id
 	 *	@param trxName trx
 	 */
 	public MRefTable (Properties ctx, int AD_Ref_Table_ID, String trxName)
