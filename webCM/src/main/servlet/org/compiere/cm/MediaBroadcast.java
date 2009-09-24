@@ -90,21 +90,23 @@ public class MediaBroadcast extends HttpServletCM
 						response.setContentType(thisMedia.getMediaType());
 						// Binary / Image content will get handled here
 						MImage thisImage = thisMedia.getImage();
-						response.setContentLength(thisImage.getData().length);
-						
-						// Open the file and output streams
-						byte[] buffer = thisImage.getData();
-						ByteArrayInputStream in = new ByteArrayInputStream(buffer);
-				        OutputStream out = response.getOutputStream();
-				    
-				        // Copy the contents of the file to the output stream
-				        byte[] buf = new byte[1024];
-				        int count = 0;
-				        while ((count = in.read(buf)) >= 0) {
-				            out.write(buf, 0, count);
-				        }
-				        in.close();
-				        out.close();
+						if (thisImage != null) {
+							response.setContentLength(thisImage.getData().length);
+
+							// Open the file and output streams
+							byte[] buffer = thisImage.getData();
+							ByteArrayInputStream in = new ByteArrayInputStream(buffer);
+							OutputStream out = response.getOutputStream();
+
+							// Copy the contents of the file to the output stream
+							byte[] buf = new byte[1024];
+							int count = 0;
+							while ((count = in.read(buf)) >= 0) {
+								out.write(buf, 0, count);
+							}
+							in.close();
+							out.close();
+						}
 					}
 				} else {
 					response.sendError(404);
