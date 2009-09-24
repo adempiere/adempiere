@@ -16,6 +16,7 @@ package org.adempiere.webui.dashboard;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.session.ServerContext;
@@ -86,20 +87,34 @@ public class DashboardRunnable implements Runnable {
     	for(int i = 0; i < dashboardPanels.size(); i++)
     	{
     		//make sure context is correct
-			ServerContext ctx = (ServerContext)template.getDesktop().getSession().getAttribute(SessionContextListener.SESSION_CTX);
-	        if (ctx != null && ServerContext.getCurrentInstance() != ctx)
-	        {
-	        	ServerContext.setCurrentInstance(ctx);
-	        }
+    		Properties ctx = (Properties)template.getDesktop().getSession().getAttribute(SessionContextListener.SESSION_CTX);
+    		if (ctx != null)
+    		{
+    			ServerContext serverContext = ServerContext.getCurrentInstance();
+    			if (serverContext == null) {
+    				serverContext = ServerContext.newInstance();	        	
+    				serverContext.putAll(ctx);
+    			} else if (!ctx.getProperty(SessionContextListener.SERVLET_SESSION_ID).equals(serverContext.getProperty(SessionContextListener.SERVLET_SESSION_ID))) {
+    				serverContext.clear();
+    				serverContext.putAll(ctx);
+    			}
+    		}
     		dashboardPanels.get(i).refresh(template);
     	}
 
     	//make sure context is correct
-		ServerContext ctx = (ServerContext)template.getDesktop().getSession().getAttribute(SessionContextListener.SESSION_CTX);
-        if (ctx != null && ServerContext.getCurrentInstance() != ctx)
-        {
-        	ServerContext.setCurrentInstance(ctx);
-        }
+    	Properties ctx = (Properties)template.getDesktop().getSession().getAttribute(SessionContextListener.SESSION_CTX);
+    	if (ctx != null)
+    	{
+    		ServerContext serverContext = ServerContext.getCurrentInstance();
+    		if (serverContext == null) {
+    			serverContext = ServerContext.newInstance();	        	
+    			serverContext.putAll(ctx);
+    		} else if (!ctx.getProperty(SessionContextListener.SERVLET_SESSION_ID).equals(serverContext.getProperty(SessionContextListener.SERVLET_SESSION_ID))) {
+    			serverContext.clear();
+    			serverContext.putAll(ctx);
+    		}
+    	}
     	appDesktop.onServerPush(template);
 	}
 

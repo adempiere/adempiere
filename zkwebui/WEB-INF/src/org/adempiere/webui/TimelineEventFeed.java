@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +23,7 @@ import org.compiere.model.MAssignmentSlot;
 import org.compiere.model.ScheduleUtil;
 import org.compiere.util.Env;
 import org.zkforge.timeline.util.TimelineUtil;
-import org.zkoss.web.fn.XMLFns;
+import org.zkoss.xel.fn.XmlFns;
 import org.zkoss.xml.XMLs;
 
 public class TimelineEventFeed extends HttpServlet {
@@ -36,12 +37,17 @@ public class TimelineEventFeed extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 				
-		ServerContext ctx = (ServerContext)req.getSession().getAttribute(SessionContextListener.SESSION_CTX);
+		Properties ctx = (Properties)req.getSession().getAttribute(SessionContextListener.SESSION_CTX);
         if (ctx == null) {
              return;
-        } else {
-        	ServerContext.setCurrentInstance(ctx);
+        } 
+        
+        ServerContext serverContext = ServerContext.getCurrentInstance();
+        if (serverContext == null) {
+        	serverContext = ServerContext.newInstance();
         }
+        serverContext.clear();
+        serverContext.putAll(ctx);
          
 		int resourceId  = 0;
 		String resourceIdParam = req.getParameter("S_Resource_ID");
@@ -96,16 +102,16 @@ public class TimelineEventFeed extends HttpServlet {
 		
 		for (MAssignmentSlot slot : mas) {
 			xml.append("<event ").append("\r\n");
-			xml.append(XMLFns.attr("start", TimelineUtil.formatDateTime(new Date(slot.getStartTime().getTime()))));
+			xml.append(XmlFns.attr("start", TimelineUtil.formatDateTime(new Date(slot.getStartTime().getTime()))));
 			if (slot.getEndTime() != null) {
 				xml.append("\r\n");
-				xml.append(XMLFns.attr("end", TimelineUtil.formatDateTime(new Date(slot.getEndTime().getTime()))));
+				xml.append(XmlFns.attr("end", TimelineUtil.formatDateTime(new Date(slot.getEndTime().getTime()))));
 				xml.append("\r\n");				
-				xml.append(XMLFns.attr("isDuration", "true"));
+				xml.append(XmlFns.attr("isDuration", "true"));
 			}
-			xml.append(XMLFns.attr("color", "#"+ZkCssHelper.createHexColorString(slot.getColor(true))));
+			xml.append(XmlFns.attr("color", "#"+ZkCssHelper.createHexColorString(slot.getColor(true))));
 			xml.append("\r\n")
-			   .append(XMLFns.attr("title", slot.getName()))
+			   .append(XmlFns.attr("title", slot.getName()))
 			   .append("\r\n")
 			   .append(">");
 			if (slot.getDescription() != null && slot.getDescription().trim().length() > 0) {
