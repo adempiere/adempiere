@@ -34,8 +34,10 @@ import java.util.Properties;
 
 import org.adempiere.model.engines.IDocumentLine;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 
 /**
@@ -43,7 +45,7 @@ import org.compiere.util.CLogger;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MWMInOutBoundLine extends X_WM_InOutBoundLine implements IDocumentLine
+public class MWMInOutBoundLine extends X_WM_InOutBoundLine 
 {
 
 	/**
@@ -168,13 +170,19 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine implements IDocumentL
 	{
 		return getMovementQty().subtract(getPickedQty());
 	}
-	public int getM_Locator_ID() {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public BigDecimal getQtyToShip()
+	{
+		MOrderLine oline = getMOrderLine();
+		return oline.getQtyOrdered().subtract(oline.getQtyDelivered());
 	}
-
-	public void setM_Locator_ID(int M_Locator_ID) {
-		// TODO Auto-generated method stub
-		
+	
+	public MLocator getMLocator()
+	{
+		String whereClause =  MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID + "=?";
+		MDDOrderLine line = new Query(getCtx(),I_DD_OrderLine.Table_Name,whereClause, get_TrxName())
+		.setClient_ID().setParameters(new Object[]{getWM_InOutBoundLine_ID()})
+		.firstOnly();
+		return (MLocator) line.getM_LocatorTo();
 	}
 }	
