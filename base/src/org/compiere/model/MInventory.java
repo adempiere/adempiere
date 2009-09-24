@@ -256,7 +256,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 	
 	/**
 	 * 	Set Processed.
-	 * 	Propergate to Lines/Taxes
+	 * 	Propagate to Lines/Taxes
 	 *	@param processed processed
 	 */
 	public void setProcessed (boolean processed)
@@ -933,7 +933,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 	 * Create Cost Detail
 	 * @param line
 	 * @param Qty
-	 * @return
+	 * @return an EMPTY String on success otherwise an ERROR message
 	 */
 	private String createCostDetail(MInventoryLine line, int M_AttributeSetInstance_ID, BigDecimal qty)
 	{

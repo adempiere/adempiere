@@ -43,7 +43,7 @@ public class CompierePanelUI extends BasicPanelUI
 {
 	/**
 	 *  Static Create UI
-	 *  @param c Vomponent
+	 *  @param c JComponent
 	 *  @return Adempiere Panel UI
 	 */
 	public static ComponentUI createUI (JComponent c)

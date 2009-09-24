@@ -189,7 +189,7 @@ public class CompiereLookAndFeel extends MetalLookAndFeel
 
 	
 	/**************************************************************************
-	 *  Create Default Thems
+	 *  Create Default Themes
 	 */
 	protected void createDefaultTheme()
 	{
