@@ -161,6 +161,8 @@ public class GenerateInOutBound extends SvrProcess
 				boundline.setC_UOM_ID(oline.getC_UOM_ID());
 				boundline.setDescription(oline.getDescription());
 				boundline.setC_OrderLine_ID(oline.getC_OrderLine_ID());
+				boundline.setPickDate(outbound.getPickDate());
+				boundline.setShipDate(outbound.getShipDate());
 				boundline.saveEx();
 				seq ++;
 		}
