@@ -52,6 +52,8 @@ import org.compiere.util.ValueNamePair;
  * 				<li>BF [ 1761891 ] Included print format with report view attached issue
  * 				<li>BF [ 1807368 ] DataEngine does not close DB connection
  * 				<li>BF [ 2549128 ] Report View Column not working at all
+ * 				<li>BF [ 2865545 ] Error if not all parts of multikey are lookups
+ * 					https://sourceforge.net/tracker/?func=detail&aid=2865545&group_id=176962&atid=879332
  * @author victor.perez@e-evolution.com 
  *				<li>FR [ 2011569 ] Implementing new Summary flag in Report View  http://sourceforge.net/tracker/index.php?func=detail&aid=2011569&group_id=176962&atid=879335
  */
@@ -299,7 +301,7 @@ public class DataEngine
 				PrintDataColumn pdc = null;
 
 				//  -- Key --
-				if (IsKey)
+				if (IsKey && DisplayType.isLookup(AD_Reference_ID))
 				{
 					//	=>	Table.Column,
 					sqlSELECT.append(tableName).append(".").append(ColumnName).append(",");
@@ -312,7 +314,7 @@ public class DataEngine
 					;
 				}
 				//	-- Parent, TableDir (and unqualified Search) --
-				else if (IsParent 
+				else if ( (IsParent && DisplayType.isLookup(AD_Reference_ID)) 
 						|| AD_Reference_ID == DisplayType.TableDir
 						|| (AD_Reference_ID == DisplayType.Search && AD_Reference_Value_ID == 0)
 					)
