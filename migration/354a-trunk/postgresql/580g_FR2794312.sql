@@ -394,7 +394,7 @@ UPDATE AD_PrintFormatItem SET PrintName='Lookup URL', Name='Lookup URL' WHERE Is
 ;
 
 -- Sep 17, 2009 9:38:21 PM COT
-UPDATE AD_Element SET Description='A flag which tells if a country accept or not new cities when capturing locations', Name='Allow Cities out of List', PrintName='Allow Cities out of List',Updated=TO_TIMESTAMP('2009-09-17 21:38:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53838
+UPDATE AD_Element SET Description='A flag to allow cities, currently not in the list, to be entered', Name='Allow Cities out of List', PrintName='Allow Cities out of List',Updated=TO_TIMESTAMP('2009-09-17 21:38:21','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Element_ID=53838
 ;
 
 -- Sep 17, 2009 9:38:21 PM COT
@@ -402,19 +402,19 @@ UPDATE AD_Element_Trl SET IsTranslated='N' WHERE AD_Element_ID=53838
 ;
 
 -- Sep 17, 2009 9:38:21 PM COT
-UPDATE AD_Column SET ColumnName='AllowCitiesOutOfList', Name='Allow Cities out of List', Description='A flag which tells if a country accept or not new cities when capturing locations', Help=NULL WHERE AD_Element_ID=53838
+UPDATE AD_Column SET ColumnName='AllowCitiesOutOfList', Name='Allow Cities out of List', Description='A flag to allow cities, currently not in the list, to be entered', Help=NULL WHERE AD_Element_ID=53838
 ;
 
 -- Sep 17, 2009 9:38:21 PM COT
-UPDATE AD_Process_Para SET ColumnName='AllowCitiesOutOfList', Name='Allow Cities out of List', Description='A flag which tells if a country accept or not new cities when capturing locations', Help=NULL, AD_Element_ID=53838 WHERE UPPER(ColumnName)='ALLOWCITIESOUTOFLIST' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
+UPDATE AD_Process_Para SET ColumnName='AllowCitiesOutOfList', Name='Allow Cities out of List', Description='A flag to allow cities, currently not in the list, to be entered', Help=NULL, AD_Element_ID=53838 WHERE UPPER(ColumnName)='ALLOWCITIESOUTOFLIST' AND IsCentrallyMaintained='Y' AND AD_Element_ID IS NULL
 ;
 
 -- Sep 17, 2009 9:38:21 PM COT
-UPDATE AD_Process_Para SET ColumnName='AllowCitiesOutOfList', Name='Allow Cities out of List', Description='A flag which tells if a country accept or not new cities when capturing locations', Help=NULL WHERE AD_Element_ID=53838 AND IsCentrallyMaintained='Y'
+UPDATE AD_Process_Para SET ColumnName='AllowCitiesOutOfList', Name='Allow Cities out of List', Description='A flag to allow cities, currently not in the list, to be entered', Help=NULL WHERE AD_Element_ID=53838 AND IsCentrallyMaintained='Y'
 ;
 
 -- Sep 17, 2009 9:38:21 PM COT
-UPDATE AD_Field SET Name='Allow Cities out of List', Description='A flag which tells if a country accept or not new cities when capturing locations', Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=53838) AND IsCentrallyMaintained='Y'
+UPDATE AD_Field SET Name='Allow Cities out of List', Description='A flag to allow cities, currently not in the list, to be entered', Help=NULL WHERE AD_Column_ID IN (SELECT AD_Column_ID FROM AD_Column WHERE AD_Element_ID=53838) AND IsCentrallyMaintained='Y'
 ;
 
 -- Sep 17, 2009 9:38:21 PM COT
