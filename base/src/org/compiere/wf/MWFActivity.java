@@ -985,7 +985,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			pi.setAD_User_ID(getAD_User_ID());
 			pi.setAD_Client_ID(getAD_Client_ID());
 			pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
-			return process.processIt(pi, trx);
+			return process.processItWithoutTrxClose(pi, trx);
 		}
 		
 		/******	Start Task (Probably redundant;

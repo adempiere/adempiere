@@ -268,4 +268,79 @@ public final class ProcessUtil {
 		log.fine(pi.toString());
 		return wfProcess;
 	}
+
+	/**
+	 * Start a java process without closing the given transaction. Is used from the workflow engine.
+	 * @param ctx
+	 * @param pi
+	 * @param trx
+	 * @return
+	 */
+	public static boolean startJavaProcessWithoutTrxClose(Properties ctx, ProcessInfo pi, Trx trx) {
+		String className = pi.getClassName();
+		if (className == null) {
+			MProcess proc = new MProcess(ctx, pi.getAD_Process_ID(), trx.getTrxName());
+			if (proc.getJasperReport() != null)
+				className = JASPER_STARTER_CLASS;
+		}
+		//Get Class
+		Class<?> processClass = null;
+		try
+		{
+			processClass = Class.forName (className);
+		}
+		catch (ClassNotFoundException ex)
+		{
+			log.log(Level.WARNING, className, ex);
+			pi.setSummary ("ClassNotFound", true);
+			return false;
+		}
+		
+		//Get Process
+		ProcessCall process = null;
+		try
+		{
+			process = (ProcessCall)processClass.newInstance();
+		}
+		catch (Exception ex)
+		{
+			log.log(Level.WARNING, "Instance for " + className, ex);
+			pi.setSummary ("InstanceError", true);
+			return false;
+		}
+		
+		if (processClass == null) {
+			pi.setSummary("No Instance for " + pi.getClassName(), true);
+			return false;
+		}
+		
+		try
+		{
+			boolean success = process.startProcess(ctx, pi, trx);
+			if (trx != null)
+			{
+				if(success){
+//
+				} else {
+					trx.rollback();
+					trx.close();
+					return false;
+				}	
+			}
+		}
+		catch (Exception e)
+		{
+			if (trx != null)
+			{
+				trx.rollback();
+				trx.close();
+			}
+			pi.setSummary("ProcessError", true);
+			log.log(Level.SEVERE, pi.getClassName(), e);
+			return false;
+		}
+		return true;
+	}
+	
+	
 }
