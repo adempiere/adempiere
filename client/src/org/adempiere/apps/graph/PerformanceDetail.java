@@ -53,6 +53,7 @@ public class PerformanceDetail extends CFrame
 		setIconImage(Adempiere.getImage16());
 		barPanel = new Graph(goal, true);
 		init();
+		AEnv.addToWindowManager(this);
 		AEnv.showCenterScreen(this);
 	}	//	PerformanceDetail
 
