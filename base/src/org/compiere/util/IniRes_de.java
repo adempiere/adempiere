@@ -29,8 +29,8 @@ public class IniRes_de extends ListResourceBundle
 	/** Translation Content     */
 	static final Object[][] contents = new String[][]
 	{
-	{ "Adempiere_License",   "Lizenz Vereinbarung" },
-	{ "Do_you_accept",      "Akzeptieren Sie die Lizenz Vereinbarung ?" },
+	{ "Adempiere_License",  "Lizenzvereinbarung" },
+	{ "Do_you_accept",      "Akzeptieren Sie die Lizenzvereinbarung?" },
 	{ "No",                 "Nein" },
 	{ "Yes_I_Understand",   "Ja, ich verstehe und akzeptiere" },
 	{ "license_htm",        "org/adempiere/license.htm" },
