@@ -75,6 +75,28 @@ public interface I_C_Country
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AllowCitiesOutOfList */
+    public static final String COLUMNNAME_AllowCitiesOutOfList = "AllowCitiesOutOfList";
+
+	/** Set AllowCitiesOutOfList.
+	  * A flag which tells if a country accept or not new cities
+	  */
+	public void setAllowCitiesOutOfList (boolean AllowCitiesOutOfList);
+
+	/** Get AllowCitiesOutOfList.
+	  * A flag which tells if a country accept or not new cities
+	  */
+	public boolean isAllowCitiesOutOfList();
+
+    /** Column name CaptureSequence */
+    public static final String COLUMNNAME_CaptureSequence = "CaptureSequence";
+
+	/** Set CaptureSequence	  */
+	public void setCaptureSequence (String CaptureSequence);
+
+	/** Get CaptureSequence	  */
+	public String getCaptureSequence();
+
     /** Column name C_Country_ID */
     public static final String COLUMNNAME_C_Country_ID = "C_Country_ID";
 

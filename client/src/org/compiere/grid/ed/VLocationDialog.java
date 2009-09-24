@@ -35,6 +35,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
+import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.model.MCountry;
@@ -63,22 +64,21 @@ import com.akunagroup.uk.postcode.Postcode;
  * 			<li>BF [ 1831060 ] Location dialog should use Address1, Address2 ... elements
  * @author Michael Judd, Akuna Ltd (UK)
  * 			<li>FR [ 1741222 ] - Webservice connector for address lookups
+ * @author Cristina Ghita, www.arhipac.ro
+ * 			<li>FR [ 2794312 ] Location AutoComplete
  */
 public class VLocationDialog extends CDialog 
 	implements ActionListener
 {
-	
-	/** Lookup result */
-	//private Object[][] data = null;
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6593340606631477392L;
+	private static final long serialVersionUID = 6952838437136830975L;
+
 	/** Lookup result header */
 	private Object[] header = null;
 
-	//private int m_WindowNo = 0;
+	private int m_WindowNo = 0;
 
 	/**
 	 *	Constructor
@@ -108,6 +108,10 @@ public class VLocationDialog extends CDialog
 		else
 			setTitle(Msg.getMsg(Env.getCtx(), "LocationUpdate"));
 
+		// Reset TAB_INFO context
+		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "C_Region_ID", null);
+		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "C_Country_ID", null);
+
 		//	Current Country
 		MCountry.setDisplayLanguage(Env.getAD_Language(Env.getCtx()));
 		fCountry = new CComboBox(MCountry.getCountries(Env.getCtx()));
@@ -115,16 +119,21 @@ public class VLocationDialog extends CDialog
 		m_origCountry_ID = m_location.getC_Country_ID();
 		//	Current Region
 		fRegion = new CComboBox(MRegion.getRegions(Env.getCtx(), m_origCountry_ID));
-		if (m_location.getCountry().isHasRegion())
-			lRegion.setText(m_location.getCountry().getRegionName());	//	name for region
+		if (m_location.getCountry().isHasRegion()) {
+			if (   m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName) != null
+				&& m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName).trim().length() > 0)
+				lRegion.setText(m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName));
+			else
+				lRegion.setText(Msg.getMsg(Env.getCtx(), "Region"));
+		}
 		fRegion.setSelectedItem(m_location.getRegion());
 		//
+		fOnline.setText(Msg.getMsg(Env.getCtx(), "Online"));
 		initLocation();
 		fCountry.addActionListener(this);
 		fOnline.addActionListener(this);
+		fRegion.addActionListener(this);
 		AEnv.positionCenterWindow(frame, this);
-		
-		
 	}	//	VLocationDialog
 
 	private boolean 	m_change = false;
@@ -156,7 +165,8 @@ public class VLocationDialog extends CDialog
 	private CTextField	fAddress2 = new CTextField(20);		//	length=60
 	private CTextField	fAddress3 = new CTextField(20);		//	length=60
 	private CTextField	fAddress4 = new CTextField(20);		//	length=60
-	private CTextField	fCity  = new CTextField(15);		//	length=60
+	private CTextField	fCity  = new CTextField(20);		//	length=60
+	private CityAutoCompleter	fCityAutoCompleter;
 	private CComboBox	fCountry;
 	private CComboBox	fRegion;
 	private CTextField	fPostal = new CTextField(5);		//	length=10
@@ -166,6 +176,18 @@ public class VLocationDialog extends CDialog
 	private GridBagConstraints gbc = new GridBagConstraints();
 	private Insets labelInsets = new Insets(2,15,2,0);		// 	top,left,bottom,right
 	private Insets fieldInsets = new Insets(2,5,2,10);
+
+	private boolean isCityMandatory = false;
+	private boolean isRegionMandatory = false;
+	private boolean isAddress1Mandatory = false;
+	private boolean isAddress2Mandatory = false;
+	private boolean isAddress3Mandatory = false;
+	private boolean isAddress4Mandatory = false;
+	private boolean isPostalMandatory = false;
+	private boolean isPostalAddMandatory = false;
+
+	private boolean inCountryAction;
+	private boolean inOKAction;
 
 	/**
 	 *	Static component init
@@ -184,6 +206,8 @@ public class VLocationDialog extends CDialog
 		southPanel.add(confirmPanel, BorderLayout.NORTH);
 		//
 		confirmPanel.addActionListener(this);
+		//
+		fCityAutoCompleter = new CityAutoCompleter(fCity, m_WindowNo);
 	}	//	jbInit
 
 	/**
@@ -192,17 +216,41 @@ public class VLocationDialog extends CDialog
 	private void initLocation()
 	{
 		MCountry country = m_location.getCountry();
-		log.fine(country.getName() + ", Region=" + country.isHasRegion() + " " + country.getDisplaySequence()
+		log.fine(country.getName() + ", Region=" + country.isHasRegion() + " " + country.getCaptureSequence()
 			+ ", C_Location_ID=" + m_location.getC_Location_ID());
-		//	new Region
-		if (m_location.getC_Country_ID() != s_oldCountry_ID && country.isHasRegion())
+		//	new Country
+		if (country.getC_Country_ID() != s_oldCountry_ID)
 		{
-			fRegion = new CComboBox(MRegion.getRegions(Env.getCtx(), country.getC_Country_ID()));
-			if (m_location.getRegion() != null)
-				fRegion.setSelectedItem(m_location.getRegion());
-			lRegion.setText(country.getRegionName());
+			fRegion.removeAllItems();
+			if (country.isHasRegion()) {
+				for (MRegion region : MRegion.getRegions(Env.getCtx(), country.getC_Country_ID())) {
+				    fRegion.addItem(region);
+				}
+				if (   m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName) != null
+					&& m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName).trim().length() > 0)
+					lRegion.setText(m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName));
+				else
+					lRegion.setText(Msg.getMsg(Env.getCtx(), "Region"));
+			}
 			s_oldCountry_ID = m_location.getC_Country_ID();
 		}
+		
+		if (m_location.getC_Region_ID() > 0 && m_location.getC_Region().getC_Country_ID() == country.getC_Country_ID()) {
+			fRegion.setSelectedItem(m_location.getC_Region());
+		} else {
+			fRegion.setSelectedItem(null);
+			m_location.setC_Region_ID(0);
+		}
+
+		if (country.isHasRegion() && m_location.getC_Region_ID() > 0)
+		{
+			Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "C_Region_ID", String.valueOf(m_location.getC_Region_ID()));
+		} else {
+			Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "C_Region_ID", "0");
+		}
+		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "C_Country_ID", String.valueOf(country.get_ID()));
+		
+		fCityAutoCompleter.fillList();
 
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.gridy = 0;			//	line
@@ -212,43 +260,65 @@ public class VLocationDialog extends CDialog
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.weightx = 0;
 		gbc.weighty = 0;
+		
+		mainPanel.removeAll();
 
 		mainPanel.add(Box.createVerticalStrut(5), gbc);    	//	top gap
 
 		int line = 1;
-		addLine(line++, lAddress1, fAddress1);
-		addLine(line++, lAddress2, fAddress2);
-		addLine(line++, lAddress3, fAddress3);
-		addLine(line++, lAddress4, fAddress4);
-
 		//  sequence of City Postal Region - @P@ @C@ - @C@, @R@ @P@
-		String ds = country.getDisplaySequence();
+		String ds = country.getCaptureSequence();
 		if (ds == null || ds.length() == 0)
 		{
-			log.log(Level.SEVERE, "DisplaySequence empty - " + country);
+			log.log(Level.SEVERE, "CaptureSequence empty - " + country);
 			ds = "";	//	@C@,  @P@
 		}
+		isCityMandatory = false;
+		isRegionMandatory = false;
+		isAddress1Mandatory = false;
+		isAddress2Mandatory = false;
+		isAddress3Mandatory = false;
+		isAddress4Mandatory = false;
+		isPostalMandatory = false;
+		isPostalAddMandatory = false;
 		StringTokenizer st = new StringTokenizer(ds, "@", false);
 		while (st.hasMoreTokens())
 		{
 			String s = st.nextToken();
-			if (s.startsWith("C"))
+			if (s.startsWith("CO")) {
+				//  Country Last
+				addLine(line++, lCountry, fCountry);
+				// disable online if this country doesn't have post code lookup
+				if (m_location.getCountry().isPostcodeLookup()) {
+					addLine(line++, lOnline, fOnline);
+				}
+			} else if (s.startsWith("A1")) {
+				addLine(line++, lAddress1, fAddress1);
+				isAddress1Mandatory = s.endsWith("!");
+			} else if (s.startsWith("A2")) {
+				addLine(line++, lAddress2, fAddress2);
+				isAddress2Mandatory = s.endsWith("!");
+			} else if (s.startsWith("A3")) {
+				addLine(line++, lAddress3, fAddress3);
+				isAddress3Mandatory = s.endsWith("!");
+			} else if (s.startsWith("A4")) {
+				addLine(line++, lAddress4, fAddress4);
+				isAddress4Mandatory = s.endsWith("!");
+			} else if (s.startsWith("C")) {
 				addLine(line++, lCity, fCity);
-			else if (s.startsWith("P"))
+				isCityMandatory = s.endsWith("!");
+			} else if (s.startsWith("P")) {
 				addLine(line++, lPostal, fPostal);
-			else if (s.startsWith("A"))
+				isPostalMandatory = s.endsWith("!");
+			} else if (s.startsWith("A")) {
 				addLine(line++, lPostalAdd, fPostalAdd);
-			else if (s.startsWith("R") && m_location.getCountry().isHasRegion())
+				isPostalAddMandatory = s.endsWith("!");
+			} else if (s.startsWith("R") && m_location.getCountry().isHasRegion()) {
 				addLine(line++, lRegion, fRegion);
+				isRegionMandatory = s.endsWith("!");
+			}
 		}
 		
-		
-		addLine(line++, lOnline, fOnline);
-		fOnline.setText(Msg.getMsg(Env.getCtx(), "Online"));
-		
-		//  Country Last
-		addLine(line++, lCountry, fCountry);
-
 		//	Fill it
 		if (m_location.getC_Location_ID() != 0)
 		{
@@ -261,21 +331,16 @@ public class VLocationDialog extends CDialog
 			fPostalAdd.setText(m_location.getPostal_Add());
 			if (m_location.getCountry().isHasRegion())
 			{
-				lRegion.setText(m_location.getCountry().getRegionName());
+				if (   m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName) != null
+					&& m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName).trim().length() > 0)
+					lRegion.setText(m_location.getCountry().get_Translation(MCountry.COLUMNNAME_RegionName));
+				else
+					lRegion.setText(Msg.getMsg(Env.getCtx(), "Region"));
 				fRegion.setSelectedItem(m_location.getRegion());
 			}
-			
-			// disable online if this country doesn't have post code lookup
-			if (m_location.getCountry().isPostcodeLookup()) {
-				fOnline.setEnabled(true);
-				fOnline.setVisible(true);
-			}
-			else {
-				fOnline.setEnabled(false);
-				fOnline.setVisible(false);
-			}
-			
-			fCountry.setSelectedItem(country);
+
+			if (!fCountry.getSelectedItem().equals(country))
+				fCountry.setSelectedItem(country);
 		}
 		//	Update UI
 		pack();
@@ -308,6 +373,15 @@ public class VLocationDialog extends CDialog
 		
 	}	//	addLine
 
+	@Override
+	public void dispose()
+	{
+		if (!m_change && m_location != null && !m_location.is_new())
+		{
+			m_location = new MLocation(m_location.getCtx(), m_location.get_ID(), null);
+		}	
+		super.dispose();
+	}
 
 	/**
 	 *	ActionListener
@@ -317,9 +391,32 @@ public class VLocationDialog extends CDialog
 	{
 		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 		{
-			action_OK();
-			m_change = true;
-			dispose();
+			inOKAction = true;
+			
+			if (m_location.getCountry().isHasRegion() && fRegion.getSelectedItem() == null) {
+				if (fCityAutoCompleter.getC_Region_ID() > 0 && fCityAutoCompleter.getC_Region_ID() != m_location.getC_Region_ID()) {
+					fRegion.setSelectedItem(MRegion.get(Env.getCtx(), fCityAutoCompleter.getC_Region_ID()));
+					m_location.setRegion(MRegion.get(Env.getCtx(), fCityAutoCompleter.getC_Region_ID()));
+				}
+			}
+			
+			String msg = validate_OK();
+			if (msg != null) {
+				ADialog.error(0, this, "FillMandatory", Msg.parseTranslation(Env.getCtx(), msg));
+				inOKAction = false;
+				return;
+			}
+
+			if (action_OK())
+			{
+				m_change = true;
+				dispose();
+			}
+			else
+			{
+				ADialog.error(m_WindowNo, this, "CityNotFound");
+			}
+			inOKAction = false;
 		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
@@ -330,34 +427,27 @@ public class VLocationDialog extends CDialog
 		//	Country Changed - display in new Format
 		else if (e.getSource() == fCountry)
 		{
+			inCountryAction = true;
 			//	Modifier for Mouse selection is 16  - for any key selection 0
 			MCountry c = (MCountry)fCountry.getSelectedItem();
 			m_location.setCountry(c);
-			
-			// refresh online button for new country
-			if (c.isPostcodeLookup()) {
-				fOnline.setEnabled(true);
-				fOnline.setVisible(true);
-			}
-			else {
-				fOnline.setEnabled(false);
-				fOnline.setVisible(false);
-			}
-			
-			// update the region name if regions are enabled for this country
-			if (c.isHasRegion())
-			{
-				lRegion.setText(c.getRegionName());
-				fRegion.setSelectedItem(m_location.getRegion());
-				
-				// TODO: fix bug that occurs when the new region name is shorter than the old region name
-			}
-			
-			//			refresh
-			mainPanel.removeAll();
-			
+
 			initLocation();
-			fCountry.requestFocus();	//	allows to use Keybord selection
+			fCountry.requestFocus();	//	allows to use Keyboard selection
+			inCountryAction = false;
+		}
+		//		Region Changed 
+		else if (e.getSource() == fRegion)
+		{
+			if (inCountryAction || inOKAction)
+				return;
+			MRegion r = (MRegion)fRegion.getSelectedItem();
+			m_location.setRegion(r);
+			m_location.setC_City_ID(0);
+			m_location.setCity(null);
+
+			initLocation();
+			fRegion.requestFocus();	//	allows to use Keyboard selection
 		}
 		else if (e.getSource() == fOnline)
 		{
@@ -371,16 +461,51 @@ public class VLocationDialog extends CDialog
 		}
 	}	//	actionPerformed
 
+	// LCO - address 1, region and city required
+	private String validate_OK() {
+		String fields = "";
+		if (isAddress1Mandatory && fAddress1.getText().trim().length() == 0) {
+			fields = fields + " " + "@Address1@, ";
+		}
+		if (isAddress2Mandatory && fAddress2.getText().trim().length() == 0) {
+			fields = fields + " " + "@Address2@, ";
+		}
+		if (isAddress3Mandatory && fAddress3.getText().trim().length() == 0) {
+			fields = fields + " " + "@Address3@, ";
+		}
+		if (isAddress4Mandatory && fAddress4.getText().trim().length() == 0) {
+			fields = fields + " " + "@Address4@, ";
+		}
+		if (isCityMandatory && fCity.getText().trim().length() == 0) {
+			fields = fields + " " + "@C_City_ID@, ";
+		}
+		if (isRegionMandatory && fRegion.getSelectedItem() == null) {
+			fields = fields + " " + "@C_Region_ID@, ";
+		}
+		if (isPostalMandatory && fPostal.getText().trim().length() == 0) {
+			fields = fields + " " + "@Postal@, ";
+		}
+		if (isPostalAddMandatory && fPostalAdd.getText().trim().length() == 0) {
+			fields = fields + " " + "@PostalAdd@, ";
+		}
+		
+		if (fields.trim().length() > 0)
+			return fields.substring(0, fields.length() -2);
+
+		return null;
+	}
+
 	/**
 	 * 	OK - check for changes (save them) & Exit
 	 */
-	private void action_OK()
+	private boolean action_OK()
 	{
 		m_location.setAddress1(fAddress1.getText());
 		m_location.setAddress2(fAddress2.getText());
 		m_location.setAddress3(fAddress3.getText());
 		m_location.setAddress4(fAddress4.getText());
 		m_location.setCity(fCity.getText());
+		m_location.setC_City_ID(fCityAutoCompleter.getC_City_ID());
 		m_location.setPostal(fPostal.getText());
 		m_location.setPostal_Add(fPostalAdd.getText());
 		//  Country/Region
@@ -394,7 +519,14 @@ public class VLocationDialog extends CDialog
 		else
 			m_location.setC_Region_ID(0);
 		//	Save changes
-		m_location.save();
+		if(m_location.save())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}	//	actionOK
 
 	/**
@@ -452,111 +584,113 @@ public class VLocationDialog extends CDialog
 		
 		return "";
 	}
-		/**
-		 * Fills the location field using the information retrieved from postcode
-		 * servers.
-		 * 
-		 * @param ctx
-		 *            Context
-		 * @param pkeyData
-		 *            Lookup results
-		 * @param windowNo
-		 *            Window No.
-		 * @param tab
-		 *            Tab
-		 * @param field
-		 *            Field
-		 */
-		private void fillLocation(HashMap<String, Object> postcodeData, MCountry country) {
 
-			// If it's not empty warn the user.
-			if (fAddress1 != null || fAddress2 != null
-					|| fAddress3 != null
-					|| fAddress4 != null || fCity != null) {
-				String warningMsg = "Existing address information will be overwritten. Proceed?";
-				String warningTitle = "Warning";
-				int response = JOptionPane.showConfirmDialog(null, warningMsg,
-						warningTitle, JOptionPane.YES_NO_OPTION);
-				if (response == JOptionPane.NO_OPTION)
-					return;
-			}
-			
-			
-			Set<String> pcodeKeys = postcodeData.keySet();
-			Iterator<String> iterator = pcodeKeys.iterator();
-			header = null;
-
-			// Allocate the header array
-			header = new Object[pcodeKeys.size()];
-
-			String headerStr = null;
-			
-			// need to check how many records returned
-			// TODO - check number of records returns - size() method is incorrect
-			if (pcodeKeys.size() > 2)
-			{
-				// TODO: Implement ResultData Grid and get return (for premises level data)
-				System.out.println("Too many postcodes returned from Postcode Lookup - need to Implement ResultData");
-			} else
-			{
-				for (int i = 0; (headerStr = (iterator.hasNext() ? iterator.next() : null)) != null
-						|| iterator.hasNext(); i++) {
-					header[i] = headerStr;
-					Postcode values =  (Postcode) postcodeData.get(headerStr);
-				
-					// Overwrite the values in location field.
-					fAddress1.setText(values.getStreet1());
-					fAddress2.setText(values.getStreet2());
-					fAddress3.setText(values.getStreet3());
-					fAddress4.setText(values.getStreet4());
-					fCity.setText(values.getCity());
-					fPostal.setText(values.getPostcode());
-					
-					// Do region lookup
-					if (country.isHasRegion())
-					{
-						// get all regions for this country
-						MRegion[] regions = MRegion.getRegions(country.getCtx(), country.getC_Country_ID());
-						
-						// If regions were loaded
-						if ( regions.length > 0)
-						{
-							// loop through regions array to attempt a region match - don't finish loop if region found
-							boolean found = false;
-							for (i = 0; i < regions.length && !found; i++)
-							{
-								
-								if (regions[i].getName().equals(values.getRegion()) )
-								{
-									// found Region
-									fRegion.setSelectedItem(regions[i]);	
-									log.fine("Found region: " + regions[i].getName());
-									found = true;
-								}
-							}
-							if (!found)
-							{
-								// add new region
-								MRegion region = new MRegion(country, values.getRegion());
-								if (region.save())
-								{
-									log.fine("Added new region from web service: " + values.getRegion());
-									// clears cache
-									Env.reset(false);
-									//reload regions to combo box
-									fRegion = new CComboBox(MRegion.getRegions(Env.getCtx(), country.getC_Country_ID()));
-									// select region
-									fRegion.setSelectedItem(values);
-								} else
-									log.severe("Error saving new region: " + region.getName());
-								
-							}
-						} else
-							log.severe("Region lookup failed for Country: " + country.getName());
-						
-					}		
-				}
-			}
-			
+	/**
+	 * Fills the location field using the information retrieved from postcode
+	 * servers.
+	 * 
+	 * @param ctx
+	 *            Context
+	 * @param pkeyData
+	 *            Lookup results
+	 * @param windowNo
+	 *            Window No.
+	 * @param tab
+	 *            Tab
+	 * @param field
+	 *            Field
+	 */
+	private void fillLocation(HashMap<String, Object> postcodeData, MCountry country) {
+ 
+		// If it's not empty warn the user.
+		if (fAddress1 != null || fAddress2 != null
+				|| fAddress3 != null
+				|| fAddress4 != null || fCity != null) {
+			String warningMsg = "Existing address information will be overwritten. Proceed?";
+			String warningTitle = "Warning";
+			int response = JOptionPane.showConfirmDialog(null, warningMsg,
+					warningTitle, JOptionPane.YES_NO_OPTION);
+			if (response == JOptionPane.NO_OPTION)
+				return;
 		}
+ 
+ 
+		Set<String> pcodeKeys = postcodeData.keySet();
+		Iterator<String> iterator = pcodeKeys.iterator();
+		header = null;
+
+		// Allocate the header array
+		header = new Object[pcodeKeys.size()];
+
+		String headerStr = null;
+
+		// need to check how many records returned
+		// TODO - check number of records returns - size() method is incorrect
+		if (pcodeKeys.size() > 2)
+		{
+			// TODO: Implement ResultData Grid and get return (for premises level data)
+			System.out.println("Too many postcodes returned from Postcode Lookup - need to Implement ResultData");
+		} else
+		{
+			for (int i = 0; (headerStr = (iterator.hasNext() ? iterator.next() : null)) != null
+			|| iterator.hasNext(); i++) {
+				header[i] = headerStr;
+				Postcode values =  (Postcode) postcodeData.get(headerStr);
+
+				// Overwrite the values in location field.
+				fAddress1.setText(values.getStreet1());
+				fAddress2.setText(values.getStreet2());
+				fAddress3.setText(values.getStreet3());
+				fAddress4.setText(values.getStreet4());
+				fCity.setText(values.getCity());
+				fPostal.setText(values.getPostcode());
+
+				// Do region lookup
+				if (country.isHasRegion())
+				{
+					// get all regions for this country
+					MRegion[] regions = MRegion.getRegions(country.getCtx(), country.getC_Country_ID());
+
+					// If regions were loaded
+					if ( regions.length > 0)
+ 					{
+						// loop through regions array to attempt a region match - don't finish loop if region found
+						boolean found = false;
+						for (i = 0; i < regions.length && !found; i++)
+ 						{
+
+							if (regions[i].getName().equals(values.getRegion()) )
+ 							{
+								// found Region
+								fRegion.setSelectedItem(regions[i]);	
+								log.fine("Found region: " + regions[i].getName());
+								found = true;
+ 							}
+						}
+						if (!found)
+						{
+							// add new region
+							MRegion region = new MRegion(country, values.getRegion());
+							if (region.save())
+ 							{
+								log.fine("Added new region from web service: " + values.getRegion());
+								// clears cache
+								Env.reset(false);
+								//reload regions to combo box
+								fRegion = new CComboBox(MRegion.getRegions(Env.getCtx(), country.getC_Country_ID()));
+								// select region
+								fRegion.setSelectedItem(values);
+							} else
+								log.severe("Error saving new region: " + region.getName());
+
+						}
+					} else
+						log.severe("Region lookup failed for Country: " + country.getName());
+
+				}		
+ 			}
+ 		}
+
+	}
+
 }	//	VLocationDialog

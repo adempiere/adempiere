@@ -33,9 +33,9 @@ import java.io.File;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MCity;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MSetup;
-import org.compiere.model.X_C_City;
 import org.compiere.print.PrintUtil;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -168,9 +168,12 @@ public class InitialClientSetup extends SvrProcess
 			throw new AdempiereException("@NotUnique@ " + p_NormalUserName);
 
 		// City_ID overrides CityName if both used
-		if (p_CityName != null && p_CityName.length() > 0 && p_C_City_ID > 0) {
-			X_C_City city = new X_C_City(getCtx(), p_C_City_ID, null);
-			p_CityName = city.getName();
+		if (p_C_City_ID > 0) {
+			MCity city = MCity.get(getCtx(), p_C_City_ID);
+			if (! city.getName().equals(p_CityName)) {
+				log.info("City name changed from " + p_CityName + " to " + city.getName());
+				p_CityName = city.getName();
+			}
 		}
 
 		// Validate existence and read permissions on CoA file
@@ -187,8 +190,10 @@ public class InitialClientSetup extends SvrProcess
 		// Process
 		MSetup ms = new MSetup(Env.getCtx(), WINDOW_THIS_PROCESS);
 
-		if (! ms.createClient(p_ClientName, p_OrgName, p_AdminUserName, p_NormalUserName))
+		if (! ms.createClient(p_ClientName, p_OrgName, p_AdminUserName, p_NormalUserName)) {
+			ms.rollback();
 			throw new AdempiereException("Create client failed");
+		}
 			
 		addLog(ms.getInfo());
 
@@ -197,11 +202,16 @@ public class InitialClientSetup extends SvrProcess
 		KeyNamePair currency_kp = new KeyNamePair(p_C_Currency_ID, currency.getDescription());
 		if (!ms.createAccounting(currency_kp,
 			p_IsUseProductDimension, p_IsUseBPDimension, p_IsUseProjectDimension, p_IsUseCampaignDimension, p_IsUseSalesRegionDimension,
-			coaFile))
+			coaFile)) {
+			ms.rollback();
 			throw new AdempiereException("@AccountSetupError@");
+		}
 
 		//  Generate Entities
-		ms.createEntities(p_C_Country_ID, p_CityName, p_C_Region_ID, p_C_Currency_ID);
+		if (!ms.createEntities(p_C_Country_ID, p_CityName, p_C_Region_ID, p_C_Currency_ID)) {
+			ms.rollback();
+			throw new AdempiereException("@AccountSetupError@");
+		}
 		addLog(ms.getInfo());
 
 		//	Create Print Documents
@@ -210,4 +220,4 @@ public class InitialClientSetup extends SvrProcess
 		return "@OK@";
 	}	//	doIt
 
-}	//	ASPGenerateLevel
+}	//	InitialClientSetup

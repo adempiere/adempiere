@@ -27,6 +27,7 @@ import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
 /**
@@ -37,6 +38,7 @@ import org.compiere.util.Util;
  *  
  *  @author Michael Judd (Akuna Ltd)
  * 				<li>BF [ 2695078 ] Country is not translated on invoice
+ * 				<li>FR [2794312 ] Location AutoComplete - check if allow cities out of list
  */
 public class MLocation extends X_C_Location implements Comparator
 {
@@ -203,6 +205,10 @@ public class MLocation extends X_C_Location implements Comparator
 	 */
 	public MCountry getCountry()
 	{
+		// Reset country if not match
+		if (m_c != null && m_c.get_ID() != getC_Country_ID())
+			m_c = null;
+		// Load
 		if (m_c == null)
 		{
 			if (getC_Country_ID() != 0)
@@ -257,14 +263,17 @@ public class MLocation extends X_C_Location implements Comparator
 	{
 		m_r = region;
 		if (region == null)
+		{
 			super.setC_Region_ID(0);
+		}
 		else
 		{
 			super.setC_Region_ID(m_r.getC_Region_ID());
+			setRegionName(m_r.getName());
 			if (m_r.getC_Country_ID() != getC_Country_ID())
 			{
 				log.info("Region(" + region + ") C_Country_ID=" + region.getC_Country_ID()
-				  + " - From  C_Country_ID=" + getC_Country_ID());
+						+ " - From  C_Country_ID=" + getC_Country_ID());
 				setC_Country_ID(region.getC_Country_ID());
 			}
 		}
@@ -297,6 +306,10 @@ public class MLocation extends X_C_Location implements Comparator
 	 */
 	public MRegion getRegion()
 	{
+		// Reset region if not match
+		if (m_r != null && m_r.get_ID() != getC_Region_ID())
+			m_r = null;
+		//
 		if (m_r == null && getC_Region_ID() != 0)
 			m_r = MRegion.get(getCtx(), getC_Region_ID());
 		return m_r;
@@ -594,9 +607,23 @@ public class MLocation extends X_C_Location implements Comparator
 			if (!m_c.isHasRegion())
 				setC_Region_ID(0);
 		}
+		if (getC_City_ID() <= 0 && getCity() != null && getCity().length() > 0) {
+			int city_id = DB.getSQLValue(
+					get_TrxName(),
+					"SELECT C_City_ID FROM C_City WHERE C_Country_ID=? AND COALESCE(C_Region_ID,0)=? AND Name=?",
+					new Object[] {getC_Country_ID(), getC_Region_ID(), getCity()});
+			if (city_id > 0)
+				setC_City_ID(city_id);
+		}
+
+		//check city
+		if (m_c != null && !m_c.isAllowCitiesOutOfList() && getC_City_ID()<=0) {
+			log.saveError("CityNotFound", Msg.translate(getCtx(), "CityNotFound"));
+			return false;
+		}
 		
 		return true;
-	}	//	geforeSave
+	}	//	beforeSave
 	
 	/**
 	 * 	After Save

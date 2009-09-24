@@ -98,6 +98,44 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return (String)get_Value(COLUMNNAME_AD_Language);
 	}
 
+	/** Set AllowCitiesOutOfList.
+		@param AllowCitiesOutOfList 
+		A flag which tells if a country accept or not new cities
+	  */
+	public void setAllowCitiesOutOfList (boolean AllowCitiesOutOfList)
+	{
+		set_Value (COLUMNNAME_AllowCitiesOutOfList, Boolean.valueOf(AllowCitiesOutOfList));
+	}
+
+	/** Get AllowCitiesOutOfList.
+		@return A flag which tells if a country accept or not new cities
+	  */
+	public boolean isAllowCitiesOutOfList () 
+	{
+		Object oo = get_Value(COLUMNNAME_AllowCitiesOutOfList);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set CaptureSequence.
+		@param CaptureSequence CaptureSequence	  */
+	public void setCaptureSequence (String CaptureSequence)
+	{
+		set_Value (COLUMNNAME_CaptureSequence, CaptureSequence);
+	}
+
+	/** Get CaptureSequence.
+		@return CaptureSequence	  */
+	public String getCaptureSequence () 
+	{
+		return (String)get_Value(COLUMNNAME_CaptureSequence);
+	}
+
 	/** Set Country.
 		@param C_Country_ID 
 		Country 

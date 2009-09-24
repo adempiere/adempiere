@@ -112,7 +112,7 @@ public class AutoComplete extends Combobox
 	*/	
 	private void refresh(String val) 
 	{
-		if ((val == null) || (val.trim().length() == 0)) {
+		if (comboItems == null || val == null) {
 			super.getChildren().clear();
 			return;
 		}

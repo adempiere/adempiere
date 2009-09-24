@@ -1319,4 +1319,14 @@ public final class MSetup
 	{
 		return m_info.toString();
 	}
+
+	/**
+	 * 	Rollback Internal Transaction
+	 */
+	public void rollback() {
+		try {
+			m_trx.rollback();
+			m_trx.close();
+		} catch (Exception e) {}
+	}
 }   //  MSetup
