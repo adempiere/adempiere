@@ -105,35 +105,37 @@
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/groovy.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/jython.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkex-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zk-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zml-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zul-sources.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb-sources.jar"/>
-	<classpathentry kind="lib" path="posterita/reference/aspectJ/aspectjlib.jar"/>
-	<classpathentry kind="lib" path="posterita/reference/aspectJ/aspectjtools.jar"/>
-	<classpathentry kind="lib" path="posterita/reference/aspectJ/aspectjweaver.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/timelinez-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkex-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zk-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zml-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zul-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/reference/aspectJ/aspectjlib.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/reference/aspectJ/aspectjtools.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/reference/aspectJ/aspectjweaver.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/struts.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/aop.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/aspectjrt.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/barcode4j.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-validator.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/aop.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/aspectjrt.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/barcode4j.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-validator.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/spiffy-with_source-all-0.05.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/SuperCSV-with_src-1.52.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar"/>
-	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/itext-1.3.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/poi-3.0-FINAL.jar"/>
-	<classpathentry kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar"/>
+	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/itext-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/poi-3.0-FINAL.jar"/>
+	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
 	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-3.5.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="packages/liberoHR.jar"/>
+	<classpathentry exported="true" kind="lib" path="packages/liberoMFG.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
