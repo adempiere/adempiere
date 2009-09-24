@@ -512,6 +512,13 @@ public class MOrder extends X_C_Order implements DocAction
 			MOrderLine line = new MOrderLine (this);
 			PO.copyValues(fromLines[i], line, getAD_Client_ID(), getAD_Org_ID());
 			line.setC_Order_ID(getC_Order_ID());
+			//
+			line.setQtyDelivered(Env.ZERO);
+			line.setQtyInvoiced(Env.ZERO);
+			line.setQtyReserved(Env.ZERO);
+			line.setDateDelivered(null);
+			line.setDateInvoiced(null);
+			//
 			line.setOrder(this);
 			line.set_ValueNoCheck ("C_OrderLine_ID", I_ZERO);	//	new
 			//	References
@@ -524,12 +531,7 @@ public class MOrder extends X_C_Order implements DocAction
 				line.setRef_OrderLine_ID(fromLines[i].getC_OrderLine_ID());
 			else
 				line.setRef_OrderLine_ID(0);
-			//
-			line.setQtyDelivered(Env.ZERO);
-			line.setQtyInvoiced(Env.ZERO);
-			line.setQtyReserved(Env.ZERO);
-			line.setDateDelivered(null);
-			line.setDateInvoiced(null);
+
 			// don't copy linked lines
 			line.setLink_OrderLine_ID(0);
 			//	Tax
