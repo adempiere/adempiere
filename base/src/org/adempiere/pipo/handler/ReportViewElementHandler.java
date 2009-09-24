@@ -53,7 +53,7 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 		String Object_Status = null;
 		Attributes atts = element.attributes;
 		log.info(elementValue + " " + atts.getValue("ADReportviewnameID"));
-		String entitytype = atts.getValue("EntityType");
+		//String entitytype = atts.getValue("EntityType");
 		String name = atts.getValue("ADReportviewnameID");
 
 		int id = get_ID(ctx, "AD_ReportView", name);
@@ -137,9 +137,9 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 				atts = createReportViewBinding(atts, m_Reportview);
 				document.startElement("", "", "reportview", atts);
 				document.endElement("", "", "reportview");
-
-				String sql1 = "SELECT * FROM AD_Printformat WHERE AD_Reportview_ID= "
-						+ AD_ReportView_ID;
+				
+				String sql1 = "SELECT * FROM AD_Printformat WHERE AD_Reportview_ID="+AD_ReportView_ID
+						+" AND AD_Client_ID="+Env.getAD_Client_ID(ctx);
 				PreparedStatement pstmt1 = null;
 				pstmt1 = DB.prepareStatement(sql1, getTrxName(ctx));
 				try {
