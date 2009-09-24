@@ -191,15 +191,14 @@ public class TopicListener implements MessageListener {
 		ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory( url );
 		log.finest("ActiveMQConnectionFactory = " + factory);
 		
-		if (userName !=null && password != null) {
+		if (userName !=null && password !=null) {
 			conn = factory.createConnection(userName, password);
 		} else {
 			conn = factory.createConnection();
 		}
-		
 		log.finest("conn = " + conn );
 		
-		if(conn.getClientID()==null)
+		if (conn.getClientID()==null)
 		{
 			try
 			{
@@ -208,17 +207,27 @@ public class TopicListener implements MessageListener {
 			catch (Exception e)
 			{
 				log.info("Connection with clientID '" + clientID +"' already exists");
+				conn.close();
 				return;
 			}
-		}else
-		{
-			if(conn.getClientID().equals(clientID))
+		} else {
+			if (conn.getClientID().equals(clientID))
 			{
-				log.warning("Connection with clientID '" + clientID
-						+ "' already exists");
+				log.warning("Connection with clientID '" + clientID + "' already exists");
+				conn.close();
 				return;
-			}else
-				conn.setClientID( clientID );
+			} else {
+				try
+				{
+					conn.setClientID( clientID );
+				}
+				catch (Exception e)
+				{
+					log.info("Error while invoking setClientID(" + clientID +")! " + e.getMessage());
+					conn.close();
+					return;
+				}
+			}
 		}
 		
 		
@@ -254,7 +263,6 @@ public class TopicListener implements MessageListener {
 		pLog.setReference( logReference.toString() );
 		boolean resultSave = pLog.save();
 		log.finest("Result Save = " + resultSave);
-
 	}
 	
 	/**
@@ -302,7 +310,6 @@ public class TopicListener implements MessageListener {
 
 		} else {
 			log.finest("Received NO TEXT Message: " );
-			// Received non text message!!!
 		}
 	}
 
