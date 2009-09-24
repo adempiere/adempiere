@@ -71,7 +71,8 @@ public class MFormAccess extends X_AD_Form_Access
 	public MFormAccess (MForm parent, int AD_Role_ID)
 	{
 		super (parent.getCtx(), 0, parent.get_TrxName());
-		setClientOrg(parent);
+		MRole role = MRole.get(parent.getCtx(), AD_Role_ID);
+		setClientOrg(role);
 		setAD_Form_ID(parent.getAD_Form_ID());
 		setAD_Role_ID (AD_Role_ID);
 	}	//	MFormAccess

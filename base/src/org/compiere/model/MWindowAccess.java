@@ -72,7 +72,8 @@ public class MWindowAccess extends X_AD_Window_Access
 	public MWindowAccess (MWindow parent, int AD_Role_ID)
 	{
 		super (parent.getCtx(), 0, parent.get_TrxName());
-		setClientOrg(parent);
+		MRole role = MRole.get(parent.getCtx(), AD_Role_ID);
+		setClientOrg(role);
 		setAD_Window_ID(parent.getAD_Window_ID());
 		setAD_Role_ID (AD_Role_ID);
 	}	//	MWindowAccess

@@ -74,7 +74,8 @@ public class MProcessAccess extends X_AD_Process_Access
 	public MProcessAccess (MProcess parent, int AD_Role_ID)
 	{
 		super (parent.getCtx(), 0, parent.get_TrxName());
-		setClientOrg(parent);
+		MRole role = MRole.get(parent.getCtx(), AD_Role_ID);
+		setClientOrg(role);
 		setAD_Process_ID (parent.getAD_Process_ID());
 		setAD_Role_ID (AD_Role_ID);
 	}	//	MProcessAccess

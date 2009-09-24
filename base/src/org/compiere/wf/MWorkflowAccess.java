@@ -19,6 +19,7 @@ package org.compiere.wf;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.model.MRole;
 import org.compiere.model.X_AD_Workflow_Access;
 
 
@@ -74,7 +75,8 @@ public class MWorkflowAccess extends X_AD_Workflow_Access
 	public MWorkflowAccess (MWorkflow parent, int AD_Role_ID)
 	{
 		super (parent.getCtx(), 0, parent.get_TrxName());
-		setClientOrg(parent);
+		MRole role = MRole.get(parent.getCtx(), AD_Role_ID);
+		setClientOrg(role);
 		setAD_Workflow_ID(parent.getAD_Workflow_ID());
 		setAD_Role_ID (AD_Role_ID);
 	}	//	MWorkflowAccess
