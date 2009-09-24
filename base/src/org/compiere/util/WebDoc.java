@@ -164,7 +164,7 @@ public class WebDoc
 		
 		//	css, js
 		if (javaClient) {
-			m_head.addElement(new StoredHtmlSrc("STYLE", "org/compiere/images/standard.css")); //TODO 
+			m_head.addElement(new StoredHtmlSrc("STYLE", "org/compiere/images/standard.css"));
 		} else {
 			m_head.addElement(new link(WebEnv.getStylesheetURL(), link.REL_STYLESHEET, link.TYPE_CSS));
 			m_head.addElement(new script((Element)null, WebEnv.getBaseDirectory("/js/standard.js")));
