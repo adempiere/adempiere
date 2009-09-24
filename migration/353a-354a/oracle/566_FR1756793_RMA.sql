@@ -1,3 +1,6 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF 
+
 -- Sep 11, 2009 12:33:24 AM COT
 -- 1756793-RMA
 INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,Description,EntityType,Help,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType,WinHeight,WinWidth) VALUES (0,0,53097,TO_DATE('2009-09-11 00:33:23','YYYY-MM-DD HH24:MI:SS'),100,'Customer Return (Receipts)','D','The Customer Return Window defines the receipt of product or material from a Customer Return.','Y','N','N','Y','Customer Return','N',TO_DATE('2009-09-11 00:33:23','YYYY-MM-DD HH24:MI:SS'),100,'T',0,0)
