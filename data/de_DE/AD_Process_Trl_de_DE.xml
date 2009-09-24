@@ -757,9 +757,9 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
   <value column="Help" original=""/>
  </row>
  <row id="258" trl="Y">
-  <value column="Name" original="Sequence Check">Nummernkreisn überprüfen</value>
-  <value column="Description" original="Check System and Document Sequences">Überprüfen von System- und Beleg-Nummernkreisn</value>
-  <value column="Help" original="Check that System and Document sequences are correct.  Run this process, if you get Duplicate Key error messages.">Überprüfen, dass System- und Beleg-Nummernkreisn korrekt sind. Starten Sie diesen Prozess, wenn Sie Fehlermeldungen wie "Doppelte Einträge" bekommen.</value>
+  <value column="Name" original="Sequence Check">Nummernkreis überprüfen</value>
+  <value column="Description" original="Check System and Document Sequences">Überprüfen von System- und Beleg-Nummernkreisen</value>
+  <value column="Help" original="Check that System and Document sequences are correct.  Run this process, if you get Duplicate Key error messages.">Überprüfen, dass System- und Beleg-Nummernkreisen korrekt sind. Starten Sie diesen Prozess, wenn Sie Fehlermeldungen wie "Doppelte Einträge" bekommen.</value>
  </row>
  <row id="259" trl="Y">
   <value column="Name" original="Create Orders">Aufträge erstellen</value>

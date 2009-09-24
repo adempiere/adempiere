@@ -1312,8 +1312,8 @@
   <value column="Description" original=""/>
  </row>
  <row id="461" trl="Y">
-  <value column="Name" original="Sequence Check">Nummernkreisn überprüfen</value>
-  <value column="Description" original="Check System and Document Sequences">Überprüfen von System- und Beleg-Nummernkreisn</value>
+  <value column="Name" original="Sequence Check">Nummernkreis überprüfen</value>
+  <value column="Description" original="Check System and Document Sequences">Überprüfen von System- und Beleg-Nummernkreisen</value>
  </row>
  <row id="462" trl="Y">
   <value column="Name" original="Dunning Run">Mahnlauf</value>
