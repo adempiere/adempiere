@@ -301,7 +301,7 @@ public class DataEngine
 				PrintDataColumn pdc = null;
 
 				//  -- Key --
-				if (IsKey && DisplayType.isLookup(AD_Reference_ID))
+				if (IsKey)
 				{
 					//	=>	Table.Column,
 					sqlSELECT.append(tableName).append(".").append(ColumnName).append(",");
