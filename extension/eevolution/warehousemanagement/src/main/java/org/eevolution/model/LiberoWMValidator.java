@@ -58,7 +58,7 @@ public class LiberoWMValidator implements ModelValidator
 			MDDOrderLine oline = (MDDOrderLine)po;
 			int WM_InOutBoundLine_ID = (Integer) oline.get_Value(MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID);
 		
-			if(WM_InOutBoundLine_ID > 0 && oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 1)
+			if(WM_InOutBoundLine_ID > 0 && oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0)
 			{
 					
 					MWMInOutBoundLine obline = new MWMInOutBoundLine(oline.getCtx(),WM_InOutBoundLine_ID, oline.get_TrxName());
