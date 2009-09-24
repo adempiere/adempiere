@@ -16,7 +16,7 @@
 	<target name="init">
 		<echo message="============================================================" />
 		<echo message="     PostgreSQL database update tool for Adempiere ERP" />
-		<echo message="	  	Adempiere Licese is GNU GPL License" />
+		<echo message="	  	Adempiere License is GNU GPL License" />
 		<echo message="============================================================" />
 		<echo message="" file="psql.log" append="false" />
 		<echo append="false" file="build.log" message="#Build log:${line.separator}${line.separator}" />
