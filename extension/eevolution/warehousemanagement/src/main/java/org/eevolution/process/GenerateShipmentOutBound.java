@@ -155,6 +155,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 		
 		MLocator standing = line.getMLocator();
 		MInOut inout = getMInOut(oline);
+		inout.setIsSOTrx(true);
 		inout.saveEx();
 		MInOutLine shipmentLine = new MInOutLine(line.getCtx(), 0 , line.get_TrxName());
 		shipmentLine.setM_InOut_ID(inout.getM_InOut_ID());
@@ -173,9 +174,9 @@ public class GenerateShipmentOutBound extends SvrProcess
 	 */
 	protected int getDocType(String docBaseType)
 	{
-		MDocType[] doc = MDocType.getOfDocBaseType(getCtx(), docBaseType);
+		MDocType[] docs = MDocType.getOfDocBaseType(getCtx(), docBaseType);
 
-		if (doc == null || doc.length == 0) 
+		if (docs == null || docs.length == 0) 
 		{
 			String reference = Msg.getMsg(getCtx(), "SequenceDocNotFound");
 			String textMsg = "Not found default document type for docbasetype "+ docBaseType;
@@ -183,8 +184,18 @@ public class GenerateShipmentOutBound extends SvrProcess
 		} 
 		else
 		{
-			log.info("Doc Type for "+docBaseType+": "+ doc[0].getC_DocType_ID());
-			return doc[0].getC_DocType_ID();
+			
+			for (MDocType doc : docs)
+			{	
+				if(doc.isSOTrx())
+				{	
+					log.info("Doc Type for "+docBaseType+": "+ doc.getC_DocType_ID());
+					return doc.getC_DocType_ID();
+				}
+			}
+			String textMsg = "Not found default document type for docbasetype "+ docBaseType;
+			throw new AdempiereException(textMsg);
+			
 		}
 	}
 	
