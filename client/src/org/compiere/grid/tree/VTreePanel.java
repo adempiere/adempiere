@@ -91,6 +91,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
 
@@ -111,8 +112,12 @@ import de.schaeffer.compiere.tools.DocumentSearch;
  *  @author 	Jorg Janke
  *  @version 	$Id: VTreePanel.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  *
- *  Contributors:
- *    kthiemann / Carlos Ruiz - 2761420 - Advanced Search
+ * @author kthiemann / Carlos Ruiz
+ * 			<li>2761420 - Advanced Search
+ *  
+ * @author Teo Sarca
+ *   		<li>BF [ 2866493 ] VTreePanel is not saving who did the node move
+ *			https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2866493&group_id=176962
  */
 public final class VTreePanel extends CPanel
 	implements ActionListener, DragGestureListener, DragSourceListener, DropTargetListener
@@ -627,12 +632,12 @@ public final class VTreePanel extends CPanel
 			return;
 
 		//  remove
-		MTreeNode oldParent = (MTreeNode)movingNode.getParent();
+		final MTreeNode oldParent = (MTreeNode)movingNode.getParent();
 		movingNode.removeFromParent();
 		treeModel.nodeStructureChanged(oldParent);
 
 		//  insert
-		MTreeNode newParent;
+		final MTreeNode newParent;
 		int index;
 		if (!toNode.isSummary())	//	drop on a child node
 		{
@@ -648,68 +653,54 @@ public final class VTreePanel extends CPanel
 		treeModel.nodeStructureChanged(newParent);
 
 		//	***	Save changes to disk
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		Trx trx = Trx.get (Trx.createTrxName("VTreePanel"), true);
 		try
 		{
-			 //begin vpj-cd e-evolution 07/12/2005 PostgreSQL
-			//Statement stmt = trx.getConnection().createStatement();
-                        //end vpj-cd e-evolution 07/12/2005 PostgreSQL
-			//	START TRANSACTION   **************
-			int no = 0;
-			for (int i = 0; i < oldParent.getChildCount(); i++)
-			{
-				MTreeNode nd = (MTreeNode)oldParent.getChildAt(i);
-				StringBuffer sql = new StringBuffer("UPDATE ");
-				sql.append(m_nodeTableName)
-					.append(" SET Parent_ID=").append(oldParent.getNode_ID())
-					.append(", SeqNo=").append(i)
-					.append(", Updated=SysDate")
-					.append(" WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
-					.append(" AND Node_ID=").append(nd.getNode_ID());
-				log.fine(sql.toString());
-				//begin vpj-cd e-evolution 07/12/2005 PostgreSQL
-				//stmt.executeUpdate(sql.toString());
-				no = DB.executeUpdate(sql.toString(),trx.getTrxName());
-				//end vpj-cd e-evolution 07/12/2005 PostgreSQL
-			}
-			if (oldParent != newParent)
-				for (int i = 0; i < newParent.getChildCount(); i++)
-				{
-					MTreeNode nd = (MTreeNode)newParent.getChildAt(i);
-					StringBuffer sql = new StringBuffer("UPDATE ");
-					sql.append(m_nodeTableName)
-						.append(" SET Parent_ID=").append(newParent.getNode_ID())
-						.append(", SeqNo=").append(i)
-						.append(", Updated=SysDate")
-						.append(" WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
-						.append(" AND Node_ID=").append(nd.getNode_ID());
-					log.fine(sql.toString());
-					//begin vpj-cd e-evolution 07/12/2005 PostgreSQL
-					//stmt.executeUpdate(sql.toString());
-					no = DB.executeUpdate(sql.toString(),trx.getTrxName());
-					//end vpj-cd e-evolution 07/12/2005 PostgreSQL
+			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName) {
+					for (int i = 0; i < oldParent.getChildCount(); i++)
+					{
+						MTreeNode nd = (MTreeNode)oldParent.getChildAt(i);
+						updateTreeNode(nd.getNode_ID(), oldParent.getNode_ID(), i, trxName);
+					}
+					if (oldParent != newParent)
+					{
+						for (int i = 0; i < newParent.getChildCount(); i++)
+						{
+							MTreeNode nd = (MTreeNode)newParent.getChildAt(i);
+							updateTreeNode(nd.getNode_ID(), newParent.getNode_ID(), i, trxName);
+						}
+					}
 				}
-			//	COMMIT          *********************
-			trx.commit(true);
-			//begin vpj-cd e-evolution 07/12/2005 PostgreSQL
-			//stmt.close();
-                        //end vpj-cd e-evolution 07/12/2005 PostgreSQL
+			});
 		}
-		 ///begin vpj-cd e-evolution 07/12/2005 PostgreSQL
-		//catch (SQLException e)
-                catch (Exception e)
-                //end vpj-cd e-evolution 07/12/2005 PostgreSQL
+		catch (Exception e)
 		{
-			trx.rollback();
 			log.log(Level.SEVERE, "move", e);
 			ADialog.error(m_WindowNo, this, "TreeUpdateError", e.getLocalizedMessage());
 		}
-		trx.close();
-		trx = null;
-		setCursor(Cursor.getDefaultCursor());
+		finally
+		{
+			setCursor(Cursor.getDefaultCursor());
+		}
 		log.config("complete");
 	}	//	moveNode
+	
+	private int updateTreeNode(int Node_ID, int Parent_ID, int SeqNo, String trxName)
+	{
+		// We do not use parametrized statements because we need to log these migration scripts
+		StringBuffer sql = new StringBuffer("UPDATE ");
+		sql.append(m_nodeTableName)
+			.append(" SET Parent_ID=").append(Parent_ID)
+			.append(", SeqNo=").append(SeqNo)
+			.append(", Updated=SysDate")
+			.append(", UpdatedBy=").append(Env.getAD_User_ID(Env.getCtx()))
+			.append(" WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
+			.append(" AND Node_ID=").append(Node_ID);
+		log.fine(sql.toString());
+		int no = DB.executeUpdateEx(sql.toString(), trxName);
+		return no;
+	}
 
 
 	/*************************************************************************/

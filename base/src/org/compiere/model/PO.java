@@ -78,6 +78,8 @@ import org.w3c.dom.Element;
  *				https://sourceforge.net/tracker/?func=detail&aid=2849122&group_id=176962&atid=879332
  *			<li>BF [ 2859125 ] Can't set AD_OrgBP_ID
  *				https://sourceforge.net/tracker/index.php?func=detail&aid=2859125&group_id=176962&atid=879332
+ *			<li>BF [ 2866493 ] VTreePanel is not saving who did the node move
+ *				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2866493&group_id=176962
  * @author Victor Perez, e-Evolution SC
  *			<li>[ 2195894 ] Improve performance in PO engine
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
@@ -3324,7 +3326,7 @@ public abstract class PO
 			.append(MTree_Base.getNodeTableName(treeType))
 			.append(" (AD_Client_ID,AD_Org_ID, IsActive,Created,CreatedBy,Updated,UpdatedBy, "
 				+ "AD_Tree_ID, Node_ID, Parent_ID, SeqNo) "
-				+ "SELECT t.AD_Client_ID,0, 'Y', SysDate, 0, SysDate, 0,"
+				+ "SELECT t.AD_Client_ID, 0, 'Y', SysDate, "+getUpdatedBy()+", SysDate, "+getUpdatedBy()+","
 				+ "t.AD_Tree_ID, ").append(get_ID()).append(", 0, 999 "
 				+ "FROM AD_Tree t "
 				+ "WHERE t.AD_Client_ID=").append(getAD_Client_ID()).append(" AND t.IsActive='Y'");
