@@ -55,7 +55,7 @@
             <th>
               <div class="amount"><c:out value='${priceList.currency}'/> <fmt:formatNumber value='${webBasket.total}' type="currency" currencySymbol=""/></div></th>
             <th><input  type="button" name="Checkout" id="Checkout" value="Create Secure Order" 
-	    	onClick="window.top.location.replace('<c:out value='https://${ctx.context}/'/>checkOutServlet');">
+	    	onClick="window.top.location.replace('./checkOutServlet');">
 			<!-- removed by request of BBB
 			&nbsp; <input name="CheckoutUnsecure" id="CheckoutUnsecure" value="Create Order" 
 	    	onClick="window.top.location.replace('checkOutServlet');" type="button">  -->

@@ -54,9 +54,9 @@
 		  <td class="<c:out value='${rowClass}' />"> 
 			<c:if test='${order.docStatus=="IP"}'>
 			  <input name="Void" id="Void" value="Void" 
-	    	    onClick="window.top.location.replace('<c:out value='https://${ctx.context}/'/>orderServlet?C_Order_ID=<c:out value='${order.c_Order_ID}'/>&DocAction=VO');" type="button">
+	    	    onClick="window.top.location.replace('./orderServlet?C_Order_ID=<c:out value='${order.c_Order_ID}'/>&DocAction=VO');" type="button">
 			  <input name="Complere" id="Complete" value="Complete" 
-	    	    onClick="window.top.location.replace('<c:out value='https://${ctx.context}/'/>orderServlet?C_Order_ID=<c:out value='${order.c_Order_ID}'/>&DocAction=CO');" type="button">
+	    	    onClick="window.top.location.replace('./orderServlet?C_Order_ID=<c:out value='${order.c_Order_ID}'/>&DocAction=CO');" type="button">
 			</c:if>
 			<c:if test='${order.docStatus=="WP"}'>
               <input type="submit" name="OrderPay" value="Pay <c:out value='${order.grandTotal}'/>" 

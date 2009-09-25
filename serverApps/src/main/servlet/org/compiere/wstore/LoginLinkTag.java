@@ -153,7 +153,7 @@ public class LoginLinkTag extends TagSupport
 		HtmlCode retValue = new HtmlCode();
 		//	Login button
 		input button = new input(input.TYPE_BUTTON, "Login", "Login");
-		button.setOnClick("window.top.location.replace('https://" + serverContext + "/loginServlet');");
+		button.setOnClick("window.top.location.replace('./loginServlet');");
 		retValue.addElement(button);
 
 		/**	Link
@@ -177,7 +177,7 @@ public class LoginLinkTag extends TagSupport
 	{
 		HtmlCode retValue = new HtmlCode();
 		//
-		a a = new a("https://" + serverContext + "/login.jsp");
+		a a = new a("./login.jsp");
 		a.setClass("menuMain");
 		String msg = "Welcome " + wu.getName();
 		a.addElement(msg);
@@ -216,7 +216,7 @@ public class LoginLinkTag extends TagSupport
 		else
 		{
 			input button = new input (input.TYPE_BUTTON, "Login", "Login");
-			button.setOnClick ("window.top.location.replace('https://" + serverContext + "/login.jsp');");
+			button.setOnClick ("window.top.location.replace('./login.jsp');");
 			retValue.addElement (button);
 		}
 		retValue.addElement (" ");

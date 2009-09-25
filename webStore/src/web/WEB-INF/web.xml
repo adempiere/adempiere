@@ -24,6 +24,23 @@
 		<filter-name>WebStoreFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<!-- Force SSL for login and checkout -->
+	<security-constraint>
+
+		<web-resource-collection>
+			<web-resource-name>SSL pages</web-resource-name>
+			<url-pattern>/login.jsp</url-pattern>
+			<url-pattern>/loginServlet</url-pattern>
+			<url-pattern>/checkOutServlet</url-pattern>
+			<url-pattern>/orderServlet</url-pattern>
+		</web-resource-collection>
+
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+
+	</security-constraint>
+	
 	<servlet>
 		<display-name>Web Store Advertisement</display-name>
 		<servlet-name>AdvertisementServlet</servlet-name>

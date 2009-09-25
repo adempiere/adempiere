@@ -117,7 +117,7 @@ public class CheckOutLinkTag extends TagSupport
 			img.setBorder(0);
 			String url = CheckOutServlet.NAME;
 			if (!request.isSecure())
-				url = "https://" + request.getServerName() + request.getContextPath() + "/" + CheckOutServlet.NAME;
+				url = "./" + CheckOutServlet.NAME;
 			a = new a(url);
 			a.setClass("menuMain");
 			a.addElement("Create Order");
