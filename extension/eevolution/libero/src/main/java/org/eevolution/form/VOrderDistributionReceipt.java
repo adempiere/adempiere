@@ -444,10 +444,9 @@ public class VOrderDistributionReceipt extends CPanel
 		movement.setDD_Order_ID(order.getDD_Order_ID());
 		movement.setAD_User_ID(order.getAD_User_ID());
 		movement.setPOReference(order.getPOReference());
-		movement.setReversal_ID(order.getSalesRep_ID());
+		movement.setReversal_ID(0);
 		movement.setM_Shipper_ID(order.getM_Shipper_ID());
 		movement.setDescription(order.getDescription());
-		//movement.setDateReceived(DateReceived);
 		movement.setC_BPartner_ID(order.getC_BPartner_ID());
 		movement.setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
 		movement.setAD_Org_ID(order.getAD_Org_ID());
