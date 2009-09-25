@@ -41,9 +41,9 @@ find . -name '*.sh' -exec chmod a+x '{}' \;
 
 # Sign database build
 cd utils
-. RUN_SignDatabaseBuild.sh 
+. ./RUN_SignDatabaseBuild.sh 
 
-. RUN_UnixEnv.sh
+. ./RUN_UnixEnv.sh
 
 #echo ================================
 #echo	Test local Connection

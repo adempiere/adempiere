@@ -7,14 +7,12 @@ echo ===================================
 echo Setup Client Environment
 echo ===================================
 
-echo Please add ADEMPIERE_HOME and JAVA_HOME to your environment
-
 JAVA_HOME=@JAVA_HOME@
 export JAVA_HOME
 ADEMPIERE_HOME=@ADEMPIERE_HOME@
 export ADEMPIERE_HOME
 
-echo You chould also have set LD_LIBRARY_PATH
+echo "\$JAVA_HOME is set to $JAVA_HOME and \$ADEMPIERE_HOME is set to $ADEMPIERE_HOME"
 
 # ORACLE_HOME=/var/oracle/OraHome92
 # export ORACLE_HOME
