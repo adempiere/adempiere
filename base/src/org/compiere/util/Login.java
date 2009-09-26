@@ -30,15 +30,14 @@ import javax.swing.JOptionPane;
 
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
+import org.compiere.model.I_M_Warehouse;
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MCountry;
 import org.compiere.model.MRole;
 import org.compiere.model.MSystem;
 import org.compiere.model.MTree_Base;
 import org.compiere.model.ModelValidationEngine;
-import org.compiere.report.MReportTree;
 
 
 /**
@@ -46,8 +45,11 @@ import org.compiere.report.MReportTree;
  *	
  *  @author Jorg Janke
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
- *		<li> Incorrect global Variable when you use multi Account Schema
- *		@see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=2531597&group_id=176962
+ *		<li>Incorrect global Variable when you use multi Account Schema
+ *			http://sourceforge.net/tracker/?func=detail&atid=879335&aid=2531597&group_id=176962
+ *  @author teo.sarca@gmail.com
+ *  	<li>BF [ 2867246 ] Do not show InTrazit WHs on login
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2867246&group_id=176962&atid=879332
  *  @version $Id: Login.java,v 1.6 2006/10/02 05:19:06 jjanke Exp $
  */
 public class Login
@@ -637,6 +639,7 @@ public class Login
 		KeyNamePair[] retValue = null;
 		String sql = "SELECT M_Warehouse_ID, Name FROM M_Warehouse "
 			+ "WHERE AD_Org_ID=? AND IsActive='Y' "
+			+ " AND "+I_M_Warehouse.COLUMNNAME_IsInTransit+"='N' " // do not show in tranzit warehouses - teo_sarca [ 2867246 ]
 			+ "ORDER BY Name";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
