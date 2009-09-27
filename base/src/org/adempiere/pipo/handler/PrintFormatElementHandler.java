@@ -183,8 +183,8 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 
 	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
-		int AD_PrintFormat_ID = Env.getContextAsInt(ctx,
-				X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
+		int AD_PrintFormat_ID = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
+		PackOut packOut = (PackOut) ctx.get("PackOutProcess");
 		
 		if (formats.contains(AD_PrintFormat_ID))
 			return;
@@ -204,8 +204,11 @@ public class PrintFormatElementHandler extends AbstractElementHandler {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 
-				X_AD_PrintFormat m_Printformat = new X_AD_PrintFormat(ctx, rs
-						.getInt("AD_PrintFormat_ID"), null);
+				X_AD_PrintFormat m_Printformat = new X_AD_PrintFormat(ctx, rs.getInt("AD_PrintFormat_ID"), null);
+				
+				if (m_Printformat.getAD_PrintPaper_ID() > 0)
+					packOut.createPrintPaper(m_Printformat.getAD_PrintPaper_ID(), document);
+				
 				createPrintFormatBinding(atts, m_Printformat);
 				document.startElement("", "", "printformat", atts);
 

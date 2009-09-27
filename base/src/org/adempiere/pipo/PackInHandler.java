@@ -66,6 +66,7 @@ import org.adempiere.pipo.handler.OrgRoleElementHandler;
 import org.adempiere.pipo.handler.PreferenceElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
 import org.adempiere.pipo.handler.PrintFormatItemElementHandler;
+import org.adempiere.pipo.handler.PrintPaperElementHandler;
 import org.adempiere.pipo.handler.ProcessAccessElementHandler;
 import org.adempiere.pipo.handler.ProcessElementHandler;
 import org.adempiere.pipo.handler.ProcessParaElementHandler;
@@ -242,6 +243,7 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("trl", new CommonTranslationHandler());
     	handlers.put(ModelValidatorElementHandler.TAG_Name, new ModelValidatorElementHandler());
     	handlers.put(EntityTypeElementHandler.TAG_Name, new EntityTypeElementHandler());
+    	handlers.put(PrintPaperElementHandler.TAG_Name, new PrintPaperElementHandler());
 	}
 	
     /**

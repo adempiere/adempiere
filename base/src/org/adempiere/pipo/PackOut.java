@@ -51,6 +51,7 @@ import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.MessageElementHandler;
 import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
+import org.adempiere.pipo.handler.PrintPaperElementHandler;
 import org.adempiere.pipo.handler.ProcessElementHandler;
 import org.adempiere.pipo.handler.ReferenceElementHandler;
 import org.adempiere.pipo.handler.ReportViewElementHandler;
@@ -65,6 +66,7 @@ import org.compiere.model.X_AD_Element;
 import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.model.X_AD_Package_Exp;
 import org.compiere.model.X_AD_Package_Exp_Detail;
+import org.compiere.model.X_AD_PrintPaper;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -126,6 +128,7 @@ public class PackOut extends SvrProcess
     CommonTranslationHandler translationHandler = new CommonTranslationHandler();
     ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
     EntityTypeElementHandler entitytypeHandler = new EntityTypeElementHandler();
+    PrintPaperElementHandler printPaperHandler = new PrintPaperElementHandler();
     
     /**
 	 *  Prepare - e.g., get Parameters.
@@ -826,6 +829,14 @@ public class PackOut extends SvrProcess
 		entitytypeHandler.create(getCtx(), packOutDocument);
 		//getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
 	}
+	
+	public void createPrintPaper (int AD_PrintPaper_ID, TransformerHandler packOutDocument) throws SAXException
+	{
+		Env.setContext(getCtx(), X_AD_PrintPaper.COLUMNNAME_AD_PrintPaper_ID, AD_PrintPaper_ID);
+		printPaperHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(X_AD_PrintPaper.COLUMNNAME_AD_PrintPaper_ID);
+	}
+
 
 	
 	public void copyFile (String sourceName, String copyName ) {
