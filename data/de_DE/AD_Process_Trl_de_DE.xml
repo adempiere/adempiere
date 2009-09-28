@@ -818,7 +818,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  </row>
  <row id="270" trl="Y">
   <value column="Name" original="Open Requisitions">Offene Bestellanforderungen</value>
-  <value column="Description" original="Detail Open Requisition Information">Detaillierte Information zu offenen Anforderungen</value>
+  <value column="Description" original="Detail Open Requisition Information">Detaillierte Information zu offenen Bestellanforderungen</value>
   <value column="Help" original=""/>
  </row>
  <row id="271" trl="Y">
@@ -832,7 +832,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
   <value column="Help" original="UnLink a Business Partner Linked to an Organization (for explicit inter-org documents)">Zuordnung eines Geschäftspartners zu einer Organisation aufheben (für explizite Inter-Organisations-Belege)</value>
  </row>
  <row id="273" trl="Y">
-  <value column="Name" original="Process Requisition">Anforderung verarbeiten</value>
+  <value column="Name" original="Process Requisition">Bestellanforderungen verarbeiten</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>

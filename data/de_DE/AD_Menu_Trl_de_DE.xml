@@ -661,7 +661,7 @@
  </row>
  <row id="293" trl="Y">
   <value column="Name" original="Print Form">Druck - Formulare</value>
-  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Verwalten von Druckformularen (Rechnungen, Schecks, ..)</value>
+  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Verwalten von Druckformularen (Rechnungen, Schecks, ...)</value>
  </row>
  <row id="294" trl="Y">
   <value column="Name" original="System Color">System-Farbe</value>

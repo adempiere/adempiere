@@ -10,7 +10,7 @@
  <row id="101" trl="Y">
   <value column="Name" original="Import File Loader">Ladeprogramm für Import-Datei</value>
   <value column="Description" original="Load flat Files into import tables">Lädt eine extern erstellte Datei in eine Zwischentabelle</value>
-  <value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading].">Das "Ladeprogramm für Import-Datei" untersucht den Inhalt einer Textdatei und lädt ihn in Import-Tabellen . Kommentare beginen mit einem '[' und enedn mit einem ']' und werden ignoriert; Beispiel: [Eine Überschrift].</value>
+  <value column="Help" original="The Import File Loader parses the content of a flat file and loads it into import tables. Comments start with a '[' and end with a ']' and are ignored; example: [Some Heading].">Das "Ladeprogramm für Import-Datei" untersucht den Inhalt einer Textdatei und lädt ihn in Import-Tabellen. Kommentare beginnen mit einem '[' und enden mit einem ']' und werden ignoriert; Beispiel: [Eine Überschrift].</value>
  </row>
  <row id="102" trl="Y">
   <value column="Name" original="Initial Client Setup">Neuerstellung Mandant</value>

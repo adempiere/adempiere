@@ -3607,7 +3607,7 @@ When you enter dates in the fields Valid From
   <value column="PrintName" original="Search Key">Suchschlüssel</value>
   <value column="Description" original="Search key for the record in the format required - must be unique">Suchschlüssel für den Eintrag im erforderlichen Format - muss eindeutig sein</value>
   <value column="Help" original="A search key allows you a fast method of finding a particular record.&#10;If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order)."><![CDATA[Ein Suchschlüssel ermöglicht es, schnell einen bestimmten Eintrag zu finden. Wenn das Feld leer gelassen wird, generiert das System automatisch eine numerische Zahl.
-Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fenster "Maintain Sequence" mit dem Namen "DocumentNo_&lt;TableName&gt;" definiert. TableName ist dabei der eigentliche NAme der Tabelle ( z.B. C_Order).]]></value>
+Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fenster "Maintain Sequence" mit dem Namen "DocumentNo_&lt;TableName&gt;" definiert. TableName ist dabei der eigentliche NAme der Tabelle (z.B. C_Order).]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -18672,7 +18672,7 @@ The Remind Days are the days when the next email reminder is sent.</value>
   <value column="Name" original="Date Pattern">Datums-Schema</value>
   <value column="PrintName" original="Date Pattern">Datums-Schema</value>
   <value column="Description" original="Java Date Pattern">Java Datums-Schema</value>
-  <value column="Help" original="Option Date pattern in Java notation. Examples: dd.MM.yyyy - dd/MM/yyyy If the pattern for your language is not correct, please create a Adempiere support request with the correct information">Optionales Datums-Schema in Java-Notation. Beispiel: dd.MM.yyyy - dd/MM/yyyy . Wenn das Schema für Ihre Sprache nicht korrekt ist, stellen Sie bitte auf Sourceforge einen Bugreport ein.</value>
+  <value column="Help" original="Option Date pattern in Java notation. Examples: dd.MM.yyyy - dd/MM/yyyy If the pattern for your language is not correct, please create a Adempiere support request with the correct information">Optionales Datums-Schema in Java-Notation. Beispiel: dd.MM.yyyy - dd/MM/yyyy. Wenn das Schema für Ihre Sprache nicht korrekt ist, stellen Sie bitte auf Sourceforge einen Bugreport ein.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -24580,7 +24580,7 @@ Use the field Backflush Group for grouping the component in a Backflush Method.<
  <row id="53272" trl="Y">
   <value column="Name" original="Yield %">Ertrag (in %)</value>
   <value column="PrintName" original="Yield %">Yield</value>
-  <value column="Description" original="The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent">Anteil an der Gesamtproduktion in Prozent, von dem erwartet wird, dass er den Qualitätsanforderungen genügt ( &lt;=100%)</value>
+  <value column="Description" original="The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent"><![CDATA[Anteil an der Gesamtproduktion in Prozent, von dem erwartet wird, dass er den Qualitätsanforderungen genügt (&lt;=100%)]]></value>
   <value column="Help" original="ADempiere Calculate the total yield for a product from the yield for each activity when the process Workflow Cost Roll-Up is executed.&#10;&#10;The expected yield for an Activity can be expressed as:&#10;&#10;Yield = Acceptable Units at Activity End x 100&#10;&#10;The Total manufacturing yield for a product is determined by multiplying the yied percentage for each activity.&#10;&#10;Manufacturing Yield = Yield % for Activity 10 x Yied % for Activity 20 , etc &#10;&#10;Take care when setting yield to anything but 100% particularly when yied is used for multiples activities&#10;&#10;"/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
