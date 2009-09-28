@@ -67,7 +67,7 @@ public final class Adempiere
 	static public String	DB_VERSION		= "2009-09-15";
 
 	/** Product Name            */
-	static public final String	NAME 			= "Adempiere\u00AE";
+	static public final String	NAME 			= "ADempiere\u00AE";
 	/** URL of Product          */
 	static public final String	URL				= "www.adempiere.org";
 	/** 16*16 Product Image. **/
@@ -85,8 +85,8 @@ public final class Adempiere
 
 	/** Subtitle                */
 	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM";
-	static public final String	ADEMPIERE_R		= "Adempiere\u00AE";
-	static public final String	COPYRIGHT		= "\u00A9 1999-2009 Adempiere \u00AE";
+	static public final String	ADEMPIERE_R		= "ADempiere\u00AE";
+	static public final String	COPYRIGHT		= "\u00A9 1999-2009 ADempiere\u00AE";
 
 	static private String		s_ImplementationVersion = null;
 	static private String		s_ImplementationVendor = null;
@@ -609,7 +609,7 @@ public final class Adempiere
 		}
 		catch (Exception e)
 		{
-			System.err.println("Adempiere starting: " + className + " - " + e.toString());
+			System.err.println("ADempiere starting: " + className + " - " + e.toString());
 			e.printStackTrace();
 		}
 	}   //  main

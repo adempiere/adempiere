@@ -31,7 +31,7 @@ public final class ALoginRes_ru extends ListResourceBundle
 	{
 	{ "Connection",         "\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0435" },
 	{ "Defaults",           "\u0417\u043d\u0430\u0447\u0435\u043d\u0438\u044f \u043f\u043e \u0443\u043c\u043e\u043b\u0447\u0430\u043d\u0438\u044e" },
-	{ "Login",              "\u0412\u0445\u043e\u0434 \u0432 Adempiere" },
+	{ "Login",              "\u0412\u0445\u043e\u0434 \u0432 ADempiere" },
 	{ "File",               "\u0424\u0430\u0439\u043b" },
 	{ "Exit",               "\u0412\u044b\u0445\u043e\u0434" },
 	{ "Help",               "\u041f\u043e\u043c\u043e\u0449\u044c" },

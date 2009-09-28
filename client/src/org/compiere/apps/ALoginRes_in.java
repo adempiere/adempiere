@@ -33,7 +33,7 @@ public final class ALoginRes_in extends ListResourceBundle
 	{
 	{ "Connection",         "Koneksi" },
 	{ "Defaults",           "Konfigurasi Dasar" },
-	{ "Login",              "Login Adempiere" },
+	{ "Login",              "Login ADempiere" },
 	{ "File",               "File" },
 	{ "Exit",               "Keluar" },
 	{ "Help",               "Tolong" },
@@ -62,7 +62,7 @@ public final class ALoginRes_in extends ListResourceBundle
 	{ "Cancel",             "Batal" },
 	{ "VersionConflict",    "Konflik Versi" },
 	{ "VersionInfo",        "Info Versi" },
-	{ "PleaseUpgrade",      "Mohon hubungi partner Adempiere anda untuk upgrade" }
+	{ "PleaseUpgrade",      "Mohon hubungi partner ADempiere anda untuk upgrade" }
 	};
 
 	/**

@@ -33,7 +33,7 @@ public final class ALoginRes_da extends ListResourceBundle
 	{
 	{ "Connection",         "Forbindelse" },
 	{ "Defaults",           "Basis" },
-	{ "Login",              "Adempiere: Log på" },
+	{ "Login",              "ADempiere: Log på" },
 	{ "File",               "Fil" },
 	{ "Exit",               "Afslut" },
 	{ "Help",               "Hjælp" },

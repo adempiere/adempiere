@@ -33,7 +33,7 @@ public final class ALoginRes_no extends ListResourceBundle
 	{
 	{ "Connection",         "Forbindelse" },
 	{ "Defaults",           "Vanlige" },
-	{ "Login",              "Adempiere Loginn" },
+	{ "Login",              "ADempiere Loginn" },
 	{ "File",               "Fil" },
 	{ "Exit",               "Avslutt" },
 	{ "Help",               "Hjelp" },

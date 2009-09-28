@@ -36,7 +36,7 @@ public final class ALoginRes_hu extends ListResourceBundle
 	{
 	{ "Connection",         "Kapcsolat" },
 	{ "Defaults",           "Alapértelmezés" },
-	{ "Login",              "Adempiere Belépés" },
+	{ "Login",              "ADempiere Belépés" },
 	{ "File",               "Fájl" },
 	{ "Exit",               "Kilépés" },
 	{ "Help",               "Súgó" },

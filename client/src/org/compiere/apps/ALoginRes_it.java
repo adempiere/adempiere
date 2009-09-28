@@ -31,8 +31,8 @@ public final class ALoginRes_it extends ListResourceBundle
 	  { "Connection",       "Connessione" },
 	//{ "Defaults",         "Defaults" },
 	  { "Defaults",         "Defaults" }, //Need to be checked
-	//{ "Login",            "Adempiere Login" },
-	  { "Login",            "Adempiere Login" },
+	//{ "Login",            "ADempiere Login" },
+	  { "Login",            "ADempiere Login" },
 	//{ "File",             "File" },
 	  { "File",             "File" },
 	//{ "Exit",             "Exit" },

@@ -36,7 +36,7 @@ public final class ALoginRes_el extends ListResourceBundle
     {
 	{ "Connection",         "\u03a3\u03cd\u03bd\u03b4\u03b5\u03c3\u03b7" },
 	{ "Defaults",           "\u0395\u03c0\u03b9\u03bb\u03bf\u03b3\u03ad\u03c2" },
-	{ "Login",              "Adempiere - \u0395\u03af\u03c3\u03bf\u03b4\u03bf\u03c2" },
+	{ "Login",              "ADempiere - \u0395\u03af\u03c3\u03bf\u03b4\u03bf\u03c2" },
 	{ "File",               "\u0391\u03c1\u03c7\u03b5\u03af\u03bf" },
 	{ "Exit",               "\u0388\u03be\u03bf\u03b4\u03bf\u03c2" },
 	{ "Help",               "\u0392\u03bf\u03ae\u03b8\u03b5\u03b9\u03b1" },

@@ -33,7 +33,7 @@ public final class ALoginRes_sr extends ListResourceBundle
 	{
 		{ "Connection",         "\u0412\u0435\u0437\u0430" },
 		{ "Defaults",           "\u0423\u043E\u0431\u0438\u0447\u0430\u0458\u0435\u043D\u043E" },
-		{ "Login",              "Adempiere \u043B\u043E\u0433\u043E\u0432\u0430\u045A\u0435" },	
+		{ "Login",              "ADempiere \u043B\u043E\u0433\u043E\u0432\u0430\u045A\u0435" },	
 		{ "File",               "\u0414\u0430\u0442\u043E\u0442\u0435\u043A\u0430" },
 		{ "Exit",               "\u0418\u0437\u043B\u0430\u0437" },
 		{ "Help",               "\u041F\u043E\u043C\u043E\u045B" },

@@ -33,7 +33,7 @@ public final class ALoginRes_sv extends ListResourceBundle
 	{
 	{ "Connection",         "Anslutning" },
 	{ "Defaults",           "Standardinst\u00e4llningar" },
-	{ "Login",              "Adempiere inloggning" },
+	{ "Login",              "ADempiere inloggning" },
 	{ "File",               "Fil" },
 	{ "Exit",               "Avsluta" },
 	{ "Help",               "Hj\u00e4lp" },

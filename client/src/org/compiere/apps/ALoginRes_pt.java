@@ -34,7 +34,7 @@ public final class ALoginRes_pt extends ListResourceBundle
 	{
 	{ "Connection",         "Conex\u00e3o" },
 	{ "Defaults",           "Padr\u00f5es" },
-	{ "Login",              "Adempiere Login" },
+	{ "Login",              "ADempiere Login" },
 	{ "File",               "Arquivo" },
 	{ "Exit",               "Sair" },
 	{ "Help",               "Ajuda" },

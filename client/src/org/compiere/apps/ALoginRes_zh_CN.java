@@ -31,7 +31,7 @@ public final class ALoginRes_zh_CN extends ListResourceBundle
 	{
 	{ "Connection",         "\u8fde\u673a" },
 	{ "Defaults",           "\u9ed8\u8ba4\u8bbe\u7f6e" },
-	{ "Login",              "Adempiere \u767b\u5f55" },
+	{ "Login",              "ADempiere \u767b\u5f55" },
 	{ "File",               "\u6587\u4ef6" },
 	{ "Exit",               "\u9000\u51fa" },
 	{ "Help",               "\u5e2e\u52a9" },

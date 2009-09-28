@@ -34,7 +34,7 @@ public final class ALoginRes_ca extends ListResourceBundle
 	{
 	{ "Connection",         "Connexi\u00f3" },
 	{ "Defaults",           "Valors Predeterminats" },
-	{ "Login",              "Acc\u00e9s Adempiere" },
+	{ "Login",              "Acc\u00e9s ADempiere" },
 	{ "File",               "Fitxer" },
 	{ "Exit",               "Sortir" },
 	{ "Help",               "Ajuda" },
