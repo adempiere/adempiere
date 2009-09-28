@@ -83,7 +83,7 @@ public class TranslationHandler extends DefaultHandler
 		throws org.xml.sax.SAXException
 	{
 	//	log.fine( "TranslationHandler.startElement", qName);	// + " - " + uri + " - " + localName);
-		if (qName.equals(Translation.XML_TAG)||qName.equals(Translation.XML_TAG2))
+		if (qName.equals(Translation.XML_TAG) || qName.equals(Translation.XML_TAG2))
 		{
 			m_AD_Language = attributes.getValue(Translation.XML_ATTRIBUTE_LANGUAGE);
 			m_isBaseLanguage = Language.isBaseLanguage(m_AD_Language);
@@ -137,11 +137,10 @@ public class TranslationHandler extends DefaultHandler
 		throws SAXException
 	{
 	//	Log.trace(Log.l6_Database+1, "TranslationHandler.endElement", qName);
-		if (qName.equals(Translation.XML_TAG)||qName.equals(Translation.XML_TAG2))
+		if (qName.equals(Translation.XML_TAG) || qName.equals(Translation.XML_TAG2))
 		{
-		}
-		else if (qName.equals(Translation.XML_ROW_TAG))
-		{
+			
+		} else if (qName.equals(Translation.XML_ROW_TAG)) {
 			//	Set section
 			if (m_sql.length() > 0)
 				m_sql.append(",");
