@@ -228,7 +228,7 @@ public class Translation
 					if (valueString == null)
 						valueString = "";
 					value.setAttribute(XML_VALUE_ATTRIBUTE_ORIGINAL, origString);
-					value.appendChild(document.createTextNode(valueString));
+					value.appendChild(document.createCDATASection(valueString));
 					row.appendChild(value);
 				}
 				root.appendChild(row);
