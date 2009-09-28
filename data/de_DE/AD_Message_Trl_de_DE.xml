@@ -3938,7 +3938,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52188" trl="Y">
-  <value column="MsgText" original="This utility is to import the products and Stock in Hand from a csv file into the system,&lt;br&gt; For importing the garment products, the CSV file name should containg the word 'Garment' &lt;br&gt;The csv file should look like the one shown below including the header"><![CDATA[This utility is to import the products and Stock in Hand from a csv file into the system,<br> For importing the garment products, the CSV file name should containg the word 'Garment' &lt;br&gt;The csv file should look like the one shown below including the header]]></value>
+  <value column="MsgText" original="This utility is to import the products and Stock in Hand from a csv file into the system,&lt;br&gt; For importing the garment products, the CSV file name should containg the word 'Garment' &lt;br&gt;The csv file should look like the one shown below including the header"><![CDATA[This utility is to import the products and Stock in Hand from a csv file into the system,<br> For importing the garment products, the CSV file name should containg the word 'Garment' <br>The csv file should look like the one shown below including the header]]></value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52189" trl="Y">
