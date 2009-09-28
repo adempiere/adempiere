@@ -67,7 +67,7 @@
   <value column="MsgTip" original="You don't have the privileges">Sie haben keine ausreichende Berechtigung.</value>
  </row>
  <row id="117" trl="Y">
-  <value column="MsgText" original="Client &amp; Organization Data">Mandanten- &amp; Organisations-Daten</value>
+  <value column="MsgText" original="Client &amp; Organization Data"><![CDATA[Mandanten- & Organisations-Daten]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="118" trl="Y">
@@ -87,7 +87,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="122" trl="Y">
-  <value column="MsgText" original="System &amp; Client Data">System- &amp; Mandanten-Daten</value>
+  <value column="MsgText" original="System &amp; Client Data"><![CDATA[System- & Mandanten-Daten]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="123" trl="Y">
@@ -535,7 +535,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="234" trl="Y">
-  <value column="MsgText" original="&amp;Edit">&amp;Editieren</value>
+  <value column="MsgText" original="&amp;Edit"><![CDATA[&Editieren]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="235" trl="Y">
@@ -579,7 +579,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="245" trl="Y">
-  <value column="MsgText" original="&amp;Expand Tree">&amp;Gesamter Baum</value>
+  <value column="MsgText" original="&amp;Expand Tree"><![CDATA[&Gesamter Baum]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="246" trl="Y">
@@ -611,7 +611,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="253" trl="Y">
-  <value column="MsgText" original="&amp;File">&amp;Datei</value>
+  <value column="MsgText" original="&amp;File"><![CDATA[&Datei]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="254" trl="Y">
@@ -631,7 +631,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="258" trl="Y">
-  <value column="MsgText" original="&lt;Select File to Load&gt;">&lt;Import Datei wählen&gt;</value>
+  <value column="MsgText" original="&lt;Select File to Load&gt;"><![CDATA[<Import Datei wählen>]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="259" trl="Y">
@@ -735,7 +735,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="284" trl="Y">
-  <value column="MsgText" original="&amp;Go">&amp;Gehe</value>
+  <value column="MsgText" original="&amp;Go"><![CDATA[&Gehe]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="285" trl="Y">
@@ -763,7 +763,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="291" trl="Y">
-  <value column="MsgText" original="&amp;Help">&amp;Hilfe</value>
+  <value column="MsgText" original="&amp;Help"><![CDATA[&Hilfe]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="292" trl="Y">
@@ -984,7 +984,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="346" trl="Y">
-  <value column="MsgText" original="&lt;Query active&gt; Navigate or Update record">&lt;Abfrage aktiv&gt; Navigieren oder den Datensatz ändern</value>
+  <value column="MsgText" original="&lt;Query active&gt; Navigate or Update record"><![CDATA[<Abfrage aktiv> Navigieren oder den Datensatz ändern]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="347" trl="Y">
@@ -1064,7 +1064,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="366" trl="Y">
-  <value column="MsgText" original="&amp;OK">&amp;OK</value>
+  <value column="MsgText" original="&amp;OK"><![CDATA[&OK]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="367" trl="Y">
@@ -1873,7 +1873,7 @@ Kein Empfänger (An) - Kontakt überprüfen!</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="567" trl="Y">
-  <value column="MsgText" original="&amp;Tools">&amp;Extras</value>
+  <value column="MsgText" original="&amp;Tools"><![CDATA[&Extras]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="568" trl="Y">
@@ -2002,7 +2002,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="599" trl="Y">
-  <value column="MsgText" original="&amp;View">&amp;Ansicht</value>
+  <value column="MsgText" original="&amp;View"><![CDATA[&Ansicht]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="600" trl="Y">
@@ -2603,7 +2603,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="759" trl="Y">
-  <value column="MsgText" original="&amp;Zoom Across (where used)">&amp;Springe zu Eintrag (wo verwendet)</value>
+  <value column="MsgText" original="&amp;Zoom Across (where used)"><![CDATA[&Springe zu Eintrag (wo verwendet)]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="760" trl="Y">
@@ -2729,7 +2729,7 @@ Do you want to print separate Remittance advice ?</value>
  </row>
  <row id="790" trl="Y">
   <value column="MsgText" original="The Product UoM needs to be the smallest UoM">Mengeneinheit für Produkt muss die kleinste Mengeneinheit sein</value>
-  <value column="MsgTip" original="Divide Rate  must be &gt;= 1 and always result in a valid UoM unit. &#10;Example: To convert Each to Pair, the Multiply Rate is 0.5">Divisor muss &gt;= 1 sein und immer eine gültige Mengeneinheit ergeben. Beispiel: Um "Stück" nach "Paar" umzurechnen, ist der Multiplikator 0.5</value>
+  <value column="MsgTip" original="Divide Rate  must be &gt;= 1 and always result in a valid UoM unit. &#10;Example: To convert Each to Pair, the Multiply Rate is 0.5"><![CDATA[Divisor muss >= 1 sein und immer eine gültige Mengeneinheit ergeben. Beispiel: Um "Stück" nach "Paar" umzurechnen, ist der Multiplikator 0.5]]></value>
  </row>
  <row id="791" trl="Y">
   <value column="MsgText" original="Select the Product UoM as the From Unit of Measure:">Wählen Sie die Mengeneinheit des Produktes als "Mengeneinheit von":</value>
@@ -3002,15 +3002,15 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="858" trl="Y">
-  <value column="MsgText" original="Workflow &amp;Activities">Workflow-&amp;Aktivitäten</value>
+  <value column="MsgText" original="Workflow &amp;Activities"><![CDATA[Workflow-&Aktivitäten]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="859" trl="Y">
-  <value column="MsgText" original="&amp;Workflow">&amp;Workflow</value>
+  <value column="MsgText" original="&amp;Workflow"><![CDATA[&Workflow]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="860" trl="Y">
-  <value column="MsgText" original="&amp;Lookup">&amp;Suche</value>
+  <value column="MsgText" original="&amp;Lookup"><![CDATA[&Suche]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="861" trl="Y">
@@ -3022,11 +3022,11 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="863" trl="Y">
-  <value column="MsgText" original="&amp;OK">&amp;OK</value>
+  <value column="MsgText" original="&amp;OK"><![CDATA[&OK]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="864" trl="Y">
-  <value column="MsgText" original="&amp;Document No">&amp;Belegnummer</value>
+  <value column="MsgText" original="&amp;Document No"><![CDATA[&Belegnummer]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="865" trl="Y">
@@ -3034,7 +3034,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original="Cache Window Definitions on Client">Fensterdefinitionen auf dem Client zwischenspeichern</value>
  </row>
  <row id="866" trl="Y">
-  <value column="MsgText" original="&amp;Performance">&amp;Ergebnis</value>
+  <value column="MsgText" original="&amp;Performance"><![CDATA[&Ergebnis]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="867" trl="Y">
@@ -3122,7 +3122,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="888" trl="Y">
-  <value column="MsgText" original="Select &amp;All">&amp;Alles auswählen</value>
+  <value column="MsgText" original="Select &amp;All"><![CDATA[&Alles auswählen]]></value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="50000" trl="Y">
@@ -3930,7 +3930,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52186" trl="Y">
-  <value column="MsgText" original="This utility is to import the a list of Black Listed Cheques from a csv file into the system,&lt;br&gt;The csv file should look like the one shown below including the header:">This utility is to import the a list of Black Listed Cheques from a csv file into the system,&lt;br&gt;The csv file should look like the one shown below including the header:</value>
+  <value column="MsgText" original="This utility is to import the a list of Black Listed Cheques from a csv file into the system,&lt;br&gt;The csv file should look like the one shown below including the header:"><![CDATA[This utility is to import the a list of Black Listed Cheques from a csv file into the system,<br>The csv file should look like the one shown below including the header:]]></value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52187" trl="Y">
@@ -3938,7 +3938,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52188" trl="Y">
-  <value column="MsgText" original="This utility is to import the products and Stock in Hand from a csv file into the system,&lt;br&gt; For importing the garment products, the CSV file name should containg the word 'Garment' &lt;br&gt;The csv file should look like the one shown below including the header">This utility is to import the products and Stock in Hand from a csv file into the system,&lt;br&gt; For importing the garment products, the CSV file name should containg the word 'Garment' &lt;br&gt;The csv file should look like the one shown below including the header</value>
+  <value column="MsgText" original="This utility is to import the products and Stock in Hand from a csv file into the system,&lt;br&gt; For importing the garment products, the CSV file name should containg the word 'Garment' &lt;br&gt;The csv file should look like the one shown below including the header"><![CDATA[This utility is to import the products and Stock in Hand from a csv file into the system,<br> For importing the garment products, the CSV file name should containg the word 'Garment' &lt;br&gt;The csv file should look like the one shown below including the header]]></value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52189" trl="Y">

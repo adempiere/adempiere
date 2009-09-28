@@ -151,7 +151,7 @@
   <value column="Description" original="Maintain System References">Verwalten von Referenzeinträgen</value>
  </row>
  <row id="141" trl="Y">
-  <value column="Name" original="Window, Tab &amp; Field">Fenster, Register &amp; Feld</value>
+  <value column="Name" original="Window, Tab &amp; Field"><![CDATA[Fenster, Register & Feld]]></value>
   <value column="Description" original="Maintain Windows, Tabs &amp; Fields">Verwalten von Fenstern, Registern und Feldern</value>
  </row>
  <row id="142" trl="Y">
@@ -275,8 +275,8 @@
   <value column="Description" original=""/>
  </row>
  <row id="176" trl="Y">
-  <value column="Name" original="Report &amp; Process">Bericht &amp; Prozess</value>
-  <value column="Description" original="Maintain Reports &amp; Processes">Verwalten von Berichten &amp; Prozessen</value>
+  <value column="Name" original="Report &amp; Process"><![CDATA[Bericht & Prozess]]></value>
+  <value column="Description" original="Maintain Reports &amp; Processes"><![CDATA[Verwalten von Berichten & Prozessen]]></value>
  </row>
  <row id="178" trl="Y">
   <value column="Name" original="Invoice (Customer)">Rechnung (Kunde)</value>
