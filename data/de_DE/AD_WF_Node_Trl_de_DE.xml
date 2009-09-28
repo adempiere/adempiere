@@ -23,7 +23,7 @@
   <value column="Help" original="References are used as prefedined selection lists.  You only need to translate the List Elements !!">References are used as prefedined selection lists.  You only need to translate the List Elements !!</value>
  </row>
  <row id="121" trl="Y">
-  <value column="Name" original="Window &amp; Tab">Window &amp; Tab</value>
+  <value column="Name" original="Window &amp; Tab"><![CDATA[Window & Tab]]></value>
   <value column="Description" original="Translate Windows and Tabs">Translate Windows and Tabs</value>
   <value column="Help" original="Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.">Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.</value>
  </row>
@@ -33,7 +33,7 @@
   <value column="Help" original="Forms are special Windows and you need to translate its name, description and Help.">Forms are special Windows and you need to translate its name, description and Help.</value>
  </row>
  <row id="123" trl="Y">
-  <value column="Name" original="Report &amp; Process">Bericht &amp; Prozess</value>
+  <value column="Name" original="Report &amp; Process"><![CDATA[Bericht & Prozess]]></value>
   <value column="Description" original="Translate Reports and Processes">Translate Reports and Processes</value>
   <value column="Help" original="Translate the Name, Description and Help for Processes and Reports. You don't need to translate the Parameters, if they are centrally maintained.">Translate the Name, Description and Help for Processes and Reports. You don't need to translate the Parameters, if they are centrally maintained.</value>
  </row>
