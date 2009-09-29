@@ -228,7 +228,11 @@ public class Translation
 					if (valueString == null)
 						valueString = "";
 					value.setAttribute(XML_VALUE_ATTRIBUTE_ORIGINAL, origString);
-					value.appendChild(document.createCDATASection(valueString));
+					if (valueString.indexOf("<") != -1 || valueString.indexOf(">") != -1 || valueString.indexOf("&") != -1) {
+						value.appendChild(document.createCDATASection(valueString));
+					} else {
+						value.appendChild(document.createTextNode(valueString));
+					}
 					row.appendChild(value);
 				}
 				root.appendChild(row);
