@@ -91,7 +91,7 @@ public class GraphColumn
 
 	/**
 	 * 	Project Type Constructor
-	 *	@param pt Procet Type
+	 *	@param pt Project Type
 	 */
 	public GraphColumn (MProjectType pt, BigDecimal data, int id)
 	{
@@ -123,9 +123,9 @@ public class GraphColumn
 	private String	m_labelValue = "";
 	/** Column Data Target Value	*/
 	private double	m_targetValue = 0;
-	/** Column Width in pixles		*/
+	/** Column Width in pixels		*/
 	private double	m_width = 0;
-	/** Column Height in pixles		*/
+	/** Column Height in pixels		*/
 	private double	m_height = 0;
 
 	/**	Logger	*/
@@ -277,7 +277,7 @@ public class GraphColumn
 	}	//	setValue
 
 	/**
-	 * @return Returns the column width in pixles.
+	 * @return Returns the column width in pixels.
 	 */
 	public double getColWidth ()
 	{
@@ -285,7 +285,7 @@ public class GraphColumn
 	}	//	getColWidth
 
 	/**
-	 * @param width The column width in pixles.
+	 * @param width The column width in pixels.
 	 */
 	public void setColWidth (double width)
 	{
@@ -293,7 +293,7 @@ public class GraphColumn
 	}	//	getColWidth
 
 	/**
-	 * @return Returns the height in pixles.
+	 * @return Returns the height in pixels.
 	 */
 	public double getColHeight()
 	{
@@ -301,7 +301,7 @@ public class GraphColumn
 	}	//	getHeight
 
 	/**
-	 * @param height The hight in pixles.
+	 * @param height The height in pixels.
 	 */
 	public void setColHeight (double height)
 	{
