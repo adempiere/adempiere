@@ -187,7 +187,7 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 		if (alerts != null && !reload)
 			return alerts;
 		String sql = "SELECT * FROM AD_Alert "
-			+ "WHERE AD_AlertProcessor_ID=?";
+			+ "WHERE AD_AlertProcessor_ID=? AND IsActive='Y' ";
 		ArrayList<MAlert> list = new ArrayList<MAlert>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

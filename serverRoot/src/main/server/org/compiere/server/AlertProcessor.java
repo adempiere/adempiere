@@ -77,7 +77,7 @@ public class AlertProcessor extends AdempiereServer
 	private StringBuffer 		m_summary = new StringBuffer();
 	/**	Last Error Msg				*/
 	private StringBuffer 		m_errors = new StringBuffer();
-	/** Client onfo					*/
+	/** Client info					*/
 	private MClient 			m_client = null;
 
 	/**
@@ -268,7 +268,7 @@ public class AlertProcessor extends AdempiereServer
 				try {
 					trx = Trx.get(Trx.createTrxName("AP_NU"), true);
 					// Notice
-					int AD_Message_ID = 52244;  /* Hardcoded message=notes */
+					int AD_Message_ID = 52244;  /* TODO - Hardcoded message=notes */
 					MNote note = new MNote(getCtx(), AD_Message_ID, user_id, trx.getTrxName());
 					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
 					note.setTextMsg(message);
@@ -345,7 +345,7 @@ public class AlertProcessor extends AdempiereServer
 			rs = null; pstmt = null;
 		}
 		
-		//	Error occured
+		//	Error occurred
 		if (error != null)
 			throw new Exception ("(" + sql + ") " + Env.NL 
 				+ error.getLocalizedMessage());
@@ -402,7 +402,7 @@ public class AlertProcessor extends AdempiereServer
 			rs = null; pstmt = null;
 		}
 		
-		//	Error occured
+		//	Error occurred
 		if (error != null)
 			throw new Exception ("(" + sql + ") " + Env.NL 
 				+ error.getLocalizedMessage());
@@ -457,6 +457,6 @@ public class AlertProcessor extends AdempiereServer
 		ap.start();
 		
 		
-	}	//	main
+	}
 	
-}	//	AlertProcessor
+}
