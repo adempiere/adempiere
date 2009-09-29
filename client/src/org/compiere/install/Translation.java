@@ -405,7 +405,7 @@ public class Translation
 		String 	sql = "SELECT Name, TableName "
 			+ "FROM AD_Table "
 			+ "WHERE TableName LIKE '%_Trl' "
-			+ "ORDER BY 1";
+			+ "ORDER BY Name";
 		ArrayList<String> trlTables = new ArrayList<String>();
 		try
 		{
