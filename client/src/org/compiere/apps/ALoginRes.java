@@ -36,7 +36,7 @@ public final class ALoginRes extends ListResourceBundle
 	{
 	{ "Connection",         "Connection" },
 	{ "Defaults",           "Defaults" },
-	{ "Login",              "Adempiere Login" },
+	{ "Login",              "ADempiere Login" },
 	{ "File",               "&File" },
 	{ "Exit",               "Exit" },
 	{ "Help",               "&Help" },
