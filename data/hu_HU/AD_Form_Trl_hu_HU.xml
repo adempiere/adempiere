@@ -5,7 +5,7 @@
  <row id="100" trl="N">
   <value column="Name" original="Generate Invoices (manual)">Számlák generálása (manuális)</value>
   <value column="Description" original="Select and generate invoices">Számlák kiválasztása és generálása</value>
-  <value column="Help" original="Generate Invoices from Orders.  &#10;Select the orders to generate the invoice for.">Számlák létrehozása rendelésekből. Válassza ki a rendeléseket, amelyekhez számla készül.</value>
+  <value column="Help" original="Generate Invoices from Orders.   Select the orders to generate the invoice for.">Számlák létrehozása rendelésekből. Válassza ki a rendeléseket, amelyekhez számla készül.</value>
  </row>
  <row id="101" trl="N">
   <value column="Name" original="Import File Loader">Import fájl betöltése</value>
@@ -55,7 +55,7 @@
  <row id="110" trl="N">
   <value column="Name" original="Generate Shipments (manual)">Szállítólevelek generálása (manuális)</value>
   <value column="Description" original="Select and generate shipments">Szállítólevelek kiválasztása és generálása</value>
-  <value column="Help" original="Generate Shipments from Orders.  &#10;Select the orders to generate the shipments for.">Szállítások létrehozása rendelésekből. Válassza ki a rendeléseket, amelyekhez a szállítólevél készül.</value>
+  <value column="Help" original="Generate Shipments from Orders.   Select the orders to generate the shipments for.">Szállítások létrehozása rendelésekből. Válassza ki a rendeléseket, amelyekhez a szállítólevél készül.</value>
  </row>
  <row id="111" trl="N">
   <value column="Name" original="SQL Process">SQL feldolgozása</value>
@@ -65,7 +65,7 @@
  <row id="112" trl="N">
   <value column="Name" original="Merge Entities">Elemek egyesítése</value>
   <value column="Description" original="Merge From Entity to To Entity - Delete From">Egyesítés az egyik elemből a másik elembe, ahol az első elem törlésre kerül.</value>
-  <value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt;&#10;All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B). &#10;The From entity (e.g. Customer A) is deleted. &#10;&lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt;&#10;&lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies.&#10;&lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version.&#10;">&lt;i&gt;Veszélyes - Gondolja át, hogy mit csinál!&lt;/i&gt; Minden részeleme az egyesítés első elemének (pl. Vevő "A") a második elem értékeire módosul (pl. Vevő "B"). Az első elem (pl. Vevő "A") törlésre kerül. &lt;p&gt;&lt;b&gt;Nincs visszavonási lehetőség! Kérem, végezzen el egy biztonsági mentést!&lt;/b&gt; Győződjön meg arról, hogy a változás hatással van-e a történeti rekordokra (pl. számlák, stb.) ! &lt;/p&gt; &lt;p&gt;&lt;b&gt;Mellékhatások:&lt;/b&gt; A termékek egyesítése a termékhez kapcsolódó költséget torzítják; az üzleti patnerek egyesítése nem megfelelő nyitott tétel-egyenleget fog mutatni. A javításhoz vegyen igénybe támogatást. &lt;p&gt;&lt;b&gt;Korlátozások:&lt;/b&gt; Könyvelési és készletezési ütközések kezelése ebben a verzióban nincs megoldva.</value>
+  <value column="Help" original="&lt;i&gt;Dangerous - Please are aware of what you are doing!&lt;/i&gt; All instances of the From entity (e.g. Customer A) are changed to the To entity (e.g. Customer B).  The From entity (e.g. Customer A) is deleted.  &lt;p&gt;&lt;b&gt;There is NO undo nor trace !  Please do a backup first&lt;/b&gt; Please be aware that you may be changing history records (e.g. invoices, etc.) ! &lt;/p&gt; &lt;p&gt;&lt;b&gt;Side effects:&lt;/b&gt; Merging Products are likely to distort product costs; Merging Business Partners may result in incorrect open item balance. Check with support on remedies. &lt;p&gt;&lt;b&gt;Restrictions:&lt;/b&gt; Accounting and Inventory conflicts are not resolved in this version. ">&lt;i&gt;Veszélyes - Gondolja át, hogy mit csinál!&lt;/i&gt; Minden részeleme az egyesítés első elemének (pl. Vevő "A") a második elem értékeire módosul (pl. Vevő "B"). Az első elem (pl. Vevő "A") törlésre kerül. &lt;p&gt;&lt;b&gt;Nincs visszavonási lehetőség! Kérem, végezzen el egy biztonsági mentést!&lt;/b&gt; Győződjön meg arról, hogy a változás hatással van-e a történeti rekordokra (pl. számlák, stb.) ! &lt;/p&gt; &lt;p&gt;&lt;b&gt;Mellékhatások:&lt;/b&gt; A termékek egyesítése a termékhez kapcsolódó költséget torzítják; az üzleti patnerek egyesítése nem megfelelő nyitott tétel-egyenleget fog mutatni. A javításhoz vegyen igénybe támogatást. &lt;p&gt;&lt;b&gt;Korlátozások:&lt;/b&gt; Könyvelési és készletezési ütközések kezelése ebben a verzióban nincs megoldva.</value>
  </row>
  <row id="113" trl="N">
   <value column="Name" original="POS">POS</value>

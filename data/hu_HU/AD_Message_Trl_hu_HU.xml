@@ -283,7 +283,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="171" trl="N">
-  <value column="MsgText" original="Change of the default Cashbook ignored.&#10;Please change Cashbook only after completion of transaction">Az alap pénztárkönyv módosítása nem lehetséges. Kérem, a tranzakció teljesítését követően módosítsa a pénztárkönyvet</value>
+  <value column="MsgText" original="Change of the default Cashbook ignored. Please change Cashbook only after completion of transaction">Az alap pénztárkönyv módosítása nem lehetséges. Kérem, a tranzakció teljesítését követően módosítsa a pénztárkönyvet</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="172" trl="N">
@@ -399,7 +399,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="200" trl="N">
-  <value column="MsgText" original="There seems to be a Credit Card Number problem.&#10;Continue?">Valószínűleg a kártya számával van probléma. Folytatja?</value>
+  <value column="MsgText" original="There seems to be a Credit Card Number problem. Continue?">Valószínűleg a kártya számával van probléma. Folytatja?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="201" trl="N">
@@ -947,7 +947,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="337" trl="N">
-  <value column="MsgText" original="Message not sent.&#10;&#10;Problem: ">Az üzenet nem került elküldésre. Probléma:</value>
+  <value column="MsgText" original="Message not sent.  Problem: ">Az üzenet nem került elküldésre. Probléma:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="338" trl="N">
@@ -1207,7 +1207,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="402" trl="N">
-  <value column="MsgText" original="The amount is zero.&#10;Enter the payment after completing the transaction">Az összeg nulla. Adja meg a fizetés összegét a tranzakció befejezését követően</value>
+  <value column="MsgText" original="The amount is zero. Enter the payment after completing the transaction">Az összeg nulla. Adja meg a fizetés összegét a tranzakció befejezését követően</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="403" trl="N">
@@ -1315,7 +1315,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="429" trl="N">
-  <value column="MsgText" original="Print only most recent Invoice ?&#10;(No: print all invoices of order)">Csak az utolsó számla nyomtatása? (Nem: a rendelés minden számlája nyomtatásra kerül)</value>
+  <value column="MsgText" original="Print only most recent Invoice ? (No: print all invoices of order)">Csak az utolsó számla nyomtatása? (Nem: a rendelés minden számlája nyomtatásra kerül)</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="430" trl="N">
@@ -1515,15 +1515,15 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="479" trl="N">
-  <value column="MsgText" original="Cannot send EMail:&#10;No originator (from) address - Check User">Az E-mailt nem lehet elküldeni: nincs megadva a feladó címe - ellenőrizze a felhasználói adatot</value>
+  <value column="MsgText" original="Cannot send EMail: No originator (from) address - Check User">Az E-mailt nem lehet elküldeni: nincs megadva a feladó címe - ellenőrizze a felhasználói adatot</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="480" trl="N">
-  <value column="MsgText" original="Cannot send EMail:&#10;No Mail Server (SMTP) found; Check Client Info">Az E-mailt nem lehet elküldeni: nem található levelezőszerver (SMTP); ellenőrizze a vállalati beállításokat</value>
+  <value column="MsgText" original="Cannot send EMail: No Mail Server (SMTP) found; Check Client Info">Az E-mailt nem lehet elküldeni: nem található levelezőszerver (SMTP); ellenőrizze a vállalati beállításokat</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="481" trl="N">
-  <value column="MsgText" original="Cannot send EMail:&#10;No destination (to) address - Check Contact">Az E-mailt nem lehet elküldeni: nincs a címzetthez megfelelő fiók megadva - ellenőizze a kapcsolat adatait</value>
+  <value column="MsgText" original="Cannot send EMail: No destination (to) address - Check Contact">Az E-mailt nem lehet elküldeni: nincs a címzetthez megfelelő fiók megadva - ellenőizze a kapcsolat adatait</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="482" trl="N">
@@ -1563,15 +1563,15 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="491" trl="N">
-  <value column="MsgText" original="Product is reserved or was already delivered or invoiced.  Set quantity to zero.&#10;Details: ">A Termék foglalás alatt áll, vagy már kiszállították, vagy számlázták. Mennyiség nullára állítása. Részletek:</value>
+  <value column="MsgText" original="Product is reserved or was already delivered or invoiced.  Set quantity to zero. Details: ">A Termék foglalás alatt áll, vagy már kiszállították, vagy számlázták. Mennyiség nullára állítása. Részletek:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="492" trl="N">
-  <value column="MsgText" original="Entry in a key field was not unique - a record with that value already exists.&#10;&#10;Details: ">Az azonosító mező bejegyzése nem egyedi; ezzel az azonosítóval már rendelkezik egy rekord. Részletek:</value>
+  <value column="MsgText" original="Entry in a key field was not unique - a record with that value already exists.  Details: ">Az azonosító mező bejegyzése nem egyedi; ezzel az azonosítóval már rendelkezik egy rekord. Részletek:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="493" trl="N">
-  <value column="MsgText" original="The record is referenced by other records.&#10;&#10;Details: ">A rekordra más rekordok hivatkoznak. Részletek:</value>
+  <value column="MsgText" original="The record is referenced by other records.  Details: ">A rekordra más rekordok hivatkoznak. Részletek:</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="494" trl="N">
@@ -1919,7 +1919,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="580" trl="N">
-  <value column="MsgText" original="For some payments, there were not enough room for all remittance lines.&#10;Do you want to print separate Remittance advice ?">Néhány fizetés esetében nem áll rendelkezésre elegendő hely az átutalandó soroknak. Kíván különálló átutalási megbízást nyomtatni?</value>
+  <value column="MsgText" original="For some payments, there were not enough room for all remittance lines. Do you want to print separate Remittance advice ?">Néhány fizetés esetében nem áll rendelkezésre elegendő hely az átutalandó soroknak. Kíván különálló átutalási megbízást nyomtatni?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="581" trl="N">
@@ -2083,7 +2083,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="621" trl="N">
-  <value column="MsgText" original="Print only most recent Shipment ?&#10;(No: print all shipments of order)">Csak az utolsó szállítólevél nyomtatása? (Nem: a rendelés minden szállítólevele nyomtatásra kerül)</value>
+  <value column="MsgText" original="Print only most recent Shipment ? (No: print all shipments of order)">Csak az utolsó szállítólevél nyomtatása? (Nem: a rendelés minden szállítólevele nyomtatásra kerül)</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="622" trl="N">
@@ -2200,7 +2200,7 @@
  </row>
  <row id="650" trl="N">
   <value column="MsgText" original="Database Version Error">Adatbázis verzió hiba</value>
-  <value column="MsgTip" original="The program assumes Database version {0}, but Database has Version {1}. &#10;This is likely to cause hard to fix errors. &#10;Please stop and migrate the database immediately.">A program a {0} adatbázis verziót igényli, de az adatbázis {1} verzióban áll rendelkezésre. Ez nehezen helyeállíható problémákat okoz. Kérem, állítsa meg a működtetést és azonnal váltson a szükséges adatbázisra.</value>
+  <value column="MsgTip" original="The program assumes Database version {0}, but Database has Version {1}.  This is likely to cause hard to fix errors.  Please stop and migrate the database immediately.">A program a {0} adatbázis verziót igényli, de az adatbázis {1} verzióban áll rendelkezésre. Ez nehezen helyeállíható problémákat okoz. Kérem, állítsa meg a működtetést és azonnal váltson a szükséges adatbázisra.</value>
  </row>
  <row id="651" trl="N">
   <value column="MsgText" original="Always Preview Print">Nyomtatási kép alkalmazása mindenkor</value>
@@ -2331,7 +2331,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="691" trl="N">
-  <value column="MsgText" original="Merge From entity to To entity ?&#10;** NO Undo nor Trace -- You need to have a Backup **">Kivánja a kiinduló elemet egyesíteni a cél elemmel? ** Nincs lehetősége visszavonásra -- Szükséges mentést végeznie **</value>
+  <value column="MsgText" original="Merge From entity to To entity ? ** NO Undo nor Trace -- You need to have a Backup **">Kivánja a kiinduló elemet egyesíteni a cél elemmel? ** Nincs lehetősége visszavonásra -- Szükséges mentést végeznie **</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="692" trl="N">
@@ -2547,7 +2547,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="747" trl="N">
-  <value column="MsgText" original="Download {0} for {1}&#10;&#10;Version = {2} - Lot = {3} - SerNo = {4}&#10;Guarantee Date = {5,date,short}&#10;&#10;Thank you for using Adempiere Customer Asset Management&#10;">Letöltése {0} az {1} Verziónak = {2} - Lot = {3} - Szériaszám = {4} Garancia dátuma = {5,date,short} Köszönjük, hogy az Adempiere Vevői Eszközmenedzsmentet vette igénybe</value>
+  <value column="MsgText" original="Download {0} for {1}  Version = {2} - Lot = {3} - SerNo = {4} Guarantee Date = {5,date,short}  Thank you for using Adempiere Customer Asset Management ">Letöltése {0} az {1} Verziónak = {2} - Lot = {3} - Szériaszám = {4} Garancia dátuma = {5,date,short} Köszönjük, hogy az Adempiere Vevői Eszközmenedzsmentet vette igénybe</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="748" trl="N">
@@ -2611,7 +2611,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="763" trl="N">
-  <value column="MsgText" original="Set Window Size for all users&#10;(Cancel to reset to default)">Ablak méretének beállítása minden felhasználó részére (a visszavonással alaphelyzetbe áll)</value>
+  <value column="MsgText" original="Set Window Size for all users (Cancel to reset to default)">Ablak méretének beállítása minden felhasználó részére (a visszavonással alaphelyzetbe áll)</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="764" trl="N">
@@ -2720,7 +2720,7 @@
  </row>
  <row id="790" trl="N">
   <value column="MsgText" original="The Product UoM needs to be the smallest UoM">A termék mértékegységének a legkisebb mértékegységűnek kell lennie</value>
-  <value column="MsgTip" original="Divide Rate  must be &gt;= 1 and always result in a valid UoM unit. &#10;Example: To convert Each to Pair, the Multiply Rate is 0.5">Az osztó rátának 1-nél kisebbnek, vagy egyenlőnek kell lennie, és mindig egy valós mértékegységet kell eredményül adnia. Példa: a darab párra konvertálásához a szorzó rátának 0,5-nek kell lennie</value>
+  <value column="MsgTip" original="Divide Rate  must be &gt;= 1 and always result in a valid UoM unit.  Example: To convert Each to Pair, the Multiply Rate is 0.5">Az osztó rátának 1-nél kisebbnek, vagy egyenlőnek kell lennie, és mindig egy valós mértékegységet kell eredményül adnia. Példa: a darab párra konvertálásához a szorzó rátának 0,5-nek kell lennie</value>
  </row>
  <row id="791" trl="N">
   <value column="MsgText" original="Select the Product UoM as the From Unit of Measure:">Válassza ki a termék mértékegységét, mint a forrás mértékegységet:</value>
@@ -2787,7 +2787,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="807" trl="N">
-  <value column="MsgText" original="Error while creating the Accounting Setup. &#10;Check the error log and the format of the Accounting*.cvs file - No duplicate Accounts and all all defaut accounts must be included (even if you will not use them).">Hiba a könyvelési beállítások létrehozása során. Ellenőrize a hibanaplót és az Accounting*.cvs fájl fromátumát. Nem lehetnek duplikált számlák, valamint az alapszámláknak rendelkezésre kell állniuk még akkor is, ha nem alkalmazza azokat.</value>
+  <value column="MsgText" original="Error while creating the Accounting Setup.  Check the error log and the format of the Accounting*.cvs file - No duplicate Accounts and all all defaut accounts must be included (even if you will not use them).">Hiba a könyvelési beállítások létrehozása során. Ellenőrize a hibanaplót és az Accounting*.cvs fájl fromátumát. Nem lehetnek duplikált számlák, valamint az alapszámláknak rendelkezésre kell állniuk még akkor is, ha nem alkalmazza azokat.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="808" trl="N">
@@ -2883,7 +2883,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="831" trl="N">
-  <value column="MsgText" original="Resource Assignment could Not be deleted.  It may be used in an Order or Invoice.  &#10;Delete Order/Invoice line with the Assignment.">Az erőforrás foglalása nem törölhető. Ez alkalmazható egy rebdelésben, vagy egy számlában. Rendelés/Számla sorának törlése a kijelölésben.</value>
+  <value column="MsgText" original="Resource Assignment could Not be deleted.  It may be used in an Order or Invoice.   Delete Order/Invoice line with the Assignment.">Az erőforrás foglalása nem törölhető. Ez alkalmazható egy rebdelésben, vagy egy számlában. Rendelés/Számla sorának törlése a kijelölésben.</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="832" trl="N">
@@ -2911,7 +2911,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="838" trl="N">
-  <value column="MsgText" original="Will retrieve high number of records - &#10;Do you want to continue?">Nagyszámú rekord kerül legyűjtésre - Folytatni kívánja?</value>
+  <value column="MsgText" original="Will retrieve high number of records -  Do you want to continue?">Nagyszámú rekord kerül legyűjtésre - Folytatni kívánja?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="839" trl="N">

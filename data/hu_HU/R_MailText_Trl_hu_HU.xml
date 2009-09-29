@@ -4,7 +4,7 @@
 <adempiereTrl language="hu_HU" table="R_MailText">
  <row id="100" trl="N">
   <value column="MailHeader" original="Order Confirmation">Rendelés visszaigazolás</value>
-  <value column="MailText" original="Dear @Name@,&#10;&#10;Thank you for your order.&#10;&#10;Best regards,&#10;  The GardenWorld Team">Kedves @Name@, köszönjük megrendelését. Üdvözlettel: A GardenWorld Csapata</value>
+  <value column="MailText" original="Dear @Name@,  Thank you for your order.  Best regards,   The GardenWorld Team">Kedves @Name@, köszönjük megrendelését. Üdvözlettel: A GardenWorld Csapata</value>
   <value column="Name" original="Order Confirmation">Rendelés visszaigazolás</value>
   <value column="MailText2" original=""/>
   <value column="MailText3" original=""/>
