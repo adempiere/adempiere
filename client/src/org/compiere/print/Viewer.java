@@ -1158,7 +1158,7 @@ public class Viewer extends CFrame
 			bFind.setEnabled(false);
 		else
 		{
-			Find find = new Find (this, m_WindowNo, title,
+			Find find = new Find (this, m_reportEngine.getWindowNo(), title,
 					AD_Tab_ID, AD_Table_ID, tableName, m_reportEngine.getWhereExtended(), findFields, 1);
 			m_reportEngine.setQuery(find.getQuery());
 			find.dispose();

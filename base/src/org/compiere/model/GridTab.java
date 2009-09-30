@@ -627,7 +627,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					//	we have column and value
 					if (where.length() != 0)
 						where.append(" AND ");
-					where.append(lc).append("=");
+					where.append(getTableName()).append(".").append(lc).append("=");
 					if (lc.endsWith("_ID"))
 						where.append(value);
 					else
