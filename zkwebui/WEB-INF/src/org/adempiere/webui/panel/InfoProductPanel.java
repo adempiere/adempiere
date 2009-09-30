@@ -1062,7 +1062,7 @@ public final class InfoProductPanel extends InfoPanel implements EventListener
 	 *
 	 * @return array of Column_Info
 	 */
-	private ColumnInfo[] getProductLayout()
+	protected ColumnInfo[] getProductLayout()
 	{
 		if (s_productLayout != null)
 			return s_productLayout;

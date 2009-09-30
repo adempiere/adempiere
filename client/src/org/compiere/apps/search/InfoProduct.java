@@ -1015,7 +1015,7 @@ public final class InfoProduct extends Info implements ActionListener, ChangeLis
 	 *
 	 * @return array of Column_Info
 	 */
-	private Info_Column[] getProductLayout()
+	protected Info_Column[] getProductLayout()
 	{
 		if (s_productLayout != null)
 			return s_productLayout;
