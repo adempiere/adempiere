@@ -109,6 +109,8 @@ public class AReport implements ActionListener
 		}
 
 		m_query = query;
+		if (whereExtended != null && whereExtended.length() > 0 && m_query != null)
+			m_query.addRestriction(Env.parseContext(Env.getCtx(), WindowNo, whereExtended, false));
 		this.parent = parent;
 		this.WindowNo = WindowNo;
 		this.m_whereExtended = whereExtended;

@@ -894,22 +894,12 @@ public final class APanel extends CPanel
 		if (query != null && query.isActive() && !role.isQueryMax(query.getRecordCount()))
 			return query;
 		//
-		StringBuffer where = new StringBuffer(mTab.getWhereExtended());
+		StringBuffer where = new StringBuffer(Env.parseContext(m_ctx, m_curWindowNo, mTab.getWhereExtended(), false));
 		//	Query automatically if high volume and no query
 		boolean require = mTab.isHighVolume();
 		if (!require && !m_onlyCurrentRows)				//	No Trx Window
 		{
-			String wh1 = mTab.getWhereExtended();
-			if (wh1 == null || wh1.length() == 0)
-				wh1 = mTab.getWhereClause();
-			if (wh1 != null && wh1.length() > 0)
-			{
-				if (wh1.indexOf('@') == -1)
-					where.append(wh1);
-				else    //  replace variables
-					where.append(Env.parseContext(m_ctx, m_curWindowNo, wh1, false));  
-			}
-			//
+			/*  Where Extended already appended above, check for variables */
 			if (query != null)
 			{
 				String wh2 = query.getWhereClause();
