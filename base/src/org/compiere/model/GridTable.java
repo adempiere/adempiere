@@ -3202,8 +3202,9 @@ public class GridTable extends AbstractTableModel
 	    	
 	    	if (hasUpdated) {
 				Timestamp memUpdated = null;
-				// compare with the old value instead of the current value
 				memUpdated = (Timestamp) getOldValue(row, colUpdated);
+				if (memUpdated == null)
+					memUpdated = (Timestamp) getValueAt(row, colUpdated);
 
 				if (memUpdated != null && ! memUpdated.equals(dbUpdated))
 					return true;
@@ -3211,8 +3212,9 @@ public class GridTable extends AbstractTableModel
 	    	
 	    	if (hasProcessed) {
 				Boolean memProcessed = null;
-				// compare with the old value instead of the current value
 				memProcessed = (Boolean) getOldValue(row, colProcessed);
+				if (memProcessed == null)
+					memProcessed = (Boolean) getValueAt(row, colProcessed);
 		    	
 				Boolean dbProcessed = Boolean.TRUE;
 				if (! dbProcessedS.equals("Y"))
