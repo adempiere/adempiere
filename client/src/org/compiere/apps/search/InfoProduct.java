@@ -77,7 +77,7 @@ import org.jdesktop.swingx.JXTaskPane;
  * @author Bogdan Ioan, SC ARHIPAC SERVICE SRL
  * 				<li>FR [ 2012362 ] Info Product: Add Product Category 
  */
-public final class InfoProduct extends Info implements ActionListener, ChangeListener
+public class InfoProduct extends Info implements ActionListener, ChangeListener
 {
 	/**
 	 * 

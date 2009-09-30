@@ -92,7 +92,7 @@ import org.zkoss.zkex.zul.South;
  * @author Elaine
  * @version	InfoPayment.java Adempiere Swing UI 3.4.1
  */
-public final class InfoProductPanel extends InfoPanel implements EventListener
+public class InfoProductPanel extends InfoPanel implements EventListener
 {
     /**
 	 * 
