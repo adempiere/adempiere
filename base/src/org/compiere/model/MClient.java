@@ -23,6 +23,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -56,7 +58,8 @@ public class MClient extends X_AD_Client
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6345228636481802120L;
+	private static final long serialVersionUID = -6482473737885701403L;
+
 
 	/**
 	 * 	Get client
@@ -945,6 +948,92 @@ public class MClient extends X_AD_Client
 				CLIENT_ACCOUNTING_DISABLED, // default
 				Env.getAD_Client_ID(Env.getCtx()));
 		return ca.equalsIgnoreCase(CLIENT_ACCOUNTING_IMMEDIATE);
+	}
+
+	/*  2870483 - SaaS too slow opening windows */
+	/**	Field Access			*/
+	private ArrayList<Integer>	m_fieldAccess = null;
+	/**
+	 * 	Define is a field is displayed based on ASP rules
+	 * 	@param ad_field_id
+	 *	@return boolean indicating if it's displayed or not
+	 */
+	public boolean isDisplayField(int aDFieldID) {
+		if (! isUseASP())
+			return true;
+
+		if (m_fieldAccess == null)
+		{
+			m_fieldAccess = new ArrayList<Integer>(11000);
+			String sqlvalidate =
+				"SELECT AD_Field_ID "
+				 + "  FROM AD_Field "
+				 + " WHERE (   AD_Field_ID IN ( "
+				 // ASP subscribed fields for client
+				 + "              SELECT f.AD_Field_ID "
+				 + "                FROM ASP_Field f, ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
+				 + "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+				 + "                 AND cl.AD_Client_ID = " + getAD_Client_ID()
+				 + "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+				 + "                 AND f.ASP_Tab_ID = t.ASP_Tab_ID "
+				 + "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
+				 + "                 AND f.IsActive = 'Y' "
+				 + "                 AND t.IsActive = 'Y' "
+				 + "                 AND w.IsActive = 'Y' "
+				 + "                 AND l.IsActive = 'Y' "
+				 + "                 AND cl.IsActive = 'Y' "
+				 + "                 AND f.ASP_Status = 'S') "
+				 + "        OR AD_Tab_ID IN ( "
+				 // ASP subscribed fields for client
+				 + "              SELECT t.AD_Tab_ID "
+				 + "                FROM ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
+				 + "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+				 + "                 AND cl.AD_Client_ID = " + getAD_Client_ID()
+				 + "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+				 + "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
+				 + "                 AND t.IsActive = 'Y' "
+				 + "                 AND w.IsActive = 'Y' "
+				 + "                 AND l.IsActive = 'Y' "
+				 + "                 AND cl.IsActive = 'Y' "
+				 + "                 AND t.AllFields = 'Y' "
+				 + "                 AND t.ASP_Status = 'S') "
+				 + "        OR AD_Field_ID IN ( "
+				 // ASP show exceptions for client
+				 + "              SELECT AD_Field_ID "
+				 + "                FROM ASP_ClientException ce "
+				 + "               WHERE ce.AD_Client_ID = " + getAD_Client_ID()
+				 + "                 AND ce.IsActive = 'Y' "
+				 + "                 AND ce.AD_Field_ID IS NOT NULL "
+				 + "                 AND ce.ASP_Status = 'S') "
+				 + "       ) "
+				 + "   AND AD_Field_ID NOT IN ( "
+				 // minus ASP hide exceptions for client
+				 + "          SELECT AD_Field_ID "
+				 + "            FROM ASP_ClientException ce "
+				 + "           WHERE ce.AD_Client_ID = " + getAD_Client_ID()
+				 + "             AND ce.IsActive = 'Y' "
+				 + "             AND ce.AD_Field_ID IS NOT NULL "
+				 + "             AND ce.ASP_Status = 'H')" 
+				 + " ORDER BY AD_Field_ID";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sqlvalidate, get_TrxName());
+				rs = pstmt.executeQuery();
+				while (rs.next())
+					m_fieldAccess.add(rs.getInt(1));
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, sqlvalidate, e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+			}
+		}
+		return (Collections.binarySearch(m_fieldAccess, aDFieldID) > 0);
 	}
 
 }	//	MClient

@@ -13,7 +13,7 @@
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
- * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]                  *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -25,7 +25,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 
@@ -79,6 +78,7 @@ public class GridFieldVO implements Serializable
 		GridFieldVO vo = new GridFieldVO (ctx, WindowNo, TabNo, 
 			AD_Window_ID, AD_Tab_ID, readOnly);
 		String columnName = "ColumnName";
+		int AD_Field_ID = 0;
 		try
 		{
 			vo.ColumnName = rs.getString("ColumnName");
@@ -181,6 +181,7 @@ public class GridFieldVO implements Serializable
 			}
 			if (vo.Header == null)
 				vo.Header = vo.ColumnName;
+			AD_Field_ID  = rs.getInt("AD_Field_ID");
 		}
 		catch (SQLException e)
 		{
@@ -190,73 +191,11 @@ public class GridFieldVO implements Serializable
 		// ASP
 		if (vo.IsDisplayed) {
 			MClient client = MClient.get(ctx);
-			if (client.isUseASP()) {
-				// ASP for fields has a different approach - it must be defined as a field but hidden
-				//   in order to have the proper context variable filled with defaults
-				// Validate field and put IsDisplayed=N if must be hidden
-				try {
-					// TODO : Optimize ASP field code - catch this query
-					int AD_Field_ID = rs.getInt("AD_Field_ID");
-					String sqlvalidate =
-						"SELECT AD_Field_ID "
-						 + "  FROM AD_Field "
-						 + " WHERE AD_Field_ID = ? "
-						 + "   AND (   AD_Field_ID IN ( "
-						 // ASP subscribed fields for client
-						 + "              SELECT f.AD_Field_ID "
-						 + "                FROM ASP_Field f, ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
-						 + "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
-						 + "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
-						 + "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-						 + "                 AND f.ASP_Tab_ID = t.ASP_Tab_ID "
-						 + "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
-						 + "                 AND f.IsActive = 'Y' "
-						 + "                 AND t.IsActive = 'Y' "
-						 + "                 AND w.IsActive = 'Y' "
-						 + "                 AND l.IsActive = 'Y' "
-						 + "                 AND cl.IsActive = 'Y' "
-						 + "                 AND f.ASP_Status = 'S') "
-						 + "        OR AD_Tab_ID IN ( "
-						 // ASP subscribed fields for client
-						 + "              SELECT t.AD_Tab_ID "
-						 + "                FROM ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
-						 + "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
-						 + "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
-						 + "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-						 + "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
-						 + "                 AND t.IsActive = 'Y' "
-						 + "                 AND w.IsActive = 'Y' "
-						 + "                 AND l.IsActive = 'Y' "
-						 + "                 AND cl.IsActive = 'Y' "
-						 + "                 AND t.AllFields = 'Y' "
-						 + "                 AND t.ASP_Status = 'S') "
-						 + "        OR AD_Field_ID IN ( "
-						 // ASP show exceptions for client
-						 + "              SELECT AD_Field_ID "
-						 + "                FROM ASP_ClientException ce "
-						 + "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-						 + "                 AND ce.IsActive = 'Y' "
-						 + "                 AND ce.AD_Field_ID IS NOT NULL "
-						 + "                 AND ce.ASP_Status = 'S') "
-						 + "       ) "
-						 + "   AND AD_Field_ID NOT IN ( "
-						 // minus ASP hide exceptions for client
-						 + "          SELECT AD_Field_ID "
-						 + "            FROM ASP_ClientException ce "
-						 + "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-						 + "             AND ce.IsActive = 'Y' "
-						 + "             AND ce.AD_Field_ID IS NOT NULL "
-						 + "             AND ce.ASP_Status = 'H')";
-					int validField_ID = DB.getSQLValue(null, sqlvalidate, AD_Field_ID);
-					if (validField_ID != AD_Field_ID)
-						vo.IsDisplayed = false;
-				}
-				catch (SQLException e)
-				{
-					CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, e);
-					return null;
-				}
-			}
+			// ASP for fields has a different approach - it must be defined as a field but hidden
+			//   in order to have the proper context variable filled with defaults
+			// Validate field and put IsDisplayed=N if must be hidden
+			if (! client.isDisplayField(AD_Field_ID))
+				vo.IsDisplayed = false;
 		}
 		//
 		vo.initFinish();
