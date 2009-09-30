@@ -51,8 +51,7 @@
 	</taskdef>
 
 	<target name="clean" description="delete class directory">
-	   <delete dir="${classes.dir}/com" />
-	   <delete dir="${classes.dir}/net" />
+	   <delete dir="${classes.dir}" />
 	   <delete dir="${dist.dir}" />
 		<delete file="${deploy.dir}/lib/${war.name}.war" />
 	</target>
@@ -76,6 +75,10 @@
 	           optimize="${compile.optimize}">
 	        <classpath refid="compile.classpath"/>
 	    </javac>
+		<copy todir="${classes.dir}">
+		    <fileset dir="WEB-INF/src"
+		             excludes="**/*.java" />
+		</copy>
 	</target>
 
 	<target name="war" depends="compile">
