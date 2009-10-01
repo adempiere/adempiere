@@ -16,7 +16,7 @@
   <value column="Name" original="Client">Mandant</value>
   <value column="PrintName" original="Client">Mandant</value>
   <value column="Description" original="Client/Tenant for this installation.">Mandant für diese Installation.</value>
-  <value column="Help" original="A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.">Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden. .</value>
+  <value column="Help" original="A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.">Ein Mandant ist eine Firma oder eine juristische Person. Sie können keine Daten über Mandanten hinweg verwenden.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -85,7 +85,7 @@
  <row id="110" trl="Y">
   <value column="Name" original="Menu">Menü</value>
   <value column="PrintName" original="Menu">Menü</value>
-  <value column="Description" original="Identifies a Menu"> Bezeichnet ein Menü</value>
+  <value column="Description" original="Identifies a Menu">Bezeichnet ein Menü</value>
   <value column="Help" original="The Menu identifies a unique Menu.  Menus are used to control the display of those screens a user has access to.">"Menü" bezeichnet ein einzelnes Menü. Menüs kontrollieren die Anzeige der Oberflächen, auf die ein Nutzer Zugriff hat.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -3400,8 +3400,8 @@ Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending b
  <row id="598" trl="Y">
   <value column="Name" original="Total Lines">Summe Zeilen</value>
   <value column="PrintName" original="Total Lines">Summe Zeilen</value>
-  <value column="Description" original="Total of all document lines">Summe aller Zeilen zu diesem Beleg</value>
-  <value column="Help" original="The Total amount displays the total of all lines in document currency">Die Summe Zeilen zeigt die Summe aller Zeilen in Belegwährung an.</value>
+  <value column="Description" original="Total of all document lines">Summe aller Positionen zu diesem Beleg</value>
+  <value column="Help" original="The Total amount displays the total of all lines in document currency">Zeigt die Summe aller Positionen in Belegwährung an.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -9434,7 +9434,7 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
  <row id="1692" trl="Y">
   <value column="Name" original="Delete existing Accounting Entries">Existierende Buchungen löschen</value>
   <value column="PrintName" original="Delete existing Accounting Entries">Existierende Buchungen löschen</value>
-  <value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Die ausgewählten Buchführungs-Einträge werden gelöscht! Gefärlich !!!</value>
+  <value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Die ausgewählten Buchführungs-Einträge werden gelöscht! Gefärlich!!!</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>

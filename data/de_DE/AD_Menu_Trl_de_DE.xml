@@ -20,7 +20,7 @@
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Calendar Year and Period">Kalenderjahr und Periode</value>
-  <value column="Description" original="Maintain Calendars Years Periods">Kalenderjahre und Perioden verwalten </value>
+  <value column="Description" original="Maintain Calendars Years Periods">Kalenderjahre und Perioden verwalten</value>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Account Element">Kontenart</value>
@@ -384,7 +384,7 @@
   <value column="Description" original="Imvoice Report by Product Category per Month">Rechnungs-Bericht nach Produktkategorie nach Monaten</value>
  </row>
  <row id="213" trl="Y">
-  <value column="Name" original="Weekly Invoice Prod Cat">Rechnungen Produktkategorie wochenweise </value>
+  <value column="Name" original="Weekly Invoice Prod Cat">Rechnungen Produktkategorie wochenweise</value>
   <value column="Description" original="Imvoice Report by Product Category per Week">Rechnungs-Bericht nach Produktkategorie nach Wochen</value>
  </row>
  <row id="214" trl="Y">
@@ -493,7 +493,7 @@
  </row>
  <row id="241" trl="Y">
   <value column="Name" original="Cash Journal">Kassenjournal</value>
-  <value column="Description" original="Cash transactions">Buchungen der Kasse </value>
+  <value column="Description" original="Cash transactions">Buchungen der Kasse</value>
  </row>
  <row id="243" trl="Y">
   <value column="Name" original="Open Items">Offene Posten</value>
@@ -552,8 +552,8 @@
   <value column="Description" original="Project Status of Project Cycle">Status des Projektzyklus</value>
  </row>
  <row id="261" trl="Y">
-  <value column="Name" original="Initial Client Setup Review">Revision Ersteinrichtung Mandant</value>
-  <value column="Description" original="Review of system level setup of a new  Client">Revision der Ersteinrichtung eines neuen Mandanten auf Systemebene</value>
+  <value column="Name" original="Initial Client Setup Review">Ersteinrichtung Mandant</value>
+  <value column="Description" original="Review of system level setup of a new  Client">Ersteinrichtung eines neuen Mandanten auf Systemebene</value>
  </row>
  <row id="263" trl="Y">
   <value column="Name" original="Partner Relations">Geschäftspartner</value>
@@ -1105,7 +1105,7 @@
  </row>
  <row id="409" trl="Y">
   <value column="Name" original="Verify Document Types">Belegarten verifizieren</value>
-  <value column="Description" original="Verify Document Types and Period Controls">Belegarten und Periodenkontrolle verifizieren </value>
+  <value column="Description" original="Verify Document Types and Period Controls">Belegarten und Periodenkontrolle verifizieren</value>
  </row>
  <row id="410" trl="Y">
   <value column="Name" original="Project Margin (Work Order)">Projekt-Marge (Arbeitsauftrag)</value>

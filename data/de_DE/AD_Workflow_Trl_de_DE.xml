@@ -13,8 +13,8 @@
   <value column="Help" original="Define a new language as a system language.">Richten Sie eine weitere Sprache als Systemsprache ein.</value>
  </row>
  <row id="104" trl="Y">
-  <value column="Name" original="Initial Client Setup Review">Revision Ersteinrichtung Mandant</value>
-  <value column="Description" original="Review of system level setup of a new  Client">Revision der Ersteinrichtung eines neuen Mandanten auf Systemebene</value>
+  <value column="Name" original="Initial Client Setup Review">Ersteinrichtung Mandant</value>
+  <value column="Description" original="Review of system level setup of a new  Client">Ersteinrichtung eines neuen Mandanten auf Systemebene</value>
   <value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup&#10;">This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.
 You may want to check also the following Workflows:
 - Accounting Setup

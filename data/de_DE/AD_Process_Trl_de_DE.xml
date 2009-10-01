@@ -39,7 +39,7 @@
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Add or Copy Accounts">Konten kopieren</value>
-  <value column="Description" original="Add missing Accounts - or Copy&amp;Overwrite Accounts (DANGEROUS!!)">Kopieren und überschreiben der Konten im System (GEFÄHRLICH !!!)</value>
+  <value column="Description" original="Add missing Accounts - or Copy&amp;Overwrite Accounts (DANGEROUS!!)">Kopieren und überschreiben der Konten im System (GEFÄHRLICH!!!)</value>
   <value column="Help" original="Either add missing accounts - or copy and overwrite all default accounts.  If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the bank account asset accounts, ...).  If no Accounting Schema is selected all Accounting Schemas will be updated / inserted.">Sie können entweder fehlende Konten hinzufügen - oder alle Standardkonten kopieren und überschreiben. If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the bank account asset accounts, ...). If no Accounting Schema is selected all Accounting Schemas will be updated / inserted.</value>
  </row>
  <row id="109" trl="Y">
@@ -205,7 +205,7 @@
  <row id="142" trl="Y">
   <value column="Name" original="Generate Receipt from Invoice">Empfangsbestätigung aus Rechnung erstellen </value>
   <value column="Description" original="Create and process delivery Receipt from this invoice.">Empfangsbestätigung von dieser Rechnung erstellen und verarbeiten.</value>
-  <value column="Help" original="The invoice should be correct and completed.">  Die Rechnung sollte vollständig und korrekt sein.</value>
+  <value column="Help" original="The invoice should be correct and completed.">Die Rechnung sollte vollständig und korrekt sein.</value>
  </row>
  <row id="144" trl="Y">
   <value column="Name" original="Process Cash">Kassenbestand verarbeiten</value>
