@@ -257,7 +257,7 @@ public class Language implements Serializable
 
 	/**************************************************************************
 	 *  Get Language.
-	 * 	If language does not exist, create it on the fly assuming taht it is valid
+	 * 	If language does not exist, create it on the fly assuming that it is valid
 	 *  @param langInfo either language (en) or locale (en-US) or display name
 	 *  @return Name (e.g. Deutsch)
 	 */
@@ -370,7 +370,7 @@ public class Language implements Serializable
 	/**
 	 *  Get Language Name
 	 *  @param langInfo either language (en) or locale (en-US) or display name
-	 *  @return Langauge Name (e.g. English)
+	 *  @return Language Name (e.g. English)
 	 */
 	public static String getName (String langInfo)
 	{
@@ -426,7 +426,7 @@ public class Language implements Serializable
 	/**************************************************************************
 	 *  Define Language
 	 *  @param name - displayed value, e.g. English
-	 *  @param AD_Language - the code of system supported langauge, e.g. en_US
+	 *  @param AD_Language - the code of system supported language, e.g. en_US
 	 *  (might be different than Locale - i.e. if the system does not support the language)
 	 *  @param locale - the Locale, e.g. Locale.US
 	 *  @param decimalPoint true if Decimal Point - if null, derived from Locale
@@ -450,7 +450,7 @@ public class Language implements Serializable
 	/**
 	 *  Define Language with A4 and default decimal point and date format
 	 *  @param name - displayed value, e.g. English
-	 *  @param AD_Language - the code of system supported langauge, e.g. en_US
+	 *  @param AD_Language - the code of system supported language, e.g. en_US
 	 *  (might be different than Locale - i.e. if the system does not support the language)
 	 *  @param locale - the Locale, e.g. Locale.US
 	 */
