@@ -123,6 +123,7 @@ public class MPPMRP extends X_PP_MRP
 							ol.getQtyOrdered()).intValueExact(); 
 					//
 					order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());
+					order.setAD_Org_ID(ol.getAD_Org_ID());
 					//comment for Manufacturing Order
 					order.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
 							+ " "
