@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -352,6 +353,11 @@ public class DataEngine
 					if (ColumnSQL.length() > 0)
 					{
 						log.warning(ColumnName + " - virtual column not allowed with this Display type");
+						continue;
+					}
+					if (AD_Reference_Value_ID <= 0)
+					{
+						log.warning(ColumnName + " - AD_Reference_Value_ID not set");
 						continue;
 					}
 					TableReference tr = getTableReference(AD_Reference_Value_ID);
@@ -702,6 +708,9 @@ public class DataEngine
 	 */
 	public static TableReference getTableReference (int AD_Reference_Value_ID)
 	{
+		if (AD_Reference_Value_ID <= 0)
+			throw new IllegalArgumentException("AD_Reference_Value_ID <= 0");
+		//
 		TableReference tr = new TableReference();
 		//
 		String SQL = "SELECT t.TableName, ck.ColumnName AS KeyColumn,"	//	1..2
