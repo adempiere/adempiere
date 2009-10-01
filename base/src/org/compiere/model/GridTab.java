@@ -40,6 +40,7 @@ import javax.swing.event.EventListenerList;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
@@ -79,6 +80,8 @@ import org.compiere.util.ValueNamePair;
  *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
+ *  @author Cristina Ghita, www.arhipac.ro FR [2870645] Set null value for an ID
+ *  @see  https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2870645&group_id=176962
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
@@ -2480,7 +2483,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return "NoField";
 
 		log.fine(field.getColumnName() + "=" + value + " - Row=" + m_currentRow);
-
+		
+		if (DisplayType.isID(field.getDisplayType()) && value instanceof Integer && ((Integer)value).intValue() < 0)
+			value = null;
+		
 		int col = m_mTable.findColumn(field.getColumnName());
 		m_mTable.setValueAt(value, m_currentRow, col, false);
 		//
