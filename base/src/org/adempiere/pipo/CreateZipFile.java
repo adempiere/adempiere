@@ -101,11 +101,10 @@ public class CreateZipFile {
      }
 	static public String getParentDir(File zipFilepath)
     {
-		String ParentDir=null;
 		try {
 		ZipFile zipFile = new ZipFile(zipFilepath);
-		Enumeration entries = zipFile.entries();
-		ZipEntry entry = (ZipEntry)entries.nextElement();
+		Enumeration<? extends ZipEntry> entries = zipFile.entries();
+		ZipEntry entry = entries.nextElement();
 		File tempfile = new File(entry.getName());
 		while (tempfile.getParent()!=null)
 			tempfile = tempfile.getParentFile();		

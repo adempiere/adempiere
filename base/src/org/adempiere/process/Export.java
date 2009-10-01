@@ -134,7 +134,6 @@ public class Export extends SvrProcess
 	 * 	Process - Generate Export Format
 	 *	@return info
 	 */
-	@SuppressWarnings("unchecked")
 	protected String doIt () throws Exception
 	{
 		outDocument = createNewDocument();
