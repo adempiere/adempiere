@@ -149,7 +149,7 @@ public class ImportGLJournal extends SvrProcess
 		sql = new StringBuffer ("UPDATE I_GLJournal o "
 			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Doc Org, '"
 			+ "WHERE (AD_OrgDoc_ID IS NULL OR AD_OrgDoc_ID=0"
-			+ " OR EXISTS (SELECT * FROM AD_Org oo WHERE o.AD_Org_ID=oo.AD_Org_ID AND (oo.IsSummary='Y' OR oo.IsActive='N')))"
+			+ " OR EXISTS (SELECT * FROM AD_Org oo WHERE o.AD_OrgDoc_ID=oo.AD_Org_ID AND (oo.IsSummary='Y' OR oo.IsActive='N')))"
 			+ " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
@@ -370,8 +370,8 @@ public class ImportGLJournal extends SvrProcess
 
 		//	Set Org from Name (* is overwritten and default)
 		sql = new StringBuffer ("UPDATE I_GLJournal i "
-			+ "SET AD_Org_ID=(SELECT o.AD_Org_ID FROM AD_Org o"
-			+ " WHERE o.Value=i.OrgValue AND o.IsSummary='N' AND i.AD_Client_ID=o.AD_Client_ID) "
+			+ "SET AD_Org_ID=COALESCE((SELECT o.AD_Org_ID FROM AD_Org o"
+			+ " WHERE o.Value=i.OrgValue AND o.IsSummary='N' AND i.AD_Client_ID=o.AD_Client_ID),AD_Org_ID) "
 			+ "WHERE (AD_Org_ID IS NULL OR AD_Org_ID=0) AND OrgValue IS NOT NULL"
 			+ " AND (C_ValidCombination_ID IS NULL OR C_ValidCombination_ID=0) AND I_IsImported<>'Y'");
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
