@@ -1638,7 +1638,7 @@ Please note that the Business Partner &lt;b&gt;must&lt;/b&gt; be an Employee wit
  <row id="417" trl="Y">
   <value column="Name" original="Resource Product">Ressourcen-Produkt</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Maintain Product information of Resource">Produkteigenschaften der Ressource verwalten </value>
+  <value column="Description" original="Maintain Product information of Resource">Produkteigenschaften der Ressource verwalten</value>
   <value column="Help" original="The product for the resource is automatically created and synchronized. Update Name, Unit of Measure, etc. in the Resource and don't change it in the product.">Das Produkt für diese Ressource wird automatisch angelegt und synchronisiert. Aktualisieren Sie Name, Mengeneinheit usw. in der Ressource und ändern Sie nicht das Produkt!</value>
  </row>
  <row id="418" trl="Y">
@@ -2435,7 +2435,7 @@ The optional balance check applies to the entire import, not for individual batc
  <row id="548" trl="Y">
   <value column="Name" original="Knowledge Synonym">Wissensbasis - Synonym</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Knowlege Keyword Synonym">Synonyme zu Schlagworten </value>
+  <value column="Description" original="Knowlege Keyword Synonym">Synonyme zu Schlagworten</value>
   <value column="Help" original="Search Synonyms for Knowledge Keywords; Example: Product = Item">Vermerken Sie Synonyme für Schlagworte; Beispiel: Produkt = Artikel</value>
  </row>
  <row id="549" trl="Y">
@@ -3503,7 +3503,7 @@ Indirect: Users with Role, Subscribers of updates for Request Category, Type, Gr
   <value column="Help" original="Alternative groups allow you to group Bill of Material components, which are exclusive (i.e. only one is valid). Examples different engine sizes.">Alternative groups allow you to group Bill of Material components, which are exclusive (i.e. only one is valid). Examples different engine sizes.</value>
  </row>
  <row id="730" trl="Y">
-  <value column="Name" original="Operation">Arbeitsvorgang </value>
+  <value column="Name" original="Operation">Arbeitsvorgang</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Product Manufacturing Operation">Product Manufacturing Operation</value>
   <value column="Help" original="The Operations to create the product.  Note that the actual used operation and sequence is determined by the BOM Product.">The Operations to create the product.  Note that the actual used operation and sequence is determined by the BOM Product.</value>
@@ -3697,7 +3697,7 @@ The Organization is set to the invoice organization</value>
  <row id="763" trl="Y">
   <value column="Name" original="Declaration">Erklärung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define the declaration to the tax authorities">Erzeugen einer Steuererklärung für die Finanzbehörde </value>
+  <value column="Description" original="Define the declaration to the tax authorities">Erzeugen einer Steuererklärung für die Finanzbehörde</value>
   <value column="Help" original="The tax declaration allows you to create supporting information and reconcile the documents with the accounting">Das Fenster "Steuererklärung" ermöglicht, unterstützende Information einzugeben und Belege mit der Buchführung abzugleichen.</value>
  </row>
  <row id="764" trl="Y">

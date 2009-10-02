@@ -340,7 +340,7 @@
  </row>
  <row id="188" trl="Y">
   <value column="Name" original="Re-activate">Reaktivieren</value>
-  <value column="Description" original="Reopen Document and Reverse automaticly generated documents; You need to Complete the transaction after the change. ">Beleg wieder eröffnen und automatisch erzeugte Belege rückgängig machen; Sie müssen den Vorgang nach der Änderung fertig stellen. </value>
+  <value column="Description" original="Reopen Document and Reverse automaticly generated documents; You need to Complete the transaction after the change. ">Beleg wieder eröffnen und automatisch erzeugte Belege rückgängig machen; Sie müssen den Vorgang nach der Änderung fertig stellen.</value>
  </row>
  <row id="189" trl="Y">
   <value column="Name" original="&lt;None&gt;">&lt;Nichts&gt;</value>
@@ -3095,7 +3095,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="926" trl="Y">
-  <value column="Name" original="Legal Procedure">Rechtsverfahren </value>
+  <value column="Name" original="Legal Procedure">Rechtsverfahren</value>
   <value column="Description" original=""/>
  </row>
  <row id="927" trl="Y">

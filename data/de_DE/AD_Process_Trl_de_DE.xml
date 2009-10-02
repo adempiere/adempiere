@@ -13,7 +13,7 @@
   <value column="Help" original=""/>
  </row>
  <row id="103" trl="Y">
-  <value column="Name" original="Create Price List ">Preisliste erstellen </value>
+  <value column="Name" original="Create Price List ">Preisliste erstellen</value>
   <value column="Description" original="Create Prices based on parameters of this version">Preisliste für diese Version erstellen</value>
   <value column="Help" original="Create Prices for this pricelist version in the sequence of the Discount Schema Price List.&#10;Lines with a higher sequence overwrite existing prices.  The sequence should be from generic to specific.">Preise für die Preislisten-Version in Reihenfolge der Rabattschema-Preisliste erstellen. Zeilen mit einer höheren Folge überschreiben existierende Preise. Die Reihenfolge sollte von allgemein zu spezifisch sein.</value>
  </row>
@@ -28,7 +28,7 @@
   <value column="Help" original="The inventory count lines are generated.  You can add new lines or delete lines manually.">Die Zeilen der Zählliste werden angelegt. Sie können weitere Zeilen hinzufügen oder Zeilen manuell löschen.</value>
  </row>
  <row id="106" trl="Y">
-  <value column="Name" original="Update Quantity">Bestand aktualisieren </value>
+  <value column="Name" original="Update Quantity">Bestand aktualisieren</value>
   <value column="Description" original="The Book Quantity is updated with current book quantity">Die Buchmenge wird mit der derzeitigen Buchmenge aktualisiert</value>
   <value column="Help" original="The Update Quantity Process will update the book quantity with the current book quantity.  ">Der Prozess "Bestand aktualisieren" aktualisiert die Buchmenge mit der derzeitigen Buchmenge.</value>
  </row>
@@ -43,7 +43,7 @@
   <value column="Help" original="Either add missing accounts - or copy and overwrite all default accounts.  If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the bank account asset accounts, ...).  If no Accounting Schema is selected all Accounting Schemas will be updated / inserted.">Sie können entweder fehlende Konten hinzufügen - oder alle Standardkonten kopieren und überschreiben. If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the bank account asset accounts, ...). If no Accounting Schema is selected all Accounting Schemas will be updated / inserted.</value>
  </row>
  <row id="109" trl="Y">
-  <value column="Name" original="Process Shipment ">Warenein-/ausgang verarbeiten </value>
+  <value column="Name" original="Process Shipment ">Warenein-/ausgang verarbeiten</value>
   <value column="Description" original="Process Shipment/Receipt (Update Inventory)">Warenein-/ausgang verarbeiten (Bestand aktualisieren)</value>
   <value column="Help" original="Process Shipment/Receipt will move products out of/into  inventory and mark line items as shipped/received.">Verarbeitung des Warenein-/ausgangs erhöht/vermindert den Bestand und markiert Positionen als ein-/ausgeliefert.</value>
  </row>
@@ -63,12 +63,12 @@
   <value column="Help" original="If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the receivebles account, ...)">Wenn Sie die gegenwärtigen Standardwerte kopieren und überschreiben, müssen Sie eventuell vorherige Aktualisierungen wiederholen (z.B. Forderungskonto setzen,  ...)</value>
  </row>
  <row id="113" trl="Y">
-  <value column="Name" original="Copy Window Tabs">Fenster-Register kopieren </value>
+  <value column="Name" original="Copy Window Tabs">Fenster-Register kopieren</value>
   <value column="Description" original="Copy all Tabs and Fields from other Window">Kopieren aller Register und Felder von anderem Fenster</value>
   <value column="Help" original=""/>
  </row>
  <row id="114" trl="Y">
-  <value column="Name" original="Copy Tab Fields">Register-Felder kopieren </value>
+  <value column="Name" original="Copy Tab Fields">Register-Felder kopieren</value>
   <value column="Description" original="Copy Fields from other Tab">Kopieren von Feldern aus anderem Register</value>
   <value column="Help" original=""/>
  </row>
@@ -153,7 +153,7 @@
   <value column="Help" original="Invoiced amount by Organization and Sales Rep">Rechnungsbetrag nach Organisation und Verkaufsbeauftragten</value>
  </row>
  <row id="131" trl="Y">
-  <value column="Name" original="Weekly Invoice Prod Cat">Rechnungen Produktkategorie wochenweise </value>
+  <value column="Name" original="Weekly Invoice Prod Cat">Rechnungen Produktkategorie wochenweise</value>
   <value column="Description" original="Imvoice Report by Product Category per Week">Rechnungs-Bericht nach Produktkategorie nach Wochen</value>
   <value column="Help" original="Invoiced Amount by Product Category">Rechnungsbetrag nach Produktkategorie</value>
  </row>
@@ -203,7 +203,7 @@
   <value column="Help" original="If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the revenue account, ...). If no Accounting Schema is selected all Accounting Schemas will be updated / inserted for products of this category.">If you copy and overwrite the current default values, you may have to repeat previous updates (e.g. set the revenue account, ...). If no Accounting Schema is selected all Accounting Schemas will be updated / inserted for products of this category.</value>
  </row>
  <row id="142" trl="Y">
-  <value column="Name" original="Generate Receipt from Invoice">Empfangsbestätigung aus Rechnung erstellen </value>
+  <value column="Name" original="Generate Receipt from Invoice">Empfangsbestätigung aus Rechnung erstellen</value>
   <value column="Description" original="Create and process delivery Receipt from this invoice.">Empfangsbestätigung von dieser Rechnung erstellen und verarbeiten.</value>
   <value column="Help" original="The invoice should be correct and completed.">Die Rechnung sollte vollständig und korrekt sein.</value>
  </row>
@@ -632,7 +632,7 @@ Das voreingestellte Datum für die Warenbewegung ist das heutige Datum.</value>
  </row>
  <row id="233" trl="Y">
   <value column="Name" original="Verify Document Types">Belegarten verifizieren</value>
-  <value column="Description" original="Verify Document Types and Period Controls">Belegarten und Periodenkontrolle verifizieren </value>
+  <value column="Description" original="Verify Document Types and Period Controls">Belegarten und Periodenkontrolle verifizieren</value>
   <value column="Help" original="Makes sure that there is a DocumentType for all Document Base Types&lt;br&gt;&#10;Creates missing Period Controls for Document Type (You may have to open them)">Stellen Sie sicher, dass es zu allen Grundbelegarten eine Belegart gibt&lt;br&gt;
 Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuell öffnen).</value>
  </row>
@@ -738,7 +738,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  </row>
  <row id="254" trl="Y">
   <value column="Name" original="Accounting Fact Period">Buchführungs-Details periodisch</value>
-  <value column="Description" original="Accounting Fact Details summarized by Accounting Period">Buchführungs-Details zusammengefasst nach Buchungsperioden </value>
+  <value column="Description" original="Accounting Fact Details summarized by Accounting Period">Buchführungs-Details zusammengefasst nach Buchungsperioden</value>
   <value column="Help" original="The Period is based on the the Calendar defined on Client level.">Die Periode basiert auf dem für den Mandanten definierten Kalender.</value>
  </row>
  <row id="255" trl="Y">
@@ -1034,7 +1034,7 @@ This is a one-step replacement for defining BOM and creating/processes a Product
 </value>
  </row>
  <row id="313" trl="Y">
-  <value column="Name" original="Payment Print ">Payment Print </value>
+  <value column="Name" original="Payment Print ">Payment Print</value>
   <value column="Description" original="** Special ** Do not change **">** Speziell ** Nicht ändern **</value>
   <value column="Help" original=""/>
  </row>

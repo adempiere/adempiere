@@ -407,7 +407,7 @@
   <value column="MsgTip" original="You find the four digit validation number printed on AMEX right above the credit card number. On other cards it is a three digit number printed on the signature field after the credit card number.">Der Validierungscode für AMEX ist eine Zahl mit 4 Ziffern rechts über der Kreditkartennummer. Andere Karten haben den Verifizierungscode mit drei Ziffern im Unterschriftsfeld nach der Kreditkartennummer.</value>
  </row>
  <row id="202" trl="Y">
-  <value column="MsgText" original="Note: Over Credit Limit ">Bitte beachten: Kreditlimit überschritten </value>
+  <value column="MsgText" original="Note: Over Credit Limit ">Bitte beachten: Kreditlimit überschritten</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="203" trl="Y">
@@ -451,7 +451,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="213" trl="Y">
-  <value column="MsgText" original="Default Error ">Standardwert-Fehler </value>
+  <value column="MsgText" original="Default Error ">Standardwert-Fehler</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="214" trl="Y">
@@ -1809,7 +1809,7 @@ Kein Empfänger (An) - Kontakt überprüfen!</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="551" trl="Y">
-  <value column="MsgText" original="Start selected Report">Ausgewählten Bericht starten </value>
+  <value column="MsgText" original="Start selected Report">Ausgewählten Bericht starten</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="552" trl="Y">
@@ -2555,7 +2555,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="747" trl="Y">
-  <value column="MsgText" original="Download {0} for {1}&#10;&#10;Version = {2} - Lot = {3} - SerNo = {4}&#10;Guarantee Date = {5,date,short}&#10;&#10;Thank you for using Adempiere Customer Asset Management&#10;">Herunterladen von {0} für {1} Version = {2} - Los = {3} - Serien-Nr. = {4} Garantie-Datum = {5,date,short} Vielen Dank für die Nutzung der ADempiere-Kundenasset-Verwaltung </value>
+  <value column="MsgText" original="Download {0} for {1}&#10;&#10;Version = {2} - Lot = {3} - SerNo = {4}&#10;Guarantee Date = {5,date,short}&#10;&#10;Thank you for using Adempiere Customer Asset Management&#10;">Herunterladen von {0} für {1} Version = {2} - Los = {3} - Serien-Nr. = {4} Garantie-Datum = {5,date,short} Vielen Dank für die Nutzung der ADempiere-Kundenasset-Verwaltung</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="748" trl="Y">
@@ -2913,7 +2913,7 @@ Do you want to print separate Remittance advice ?</value>
   <value column="MsgTip" original="Show Tabs with advanced functionality like Matching, Allocation, etc.">Anzeige der Register mit erweiterter Funktionalität wie Abgleich, Zuordnung usw.</value>
  </row>
  <row id="836" trl="Y">
-  <value column="MsgText" original="Request Status Timeout">Zeitüberschreitung Anfragestatus </value>
+  <value column="MsgText" original="Request Status Timeout">Zeitüberschreitung Anfragestatus</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="837" trl="Y">
@@ -3155,7 +3155,7 @@ Wollen Sie fortfahren?</value>
  </row>
  <row id="50007" trl="Y">
   <value column="MsgText" original="Charset">Zeichensatz</value>
-  <value column="MsgTip" original="Charset used for import / export">Für Import / Export verwendeter Zeichensatz </value>
+  <value column="MsgTip" original="Charset used for import / export">Für Import / Export verwendeter Zeichensatz</value>
  </row>
  <row id="50008" trl="Y">
   <value column="MsgText" original="Implementation Vendor">Lieferant der Implementation</value>
