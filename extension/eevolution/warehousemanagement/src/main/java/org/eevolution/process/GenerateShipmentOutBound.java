@@ -29,6 +29,7 @@
 
 package org.eevolution.process;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,6 +53,7 @@ import org.compiere.model.MWarehouse;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.engines.Warehouse.WMRuleEngine;
 import org.eevolution.model.I_WM_InOutBound;
@@ -154,13 +156,16 @@ public class GenerateShipmentOutBound extends SvrProcess
 		}
 		
 		MLocator standing = null;
+		BigDecimal QtyDelivered = Env.ZERO;
 		if(p_IsIncludeNotAvailable)
 		{
 			standing = MLocator.getDefault((MWarehouse)line.getParent().getM_Warehouse());
+			QtyDelivered  = line.getQtyToPick().subtract(oline.getQtyDelivered());
 		}
 		else
 		{	
 			standing = line.getMLocator();
+			QtyDelivered  = line.getPickedQty().subtract(oline.getQtyDelivered());
 		}	
 		
 		MInOut inout = getMInOut(oline);
@@ -171,7 +176,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 		shipmentLine.setM_Locator_ID(standing.getM_Locator_ID());
 		shipmentLine.setM_Product_ID(line.getM_Product_ID());
 		shipmentLine.setQtyEntered(line.getPickedQty());
-		shipmentLine.setMovementQty(line.getPickedQty().subtract(oline.getQtyDelivered()));
+		shipmentLine.setMovementQty(QtyDelivered);
 		shipmentLine.setC_OrderLine_ID(oline.getC_OrderLine_ID());
 		shipmentLine.saveEx();
 	}	
