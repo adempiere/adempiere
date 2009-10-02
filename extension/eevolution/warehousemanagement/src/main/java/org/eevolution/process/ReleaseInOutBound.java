@@ -30,43 +30,52 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
+import org.compiere.model.I_S_Resource;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrg;
-import org.compiere.model.MProduct;
-import org.compiere.model.MProductPO;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
+import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
-import org.compiere.model.MRequisition;
-import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.MTable;
 import org.compiere.model.MUser;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.Query;
-import org.compiere.model.X_C_BP_Group;
+import org.compiere.model.X_C_DocType;
+import org.compiere.model.X_S_Resource;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.DocAction;
+import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
-import org.compiere.util.DB;
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.eevolution.engines.Warehouse.WMRuleEngine;
-import org.eevolution.model.I_WM_InOutBound;
+import org.eevolution.exceptions.NoPlantForWarehouseException;
 import org.eevolution.model.I_WM_InOutBoundLine;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
-import org.eevolution.model.MPPMRP;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
+import org.eevolution.model.X_DD_Order;
+import org.eevolution.model.X_WM_InOutBound;
 
 /**
  *	
@@ -89,12 +98,13 @@ public class ReleaseInOutBound extends SvrProcess
 	private MLocator m_locator = null;
 	private int AD_User_ID = 0;
 	private Timestamp Today = new Timestamp (System.currentTimeMillis()); 
-	
 	private MDDOrder order = null;
+	private static Hashtable<Integer,MWarehouse>   m_warehouse_cache 	= new Hashtable();
 	
 	/**
 	 * 	Get Parameters
 	 */
+	@Override
 	protected void prepare ()
 	{
 		AD_User_ID = Env.getAD_User_ID(getCtx());
@@ -146,6 +156,7 @@ public class ReleaseInOutBound extends SvrProcess
 	 * 	Process - Generate Export Format
 	 *	@return info
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	protected String doIt () throws Exception
 	{
@@ -159,9 +170,16 @@ public class ReleaseInOutBound extends SvrProcess
 		for (MWMInOutBoundLine boundline: lines)
 		{
 			MWMInOutBound bound = boundline.getParent();
-			if(MWMInOutBound.DOCSTATUS_Completed.equals(bound.getDocStatus()) 
-			|| MWMInOutBound.DOCSTATUS_Closed.equals(bound.getDocStatus())
-			|| MWMInOutBound.DOCSTATUS_Voided.equals(bound.getDocStatus()))
+			if(!m_warehouse_cache.containsKey(bound.getWM_InOutBound_ID()))
+			{
+				MWarehouse warehouse = (MWarehouse) bound.getM_Warehouse();
+				m_warehouse_cache.put(bound.getWM_InOutBound_ID(), warehouse);
+			}
+				
+			
+			if(X_WM_InOutBound.DOCSTATUS_Completed.equals(bound.getDocStatus()) 
+			|| X_WM_InOutBound.DOCSTATUS_Closed.equals(bound.getDocStatus())
+			|| X_WM_InOutBound.DOCSTATUS_Voided.equals(bound.getDocStatus()))
 			{
 				continue;
 			}
@@ -177,10 +195,20 @@ public class ReleaseInOutBound extends SvrProcess
 		if(order != null && p_DocAction != null)
 		{
 			order.setDocAction(p_DocAction);
-			order.setDocStatus(MDDOrder.STATUS_InProgress);
+			order.setDocStatus(DocAction.STATUS_InProgress);
 			order.completeIt();
 			order.save();
 		}	
+		
+		if (p_IsCreateSupply)
+		{
+			Enumeration ws = m_warehouse_cache.elements();
+			while(ws.hasMoreElements())
+			{	
+				runMRP((MWarehouse) ws.nextElement());
+			}
+			
+		}
 		
 		if(p_IsPrintPickList && order != null)
 		{
@@ -203,8 +231,7 @@ public class ReleaseInOutBound extends SvrProcess
 	 * @param boundline
 	 */
 	protected void createDDOrder(MWMInOutBoundLine boundline)
-	{		
-		
+	{				
 			WMRuleEngine engineRule = WMRuleEngine.get();
 			Collection<MStorage> storages = engineRule.getMStorage(boundline, p_WM_Area_Type_ID, p_WM_Section_Type_ID);
 			
@@ -241,7 +268,7 @@ public class ReleaseInOutBound extends SvrProcess
 					}	
 					else
 					{
-						order.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_DistributionOrder));
+						order.setC_DocType_ID(MDocType.getDocType(X_C_DocType.DOCBASETYPE_DistributionOrder));
 					}
 					
 					order.setM_Warehouse_ID(wsts[0].get_ID());
@@ -251,7 +278,7 @@ public class ReleaseInOutBound extends SvrProcess
 					}
 					else
 					{
-						order.setDocAction(MDDOrder.DOCACTION_Prepare);
+						order.setDocAction(X_DD_Order.DOCACTION_Prepare);
 					}
 					
 					MUser[] users = MUser.getOfBPartner(getCtx(), bp.getC_BPartner_ID(), get_TrxName());
@@ -281,7 +308,7 @@ public class ReleaseInOutBound extends SvrProcess
 						oline.setM_Product_ID(boundline.getM_Product_ID());
 						oline.setDateOrdered(getToday());                       
 						oline.setDatePromised(boundline.getPickDate());
-						oline.set_ValueOfColumn(MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID, boundline.getWM_InOutBoundLine_ID());
+						oline.set_ValueOfColumn(I_WM_InOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID, boundline.getWM_InOutBoundLine_ID());
 						oline.setIsInvoiced(false);
 					
 						
@@ -295,7 +322,6 @@ public class ReleaseInOutBound extends SvrProcess
 						}
 						else
 						{
-	
 							oline.setConfirmedQty(storage.getQtyOnHand());
 							oline.setQtyEntered(storage.getQtyOnHand());
 							oline.setQtyOrdered(storage.getQtyOnHand());
@@ -306,80 +332,105 @@ public class ReleaseInOutBound extends SvrProcess
 						oline.saveEx();
 					}
 				}
-				
-				if (p_IsCreateSupply && qtySupply.compareTo(boundline.getQtyToPick()) < 0)
-				{
-					MProduct product = MProduct.get(getCtx(), boundline.getM_Product_ID());
-					
-					BigDecimal QtyPlanned = boundline.getQtyToPick().subtract(qtySupply);
-					// Requisition
-					if (product.isPurchased()) // then create M_Requisition
-					{
-						createRequisition(product, QtyPlanned ,boundline.getPickDate());
-					}
-					// Manufacturing Order
-					else if (product.isBOM())
-					{
-						MOrderLine ol = boundline.getMOrderLine();
-						MPPMRP.createMOMakeTo(ol, QtyPlanned);	
-					}
-					else
-					{
-						throw new IllegalStateException("Internal Error: Don't know what document to "
-														+"create for "+product.getName());
-					}	
-				}
 	}
 	
 	/**
-	 * Create Requisition
-	 * @param product Product
-	 * @param QtyPlanned Qty Planned
-	 * @param demandDate 
+	 * Execute MRP background when the need generate supply
+	 * @param warehouse MWarehouse
 	 */
-	public  void createRequisition(MProduct product, BigDecimal QtyPlanned, Timestamp demandDate)
+	public void runMRP(MWarehouse warehouse)
 	{
-		//s_log.info("Create Requisition");
-		int C_BPartner_ID = 0;
-		int M_PriceList_ID = 0;
-		MProductPO po = null;
-		for (MProductPO ppo : MProductPO.getOfProduct(getCtx(), product.get_ID(), get_TrxName()))
+		try 
 		{
-			if (ppo.isCurrentVendor() && ppo.getC_BPartner_ID() != 0)
+			String whereClause = I_S_Resource.COLUMNNAME_ManufacturingResourceType + "='"+ X_S_Resource.MANUFACTURINGRESOURCETYPE_Plant+"' AND "
+							   + I_S_Resource.COLUMNNAME_M_Warehouse_ID + "= ?";
+			
+			int  plant_id = new  Query(getCtx(), I_S_Resource.Table_Name, whereClause, get_TrxName())
+			.setParameters(new Object[]{warehouse.getM_Warehouse_ID()})
+			.setClient_ID()
+			.setOnlyActiveRecords(true)
+			.firstId();
+			
+			if(plant_id <= 0)
 			{
-				C_BPartner_ID = ppo.getC_BPartner_ID();
-				po = ppo;
-				break;
+				throw new NoPlantForWarehouseException(warehouse.getM_Warehouse_ID());
 			}
-		}
+			
+	    	//Prepare Process
+			int AD_Process_ID = 0;	  
+			AD_Process_ID = MProcess.getProcess_ID("PP_Calculate Material Plan",get_TrxName());
+			
+			MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+			if (!instance.save())
+			{
+				throw new Exception(Msg.getMsg(getCtx(), "ProcessNoInstance"),CLogger.retrieveException());
+			}
+			
+	    	//call process
+			ProcessInfo pi = new ProcessInfo ("PP_Calculate Material Plan", AD_Process_ID);
+			pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+			
+			MPInstancePara ip = new MPInstancePara(instance, 10);
+			ip.setParameter("AD_Org_ID", warehouse.getAD_Org_ID());
+			if (!ip.save())
+			{
+				String msg = "No Parameter added";  //  not translated
+				throw new Exception(msg,CLogger.retrieveException()); 
+			}	
+			//	Add Parameter - DatePromised
+			ip = new MPInstancePara(instance, 20);
+			ip.setParameter("S_Resource_ID", plant_id);
+			//ip.setP_Date_To(p_DatePromised_To);
+			if (!ip.save())
+			{
+				String msg = "No Parameter added";  //  not translated
+				throw new Exception(msg,CLogger.retrieveException()); 
+			}	
+			//	Add Parameter - M_Warehouse_ID
+			ip = new MPInstancePara(instance, 30);
+			ip.setParameter("M_Warehouse_ID", warehouse.getM_Warehouse_ID());
+			if (!ip.save())
+			{
+				String msg = "No Parameter added";  //  not translated
+				throw new Exception(msg,CLogger.retrieveException()); 
+			}		
+			//	Add Parameter - CreateDO
+			ip = new MPInstancePara(instance, 40);
+			ip.setParameter("IsRequiredDRP","N");
+			if (!ip.save())
+			{
+				String msg = "No Parameter added";  //  not translated
+				throw new Exception(msg,CLogger.retrieveException()); 
+			}
+			//TODO: Net Change MRP
+			/*ip = new MPInstancePara(instance, 50);
+			ip.setParameter("IsNetChangeMRP","N");
+			if (!ip.save())
+			{
+				String msg = "No Parameter added";  //  not translated
+				throw new Exception(msg,CLogger.retrieveException()); 
+			}*/
+				
+			//	Add Parameter - IsTest=Y
+			ip = new MPInstancePara(instance, 60);
+			ip.setParameter("Version","");
+			if (!ip.save())
+			{
+				String msg = "No Parameter added";  //  not translated
+				throw new Exception(msg,CLogger.retrieveException()); 
+			}		
 		
-			final String sql = "SELECT COALESCE(bp."+MBPartner.COLUMNNAME_PO_PriceList_ID
-			+",bpg."+X_C_BP_Group.COLUMNNAME_PO_PriceList_ID+")"
-			+" FROM C_BPartner bp"
-			+" INNER JOIN C_BP_Group bpg ON (bpg.C_BP_Group_ID=bp.C_BP_Group_ID)"
-			+" WHERE bp.C_BPartner_ID=?";
-			M_PriceList_ID = DB.getSQLValueEx(get_TrxName(), sql, C_BPartner_ID);
-
-		MRequisition req = new  MRequisition(getCtx(),0, get_TrxName()); 
-		req.setAD_Org_ID(m_locator.getAD_Org_ID());
-		req.setAD_User_ID(AD_User_ID);                                                        
-		req.setDateRequired(demandDate);
-		req.setDescription("Generate from Outbound Order"); // TODO: add translation
-		req.setM_Warehouse_ID(m_locator.getM_Warehouse_ID());
-		req.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_PurchaseRequisition));
-		if (M_PriceList_ID > 0)
-			req.setM_PriceList_ID(M_PriceList_ID);
-		req.saveEx();
-
-		MRequisitionLine reqline = new  MRequisitionLine(req);
-		reqline.setLine(10);
-		reqline.setAD_Org_ID(m_locator.getAD_Org_ID());
-		reqline.setC_BPartner_ID(C_BPartner_ID);
-		reqline.setM_Product_ID(product.getM_Product_ID());
-		reqline.setPrice();
-		reqline.setPriceActual(Env.ZERO);
-		reqline.setQty(QtyPlanned);
-		reqline.saveEx();
+			
+			//	Execute Process
+			MProcess worker = new MProcess(getCtx(),AD_Process_ID,get_TrxName());
+			worker.processIt(pi, Trx.get(get_TrxName(), true));	
+		}
+		catch (SQLException ex)
+		{
+			throw new DBException(ex);
+		} catch (Exception e) {
+			throw new DBException(e);
+		}
 	}
 	
 	/*
