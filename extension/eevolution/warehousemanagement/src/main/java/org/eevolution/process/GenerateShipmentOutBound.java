@@ -175,7 +175,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 		shipmentLine.setM_InOut_ID(inout.getM_InOut_ID());
 		shipmentLine.setM_Locator_ID(standing.getM_Locator_ID());
 		shipmentLine.setM_Product_ID(line.getM_Product_ID());
-		shipmentLine.setQtyEntered(line.getPickedQty());
+		shipmentLine.setQtyEntered(QtyDelivered);
 		shipmentLine.setMovementQty(QtyDelivered);
 		shipmentLine.setC_OrderLine_ID(oline.getC_OrderLine_ID());
 		shipmentLine.saveEx();
