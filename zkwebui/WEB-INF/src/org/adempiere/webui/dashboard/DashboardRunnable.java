@@ -13,6 +13,7 @@
  *****************************************************************************/
 package org.adempiere.webui.dashboard;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -30,9 +31,14 @@ import org.zkoss.zk.ui.Desktop;
 /**
  *
  * @author hengsin
- *
+ * @author Cristina Ghita, www.arhipac.ro BF [2871741] Error at start
+ * @see https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2871741&group_id=176962
  */
-public class DashboardRunnable implements Runnable {
+public class DashboardRunnable implements Runnable, Serializable
+{
+	
+	private static final long serialVersionUID = 5995227773511788894L;
+	
 	private Desktop desktop;
 	private boolean stop = false;
 	private List<DashboardPanel> dashboardPanels;
