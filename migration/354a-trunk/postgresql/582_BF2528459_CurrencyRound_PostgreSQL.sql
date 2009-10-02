@@ -1,9 +1,13 @@
--- DROP FUNCTION adempiere.currencyround(p_amount numeric, p_curto_id numeric, p_costing character varying);
+-- DROP FUNCTION currencyround(p_amount numeric, p_curto_id numeric, p_costing character varying);
 
-CREATE OR REPLACE FUNCTION adempiere.currencyround(p_amount numeric, p_curto_id numeric, p_costing character varying)
-  RETURNS numeric AS
-$BODY$
-	
+CREATE OR REPLACE FUNCTION currencyRound(
+	p_Amount	NUMERIC,
+	p_CurTo_ID	NUMERIC,
+	p_Costing	character varying		--	Default 'N'
+) 
+
+RETURNS numeric AS $BODY$
+
 /*************************************************************************
  * The contents of this file are subject to the Compiere License.  You may
  * obtain a copy of the License at    http://www.compiere.org/license.html
@@ -54,4 +58,5 @@ END;
 
 $BODY$
   LANGUAGE 'plpgsql' VOLATILE;
-ALTER FUNCTION adempiere.currencyround(p_amount numeric, p_curto_id numeric, p_costing character varying) OWNER TO adempiere;
+
+ALTER FUNCTION currencyround(p_amount numeric, p_curto_id numeric, p_costing character varying) OWNER TO adempiere;

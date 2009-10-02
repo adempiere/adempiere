@@ -1,11 +1,13 @@
+-- DROP FUNCTION currencyround(p_amount numeric, p_curto_id numeric, p_costing character varying);
+
 CREATE OR REPLACE FUNCTION currencyRound(
 	p_Amount	NUMERIC,
 	p_CurTo_ID	NUMERIC,
-	p_Costing	VARCHAR		--	Default 'N'
+	p_Costing	character varying		--	Default 'N'
 ) 
 
-RETURNS numeric AS $body$
-	
+RETURNS numeric AS $BODY$
+
 /*************************************************************************
  * The contents of this file are subject to the Compiere License.  You may
  * obtain a copy of the License at    http://www.compiere.org/license.html
@@ -27,8 +29,8 @@ RETURNS numeric AS $body$
 	
 	
 DECLARE
-	v_StdPrecision		NUMERIC;
-	v_CostPrecision		NUMERIC;
+	v_StdPrecision		int;
+	v_CostPrecision		int;
 
 BEGIN
 	--	Nothing to convert
@@ -54,7 +56,7 @@ BEGIN
 	
 END;
 
-$body$ LANGUAGE plpgsql;
+$BODY$
+  LANGUAGE 'plpgsql' VOLATILE;
 
-
- 	  	 
+ALTER FUNCTION currencyround(p_amount numeric, p_curto_id numeric, p_costing character varying) OWNER TO adempiere;
