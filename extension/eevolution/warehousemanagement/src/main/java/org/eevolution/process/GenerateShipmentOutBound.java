@@ -148,12 +148,21 @@ public class GenerateShipmentOutBound extends SvrProcess
 	public void createMInOut(MWMInOutBoundLine line)
 	{
 		MOrderLine oline = line.getMOrderLine();
-		if(line.getPickedQty().subtract(oline.getQtyDelivered()).signum() <= 0 )		
+		if(line.getPickedQty().subtract(oline.getQtyDelivered()).signum() <= 0 && !p_IsIncludeNotAvailable)		
 		{
 			return;
 		}
 		
-		MLocator standing = line.getMLocator();
+		MLocator standing = null;
+		if(p_IsIncludeNotAvailable)
+		{
+			standing = MLocator.getDefault((MWarehouse)line.getParent().getM_Warehouse());
+		}
+		else
+		{	
+			standing = line.getMLocator();
+		}	
+		
 		MInOut inout = getMInOut(oline);
 		inout.setIsSOTrx(true);
 		inout.saveEx();
