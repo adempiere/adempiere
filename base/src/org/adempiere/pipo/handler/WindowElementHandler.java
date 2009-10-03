@@ -37,6 +37,7 @@ import org.compiere.model.X_AD_Tab;
 import org.compiere.model.X_AD_Window;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -114,9 +115,8 @@ public class WindowElementHandler extends AbstractElementHandler {
 					.booleanValue());
 			m_Window.setName(atts.getValue("Name"));
 			m_Window.setProcessing(false);
-			// m_Window.setWinHeight(Integer.parseInt(atts.getValue("WinHeight")));
-			// m_Window.setWinWidth
-			// (Integer.parseInt(atts.getValue("WinWidth")));
+			m_Window.setWinWidth(getValueInt(atts, "WinWidth", 0));
+			m_Window.setWinHeight(getValueInt(atts, "WinHeight", 0));
 			m_Window.setWindowType(atts.getValue("WindowType"));
 			if (m_Window.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Window.getName(), "Window", m_Window
@@ -298,5 +298,14 @@ public class WindowElementHandler extends AbstractElementHandler {
 		atts.addAttribute("", "", "WindowType", "CDATA", (m_Window
 				.getWindowType() != null ? m_Window.getWindowType() : ""));
 		return atts;
+	}
+	
+	protected int getValueInt(Attributes atts, String name, int defaultValue)
+	{
+		String value = atts.getValue(name);
+		if (Util.isEmpty(value, true))
+			return defaultValue;
+		 int i = Integer.parseInt(value.trim());
+		 return i;
 	}
 }
