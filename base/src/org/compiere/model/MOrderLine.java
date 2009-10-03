@@ -22,7 +22,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.ProductNotOnPriceListException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -833,7 +833,7 @@ public class MOrderLine extends X_C_OrderLine
 				getProductPricing(m_M_PriceList_ID);
 			if (!m_productPrice.isCalculated())
 			{
-				throw new AdempiereException("@ProductNotOnPriceList@ @Line@: "+getLine());
+				throw new ProductNotOnPriceListException(m_productPrice, getLine());
 			}
 		}
 
