@@ -115,9 +115,9 @@ public class WindowElementHandler extends AbstractElementHandler {
 					.booleanValue());
 			m_Window.setName(atts.getValue("Name"));
 			m_Window.setProcessing(false);
-			if (atts.getValue("WinWidth") != null && atts.getValue("WinWidth").trim().length() > 0)
+			if (!Util.isEmpty(atts.getValue("WinHeight"), true))
 				m_Window.setWinWidth(getValueInt(atts, "WinWidth", 0));
-			if (atts.getValue("WinHeight") != null && atts.getValue("WinHeight").trim().length() > 0)
+			if (!Util.isEmpty(atts.getValue("WinHeight"), true))
 				m_Window.setWinHeight(getValueInt(atts, "WinHeight", 0));
 			m_Window.setWindowType(atts.getValue("WindowType"));
 			if (m_Window.save(getTrxName(ctx)) == true) {
