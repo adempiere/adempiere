@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.                *
+ * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,9 +10,9 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *
- * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
- * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                                                                            *
+ * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com                     *
+ * Contributor(s): Low Heng Sin hengsin@avantz.com                            *
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -115,8 +115,10 @@ public class WindowElementHandler extends AbstractElementHandler {
 					.booleanValue());
 			m_Window.setName(atts.getValue("Name"));
 			m_Window.setProcessing(false);
-			m_Window.setWinWidth(getValueInt(atts, "WinWidth", 0));
-			m_Window.setWinHeight(getValueInt(atts, "WinHeight", 0));
+			if (atts.getValue("WinWidth") != null && atts.getValue("WinWidth").trim().length() > 0)
+				m_Window.setWinWidth(getValueInt(atts, "WinWidth", 0));
+			if (atts.getValue("WinHeight") != null && atts.getValue("WinHeight").trim().length() > 0)
+				m_Window.setWinHeight(getValueInt(atts, "WinHeight", 0));
 			m_Window.setWindowType(atts.getValue("WindowType"));
 			if (m_Window.save(getTrxName(ctx)) == true) {
 				record_log(ctx, 1, m_Window.getName(), "Window", m_Window
@@ -157,11 +159,6 @@ public class WindowElementHandler extends AbstractElementHandler {
 		try {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
-				String tableSql = "SELECT Name FROM AD_Table WHERE AD_Table_ID=?";
-				int table_id = rs.getInt("AD_TABLE_ID");
-				String name = rs.getString("NAME");
-				String tablename = DB.getSQLValueString(null, tableSql,
-						table_id);
 				packOut.createTable(rs.getInt("AD_Table_ID"), document);
 				createTab(ctx, document, rs.getInt("AD_Tab_ID"));
 			}
@@ -292,9 +289,8 @@ public class WindowElementHandler extends AbstractElementHandler {
 				.isProcessing() == true ? "true" : "false"));
 		atts.addAttribute("", "", "WinHeight", "CDATA", (m_Window
 				.getWinHeight() > 0 ? "" + m_Window.getWinHeight() : ""));
-		atts
-				.addAttribute("", "", "WinWidth", "CDATA", (m_Window
-						.getWinWidth() > 0 ? "" + m_Window.getWinWidth() : ""));
+		atts.addAttribute("", "", "WinWidth", "CDATA", (m_Window
+				.getWinWidth() > 0 ? "" + m_Window.getWinWidth() : ""));
 		atts.addAttribute("", "", "WindowType", "CDATA", (m_Window
 				.getWindowType() != null ? m_Window.getWindowType() : ""));
 		return atts;
