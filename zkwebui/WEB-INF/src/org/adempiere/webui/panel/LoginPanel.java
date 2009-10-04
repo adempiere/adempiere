@@ -23,7 +23,6 @@
 
 package org.adempiere.webui.panel;
 
-import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -34,19 +33,16 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
-import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
-import org.compiere.Adempiere;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
-import org.compiere.util.Msg;
 import org.zkoss.util.Locales;
 import org.zkoss.zhtml.Div;
 import org.zkoss.zhtml.Table;
@@ -330,17 +326,6 @@ public class LoginPanel extends Window implements EventListener
             Clients.response("zkLocaleJavaScript", new AuScript(null, ZkFns.outLocaleJavaScript()));
         }
 
-        /* Check DB version */
-        String version = DB.getSQLValueString(null, "SELECT Version FROM AD_System");
-        //  Identical DB version
-        if (! Adempiere.DB_VERSION.equals(version)) {
-            String AD_Message = "DatabaseVersionError";
-            //  Code assumes Database version {0}, but Database has Version {1}.
-            String msg = Msg.getMsg(ctx, AD_Message);   //  complete message
-            msg = MessageFormat.format(msg, new Object[] {Adempiere.DB_VERSION, version});
-            throw new ApplicationException(msg);
-        }
-
 		// This temporary validation code is added to check the reported bug
 		// [ adempiere-ZK Web Client-2832968 ] User context lost?
 		// https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2832968&group_id=176962
@@ -349,5 +334,4 @@ public class LoginPanel extends Window implements EventListener
         currSess.setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
     }
-
 }
