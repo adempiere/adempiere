@@ -116,9 +116,21 @@ public class MPeriod extends X_C_Period
 	 * @param DateAcct
 	 * @param C_Calendar_ID
 	 * @return MPeriod
+	 * @deprecated
 	 */
-	public static MPeriod findByCalendar(Properties ctx, Timestamp DateAcct,
-			int C_Calendar_ID) {
+	public static MPeriod findByCalendar(Properties ctx, Timestamp DateAcct, int C_Calendar_ID) {
+		return findByCalendar(ctx, DateAcct, C_Calendar_ID, null);
+	}
+		
+	/**
+	 * 
+	 * @param ctx
+	 * @param DateAcct
+	 * @param C_Calendar_ID
+	 * @param trxName
+	 * @return MPeriod
+	 */
+	public static MPeriod findByCalendar(Properties ctx, Timestamp DateAcct, int C_Calendar_ID, String trxName) {
 		
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		//	Search in Cache first
@@ -144,7 +156,7 @@ public class MPeriod extends X_C_Period
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, trxName);
             pstmt.setInt (1, C_Calendar_ID);
             pstmt.setTimestamp (2, TimeUtil.getDay(DateAcct));
             pstmt.setString(3, "Y");
@@ -152,7 +164,7 @@ public class MPeriod extends X_C_Period
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
-				MPeriod period = new MPeriod(ctx, rs, null);
+				MPeriod period = new MPeriod(ctx, rs, trxName);
 				Integer key = new Integer(period.getC_Period_ID());
 				s_cache.put (key, period);
 				if (period.isStandardPeriod())
@@ -169,7 +181,7 @@ public class MPeriod extends X_C_Period
 			rs = null; pstmt = null;
 		}
 		if (retValue == null)
-			s_log.warning("No Standard Period for " + DateAcct 
+			s_log.info("No Standard Period for " + DateAcct 
 				+ " (AD_Client_ID=" + AD_Client_ID + ")");
 		return retValue;
 	}
