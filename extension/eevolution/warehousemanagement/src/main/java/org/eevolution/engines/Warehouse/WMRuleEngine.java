@@ -290,6 +290,10 @@ public final class WMRuleEngine {
 	public Collection<MStorage> getMStorage(MWMInOutBoundLine line , int WM_Area_Type_ID , int WM_Section_Type_ID)
 	{		
 		MWMStrategy strategy = applyDefinition(line , WM_Area_Type_ID, WM_Section_Type_ID);
+		if(strategy.getM_Warehouse_ID() != line.getM_Warehouse_ID())
+		{
+			return null;
+		}
 		return getMStorages(strategy, line.getMProduct().getM_Product_ID(),line.getM_AttributeSetInstance_ID(),line.getMovementQty(), WM_Section_Type_ID, WM_Section_Type_ID);
 	}
 	
