@@ -88,7 +88,7 @@ public class CodeSnipitElementHandler extends AbstractElementHandler {
 				}
 			}			
 			
-			//Correct target directory for proper file seperator
+			//Correct target directory for proper file separator
 			String fullDirectory = sourcePath+targetDirectory;
 			String targetDirectoryModified=null;
 			String fileDate = null;

@@ -223,7 +223,6 @@ public class ExportHelper {
 	 * 
 	 *	@return Document
 	 */
-	@SuppressWarnings("unchecked")
 	public Document exportRecord (MEXPFormat exportFormat, String where , Integer ReplicationMode , String ReplicationType, Integer ReplicationEvent) throws Exception
 	{
 		MClient client = MClient.get (exportFormat.getCtx(), m_AD_Client_ID);

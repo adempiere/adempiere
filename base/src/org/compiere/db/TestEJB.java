@@ -18,6 +18,7 @@ package org.compiere.db;
 
 import javax.naming.CommunicationException;
 import javax.naming.InitialContext;
+import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 
 import org.compiere.interfaces.Status;
@@ -43,7 +44,7 @@ public class TestEJB
 		{
 			System.out.println(ic.getEnvironment());
 			System.out.println("----------------");
-			NamingEnumeration ne = ic.list("");
+			NamingEnumeration<NameClassPair> ne = ic.list("");
 			while (ne.hasMore())
 			{
 				System.out.println(ne.next());

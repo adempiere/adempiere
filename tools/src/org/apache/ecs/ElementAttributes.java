@@ -273,7 +273,7 @@ public abstract class ElementAttributes extends GenericElement implements Attrib
     }
 
     /** Return a list of the attributes associated with this element. */
-    public Enumeration attributes()
+    public Enumeration<String> attributes()
     {
         return getElementHashEntry().keys();
     }
@@ -303,12 +303,12 @@ public abstract class ElementAttributes extends GenericElement implements Attrib
         }
         out.append(getElementType());
 
-        Enumeration en = getElementHashEntry().keys();
+        Enumeration<String> en = getElementHashEntry().keys();
         String value = null; // avoid creating a new string object on each pass through the loop
 
         while (en.hasMoreElements())
         {
-            String attr = (String) en.nextElement();
+            String attr = en.nextElement();
             if(getAttributeFilterState())
             {
                 value = getAttributeFilter().process(getElementHashEntry().get(attr).toString());

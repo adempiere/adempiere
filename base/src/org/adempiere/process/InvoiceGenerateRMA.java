@@ -50,8 +50,6 @@ public class InvoiceGenerateRMA extends SvrProcess
     private int         m_created = 0;
     /** Invoice Date            */
     private Timestamp   m_dateinvoiced = null;
-    /** Line Number             */
-    private int         m_line = 0;
 
     /**
      *  Prepare - e.g., get Parameters.

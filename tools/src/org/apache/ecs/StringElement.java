@@ -67,7 +67,7 @@ public class StringElement extends ConcreteElement implements Printable
     }
 
     /** 
-        Resets the interal string to be empty.
+        Resets the internal string to be empty.
     */
     public StringElement reset()
     {

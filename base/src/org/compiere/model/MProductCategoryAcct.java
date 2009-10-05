@@ -47,7 +47,7 @@ public class MProductCategoryAcct extends X_M_Product_Category_Acct
 	public static MProductCategoryAcct get (Properties ctx, 
 							int M_Product_Category_ID, int C_AcctSchema_ID, String trxName)
 	{
-		String key = ""+M_Product_Category_ID+"#"+C_AcctSchema_ID;
+		String key = M_Product_Category_ID+"#"+C_AcctSchema_ID;
 		MProductCategoryAcct acct = s_cache.get(key);
 		if (acct != null)
 			return acct;

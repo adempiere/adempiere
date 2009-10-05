@@ -167,12 +167,12 @@ public class LDAP
 			/* Print each attribute */
 			try
 			{
-				for (NamingEnumeration ae = attrs.getAll (); ae.hasMore ();)
+				for (NamingEnumeration<? extends Attribute> ae = attrs.getAll (); ae.hasMore ();)
 				{
-					Attribute attr = (Attribute) ae.next ();
+					Attribute attr = ae.next ();
 					System.out.println ("attribute: " + attr.getID ());
 					/* print each value */
-					for (NamingEnumeration e = attr.getAll(); 
+					for (NamingEnumeration<?> e = attr.getAll(); 
 						e.hasMore (); 
 						System.out.println ("    value: " + e.next()))
 						;

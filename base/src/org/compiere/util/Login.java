@@ -155,7 +155,7 @@ public class Login
 	 *  - Get Connection
 	 *  - Compare User info
 	 *  <p>
-	 *  Sets Conext with login info
+	 *  Sets Context with login info
 	 * @param cc connection
 	 * @param app_user user
 	 * @param app_pwd pwd
@@ -193,7 +193,7 @@ public class Login
 	 *  <p>
 	 *  Compare User Info
 	 *  <p>
-	 *  Sets Conext with login info
+	 *  Sets Context with login info
 	 *  @param app_user Principal
 	 *  @return role array or null if in error.
 	 *  The error (NoDatabase, UserPwdError, DBLogin) is saved in the log
@@ -211,7 +211,7 @@ public class Login
 	 *  <p>
 	 *  Compare User Info
 	 *  <p>
-	 *  Sets Conext with login info
+	 *  Sets Context with login info
 	 *  @param app_user user id
 	 *  @param app_pwd password
 	 *  @return role array or null if in error.

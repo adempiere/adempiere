@@ -47,7 +47,7 @@ public class ElementContainer extends ConcreteElement implements Printable
         internal use only
         @serial ec ec
     */
-    private Vector<Object> ec = new Vector<Object>(2);
+    private Vector<Element> ec = new Vector<Element>(2);
     
     /** 
         Basic constructor
@@ -90,7 +90,7 @@ public class ElementContainer extends ConcreteElement implements Printable
     public void output(OutputStream out)
     {
         Element element = null;
-        Enumeration data = ec.elements();
+        Enumeration<Element> data = ec.elements();
         while ( data.hasMoreElements() )
         {
             element = (Element) data.nextElement();
@@ -104,7 +104,7 @@ public class ElementContainer extends ConcreteElement implements Printable
     public void output(PrintWriter out)
     {
         Element element = null;
-        Enumeration data = ec.elements();
+        Enumeration<Element> data = ec.elements();
         while ( data.hasMoreElements() )
         {
             element = (Element) data.nextElement();
@@ -114,7 +114,7 @@ public class ElementContainer extends ConcreteElement implements Printable
     /**
         returns an enumeration of the elements in this container
     */
-    public Enumeration elements()
+    public Enumeration<Element> elements()
     {
         return ec.elements();
     }

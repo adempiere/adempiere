@@ -188,16 +188,16 @@ public class PackIn extends SvrProcess {
 		PackIn packIn = new PackIn();
 
 		if (adPackageImp.isAD_Override_Dict() == true)
-			packIn.m_UpdateMode = "true";
+			PackIn.m_UpdateMode = "true";
 		else
-			packIn.m_UpdateMode = "false";
+			PackIn.m_UpdateMode = "false";
 
-		packIn.m_Package_Dir = packageDirectory + File.separator
+		PackIn.m_Package_Dir = packageDirectory + File.separator
 				+ "packages" + File.separator + PackageName + File.separator;
 		if (DB.isOracle())
-			packIn.m_Database = "Oracle";
+			PackIn.m_Database = "Oracle";
 		else if (DB.isPostgreSQL())
-			packIn.m_Database = "PostgreSQL";
+			PackIn.m_Database = "PostgreSQL";
 
 		// call XML Handler
 		String msg = packIn.importXML(dict_file, getCtx(), get_TrxName());
@@ -243,7 +243,7 @@ public class PackIn extends SvrProcess {
 			// Integer.valueOf(args[2]).intValue(), args[5], args[3], args[4]);
 			CConnection cc = CConnection.get();
 			// System.out.println("DB Connect String1:"+cc.getDbName());
-			packIn.m_Database = cc.getType();
+			PackIn.m_Database = cc.getType();
 			DB.setDBTarget(cc);
 		}
 
@@ -285,7 +285,7 @@ public class PackIn extends SvrProcess {
 		CLogMgt.setLoggerLevel(logLevel, null);
 
 		if (args.length >= 8)
-			packIn.m_UpdateMode = args[7];
+			PackIn.m_UpdateMode = args[7];
 		
 		String trxName = Trx.createTrxName("PackIn");
 		try {

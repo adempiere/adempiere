@@ -1,7 +1,7 @@
 package org.compiere.interfaces;
 
 /**
- * Tnterface for adempiere/Status.
+ * Interface for adempiere/Status.
  */
 public interface Status
 {

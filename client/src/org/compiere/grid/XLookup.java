@@ -80,7 +80,7 @@ public class XLookup extends Lookup
 	 */
 	public boolean containsKey (Object key)
 	{
-		//  linear seatch in p_data
+		//  linear search in p_data
 		for (int i = 0; i < p_data.size(); i++)
 		{
 			Object oo = p_data.get(i);
@@ -101,7 +101,7 @@ public class XLookup extends Lookup
 	 */
 	public NamePair get (Object key)
 	{
-		//  linear seatch in m_data
+		//  linear search in m_data
 		for (int i = 0; i < p_data.size(); i++)
 		{
 			Object oo = p_data.get(i);
