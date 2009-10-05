@@ -261,10 +261,9 @@ public class RollupBillOfMaterial extends SvrProcess
 		List<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer("AD_Client_ID=?")
 						.append(" AND ").append(MProduct.COLUMNNAME_LowLevel).append("=?")
-						.append(" AND ").append(MProduct.COLUMNNAME_ProductType).append("=?");
+		;
 		params.add(getAD_Client_ID());
 		params.add(lowLevel);
-		params.add(MProduct.PRODUCTTYPE_Item);
 		
 		whereClause.append(" AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
 		params.add(true);
