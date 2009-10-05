@@ -153,10 +153,8 @@ public abstract class SvrProcess implements ProcessCall
 				msg = e.toString();
 			if (e.getCause() != null)
 				log.log(Level.SEVERE, msg, e.getCause());
-			else if (CLogMgt.isLevelFine())
-				log.log(Level.WARNING, msg, e);
-			else
-				log.warning(msg);
+			else 
+				log.log(Level.SEVERE, msg, e);
 			success = false;
 		//	throw new RuntimeException(e);
 		}
