@@ -21,7 +21,7 @@
 		<all-permissions/>  
 	</security>
 	<resources>
-		<j2se version = "1.5+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
+		<j2se version = "1.6+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
 		<jar href = "Adempiere.jar" main = "true" download = "eager"/>
 		<jar href = "AdempiereCLib.jar" main = "false" download = "eager"/>
 		<jar href = "CompiereJasperReqs.jar" main = "false" download = "eager"/>

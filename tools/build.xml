@@ -67,7 +67,7 @@
 	<!-- ============================================= -->
 	<target name="toolsCompile" depends="toolsInit" unless="jars.uptodate">
 		<!-- compile the java code from ${src} into ${build.dir}S -->
-		<javac target="1.5" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
+		<javac target="1.6" srcdir="${src}" destdir="${build.dir}" deprecation="on" debug="on">
 			<classpath refid="project.class.path" />
 		</javac>
 		<!-- copy all image & sound files from src to the build directory -->
@@ -229,6 +229,9 @@
 			<zipfileset src="lib/Verisign.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<zipfileset src="lib/payflow.jar">
+							<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<zipfileset src="lib/jpayment.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -369,6 +372,9 @@
 
 			<!-- Payment Processors		-->
 			<zipfileset src="lib/Verisign.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/payflow.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jpayment.jar">

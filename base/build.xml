@@ -52,7 +52,7 @@
   
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="1.5" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
+    <javac target="1.6" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${src}"/>
       <src path="${looksSrc}"/>
       <src path="../glassfishfacet/src"/>

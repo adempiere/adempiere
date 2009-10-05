@@ -55,7 +55,7 @@
 
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac srcdir="${src}" destdir="${build.dir}" deprecation="on" source="1.5" target="1.5" debug="on">
+    <javac srcdir="${src}" destdir="${build.dir}" deprecation="on" source="1.6" target="1.6" debug="on">
       <classpath>
 	      <pathelement path="${classpath}"/>
 		  <pathelement path="../client/build"/>

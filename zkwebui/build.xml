@@ -45,7 +45,7 @@
 
 	<target name="compile" depends="clean" description="Compile Java sources">
 	    <mkdir dir="${classes.dir}"/>
-	    <javac target="1.5" 
+	    <javac target="1.6" 
 	    	   srcdir="WEB-INF/src"
 	           destdir="${classes.dir}"
 	           debug="${compile.debug}"
