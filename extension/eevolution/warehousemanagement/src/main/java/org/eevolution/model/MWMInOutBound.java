@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
-import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -43,22 +42,22 @@ import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
- * Class Model for Inbound & Outbound Operation
+ * Class Model for In & Out Bound Operation
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
 public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 {
 
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3097286111159086274L;
+	private static final long serialVersionUID = -7216075035497599383L;
 	/**	Logger							*/
 	private static CLogger	s_log = CLogger.getCLogger (MWMInOutBound.class);
 	/**	Order Lines					*/
@@ -242,6 +241,16 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		m_justPrepared = true;
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
+	
+	/**************************************************************************
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return save
+	 */
+	protected boolean beforeSave (boolean newRecord)
+	{
+		return true;
+	}
 
 	/**	Process Message 			*/
 	private String m_processMsg = null;
@@ -375,7 +384,12 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		return true;
 	} //	reActivateIt
 	
-
+	/**
+	 * get MWMInOutBoundLine lines
+	 * @param requery
+	 * @param orderBy
+	 * @return Array with MWMInOutBoundLine
+	 */
 	public MWMInOutBoundLine[] getLines (boolean requery, String orderBy)
 	{
 		if (m_lines != null && !requery) {
@@ -392,6 +406,12 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		return m_lines;
 	}	//	getLines
 	
+	/**
+	 * get MWMInOutBoundLine lines 
+	 * @param where
+	 * @param orderClause
+	 * @return Array with MWMInOutBoundLine
+	 */
 	public MWMInOutBoundLine[] getLines (String where, String orderClause)
 	{
 		StringBuffer whereClause = new StringBuffer(MWMInOutBoundLine.COLUMNNAME_WM_InOutBound_ID+"=?");

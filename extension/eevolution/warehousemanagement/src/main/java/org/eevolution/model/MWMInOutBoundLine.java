@@ -32,7 +32,6 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.adempiere.model.engines.IDocumentLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
@@ -51,7 +50,7 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4021478780945193837L;
+	private static final long serialVersionUID = 8397162302198048638L;
 
 	/**	Logger							*/
 	private static CLogger	s_log = CLogger.getCLogger (MWMInOutBoundLine.class);
@@ -127,6 +126,10 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		return sb.toString ();
 	}	//	toString
 	
+	/**
+	 * get MInOutBound Order
+	 * @return  MInOutBound Order
+	 */
 	public MWMInOutBound getParent()
 	{
 		if (m_parent == null)
@@ -148,6 +151,10 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		return m_product;
 	}	//	getProduct
 	
+	/**
+	 * Get Sales Order Line
+	 * @return Sales Order line or null
+	 */
 	public MOrderLine getMOrderLine()
 	{
 		if(m_orderLine == null && getC_OrderLine_ID() != 0)
@@ -157,6 +164,10 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		return m_orderLine;
 	}
 	
+	/**
+	 * get Business Partner 
+	 * @return Business Partner or null
+	 */
 	public MBPartner getMBPartner()
 	{
 		if(m_bpartner == null && getMOrderLine().getC_BPartner_ID() != 0)
@@ -166,17 +177,29 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		return m_bpartner;
 	}
 
+	/**
+	 * get Quantity to Pick
+	 * @return BigDecimal with Quantity to Pick
+	 */
 	public BigDecimal getQtyToPick()
 	{
 		return getMovementQty().subtract(getPickedQty());
 	}
 	
+	/** 
+	 * get Quantity to Ship
+	 * @return BigDecimal with Quantity to Ship
+	 */
 	public BigDecimal getQtyToShip()
 	{
 		MOrderLine oline = getMOrderLine();
 		return oline.getQtyOrdered().subtract(oline.getQtyDelivered());
 	}
 	
+	/**
+	 * get MLocator based in Distribution Order Line
+	 * @return MLocator or null
+	 */
 	public MLocator getMLocator()
 	{
 		String whereClause =  MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID + "=?";
@@ -184,5 +207,14 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		.setClient_ID().setParameters(new Object[]{getWM_InOutBoundLine_ID()})
 		.firstOnly();
 		return (MLocator) line.getM_LocatorTo();
+	}
+	
+	/**
+	 * get Warehouse
+	 * @return MWarehouse or null
+	 */
+	public int getM_Warehouse_ID()
+	{
+		return getParent().getM_Warehouse_ID();
 	}
 }	
