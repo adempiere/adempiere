@@ -165,9 +165,6 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 	private VNumber qtyBatchSizeField = new VNumber("QtyBatchSize", false, false, false, DisplayType.Quantity, "QtyBatchSize");
 	private CTextPane info = new CTextPane();
 	
-	/** Indicates that any Attribute Set Instance can be used */
-	private static final int ANY_ASI = 1;
-	
 	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
@@ -685,7 +682,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				issue.setValueAt(isCritical, row, 1);                       				 // IsCritical
 				issue.setValueAt(rs.getString(3), row, 2);                                   // Product's Search key
 				issue.setValueAt(new KeyNamePair(rs.getInt(4), rs.getString(5)), row, 3);    // Product
-				issue.setValueAt(new KeyNamePair(rs.getInt(6), rs.getString(7)), row, 4);    // UOM
+				issue.setValueAt(new KeyNamePair(rs.getInt(6), rs.getString(7)), row, 4);    // UOM				
 				// ... 5 - ASI
 				issue.setValueAt(qtyRequired, row, 6);                                       // QtyRequiered
 				issue.setValueAt(qtyDelivered, row, 7);                              		 // QtyDelivered
@@ -952,7 +949,8 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				MProduct m_product = MProduct.get(Env.getCtx(), pp_order.getM_Product_ID());
 				setC_UOM_ID(m_product.getC_UOM_ID());
 				setOrder_UOM_ID(pp_order.getC_UOM_ID());
-				setM_AttributeSetInstance_ID(pp_order.getM_AttributeSetInstance_ID());
+				//Default ASI defined from the Parent BOM Order
+				setM_AttributeSetInstance_ID(pp_order.getMPPOrderBOM().getM_AttributeSetInstance_ID());
 				pickcombo.setSelectedIndex(0);  //default to first entry - isBackflush
 			}
 		} //  PP_Order_ID
@@ -1068,8 +1066,9 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			KeyNamePair productkey = (KeyNamePair) m_issue[i][0].get(3);			
 			int M_Product_ID = productkey.getKey();
 
+			MPPOrderBOMLine  orderbomLine = null;
 			int PP_Order_BOMLine_ID = 0;
-			int M_AttributeSetInstance_ID = ANY_ASI;
+			int M_AttributeSetInstance_ID = 0;
 
 			BigDecimal qtyToDeliver = (BigDecimal) m_issue[i][0].get(4);	
 			BigDecimal qtyScrapComponent = (BigDecimal) m_issue[i][0].get(5);	
@@ -1081,21 +1080,26 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 				if (value == null && isSelected) 
 				{
 					M_AttributeSetInstance_ID = (Integer) key.getKey();
-					MPPOrderBOMLine bomLine = MPPOrderBOMLine.forM_Product_ID(Env.getCtx(), order.get_ID(), M_Product_ID, order.get_TrxName());
-					if (bomLine != null)
-						PP_Order_BOMLine_ID = bomLine.get_ID();
+					orderbomLine = MPPOrderBOMLine.forM_Product_ID(Env.getCtx(), order.get_ID(), M_Product_ID, order.get_TrxName());
+				    if (orderbomLine != null)
+				    {	
+						PP_Order_BOMLine_ID =orderbomLine.get_ID();
+				    }	
 				}
 				else if (value != null && isSelected) 
 				{
-					PP_Order_BOMLine_ID = key.getKey();
+					PP_Order_BOMLine_ID =  (Integer)key.getKey();
+					if(PP_Order_BOMLine_ID > 0)
+					{
+						orderbomLine  = new MPPOrderBOMLine(order.getCtx(), PP_Order_BOMLine_ID, order.get_TrxName());
+						M_AttributeSetInstance_ID = orderbomLine.getM_AttributeSetInstance_ID();
+					}
 				}
 
 				MStorage[] storages = MPPOrder.getStorages(Env.getCtx(),
 						M_Product_ID,
 						order.getM_Warehouse_ID(),
-						M_AttributeSetInstance_ID == ANY_ASI ? 0 : M_AttributeSetInstance_ID,
-						order.getM_AttributeSetInstance_ID(),
-						ANY_ASI, minGuaranteeDate, order.get_TrxName());
+						M_AttributeSetInstance_ID , minGuaranteeDate, order.get_TrxName());
 
 				MPPOrder.createIssue(order, PP_Order_BOMLine_ID, movementDate,
 						qtyToDeliver, qtyScrapComponent,
@@ -1149,9 +1153,8 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 			});
 
 			// check available on hand 
-			for (int i = 0; i < issue.getRowCount(); i++) {
+			for (int i = 0; i < issue.getRowCount(); i++) {				
 				IDColumn id = (IDColumn) issue.getValueAt(i, 0);
-
 				if (id != null && id.isSelected())
 				{
 					KeyNamePair m_productkey = (KeyNamePair) issue.getValueAt(i, 3);
@@ -1165,9 +1168,7 @@ public class VOrderReceiptIssue extends CPanel implements FormPanel,
 						MStorage[] storages =  MPPOrder.getStorages(Env.getCtx(),
 								m_M_Product_ID,
 								getPP_Order().getM_Warehouse_ID(),
-								0,
-								getPP_Order().getM_AttributeSetInstance_ID(),
-								ANY_ASI, minGuaranteeDate, null);
+								0, minGuaranteeDate, null);
 
 						BigDecimal todelivery = getValueBigDecimal(i, 8); //QtyOpen
 						BigDecimal scrap = getValueBigDecimal(i, 9); //QtyScrap
