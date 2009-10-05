@@ -496,7 +496,7 @@ public class PackOut extends SvrProcess
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createMenu(int AD_Menu_ID, TransformerHandler packOutDocument) throws Exception {
+	public void createMenu(int AD_Menu_ID, TransformerHandler packOutDocument) throws SAXException {
 		Env.setContext(getCtx(), "AD_Menu_ID", AD_Menu_ID);
 		menuHandler.create(getCtx(), packOutDocument);
 		getCtx().remove("AD_Menu_ID");
@@ -521,7 +521,7 @@ public class PackOut extends SvrProcess
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createMessage (int AD_Message_ID, TransformerHandler packOutDocument) throws Exception
+	public void createMessage (int AD_Message_ID, TransformerHandler packOutDocument) throws SAXException
 	{
 		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID, AD_Message_ID);
 		messageHandler.create(getCtx(), packOutDocument);
@@ -810,7 +810,7 @@ public class PackOut extends SvrProcess
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createModelValidator (int AD_ModelValidator_ID, TransformerHandler packOutDocument) throws Exception
+	public void createModelValidator (int AD_ModelValidator_ID, TransformerHandler packOutDocument) throws SAXException
 	{
 		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID, AD_ModelValidator_ID);
 		modelValidatorHandler.create(getCtx(), packOutDocument);
