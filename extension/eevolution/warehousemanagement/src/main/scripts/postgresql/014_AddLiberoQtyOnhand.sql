@@ -10,7 +10,7 @@ UPDATE AD_Browse SET WhereClause='NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_
 
 -- Oct 5, 2009 1:00:58 PM ECT
 -- Warehouse Management
-INSERT INTO AD_View_Column (AD_Client_ID,AD_Org_ID,AD_View_Column_ID,AD_View_Definition_ID,AD_View_ID,ColumnName,ColumnSQL,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,Updated,UpdatedBy) VALUES (0,0,50604,50007,50001,'QtyOnhand','(SELECT bomqtyonhand(iobl.M_Product_ID, iob.M_Warehouse_ID, 0 ))',TO_TIMESTAMP('2009-10-05 13:00:51','YYYY-MM-DD HH24:MI:SS'),0,'On Hand Quantity','EE03','The On Hand Quantity indicates the quantity of a product that is on hand in a warehouse.','Y','QtyOnhand',TO_TIMESTAMP('2009-10-05 13:00:51','YYYY-MM-DD HH24:MI:SS'),0)
+INSERT INTO AD_View_Column (AD_Client_ID,AD_Org_ID,AD_View_Column_ID,AD_View_Definition_ID,AD_View_ID,ColumnName,ColumnSQL,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,Updated,UpdatedBy) VALUES (0,0,50604,50007,50001,'QtyOnhand','bomqtyonhand(iobl.M_Product_ID, iob.M_Warehouse_ID, 0 )',TO_TIMESTAMP('2009-10-05 13:00:51','YYYY-MM-DD HH24:MI:SS'),0,'On Hand Quantity','EE03','The On Hand Quantity indicates the quantity of a product that is on hand in a warehouse.','Y','QtyOnhand',TO_TIMESTAMP('2009-10-05 13:00:51','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Oct 5, 2009 1:04:42 PM ECT
