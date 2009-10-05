@@ -71,10 +71,18 @@ public class MPPOrder extends X_PP_Order implements DocAction
 {
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * get Manufacturing Order based in Sales Order ID
+	 * @param ctx Context
+	 * @param C_OrderLine_ID Sales Order Line
+	 * @param trxName Transaction 
+	 * @return Manufacturing Order
+	 */
 	public static MPPOrder forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
 	{
-		return new Query(ctx, MPPOrder.Table_Name, COLUMNNAME_C_OrderLine_ID+"=?", trxName)
-								.setParameters(new Object[]{C_OrderLine_ID})
+		MOrderLine line = new MOrderLine(ctx,  C_OrderLine_ID, trxName);	
+		return new Query(ctx, MPPOrder.Table_Name, COLUMNNAME_C_OrderLine_ID+"=? AND "+ COLUMNNAME_M_Product_ID+"=?", trxName)
+								.setParameters(new Object[]{C_OrderLine_ID,line.getM_Product_ID()})
 								.firstOnly();
 	}
 	
@@ -116,9 +124,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 */
 	public static boolean isQtyAvailable(MPPOrder order ,ArrayList[][] issue, Timestamp minGuaranteeDate)
 	{
-		boolean isCompleteQtyDeliver = false; 
-		int ANY_ASI = 1;
-		
+		boolean isCompleteQtyDeliver = false;
 		for(int i = 0; i < issue.length; i++ )
 		{
 			KeyNamePair key = (KeyNamePair) issue[i][0].get(0);
@@ -133,26 +139,33 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			int M_Product_ID = productkey.getKey();
 			BigDecimal qtyToDeliver = (BigDecimal)issue[i][0].get(4);	
 			BigDecimal qtyScrapComponent = (BigDecimal) issue[i][0].get(5);	
-			
+		
 			MProduct product = MProduct.get(order.getCtx(), M_Product_ID);
 			if (product != null && product.isStocked()) 
 			{
-				int M_AttributeSetInstance_ID = ANY_ASI;
+				int M_AttributeSetInstance_ID = 0;
 				if (value == null && isSelected)
 				{
 					M_AttributeSetInstance_ID = (Integer)key.getKey();
+				}
+				else if (value != null && isSelected) 
+				{
+					int PP_Order_BOMLine_ID =  (Integer)key.getKey();
+					if(PP_Order_BOMLine_ID > 0)
+					{
+						MPPOrderBOMLine orderBOMLine  = new MPPOrderBOMLine(order.getCtx(), PP_Order_BOMLine_ID, order.get_TrxName());
+						//Validate if AttributeSet generate instance
+						M_AttributeSetInstance_ID = orderBOMLine.getM_AttributeSetInstance_ID();
+					}
 				}
 				
 				MStorage[] storages = MPPOrder.getStorages(order.getCtx(),
 						M_Product_ID,
 						order.getM_Warehouse_ID(),
-						M_AttributeSetInstance_ID == ANY_ASI ? 0 : M_AttributeSetInstance_ID,
-						order.getM_AttributeSetInstance_ID(),
-						
-						ANY_ASI, 
+						 M_AttributeSetInstance_ID,
 						minGuaranteeDate, order.get_TrxName());
 				
-				if (M_AttributeSetInstance_ID == ANY_ASI)
+				if (M_AttributeSetInstance_ID == 0)
 				{					
 					BigDecimal toIssue = qtyToDeliver.add(qtyScrapComponent);
 					for (MStorage storage : storages) 
@@ -194,24 +207,42 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			int M_Product_ID,
 			int M_Warehouse_ID,
 			int M_ASI_ID,
-			int O_ASI_ID,
-			int ANY_ASI,
 			Timestamp minGuaranteeDate, String trxName)
 	{
 		MProduct product = MProduct.get(ctx, M_Product_ID);
 		if (product != null && product.isStocked())
 		{
-			String MMPolicy = product.getMMPolicy();
-			return MStorage.getWarehouse(ctx,
-					M_Warehouse_ID,
-					M_Product_ID,
-					M_ASI_ID == ANY_ASI ? O_ASI_ID : M_ASI_ID,
-					minGuaranteeDate,
-					MClient.MMPOLICY_FiFo.equals(MMPolicy), // FiFo
-					true, // positiveOnly
-					0, // M_Locator_ID
-					trxName
-			);
+			//Validate if AttributeSet of product generated instance
+			if(product.getM_AttributeSetInstance_ID() == 0)
+			{	
+				String MMPolicy = product.getMMPolicy();
+				return MStorage.getWarehouse(ctx,
+						M_Warehouse_ID,
+						M_Product_ID,
+						M_ASI_ID ,
+						minGuaranteeDate,
+						MClient.MMPOLICY_FiFo.equals(MMPolicy), // FiFo
+						true, // positiveOnly
+						0, // M_Locator_ID
+						trxName
+				);
+			}
+			else
+			{
+				//TODO: vpj-cd Create logic to get storage that matched with attribure set that not create instances
+				String MMPolicy = product.getMMPolicy();
+				return MStorage.getWarehouse(ctx,
+						M_Warehouse_ID,
+						M_Product_ID,
+						0 ,
+						minGuaranteeDate,
+						MClient.MMPOLICY_FiFo.equals(MMPolicy), // FiFo
+						true, // positiveOnly
+						0, // M_Locator_ID
+						trxName
+				);
+			}
+
 		}
 		else
 		{
@@ -736,7 +767,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 					
 					ArrayList<Object> data = new ArrayList<Object>();
 					
-					data.add(id); 				  		//0 - ASI
+					data.add(id); 				  		//0 - MPPOrderBOMLine ID
 					data.add(line.isCritical());  		//1 - Critical
 					MProduct product = (MProduct) line.getM_Product();
 					data.add(product.getValue()); 		//2 - Value
@@ -773,20 +804,29 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			
 			for(int i = 0; i < issue.length; i++ )
 			{
+				int M_AttributeSetInstance_ID = 0;
 				KeyNamePair key = (KeyNamePair) issue[i][0].get(0);
 				Boolean isCritical = (Boolean) issue[i][0].get(1);
 				String value = (String)issue[i][0].get(2);
 				KeyNamePair productkey = (KeyNamePair) issue[i][0].get(3);			
 				int M_Product_ID = productkey.getKey();
+				MProduct product = MProduct.get(getCtx(),  M_Product_ID);
 				BigDecimal qtyToDeliver = (BigDecimal)issue[i][0].get(4);	
 				BigDecimal qtyScrapComponent = (BigDecimal) issue[i][0].get(5);	
+				
+				int PP_Order_BOMLine_ID =  (Integer)key.getKey();
+				if(PP_Order_BOMLine_ID > 0)
+				{
+					MPPOrderBOMLine  orderBOMLine = new MPPOrderBOMLine(getCtx(), PP_Order_BOMLine_ID, get_TrxName());
+					//Validate if AttributeSet generate instance
+					M_AttributeSetInstance_ID = orderBOMLine.getM_AttributeSetInstance_ID();
+				}
 				
 				MStorage[] storages = MPPOrder.getStorages(getCtx(),
 						M_Product_ID,
 						getM_Warehouse_ID(),
-						0,
-						getM_AttributeSetInstance_ID(),
-						1, today, get_TrxName());
+						M_AttributeSetInstance_ID
+						, today, get_TrxName());
 				
 				MPPOrder.createIssue(
 						this, 
