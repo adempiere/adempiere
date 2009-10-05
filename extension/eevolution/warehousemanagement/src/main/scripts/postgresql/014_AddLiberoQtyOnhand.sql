@@ -165,7 +165,7 @@ UPDATE AD_Menu_Trl SET IsTranslated='N' WHERE AD_Menu_ID=53232
 
 -- Oct 5, 2009 1:14:03 PM ECT
 -- Warehouse Management
-UPDATE AD_Menu SET Name='Generate Shipments base on Outbound Order',Updated=TO_TIMESTAMP('2009-10-05 13:14:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Menu_ID=193
+UPDATE AD_Menu SET Name='Generate Shipments from Outbound Order',Updated=TO_TIMESTAMP('2009-10-05 13:14:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Menu_ID=193
 ;
 
 -- Oct 5, 2009 1:14:03 PM ECT
