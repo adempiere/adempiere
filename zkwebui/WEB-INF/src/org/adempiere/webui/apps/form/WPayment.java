@@ -657,7 +657,7 @@ public class WPayment extends Window
 		if (m_PaymentRule == null)
 			m_PaymentRule = "";
 		ValueNamePair vp = null;
-		HashMap values = button.getValues();
+		HashMap<String,String> values = button.getValues();
 		Object[] a = values.keySet().toArray();
 		for (int i = 0; i < a.length; i++)
 		{			

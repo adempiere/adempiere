@@ -59,7 +59,7 @@ public class BaseDispatchAction extends DispatchAction
 	        	MenuItem menuItem = (MenuItem) request.getSession().getAttribute(Constants.MENUS);	
 		        
 		        Integer menuId = Integer.valueOf(df.getMenuId());
-		        ArrayList list = menuItem.getBreadCrumb(menuId.intValue());
+		        ArrayList<MenuItem> list = menuItem.getBreadCrumb(menuId.intValue());
 		        
 		        request.getSession().setAttribute(Constants.BREADCRUMB, list);
 	        }

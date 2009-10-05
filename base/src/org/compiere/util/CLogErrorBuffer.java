@@ -285,11 +285,11 @@ public class CLogErrorBuffer extends Handler
 	 * 	@param errorsOnly if true errors otherwise log
 	 * 	@return data array
 	 */
-	public Vector<Vector> getLogData (boolean errorsOnly)
+	public Vector<Vector<Object>> getLogData (boolean errorsOnly)
 	{
 		LogRecord[] records = getRecords(errorsOnly);
 	//	System.out.println("getLogData - " + events.length);
-		Vector<Vector> rows = new Vector<Vector>(records.length);
+		Vector<Vector<Object>> rows = new Vector<Vector<Object>>(records.length);
 		
 		for (int i = 0; i < records.length; i++)
 		{

@@ -18,9 +18,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
-import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.desktop.AbstractDesktop;
-import org.adempiere.webui.panel.ADWindowPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.GridTab;

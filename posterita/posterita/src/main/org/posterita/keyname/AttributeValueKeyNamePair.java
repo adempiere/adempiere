@@ -36,7 +36,7 @@ import org.posterita.exceptions.SystemException;
 
 public class AttributeValueKeyNamePair extends KeyNamePairUtil
 {
-    public static ArrayList getKeyPairs(Properties ctx, String attributeName) throws OperationException, SystemException
+    public static ArrayList<KeyNamePair> getKeyPairs(Properties ctx, String attributeName) throws OperationException, SystemException
     {
        ArrayList<KeyNamePair> keyNamePairs = new ArrayList<KeyNamePair>();
        

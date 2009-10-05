@@ -230,7 +230,7 @@ public class ConcreteElement extends ElementAttributes implements Cloneable
 	/**
 		Get the keys of this element.
 	*/
-	public Enumeration keys()
+	public Enumeration<String> keys()
 	{
 		return(registryList.elements());
 	}
@@ -238,7 +238,7 @@ public class ConcreteElement extends ElementAttributes implements Cloneable
 	/**
 		Get an enumeration of the elements that this element contains.
 	*/
-	public Enumeration elements()
+	public Enumeration<Element> elements()
 	{
 		return(registry.elements());
 	}
@@ -253,7 +253,7 @@ public class ConcreteElement extends ElementAttributes implements Cloneable
 	}
 
 	/**
-		Override output(OutputStream) incase any elements are in the registry.
+		Override output(OutputStream) in case any elements are in the registry.
 		@param out OutputStream to write to.
 	*/
 	public void output(OutputStream out)
@@ -279,7 +279,7 @@ public class ConcreteElement extends ElementAttributes implements Cloneable
 				if(getTagText() != null)
 					out.write(getTagText().getBytes());
 
-				Enumeration en = registryList.elements();
+				Enumeration<String> en = registryList.elements();
 
 				while(en.hasMoreElements())
 				{
@@ -365,7 +365,7 @@ public class ConcreteElement extends ElementAttributes implements Cloneable
 			if(getTagText() != null)
 				out.write(getTagText());
 
-			Enumeration en = registryList.elements();
+			Enumeration<String> en = registryList.elements();
 			while(en.hasMoreElements())
 			{
 				Object obj = registry.get(en.nextElement());

@@ -93,7 +93,7 @@ public class ElementContainer extends ConcreteElement implements Printable
         Enumeration<Element> data = ec.elements();
         while ( data.hasMoreElements() )
         {
-            element = (Element) data.nextElement();
+            element = data.nextElement();
             element.output(out);
         }
     }
@@ -107,7 +107,7 @@ public class ElementContainer extends ConcreteElement implements Printable
         Enumeration<Element> data = ec.elements();
         while ( data.hasMoreElements() )
         {
-            element = (Element) data.nextElement();
+            element = data.nextElement();
             element.output(out);
         }
     }

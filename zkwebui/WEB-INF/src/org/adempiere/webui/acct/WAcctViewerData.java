@@ -366,11 +366,11 @@ public class WAcctViewerData
 		{
 			//  get values (Queries)
 			
-			Iterator it = whereInfo.values().iterator();
+			Iterator<String> it = whereInfo.values().iterator();
 			
 			while (it.hasNext())
 			{
-				String where = (String)it.next();
+				String where = it.next();
 			
 				if (where != null && where.length() > 0)    //  add only if not empty
 				{
@@ -477,7 +477,7 @@ public class WAcctViewerData
 	
 		//  Add Key (Lookups)
 		
-		ArrayList keys = createKeyColumns();
+		ArrayList<String> keys = createKeyColumns();
 		int max = m_leadingColumns;
 		
 		if (max == 0)
@@ -485,7 +485,7 @@ public class WAcctViewerData
 		
 		for (int i = 0; i < max; i++)
 		{
-			String column = (String)keys.get(i);
+			String column = keys.get(i);
 		
 			if (column != null && column.startsWith("Date"))
 				rm.addColumn(new RColumn(ctx, column, DisplayType.Date));
@@ -514,7 +514,7 @@ public class WAcctViewerData
 		
 		for (int i = max; i < keys.size(); i++)
 		{
-			String column = (String)keys.get(i);
+			String column = keys.get(i);
 		
 			if (column != null && column.startsWith("Date"))
 				rm.addColumn(new RColumn(ctx, column, DisplayType.Date));
@@ -563,7 +563,7 @@ public class WAcctViewerData
 	 *  @return List of Key Columns
 	 */
 
-	private ArrayList createKeyColumns()
+	private ArrayList<String> createKeyColumns()
 	{
 		ArrayList<String> columns = new ArrayList<String>();
 		m_leadingColumns = 0;

@@ -168,7 +168,7 @@ public class ValuePreference extends Window implements EventListener
 	 *  @param Attribute attribute
 	 *  @param DisplayAttribute attribute display
 	 *  @param Value value
-	 *  @param DisplayValue calue display
+	 *  @param DisplayValue value display
 	 *  @param displayType display type
 	 *  @param AD_Reference_ID reference
 	 */

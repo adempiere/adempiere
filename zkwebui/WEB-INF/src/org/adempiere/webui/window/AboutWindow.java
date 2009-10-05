@@ -183,7 +183,7 @@ public class AboutWindow extends Window implements EventListener {
 	}
 
 	private void updateLogTable() {
-		Vector<Vector> data = CLogErrorBuffer.get(true).getLogData(bErrorsOnly.isChecked());
+		Vector<Vector<Object>> data = CLogErrorBuffer.get(true).getLogData(bErrorsOnly.isChecked());
 		SimpleListModel model = new SimpleListModel(data);
 		model.setMaxLength(new int[]{0, 0, 0, 200, 0, 200});
 		logTable.setItemRenderer(model);

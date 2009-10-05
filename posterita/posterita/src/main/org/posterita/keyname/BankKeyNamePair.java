@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 import org.posterita.core.KeyNamePairUtil;
 import org.posterita.exceptions.OperationException;
@@ -32,7 +33,7 @@ import org.compiere.model.MBank;
 
 public class BankKeyNamePair extends KeyNamePairUtil
 {
-    public static ArrayList getKeyNamePairs(Properties ctx) throws OperationException
+    public static ArrayList<KeyNamePair> getKeyNamePairs(Properties ctx) throws OperationException
     {        
         String sql = "ad_client_id=" + Env.getAD_Client_ID(ctx) + " and ad_org_id=" + Env.getAD_Org_ID(ctx) + " and isactive = 'Y'";
         
