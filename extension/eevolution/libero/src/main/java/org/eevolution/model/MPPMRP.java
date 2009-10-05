@@ -64,7 +64,8 @@ public class MPPMRP extends X_PP_MRP
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8347092433127181737L;
+	private static final long serialVersionUID = 6831223361306903297L;
+	
 	private static CLogger s_log = CLogger.getCLogger(MPPMRP.class);
 	
 	
@@ -114,48 +115,38 @@ public class MPPMRP extends X_PP_MRP
 				{
 					workflow = pp.getAD_Workflow();
 				}
-				//
+				
 				if (plant_id > 0 && workflow != null)
 				{
-					RoutingService routingService = RoutingServiceFactory.get().getRoutingService(ol.getCtx());
-					int duration = routingService.calculateDuration(workflow,
-							MResource.get(ol.getCtx(), plant_id),
-							ol.getQtyOrdered()).intValueExact(); 
-					//
-					order = new MPPOrder(ol.getCtx(), 0 , ol.get_TrxName());
-					order.setAD_Org_ID(ol.getAD_Org_ID());
-					//comment for Manufacturing Order
-					order.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
-							+ " "
-							+ Msg.translate(ol.getCtx(), MOrder.COLUMNNAME_C_Order_ID) 
-							+ " : "
-							+ ol.getParent().getDocumentNo());
-					order.setC_OrderLine_ID(ol.getC_OrderLine_ID());
-					order.setS_Resource_ID(plant_id);
-					order.setM_Warehouse_ID(ol.getM_Warehouse_ID());
-					order.setM_Product_ID(ol.getM_Product_ID());
-					order.setM_AttributeSetInstance_ID(ol.getM_AttributeSetInstance_ID());
-					order.setPP_Product_BOM_ID(bom.get_ID());
-					order.setAD_Workflow_ID(workflow.get_ID());
-					order.setPlanner_ID(ol.getParent().getSalesRep_ID());
-					order.setLine(10);
-					order.setDateOrdered(ol.getDateOrdered());                       
-					order.setDatePromised(ol.getDatePromised());
-					order.setDateStartSchedule(TimeUtil.addDays(ol.getDatePromised(), 0 - duration));
-					order.setDateFinishSchedule(ol.getDatePromised());
-					order.setC_UOM_ID(ol.getC_UOM_ID());
-					order.setQty(qty);
-					order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
-					order.saveEx();  
-					order.setDocStatus(order.prepareIt());
-					order.setDocAction(MPPOrder.ACTION_Complete);
-					order.saveEx();
-					//comment for Order Line
-					ol.setDescription( Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
-							+ " "
-							+ Msg.translate(ol.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
-							+ " : "
-							+ order.getDocumentNo());
+					String description = Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
+					+ " "
+					+ Msg.translate(ol.getCtx(), MOrder.COLUMNNAME_C_Order_ID) 
+					+ " : "
+					+ ol.getParent().getDocumentNo();					
+					// Create temporary data planning to create Manufacturing Order
+					pp = new MPPProductPlanning(ol.getCtx(), 0 , ol.get_TrxName());
+					pp.setAD_Org_ID(ol.getAD_Org_ID());
+					pp.setM_Product_ID(product.getM_Product_ID());
+					pp.setPlanner_ID(ol.getParent().getSalesRep_ID());
+					pp.setPP_Product_BOM_ID(bom.getPP_Product_BOM_ID());
+					pp.setAD_Workflow_ID(workflow.getAD_Workflow_ID());
+					pp.setM_Warehouse_ID(ol.getM_Warehouse_ID());
+					pp.setS_Resource_ID(plant_id);
+					
+					order = MPPMRP.createMO(pp, ol.getC_OrderLine_ID(),ol.getM_AttributeSetInstance_ID(), 
+											qty, ol.getDateOrdered(), ol.getDatePromised(), description);
+					
+					description = "";
+					if(ol.getDescription() != null)
+						description = ol.getDescription();
+					
+					description = description + " " + Msg.translate(ol.getCtx(),MRefList.getListName(ol.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, bom.getBOMType())) 
+								+ " "
+								+ Msg.translate(ol.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+								+ " : "
+								+ order.getDocumentNo();
+					
+					ol.setDescription(description);
 					ol.saveEx();
 				}
 			}    
@@ -191,6 +182,57 @@ public class MPPMRP extends X_PP_MRP
 			}    
 		}    
 	return order;
+	}
+	
+	/**
+	 * Create Manufacturing Order base on Planning Data
+	 * @param pp Product Planning 
+	 * @param C_OrderLine_ID Sales Order Line
+	 * @param M_AttributeSetInstance_ID ASI
+	 * @param qty Quantity 
+	 * @param dateOrdered Data Ordered
+	 * @param datePromised Data Promised
+	 * @param description Order Description
+	 * @return Manufacturing Order or null
+	 */
+	public static MPPOrder createMO(MPPProductPlanning pp,int C_OrderLine_ID,int M_AttributeSetInstance_ID , BigDecimal qty, 
+									Timestamp dateOrdered,Timestamp datePromised,String description)
+	{
+	
+		MPPProductBOM bom = pp.getPP_Product_BOM();
+		MWorkflow wf = pp.getAD_Workflow();
+		
+		if (pp.getS_Resource_ID() > 0 && bom != null && wf != null)
+		{
+			RoutingService routingService = RoutingServiceFactory.get().getRoutingService(pp.getCtx());
+			int duration = routingService.calculateDuration(wf,MResource.get(pp.getCtx(), pp.getS_Resource_ID()),qty).intValueExact(); 
+			//
+			MPPOrder order = new MPPOrder(pp.getCtx(), 0 , pp.get_TrxName());
+			order.setAD_Org_ID(pp.getAD_Org_ID());
+			order.setDescription(description);
+			order.setC_OrderLine_ID(C_OrderLine_ID);
+			order.setS_Resource_ID(pp.getS_Resource_ID());
+			order.setM_Warehouse_ID(pp.getM_Warehouse_ID());
+			order.setM_Product_ID(pp.getM_Product_ID());
+			order.setM_AttributeSetInstance_ID(M_AttributeSetInstance_ID);
+			order.setPP_Product_BOM_ID(pp.getPP_Product_BOM_ID());
+			order.setAD_Workflow_ID(pp.getAD_Workflow_ID());
+			order.setPlanner_ID(pp.getPlanner_ID());
+			order.setLine(10);
+			order.setDateOrdered(dateOrdered);                       
+			order.setDatePromised(datePromised);
+			order.setDateStartSchedule(TimeUtil.addDays(datePromised, 0 - duration));
+			order.setDateFinishSchedule(datePromised);
+			order.setC_UOM_ID(pp.getM_Product().getC_UOM_ID());
+			order.setQty(qty);
+			order.setPriorityRule(MPPOrder.PRIORITYRULE_High);                                
+			order.saveEx();  
+			order.setDocStatus(order.prepareIt());
+			order.setDocAction(MPPOrder.ACTION_Complete);
+			order.saveEx();
+			return order;				
+		}    
+		return null;
 	}
 	
 	private static HashMap<String, String[]> s_sourceColumnNames = new HashMap<String, String[]>();
