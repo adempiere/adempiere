@@ -77,7 +77,11 @@ public class DocLine_CostCollector extends DocLine
 		{
 			return super.getAccount(AcctType, as);
 		}
-		//
+		return getAccount(acctName, as);
+	}
+	
+	public MAccount getAccount(String acctName, MAcctSchema as)
+	{
 		final String sql = 
 			 " SELECT "
 			+" COALESCE(pa."+acctName+",pca."+acctName+",asd."+acctName+")"
