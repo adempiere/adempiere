@@ -77,6 +77,9 @@ import org.compiere.util.ValueNamePair;
  *  			<li>BF [ 2104022 ] GridTab.processCallout: throws NPE if callout returns null
  *  			<li>FR [ 2846871 ] Add method org.compiere.model.GridTab.getIncludedTabs
  *  				https://sourceforge.net/tracker/?func=detail&aid=2846871&group_id=176962&atid=879335
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  			<li>BF [ 2873323 ] ABP: Do not concatenate strings in SQL queries
+ *  				https://sourceforge.net/tracker/?func=detail&aid=2873323&group_id=176962&atid=879332
  *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -632,9 +635,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 						where.append(" AND ");
 					where.append(getTableName()).append(".").append(lc).append("=");
 					if (lc.endsWith("_ID"))
-						where.append(value);
+						where.append(DB.TO_NUMBER(new BigDecimal(value), DisplayType.ID));
 					else
-						where.append("'").append(value).append("'");
+						where.append(DB.TO_STRING(value));
 				}
 			}
 		}	//	isDetail
