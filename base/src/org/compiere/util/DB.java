@@ -80,7 +80,9 @@ import org.compiere.process.SequenceCheck;
  *		<li>FR [ 2781053 ] Introduce DB.getValueNamePairs
  *		<li>FR [ 2818480 ] Introduce DB.createT_Selection helper method
  *			https://sourceforge.net/tracker/?func=detail&aid=2818480&group_id=176962&atid=879335
- *
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 		<li>BF [ 2873324 ] DB.TO_NUMBER should be a static method
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2873324&group_id=176962&atid=879332
  */
 public final class DB
 {
@@ -1941,7 +1943,7 @@ public final class DB
 	 *	@param displayType display Type
 	 *	@return number as string
 	 */
-	public String TO_NUMBER (BigDecimal number, int displayType)
+	public static String TO_NUMBER (BigDecimal number, int displayType)
 	{
 		return s_cc.getDatabase().TO_NUMBER(number, displayType);
 	}	//	TO_NUMBER
