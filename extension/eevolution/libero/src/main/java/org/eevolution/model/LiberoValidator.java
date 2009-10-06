@@ -209,10 +209,15 @@ public class LiberoValidator implements ModelValidator
 				final String whereClause = "C_OrderLine_ID IS NOT NULL"
 											+" AND EXISTS (SELECT 1 FROM M_InOutLine iol"
 											+" WHERE iol.M_InOut_ID=? AND PP_Order.C_OrderLine_ID = iol.C_OrderLine_ID) AND " 
-											+ MPPOrder.COLUMNNAME_DocStatus + " = ?";	   
+											+ MPPOrder.COLUMNNAME_DocStatus + " =? "
+											+" AND EXISTS (SELECT 1 FROM PP_Order_BOM " 
+											+" WHERE PP_Order_BOM.PP_Order_ID=PP_Order.PP_Order_ID AND PP_Order_BOM.BOMType IN (?, ?))"; 
 				Collection<MPPOrder> orders = new Query(po.getCtx(), MPPOrder.Table_Name, whereClause, po.get_TrxName())
-												.setParameters(new Object[]{inout.getM_InOut_ID(),  MPPOrder.DOCSTATUS_InProgress})
-												.list();
+												.setParameters(new Object[]{inout.getM_InOut_ID(),  
+																	 		MPPOrder.DOCSTATUS_InProgress,
+																	 		MPPOrderBOM.BOMTYPE_Make_To_Kit,
+																	 		MPPOrderBOM.BOMTYPE_Make_To_Order
+																	 		}).list();
 				for(MPPOrder order : orders)
 				{	   
 					String description = order.getDescription() !=  null ?  order.getDescription() : ""
