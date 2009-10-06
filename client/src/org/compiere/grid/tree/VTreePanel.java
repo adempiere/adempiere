@@ -1,5 +1,5 @@
-/******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ /******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -23,23 +23,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.datatransfer.StringSelection;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragGestureRecognizer;
-import java.awt.dnd.DragSource;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragSourceDropEvent;
-import java.awt.dnd.DragSourceEvent;
-import java.awt.dnd.DragSourceListener;
-import java.awt.dnd.DropTarget;
-import java.awt.dnd.DropTargetDragEvent;
-import java.awt.dnd.DropTargetDropEvent;
-import java.awt.dnd.DropTargetEvent;
-import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -54,7 +38,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
+import javax.swing.Action;
+import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
+import javax.swing.DropMode;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
@@ -66,11 +53,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.JTree;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
 import javax.swing.UIManager;
 import javax.swing.plaf.SplitPaneUI;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreePath;
 
@@ -118,12 +106,15 @@ import de.schaeffer.compiere.tools.DocumentSearch;
  * @author Teo Sarca
  *   		<li>BF [ 2866493 ] VTreePanel is not saving who did the node move
  *			https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2866493&group_id=176962
+ *
+ * @author Paul Bowden
+ *          <li>FR [ 2032092 ] Java 6 improvements to tree drag and drop
+ *          https://sourceforge.net/tracker/index.php?func=detail&aid=2032092&group_id=176962&atid=879335
  */
 public final class VTreePanel extends CPanel
-	implements ActionListener, DragGestureListener, DragSourceListener, DropTargetListener
+	implements ActionListener
 {
-
-	/******************************************************************************
+/******************************************************************************
 	 *  Mouse Clicked
 	 */
 	class VTreePanel_mouseAdapter extends java.awt.event.MouseAdapter
@@ -188,6 +179,8 @@ public final class VTreePanel extends CPanel
 
 	protected boolean m_lookAndFeelChanged = false;
 
+	private VTreeTransferHandler handler = new VTreeTransferHandler();
+
 	/**
 	 *  Tree Panel for browsing and editing of a tree.
 	 *  Need to call initTree
@@ -225,12 +218,16 @@ public final class VTreePanel extends CPanel
 					if ("lookAndFeel".equals(evt.getPropertyName()))
 						m_lookAndFeelChanged = true;
 				}
-
+				
 			});
 		}
 		//  base settings
-		if (editable)
-			tree.setDropTarget(dropTarget);
+		if (editable) {
+			tree.setDragEnabled(true);
+			tree.setTransferHandler(handler);
+			tree.setDropMode(DropMode.INSERT);
+			setMappings(tree);
+		}
 		else
 		{
 			popMenuTree.remove(mFrom);
@@ -258,7 +255,8 @@ public final class VTreePanel extends CPanel
 
 		log.config("root=" + m_root);
 		m_nodeTableName = vTree.getNodeTableName();
-		treeModel = new DefaultTreeModel(m_root, true);
+		treeModel = new AdempiereTreeModel(m_root, true);
+		treeModel.setMTree(vTree);
 		tree.setModel(treeModel);
 
 		//  Shortcut Bar
@@ -268,7 +266,7 @@ public final class VTreePanel extends CPanel
 				jt.removeAll();
 			toolbarMap = new HashMap<Integer, JToolBar>();
 			Enumeration<?> enTop = m_root.children();
-			JToolBar jt = null;
+			JToolBar jt = null;	
 			Map<JToolBar,String> titleMap = new HashMap<JToolBar, String>();
 			while (enTop.hasMoreElements())
 			{
@@ -299,7 +297,7 @@ public final class VTreePanel extends CPanel
 				jt2.setFloatable(false);
 				jt2.setRollover(true);
 				jt2.setBorder(BorderFactory.createEmptyBorder());
-
+				
 				JXTaskPane barPart = new JXTaskPane();
 				//Begin - [FR 1953769]
 				barPart.setUI(new AdempiereTaskPaneUI());
@@ -309,7 +307,7 @@ public final class VTreePanel extends CPanel
 				barPart.setLayout(new BorderLayout());
 				barPart.add(jt2, BorderLayout.NORTH);
 				barPart.setTitle(titleMap.get(jt2));
-
+				
 				bar.add(barPart);
 				//Begin - [FR 1953769]
 				bar.setBackground(AdempierePLAF.getFormBackground());
@@ -324,7 +322,7 @@ public final class VTreePanel extends CPanel
 
 	private BorderLayout mainLayout = new BorderLayout();
 	private JTree tree = new JTree();
-	private DefaultTreeModel treeModel;
+	private AdempiereTreeModel treeModel;
 	private DefaultTreeSelectionModel treeSelect = new DefaultTreeSelectionModel();
 	private CPanel southPanel = new CPanel();
 	private CCheckBox treeExpand = new CCheckBox();
@@ -337,6 +335,7 @@ public final class VTreePanel extends CPanel
 	private JXTaskPaneContainer bar = new JXTaskPaneContainer();
 	private java.util.List<JToolBar> toolbar;
 	private HashMap<Integer, JToolBar> toolbarMap;
+	private int toolBarCols=3;
 	private CMenuItem mBarAdd = new CMenuItem();
 	private CMenuItem mBarRemove = new CMenuItem();
 	private BorderLayout southLayout = new BorderLayout();
@@ -359,7 +358,6 @@ public final class VTreePanel extends CPanel
 	private MTreeNode  	m_root = null;
 
 
-	private MTreeNode   m_moveNode;    	//	the node to move
 	private String      m_search = "";
 	private Enumeration<?> m_nodeEn;
 	private MTreeNode   m_selectedNode;	//	the selected model node
@@ -369,8 +367,6 @@ public final class VTreePanel extends CPanel
 
 	/**	Property Listener NodeSelected	by Left Click		*/
 	public static final String NODE_SELECTION = "NodeSelected";
-	/**	Property Listener NodeSelected	by Right Click		*/
-	public static final String NODE_SELECTION_RIGHT = "NodeSelectedRight";
 
 	/**
 	 *  Static Component initialization.
@@ -398,12 +394,12 @@ public final class VTreePanel extends CPanel
 		treePane.getViewport().add(tree, null);
 		treePane.setBorder(new ShadowBorder());
 		tree.setBorder(BorderFactory.createEmptyBorder());
-
+		
 		CPanel treePart = new CPanel();
 		treePart.setLayout(new BorderLayout());
 		treePart.add(treePane, BorderLayout.CENTER);
 		treePart.setBorder(BorderFactory.createEmptyBorder());
-
+		
 		//
 		treeExpand.setText(Msg.getMsg(Env.getCtx(), "ExpandTree"));
 		treeExpand.setActionCommand("Expand");
@@ -431,16 +427,22 @@ public final class VTreePanel extends CPanel
 		removeSplitPaneBorder();
 
 		this.add(centerSplitPane, BorderLayout.CENTER);
-
+		
 		//
 		mFrom.setText(Msg.getMsg(Env.getCtx(), "ItemMove"));
-		mFrom.setActionCommand("From");
+		mFrom.setActionCommand((String)TransferHandler.getCutAction().
+	             getValue(Action.NAME));
 		mFrom.addActionListener(this);
-		mTo.setEnabled(false);
+		mFrom.setAccelerator(
+			      KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
 		mTo.setText(Msg.getMsg(Env.getCtx(), "ItemInsert"));
-		mTo.setActionCommand("To");
+		mTo.setActionCommand((String)TransferHandler.getPasteAction().
+	             getValue(Action.NAME));
+		mTo.setAccelerator(
+			      KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
+		mTo.setMnemonic(KeyEvent.VK_V);
 		mTo.addActionListener(this);
-
+		
 		mBarAdd.setText(Msg.getMsg(Env.getCtx(), "BarAdd"));
 		mBarAdd.setActionCommand("BarAdd");
 		mBarAdd.addActionListener(this);
@@ -452,7 +454,7 @@ public final class VTreePanel extends CPanel
 		popMenuTree.add(mBarAdd);
 		popMenuTree.add(mFrom);
 		if(!m_hasBar){
-			popMenuTree.addSeparator();
+		popMenuTree.addSeparator();
 		}
 		popMenuTree.add(mTo);
 		popMenuBar.setLightWeightPopupEnabled(false);
@@ -469,7 +471,7 @@ public final class VTreePanel extends CPanel
 	        }
 		}
 	}
-
+	
 	/**
 	 * 	Set Divider Location
 	 *	@param location location (80 default)
@@ -478,7 +480,7 @@ public final class VTreePanel extends CPanel
 	{
 		centerSplitPane.setDividerLocation(location);
 	}	//	setDividerLocation
-
+	
 	/**
 	 * 	Get Divider Location
 	 *	@return divider location
@@ -487,223 +489,7 @@ public final class VTreePanel extends CPanel
 	{
 		return centerSplitPane.getDividerLocation();
 	}	//	getDividerLocation
-
-
-	/*************************************************************************
-	 *	Drag & Drop
-	 */
-	protected DragSource dragSource
-		= DragSource.getDefaultDragSource();
-	protected DropTarget dropTarget
-		= new DropTarget(tree, DnDConstants.ACTION_MOVE, this, true, null);
-	protected DragGestureRecognizer recognizer
-		= dragSource.createDefaultDragGestureRecognizer(tree, DnDConstants.ACTION_MOVE, this);
-
-
-	/**
-	 *	Drag Gesture Interface	** Start **
-	 *  @param e event
-	 */
-	public void dragGestureRecognized(DragGestureEvent e)
-	{
-		if (!m_editable)
-			return;
-		//
-		try
-		{
-			m_moveNode = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
-		}
-		catch (Exception ex)	//	nothing selected
-		{
-			return;
-		}
-		//	start moving
-		StringSelection content = new StringSelection(m_moveNode.toString());
-		e.startDrag(DragSource.DefaultMoveDrop,		//	cursor
-					content,						//	Transferable
-					this);
-		log.fine( "Drag: " + m_moveNode.toString());
-	}	//	dragGestureRecognized
-
-
-	/**
-	 *	DragSourceListener interface - noop
-	 *  @param e event
-	 */
-	public void dragDropEnd(DragSourceDropEvent e)	{}
-	/**
-	 *	DragSourceListener interface - noop
-	 *  @param e event
-	 */
-	public void dragEnter(DragSourceDragEvent e)	{}
-	/**
-	 *	DragSourceListener interface - noop
-	 *  @param e event
-	 */
-	public void dragExit(DragSourceEvent e)	{}
-	/**
-	 *	DragSourceListener interface - noop
-	 *  @param e event
-	 */
-	public void dragOver(DragSourceDragEvent e)	{}
-	/**
-	 *	DragSourceListener interface - noop
-	 *  @param e event
-	 */
-	public void dropActionChanged(DragSourceDragEvent e)	{}
-
-	/**
-	 *	DropTargetListener interface
-	 *  @param e event
-	 */
-	public void dragEnter(DropTargetDragEvent e)
-	{
-		e.acceptDrag(DnDConstants.ACTION_MOVE);
-	}
-	/**
-	 *	DragSourceListener interface - noop
-	 *  @param e event
-	 */
-	public void dropActionChanged(DropTargetDragEvent e)	{}
-	/**
-	 *	DragSourceListener interface - noop
-	 *  @param e event
-	 */
-	public void dragExit(DropTargetEvent e)	{}
-
-
-	/**
-	 *	Drag over 				** Between **
-	 *  @param e event
-	 */
-	public void dragOver(DropTargetDragEvent e)
-	{
-		Point mouseLoc = e.getLocation(); 	//	where are we?
-		TreePath path = tree.getClosestPathForLocation(mouseLoc.x, mouseLoc.y);
-		tree.setSelectionPath(path);		//	show it by selecting
-		MTreeNode toNode = (MTreeNode)path.getLastPathComponent();
-		//
-	//	log.fine( "Move: " + toNode);
-		if (m_moveNode == null				//	nothing to move
-			||	toNode == null)				//	nothing to drop on
-			e.rejectDrag();
-		else
-			e.acceptDrag(DnDConstants.ACTION_MOVE);
-	}	//	dragOver
-
-
-	/**
-	 *	Drop					** End **
-	 *  @param e event
-	 */
-	public void drop(DropTargetDropEvent e)
-	{
-		Point mouseLoc = e.getLocation(); 	//	where are we?
-		TreePath path = tree.getClosestPathForLocation(mouseLoc.x, mouseLoc.y);
-		tree.setSelectionPath(path);		//	show it by selecting
-		MTreeNode toNode = (MTreeNode)path.getLastPathComponent();
-		//
-		log.fine( "Drop: " + toNode);
-		if (m_moveNode == null				//	nothing to move
-			||	toNode == null)				//	nothing to drop on
-		{
-			e.rejectDrop();
-			return;
-		}
-		//
-		e.acceptDrop(DnDConstants.ACTION_MOVE);
-		moveNode(m_moveNode, toNode);
-
-		e.dropComplete(true);
-		m_moveNode = null;
-	}	//	drop
-
-
-	/**
-	 *	Move TreeNode
-	 *	@param	movingNode	The node to be moved
-	 *	@param	toNode		The target node
-	 */
-	private void moveNode(MTreeNode movingNode, MTreeNode toNode)
-	{
-		log.info(movingNode.toString() + " to " + toNode.toString());
-
-		if (movingNode == toNode)
-			return;
-
-		//  remove
-		final MTreeNode oldParent = (MTreeNode)movingNode.getParent();
-		movingNode.removeFromParent();
-		treeModel.nodeStructureChanged(oldParent);
-
-		//  insert
-		final MTreeNode newParent;
-		int index;
-		if (!toNode.isSummary())	//	drop on a child node
-		{
-			newParent = (MTreeNode)toNode.getParent();
-			index = newParent.getIndex(toNode) + 1;	//	the next node
-		}
-		else									//	drop on a summary node
-		{
-			newParent = toNode;
-			index = 0;                   			//	the first node
-		}
-		newParent.insert(movingNode, index);
-		treeModel.nodeStructureChanged(newParent);
-
-		//	***	Save changes to disk
-		try
-		{
-			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			Trx.run(new TrxRunnable() {
-				public void run(String trxName) {
-					for (int i = 0; i < oldParent.getChildCount(); i++)
-					{
-						MTreeNode nd = (MTreeNode)oldParent.getChildAt(i);
-						updateTreeNode(nd.getNode_ID(), oldParent.getNode_ID(), i, trxName);
-					}
-					if (oldParent != newParent)
-					{
-						for (int i = 0; i < newParent.getChildCount(); i++)
-						{
-							MTreeNode nd = (MTreeNode)newParent.getChildAt(i);
-							updateTreeNode(nd.getNode_ID(), newParent.getNode_ID(), i, trxName);
-						}
-					}
-				}
-			});
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "move", e);
-			ADialog.error(m_WindowNo, this, "TreeUpdateError", e.getLocalizedMessage());
-		}
-		finally
-		{
-			setCursor(Cursor.getDefaultCursor());
-		}
-		log.config("complete");
-	}	//	moveNode
 	
-	private int updateTreeNode(int Node_ID, int Parent_ID, int SeqNo, String trxName)
-	{
-		// We do not use parametrized statements because we need to log these migration scripts
-		StringBuffer sql = new StringBuffer("UPDATE ");
-		sql.append(m_nodeTableName)
-			.append(" SET Parent_ID=").append(Parent_ID)
-			.append(", SeqNo=").append(SeqNo)
-			.append(", Updated=SysDate")
-			.append(", UpdatedBy=").append(Env.getAD_User_ID(Env.getCtx()))
-			.append(" WHERE AD_Tree_ID=").append(m_AD_Tree_ID)
-			.append(" AND Node_ID=").append(Node_ID);
-		log.fine(sql.toString());
-		int no = DB.executeUpdateEx(sql.toString(), trxName);
-		return no;
-	}
-
-
-	/*************************************************************************/
 
 	/**
 	 *  Enter Key
@@ -803,24 +589,22 @@ public final class VTreePanel extends CPanel
 
 			//  Right Click for PopUp
 			else if ((m_editable || m_hasBar)
-				&& SwingUtilities.isRightMouseButton(e)
-				&& tree.getSelectionPath() != null)         //  need select first
+				&& SwingUtilities.isRightMouseButton(e) )
 			{
 				int selRow = tree.getRowForLocation(e.getX(), e.getY());
-				TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-				if(selRow != -1){
-					tree.setSelectionPath(selPath);
-					
+				if(selRow != -1)
+				{
+					tree.setSelectionRow(selRow);
+				}
+				if (tree.getSelectionPath() != null)         //  need select first
+				{
+					MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
+					if (nd.isLeaf())                    //  only add leaves to bar
+						mBarAdd.setEnabled(true);
+					else
+						mBarAdd.setEnabled(false);
 					Rectangle r = tree.getPathBounds(tree.getSelectionPath());
-					if(r!=null){
-						popMenuTree.show(tree, (int)r.getMaxX(), (int)r.getY());
-					}else{
-					  popMenuTree.show(tree, e.getX(), e.getY());
-					}
-					if(m_hasBar){
-						MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
-						firePropertyChange(NODE_SELECTION_RIGHT, null, nd);
-					}
+					popMenuTree.show(tree, (int)r.getMaxX(), (int)r.getY());
 				}
 			}
 		}   //  JTree
@@ -879,14 +663,14 @@ public final class VTreePanel extends CPanel
 	{
 		if (m_root == null)
 			return false;
-		log.config("NodeID=" + nodeID
+		log.config("NodeID=" + nodeID 
 			+ ", Show=" + show + ", root=" + m_root);
 		//  try to find the node
 		MTreeNode node = m_root.findNode (nodeID);
 		if (node != null)
 		{
 			TreePath treePath = new TreePath(node.getPath());
-			log.config("Node=" + node
+			log.config("Node=" + node 
 				+ ", Path=" + treePath.toString());
 			tree.setSelectionPath(treePath);
 			if (show)
@@ -913,7 +697,7 @@ public final class VTreePanel extends CPanel
 		firePropertyChange(NODE_SELECTION, null, nd);
 	}   //  setSelectedNode
 
-
+	
 	/**************************************************************************
 	 *  Node Changed - synchronize Node
 	 *
@@ -928,13 +712,13 @@ public final class VTreePanel extends CPanel
 		String name, String description, boolean isSummary, String imageIndicator)
 	{
 		log.config("Save=" + save + ", KeyID=" + keyID
-			+ ", Name=" + name + ", Description=" + description
+			+ ", Name=" + name + ", Description=" + description 
 			+ ", IsSummary=" + isSummary + ", ImageInd=" + imageIndicator
 			+ ", root=" + m_root);
 		//	if ID==0=root - don't update it
 		if (keyID == 0)
-			return;
-
+			return;	
+			
 		//  try to find the node
 		MTreeNode node = m_root.findNode(keyID);
 
@@ -1000,13 +784,16 @@ public final class VTreePanel extends CPanel
 		//  popup menu commands
 		else if (e.getSource() instanceof JMenuItem)
 		{
-			if (e.getActionCommand().equals("From"))
-				moveFrom();
-			else if (e.getActionCommand().equals("To"))
-				moveTo();
-			else if (e.getActionCommand().equals("BarAdd"))
+	        String action = (String)e.getActionCommand();
+	        Action a = tree.getActionMap().get(action);
+	        if (a != null) {
+	            a.actionPerformed(new ActionEvent(tree,
+	                                              ActionEvent.ACTION_PERFORMED,
+	                                              null));
+	        }
+			else if (action.equals("BarAdd"))
 				barAdd();
-			else if (e.getActionCommand().equals("BarRemove"))
+			else if (action.equals("BarRemove"))
 				barRemove();
 		}
 
@@ -1016,35 +803,6 @@ public final class VTreePanel extends CPanel
 				expandTree();
 		}
 	}   //  actionPerformed
-
-
-	/*************************************************************************/
-
-	/**
-	 *  Copy Node into buffer
-	 */
-	private void moveFrom()
-	{
-		m_moveNode = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
-		if (m_moveNode != null)
-			mTo.setEnabled(true);		//	enable menu
-	}   //  mFrom_actionPerformed
-
-	/**
-	 *  Move Node
-	 */
-	private void moveTo()
-	{
-		mFrom.setEnabled(true);
-		mTo.setEnabled(false);
-		if (m_moveNode == null)
-			return;
-
-		MTreeNode toNode = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
-		moveNode(m_moveNode, toNode);
-		//	cleanup
-		m_moveNode = null;
-	}   //  mTo_actionPerformed
 
 	/**
 	 *  Add selected TreeNode to Bar
@@ -1057,9 +815,9 @@ public final class VTreePanel extends CPanel
 		else if (CLogger.retrieveException().getMessage().indexOf("ORA-00001")!=-1)
 			ADialog.error(0, this, "BookmarkExist", null);
 	}   //  barAdd
-
+	
 	/**
-	 * Returns the top level parent JToolBar for the given MTreenode. If the parent is not on
+	 * Returns the top level parent JToolBar for the given MTreenode. If the parent is not on 
 	 * the CPanel yet a new one is created and added.
 	 * @param nd
 	 * @return top level parent JToolBar for the given MTreenode
@@ -1168,7 +926,7 @@ public final class VTreePanel extends CPanel
 			bar.remove(parentPanel);
 			//remove from toolBarMap..
 			toolbarMap.values().remove(parentBar);
-
+			
 		}
 		bar.validate();
 		bar.repaint();
@@ -1231,8 +989,16 @@ public final class VTreePanel extends CPanel
 		}
 		super.paint(g);
 	}
-
-	//CHANGED - SET BUSY ADDED
+	
+    private void setMappings(JTree tree) { 
+        ActionMap map = tree.getActionMap();
+        map.put(TransferHandler.getCutAction().getValue(Action.NAME),
+                TransferHandler.getCutAction());
+        map.put(TransferHandler.getPasteAction().getValue(Action.NAME),
+                TransferHandler.getPasteAction());
+    }
+    
+    //CHANGED - SET BUSY ADDED
 	/**
 	 *	Indicate Busy
 	 *  @param busy busy
@@ -1256,8 +1022,9 @@ public final class VTreePanel extends CPanel
 			treeSearch.setCursor(Cursor.getDefaultCursor());
 		}
 	}	//	set Busy
-
-
+    
 }   //  VTreePanel
 
 
+
+ 	  	 
