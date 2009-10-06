@@ -62,6 +62,8 @@ public class RollupBillOfMaterial extends SvrProcess
 	private int				p_M_Product_ID = 0;
 	/* Product Category  	*/
 	private int				p_M_Product_Category_ID = 0;
+	/* Product Type			*/
+	private String			p_ProductType = null;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -86,6 +88,8 @@ public class RollupBillOfMaterial extends SvrProcess
 				p_M_Product_ID = para.getParameterAsInt();
 			else if (name.equals(MProduct.COLUMNNAME_M_Product_Category_ID))
 				p_M_Product_Category_ID = para.getParameterAsInt();
+			else if (name.equals(MProduct.COLUMNNAME_ProductType))
+				p_ProductType = para.getParameter() == null ? null : para.getParameter().toString();
 			else
 				log.log(Level.SEVERE,"prepare - Unknown Parameter: " + name);
 		}
@@ -277,7 +281,12 @@ public class RollupBillOfMaterial extends SvrProcess
 		{
 			whereClause.append(" AND ").append(MProduct.COLUMNNAME_M_Product_Category_ID).append("=?");
 			params.add(p_M_Product_Category_ID);
-		}	
+		}
+		if (p_M_Product_ID <= 0 && p_ProductType != null)
+		{
+			whereClause.append(" AND ").append(MProduct.COLUMNNAME_ProductType).append("=?");
+			params.add(p_ProductType);
+		}
 
 		return new Query(getCtx(),MProduct.Table_Name, whereClause.toString(), get_TrxName())
 		.setParameters(params)
