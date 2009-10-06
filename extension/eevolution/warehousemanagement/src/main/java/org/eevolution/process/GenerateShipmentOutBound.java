@@ -125,7 +125,7 @@ public class GenerateShipmentOutBound extends SvrProcess
 		int seq = 10;
 		for (MWMInOutBoundLine boundline: boundlines)
 		{
-			if(boundline.getQtyToShip().signum() > 0 || p_IsIncludeNotAvailable)
+			if(boundline.getQtyToDeliver().signum() > 0 || p_IsIncludeNotAvailable)
 			{	
 				createMInOut(boundline);
 			}	

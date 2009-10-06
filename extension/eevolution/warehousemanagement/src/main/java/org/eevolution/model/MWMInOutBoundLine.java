@@ -190,7 +190,7 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	 * get Quantity to Ship
 	 * @return BigDecimal with Quantity to Ship
 	 */
-	public BigDecimal getQtyToShip()
+	public BigDecimal getQtyToDeliver()
 	{
 		MOrderLine oline = getMOrderLine();
 		return oline.getQtyOrdered().subtract(oline.getQtyDelivered());
