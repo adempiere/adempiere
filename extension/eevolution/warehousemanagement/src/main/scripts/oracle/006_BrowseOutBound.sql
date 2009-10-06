@@ -1083,9 +1083,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2009-09-11 13:25:45','YYYY-M
 UPDATE AD_Column SET IsMandatory='Y',Updated=TO_DATE('2009-09-11 13:26:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=58110
 ;
 
--- Sep 11, 2009 1:26:10 PM ECT
--- Warehouse Management
-ALTER TABLE AD_Browse MODIFY AccessLevel CHAR(1)
+UPDATE AD_Browse SET AccessLevel= 4
 ;
 
 -- Sep 11, 2009 1:26:11 PM ECT

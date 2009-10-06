@@ -1,4 +1,4 @@
--- Sep 11, 2009 12:01:41 PM ECT
+﻿-- Sep 11, 2009 12:01:41 PM ECT
 -- Warehouse Management
 INSERT INTO AD_View (AD_Client_ID,AD_Org_ID,AD_View_ID,Created,CreatedBy,Description,EntityType,IsActive,Name,Updated,UpdatedBy,Value) VALUES (0,0,50001,TO_TIMESTAMP('2009-09-11 12:01:38','YYYY-MM-DD HH24:MI:SS'),0,'Allow select the Outbound Order lines to be release to pick.','EE03','Y','Outbound Order to Release',TO_TIMESTAMP('2009-09-11 12:01:38','YYYY-MM-DD HH24:MI:SS'),0,'OutboundOrderToRelease')
 ;
@@ -1081,9 +1081,7 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_TIMESTAMP('2009-09-11 13:25:45','Y
 UPDATE AD_Column SET IsMandatory='Y',Updated=TO_TIMESTAMP('2009-09-11 13:26:07','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=58110
 ;
 
--- Sep 11, 2009 1:26:10 PM ECT
--- Warehouse Management
-insert into t_alter_column values('ad_browse','AccessLevel','CHAR(1)',null,null)
+UPDATE AD_Browse SET AccessLevel= 4
 ;
 
 -- Sep 11, 2009 1:26:11 PM ECT
