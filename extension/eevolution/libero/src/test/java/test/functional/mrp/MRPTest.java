@@ -15,21 +15,11 @@ package test.functional.mrp;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.net.URL;
-import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MProduct;
-import org.compiere.model.MResource;
-import org.compiere.model.MWarehouse;
-import org.compiere.util.Env;
 import org.eevolution.model.I_PP_MRP;
-import org.eevolution.model.I_PP_Product_Planning;
-import org.eevolution.model.MPPMRP;
-import org.eevolution.model.MPPProductPlanning;
 
 import test.AdempiereTestCase;
 
@@ -111,98 +101,6 @@ public class MRPTest extends AdempiereTestCase
 	}
 
 
-	/**
-	 * Helper Method : Create Product Planning
-	 */
-	public static MPPProductPlanning getPlanning(String productValue,
-			String Order_Policy,
-			int Order_Min, int Order_Max, int Order_Pack, int SafetyStock,
-			int Order_Period,
-			int LeadTime)
-	{
-		boolean isPurchased = true;
-		int PlanningHorizon = 365;
-		//
-		Properties ctx = Env.getCtx();
-//		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		int AD_Org_ID = MRPUtil.getFirst_Org_ID();
-		MWarehouse wh = MRPUtil.getCreateWarehouse(AD_Org_ID, productValue);
-		MResource plant = MRPUtil.getCreatePlant(productValue, wh.get_ID(), PlanningHorizon);
-		MProduct product = getCreateProduct(ctx, productValue, isPurchased);
-		//
-		MPPProductPlanning pp = new MPPProductPlanning(ctx, 0, null);
-		pp.setIsCreatePlan(true);
-		pp.setIsRequiredMRP(true);
-		pp.setIsRequiredDRP(false);
-		pp.setM_Product_ID(product.get_ID());
-		pp.setAD_Org_ID(AD_Org_ID);
-		pp.setM_Warehouse_ID(wh.get_ID());
-		pp.setS_Resource_ID(plant.get_ID());
-		//
-		pp.setOrder_Policy(Order_Policy);
-		pp.setOrder_Min(BigDecimal.valueOf(Order_Min));
-		pp.setOrder_Max(BigDecimal.valueOf(Order_Max));
-		pp.setOrder_Pack(BigDecimal.valueOf(Order_Pack));
-		pp.setSafetyStock(BigDecimal.valueOf(SafetyStock));
-		pp.setOrder_Period(BigDecimal.valueOf(Order_Period));
-		pp.setDeliveryTime_Promised(BigDecimal.valueOf(LeadTime));
-		//
-		return pp;
-	}
-	
-	public static I_PP_MRP createMRP(I_PP_Product_Planning planning,
-			String TypeMRP, String DocStatus, BigDecimal Qty,
-			Timestamp DatePromised, Timestamp DateStartSchedule)
-	{
-		Properties ctx = Env.getCtx();
-		//
-		MPPMRP mrp = new MPPMRP(ctx, 0, null);
-		mrp.setAD_Org_ID(planning.getAD_Org_ID());
-		mrp.setName("MRP");
-		mrp.setTypeMRP(TypeMRP);
-		mrp.setDocStatus(DocStatus);
-		mrp.setQty(Qty);
-		mrp.setDatePromised(DatePromised);
-		mrp.setDateStartSchedule(DateStartSchedule);
-		mrp.setDateFinishSchedule(DatePromised);
-		mrp.setDateOrdered(DatePromised);
-		mrp.setM_Product_ID(planning.getM_Product_ID());
-		mrp.setM_Warehouse_ID(planning.getM_Warehouse_ID());
-		return mrp;
-	}
-	
-	/**
-	 * Helper Method : Create Product
-	 */
-	public static MProduct getCreateProduct(Properties ctx, String value, boolean isPurchased)
-	{
-		MProduct[] arr = MProduct.get(ctx, "Value='"+value+"'", null);
-		if (arr.length > 0)
-		{
-			return arr[0];
-		}
-		MProduct p = new MProduct(ctx, 0, null);
-		p.setValue(value);
-		p.setName(value);
-		p.setAD_Org_ID(0);
-		p.setProductType (MProduct.PRODUCTTYPE_Item);      // I
-		p.setIsBOM (false);       // N
-		p.setIsInvoicePrintDetails (false);
-		p.setIsPickListPrintDetails (false);
-		p.setIsPurchased (isPurchased);
-		p.setIsSold (true);       // Y
-		p.setIsStocked (true);    // Y
-		p.setIsSummary (false);
-		p.setIsVerified (false);  // N
-		p.setIsWebStoreFeatured (false);
-		p.setIsSelfService(true);
-		p.setIsExcludeAutoDelivery(false);
-		p.setProcessing (false);  // N
-		p.setC_UOM_ID(100); // Each
-		p.saveEx();
-		return p;
-	}
-	
 	public void assertEquals(String message, I_PP_MRP expected, I_PP_MRP actual) throws Exception
 	{
 		boolean equals = expected.getAD_Client_ID() == actual.getAD_Client_ID()

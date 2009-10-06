@@ -107,7 +107,7 @@ public class CSVFactory
 		int SafetyStock = getValue("SafetyStock", Integer.class, header, line);
 		int Yield = getValue("Yield", Integer.class, header, line);
 		//
-		mrpTest.planning = MRPTest.getPlanning(mrpTest.productValue,
+		mrpTest.planning = MRPUtil.getPlanning(mrpTest.productValue,
 				Order_Policy, Order_Min, Order_Max, Order_Pack, SafetyStock, Order_Period, LeadTime);
 		mrpTest.planning.setTimeFence(BigDecimal.valueOf(TimeFence));
 		mrpTest.planning.setYield(Yield);
@@ -136,7 +136,7 @@ public class CSVFactory
 		}
 		else
 		{
-			I_PP_MRP mrp = MRPTest.createMRP(mrpTest.planning, TypeMRP, DocStatus, Qty,
+			I_PP_MRP mrp = MRPUtil.createMRP(mrpTest.planning, TypeMRP, DocStatus, Qty,
 											DatePromised, DateStartSchedule);
 			mrp.setDescription("CSV Line "+reader.getLineNumber());
 			if (isGenerated)

@@ -42,7 +42,7 @@ class TestableMRP extends org.eevolution.process.MRP
 	public String description = "";
 	public String trxName = null;
 	public String productValue = "junit-test";
-	public MPPProductPlanning planning;
+	public I_PP_Product_Planning planning;
 	public Timestamp today;
 	public BigDecimal qtyOnHand;
 	// MRP Records
@@ -113,7 +113,7 @@ class TestableMRP extends org.eevolution.process.MRP
 	protected MPPProductPlanning getProductPlanning(int AD_Client_ID, int AD_Org_ID,
 														int S_Resource_ID, int M_Warehouse_ID, MProduct product)
 	{
-		return this.planning;
+		return (MPPProductPlanning)this.planning;
 	}
 	@Override
 	protected BigDecimal getQtyOnHand(I_PP_Product_Planning pp)
@@ -156,7 +156,7 @@ class TestableMRP extends org.eevolution.process.MRP
 	{
 		Timestamp datePromised = DemandDateStartSchedule;
 		Timestamp dateStartSchedule = TimeUtil.addDays(datePromised, 0 - this.planning.getDeliveryTime_Promised().intValueExact());
-		I_PP_MRP mrp = MRPTest.createMRP(this.planning, X_PP_MRP.TYPEMRP_Supply, X_PP_MRP.DOCSTATUS_Drafted, QtyPlanned,
+		I_PP_MRP mrp = MRPUtil.createMRP(this.planning, X_PP_MRP.TYPEMRP_Supply, X_PP_MRP.DOCSTATUS_Drafted, QtyPlanned,
 								datePromised, dateStartSchedule);
 		((PO)mrp).saveEx(get_TrxName());
 		this.actualMRP.add(mrp);
