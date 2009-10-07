@@ -80,6 +80,8 @@ import org.compiere.util.ValueNamePair;
  *  @author Teo Sarca, teo.sarca@gmail.com
  *  			<li>BF [ 2873323 ] ABP: Do not concatenate strings in SQL queries
  *  				https://sourceforge.net/tracker/?func=detail&aid=2873323&group_id=176962&atid=879332
+ *  			<li>BF [ 2874109 ] Tab ORDER BY clause is not supporting context variables
+ *  				https://sourceforge.net/tracker/?func=detail&aid=2874109&group_id=176962&atid=879332
  *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -1552,7 +1554,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{
 		//	First Prio: Tab Order By
 		if (m_vo.OrderByClause.length() > 0)
-			return m_vo.OrderByClause;
+		{
+			String orderBy = Env.parseContext(m_vo.ctx, m_vo.WindowNo, m_vo.OrderByClause, false, false);
+			return orderBy;
+		}
 
 		//	Second Prio: Fields (save it)
 		m_vo.OrderByClause = "";
