@@ -335,7 +335,7 @@ public class PackOut extends SvrProcess
 							String targetDirectoryModified=null;
 							char fileseperator1 = '/';
 							char fileseperator2 = '\\';
-							//Correct package for proper file seperator
+							//Correct package for proper file separator
 							if (File.separator.equals("/")){			
 								targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
 							}
@@ -346,7 +346,7 @@ public class PackOut extends SvrProcess
 							success = (new File(target_File).mkdirs());						
 							fullDirectory = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_File_Directory);
 							targetDirectoryModified=null;						
-							//Correct package for proper file seperator
+							//Correct package for proper file separator
 							if (File.separator.equals("/")){			
 								targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
 							}
@@ -364,7 +364,7 @@ public class PackOut extends SvrProcess
 								fullDirectory = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_Directory);
 								String destinationDirectoryModified=null;						
 								
-								//Correct package for proper file seperator
+								//Correct package for proper file separator
 								if (File.separator.equals("/")){			
 									destinationDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
 								}

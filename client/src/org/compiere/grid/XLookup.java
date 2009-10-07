@@ -59,7 +59,7 @@ public class XLookup extends Lookup
 	 */
 	public String getDisplay (Object key)
 	{
-		//  linear seatch in m_data
+		//  linear search in m_data
 		for (int i = 0; i < p_data.size(); i++)
 		{
 			Object oo = p_data.get(i);

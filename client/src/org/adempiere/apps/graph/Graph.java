@@ -100,7 +100,7 @@ public class Graph extends CPanel implements ChartMouseListener
 
 	/** Graph Size				*/
 	//private Dimension 		m_size = null;
-	/** Zero/Zero Coordibate point	*/
+	/** Zero/Zero Coordinate point	*/
 	private Point			m_point0_0 = null;
 //	/** Layout					*/
 //	private BarGraphLayout	m_layout = new BarGraphLayout(this);

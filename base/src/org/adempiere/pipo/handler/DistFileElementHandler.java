@@ -85,7 +85,7 @@ public class DistFileElementHandler extends AbstractElementHandler {
 				}
 			}
 			
-			//Correct target directory for proper file seperator
+			//Correct target directory for proper file separator
 			String fullTargetPath = adempiereSourcePath+targetDirectory;
 			char slash1 = '\\'; 
 			char slash2 = '/';
@@ -118,7 +118,7 @@ public class DistFileElementHandler extends AbstractElementHandler {
 				log.info("Backup Complete");
 			}		
 			
-//			Correct dist directory for proper file seperator
+//			Correct dist directory for proper file separator
 			String fullSourcePath=null;		
 			if (File.separator.equals("/"))			
 				fullSourcePath = sourceDirectory.replace(slash1,slash2);
