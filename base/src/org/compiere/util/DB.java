@@ -83,6 +83,8 @@ import org.compiere.process.SequenceCheck;
  * @author Teo Sarca, teo.sarca@gmail.com
  * 		<li>BF [ 2873324 ] DB.TO_NUMBER should be a static method
  * 			https://sourceforge.net/tracker/?func=detail&aid=2873324&group_id=176962&atid=879332
+ * 		<li>FR [ 2873891 ] DB.getKeyNamePairs should use trxName
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2873891&group_id=176962&atid=879335
  */
 public final class DB
 {
@@ -1592,6 +1594,18 @@ public final class DB
 	 */
 	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional, Object ... params)
 	{
+		return getKeyNamePairs(null, sql, optional, params);
+	}
+	
+	/**
+	 * Get Array of Key Name Pairs
+	 * @param trxName
+	 * @param sql select with id / name as first / second column
+	 * @param optional if true (-1,"") is added
+	 * @param params query parameters
+	 */
+	public static KeyNamePair[] getKeyNamePairs(String trxName, String sql, boolean optional, Object ... params)
+	{
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
@@ -1601,7 +1615,7 @@ public final class DB
         }
         try
         {
-            pstmt = DB.prepareStatement(sql, null);
+            pstmt = DB.prepareStatement(sql, trxName);
             setParameters(pstmt, params);
             rs = pstmt.executeQuery();
             while (rs.next())
