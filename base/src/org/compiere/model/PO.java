@@ -2104,6 +2104,14 @@ public abstract class PO
 			}
 			else
 			{
+				if (savepoint != null)
+				{
+					try {
+						trx.releaseSavepoint(savepoint);
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 				savepoint = null;
 				trx = null;
 			}

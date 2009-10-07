@@ -45,6 +45,9 @@ import org.adempiere.exceptions.AdempiereException;
  *  - use UUID for safer transaction name generation
  *  @author Teo Sarca, http://www.arhipac.ro
  *  			<li>FR [ 2080217 ] Implement TrxRunnable
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  		<li>BF [ 2849122 ] PO.AfterSave is not rollback on error - add releaseSavepoint method
+ *  			https://sourceforge.net/tracker/index.php?func=detail&aid=2849122&group_id=176962&atid=879332#
  */
 public class Trx implements VetoableChangeListener
 {
@@ -386,6 +389,25 @@ public class Trx implements VetoableChangeListener
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 * Release Savepoint
+	 * @param savepoint
+	 * @throws SQLException
+	 * @see {@link Connection#releaseSavepoint(Savepoint)}
+	 */
+	public void releaseSavepoint(Savepoint savepoint) throws SQLException
+	{
+		if (m_connection == null) 
+		{
+			getConnection();
+		}
+		if(m_connection != null)
+		{
+			m_connection.releaseSavepoint(savepoint);
+		}
+		
 	}
 	
 	/**

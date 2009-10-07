@@ -15,6 +15,63 @@ import test.AdempiereTestCase;
  */
 public class POTest extends AdempiereTestCase
 {
+	public static class MyTestPO extends MTest
+	{
+		private static final long serialVersionUID = -6861171283806782985L;
+		protected boolean failOnSave = false;
+
+
+		private MyTestPO m_parent = null;
+		private MyTestPO m_dependentRecord = null;
+
+		public static String getName(int Test_ID, String trxName)
+		{
+			String sql = "SELECT "+COLUMNNAME_Name+" FROM "+Table_Name
+			+" WHERE "+COLUMNNAME_Test_ID+"=?";
+			return DB.getSQLValueStringEx(trxName, sql, Test_ID);
+		}
+
+		public static boolean exists(int Test_ID, String trxName)
+		{
+			final String sql = "SELECT "+COLUMNNAME_Test_ID+" FROM "+Table_Name
+			+" WHERE "+COLUMNNAME_Test_ID+"=?";
+			int id = DB.getSQLValueEx(trxName, sql, Test_ID);
+			return id > 0 && id == Test_ID;
+		}
+
+		public MyTestPO(Properties ctx, boolean failOnSave, String trxName)
+		{
+			super(ctx, "Test_"+System.currentTimeMillis(), 10);
+			this.set_TrxName(trxName);
+			this.setDescription(""+getClass());
+			this.failOnSave = failOnSave;
+		}
+		public MyTestPO(Properties ctx, int id, String trxName)
+		{
+			super(ctx, id, trxName);
+		}
+		@Override
+		protected boolean afterSave(boolean newRecord, boolean success)
+		{
+			if (m_parent == null)
+			{
+				m_dependentRecord = new MyTestPO(getCtx(), false, get_TrxName());
+				m_dependentRecord.m_parent = this;
+				m_dependentRecord.setName("D_"+this.getName());
+				m_dependentRecord.saveEx();
+			}
+
+			if (this.failOnSave)
+				throw new RuntimeException("Never save this object [trxName="+get_TrxName()+", success="+success+"]");
+			return true;
+		}
+
+		public int getDependent_ID()
+		{
+			return (m_dependentRecord != null ? m_dependentRecord.get_ID() : -1);
+		}
+	};
+
 	/**
 	 * Tests the following methods:
 	 * <ul> 
@@ -64,8 +121,8 @@ public class POTest extends AdempiereTestCase
 		// Finally, delete the testPO
 		testPO.delete(true, getTrxName());
 	}
-	
-	
+
+
 	/**
 	 * <li>BF [ 1990856 ] PO.set_Value* : truncate string more than needed
 	 */
@@ -116,45 +173,19 @@ public class POTest extends AdempiereTestCase
 			assertEquals("String was not truncated correctly (6)", maxLength, testPO.getName().length());
 		}
 	}
-	
+
 	/**
 	 * Object should NOT be saved if afterSave fails EVEN if is outside transaction (trxName=null)
 	 */
 	public void testAfterSaveError()
 	{
-		class MyTestPO extends MTest {
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = -6861171283806782985L;
-			protected boolean failOnSave = false;
-			public MyTestPO(Properties ctx, boolean failOnSave, String trxName) {
-				super(ctx, "Test_"+System.currentTimeMillis(), 10);
-				this.set_TrxName(trxName);
-				this.setDescription(""+getClass());
-				this.failOnSave = failOnSave;
-			}
-			public MyTestPO(Properties ctx, int id, String trxName) {
-				super(ctx, id, trxName);
-			}
-			@Override
-			protected boolean afterSave(boolean newRecord, boolean success) {
-				if (this.failOnSave)
-					throw new RuntimeException("Never save this object [trxName="+getTrxName()+", success="+success+"]");
-				return true;
-			}
-		};
 		//
 		// Test for new objects
 		{
 			MyTestPO test = new MyTestPO(getCtx(), true, null);
 			assertFalse("Object should not be saved -- "+test, test.save());
 			assertFalse("Object should not be saved -- "+test, test.get_ID() <= 0);
-			//
-			String sql = "SELECT "+MyTestPO.COLUMNNAME_Test_ID+" FROM "+MyTestPO.Table_Name
-							+" WHERE "+MyTestPO.COLUMNNAME_Test_ID+"=?";
-			int id = DB.getSQLValueEx(null, sql, test.get_ID());
-			assertTrue("Object should not be saved(2) -- id="+id, id <= 0);
+			assertFalse("Object should not be saved(2) -- "+test, MyTestPO.exists(test.get_ID(), null));
 		}
 		//
 		// Test for old objects
@@ -168,13 +199,47 @@ public class POTest extends AdempiereTestCase
 			test2.setName(test2.getName()+"_2");
 			assertFalse("Object should not be saved -- "+test2, test2.save());
 			//
-			String sql = "SELECT "+MyTestPO.COLUMNNAME_Name+" FROM "+MyTestPO.Table_Name
-							+" WHERE "+MyTestPO.COLUMNNAME_Test_ID+"=?";
-			String name = DB.getSQLValueStringEx(null, sql, test2.get_ID());
+			String name = MyTestPO.getName(test2.get_ID(), null);
 			assertEquals("Object should not be modified(2) -- id="+test2, test.getName(), name);
 		}
 	}
-	
+
+	/**
+	 * If one object fails on after save we should not revert all transaction.
+	 * BF [ 2849122 ] PO.AfterSave is not rollback on error
+	 * https://sourceforge.net/tracker/index.php?func=detail&aid=2849122&group_id=176962&atid=879332#
+	 * @throws Exception
+	 */
+	public void testAfterSaveError_BF2849122() throws Exception
+	{
+		assertNotNull("TrxName should not be null", getTrxName());
+
+		MyTestPO t1 = new MyTestPO(getCtx(), false, getTrxName());
+		t1.saveEx();
+		assertTrue("Object not found(1) - t1="+t1, MyTestPO.exists(t1.get_ID(), getTrxName()));
+		assertTrue("Object not found(1) - t1(dep)="+t1, MyTestPO.exists(t1.getDependent_ID(), getTrxName()));
+		//
+		final MyTestPO t2 = new MyTestPO(getCtx(), true, getTrxName());
+		try
+		{
+			t2.saveEx();
+		}
+		catch (Exception e){}
+		assertTrue("Object not found(2) - t1="+t1, MyTestPO.exists(t1.get_ID(), getTrxName()));
+		assertTrue("Object not found(2) - t1(dep)="+t1, MyTestPO.exists(t1.getDependent_ID(), getTrxName()));
+		assertFalse("Object found(2) - t2="+t2, MyTestPO.exists(t2.get_ID(), getTrxName()));
+		assertFalse("Object found(2) - t2(dep)="+t2, MyTestPO.exists(t2.getDependent_ID(), getTrxName()));
+		//
+		final MyTestPO t3 = new MyTestPO(getCtx(), false, getTrxName());
+		t3.saveEx();
+		assertTrue("Object not found(3) - t1="+t1, MyTestPO.exists(t1.get_ID(), getTrxName()));
+		assertTrue("Object not found(3) - t1(dep)="+t1, MyTestPO.exists(t1.getDependent_ID(), getTrxName()));
+		assertFalse("Object found(3) - t2="+t2, MyTestPO.exists(t2.get_ID(), getTrxName()));
+		assertFalse("Object found(3) - t2(dep)="+t2, MyTestPO.exists(t2.getDependent_ID(), getTrxName()));
+		assertTrue("Object not found(3) - t3="+t3, MyTestPO.exists(t3.get_ID(), getTrxName()));
+		assertTrue("Object not found(3) - t3(dep)="+t3, MyTestPO.exists(t3.getDependent_ID(), getTrxName()));
+	}
+
 	/**
 	 * BF [ 2859125 ] Can't set AD_OrgBP_ID
 	 * https://sourceforge.net/tracker/index.php?func=detail&aid=2859125&group_id=176962&atid=879332#
