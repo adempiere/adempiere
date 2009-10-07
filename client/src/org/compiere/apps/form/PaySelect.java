@@ -227,12 +227,10 @@ public class PaySelect
 			"i.IsSOTrx=? AND IsPaid='N'"
 			//	Different Payment Selection
 			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl"
-				+ " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.C_PaySelectionCheck_ID IS NOT NULL" 
-				+ " AND psl.C_PaySelectionCheck_ID NOT IN "
-				+ " (SELECT psc.C_PaySelectionCheck_ID FROM C_PaySelectionCheck psc, C_Payment p"
-				+ " WHERE psc.C_PaySelectionCheck_ID = psl.C_PaySelectionCheck_ID"
-				+ " AND psc.C_Payment_ID = p.C_Payment_ID"
-				+ " AND p.DocStatus IN ('RE','VO')))"
+			+                 " INNER JOIN C_PaySelectionCheck psc ON (psl.C_PaySelectionCheck_ID=psc.C_PaySelectionCheck_ID)"
+			+                 " LEFT OUTER JOIN C_Payment pmt ON (pmt.C_Payment_ID=psc.C_Payment_ID)"
+			+                 " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.IsActive='Y'"
+			+				  " AND (pmt.DocStatus IS NULL OR pmt.DocStatus NOT IN ('VO','RE')) )"
 			+ " AND i.DocStatus IN ('CO','CL')"
 			+ " AND i.AD_Client_ID=?",	//	additional where & order in loadTableInfo()
 			true, "i");

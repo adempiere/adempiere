@@ -116,9 +116,11 @@ public class PaySelectionCreateFrom extends SvrProcess
 			+ "WHERE IsSOTrx='N' AND IsPaid='N' AND DocStatus IN ('CO','CL')"
 			+ " AND AD_Client_ID=?"				//	##6
 			//	Existing Payments - Will reselect Invoice if prepared but not paid 
-			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl "
-				+ "WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.IsActive='Y'"
-				+ " AND psl.C_PaySelectionCheck_ID IS NOT NULL)";
+			+ " AND NOT EXISTS (SELECT * FROM C_PaySelectionLine psl"
+			+                 " INNER JOIN C_PaySelectionCheck psc ON (psl.C_PaySelectionCheck_ID=psc.C_PaySelectionCheck_ID)"
+			+                 " LEFT OUTER JOIN C_Payment pmt ON (pmt.C_Payment_ID=psc.C_Payment_ID)"
+			+                 " WHERE i.C_Invoice_ID=psl.C_Invoice_ID AND psl.IsActive='Y'"
+			+				  " AND (pmt.DocStatus IS NULL OR pmt.DocStatus NOT IN ('VO','RE')) )";
 		//	Disputed
 		if (!p_IncludeInDispute)
 			sql += " AND i.IsInDispute='N'";
