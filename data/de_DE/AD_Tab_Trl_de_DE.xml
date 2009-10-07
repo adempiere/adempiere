@@ -1547,25 +1547,25 @@ The SELECT definition must contain the SELECT and FROM keywords in upper case, t
   <value column="Name" original="Schema Line">Schema-Position</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Trade Discount Price List Lines">Trade Discount Price List Lines</value>
-  <value column="Help" original="Pricelists are created based on Product Purchase and Category Discounts.&#10;The parameters listed here allow to copy and calculate pricelists.&lt;BR&gt;&#10;The calculation:&#10;&lt;UL&gt;&#10;&lt;LI&gt;Copy and convert price from referenced price list&#10;&lt;LI&gt;result plus Surcharge Amount&#10;&lt;LI&gt;result minus Discount&#10;&lt;LI&gt;if resulting price is less than the original limit price plus min Margin, use this price (only if Margin is not zero)&#10;&lt;LI&gt;if resulting price is more than the original limit price plus max Margin, use this price (only if Margin us not zero)&#10;&lt;LI&gt;Round resulting price&#10;&lt;/UL&gt;&#10;&lt;B&gt;The Formula&lt;/B&gt; is&lt;BR&gt;&#10;NewPrice = (Convert(BasePrice) + Surcharge) * (100-Discount) / 100;&lt;BR&gt;&#10;if MinMargin &lt;&gt; 0 then NewPrice = Max (NewPrice, Convert(OrigLimitPrice) + MinMargin);&lt;BR&gt;&#10;if MaxMargin &lt;&gt; 0 then NewPrice = Min (NewPrice, Convert(OrigLimitPrice) + MaxMargin);&lt;BR&gt;&#10; &lt;BR&gt;&#10;&lt;B&gt;Example:&lt;/B&gt; (assuming same currency)&lt;BR&gt;&#10;Original Prices:  List=300, Standard=250, Limit=200;&lt;BR&gt;&#10;New List Price: Base=List, Surcharge=0, Discount=0, Round">Pricelists are created based on Product Purchase and Category Discounts.
-The parameters listed here allow to copy and calculate pricelists.&lt;BR&gt;
+  <value column="Help" original="Pricelists are created based on Product Purchase and Category Discounts.&#10;The parameters listed here allow to copy and calculate pricelists.&lt;BR&gt;&#10;The calculation:&#10;&lt;UL&gt;&#10;&lt;LI&gt;Copy and convert price from referenced price list&#10;&lt;LI&gt;result plus Surcharge Amount&#10;&lt;LI&gt;result minus Discount&#10;&lt;LI&gt;if resulting price is less than the original limit price plus min Margin, use this price (only if Margin is not zero)&#10;&lt;LI&gt;if resulting price is more than the original limit price plus max Margin, use this price (only if Margin us not zero)&#10;&lt;LI&gt;Round resulting price&#10;&lt;/UL&gt;&#10;&lt;B&gt;The Formula&lt;/B&gt; is&lt;BR&gt;&#10;NewPrice = (Convert(BasePrice) + Surcharge) * (100-Discount) / 100;&lt;BR&gt;&#10;if MinMargin &lt;&gt; 0 then NewPrice = Max (NewPrice, Convert(OrigLimitPrice) + MinMargin);&lt;BR&gt;&#10;if MaxMargin &lt;&gt; 0 then NewPrice = Min (NewPrice, Convert(OrigLimitPrice) + MaxMargin);&lt;BR&gt;&#10; &lt;BR&gt;&#10;&lt;B&gt;Example:&lt;/B&gt; (assuming same currency)&lt;BR&gt;&#10;Original Prices:  List=300, Standard=250, Limit=200;&lt;BR&gt;&#10;New List Price: Base=List, Surcharge=0, Discount=0, Round"><![CDATA[Pricelists are created based on Product Purchase and Category Discounts.
+The parameters listed here allow to copy and calculate pricelists.<BR>
 The calculation:
-&lt;UL&gt;
-&lt;LI&gt;Copy and convert price from referenced price list
-&lt;LI&gt;result plus Surcharge Amount
-&lt;LI&gt;result minus Discount
-&lt;LI&gt;if resulting price is less than the original limit price plus min Margin, use this price (only if Margin is not zero)
-&lt;LI&gt;if resulting price is more than the original limit price plus max Margin, use this price (only if Margin us not zero)
-&lt;LI&gt;Round resulting price
-&lt;/UL&gt;
-&lt;B&gt;The Formula&lt;/B&gt; is&lt;BR&gt;
-NewPrice = (Convert(BasePrice) + Surcharge) * (100-Discount) / 100;&lt;BR&gt;
-if MinMargin &lt;&gt; 0 then NewPrice = Max (NewPrice, Convert(OrigLimitPrice) + MinMargin);&lt;BR&gt;
-if MaxMargin &lt;&gt; 0 then NewPrice = Min (NewPrice, Convert(OrigLimitPrice) + MaxMargin);&lt;BR&gt;
- &lt;BR&gt;
-&lt;B&gt;Example:&lt;/B&gt; (assuming same currency)&lt;BR&gt;
-Original Prices:  List=300, Standard=250, Limit=200;&lt;BR&gt;
-New List Price: Base=List, Surcharge=0, Discount=0, Round</value>
+<UL>
+<LI>Copy and convert price from referenced price list</li>
+<LI>result plus Surcharge Amount</li>
+<LI>result minus Discount</li>
+<LI>if resulting price is less than the original limit price plus min Margin, use this price (only if Margin is not zero)</li>
+<LI>if resulting price is more than the original limit price plus max Margin, use this price (only if Margin us not zero)</li>
+<LI>Round resulting price</li>
+</UL>
+<B>The Formula</B> is<BR>
+NewPrice = (Convert(BasePrice) + Surcharge) * (100-Discount) / 100<BR>
+if MinMargin &lt;&gt; 0 then NewPrice = Max (NewPrice, Convert(OrigLimitPrice) + MinMargin)<BR>
+if MaxMargin &lt;&gt; 0 then NewPrice = Min (NewPrice, Convert(OrigLimitPrice) + MaxMargin)<BR>
+<BR>
+<B>Example:</B> (assuming same currency)<BR>
+Original Prices:  List=300, Standard=250, Limit=200<BR>
+New List Price: Base=List, Surcharge=0, Discount=0, Round]]></value>
  </row>
  <row id="406" trl="Y">
   <value column="Name" original="Discount Break">Discount Break</value>

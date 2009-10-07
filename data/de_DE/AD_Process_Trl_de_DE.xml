@@ -259,7 +259,7 @@
  </row>
  <row id="154" trl="Y">
   <value column="Name" original="Generate Invoice from Receipt">Rechnung aus Zugangsbeleg erstellen</value>
-  <value column="Description" original="Create and process Invoice from this receipt.  The receipt should be correct and completed.">Rechnung aus dieser Zugangsbeleg erstellen und verarbeiten. Der Zugangsbeleg sollte vollständig und korrekt sein.</value>
+  <value column="Description" original="Create and process Invoice from this receipt.  The receipt should be correct and completed.">Rechnung aus diesem Zugangsbeleg erstellen und verarbeiten. Der Zugangsbeleg sollte vollständig und korrekt sein.</value>
   <value column="Help" original="Generate Invoice from Receipt will create an invoice based on the selected receipt and match the invoice to that receipt. You can set the document number only if the invoice document type allows to set the document number manually.">Das Erstellen der Rechnung aus dem Zugangsbeleg erzeugt eine passende Rechnung zu diesem Zugangsbeleg und ordnet sie zu. Sie können die Belegnummer nur setzen, wenn die Rechnungsbelegart gestattet, die Belegnummer manuell zu setzen.</value>
  </row>
  <row id="155" trl="Y">
@@ -441,7 +441,7 @@
  <row id="196" trl="Y">
   <value column="Name" original="Import Products ">Produkte importieren</value>
   <value column="Description" original="Imports products from a file into the application">Produkte aus einer Datei importieren</value>
-  <value column="Help" original="Import Products will bring a file of products, in a predefined format into the application.&lt;p&gt;&#10;The Parameters are default values for null import record values, they do not overwrite any data.&lt;p&gt;&#10;If you select an existing price list and you have List, Standard, and Limit Price defined, they are directly created/updated.">"Produkte importieren" wird Produktdaten aus einer Datei mit einem vordefinierten Format in das System laden.&lt;p&gt; Die Werte sind Standardwerte bei Import mit Nullwerten, sie überschreiben keine Daten.&lt;p&gt; Wenn Sie eine bestehende Preisliste selektieren und Sie haben Listen-, Standard- und Mindestpreis werden diese direkt erstellt/aktualisiert.</value>
+  <value column="Help" original="Import Products will bring a file of products, in a predefined format into the application.&lt;p&gt;&#10;The Parameters are default values for null import record values, they do not overwrite any data.&lt;p&gt;&#10;If you select an existing price list and you have List, Standard, and Limit Price defined, they are directly created/updated.">"Produkte importieren" wird Produktdaten aus einer Datei mit einem vordefinierten Format in das System laden.&lt;p&gt; Die Werte sind Standardwerte bei Import mit Nullwerten, sie überschreiben keine Daten.&lt;p&gt; Wenn Sie eine bestehende Preisliste selektieren und Listen-, Standard- und Mindestpreis definiert haben, werden diese direkt erstellt/aktualisiert.</value>
  </row>
  <row id="197" trl="Y">
   <value column="Name" original="Import Accounts">Konten importieren</value>

@@ -1003,7 +1003,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="383" trl="Y">
-  <value column="Name" original="Fixed Position">Fixed Position</value>
+  <value column="Name" original="Fixed Position">feste Breite</value>
   <value column="Description" original=""/>
  </row>
  <row id="384" trl="Y">
@@ -1023,7 +1023,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="388" trl="Y">
-  <value column="Name" original="Number">Nummer</value>
+  <value column="Name" original="Number">Zahl</value>
   <value column="Description" original=""/>
  </row>
  <row id="389" trl="Y">

@@ -1316,7 +1316,18 @@
   <value column="Name" original="Display Logic">Anzeigelogik</value>
   <value column="PrintName" original="Display Logic">Anzeigelogik</value>
   <value column="Description" original="If the Field is displayed, the result determines if the field is actually displayed">Wenn es ein anzuzeigendes Feld ist, bestimmt das Ergebnis, ob dieses Feld tatsächlich angezeigt wird.</value>
-  <value column="Help" original="format := {expression} [{logic} {expression}]&lt;br&gt; &#10;expression := @{context}@{operand}{value} or @{context}@{operand}{value}&lt;br&gt; &#10;logic := {|}|{&amp;}&lt;br&gt;&#10;context := any global or window context &lt;br&gt;&#10;value := strings or numbers&lt;br&gt;&#10;logic operators&#9;:= AND or OR with the previous result from left to right &lt;br&gt;&#10;operand := eq{=}, gt{&amp;gt;}, le{&amp;lt;}, not{~^!} &lt;br&gt;&#10;Examples: &lt;br&gt;&#10;@AD_Table_ID@=14 | @Language@!GERGER &lt;br&gt;&#10;@PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@&lt;br&gt;&#10;@Name@&gt;J&lt;br&gt;&#10;Strings may be in single quotes (optional)&#10;">Format := {expression} [{logic} {expression}]&lt;br&gt; expression := @{context}@{operand}{value} oder @{context}@{operand}{value}&lt;br&gt; logic := {|}|{&amp;}&lt;br&gt; context := jeglicher globaler oder Fenster-Kontext &lt;br&gt; value := Zeichenketten oder Zahlen&lt;br&gt; logic operators := AND oder OR mit dem bisherigen Ergebnis von Links nach Rechts &lt;br&gt; operand := eq{=}, gt{&amp;gt;}, le{&amp;lt;}, not{~^!} &lt;br&gt; Beispiele: &lt;br&gt; @AD_Table_ID@=14 | @Language@!de_DE &lt;br&gt; @PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@&lt;br&gt; @Name@&gt;J&lt;br&gt; Zeichenketten können (optional) zwischen einfachen Anführungszeichen stehen.</value>
+  <value column="Help" original="format := {expression} [{logic} {expression}]&lt;br&gt; &#10;expression := @{context}@{operand}{value} or @{context}@{operand}{value}&lt;br&gt; &#10;logic := {|}|{&amp;}&lt;br&gt;&#10;context := any global or window context &lt;br&gt;&#10;value := strings or numbers&lt;br&gt;&#10;logic operators&#9;:= AND or OR with the previous result from left to right &lt;br&gt;&#10;operand := eq{=}, gt{&amp;gt;}, le{&amp;lt;}, not{~^!} &lt;br&gt;&#10;Examples: &lt;br&gt;&#10;@AD_Table_ID@=14 | @Language@!GERGER &lt;br&gt;&#10;@PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@&lt;br&gt;&#10;@Name@&gt;J&lt;br&gt;&#10;Strings may be in single quotes (optional)&#10;"><![CDATA[Format := {expression} [{logic} {expression}]<br>
+expression := @{context}@{operand}{value} oder @{context}@{operand}{value}<br>
+logic := {|}|{&amp;}<br>
+context := jeglicher globaler oder Fenster-Kontext<br>
+value := Zeichenketten oder Zahlen<br>
+logic operators := AND oder OR mit dem bisherigen Ergebnis von Links nach Rechts<br>
+operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!}<br>
+Beispiele:<br>
+@AD_Table_ID@=14 | @Language@!de_DE<br>
+@PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@<br>
+@Name@&gt;J<br>
+Zeichenketten können (optional) zwischen einfachen Anführungszeichen stehen.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -1737,7 +1748,7 @@
   <value column="Name" original="Active">Aktiv</value>
   <value column="PrintName" original="Active">Aktiv</value>
   <value column="Description" original="The record is active in the system">Wenn das Kontrollkästchen ein Häkchen enthält, ist der Eintrag ist im System aktiv</value>
-  <value column="Help" original="There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.&#10;There are two reasons for de-activating and not deleting records:&#10;(1) The system requires the record for audit purposes.&#10;(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.">Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: einer ist, ihn zu löschen; der andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten. Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen: (1) Das System braucht den Datensatz für Revisionszwecke. (2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.</value>
+  <value column="Help" original="There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.&#10;There are two reasons for de-activating and not deleting records:&#10;(1) The system requires the record for audit purposes.&#10;(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries."><![CDATA[Es gibt zwei Möglichkeiten, einen Datensatz nicht mehr verfügbar zu machen: eine ist, ihn zu löschen; die andere, ihn zu deaktivieren. Ein deaktivierter Eintrag ist nicht mehr für eine Auswahl verfügbar, aber verfügbar für die Verwendung in Berichten.<br>Es gibt zwei Gründe, Datensätze zu deaktivieren und nicht zu löschen:<br>(1) Das System braucht den Datensatz für Revisionszwecke.<br>(2) Der Datensatz wird von anderen Datensätzen referenziert. Z.B. können Sie keinen Geschäftspartner löschen, wenn es Rechnungen für diesen Geschäftspartner gibt. Sie deaktivieren den Geschäftspartner und verhindern, dass dieser Eintrag in zukünftigen Vorgängen verwendet wird.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -2558,8 +2569,8 @@
  <row id="480" trl="Y">
   <value column="Name" original="Purchase Pricelist">Einkaufspreisliste</value>
   <value column="PrintName" original="Purchase Pricelist">Einkaufspreisliste</value>
-  <value column="Description" original="Price List used by this Business Partner">Preisliste die von diesem Geschäftspartenr verwendet wird</value>
-  <value column="Help" original="Identifies the price list used by a Vendor for products purchased by this organization.">Gibt die Preisliste an, die von einem Lieferanten für Produkte die von dieser Organisation eingekauft werden verwendet wird.</value>
+  <value column="Description" original="Price List used by this Business Partner">Preisliste, die von diesem Geschäftspartner verwendet wird</value>
+  <value column="Help" original="Identifies the price list used by a Vendor for products purchased by this organization.">Gibt die Preisliste an, die von einem Lieferanten für Produkte, die von dieser Organisation eingekauft werden, verwendet wird.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
