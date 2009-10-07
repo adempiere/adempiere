@@ -232,7 +232,7 @@ public class PrepareMigrationScripts extends SvrProcess {
 					msg = msg + "Script Body " + fileName.get(i) + " failed!";
 					pstmt = DB
 							.prepareStatement(
-									"delete from ad_migrationscript = ad_migrationscript_id = ?",
+									"delete from ad_migrationscript WHERE ad_migrationscript_id = ?",
 									this.get_TrxName());
 					pstmt.setInt(1, seqID);
 					result = pstmt.executeUpdate();
