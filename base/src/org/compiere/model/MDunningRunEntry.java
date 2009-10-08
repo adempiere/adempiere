@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.BPartnerNoAddressException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -40,6 +41,7 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	 * 
 	 */
 	private static final long serialVersionUID = 2028055451030209868L;
+	
 	/** Logger								*/
 	private static CLogger		s_log = CLogger.getCLogger (MPayment.class);
 
@@ -106,30 +108,58 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 			setC_BPartner_Location_ID (locations[0].getC_BPartner_Location_ID());
 		else
 		{
+			MBPartnerLocation firstActive = null;
+			MBPartnerLocation firstBillTo = null;
 			for (int i = 0; i < locations.length; i++)
 			{
 				MBPartnerLocation location = locations[i];
 				if (!location.isActive())
+				{
 					continue;
+				}
+				else if (firstActive == null)
+				{
+					firstActive = location;
+				}
 				if ((location.isPayFrom() && isSOTrx)
 					|| (location.isRemitTo() && !isSOTrx))
 				{
 					setC_BPartner_Location_ID (location.getC_BPartner_Location_ID());
 					break;
 				}
+				else if (firstBillTo == null && location.isBillTo())
+				{
+					firstBillTo = location;
+				}
+			}
+
+			// If IsPayFrom or isRemitTo is not found among the BP Locations, check IsBillTo
+			// if that isn't available, we should use any active location
+			if(getC_BPartner_Location_ID() == 0)
+			{
+				if (firstBillTo != null)
+				{
+					setC_BPartner_Location_ID (firstBillTo.getC_BPartner_Location_ID());
+				}
+				else if (firstActive != null)
+				{
+					String msg = "@C_BPartner_ID@ " + bp.getName();
+					if (isSOTrx)
+						msg += " @No@ @IsPayFrom@";
+					else
+						msg += " @No@ @IsRemitTo@";
+					msg += " & @IsBillTo@";
+					log.info(msg);
+					setC_BPartner_Location_ID (firstActive.getC_BPartner_Location_ID());
+				}
 			}
 		}
 		if (getC_BPartner_Location_ID() == 0)
 		{
-			String msg = "@C_BPartner_ID@ " + bp.getName();
-			if (isSOTrx)
-				msg += " @No@ @IsPayFrom@";
-			else
-				msg += " @No@ @IsRemitTo@";
-			throw new IllegalArgumentException (msg);
+			throw new BPartnerNoAddressException(bp);
 		}
 		//	User with location
-		MUser[] users = MUser.getOfBPartner(getCtx(), bp.getC_BPartner_ID());
+		MUser[] users = MUser.getOfBPartner(getCtx(), bp.getC_BPartner_ID(), null);
 		if (users.length == 1)
 			setAD_User_ID (users[0].getAD_User_ID());
 		else
