@@ -41,7 +41,7 @@ import org.compiere.util.Env;
 public class CalloutBOM extends CalloutEngine
 {
 	/**
-	 *	Parent cycle.
+	 *	Parent cycle check and BOM Line defaults.
 	 *  @param ctx      Context
 	 *  @param WindowNo current Window No
 	 *  @param mTab     Model Tab
@@ -62,6 +62,11 @@ public class CalloutBOM extends CalloutEngine
         {                                                                               
              throw new AdempiereException("@ValidComponent@ - Error Parent not be Component");				
         }
+        // Set BOM Line defaults
+        I_M_Product product = MProduct.get(ctx, M_Product_ID);
+        bomLine.setDescription(product.getDescription());
+        bomLine.setHelp(product.getHelp());
+        bomLine.setC_UOM_ID(product.getC_UOM_ID());
 		return "";
 	}
         
