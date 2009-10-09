@@ -25,6 +25,8 @@ import org.compiere.util.CLogger;
 /**
  * @author Trifon N. Trifonov
  * @author victor.perez@e-evolution.com, e-Evolution
+ * <li> BF2875989 Deactivate replication records are include to replication
+ * <li> https://sourceforge.net/tracker/?func=detail&aid=2875989&group_id=176962&atid=879332
  */
 public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	/**
@@ -56,6 +58,7 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 		String whereClause = new StringBuffer(X_AD_ReplicationTable.COLUMNNAME_AD_ReplicationStrategy_ID)+"=?"; // #1
 		return new Query(getCtx(), X_AD_ReplicationTable.Table_Name, whereClause, get_TrxName())
 			.setParameters(new Object[]{getAD_ReplicationStrategy_ID()})
+			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
 			.list()
 		;
@@ -68,6 +71,7 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 		String whereClause = "AD_ReplicationStrategy_ID=?"; // #1
 		return new Query(getCtx(),X_AD_ReplicationDocument.Table_Name,whereClause,get_TrxName())
 			.setParameters(new Object[]{getAD_ReplicationStrategy_ID()})
+			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
 			.list()
 		;	
@@ -82,6 +86,7 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	{
 		String whereClause = "AD_ReplicationStrategy_ID=? AND AD_Table_ID=?";
 		return new Query(ctx, X_AD_ReplicationTable.Table_Name, whereClause, null)
+			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
 			.setParameters(new Object[]{AD_ReplicationStrategy_ID, AD_Table_ID})
 			.first()
@@ -97,7 +102,8 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	{
 		String whereClause = "AD_ReplicationStrategy_ID=? AND AD_Table_ID=?";
 		return new Query(ctx, X_AD_ReplicationDocument.Table_Name, whereClause, null)
-			.setApplyAccessFilter(true)
+			.setOnlyActiveRecords(true)
+			.setApplyAccessFilter(false)
 			.setParameters(new Object[]{AD_ReplicationStrategy_ID, AD_Table_ID})
 			.first()
 		;
