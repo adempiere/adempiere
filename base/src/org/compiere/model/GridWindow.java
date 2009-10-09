@@ -480,7 +480,7 @@ public class GridWindow implements Serializable
 				{
 					if (j > 0)
 						p.addElement(" | ");
-					p.addElement(new a("#Field" + i + j, hdr));
+					p.addElement(new a("#Field" + i + "-" + j, hdr));
 				}
 			}
 			td.addElement(p);
@@ -500,7 +500,7 @@ public class GridWindow implements Serializable
 					table fieldHeader = new table();
 					fieldHeader.setBorder("0").setCellPadding(0).setCellSpacing(0);
 					fieldHeader.addElement(new tr()
-					.addElement(new td().addElement(new a().setName("Field" + i + j))
+					.addElement(new td().addElement(new a().setName("Field" + i + "-" + j))
 						.addElement(new h3(Msg.getMsg(Env.getCtx(), "Field") + ": " + hdr)))
 					.addElement(new td().addElement(WebDoc.NBSP).addElement(WebDoc.NBSP)
 						.addElement(new strong().addElement(new a("#Fields"+i).addElement("..").addAttribute("title", "Up one level")))));
