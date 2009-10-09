@@ -106,6 +106,10 @@ public class ExportModelValidator implements ModelValidator
 		
 		if (m_AD_ReplicationStrategy_ID > 0) {
 			rplStrategy = new MReplicationStrategy(client.getCtx(), m_AD_ReplicationStrategy_ID, null);
+			if(!rplStrategy.isActive())
+			{	
+				return;
+			}
 			expHelper = new ExportHelper(client, rplStrategy);
 		}
 		// Add Tables
