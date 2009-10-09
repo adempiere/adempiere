@@ -295,7 +295,7 @@ public class Doc_MatchPO extends Doc
 			+ "WHERE m.C_OrderLine_ID=ol.C_OrderLine_ID"
 			+ " AND pc.M_Product_ID=ol.M_Product_ID"
 			+ " AND pc.C_AcctSchema_ID=a.C_AcctSchema_ID"
-			+ "AND m.M_MatchPO_ID=").append(get_ID()).append(") ")
+			+ " AND m.M_MatchPO_ID=").append(get_ID()).append(") ")
 			.append("WHERE pc.C_AcctSchema_ID=").append(C_AcctSchema_ID)
 			.append(" AND pc.M_Product_ID=").append(getM_Product_ID());
 		int no = DB.executeUpdate(sql.toString(), getTrxName());
