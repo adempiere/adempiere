@@ -48,7 +48,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/xercesImpl.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/xjavadoc-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/xml-apis.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/itext-1.4.8.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jpedal.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/swingx-0.9.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-2.0b5.jar"/>
@@ -130,12 +129,12 @@
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zkplus-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/itext-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/poi-3.0-FINAL.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
 	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-3.5.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="packages/liberoHR.jar"/>
 	<classpathentry exported="true" kind="lib" path="packages/liberoMFG.jar"/>
+	<classpathentry kind="lib" path="tools/lib/iText-2.1.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

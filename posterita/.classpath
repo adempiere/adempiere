@@ -7,7 +7,7 @@
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/commons-validator.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/displaytag-1.1.1.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/displaytag-export-poi-1.1.1.jar"/>
-	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/itext-1.3.jar"/>
+	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/iText-2.1.7.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/jcommon-1.0.10.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/jfreechart-1.0.2.jar"/>
 	<classpathentry kind="lib" path="posterita/web/WEB-INF/lib/poi-3.0-FINAL.jar"/>

@@ -70,7 +70,7 @@
       	  <pathelement path="../tools/lib/xercesImpl.jar"/>
       	  <pathelement path="../tools/lib/xml-apis.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
-		  <pathelement path="../tools/lib/itext-1.4.8.jar"/>
+		  <pathelement path="../tools/lib/iText-2.1.7.jar"/>
       	  <fileset dir="../jboss/client" includes="*.jar"/>
       </classpath>
     </javac>

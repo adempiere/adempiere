@@ -164,7 +164,7 @@ public class CrossTabReportGenerator extends PDFReportGenerator
             float headerChkLength = headerChk.getWidthPoint() + 2*CELLPADDING;
             
             float tableWidth = headerChkLength + dataChkLength*columnCount;        
-            float actualTableWidth = document.getPageSize().width() - 2*MARGIN;
+            float actualTableWidth = document.getPageSize().getWidth() - 2*MARGIN;
             
             float columnWidth = dataChkLength;
             
@@ -231,7 +231,7 @@ public class CrossTabReportGenerator extends PDFReportGenerator
         
         float tableWidth = headerChkLength + dataChkLength*columnCount;
         
-        float actualTableWidth = document.getPageSize().width() - 2*MARGIN;
+        float actualTableWidth = document.getPageSize().getWidth() - 2*MARGIN;
         //float actualTableHeight = document.getPageSize().height() - 2*MARGIN;
         
         //if the table size is greater than that of the page we should 
@@ -239,8 +239,8 @@ public class CrossTabReportGenerator extends PDFReportGenerator
                 
         if(tableWidth > actualTableWidth)
         {
-            float documentWidth = document.getPageSize().width();
-            float documentHeight = document.getPageSize().height();
+            float documentWidth = document.getPageSize().getWidth();
+            float documentHeight = document.getPageSize().getHeight();
             
             float newDocumentWidth = tableWidth + 2*MARGIN;            
             float newDocumentHeight = (documentHeight * newDocumentWidth)/documentWidth;             

@@ -145,7 +145,7 @@ public class SimpleReportGenerator extends PDFReportGenerator
             tableWidth += (columnWidth[j] + 2*CELLPADDING);
         }
         
-        float actualTableWidth = PAGE_SIZE.width() - 2*MARGIN;
+        float actualTableWidth = PAGE_SIZE.getWidth() - 2*MARGIN;
         //float actualTableHeight = PAGE_SIZE.height() - 2*MARGIN;
         
         //if the table size is greater than that of the page we should 
@@ -153,8 +153,8 @@ public class SimpleReportGenerator extends PDFReportGenerator
                 
         if(tableWidth > actualTableWidth)
         {
-            float documentWidth = PAGE_SIZE.width();
-            float documentHeight = PAGE_SIZE.height();
+            float documentWidth = PAGE_SIZE.getWidth();
+            float documentHeight = PAGE_SIZE.getHeight();
             
             float newDocumentWidth = tableWidth + 2*MARGIN;            
             float newDocumentHeight = (documentHeight * newDocumentWidth)/documentWidth;             

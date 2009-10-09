@@ -64,7 +64,7 @@ public class PDFReportPageEventHelper extends PdfPageEventHelper
         cb.saveState();
         // write the headertable
         table.setTotalWidth(document.right() - document.left());
-        table.writeSelectedRows(0, -1, document.left(), document.getPageSize().height() - 50, cb);
+        table.writeSelectedRows(0, -1, document.left(), document.getPageSize().getHeight() - 50, cb);
         // compose the footer
         String text = "Page " + writer.getPageNumber() + " of ";
         float textSize = PAGE_FOOTER_FONT.getBaseFont().getWidthPoint(text, 10);

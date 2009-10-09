@@ -32,7 +32,7 @@
         <webClassPathEntry>/tools/lib/commons-net-1.4.0.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/groovy-all-1.5.1.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/groovy-engine.jar</webClassPathEntry>
-        <webClassPathEntry>/tools/lib/itext-1.4.8.jar</webClassPathEntry>
+        <webClassPathEntry>/tools/lib/iText-2.1.7.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/jcommon-1.0.5.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/jfreechart-1.0.2.jar</webClassPathEntry>
         <webClassPathEntry>/tools/lib/jnlp.jar</webClassPathEntry>

@@ -1025,7 +1025,7 @@ public class POSReportManager {
 			}
 
 			logo.setAbsolutePosition(document.left(), document.top()
-					- logo.height());
+					- logo.getHeight());
 			document.add(logo);
 
 			PdfPTable table = new PdfPTable(2);
@@ -1048,7 +1048,7 @@ public class POSReportManager {
 			cell.setColspan(2);
 			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 			cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-			cell.setFixedHeight(logo.height());
+			cell.setFixedHeight(logo.getHeight());
 			cell.setBorderWidth(cellBorderWidth);
 			table.addCell(cell);
 
@@ -1915,7 +1915,7 @@ public class POSReportManager {
 			}
 
 			logo.setAbsolutePosition(document.left(), document.top()
-					- logo.height());
+					- logo.getHeight());
 			document.add(logo);
 
 			PdfPTable table = new PdfPTable(2);
@@ -1942,7 +1942,7 @@ public class POSReportManager {
 			cell.setColspan(2);
 			cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
 			cell.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
-			cell.setFixedHeight(logo.height());
+			cell.setFixedHeight(logo.getHeight());
 			cell.setBorderWidth(cellBorderWidth);
 			table.addCell(cell);
 
