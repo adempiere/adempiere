@@ -10,7 +10,7 @@ The script will have to be adjusted to your own environment
 by setting the appropriate variables.
 
 One advantage of this script is that it really waits until
-the server decalres it is started up or shut down before
+the server declares it is started up or shut down before
 echoing "[OK]" to the screen.
 
 A major disadvantage is that it runs the server as root,

@@ -109,7 +109,7 @@ public final class MSetup
 		
 		//  info header
 		m_info = new StringBuffer();
-		//  Standarc columns
+		//  Standard columns
 		String name = null;
 		String sql = null;
 		int no = 0;

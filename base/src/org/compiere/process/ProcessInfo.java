@@ -89,7 +89,7 @@ public class ProcessInfo implements Serializable
 
 	//  -- Optional --
 
-	/** Pricess Instance ID         */
+	/** Process Instance ID         */
 	private int					m_AD_PInstance_ID = 0;
 
 	/** Summary of Execution        */

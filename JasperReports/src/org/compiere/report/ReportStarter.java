@@ -379,7 +379,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
             return false;
         }
 
-        String reportPath =  reportData.getReportFilePath();
+        String reportPath = reportData.getReportFilePath();
         if (Util.isEmpty(reportPath, true))
 		{
             reportResult(AD_PInstance_ID, "Can not find report", trxName);

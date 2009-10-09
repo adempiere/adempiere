@@ -106,8 +106,8 @@ public class SessionStorage
     {
         HistoryFilterBean orderHistoryBeans = new HistoryFilterBean(orderHistory);        
         
-        TreeSet bPartners = orderHistoryBeans.getBPartnerList();
-        TreeSet docStatus = orderHistoryBeans.getDocStatusList();
+        TreeSet<UDIPair> bPartners = orderHistoryBeans.getBPartnerList();
+        TreeSet<UDIPair> docStatus = orderHistoryBeans.getDocStatusList();
         
         request.getSession().setAttribute(Constants.BPARTNER, bPartners);
         request.getSession().setAttribute(Constants.DOC_STATUS, docStatus);

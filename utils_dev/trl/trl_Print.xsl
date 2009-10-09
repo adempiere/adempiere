@@ -3,7 +3,7 @@
 
 <!-- This sample xslt is for transform an xml validated by adempiereTrl.dtd -->
 <!-- to destination xml, which printed optional attributes trl as an sub-element of row element-->
-<!-- orginal  as sub-element of value element-->
+<!-- original  as sub-element of value element-->
 <!-- Author: Bui Chi Trung -->
 
 

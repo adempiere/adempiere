@@ -33,16 +33,16 @@ public class HistoryFilterBean
     private TreeSet<UDIPair> bPartnerList = new TreeSet<UDIPair>();
     private TreeSet<UDIPair> docStatusList = new TreeSet<UDIPair>();
     
-    public HistoryFilterBean(ArrayList beans)
+    public HistoryFilterBean(ArrayList<FilterBean> beans)
     {
         
         if(beans!=null)
         {
-            Iterator iter = beans.iterator();
+            Iterator<FilterBean> iter = beans.iterator();
                      
             while(iter.hasNext())
             {
-                FilterBean bean = (FilterBean) iter.next();
+                FilterBean bean = iter.next();
                 
                 if(bean.getPartnerId()!=null)
                 {
@@ -61,12 +61,12 @@ public class HistoryFilterBean
     }
     
 
-    public TreeSet getBPartnerList()
+    public TreeSet<UDIPair> getBPartnerList()
     {
         return bPartnerList;
     }
     
-    public TreeSet getDocStatusList() 
+    public TreeSet<UDIPair> getDocStatusList() 
     {
         return docStatusList;
     }

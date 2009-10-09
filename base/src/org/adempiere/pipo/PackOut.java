@@ -450,15 +450,11 @@ public class PackOut extends SvrProcess
 		}
 		
 		//create compressed packages
-		//set the files
-		File srcFolder = new File("");
-		File destZipFile = new File("");
-		File destTarFile = new File("");
-		File destGZipFile = new File("");		
-		srcFolder = (new File(packagedir));
-		destZipFile = (new File(packagename+".zip"));
-		destTarFile = (new File(packagename+".tar"));
-		destGZipFile = (new File(packagename+".tar.gz"));
+		//set the files	
+		File srcFolder = new File(packagedir);
+		File destZipFile = new File(packagename+".zip");
+		File destTarFile = new File(packagename+".tar");
+		File destGZipFile = new File(packagename+".tar.gz");
 		
 		//delete the old packages if necessary
 		boolean success = destZipFile.delete();

@@ -14,7 +14,7 @@
 package org.compiere.process;
 
 /**
- * Marker interface to markt that a process can only be run on the client
+ * Marker interface to mark that a process can only be run on the client
  * side.
  * @author Low Heng Sin
  */
