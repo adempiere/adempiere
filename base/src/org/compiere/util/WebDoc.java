@@ -179,16 +179,15 @@ public class WebDoc
 		m_topLeft = new td();
 		if (title == null)
 			m_topLeft.addElement(NBSP);
-		//else
-			//m_topLeft.addElement(new h1(title));
+		else
+			m_topLeft.addElement(new h1(title));
 		m_topRow.addElement(m_topLeft);
 		//	Logo
 		m_topRight = new td().setAlign("right");
 		
 		if (javaClient) {
-			m_topRight.addElement(
-				new img("res:org/compiere/images/AD10030.png")
-				.setAlign(AlignType.RIGHT).setAlt("Adempiere"));
+			m_topRight.addElement(new img("res:org/compiere/images/AD10030.png")
+			.setAlign(AlignType.RIGHT).setAlt("ADempiere"));
 		} else {
 			if (title.equals("")) {
 				m_topRight.addElement(WebEnv.getLogo());

@@ -420,8 +420,8 @@ public class GridWindow implements Serializable
 		if (getHelp().length() != 0)
 			center.addElement(new p().addElement(getHelp()));
 
-		center.addElement(new a().setName("Tabs").addElement(new h3("Tabs").addAttribute("ALIGN", "left")));
-		//	Links to Tabs
+		center.addElement(new a().setName("Tabs")).addElement(new h3("Tabs").addAttribute("ALIGN", "left"));
+		//	List of all Tabs in current window
 		int size = getTabCount();
 		p p = new p();
 		for (int i = 0; i < size; i++)
@@ -429,7 +429,6 @@ public class GridWindow implements Serializable
 			GridTab tab = getTab(i);
 			if (i > 0)
 				p.addElement(" | ");
-				//p.addElement(" - ");
 			p.addElement(new a("#Tab"+i).addElement(tab.getName()));
 		}
 		center.addElement(p)
@@ -444,10 +443,10 @@ public class GridWindow implements Serializable
 			table tabHeader = new table();
 			tabHeader.setBorder("0").setCellPadding(0).setCellSpacing(0);
 			tabHeader.addElement(new tr()
-				.addElement(new td().addElement(new a().setName("Tab" + i)
-						.addElement(new h2(Msg.getMsg(Env.getCtx(), "Tab") + ": " + tab.getName()))))
-				.addElement(new td().addElement(WebDoc.NBSP).addElement(WebDoc.NBSP))
-				.addElement(new a("#Tabs").addElement("..").addAttribute("title", "Up one level")));
+				.addElement(new td().addElement(new a().setName("Tab" + i))
+						.addElement(new h2(Msg.getMsg(Env.getCtx(), "Tab") + ": " + tab.getName())))
+				.addElement(new td().addElement(WebDoc.NBSP).addElement(WebDoc.NBSP)
+						.addElement(new a("#Tabs").addElement("..").addAttribute("title", "Up one level"))));
 			tr tr = new tr()
 				.addElement(new th()
 				.addElement(tabHeader));
@@ -459,13 +458,14 @@ public class GridWindow implements Serializable
 				tr.addElement(new th()
 					.addElement(WebDoc.NBSP));
 			table.addElement(tr);
-			//	Desciption
+			//	Description
 			td td = new td().setColSpan(2);
 			if (tab.getHelp().length() != 0)
 				td.addElement(new p().addElement(tab.getHelp()));
 			//	Links to Fields
+			td.addElement(new a().setName("Fields"+i));
+			td.addElement(new h4("Fields").addAttribute("ALIGN", "left"));
 			p = new p();
-			p.addElement(new a().setName("Fields"+i).addElement(new h4("Fields").addAttribute("ALIGN", "left")));
 			if (!tab.isLoadComplete())
 				this.initTab(i);
 			for (int j = 0; j < tab.getFieldCount(); j++)
@@ -480,7 +480,6 @@ public class GridWindow implements Serializable
 				{
 					if (j > 0)
 						p.addElement(" | ");
-						//p.addElement(" - ");
 					p.addElement(new a("#Field" + i + j, hdr));
 				}
 			}
@@ -501,10 +500,10 @@ public class GridWindow implements Serializable
 					table fieldHeader = new table();
 					fieldHeader.setBorder("0").setCellPadding(0).setCellSpacing(0);
 					fieldHeader.addElement(new tr()
-					.addElement(new td().addElement(new a().setName("Field" + i + j)
-							.addElement(new h3(Msg.getMsg(Env.getCtx(), "Field") + ": " + hdr)))
-					.addElement(new td().addElement(WebDoc.NBSP).addElement(WebDoc.NBSP))
-					.addElement(new strong().addElement(new a("#Fields"+i).addElement("..").addAttribute("title", "Up one level")))));
+					.addElement(new td().addElement(new a().setName("Field" + i + j))
+						.addElement(new h3(Msg.getMsg(Env.getCtx(), "Field") + ": " + hdr)))
+					.addElement(new td().addElement(WebDoc.NBSP).addElement(WebDoc.NBSP)
+						.addElement(new strong().addElement(new a("#Fields"+i).addElement("..").addAttribute("title", "Up one level")))));
 					
 					td = new td().setColSpan(2).addElement(fieldHeader);
 						
@@ -523,7 +522,7 @@ public class GridWindow implements Serializable
 		
 		if (!javaClient)
 			doc.addPopupClose(Env.getCtx());
-	//	System.out.println(doc.toString());
+	   	//System.out.println(doc.toString());
 		return doc;
 	}	//	getHelpDoc
 
