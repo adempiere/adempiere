@@ -45,6 +45,9 @@ import org.compiere.util.CLogger;
  *	Export Validator which is responsible to create XML document.
  *	
  *	@author Trifon Trifonov
+ *	@author victor.perez@e-evolution.com, www.e-evolution.com
+ * <li> BF2875989 Deactivate replication records are include to replication
+ * <li> https://sourceforge.net/tracker/?func=detail&aid=2875989&group_id=176962&atid=879332
  *	@version $Id$
  */
 public class ExportModelValidator implements ModelValidator
