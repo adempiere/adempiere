@@ -32,6 +32,7 @@ import org.adempiere.pipo.PackOut;
 import org.adempiere.pipo.exception.DatabaseAccessException;
 import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.MTable;
+import org.compiere.model.X_AD_PrintFormat;
 import org.compiere.model.X_AD_ReportView;
 import org.compiere.model.X_AD_ReportView_Col;
 import org.compiere.util.DB;
@@ -124,8 +125,7 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 			return;
 		
 		views.add(AD_ReportView_ID);
-		String sql = "SELECT * FROM AD_ReportView WHERE AD_ReportView_ID= "
-				+ AD_ReportView_ID;
+		String sql = "SELECT * FROM AD_ReportView WHERE AD_ReportView_ID= " + AD_ReportView_ID;
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
 		AttributesImpl atts = new AttributesImpl();
@@ -139,7 +139,9 @@ public class ReportViewElementHandler extends AbstractElementHandler {
 				document.endElement("", "", "reportview");
 				
 				String sql1 = "SELECT * FROM AD_Printformat WHERE AD_Reportview_ID="+AD_ReportView_ID
-						+" AND AD_Client_ID="+Env.getAD_Client_ID(ctx);
+						+" AND AD_Client_ID="+Env.getAD_Client_ID(ctx)
+						+" ORDER BY "+X_AD_PrintFormat.COLUMNNAME_AD_PrintFormat_ID
+						;
 				PreparedStatement pstmt1 = null;
 				pstmt1 = DB.prepareStatement(sql1, getTrxName(ctx));
 				try {

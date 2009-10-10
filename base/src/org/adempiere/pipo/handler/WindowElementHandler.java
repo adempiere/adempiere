@@ -153,7 +153,9 @@ public class WindowElementHandler extends AbstractElementHandler {
 		document.startElement("", "", "window", atts);
 		// Tab Tag
 		String sql = "SELECT * FROM AD_TAB WHERE AD_WINDOW_ID = "
-				+ AD_Window_ID;
+				+ AD_Window_ID
+				+" ORDER BY "+X_AD_Tab.COLUMNNAME_SeqNo+","+X_AD_Tab.COLUMNNAME_AD_Tab_ID
+				;
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
 		try {
@@ -190,8 +192,8 @@ public class WindowElementHandler extends AbstractElementHandler {
 		document.endElement("", "", "window");
 
 		// Preference Tag
-		sql = "SELECT * FROM AD_PREFERENCE WHERE AD_WINDOW_ID = "
-				+ AD_Window_ID;
+		sql = "SELECT * FROM AD_PREFERENCE WHERE AD_WINDOW_ID = " + AD_Window_ID
+		+" ORDER BY "+X_AD_Preference.COLUMNNAME_AD_Preference_ID;
 		pstmt = null;
 		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
 		try {

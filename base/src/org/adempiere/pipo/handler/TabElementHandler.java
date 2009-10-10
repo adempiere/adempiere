@@ -186,8 +186,8 @@ public class TabElementHandler extends AbstractElementHandler {
 	public void endElement(Properties ctx, Element element) throws SAXException {
 	}
 
-	public void create(Properties ctx, TransformerHandler document)
-			throws SAXException {
+	public void create(Properties ctx, TransformerHandler document) throws SAXException
+	{
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
 		int AD_Tab_ID = Env.getContextAsInt(ctx, X_AD_Tab.COLUMNNAME_AD_Tab_ID);
 		X_AD_Tab m_Tab = new X_AD_Tab (ctx, AD_Tab_ID, getTrxName(ctx));
@@ -196,7 +196,7 @@ public class TabElementHandler extends AbstractElementHandler {
 		document.startElement("","","tab",atts);
 		//Fields tags.
 		String sql = "SELECT * FROM AD_FIELD WHERE AD_TAB_ID = " + AD_Tab_ID
-			+ "ORDER BY SEQNO asc";
+			+ "ORDER BY SEQNO asc, "+X_AD_Field.COLUMNNAME_AD_Field_ID;
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement (sql, getTrxName(ctx));		
 		try {									

@@ -238,7 +238,9 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 				createWorkflowBinding(atts, m_Workflow);
 				document.startElement("", "", "workflow", atts);
 				String sql1 = "SELECT AD_WF_Node_ID FROM AD_WF_Node WHERE AD_Workflow_ID = "
-						+ AD_Workflow_ID;
+						+ AD_Workflow_ID
+						+ " ORDER BY "+X_AD_WF_Node.COLUMNNAME_AD_WF_Node_ID
+						;
 
 				PreparedStatement pstmt1 = null;
 				ResultSet rs1 = null;
@@ -254,7 +256,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 
 						ad_wf_nodenext_id = 0;
 
-						String sqlnn = "SELECT AD_WF_NodeNext_ID FROM AD_WF_NodeNext WHERE AD_WF_Node_ID = ?";
+						String sqlnn = "SELECT AD_WF_NodeNext_ID FROM AD_WF_NodeNext WHERE AD_WF_Node_ID = ?"
+							+ " ORDER BY "+X_AD_WF_NodeNext.COLUMNNAME_AD_WF_NodeNext_ID;
 						PreparedStatement pstmtnn = null;
 						ResultSet rsnn = null;
 						try {
@@ -268,7 +271,8 @@ public class WorkflowElementHandler extends AbstractElementHandler {
 
 									ad_wf_nodenextcondition_id = 0;
 
-									String sqlnnc = "SELECT AD_WF_NextCondition_ID FROM AD_WF_NextCondition WHERE AD_WF_NodeNext_ID = ?";
+									String sqlnnc = "SELECT AD_WF_NextCondition_ID FROM AD_WF_NextCondition WHERE AD_WF_NodeNext_ID = ?"
+													+ " ORDER BY "+X_AD_WF_NextCondition.COLUMNNAME_AD_WF_NextCondition_ID;
 									PreparedStatement pstmtnnc = null;
 									ResultSet rsnnc = null;
 									try {

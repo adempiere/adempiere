@@ -200,8 +200,8 @@ public class ProcessElementHandler extends AbstractElementHandler {
 				createProcessBinding(atts, m_Process);
 				document.startElement("", "", "process", atts);
 				// processpara tags
-				String sqlP = "SELECT * FROM AD_PROCESS_PARA WHERE AD_PROCESS_ID = "
-						+ AD_Process_ID;
+				String sqlP = "SELECT * FROM AD_PROCESS_PARA WHERE AD_PROCESS_ID = "+ AD_Process_ID
+				+" ORDER BY "+X_AD_Process_Para.COLUMNNAME_SeqNo+","+X_AD_Process_Para.COLUMNNAME_AD_Process_Para_ID;
 				PreparedStatement pstmtP = null;
 				pstmtP = DB.prepareStatement(sqlP, getTrxName(ctx));
 				try {

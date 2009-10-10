@@ -278,7 +278,8 @@ public class CommonTranslationHandler extends AbstractElementHandler implements 
 		ArrayList<String> new_PIPO_Columns = new ArrayList<String>();
 		String sql = "select * from ad_column where ad_table_id = " +
 				"(select ad_table_id from ad_table where tableName = ?)" +
-				"and isTranslated='Y'";
+				"and isTranslated='Y'"
+				+" ORDER BY AD_Column_ID";
 		
 		PreparedStatement pstm = DB.prepareStatement(sql, null);
 		try {

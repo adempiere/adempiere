@@ -137,8 +137,8 @@ public class ReferenceElementHandler extends AbstractElementHandler {
 				document.startElement("", "", "reference", atts);
 
 				if (m_Reference.getValidationType().compareTo("L") == 0) {
-					String sql1 = "SELECT * FROM AD_Ref_List WHERE AD_Reference_ID= "
-							+ Reference_id;
+					String sql1 = "SELECT * FROM AD_Ref_List WHERE AD_Reference_ID= " + Reference_id
+						+ " ORDER BY Value, AD_Ref_List_ID";
 
 					PreparedStatement pstmt1 = null;
 					pstmt1 = DB.prepareStatement(sql1, getTrxName(ctx));

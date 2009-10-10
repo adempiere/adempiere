@@ -115,8 +115,8 @@ public class ImpFormatElementHandler extends AbstractElementHandler {
 		atts = createImpFormatBinding(atts, m_ImpFormat);
 
 		document.startElement("", "", "impformat", atts);
-		String sql = "SELECT * FROM AD_ImpFormat_Row WHERE AD_ImpFormat_ID= "
-				+ import_id;
+		String sql = "SELECT * FROM AD_ImpFormat_Row WHERE AD_ImpFormat_ID= " + import_id
+		+" ORDER BY "+X_AD_ImpFormat_Row.COLUMNNAME_AD_ImpFormat_Row_ID;
 
 		PreparedStatement pstmt = null;
 		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
