@@ -13,6 +13,7 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                 Teo Sarca, teo.sarca@gmail.com
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -97,7 +98,11 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 			
 			name = atts.getValue("ADElementNameID");
 			if (name != null && name.trim().length() > 0) {
-				id = get_IDWithColumn(ctx, "AD_Element", "Name", name);
+				id = get_IDWithColumn(ctx, "AD_Element", "ColumnName", name);
+				if (id <= 0 /** Check Packout version - 005 */)
+				{
+					id = get_IDWithColumn(ctx, "AD_Element", "Name", name);
+				}
 				// Setup Element
 				X_AD_Element adElement = new X_AD_Element(ctx, id, getTrxName(ctx));
 				if (adElement.getAD_Element_ID() == 0) {
@@ -240,9 +245,8 @@ public class ProcessParaElementHandler extends AbstractElementHandler {
 		} else
 			atts.addAttribute("", "", "ADProcessParaNameID", "CDATA", "");
 		if (m_Processpara.getAD_Element_ID() > 0) {
-			sql = "SELECT Name FROM AD_Element WHERE AD_Element_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Processpara
-					.getAD_Element_ID());
+			sql = "SELECT ColumnName FROM AD_Element WHERE AD_Element_ID=?";
+			name = DB.getSQLValueStringEx(null, sql, m_Processpara.getAD_Element_ID());
 			atts.addAttribute("", "", "ADElementNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADElementNameID", "CDATA", "");

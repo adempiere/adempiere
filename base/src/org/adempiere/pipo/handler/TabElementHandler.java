@@ -13,6 +13,7 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                 Teo Sarca, teo.sarca@gmail.com
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -38,8 +39,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-public class TabElementHandler extends AbstractElementHandler {
-
+public class TabElementHandler extends AbstractElementHandler
+{
 	private FieldElementHandler fieldHandler = new FieldElementHandler();
 	
 	public void startElement(Properties ctx, Element element) throws SAXException {
@@ -128,10 +129,18 @@ public class TabElementHandler extends AbstractElementHandler {
 				id = get_IDWithColumn(ctx, "AD_Table", "TableName", name);
 				m_Tab.setAD_Table_ID(id);   
 			}
-			if (getStringValue(atts,"ADColumnNameID")!= null){
+			if (getStringValue(atts,"ADColumnNameID")!= null) {
 				name = atts.getValue("ADColumnNameID");
-				id  = get_IDWithMasterAndColumn (ctx, "AD_Column","Name", atts.getValue("ADColumnNameID"), "AD_Table", get_IDWithColumn(ctx,"AD_Table", "TableName", atts.getValue("ADTableNameID")));			    
-				m_Tab.setAD_Column_ID(id);   
+				id  = get_IDWithMasterAndColumn(ctx, "AD_Column","ColumnName", atts.getValue("ADColumnNameID"), "AD_Table", m_Tab.getAD_Table_ID());
+				if (id <= 0 /** TODO Check PackOut Version -- 005 */)
+				{
+					id  = get_IDWithMasterAndColumn(ctx, "AD_Column","Name", atts.getValue("ADColumnNameID"), "AD_Table", m_Tab.getAD_Table_ID());
+				}
+				m_Tab.setAD_Column_ID(id);
+				if (id <= 0)
+				{
+					log.warning("@NotFound@ @AD_Column_ID@ - @Name@:"+name+", @AD_Table_ID@:"+atts.getValue("ADTableNameID"));
+				}
 			}
 			m_Tab.setAD_Window_ID(windowid);   
 			
@@ -198,16 +207,14 @@ public class TabElementHandler extends AbstractElementHandler {
 		String sql = "SELECT * FROM AD_FIELD WHERE AD_TAB_ID = " + AD_Tab_ID
 			+ "ORDER BY SEQNO asc, "+X_AD_Field.COLUMNNAME_AD_Field_ID;
 		PreparedStatement pstmt = null;
-		pstmt = DB.prepareStatement (sql, getTrxName(ctx));		
+		ResultSet rs = null;
 		try {									
-			ResultSet rs = pstmt.executeQuery();								
+			pstmt = DB.prepareStatement (sql, getTrxName(ctx));		
+			rs = pstmt.executeQuery();								
 			while (rs.next())
 			{
 				createField(ctx, document, rs.getInt("AD_Field_ID"));				
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
@@ -216,14 +223,8 @@ public class TabElementHandler extends AbstractElementHandler {
 		}
 		finally
 		{
-			try
-			{
-				if (pstmt != null)
-					pstmt.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt = null;
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}					
 		document.endElement("","","tab");
 		
@@ -250,21 +251,21 @@ public class TabElementHandler extends AbstractElementHandler {
 			atts.addAttribute("", "", "AD_Tab_ID", "CDATA", Integer.toString(m_Tab.getAD_Tab_ID()));
 		atts.addAttribute("","","Name","CDATA",(m_Tab.getName () != null ? m_Tab.getName ():"")); 
 		if (m_Tab.getAD_ColumnSortOrder_ID()>0){
-			sql = "SELECT Name FROM AD_Column WHERE AD_Column_ID=?";
+			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
 			name = DB.getSQLValueString(null,sql,m_Tab.getAD_ColumnSortOrder_ID());
 			atts.addAttribute("","","ADColumnSortOrderNameID","CDATA",name);
 		}
 		else
 			atts.addAttribute("","","ADColumnSortOrderNameID","CDATA","");        
 		if (m_Tab.getAD_ColumnSortYesNo_ID()>0   ){
-			sql = "SELECT Name FROM AD_Column WHERE AD_Column_ID=?";
+			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
 			name = DB.getSQLValueString(null,sql,m_Tab.getAD_ColumnSortYesNo_ID());        
 			atts.addAttribute("","","ADColumnSortYesNoNameID","CDATA",name);        
 		}
 		else
 			atts.addAttribute("","","ADColumnSortYesNoNameID","CDATA",""); 
 		if (m_Tab.getAD_Column_ID()>0  ){        
-			sql = "SELECT Name FROM AD_Column WHERE AD_Column_ID=?";
+			sql = "SELECT ColumnName FROM AD_Column WHERE AD_Column_ID=?";
 			name = DB.getSQLValueString(null,sql,m_Tab.getAD_Column_ID());
 			atts.addAttribute("","","ADColumnNameID","CDATA",name);
 		}

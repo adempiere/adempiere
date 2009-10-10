@@ -13,6 +13,7 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                 Teo Sarca, teo.sarca@gmail.com
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -96,10 +97,16 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			}
 			m_Column.setColumnName(columnName);
 
-			String Name = atts.getValue("ADProcessNameID");
-			id = get_IDWithColumn(ctx, "AD_Process", "Name", Name);
-			m_Column.setAD_Process_ID(id);
-			Name = atts.getValue("ADReferenceNameID");
+			// Process
+			String processName = atts.getValue("ADProcessNameID");
+			int AD_Process_ID = get_IDWithColumn(ctx, "AD_Process", "Value", processName);
+			if (AD_Process_ID <= 0 /** TODO PackOut version check 005 */)
+			{
+				AD_Process_ID = get_IDWithColumn(ctx, "AD_Process", "Name", processName);
+			}
+			m_Column.setAD_Process_ID(AD_Process_ID);
+			//
+			String Name = atts.getValue("ADReferenceNameID");
 			id = get_IDWithColumn(ctx, "AD_Reference", "Name", Name);
 			m_Column.setAD_Reference_ID(id);
 			// log.info("Column ID ->"+id);
@@ -408,18 +415,29 @@ public class ColumnElementHandler extends AbstractElementHandler {
 			atts.addAttribute("", "", "ADColumnNameID", "CDATA", name);
 		} else
 			atts.addAttribute("", "", "ADColumnNameID", "CDATA", "");
-		if (m_Column.getAD_Process_ID() > 0) {
-			sql = "SELECT Name FROM AD_Process WHERE AD_Process_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Column.getAD_Process_ID());
+		//
+		if (m_Column.getAD_Process_ID() > 0)
+		{
+			sql = "SELECT Value FROM AD_Process WHERE AD_Process_ID=?";
+			name = DB.getSQLValueStringEx(null, sql, m_Column.getAD_Process_ID());
 			atts.addAttribute("", "", "ADProcessNameID", "CDATA", name);
-		} else
+		}
+		else
+		{
 			atts.addAttribute("", "", "ADProcessNameID", "CDATA", "");
-		if (m_Column.getAD_Element_ID() > 0) {
-			sql = "SELECT Name FROM AD_Element WHERE AD_Element_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Column.getAD_Element_ID());
+		}
+		// Element - this info is not needed since we search for element based on ColumnName
+		if (m_Column.getAD_Element_ID() > 0)
+		{
+			sql = "SELECT ColumnName FROM AD_Element WHERE AD_Element_ID=?";
+			name = DB.getSQLValueStringEx(null, sql, m_Column.getAD_Element_ID());
 			atts.addAttribute("", "", "ADElementNameID", "CDATA", name);
-		} else
+		}
+		else
+		{
 			atts.addAttribute("", "", "ADElementNameID", "CDATA", "");
+		}
+		//
 		if (m_Column.getAD_Reference_ID() > 0) {
 			sql = "SELECT Name FROM AD_Reference WHERE AD_Reference_ID=?";
 			name = DB.getSQLValueString(null, sql, m_Column
