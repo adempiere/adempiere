@@ -52,7 +52,7 @@ public class SynchronizeTerminology extends SvrProcess
 		String sql = null;
 		try {
 			int no;
-			sql="SELECT DISTINCT ColumnName,  Name,Description, Help, EntityType "
+			sql="SELECT DISTINCT ColumnName, Name, Description, Help, EntityType "
 				+"FROM	AD_COLUMN c WHERE NOT EXISTS "
 				+"(SELECT 1 FROM AD_ELEMENT e "
 				+" WHERE UPPER(c.ColumnName)=UPPER(e.ColumnName))"; 
@@ -153,7 +153,7 @@ public class SynchronizeTerminology extends SvrProcess
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 
-			//	Fields should now be syncronized
+			//	Fields should now be synchronized
 			log.info("Synchronize Field");
 			sql=" 	UPDATE AD_FIELD f"
 				+" 		SET (Name, Description, Help) = "
@@ -195,7 +195,7 @@ public class SynchronizeTerminology extends SvrProcess
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 
-			//	Fields should now be syncronized
+			//	Fields should now be synchronized
 			log.info("Synchronize PO Field");
 			sql="UPDATE AD_FIELD f"
 				+" SET Name = (SELECT e.PO_Name FROM AD_ELEMENT e, AD_COLUMN c"
@@ -304,7 +304,7 @@ public class SynchronizeTerminology extends SvrProcess
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 
-			//	Paramenter Fields
+			//	Parameter Fields
 			sql="UPDATE	AD_PROCESS_PARA p"
 				+" SET	IsCentrallyMaintained = 'N'"
 				+" WHERE	IsCentrallyMaintained <> 'N'"
@@ -761,7 +761,7 @@ public class SynchronizeTerminology extends SvrProcess
 		}
 
 		return "@OK@";
-	}	//	doIt
+	}
 
 	//add main method, preparing for nightly build
 	public static void main(String[] args) 
@@ -779,4 +779,4 @@ public class SynchronizeTerminology extends SvrProcess
 		
 		System.out.println("Process=" + pi.getTitle() + " Error="+pi.isError() + " Summary=" + pi.getSummary());
 	}
-}	//	ColumnSync
+}
