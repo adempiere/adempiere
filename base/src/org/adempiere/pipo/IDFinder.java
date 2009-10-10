@@ -13,33 +13,35 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                 Teo Sarca, teo.sarca@gmail.com
  *****************************************************************************/
 package org.adempiere.pipo;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
-import org.adempiere.pipo.exception.DatabaseAccessException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
 /**
  * Utility class for the looking up of record id.
  * @author Low Heng Sin
- *
+ * @author Teo Sarca
  */
-public class IDFinder {
-
+public final class IDFinder
+{
 	private static CLogger log = CLogger.getCLogger(IDFinder.class);
 	
-	private static Map<String, Integer>idCache = new HashMap<String, Integer>(); 
+	private static Map<String, Integer> idCache = new HashMap<String, Integer>(); 
 	
 	/**
 	 * Get ID from Name for a table.
-	 * TODO: substitute with PO.getAllIDs
 	 *
 	 * @param tableName
 	 * @param name
@@ -47,9 +49,8 @@ public class IDFinder {
 	 * @param trxName
 	 * 
 	 */
-	public static int get_ID (String tableName, String name, int AD_Client_ID, String trxName) {
-		int id = 0;
-		
+	public static int get_ID (String tableName, String name, int AD_Client_ID, String trxName)
+	{
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
@@ -61,37 +62,22 @@ public class IDFinder {
 		//check cache
 		if (idCache.containsKey(key.toString()))
 			return idCache.get(key.toString());
-		
+	
+		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sqlB = new StringBuffer ("select ")
 			.append(tableName)
 			.append("_ID from ")
 			.append(tableName)
 			.append(" where name=?");
+		params.add(name);
 		
 		if (!tableName.startsWith("AD_"))
+		{
 			sqlB = sqlB.append(" and AD_Client_ID=?");
-		try {
-			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
-			pstmt.setString(1, name);
-			if (!tableName.startsWith("AD_"))
-				pstmt.setInt(2, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				id = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e) {
-			log.info ("get_ID:"+e);
-			throw new DatabaseAccessException(e);
+			params.add(AD_Client_ID);
 		}
 		
-		//keep in cache
-		if (id > 0)
-			idCache.put(key.toString(), id);
-		
-		return id;
+		return getID(sqlB.toString(), params, key.toString(), trxName);
 	}
 	
 	/**
@@ -103,11 +89,10 @@ public class IDFinder {
 	 * @param AD_Client_ID
 	 * @param trxName
 	 */
-	public static int get_IDWithColumn (String tableName, String columnName, Object value, int AD_Client_ID, String trxName) {
-		int id = 0;
-		
+	public static int get_IDWithColumn (String tableName, String columnName, Object value, int AD_Client_ID, String trxName)
+	{
 		if (value == null)
-			return id;
+			return 0;
 		
 		//construct cache key
 		StringBuffer key = new StringBuffer();
@@ -119,10 +104,7 @@ public class IDFinder {
 		if (!tableName.startsWith("AD_"))
 			key.append(" and AD_Client_ID=").append(AD_Client_ID);
 		
-		//check cache
-		if (idCache.containsKey(key.toString()))
-			return idCache.get(key.toString());
-		
+		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sqlB = new StringBuffer ("select ")
 		 	.append(tableName)
 		 	.append("_ID from ")
@@ -130,41 +112,19 @@ public class IDFinder {
 		 	.append(" where ")
 		 	.append(columnName)
 		 	.append(" = ?");
+		params.add(value);
 		
 		if (!tableName.startsWith("AD_"))
+		{
 			sqlB = sqlB.append(" and AD_Client_ID=?");
-		//here!
+			params.add(AD_Client_ID);
+		}
+		
 		sqlB = sqlB.append(" Order By ")
 				.append(tableName)
 				.append("_ID");
-		try {
-			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
-			if (value instanceof String)
-				pstmt.setString(1, (String)value);
-			else if (value instanceof Integer)
-				pstmt.setInt(1, ((Integer)value).intValue());
-			else
-				pstmt.setObject(1, value);
-			if (!tableName.startsWith("AD_"))
-				pstmt.setInt(2, AD_Client_ID);
-			
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				id = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e) {
-			log.info ("get_IDWithColumn:"+e);
-			throw new DatabaseAccessException(e);
-		}
 		
-		//update cache
-		if (id > 0)
-			idCache.put(key.toString(), id);
-		
-		return id;
+		return getID(sqlB.toString(), params, key.toString(), trxName);
 	}
 	
 	/**
@@ -176,8 +136,8 @@ public class IDFinder {
 	 * @param nameMaster
 	 * @param trxName
 	 */
-	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, String nameMaster, String trxName) {
-		int id = 0;
+	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, String nameMaster, String trxName)
+	{
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
@@ -188,10 +148,7 @@ public class IDFinder {
 			.append(".Name=")
 			.append(nameMaster);
 		
-		//check cache
-		if (idCache.containsKey(key.toString()))
-			return idCache.get(key.toString());
-		
+		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sqlB = new StringBuffer ("select ")
 			.append(tableName)
 			.append("_ID from ")
@@ -203,27 +160,10 @@ public class IDFinder {
 			.append("_ID from ")
 			.append(tableNameMaster)
 			.append(" where name = ?)");
+		params.add(name);
+		params.add(nameMaster);
 		
-		try {
-			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
-			pstmt.setString(1, name);
-			pstmt.setString(2, nameMaster);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				id = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		} catch (Exception e) {
-			log.info ("get_IDWithMaster:"+e);
-			throw new DatabaseAccessException(e);
-		}
-		
-		//update cache
-		if (id > 0)
-			idCache.put(key.toString(), id);
-		
-		return id;
+		return getID(sqlB.toString(), params, key.toString(), trxName);
 	}
 	
 	/**
@@ -235,16 +175,11 @@ public class IDFinder {
      * @param masterID
      * @param trxName
      */    
-    
-	public static int get_IDWithMasterAndColumn (String tableName, String columnName, String name, String tableNameMaster, int masterID, String trxName) {
-		int id = 0;
-		
-		//check cache
+	public static int get_IDWithMasterAndColumn (String tableName, String columnName, String name, String tableNameMaster, int masterID, String trxName)
+	{
 		String key = tableName + "." + columnName + "=" + name + tableNameMaster + "=" + masterID;
 		
-		if (idCache.containsKey(key))
-			return idCache.get(key);
-		
+		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sqlB = new StringBuffer ("select ")
 			.append(tableName)
 			.append("_ID from ")
@@ -253,34 +188,10 @@ public class IDFinder {
 			.append(columnName)
 			.append(" = ? and ")
 			.append(tableNameMaster+"_ID =?");
-		//StringBuffer sqlC = new StringBuffer ("select "+tableName+"_ID from "+tableName+" where "+columnName+"="+name+" and "
-		//	    + tableNameMaster+"_ID ="+masterID);
-		log.info(sqlB.toString());
+		params.add(name);
+		params.add(masterID);
 		
-		try {
-			
-			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
-			pstmt.setString(1, name);
-			pstmt.setInt(2, masterID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				id = rs.getInt(1);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e) {
-			log.info ("get_IDWithMasterAndColumn:"+e);
-			throw new DatabaseAccessException(e);
-		}
-		
-		//update cache
-		if (id > 0)
-			idCache.put(key, id);
-		
-		return id;
+		return getID(sqlB.toString(), params, key, trxName);
 	}
 
 	/**
@@ -292,9 +203,8 @@ public class IDFinder {
 	 * @param masterID
 	 * @param trxName
 	 */    
-	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, int masterID, String trxName) {
-		int id = 0;
-		
+	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, int masterID, String trxName)
+	{
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
@@ -307,10 +217,7 @@ public class IDFinder {
 			.append("_ID=")
 			.append(masterID);
 		
-		//check cache
-		if (idCache.containsKey(key.toString()))
-			return idCache.get(key.toString());
-		
+		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sqlB = new StringBuffer ("select ")
 			.append(tableName)
 			.append("_ID from ")
@@ -318,33 +225,14 @@ public class IDFinder {
 			.append(" where name=? and ")
 			.append(tableNameMaster)
 			.append("_ID=?");
+		params.add(name);
+		params.add(masterID);
 		
-		try {
-			PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(), trxName);
-			pstmt.setString(1, name);
-			pstmt.setInt(2, masterID);	
-			ResultSet rs = pstmt.executeQuery();	    
-			if (rs.next())
-				id = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e) {
-			log.info ("get_IDWithMasterID:"+e);
-			throw new DatabaseAccessException(e);
-		}
-		
-		//update cache
-		if (id > 0)
-			idCache.put(key.toString(), id);
-		
-		return id;
+		return getID(sqlB.toString(), params, key.toString(), trxName);
 	}
 
 	/**
 	 * Get ID from Column for a table.
-	 * TODO: substitute with PO.getAllIDs
 	 *
 	 * @param tableName
 	 * @param column
@@ -352,9 +240,8 @@ public class IDFinder {
 	 * @param AD_Client_ID
 	 * @param trxName
 	 */
-	public static int getIDbyColumn (String tableName, String column, String name, int AD_Client_ID, String trxName) {
-		int id = 0;
-		
+	public static int getIDbyColumn (String tableName, String column, String name, int AD_Client_ID, String trxName)
+	{
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
@@ -363,10 +250,7 @@ public class IDFinder {
 		if (!tableName.startsWith("AD_"))
 			key.append(" AND AD_Client_ID=").append(AD_Client_ID);
 		
-		//check cache
-		if (idCache.containsKey(key.toString()))
-			return idCache.get(key.toString());
-		
+		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer("SELECT ")
 			.append(tableName)
 			.append("_ID ")
@@ -374,43 +258,72 @@ public class IDFinder {
 			.append(tableName)
 			.append(" ")
 			.append("WHERE "+column+"=?");
+		params.add(name);
 		if (!tableName.startsWith("AD_"))
+		{
 			sql.append(" AND AD_Client_ID=?");
-		try {
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), trxName);
-			pstmt.setString(1, name);
-			if (!tableName.startsWith("AD_"))
-				pstmt.setInt(2, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				id = rs.getInt(1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e) {
-			log.log(Level.SEVERE, "getIDbyColumn:"+e);
-			throw new DatabaseAccessException(e);
+			params.add(AD_Client_ID);
 		}
 		
-		//update cache
-		if (id > 0)
-			idCache.put(key.toString(), id);
-		
-		return id;
+		return getID(sql.toString(), params, key.toString(), trxName);
 	}
 
-	public static int getIDbyName (String tableName, String name, int AD_Client_ID, String trxName) {
+	public static int getIDbyName (String tableName, String name, int AD_Client_ID, String trxName)
+	{
 		return getIDbyColumn(tableName, "Name", name, AD_Client_ID, trxName);
 	}
 
-	public static int getIDbyValue (String tableName, String name, int AD_Client_ID, String trxName) {
+	public static int getIDbyValue (String tableName, String name, int AD_Client_ID, String trxName)
+	{
 		return getIDbyColumn(tableName, "Value", name, AD_Client_ID, trxName);
 	}
 
 	
-	public static void clearIDCache() {
+	public static void clearIDCache()
+	{
 		idCache.clear();
 	}
 	
+	private static int getID(String sql, List<Object> params, String key, String trxName)
+	{
+		if (key != null && idCache.containsKey(key))
+			return idCache.get(key);
+		
+		int id = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, trxName);
+			DB.setParameters(pstmt, params);
+			
+			rs = pstmt.executeQuery();
+			if (rs.next())
+			{
+				id = rs.getInt(1);
+			}
+			if (rs.next())
+			{
+				log.warning("Not Unique ID found for key="+key);
+				return 0;
+			}
+		}
+		catch (SQLException e)
+		{
+			throw new DBException(e, sql);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
+		// update cache
+		if (key != null && id > 0)
+		{
+			idCache.put(key, id);
+		}
+		
+		return id;
+	}
 }
