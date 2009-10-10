@@ -80,6 +80,9 @@ import org.w3c.dom.Element;
  *				https://sourceforge.net/tracker/index.php?func=detail&aid=2859125&group_id=176962&atid=879332
  *			<li>BF [ 2866493 ] VTreePanel is not saving who did the node move
  *				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2866493&group_id=176962
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 			<li>BF [ 2876259 ] PO.insertTranslation query is not correct
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2876259&group_id=176962&atid=879332
  * @author Victor Perez, e-Evolution SC
  *			<li>[ 2195894 ] Improve performance in PO engine
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
@@ -3123,14 +3126,9 @@ public abstract class PO
 			.append("FROM AD_Language l, ").append(tableName).append(" t ")
 			.append("WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.")
 			.append(keyColumn).append("=").append(get_ID())
-			/*jz since derby bug, rewrite the sql
 			.append(" AND NOT EXISTS (SELECT * FROM ").append(tableName)
 			.append("_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.")
 			.append(keyColumn).append("=t.").append(keyColumn).append(")");
-			*/
-			.append(" AND EXISTS (SELECT * FROM ").append(tableName)
-			.append("_Trl tt WHERE tt.AD_Language!=l.AD_Language OR tt.")
-			.append(keyColumn).append("!=t.").append(keyColumn).append(")");
 		int no = DB.executeUpdate(sql.toString(), m_trxName);
 		log.fine("#" + no);
 		return no > 0;
