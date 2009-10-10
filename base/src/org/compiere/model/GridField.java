@@ -53,9 +53,12 @@ import org.compiere.util.Evaluator;
  *
  *  @author Jorg Janke
  *  @author Victor Perez , e-Evolution.SC FR [ 1757088 ], [1877902] Implement JSR 223 Scripting APIs to Callout
+ *  		http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @author Juan David Arboleda (arboleda), GlobalQSS, [ 1795398 ] Process Parameter: add display and readonly logic
- *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  		<li>BF [ 2874646 ] GridField issue when a lookup is key
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2874646&group_id=176962&atid=879332
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -213,12 +216,12 @@ public class GridField
 	public boolean isLookup()
 	{
 		boolean retValue = false;
-		if (m_vo.IsKey)
+		if (DisplayType.isLookup(m_vo.displayType))
+			retValue = true;
+		else if (m_vo.IsKey)
 			retValue = false;
 	//	else if (m_vo.ColumnName.equals("CreatedBy") || m_vo.ColumnName.equals("UpdatedBy"))
 	//		retValue = false;
-		else if (DisplayType.isLookup(m_vo.displayType))
-			retValue = true;
 		else if (m_vo.displayType == DisplayType.Location
 			|| m_vo.displayType == DisplayType.Locator
 			|| m_vo.displayType == DisplayType.Account
