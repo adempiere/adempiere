@@ -13,6 +13,7 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Low Heng Sin hengsin@avantz.com
+ *                 Teo Sarca, teo.sarca@gmail.com
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -36,6 +37,7 @@ import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Table;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -45,23 +47,26 @@ public class TableElementHandler extends AbstractElementHandler {
 	
 	private List<Integer>tables = new ArrayList<Integer>();
 	
-	public void startElement(Properties ctx, Element element) throws SAXException {
-		PackIn packIn = (PackIn)ctx.get("PackInProcess");
-		String elementValue = element.getElementValue();
-		Attributes atts = element.attributes;
+	public void startElement(Properties ctx, Element element) throws SAXException
+	{
+		final PackIn packIn = (PackIn)ctx.get("PackInProcess");
+		final String elementValue = element.getElementValue();
+		final Attributes atts = element.attributes;
 		log.info(elementValue+" "+atts.getValue("ADTableNameID"));
-		String entitytype = atts.getValue("EntityType");
+		final String entitytype = atts.getValue("EntityType");
 		
-		if (isProcessElement(ctx, entitytype)) {
-			
-			String tableName = atts.getValue("ADTableNameID");
+		if (isProcessElement(ctx, entitytype))
+		{
+			final String tableName = atts.getValue("ADTableNameID");
 			int id = packIn.getTableId(tableName);
-			if (id <= 0) {
+			if (id <= 0)
+			{
 				id = get_IDWithColumn(ctx, "AD_Table", "TableName", tableName);
 				if (id > 0)
 					packIn.addTable(tableName, id);
 			}
-			if (id > 0 && isTableProcess(ctx, id)) {
+			if (id > 0 && isTableProcess(ctx, id) && element.pass == 1)
+			{
 				return;
 			}
 			
@@ -70,29 +75,74 @@ public class TableElementHandler extends AbstractElementHandler {
 				m_Table.setAD_Table_ID(Integer.parseInt(atts.getValue("AD_Table_ID")));
 			int AD_Backup_ID = -1;
 			String Object_Status = null;
-			if (id > 0){		
+			if (id > 0)
+			{		
 				AD_Backup_ID = copyRecord(ctx, "AD_Table",m_Table);
 				Object_Status = "Update";			
 			}
-			else{
+			else
+			{
 				Object_Status = "New";
 				AD_Backup_ID =0;
 			}
 			m_Table.setTableName(tableName);
-			String Name = atts.getValue("ADWindowNameID");	    
-			id = get_IDWithColumn(ctx, "AD_Window", "Name", Name);
-			m_Table.setAD_Window_ID(id);
-			Name = getStringValue(atts,"POWindowNameID");
-			if (Name != null){
-				id = get_IDWithColumn(ctx, "AD_Window", "Name", Name);
-				m_Table.setPO_Window_ID(id);
+			//
+			// Window
+			final String windowName = atts.getValue("ADWindowNameID");
+			if (!Util.isEmpty(windowName, true))
+			{
+				id = get_IDWithColumn(ctx, "AD_Window", "Name", windowName);
+				if (id > 0)
+				{
+					m_Table.setAD_Window_ID(id);
+				}
+				else if (!element.defer)
+				{
+					element.defer = true;
+					element.unresolved = "Window:"+windowName;
+				}
+				else
+				{
+					log.warning("@NotFound@ @AD_Window_ID@:"+windowName);
+				}
 			}
-			
-			Name = getStringValue(atts,"ADValRuleNameID");
-			if (Name != null) {
-				id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", Name);			
-				m_Table.setAD_Val_Rule_ID(id);
+			//
+			// PO Window
+			final String poWindowName = getStringValue(atts,"POWindowNameID");
+			if (!Util.isEmpty(poWindowName, true))
+			{
+				id = get_IDWithColumn(ctx, "AD_Window", "Name", poWindowName);
+				if (id > 0)
+				{
+					m_Table.setPO_Window_ID(id);
+				}
+				else if (!element.defer)
+				{
+					element.defer = true;
+					element.unresolved = "POWindow:"+poWindowName;
+				}
+				else
+				{
+					log.warning("@NotFound@ @PO_Window_ID@:"+poWindowName);
+				}
 			}
+			//
+			// Validation Rule
+			final String valRuleName = getStringValue(atts,"ADValRuleNameID");
+			if (!Util.isEmpty(valRuleName, true))
+			{
+				id = get_IDWithColumn(ctx, "AD_Val_Rule", "Name", valRuleName);
+				if (id > 0)
+				{
+					m_Table.setAD_Val_Rule_ID(id);
+				}
+				else
+				{
+					element.defer = true;
+					element.unresolved = "ValRule:"+valRuleName;
+				}
+			}
+			//
 			m_Table.setAccessLevel (atts.getValue("AccessLevel"));		    
 			m_Table.setDescription(getStringValue(atts,"Description"));
 			m_Table.setEntityType(atts.getValue("EntityType"));
@@ -108,17 +158,21 @@ public class TableElementHandler extends AbstractElementHandler {
 			m_Table.setName(atts.getValue("Name"));
 			m_Table.setReplicationType(getStringValue(atts,"ReplicationType"));
 			m_Table.setTableName(atts.getValue("TableName"));
-			if (m_Table.save(getTrxName(ctx)) == true){		    	
+			if (m_Table.save(getTrxName(ctx)) == true)
+			{		    	
 				record_log (ctx, 1, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
 				tables.add(m_Table.getAD_Table_ID());
 				packIn.addTable(tableName, m_Table.getAD_Table_ID());
 				element.recordId = m_Table.getAD_Table_ID();
 			}
-			else{
+			else
+			{
 				record_log (ctx, 0, m_Table.getName(),"Table", m_Table.get_ID(),AD_Backup_ID, Object_Status,"AD_Table",get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Table"));
 				throw new POSaveFailedException("Table");
 			}            
-		} else {
+		}
+		else
+		{
 			element.skip = true;
 		}
 	}
@@ -223,7 +277,8 @@ public class TableElementHandler extends AbstractElementHandler {
 		ctx.remove(X_AD_Column.COLUMNNAME_AD_Column_ID);
 	}
 
-	private boolean isTableProcess(Properties ctx, int AD_Table_ID) {
+	private boolean isTableProcess(Properties ctx, int AD_Table_ID)
+	{
 		if (tables.contains(AD_Table_ID))
 			return true;
 		else {
