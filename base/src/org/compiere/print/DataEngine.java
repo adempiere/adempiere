@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -55,6 +54,9 @@ import org.compiere.util.ValueNamePair;
  * 				<li>BF [ 2549128 ] Report View Column not working at all
  * 				<li>BF [ 2865545 ] Error if not all parts of multikey are lookups
  * 					https://sourceforge.net/tracker/?func=detail&aid=2865545&group_id=176962&atid=879332
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 				<li>BF [ 2876268 ] DataEngine: error on text long fields
+ * 					https://sourceforge.net/tracker/?func=detail&aid=2876268&group_id=176962&atid=879332
  * @author victor.perez@e-evolution.com 
  *				<li>FR [ 2011569 ] Implementing new Summary flag in Report View  http://sourceforge.net/tracker/index.php?func=detail&aid=2011569&group_id=176962&atid=879335
  */
@@ -913,12 +915,19 @@ public class DataEngine
 							}
 							else if (pdc.getDisplayType() == DisplayType.TextLong)
 							{
-								Clob clob = rs.getClob(counter++);
 								String value = "";
-								if (clob != null)
+								if ("java.lang.String".equals(rs.getMetaData().getColumnClassName(counter)))
 								{
-									long length = clob.length();
-									value = clob.getSubString(1, (int)length);
+									value = rs.getString(counter++);
+								}
+								else
+								{
+									Clob clob = rs.getClob(counter++);
+									if (clob != null)
+									{
+										long length = clob.length();
+										value = clob.getSubString(1, (int)length);
+									}
 								}
 								pde = new PrintDataElement(pdc.getColumnName(), value, pdc.getDisplayType(), pdc.getFormatPattern());
 							}
