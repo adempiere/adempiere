@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.adempiere.exceptions.DBException;
+import org.adempiere.pipo.exception.NonUniqueIDLookupException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -47,7 +48,7 @@ public final class IDFinder
 	 * @param name
 	 * @param AD_Client_ID
 	 * @param trxName
-	 * 
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
 	 */
 	public static int get_ID (String tableName, String name, int AD_Client_ID, String trxName)
 	{
@@ -77,7 +78,7 @@ public final class IDFinder
 			params.add(AD_Client_ID);
 		}
 		
-		return getID(sqlB.toString(), params, key.toString(), trxName);
+		return getID(sqlB.toString(), params, key.toString(), true, trxName);
 	}
 	
 	/**
@@ -88,8 +89,25 @@ public final class IDFinder
 	 * @param value
 	 * @param AD_Client_ID
 	 * @param trxName
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
 	 */
 	public static int get_IDWithColumn (String tableName, String columnName, Object value, int AD_Client_ID, String trxName)
+	{
+		return get_IDWithColumn(tableName, columnName, value, AD_Client_ID, true, trxName);
+	}
+	/**
+	 * Get ID from column value for a table.
+	 *
+	 * @param tableName
+	 * @param columName
+	 * @param value
+	 * @param AD_Client_ID
+	 * @param strict if true we throw NonUniqueIDLookupException on more then one result. Else we will return 0.
+	 * @param trxName
+	 * @return id or 0
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria and strict is true
+	 */
+	public static int get_IDWithColumn (String tableName, String columnName, Object value, int AD_Client_ID, boolean strict, String trxName)
 	{
 		if (value == null)
 			return 0;
@@ -124,7 +142,7 @@ public final class IDFinder
 				.append(tableName)
 				.append("_ID");
 		
-		return getID(sqlB.toString(), params, key.toString(), trxName);
+		return getID(sqlB.toString(), params, key.toString(), strict, trxName);
 	}
 	
 	/**
@@ -135,6 +153,7 @@ public final class IDFinder
 	 * @param tableNameMaster
 	 * @param nameMaster
 	 * @param trxName
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
 	 */
 	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, String nameMaster, String trxName)
 	{
@@ -163,7 +182,7 @@ public final class IDFinder
 		params.add(name);
 		params.add(nameMaster);
 		
-		return getID(sqlB.toString(), params, key.toString(), trxName);
+		return getID(sqlB.toString(), params, key.toString(), true, trxName);
 	}
 	
 	/**
@@ -174,6 +193,7 @@ public final class IDFinder
      * @param tableNameMaster
      * @param masterID
      * @param trxName
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
      */    
 	public static int get_IDWithMasterAndColumn (String tableName, String columnName, String name, String tableNameMaster, int masterID, String trxName)
 	{
@@ -191,7 +211,7 @@ public final class IDFinder
 		params.add(name);
 		params.add(masterID);
 		
-		return getID(sqlB.toString(), params, key, trxName);
+		return getID(sqlB.toString(), params, key, true, trxName);
 	}
 
 	/**
@@ -202,6 +222,7 @@ public final class IDFinder
 	 * @param tableNameMaster
 	 * @param masterID
 	 * @param trxName
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
 	 */    
 	public static int get_IDWithMaster (String tableName, String name, String tableNameMaster, int masterID, String trxName)
 	{
@@ -228,7 +249,7 @@ public final class IDFinder
 		params.add(name);
 		params.add(masterID);
 		
-		return getID(sqlB.toString(), params, key.toString(), trxName);
+		return getID(sqlB.toString(), params, key.toString(), true, trxName);
 	}
 
 	/**
@@ -239,6 +260,7 @@ public final class IDFinder
 	 * @param name
 	 * @param AD_Client_ID
 	 * @param trxName
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
 	 */
 	public static int getIDbyColumn (String tableName, String column, String name, int AD_Client_ID, String trxName)
 	{
@@ -265,14 +287,32 @@ public final class IDFinder
 			params.add(AD_Client_ID);
 		}
 		
-		return getID(sql.toString(), params, key.toString(), trxName);
+		return getID(sql.toString(), params, key.toString(), true, trxName);
 	}
 
+	/**
+	 * 
+	 * @param tableName
+	 * @param name
+	 * @param AD_Client_ID
+	 * @param trxName
+	 * @return
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
+	 */
 	public static int getIDbyName (String tableName, String name, int AD_Client_ID, String trxName)
 	{
 		return getIDbyColumn(tableName, "Name", name, AD_Client_ID, trxName);
 	}
 
+	/**
+	 * 
+	 * @param tableName
+	 * @param name
+	 * @param AD_Client_ID
+	 * @param trxName
+	 * @return
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
+	 */
 	public static int getIDbyValue (String tableName, String name, int AD_Client_ID, String trxName)
 	{
 		return getIDbyColumn(tableName, "Value", name, AD_Client_ID, trxName);
@@ -284,7 +324,17 @@ public final class IDFinder
 		idCache.clear();
 	}
 	
-	private static int getID(String sql, List<Object> params, String key, String trxName)
+	/**
+	 * 
+	 * @param sql
+	 * @param params
+	 * @param key
+	 * @param strict if true we throw NonUniqueIDLookupException on more then one result. Else we will return 0.
+	 * @param trxName
+	 * @return id or 0
+	 * @throws NonUniqueIDLookupException if more then one result found for search criteria and strict is true
+	 */
+	private static int getID(String sql, List<Object> params, String key, boolean strict, String trxName)
 	{
 		if (key != null && idCache.containsKey(key))
 			return idCache.get(key);
@@ -304,8 +354,14 @@ public final class IDFinder
 			}
 			if (rs.next())
 			{
-				log.warning("Not Unique ID found for key="+key);
-				return 0;
+				if (strict)
+				{
+					throw new NonUniqueIDLookupException(key);
+				}
+				else
+				{
+					log.warning("Non Unique ID Lookup found for "+key);
+				}
 			}
 		}
 		catch (SQLException e)

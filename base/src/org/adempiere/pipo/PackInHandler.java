@@ -703,7 +703,7 @@ public class PackInHandler extends DefaultHandler {
     	    		Attributes atts = e.attributes;
     	    		String nodeName = atts.getValue("Name");
     	    		MWFNode node = null;
-    	    		int id =  IDFinder.get_IDWithColumn("AD_WF_Node", "Name", nodeName , m_AD_Client_ID , m_trxName);
+    	    		int id =  IDFinder.get_IDWithColumn("AD_WF_Node", "Name", nodeName, m_AD_Client_ID, false, m_trxName);
     				if(id > 0)
     				{
     					node = new MWFNode(m_ctx, id , m_trxName);
