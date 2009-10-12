@@ -34,6 +34,8 @@ import org.compiere.util.Env;
  *  @version $Id: MDunningRunEntry.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  *  
  *  @author Teo Sarca - BF [ 1739022 ], BF [ 1739096 ]
+ *  
+ *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
  */
 public class MDunningRunEntry extends X_C_DunningRunEntry
 {
@@ -41,7 +43,7 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	 * 
 	 */
 	private static final long serialVersionUID = 2028055451030209868L;
-	
+
 	/** Logger								*/
 	private static CLogger		s_log = CLogger.getCLogger (MPayment.class);
 
@@ -159,7 +161,7 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 			throw new BPartnerNoAddressException(bp);
 		}
 		//	User with location
-		MUser[] users = MUser.getOfBPartner(getCtx(), bp.getC_BPartner_ID(), null);
+		MUser[] users = MUser.getOfBPartner(getCtx(), bp.getC_BPartner_ID(), get_TrxName());
 		if (users.length == 1)
 			setAD_User_ID (users[0].getAD_User_ID());
 		else
@@ -221,7 +223,6 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 		return retValue;
 	}
 
-	
 	/**
 	 * Get Parent
 	 * @return Dunning Run
@@ -236,6 +237,7 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
+		I_C_DunningLevel level = getC_DunningLevel();
 		//	Set Amt
 		if (isProcessed ())
 		{
@@ -245,20 +247,17 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 				theseLines[i].setProcessed (true);
 				theseLines[i].save (get_TrxName());
 			}
-			MDunningRun parent = getParent();
-			if (parent.getLevel ().isSetCreditStop () || parent.getLevel ().isSetPaymentTerm ()) 
+			if (level.isSetCreditStop () || level.isSetPaymentTerm ()) 
 			{
 				MBPartner thisBPartner = MBPartner.get (getCtx(), getC_BPartner_ID());
-				if (parent.getLevel ().isSetCreditStop ())
+				if (level.isSetCreditStop ())
 					thisBPartner.setSOCreditStatus (X_C_BPartner.SOCREDITSTATUS_CreditStop);
-				if (parent.getLevel ().isSetPaymentTerm ())
-					thisBPartner.setC_PaymentTerm_ID (parent.getLevel().getC_PaymentTerm_ID ());
+				if (level.isSetPaymentTerm ())
+					thisBPartner.setC_PaymentTerm_ID (level.getC_PaymentTerm_ID ());
 				thisBPartner.save ();
 			}
 		}
 		return true;
 	}	//	beforeSave
-	
-
 	
 }	//	MDunningRunEntry

@@ -23,9 +23,9 @@ SELECT dr.AD_Client_ID, dr.AD_Org_ID, dr.IsActive, dr.Created, dr.CreatedBy, dr.
 	bpl.C_Location_ID, bp.ReferenceNo, l.Postal || l.Postal_Add AS Postal,
     dre.Amt, dre.Qty, dre.Note, COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM C_DunningRun dr
-    INNER JOIN C_DunningLevel dl ON (dr.C_DunningLevel_ID=dl.C_DunningLevel_ID)
-    INNER JOIN C_DunningLevel_Trl dlt ON (dl.C_DunningLevel_ID=dlt.C_DunningLevel_ID)
     INNER JOIN C_DunningRunEntry dre ON (dr.C_DunningRun_ID=dre.C_DunningRun_ID)
+    INNER JOIN C_DunningLevel dl ON (dre.C_DunningLevel_ID=dl.C_DunningLevel_ID)
+    INNER JOIN C_DunningLevel_Trl dlt ON (dl.C_DunningLevel_ID=dlt.C_DunningLevel_ID)
 	INNER JOIN C_BPartner bp ON (dre.C_BPartner_ID=bp.C_BPartner_ID)
 	LEFT OUTER JOIN C_Greeting_Trl bpg on (bp.C_Greeting_ID=bpg.C_Greeting_ID
         AND dlt.AD_Language=bpg.AD_Language)

@@ -32,7 +32,7 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091004L;
 
     /** Standard Constructor */
     public X_C_DunningRunEntry (Properties ctx, int C_DunningRunEntry_ID, String trxName)
@@ -44,6 +44,8 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
 			setC_Currency_ID (0);
+			setC_DunningLevel_ID (0);
+// @C_DunningLevel_ID@
 			setC_DunningRunEntry_ID (0);
 			setC_DunningRun_ID (0);
 			setProcessed (false);
@@ -207,6 +209,31 @@ public class X_C_DunningRunEntry extends PO implements I_C_DunningRunEntry, I_Pe
 	public int getC_Currency_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_DunningLevel getC_DunningLevel() throws RuntimeException
+    {
+		return (I_C_DunningLevel)MTable.get(getCtx(), I_C_DunningLevel.Table_Name)
+			.getPO(getC_DunningLevel_ID(), get_TrxName());	}
+
+	/** Set Dunning Level.
+		@param C_DunningLevel_ID Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID)
+	{
+		if (C_DunningLevel_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DunningLevel_ID, Integer.valueOf(C_DunningLevel_ID));
+	}
+
+	/** Get Dunning Level.
+		@return Dunning Level	  */
+	public int getC_DunningLevel_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DunningLevel_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

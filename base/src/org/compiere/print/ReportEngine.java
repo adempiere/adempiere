@@ -57,15 +57,15 @@ import org.apache.ecs.xhtml.td;
 import org.apache.ecs.xhtml.th;
 import org.apache.ecs.xhtml.tr;
 import org.compiere.model.MClient;
+import org.compiere.model.MDunningRunEntry;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MProject;
 import org.compiere.model.MQuery;
+import org.compiere.model.MRfQResponse;
 import org.compiere.model.PrintInfo;
-import org.compiere.model.X_C_DunningRunEntry;
-import org.compiere.model.X_C_Invoice;
-import org.compiere.model.X_C_Order;
-import org.compiere.model.X_C_PaySelectionCheck;
-import org.compiere.model.X_C_Project;
-import org.compiere.model.X_C_RfQResponse;
-import org.compiere.model.X_M_InOut;
 import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -75,8 +75,8 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Util;
-import org.eevolution.model.X_DD_Order;
-import org.eevolution.model.X_PP_Order;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.MPPOrder;
 
 /**
  *	Report Engine.
@@ -99,6 +99,8 @@ import org.eevolution.model.X_PP_Order;
  * 				https://sourceforge.net/tracker/?func=detail&aid=2828300&group_id=176962&atid=879332
  * 			<li>BF [ 2828886 ] Problem with reports from temporary tables
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2828886&group_id=176962
+ * 
+ *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -1187,10 +1189,10 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		"C_PaySelectionCheck_ID", "C_PaySelectionCheck_ID", 
 		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" };
 	private static final int[]	DOC_TABLE_ID = new int[] {
-		X_C_Order.Table_ID, X_M_InOut.Table_ID, X_C_Invoice.Table_ID, X_C_Project.Table_ID,
-		X_C_RfQResponse.Table_ID,
-		X_C_PaySelectionCheck.Table_ID, X_C_PaySelectionCheck.Table_ID, 
-		X_C_DunningRunEntry.Table_ID , X_PP_Order.Table_ID ,X_DD_Order.Table_ID };
+		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
+		MRfQResponse.Table_ID,
+		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
+		MDunningRunEntry.Table_ID, MPPOrder.Table_ID, MDDOrder.Table_ID };
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
@@ -1257,7 +1259,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
 				+ " INNER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN C_DunningRun dr ON (d.C_DunningRun_ID=dr.C_DunningRun_ID)"
-				+ " INNER JOIN C_DunningLevel dl ON (dl.C_DunningLevel_ID=dr.C_DunningLevel_ID) "
+				+ " INNER JOIN C_DunningLevel dl ON (dl.C_DunningLevel_ID=d.C_DunningLevel_ID) "
 				+ "WHERE d.C_DunningRunEntry_ID=?";			//	info from Dunning
 		else if (type == REMITTANCE)
 			sql = "SELECT pf.Remittance_PrintFormat_ID,"

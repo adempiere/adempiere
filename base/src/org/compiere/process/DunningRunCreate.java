@@ -38,6 +38,8 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: DunningRunCreate.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
  */
 public class DunningRunCreate extends SvrProcess
 {
@@ -52,7 +54,6 @@ public class DunningRunCreate extends SvrProcess
 	private int			p_AD_Org_ID = 0;
 	
 	private MDunningRun m_run = null;
-	private MDunningLevel m_level = null;
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -108,23 +109,27 @@ public class DunningRunCreate extends SvrProcess
 		if (p_C_Currency_ID == 0)
 			throw new IllegalArgumentException ("No Currency");
 		//
-		m_level = m_run.getLevel ();
-		
-		int inv = addInvoices();
-		int pay = addPayments();
-		
-		if (m_level.isChargeFee ()) 
-			addFees();
-		
+		int inv = 0;
+		int pay = 0;
+		for (MDunningLevel l_level : m_run.getLevels()) {
+
+			inv += addInvoices(l_level);
+			pay += addPayments(l_level);
+
+			if (l_level.isChargeFee ()) 
+				addFees(l_level);
+		}
+
 		return "@C_Invoice_ID@ #" + inv + " - @C_Payment_ID@=" + pay;
 	}	//	doIt
 
 	
 	/**************************************************************************
 	 * 	Add Invoices to Run
-	 *	@return no of invoices
+	 *  @param level  the Dunning level
+	 *  @return no of invoices
 	 */
-	private int addInvoices()
+	private int addInvoices(MDunningLevel level)
 	{
 		int count = 0;
 		String sql = "SELECT i.C_Invoice_ID, i.C_Currency_ID,"
@@ -164,9 +169,9 @@ public class DunningRunCreate extends SvrProcess
 		// if sequentially we must check for other levels with smaller days for
 		// which this invoice is not yet included!
 		MDunningLevel[] previousLevels = null;
-		if (m_level.getParent ().isCreateLevelsSequentially ()) {
+		if (level.getParent ().isCreateLevelsSequentially ()) {
 			// Build a list of all topmost Dunning Levels
-			previousLevels =  m_level.getPreviousLevels();
+			previousLevels =  level.getPreviousLevels();
 			if (previousLevels!=null && previousLevels.length>0) {
 				String sqlAppend = "";
 				for (int i=0; i<previousLevels.length; i++)
@@ -186,8 +191,8 @@ public class DunningRunCreate extends SvrProcess
 			+ "WHERE drl.Processed='Y' AND drl.C_Invoice_ID=? AND COALESCE(drl.C_InvoicePaySchedule_ID, 0)=?";
 
 		
-		BigDecimal DaysAfterDue = m_run.getLevel().getDaysAfterDue();
-		int DaysBetweenDunning = m_run.getLevel().getDaysBetweenDunning();
+		BigDecimal DaysAfterDue = level.getDaysAfterDue();
+		int DaysBetweenDunning = level.getDaysBetweenDunning();
 		
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
@@ -199,7 +204,7 @@ public class DunningRunCreate extends SvrProcess
 			pstmt.setTimestamp(2, m_run.getDunningDate());
 			pstmt.setInt (3, m_run.getAD_Client_ID());
 			pstmt.setTimestamp(4, m_run.getDunningDate());
-			pstmt.setInt(5, m_run.getC_DunningLevel_ID());
+			pstmt.setInt(5, level.getC_DunningLevel_ID());
 			pstmt.setTimestamp(6, m_run.getDunningDate());
 			if (p_C_BPartner_ID != 0)
 				pstmt.setInt (7, p_C_BPartner_ID);
@@ -219,13 +224,13 @@ public class DunningRunCreate extends SvrProcess
 				boolean IsInDispute = "Y".equals(rs.getString(6));
 				int C_BPartner_ID = rs.getInt(7);
 				int C_InvoicePaySchedule_ID = rs.getInt(8);
-				log.fine("DaysAfterDue: " + DaysAfterDue.intValue() + " isShowAllDue: " + m_level.isShowAllDue());
+				log.fine("DaysAfterDue: " + DaysAfterDue.intValue() + " isShowAllDue: " + level.isShowAllDue());
 				log.fine("C_Invoice_ID - DaysDue - GrandTotal: " + C_Invoice_ID + " - " + DaysDue + " - " + GrandTotal);
 				log.fine("C_InvoicePaySchedule_ID: " + C_InvoicePaySchedule_ID);
 				//
 				if (!p_IncludeInDispute && IsInDispute)
 					continue;
-				if (DaysDue < DaysAfterDue.intValue() && !m_level.isShowAllDue ())
+				if (DaysDue < DaysAfterDue.intValue() && !level.isShowAllDue())
 					continue;
 				if (Env.ZERO.compareTo(Open) == 0)
 					continue;
@@ -243,21 +248,22 @@ public class DunningRunCreate extends SvrProcess
 					DaysAfterLast = rs2.getInt(2);
 				}
 				rs2.close();
-				if(previousLevels != null){
+				if (previousLevels != null) {
 					log.fine(TimesDunned + " - " + previousLevels.length);
 				}
 				//	SubQuery
-				if (m_level.getParent().isCreateLevelsSequentially() && previousLevels!=null && TimesDunned>previousLevels.length
-						 && !m_level.isShowAllDue() && !m_level.isShowNotDue()) {
+				if (level.getParent().isCreateLevelsSequentially() && previousLevels!=null && TimesDunned>previousLevels.length
+						 && !level.isShowAllDue() && !level.isShowNotDue())
+				{
 					continue;
 				}
 				log.fine(DaysBetweenDunning + " - " + DaysAfterLast);
-				if (DaysBetweenDunning != 0 && DaysAfterLast < DaysBetweenDunning && !m_level.isShowAllDue () && !m_level.isShowNotDue ())
+				if (DaysBetweenDunning != 0 && DaysAfterLast < DaysBetweenDunning && !level.isShowAllDue() && !level.isShowNotDue())
 					continue;
 				//
-				if (createInvoiceLine (C_Invoice_ID, C_InvoicePaySchedule_ID, C_Currency_ID, GrandTotal, Open,
-					DaysDue, IsInDispute, C_BPartner_ID, 
-					TimesDunned, DaysAfterLast))
+				if (createInvoiceLine(C_Invoice_ID, C_InvoicePaySchedule_ID, C_Currency_ID, GrandTotal, Open,
+						DaysDue, IsInDispute, C_BPartner_ID, 
+						TimesDunned, DaysAfterLast, level.getC_DunningLevel_ID()))
 				{
 					count++;
 				}
@@ -288,16 +294,17 @@ public class DunningRunCreate extends SvrProcess
 	 *	@param C_BPartner_ID
 	 *	@param TimesDunned
 	 *	@param DaysAfterLast
+	 *  @param c_DunningLevel_ID 
 	 */
 	private boolean createInvoiceLine (int C_Invoice_ID, int C_InvoicePaySchedule_ID, int C_Currency_ID, 
 		BigDecimal GrandTotal, BigDecimal Open, 
 		int DaysDue, boolean IsInDispute, 
-		int C_BPartner_ID, int TimesDunned, int DaysAfterLast)
+		int C_BPartner_ID, int TimesDunned, int DaysAfterLast, int c_DunningLevel_ID)
 	{
 		MDunningRunEntry entry = null;
 		try 
 		{
-			entry = m_run.getEntry (C_BPartner_ID, p_C_Currency_ID, p_SalesRep_ID);
+			entry = m_run.getEntry (C_BPartner_ID, p_C_Currency_ID, p_SalesRep_ID, c_DunningLevel_ID);
 		} 
 		catch (BPartnerNoAddressException e)
 		{
@@ -322,7 +329,7 @@ public class DunningRunCreate extends SvrProcess
 		if (!line.save())
 			throw new IllegalStateException("Cannot save MDunningRunLine");
 		MInvoice invoice = new MInvoice(getCtx(),C_Invoice_ID, get_TrxName());
-		invoice.setC_DunningLevel_ID(m_run.getC_DunningLevel_ID());
+		invoice.setC_DunningLevel_ID(c_DunningLevel_ID);
 		if (!invoice.save())
 			throw new IllegalStateException("Cannot update dunning level information in invoice");
 		
@@ -332,9 +339,10 @@ public class DunningRunCreate extends SvrProcess
 	
 	/**************************************************************************
 	 * 	Add Payments to Run
+	 *  @param level  the Dunning level
 	 *	@return no of payments
 	 */
-	private int addPayments()
+	private int addPayments(MDunningLevel level)
 	{
 		String sql = "SELECT C_Payment_ID, C_Currency_ID, PayAmt,"
 			+ " paymentAvailable(C_Payment_ID), C_BPartner_ID "
@@ -364,7 +372,7 @@ public class DunningRunCreate extends SvrProcess
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getAD_Client_ID());
-			pstmt.setInt (2, m_run.getC_DunningLevel_ID());
+			pstmt.setInt (2, level.getC_DunningLevel_ID());
 			if (p_C_BPartner_ID != 0)
 				pstmt.setInt (3, p_C_BPartner_ID);
 			else if (p_C_BP_Group_ID != 0)
@@ -383,7 +391,7 @@ public class DunningRunCreate extends SvrProcess
 					continue;
 				//
 				if (createPaymentLine (C_Payment_ID, C_Currency_ID, PayAmt, OpenAmt,
-					C_BPartner_ID))
+						C_BPartner_ID, level.getC_DunningLevel_ID()))
 				{
 					count++;
 				}
@@ -409,13 +417,14 @@ public class DunningRunCreate extends SvrProcess
 	 *	@param PayAmt
 	 *	@param OpenAmt
 	 *	@param C_BPartner_ID
+	 *  @param c_DunningLevel_ID 
 	 */
 	private boolean createPaymentLine (int C_Payment_ID, int C_Currency_ID, 
-		BigDecimal PayAmt, BigDecimal OpenAmt, int C_BPartner_ID)
+		BigDecimal PayAmt, BigDecimal OpenAmt, int C_BPartner_ID, int c_DunningLevel_ID)
 	{
 		MDunningRunEntry entry = null;
 		try {
-			entry = m_run.getEntry (C_BPartner_ID, p_C_Currency_ID, p_SalesRep_ID);
+			entry = m_run.getEntry (C_BPartner_ID, p_C_Currency_ID, p_SalesRep_ID, c_DunningLevel_ID);
 		} catch (BPartnerNoAddressException e) {
 			MPayment payment = new MPayment(getCtx(), C_Payment_ID, null);
 			String msg = "@Skip@ @C_Payment_ID@ " + payment.getDocumentInfo()
@@ -435,13 +444,13 @@ public class DunningRunCreate extends SvrProcess
 		return true;
 	}	//	createPaymentLine
 
-	private void addFees()
+	private void addFees(MDunningLevel level)
 	{
 		MDunningRunEntry [] entries = m_run.getEntries (true);
 		if (entries!=null && entries.length>0) {
 			for (int i=0;i<entries.length;i++) {
 				MDunningRunLine line = new MDunningRunLine (entries[i]);
-				line.setFee (p_C_Currency_ID, m_level.getFeeAmt ());
+				line.setFee (p_C_Currency_ID, level.getFeeAmt());
 				if (!line.save())
 					throw new IllegalStateException("Cannot save MDunningRunLine");
 				entries[i].setQty (entries[i].getQty ().subtract (new BigDecimal(1)));

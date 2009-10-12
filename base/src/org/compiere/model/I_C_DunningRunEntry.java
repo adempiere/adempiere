@@ -135,6 +135,17 @@ public interface I_C_DunningRunEntry
 
 	public I_C_Currency getC_Currency() throws RuntimeException;
 
+    /** Column name C_DunningLevel_ID */
+    public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
+
+	/** Set Dunning Level	  */
+	public void setC_DunningLevel_ID (int C_DunningLevel_ID);
+
+	/** Get Dunning Level	  */
+	public int getC_DunningLevel_ID();
+
+	public I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
+
     /** Column name C_DunningRunEntry_ID */
     public static final String COLUMNNAME_C_DunningRunEntry_ID = "C_DunningRunEntry_ID";
 

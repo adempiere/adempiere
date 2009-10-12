@@ -29,7 +29,6 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MUser;
 import org.compiere.model.MUserMail;
 import org.compiere.model.PrintInfo;
-import org.compiere.model.X_C_DunningRunEntry;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.AdempiereUserError;
@@ -40,6 +39,8 @@ import org.compiere.util.EMail;
  *	
  *  @author Jorg Janke
  *  @version $Id: DunningPrint.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
  */
 public class DunningPrint extends SvrProcess
 {
@@ -108,10 +109,6 @@ public class DunningPrint extends SvrProcess
 		MDunningRun run = new MDunningRun (getCtx(), p_C_DunningRun_ID, get_TrxName());
 		if (run.get_ID() == 0)
 			throw new AdempiereUserError ("@NotFound@: @C_DunningRun_ID@ - " + p_C_DunningRun_ID);
-		//	Print Format on Dunning Level
-		MDunningLevel level = new MDunningLevel (getCtx(), run.getC_DunningLevel_ID(), get_TrxName());
-		MPrintFormat format = MPrintFormat.get (getCtx(), level.getDunning_PrintFormat_ID(), false);
-		
 		MClient client = MClient.get(getCtx());
 		
 		int count = 0;
@@ -120,6 +117,13 @@ public class DunningPrint extends SvrProcess
 		for (int i = 0; i < entries.length; i++)
 		{
 			MDunningRunEntry entry = entries[i];
+
+			//	Print Format on Dunning Level
+			MDunningLevel level = new MDunningLevel (getCtx(), entry.getC_DunningLevel_ID(), get_TrxName());
+			MPrintFormat format = null;
+			if (level.getDunning_PrintFormat_ID() > 0)
+				format = MPrintFormat.get (getCtx(), level.getDunning_PrintFormat_ID(), false);
+			
 			if (p_IsOnlyIfBPBalance && entry.getAmt().signum() <= 0)
 				continue;
 			if (p_PrintUnprocessedOnly && entry.isProcessed())
@@ -157,11 +161,13 @@ public class DunningPrint extends SvrProcess
 			//	Engine
 			PrintInfo info = new PrintInfo(
 				bp.getName(),
-				X_C_DunningRunEntry.Table_ID,
+				MDunningRunEntry.Table_ID,
 				entry.getC_DunningRunEntry_ID(),
 				entry.getC_BPartner_ID());
 			info.setDescription(bp.getName() + ", Amt=" + entry.getAmt());
-			ReportEngine re = new ReportEngine(getCtx(), format, query, info);
+			ReportEngine re = null;
+			if (format != null)
+				re = new ReportEngine(getCtx(), format, query, info);
 			boolean printed = false;
 			if (p_EMailPDF)
 			{
@@ -185,9 +191,11 @@ public class DunningPrint extends SvrProcess
 					email.setMessageText (message);
 				}
 				//
-				File attachment = re.getPDF(File.createTempFile("Dunning", ".pdf"));
-				log.fine(to + " - " + attachment);
-				email.addAttachment(attachment);
+				if (re != null) {
+					File attachment = re.getPDF(File.createTempFile("Dunning", ".pdf"));
+					log.fine(to + " - " + attachment);
+					email.addAttachment(attachment);
+				}
 				//
 				String msg = email.send();
 				MUserMail um = new MUserMail(mText, entry.getAD_User_ID(), email);
@@ -208,9 +216,11 @@ public class DunningPrint extends SvrProcess
 			}
 			else
 			{
-				re.print ();
-				count++;
-				printed = true;
+				if (re != null) {
+					re.print ();
+					count++;
+					printed = true;
+				}
 			}
 			if (printed)
 			{

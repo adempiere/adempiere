@@ -176,10 +176,8 @@ public class ModelClassGenerator
 			 .append("\t *").append(NL)
 			 .append("\t */").append(NL)
 			 .append("\tprivate static final long serialVersionUID = ")
-			 	.append(Adempiere.DB_VERSION.substring(0,4))
-			 	.append(Adempiere.DB_VERSION.substring(5,7))
-			 	.append(Adempiere.DB_VERSION.substring(8))
-			 	.append("L;").append(NL)
+			 .append(String.format("%1$tY%1$tm%1$td", new Timestamp(System.currentTimeMillis())))
+		 	 .append("L;").append(NL)
 			 //.append("\tprivate static final long serialVersionUID = 1L;").append(NL)
 
 			//	Standard Constructor

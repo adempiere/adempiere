@@ -20,6 +20,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -30,13 +31,15 @@ import org.compiere.util.DB;
  *	
  *  @author Jorg Janke
  *  @version $Id: MDunningRun.java,v 1.2 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
  */
 public class MDunningRun extends X_C_DunningRun
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3786948971790998292L;
+	private static final long serialVersionUID = 8450276205229694644L;
 
 	/**
 	 * 	Standard Constructor
@@ -66,19 +69,43 @@ public class MDunningRun extends X_C_DunningRun
 		super(ctx, rs, trxName);
 	}	//	MDunningRun
 
-	private MDunningLevel		m_level = null;
 	private MDunningRunEntry[]	m_entries = null;
+	private MDunningLevel[] m_levels = null;
 	
 	/**
-	 * 	Get Dunning Level
-	 *	@return level
+	 * 	Get Dunning Levels
+	 *	@return array of level
 	 */
-	public MDunningLevel getLevel()
-	{
-		if (m_level == null)
-			m_level = new MDunningLevel (getCtx(), getC_DunningLevel_ID(), get_TrxName());
-		return m_level;
-	}	//	getLevel
+	public MDunningLevel[] getLevels() {
+		if (m_levels != null)
+			return m_levels;
+
+		List<MDunningLevel> levels;
+		if (getC_DunningLevel_ID() > 0) {
+			// just one level
+			levels = new Query(
+					getCtx(),
+					MDunningLevel.Table_Name,
+					"C_Dunning_ID=? AND C_DunningLevel_ID=?",
+					get_TrxName())
+			.setParameters(new Object[]{getC_Dunning_ID(), getC_DunningLevel_ID()})
+			.setOrderBy("DaysAfterDue DESC, C_DunningLevel_ID")
+			.list();
+		} else {
+			// all levels of the dun
+			levels = new Query(
+					getCtx(),
+					MDunningLevel.Table_Name,
+					"C_Dunning_ID=?",
+					get_TrxName())
+			.setParameters(new Object[]{getC_Dunning_ID()})
+			.setOrderBy("DaysAfterDue DESC, C_DunningLevel_ID")
+			.list();
+		}
+		m_levels = new MDunningLevel[levels.size()];
+		levels.toArray (m_levels);
+		return m_levels;
+	}
 	
 	/**
 	 * 	Get Entries
@@ -90,7 +117,7 @@ public class MDunningRun extends X_C_DunningRun
 		if (m_entries != null && !requery)
 			return m_entries;
 		
-		String sql = "SELECT * FROM C_DunningRunEntry WHERE C_DunningRun_ID=?";
+		String sql = "SELECT * FROM C_DunningRunEntry WHERE C_DunningRun_ID=? ORDER BY C_DunningLevel_ID, C_DunningRunEntry_ID";
 		ArrayList<MDunningRunEntry> list = new ArrayList<MDunningRunEntry>();
 		PreparedStatement pstmt = null;
 		try
@@ -147,9 +174,10 @@ public class MDunningRun extends X_C_DunningRun
 	 *	@param C_BPartner_ID business partner
 	 *	@param C_Currency_ID currency
 	 *	@param SalesRep_ID sales rep
+	 *	@param C_DunningLevel_ID dunning level
 	 *	@return entry
 	 */
-	public MDunningRunEntry getEntry (int C_BPartner_ID, int C_Currency_ID, int SalesRep_ID)
+	public MDunningRunEntry getEntry (int C_BPartner_ID, int C_Currency_ID, int SalesRep_ID, int C_DunningLevel_ID)
 	{
 		// TODO: Related BP
 		int C_BPartnerRelated_ID = C_BPartner_ID;
@@ -158,7 +186,7 @@ public class MDunningRun extends X_C_DunningRun
 		for (int i = 0; i < m_entries.length; i++)
 		{
 			MDunningRunEntry entry = m_entries[i];
-			if (entry.getC_BPartner_ID() == C_BPartnerRelated_ID)
+			if (entry.getC_BPartner_ID() == C_BPartnerRelated_ID && entry.getC_DunningLevel_ID() == C_DunningLevel_ID)
 				return entry;
 		}
 		//	New Entry
@@ -169,9 +197,10 @@ public class MDunningRun extends X_C_DunningRun
 		if (entry.getSalesRep_ID() == 0)
 			entry.setSalesRep_ID (SalesRep_ID);
 		entry.setC_Currency_ID (C_Currency_ID);
+		entry.setC_DunningLevel_ID(C_DunningLevel_ID);
 		//
 		m_entries = null;
 		return entry;
 	}	//	getEntry
-	
+
 }	//	MDunningRun
