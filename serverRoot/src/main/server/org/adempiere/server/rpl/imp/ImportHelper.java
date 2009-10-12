@@ -423,6 +423,7 @@ public class ImportHelper {
 									|| column.getAD_Reference_ID() == DisplayType.Search
 									|| column.getAD_Reference_ID() == DisplayType.TableDir
 									|| column.getAD_Reference_ID() == DisplayType.Table
+									|| column.getAD_Reference_ID() == DisplayType.Location
 								) 
 						{
 							//
