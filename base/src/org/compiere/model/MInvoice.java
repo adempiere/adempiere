@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.BPartnerNoAddressException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.print.ReportEngine;
@@ -290,10 +291,16 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		setClientOrg(order);
 		setOrder(order);	//	set base settings
 		//
-		if (C_DocTypeTarget_ID == 0)
-			C_DocTypeTarget_ID =  DB.getSQLValue(null,
-				"SELECT C_DocTypeInvoice_ID FROM C_DocType WHERE C_DocType_ID=?",
-				order.getC_DocType_ID());
+		if (C_DocTypeTarget_ID <= 0)
+		{
+			MDocType odt = MDocType.get(order.getCtx(), order.getC_DocType_ID());
+			if (odt != null)
+			{
+				C_DocTypeTarget_ID = odt.getC_DocTypeInvoice_ID();
+				if (C_DocTypeTarget_ID <= 0)
+					throw new AdempiereException("@NotFound@ @C_DocTypeInvoice_ID@ - @C_DocType_ID@:"+odt.get_Translation(MDocType.COLUMNNAME_Name));
+			}
+		}
 		setC_DocTypeTarget_ID(C_DocTypeTarget_ID);
 		if (invoiceDate != null)
 			setDateInvoiced(invoiceDate);
