@@ -69,6 +69,9 @@ import org.compiere.util.Util;
  * 				<li>FR [ 1974299 ] Add MiniTable.getSelectedKeys method
  * 				<li>FR [ 2847295 ] MiniTable multiselection checkboxes not working
  * 					https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2847295&group_id=176962
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 				<li>BF [ 2876895 ] MiniTable.loadTable: NPE if column is null
+ * 					https://sourceforge.net/tracker/?func=detail&aid=2876895&group_id=176962&atid=879332
  */
 public class MiniTable extends CTable implements IMiniTable
 {
@@ -494,15 +497,15 @@ public class MiniTable extends CTable implements IMiniTable
 					if (c == IDColumn.class)
 						data = new IDColumn(rs.getInt(colIndex));
 					else if (c == Boolean.class)
-						data = new Boolean(rs.getString(colIndex).equals("Y"));
+						data = new Boolean("Y".equals(rs.getString(colIndex)));
 					else if (c == Timestamp.class)
 						data = rs.getTimestamp(colIndex);
 					else if (c == BigDecimal.class)
 						data = rs.getBigDecimal(colIndex);
 					else if (c == Double.class)
-						data = new Double(rs.getDouble(colIndex));
+						data = rs.getDouble(colIndex);
 					else if (c == Integer.class)
-						data = new Integer(rs.getInt(colIndex));
+						data = rs.getInt(colIndex);
 					else if (c == KeyNamePair.class)
 					{
 						String display = rs.getString(colIndex);
