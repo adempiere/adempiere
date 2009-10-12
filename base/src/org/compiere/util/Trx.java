@@ -45,6 +45,8 @@ import org.adempiere.exceptions.AdempiereException;
  *  - use UUID for safer transaction name generation
  *  @author Teo Sarca, http://www.arhipac.ro
  *  			<li>FR [ 2080217 ] Implement TrxRunnable
+ *  			<li>BF [ 2876927 ] Oracle JDBC driver problem
+ *  				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2876927&group_id=176962
  *  @author Teo Sarca, teo.sarca@gmail.com
  *  		<li>BF [ 2849122 ] PO.AfterSave is not rollback on error - add releaseSavepoint method
  *  			https://sourceforge.net/tracker/index.php?func=detail&aid=2849122&group_id=176962&atid=879332#
@@ -399,6 +401,15 @@ public class Trx implements VetoableChangeListener
 	 */
 	public void releaseSavepoint(Savepoint savepoint) throws SQLException
 	{
+		if (DB.isOracle())
+		{
+			// Note: As of Oracle Database 10g, releaseSavepoint and
+			// oracleReleaseSavepoint are not supported. If you call either
+			// of the methods, then SQLException is thrown with the message
+			// "Unsupported feature".
+			// -- 4-4 Oracle Database JDBC Developer's Guide and Reference
+			return;
+		}
 		if (m_connection == null) 
 		{
 			getConnection();
