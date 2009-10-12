@@ -76,7 +76,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Util;
 import org.eevolution.model.MDDOrder;
-import org.eevolution.model.MPPOrder;
+import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
 
 /**
  *	Report Engine.
@@ -1192,7 +1192,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
 		MRfQResponse.Table_ID,
 		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
-		MDunningRunEntry.Table_ID, MPPOrder.Table_ID, MDDOrder.Table_ID };
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID };
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
