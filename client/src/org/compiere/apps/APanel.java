@@ -122,6 +122,9 @@ import org.compiere.util.Util;
  *				<li>FR [ 1974354 ] VCreateFrom.create should be more flexible
  * 				<li>BF [ 1996056 ] Report error message is not displayed
  * 				<li>BF [ 1998575 ] Document Print is discarding any error
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  			<li>BF [ 2876892 ] Save included tab before calling button action
+ *  				https://sourceforge.net/tracker/?func=detail&aid=2876892&group_id=176962&atid=879332
  *  @author victor.perez@e-evolution.com 
  *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
  *  @autor tobi42, metas GmBH
@@ -2276,6 +2279,13 @@ public final class APanel extends CPanel
 		if (m_curTab.needSave(true, false))
 			if (!cmd_save(true))
 				return;
+		// Save included tabs if necessary - teo_sarca BF [ 2876892 ]
+		for (GridTab includedTab : m_curTab.getIncludedTabs())
+		{
+			if (includedTab.needSave(true, false))
+				if(!includedTab.dataSave(true))
+					return;
+		}
 		//
 		int table_ID = m_curTab.getAD_Table_ID();
 		//	Record_ID
