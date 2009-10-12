@@ -13,6 +13,7 @@
  *
  * Copyright (C) 2005 Robert Klein. robeklein@hotmail.com
  * Contributor(s): Igor G. - progerpro@gmail.com
+ *                 Teo Sarca, teo.sarca@gmail.com
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
@@ -73,10 +74,12 @@ public class FieldGroupElementHandler extends AbstractElementHandler {
 
 			PoFiller pf = new PoFiller(fieldGroup, atts);
 			
-			pf.setBoolean("IsActive");
+			pf.setBoolean(X_AD_FieldGroup.COLUMNNAME_IsActive);
 			
 			pf.setString(X_AD_FieldGroup.COLUMNNAME_Name);
 			pf.setString(X_AD_FieldGroup.COLUMNNAME_EntityType);
+			pf.setString(X_AD_FieldGroup.COLUMNNAME_FieldGroupType);
+			pf.setBoolean(X_AD_FieldGroup.COLUMNNAME_IsCollapsedByDefault);
 
 			
 			if (fieldGroup.save(getTrxName(ctx)) == true) {
@@ -119,7 +122,7 @@ public class FieldGroupElementHandler extends AbstractElementHandler {
 		X_AD_FieldGroup fieldGroup = new X_AD_FieldGroup(ctx, fieldGroup_id, null);
 		
 		AttributesImpl atts = new AttributesImpl();
-		createAdElementBinding(atts, fieldGroup);
+		createFieldGroupBinding(atts, fieldGroup);
 		
 		document.startElement("", "", "fieldgroup", atts);
 		
@@ -132,17 +135,19 @@ public class FieldGroupElementHandler extends AbstractElementHandler {
 	}
 
 	
-	private AttributesImpl createAdElementBinding(AttributesImpl atts,
-			X_AD_FieldGroup fieldGroup) {
+	private AttributesImpl createFieldGroupBinding(AttributesImpl atts, X_AD_FieldGroup fieldGroup)
+	{
 		
 		AttributeFiller filler = new AttributeFiller(atts, fieldGroup);
 		if (fieldGroup.getAD_FieldGroup_ID() <= PackOut.MAX_OFFICIAL_ID)
 			filler.add(X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID);
 		
-		filler.add("IsActive");
+		filler.add(X_AD_FieldGroup.COLUMNNAME_IsActive);
 		
 		filler.add(X_AD_FieldGroup.COLUMNNAME_Name);
 		filler.add(X_AD_FieldGroup.COLUMNNAME_EntityType);
+		filler.add(X_AD_FieldGroup.COLUMNNAME_FieldGroupType);
+		filler.add(X_AD_FieldGroup.COLUMNNAME_IsCollapsedByDefault);
 		
 		return atts;
 	}
