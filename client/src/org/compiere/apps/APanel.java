@@ -2306,6 +2306,8 @@ public final class APanel extends CPanel
 			ADialog.error(m_curWindowNo, this, "SaveErrorRowNotFound");
 			return;
 		}
+		
+		boolean isProcessMandatory = false;
 
 		//	Pop up Payment Rules
 		if (col.equals("PaymentRule"))
@@ -2324,6 +2326,7 @@ public final class APanel extends CPanel
 		//	Pop up Document Action (Workflow)
 		else if (col.equals("DocAction"))
 		{
+			isProcessMandatory = true;
 			VDocAction vda = new VDocAction(m_curWindowNo, m_curTab, vButton, record_ID);
 			//	Something to select from?
 			if (vda.getNumberOfOptions() == 0)
@@ -2425,7 +2428,13 @@ public final class APanel extends CPanel
 
 		log.config("Process_ID=" + vButton.getProcess_ID() + ", Record_ID=" + record_ID);
 		if (vButton.getProcess_ID() == 0)
+		{
+			if (isProcessMandatory)
+			{
+				ADialog.error(m_curWindowNo, this, null, Msg.parseTranslation(m_ctx, "@NotFound@ @AD_Process_ID@"));
+			}
 			return;
+		}
 		//	Save item changed
 		if (m_curTab.needSave(true, false))
 			if (!cmd_save(true))

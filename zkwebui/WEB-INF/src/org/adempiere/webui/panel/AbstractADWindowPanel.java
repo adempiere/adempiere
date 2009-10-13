@@ -71,7 +71,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
-import org.jfree.util.Log;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -1705,6 +1704,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 
+		boolean isProcessMandatory = false;
+		
 		//	Pop up Payment Rules
 
 		if (col.equals("PaymentRule"))
@@ -1730,6 +1731,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		else if (col.equals("DocAction"))
 		{
+			isProcessMandatory = true;
 			WDocActionPanel win = new WDocActionPanel(curTab);
 			if (win.getNumberOfOptions() == 0)
 			{
@@ -1834,7 +1836,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		logger.config("Process_ID=" + wButton.getProcess_ID() + ", Record_ID=" + record_ID);
 
 		if (wButton.getProcess_ID() == 0)
+		{
+			if (isProcessMandatory)
+			{
+				FDialog.error(curWindowNo, null, null, Msg.parseTranslation(ctx, "@NotFound@ @AD_Process_ID@"));
+			}
 			return;
+		}
 
 		//	Save item changed
 
