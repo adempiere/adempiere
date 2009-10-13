@@ -40,7 +40,7 @@ Copyright (C) 2009 Idalica Corporation
 			<td aligh="left">${dateVersion}</td>
 		</tr>
 		<tr>
-			<td align="right">Databse Version</td>
+			<td align="right">Database Version</td>
 			<td>:</td>
 			<td aligh="left">${dbVersion}</td>
 		</tr>
