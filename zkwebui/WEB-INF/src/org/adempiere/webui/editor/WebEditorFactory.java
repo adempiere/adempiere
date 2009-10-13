@@ -66,8 +66,7 @@ public class WebEditorFactory
         /** String (clear/password) */
         if (displayType == DisplayType.String
             || displayType == DisplayType.PrinterName 
-            || (tableEditor && (displayType == DisplayType.Text || displayType == DisplayType.TextLong)) 
-            || displayType == DisplayType.FilePath)
+            || (tableEditor && (displayType == DisplayType.Text || displayType == DisplayType.TextLong)))
         {
             if (gridField.isEncryptedField())
             {
@@ -82,6 +81,11 @@ public class WebEditorFactory
         else if (displayType == DisplayType.FileName)
         {
         	editor = new WFilenameEditor(gridField);
+        }
+        /** File Path */
+        else if (displayType == DisplayType.FilePath)
+        {
+        	editor = new WFileDirectoryEditor(gridField);
         }
         /** Number */
         else if (DisplayType.isNumeric(displayType))
