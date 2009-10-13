@@ -261,10 +261,12 @@ public class Translation
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+			return e.toString();
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "", e);
+			return e.toString();
 		}
 
 		return "";

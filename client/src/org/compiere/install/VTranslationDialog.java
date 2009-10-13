@@ -24,9 +24,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -40,7 +38,6 @@ import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -53,29 +50,29 @@ import org.compiere.util.ValueNamePair;
  * 	@author 	Jorg Janke
  * 	@version 	$Id: TranslationDialog.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  */
-public class TranslationDialog extends CPanel
+public class VTranslationDialog extends TranslationController
 	implements FormPanel, ActionListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5072470836657762574L;
+	
+	private CPanel panel = new CPanel();
 
 
 	/**
 	 *	TranslationDialog Constructor.
 	 * 	(Initiated via init())
 	 */
-	public TranslationDialog()
+	public VTranslationDialog()
 	{
 	}	//	TranslationDialog
 
-	/**	Window No			*/
-	private int         	m_WindowNo = 0;
 	/**	FormFrame			*/
 	private FormFrame 		m_frame;
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(TranslationDialog.class);
+	private static CLogger log = CLogger.getCLogger(VTranslationDialog.class);
 	//
 	private GridBagLayout mainLayout = new GridBagLayout();
 	private JComboBox cbLanguage = new JComboBox();
@@ -96,7 +93,7 @@ public class TranslationDialog extends CPanel
 	 */
 	private void jbInit() throws Exception
 	{
-		this.setLayout(mainLayout);
+		panel.setLayout(mainLayout);
 		lClient.setText(Msg.translate(Env.getCtx(), "AD_Client_ID"));
 		lLanguage.setText(Msg.translate(Env.getCtx(), "AD_Language"));
 		lLanguage.setToolTipText(Msg.translate(Env.getCtx(), "IsSystemLanguage"));
@@ -107,21 +104,21 @@ public class TranslationDialog extends CPanel
 		bImport.setText(Msg.getMsg(Env.getCtx(), "Import"));
 		bImport.addActionListener(this);
 		//
-		this.add(cbLanguage,     new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
+		panel.add(cbLanguage,     new GridBagConstraints(1, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(lLanguage,    new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
+		panel.add(lLanguage,    new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(lTable,   new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
+		panel.add(lTable,   new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(cbTable,     new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
+		panel.add(cbTable,     new GridBagConstraints(1, 2, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(bExport,   new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+		panel.add(bExport,   new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(bImport,   new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
+		panel.add(bImport,   new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(lClient,   new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
+		panel.add(lClient,   new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 5, 5, 5), 0, 0));
-		this.add(cbClient,   new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+		panel.add(cbClient,   new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5), 0, 0));
 	}	//	jbInit
 
@@ -132,76 +129,22 @@ public class TranslationDialog extends CPanel
 	private void dynInit()
 	{
 		//	Fill Client
-		cbClient.addItem(new KeyNamePair (-1, ""));
-		String sql = "SELECT Name, AD_Client_ID "
-			+ "FROM AD_Client "
-			+ "WHERE IsActive='Y' "
-			+ "ORDER BY AD_Client_ID";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				KeyNamePair kp = new KeyNamePair (rs.getInt(2), rs.getString(1));
-				cbClient.addItem(kp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-
+		ArrayList<KeyNamePair> clients = getClientList();
+		for(KeyNamePair client: clients)
+			cbClient.addItem(client);
+		
 		//	Fill Language
-		sql = "SELECT Name, AD_Language "
-			+ "FROM AD_Language "
-			+ "WHERE IsActive='Y' AND (IsSystemLanguage='Y' OR IsBaseLanguage='Y')"
-			+ "ORDER BY Name";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				ValueNamePair vp = new ValueNamePair (rs.getString(2), rs.getString(1));
-				cbLanguage.addItem(vp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-
+		ArrayList<ValueNamePair> languages = getLanguageList();
+		for(ValueNamePair language: languages)
+			cbLanguage.addItem(language);
+		
 		//	Fill Table
-		cbTable.addItem(new ValueNamePair ("", ""));
-		sql = "SELECT Name, TableName "
-			+ "FROM AD_Table "
-			+ "WHERE TableName LIKE '%_Trl' AND TableName<>'AD_Column_Trl' "
-			+ "ORDER BY Name";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				ValueNamePair vp = new ValueNamePair (rs.getString(2), rs.getString(1));
-				cbTable.addItem(vp);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
+		ArrayList<ValueNamePair> tables = getTableList();
+		for(ValueNamePair table: tables)
+			cbTable.addItem(table);
 
 		//	Info
-		statusBar.setStatusLine(" ");
-		statusBar.setStatusDB(" ");
+		setStatusBar(statusBar);
 	}	//	dynInit
 
 	/**
@@ -219,7 +162,7 @@ public class TranslationDialog extends CPanel
 		{
 			jbInit();
 			dynInit();
-			frame.getContentPane().add(this, BorderLayout.CENTER);
+			frame.getContentPane().add(panel, BorderLayout.CENTER);
 			frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 		}
 		catch(Exception ex)
@@ -261,33 +204,37 @@ public class TranslationDialog extends CPanel
 		JFileChooser chooser = new JFileChooser(startDir);
 		chooser.setMultiSelectionEnabled(false);
 		chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		int returnVal = imp ? chooser.showOpenDialog(this) : chooser.showSaveDialog(this);
+		int returnVal = imp ? chooser.showOpenDialog(panel) : chooser.showSaveDialog(panel);
 		if (returnVal != JFileChooser.APPROVE_OPTION)
 			return;
 		String directory = chooser.getSelectedFile().getAbsolutePath();
 		//
 		statusBar.setStatusLine(directory);
-		this.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		Translation t = new Translation(Env.getCtx());
 		String msg = t.validateLanguage(AD_Language.getValue());
 		if (msg.length() > 0)
 		{
-			ADialog.error(m_WindowNo, this, "LanguageSetupError", msg);
+			ADialog.error(m_WindowNo, panel, "LanguageSetupError", msg);
 			return;
 		}
 
 		//	All Tables
 		if (AD_Table.getValue().equals(""))
 		{
+			msg = null;
+			
 			for (int i = 1; i < cbTable.getItemCount(); i++)
 			{
 				AD_Table = (ValueNamePair)cbTable.getItemAt(i);
-				msg = null;
 				msg = imp
 					? t.importTrl (directory, AD_Client_ID, AD_Language.getValue(), AD_Table.getValue())
 					: t.exportTrl (directory, AD_Client_ID, AD_Language.getValue(), AD_Table.getValue());
-				statusBar.setStatusLine(msg);
 			}
+			
+			if(msg == null || msg.length() == 0)
+				msg = (imp ? "Import" : "Export") + " Successful. [" + directory + "]";
+			
 			statusBar.setStatusLine(directory);
 		}
 		else	//	single table
@@ -296,10 +243,14 @@ public class TranslationDialog extends CPanel
 			msg = imp
 				? t.importTrl (directory, AD_Client_ID, AD_Language.getValue(), AD_Table.getValue())
 				: t.exportTrl (directory, AD_Client_ID, AD_Language.getValue(), AD_Table.getValue());
+				
+			if(msg == null || msg.length() == 0)
+				msg = (imp ? "Import" : "Export") + " Successful. [" + directory + "]";
+				
 			statusBar.setStatusLine(msg);
 		}
 		//
-		this.setCursor(Cursor.getDefaultCursor());
+		panel.setCursor(Cursor.getDefaultCursor());
 	}	//	actionPerformed
 
 }	//	Translation
