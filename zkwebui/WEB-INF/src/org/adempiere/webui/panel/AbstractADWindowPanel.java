@@ -17,7 +17,6 @@
 
 package org.adempiere.webui.panel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,7 +56,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
-import org.compiere.model.Lookup;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -65,9 +64,9 @@ import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
@@ -95,6 +94,8 @@ import org.zkoss.zul.Menupopup;
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
  * @date Feb 25, 2007
  * @version $Revision: 0.10 $
+ * @author Cristina Ghita, www.arhipac.ro
+ * @see FR [ 2877111 ] See identifiers columns when delete records https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962 
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
         EventListener, DataStatusListener, ActionListener, ASyncProcess
@@ -1318,77 +1319,32 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		final Listbox listbox = new Listbox();
 		listbox.setHeight("400px");
-
-		// Display the first 5 fields data exclude Organization, Client and YesNo field data
-		Vector<String> columnNames = new Vector<String>();
-		GridField[] fields = curTab.getFields();
-		if(curTab.getField("DocumentNo")!=null){
-			columnNames.add(curTab.getField("DocumentNo").getColumnName());
-		}
-		if(curTab.getField("Line")!=null){
-			columnNames.add(curTab.getField("Line").getColumnName());
-		}
-		if(curTab.getField("Value")!=null){
-			columnNames.add(curTab.getField("Value").getColumnName());
-		}
-		if(curTab.getField("Name")!=null){
-			columnNames.add(curTab.getField("Name").getColumnName());
-		}
-		for(int i = 0, count = columnNames.size(); i < fields.length && count < 5; i++)
-		{
-			GridField field = fields[i];
-			if(field.getColumnName().equalsIgnoreCase("AD_Org_ID")
-					|| field.getColumnName().equalsIgnoreCase("AD_Client_ID")
-					|| field.getDisplayType() == DisplayType.YesNo)
-				continue;
-			if (!columnNames.contains(field.getColumnName()))
-			{
-				columnNames.add(field.getColumnName());
-				count++;
-			}
-		}
-
+		
 		Vector<String> data = new Vector<String>();
+		// FR [ 2877111 ]
+		final String keyColumnName = curTab.getKeyColumnName();
+		final String sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(ctx), keyColumnName, "[?","?]")
+								   .replace("[?.?]", "?");
 		int noOfRows = curTab.getRowCount();
 		for(int i=0; i<noOfRows; i++)
 		{
+			final int id = curTab.getKeyID(i);
 			StringBuffer displayValue = new StringBuffer();
-			if("".equals(curTab.getKeyColumnName()))
+			String value = DB.getSQLValueStringEx(null, sql, id);
+			value = value.replace(" - ", " | ");
+			displayValue.append(value);
+			// Append ID
+			if (displayValue.length() == 0 || CLogMgt.isLevelFine())
 			{
-				ArrayList<String> parentColumnNames = curTab.getParentColumnNames();
-				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();)
-				{
-					String columnName = iter.next();
-					GridField field = curTab.getField(columnName);
-					if(field.isLookup()){
-						Lookup lookup = field.getLookup();
-						if (lookup != null){
-							displayValue = displayValue.append(lookup.getDisplay(curTab.getValue(i,columnName))).append(" | ");
-						} else {
-							displayValue = displayValue.append(curTab.getValue(i,columnName)).append(" | ");
-						}
-					} else {
-						displayValue = displayValue.append(curTab.getValue(i,columnName)).append(" | ");
-					}
-				}
-			} else {
-				displayValue = displayValue.append(curTab.getValue(i,curTab.getKeyColumnName()));
+				if (displayValue.length() > 0)
+					displayValue.append(" | ");
+				displayValue.append("<").append(id).append(">");
 			}
-
-			for(int j=0; j < columnNames.size(); j++)
-			{
-				Object value = curTab.getValue(i, columnNames.get(j));
-				if(value == null) continue; // skip when value is null
-				String text = value.toString().trim();
-				if(text.length() == 0) continue; // skip when value is empty
-				if(text.length() > 30)
-					text = text.substring(0, 30); // display the first 30 characters
-				displayValue = displayValue.append(" | ").append(text);
-			}
-
+			//
 			data.add(displayValue.toString());
 		}
-
+		// FR [ 2877111 ]
+		
 		for(int i = 0; i < data.size(); i++)
 		{
 			String record = data.get(i);

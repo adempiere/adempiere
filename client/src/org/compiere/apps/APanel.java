@@ -29,10 +29,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -78,7 +76,7 @@ import org.compiere.model.GridTab;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.GridWorkbench;
-import org.compiere.model.Lookup;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -129,6 +127,8 @@ import org.compiere.util.Util;
  *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
  *  @autor tobi42, metas GmBH
  *  			<li>BF [ 2799362 ] You can press New button a lot of times
+ *  @author Cristina Ghita, www.arhipac.ro
+ *  @see FR [ 2877111 ] See identifiers columns when delete records https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962
  * 
  */
 public final class APanel extends CPanel
@@ -1734,50 +1734,36 @@ public final class APanel extends CPanel
 	private void cmd_deleteSelection(){
 		if (m_curTab.isReadOnly())
 			return;
-		//show table with deletion rows -> value, name...
+		//show table with deletion rows -> by identifiers columns
 		JPanel messagePanel = new JPanel();
 		JList list = new JList();
 		JScrollPane scrollPane = new JScrollPane(list);
 		Vector<String> data = new Vector<String>();
+		// FR [ 2877111 ]
+		final String keyColumnName = m_curTab.getKeyColumnName();
+		final String sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(m_ctx), keyColumnName, "[?","?]")
+								   .replace("[?.?]", "?");
 		int noOfRows = m_curTab.getRowCount();
-		for(int i=0; i<noOfRows; i++){
+		for(int i = 0; i < noOfRows; i++)
+		{
+			final int id = m_curTab.getKeyID(i);
 			StringBuffer displayValue = new StringBuffer();
-			if("".equals(m_curTab.getKeyColumnName())){
-				ArrayList<String> parentColumnNames = m_curTab.getParentColumnNames();
-				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();) {
-					String columnName = iter.next();
-					GridField field = m_curTab.getField(columnName);
-					if(field.isLookup()){
-						Lookup lookup = field.getLookup();
-						if (lookup != null){
-							displayValue = displayValue.append(lookup.getDisplay(m_curTab.getValue(i,columnName))).append(" | ");
-						} else {
-							displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
-						}
-					} else {
-						displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
-					}
-				}
-			} else {
-				displayValue = displayValue.append(m_curTab.getValue(i,m_curTab.getKeyColumnName()));
+			String value = DB.getSQLValueStringEx(null, sql, id);
+			value = value.replace(" - ", " | ");
+			displayValue.append(value);
+			// Append ID
+			if (displayValue.length() == 0 || CLogMgt.isLevelFine())
+			{
+				if (displayValue.length() > 0)
+					displayValue.append(" | ");
+				displayValue.append("<").append(id).append(">");
 			}
-			if(m_curTab.getField("DocumentNo")!=null){
-				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "DocumentNo"));
-			}
-			if(m_curTab.getField("Line")!=null){
-				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "Line"));
-			}
-			if(m_curTab.getField("Value")!=null){
-				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "Value"));
-			}
-			if(m_curTab.getField("Name")!=null){
-				displayValue = displayValue.append(" | ").append(m_curTab.getValue(i, "Name"));
-			}
+			//
 			data.add(displayValue.toString());
 		}
+		// FR [ 2877111 ]
 		list.setListData(data);
 	
-		
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		messagePanel.add(scrollPane);
 		
@@ -1788,26 +1774,32 @@ public final class APanel extends CPanel
 		final JDialog deleteDialog = pane.createDialog(this.getParent(), Msg.getMsg(m_ctx, "DeleteSelection"));
 		deleteDialog.setVisible(true);
 		Integer okCancel = (Integer) pane.getValue();
-		if(okCancel!=null && okCancel==JOptionPane.OK_OPTION){
+		if(okCancel != null && okCancel == JOptionPane.OK_OPTION)
+		{
 			log.fine("ok");
 			Object[] selectedValues = list.getSelectedValues();
-			for (int i = 0; i < selectedValues.length; i++) {
+			for (int i = 0; i < selectedValues.length; i++)
+			{
 				log.fine(selectedValues[i].toString());
 			}
 			int[] indices = list.getSelectedIndices();
 			Arrays.sort(indices);
 			int offset = 0;
-			for (int i = 0; i < indices.length; i++) {
+			for (int i = 0; i < indices.length; i++)
+			{
 				//m_curTab.setCurrentRow(indices[i]-offset);
-                                m_curTab.navigate(indices[i]-offset);
+				m_curTab.navigate(indices[i]-offset);
 				int keyID = m_curTab.getRecord_ID();
-				if (m_curTab.dataDelete()){
-						m_curGC.rowChanged(false, keyID);
-						offset++;
+				if (m_curTab.dataDelete())
+				{
+					m_curGC.rowChanged(false, keyID);
+					offset++;
 				}
 			}
 			m_curGC.dynamicDisplay(0);
-		} else {
+		}
+		else
+		{
 			log.fine("cancel");
 		}
 	}//cmd_deleteSelection
