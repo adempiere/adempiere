@@ -35,8 +35,15 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.StatusBar;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.MMovement;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
+import org.compiere.model.PrintInfo;
 import org.compiere.plaf.CompiereColor;
+import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
+import org.compiere.print.ReportEngine;
+import org.compiere.print.Viewer;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.swing.CPanel;
@@ -237,8 +244,6 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 	public void generate()
 	{
 		info.setText(genForm.generate());
-
-		//	Execute Process
 		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), genForm.getProcessInfo(), genForm.getTrx());
 		worker.start();
 		//
@@ -288,7 +293,22 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 				for (int i = 0; i < ids.length; i++)
 				{
 					int Record_ID = ids[i];
+					
+					if(genForm.getPrintFormat() != null)
+					{
+						MPrintFormat format = genForm.getPrintFormat();
+						MTable table = MTable.get(Env.getCtx(),format.getAD_Table_ID());
+						MQuery query = new MQuery(table.getTableName());
+						query.addRestriction(MMovement.COLUMNNAME_M_Movement_ID, MQuery.EQUAL, Record_ID);
+						//	Engine
+						PrintInfo info = new PrintInfo(table.getTableName(),table.get_Table_ID(), Record_ID);               
+						ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
+						re.print();
+						new Viewer(re);
+					}
+					else
 					ReportCtl.startDocumentPrint(genForm.getReportEngineType(), Record_ID, this, Env.getWindowNo(this), true);
+					
 				}
 				ADialogDialog d = new ADialogDialog (m_frame,
 					Env.getHeader(Env.getCtx(), m_WindowNo),

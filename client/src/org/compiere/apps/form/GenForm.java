@@ -16,6 +16,7 @@ package org.compiere.apps.form;
 import java.util.ArrayList;
 
 import org.compiere.minigrid.IMiniTable;
+import org.compiere.print.MPrintFormat;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.Trx;
 
@@ -28,6 +29,7 @@ public abstract class GenForm
 	private boolean m_selectionActive = true;
 	private String title;
 	private int reportEngineType;
+	private MPrintFormat printFormat = null;
 	private String askPrintMsg;
 	
 	private Trx trx;
@@ -106,6 +108,14 @@ public abstract class GenForm
 
 	public void setReportEngineType(int reportEngineType) {
 		this.reportEngineType = reportEngineType;
+	}
+	
+	public MPrintFormat getPrintFormat() {
+		return this.printFormat;
+	}
+
+	public void setPrintFormat(MPrintFormat printFormat) {
+		this.printFormat = printFormat;
 	}
 	
 	public String getAskPrintMsg() {
