@@ -299,7 +299,7 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 						MPrintFormat format = genForm.getPrintFormat();
 						MTable table = MTable.get(Env.getCtx(),format.getAD_Table_ID());
 						MQuery query = new MQuery(table.getTableName());
-						query.addRestriction(MMovement.COLUMNNAME_M_Movement_ID, MQuery.EQUAL, Record_ID);
+						query.addRestriction(table.getTableName() + "_ID", MQuery.EQUAL, Record_ID);
 						//	Engine
 						PrintInfo info = new PrintInfo(table.getTableName(),table.get_Table_ID(), Record_ID);               
 						ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);

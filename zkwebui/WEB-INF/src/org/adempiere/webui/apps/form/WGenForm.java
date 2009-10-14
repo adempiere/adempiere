@@ -43,7 +43,12 @@ import org.adempiere.webui.window.SimplePDFViewer;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.form.GenForm;
 import org.compiere.minigrid.IDColumn;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
+import org.compiere.model.PrintInfo;
+import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
+import org.compiere.print.Viewer;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -358,7 +363,23 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 		for (int i = 0; i < m_ids.length; i++)
 		{
 			int RecordID = m_ids[i];
-			ReportEngine re = ReportEngine.get (Env.getCtx(), genForm.getReportEngineType(), RecordID);
+			ReportEngine re = null;
+			
+			if(genForm.getPrintFormat() != null)
+			{
+				MPrintFormat format = genForm.getPrintFormat();
+				MTable table = MTable.get(Env.getCtx(),format.getAD_Table_ID());
+				MQuery query = new MQuery(table.getTableName());
+				query.addRestriction(table.getTableName() + "_ID", MQuery.EQUAL, RecordID);
+				//	Engine
+				PrintInfo info = new PrintInfo(table.getTableName(),table.get_Table_ID(), RecordID);               
+				re = new ReportEngine(Env.getCtx(), format, query, info);
+			}
+			else
+			{	
+				re = ReportEngine.get (Env.getCtx(), genForm.getReportEngineType(), RecordID);
+			}	
+			
 			pdfList.add(re.getPDF());				
 		}
 		
