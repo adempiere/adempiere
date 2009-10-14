@@ -66,6 +66,7 @@ import org.adempiere.model.X_T_Selection;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.Adempiere;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ALayout;
 import org.compiere.apps.ALayoutConstraint;
 import org.compiere.apps.AppsAction;
@@ -682,6 +683,20 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 		m_worker = new Worker();
 		m_worker.start();
 	}   //  executeQuery
+	
+	/**
+	 * 	Zoom
+	 */
+	private void cmd_zoom()
+	{
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		Integer record_ID = getSelectedRowKey();
+	
+		if (record_ID == null)
+			return;
+		AEnv.zoom(m_View.getParentViewDefinition().getAD_Table_ID(), record_ID);
+		setCursor(Cursor.getDefaultCursor());
+	}	//	cmd_zoom
 
 	/**************************************************************************
 	 *  Prepare Table, Construct SQL (m_m_sqlMain, m_sqlAdd)
@@ -1178,6 +1193,7 @@ public class Browser extends CFrame implements ActionListener, VetoableChangeLis
 
     private void bZoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bZoomActionPerformed
         // TODO add your handling code here:
+    	cmd_zoom();
     }//GEN-LAST:event_bZoomActionPerformed
 
     private void bOkActionPerformed(java.awt.event.ActionEvent evt) {                                    

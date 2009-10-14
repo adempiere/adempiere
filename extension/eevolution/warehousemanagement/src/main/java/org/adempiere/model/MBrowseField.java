@@ -138,10 +138,10 @@ public class MBrowseField extends X_AD_Browse_Field
 	{
 		if(is_ValueChanged(COLUMNNAME_IsKey))
 		{	
-			if(getFieldKey() != null)
+			/*if(getFieldKey() != null)
 			{
 				throw new AdempiereException("Only can have one field as key");
-			}
+			}*/
 		}
 		//
 		return true;

@@ -178,7 +178,7 @@ public class MView extends X_AD_View
 		.setParameters(new Object[]{getAD_View_ID()})
 		.setOnlyActiveRecords(true)
 		.setOrderBy(MViewDefinition.COLUMNNAME_SeqNo)
-		.first();
+		.firstOnly();
 		
 		return definition;
 	}
