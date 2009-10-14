@@ -31,7 +31,7 @@ import org.compiere.util.Env;
 public class LiberoWMValidator implements ModelValidator
 {
 	/** Context variable which says if libero manufacturing is enabled */
-	public static final String CTX_IsLiberoEnabled = "#IsLiberoEnabled";
+	public static final String CTX_IsLiberoWMEnabled = "#IsLiberoWMEnabled";
 	
 	/**	Logger			*/
 	private CLogger log = CLogger.getCLogger(getClass());
@@ -52,13 +52,16 @@ public class LiberoWMValidator implements ModelValidator
 
 	public String modelChange (PO po, int type) throws Exception
 	{
+		boolean IsLiberoEnabled = "Y".equals(Env.getContext(po.getCtx(), "#IsLiberoEnabled"));
 		log.info(po.get_TableName() + " Type: "+type);
+		if(!IsLiberoEnabled)
+			return null;
+		
 		if (po instanceof MDDOrderLine && (TYPE_AFTER_CHANGE == type && po.is_ValueChanged(MDDOrderLine.COLUMNNAME_QtyDelivered)))
 		{
 			MDDOrderLine oline = (MDDOrderLine)po;
-			int WM_InOutBoundLine_ID = (Integer) oline.get_Value(MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID);
-		
-			if(WM_InOutBoundLine_ID > 0 && oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0)
+			Integer WM_InOutBoundLine_ID = (Integer) oline.get_Value(MWMInOutBoundLine.COLUMNNAME_WM_InOutBoundLine_ID);
+			if(WM_InOutBoundLine_ID != null && WM_InOutBoundLine_ID.intValue() > 0 && oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0)
 			{
 					
 					MWMInOutBoundLine obline = new MWMInOutBoundLine(oline.getCtx(),WM_InOutBoundLine_ID, oline.get_TrxName());
@@ -85,7 +88,7 @@ public class LiberoWMValidator implements ModelValidator
 	 */
 	public String login (int AD_Org_ID, int AD_Role_ID, int AD_User_ID)
 	{
-		Env.setContext(Env.getCtx(), CTX_IsLiberoEnabled, true);
+		Env.setContext(Env.getCtx(), CTX_IsLiberoWMEnabled, true);
 		return null;
 	}	//	login
 
