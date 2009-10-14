@@ -65,6 +65,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.wf.MWorkflow;
 import org.eevolution.engines.Warehouse.WMRuleEngine;
+import org.eevolution.exceptions.NoBPartnerLinkedforOrgException;
 import org.eevolution.exceptions.NoPlantForWarehouseException;
 import org.eevolution.model.I_WM_InOutBoundLine;
 import org.eevolution.model.MDDOrder;
@@ -248,7 +249,7 @@ public class ReleaseInOutBound extends SvrProcess
 			int C_BPartner_ID = org.getLinkedC_BPartner_ID(get_TrxName()); 
 			if (C_BPartner_ID == 0)
 			{
-				throw new AdempiereException("Do not exist Business Parter link for organization:" + org.getName());
+				throw new NoBPartnerLinkedforOrgException (org);
 			}
 				
 			MBPartner bp = MBPartner.get(getCtx(), C_BPartner_ID);
