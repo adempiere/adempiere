@@ -16,26 +16,23 @@
 package org.compiere.acct;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
-import org.adempiere.model.engines.CostDimension;
-import org.adempiere.model.engines.CostEngine;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MClient;
+import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MDocType;
 import org.compiere.model.MProduct;
 import org.compiere.model.ProductCost;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
-import org.eevolution.model.I_PP_Order_Node;
 import org.eevolution.model.MPPCostCollector;
-import org.eevolution.model.MPPOrderCost;
 import org.eevolution.model.RoutingService;
 import org.eevolution.model.RoutingServiceFactory;
 
@@ -67,6 +64,10 @@ public class Doc_PPCostCollector extends Doc
 	/** Collector Cost */
 	protected MPPCostCollector m_cc = null;
 	
+	/** Routing Service */
+	protected RoutingService m_routingService = null;
+
+	
 	/**
 	 *  Load Document Details
 	 *  @return error message or null
@@ -86,6 +87,10 @@ public class Doc_PPCostCollector extends Doc
 		if (m_line.getM_Product_ID() == 0)
 			log.warning(m_line.toString() + " - No Product");
 		log.fine(m_line.toString());
+		
+		// Load the RoutingService
+		m_routingService = RoutingServiceFactory.get().getRoutingService(m_cc.getAD_Client_ID());
+		
 		return null;
 	}   //  loadDocumentDetails
 
@@ -119,11 +124,23 @@ public class Doc_PPCostCollector extends Doc
 		}
 		else if (MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance.equals(m_cc.getCostCollectorType()))
 		{
-			facts.add(createMethodVariances(as));
+			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_MethodChangeVariance));
 		}
 		else if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(m_cc.getCostCollectorType()))
 		{
-			facts.add(createUsageVariance(as));
+			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_UsageVariance));
+		}
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_UsegeVariance.equals(m_cc.getCostCollectorType()))
+		{
+			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_UsageVariance));
+		}
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_RateVariance.equals(m_cc.getCostCollectorType()))
+		{
+			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_RateVariance));
+		}
+		else if (MPPCostCollector.COSTCOLLECTORTYPE_MixVariance.equals(m_cc.getCostCollectorType()))
+		{
+			facts.add(createVariance(as, ProductCost.ACCTTYPE_P_MixVariance));
 		}
 		else if (MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(m_cc.getCostCollectorType()))
 		{
@@ -141,11 +158,11 @@ public class Doc_PPCostCollector extends Doc
 		
 		log.info("CostElement: " +element+ "Product: "+product.getName()
 					+" Debit: " + debit.getDescription() + " Credit: "+ credit.getDescription()
-					+ " Cost: " + cost +" Qunatity: "+ qty);
+					+ " Cost: " + cost +" Qty: "+ qty);
 		//  Line pointers
 		FactLine dr = null;
 		FactLine cr = null;
-		if(cost.signum() != 0 & qty != null)
+		if(cost.signum() != 0)
 		{	
 			dr = fact.createLine(m_line, debit , as.getC_Currency_ID(), cost, null);
 			dr.setQty(qty);
@@ -193,31 +210,30 @@ public class Doc_PPCostCollector extends Doc
 	protected Fact createMaterialReceipt(MAcctSchema as)
 	{
 		final Fact fact = new Fact(this, as, Fact.POST_Actual);
+		
 		final MProduct product = m_cc.getM_Product();
-
 		final MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 
-		for(MCostElement element : getCostElements())
+		for (MCostDetail cd : getCostDetails())
 		{
+			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
 			if (m_cc.getMovementQty().signum() != 0)
 			{
 				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
-				BigDecimal cost = CostEngine.getCostsByElement(product, as,
-						m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-						as.getM_CostType_ID() , element.get_ID(), m_cc.getMovementQty());
-
+				BigDecimal cost = cd.getAmt(); 
+				if (cost.scale() > as.getStdPrecision())
+					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 				createLines(element, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
 			}
 			if(m_cc.getScrappedQty().signum() != 0)
 			{
 				MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_Scrap, as);
-				BigDecimal cost = CostEngine.getCostsByElement(product, as,
-						m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-						as.getM_CostType_ID() , element.get_ID(), m_cc.getScrappedQty());
+				BigDecimal cost = cd.getPrice().multiply(m_cc.getScrappedQty());
+				if (cost.scale() > as.getStdPrecision())
+					cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 				createLines(element, as, fact, product, debit, credit, cost, m_cc.getScrappedQty());
 			}
 		}
-		
 		return fact;
 	}
 	
@@ -249,73 +265,23 @@ public class Doc_PPCostCollector extends Doc
 	{
 		final Fact fact = new Fact(this, as, Fact.POST_Actual);
 		final MProduct product = m_cc.getM_Product();
-
+		
 		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
 		MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
 		if(m_cc.isFloorStock())
 		{
 			credit = m_line.getAccount(ProductCost.ACCTTYPE_P_FloorStock, as);
 		}
-		for(MCostElement element : getCostElements())
+
+		for (MCostDetail cd : getCostDetails())
 		{
-			BigDecimal cost = CostEngine.getCostsByElement(product, as,
-					m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-					as.getM_CostType_ID() , element.get_ID(), m_cc.getMovementQty());
+			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
+			BigDecimal cost = cd.getAmt().negate();
+			if (cost.scale() > as.getStdPrecision())
+				cost = cost.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
 			createLines(element, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
 		}
 
-		return fact;
-	}
-	
-	/**
-	 * The Method Change Variance product created next account fact
-	 * Debit Work in Process Account for each Cost Element using current cost
-	 * Create a fact line for each cost element type
-	 * 		Material
-	 * 		Labor(Resources)
-	 * 		Burden
-	 * 		Overhead 
-	 * 		Outsite Processing	
-	 * Credit Product Asset Account for each Cost Element using current cost
-	 * Create a fact line for each cost element type
-	 * 		Material
-	 * 		Labor(Resources)
-	 * 		Burden
-	 * 		Overhead 
-	 * 		Outsite Processing		
-	 * Credit Floor Stock Account for each Cost Element using current cost
-	 * Create a fact line for each cost element type
-	 * 		Material
-	 * 		Labor(Resources)
-	 * 		Burden
-	 * 		Overhead 
-	 * 		Outsite Processing		
-	 */
-	protected Fact createMethodVariances(MAcctSchema as)
-	{
-		final Fact fact = new Fact(this, as, Fact.POST_Actual);
-		final MProduct product = m_cc.getM_Product();
-
-		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_MethodChangeVariance, as);
-		MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_Asset, as);
-		for(MCostElement element : getCostElements())
-		{
-			BigDecimal cost = CostEngine.getCostsByElement(product, as,
-					m_cc.getAD_Org_ID(), m_cc.getM_AttributeSetInstance_ID(), 
-					as.getM_CostType_ID() , element.get_ID(), m_cc.getMovementQty());
-			createLines(element, as, fact, product, debit, credit, cost, m_cc.getMovementQty());
-		}
-		
-		return fact;
-	}
-	
-	protected Fact createUsageVariance(MAcctSchema as)
-	{
-		final Fact fact = new Fact(this, as, Fact.POST_Actual);
-//		final MProduct product = m_cc.getM_Product();
-
-		// TODO
-		
 		return fact;
 	}
 	
@@ -339,127 +305,40 @@ public class Doc_PPCostCollector extends Doc
 		final MProduct product = m_cc.getM_Product();
 
 		MAccount debit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
-		for(MCostElement element : getCostElements())
+		
+		for (MCostDetail cd : getCostDetails())
 		{
-			if (!CostEngine.isActivityControlElement(element))
-			{
+			BigDecimal costs = cd.getAmt();
+			if (costs.signum() == 0)
 				continue;
-			}
-			//
+			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
 			MAccount credit = m_line.getAccount(as, element);
-			CostDimension d = new CostDimension(null, as, as.getM_CostType_ID(),
-					m_cc.getAD_Org_ID(), 0, element.get_ID());
-			final RoutingService routingService = RoutingServiceFactory.get().getRoutingService(m_cc.getAD_Client_ID());
-			BigDecimal costs = routingService.calculateCost(m_cc, d, getTrxName());
 			createLines(element, as, fact, product, debit, credit, costs, m_cc.getMovementQty());
 		}
 		//
-		facts.add(createActivityControl_MethodVariance(as));
-		facts.add(createActivityControl_RateVariance(as));
 		return facts;
 	}
 	
-	protected Fact createActivityControl_MethodVariance(MAcctSchema as)
+	protected Fact createVariance(MAcctSchema as, int VarianceAcctType)
 	{
 		final Fact fact = new Fact(this, as, Fact.POST_Actual);
-		//
-		if (!MClient.get(getCtx(), getAD_Client_ID()).isUseBetaFunctions())
-			return fact;
-		//
-		if (!MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(m_cc.getCostCollectorType()))
+		final MProduct product = m_cc.getM_Product();
+		
+		MAccount debit = m_line.getAccount(VarianceAcctType, as);
+		MAccount credit = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
+
+		for (MCostDetail cd : getCostDetails())
 		{
-			return fact;
+			MCostElement element = MCostElement.get(getCtx(), cd.getM_CostElement_ID());
+			BigDecimal costs = cd.getAmt().negate();
+			if (costs.scale() > as.getStdPrecision())
+				costs = costs.setScale(as.getStdPrecision(), RoundingMode.HALF_UP);
+			BigDecimal qty = cd.getQty().negate();
+			createLines(element, as, fact, product, debit, credit, costs, qty);
 		}
-		I_PP_Order_Node activity = m_cc.getPP_Order_Node();
-		if (activity.getS_Resource_ID() == m_cc.getS_Resource_ID())
-		{
-			return fact;
-		}
-		//
-		final MProduct product = MProduct.get(getCtx(), m_cc.getM_Product_ID());
-		final String costingMethod = MCostElement.COSTINGMETHOD_StandardCosting;
-		final MAccount acctWIP = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
-		final MAccount acctMethodChangeVariance = m_line.getAccount(ProductCost.ACCTTYPE_P_MethodChangeVariance, as);
-		for (MCostElement element : MCostElement.getByCostingMethod(getCtx(), costingMethod))
-		{
-			if (!CostEngine.isActivityControlElement(element))
-			{
-				continue;
-			}
-			//
-			final CostDimension dStandard = new CostDimension(null, as, as.getM_CostType_ID(), m_cc.getAD_Org_ID(), 0, element.get_ID());
-			final CostDimension dActual = dStandard.setM_Product(getProductForResource(m_cc.getCtx(), m_cc.getS_Resource_ID(), getTrxName()));
-			final RoutingService routingService = RoutingServiceFactory.get().getRoutingService(m_cc.getAD_Client_ID());
-			
-			BigDecimal costsStandard = routingService.calculateCost(m_cc, dStandard, getTrxName());
-			BigDecimal costsActual = routingService.calculateCost(m_cc, dActual, getTrxName());
-			
-			if (costsStandard.compareTo(costsActual) == 0)
-			{
-				continue;
-			}
-			
-			createLines(element, as, fact, product, acctWIP, acctMethodChangeVariance,
-					costsStandard.negate(), m_cc.getMovementQty());
-			createLines(element, as, fact, product, acctWIP, acctMethodChangeVariance,
-					costsActual, m_cc.getMovementQty());
-		}
-		//
 		return fact;
 	}
-	
-	protected Fact createActivityControl_RateVariance(MAcctSchema as)
-	{
-		final Fact fact = new Fact(this, as, Fact.POST_Actual);
-		//
-		if (!MClient.get(getCtx(), getAD_Client_ID()).isUseBetaFunctions())
-			return fact;
-		//
-		if (!MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl.equals(m_cc.getCostCollectorType()))
-		{
-			return fact;
-		}
-		I_PP_Order_Node activity = m_cc.getPP_Order_Node();
-		if (activity.getS_Resource_ID() == m_cc.getS_Resource_ID())
-		{
-			return fact;
-		}
-		//
-		final MProduct product = MProduct.get(getCtx(), m_cc.getM_Product_ID());
-		final MAccount acctWIP = m_line.getAccount(ProductCost.ACCTTYPE_P_WorkInProcess, as);
-		final MAccount acctRateVariance = m_line.getAccount(ProductCost.ACCTTYPE_P_RateVariance, as);
-		final RoutingService routingService = RoutingServiceFactory.get().getRoutingService(m_cc.getAD_Client_ID());
-		//
-		for (MCostElement element : getCostElements())
-		{
-			if (!CostEngine.isActivityControlElement(element))
-			{
-				continue;
-			}
-			
-			final MProduct resourceProduct = getProductForResource(m_cc.getCtx(), activity.getS_Resource_ID(), getTrxName());
-			final CostDimension d = new CostDimension(resourceProduct,
-					as, as.getM_CostType_ID(), m_cc.getAD_Org_ID(), 0, element.get_ID());
-			final BigDecimal costsStandard = routingService.calculateCost(m_cc, d, getTrxName());
-			final BigDecimal costsStandardOriginal = d.toQuery(MPPOrderCost.class,
-					MPPOrderCost.COLUMNNAME_PP_Order_ID+"=?",
-					new Object[]{m_cc.getPP_Order_ID()},
-					getTrxName())
-			.sum(MPPOrderCost.COLUMNNAME_CurrentCostPrice);
-			
-			if (costsStandard.compareTo(costsStandardOriginal) == 0)
-			{
-				continue;
-			}
-			
-			createLines(element, as, fact, product, acctWIP, acctRateVariance,
-					costsStandard.negate(), m_cc.getMovementQty());
-			createLines(element, as, fact, product, acctWIP, acctRateVariance,
-					costsStandardOriginal, m_cc.getMovementQty());
-		}
-		//
-		return fact;
-	}
+
 	
 	public Collection<MCostElement> getCostElements()
 	{
@@ -476,4 +355,18 @@ public class Doc_PPCostCollector extends Doc
 		.firstIdOnly();
 		return MProduct.get(ctx, M_Product_ID);
 	}
-}   //  Doc_PPCostCollector
+	
+	private List<MCostDetail> getCostDetails()
+	{
+		if (m_costDetails == null)
+		{
+			String whereClause = MCostDetail.COLUMNNAME_PP_Cost_Collector_ID+"=?";
+			m_costDetails = new Query(getCtx(), MCostDetail.Table_Name, whereClause, getTrxName())
+			.setParameters(new Object[]{m_cc.getPP_Cost_Collector_ID()})
+			.setOrderBy(MCostDetail.COLUMNNAME_M_CostDetail_ID)
+			.list();
+		}
+		return m_costDetails;
+	}
+	private List<MCostDetail> m_costDetails = null;
+}   //  Doc Cost Collector

@@ -46,7 +46,11 @@ public class DocLine_CostCollector extends DocLine
 	{
 		String costElementType = element.getCostElementType();
 		int acctType;
-		if (MCostElement.COSTELEMENTTYPE_Resource.equals(costElementType))
+		if (MCostElement.COSTELEMENTTYPE_Material.equals(costElementType))
+		{
+			acctType = ProductCost.ACCTTYPE_P_Asset;
+		}
+		else if (MCostElement.COSTELEMENTTYPE_Resource.equals(costElementType))
 		{
 			acctType = ProductCost.ACCTTYPE_P_Labor;
 		}

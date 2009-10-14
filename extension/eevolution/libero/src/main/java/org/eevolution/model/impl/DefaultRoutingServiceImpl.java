@@ -8,19 +8,15 @@ import java.math.RoundingMode;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.model.engines.CostDimension;
 import org.compiere.model.I_AD_WF_Node;
 import org.compiere.model.I_AD_Workflow;
 import org.compiere.model.I_C_UOM;
 import org.compiere.model.I_S_Resource;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MCost;
 import org.compiere.model.MResource;
 import org.compiere.model.MResourceType;
 import org.compiere.model.MUOM;
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_Workflow;
-import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWorkflow;
@@ -35,7 +31,7 @@ import org.eevolution.model.RoutingService;
  */
 public class DefaultRoutingServiceImpl implements RoutingService
 {
-	private final CLogger log = CLogger.getCLogger(getClass());
+//	private final CLogger log = CLogger.getCLogger(getClass());
 	
 	public BigDecimal estimateWorkingTime(I_AD_WF_Node node)
 	{
@@ -93,6 +89,10 @@ public class DefaultRoutingServiceImpl implements RoutingService
 	 */
 	protected BigDecimal calculateDuration(I_AD_WF_Node node, I_PP_Cost_Collector cc)
 	{
+		if (node == null)
+		{
+			node = cc.getPP_Order_Node().getAD_WF_Node();
+		}
 		final I_AD_Workflow workflow = node.getAD_Workflow();
 		final double batchSize = workflow.getQtyBatchSize().doubleValue();
 		final double setupTime;
@@ -170,27 +170,20 @@ public class DefaultRoutingServiceImpl implements RoutingService
 		return convertDuration(duration, wf.getDurationUnit(), resourceUOM);
 	}
 	
-	/**
-	 * Get Rate for this Resource.
-	 * The rate is in S_Resource.C_UOM_ID unit of measure.
-	 * @param resource
-	 * @param d costing dimension
-	 * @param trxName
-	 * @return resource rate in resource's UOM
-	 */
-	protected BigDecimal getResouceRate(int S_Resource_ID, I_AD_WF_Node node, I_PP_Cost_Collector cc, CostDimension d, String trxName)
+	@Override
+	public BigDecimal getResourceBaseValue(int S_Resource_ID, I_PP_Cost_Collector cc)
 	{
-		if (S_Resource_ID <= 0)
-			return Env.ZERO;
-		MResource resource = MResource.get(Env.getCtx(), S_Resource_ID);
-		final int M_Product_ID = resource.getProduct().getM_Product_ID();
-		return d.setM_Product_ID(M_Product_ID)
-		.toQuery(MCost.class, trxName)
-		.sum(MCost.COLUMNNAME_CurrentCostPrice);
+		return getResourceBaseValue(S_Resource_ID, null, cc);
 	}
-	
-	protected BigDecimal getBaseValue(int S_Resource_ID, I_AD_WF_Node node, I_PP_Cost_Collector cc)
+	@Override
+	public BigDecimal getResourceBaseValue(int S_Resource_ID, I_AD_WF_Node node)
 	{
+		return getResourceBaseValue(S_Resource_ID, node, null);
+	}
+	protected BigDecimal getResourceBaseValue(int S_Resource_ID, I_AD_WF_Node node, I_PP_Cost_Collector cc)
+	{
+		if (node == null)
+			node = cc.getPP_Order_Node().getAD_WF_Node();
 		final Properties ctx = (node instanceof PO ? ((PO)node).getCtx() : Env.getCtx());
 		final MResource resource = MResource.get(ctx, S_Resource_ID);
 		final MUOM resourceUOM = MUOM.get(ctx, resource.getC_UOM_ID());
@@ -208,62 +201,6 @@ public class DefaultRoutingServiceImpl implements RoutingService
 		}
 	}
 
-	/**
-	 * Calculate cost for node or cc
-	 * @param node
-	 * @param cc
-	 * @param d
-	 * @param trxName
-	 * @return
-	 */
-	protected BigDecimal calculateCost(I_AD_WF_Node node, I_PP_Cost_Collector cc, CostDimension d, String trxName)
-	{
-		int S_Resource_ID = d.getS_Resource_ID();
-		if (S_Resource_ID <= 0)
-			S_Resource_ID = node.getS_Resource_ID();
-		BigDecimal rate = getResouceRate(S_Resource_ID, node, cc, d, trxName);
-		if (rate.signum() == 0)
-		{
-			return Env.ZERO;
-		}
-		BigDecimal base = getBaseValue(S_Resource_ID, node, cc);
-		BigDecimal cost = base.multiply(rate);
-		cost = roundCost(cost, d.getC_AcctSchema_ID());
-
-		log.info("Node:" + node.getName());
-		log.info("Dimension:"+d);
-		log.info("BaseValue:"+base+" Rate:"+rate+" => Cost:"+cost);
-		return cost;
-	}
-
-	public BigDecimal calculateCost(I_AD_WF_Node node, CostDimension d, String trxName)
-	{
-		return calculateCost(node, null, d, trxName);
-	}
-	
-	public BigDecimal calculateCost(I_PP_Cost_Collector cc, CostDimension d, String trxName)
-	{
-		return calculateCost(getAD_WF_Node(cc), cc, d, trxName);
-	}
-
-	/**
-	 * Round to Costing Precision
-	 * @param cost
-	 * @param C_AcctSchema_ID
-	 * @return
-	 */
-	protected BigDecimal roundCost(BigDecimal cost, int C_AcctSchema_ID)
-	{
-		//
-		// Round to Costing Precision
-		final int precision = MAcctSchema.get(Env.getCtx(), C_AcctSchema_ID).getCostingPrecision();
-		if (cost.scale() > precision)
-		{
-			cost = cost.setScale(precision, RoundingMode.HALF_UP);
-		}
-		return cost;
-	}
-	
 	protected I_AD_WF_Node getAD_WF_Node(I_PP_Cost_Collector cc)
 	{
 		I_PP_Order_Node activity = cc.getPP_Order_Node();

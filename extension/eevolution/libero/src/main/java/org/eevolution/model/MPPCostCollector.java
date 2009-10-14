@@ -29,6 +29,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.NoVendorForProductException;
+import org.adempiere.model.engines.CostEngineFactory;
 import org.adempiere.model.engines.IDocumentLine;
 import org.adempiere.model.engines.StorageEngine;
 import org.compiere.model.I_C_UOM;
@@ -305,7 +306,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		
 		//
 		// Operation Activity
-		if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl))
+		if(isActivityControl())
 		{
 			MPPOrderNode activity = getPP_Order_Node();
 			if(MPPOrderNode.DOCACTION_Complete.equals(activity.getDocStatus()))
@@ -348,7 +349,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			}
 		}
 		// Issue
-		else if (isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue,COSTCOLLECTORTYPE_MethodChangeVariance))
+		else if (isIssue())
 		{
 			MProduct product = getM_Product();
 			if (getM_AttributeSetInstance_ID() == 0 && product.isASIMandatory(false))
@@ -357,7 +358,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			}
 		}
 		// Receipt
-		else if (isCostCollectorType(COSTCOLLECTORTYPE_MaterialReceipt))
+		else if (isReceipt())
 		{
 			MProduct product = getM_Product();
 			if (getM_AttributeSetInstance_ID() == 0 && product.isASIMandatory(true))
@@ -410,14 +411,13 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			return DocAction.STATUS_Invalid;
 		
 		//
-		//	Update Order Line
-		if(isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue, COSTCOLLECTORTYPE_MethodChangeVariance , COSTCOLLECTORTYPE_MaterialReceipt))
+		// Material Issue (component issue, method change variance, mix variance)
+		// Material Receipt
+		if(isIssue() || isReceipt())
 		{
-			MPPOrder order = getPP_Order();
-			
 			//	Stock Movement 
-			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
-			if (product != null	&& product.isStocked())
+			MProduct product = getM_Product();
+			if (product != null	&& product.isStocked() && !isVariance())
 			{
 				StorageEngine.createTrasaction(
 						this,
@@ -431,8 +431,6 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 						false											// IsSOTrx=false
 						);
 			}	//	stock movement
-			
-		
 			
 			if (isIssue())				
 			{
@@ -450,6 +448,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			if (isReceipt())
 			{
 				//	Update PP Order Qtys 
+				final MPPOrder order = getPP_Order();
 				order.setQtyDelivered(order.getQtyDelivered().add(getMovementQty()));                
 				order.setQtyScrap(order.getQtyScrap().add(getScrappedQty()));
 				order.setQtyReject(order.getQtyReject().add(getQtyReject()));                
@@ -469,10 +468,12 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 				order.saveEx();
 			}
 		}
-		else if(isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl))
+		//
+		// Activity Control
+		else if(isActivityControl())
 		{
 			MPPOrderNode activity = getPP_Order_Node();
-			if(MPPOrderNode.DOCSTATUS_Completed.equals(activity.getDocStatus()) || MPPOrderNode.DOCSTATUS_Closed.equals(activity.getDocStatus()))
+			if(activity.isProcessed())
 			{
 				throw new ActivityProcessedException(activity);
 			}
@@ -512,18 +513,46 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			}
 			else
 			{
+				CostEngineFactory.getCostEngine(getAD_Client_ID()).createActivityControl(this);
 				if(activity.getQtyDelivered().compareTo(activity.getQtyRequiered()) >= 0)
 				{
 					activity.closeIt();
 					activity.saveEx();									
 				}
 			}
-		} // end Activity Control
+		}
+		//
+		// Usage Variance (material)
+		else if (isCostCollectorType(COSTCOLLECTORTYPE_UsegeVariance) && getPP_Order_BOMLine_ID() > 0)
+		{
+			MPPOrderBOMLine obomline = getPP_Order_BOMLine();
+			obomline.setQtyDelivered(obomline.getQtyDelivered().add(getMovementQty()));
+			obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
+			obomline.setQtyReject(obomline.getQtyReject().add(getQtyReject()));  
+			//obomline.setDateDelivered(getMovementDate());	//	overwrite=last	
+			obomline.setM_AttributeSetInstance_ID(getM_AttributeSetInstance_ID());
+			log.fine("OrderLine - Reserved=" + obomline.getQtyReserved() + ", Delivered=" + obomline.getQtyDelivered());				
+			obomline.saveEx();
+			log.fine("OrderLine -> Reserved="+obomline.getQtyReserved()+", Delivered="+obomline.getQtyDelivered());
+			CostEngineFactory.getCostEngine(getAD_Client_ID()).createUsageVariances(this);
+		}
+		//
+		// Usage Variance (resource)
+		else if (isCostCollectorType(COSTCOLLECTORTYPE_UsegeVariance) && getPP_Order_Node_ID() > 0)
+		{
+			MPPOrderNode activity = getPP_Order_Node();
+			activity.setDurationReal(activity.getDurationReal()+getDurationReal().intValueExact());
+			activity.setSetupTimeReal(activity.getSetupTimeReal()+getSetupTimeReal().intValueExact());
+			activity.saveEx();
+			CostEngineFactory.getCostEngine(getAD_Client_ID()).createUsageVariances(this);
+		}
 		else
 		{
 			; // nothing
 		}
-		
+		//
+		CostEngineFactory.getCostEngine(getAD_Client_ID()).createRateVariances(this);
+		CostEngineFactory.getCostEngine(getAD_Client_ID()).createMethodVariances(this);
 
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
 		if (m_processMsg != null)
@@ -667,8 +696,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 				throw new AdempiereException("@PP_Cost_Collector_ID@ @C_UOM_ID@ <> @PP_Order_BOMLine_ID@ @C_UOM_ID@");
 			}
 		}
-
-		if (isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl) && getPP_Order_Node_ID() <= 0)
+		//
+		if (isActivityControl() && getPP_Order_Node_ID() <= 0)
 		{
 			throw new FillMandatoryException(COLUMNNAME_PP_Order_Node_ID);
 		}
@@ -882,7 +911,11 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 
 	public boolean isIssue()
 	{
-		return isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue,COSTCOLLECTORTYPE_MethodChangeVariance);
+		return
+		isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue)
+		|| (isCostCollectorType(COSTCOLLECTORTYPE_MethodChangeVariance) && getPP_Order_BOMLine_ID() > 0) // need inventory adjustment
+		|| (isCostCollectorType(COSTCOLLECTORTYPE_MixVariance) && getPP_Order_BOMLine_ID() > 0)  // need inventory adjustment
+		;
 	}
 	
 	public boolean isReceipt()
@@ -890,12 +923,25 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		return isCostCollectorType(COSTCOLLECTORTYPE_MaterialReceipt);
 	}
 	
+	public boolean isActivityControl()
+	{
+		return isCostCollectorType(COSTCOLLECTORTYPE_ActivityControl);
+	}
+	
+	public boolean isVariance()
+	{
+		return isCostCollectorType(COSTCOLLECTORTYPE_MethodChangeVariance
+				, COSTCOLLECTORTYPE_UsegeVariance
+				, COSTCOLLECTORTYPE_RateVariance
+				, COSTCOLLECTORTYPE_MixVariance);
+	}
+	
 	public String getMovementType()
 	{
-		if (isCostCollectorType(COSTCOLLECTORTYPE_MaterialReceipt))
+		if (isReceipt())
 			return MTransaction.MOVEMENTTYPE_WorkOrderPlus;
-		else if(isCostCollectorType(COSTCOLLECTORTYPE_ComponentIssue,COSTCOLLECTORTYPE_MethodChangeVariance))
-			return MTransaction.MOVEMENTTYPE_WorkOrder_;	
+		else if(isIssue())
+			return MTransaction.MOVEMENTTYPE_WorkOrder_;
 		else
 			return null;
 	}
@@ -937,5 +983,4 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		
 		setIsSubcontracting(MPPOrderNode.get(getCtx(), PP_Order_Node_ID, get_TrxName()).isSubcontracting());
 	}
-
 }	//	MPPCostCollector

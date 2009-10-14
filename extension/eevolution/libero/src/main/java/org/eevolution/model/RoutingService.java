@@ -5,7 +5,6 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 
-import org.adempiere.model.engines.CostDimension;
 import org.compiere.model.I_AD_WF_Node;
 import org.compiere.model.I_AD_Workflow;
 import org.compiere.model.I_S_Resource;
@@ -51,20 +50,18 @@ public interface RoutingService
 	public BigDecimal calculateDuration(I_PP_Cost_Collector cc);
 	
 	/**
-	 * Calculate routing operation cost for 1 item
-	 * @param node
-	 * @param d costing dimension
-	 * @param trxName transaction name
-	 * @return operation cost for 1 item.
+	 * Return cost collector base value in resource UOM (e.g. duration)
+	 * @param S_Resource_ID resource
+	 * @param cc cost collector
+	 * @return value (e.g. duration)
 	 */
-	public BigDecimal calculateCost(I_AD_WF_Node node, CostDimension d, String trxName);
-	
+	public BigDecimal getResourceBaseValue(int S_Resource_ID, I_PP_Cost_Collector cc);
+
 	/**
-	 * Calculate activity costs based on reported data from Cost Collector. 
+	 * Return node base value in resource UOM (e.g. duration)
+	 * @param S_Resource_ID resource
 	 * @param node
-	 * @param d costing dimension
-	 * @param trxName transaction name
-	 * @return activity cost
+	 * @return value (e.g. duration)
 	 */
-	public BigDecimal calculateCost(I_PP_Cost_Collector cc, CostDimension d, String trxName);
+	public BigDecimal getResourceBaseValue(int S_Resource_ID, I_AD_WF_Node node);
 }

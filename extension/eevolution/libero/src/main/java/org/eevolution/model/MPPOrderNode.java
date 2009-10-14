@@ -419,10 +419,9 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 */
 	public void setInProgress(MPPCostCollector currentActivity)
 	{
-		String status = getDocStatus();
-		if (DOCSTATUS_Completed.equals(status) || DOCSTATUS_Closed.equals(status))
+		if (isProcessed())
 		{
-			throw new IllegalStateException("Cannot change status from "+status+" to "+DOCSTATUS_InProgress);
+			throw new IllegalStateException("Cannot change status from "+getDocStatus()+" to "+DOCSTATUS_InProgress);
 		}
 		
 		setDocStatus(DOCSTATUS_InProgress);
@@ -433,7 +432,15 @@ public class MPPOrderNode extends X_PP_Order_Node
 		{
 			setDateStart(currentActivity.getDateStart());
 		}
-
+	}
+	
+	/**
+	 * @return true if this activity was already processed (i.e. DocStatus=COmpleted/CLosed)
+	 */
+	public boolean isProcessed()
+	{
+		final String status = getDocStatus();
+		return DOCSTATUS_Completed.equals(status) || DOCSTATUS_Closed.equals(status);
 	}
 	
 	/**

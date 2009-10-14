@@ -72,10 +72,11 @@ public class CalloutCostCollector extends CalloutEngine
 		RoutingService routingService = RoutingServiceFactory.get().getRoutingService(ctx);
 		BigDecimal durationReal = routingService.estimateWorkingTime(cc);
 		// If Activity Control Duration should be specified
-		if(durationReal.signum() == 0)
-		{
-			throw new FillMandatoryException(MPPOrderNode.COLUMNNAME_SetupTimeReal, MPPOrderNode.COLUMNNAME_DurationReal);
-		}
+		// FIXME: this message is really anoying. We need to find a proper solution - teo_sarca
+//		if(durationReal.signum() == 0)
+//		{
+//			throw new FillMandatoryException(MPPOrderNode.COLUMNNAME_SetupTimeReal, MPPOrderNode.COLUMNNAME_DurationReal);
+//		}
 		//
 		cc.setDurationReal(durationReal);
 		//

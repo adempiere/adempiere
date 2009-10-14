@@ -406,6 +406,8 @@ public class MPPMRP extends X_PP_MRP
 		super(ctx, PP_MRP_ID,trxName);
 		if (PP_MRP_ID == 0)
 		{
+			setValue("MRP");
+			setName("MRP");
 			setDateSimulation(new Timestamp (System.currentTimeMillis()));
 			//
 			// The available flag should be handled by MRP engine. Initial it should be disabled.
@@ -963,7 +965,8 @@ public class MPPMRP extends X_PP_MRP
 		else if (pp.getS_Resource_ID() > 0 && pp.getAD_Workflow_ID() > 0)
 		{
 			RoutingService routingService = RoutingServiceFactory.get().getRoutingService(ctx);
-			routingService.calculateDuration(pp.getAD_Workflow(), pp.getS_Resource(), qty);
+			leadtime = routingService.calculateDuration(pp.getAD_Workflow(), pp.getS_Resource(), qty);
+			// TODO: convert to days
 		}
 		else
 		{

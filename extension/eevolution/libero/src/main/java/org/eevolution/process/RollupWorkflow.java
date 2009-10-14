@@ -18,6 +18,7 @@
 package org.eevolution.process;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.logging.Level;
 
 import org.adempiere.model.engines.CostDimension;
 import org.adempiere.model.engines.CostEngine;
+import org.adempiere.model.engines.CostEngineFactory;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
@@ -226,12 +228,22 @@ public class RollupWorkflow extends SvrProcess
 			final List<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
 			{
+				final int precision = MAcctSchema.get(Env.getCtx(), cost.getC_AcctSchema_ID()).getCostingPrecision();
 				BigDecimal segmentCost = Env.ZERO;
 				for (MWFNode node : nodes)
 				{
-					BigDecimal nodeCost = m_routingService.calculateCost(node, d, get_TrxName());
+					final CostEngine costEngine = CostEngineFactory.getCostEngine(node.getAD_Client_ID());
+					final BigDecimal rate = costEngine.getResourceActualCostRate(null, node.getS_Resource_ID(), d, get_TrxName());
+					final BigDecimal baseValue = m_routingService.getResourceBaseValue(node.getS_Resource_ID(), node);
+					BigDecimal nodeCost = baseValue.multiply(rate);
+					if (nodeCost.scale() > precision)
+					{
+						nodeCost = nodeCost.setScale(precision, RoundingMode.HALF_UP);
+					}
 					segmentCost = segmentCost.add(nodeCost);
-					log.info("Element : "+element+", Node="+node+", nodeCost="+nodeCost+" => Cost="+segmentCost);
+					log.info("Element : "+element+", Node="+node
+							+", BaseValue="+baseValue+", rate="+rate
+							+", nodeCost="+nodeCost+" => Cost="+segmentCost);
 					// Update AD_WF_Node.Cost:
 					node.setCost(node.getCost().add(nodeCost));
 				}

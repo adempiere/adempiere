@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
+import java.util.TreeSet;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
@@ -666,7 +667,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			String whereClause = COLUMNNAME_PP_Product_BOM_ID+"=? AND "+COLUMNNAME_AD_Workflow_ID+"=?";
 			MQMSpecification qms = new Query(getCtx(), MQMSpecification.Table_Name, whereClause, get_TrxName())
 										.setParameters(new Object[]{getPP_Product_BOM_ID(), getAD_Workflow_ID()})
-										.first();
+										.firstOnly();
 			return qms != null ? qms.isValid(getM_AttributeSetInstance_ID()) : true;
 		}
 		else
@@ -713,36 +714,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			approveIt();
 		}
 		
-		MAcctSchema as = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
-		log.info("Cost_Group_ID" + as.getM_CostType_ID());
-
-		//
-		// Create Standard Costs for Order
-		{
-			final CostDimension d = new CostDimension(getM_Product(), as, as.getM_CostType_ID(),
-												getAD_Org_ID(), getM_AttributeSetInstance_ID(),
-												CostDimension.ANY);
-			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
-			for (MCost cost : costs)
-			{
-				MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
-				PP_Order_Cost.saveEx();
-			}
-		}
-		//
-		// Create Standard Costs for Order BOM Line
-		for (MPPOrderBOMLine line : getLines())
-		{
-			CostDimension d = new CostDimension(line.getM_Product(), as, as.getM_CostType_ID(),
-												line.getAD_Org_ID(), line.getM_AttributeSetInstance_ID(),
-												CostDimension.ANY);
-			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
-			for (MCost cost : costs)
-			{
-				MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
-				PP_Order_Cost.saveEx();
-			}
-		}
+		createStandardCosts();
 		
 		MPPOrderBOM obom = (MPPOrderBOM)getMPPOrderBOM();
 
@@ -1370,6 +1342,10 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				{
 					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance;
 				}
+				else if (PP_orderbomLine.isComponentType(MPPOrderBOMLine.COMPONENTTYPE_Co_Product))
+				{
+					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MixVariance;
+				}
 				//
 				MPPCostCollector.createCollector (
 						order, 															//MPPOrder
@@ -1578,13 +1554,89 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			}
 		}	
 	}
+
+	/**
+	 * Save standard costs records into PP_Order_Cost.
+	 * This will be usefull for calculating standard costs variances
+	 */
+	private final void createStandardCosts()
+	{
+		MAcctSchema as = MClient.get(getCtx(), getAD_Client_ID()).getAcctSchema();
+		log.info("Cost_Group_ID" + as.getM_CostType_ID());
+
+		final TreeSet<Integer> productsAdded = new TreeSet<Integer>();
+		
+		//
+		// Create Standard Costs for Order Header (resulting product)
+		{
+			final MProduct product = getM_Product();
+			productsAdded.add(product.getM_Product_ID());
+			//
+			final CostDimension d = new CostDimension(product, as, as.getM_CostType_ID(),
+												getAD_Org_ID(), getM_AttributeSetInstance_ID(),
+												CostDimension.ANY);
+			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
+			for (MCost cost : costs)
+			{
+				MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
+				PP_Order_Cost.saveEx();
+			}
+		}
+		//
+		// Create Standard Costs for Order BOM Line
+		for (MPPOrderBOMLine line : getLines())
+		{
+			final MProduct product = line.getM_Product();
+			//
+			// Check if we already added this product
+			if (productsAdded.contains(product.getM_Product_ID()))
+			{
+				continue;
+			}
+			productsAdded.add(product.getM_Product_ID());
+			//
+			CostDimension d = new CostDimension(line.getM_Product(), as, as.getM_CostType_ID(),
+												line.getAD_Org_ID(), line.getM_AttributeSetInstance_ID(),
+												CostDimension.ANY);
+			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
+			for (MCost cost : costs)
+			{
+				MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
+				PP_Order_Cost.saveEx();
+			}
+		}
+		//
+		// Create Standard Costs from Activity Resources
+		for (MPPOrderNode node : getMPPOrderWorkflow().getNodes(true))
+		{
+			final int S_Resource_ID = node.getS_Resource_ID();
+			if (S_Resource_ID <= 0)
+				continue;
+			//
+			final MProduct resourceProduct = MProduct.forS_Resource_ID(getCtx(), S_Resource_ID, null);
+			//
+			// Check if we already added this product
+			if (productsAdded.contains(resourceProduct.getM_Product_ID()))
+			{
+				continue;
+			}
+			productsAdded.add(resourceProduct.getM_Product_ID());
+			//
+			CostDimension d = new CostDimension(resourceProduct, as, as.getM_CostType_ID(),
+					node.getAD_Org_ID(),
+					0, // ASI
+					CostDimension.ANY);
+			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
+			for (MCost cost : costs)
+			{
+				MPPOrderCost orderCost = new MPPOrderCost(cost, getPP_Order_ID(), get_TrxName());
+				orderCost.saveEx();
+			}
+		}
+	}
 	
 	public void createVariances()
 	{
-		// TODO: Cost variances still beta
-		if (!MClient.get(getCtx(), getAD_Client_ID()).isUseBetaFunctions())
-			return;
-		
 		for (MPPOrderBOMLine line : getLines(true))
 		{
 			createUsageVariance(line);

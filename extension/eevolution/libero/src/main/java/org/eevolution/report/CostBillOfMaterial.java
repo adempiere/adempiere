@@ -25,6 +25,7 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.model.engines.CostEngine;
+import org.adempiere.model.engines.CostEngineFactory;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
 import org.compiere.model.MCostElement;
@@ -209,13 +210,14 @@ public class CostBillOfMaterial extends SvrProcess
 			tboml.setLevels(LEVELS.substring(0, m_LevelNo) + m_LevelNo);
 			//
 			// Set Costs:
-			Collection <MCost> costs = CostEngine.getByElement(
+			final CostEngine engine = CostEngineFactory.getCostEngine(getAD_Client_ID());
+			Collection <MCost> costs = engine.getByElement(
 					product,
 					m_as,
 					p_M_CostType_ID,
 					p_AD_Org_ID,
 					0, // ASI
-					costElement.get_ID());
+					costElement.getM_CostElement_ID());
 			BigDecimal currentCostPrice = Env.ZERO;
 			BigDecimal currentCostPriceLL = Env.ZERO;
 			BigDecimal futureCostPrice = Env.ZERO;
