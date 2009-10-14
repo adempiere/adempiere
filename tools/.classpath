@@ -7,6 +7,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/barbecue-1.5-beta1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jnlp.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/iText-2.1.7.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/activation.jar"/>
