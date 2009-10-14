@@ -357,7 +357,7 @@ public class ImportBankStatement extends SvrProcess
 		if (no != 0)
 			log.info("Duplicates=" + no);
 		
-		commit();
+		commitEx();
 		
 		//Import Bank Statement
 		sql = new StringBuffer("SELECT * FROM I_BankStatement"

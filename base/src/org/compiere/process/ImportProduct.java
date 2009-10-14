@@ -378,7 +378,7 @@ public class ImportProduct extends SvrProcess
 		}
 		log.fine("C_TaxCategory_ID=" + C_TaxCategory_ID);
 
-		commit();
+		commitEx();
 		
 		//	-------------------------------------------------------------------
 		int noInsert = 0;
@@ -628,7 +628,7 @@ public class ImportProduct extends SvrProcess
 				pstmt_setImported.setInt(2, I_Product_ID);
 				no = pstmt_setImported.executeUpdate();
 				//
-				commit();
+				commitEx();
 			}	//	for all I_Product
 			rs.close();
 			pstmt.close();

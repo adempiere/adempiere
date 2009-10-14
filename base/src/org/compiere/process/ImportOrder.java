@@ -475,7 +475,7 @@ public class ImportOrder extends SvrProcess
 		if (no != 0)
 			log.warning ("Invalid Tax=" + no);
 
-		commit();
+		commitEx();
 		
 		//	-- New BPartner ---------------------------------------------------
 
@@ -609,7 +609,7 @@ public class ImportOrder extends SvrProcess
 		if (no != 0)
 			log.warning ("No BPartner=" + no);
 
-		commit();
+		commitEx();
 		
 		//	-- New Orders -----------------------------------------------------
 

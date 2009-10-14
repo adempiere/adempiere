@@ -210,7 +210,7 @@ public class ImportInventory extends SvrProcess
 		if (no != 0)
 			log.warning ("No QtyCount=" + no);
 
-		commit();
+		commitEx();
 		
 		/*********************************************************************/
 

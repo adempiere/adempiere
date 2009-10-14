@@ -404,7 +404,7 @@ public class ImportPayment extends SvrProcess
 		if (no != 0)
 			log.warning ("No DocType=" + no);
 
-		commit();
+		commitEx();
 		
 		//Import Bank Statement
 		sql = new StringBuffer("SELECT * FROM I_Payment"

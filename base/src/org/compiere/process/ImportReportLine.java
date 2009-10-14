@@ -238,7 +238,7 @@ public class ImportReportLine extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set PA_ReportLine_ID=" + no);
 
-		commit();
+		commitEx();
 		
 		//	-------------------------------------------------------------------
 		int noInsertLine = 0;
@@ -463,7 +463,7 @@ public class ImportReportLine extends SvrProcess
 				log.finest("Delete ReportSource with Null Account= " + no + ", I_ReportLine_ID=" + I_ReportLine_ID + ", PA_ReportSource_ID=" + PA_ReportSource_ID);
 				// End afalcone 22/02/2007 - F.R. [ 1642250 ] Import ReportLine / Very Slow Reports
 
-				commit();
+				commitEx();
 			}
 			rs.close();
 			pstmt.close();

@@ -276,7 +276,7 @@ implements ImportProcess
 		
 		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_AFTER_VALIDATE);
 
-		commit();
+		commitEx();
 		if (p_IsValidateOnly)
 		{
 			return "Validated";
@@ -573,7 +573,7 @@ implements ImportProcess
 				impBP.setProcessed(true);
 				impBP.setProcessing(false);
 				impBP.saveEx();
-				commit();
+				commitEx();
 			}	//	for all I_Product
 			DB.close(rs, pstmt);
 		}

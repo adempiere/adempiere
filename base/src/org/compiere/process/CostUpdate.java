@@ -135,7 +135,7 @@ public class CostUpdate extends SvrProcess
 		m_ass = MAcctSchema.getClientAcctSchema(getCtx(), client.getAD_Client_ID());
 		for (int i = 0; i < m_ass.length; i++)
 			createNew(m_ass[i]);
-		commit();
+		commitEx();
 		
 		//	Update Cost
 		int counter = update();

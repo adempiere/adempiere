@@ -62,7 +62,7 @@ public class UpdateSequenceNo extends SvrProcess {
 							get_TrxName());
 			insertStmt.setString(1, year);
 			insertStmt.executeUpdate();
-			commit();
+			commitEx();
 
 		} catch (Exception ex) {
 			rollback();

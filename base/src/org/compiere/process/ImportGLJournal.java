@@ -574,7 +574,7 @@ public class ImportGLJournal extends SvrProcess
 		pstmt = null;
 
 		// globalqss (moved the commit here to save the error messages)
-		commit();
+		commitEx();
 		
 		//	Count Errors
 		int errors = DB.getSQLValue(get_TrxName(), 

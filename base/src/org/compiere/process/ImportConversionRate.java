@@ -227,7 +227,7 @@ public class ImportConversionRate extends SvrProcess
 	//	if (no != 0)
 	//		log.warn ("Inconsistent Rates =" + no);
 		
-		commit();
+		commitEx();
 		/*********************************************************************/
 
 		int noInsert = 0;

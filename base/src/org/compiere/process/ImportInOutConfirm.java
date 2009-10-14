@@ -133,7 +133,7 @@ public class ImportInOutConfirm extends SvrProcess
 		if (no != 0)
 			log.warning ("Invalid Qty=" + no);
 		
-		commit();
+		commitEx();
 		
 		/*********************************************************************/
 		

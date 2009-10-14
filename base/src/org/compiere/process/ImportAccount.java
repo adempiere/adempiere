@@ -252,7 +252,7 @@ public class ImportAccount extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Found ElementValue=" + no);
 
-		commit();
+		commitEx();
 
 		//	-------------------------------------------------------------------
 		int noInsert = 0;
@@ -332,7 +332,7 @@ public class ImportAccount extends SvrProcess
 		addLog (0, null, new BigDecimal (noInsert), "@C_ElementValue_ID@: @Inserted@");
 		addLog (0, null, new BigDecimal (noUpdate), "@C_ElementValue_ID@: @Updated@");
 
-		commit();
+		commitEx();
 
 		//	*****	Set Parent
 		sql = new StringBuffer ("UPDATE I_ElementValue i "
@@ -399,7 +399,7 @@ public class ImportAccount extends SvrProcess
 		}
 		addLog (0, null, new BigDecimal (noParentUpdate), "@ParentElementValue_ID@: @Updated@");
 
-		commit();
+		commitEx();
 		
 		//	Reset Processing Flag
 		sql = new StringBuffer ("UPDATE I_ElementValue "

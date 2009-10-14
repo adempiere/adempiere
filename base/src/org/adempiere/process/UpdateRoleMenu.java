@@ -92,7 +92,7 @@ public class UpdateRoleMenu extends SvrProcess
 				boolean active = "Y".equals(rs.getString(2));
 				addUpdateRole(getCtx(), p_role_id, menuId, active, get_TrxName());
 			}
-			commit();
+			commitEx();
 		}
 		catch (Exception ex)
 		{

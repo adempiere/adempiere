@@ -215,6 +215,7 @@ public abstract class SvrProcess implements ProcessCall
 	
 	/**
 	 * 	Commit
+	 *  @deprecated suggested to use commitEx instead
 	 */
 	protected void commit()
 	{

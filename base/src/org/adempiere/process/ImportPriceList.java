@@ -251,7 +251,7 @@ public class ImportPriceList extends SvrProcess
 		if (no != 0)
 			log.warning("No Mandatory BreakValue=" + no);
 
-		commit();
+		commitEx();
 		
 		//	-------------------------------------------------------------------
 		int noInsertpp = 0;
@@ -431,7 +431,7 @@ public class ImportPriceList extends SvrProcess
 				pstmt_setImported.setInt(2, I_PriceList_ID);
 				no = pstmt_setImported.executeUpdate();
 				//
-				commit();
+				commitEx();
 			}	//	for all I_PriceList
 			//
 		}

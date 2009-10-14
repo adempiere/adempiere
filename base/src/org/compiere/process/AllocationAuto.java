@@ -123,7 +123,7 @@ public class AllocationAuto extends SvrProcess
 					{
 						countBP++;
 						countAlloc += count;
-						commit();
+						commitEx();
 					}
 				}
 			}
@@ -155,7 +155,7 @@ public class AllocationAuto extends SvrProcess
 					{
 						countBP++;
 						countAlloc += count;
-						commit();
+						commitEx();
 					}
 				}
  			}

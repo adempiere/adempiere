@@ -17,6 +17,7 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.logging.Level;
 
@@ -100,8 +101,9 @@ public class BPartnerValidate extends SvrProcess
 	/**
 	 * 	Check BP
 	 *	@param bp bp
+	 * @throws SQLException 
 	 */
-	private void checkBP (MBPartner bp)
+	private void checkBP (MBPartner bp) throws SQLException
 	{
 		addLog(0, null, null, bp.getName() + ":");
 		//	See also VMerge.postMerge
@@ -117,7 +119,7 @@ public class BPartnerValidate extends SvrProcess
 		addLog(0, null, bp.getTotalOpenBalance(), Msg.getElement(getCtx(), "TotalOpenBalance"));
 		addLog(0, null, bp.getActualLifeTimeValue(), Msg.getElement(getCtx(), "ActualLifeTimeValue"));
 		//
-		commit();
+		commitEx();
 	}	//	checkBP
 	
 	
