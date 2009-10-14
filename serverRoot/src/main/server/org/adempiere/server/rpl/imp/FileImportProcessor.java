@@ -56,14 +56,15 @@ public class FileImportProcessor implements IImportProcessor {
 		X_IMP_ProcessorParameter[] processorParameters = impProcessor.getIMP_ProcessorParameters(trxName);
 		
 		String fileName = null;
+		String folder  = "";
 		if (processorParameters != null && processorParameters.length > 0) {
         	for (int i = 0; i < processorParameters.length; i++) {
         		log.info("ProcesParameter          Value = " + processorParameters[i].getValue());
         		log.info("ProcesParameter ParameterValue = " + processorParameters[i].getParameterValue());
         		if (processorParameters[i].getValue().equals("fileName")) {
         			fileName = processorParameters[i].getParameterValue();
-        		} else {
-        			// Some other mandatory parameter here
+        		} else if ( processorParameters[i].getValue().equals("folder") ) {
+        			folder = processorParameters[i].getParameterValue();
         		}
         	}
         }
@@ -72,7 +73,7 @@ public class FileImportProcessor implements IImportProcessor {
         	throw new Exception("Missing IMP_ProcessorParameter with key 'fileName'!");
         }
         
-		Document documentToBeImported = XMLHelper.createDocumentFromFile(fileName);
+		Document documentToBeImported = XMLHelper.createDocumentFromFile(folder + fileName);
 		StringBuffer result = new StringBuffer();
 		
 		ImportHelper impHelper = new ImportHelper( ctx );
@@ -83,7 +84,6 @@ public class FileImportProcessor implements IImportProcessor {
 
 	public void stop() throws Exception {
 		// do nothing!
-		
 	}
 
 }
