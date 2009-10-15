@@ -2009,7 +2009,16 @@ public final class MPayment extends X_C_Payment
 	{
 		//	Create invoice Allocation -	See also MCash.completeIt
 		if (getC_Invoice_ID() != 0)
-			return allocateInvoice();
+		{	
+			boolean InvoiceIsPaid = new Query(getCtx(), I_C_Invoice.Table_Name, I_C_Invoice.COLUMNNAME_C_Invoice_ID + "=? AND " + I_C_Invoice.COLUMNNAME_IsPaid + "=?", getTrx_Name())
+			.setClient_ID()
+			.setParameters(new Object[]{getC_Invoice_ID(), "Y"})
+			.match();
+			if(InvoiceIsPaid)
+				throw new  AdempiereException("@ValidationError@ @C_Invoice_ID@ @IsPaid@");
+			else	
+				return allocateInvoice();
+		}	
 		//	Invoices of a AP Payment Selection
 		if (allocatePaySelection())
 			return true;
@@ -2059,6 +2068,12 @@ public final class MPayment extends X_C_Payment
 		return alloc.save(get_TrxName());
 	}	//	allocateIt
 	
+	private String getTrx_Name() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	/**
 	 * 	Allocate single AP/AR Invoice
 	 * 	@return true if allocated
