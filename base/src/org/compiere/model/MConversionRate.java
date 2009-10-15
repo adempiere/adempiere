@@ -188,6 +188,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 		updateRate.setMultiplyRate(MultiplyRate);
 		updateRate.saveEx(trxName);
 		trx.commit(true);
+		trx.close();
 	}
 	
 	/**
