@@ -454,7 +454,7 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		line.add( (Timestamp) bomline.getValidTo()); //  4 ValidTo
 		KeyNamePair pp = new KeyNamePair(M_Product.getM_Product_ID(),M_Product.getName());
 		line.add(pp); //  5 M_Product_ID
-		KeyNamePair uom = new KeyNamePair(bomline.getC_UOM_ID(),"");
+		KeyNamePair uom = new KeyNamePair(bomline.getC_UOM_ID(),bomline.getC_UOM().getUOMSymbol());
 		line.add(uom); //  6 C_UOM_ID
 		line.add(new Boolean(bomline.isQtyPercentage())); //  7 IsQtyPorcentage
 		line.add((BigDecimal) bomline.getQtyBatch());  //  8 BatchPercent
@@ -498,7 +498,7 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 			line.add( (Timestamp) bomline.getValidTo()); //  4 ValidTo
 			KeyNamePair pp = new KeyNamePair(component.getM_Product_ID(),component.getName());
 			line.add(pp); //  5 M_Product_ID
-			KeyNamePair uom = new KeyNamePair(bomline.getC_UOM_ID(),"");
+			KeyNamePair uom = new KeyNamePair(bomline.getC_UOM_ID(),bomline.getC_UOM().getUOMSymbol());
 			line.add(uom); //  6 C_UOM_ID
 			line.add(new Boolean(bomline.isQtyPercentage())); //  7 IsQtyPercentage
 			line.add((BigDecimal) bomline.getQtyBatch());  //  8 BatchPercent
