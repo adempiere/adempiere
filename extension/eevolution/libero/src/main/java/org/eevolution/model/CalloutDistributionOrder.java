@@ -19,16 +19,21 @@ package org.eevolution.model;
 import java.math.BigDecimal;
 import java.util.Properties;
 
+import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.I_M_Movement;
+import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MLocator;
+import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.exceptions.NoBPartnerLinkedforOrgException;
 
 /**
  *	Distribution Order Callout
@@ -190,6 +195,28 @@ public class CalloutDistributionOrder extends CalloutEngine
 		//
 		return "";
 	}	//	qty
+
+	public String bPartner (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		I_M_Movement m_movement = GridTabWrapper.create(mTab, I_M_Movement.class);		
+		MOrg org = MOrg.get(ctx,m_movement.getAD_Org_ID());
+		int C_BPartner_ID = org.getLinkedC_BPartner_ID(null);
+		
+		if(C_BPartner_ID > 0)
+		{
+			MBPartnerLocation[] locations = MBPartnerLocation.getForBPartner(ctx, C_BPartner_ID, null);		
+			m_movement.setC_BPartner_ID(C_BPartner_ID);
+			if(locations.length > 0)
+			{
+				m_movement.setC_BPartner_Location_ID(locations[0].getC_BPartner_Location_ID());
+			}
+		}
+		else
+		{
+			throw new NoBPartnerLinkedforOrgException (org);
+		}
+		return "";
+	}	
 
 }	//	CalloutOrder
 

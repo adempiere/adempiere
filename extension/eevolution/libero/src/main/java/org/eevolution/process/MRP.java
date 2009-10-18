@@ -186,6 +186,8 @@ public class MRP extends SvrProcess
 	protected String doIt() throws Exception                
 	{
 		StringBuffer resultMsg = new StringBuffer();
+		dd_order_id_cache.clear();
+		partner_cache.clear(); 
 		
 		// Set Default Document Type To Requisition
 		docTypeReq_ID = getDocType(MDocType.DOCBASETYPE_PurchaseRequisition);
@@ -805,9 +807,10 @@ public class MRP extends SvrProcess
 	 * @param QtyPlanned
 	 * @param DemandDateStartSchedule
 	 * @throws AdempiereException if there is any error
+	 * @throws SQLException 
 	 */
 	protected void createSupply(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned ,Timestamp DemandDateStartSchedule)
-	throws AdempiereException
+	throws AdempiereException, SQLException
 	{
 		// Distribution Order
 		if(isRequiredDRP() && m_product_planning.getDD_NetworkDistribution_ID() > 0)
@@ -914,13 +917,12 @@ public class MRP extends SvrProcess
 				// Try found some order with Shipper , Business Partner and Doc Status = Draft 
 				// Consolidate the demand in a single order for each Shipper , Business Partner , DemandDateStartSchedule
 				DD_Order_ID = getDDOrder_ID(AD_Org_ID,wsts[0].get_ID(),network_line.getM_Shipper_ID(), bp.getC_BPartner_ID(),DemandDateStartSchedule);
-				if (DD_Order_ID < 0)
+				if (DD_Order_ID <= 0)
 				{	
 					order = new MDDOrder(getCtx() , 0 , get_TrxName());
 					order.setAD_Org_ID(target.getAD_Org_ID());
 					order.setC_BPartner_ID(C_BPartner_ID);
-					//order.setAD_User_ID(bp.getPrimaryAD_User_ID());
-					order.setAD_User_ID(m_product_planning.getPlanner_ID());
+					order.setAD_User_ID(bp.getPrimaryAD_User_ID());
 					order.setC_DocType_ID(docTypeDO_ID);  
 					order.setM_Warehouse_ID(wsts[0].get_ID());
 					order.setDocAction(MDDOrder.DOCACTION_Complete);
@@ -929,20 +931,25 @@ public class MRP extends SvrProcess
 					order.setM_Shipper_ID(network_line.getM_Shipper_ID());	    	                
 					order.setIsInDispute(false);
 					order.setIsInTransit(false);
-					//order.setSalesRep_ID(m_product_planning.getPlanner_ID());
-					order.setSalesRep_ID(bp.getPrimaryAD_User_ID());
+					order.setSalesRep_ID(m_product_planning.getPlanner_ID());
 					order.saveEx();
 					DD_Order_ID = order.get_ID();				
-					String key = network_line.getM_Shipper_ID()+"#"+C_BPartner_ID+"#"+DemandDateStartSchedule+"DR";
+					String key = order.getAD_Org_ID()+"#"+order.getM_Warehouse_ID()+"#"+network_line.getM_Shipper_ID()+"#"+C_BPartner_ID+"#"+DemandDateStartSchedule+"DR";
 					dd_order_id_cache.put(key,DD_Order_ID);
-				}	
+				}
+				else
+				{
+					order = new MDDOrder(getCtx(), DD_Order_ID ,get_TrxName());
+				}
+				
 				M_Shipper_ID = network_line.getM_Shipper_ID();
+				
 			}   
 
 			BigDecimal QtyOrdered = QtyPlanned.multiply(network_line.getPercent()).divide(Env.ONEHUNDRED);
 
 			MDDOrderLine oline = new MDDOrderLine(getCtx(), 0 , get_TrxName());
-			oline.setDD_Order_ID(DD_Order_ID);
+			oline.setDD_Order_ID(order.getDD_Order_ID());
 			oline.setM_Locator_ID(locator.getM_Locator_ID());
 			oline.setM_LocatorTo_ID(locator_to.getM_Locator_ID());
 			oline.setM_Product_ID(m_product_planning.getM_Product_ID()); 
@@ -1035,7 +1042,7 @@ public class MRP extends SvrProcess
 	}
 	
 	protected void createPPOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned,Timestamp DemandDateStartSchedule)
-	throws AdempiereException
+	throws AdempiereException, SQLException
 	{
 		log.info("PP_Product_BOM_ID:" + m_product_planning.getPP_Product_BOM_ID() + ", AD_Workflow_ID:" + m_product_planning.getAD_Workflow_ID());
 		if (m_product_planning.getPP_Product_BOM_ID() == 0 || m_product_planning.getAD_Workflow_ID() == 0)
@@ -1070,7 +1077,7 @@ public class MRP extends SvrProcess
 		order.setPriorityRule(MPPOrder.PRIORITYRULE_Medium);
 		order.setDocAction(MPPOrder.DOCACTION_Complete);
 		order.saveEx();
-		commit();
+		commitEx();
 		
 		count_MO += 1;
 	}

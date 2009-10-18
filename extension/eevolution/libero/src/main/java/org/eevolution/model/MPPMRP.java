@@ -698,7 +698,7 @@ public class MPPMRP extends X_PP_MRP
 	 */
 	public static void DD_Order_Line(MDDOrderLine ol)
 	{        	   
-		String trxName = ol.getParent().get_TrxName();
+		String trxName = ol.get_TrxName();
 		Properties m_ctx = ol.getCtx();
 		//
 		MPPMRP mrp = getQuery(ol, TYPEMRP_Demand, ORDERTYPE_DistributionOrder).firstOnly();
@@ -748,7 +748,7 @@ public class MPPMRP extends X_PP_MRP
 			mrp.setM_Warehouse_ID(target.getM_Warehouse_ID()); 
 			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()), ol.getC_UOM_ID());
 			mrp.setDocStatus(ol.getParent().getDocStatus());
-			mrp.save();
+			mrp.saveEx();
 		}	
 		else
 		{	
