@@ -267,7 +267,7 @@ public class LiberoValidator implements ModelValidator
 			{
 				if(line.getDD_OrderLine_ID() > 0)
 				{
-				   MDDOrderLine oline= new MDDOrderLine(line.getCtx(),line.getDD_OrderLine_ID(), line.get_TrxName());
+				   MDDOrderLine oline= new MDDOrderLine(line.getCtx(),line.getDD_OrderLine_ID(), po.get_TrxName());
 				   MLocator locator_to = MLocator.get(line.getCtx(), line.getM_LocatorTo_ID());
 				   MWarehouse warehouse =  MWarehouse.get(line.getCtx(), locator_to.getM_Warehouse_ID()); 
 				   if(warehouse.isInTransit())
