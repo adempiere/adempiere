@@ -14,6 +14,7 @@
 package test.functional.mrp;
 
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +175,7 @@ class TestableMRP extends org.eevolution.process.MRP
 		return super.doIt();
 	}
 	@Override
-	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID)
+	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID, int S_Resource_ID, int M_Warehouse_ID) throws SQLException
 	{
 		// Delete all MRP records for our testing product
 		String sql = "DELETE FROM PP_MRP"

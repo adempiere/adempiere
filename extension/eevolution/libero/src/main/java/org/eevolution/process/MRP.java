@@ -267,13 +267,14 @@ public class MRP extends SvrProcess
 	 * @param AD_Client_ID Client_ID
 	 * @param AD_Org_ID Orgganization ID
 	 * @param M_Warehouse_ID Warehouse ID
+	 * @throws SQLException 
 	 */
-	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID)
+	protected void deleteMRP(int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID) throws SQLException
 	{
 		// Delete Manufacturing Order with Close Status from MRP Table
 		String sql = "DELETE FROM PP_MRP WHERE OrderType = 'MOP' AND DocStatus ='CL' AND AD_Client_ID=" + AD_Client_ID  + " AND AD_Org_ID=" + AD_Org_ID + " AND M_Warehouse_ID="+M_Warehouse_ID +  " AND S_Resource_ID="+S_Resource_ID ;					
 		DB.executeUpdateEx(sql, get_TrxName());
-		commit();
+		commitEx();
 		//Delete Manufacturing Order with Draft Status 
 		String whereClause = "DocStatus='DR' AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=? AND S_Resource_ID=?";
 		deletePO(MPPOrder.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID});
@@ -281,7 +282,7 @@ public class MRP extends SvrProcess
 		// Delete Requisition with Status Close from MRP Table
 		sql = "DELETE FROM PP_MRP WHERE OrderType = 'POR' AND DocStatus IN ('CL') AND AD_Client_ID = " + AD_Client_ID +  " AND AD_Org_ID=" + AD_Org_ID+ " AND M_Warehouse_ID="+M_Warehouse_ID;				
 		DB.executeUpdateEx(sql, get_TrxName());
-		commit();		
+		commitEx();		
 		//Delete Requisition with Draft Status
 		whereClause = "DocStatus IN ('DR') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
 		deletePO(MRequisition.Table_Name, whereClause, new Object[]{AD_Client_ID, AD_Org_ID, M_Warehouse_ID});
@@ -289,7 +290,7 @@ public class MRP extends SvrProcess
 		// Delete Action Notice
 		sql = "DELETE FROM AD_Note WHERE AD_Table_ID=? AND AD_Client_ID=? AND AD_Org_ID=?";
 		DB.executeUpdateEx(sql, new Object[]{MPPMRP.Table_ID, AD_Client_ID, AD_Org_ID}, get_TrxName());
-		commit();
+		commitEx();
 
 		if (isRequiredDRP())
 		{
@@ -303,7 +304,7 @@ public class MRP extends SvrProcess
 		
 		// Mark all supply MRP records as available
 		DB.executeUpdateEx("UPDATE PP_MRP SET IsAvailable ='Y' WHERE TypeMRP = 'S' AND AD_Client_ID = ? AND AD_Org_ID=? AND M_Warehouse_ID=?", new Object[]{AD_Client_ID,AD_Org_ID,M_Warehouse_ID} ,get_TrxName());
-		commit();
+		commitEx();
 	}
 
 	/**************************************************************************
@@ -311,8 +312,9 @@ public class MRP extends SvrProcess
 	 *  @param AD_Client_ID Client ID
 	 *  @param AD_Org_ID Organization ID
 	 *  @param M_Warehuse_ID Warehouse ID
+	 * @throws SQLException 
 	 */
-	protected String runMRP(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID)
+	protected String runMRP(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID) throws SQLException
 	{
 		deleteMRP(AD_Client_ID,AD_Org_ID,S_Resource_ID,M_Warehouse_ID);
 		
@@ -518,8 +520,9 @@ public class MRP extends SvrProcess
 	 *  @param AD_Org_ID Organization ID
 	 *  @param M_Warehuse_ID Warehouse ID
 	 *	@param MProduct
+	 * @throws SQLException 
 	 */
-	private void setProduct(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product)
+	private void setProduct(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product) throws SQLException
 	{
 		DatePromisedTo = null;
 		DatePromisedFrom = null;
@@ -564,7 +567,7 @@ public class MRP extends SvrProcess
 		log.info("QtyOnHand :" + QtyProjectOnHand);
 	}
 	
-	protected MPPProductPlanning getProductPlanning(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product)
+	protected MPPProductPlanning getProductPlanning(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product) throws SQLException
 	{
 		// Find data product planning demand 
 		MPPProductPlanning pp = MPPProductPlanning.find(getCtx() ,AD_Org_ID , M_Warehouse_ID, S_Resource_ID , product.getM_Product_ID(), get_TrxName());
@@ -653,9 +656,10 @@ public class MRP extends SvrProcess
 	 *  @param M_Warehouse_ID Warehoue ID
 	 *  @param product Product
 	 *  @param DemandDateStartSchedule Demand Date Start Schedule
+	 * @throws SQLException 
 	 */
 	private void calculatePlan(int AD_Client_ID, int AD_Org_ID, int M_Warehouse_ID, int PP_MRP_ID,
-								MProduct product, Timestamp DemandDateStartSchedule)
+								MProduct product, Timestamp DemandDateStartSchedule) throws SQLException
 	{
 		//Set Yield o QtyGrossReqs
 		// Note : the variables  DemandDateStartSchedule , DemandDateFinishSchedule are same DatePromised to Demands Sales Order Type
@@ -835,7 +839,7 @@ public class MRP extends SvrProcess
 	}
 	
 	protected void createDDOrder(int AD_Org_ID, int PP_MRP_ID, MProduct product,BigDecimal QtyPlanned ,Timestamp DemandDateStartSchedule)
-	throws AdempiereException
+	throws AdempiereException, SQLException
 	{		
 		//TODO vpj-cd I need to create logic for DRP-040 Shipment Due  Action Notice
 		//Indicates that a shipment for a Order Distribution is due. 
@@ -950,6 +954,7 @@ public class MRP extends SvrProcess
 
 			MDDOrderLine oline = new MDDOrderLine(getCtx(), 0 , get_TrxName());
 			oline.setDD_Order_ID(order.getDD_Order_ID());
+			oline.setAD_Org_ID(target.getAD_Org_ID());
 			oline.setM_Locator_ID(locator.getM_Locator_ID());
 			oline.setM_LocatorTo_ID(locator_to.getM_Locator_ID());
 			oline.setM_Product_ID(m_product_planning.getM_Product_ID()); 
@@ -978,11 +983,11 @@ public class MRP extends SvrProcess
 			}
 		}
 		count_DO += 1;
-		commit();
+		commitEx();
 	}
 	
 	protected void createRequisition(int AD_Org_ID, int PP_MRP_ID, MProduct product, BigDecimal QtyPlanned, Timestamp DemandDateStartSchedule)
-	throws AdempiereException
+	throws AdempiereException, SQLException
 	{
 		log.info("Create Requisition");
 		
@@ -1037,7 +1042,7 @@ public class MRP extends SvrProcess
 			mrp.saveEx();
 
 		}
-		commit();	
+		commitEx();	
 		count_MR += 1;
 	}
 	
@@ -1082,7 +1087,7 @@ public class MRP extends SvrProcess
 		count_MO += 1;
 	}
 	
-	private void deletePO(String tableName, String whereClause, Object[] params)
+	private void deletePO(String tableName, String whereClause, Object[] params) throws SQLException
 	{
 		// TODO: refactor this method and move it to org.compiere.model.Query class
 		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
@@ -1096,7 +1101,7 @@ public class MRP extends SvrProcess
 		finally {
 			rs.close();
 		}
-		commit();
+		commitEx();
 	}
 
 	/**
@@ -1108,8 +1113,9 @@ public class MRP extends SvrProcess
 	 * @param documentNo Document# (optional)
 	 * @param qty quantity (optional)
 	 * @param comment comment (optional)
+	 * @throws SQLException 
 	 */
-	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product, String documentNo, BigDecimal qty, String comment)
+	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID, MProduct product, String documentNo, BigDecimal qty, String comment) throws SQLException
 	{
 		documentNo = documentNo != null ? documentNo : "";
 		comment = comment != null ? comment : "";
@@ -1157,12 +1163,12 @@ public class MRP extends SvrProcess
 							get_TrxName());
 		note.setAD_Org_ID(AD_Org_ID);
 		note.saveEx();
-		commit(); 
+		commitEx(); 
 		log.info(code+": "+note.getTextMsg());  
 		count_Msg += 1;
 	}
 	
-	private void createMRPNote(String code, MPPMRP mrp, MProduct product, String comment)
+	private void createMRPNote(String code, MPPMRP mrp, MProduct product, String comment) throws SQLException
 	{
 //		String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
 //		 + ":" + mrp.getDateStartSchedule()
@@ -1175,7 +1181,7 @@ public class MRP extends SvrProcess
 	protected void createMRPNote(String code, int AD_Org_ID, int PP_MRP_ID,
 			MProduct product, BigDecimal qty,
 			Timestamp DemandDateStartSchedule,
-			Exception e)
+			Exception e) throws SQLException
 	{
 		String documentNo = null;
 		String comment = e.getLocalizedMessage();
@@ -1224,10 +1230,11 @@ public class MRP extends SvrProcess
 	 * @return Net Requirements:
 	 * 			<li>positive qty means entire qty is available or scheduled to receipt
 	 * 			<li>negative qty means qty net required
+	 * @throws SQLException 
 	 */
 	private BigDecimal getNetRequirements(int AD_Client_ID, int AD_Org_ID, 
 											int M_Warehouse_ID, MProduct product,
-											Timestamp DemandDateStartSchedule)
+											Timestamp DemandDateStartSchedule) throws SQLException
 	{
 		BigDecimal QtyNetReqs = QtyProjectOnHand.subtract(QtyGrossReqs);
 		
