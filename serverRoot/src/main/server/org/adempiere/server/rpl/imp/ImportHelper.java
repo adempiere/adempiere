@@ -178,20 +178,20 @@ public class ImportHelper {
 		boolean resultSave=false;
 		if(ReplicationEvent == ModelValidator.TYPE_BEFORE_DELETE ||
 		   ReplicationEvent == ModelValidator.TYPE_BEFORE_DELETE_REPLICATION ||
-		   ReplicationEvent == ModelValidator.TYPE_DELETE)
-			resultSave=po.delete(true);
-		else
+		   ReplicationEvent == ModelValidator.TYPE_DELETE) 
 		{
+			resultSave=po.delete(true);
+		} else {
 			//TODO: Create a Replication Type "BROADCAST" now we are using MERGE
 			if(ReplicationType.equals(X_AD_ReplicationTable.REPLICATIONTYPE_Merge))
 			{
 				resultSave = po.saveReplica(true);
 				MReplicationStrategy rplStrategy = new MReplicationStrategy(client.getCtx(), client.getAD_ReplicationStrategy_ID(), null);
 				ExportHelper expHelper = new ExportHelper(client, rplStrategy);
-				expHelper.exportRecord(	po, MReplicationStrategy.REPLICATION_TABLE,X_AD_ReplicationTable.REPLICATIONTYPE_Reference,ModelValidator.TYPE_AFTER_CHANGE);
-			}
-			else
+				expHelper.exportRecord(	po, MReplicationStrategy.REPLICATION_TABLE, X_AD_ReplicationTable.REPLICATIONTYPE_Reference, ModelValidator.TYPE_AFTER_CHANGE);
+			} else {
 				resultSave = po.saveReplica(true);
+			}
 		}
 		
 		result.append("ResultSave=").append(resultSave).append("; ");
