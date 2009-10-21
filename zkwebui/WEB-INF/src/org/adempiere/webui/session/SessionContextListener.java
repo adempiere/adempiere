@@ -187,6 +187,7 @@ public class SessionContextListener implements ExecutionInit,
     	if (ctx != null && serverContext != null 
     		&& ctx.getProperty(SERVLET_SESSION_ID).equals(serverContext.getProperty(SERVLET_SESSION_ID)))
     	{
+    		ctx.clear();
     		ctx.putAll(serverContext);
     	}
     	
