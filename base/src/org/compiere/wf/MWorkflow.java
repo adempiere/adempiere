@@ -106,7 +106,7 @@ public class MWorkflow extends X_AD_Workflow
 				if (!newKey.equals(oldKey) && list.size() > 0)
 				{
 					MWorkflow[] wfs = new MWorkflow[list.size()];
-					list.toArray(new MWorkflow[list.size()]);
+					list.toArray(wfs);
 					s_cacheDocValue.put (oldKey, wfs);
 					list = new ArrayList<MWorkflow>();
 				}
