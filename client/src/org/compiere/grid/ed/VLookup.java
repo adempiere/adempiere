@@ -1007,7 +1007,7 @@ public class VLookup extends JComponent
 	{
 		String text = m_text.getText();
 		// Nothing entered, just pressing enter again => ignore - teo_sarca BF [ 1834399 ]
-		if (text != null && text.equals(m_lastDisplay))
+		if (text != null && text.length() > 0 && text.equals(m_lastDisplay))
 		{
 			log.finest("Nothing entered [SKIP]");
 			return;
