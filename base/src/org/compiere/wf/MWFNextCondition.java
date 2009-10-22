@@ -90,10 +90,10 @@ public class MWFNextCondition extends X_AD_WF_NextCondition
 		Object valueObj = po.get_ValueOfColumn(getAD_Column_ID());
 		if (valueObj == null)
 			valueObj = "";
-		String value1 = getValue();
+		String value1 = getDecodedValue(getValue(), po);	// F3P: added value decoding
 		if (value1 == null)
 			value1 = "";
-		String value2 = getValue2();
+		String value2 = getDecodedValue(getValue2(), po);	// F3P: added value decoding
 		if (value2 == null)
 			value2 = "";
 		
@@ -115,6 +115,33 @@ public class MWFNextCondition extends X_AD_WF_NextCondition
 			+ (m_numeric ? " (#)" : " ($)"));
 		return result;
 	}	//	evaluate
+	
+	/**
+	 * F3P: Decode value string, for each substring enclosed in @:
+	 *  COL= remaining value is interpreted as a column of the associated record
+	 * 
+	 * @param sValue value to be decoded
+	 * @param PO model object bound to the activity
+	 * 
+	 */
+	
+	protected String getDecodedValue(String sValue,PO po)
+	{		
+		String sRet = sValue;
+		
+		if(sValue != null && sValue.startsWith("@"))
+		{
+			if(sValue.startsWith("@COL="))
+			{
+				Object o = po.get_Value(sValue.substring(5));  
+				
+				if(o != null)
+					sRet = o.toString();
+			}
+		}
+		
+		return sRet;
+	}
 	
 	/**
 	 * 	Compare Number
