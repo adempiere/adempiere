@@ -17,6 +17,7 @@
 
 package org.eevolution.process;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -167,8 +168,9 @@ public class MRPUpdate extends SvrProcess
 
 	/**
 	 * Delete MRP records
+	 * @throws SQLException 
 	 */       
-	private void deleteRecords(int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID)
+	private void deleteRecords(int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID) throws SQLException
 	{						               
 		// Delete MRP records (Orders (SO,PO), Forecasts, Material Requisitions):
 		{
@@ -182,6 +184,8 @@ public class MRPUpdate extends SvrProcess
 			//Delete Material Requisitions Document
 			whereClause = "DocStatus IN ('DR','CL') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
 			deletePO(MRequisition.Table_Name, whereClause, params);
+			
+			whereClause = "DocStatus IN ('DR') AND AD_Client_ID=? AND AD_Org_ID=? AND M_Warehouse_ID=?";
 			// Delete Distribution Orders:
 			deletePO(MDDOrder.Table_Name, whereClause, params);
 
@@ -213,8 +217,9 @@ public class MRPUpdate extends SvrProcess
 
 	/**
 	 * Create MRP records
+	 * @throws SQLException 
 	 */            
-	private void createRecords (int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID)
+	private void createRecords (int AD_Client_ID, int AD_Org_ID,int S_Resource_ID, int M_Warehouse_ID) throws SQLException
 	{
 		final String sql = "INSERT INTO PP_MRP ("
 			+"ad_org_id, created, createdby , dateordered,"
@@ -339,7 +344,7 @@ public class MRPUpdate extends SvrProcess
 	}
 
 
-	private void executeUpdate(String sql, List<Object> params) 
+	private void executeUpdate(String sql, List<Object> params) throws SQLException 
 	{
 		Object[] pa = null;
 		if (params != null)
@@ -352,13 +357,13 @@ public class MRPUpdate extends SvrProcess
 		}	
 
 		int no = DB.executeUpdateEx(sql, pa, get_TrxName());
-		commit();
+		commitEx();
 		log.fine("#"+no+" -- "+sql);
 
 	}
 
 
-	private void deletePO(String tableName, String whereClause, List<Object> params)
+	private void deletePO(String tableName, String whereClause, List<Object> params) throws SQLException
 	{
 		// TODO: refactor this method and move it to org.compiere.model.Query class
 		POResultSet<PO> rs = new Query(getCtx(), tableName, whereClause, get_TrxName())
@@ -369,7 +374,7 @@ public class MRPUpdate extends SvrProcess
 			while(rs.hasNext())
 			{
 				rs.next().deleteEx(true);
-				commit();
+				commitEx();
 			}
 		}
 		finally

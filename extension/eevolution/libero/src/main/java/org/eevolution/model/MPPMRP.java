@@ -273,6 +273,10 @@ public class MPPMRP extends X_PP_MRP
 				MForecastLine.COLUMNNAME_M_Product_ID,
 				MForecastLine.COLUMNNAME_Qty,
 		});
+		s_sourceColumnNames.put(MDDOrder.Table_Name, new String[]{
+				MDDOrder.COLUMNNAME_DocStatus,
+				MDDOrder.COLUMNNAME_C_BPartner_ID
+		});
 		s_sourceColumnNames.put(MDDOrderLine.Table_Name, new String[]{
 				"AD_Org_ID",
 				MDDOrderLine.COLUMNNAME_M_Product_ID,
@@ -459,6 +463,13 @@ public class MPPMRP extends X_PP_MRP
 		}
 	}
 	
+	public void setDD_Order(MDDOrder o)
+	{
+		setDD_Order_ID(o.get_ID());
+		setC_BPartner_ID(o.getC_BPartner_ID());
+		setDocStatus(o.getDocStatus());
+
+	}
 	public void setM_Requisition(MRequisition r)
 	{
 		setM_Requisition_ID(r.get_ID());
@@ -689,14 +700,33 @@ public class MPPMRP extends X_PP_MRP
 	 * @param MDDOrder Distribution Order
 	 */
 	public static void DD_Order(MDDOrder o)
-	{        	   
+	{   
+		if((MDDOrder.DOCSTATUS_InProgress.equals(o.getDocStatus())
+		||  MDDOrder.DOCSTATUS_Completed.equals(o.getDocStatus())))
+		{
+			for(MDDOrderLine line : o.getLines())
+			{
+				DD_OrderLine(line);
+			}
+		}
+		
+		if (o.is_ValueChanged(MDDOrder.COLUMNNAME_DocStatus)
+		||  o.is_ValueChanged(MDDOrder.COLUMNNAME_C_BPartner_ID))
+		{
+			List<MPPMRP> list = getQuery(o, null, null).list();
+			for (MPPMRP mrp : list)
+			{
+				mrp.setDD_Order(o);
+				mrp.saveEx();
+			}
+		}
 	} 	
 
 	/**
 	 * Create MRP record based in Distribution Order Line
 	 * @param MDDOrderLine Distribution Order Line
 	 */
-	public static void DD_Order_Line(MDDOrderLine ol)
+	public static void DD_OrderLine(MDDOrderLine ol)
 	{        	   
 		String trxName = ol.get_TrxName();
 		Properties m_ctx = ol.getCtx();

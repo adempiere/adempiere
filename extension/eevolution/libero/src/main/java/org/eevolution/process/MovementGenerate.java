@@ -133,7 +133,7 @@ public class MovementGenerate extends SvrProcess
 	}	//	prepare
 
 	/**
-	 * 	Generate Movemements
+	 * 	Generate Movements
 	 *	@return info
 	 *	@throws Exception
 	 */
@@ -152,14 +152,14 @@ public class MovementGenerate extends SvrProcess
 		if (p_Selection)	//	VInOutGen
 		{
 			m_sql = "SELECT DD_Order.* FROM DD_Order, T_Selection "
-				+ "WHERE DD_Order.DocStatus='CO' AND DD_Order.IsSOTrx='Y' AND DD_Order.AD_Client_ID=? "
+				+ "WHERE DD_Order.DocStatus='CO' AND DD_Order.AD_Client_ID=? "
 				+ "AND DD_Order.DD_Order_ID = T_Selection.T_Selection_ID " 
 				+ "AND T_Selection.AD_PInstance_ID=? ";
 		}
 		else
 		{
 			m_sql = "SELECT * FROM DD_Order o "
-				+ "WHERE DocStatus='CO' AND IsSOTrx='Y'"
+				+ "WHERE DocStatus='CO' "
 				//	No Offer,POS
 				+ " AND o.C_DocType_ID IN (SELECT C_DocType_ID FROM C_DocType "
 					+ "WHERE DocBaseType='DOO')"
@@ -175,8 +175,10 @@ public class MovementGenerate extends SvrProcess
 			//
 			if (p_C_BPartner_ID != 0)
 				m_sql += " AND o.C_BPartner_ID=?";					//	#3
+			
+			m_sql += " ORDER BY M_Warehouse_ID, PriorityRule, M_Shipper_ID, C_BPartner_ID, C_BPartner_Location_ID, DD_Order_ID";
 		}
-		m_sql += " ORDER BY M_Warehouse_ID, PriorityRule, M_Shipper_ID, C_BPartner_ID, C_BPartner_Location_ID, DD_Order_ID";
+		
 	//	m_sql += " FOR UPDATE";
 
 		PreparedStatement pstmt = null;
@@ -451,7 +453,9 @@ public class MovementGenerate extends SvrProcess
 		//	Create New Shipment
 		if (m_movement == null)
 		{
+			MLocator locator = MLocator.get(getCtx(),orderLine.getM_Locator_ID());
 			m_movement = createMovement(order, m_movementDate);
+			m_movement.setAD_Org_ID(locator.getAD_Org_ID());
 			//m_movement.setM_Warehouse_ID(orderLine.getM_Warehouse_ID());	//	sets Org too
 			m_movement.setIsInTransit(true);
 			m_movement.setDD_Order_ID(order.getDD_Order_ID());
@@ -552,7 +556,6 @@ public class MovementGenerate extends SvrProcess
 	private static MMovement createMovement(MDDOrder order, Timestamp movementDate)
 	{
 		MMovement move = new MMovement(order.getCtx(), 0, order.get_TrxName());
-		move.setAD_Org_ID(order.getAD_Org_ID());
 		move.setC_BPartner_ID (order.getC_BPartner_ID());
 		move.setC_BPartner_Location_ID (order.getC_BPartner_Location_ID());	//	shipment address
 		move.setAD_User_ID(order.getAD_User_ID());
@@ -644,7 +647,7 @@ public class MovementGenerate extends SvrProcess
 			//	Fails if there is a confirmation
 			if (!m_movement.processIt(p_docAction))
 				log.warning("Failed: " + m_movement);
-			m_movement.save();
+			m_movement.saveEx();
 			//
 			addLog(m_movement.getM_Movement_ID(), m_movement.getMovementDate(), null, m_movement.getDocumentNo());
 			m_created++;

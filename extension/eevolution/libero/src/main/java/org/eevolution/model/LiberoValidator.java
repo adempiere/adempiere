@@ -176,11 +176,18 @@ public class LiberoValidator implements ModelValidator
 			MForecastLine fl = (MForecastLine)po;
 			MPPMRP.M_ForecastLine(fl);
 		}
+		
+		else if (po instanceof MDDOrder  && isChange)
+		{
+			MDDOrder order = (MDDOrder)po;
+			MPPMRP.DD_Order(order);
+		}
+		
 		//
 		else if (po instanceof MDDOrderLine && isChange)
 		{
 			MDDOrderLine ol = (MDDOrderLine)po;
-			MPPMRP.DD_Order_Line(ol);
+			MPPMRP.DD_OrderLine(ol);
 		}
 		//
 		else if (po instanceof MPPOrder && isChange)

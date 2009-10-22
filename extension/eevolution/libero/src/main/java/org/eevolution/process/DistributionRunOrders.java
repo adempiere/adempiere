@@ -240,8 +240,6 @@ public class DistributionRunOrders extends SvrProcess
  	            	m_runLine.setM_Product_ID(M_Product_ID);
  	            	m_runLine.setDescription(Msg.translate(getCtx(), "QtyAvailable") +" : " + QtyAvailable + " " +Msg.translate(getCtx(), "QtyOrdered") + " : " + QtyToDistribute);
  	            	//m_runLine.setMinQty(rs.getBigDecimal("MinQty"));
- 	            	
- 	            	
  	            	m_runLine.setTotalQty(QtyToDistribute);
  	            	m_runLine.saveEx();
  	            	line += 10;
