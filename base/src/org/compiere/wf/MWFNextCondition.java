@@ -51,7 +51,7 @@ public class MWFNextCondition extends X_AD_WF_NextCondition
 	}	//	MWFNextCondition
 
 	/**
-	 * 	Load Cosntructor
+	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param rs result set
 	 * 	@param trxName transaction
@@ -125,7 +125,7 @@ public class MWFNextCondition extends X_AD_WF_NextCondition
 	 * 
 	 */
 	
-	protected String getDecodedValue(String sValue,PO po)
+	protected String getDecodedValue(String sValue, PO po)
 	{		
 		String sRet = sValue;
 		
