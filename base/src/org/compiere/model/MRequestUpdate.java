@@ -23,6 +23,10 @@ import java.util.Properties;
  * 	Request Update Model
  *  @author Jorg Janke
  *  @version $Id: MRequestUpdate.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ *  
+ *  @author Teo Sarca
+ *  		<li>FR [ 2884541 ] MRequestUpdate should detect automatically the fields
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2884541&group_id=176962&atid=879335
  */
 public class MRequestUpdate extends X_R_RequestUpdate
 {
@@ -64,13 +68,17 @@ public class MRequestUpdate extends X_R_RequestUpdate
 		setClientOrg(parent);
 		setR_Request_ID (parent.getR_Request_ID());
 		//
-		setStartTime(parent.getStartTime());
-		setEndTime(parent.getEndTime());
-		setResult(parent.getResult());
-		setQtySpent(parent.getQtySpent());
-		setQtyInvoiced(parent.getQtyInvoiced());
-		setM_ProductSpent_ID(parent.getM_ProductSpent_ID());
-		setConfidentialTypeEntry(parent.getConfidentialTypeEntry());
+		for (final MColumn col : MTable.get(getCtx(), Table_ID).getColumns(false))
+		{
+			if (col.isStandardColumn() || col.isKey() || col.isParent())
+				continue;
+			final String columnName = col.getColumnName();
+			final int i = parent.get_ColumnIndex(columnName);
+			if (i >= 0)
+			{
+				set_ValueOfColumn(columnName, parent.get_Value(i));
+			}
+		}
 	}	//	MRequestUpdate
 	
 	/**
