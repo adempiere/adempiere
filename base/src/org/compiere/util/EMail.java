@@ -1008,6 +1008,16 @@ public final class EMail implements Serializable
 	}   //  isValid
 
 	/**
+	 * @return attachments array or empty array. This method will never return null.
+	 */
+	public Object[] getAttachments()
+	{
+		if (m_attachments == null)
+			return new Object[]{};
+		return m_attachments.toArray();
+	}
+
+	/**
 	 * 	String Representation
 	 *	@return info
 	 */
