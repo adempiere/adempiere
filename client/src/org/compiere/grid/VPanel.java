@@ -19,22 +19,26 @@ package org.compiere.grid;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Event;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
-import javax.swing.border.CompoundBorder;
+
+import net.miginfocom.layout.BoundSize;
+import net.miginfocom.layout.ComponentWrapper;
+import net.miginfocom.layout.ConstraintParser;
+import net.miginfocom.layout.LayoutCallback;
+import net.miginfocom.layout.UnitValue;
+import net.miginfocom.swing.MigLayout;
+import net.miginfocom.swing.SwingComponentWrapper;
+import net.miginfocom.swing.SwingContainerWrapper;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.APanel;
@@ -50,35 +54,21 @@ import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
 import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Language;
 import org.compiere.util.Util;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
+import com.lowagie.text.Font;
+
 /**
  *  Single Row Panel.
  *  Called from GridController
- *  <pre>
- *	Structure
- *		this (CPanel - Group Bag Layout)
- *			group
- *			label - field
+ *  
+ *  Uses MigLayout
  *
- *  Spacing:
- *  -------------------
- *  Total Top = 10+2
- *  Total Right = 0+12
- *  Total Left = 0+12
- *  Total Bottom = 3+9
- *  -------------------
- *       2
- *  12 Label 0+5 Field 0
- *       3+2=5
- *  12 Label 0+5 Field 0
- *       3
- *
- *  </pre>
  *  @author 	Jorg Janke
  *  @version 	$Id: VPanel.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
  *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
@@ -93,7 +83,12 @@ public final class VPanel extends CTabbedPane
 	private static final long serialVersionUID = 8227080366665213627L;
 
 	private int m_WindowNo;
-
+	// show layout grid
+	private boolean debug = false;
+	private String defaultLayoutConstraints;
+	private int labelMinWidth = 0;
+	private int fieldMinWidth = 0;
+	
 	public VPanel(String Name) 
 	{
 		this(Name, 0);
@@ -108,30 +103,16 @@ public final class VPanel extends CTabbedPane
 	{
 		m_WindowNo = WindowNo;
 		
-		//set up map used for label and field alignment
-		labels.put(0, new ArrayList<CLabel>());
-		labels.put(2, new ArrayList<CLabel>());
-		// for the case of a right-to-left-language (e.g. arabic)
-		labels.put(1, new ArrayList<CLabel>());
-		labels.put(3, new ArrayList<CLabel>());
+		defaultLayoutConstraints =  "hidemode 3";   // hidden fields take no part in grid
+		defaultLayoutConstraints += debug ? ", debug" : "";
 		
-		
-		fields.put(1, new ArrayList<Component>());
-		fields.put(3, new ArrayList<Component>());
-		// for the case of a right-to-left-language (e.g. arabic)
-		fields.put(0, new ArrayList<Component>());
-		fields.put(2, new ArrayList<Component>());
-		
-		fillers.put(0, new ArrayList<CLabel>());
-		fillers.put(2, new ArrayList<CLabel>());
-		// for the case of a right-to-left-language (e.g. arabic)
-		fillers.put(1, new ArrayList<CLabel>());
-		fillers.put(3, new ArrayList<CLabel>());
-		
-        //[ 1757088 ]	
+		//[ 1757088 ]	
 		m_main.setName(Name);
-		setupMainPanelLayout(m_main);
-		m_main.setBorder(new CompoundBorder(m_main.getBorder(), BorderFactory.createEmptyBorder(10, 12, 0, 12)));
+		String constraints = defaultLayoutConstraints;
+		MigLayout mainLayout = new MigLayout(constraints);
+		mainLayout.addLayoutCallback(callback);
+		m_main.setLayout(mainLayout);
+		
 		m_tablist.put("main", m_main);
 		this.setBorder(marginBorder);
 		
@@ -139,63 +120,58 @@ public final class VPanel extends CTabbedPane
 		dummy.setLayout(new BorderLayout());
 		dummy.add(m_main, BorderLayout.NORTH);
 		dummy.setName(m_main.getName());
-		this.add(dummy);
-		
-		//	Set initial values of constraint
-		m_gbc.anchor = GridBagConstraints.NORTHWEST;
-		m_gbc.gridy = 0;			//	line
-		m_gbc.gridx = 0;
-		m_gbc.gridheight = 1;
-		m_gbc.gridwidth = 1;
-		m_gbc.insets = m_zeroInset;
-		m_gbc.fill = GridBagConstraints.HORIZONTAL;
-		m_gbc.weightx = 0;
-		m_gbc.weighty = 0;
-		m_gbc.ipadx = 0;
-		m_gbc.ipady = 0;
-		
+		this.add(dummy);		
 		
 	}	//	VPanel
 	
-	/** GridBag Constraint      */
-	private GridBagConstraints	m_gbc = new GridBagConstraints();
-
 	/** Orientation             */
 	private final boolean       m_leftToRight = Language.getLoginLanguage().isLeftToRight();
-	/** Label Inset             */
-	private final Insets 		m_labelInset =
-		m_leftToRight ? new Insets(1,12,1,0) : new Insets(1,5,1,0);     // 	top,left,bottom,right
-	private final Insets 		m_firstLabelInset =
-			m_leftToRight ? new Insets(1,0,1,0) : new Insets(1,5,1,0);     // 	top,left,bottom,right	
-	/** Field Inset             */
-	private final Insets 		m_fieldInset =
-		m_leftToRight ? new Insets(1,5,1,0)  : new Insets(1,12,1,0);	// 	top,left,bottom,right
-	/** Zero Inset              */
-	private final Insets 		m_zeroInset = new Insets(0,0,0,0);
-	//
-	private int 				m_line = 0;
-	private boolean 			m_hGapAdded = false;					//	only once
 	/** Previous Field Group Header     */
 	private String              m_oldFieldGroup = null;
 	/** Previous Field Group Type */
 	private String              m_oldFieldGroupType = null;
-	/** Previous Field Is Same Line */
-	private boolean				m_oldSameLine = false;
-	/** Previous Field Size */
-	private boolean				m_oldLongField = false;
 	//[ 1757088 ]  	
 	private java.util.Hashtable<String, JPanel> m_tablist = new java.util.Hashtable<String, JPanel>();
 	private java.util.Hashtable<Integer, CollapsiblePanel> m_tabincludelist = new java.util.Hashtable<Integer, CollapsiblePanel>();
 	private CPanel m_main = new CPanel(org.compiere.plaf.CompiereColor.getDefaultBackground());		
 	private DropShadowBorder marginBorder = new DropShadowBorder();
 
-	private HashMap<Integer,Collection<CLabel>> labels = new HashMap<Integer, Collection<CLabel>>();
-	
-	private HashMap<Integer,Collection<Component>> fields = new HashMap<Integer, Collection<Component>>();
 
-	private HashMap<Integer,Collection<CLabel>> fillers = new HashMap<Integer, Collection<CLabel>>();
+	/**
+	 * Use layout callback to implement size groups across panels
+	 * and to shrink hidden components vertically.
+	 */
+	private LayoutCallback callback = new LayoutCallback() {
 
-	private HashMap<JXCollapsiblePane,Component> collapsibleEndFiller = new HashMap<JXCollapsiblePane, Component>();
+		// Set the min and preferred sizes to match the largest component
+		public BoundSize[] getSize(ComponentWrapper comp)
+		{
+			if (comp.getComponent() instanceof CLabel) {
+				Component c = (Component) comp.getComponent();
+				int w = labelMinWidth;
+				int h = c.getPreferredSize().height;
+				BoundSize width = ConstraintParser.parseBoundSize(w + ":" + w, false, true);  // min:pref
+				BoundSize height = ConstraintParser.parseBoundSize(h + ":" + h, false, false);
+				
+				return new BoundSize[] {width, height};
+			}
+			else
+				{
+				Component c = (Component) comp.getComponent();
+				int w = fieldMinWidth;
+				int h = c.getPreferredSize().height;
+				BoundSize width = ConstraintParser.parseBoundSize(w + ":" + w, false, true);
+				BoundSize height = ConstraintParser.parseBoundSize(h + ":" + h, false, false);
+				
+				return new BoundSize[] {width, height};
+			}
+			
+		}//
+
+		public void correctBounds(ComponentWrapper comp)
+		{
+		}
+	};
 
 	/**	Logger	*/
 	private static CLogger log = CLogger.getCLogger (VPanel.class);
@@ -211,7 +187,7 @@ public final class VPanel extends CTabbedPane
 			return;
 		String text = mField.getHeader();
 		int pos = text.indexOf('&');
-		if (pos != -1 && text.length() > pos)	//	We have a nemonic - creates Ctrl_Shift_
+		if (pos != -1 && text.length() > pos)	//	We have a mnemonic - creates Ctrl_Shift_
 		{
 			char mnemonic = text.toUpperCase().charAt(pos+1);
 			if (mnemonic != ' ')
@@ -239,20 +215,9 @@ public final class VPanel extends CTabbedPane
 		int AD_Tab_ID = mField.getIncluded_Tab_ID();
 		if(AD_Tab_ID != 0 )
 		{
-			m_gbc.gridx = 0;
-			m_gbc.gridy = m_line++;
 			CollapsiblePanel m_tab = new CollapsiblePanel("");
 			m_tabincludelist.put(AD_Tab_ID, m_tab);
-			m_gbc.anchor = GridBagConstraints.NORTHWEST;
-			m_gbc.gridx = 0;
-			m_gbc.gridheight = 1;
-			m_gbc.insets = new Insets(2,0,0,0);
-			m_gbc.gridy = m_line++;
-			m_gbc.gridwidth = 5;
-			m_gbc.fill = GridBagConstraints.HORIZONTAL;
-			m_gbc.weightx = 1;		
-			m_gbc.ipadx = 0;					  			  
-			m_main.add(m_tab,m_gbc);
+			m_main.add(m_tab,"newline, spanx, growx");
 			m_tab.setName("IncludedTab#"+AD_Tab_ID);
 			
 			if (includedTabList.containsKey(AD_Tab_ID)) 
@@ -267,9 +232,7 @@ public final class VPanel extends CTabbedPane
 			return;
 
 		boolean sameLine = mField.isSameLine();
-		if (sameLine && (m_oldSameLine || m_oldLongField))
-			sameLine = false;
-			
+		
 		//[ 1757088 ]              		//	sets top
 		String fieldGroup = mField.getFieldGroup();
 		String fieldGroupType = mField.getFieldGroupType();
@@ -293,113 +256,79 @@ public final class VPanel extends CTabbedPane
 			fieldGroup = m_oldFieldGroup;
 			fieldGroupType = m_oldFieldGroupType;
 		}
-
-		if (sameLine)    							//	Set line #
-			m_gbc.gridy = m_line-1;
-		else
-			m_gbc.gridy = m_line++;
-
-		//	*** The Label ***
-		if (label != null)
+		
+		// label constraints
+		String constraints = "align trailing";
+		if ( !sameLine )
 		{
-			m_gbc.gridwidth = 1;
-			m_gbc.insets = m_labelInset;
-			m_gbc.fill = GridBagConstraints.HORIZONTAL;	//	required for right justified
-			//	Set column #
-			if (m_leftToRight)
-				m_gbc.gridx = mField.isSameLine() ? 2 : 0;
-			else
-				m_gbc.gridx = mField.isSameLine() | mField.isLongField() ? 3 : 1;
-			if (m_gbc.gridx == 0)
-				m_gbc.insets = m_firstLabelInset;
-			//	Weight factor for Label
-			m_gbc.weightx = 0;
-			//
-			if (mField.isCreateMnemonic())
-				setMnemonic(label, mField.getMnemonic());
-			//  Add Label
-			//[ 1757088 ]
-			//this.add(label, m_gbc);
-			if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Tab))
-			{
-				CPanel m_tab = (CPanel)m_tablist.get(fieldGroup);	
-				m_tab.add(label, m_gbc);	
-
-			}			
-			else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
-			{
-				CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
-				if (m_gbc.gridx == 0)
-					m_gbc.insets = m_firstLabelInset;
-				m_tab.getCollapsiblePane().getContentPane().add(label, m_gbc);
-				labels.get(m_gbc.gridx).add(label);
-				
-				moveCollapsibleEndFiller(m_tab.getCollapsiblePane());				
-			}
-			else // Label or null
-			{
-				m_main.add(label, m_gbc);
-				labels.get(m_gbc.gridx).add(label);
-			}
+			constraints += ", newline";
 		}
+		
+		//	*** The Label ***
+		if ( label == null)
+			label = new CLabel("");
+		//
+		if (mField.isCreateMnemonic())
+			setMnemonic(label, mField.getMnemonic());
+
+		if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Tab))
+		{
+			CPanel m_tab = (CPanel)m_tablist.get(fieldGroup);
+			m_tab.add(label, constraints);	
+		}			
+		else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
+		{
+			CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
+			m_tab.getCollapsiblePane().getContentPane().add(label, constraints);
+		}
+		else // Label
+		{
+			m_main.add(label, constraints);
+		}
+
+		int currentWidth = label.getPreferredSize().width;
+		labelMinWidth = currentWidth > labelMinWidth ? currentWidth : labelMinWidth;
 
 		//	*** The Field ***
 		if (editor != null)
 		{
 			Component field = (Component)editor;
-			//	Default Width
-			m_gbc.gridwidth = mField.isLongField() ? 3 : 1;
-			m_gbc.insets = m_fieldInset;
-			//	m_gbc.fill = GridBagConstraints.NONE;
-			m_gbc.fill = GridBagConstraints.HORIZONTAL;
-			//	Set column #
-			if (m_leftToRight)
-				m_gbc.gridx = mField.isSameLine() ? 3 : 1;
-			else
-				m_gbc.gridx = mField.isSameLine() ? 2 : 0;
-			//	Weight factor for Fields
-			m_gbc.weightx = 1;
+			//	field constraints
+			//  long fields span all remaining columns
+			constraints = "growx, pushx";
+			if ( mField.isLongField() )
+			{
+				constraints += mField.isLongField() ? ",spanx" : "";
+			}
+			
 			//	Add Field
 			//[ 1757088 ]
 			if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Tab))
 			{
 				CPanel m_tab = (CPanel)m_tablist.get(fieldGroup);	
-				m_tab.add(field, m_gbc);				
+				m_tab.add(field, constraints);			  	
 			}			
 			else if (fieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
 			{
-				boolean textArea = false;
 				CollapsiblePanel m_tab = (CollapsiblePanel) m_tablist.get(fieldGroup);
+				Component comp = (Component) editor;
+				comp.setMinimumSize(comp.getPreferredSize());
 				if (mField.getDisplayType() == DisplayType.Text 
-					|| mField.getDisplayType() == DisplayType.TextLong
-					|| mField.getDisplayType() == DisplayType.Memo)
+					|| mField.getDisplayType() == DisplayType.Memo 
+					||mField.getDisplayType() == DisplayType.TextLong )
 				{
-					textArea = true;					
+					Component component = (Component) editor;
+					component.setMinimumSize(component.getPreferredSize());
 				}
-				if (textArea)
-				{
-					m_gbc.gridheight = 1;
-					m_gbc.weighty = 1;
-					m_gbc.fill = GridBagConstraints.BOTH;
-				}
-				m_tab.getCollapsiblePane().getContentPane().add(field, m_gbc);
-				if (textArea)
-				{
-					m_gbc.gridheight = 1;
-					m_gbc.weighty = 0;
-					m_gbc.fill = GridBagConstraints.HORIZONTAL;
-				}
-				
 				if (!mField.isLongField())
-					fields.get(m_gbc.gridx).add(field);
-				
-				moveCollapsibleEndFiller(m_tab.getCollapsiblePane());
+					fieldMinWidth = field.getPreferredSize().width > fieldMinWidth ? field.getPreferredSize().width : fieldMinWidth;
+				m_tab.getCollapsiblePane().getContentPane().add(field, constraints);
 			}
 			else // Label or null
 			{								
-				m_main.add(field, m_gbc);
-				if (!mField.isLongField())
-					fields.get(m_gbc.gridx).add(field);
+				m_main.add(field, constraints);
+			if (!mField.isLongField())
+				fieldMinWidth = field.getPreferredSize().width > fieldMinWidth ? field.getPreferredSize().width : fieldMinWidth;
 			}	
 			//	Link Label to Field
 			if (label != null)
@@ -407,26 +336,7 @@ public final class VPanel extends CTabbedPane
 			else if (mField.isCreateMnemonic())
 				setMnemonic(editor, mField.getMnemonic());
 		}
-		m_oldSameLine = sameLine;
-		m_oldLongField = (mField.isLongField() || mField.isSameLine());
 	}	//	addField
-
-	/**
-	 * Move the end spacer of the collapsible pane
-	 * @param collapsiblePane
-	 */
-	private void moveCollapsibleEndFiller(JXCollapsiblePane collapsiblePane) {
-		Component end = collapsibleEndFiller.get(collapsiblePane);
-		if (end != null) {
-			collapsiblePane.getContentPane().remove(end);
-			GridBagConstraints gbc = new GridBagConstraints();
-			gbc.gridheight = 1;
-			gbc.gridwidth = 1;
-			gbc.gridx = 0;
-			gbc.gridy = m_gbc.gridy + 1;
-			collapsiblePane.getContentPane().add(end, gbc);
-		}		
-	}
 
 	/**
 	 *	Add Group
@@ -458,7 +368,10 @@ public final class VPanel extends CTabbedPane
 
 			CPanel m_tab = new CPanel();
 			m_tab.setBackground(AdempierePLAF.getFormBackground());
-			setupTabPanelLayout(m_tab);
+			String tpConstraints = defaultLayoutConstraints ;
+			MigLayout layout = new MigLayout(tpConstraints);
+			layout.addLayoutCallback(callback);
+			m_tab.setLayout(layout);
 			m_tab.setName(fieldGroup);
 			CPanel dummy = new CPanel();
 			dummy.setLayout(new BorderLayout());
@@ -474,215 +387,43 @@ public final class VPanel extends CTabbedPane
 			JXCollapsiblePane m_tab = collapsibleSection.getCollapsiblePane();
 			m_tab.setAnimated(false);
 			m_tab.getContentPane().setBackground(AdempierePLAF.getFormBackground());
-			setupCollapsiblePaneLayout(m_tab);
-			CompoundBorder border = (CompoundBorder)m_tab.getBorder();
-			m_tab.setBorder(new CompoundBorder(border.getOutsideBorder(), BorderFactory.createEmptyBorder(0, 0, 2, 0)));
+			
+			String cpConstraints = defaultLayoutConstraints;
+			// 0 inset left and right as this is a nested panel
+			// 0 inset top because of the struts added below
+			cpConstraints += ", ins 0 0 n 0";
+
+			MigLayout layout = new MigLayout(cpConstraints);
+			layout.addLayoutCallback(callback);
+			
 			collapsibleSection.setName(fieldGroup);
-			m_gbc.anchor = GridBagConstraints.NORTHWEST;
-			//m_gbc.gridy = 0;			//	line
-			m_gbc.gridx = 0;
-			m_gbc.gridheight = 1;
-			if (m_oldFieldGroup.length() > 0 && m_oldFieldGroupType.equals(X_AD_FieldGroup.FIELDGROUPTYPE_Collapse))
-				m_gbc.insets = new Insets(0,0,3,0);
-			else
-				m_gbc.insets = new Insets(3,0,3,0);
-			m_gbc.gridy = m_line++;
-			m_gbc.gridwidth = 4;
-			m_gbc.fill = GridBagConstraints.HORIZONTAL;
-			m_gbc.weightx = 1;			  
-			m_main.add(collapsibleSection,m_gbc);
+			m_main.add(collapsibleSection, "newline, spanx, growx"); 
+			m_tab.setLayout(layout);
+			/* for compatibility with old layout, force collapsible field groups
+			 *  to have a minimum of two columns by inserting invisible components
+			 */
+			Component strut1 = Box.createVerticalStrut(1);
+			strut1.setName("vstrut1"+fieldGroup);
+			Component strut2 = Box.createVerticalStrut(1);
+			strut2.setName("vstrut2"+fieldGroup);
+			m_tab.add(new CLabel(""), "gap 0 0 0 0");
+			m_tab.add(strut1, "pushx, growx, gap 0 0 0 0");
+			m_tab.add(new CLabel(""), "");
+			m_tab.add(strut2, "pushx, growx, gap 0 0 0 0, wrap");
 			m_tablist.put(fieldGroup, collapsibleSection);
 		}									
 		else // Label or null
 		{
-			CPanel group = new CPanel();
-			group.setBorder(new VLine(fieldGroup));
-			group.add(Box.createVerticalStrut(VLine.SPACE));
-			m_gbc.gridx = 0;
-			m_gbc.gridy = m_line++;
-			m_gbc.gridwidth = 4;
-			m_main.add(group, m_gbc);
+			CLabel label = new CLabel(fieldGroup, CLabel.LEADING);
+			label.setFont(AdempierePLAF.getFont_Label().deriveFont(Font.BOLDITALIC, AdempierePLAF.getFont_Label().getSize2D()));
+			m_main.add(label, "newline, alignx leading");
+			m_main.add(new JSeparator(), "newline, spanx, growx");
 			//	reset
-			m_gbc.gridwidth = 1;
 		}
 		m_oldFieldGroup = fieldGroup;
 		m_oldFieldGroupType = fieldGroupType;
 		return true;
 	}	//	addGroup
-
-	/**
-	 * Set up the gridbaglayout for additonal field group tab
-	 * @param m_tab
-	 */
-	private void setupMainPanelLayout(CPanel m_tab) {
-		m_tab.setLayout(new GridBagLayout());
-		
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.anchor = GridBagConstraints.NORTHWEST;
-		gbc.gridy = 0;			//	line
-		gbc.gridx = 0;
-		gbc.gridheight = 0;
-		gbc.gridwidth = 1;
-		gbc.insets = m_firstLabelInset;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 0;
-		gbc.weighty = 0;
-		gbc.ipadx = 0;
-		gbc.ipady = 0;
-		CLabel label = new CLabel("");
-		fillers.get(0).add(label);
-		m_tab.add(label, gbc);
-		
-		gbc.weightx = 1;
-		gbc.gridx = 1;
-		gbc.insets = m_fieldInset;
-		label = new CLabel("");
-		fields.get(1).add(label);
-		m_tab.add(label, gbc);
-		
-		gbc.weightx = 0;
-		gbc.gridx = 2;
-		gbc.insets = m_labelInset;
-		label = new CLabel("");
-		fillers.get(2).add(label);
-		m_tab.add(label, gbc);
-		
-		gbc.weightx = 1;
-		gbc.gridx = 3;
-		gbc.insets = m_fieldInset;
-		label = new CLabel("");
-		fields.get(3).add(label);
-		m_tab.add(label, gbc);
-		
-		//right gap
-		gbc.weightx = 1;
-		gbc.gridx = 4;
-		m_tab.add(Box.createHorizontalGlue(), gbc);
-		
-	}
-	
-	/**
-	 * Set up the gridbaglayout for additonal field group tab
-	 * @param m_tab
-	 */
-	private void setupTabPanelLayout(CPanel m_tab) {
-		m_tab.setLayout(new GridBagLayout());
-		
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.anchor = GridBagConstraints.NORTHWEST;
-		gbc.gridy = 0;			//	line
-		gbc.gridx = 0;
-		gbc.gridheight = 0;
-		gbc.gridwidth = 1;
-		gbc.insets = m_firstLabelInset;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 0;
-		gbc.weighty = 0;
-		gbc.ipadx = 0;
-		gbc.ipady = 0;
-		CLabel label = new CLabel("");
-		m_tab.add(label, gbc);
-		
-		gbc.weightx = 1;
-		gbc.gridx = 1;
-		gbc.insets = m_fieldInset;
-		label = new CLabel("");
-		m_tab.add(label, gbc);
-		
-		gbc.weightx = 0;
-		gbc.gridx = 2;
-		gbc.insets = m_labelInset;
-		label = new CLabel("");
-		m_tab.add(label, gbc);
-		
-		gbc.weightx = 1;
-		gbc.gridx = 3;
-		gbc.insets = m_fieldInset;
-		fields.get(3).add(label);
-		m_tab.add(label, gbc);
-		
-		//right gap
-		gbc.weightx = 1;
-		gbc.gridx = 4;
-		m_tab.add(Box.createHorizontalGlue(), gbc);
-		
-	}
-
-	/**
-	 * Set up the grid bag layout of collapsible pane
-	 * @param m_tab
-	 */
-	private void setupCollapsiblePaneLayout(JXCollapsiblePane m_tab) {
-		m_tab.getContentPane().setLayout(new GridBagLayout());
-		
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.anchor = GridBagConstraints.NORTHWEST;
-		gbc.gridy = 0;			//	line
-		gbc.gridx = 0;
-		gbc.gridheight = 0;
-		gbc.gridwidth = 1;
-		gbc.insets = m_firstLabelInset;
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.weightx = 0;
-		gbc.weighty = 0;
-		gbc.ipadx = 0;
-		gbc.ipady = 0;
-		CLabel label = new CLabel("");
-		fillers.get(0).add(label);
-		m_tab.getContentPane().add(label, gbc);
-		
-		gbc.weightx = 1;
-		gbc.gridx = 1;
-		gbc.insets = m_fieldInset;
-		label = new CLabel("");
-		fields.get(1).add(label);
-		m_tab.getContentPane().add(label, gbc);
-		
-		gbc.weightx = 0;
-		gbc.gridx = 2;
-		gbc.insets = m_labelInset;
-		label = new CLabel("");
-		fillers.get(2).add(label);
-		m_tab.getContentPane().add(label, gbc);
-		
-		gbc.weightx = 1;
-		gbc.gridx = 3;
-		gbc.insets = m_fieldInset;
-		label = new CLabel("");
-		fields.get(3).add(label);
-		m_tab.getContentPane().add(label, gbc);
-		
-		//right gap
-		/*
-		gbc.weightx = 1;
-		gbc.gridx = 4;
-		m_tab.getContentPane().add(Box.createHorizontalGlue(), gbc);*/
-		
-		Component c = Box.createVerticalStrut(3);
-		gbc.gridheight = 1;
-		gbc.gridy = GridBagConstraints.RELATIVE;
-		gbc.gridx = 0;
-		gbc.weightx = 0;
-		gbc.insets = m_zeroInset;		
-		m_tab.getContentPane().add(c, gbc);
-		collapsibleEndFiller.put(m_tab, c);
-	}
-
-	/**
-	 *	Add End (9) of Form
-	 */
-	public void addEnd()
-	{
-		m_gbc.gridx = 0;
-		m_gbc.gridy = m_line;
-		m_gbc.gridwidth = 1;
-		m_gbc.insets = m_zeroInset;
-		m_gbc.fill = GridBagConstraints.HORIZONTAL;
-		m_gbc.weightx = 0;
-		//
-        //[ 1757088 ]
-		m_main.add(Box.createVerticalStrut(9), m_gbc);
-	}	//	addEnd
 
 	/**
 	 * 	Set Mnemonic for Label CTRL_SHIFT_x
@@ -822,7 +563,7 @@ public final class VPanel extends CTabbedPane
 			if (mnemonic == 0)
 			{
 				log.finest("None for: " + oText);
-				return 0;	//	 if first char would be returned, the first occurance is invalid.
+				return 0;	//	 if first char would be returned, the first occurrence is invalid.
 			}
 		}
 		m_mnemonics.add(mnemonic);
@@ -840,7 +581,7 @@ public final class VPanel extends CTabbedPane
 	
 	/**
 	 * 	Set Window level Mnemonics
-	 *	@param set true if set otherwise unregiser
+	 *	@param set true if set otherwise unregister
 	 */
 	public void setMnemonics (boolean set)
 	{
@@ -941,124 +682,6 @@ public final class VPanel extends CTabbedPane
 		Component[] result = new Component[list.size ()];
 		list.toArray (result);             
 		return result;
-	}
-
-	@Override
-	public void doLayout() {
-		//align labels
-		int w = 0;
-		Collection<CLabel> clabels = labels.get(0);
-		for (CLabel l : clabels) {
-			if (l.isVisible()) {
-				int lw = l.getPreferredSize().width;
-				if (lw > w) w = lw;
-			}
-		}
-		
-		for (CLabel l : clabels) {
-			if (l.isVisible()) {
-				Dimension d = l.getMinimumSize();
-				if (d.width != w) {
-					d.width = w;
-					l.setMinimumSize(d);
-				}
-				
-			}
-		}
-		
-		clabels = fillers.get(0);
-		for (CLabel l : clabels) {
-			if (l.isVisible()) {
-				Dimension d = l.getMinimumSize();
-				if (d.width != w) {
-					d.width = w;
-					l.setMinimumSize(d);
-				}
-			}
-		}
-		
-		w = 0;
-		clabels = labels.get(2);
-		for (CLabel l : clabels) {
-			if (l.isVisible()) {
-				int lw = l.getPreferredSize().width;
-				if (lw > w) w = lw;
-			}
-		}
-		
-		for (CLabel l : clabels) {
-			if (l.isVisible()) {
-				Dimension d = l.getMinimumSize();
-				if (d.width != w) {
-					d.width = w;
-					l.setMinimumSize(d);
-				}
-			}
-		}
-		
-		clabels = fillers.get(2);
-		for (CLabel l : clabels) {
-			if (l.isVisible()) {
-				Dimension d = l.getMinimumSize();
-				if (d.width != w) {
-					d.width = w;
-					l.setMinimumSize(d);
-				}
-			}
-		}
-		
-		//align fields
-		w = 0;
-		Collection<Component> collection = fields.get(1);
-		for (Component c : collection) {
-			if (c.isVisible()) {
-				int cw = c.getPreferredSize().width;
-				if ( cw > w )
-					w = cw;
-			}
-		}
-		
-		for (Component c : collection) {
-			if (c.isVisible()) {
-				Dimension d = c.getMinimumSize();
-				if ( d.width != w ) {
-					d.width = w;
-					c.setMinimumSize(d);
-				}
-				d = c.getPreferredSize();
-				if (d.width != w) {
-					d.width = w;
-					c.setPreferredSize(d);
-				}
-			}
-		}
-		
-		w = 0;
-		collection = fields.get(3);
-		for (Component c : collection) {
-			if (c.isVisible()) {
-				int cw = c.getPreferredSize().width;
-				if ( cw > w )
-					w = cw;
-			}
-		}
-		
-		for (Component c : collection) {
-			if (c.isVisible()) {
-				Dimension d = c.getMinimumSize();
-				if ( d.width != w ) {
-					d.width = w;
-					c.setMinimumSize(d);
-				}
-				d = c.getPreferredSize();
-				if (d.width != w) {
-					d.width = w;
-					c.setPreferredSize(d);
-				}
-			}
-		}
-		
-		super.doLayout();
 	}
 
 	/**
