@@ -561,6 +561,29 @@ public final class AEnv
     		return false;
     	}
     }
+    
+    /**
+     * @return boolean
+     */
+    public static boolean isBrowserSupported() {
+    	Execution execution = Executions.getCurrent();
+    	if (execution == null)
+    		return false;
+
+    	Object n = execution.getNativeRequest();
+    	boolean supported = false;
+    	if (n instanceof ServletRequest) {
+    		String userAgent = Servlets.getUserAgent((ServletRequest) n);
+    		if (userAgent.indexOf("Firefox") >= 0) {
+    			supported = true;
+    		} else if (userAgent.indexOf("AppleWebKit") >= 0) {
+    			if (userAgent.indexOf("Chrome") >= 0 || userAgent.indexOf("Safari") >= 0) {
+    				supported = true;
+    			} 
+    		} 
+    	} 
+    	return supported;
+    }
 
     /**
      *

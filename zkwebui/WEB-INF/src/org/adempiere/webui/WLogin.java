@@ -14,14 +14,17 @@
 
 package org.adempiere.webui;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.window.LoginWindow;
+import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.metainfo.PageDefinition;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
@@ -75,6 +78,15 @@ public class WLogin extends AbstractUIPart
         LoginWindow loginWindow = new LoginWindow(app);
         loginWindow.setParent(vb);
 
+        if (!AEnv.isBrowserSupported())
+        {
+        	//TODO: localization
+        	String msg = "You might experience slow performance and user interface anomalies using your current browser to access the application. We recommend the use of Firefox, Google Chrome or Apple Safari to access the application.";
+        	String script = "alert('" + msg + "')";
+        	AuScript aus = new AuScript(null, script);
+        	Clients.response(aus);
+        }
+        
         try {
         	String right = ThemeManager.getLoginRightPanel();
 	        PageDefinition pageDefintion = Executions.getCurrent().getPageDefinition(right);
