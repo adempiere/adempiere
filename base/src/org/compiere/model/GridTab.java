@@ -90,6 +90,8 @@ import org.compiere.util.ValueNamePair;
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
+	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
+
 	/**
 	 * 
 	 */
@@ -170,6 +172,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	
 	private boolean m_parentNeedSave = false;
+
+	private long m_lastDataStatusEventTime;
+
+	private DataStatusEvent m_lastDataStatusEvent;
 	
 	// Context property names:
 	public static final String CTX_KeyColumnName = "KeyColumnName";
@@ -891,7 +897,15 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			
 			boolean retValue = (m_mTable.dataSave(manualCmd) == GridTable.SAVE_OK);
 			if (manualCmd)
+			{
 				setCurrentRow(m_currentRow, false);
+				if (m_lastDataStatusEvent != null && m_lastDataStatusEvent.getCurrentRow() == m_currentRow 
+					&& ((m_lastDataStatusEvent.Record_ID != null && m_lastDataStatusEvent.Record_ID instanceof Integer 
+					&& (Integer) m_lastDataStatusEvent.Record_ID == 0) || m_lastDataStatusEvent.Record_ID == null))
+				{
+					updateDataStatusEventProperties(m_lastDataStatusEvent);
+				}
+			}
 			fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_SAVE));
 			
 			if (retValue) {
@@ -2148,6 +2162,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 		else    //  Redistribute Info with current row info
 			fireDataStatusChanged(m_DataStatusEvent);
+		
+		//reset
+		m_lastDataStatusEventTime = System.currentTimeMillis();
+		m_lastDataStatusEvent = m_DataStatusEvent;
+		m_DataStatusEvent = null;		
 	//	log.fine("dataStatusChanged #" + m_vo.TabNo + "- fini", e.toString());
 	}	//	dataStatusChanged
 
@@ -2164,29 +2183,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		//  WHO Info
 		if (e.getCurrentRow() >= 0)
 		{
-			e.Created = (Timestamp)getValue("Created");
-			e.CreatedBy = (Integer)getValue("CreatedBy");
-			e.Updated = (Timestamp)getValue("Updated");
-			e.UpdatedBy = (Integer)getValue("UpdatedBy");
-			e.Record_ID = getValue(m_keyColumnName);
-			//  Info
-			StringBuffer info = new StringBuffer(getTableName());
-			//  We have a key column
-			if (m_keyColumnName != null && m_keyColumnName.length() > 0)
-			{
-				info.append(" - ")
-					.append(m_keyColumnName).append("=").append(e.Record_ID);
-			}
-			else    //  we have multiple parents
-			{
-				for (int i = 0; i < m_parents.size(); i++)
-				{
-					String keyCol = (String)m_parents.get(i);
-					info.append(" - ")
-						.append(keyCol).append("=").append(getValue(keyCol));
-				}
-			}
-			e.Info = info.toString();
+			updateDataStatusEventProperties(e);
 		}
 		e.setInserting(m_mTable.isInserting());
 		//  Distribute/fire it
@@ -2194,6 +2191,32 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
         	listeners[i].dataStatusChanged(e);
 	//	log.fine("fini - " + e.toString());
 	}	//	fireDataStatusChanged
+
+	private void updateDataStatusEventProperties(DataStatusEvent e) {
+		e.Created = (Timestamp)getValue("Created");
+		e.CreatedBy = (Integer)getValue("CreatedBy");
+		e.Updated = (Timestamp)getValue("Updated");
+		e.UpdatedBy = (Integer)getValue("UpdatedBy");
+		e.Record_ID = getValue(m_keyColumnName);
+		//  Info
+		StringBuffer info = new StringBuffer(getTableName());
+		//  We have a key column
+		if (m_keyColumnName != null && m_keyColumnName.length() > 0)
+		{
+			info.append(" - ")
+				.append(m_keyColumnName).append("=").append(e.Record_ID);
+		}
+		else    //  we have multiple parents
+		{
+			for (int i = 0; i < m_parents.size(); i++)
+			{
+				String keyCol = (String)m_parents.get(i);
+				info.append(" - ")
+					.append(keyCol).append("=").append(getValue(keyCol));
+			}
+		}
+		e.Info = info.toString();
+	}
 
 	/**
 	 *  Create and fire Data Status Error Event
@@ -2384,6 +2407,13 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		//  inform VTable/..    -> rowChanged
 		m_propertyChangeSupport.firePropertyChange(PROPERTY, oldCurrentRow, m_currentRow);
 
+		//check last data status event
+		long since = System.currentTimeMillis() - m_lastDataStatusEventTime;
+		if (since <= 500 && m_lastDataStatusEvent != null)
+		{
+			m_DataStatusEvent = m_lastDataStatusEvent;
+		}
+		
 		//  inform APanel/..    -> dataStatus with row updated
 		if (m_DataStatusEvent == null)
 			m_DataStatusEvent = new DataStatusEvent(this, getRowCount(),
@@ -2393,8 +2423,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		m_DataStatusEvent.setCurrentRow(m_currentRow);
 		String status = m_DataStatusEvent.getAD_Message();
 		if (status == null || status.length() == 0)
-			 m_DataStatusEvent.setInfo("NavigateOrUpdate", null, false,false);
+			 m_DataStatusEvent.setInfo(DEFAULT_STATUS_MESSAGE, null, false,false);
 		fireDataStatusChanged(m_DataStatusEvent);
+		
+		//reset
+		m_DataStatusEvent = null;
+		
 		return m_currentRow;
 	}   //  setCurrentRow
 
