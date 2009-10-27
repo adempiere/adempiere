@@ -1979,7 +1979,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		String summary = pi.getSummary();
 		if (summary != null && summary.indexOf('@') != -1)
 			pi.setSummary(Msg.parseTranslation(Env.getCtx(), summary));
-		statusBar.setStatusLine(pi.getSummary(), pi.isError());
+		statusBar.setStatusLine(pi.getSummary(), pi.isError(), true);
 		//	Get Log Info
 		ProcessInfoUtil.setLogFromDB(pi);
 		String logInfo = pi.getLogInfo();
