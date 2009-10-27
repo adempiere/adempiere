@@ -20,16 +20,21 @@ package org.adempiere.webui.panel;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.WRecordInfo;
 import org.compiere.apps.IStatusBar;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.MRole;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zhtml.Text;
+import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Vbox;
@@ -42,15 +47,23 @@ import org.zkoss.zul.Vbox;
  * @date    Mar 12, 2007
  * @version $Revision: 0.10 $
  */
-public class StatusBarPanel extends Panel implements IStatusBar, EventListener
+public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 8401520243224743864L;
+
+	private static final String POPUP_INFO_BACKGROUND_STYLE = "background-color: #262626; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #262626; border-radius: 3px";
+	private static final String POPUP_ERROR_BACKGROUND_STYLE = "background-color: #8B0000; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #8B0000; border-radius: 3px";
+	private static final String POPUP_POSITION_STYLE = "position: absolute; z-index: 99; display: block; visibility: visible;";
+	private static final String POPUP_TEXT_STYLE = "color: white; background-color: transparent; font-size: 14px; font-weight:bold; position: relative; -moz-box-shadow: 0px 0px 0px #000;-webkit-box-shadow: 0px 0px 0px #000;box-shadow: 0px 0px 0px #000; padding: 4px;";
+
+	private static final String SHADOW_STYLE = "-moz-box-shadow: 2px 2px 2px #888; -webkit-box-shadow: 2px 2px 2px #888; box-shadow: 2px 2px 2px #888;";
+
 	private Label statusDB;
-    private Label statusLine;
     private Label infoLine;
+    private Label statusLine;
 
 	private DataStatusEvent m_dse;
 
@@ -60,26 +73,42 @@ public class StatusBarPanel extends Panel implements IStatusBar, EventListener
 
 	private Div west;
 
-    public StatusBarPanel()
+	private Div popup;
+
+	private Div popupContent;
+	private String popupStyle;
+	private boolean embedded;
+
+	public StatusBarPanel()
+	{
+		this(false);
+	}
+
+	/**
+	 * @param embedded
+	 */
+    public StatusBarPanel(boolean embedded)
     {
         super();
+        this.embedded = embedded;
         init();
     }
 
     private void init()
     {
-        statusLine = new Label();
         statusDB = new Label("  ");
-        infoLine = new Label();
+        statusLine = new Label();
 
         Hbox hbox = new Hbox();
         hbox.setWidth("100%");
         hbox.setHeight("100%");
-        hbox.setWidths("50%, 50%");
+        if (embedded)
+        	hbox.setWidths("90%,10%");
+        else
+        	hbox.setWidths("50%,50%");
         west = new Div();
         west.setStyle("text-align: left; ");
         west.appendChild(statusLine);
-        west.setWidth("100%");
         Vbox vbox = new Vbox();
         vbox.setPack("center");
         LayoutUtils.addSclass("status", vbox);
@@ -89,11 +118,17 @@ public class StatusBarPanel extends Panel implements IStatusBar, EventListener
         east = new Div();
         east.setWidth("100%");
         east.setStyle("text-align: right; ");
-        east.appendChild(infoLine);
+        if (!embedded)
+        {
+        	infoLine = new Label();
+        	east.appendChild(infoLine);
+        	infoLine.setVisible(false);
+        }
         east.appendChild(statusDB);
 
         LayoutUtils.addSclass("status-db", statusDB);
-        LayoutUtils.addSclass("status-info", infoLine);
+        if (!embedded)
+        	LayoutUtils.addSclass("status-info", infoLine);
         vbox = new Vbox();
         vbox.setPack("center");
         LayoutUtils.addSclass("status", vbox);
@@ -103,14 +138,22 @@ public class StatusBarPanel extends Panel implements IStatusBar, EventListener
         this.appendChild(hbox);
 
         statusDB.addEventListener(Events.ON_CLICK, this);
-        infoLine.setVisible(false);
+
+        createPopup();
     }
 
+    /**
+     * @param text
+     */
     public void setStatusDB (String text)
     {
         setStatusDB(text, null);
     }
 
+    /**
+     * @param text
+     * @param dse
+     */
     public void setStatusDB (String text, DataStatusEvent dse)
     {
         if (text == null || text.length() == 0)
@@ -128,16 +171,94 @@ public class StatusBarPanel extends Panel implements IStatusBar, EventListener
         m_dse = dse;
     }
 
+    /**
+     * @param text
+     */
     public void setStatusLine (String text)
     {
         setStatusLine(text, false);
     }
 
+    /**
+     * @param text
+     * @param error
+     */
     public void setStatusLine (String text, boolean error)
     {
-        statusLine.setValue(text);
-        statusLine.setTooltiptext(text);
+    	setStatusLine(text, error, error);
     }
+
+    /**
+     * @param text
+     * @param error
+     * @param showPopup ignore for embedded
+     */
+    public void setStatusLine (String text, boolean error, boolean showPopup)
+    {
+    	statusLine.setText(text);
+    	if (error)
+    		statusLine.setStyle("color: red");
+    	else
+    		statusLine.setStyle("color: black");
+    	statusLine.setTooltiptext(text);
+
+    	if (!embedded && showPopup)
+    	{
+	    	Text t = new Text(text);
+	    	popupContent.getChildren().clear();
+	    	popupContent.appendChild(t);
+	    	popupContent.setStyle(POPUP_TEXT_STYLE);
+	    	if (error)
+	    	{
+	    		popupStyle = POPUP_ERROR_BACKGROUND_STYLE;
+	    	}
+	    	else
+	    	{
+	    		popupStyle = POPUP_INFO_BACKGROUND_STYLE;
+	    	}
+
+
+	    	String shadow = SHADOW_STYLE;
+	    	popupStyle = popupStyle + shadow + POPUP_POSITION_STYLE;
+
+	    	showPopup();
+
+	    	//auto hide
+	    	String script = "setTimeout('$e(\"" + popup.getUuid() + "\").style.display = \"none\"',";
+	    	if (error)
+	    		script += "3500";
+	    	else
+	    		script += "1000";
+	    	script += ")";
+	    	AuScript aus = new AuScript(popup, script);
+	    	Clients.response("statusPopupFade", aus);
+    	}
+    }
+
+	private void createPopup() {
+		popupContent = new Div();
+
+		popup = new Div();
+        popup.setHeight("40px");
+        popup.setWidth("600px");
+        popup.appendChild(popupContent);
+        popup.addEventListener(Events.ON_CLICK, this);
+        popup.setPage(SessionManager.getAppDesktop().getComponent().getPage());
+        popup.setStyle("position: absolute; display: none");
+	}
+
+	private void showPopup() {
+		popup.setVisible(true);
+		popup.setStyle(popupStyle);
+
+		String script = "var p = Position.cumulativeOffset($e('" + this.getUuid() + "'));";
+		script += "$e('" + popup.getUuid() + "').style.top=(p[1]-23)+'px';";
+		script += "$e('" + popup.getUuid() + "').style.left=(p[0]+1)+'px';";
+		script += "$e('" + popup.getUuid() + "').style.display = 'block';";
+
+		AuScript aus = new AuScript(popup, script);
+		Clients.response(aus);
+	}
 
     /**
      * Add Component to East of StatusBar
@@ -156,16 +277,20 @@ public class StatusBarPanel extends Panel implements IStatusBar, EventListener
 	 */
 	public void setInfo (String text)
 	{
-		infoLine.setValue(text != null ? text : "");
-		infoLine.setTooltiptext(text);
-		if (text == null || text.trim().length() == 0)
-			infoLine.setVisible(false);
-		else
-			infoLine.setVisible(true);
+		if (!embedded)
+		{
+			infoLine.setValue(text != null ? text : "");
+			infoLine.setTooltiptext(text);
+			if (text == null || text.trim().length() == 0)
+				infoLine.setVisible(false);
+			else
+				infoLine.setVisible(true);
+		}
 	}	//	setInfo
 
 	public void onEvent(Event event) throws Exception {
-		if (Events.ON_CLICK.equals(event.getName()) && event.getTarget() == statusDB) {
+		if (Events.ON_CLICK.equals(event.getName()) && event.getTarget() == statusDB)
+		{
 			if (m_dse == null
 				|| m_dse.CreatedBy == null
 				|| !MRole.getDefault().isShowPreference())
@@ -174,6 +299,18 @@ public class StatusBarPanel extends Panel implements IStatusBar, EventListener
 			String title = Msg.getMsg(Env.getCtx(), "Who") + m_text;
 			new WRecordInfo (title, m_dse);
 		}
-
+		else if (Events.ON_CLICK.equals(event.getName()) && event.getTarget() == popup)
+		{
+			popup.setVisible(false);
+		}
 	}
+
+	@Override
+	public void onPageDetached(Page page) {
+		super.onPageDetached(page);
+		if (popup != null)
+			popup.detach();
+	}
+
+
 }

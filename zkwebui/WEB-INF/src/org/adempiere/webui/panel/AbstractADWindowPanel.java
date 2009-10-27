@@ -217,7 +217,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         toolbar = new CWindowToolbar(isEmbedded());
         toolbar.addListener(this);
 
-        statusBar = new StatusBarPanel();
+        statusBar = new StatusBarPanel(isEmbedded());
     }
 
     /**
@@ -937,9 +937,12 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             if (sb.length() > 0)
             {
                 int pos = sb.indexOf("\n");
-                if (pos != -1)  // replace CR/NL
+                if (pos != -1 && pos+1 < sb.length())  // replace CR/NL
+                {
                     sb.replace(pos, pos+1, " - ");
-                statusBar.setStatusLine (sb.toString (), e.isError ());
+            	}
+                boolean showPopup = e.isError() || (!GridTab.DEFAULT_STATUS_MESSAGE.equals(e.getAD_Message()));
+                statusBar.setStatusLine (sb.toString (), e.isError (), showPopup);
             }
         }
 
@@ -957,7 +960,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         			break;
         		}
         	}
-            FDialog.error(curWindowNo, null, e.getAD_Message(), e.getInfo());
             e.setConfirmed(true);   //  show just once - if MTable.setCurrentRow is involved the status event is re-issued
         }
         //  Confirm Warning
@@ -1270,10 +1272,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	private void showLastError() {
 		String msg = CLogger.retrieveErrorString(null);
 		if (msg != null)
+		{
 			FDialog.error(curWindowNo, parent, null, msg);
-
-		//actual error will prompt in the dataStatusChanged event
-		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true);
+			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true, false);
+		}
+		//other error will be catch in the dataStatusChanged event		
 	}
 
     /**
@@ -1288,10 +1291,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         if (FDialog.ask(curWindowNo, null, "DeleteRecord?"))
         {
-            if (!curTab.dataDelete())
-            {
-                FDialog.error(curWindowNo, "Could not delete record", "Error");
-            }
+        	//error will be catch in the dataStatusChanged event
+            curTab.dataDelete();
         }
         curTabpanel.dynamicDisplay(0);
         focusToActivePanel();
@@ -1982,6 +1983,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		//	Get Log Info
 		ProcessInfoUtil.setLogFromDB(pi);
 		String logInfo = pi.getLogInfo();
+		//TODO: use better dialog for this
 		if (logInfo.length() > 0)
 			FDialog.info(curWindowNo, this.getComponent(), Env.getHeader(ctx, curWindowNo),
 				pi.getTitle() + "<br>" + logInfo);
