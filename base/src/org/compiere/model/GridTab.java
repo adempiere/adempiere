@@ -90,13 +90,13 @@ import org.compiere.util.ValueNamePair;
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
-	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1021401221795805887L;
+	private static final long serialVersionUID = 7198494041906579986L;
 
+	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
+	
 	/**
 	 *	Create Tab (Model) from Value Object.
 	 *  <p>
