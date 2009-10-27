@@ -4,12 +4,11 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperPrint;
 
-import org.adempiere.webui.component.Grid;
-import org.adempiere.webui.component.Row;
-import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
-import org.adempiere.webui.session.SessionManager;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Iframe;
 import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Toolbarbutton;
@@ -29,26 +28,30 @@ public class ZkJRViewer extends Window {
 	}
 	
 	private void init() {
-		Grid grid = new Grid();
-		grid.setWidth("100%");
-		Rows rows = new Rows();
-		Row row = new Row();
+		Borderlayout layout = new Borderlayout();
+		layout.setStyle("position: absolute; height: 99%; width: 99%");
+		this.appendChild(layout);
+		this.setStyle("width: 100%; height: 100%; position: absolute");
+
 		Toolbar toolbar = new Toolbar();
 		toolbar.setHeight("26px");
 		Toolbarbutton button = new Toolbarbutton();
 		button.setImage("/images/Print24.png");
 		button.setTooltiptext("Print");
 		toolbar.appendChild(button);
-		row.appendChild(toolbar);
-		rows.appendChild(row);
-		
-		row = new Row();
+
+		North north = new North();
+		layout.appendChild(north);
+		north.appendChild(toolbar);
+
+		Center center = new Center();
+		center.setFlex(true);
+		layout.appendChild(center);
 		Iframe iframe = new Iframe();
 		iframe.setId("reportFrame");
-		int height = Double.valueOf(SessionManager.getAppDesktop().getClientInfo().desktopHeight * 0.85).intValue();
-		height = height - 30;
-		iframe.setHeight(height + "px");
+		iframe.setHeight("100%");
 		iframe.setWidth("100%");
+
 		byte[] data = null;
 		try {
 			data = JasperExportManager.exportReportToPdf(jasperPrint);
@@ -57,12 +60,8 @@ public class ZkJRViewer extends Window {
 		}
 		AMedia media = new AMedia(getTitle(), "pdf", "application/pdf", data);
 		iframe.setContent(media);
-		row.appendChild(iframe);
-		rows.appendChild(row);
-		
-		grid.appendChild(rows);
-		this.appendChild(grid);
-		
+		center.appendChild(iframe);
+
 		this.setBorder("normal");
 	}		
 }

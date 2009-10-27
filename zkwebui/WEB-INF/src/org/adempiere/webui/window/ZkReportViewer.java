@@ -30,18 +30,14 @@ import org.adempiere.pdf.Document;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.WReport;
 import org.adempiere.webui.component.ConfirmPanel;
-import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
 import org.adempiere.webui.component.Listbox;
-import org.adempiere.webui.component.Row;
-import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.DrillEvent;
 import org.adempiere.webui.event.ZoomEvent;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.report.HTMLExtension;
-import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.GridField;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
@@ -63,6 +59,9 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Filedownload;
 import org.zkoss.zul.Hbox;
@@ -157,7 +156,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		try
 		{
 			m_ctx = m_reportEngine.getCtx();
-			jbInit();
+			init();
 			dynInit();
 			
 			if (!ArchiveEngine.isValid(m_reportEngine.getLayout()))
@@ -170,13 +169,13 @@ public class ZkReportViewer extends Window implements EventListener {
 			this.onClose();
 		}
 	}
-	
-	private void jbInit() {
-		Grid grid = new Grid();
-		grid.setWidth("100%");
-		Rows rows = new Rows();
-		Row row = new Row();
-		
+
+	private void init() {
+		Borderlayout layout = new Borderlayout();
+		layout.setStyle("position: absolute; height: 99%; width: 99%");
+		this.appendChild(layout);
+		this.setStyle("width: 100%; height: 100%; position: absolute");
+
 		toolBar.setHeight("26px");
 		
 		previewType.setMold("select");
@@ -191,6 +190,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		String type = m_reportEngine.getPrintFormat().isForm()
 				? MSysConfig.getValue("ZK_REPORT_FORM_OUTPUT_TYPE")
 				: MSysConfig.getValue("ZK_REPORT_TABLE_OUTPUT_TYPE");
+
 		if ("PDF".equals(type))
 			previewType.setSelectedIndex(0);
 		else if ("HTML".equals(type))
@@ -250,20 +250,22 @@ public class ZkReportViewer extends Window implements EventListener {
 		bRefresh.setTooltiptext("Refresh");
 		toolBar.appendChild(bRefresh);
 		bRefresh.addEventListener(Events.ON_CLICK, this);
-		
-		row.appendChild(toolBar);
-		rows.appendChild(row);
-		
-		row = new Row();
+
+		North north = new North();
+		layout.appendChild(north);
+		north.appendChild(toolBar);
+
+		Center center = new Center();
+		center.setFlex(true);
+		layout.appendChild(center);
 		iframe = new Iframe();
 		iframe.setId("reportFrame");
-		int height = Double.valueOf(SessionManager.getAppDesktop().getClientInfo().desktopHeight * 0.85).intValue();
-		height = height - 30;
-		iframe.setHeight(height + "px");
+		iframe.setHeight("100%");
 		iframe.setWidth("100%");
 		iframe.addEventListener(Events.ON_CLICK, this);
-		iframe.addEventListener(Events.ON_RIGHT_CLICK, this);		
-		
+		iframe.addEventListener(Events.ON_RIGHT_CLICK, this);
+		center.appendChild(iframe);
+
 		try {
 			renderReport();
 		} catch (Exception e) {
@@ -271,13 +273,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		}
 				
 		iframe.setAutohide(true);
-		
-		row.appendChild(iframe);
-		rows.appendChild(row);
-		
-		grid.appendChild(rows);
-		this.appendChild(grid);
-		
+
 		this.setBorder("normal");
 		
 		this.addEventListener("onZoom", new EventListener() {
@@ -607,8 +603,8 @@ public class ZkReportViewer extends Window implements EventListener {
 		{
 			log.log(Level.SEVERE, "", e);
 		}
-		
-		WEMailDialog emd = new WEMailDialog (this,
+
+		new WEMailDialog (this,
 			Msg.getMsg(Env.getCtx(), "SendMail"),
 			from, to, subject, message, attachment);		
 	}	//	cmd_sendMail
@@ -931,5 +927,5 @@ public class ZkReportViewer extends Window implements EventListener {
 		int AD_Window_ID = 240;		//	hardcoded
 		int AD_PrintFormat_ID = m_reportEngine.getPrintFormat().get_ID();
 		AEnv.zoom(AD_Window_ID, MQuery.getEqualQuery("AD_PrintFormat_ID", AD_PrintFormat_ID));
-	}	//	cmd_customize	
+	}	//	cmd_customize
 }

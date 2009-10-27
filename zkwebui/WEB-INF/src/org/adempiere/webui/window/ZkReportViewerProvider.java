@@ -30,7 +30,6 @@ public class ZkReportViewerProvider implements ReportViewerProvider {
 
 	public void openViewer(ReportEngine report) {
 		Window viewer = new ZkReportViewer(report, report.getName());
-		viewer.setWidth("95%");
 		
 		viewer.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 		viewer.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
