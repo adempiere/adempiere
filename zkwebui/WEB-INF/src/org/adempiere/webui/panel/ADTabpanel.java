@@ -162,7 +162,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 
         grid = new Grid();
         //have problem moving the following out as css class
-        grid.setWidth("99%");
+        grid.setWidth("100%");
         grid.setHeight("100%");
         grid.setVflex(true);
         grid.setStyle("margin:0; padding:0; position: absolute");
