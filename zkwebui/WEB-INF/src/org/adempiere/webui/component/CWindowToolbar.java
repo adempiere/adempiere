@@ -57,7 +57,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
 	private static final String TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 26px; height: 24px;";
 
-	private static final String EMBEDDED_TOOLBAR_BUTTON_STYLE = "background: transparent none; display:inline-block; margin-left: 1px; margin-right: 1px; width: 20px; height: 18px;";
+	private static final String EMBEDDED_TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 20px; height: 18px;";
 	
     private static CLogger log = CLogger.getCLogger(CWindowToolbar.class);
 
@@ -134,11 +134,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnFind = createButton("Find", "Find", "Find");
         btnAttachment = createButton("Attachment", "Attachment", "Attachment");
         btnGridToggle = createButton("Toggle", "Multi", "Multi");
-        addSeparator();
         btnHistoryRecords = createButton("HistoryRecords", "HistoryX", "History");
+        addSeparator();
         btnParentRecord = createButton("ParentRecord", "Parent", "Parent");
         btnDetailRecord = createButton("DetailRecord", "Detail", "Detail");
-        addSeparator();
         btnFirst = createButton("First", "First", "First");
         btnPrevious = createButton("Previous", "Previous", "Previous");
         btnNext = createButton("Next", "Next", "Next");
@@ -178,7 +177,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     		btnProductInfo.setVisible(false);
     		setAlign("end");
     		setWidth("100%");
-    		setStyle("background: transparent none");
+    		setStyle("background: transparent none; ");
         }
         else
         {
@@ -207,6 +206,9 @@ public class CWindowToolbar extends FToolbar implements EventListener
         this.appendChild(btn);
         //make toolbar button last to receive focus
         btn.setTabindex(0);
+        btn.addEventListener(Events.ON_CLICK, this);
+        btn.setDisabled(true);
+
         return btn;
     }
 
