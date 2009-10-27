@@ -75,7 +75,7 @@ public class UserPanel extends Vbox  implements EventListener
 
     	lblUserNameValue.setValue(getUserName() + "@" + getClientName() + "." + getOrgName());
     	lblUserNameValue.setStyle("text-align:right");
-    	LayoutUtils.addSclass("headerFont", lblUserNameValue);
+    	LayoutUtils.addSclass("desktop-header-font", lblUserNameValue);
     	this.appendChild(lblUserNameValue);
 
     	Hbox hbox = new Hbox();
@@ -83,7 +83,7 @@ public class UserPanel extends Vbox  implements EventListener
     	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));
     	preference.addEventListener(Events.ON_CLICK, this);
     	preference.setStyle("text-align:right");
-    	LayoutUtils.addSclass("headerFont", preference);
+    	LayoutUtils.addSclass("desktop-header-font", preference);
     	preference.setParent(hbox);
 
     	Separator sep = new Separator("vertical");
@@ -93,7 +93,7 @@ public class UserPanel extends Vbox  implements EventListener
     	role.setLabel(this.getRoleName());
     	role.addEventListener(Events.ON_CLICK, this);
     	role.setStyle("text-align:right");
-    	LayoutUtils.addSclass("headerFont", role);
+    	LayoutUtils.addSclass("desktop-header-font", role);
     	role.setParent(hbox);
 
     	sep = new Separator("vertical");
@@ -103,7 +103,7 @@ public class UserPanel extends Vbox  implements EventListener
     	logout.setLabel(Msg.getMsg(Env.getCtx(),"Logout"));
     	logout.addEventListener(Events.ON_CLICK, this);
     	logout.setStyle("text-align:right");
-    	LayoutUtils.addSclass("headerFont", logout);
+    	LayoutUtils.addSclass("desktop-header-font", logout);
     	logout.setParent(hbox);
 
     	this.appendChild(hbox);

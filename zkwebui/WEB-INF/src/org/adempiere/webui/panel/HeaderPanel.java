@@ -53,7 +53,7 @@ public class HeaderPanel extends Panel implements EventListener
 
     private void init()
     {
-    	LayoutUtils.addSclass("header", this);
+    	LayoutUtils.addSclass("desktop-header", this);
 
     	UserPanel userPanel = new UserPanel();
 
@@ -62,7 +62,7 @@ public class HeaderPanel extends Panel implements EventListener
     	image.setStyle("cursor: pointer;");
 
     	Borderlayout layout = new Borderlayout();
-    	LayoutUtils.addSclass("header", layout);
+    	LayoutUtils.addSclass("desktop-header", layout);
     	layout.setParent(this);
     	West west = new West();
     	west.setParent(layout);
@@ -75,7 +75,7 @@ public class HeaderPanel extends Panel implements EventListener
 
     	image.setParent(vb);
 
-    	LayoutUtils.addSclass("header-left", west);
+    	LayoutUtils.addSclass("desktop-header-left", west);
     	//the following doesn't work when declare as part of the header-left style
     	west.setStyle("background-color: transparent; border: none;");
 
@@ -87,7 +87,7 @@ public class HeaderPanel extends Panel implements EventListener
     	userPanel.setHeight("100%");
     	userPanel.setStyle("position: absolute");
     	center.setFlex(true);
-    	LayoutUtils.addSclass("header-right", center);
+    	LayoutUtils.addSclass("desktop-header-right", center);
     	//the following doesn't work when declare as part of the header-right style
     	center.setStyle("background-color: transparent; border: none;");
     }

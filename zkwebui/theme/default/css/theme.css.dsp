@@ -6,6 +6,7 @@ html,body {
 	padding: 0;
 	height: 100%;
 	background-color: #D4E3F4;
+	overflow: hidden;
 }
 
 <%-- login --%>
@@ -85,13 +86,13 @@ html,body {
 }
 
 <%-- header --%>
-.header-left {
+.desktop-header-left {
 	margin: 0;
 	margin-left: 5px;
 	margin-top: 3px;
 }
 
-.header-right {
+.desktop-header-right {
 	margin: 0;
 	margin-top: 3px;
 	padding-right: 5px;
@@ -103,23 +104,48 @@ html,body {
 	-moz-opacity: 0.2;
 }
 
+.toolbar {
+	padding: 0px;
+}
+
+.toolbar-button img {
+	width: 22px;
+	height: 22px;
+	padding: 0px 1px 0px 1px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: transparent;
+}
+
+.embedded-toolbar-button img {
+	width: 16px;
+	height: 16px;
+	padding: 0px 1px 0px 1px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: transparent;
+}
+
 .depressed img {
 	border-style: inset;
 	border-width: 1px;
 	border-color: #9CBDFF;
 	background-color: #C4DCFB;
 	-moz-border-radius: 5px;
-	padding: 1px 4px 1px 4px;
+	-webkit-border-radius: 5px;
+	padding: 0px 1px 0px 1px;
 }
 
-.header {
+.desktop-header {
 	background-image: url(../images/header-bg.png);
 	background-repeat: repeat-x;
+	background-position: bottom left;
+	background-color: white;
 	width: 100%;
 	height: 35px;
 }
 
-.headerFont {
+.desktop-header-font {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
 }
@@ -372,4 +398,44 @@ input:focus, textarea:focus, .z-combobox-inp:focus, z-datebox-inp:focus {
 
 .mandatory-decorator-text {
 	text-decoration: none; font-size: xx-small; vertical-align: top; color:red;
+}
+<%-- menu tree cell --%>
+div.z-tree-body td.menu-tree-cell {
+	cursor: pointer;
+	padding: 0 2px;
+   	font-size: ${fontSizeM};
+   	font-weight: normal;
+   	overflow: visible;
+}
+
+div.menu-tree-cell-cnt {
+	border: 0; margin: 0; padding: 0;
+	font-family: ${fontFamilyC};
+	font-size: ${fontSizeM}; font-weight: normal;
+    white-space:nowrap
+}
+
+td.menu-tree-cell-disd * {
+	color: #C5CACB !important; cursor: default!important;
+}
+
+td.menu-tree-cell-disd a:visited, td.menu-tree-cell-disd a:hover {
+	text-decoration: none !important;
+	cursor: default !important;;
+	border-color: #D0DEF0 !important;
+}
+
+div.z-dottree-body td.menu-tree-cell {
+	cursor: pointer; padding: 0 2px;
+	font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
+}
+
+div.z-filetree-body td.menu-tree-cell {
+	cursor: pointer; padding: 0 2px;
+	font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
+}
+
+div.z-vfiletree-body td.menu-tree-cell {
+	cursor: pointer; padding: 0 2px;
+	font-size: ${fontSizeM}; font-weight: normal; overflow: visible;
 }

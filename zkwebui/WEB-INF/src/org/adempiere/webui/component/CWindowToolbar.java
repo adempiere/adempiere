@@ -37,7 +37,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.event.KeyEvent;
-import org.zkoss.zul.Label;
+import org.zkoss.zul.Space;
 
 /**
  *
@@ -55,8 +55,10 @@ public class CWindowToolbar extends FToolbar implements EventListener
 	 */
 	private static final long serialVersionUID = -8259762910508209764L;
 
-	private static final String BUTTON_WIDTH = "32px";
+	private static final String TOOLBAR_BUTTON_STYLE = "background-color: transparent; display:inline-block; margin-left: 1px; margin-right: 1px; width: 26px; height: 24px;";
 
+	private static final String EMBEDDED_TOOLBAR_BUTTON_STYLE = "background: transparent none; display:inline-block; margin-left: 1px; margin-right: 1px; width: 20px; height: 18px;";
+	
     private static CLogger log = CLogger.getCLogger(CWindowToolbar.class);
 
     private ToolBarButton btnIgnore;
@@ -154,16 +156,6 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btnProductInfo = createButton("ProductInfo", "Product", "InfoProduct");
         btnProductInfo.setVisible(isAllowProductInfo);
 
-        for (Object obj : this.getChildren())
-        {
-            if (obj instanceof ToolBarButton)
-            {
-                ((ToolBarButton)obj).setWidth(BUTTON_WIDTH);
-                ((ToolBarButton)obj).addEventListener(Events.ON_CLICK, this);
-                ((ToolBarButton)obj).setDisabled(true);
-            }
-        }
-
         // Help and Exit should always be enabled
         btnHelp.setDisabled(false);
         btnGridToggle.setDisabled(false);
@@ -202,7 +194,15 @@ public class CWindowToolbar extends FToolbar implements EventListener
         btn.setImage("/images/"+image + (embedded ? "16.png" : "24.png"));
         btn.setTooltiptext(Msg.getMsg(Env.getCtx(),tooltip));
         if (embedded)
-        	btn.setStyle("background: transparent none");
+        {
+        	btn.setStyle(EMBEDDED_TOOLBAR_BUTTON_STYLE);
+        	btn.setSclass("embedded-toolbar-button");
+        }
+        else
+        {
+        	btn.setStyle(TOOLBAR_BUTTON_STYLE);
+        	btn.setSclass("toolbar-button");
+        }
         buttons.put(name, btn);
         this.appendChild(btn);
         //make toolbar button last to receive focus
@@ -276,11 +276,13 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
 	protected void addSeparator()
     {
-        Label lblSeparator = new Label();
-        lblSeparator.setWidth("3px");
-        lblSeparator.setHeight("16px");
-        lblSeparator.setValue(" ");
-        this.appendChild(lblSeparator);
+		Space s = new Space();
+		if (embedded)
+			s.setSpacing("3px");
+		else
+			s.setSpacing("6px");
+		s.setOrient("vertical");
+		this.appendChild(s);
     }
 
     public void addListener(ToolbarListener toolbarListener)
