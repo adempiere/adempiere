@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
@@ -43,9 +44,11 @@ import org.compiere.util.Msg;
  *  @version 	$Id: MAllocationHdr.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  *  			<li>FR [ 1866214 ]  
- *				@see http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
+ *				<li> http://sourceforge.net/tracker/index.php?func=detail&aid=1866214&group_id=176962&atid=879335
  * 				<li>FR [ 2520591 ] Support multiples calendar for Org 
- *				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
+ *				<li> http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962 
+ *				<li>BF [ 2880182 ] Error you can allocate a payment to invoice that was paid
+ *				<li> https://sourceforge.net/tracker/index.php?func=detail&aid=2880182&group_id=176962&atid=879332
 */
 public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 {
@@ -402,6 +405,21 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
+		
+		// Stop the Document Workflow if invoice to allocate is as paid
+		for (MAllocationLine line :m_lines)
+		{	
+			if (line.getC_Invoice_ID() != 0)
+			{
+				boolean InvoiceIsPaid = new Query(getCtx(), I_C_Invoice.Table_Name, I_C_Invoice.COLUMNNAME_C_Invoice_ID + "=? AND " + I_C_Invoice.COLUMNNAME_IsPaid + "=?", get_TrxName())
+				.setClient_ID()
+				.setParameters(new Object[]{line.getC_Invoice_ID(), "Y"})
+				.match();
+				if(InvoiceIsPaid)
+					throw new  AdempiereException("@ValidationError@ @C_Invoice_ID@ @IsPaid@");
+			}
+		}	
+		
 		//	Add up Amounts & validate
 		BigDecimal approval = Env.ZERO;
 		for (int i = 0; i < m_lines.length; i++)
