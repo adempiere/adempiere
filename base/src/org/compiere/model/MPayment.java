@@ -1639,7 +1639,18 @@ public final class MPayment extends X_C_Payment
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
-
+		
+		// Stop workflow if invoice are paid
+		if (getC_Invoice_ID() != 0)
+		{
+			boolean InvoiceIsPaid = new Query(getCtx(), I_C_Invoice.Table_Name, I_C_Invoice.COLUMNNAME_C_Invoice_ID + "=? AND " + I_C_Invoice.COLUMNNAME_IsPaid + "=?", get_TrxName())
+			.setClient_ID()
+			.setParameters(new Object[]{getC_Invoice_ID(), "Y"})
+			.match();
+			if(InvoiceIsPaid)
+				throw new  AdempiereException("@ValidationError@ @C_Invoice_ID@ @IsPaid@");
+		}	
+		
 		//	Unsuccessful Online Payment
 		if (isOnline() && !isApproved())
 		{
@@ -2010,13 +2021,6 @@ public final class MPayment extends X_C_Payment
 		//	Create invoice Allocation -	See also MCash.completeIt
 		if (getC_Invoice_ID() != 0)
 		{	
-			boolean InvoiceIsPaid = new Query(getCtx(), I_C_Invoice.Table_Name, I_C_Invoice.COLUMNNAME_C_Invoice_ID + "=? AND " + I_C_Invoice.COLUMNNAME_IsPaid + "=?", get_TrxName())
-			.setClient_ID()
-			.setParameters(new Object[]{getC_Invoice_ID(), "Y"})
-			.match();
-			if(InvoiceIsPaid)
-				throw new  AdempiereException("@ValidationError@ @C_Invoice_ID@ @IsPaid@");
-			else	
 				return allocateInvoice();
 		}	
 		//	Invoices of a AP Payment Selection
