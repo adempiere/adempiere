@@ -1,9 +1,9 @@
 --
 -- If you already run script 592, this script will fix issues introduced, else this script does not have any effect
-delete from AD_process_para_trl t
+delete from AD_process_para_trl
 where exists (
 	select 1 from AD_Process_para pp
-	where pp.AD_process_ID=53062 and pp.ColumnName='ProductType' and pp.AD_Process_para_ID=t.AD_Process_para_ID
+	where pp.AD_process_ID=53062 and pp.ColumnName='ProductType' and pp.AD_Process_para_ID=AD_process_para_trl.AD_Process_para_ID
 	and pp.AD_Process_para_ID=1000005
 )
 ;
