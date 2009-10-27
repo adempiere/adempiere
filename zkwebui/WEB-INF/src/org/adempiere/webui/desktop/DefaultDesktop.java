@@ -26,6 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.apps.graph.WGraph;
 import org.adempiere.webui.apps.graph.WPerformanceDetail;
 import org.adempiere.webui.component.Tabpanel;
@@ -34,10 +35,12 @@ import org.adempiere.webui.dashboard.DPActivities;
 import org.adempiere.webui.dashboard.DashboardPanel;
 import org.adempiere.webui.dashboard.DashboardRunnable;
 import org.adempiere.webui.event.MenuListener;
+import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
 import org.adempiere.webui.util.IServerPushCallback;
 import org.adempiere.webui.util.ServerPushTemplate;
+import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MGoal;
 import org.compiere.model.MMenu;
 import org.compiere.model.X_AD_Menu;
@@ -46,12 +49,14 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -401,5 +406,50 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 				Msg.translate(Env.getCtx(), "AD_Note_ID") + " : " + noOfNotice
 				+ ", " + Msg.translate(Env.getCtx(), "R_Request_ID") + " : " + noOfRequest
 				+ ", " + Msg.getMsg (Env.getCtx(), "WorkflowActivities") + " : " + noOfWorkflow);
+	}
+	
+	private void autoHideMenu() {
+		if (layout.getWest().isCollapsible() && !layout.getWest().isOpen())
+		{
+			//using undocumented js api, need to be retested after every version upgrade
+			String id = layout.getWest().getUuid() + "!real";
+			String btn = layout.getWest().getUuid() + "!btn";
+			String script = "zk.show('" + id + "', false);";
+			script += "$e('"+id+"')._isSlide = false;";
+			script += "$e('"+id+"')._lastSize = null;";
+			script += "$e('"+btn+"').style.display = '';";
+			AuScript aus = new AuScript(layout.getWest(), script);
+			Clients.response("autoHideWest", aus);
+		}
+	}
+
+	@Override
+	public ADWindow openWindow(int windowId) {
+		autoHideMenu();
+		return super.openWindow(windowId);
+	}
+
+	@Override
+	public ADForm openForm(int formId) {
+		autoHideMenu();
+		return super.openForm(formId);
+	}
+
+	@Override
+	public ProcessDialog openProcessDialog(int processId, boolean soTrx) {
+		autoHideMenu();
+		return super.openProcessDialog(processId, soTrx);
+	}
+
+	@Override
+	public void openTask(int taskId) {
+		autoHideMenu();
+		super.openTask(taskId);
+	}
+
+	@Override
+	public void openWorkflow(int workflowID) {
+		autoHideMenu();
+		super.openWorkflow(workflowID);
 	}
 }
