@@ -35,6 +35,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -251,6 +252,21 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 	{
 		return true;
 	}
+	
+	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		if (isProcessed())
+			return false;
+		
+		for (MWMInOutBoundLine line : getLines(true, null)) {
+			line.deleteEx(true);
+		}
+		return true;
+	}	//	beforeDelete
 
 	/**	Process Message 			*/
 	private String m_processMsg = null;
