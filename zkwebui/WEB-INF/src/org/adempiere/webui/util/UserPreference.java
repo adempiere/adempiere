@@ -30,8 +30,8 @@ import org.compiere.util.Language;
  *			<li>FR [ 2694043 ] Query. first/firstOnly usage best practice
  */
 public final class UserPreference implements Serializable {
-
-	private static final long serialVersionUID = 4965009332046125297L;
+	
+	private static final long serialVersionUID = -5334572174003341079L;
 	/** Language			*/
 	public static final String 	P_LANGUAGE = 		"Language";
 	private static final String DEFAULT_LANGUAGE = 	Language.getName
@@ -67,6 +67,10 @@ public final class UserPreference implements Serializable {
 	/** Auto New **/
 	public static final String P_AUTO_NEW = "AutoNew";
 	public static final String DEFAULT_AUTO_NEW = "Y";
+	
+	/** Menu Collapsed **/
+	public static final String P_MENU_COLLAPSED = "MenuCollapsed";
+	public static final String DEFAULT_MENU_COLLAPSED = "N";
 
 	/** Ini Properties */
 	private static final String[] PROPERTIES = new String[] {
@@ -78,7 +82,8 @@ public final class UserPreference implements Serializable {
 		P_AUTO_COMMIT,
 		P_AUTO_NEW,
 		P_WINDOW_TAB_PLACEMENT,
-		P_WINDOW_TAB_COLLAPSIBLE};
+		P_WINDOW_TAB_COLLAPSIBLE,
+		P_MENU_COLLAPSED};
 	/** Ini Property Values */
 	private static final String[] VALUES = new String[] {
 		DEFAULT_LANGUAGE,
@@ -89,7 +94,8 @@ public final class UserPreference implements Serializable {
 		DEFAULT_AUTO_COMMIT,
 		DEFAULT_AUTO_NEW,
 		DEFAULT_WINDOW_TAB_PLACEMENT,
-		DEFAULT_WINDOW_TAB_COLLAPSIBLE};
+		DEFAULT_WINDOW_TAB_COLLAPSIBLE,
+		DEFAULT_MENU_COLLAPSED};
 
 	/** Container for Properties */
 	private Properties props = new Properties();
