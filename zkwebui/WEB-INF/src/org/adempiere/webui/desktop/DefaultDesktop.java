@@ -38,8 +38,10 @@ import org.adempiere.webui.event.MenuListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
+import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.IServerPushCallback;
 import org.adempiere.webui.util.ServerPushTemplate;
+import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MGoal;
 import org.compiere.model.MMenu;
@@ -56,6 +58,7 @@ import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.OpenEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
@@ -134,6 +137,18 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         w.setSplittable(true);
         w.setTitle("Menu");
         w.setFlex(true);
+        w.addEventListener(Events.ON_OPEN, new EventListener() {			
+			@Override
+			public void onEvent(Event event) throws Exception {
+				OpenEvent oe = (OpenEvent) event;
+				UserPreference pref = SessionManager.getSessionApplication().getUserPreference();
+				pref.setProperty(UserPreference.P_MENU_COLLAPSED, !oe.isOpen());
+				pref.savePreference();
+			}
+		});
+        UserPreference pref = SessionManager.getSessionApplication().getUserPreference();
+        boolean menuCollapsed= pref.isPropertyBool(UserPreference.P_MENU_COLLAPSED);
+        w.setOpen(!menuCollapsed);
         pnlSide.setParent(w);
 
         windowArea = new Center();
