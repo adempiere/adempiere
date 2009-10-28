@@ -119,4 +119,10 @@ public interface IADTab extends UIPart {
 	 * @param tabPlacement
 	 */
 	public void setTabplacement(int tabPlacement);
+
+	/**
+	 * @param gTab
+	 * @return IADTabpanel or null if not found
+	 */
+	public IADTabpanel findADTabpanel(GridTab gTab);
 }

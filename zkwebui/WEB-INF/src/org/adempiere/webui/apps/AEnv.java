@@ -451,7 +451,20 @@ public final class AEnv
             String column = lookup.getColumnName();
             //strip off table name, fully qualify name doesn't work when zoom into detail tab
             if (column.indexOf(".") > 0)
+            {
+            	int p = column.indexOf(".");
+            	String tableName = column.substring(0, p);
             	column = column.substring(column.indexOf(".")+1);
+            	zoomQuery.setZoomTableName(tableName);
+            	zoomQuery.setZoomColumnName(column);            	
+            }
+            else
+            {
+            	zoomQuery.setZoomColumnName(column);
+            	//remove _ID to get table name
+            	zoomQuery.setZoomTableName(column.substring(0, column.length() - 3));
+            }
+            zoomQuery.setZoomValue(value);
             zoomQuery.addRestriction(column, MQuery.EQUAL, value);
             zoomQuery.setRecordCount(1);    //  guess
         }

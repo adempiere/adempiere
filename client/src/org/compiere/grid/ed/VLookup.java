@@ -30,7 +30,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -96,6 +95,10 @@ import org.eevolution.model.I_PP_Product_BOMLine;
  *				<li>BF [ 1979213 ] VLookup.getDirectAccessSQL issue
  *				<li>BF [ 2552901 ] VLookup: TAB is not working OK
  *  @author		Michael Judd (MultiSelect)
+ *  
+ *  @author hengsin, hengsin.low@idalica.com
+ *  @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
+ *  @sponsor www.metas.de
  */
 public class VLookup extends JComponent
 	implements VEditor, ActionListener, FocusListener
@@ -1334,6 +1337,7 @@ public class VLookup extends JComponent
 		if (zoomQuery == null || value != null)
 		{
 			zoomQuery = new MQuery();	//	ColumnName might be changed in MTab.validateQuery
+			String keyTableName = null;
 			String keyColumnName = null;
 			//	Check if it is a Table Reference
 			if (m_lookup != null && m_lookup instanceof MLookup)
@@ -1341,10 +1345,11 @@ public class VLookup extends JComponent
 				int AD_Reference_ID = ((MLookup)m_lookup).getAD_Reference_Value_ID();
 				if (AD_Reference_ID != 0)
 				{
-					String query = "SELECT kc.ColumnName"
+					String query = "SELECT kc.ColumnName, kt.TableName"
 						+ " FROM AD_Ref_Table rt"
 						+ " INNER JOIN AD_Column kc ON (rt.AD_Key=kc.AD_Column_ID)"
-						+ "WHERE rt.AD_Reference_ID=?";
+						+ " INNER JOIN AD_Table kt ON (rt.AD_Table_ID=kt.AD_Table_ID)"
+						+ " WHERE rt.AD_Reference_ID=?";
 
 					PreparedStatement pstmt = null;
 					ResultSet rs = null;
@@ -1356,6 +1361,7 @@ public class VLookup extends JComponent
 						if (rs.next())
 						{
 							keyColumnName = rs.getString(1);
+							keyTableName = rs.getString(2);
 						}
 					}
 					catch (Exception e)
@@ -1371,9 +1377,27 @@ public class VLookup extends JComponent
 			}	//	MLookup
 
 			if(keyColumnName != null && keyColumnName.length() !=0)
+			{
 				zoomQuery.addRestriction(keyColumnName, MQuery.EQUAL, value);
+				zoomQuery.setZoomColumnName(keyColumnName);
+				zoomQuery.setZoomTableName(keyTableName);
+			}
 			else
+			{
 				zoomQuery.addRestriction(m_columnName, MQuery.EQUAL, value);
+				if (m_columnName.indexOf(".") > 0)
+				{
+					zoomQuery.setZoomColumnName(m_columnName.substring(m_columnName.indexOf(".")+1));
+					zoomQuery.setZoomTableName(m_columnName.substring(0, m_columnName.indexOf(".")));
+				}
+				else
+				{
+					zoomQuery.setZoomColumnName(m_columnName);
+					//remove _ID to get table name
+					zoomQuery.setZoomTableName(m_columnName.substring(0, m_columnName.length() - 3));
+				}
+			}
+			zoomQuery.setZoomValue(value);
 
 			zoomQuery.setRecordCount(1);	//	guess
 		}

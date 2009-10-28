@@ -147,4 +147,14 @@ public class CompositeADTab extends AbstractADTab
 	public void setTabplacement(int tabPlacement) {
 		tabList.setTabplacement(tabPlacement);
 	}
+
+	@Override
+	public IADTabpanel findADTabpanel(GridTab gTab) {
+		for (IADTabpanel tabpanel : tabPanelList) {
+			if (tabpanel.getGridTab() == gTab) {
+				return tabpanel;
+			}
+		}
+		return null;
+	}
 }

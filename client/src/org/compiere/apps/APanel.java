@@ -73,6 +73,7 @@ import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.GridWorkbench;
@@ -130,6 +131,9 @@ import org.compiere.util.Util;
  *  @author Cristina Ghita, www.arhipac.ro
  *  @see FR [ 2877111 ] See identifiers columns when delete records https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962
  * 
+ * 	@author hengsin, hengsin.low@idalica.com
+ *  @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
+ *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
@@ -137,7 +141,7 @@ public final class APanel extends CPanel
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2886624470773649284L;
+	private static final long serialVersionUID = 6066778919781303581L;
 
 	private boolean isNested = false;
 	
@@ -612,6 +616,8 @@ public final class APanel extends CPanel
 	/**	Last Modifier of Action Event					*/
 	private int 			m_lastModifiers;
 
+	private HashMap<Integer, GridController> includedMap;
+
 	
 	/**************************************************************************
 	 *	Dynamic Panel Initialization - either single window or workbench.
@@ -694,7 +700,7 @@ public final class APanel extends CPanel
 			 */
 			if (wbType == GridWorkbench.TYPE_WINDOW)
 			{
-				HashMap<Integer,GridController> includedMap = new HashMap<Integer,GridController>(4);
+				includedMap = new HashMap<Integer,GridController>(4);
 				//
 				GridWindowVO wVO = AEnv.getMWindowVO(m_curWindowNo, m_mWorkbench.getWindowID(wb), 0);
 				if (wVO == null)
@@ -869,11 +875,88 @@ public final class APanel extends CPanel
 			setPreferredSize(windowSize);
 		else
 			revalidate();
+		
+		if (zoomToDetailTab(query)) {
+			return true;			
+		}
+		
 		Dimension size = getPreferredSize();
 		log.info( "fini - " + size);
 		m_curWinTab.requestFocusInWindow();
 		return true;
 	}	//	initPanel
+
+	private boolean zoomToDetailTab(MQuery query) {
+		if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null)
+    	{
+    		GridTab gTab = m_mWorkbench.getMWindow(0).getTab(0);
+    		if (!query.getZoomTableName().equalsIgnoreCase(gTab.getTableName()))
+    		{
+    			int tabSize = m_mWorkbench.getMWindow(0).getTabCount();
+
+    	        for (int tab = 0; tab < tabSize; tab++)
+    	        {
+    	        	gTab = m_mWorkbench.getMWindow(0).getTab(tab);
+    	        	if (gTab.isSortTab())
+    	        		continue;
+    	        	
+    	        	if (gTab.getTabLevel() == 1 && gTab.getTableName().equalsIgnoreCase(query.getZoomTableName()))
+    	        	{
+    	        		GridField[] fields = gTab.getFields();
+    	        		for (GridField field : fields)
+    	        		{
+    	        			if (field.getColumnName().equalsIgnoreCase(query.getZoomColumnName()))
+    	        			{
+    	        				if (query.getZoomValue() != null && query.getZoomValue() instanceof Integer)
+    	        				{    	        					
+    	        					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+    	        					{
+    	        						m_mWorkbench.getMWindow(0).initTab(tab);
+    	        						int index = tabPanel.findTabindex(gTab);
+    	        						if (index >= 0)
+    	        						{
+    	        							GridController gc = (GridController) tabPanel.getComponentAt(index);
+    	        							gc.activate();
+    	        							gc.query(false, 0, 0);
+    	        						}
+    	        					}	
+        	        				GridTable table = gTab.getTableModel();
+        	        				int count = table.getRowCount();
+        	        				for(int i = 0; i < count; i++)
+        	        				{
+        	        					int id = table.getKeyID(i);
+        	        					if (id == ((Integer)query.getZoomValue()).intValue())
+        	        					{
+        	        						if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+        	        						{
+        	        							int index = tabPanel.findTabindex(gTab);
+            	        						if (index >= 0)
+            	        							tabPanel.setSelectedIndex(index);
+        	        						}
+        	        						gTab.setCurrentRow(i);
+        	        						return true;
+        	        					}
+        	        				}
+    	        				}
+    	        				else
+    	        				{
+    	        					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+    	        					{
+    	        						int index = tabPanel.findTabindex(gTab);
+    	        						if (index >= 0)
+    	        							tabPanel.setSelectedIndex(index);
+    	        					}
+	        						return true;
+    	        				}
+    	        				break;
+    	        			}
+    	        		}
+    	        	}
+    	        }
+    		}
+    	}
+        return false;
+	}
 
 	/**
 	 * 	Get Current Window No

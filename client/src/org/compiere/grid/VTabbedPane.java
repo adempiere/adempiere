@@ -137,6 +137,23 @@ public class VTabbedPane extends CTabbedPane
 		}
 		
 	}
+
+	/**
+	 * @param gridTab
+	 * @return tab index or -1 if not found
+	 */
+	public int findTabindex(GridTab gridTab) 
+	{
+		for (int i = 0; i < gTabs.size(); i++) 
+		{
+			if (gTabs.get(i) == gridTab)
+			{
+				return indexOfTab(tabNames.get(i));
+			}
+		}
+		return -1;
+	}
+	
 	/**
 	 *  Set Workbench - or Window
 	 *  @param isWorkbench

@@ -54,6 +54,7 @@ import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
+import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.MLookupFactory;
@@ -94,8 +95,13 @@ import org.zkoss.zul.Menupopup;
  * @author <a href="mailto:hengsin@gmail.com">Low Heng Sin</a>
  * @date Feb 25, 2007
  * @version $Revision: 0.10 $
+ *
  * @author Cristina Ghita, www.arhipac.ro
  * @see FR [ 2877111 ] See identifiers columns when delete records https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962 
+ *
+ * @author hengsin, hengsin.low@idalica.com
+ * @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
+ * @sponsor www.metas.de
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
         EventListener, DataStatusListener, ActionListener, ASyncProcess
@@ -320,6 +326,11 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        {
 	        	toolbar.enableHistoryRecords(true);
 	        }
+	        
+	        if (zoomToDetailTab(query))
+	        {
+	        	return true;
+	        }
         }
         else
         {
@@ -333,6 +344,69 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         return true;
     }
+
+	private boolean zoomToDetailTab(MQuery query) {
+		//zoom to detail
+        if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null)
+    	{
+    		GridTab gTab = gridWindow.getTab(0);
+    		if (!query.getZoomTableName().equalsIgnoreCase(gTab.getTableName()))
+    		{
+    			int tabSize = gridWindow.getTabCount();
+
+    	        for (int tab = 0; tab < tabSize; tab++)
+    	        {
+    	        	gTab = gridWindow.getTab(tab);
+    	        	if (gTab.isSortTab())
+    	        		continue;
+    	        	if (gTab.getTabLevel() == 1 && gTab.getTableName().equalsIgnoreCase(query.getZoomTableName()))
+    	        	{
+    	        		GridField[] fields = gTab.getFields();
+    	        		for (GridField field : fields)
+    	        		{
+    	        			if (field.getColumnName().equalsIgnoreCase(query.getZoomColumnName()))
+    	        			{
+    	        				if (query.getZoomValue() != null && query.getZoomValue() instanceof Integer)
+    	        				{    	        					
+    	        					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+    	        					{
+	        	        				IADTabpanel tp = adTab.findADTabpanel(gTab);
+	        	        				tp.createUI();
+	        	        				tp.query();
+    	        					}	
+        	        				GridTable table = gTab.getTableModel();
+        	        				int count = table.getRowCount();
+        	        				for(int i = 0; i < count; i++)
+        	        				{
+        	        					int id = table.getKeyID(i);
+        	        					if (id == ((Integer)query.getZoomValue()).intValue())
+        	        					{
+        	        						if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+        	        						{
+        	        							setActiveTab(tab);
+        	        						}
+        	        						gTab.setCurrentRow(i);
+        	        						return true;
+        	        					}
+        	        				}
+    	        				}
+    	        				else
+    	        				{
+    	        					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+    	        					{
+    	        						setActiveTab(tab);
+    	        					}
+	        						return true;
+    	        				}
+    	        				break;
+    	        			}
+    	        		}
+    	        	}
+    	        }
+    		}
+    	}
+        return false;
+	}
 
 	private void initEmbeddedTab(MQuery query, int tabIndex) {
 		GridTab gTab = gridWindow.getTab(tabIndex);

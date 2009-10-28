@@ -355,7 +355,7 @@ public class MQuery implements Serializable
 	}	//	MQuery
 
 	/**	Serialization Info	**/
-	static final long serialVersionUID = 1511402030597166113L;
+	private static final long serialVersionUID = 4883859385509199305L;
 
 	/**	Table Name					*/
 	private String		m_TableName = "";
@@ -369,6 +369,12 @@ public class MQuery implements Serializable
 	private boolean		m_newRecord = false;
 	/** New Record String			*/
 	private static final String	NEWRECORD = "2=3";
+	
+	private String m_zoomTable;
+	
+	private String m_zoomColumn;
+	
+	private Object m_zoomValue;
 
 	/**
 	 * 	Get Record Count
@@ -817,6 +823,54 @@ public class MQuery implements Serializable
 	 */
 	public int getAD_PInstance_ID() {
 		return m_AD_PInstance_ID;
+	}
+
+	/**
+	 * 
+	 * @param tableName
+	 */
+	public void setZoomTableName(String tableName) {
+		m_zoomTable = tableName;
+	}
+	
+	/**
+	 * 
+	 * @return zoom table name
+	 */
+	public String getZoomTableName() {
+		return m_zoomTable;
+	}
+
+	/**
+	 * 
+	 * @param column
+	 */
+	public void setZoomColumnName(String column) {
+		m_zoomColumn = column;
+	}
+	
+	/**
+	 * 
+	 * @return zoom column name
+	 */
+	public String getZoomColumnName() {
+		return m_zoomColumn;
+	}
+
+	/**
+	 * 
+	 * @param value
+	 */
+	public void setZoomValue(Object value) {
+		m_zoomValue = value;
+	}
+	
+	/**
+	 * 
+	 * @return zoom value, usually an integer
+	 */
+	public Object getZoomValue() {
+		return m_zoomValue;
 	}
 }	//	MQuery
 
