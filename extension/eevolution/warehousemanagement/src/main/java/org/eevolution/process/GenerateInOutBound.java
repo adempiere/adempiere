@@ -33,6 +33,7 @@ import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
@@ -133,7 +134,14 @@ public class GenerateInOutBound extends SvrProcess
 		else
 		{	
 			int C_DocType_ID=MDocType.getDocType(MDocType.DOCBASETYPE_WarehouseManagementOrder);
-			outbound.setC_DocType_ID(C_DocType_ID);
+			if( C_DocType_ID <= 0)
+			{
+				throw new DocTypeNotFoundException(MDocType.DOCBASETYPE_WarehouseManagementOrder, "");
+			}
+			else
+			{	
+				outbound.setC_DocType_ID(C_DocType_ID);
+			}
 		}	
 		
 		if(p_DocAction != null)
