@@ -457,9 +457,7 @@ public class ReleaseInOutBound extends SvrProcess
 					
 					if (plant_id > 0 && workflow != null)
 					{
-						String description = Msg.translate(getCtx(),MRefList.getListName(getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID,  MPPOrderBOM.BOMTYPE_Make_To_Kit)) 
-						+ " "
-						+ Msg.translate(getCtx(), MWMInOutBound.COLUMNNAME_WM_InOutBound_ID) 
+						String description = Msg.translate(getCtx(), MWMInOutBound.COLUMNNAME_WM_InOutBound_ID) 
 						+ " : "
 						+ boundline.getParent().getDocumentNo();
 						
@@ -487,23 +485,21 @@ public class ReleaseInOutBound extends SvrProcess
 						if(oline.getDescription() != null)
 							description = oline.getDescription();
 						
-						description = description + Msg.translate(getCtx(),MRefList.getListName(getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, MPPOrderBOM.BOMTYPE_Make_To_Kit)) 
-								+ " "
-								+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
-								+ " : "
-								+ order.getDocumentNo();
+						description = description 
+									+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+								    + " : "
+								    + order.getDocumentNo();
 						oline.setDescription(description);
 						oline.saveEx();
 						
-						String boundDescription = null;
+						String boundDescription = "";
 						if(boundline.getDescription() != null)
 							boundDescription = boundline.getDescription();
 						
-						boundDescription = boundDescription + boundline.getDescription() + Msg.translate(boundline.getCtx(),MRefList.getListName(boundline.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, MPPOrderBOM.BOMTYPE_Make_To_Kit)) 
-								+ " "
-								+ Msg.translate(boundline.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
-								+ " : "
-								+ order.getDocumentNo();	
+						boundDescription = boundDescription 
+										 + Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+										 + " : "
+										 + order.getDocumentNo();
 						boundline.setDescription(boundDescription);
 					}
 				}	
