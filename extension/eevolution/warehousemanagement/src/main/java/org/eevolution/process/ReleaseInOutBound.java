@@ -163,7 +163,7 @@ public class ReleaseInOutBound extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		String whereClause = "EXISTS (SELECT T_Selection_ID FROM T_Selection WHERE  T_Selection.AD_PInstance_ID=? AND T_Selection.T_Selection_ID=WM_InOutBoundLine.WM_InOutboundLine_ID)";		
-		Collection <MWMInOutBoundLine> lines = new Query(getCtx(), I_WM_InOutBoundLine.Table_Name, whereClause,null)
+		Collection <MWMInOutBoundLine> lines = new Query(getCtx(), I_WM_InOutBoundLine.Table_Name, whereClause, get_TrxName())
 										.setClient_ID()
 										.setParameters(new Object[]{getAD_PInstance_ID()})
 										.list();
