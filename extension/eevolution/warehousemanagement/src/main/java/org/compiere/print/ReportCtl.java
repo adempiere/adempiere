@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,9 +16,11 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.lang.reflect.Method;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ProcessCtl;
 import org.compiere.model.MPaySelectionCheck;
@@ -30,6 +32,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 
 /**
  *	Report Controller.
@@ -256,7 +259,23 @@ public class ReportCtl
 		ReportEngine re = ReportEngine.get (Env.getCtx(), type, Record_ID);
 		if (re == null)
 		{
-			ADialog.error(0, null, "NoDocPrintFormat");
+			if (Ini.isClient())
+			{
+				ADialog.error(0, null, "NoDocPrintFormat");
+			}
+			else
+			{
+				try 
+				{
+					ClassLoader loader = ReportCtl.class.getClassLoader();
+					Class<?> clazz = loader.loadClass("org.adempiere.webui.window.FDialog");
+					Method m = clazz.getMethod("error", Integer.TYPE, String.class);
+					m.invoke(null, 0, "NoDocPrintFormat");
+				} catch (Exception e) 
+				{
+					throw new AdempiereException(e);
+				}
+			}
 			return false;
 		}
 		

@@ -49,31 +49,35 @@ import javax.xml.transform.stream.StreamResult;
 import org.adempiere.pdf.Document;
 import org.adempiere.print.export.PrintDataExcelExporter;
 import org.apache.ecs.XhtmlDocument;
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.link;
+import org.apache.ecs.xhtml.script;
 import org.apache.ecs.xhtml.table;
 import org.apache.ecs.xhtml.td;
 import org.apache.ecs.xhtml.th;
 import org.apache.ecs.xhtml.tr;
 import org.compiere.model.MClient;
+import org.compiere.model.MDunningRunEntry;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MProject;
 import org.compiere.model.MQuery;
+import org.compiere.model.MRfQResponse;
 import org.compiere.model.PrintInfo;
-import org.compiere.model.X_C_DunningRunEntry;
-import org.compiere.model.X_C_Invoice;
-import org.compiere.model.X_C_Order;
-import org.compiere.model.X_C_PaySelectionCheck;
-import org.compiere.model.X_C_Project;
-import org.compiere.model.X_C_RfQResponse;
-import org.compiere.model.X_M_InOut;
 import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Util;
-import org.eevolution.model.X_DD_Order;
+import org.eevolution.model.MDDOrder;
+import org.eevolution.model.X_PP_Order;  // to be changed by MPPOrder
 import org.eevolution.model.X_WM_InOutBound;
-import org.eevolution.model.X_PP_Order;
 
 /**
  *	Report Engine.
@@ -85,10 +89,19 @@ import org.eevolution.model.X_PP_Order;
  *  <li>2007-02-12 - teo_sarca - [ 1658127 ] Select charset encoding on import
  *  <li>2007-02-10 - teo_sarca - [ 1652660 ] Save XML,HTML,CSV should have utf8 charset
  *  <li>2009-02-06 - globalqss - [ 2574162 ] Priority to choose invoice print format not working
+ *  <li>2009-07-10 - trifonnt - [ 2819637 ] Wrong print format on non completed order
  *  </ul>
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ReportEngine.java,v 1.4 2006/10/08 06:52:51 comdivision Exp $
+ * 
+ * @author Teo Sarca, www.arhipac.ro
+ * 			<li>BF [ 2828300 ] Error when printformat table differs from DOC_TABLES
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2828300&group_id=176962&atid=879332
+ * 			<li>BF [ 2828886 ] Problem with reports from temporary tables
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2828886&group_id=176962
+ * 
+ *  FR 2872010 - Dunning Run for a complete Dunning (not just level) - Developer: Carlos Ruiz - globalqss - Sponsor: Metas
  */
 public class ReportEngine implements PrintServiceAttributeListener
 {
@@ -148,6 +161,10 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private View			m_view = null;
 	/** Transaction Name 		*/
 	private String 			m_trxName = null;
+	/** Where filter */
+	private String 			m_whereExtended = null;
+	/** Window */
+	private int m_windowNo = 0;
 	
 	/**
 	 * 	Set PrintFormat.
@@ -287,7 +304,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	 */
 	public Properties getCtx()
 	{
-		return m_layout.getCtx();
+		return getLayout().getCtx();
 	}	//	getCtx
 
 	/**
@@ -454,7 +471,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		return m_printerName;
 	}	//	getPrinterName
 
-	
 	/**************************************************************************
 	 * 	Create HTML File
 	 * 	@param file file
@@ -464,13 +480,26 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 */
 	public boolean createHTML (File file, boolean onlyTable, Language language)
 	{
+		return createHTML(file, onlyTable, language, null);
+	}
+	
+	/**************************************************************************
+	 * 	Create HTML File
+	 * 	@param file file
+	 *  @param onlyTable if false create complete HTML document
+	 *  @param language optional language - if null the default language is used to format nubers/dates
+	 *  @param extension optional extension for html output
+	 * 	@return true if success
+	 */
+	public boolean createHTML (File file, boolean onlyTable, Language language, IHTMLExtension extension)
+	{
 		try
 		{
 			Language lang = language;
 			if (lang == null)
 				lang = Language.getLoginLanguage();
 			Writer fw = new OutputStreamWriter(new FileOutputStream(file, false), Ini.getCharset()); // teo_sarca: save using adempiere charset [ 1658127 ]
-			return createHTML (new BufferedWriter(fw), onlyTable, lang);
+			return createHTML (new BufferedWriter(fw), onlyTable, lang, extension);
 		}
 		catch (FileNotFoundException fnfe)
 		{
@@ -492,9 +521,28 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 */
 	public boolean createHTML (Writer writer, boolean onlyTable, Language language)
 	{
+		return createHTML(writer, onlyTable, language, null);
+	}
+	
+	/**
+	 * 	Write HTML to writer
+	 * 	@param writer writer
+	 *  @param onlyTable if false create complete HTML document
+	 *  @param language optional language - if null numbers/dates are not formatted
+	 *  @param extension optional extension for html output
+	 * 	@return true if success
+	 */
+	public boolean createHTML (Writer writer, boolean onlyTable, Language language, IHTMLExtension extension)
+	{
 		try
 		{
+			String cssPrefix = extension != null ? extension.getClassPrefix() : null;
+			if (cssPrefix != null && cssPrefix.trim().length() == 0)
+				cssPrefix = null;
+			
 			table table = new table();
+			if (cssPrefix != null)
+				table.setClass(cssPrefix + "-table");
 			//
 			//	for all rows (-1 = header row)
 			for (int row = -1; row < m_printData.getRowCount(); row++)
@@ -502,7 +550,13 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				tr tr = new tr();
 				table.addElement(tr);
 				if (row != -1)
-					m_printData.setRowIndex(row);
+				{
+					m_printData.setRowIndex(row);					
+					if (extension != null)
+					{
+						extension.extendRowElement(tr, m_printData);
+					}
+				}
 				//	for all columns
 				for (int col = 0; col < m_printFormat.getItemCount(); col++)
 				{
@@ -525,8 +579,34 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 								td.addElement("&nbsp;");
 							else if (obj instanceof PrintDataElement)
 							{
-								String value = ((PrintDataElement)obj).getValueDisplay(language);	//	formatted
-								td.addElement(Util.maskHTML(value));
+								PrintDataElement pde = (PrintDataElement) obj;
+								String value = pde.getValueDisplay(language);	//	formatted
+								if (pde.getColumnName().endsWith("_ID") && extension != null)
+								{
+									//link for column
+									a href = new a("javascript:void(0)");									
+									href.setID(pde.getColumnName() + "_" + row + "_a");									
+									td.addElement(href);
+									href.addElement(Util.maskHTML(value));
+									if (cssPrefix != null)
+										href.setClass(cssPrefix + "-href");
+									
+									extension.extendIDColumn(row, td, href, pde);
+																											
+								}
+								else
+								{
+									td.addElement(Util.maskHTML(value));
+								}
+								if (cssPrefix != null)
+								{
+									if (DisplayType.isNumeric(pde.getDisplayType()))
+										td.setClass(cssPrefix + "-number");
+									else if (DisplayType.isDate(pde.getDisplayType()))
+										td.setClass(cssPrefix + "-date");
+									else
+										td.setClass(cssPrefix + "-text");
+								}								
 							}
 							else if (obj instanceof PrintData)
 							{
@@ -547,6 +627,18 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			{
 				XhtmlDocument doc = new XhtmlDocument();
 				doc.appendBody(table);
+				if (extension.getStyleURL() != null)
+				{
+					link l = new link(extension.getStyleURL(), "stylesheet", "text/css");
+					doc.appendHead(l);					
+				}
+				if (extension.getScriptURL() != null)
+				{
+					script jslink = new script();
+					jslink.setLanguage("javascript");
+					jslink.setSrc(extension.getScriptURL());
+					doc.appendHead(jslink);
+				}
 				doc.output(w);
 			}
 			w.flush();
@@ -1013,10 +1105,15 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
 		//  Create Query from Parameters
 		MQuery query = null;
-		if (IsForm && pi.getRecord_ID() != 0)	//	Form = one record
+		if (IsForm && pi.getRecord_ID() != 0		//	Form = one record
+				&& !TableName.startsWith("T_") )	//	Not temporary table - teo_sarca, BF [ 2828886 ]
+		{
 			query = MQuery.getEqualQuery(TableName + "_ID", pi.getRecord_ID());
+		}
 		else
+		{
 			query = MQuery.get (ctx, pi.getAD_PInstance_ID(), TableName);
+		}
 		
 		//  Add to static where clause from ReportView
 		if (whereClause.length() != 0)
@@ -1077,28 +1174,27 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public static final int		DISTRIBUTION_ORDER = 9;
 	/** Packing Order = 10	    */
 	public static final int		PICKING_ORDER = 10;
-	
 
-	private static final String[]	DOC_TABLES = new String[] {
-		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
-		"C_RfQResponse_v",
-		"C_PaySelection_Check_v", "C_PaySelection_Check_v",  
-		"C_DunningRunEntry_v","PP_Order_Header_v","DD_Order_Header_v","M_InOutBound_Header_v" };
+//	private static final String[]	DOC_TABLES = new String[] {
+//		"C_Order_Header_v", "M_InOut_Header_v", "C_Invoice_Header_v", "C_Project_Header_v",
+//		"C_RfQResponse_v",
+//		"C_PaySelection_Check_v", "C_PaySelection_Check_v",  
+//		"C_DunningRunEntry_v","PP_Order_Header_v","DD_Order_Header_v" };
 	private static final String[]	DOC_BASETABLES = new String[] {
 		"C_Order", "M_InOut", "C_Invoice", "C_Project",
 		"C_RfQResponse",
 		"C_PaySelectionCheck", "C_PaySelectionCheck", 
-		"C_DunningRunEntry","PP_Order","DD_Order","M_InOutBound"};
+		"C_DunningRunEntry","PP_Order", "DD_Order", "WM_InOutBound_Header_v" };
 	private static final String[]	DOC_IDS = new String[] {
 		"C_Order_ID", "M_InOut_ID", "C_Invoice_ID", "C_Project_ID",
 		"C_RfQResponse_ID",
 		"C_PaySelectionCheck_ID", "C_PaySelectionCheck_ID", 
-		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID", "M_InOutBound_ID"};
+		"C_DunningRunEntry_ID" , "PP_Order_ID" , "DD_Order_ID" ,"WM_InOutBound"};
 	private static final int[]	DOC_TABLE_ID = new int[] {
-		X_C_Order.Table_ID, X_M_InOut.Table_ID, X_C_Invoice.Table_ID, X_C_Project.Table_ID,
-		X_C_RfQResponse.Table_ID,
-		X_C_PaySelectionCheck.Table_ID, X_C_PaySelectionCheck.Table_ID, 
-		X_C_DunningRunEntry.Table_ID , X_PP_Order.Table_ID ,X_DD_Order.Table_ID , X_WM_InOutBound.Table_ID };
+		MOrder.Table_ID, MInOut.Table_ID, MInvoice.Table_ID, MProject.Table_ID,
+		MRfQResponse.Table_ID,
+		MPaySelectionCheck.Table_ID, MPaySelectionCheck.Table_ID, 
+		MDunningRunEntry.Table_ID, X_PP_Order.Table_ID, MDDOrder.Table_ID , X_WM_InOutBound.Table_ID };
 
 	/**************************************************************************
 	 * 	Get Document Print Engine for Document Type.
@@ -1165,7 +1261,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 				+ " INNER JOIN AD_Client c ON (d.AD_Client_ID=c.AD_Client_ID)"
 				+ " INNER JOIN C_BPartner bp ON (d.C_BPartner_ID=bp.C_BPartner_ID)"
 				+ " INNER JOIN C_DunningRun dr ON (d.C_DunningRun_ID=dr.C_DunningRun_ID)"
-				+ " INNER JOIN C_DunningLevel dl ON (dl.C_DunningLevel_ID=dr.C_DunningLevel_ID) "
+				+ " INNER JOIN C_DunningLevel dl ON (dl.C_DunningLevel_ID=d.C_DunningLevel_ID) "
 				+ "WHERE d.C_DunningRunEntry_ID=?";			//	info from Dunning
 		else if (type == REMITTANCE)
 			sql = "SELECT pf.Remittance_PrintFormat_ID,"
@@ -1324,8 +1420,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	//	if (!Env.isBaseLanguage(language, DOC_TABLES[type]))
 			format.setTranslationLanguage(language);
 		//	query
-		MQuery query = new MQuery(DOC_TABLES[type]);
-		query.addRestriction(DOC_IDS[type], MQuery.EQUAL, new Integer(Record_ID));
+		MQuery query = new MQuery(format.getAD_Table_ID());
+		query.addRestriction(DOC_IDS[type], MQuery.EQUAL, Record_ID);
 	//	log.config( "ReportCtrl.startDocumentPrint - " + format, query + " - " + language.getAD_Language());
 		//
 		if (DocumentNo == null || DocumentNo.length() == 0)
@@ -1369,6 +1465,21 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 			rs = pstmt.executeQuery();
 			if (rs.next())
 				DocSubTypeSO = rs.getString(1);
+			
+			// @Trifon - Order is not completed(C_DoctType_ID=0) then try with C_DocTypeTarget_ID
+			// [ 2819637 ] Wrong print format on non completed order - https://sourceforge.net/tracker/?func=detail&aid=2819637&group_id=176962&atid=879332
+			if (DocSubTypeSO == null || "".equals(DocSubTypeSO)) {
+				sql = "SELECT dt.DocSubTypeSO "
+					+ "FROM C_DocType dt, C_Order o "
+					+ "WHERE o.C_DocTypeTarget_ID=dt.C_DocType_ID"
+					+ " AND o.C_Order_ID=?";
+				pstmt = DB.prepareStatement(sql, null);
+				pstmt.setInt(1, C_Order_ID);
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					DocSubTypeSO = rs.getString(1);
+				}
+			}
 		}
 		catch (SQLException e1)
 		{
@@ -1477,5 +1588,23 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	//	re.print(false, 1, false, "Epson Stylus COLOR 900 ESC/P 2");	//	Dialog
 		System.exit(0);
 	}	//	main
+
+	public void setWhereExtended(String whereExtended) {
+		m_whereExtended = whereExtended;
+	}
+
+	public String getWhereExtended() {
+		return m_whereExtended;
+	}
+
+	/* Save windowNo of the report to parse the context */
+	public void setWindowNo(int windowNo) {
+		m_windowNo = windowNo;
+	}
 	
+	public int getWindowNo() {
+		return m_windowNo;
+	}
+
+ 	
 }	//	ReportEngine
