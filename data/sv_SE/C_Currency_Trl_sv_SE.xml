@@ -559,8 +559,8 @@
   <value column="CurSymbol" original="SI$">SI$</value>
  </row>
  <row id="311" trl="Y">
-  <value column="Description" original="Swedish Krona">Swedish Krona</value>
-  <value column="CurSymbol" original="Sk">Sk</value>
+  <value column="Description" original="Swedish Krona">Svenska kronor</value>
+  <value column="CurSymbol" original="Sk">kr</value>
  </row>
  <row id="312" trl="Y">
   <value column="Description" original="Slovak Koruna">Slovak Koruna</value>

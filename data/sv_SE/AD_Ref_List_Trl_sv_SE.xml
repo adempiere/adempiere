@@ -2234,40 +2234,4 @@
   <value column="Name" original="Re-Open">Re-Open</value>
   <value column="Description" original=""/>
  </row>
- <row id="1000000" trl="Y">
-  <value column="Name" original="Bankgiro">Bankgiro</value>
-  <value column="Description" original=""/>
- </row>
- <row id="1000001" trl="Y">
-  <value column="Name" original="Bankgiro">Bankgiro</value>
-  <value column="Description" original=""/>
- </row>
- <row id="1000002" trl="Y">
-  <value column="Name" original="CB_CreditCard_Acct">Kreditkort</value>
-  <value column="Description" original="CB_CreditCard_Acct">Kreditkort</value>
- </row>
- <row id="1000003" trl="Y">
-  <value column="Name" original="CB_GiftVoucher_Acct">Presentkort</value>
-  <value column="Description" original="CB_GiftVoucher_Acct">Presentkort</value>
- </row>
- <row id="1000004" trl="Y">
-  <value column="Name" original="CB_BonusVoucher_Acct">Bonuskort</value>
-  <value column="Description" original="CB_BonusVoucher_Acct">Bonuskort</value>
- </row>
- <row id="1000005" trl="Y">
-  <value column="Name" original="CB_CreditVoucher_Acct">Tillgodo</value>
-  <value column="Description" original="CB_CreditVoucher_Acct">Tillgodo</value>
- </row>
- <row id="1000006" trl="Y">
-  <value column="Name" original="CB_Rounding_Acct">Öresutjämning</value>
-  <value column="Description" original="CB_Rounding_Acct">Öresutjämning</value>
- </row>
- <row id="1000007" trl="Y">
-  <value column="Name" original="FromBeginningOfYear">Från början av året</value>
-  <value column="Description" original="FromBeginningOfYear">Från början av året</value>
- </row>
- <row id="1000008" trl="Y">
-  <value column="Name" original="CB_FlowerCard_Acct">Blomsterkort</value>
-  <value column="Description" original="CB_FlowerCard_Acct">Blomsterkort</value>
- </row>
 </adempiereTrl>

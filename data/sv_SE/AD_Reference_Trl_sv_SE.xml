@@ -1242,9 +1242,4 @@
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="1000000" trl="N">
-  <value column="Name" original="Account_ID(Summary)">Account_ID(Summary)</value>
-  <value column="Description" original="Account_ID(Summary)">Account_ID(Summary)</value>
-  <value column="Help" original=""/>
- </row>
 </adempiereTrl>

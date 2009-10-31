@@ -23,8 +23,8 @@
   <value column="Help" original=""/>
  </row>
  <row id="104" trl="Y">
-  <value column="Name" original="Payment Allocation">Allokera betalning</value>
-  <value column="Description" original="Allocate invoices and payments">Betalningsallokering för fakturor och betalningar</value>
+  <value column="Name" original="Payment Allocation">Fördela betalning</value>
+  <value column="Description" original="Allocate invoices and payments">Fördela betalningar mellan fakturor och betalningar</value>
   <value column="Help" original=""/>
  </row>
  <row id="105" trl="Y">

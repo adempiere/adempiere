@@ -6358,8 +6358,8 @@ Subtyp kundorder av &lt;b&gt;kreditorder&lt;/b&gt; skapar &lt;b&gt;order&lt;/b&g
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1288" trl="Y">
-  <value column="Name" original="Request Price">Förfrågepris</value>
-  <value column="PrintName" original="Request Price">Förfrågepris</value>
+  <value column="Name" original="Request Price">Ärendepris</value>
+  <value column="PrintName" original="Request Price">Ärendepris</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -8259,18 +8259,18 @@ Subtyp kundorder av &lt;b&gt;kreditorder&lt;/b&gt; skapar &lt;b&gt;order&lt;/b&g
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1516" trl="Y">
-  <value column="Name" original="Request">Förfrågan</value>
-  <value column="PrintName" original="Request">Förfrågan</value>
-  <value column="Description" original="Request from a Business Partner or Prospect">Förfrågan från en affärspartner eller en eventuell köpare</value>
-  <value column="Help" original="The Request identifies a unique request from a Business Partner or Prospect.">Förfrågeid pekar ut en unik förfrågan från en affärspartner eller en eventuell köpare</value>
+  <value column="Name" original="Request">Ärende</value>
+  <value column="PrintName" original="Request">Ärende</value>
+  <value column="Description" original="Request from a Business Partner or Prospect">Ärende från en affärspartner eller en eventuell köpare</value>
+  <value column="Help" original="The Request identifies a unique request from a Business Partner or Prospect.">Ärendeid pekar ut en unik förfrågan från en affärspartner eller en eventuell köpare</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1517" trl="Y">
-  <value column="Name" original="Request action">Begärd åtgärd</value>
-  <value column="PrintName" original="Request action">Begärd åtgärd</value>
+  <value column="Name" original="Request action">Ärendeåtgärd</value>
+  <value column="PrintName" original="Request action">Ärendeåtgärd</value>
   <value column="Description" original="Action has been requested">Ytterligare uppgifter eller åtgärder har begärts av kreditkortsföretaget</value>
   <value column="Help" original="The Request Action indicates if the Credit Card Company has requested further action be taken.">Ytterligare uppgifter eller åtgärder har begärts av kreditkortsföretaget.</value>
   <value column="PO_Description" original=""/>
@@ -8279,8 +8279,8 @@ Subtyp kundorder av &lt;b&gt;kreditorder&lt;/b&gt; skapar &lt;b&gt;order&lt;/b&g
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1519" trl="Y">
-  <value column="Name" original="Request Processor">Förfrågeprocessid</value>
-  <value column="PrintName" original="Request Processor">Förfrågeprocessid</value>
+  <value column="Name" original="Request Processor">Ärendeprocessid</value>
+  <value column="PrintName" original="Request Processor">Ärendeprocessid</value>
   <value column="Description" original="Processor for Requests"/>
   <value column="Help" original="Processor for Requests"/>
   <value column="PO_Description" original=""/>
@@ -8289,10 +8289,10 @@ Subtyp kundorder av &lt;b&gt;kreditorder&lt;/b&gt; skapar &lt;b&gt;order&lt;/b&g
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1520" trl="Y">
-  <value column="Name" original="Request Amount">Förfrågebelopp</value>
-  <value column="PrintName" original="Request Amt">Förfrågebelopp</value>
+  <value column="Name" original="Request Amount">Ärendebelopp</value>
+  <value column="PrintName" original="Request Amt">Ärendebelopp</value>
   <value column="Description" original="Amount associated with this request">Beloppet kopplad till aktuell förfrågan</value>
-  <value column="Help" original="The Request Amount indicates any amount that is associated with this request.  For example, a warranty amount or refund amount.">Förfråge belopp är beloppet som är kopplat till denna förfrågan. T.ex. garantibelopp eller återbetalningsbelopp</value>
+  <value column="Help" original="The Request Amount indicates any amount that is associated with this request.  For example, a warranty amount or refund amount.">Ärende belopp är beloppet som är kopplat till denna förfrågan. T.ex. garantibelopp eller återbetalningsbelopp</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -8301,7 +8301,7 @@ Subtyp kundorder av &lt;b&gt;kreditorder&lt;/b&gt; skapar &lt;b&gt;order&lt;/b&g
  <row id="1521" trl="Y">
   <value column="Name" original="Summary">Sammanfattning</value>
   <value column="PrintName" original="Summary">Sammanfattning</value>
-  <value column="Description" original="Textual summary of this request">Förfrågesammanfattning</value>
+  <value column="Description" original="Textual summary of this request">Ärendesammanfattning</value>
   <value column="Help" original="The Summary allows free form text entry of a recap of this request.">Sammanfattningsfältet tillåter valfri inmatning av en sammanfattning av aktuell förfrågan.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -9830,8 +9830,8 @@ T.ex. Antal 10 - Listpris: 20 - Faktiskt pris: 17. Om alternativet Kontera rabat
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1697" trl="Y">
-  <value column="Name" original="Request Routing">Förfrågehänvisning</value>
-  <value column="PrintName" original="Request Routing">Förfrågehänvisning</value>
+  <value column="Name" original="Request Routing">Ärendehänvisning</value>
+  <value column="PrintName" original="Request Routing">Ärendehänvisning</value>
   <value column="Description" original="Automatic routing of requests">Automatisk hänvisning av förfrågningar</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -9840,8 +9840,8 @@ T.ex. Antal 10 - Listpris: 20 - Faktiskt pris: 17. Om alternativet Kontera rabat
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1698" trl="Y">
-  <value column="Name" original="Request EMail">Förfråge e-mail</value>
-  <value column="PrintName" original="Request EMail">Förfråge e-mail</value>
+  <value column="Name" original="Request EMail">Ärende e-mail</value>
+  <value column="PrintName" original="Request EMail">Ärende e-mail</value>
   <value column="Description" original="EMail address to send automated mails from or receive mails for automated processing (fully qualified)">E-mail adress att skicka svar från</value>
   <value column="Help" original="EMails for requests, alerts and escalation are sent from this email address as well as delivery information if the sales rep does not have an email account. The address must be filly qualified (e.g. joe.smith@company.com) and should be a valid address.">E-post för varningar eller eskalering av problem skickas från denna adress. Adressen måste vara komplett (t.ex. joe@company.com) och giltig</value>
   <value column="PO_Description" original=""/>
@@ -11697,10 +11697,10 @@ Observera att engelska alltid är basspråk. </value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1894" trl="Y">
-  <value column="Name" original="Request Type">Förfrågetyp</value>
-  <value column="PrintName" original="Request Type">Förfrågetyp</value>
+  <value column="Name" original="Request Type">Ärendetyp</value>
+  <value column="PrintName" original="Request Type">Ärendetyp</value>
   <value column="Description" original="Type of request (e.g. Inquiry, Complaint, ..)">Typ av förfrågan (t.ex. kontofråga, garantifråga, klagomål,...)</value>
-  <value column="Help" original="Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.">Förfrågetyp används för att behandla och gruppera förfrågningar.  T.ex. kontofråga, garantifråga, klagomål,...</value>
+  <value column="Help" original="Request Types are used for processing and categorizing requests. Options are Account Inquiry, Warranty Issue, etc.">Ärendetyp används för att behandla och gruppera förfrågningar.  T.ex. kontofråga, garantifråga, klagomål,...</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -19446,4 +19446,4 @@ The Remind Days are the days when the next email reminder is sent.</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- /adempiereTrl>
+ </adempiereTrl>

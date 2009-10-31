@@ -18,7 +18,7 @@
   <value column="Name" original="Window">Fönster</value>
  </row>
  <row id="106" trl="N">
-  <value column="Name" original="Dynamic Validation">Validitetsregel</value>
+  <value column="Name" original="Dynamic Validation">Valideringsregel</value>
  </row>
  <row id="107" trl="N">
   <value column="Name" original="DB Table Name">DB Tabellnamn</value>
@@ -60,7 +60,7 @@
   <value column="Name" original="Key column">Nyckelkolumn</value>
  </row>
  <row id="120" trl="N">
-  <value column="Name" original="Parent link column">Ursprungslänkkolumn</value>
+  <value column="Name" original="Parent link column">Parent link column</value>
  </row>
  <row id="124" trl="N">
   <value column="Name" original="Mandatory">Obligatorisk</value>
@@ -72,13 +72,13 @@
   <value column="Name" original="Identifier">Identifierare</value>
  </row>
  <row id="127" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="128" trl="N">
   <value column="Name" original="Encrypted">Visa krypterat</value>
  </row>
  <row id="129" trl="N">
-  <value column="Name" original="Reference">Referens </value>
+  <value column="Name" original="Reference">Referens</value>
  </row>
  <row id="130" trl="N">
   <value column="Name" original="Name">Namn</value>
@@ -99,7 +99,7 @@
   <value column="Name" original="Table">Tabell</value>
  </row>
  <row id="144" trl="N">
-  <value column="Name" original="Key column">Kolumnidentifierare</value>
+  <value column="Name" original="Key column">Nyckelkolumn</value>
  </row>
  <row id="145" trl="N">
   <value column="Name" original="Display column">Visa kolumn</value>
@@ -120,7 +120,7 @@
   <value column="Name" original="Description">Beskrivning</value>
  </row>
  <row id="151" trl="N">
-  <value column="Name" original="Reference">Referens </value>
+  <value column="Name" original="Reference">Referens</value>
  </row>
  <row id="152" trl="N">
   <value column="Name" original="Valid from">Giltig från</value>
@@ -156,7 +156,7 @@
   <value column="Name" original="Window">Fönster</value>
  </row>
  <row id="165" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="166" trl="N">
   <value column="Name" original="Single Row Layout">Visningsläge enkelrad</value>
@@ -189,7 +189,7 @@
   <value column="Name" original="Display Length">Visningslängd</value>
  </row>
  <row id="181" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="182" trl="N">
   <value column="Name" original="Record Sort No">Sorteringsordning</value>
@@ -282,7 +282,7 @@
   <value column="Name" original="Restart sequence every Year">Nollställ numreringssekvensen varje år</value>
  </row>
  <row id="226" trl="N">
-  <value column="Name" original="Reference">Referens </value>
+  <value column="Name" original="Reference">Referens</value>
  </row>
  <row id="227" trl="N">
   <value column="Name" original="Reference Key">Referensvärde</value>
@@ -306,7 +306,7 @@
   <value column="Name" original="Workflow">Arbetsflöde</value>
  </row>
  <row id="235" trl="N">
-  <value column="Name" original="OS Task">Uppgift</value>
+  <value column="Name" original="OS Task">OS uppgift</value>
  </row>
  <row id="236" trl="N">
   <value column="Name" original="Name">Namn</value>
@@ -318,7 +318,7 @@
   <value column="Name" original="Comment/Help">Hjälp/anteckningar</value>
  </row>
  <row id="239" trl="N">
-  <value column="Name" original="OS Task">Uppgift</value>
+  <value column="Name" original="OS Task">OS uppgift</value>
  </row>
  <row id="240" trl="N">
   <value column="Name" original="Name">Namn</value>
@@ -3990,7 +3990,7 @@
   <value column="Name" original="Name">Namn</value>
  </row>
  <row id="2665" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="2666" trl="N">
   <value column="Name" original="Element">Element</value>
@@ -4257,7 +4257,7 @@
   <value column="Name" original="Process">Bearbetning</value>
  </row>
  <row id="2826" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="2827" trl="N">
   <value column="Name" original="Reference">Referens </value>
@@ -4407,7 +4407,7 @@
   <value column="Name" original="Parent">Ursprung</value>
  </row>
  <row id="2879" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="2893" trl="N">
   <value column="Name" original="Business Partner ">Affärspartner</value>
@@ -5979,7 +5979,7 @@
   <value column="Name" original="Tax Indicator">Momskod</value>
  </row>
  <row id="3733" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="3734" trl="N">
   <value column="Name" original="Process Number">Bearbetningsnummer</value>
@@ -6996,7 +6996,7 @@
   <value column="Name" original="Process Instance">Bearbetningsinstans</value>
  </row>
  <row id="4424" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="4425" trl="N">
   <value column="Name" original="Message Text">Meddelandetext</value>
@@ -7662,7 +7662,7 @@
   <value column="Name" original="Import Format">Importera format</value>
  </row>
  <row id="4691" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="4693" trl="N">
   <value column="Name" original="Start No">Startnummer</value>
@@ -8931,7 +8931,7 @@
   <value column="Name" original="Display Length">Visningslängd</value>
  </row>
  <row id="5195" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="5196" trl="N">
   <value column="Name" original="Display Logic">Visningslogik</value>
@@ -10638,7 +10638,7 @@
   <value column="Name" original="Parent">Ursprung</value>
  </row>
  <row id="5872" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="5873" trl="N">
   <value column="Name" original="Color">Färg</value>
@@ -10716,7 +10716,7 @@
   <value column="Name" original="Parent">Ursprung</value>
  </row>
  <row id="5898" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="5899" trl="N">
   <value column="Name" original="Measure">Mått </value>
@@ -11040,7 +11040,7 @@
   <value column="Name" original="Name">Namn</value>
  </row>
  <row id="6009" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6010" trl="N">
   <value column="Name" original="Description">Beskrivning</value>
@@ -11175,7 +11175,7 @@
   <value column="Name" original="Name">Namn</value>
  </row>
  <row id="6055" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6056" trl="N">
   <value column="Name" original="Description">Beskrivning</value>
@@ -11430,7 +11430,7 @@
   <value column="Name" original="Parent">Ursprung</value>
  </row>
  <row id="6146" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6149" trl="N">
   <value column="Name" original="Organization">Organisation</value>
@@ -11454,7 +11454,7 @@
   <value column="Name" original="Parent">Ursprung</value>
  </row>
  <row id="6157" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6160" trl="N">
   <value column="Name" original="Tree">Träd</value>
@@ -11496,7 +11496,7 @@
   <value column="Name" original="Parent">Ursprung</value>
  </row>
  <row id="6174" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6178" trl="N">
   <value column="Name" original="Print Form">Utskriftsfönster</value>
@@ -11757,7 +11757,7 @@
   <value column="Name" original="Desktop">Skrivbord</value>
  </row>
  <row id="6269" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6270" trl="N">
   <value column="Name" original="Desktop">Skrivbord</value>
@@ -11907,7 +11907,7 @@
   <value column="Name" original="Record Sort No">Sorteringsordning</value>
  </row>
  <row id="6355" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6356" trl="N">
   <value column="Name" original="Same Line">Samma rad</value>
@@ -12087,7 +12087,7 @@
   <value column="Name" original="Workbench">Arbetsyta</value>
  </row>
  <row id="6429" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6430" trl="N">
   <value column="Name" original="Primary">Primär</value>
@@ -12438,7 +12438,7 @@
   <value column="Name" original="Request Processor">Förfrågeprocessid</value>
  </row>
  <row id="6553" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6554" trl="N">
   <value column="Name" original="Keyword">Sökterm/nyckelord</value>
@@ -12570,7 +12570,7 @@
   <value column="Name" original="Discount Schema">Rabattschema</value>
  </row>
  <row id="6607" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6608" trl="N">
   <value column="Name" original="Break Value">Brytpunkt</value>
@@ -12612,7 +12612,7 @@
   <value column="Name" original="Discount Schema">Rabattschema</value>
  </row>
  <row id="6621" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6622" trl="N">
   <value column="Name" original="Product Category">Produktkategori </value>
@@ -13320,7 +13320,7 @@
   <value column="Name" original="Description">Beskrivning</value>
  </row>
  <row id="6939" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="6940" trl="N">
   <value column="Name" original="Name">Namn</value>
@@ -15405,7 +15405,7 @@
   <value column="Name" original="Report Line Set">Rapportradsgrupp</value>
  </row>
  <row id="7949" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="7950" trl="N">
   <value column="Name" original="Client">Klient</value>
@@ -15966,7 +15966,7 @@
   <value column="Name" original="Accounting Fact">Bokföringsfakta</value>
  </row>
  <row id="8185" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="8187" trl="N">
   <value column="Name" original="Name">Namn</value>
@@ -17037,7 +17037,7 @@
   <value column="Name" original="Attribute Search">Egenskapssökning </value>
  </row>
  <row id="8546" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="8547" trl="N">
   <value column="Name" original="Included Tab">Inkluderad flik</value>
@@ -17253,7 +17253,7 @@
   <value column="Name" original="Label Format Type">Typ av etikettformat</value>
  </row>
  <row id="8619" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="8621" trl="N">
   <value column="Name" original="X Position">X-position</value>
@@ -17592,7 +17592,7 @@
   <value column="Name" original="Comment/Help">Hjälp/anteckningar</value>
  </row>
  <row id="8734" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="8735" trl="N">
   <value column="Name" original="Created">Skapad</value>
@@ -18036,7 +18036,7 @@
   <value column="Name" original="Description">Beskrivning</value>
  </row>
  <row id="8883" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="8884" trl="N">
   <value column="Name" original="Created">Skapad</value>
@@ -18069,7 +18069,7 @@
   <value column="Name" original="Created By">Skapat av</value>
  </row>
  <row id="8894" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="8895" trl="N">
   <value column="Name" original="Updated By">Uppdaterad av</value>
@@ -18177,7 +18177,7 @@
   <value column="Name" original="Organization">Organisation</value>
  </row>
  <row id="8961" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="8962" trl="N">
   <value column="Name" original="Client">Klient</value>
@@ -18207,7 +18207,7 @@
   <value column="Name" original="Commitment is Ceiling">Åtagandebegränsning</value>
  </row>
  <row id="8971" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="8972" trl="N">
   <value column="Name" original="Project Phase">Projektfas</value>
@@ -20502,7 +20502,7 @@
   <value column="Name" original="User/Contact">Kontaktperson</value>
  </row>
  <row id="9754" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="9755" trl="N">
   <value column="Name" original="Project Cycle">Projektcykel</value>
@@ -22848,7 +22848,7 @@
   <value column="Name" original="Image">Bild</value>
  </row>
  <row id="10578" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="10579" trl="N">
   <value column="Name" original="Description">Beskrivning</value>
@@ -23001,7 +23001,7 @@
   <value column="Name" original="In Service Date">Tillgångens startanvändningsdatum</value>
  </row>
  <row id="10629" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="10631" trl="N">
   <value column="Name" original="Note">Anteckningar</value>
@@ -23418,7 +23418,7 @@
   <value column="Name" original="Created">Skapad</value>
  </row>
  <row id="10769" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="10770" trl="N">
   <value column="Name" original="Client">Klient</value>
@@ -25701,7 +25701,7 @@
   <value column="Name" original="Node Transition">Node Transition</value>
  </row>
  <row id="11572" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="11573" trl="N">
   <value column="Name" original="Search Key">Id</value>
@@ -28326,7 +28326,7 @@
   <value column="Name" original="Default Print Font">Default Print Font</value>
  </row>
  <row id="12481" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="12482" trl="N">
   <value column="Name" original="Area">Område</value>
@@ -29187,7 +29187,7 @@
   <value column="Name" original="Updated">Uppdaterat datum</value>
  </row>
  <row id="12769" trl="N">
-  <value column="Name" original="Sequence">Ordningsföljd</value>
+  <value column="Name" original="Sequence">Sekvens</value>
  </row>
  <row id="12770" trl="N">
   <value column="Name" original="POS Key Layout">POS Key Layout</value>
@@ -31209,10 +31209,10 @@
   <value column="Name" original="Business Partner ">Affärspartner</value>
  </row>
  <row id="13634" trl="N">
-  <value column="Name" original="Due Date">Förfallodatum </value>
+  <value column="Name" original="Due Date">Förfallodatum</value>
  </row>
  <row id="13635" trl="Y">
-  <value column="Name" original="Due Date">Förfallodatum </value>
+  <value column="Name" original="Due Date">Förfallodatum</value>
  </row>
  <row id="13636" trl="N">
   <value column="Name" original="Document Type">Dokumenttyp</value>
@@ -31231,422 +31231,5 @@
  </row>
  <row id="13641" trl="N">
   <value column="Name" original="Balance">Balans</value>
- </row>
- <row id="13642" trl="N">
-  <value column="Name" original="Cb_Flowercard_Acct">Blomsterkort</value>
- </row>
- <row id="1000000" trl="N">
-  <value column="Name" original="Bankgiro, client">Bankgiro, avsändande</value>
- </row>
- <row id="1000001" trl="N">
-  <value column="Name" original="Bankgiro, business partner">Bankgiro, affärspartner</value>
- </row>
- <row id="1000002" trl="N">
-  <value column="Name" original="Bankgiro, client">Bankgiro, avsändande</value>
- </row>
- <row id="1000003" trl="N">
-  <value column="Name" original="Bankgiro, business partner">Bankgiro, affärspartner</value>
- </row>
- <row id="1000004" trl="N">
-  <value column="Name" original="IsOCR">OCR avi</value>
- </row>
- <row id="1000005" trl="N">
-  <value column="Name" original="OCR">OCR</value>
- </row>
- <row id="1000006" trl="N">
-  <value column="Name" original="Pay date bankgiro">Betalningsdatum, bankgiro</value>
- </row>
- <row id="1000007" trl="N">
-  <value column="Name" original="Order Reference">Fakturareferens</value>
- </row>
- <row id="1000008" trl="N">
-  <value column="Name" original="IsOCR">OCR avi</value>
- </row>
- <row id="1000009" trl="N">
-  <value column="Name" original="OCR">OCR</value>
- </row>
- <row id="1000011" trl="N">
-  <value column="Name" original="Save/Refresh/New">Spara/Uppdatera/Ny</value>
- </row>
- <row id="1000012" trl="N">
-  <value column="Name" original="AccountName">Kontonamn</value>
- </row>
- <row id="1000013" trl="N">
-  <value column="Name" original="Save/Refresh/New">Spara/Uppdatera/Ny</value>
- </row>
- <row id="1000014" trl="N">
-  <value column="Name" original="Save/Refresh/New">Spara/Uppdatera/Ny</value>
- </row>
- <row id="1000015" trl="N">
-  <value column="Name" original="CurrencyISOCode">CurrencyISOCode</value>
- </row>
- <row id="1000017" trl="N">
-  <value column="Name" original="Due Date">Förfallodatum </value>
- </row>
- <row id="1000018" trl="Y">
-  <value column="Name" original="Cb_Rounding_Acct">Öresavrundning</value>
- </row>
- <row id="1000019" trl="N">
-  <value column="Name" original="CreateBankgiroFile">Skapa bankgiro fil</value>
- </row>
- <row id="1000020" trl="N">
-  <value column="Name" original="CreateBankgiroFile">Skapa bankgiro fil</value>
- </row>
- <row id="1000021" trl="N">
-  <value column="Name" original="DocumentNoInvoice">Fakturanummer</value>
- </row>
- <row id="1000022" trl="N">
-  <value column="Name" original="Discount %">Rabattsats i %</value>
- </row>
- <row id="90010841" trl="N">
-  <value column="Name" original="Active">Aktiv</value>
- </row>
- <row id="90010842" trl="N">
-  <value column="Name" original="Business Partner ">Affärspartner</value>
- </row>
- <row id="90010843" trl="N">
-  <value column="Name" original="Accounted Debit">Debet</value>
- </row>
- <row id="90010844" trl="N">
-  <value column="Name" original="Accounting Schema">Bokföringsschema</value>
- </row>
- <row id="90010845" trl="N">
-  <value column="Name" original="Period">Period</value>
- </row>
- <row id="90010846" trl="N">
-  <value column="Name" original="Updated By">Uppdaterad av</value>
- </row>
- <row id="90010847" trl="N">
-  <value column="Name" original="Date Invoiced">Fakturadatum</value>
- </row>
- <row id="90010848" trl="N">
-  <value column="Name" original="Accounted Credit">Kredit</value>
- </row>
- <row id="90010849" trl="N">
-  <value column="Name" original="Product">Produkt</value>
- </row>
- <row id="90010850" trl="N">
-  <value column="Name" original="Document No">Dokumentnummer</value>
- </row>
- <row id="90010851" trl="N">
-  <value column="Name" original="Updated">Uppdaterat datum</value>
- </row>
- <row id="90010852" trl="N">
-  <value column="Name" original="Created">Skapad</value>
- </row>
- <row id="90010853" trl="N">
-  <value column="Name" original="Account">Konto</value>
- </row>
- <row id="90010854" trl="N">
-  <value column="Name" original="Account Date">Bokföringsdatum</value>
- </row>
- <row id="90010855" trl="N">
-  <value column="Name" original="Created By">Skapat av</value>
- </row>
- <row id="90010856" trl="N">
-  <value column="Name" original="Organization">Organisation</value>
- </row>
- <row id="90010857" trl="N">
-  <value column="Name" original="Record ID">Post-id</value>
- </row>
- <row id="90010859" trl="N">
-  <value column="Name" original="Updated">Uppdaterat datum</value>
- </row>
- <row id="90010860" trl="N">
-  <value column="Name" original="Created By">Skapat av</value>
- </row>
- <row id="90010861" trl="N">
-  <value column="Name" original="Document No">Dokumentnummer</value>
- </row>
- <row id="90010863" trl="N">
-  <value column="Name" original="Transaction Date">Transaktionsdatum</value>
- </row>
- <row id="90010864" trl="N">
-  <value column="Name" original="Product">Produkt</value>
- </row>
- <row id="90010865" trl="N">
-  <value column="Name" original="Active">Aktiv</value>
- </row>
- <row id="90010866" trl="N">
-  <value column="Name" original="Updated By">Uppdaterad av</value>
- </row>
- <row id="90010867" trl="N">
-  <value column="Name" original="Business Partner ">Affärspartner</value>
- </row>
- <row id="90010868" trl="N">
-  <value column="Name" original="Record ID">Post-id</value>
- </row>
- <row id="90010869" trl="N">
-  <value column="Name" original="Accounting Schema">Bokföringsschema</value>
- </row>
- <row id="90010870" trl="N">
-  <value column="Name" original="Organization">Organisation</value>
- </row>
- <row id="90010871" trl="N">
-  <value column="Name" original="Created">Skapad</value>
- </row>
- <row id="90010872" trl="N">
-  <value column="Name" original="Period">Period</value>
- </row>
- <row id="90010873" trl="N">
-  <value column="Name" original="Accounted Debit">Debet</value>
- </row>
- <row id="90010874" trl="N">
-  <value column="Name" original="Account Date">Bokföringsdatum</value>
- </row>
- <row id="90010875" trl="N">
-  <value column="Name" original="Accounted Credit">Kredit</value>
- </row>
- <row id="90010876" trl="N">
-  <value column="Name" original="Account">Konto</value>
- </row>
- <row id="90010880" trl="N">
-  <value column="Name" original="Accounted Debit">Debet</value>
- </row>
- <row id="90010881" trl="N">
-  <value column="Name" original="Product">Produkt</value>
- </row>
- <row id="90010882" trl="N">
-  <value column="Name" original="Accounted Credit">Kredit</value>
- </row>
- <row id="90010883" trl="N">
-  <value column="Name" original="Accounting Schema">Bokföringsschema</value>
- </row>
- <row id="90010884" trl="N">
-  <value column="Name" original="Updated By">Uppdaterad av</value>
- </row>
- <row id="90010885" trl="N">
-  <value column="Name" original="Created">Skapad</value>
- </row>
- <row id="90010886" trl="N">
-  <value column="Name" original="Transaction Date">Transaktionsdatum</value>
- </row>
- <row id="90010887" trl="N">
-  <value column="Name" original="Period">Period</value>
- </row>
- <row id="90010888" trl="N">
-  <value column="Name" original="Payment">Betalning</value>
- </row>
- <row id="90010889" trl="N">
-  <value column="Name" original="Business Partner ">Affärspartner</value>
- </row>
- <row id="90010890" trl="N">
-  <value column="Name" original="Updated">Uppdaterat datum</value>
- </row>
- <row id="90010891" trl="N">
-  <value column="Name" original="Active">Aktiv</value>
- </row>
- <row id="90010892" trl="N">
-  <value column="Name" original="Account">Konto</value>
- </row>
- <row id="90010893" trl="N">
-  <value column="Name" original="Organization">Organisation</value>
- </row>
- <row id="90010894" trl="N">
-  <value column="Name" original="Account Date">Bokföringsdatum</value>
- </row>
- <row id="90010895" trl="N">
-  <value column="Name" original="Record ID">Post-id</value>
- </row>
- <row id="90010896" trl="N">
-  <value column="Name" original="Created By">Skapat av</value>
- </row>
- <row id="90010897" trl="N">
-  <value column="Name" original="Invoice">Faktura</value>
- </row>
- <row id="90010898" trl="N">
-  <value column="Name" original="Created By">Skapat av</value>
- </row>
- <row id="90010899" trl="N">
-  <value column="Name" original="Document No">Dokumentnummer</value>
- </row>
- <row id="90010900" trl="N">
-  <value column="Name" original="Updated By">Uppdaterad av</value>
- </row>
- <row id="90010901" trl="N">
-  <value column="Name" original="Created">Skapad</value>
- </row>
- <row id="90010902" trl="N">
-  <value column="Name" original="Updated">Uppdaterat datum</value>
- </row>
- <row id="90010903" trl="N">
-  <value column="Name" original="Document Date">Dokumentdatum</value>
- </row>
- <row id="90010904" trl="N">
-  <value column="Name" original="Account">Konto</value>
- </row>
- <row id="90010905" trl="N">
-  <value column="Name" original="Accounted Credit">Kredit</value>
- </row>
- <row id="90010906" trl="N">
-  <value column="Name" original="Accounting Schema">Bokföringsschema</value>
- </row>
- <row id="90010907" trl="N">
-  <value column="Name" original="Organization">Organisation</value>
- </row>
- <row id="90010908" trl="N">
-  <value column="Name" original="Product">Produkt</value>
- </row>
- <row id="90010909" trl="N">
-  <value column="Name" original="Record ID">Post-id</value>
- </row>
- <row id="90010910" trl="N">
-  <value column="Name" original="Accounted Debit">Debet</value>
- </row>
- <row id="90010911" trl="N">
-  <value column="Name" original="Active">Aktiv</value>
- </row>
- <row id="90010912" trl="N">
-  <value column="Name" original="Period">Period</value>
- </row>
- <row id="90010913" trl="N">
-  <value column="Name" original="Account Date">Bokföringsdatum</value>
- </row>
- <row id="90010915" trl="N">
-  <value column="Name" original="Created">Skapad</value>
- </row>
- <row id="90010916" trl="N">
-  <value column="Name" original="Accounting Schema">Bokföringsschema</value>
- </row>
- <row id="90010917" trl="N">
-  <value column="Name" original="Accounted Debit">Debet</value>
- </row>
- <row id="90010918" trl="N">
-  <value column="Name" original="Product">Produkt</value>
- </row>
- <row id="90010919" trl="N">
-  <value column="Name" original="Account">Konto</value>
- </row>
- <row id="90010920" trl="N">
-  <value column="Name" original="Period">Period</value>
- </row>
- <row id="90010921" trl="N">
-  <value column="Name" original="Account Date">Bokföringsdatum</value>
- </row>
- <row id="90010922" trl="N">
-  <value column="Name" original="Created By">Skapat av</value>
- </row>
- <row id="90010923" trl="N">
-  <value column="Name" original="Business Partner ">Affärspartner</value>
- </row>
- <row id="90010924" trl="N">
-  <value column="Name" original="Organization">Organisation</value>
- </row>
- <row id="90010925" trl="N">
-  <value column="Name" original="Record ID">Post-id</value>
- </row>
- <row id="90010926" trl="N">
-  <value column="Name" original="Accounted Credit">Kredit</value>
- </row>
- <row id="90010927" trl="N">
-  <value column="Name" original="Active">Aktiv</value>
- </row>
- <row id="90010928" trl="N">
-  <value column="Name" original="Updated">Uppdaterat datum</value>
- </row>
- <row id="90010930" trl="N">
-  <value column="Name" original="Movement Date">Förflyttningsdatum</value>
- </row>
- <row id="90010931" trl="N">
-  <value column="Name" original="Updated By">Uppdaterad av</value>
- </row>
- <row id="90010932" trl="N">
-  <value column="Name" original="Document No">Dokumentnummer</value>
- </row>
- <row id="90012142" trl="N">
-  <value column="Name" original="Updated">Uppdaterat datum</value>
- </row>
- <row id="90012143" trl="N">
-  <value column="Name" original="Accounted Credit">Kredit</value>
- </row>
- <row id="90012144" trl="N">
-  <value column="Name" original="Organization">Organisation</value>
- </row>
- <row id="90012145" trl="N">
-  <value column="Name" original="Accounted Debit">Debet</value>
- </row>
- <row id="90012146" trl="N">
-  <value column="Name" original="Date Invoiced">Fakturadatum</value>
- </row>
- <row id="90012147" trl="N">
-  <value column="Name" original="Product">Produkt</value>
- </row>
- <row id="90012148" trl="N">
-  <value column="Name" original="Created">Skapad</value>
- </row>
- <row id="90012149" trl="N">
-  <value column="Name" original="Business Partner ">Affärspartner</value>
- </row>
- <row id="90012150" trl="N">
-  <value column="Name" original="Period">Period</value>
- </row>
- <row id="90012151" trl="N">
-  <value column="Name" original="Updated By">Uppdaterad av</value>
- </row>
- <row id="90012152" trl="N">
-  <value column="Name" original="Document No">Dokumentnummer</value>
- </row>
- <row id="90012153" trl="N">
-  <value column="Name" original="Accounting Schema">Bokföringsschema</value>
- </row>
- <row id="90012154" trl="N">
-  <value column="Name" original="Created By">Skapat av</value>
- </row>
- <row id="90012155" trl="N">
-  <value column="Name" original="Account">Konto</value>
- </row>
- <row id="90012157" trl="N">
-  <value column="Name" original="Active">Aktiv</value>
- </row>
- <row id="90012158" trl="N">
-  <value column="Name" original="Account Date">Bokföringsdatum</value>
- </row>
- <row id="90012159" trl="N">
-  <value column="Name" original="Record ID">Post-id</value>
- </row>
- <row id="90012273" trl="N">
-  <value column="Name" original="Accounting Schema">Bokföringsschema</value>
- </row>
- <row id="90012274" trl="N">
-  <value column="Name" original="Accounted Credit">Kredit</value>
- </row>
- <row id="90012275" trl="N">
-  <value column="Name" original="Accounted Debit">Debet</value>
- </row>
- <row id="90012276" trl="N">
-  <value column="Name" original="Business Partner ">Affärspartner</value>
- </row>
- <row id="90012277" trl="N">
-  <value column="Name" original="Period">Period</value>
- </row>
- <row id="90012278" trl="N">
-  <value column="Name" original="Active">Aktiv</value>
- </row>
- <row id="90012279" trl="N">
-  <value column="Name" original="Created By">Skapat av</value>
- </row>
- <row id="90012280" trl="N">
-  <value column="Name" original="Account Date">Bokföringsdatum</value>
- </row>
- <row id="90012281" trl="N">
-  <value column="Name" original="Updated By">Uppdaterad av</value>
- </row>
- <row id="90012282" trl="N">
-  <value column="Name" original="Updated">Uppdaterat datum</value>
- </row>
- <row id="90012283" trl="N">
-  <value column="Name" original="Created">Skapad</value>
- </row>
- <row id="90012284" trl="N">
-  <value column="Name" original="Account">Konto</value>
- </row>
- <row id="90012285" trl="N">
-  <value column="Name" original="Organization">Organisation</value>
- </row>
- <row id="90012288" trl="N">
-  <value column="Name" original="Target Document Type">Ordertyp</value>
- </row>
- <row id="90012289" trl="N">
-  <value column="Name" original="Target Document Type">Ordertyp</value>
  </row>
 </adempiereTrl>

@@ -425,14 +425,14 @@ Prislistor kan beräknas och kopieras. För att snabba upp beräkningen, lagras 
   <value column="Help" original="The Field Group Window allows you to define subsections in a tab.  For System Admin use only.">Fältgruppsfönstret ger dig möjlighet att definiera delsektioner av en flik. Endast för systemadministration.</value>
  </row>
  <row id="201" trl="Y">
-  <value column="Name" original="Request">Förfrågan</value>
-  <value column="Description" original="Work on your requests">Arbeta med förfrågningar tilldelade dig</value>
-  <value column="Help" original="The Request Window is used to define and track any request assigned to you.">I det här fönstret kan du arbeta med alla förfrågningar som tilldelats dig.</value>
+  <value column="Name" original="Request">Ärende</value>
+  <value column="Description" original="Work on your requests">Arbeta med ärenden tilldelade dig</value>
+  <value column="Help" original="The Request Window is used to define and track any request assigned to you.">I det här fönstret kan du arbeta med alla ärende som tilldelats dig.</value>
  </row>
  <row id="203" trl="Y">
-  <value column="Name" original="Request Processor">Förfrågeprocess</value>
-  <value column="Description" original="Define Request Processors">Definiera förfrågeprocesser</value>
-  <value column="Help" original="The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes  A Request Processor can be just for a specific Request Type or for all.">Förfrågeprocessor gör det möjligt att definiera olika processer, och även frekvens och tidpunkt när dessa processer ska inträffa.</value>
+  <value column="Name" original="Request Processor">Ärendeprocess</value>
+  <value column="Description" original="Define Request Processors">Definiera ärendeprocesser</value>
+  <value column="Help" original="The Request Processor Window allows you to define different processes that you want to occur and the frequency and timing of these processes  A Request Processor can be just for a specific Request Type or for all.">Ärendeprocessen gör det möjligt att definiera olika processer, och även frekvens och tidpunkt när dessa processer ska inträffa.</value>
  </row>
  <row id="204" trl="Y">
   <value column="Name" original="Mail Template">E-postmall</value>
@@ -440,8 +440,8 @@ Prislistor kan beräknas och kopieras. För att snabba upp beräkningen, lagras 
   <value column="Help" original=""/>
  </row>
  <row id="205" trl="Y">
-  <value column="Name" original="View Allocation">Visa allokering</value>
-  <value column="Description" original="View and Reverse Allocations ">Visa och hantera allokeringar</value>
+  <value column="Name" original="View Allocation">Visa (betal)fördelning</value>
+  <value column="Description" original="View and Reverse Allocations ">Visa och hantera betalningsfördelningar</value>
   <value column="Help" original="The Reverse Allocation Window allows you to view and reverse a payment allocation">Fönstret Korrigera allokering gör det möjligt att ta tillbaka/korrigera en betalningsallokering.</value>
  </row>
  <row id="206" trl="Y">
@@ -1108,34 +1108,4 @@ If not defined, the first matching document type is used (e.g. AR Invoice - firs
   <value column="Description" original="POS Function Key Layout">POS Function Key Layout</value>
   <value column="Help" original=""/>
  </row>
- <row id="1000001" trl="Y">
-  <value column="Name" original="Bank">Bank</value>
-  <value column="Description" original="Maintain Bank">Maintain Bank</value>
-  <value column="Help" original="The Bank Window is used to define the banks and accounts associated with an organization or business partner">The Bank Window is used to define the banks and accounts associated with an organization or business partner</value>
- </row>
- <row id="1000002" trl="Y">
-  <value column="Name" original="Business Partner">Affärspartner</value>
-  <value column="Description" original="Maintain Business Partners">Underhåll affärspartner</value>
-  <value column="Help" original="The Business Partner window allows you do define any party with whom you transact.  This includes customers, vendors and employees.  Prior to entering or importing products, you must define your vendors.  Prior to generating Orders you must define your customers.  This window holds all information about your business partner and the values entered will be used to generate all document transactions">Affärspartner fönstret gör det möjligt för dig att hantera alla parter som företaget interagerar med. Det här omfattar kunder, leverantörer och anställda.Innan du lägger upp eller importerar produkter måste du definiera leverantörerna och innan du skapar ordrar måste du ha lagt upp affärspartner. Det här fönstret innehåller all information om dina affärspartners och de värden du anger kommer att användas vid skapandet av transaktioner.</value>
- </row>
- <row id="1000004" trl="Y">
-  <value column="Name" original="Payment">Betalning</value>
-  <value column="Description" original="Process Payments and Receipts">Bearbeta betalningar</value>
-  <value column="Help" original="The Process Payments Window allows you to enter payments and reaipts for invoices.  If the payment is for a single invoice then it can be processed here.  If it is for multiple invoices or is a partial payment then it should be processed in the Payment Allocation Window.">Fönstret för att bearbeta betalningar ger dig möjlighet att registrera mottagna betalningar för fakturor. Om betalningen rör en enskild faktura kan den hanteras här, annars ska betalningar hanteras i fönstret för allokeirng av betalningar.</value>
- </row>
- <row id="1000005" trl="Y">
-  <value column="Name" original="Invoice (Vendor)">Leverantörsfaktura</value>
-  <value column="Description" original="Vendor Invoice Entry">Behandling av leverantörsfakturor</value>
-  <value column="Help" original="The Vendor Invoice Window allows you to display and enter Invoices from a Vendor.  Vendor Invoices can also be generated from Purchase Orders or Delivery Receipts.">Det här fönstret ger dig möjlighet att visa och registrera fakturor för en given leverantör. Fakturor kan även genereras från inköpsorder eller inleveransdokument.</value>
- </row>
- <row id="1000006" trl="Y">
-  <value column="Name" original="GL Journal">Manuellt verifikat</value>
-  <value column="Description" original="Enter and change Manual Journal Entries">Registrera och förändra manuella verifikat</value>
-  <value column="Help" original="The GL Journal Window allows you to enter and modify manual journal entries">Huvudboksverifikatfönstret ger dig möjlighet att lägga in och ändra manuellt registrerade verifikat.</value>
- </row>
- <row id="1000007" trl="Y">
-  <value column="Name" original="Invoice (Customer)">Kundfaktura</value>
-  <value column="Description" original="">Behandling av kundfakturor</value>
-  <value column="Help" original="">Det här fönstret ger dig möjlighet att visa och registrera fakturor för en given kund. Fakturor kan även genereras från kundorder eller leveransdokument.</value>
- </row>
- /adempiereTrl>
+ </adempiereTrl>

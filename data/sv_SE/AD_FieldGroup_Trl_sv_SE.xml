@@ -57,7 +57,7 @@
   <value column="Name" original="Defaults">Standardvärden</value>
  </row>
  <row id="119" trl="Y">
-  <value column="Name" original="Request Management">Administration av förfrågningar</value>
+  <value column="Name" original="Request Management">Ärendehantering</value>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Web Store">Webbshop</value>
