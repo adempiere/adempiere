@@ -16,6 +16,9 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import org.apache.tools.ant.taskdefs.Length;
+import org.python.modules.math;
+
 
 /**
  *	Amount in Words for Vietnamese
@@ -37,23 +40,29 @@ package org.compiere.util;
  *			5 - "năm" but 15 = "mười lăm"
  *			
  *  TEST RESULTS:
- *  	0.23 = Không 23/100
- *		1.23 = Một 23/100
- *		12.345 = Mười hai 345/100
- *		103.45 = Một Trăm linh Ba 45/100
- *		114.45 = Một Trăm Mười bốn 45/100
- *		123.45 = Một Trăm Hai mươi ba 45/100
- *		1023.45 = Một Nghìn  không trăm Hai mươi ba 45/100
- *		1234.56 = Một Nghìn Hai Trăm Ba mươi bốn 56/100
- *		12345.78 = Mười hai Nghìn Ba Trăm Bốn mươi lăm 78/100
- *		103457.89 = Một Trăm linh Ba Nghìn Bốn Trăm Năm mươi bẩy 89/100
- *		1,234,578.90 = Một Triệu Hai Trăm Ba mươi bốn Nghìn Năm Trăm Bẩy mươi tám 90/100
- *		1,034,578.90 = Một Triệu  không trăm Ba mươi bốn Nghìn Năm Trăm Bẩy mươi tám 90/100
- *		1,004,008.90 = Một Triệu  không trăm linh Bốn Nghìn  không trăm linh Tám 90/100
- *		1,201,034,578.90 = Một Tỉ Hai Trăm linh Một Triệu  không trăm Ba mươi bốn Nghìn Năm Trăm Bẩy mươi tám 90/100
+ * 0.23 = không phẩy hai mươi ba
+ * 1.23 = một phẩy hai mươi ba
+ * 12,345 = mười hai nghìn ba trăm bốn mươi lăm
+ * 103.45 = một trăm linh ba phẩy bốn mươi lăm
+ * 114,45 = một trăm mười bốn phẩy bốn mươi lăm
+ * 123.45 = một trăm hai mươi ba phẩy bốn mươi lăm
+ * 1023.45 = một nghìn không trăm hai mươi ba phẩy bốn mươi lăm
+ * 1234.56 = một nghìn hai trăm ba mươi bốn phẩy năm mươi sáu
+ * 12345.78 = mười hai nghìn ba trăm bốn mươi lăm phẩy bẩy mươi tám
+ * 100457.89 = một trăm nghìn bốn trăm năm mươi bẩy phẩy tám mươi chín
+ * 100,234,578.90 = một trăm triệu hai trăm ba mươi bốn nghìn năm trăm bẩy mươi tám phẩy chín mươi
+ * 12,034,578.90 = mười hai triệu không trăm ba mươi bốn nghìn năm trăm bẩy mươi tám phẩy chín mươi
+ * 103,004,008.90 = một trăm linh ba triệu không trăm linh bốn nghìn không trăm linh tám phẩy chín mươi
+ * 1,201,034,578.90 = một tỉ hai trăm linh một triệu không trăm ba mươi bốn nghìn năm trăm bẩy mươi tám phẩy chín mươi
+ * 12,201,034,578.90 = mười hai tỉ hai trăm linh một triệu không trăm ba mươi bốn nghìn năm trăm bẩy mươi tám phẩy chín mươi
+ * 10220134578 = mười tỉ hai trăm hai mươi triệu một trăm ba mươi bốn nghìn năm trăm bẩy mươi tám
+ * 1.093.201.034.578 = một nghìn không trăm chín mươi ba tỉ hai trăm linh một triệu không trăm ba mươi bốn nghìn năm trăm bẩy mươi tám
+ * 100,932,010,345,780 = một trăm nghìn chín trăm ba mươi hai tỉ mười triệu ba trăm bốn mươi lăm nghìn bẩy trăm tám mươi
+ * 109.320.103,48 = một trăm linh chín triệu ba trăm hai mươi nghìn một trăm linh ba phẩy bốn mươi tám
+
  *  	 
 
- *  @version $Id: AmtInWords_VI.java,v 1.0 2009/03/30 23:03:00$
+ *  @version $Id: AmtInWords_VI.java,v 1.1 2009/04/08 00:28:00$
  */
 public class AmtInWords_VI implements AmtInWords
 {
@@ -68,130 +77,115 @@ public class AmtInWords_VI implements AmtInWords
 	/** Thousands plus				*/
 	private static final String[]	majorNames	= {
 		"", 
-		" Nghìn ", 
-		" Triệu ",
-		" Tỉ ", 
-		" Nghìn tỉ ", 
-		" Triệu tỉ ",
-		" Tỉ tỉ "
+		" nghìn ", 
+		" triệu ",
+		" tỉ ", 
+		" nghìn ", 
+		" triệu ",
+		" tỉ "
 	};
-
-	/** Ten to Ninety				*///No necessary anymore since we have # to 99
-/*	private static final String[]	tensNames	= { 
-		"", 
-		"Mười", 
-		"Hai mươi",
-		"Ba mươi", 
-		"Bốn mươi", 
-		"Năm mươi", 
-		"Sáu mươi", 
-		"Bảy mươi",
-		"Tám mươi", 
-		"Chín mươi"
-	};
-*/
 	/** numbers to 99				*/
 	private static final String[]	numNames	= { 
-		"Không", 
-		"Một", 
-		"Hai",
-		"Ba", 
-		"Bốn", 
-		"Năm", 
-		"Sáu", 
-		"Bẩy", 
-		"Tám", 
-		"Chín",
-		"Mười", 
-		"Mười một", 
-		"Mười hai", 
-		"Mười ba", 
-		"Mười bốn", 
-		"Mười lăm", //list it here so no programming is needed. See note 3,4
-		"Mười sáu", 
-		"Mười bẩy", 
-		"Mười tám", 
-		"Mười chín",
-		"Hai mươi",
-		"Hai mươi mốt", //list it here so no programming is needed. See note 3,4
-		"Hai mươi hai",
-		"Hai mươi ba",
-		"Hai mươi bốn",
-		"Hai mươi lăm",//list it here so no programming is needed. See note 3,4
-		"Hai mươi sáu",
-		"Hai mươi bẩy",
-		"Hai mươi tám",
-		"Hai mươi chín",
-		"Ba mươi",
-		"Ba mươi mốt",//list it here so no programming is needed. See note 3,4
-		"Ba mươi hai",
-		"Ba mươi ba",
-		"Ba mươi bốn",
-		"Ba mươi lăm",//list it here so no programming is needed. See note 3,4
-		"Ba mươi sáu",
-		"Ba mươi bẩy",
-		"Ba mươi tám",
-		"Ba mươi chín",
-		"Bốn mươi",
-		"Bốn mươi mốt",//list it here so no programming is needed. See note 3,4
-		"Bốn mươi hai",
-		"Bốn mươi ba",
-		"Bốn mươi bốn",
-		"Bốn mươi lăm",//list it here so no programming is needed. See note 3,4
-		"Bốn mươi sáu",
-		"Bốn mươi bẩy",
-		"Bốn mươi tám",
-		"Bốn mươi chín",
-		"Năm mươi",
-		"Năm mươi mốt",//list it here so no programming is needed. See note 3,4
-		"Năm mươi hai",
-		"Năm mươi ba",
-		"Năm mươi bốn",
-		"Năm mươi lăm",//list it here so no programming is needed. See note 3,4
-		"Năm mươi sáu",
-		"Năm mươi bẩy",
-		"Năm mươi tám",
-		"Năm mươi chín",
-		"Sáu mươi",
-		"Sáu mươi mốt",//list it here so no programming is needed. See note 3,4
-		"Sáu mươi hai",
-		"Sáu mươi ba",
-		"Sáu mươi bốn",
-		"Sáu mươi lăm",//list it here so no programming is needed. See note 3,4
-		"Sáu mươi sáu",
-		"Sáu mươi bẩy",
-		"Sáu mươi tám",
-		"Sáu mươi chín",
-		"Bẩy mươi",
-		"Bẩy mươi mốt",//list it here so no programming is needed. See note 3,4
-		"Bẩy mươi hai",
-		"Bẩy mươi ba",
-		"Bẩy mươi bốn",
-		"Bẩy mươi lăm",//list it here so no programming is needed. See note 3,4
-		"Bẩy mươi sáu",
-		"Bẩy mươi bẩy",
-		"Bẩy mươi tám",
-		"Bẩy mươi chín",
-		"Tám mươi",
-		"Tám mươi mốt",//list it here so no programming is needed. See note 3,4
-		"Tám mươi hai",
-		"Tám mươi ba",
-		"Tám mươi bốn",
-		"Tám mươi lăm",//list it here so no programming is needed. See note 3,4
-		"Tám mươi sáu",
-		"Tám mươi bẩy",
-		"Tám mươi tám",
-		"Tám mươi chín",
-		"Chín mươi",
-		"Chín mươi mốt",//list it here so no programming is needed. See note 3,4
-		"Chín mươi hai",
-		"Chín mươi ba",
-		"Chín mươi bốn",
-		"Chín mươi lăm",//list it here so no programming is needed. See note 3,4
-		"Chín mươi sáu",
-		"Chín mươi bẩy",
-		"Chín mươi tám",
-		"Chín mươi chín"
+		"", 
+		"một", 
+		"hai",
+		"ba", 
+		"bốn", 
+		"năm", 
+		"sáu", 
+		"bẩy", 
+		"tám", 
+		"chín",
+		"mười", 
+		"mười một", 
+		"mười hai", 
+		"mười ba", 
+		"mười bốn", 
+		"mười lăm", //list it here so no programming is needed. see note 3,4
+		"mười sáu", 
+		"mười bẩy", 
+		"mười tám", 
+		"mười chín",
+		"hai mươi",
+		"hai mươi mốt", //list it here so no programming is needed. see note 3,4
+		"hai mươi hai",
+		"hai mươi ba",
+		"hai mươi bốn",
+		"hai mươi lăm",//list it here so no programming is needed. see note 3,4
+		"hai mươi sáu",
+		"hai mươi bẩy",
+		"hai mươi tám",
+		"hai mươi chín",
+		"ba mươi",
+		"ba mươi mốt",//list it here so no programming is needed. see note 3,4
+		"ba mươi hai",
+		"ba mươi ba",
+		"ba mươi bốn",
+		"ba mươi lăm",//list it here so no programming is needed. see note 3,4
+		"ba mươi sáu",
+		"ba mươi bẩy",
+		"ba mươi tám",
+		"ba mươi chín",
+		"bốn mươi",
+		"bốn mươi mốt",//list it here so no programming is needed. see note 3,4
+		"bốn mươi hai",
+		"bốn mươi ba",
+		"bốn mươi bốn",
+		"bốn mươi lăm",//list it here so no programming is needed. see note 3,4
+		"bốn mươi sáu",
+		"bốn mươi bẩy",
+		"bốn mươi tám",
+		"bốn mươi chín",
+		"năm mươi",
+		"năm mươi mốt",//list it here so no programming is needed. see note 3,4
+		"năm mươi hai",
+		"năm mươi ba",
+		"năm mươi bốn",
+		"năm mươi lăm",//list it here so no programming is needed. see note 3,4
+		"năm mươi sáu",
+		"năm mươi bẩy",
+		"năm mươi tám",
+		"năm mươi chín",
+		"sáu mươi",
+		"sáu mươi mốt",//list it here so no programming is needed. see note 3,4
+		"sáu mươi hai",
+		"sáu mươi ba",
+		"sáu mươi bốn",
+		"sáu mươi lăm",//list it here so no programming is needed. see note 3,4
+		"sáu mươi sáu",
+		"sáu mươi bẩy",
+		"sáu mươi tám",
+		"sáu mươi chín",
+		"bẩy mươi",
+		"bẩy mươi mốt",//list it here so no programming is needed. See note 3,4
+		"bẩy mươi hai",
+		"bẩy mươi ba",
+		"bẩy mươi bốn",
+		"bẩy mươi lăm",//list it here so no programming is needed. See note 3,4
+		"bẩy mươi sáu",
+		"bẩy mươi bẩy",
+		"bẩy mươi tám",
+		"bẩy mươi chín",
+		"tám mươi",
+		"tám mươi mốt",//list it here so no programming is needed. See note 3,4
+		"tám mươi hai",
+		"tám mươi ba",
+		"tám mươi bốn",
+		"tám mươi lăm",//list it here so no programming is needed. See note 3,4
+		"tám mươi sáu",
+		"tám mươi bẩy",
+		"tám mươi tám",
+		"tám mươi chín",
+		"chín mươi",
+		"chín mươi mốt",//list it here so no programming is needed. See note 3,4
+		"chín mươi hai",
+		"chín mươi ba",
+		"chín mươi bốn",
+		"chín mươi lăm",//list it here so no programming is needed. See note 3,4
+		"chín mươi sáu",
+		"chín mươi bẩy",
+		"chín mươi tám",
+		"chín mươi chín"
 	};
 
 	/**
@@ -205,14 +199,14 @@ public class AmtInWords_VI implements AmtInWords
 		String soFar = "";
 		//	Below 10
 		if (number % 100 < 10 && number > 100)
-			soFar = "linh "; //see Note 1
+			soFar = " linh "; //see Note 1
 			soFar = soFar + numNames[number % 100];
 			number /= 100;
 
 		if (number == 0)
 			return soFar;
 		
-		return numNames[number] + " Trăm " + soFar;
+		return numNames[number] + " trăm " + soFar;
 	}	//	convertLessThanOneThousand
 
 	/**
@@ -225,13 +219,13 @@ public class AmtInWords_VI implements AmtInWords
 		/* special case */
 		if (number == 0)
 		{
-			return "Không";
+			return "không";
 		}
 		String prefix = "";
 		if (number < 0)
 		{
 			number = -number;
-			prefix = "Âm ";
+			prefix = "âm ";
 		}
 		String soFar = "";
 		
@@ -277,26 +271,68 @@ public class AmtInWords_VI implements AmtInWords
 		if (amount == null)
 			return amount;
 		//
+		int numberOfCommas = 0;
+		int numberOfPeriods = 0;
 		StringBuffer sb = new StringBuffer ();
-		int pos = amount.lastIndexOf ('.');
-		int pos2 = amount.lastIndexOf (',');
-		if (pos2 > pos)
-			pos = pos2;
-		String oldamt = amount;
-		amount = amount.replaceAll (",", "");
-		int newpos = amount.lastIndexOf ('.');
-		long dollars = Long.parseLong(amount.substring (0, newpos));
-		sb.append (convert (dollars));
-		for (int i = 0; i < oldamt.length (); i++)
-		{
-			if (pos == i) //	we are done
+		int period = amount.lastIndexOf ('.'); 
+		numberOfPeriods = amount.replaceAll("[^\\.]","").length();
+		int comma = amount.lastIndexOf (','); 
+		numberOfCommas = amount.replaceAll("[^,]","").length();
+		int newpos = 0;
+		String decamt ="";
+		if (comma > period) //like 1.000.000,89 or 1,000,000 or 120,355 (a hundred and twenty 355/1000)
+		{	
+			if (period != -1) //like 1.000.000,89
 			{
-				String cents = oldamt.substring (i + 1);
-				sb.append (' ').append (cents).append ("/100");
-				break;
+				decamt = amount.substring(comma+1,amount.length());
+				amount = amount.replaceAll ("\\.", "");
+				newpos = amount.lastIndexOf (',')+1;
+			}
+			else if ((amount.length()-comma-1) <=2 )
+				{
+					decamt = amount.substring(comma+1,amount.length());
+					newpos = comma+1;
+				}
+				else	//like 1,000,000
+				{	decamt = "";
+					amount = amount.replaceAll (",", "");
+					newpos = 0;
+				}
+		}
+		if (comma < period) //like 1,000.09 or 1.000.000 or 120.355 (a hundred and twenty 355/100)
+		{	
+			if ((comma !=-1) | (numberOfPeriods ==1))//like 1,000.09
+			{
+				decamt = amount.substring(period+1,amount.length());
+				amount = amount.replaceAll (",", "");
+				newpos = amount.lastIndexOf ('.')+1;
+			} 
+			else //like 1.000.000
+			{
+				decamt = "";
+				amount = amount.replaceAll ("\\.", "");
+				newpos = 0;
 			}
 		}
-		return sb.toString ();
+		else if ((comma==-1) && (period ==-1)) //like 1000000
+				{
+					decamt = "";
+					newpos = 0;
+				}
+		long dollars = 0;
+		long decima = 0;
+		if (newpos !=0)
+		{	dollars = Long.parseLong(amount.substring (0, newpos-1));
+			sb.append (convert (dollars));
+			decima = Long.parseLong(decamt);
+			sb.append(" phẩy ").append(convert(decima));
+		}
+		else 
+		{	
+			dollars = Long.parseLong(amount.substring(0,amount.length()));
+			sb.append (convert(dollars));
+		}
+	return sb.toString ().replaceAll("  ", " ").replaceAll("linh nghìn", "nghìn").replaceAll("linh triệu","triệu").replaceAll("linh tỉ","tỉ");
 	}	//	getAmtInWords
 
 	/**
@@ -325,18 +361,25 @@ public class AmtInWords_VI implements AmtInWords
 	//	aiw.print (".23");	Error
 		aiw.print ("0.23");
 		aiw.print ("1.23");
-		aiw.print ("12.345");
+		aiw.print ("12,345");
 		aiw.print ("103.45");
-		aiw.print ("114.45");
+		aiw.print ("114,45");
 		aiw.print ("123.45");
-		aiw.print ("1023.45");
+		aiw.print ("500000000");
 		aiw.print ("1234.56");
 		aiw.print ("12345.78");
-		aiw.print ("103457.89");
-		aiw.print ("1,234,578.90");
-		aiw.print ("1,034,578.90");
-		aiw.print ("1,004,008.90");
+		aiw.print ("100457.89");
+		aiw.print ("100,234,578.90");
+		aiw.print ("12,034,578.90");
+		aiw.print ("103,004,008.90");
 		aiw.print ("1,201,034,578.90");
+		aiw.print ("12,201,034,578.90");
+		aiw.print ("10220134578");
+		aiw.print ("1.093.201.034.578");
+		aiw.print ("100,932,010,345,780");
+		aiw.print ("109.320.103,48");
 	}	//	main
 	
 }	//	AmtInWords_VI
+
+ 	  	 
