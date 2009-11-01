@@ -1,7 +1,5 @@
 #!/bin/sh
-# Adempiere Server Start
-#
-# $Id: RUN_Server2Stop.sh,v 1.8 2005/09/06 02:46:16 jjanke Exp $
+# ADempiere Server Stop script
 
 if [ $ADEMPIERE_HOME ]; then
   cd $ADEMPIERE_HOME/utils

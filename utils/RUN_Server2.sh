@@ -1,7 +1,5 @@
 #!/bin/sh
-# Adempiere Server Start
-#
-# $Id: RUN_Server2.sh,v 1.22 2005/10/26 00:38:18 jjanke Exp $
+# ADempiere Server Start
 
 if [ $ADEMPIERE_HOME ]; then
   cd $ADEMPIERE_HOME/utils
