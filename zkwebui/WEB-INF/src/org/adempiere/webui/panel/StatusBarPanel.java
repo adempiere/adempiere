@@ -54,10 +54,10 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 	 */
 	private static final long serialVersionUID = 8401520243224743864L;
 
-	private static final String POPUP_INFO_BACKGROUND_STYLE = "background-color: #262626; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #262626; border-radius: 3px";
-	private static final String POPUP_ERROR_BACKGROUND_STYLE = "background-color: #8B0000; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #8B0000; border-radius: 3px";
+	private static final String POPUP_INFO_BACKGROUND_STYLE = "background-color: #262626; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #262626; border-radius: 3px; ";
+	private static final String POPUP_ERROR_BACKGROUND_STYLE = "background-color: #8B0000; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #8B0000; border-radius: 3px; ";
 	private static final String POPUP_POSITION_STYLE = "position: absolute; z-index: 99; display: block; visibility: visible;";
-	private static final String POPUP_TEXT_STYLE = "color: white; background-color: transparent; font-size: 14px; font-weight:bold; position: relative; -moz-box-shadow: 0px 0px 0px #000;-webkit-box-shadow: 0px 0px 0px #000;box-shadow: 0px 0px 0px #000; padding: 4px;";
+	private static final String POPUP_TEXT_STYLE = "color: white; background-color: transparent; font-size: 14px; font-weight:bold; position: relative; -moz-box-shadow: 0px 0px 0px #000;-webkit-box-shadow: 0px 0px 0px #000;box-shadow: 0px 0px 0px #000; padding: 5px; width: 590px; min-height: 20px;";
 
 	private static final String SHADOW_STYLE = "-moz-box-shadow: 2px 2px 2px #888; -webkit-box-shadow: 2px 2px 2px #888; box-shadow: 2px 2px 2px #888;";
 
@@ -239,7 +239,6 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 		popupContent = new Div();
 
 		popup = new Div();
-        popup.setHeight("40px");
         popup.setWidth("600px");
         popup.appendChild(popupContent);
         popup.addEventListener(Events.ON_CLICK, this);
@@ -251,10 +250,15 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 		popup.setVisible(true);
 		popup.setStyle(popupStyle);
 
-		String script = "var p = Position.cumulativeOffset($e('" + this.getUuid() + "'));";
-		script += "$e('" + popup.getUuid() + "').style.top=(p[1]-23)+'px';";
-		script += "$e('" + popup.getUuid() + "').style.left=(p[0]+1)+'px';";
-		script += "$e('" + popup.getUuid() + "').style.display = 'block';";
+		String script = "var d = $e('" + popup.getUuid() + "');";
+		script += "d.style.display='block';d.style.visibility='hidden';";
+		script += "var hs = document.defaultView.getComputedStyle(d, null).getPropertyValue('height');";
+		script += "var h = parseInt(hs, 10);";
+		script += "h = h - 18;if (h < 0) h = 0;";
+		script += "var p = Position.cumulativeOffset($e('" + this.getUuid() + "'));";
+		script += "d.style.top=(p[1]-h)+'px';";
+		script += "d.style.left=(p[0]+1)+'px';";
+		script += "d.style.visibility='visible';";
 
 		AuScript aus = new AuScript(popup, script);
 		Clients.response(aus);
