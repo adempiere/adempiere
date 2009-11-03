@@ -542,17 +542,25 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		if (obj == null)
 			return;
 		//
-		StringBuffer TextMsg = new StringBuffer (obj.toString());
+		StringBuffer TextMsg = new StringBuffer ();
 		if (obj instanceof Exception)
 		{
 			Exception ex = (Exception)obj;
+			if (ex.getMessage() != null && ex.getMessage().trim().length() > 0)
+			{
+				TextMsg.append(ex.toString());
+			}
+			else if (ex instanceof NullPointerException)
+			{
+				TextMsg.append(ex.getClass().getName());
+			}
 			while (ex != null)
 			{
 				StackTraceElement[] st = ex.getStackTrace();
 				for (int i = 0; i < st.length; i++)
 				{
 					StackTraceElement ste = st[i];
-					if (i == 0 || ste.getClassName().startsWith("org.compiere"))
+					if (i == 0 || ste.getClassName().startsWith("org.compiere") || ste.getClassName().startsWith("org.adempiere"))
 						TextMsg.append(" (").append(i).append("): ")
 							.append(ste.toString())
 							.append("\n");
@@ -562,6 +570,10 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				else
 					ex = null;
 			}
+		}
+		else
+		{
+			TextMsg.append(obj.toString());
 		}
 		//
 		String oldText = getTextMsg();
@@ -759,6 +771,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			if (!m_state.isValidAction(StateEngine.ACTION_Start))
 			{
 				setTextMsg("State=" + getWFState() + " - cannot start");
+				addTextMsg(new Exception(""));
 				setWFState(StateEngine.STATE_Terminated);
 				return;
 			}
@@ -1283,6 +1296,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			{
 				newState = StateEngine.STATE_Terminated;
 				setTextMsg ("User Choice: " + e.toString());
+				addTextMsg(e);
 				log.log(Level.WARNING, "", e);
 			}
 			// Send Approval Notification

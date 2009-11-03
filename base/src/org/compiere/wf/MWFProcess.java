@@ -33,6 +33,7 @@ import org.compiere.process.StateEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 
 
 /**
@@ -110,6 +111,7 @@ public class MWFProcess extends X_AD_WF_Process
 		if (getPO() == null)
 		{
 			setTextMsg("No PO with ID=" + pi.getRecord_ID());
+			addTextMsg(new Exception(""));
 			super.setWFState (WFSTATE_Terminated);
 		}
 		else
@@ -310,6 +312,7 @@ public class MWFProcess extends X_AD_WF_Process
 		if (activities.length == 0)
 		{
 			setTextMsg("No Active Processed found");
+			addTextMsg(new Exception(""));
 			closedState = WFSTATE_Terminated;
 		}
 		if (closedState != null)
@@ -503,6 +506,7 @@ public class MWFProcess extends X_AD_WF_Process
 		{
 			log.log(Level.SEVERE, "AD_WF_Node_ID=" + AD_WF_Node_ID, e);
 			setTextMsg(e.toString());
+			addTextMsg(e);
 			setWFState(StateEngine.STATE_Terminated);
 			return false;
 		}
@@ -549,7 +553,56 @@ public class MWFProcess extends X_AD_WF_Process
 			super.setTextMsg (oldText + "\n - " + TextMsg);
 	}	//	setTextMsg	
 
-
+	/**
+	 * 	Add to Text Msg
+	 *	@param obj some object
+	 */
+	public void addTextMsg (Object obj)
+	{
+		if (obj == null)
+			return;
+		//
+		StringBuffer TextMsg = new StringBuffer ();
+		if (obj instanceof Exception)
+		{
+			Exception ex = (Exception)obj;
+			if (ex.getMessage() != null && ex.getMessage().trim().length() > 0)
+			{
+				TextMsg.append(ex.toString());
+			}
+			else if (ex instanceof NullPointerException)
+			{
+				TextMsg.append(ex.getClass().getName());
+			}
+			while (ex != null)
+			{
+				StackTraceElement[] st = ex.getStackTrace();
+				for (int i = 0; i < st.length; i++)
+				{
+					StackTraceElement ste = st[i];
+					if (i == 0 || ste.getClassName().startsWith("org.compiere") || ste.getClassName().startsWith("org.adempiere"))
+						TextMsg.append(" (").append(i).append("): ")
+							.append(ste.toString())
+							.append("\n");
+				}
+				if (ex.getCause() instanceof Exception)
+					ex = (Exception)ex.getCause();
+				else
+					ex = null;
+			}
+		}
+		else
+		{
+			TextMsg.append(obj.toString());
+		}
+		//
+		String oldText = getTextMsg();
+		if (oldText == null || oldText.length() == 0)
+			super.setTextMsg(Util.trimSize(TextMsg.toString(),1000));
+		else if (TextMsg != null && TextMsg.length() > 0)
+			super.setTextMsg(Util.trimSize(oldText + "\n - " + TextMsg.toString(),1000));
+	}	//	addTextMsg
+	
 	/**
 	 * 	Set Runtime (Error) Message
 	 *	@param msg message

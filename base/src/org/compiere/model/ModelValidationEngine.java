@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
 
 import javax.script.ScriptEngine;
 
@@ -386,11 +387,19 @@ public class ModelValidationEngine
 				{
 					String error = validator.modelChange(po, changeType);
 					if (error != null && error.length() > 0)
+					{
+						if (log.isLoggable(Level.FINE))
+						{
+							log.log(Level.FINE, "po="+po+" validator="+validator+" changeType="+changeType);
+						}
 						return error;
+					}
 				}
 			}
 			catch (Exception e)
 			{
+				//log the exception
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 				String error = e.getLocalizedMessage();
 				if (error == null)
 					error = e.toString();
@@ -533,13 +542,20 @@ public class ModelValidationEngine
 				{
 					String error = validator.docValidate(po, docTiming);
 					if (error != null && error.length() > 0)
+					{
+						if (log.isLoggable(Level.FINE))
+						{
+							log.log(Level.FINE, "po="+po+" validator="+validator+" timing="+docTiming);
+						}
 						return error;
+					}
 				}
 			}
 			catch (Exception e)
 			{
+				//log the stack trace
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 				// Exeptions are errors and should stop the document processing - teo_sarca [ 1679692 ]
-				// log.log(Level.SEVERE, validator.toString(), e);
 				String error = e.getLocalizedMessage();
 				if (error == null)
 					error = e.toString();
@@ -666,13 +682,20 @@ public class ModelValidationEngine
 				{
 					String error = validator.factsValidate(schema, facts, po);
 					if (error != null && error.length() > 0)
+					{
+						if (log.isLoggable(Level.FINE))
+						{
+							log.log(Level.FINE, "po="+po+" schema="+schema+" validator="+validator);
+						}
 						return error;
+					}
 				}
 			}
 			catch (Exception e)
 			{
-				// Exeptions are errors and should stop the document processing - teo_sarca [ 1679692 ]
-				// log.log(Level.SEVERE, validator.toString(), e);
+				//log the stack trace
+				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+				// Exeptions are errors and should stop the document processing - teo_sarca [ 1679692 ]				
 				String error = e.getLocalizedMessage();
 				if (error == null)
 					error = e.toString();
