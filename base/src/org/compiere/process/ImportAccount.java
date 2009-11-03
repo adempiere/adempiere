@@ -142,7 +142,7 @@ public class ImportAccount extends SvrProcess
 		log.fine("Set Element=" + no);
 		//
 		sql = new StringBuffer ("UPDATE I_ElementValue "
-			+ "SET I_IsImported='E', I_ErrorMsg='ERR=Invalid Element, ' "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Element, ' "
 			+ "WHERE C_Element_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
@@ -150,7 +150,7 @@ public class ImportAccount extends SvrProcess
 
 		//	No Name, Value
 		sql = new StringBuffer ("UPDATE I_ElementValue "
-			+ "SET I_IsImported='E', I_ErrorMsg='ERR=No Name, ' "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=No Name, ' "
 			+ "WHERE (Value IS NULL OR Name IS NULL)"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
