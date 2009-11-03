@@ -370,7 +370,7 @@ public class VDate extends JComponent
 	 */
 	public void propertyChange (PropertyChangeEvent evt)
 	{
-		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
+		if (evt.getPropertyName().equals(GridField.PROPERTY))
 			setValue(evt.getNewValue());
 	}   //  propertyChange
 
@@ -540,7 +540,7 @@ public class VDate extends JComponent
 		AEnv.showCenterWindow(frame, cal);
 		Timestamp result = cal.getTimestamp();
 		log.config( "Result=" + result);
-		if (result == null)
+		if (result == null && !cal.isCancel()) // F3P: added check for 'isCancel',
 			result = value;		//	original
 		cal = null;
 		return result;
@@ -550,7 +550,7 @@ public class VDate extends JComponent
 	 *  Set Field/WindowNo for ValuePreference
 	 *  @param mField MField
 	 */
-	public void setField (org.compiere.model.GridField mField)
+	public void setField (GridField mField)
 	{
 		m_mField = mField;
 		if (m_mField != null
