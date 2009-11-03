@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -25,8 +25,6 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
-import org.compiere.model.PO;
-import org.compiere.model.X_PA_ReportCube;
 import org.compiere.util.DB;
 import org.compiere.util.KeyNamePair;
 
@@ -35,7 +33,7 @@ public class MReportCube extends X_PA_ReportCube {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1115698413818333478L;
+	private static final long serialVersionUID = -4771117572936231607L;
 
 	public MReportCube(Properties ctx, int PA_ReportCube_ID, String trxName) {
 		super(ctx, PA_ReportCube_ID, trxName);
@@ -100,7 +98,7 @@ public class MReportCube extends X_PA_ReportCube {
 		{
 			String lockSQL = "UPDATE PA_ReportCube SET Processing = 'Y' " +
 			"WHERE Processing = 'N' AND PA_ReportCube_ID = " + getPA_ReportCube_ID();
-			int locked = DB.executeUpdateEx(lockSQL, null);     // outside trx
+			int locked = DB.executeUpdateEx(lockSQL, get_TrxName());
 			if (locked != 1)
 			{
 				throw new AdempiereException("Unable to lock cube for update:" + getName());
@@ -224,7 +222,7 @@ public class MReportCube extends X_PA_ReportCube {
 			"LastRecalculated = " + ( ts == null ? "null" : "?") +
 			" WHERE PA_ReportCube_ID = " + getPA_ReportCube_ID();
 			Object[] parameters = ts == null ? new Object[] {} : new Object[] {ts};
-			DB.executeUpdateEx(unlockSQL, parameters, null);     // outside trx
+			DB.executeUpdateEx(unlockSQL, parameters, get_TrxName());
 		}
 		return result;
 	}

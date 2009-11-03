@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -22,7 +22,6 @@ import java.util.logging.Level;
 
 import org.compiere.model.MReportCube;
 import org.compiere.model.Query;
-import org.compiere.model.X_PA_ReportCube;
 
 /*
  * Populate Fact_Acct_Summary table with pre-calculated totals of 
@@ -34,7 +33,6 @@ public class FactAcctSummary extends SvrProcess {
 
 	private boolean p_reset = false;
 	private int p_Cube_ID = 0;
-	private String periods;
 	private boolean p_force = false;
 
 	@Override
@@ -61,7 +59,7 @@ public class FactAcctSummary extends SvrProcess {
 		if ( p_Cube_ID > 0)
 			where = "PA_ReportCube_ID = " + p_Cube_ID;
 		
-		List<MReportCube> cubes = new Query(getCtx(), X_PA_ReportCube.Table_Name, where, get_TrxName())
+		List<MReportCube> cubes = new Query(getCtx(), MReportCube.Table_Name, where, get_TrxName())
 		.setOnlyActiveRecords(true).setClient_ID()
 		.list();
 		
