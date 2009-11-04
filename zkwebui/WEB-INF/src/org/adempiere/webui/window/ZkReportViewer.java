@@ -93,9 +93,6 @@ import org.zkoss.zul.Vbox;
  */
 public class ZkReportViewer extends Window implements EventListener {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1492321933977608137L;
 	/** Window No					*/
 	private int                 m_WindowNo;
@@ -327,7 +324,15 @@ public class ZkReportViewer extends Window implements EventListener {
 		AMedia media = null;
 		Listitem selected = previewType.getSelectedItem();
 		if (selected == null || "PDF".equals(selected.getValue())) {
-			media = new AMedia(getTitle(), "pdf", "application/pdf", m_reportEngine.createPDFData());
+			String path = System.getProperty("java.io.tmpdir");
+			String prefix = makePrefix(m_reportEngine.getName());
+			if (log.isLoggable(Level.FINE))
+			{
+				log.log(Level.FINE, "Path="+path + " Prefix="+prefix);
+			}
+			File file = File.createTempFile(prefix, ".pdf", new File(path));
+			m_reportEngine.createPDF(file);
+			media = new AMedia(getTitle(), "pdf", "application/pdf", file, true);
 		} else if ("HTML".equals(previewType.getSelectedItem().getValue())) {
 			String path = System.getProperty("java.io.tmpdir");
 			String prefix = makePrefix(m_reportEngine.getName());
