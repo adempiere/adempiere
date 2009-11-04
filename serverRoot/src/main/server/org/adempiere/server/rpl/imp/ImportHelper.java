@@ -50,7 +50,6 @@ import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
-import org.compiere.model.X_AD_Client;
 import org.compiere.model.X_AD_ReplicationTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -418,13 +417,9 @@ public class ImportHelper {
 							// 
 							po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), value);
 							log.info("Set value of column ["+column.getColumnName()+"]=["+value+"]");
-						} else if (column.getAD_Reference_ID() == DisplayType.ID
+						} else if (DisplayType.isID(column.getAD_Reference_ID())
 									|| column.getAD_Reference_ID() == DisplayType.Integer
-									|| column.getAD_Reference_ID() == DisplayType.Search
-									|| column.getAD_Reference_ID() == DisplayType.TableDir
-									|| column.getAD_Reference_ID() == DisplayType.Table
-									|| column.getAD_Reference_ID() == DisplayType.Location
-								) 
+								)
 						{
 							//
 							if (! Util.isEmpty(value.toString()))
@@ -436,11 +431,8 @@ public class ImportHelper {
 							log.info("About to set int value of column ["+column.getColumnName()+"]=["+value+"]");
 							po.set_ValueOfColumn(formatLines[i].getAD_Column_ID(), value);
 							log.info("Set int value of column ["+column.getColumnName()+"]=["+value+"]");
-						} else if (column.getAD_Reference_ID() == DisplayType.Amount
-									|| column.getAD_Reference_ID() == DisplayType.Number
-									|| column.getAD_Reference_ID() == DisplayType.CostPrice
-									|| column.getAD_Reference_ID() == DisplayType.Quantity
-								) 
+						} else if (DisplayType.isNumeric(column.getAD_Reference_ID())
+									&& column.getAD_Reference_ID() != DisplayType.Integer)
 						{
 							//
 							if (! Util.isEmpty(value.toString()))
@@ -490,8 +482,8 @@ public class ImportHelper {
 		MClient result = null;
 	
 		StringBuffer sql = new StringBuffer("SELECT AD_Client_ID ")
-			.append(" FROM ").append(X_AD_Client.Table_Name)
-			.append(" WHERE ").append(X_AD_Client.COLUMNNAME_Value).append(" = ?")
+			.append(" FROM ").append(MClient.Table_Name)
+			.append(" WHERE ").append(MClient.COLUMNNAME_Value).append(" = ?")
 		// .append(" AND IsActive = ?")
 		;
 		//s_log.info(sql.toString());
@@ -561,10 +553,8 @@ public class ImportHelper {
 			MColumn column = MColumn.get(ctx, uniqueFormatLines[i].getAD_Column_ID());
 			log.info("column = ["+column+"]");
 			String valuecol=column.getColumnName();
-			if(column.getAD_Reference_ID() == DisplayType.Amount 
-					|| column.getAD_Reference_ID() == DisplayType.Number 
-					|| column.getAD_Reference_ID() == DisplayType.CostPrice
-					|| column.getAD_Reference_ID() == DisplayType.Quantity)
+			if (DisplayType.isNumeric(column.getAD_Reference_ID())
+					&& column.getAD_Reference_ID() != DisplayType.Integer)
 			{
 				valuecol="Round("+valuecol+",2)";
 			}
@@ -637,19 +627,14 @@ public class ImportHelper {
 					String value = (String)values[i];
 					pstmt.setString(i+1, value);
 				}
-				else if(col.getAD_Reference_ID() == DisplayType.Amount 
-						|| col.getAD_Reference_ID() == DisplayType.Number 
-						|| col.getAD_Reference_ID() == DisplayType.CostPrice
-						|| col.getAD_Reference_ID() == DisplayType.Quantity)
+				else if (DisplayType.isNumeric(col.getAD_Reference_ID())
+						&& col.getAD_Reference_ID() != DisplayType.Integer)
 				{
 					BigDecimal value = new BigDecimal((String)values[i]);
 					pstmt.setBigDecimal(i+1, value.setScale(2, BigDecimal.ROUND_HALF_UP));
 				}
-				else if(col.getAD_Reference_ID() == DisplayType.Integer
-						|| col.getAD_Reference_ID() == DisplayType.ID
-						|| col.getAD_Reference_ID() == DisplayType.TableDir
-						|| col.getAD_Reference_ID() == DisplayType.Table
-						|| col.getAD_Reference_ID() == DisplayType.Search)
+				else if (DisplayType.isID(col.getAD_Reference_ID())
+						|| col.getAD_Reference_ID() == DisplayType.Integer)
 				{
 					String stringValue = (String)values[i].toString();
 					int value = Integer.parseInt(stringValue);
