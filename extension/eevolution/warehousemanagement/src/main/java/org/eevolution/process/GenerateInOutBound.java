@@ -130,7 +130,9 @@ public class GenerateInOutBound extends SvrProcess
 		}	
 		
 		if(p_C_DocType_ID > 0)
+		{	
 			outbound.setC_DocType_ID(p_C_DocType_ID);
+		}	
 		else
 		{	
 			int C_DocType_ID=MDocType.getDocType(MDocType.DOCBASETYPE_WarehouseManagementOrder);
