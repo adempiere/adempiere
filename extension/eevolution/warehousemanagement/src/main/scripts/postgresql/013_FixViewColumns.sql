@@ -69,11 +69,6 @@ UPDATE AD_PrintFormatItem SET PrintName='In & Out Bound Order', Name='In & Out B
 UPDATE AD_Column SET FieldLength=255,Updated=TO_TIMESTAMP('2009-09-29 00:10:20','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Column_ID=58107
 ;
 
--- Sep 29, 2009 12:10:23 AM ECT
--- Warehouse Management
-insert into t_alter_column values('ad_view_column','ColumnName','VARCHAR(255)',null,'NULL')
-;
-
 -- Sep 29, 2009 12:13:22 AM ECT
 -- Warehouse Management
 UPDATE AD_View_Column SET ColumnName='C_OrderLine_C_BPartner_Location_ID',Updated=TO_TIMESTAMP('2009-09-29 00:13:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_View_Column_ID=50088
@@ -188,42 +183,6 @@ UPDATE AD_View_Column SET ColumnName='M_Product_Category_M_Product_Category_ID',
 -- Warehouse Management
 UPDATE AD_View_Column SET ColumnName='M_Product_Category_M_Product_Category_Parent_ID',Updated=TO_TIMESTAMP('2009-09-29 00:18:29','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_View_Column_ID=50317
 ;
-
--- Sep 29, 2009 12:28:25 AM ECT
--- Warehouse Management
-UPDATE AD_Tab SET AD_Column_ID=58087,Updated=TO_TIMESTAMP('2009-09-29 00:28:25','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53256
-;
-
--- Sep 29, 2009 12:34:03 AM ECT
--- Warehouse Management
-UPDATE AD_Tab SET TabLevel=2,Updated=TO_TIMESTAMP('2009-09-29 00:34:03','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53257
-;
-
--- Sep 29, 2009 12:34:12 AM ECT
--- Warehouse Management
-UPDATE AD_Tab SET TabLevel=3,Updated=TO_TIMESTAMP('2009-09-29 00:34:12','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53253
-;
-
--- Sep 29, 2009 12:34:52 AM ECT
--- Warehouse Management
-UPDATE AD_Tab SET TabLevel=1,Updated=TO_TIMESTAMP('2009-09-29 00:34:52','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53250
-;
-
--- Sep 29, 2009 12:37:15 AM ECT
--- Warehouse Management
-UPDATE AD_Tab SET SeqNo=60,Updated=TO_TIMESTAMP('2009-09-29 00:37:15','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53252
-;
-
--- Sep 29, 2009 12:37:22 AM ECT
--- Warehouse Management
-UPDATE AD_Tab SET SeqNo=40,Updated=TO_TIMESTAMP('2009-09-29 00:37:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53247
-;
-
--- Sep 29, 2009 12:37:31 AM ECT
--- Warehouse Management
-UPDATE AD_Tab SET SeqNo=50,Updated=TO_TIMESTAMP('2009-09-29 00:37:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53251
-;
-
 -- Sep 29, 2009 12:38:31 AM ECT
 -- Warehouse Management
 UPDATE AD_View_Column SET ColumnName='WM_InOutBoundLine_C_Activity_ID',Updated=TO_TIMESTAMP('2009-09-29 00:38:31','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_View_Column_ID=50326

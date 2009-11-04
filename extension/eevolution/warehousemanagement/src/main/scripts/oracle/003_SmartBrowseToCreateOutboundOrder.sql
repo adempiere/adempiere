@@ -1695,7 +1695,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
 
 -- Sep 2, 2009 1:49:40 AM ECT
 -- Warehouse Management
-INSERT INTO AD_Browse (AD_Browse_ID,AD_Client_ID,AD_Org_ID,AD_View_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,Name,Processing,Updated,UpdatedBy,Value,WhereClause) VALUES (50000,0,0,50000,TO_DATE('2009-09-02 01:49:39','YYYY-MM-DD HH24:MI:SS'),0,'This Smatt Browse allow select the Sales order to generate an Outbound Order.','EE07','Y','Y','Salas Order to Picking','N',TO_DATE('2009-09-02 01:49:39','YYYY-MM-DD HH24:MI:SS'),0,'SalesOrderToPicking','IsSOTrx=''Y'' AND DocStatus=''CO''')
+INSERT INTO AD_Browse (AD_Browse_ID,AD_Client_ID,AD_Org_ID,AD_View_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,Name,Processing,Updated,UpdatedBy,Value,WhereClause,AccessLevel) VALUES (50000,0,0,50000,TO_DATE('2009-09-02 01:49:39','YYYY-MM-DD HH24:MI:SS'),0,'This Smatt Browse allow select the Sales order to generate an Outbound Order.','EE07','Y','Y','Salas Order to Picking','N',TO_DATE('2009-09-02 01:49:39','YYYY-MM-DD HH24:MI:SS'),0,'SalesOrderToPicking','IsSOTrx=''Y'' AND DocStatus=''CO''','1')
 ;
 
 -- Sep 2, 2009 1:49:40 AM ECT

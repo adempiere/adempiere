@@ -1043,7 +1043,7 @@ INSERT INTO AD_View_Column (AD_Client_ID,AD_Column_ID,AD_Org_ID,AD_View_Column_I
 
 -- Sep 11, 2009 1:24:27 PM ECT
 -- Warehouse Management
-INSERT INTO AD_Browse (AD_Browse_ID,AD_Client_ID,AD_Org_ID,AD_View_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,Name,Processing,Updated,UpdatedBy,Value,WhereClause) VALUES (50001,0,0,50001,TO_TIMESTAMP('2009-09-11 13:24:26','YYYY-MM-DD HH24:MI:SS'),0,'This Smart Browse allow select the Outbound Order to release the lines that need be pick.','EE03','Y','N','Outbound Order to Release','N',TO_TIMESTAMP('2009-09-11 13:24:26','YYYY-MM-DD HH24:MI:SS'),0,'OutboundOrderToRelease','IsSOTrx=''Y'' AND DocStatus=''DR''')
+INSERT INTO AD_Browse (AD_Browse_ID,AD_Client_ID,AD_Org_ID,AD_View_ID,Created,CreatedBy,Description,EntityType,IsActive,IsBetaFunctionality,Name,Processing,Updated,UpdatedBy,Value,WhereClause,AccessLevel) VALUES (50001,0,0,50001,TO_TIMESTAMP('2009-09-11 13:24:26','YYYY-MM-DD HH24:MI:SS'),0,'This Smart Browse allow select the Outbound Order to release the lines that need be pick.','EE03','Y','N','Outbound Order to Release','N',TO_TIMESTAMP('2009-09-11 13:24:26','YYYY-MM-DD HH24:MI:SS'),0,'OutboundOrderToRelease','IsSOTrx=''Y'' AND DocStatus=''DR''','1')
 ;
 
 -- Sep 11, 2009 1:24:27 PM ECT
@@ -1082,11 +1082,6 @@ UPDATE AD_Column SET IsMandatory='Y',Updated=TO_TIMESTAMP('2009-09-11 13:26:07',
 ;
 
 UPDATE AD_Browse SET AccessLevel= 4
-;
-
--- Sep 11, 2009 1:26:11 PM ECT
--- Warehouse Management
-insert into t_alter_column values('ad_browse','AccessLevel',null,'NOT NULL',null)
 ;
 
 -- Sep 11, 2009 1:26:45 PM ECT
@@ -4252,16 +4247,6 @@ UPDATE AD_Menu SET AD_Browse_ID=50000, AD_Process_ID=NULL, "action"='S',Updated=
 UPDATE AD_Menu SET AD_Browse_ID=50001, AD_Process_ID=NULL, "action"='S',Updated=TO_TIMESTAMP('2009-09-11 13:57:16','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Menu_ID=53232
 ;
 
--- Sep 11, 2009 2:05:33 PM ECT
--- Warehouse Management
-UPDATE AD_Table SET AD_Window_ID=53088,Updated=TO_TIMESTAMP('2009-09-11 14:05:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Table_ID=53224
-;
-
--- Sep 11, 2009 2:06:24 PM ECT
--- Warehouse Management
-UPDATE AD_Table SET AD_Window_ID=53089,Updated=TO_TIMESTAMP('2009-09-11 14:06:24','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Table_ID=53230
-;
-
 -- Sep 11, 2009 2:07:23 PM ECT
 -- Warehouse Management
 UPDATE AD_View SET Description='Allow select the Outbound Order lines to be release to pick or ship.', Name='Outbound Order Lines', Value='OutboundOrderLines',Updated=TO_TIMESTAMP('2009-09-11 14:07:23','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_View_ID=50001
@@ -7305,10 +7290,6 @@ UPDATE AD_Browse_Field SET SeqNo=60,IsDisplayed='Y' WHERE AD_Browse_Field_ID=506
 UPDATE AD_Browse_Field SET SeqNo=70,IsDisplayed='Y' WHERE AD_Browse_Field_ID=50542
 ;
 
--- Sep 11, 2009 2:33:14 PM ECT
--- Warehouse Management
-UPDATE AD_Tab SET WhereClause='(IsDisplayed=''Y'' OR IsQueryCriteria=''Y'')',Updated=TO_TIMESTAMP('2009-09-11 14:33:14','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53247
-;
 
 -- Sep 11, 2009 2:35:40 PM ECT
 -- Warehouse Management
@@ -10148,11 +10129,6 @@ UPDATE AD_Browse_Field SET SeqNo=110,IsDisplayed='Y' WHERE AD_Browse_Field_ID=50
 -- Sep 11, 2009 3:10:56 PM ECT
 -- Warehouse Management
 UPDATE AD_Browse_Field SET IsQueryCriteria='Y',Updated=TO_TIMESTAMP('2009-09-11 15:10:56','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Browse_Field_ID=50470
-;
-
--- Sep 11, 2009 3:11:58 PM ECT
--- Warehouse Management
-UPDATE AD_Tab SET OrderByClause='SeqNo',Updated=TO_TIMESTAMP('2009-09-11 15:11:58','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=0 WHERE AD_Tab_ID=53247
 ;
 
 -- Sep 11, 2009 3:13:54 PM ECT
