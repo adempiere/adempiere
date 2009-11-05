@@ -27,6 +27,10 @@ import org.compiere.model.MRfQResponse;
  *	
  *  @author Jorg Janke
  *  @version $Id: RfQClose.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  	<li>BF [ 2892585 ] When closing an RfQ we need to mark the responses as process
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2892585&group_id=176962&atid=879332
  */
 public class RfQClose extends SvrProcess
 {
@@ -69,7 +73,7 @@ public class RfQClose extends SvrProcess
 		MRfQResponse[] responses = rfq.getResponses (false, false);
 		for (int i = 0; i < responses.length; i++)
 		{
-			responses[i].setProcessed(false);
+			responses[i].setProcessed(true);
 			responses[i].save();
 			counter++;
 		}
