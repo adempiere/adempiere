@@ -34,6 +34,10 @@ import org.compiere.model.MRfQResponseLineQty;
  *	
  *  @author Jorg Janke
  *  @version $Id: RfQCreatePO.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  	<li>BF [ 2892588 ] Create PO from RfQ is not setting correct the price fields
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2892588&group_id=176962&atid=879332
  */
 public class RfQCreatePO extends SvrProcess
 {
@@ -104,7 +108,7 @@ public class RfQCreatePO extends SvrProcess
 				order.setDatePromised(response.getDateWorkComplete());
 			else if (rfq.getDateWorkComplete() != null)
 				order.setDatePromised(rfq.getDateWorkComplete());
-			order.save();
+			order.saveEx();
 			//
 			MRfQResponseLine[] lines = response.getLines(false);
 			for (int j = 0; j < lines.length; j++)
@@ -127,13 +131,14 @@ public class RfQCreatePO extends SvrProcess
 						ol.setDescription(line.getDescription());
 						ol.setQty(qty.getRfQLineQty().getQty());
 						BigDecimal price = qty.getNetAmt();
+						ol.setPrice();
 						ol.setPrice(price);
-						ol.save();
+						ol.saveEx();
 					}
 				}
 			}
 			response.setC_Order_ID(order.getC_Order_ID());
-			response.save();
+			response.saveEx();
 			return order.getDocumentNo();
 		}
 
@@ -153,7 +158,7 @@ public class RfQCreatePO extends SvrProcess
 				if (!line.isActive() || !line.isSelectedWinner())
 					continue;
 				//	New/different BP
-				if (bp == null)
+				if (bp == null || bp.getC_BPartner_ID() != response.getC_BPartner_ID())
 				{
 					bp = new MBPartner(getCtx(), response.getC_BPartner_ID(), get_TrxName());
 					order = null;
@@ -168,7 +173,7 @@ public class RfQCreatePO extends SvrProcess
 					order.setBPartner(bp);
 					order.setC_BPartner_Location_ID(response.getC_BPartner_Location_ID());
 					order.setSalesRep_ID(rfq.getSalesRep_ID());
-					order.save();
+					order.saveEx();
 					noOrders++;
 					addLog(0, null, null, order.getDocumentNo());
 				}
@@ -185,15 +190,16 @@ public class RfQCreatePO extends SvrProcess
 						ol.setDescription(line.getDescription());
 						ol.setQty(qty.getRfQLineQty().getQty());
 						BigDecimal price = qty.getNetAmt();
-						ol.setPriceActual(price);
-						ol.save();
+						ol.setPrice();
+						ol.setPrice(price);
+						ol.saveEx();
 					}
 				}	//	for all Qtys
 			}	//	for all Response Lines
 			if (order != null)
 			{
 				response.setC_Order_ID(order.getC_Order_ID());
-				response.save();
+				response.saveEx();
 			}
 		}
 		
