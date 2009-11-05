@@ -55,6 +55,8 @@ import org.eevolution.model.MPPProductBOMLine;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>BF [ 2419978 ] Voiding PO, requisition don't set on NULL
+ * 			<li>BF [ 2892578 ] Order should autoset only active price lists
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2892578&group_id=176962&atid=879335
  * @author Michael Judd, www.akunagroup.com
  *          <li>BF [ 2804888 ] Incorrect reservation of products with attributes
  */
@@ -927,10 +929,10 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Default Price List
 		if (getM_PriceList_ID() == 0)
 		{
-			int ii = DB.getSQLValue(null,
+			int ii = DB.getSQLValueEx(null,
 				"SELECT M_PriceList_ID FROM M_PriceList "
-				+ "WHERE AD_Client_ID=? AND IsSOPriceList=? "
-				+ "ORDER BY IsDefault DESC", getAD_Client_ID(), isSOTrx() ? "Y" : "N");
+				+ "WHERE AD_Client_ID=? AND IsSOPriceList=? AND IsActive=?"
+				+ "ORDER BY IsDefault DESC", getAD_Client_ID(), isSOTrx(), true);
 			if (ii != 0)
 				setM_PriceList_ID (ii);
 		}
