@@ -188,7 +188,7 @@ public class WCreateFromWindow extends Window implements EventListener, WTableMo
 		setStatusLine(count, null);
 	}
 	
-	protected void setStatusLine(int selectedRowCount, String text) 
+	public void setStatusLine(int selectedRowCount, String text) 
 	{
 		StringBuffer sb = new StringBuffer(String.valueOf(selectedRowCount));
 		if (text != null && text.trim().length() > 0) {
