@@ -30,6 +30,10 @@ import org.compiere.util.TimeUtil;
  *	
  *  @author Jorg Janke
  *  @version $Id: MRfQResponseLine.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  		<li>BF [ 2892581 ] Cannot load RfQResponseLine
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2892581&group_id=176962&atid=879335
  */
 public class MRfQResponseLine extends X_C_RfQResponseLine
 {
@@ -41,14 +45,14 @@ public class MRfQResponseLine extends X_C_RfQResponseLine
 	/**
 	 * 	Persistency Constructor
 	 *	@param ctx context
-	 *	@param ignored ignored
+	 *	@param C_RfQResponseLine_ID
 	 *	@param trxName transaction
 	 */
-	public MRfQResponseLine (Properties ctx, int ignored, String trxName)
+	public MRfQResponseLine (Properties ctx, int C_RfQResponseLine_ID, String trxName)
 	{
-		super(ctx, 0, trxName);
-		if (ignored != 0)
-			throw new IllegalArgumentException("Multi-Key");
+		super(ctx, C_RfQResponseLine_ID, trxName);
+//		if (ignored != 0)
+//			throw new IllegalArgumentException("Multi-Key");
 	}	//	MRfQResponseLine
 
 	/**
