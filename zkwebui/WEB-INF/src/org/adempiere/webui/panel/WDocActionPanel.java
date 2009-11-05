@@ -29,6 +29,9 @@ import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.GridTab;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -149,6 +152,12 @@ public class WDocActionPanel extends Window implements EventListener
 		String[] docActionHolder = new String[]{DocAction};
 		index = DocumentEngine.getValidActions(DocStatus, Processing, OrderType, IsSOTrx,
 				m_AD_Table_ID, docActionHolder, options);
+
+		MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
+		PO po = table.getPO(gridTab.getRecord_ID(), null);
+		if (po instanceof DocOptions)
+			index = ((DocOptions) po).customizeValidActions(DocStatus, Processing, OrderType, IsSOTrx,
+					m_AD_Table_ID, docActionHolder, options, index);
 
 		Integer doctypeId = (Integer)gridTab.getValue("C_DocType_ID");
 		if(doctypeId==null || doctypeId.intValue()==0){

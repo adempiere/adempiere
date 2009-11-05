@@ -34,6 +34,9 @@ import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.model.GridTab;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.swing.CComboBox;
 import org.compiere.swing.CDialog;
@@ -231,6 +234,12 @@ public class VDocAction extends CDialog
 		String[] docActionHolder = new String[] {DocAction};
 		index = DocumentEngine.getValidActions(DocStatus, Processing, OrderType, IsSOTrx, m_AD_Table_ID, 
 				docActionHolder, options);
+
+		MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
+		PO po = table.getPO(Record_ID, null);
+		if (po instanceof DocOptions)
+			index = ((DocOptions) po).customizeValidActions(DocStatus, Processing, OrderType, IsSOTrx,
+					m_AD_Table_ID, docActionHolder, options, index);
 
 		Integer doctypeId = (Integer)m_mTab.getValue("C_DocType_ID");
 		if(doctypeId==null || doctypeId.intValue()==0){
