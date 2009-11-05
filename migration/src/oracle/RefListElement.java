@@ -46,8 +46,8 @@ public class RefListElement {
 	}
 
 	public String getUpdateString() {
-		return "update AD_Ref_List set value='" + value + "', name='" + name + "'"
-				+ " where AD_Ref_List_ID=" + id + ";";
+		return "UPDATE AD_Ref_List SET value='" + value + "', name='" + name + "'"
+				+ " WHERE AD_Ref_List_ID=" + id + ";";
 	}
 
 	public String getInsertString() {

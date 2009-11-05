@@ -1224,9 +1224,9 @@ public class MMovementManager
      */
     public static void deleteMovementLines(Properties ctx,int movementId)
     {
-        String sql="delete from M_MovementLine where " +
+        String sql="DELETE FROM M_MovementLine WHERE " +
                     " M_Movement_Id="+movementId+
-                    " and AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
+                    " AND AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
         
         
         DB.executeUpdate(sql,null);

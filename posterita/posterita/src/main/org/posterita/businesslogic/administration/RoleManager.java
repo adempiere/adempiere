@@ -680,11 +680,11 @@ public class RoleManager
 		        {
 	    			StringBuffer strBuff = new StringBuffer();
 	    			
-		        	strBuff.append("update ").append(MRoleOrgAccess.Table_Name);
-		        	strBuff.append(" set isActive='").append(isChecked).append("'");
-		        	strBuff.append(" where ad_client_id=").append(Env.getAD_Client_ID(ctx));
-		    		strBuff.append(" and ad_org_id=").append(bean.getOrgId());
-		    		strBuff.append(" and ad_role_id=").append(bean.getRoleId());
+		        	strBuff.append("UPDATE ").append(MRoleOrgAccess.Table_Name);
+		        	strBuff.append(" SET isActive='").append(isChecked).append("'");
+		        	strBuff.append(" WHERE ad_client_id=").append(Env.getAD_Client_ID(ctx));
+		    		strBuff.append(" AND ad_org_id=").append(bean.getOrgId());
+		    		strBuff.append(" AND ad_role_id=").append(bean.getRoleId());
 		    				        	
 			        PreparedStatement pstmt1 = DB.prepareStatement(strBuff.toString(), trxName);
 			        

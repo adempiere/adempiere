@@ -271,7 +271,7 @@ public class PriceListManager
        BigDecimal priceStd = newPrice;
        BigDecimal priceLimit = newPrice;
        
-      String updateSql = "Update M_PRODUCTPRICE set" +
+      String updateSql = "UPDATE M_PRODUCTPRICE set" +
       		"  UPDATED = sysdate" + 
       		", UPDATEDBY = " + ad_user_id +
       		", PRICELIST = " + priceList +

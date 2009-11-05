@@ -398,9 +398,9 @@ public class InventoryCartManager
     
     public static void deleteInventoryLine(Properties ctx,int inventoryId,int M_INVENTORYLINE_ID)
     {
-        String sql="delete from M_INVENTORYLine where M_INVENTORYLINE_ID="+M_INVENTORYLINE_ID+
-                    " and M_INVENTORY_ID="+inventoryId+
-                    " and AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
+        String sql="DELETE FROM M_INVENTORYLine WHERE M_INVENTORYLINE_ID="+M_INVENTORYLINE_ID+
+                    " AND M_INVENTORY_ID="+inventoryId+
+                    " AND AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
         
         
         DB.executeUpdate(sql,null);
@@ -408,9 +408,9 @@ public class InventoryCartManager
     
     public static void deleteInventoryLines(Properties ctx,int inventoryId)
     {
-        String sql="delete from M_INVENTORYLine where " +
+        String sql="DELETE FROM M_INVENTORYLine WHERE " +
                     " M_INVENTORY_ID="+inventoryId+
-                    " and AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
+                    " AND AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
         
         
         DB.executeUpdate(sql,null);

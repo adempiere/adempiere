@@ -74,7 +74,7 @@ public class ApplyMigrationScripts extends SvrProcess {
 						+ e.getMessage());
 				log.severe(e.getMessage());
 			} finally {
-				sql = "update ad_migrationscript set status = ? , isApply = 'N' where ad_migrationscript_id = ? ";
+				sql = "UPDATE ad_migrationscript SET status = ? , isApply = 'N' WHERE ad_migrationscript_id = ? ";
 				pstmt = DB.prepareStatement(sql, this.get_TrxName());
 				if (execOk) {
 					pstmt.setString(1, "CO");

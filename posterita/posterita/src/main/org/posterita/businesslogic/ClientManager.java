@@ -113,7 +113,7 @@ public class ClientManager
 	protected static void updateAccountingProcessor(Properties ctx,
 			int adClientId, String trxName) throws OperationException 
 	{
-		String updStmt = "Update C_AcctProcessor set FrequencyType='M' where AD_Client_ID="
+		String updStmt = "UPDATE C_AcctProcessor set FrequencyType='M' where AD_Client_ID="
 				+ adClientId;
 
 		int updates = DB.executeUpdate(updStmt, trxName);

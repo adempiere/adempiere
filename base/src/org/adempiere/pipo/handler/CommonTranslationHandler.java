@@ -146,7 +146,7 @@ public class CommonTranslationHandler extends AbstractElementHandler implements 
 
 		ArrayList<String> pipoColumns = getExportableColumns(parentTable);
 		
-		StringBuffer sqlBuf = new StringBuffer("update "+parentTable+"_trl set ");
+		StringBuffer sqlBuf = new StringBuffer("UPDATE "+parentTable+"_trl SET ");
 		
 		
 		for (String columnName : pipoColumns) {
@@ -156,8 +156,8 @@ public class CommonTranslationHandler extends AbstractElementHandler implements 
 		
 		String sql =  sqlBuf.substring(0, sqlBuf.length()-1);
 		
-		sql += " where ad_language = '"+atts.getValue("AD_Language")+
-		"' and "+parentTable+"_ID="+parentID;
+		sql += " WHERE ad_language = '"+atts.getValue("AD_Language")+
+		"' AND "+parentTable+"_ID="+parentID;
 		
 		try {
 			PreparedStatement pstm = DB.prepareStatement(sql,

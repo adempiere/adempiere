@@ -219,7 +219,7 @@ public class PrepareMigrationScripts extends SvrProcess {
 					msg = msg + "Script " + fileName.get(i) + " failed!";
 					continue;
 				}
-				sql = "update AD_MigrationScript set script = ? where AD_MigrationScript_ID = ?";
+				sql = "UPDATE AD_MigrationScript SET script = ? WHERE AD_MigrationScript_ID = ?";
 				pstmt = DB.prepareStatement(sql, this.get_TrxName());
 				pstmt.setBytes(1, body.toString().getBytes());
 				pstmt.setInt(2, seqID);
@@ -232,7 +232,7 @@ public class PrepareMigrationScripts extends SvrProcess {
 					msg = msg + "Script Body " + fileName.get(i) + " failed!";
 					pstmt = DB
 							.prepareStatement(
-									"delete from ad_migrationscript WHERE ad_migrationscript_id = ?",
+									"DELETE FROM ad_migrationscript WHERE ad_migrationscript_id = ?",
 									this.get_TrxName());
 					pstmt.setInt(1, seqID);
 					result = pstmt.executeUpdate();

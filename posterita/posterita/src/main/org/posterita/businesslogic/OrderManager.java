@@ -381,7 +381,7 @@ public class OrderManager
             throw new OperationException("Cannot delete order that is already processed");
         }
         
-        String sql = "delete from C_ORDERLINE where C_ORDER_ID = " + order.get_ID();
+        String sql = "DELETE FROM C_ORDERLINE WHERE C_ORDER_ID = " + order.get_ID();
         
         int no = DB.executeUpdate(sql, trxName);
         

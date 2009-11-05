@@ -426,9 +426,9 @@ public class InventoryManager
     
     private static void updateCountQty(Properties ctx,int inventoryID)
     {
-        String sql = "update M_INVENTORYLINE set QTYCOUNT=1 where M_INVENTORYLINE_ID="+
-                    "(select max(M_INVENTORYLINE_ID) from M_INVENTORYLINE where AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
-                    " and M_INVENTORY_ID="+inventoryID+")";
+        String sql = "UPDATE M_INVENTORYLINE SET QTYCOUNT=1 WHERE M_INVENTORYLINE_ID="+
+                    "(SELECT MAX(M_INVENTORYLINE_ID) FROM M_INVENTORYLINE WHERE AD_CLIENT_ID="+Env.getAD_Client_ID(ctx)+
+                    " AND M_INVENTORY_ID="+inventoryID+")";
         DB.executeUpdate(sql, null);
     }
     
@@ -482,9 +482,9 @@ public class InventoryManager
     
     public static void deleteInventoryLine(Properties ctx,int inventoryId,int M_INVENTORYLINE_ID)
     {
-    	String sql="delete from M_INVENTORYLine where M_INVENTORYLINE_ID="+M_INVENTORYLINE_ID+
-    				" and M_INVENTORY_ID="+inventoryId+
-    				" and AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
+    	String sql="DELETE FROM M_INVENTORYLine WHERE M_INVENTORYLINE_ID="+M_INVENTORYLINE_ID+
+    				" AND M_INVENTORY_ID="+inventoryId+
+    				" AND AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
     	
     	
     	DB.executeUpdate(sql,null);

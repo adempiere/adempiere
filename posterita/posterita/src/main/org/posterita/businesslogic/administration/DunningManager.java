@@ -202,8 +202,8 @@ public class DunningManager
     
     public static void associateAllBpartnerWithDunning(Properties ctx) throws OperationException
     {
-        String sql = "update c_Bpartner set C_DUNNING_ID="+getOrCreateDunning(ctx)+
-                    " where AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
+        String sql = "UPDATE c_Bpartner SET C_DUNNING_ID="+getOrCreateDunning(ctx)+
+                    " WHERE AD_CLIENT_ID="+Env.getAD_Client_ID(ctx);
         
         
         int no = DB.executeUpdate(sql, null);

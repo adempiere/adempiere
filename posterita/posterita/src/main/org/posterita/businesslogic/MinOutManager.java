@@ -722,15 +722,15 @@ public class MinOutManager extends AbstractDocumentManager
         PreparedStatement pstmt1 = null;
         PreparedStatement pstmt2 = null;
         
-        String sql  = "update M_INOUT set DOCSTATUS=" + "'" 
+        String sql  = "UPDATE M_INOUT SET DOCSTATUS=" + "'" 
                         + DocumentEngine.STATUS_Voided + "'"
-                        + " where AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
-                        + " and M_INOUT_ID=" + inout.get_ID();
+                        + " WHERE AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
+                        + " AND M_INOUT_ID=" + inout.get_ID();
                         
-        String sql2  = "update M_INOUT set DOCACTION=" + "'" 
+        String sql2  = "UPDATE M_INOUT SET DOCACTION=" + "'" 
                         + DocumentEngine.ACTION_None + "'"
-                        + " where AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
-                        + " and M_INOUT_ID=" + inout.get_ID();
+                        + " WHERE AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
+                        + " AND M_INOUT_ID=" + inout.get_ID();
                         
         pstmt1 = DB.prepareStatement(sql,null);
         pstmt2 = DB.prepareStatement(sql2,null);

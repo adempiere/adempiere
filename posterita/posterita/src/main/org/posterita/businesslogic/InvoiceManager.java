@@ -923,15 +923,15 @@ public class InvoiceManager extends AbstractDocumentManager
         PreparedStatement pstmt1 = null;
         PreparedStatement pstmt2 = null;
         
-        String sql  = "update C_Invoice set DOCSTATUS=" + "'" 
+        String sql  = "UPDATE C_Invoice SET DOCSTATUS=" + "'" 
 				        + DocumentEngine.STATUS_Voided + "'"
-				        + " where AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
-				        + " and C_INVOICE_ID=" + invoice.get_ID();
+				        + " WHERE AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
+				        + " AND C_INVOICE_ID=" + invoice.get_ID();
 				        
-        String sql2  = "update C_Invoice set DOCACTION=" + "'" 
+        String sql2  = "UPDATE C_Invoice SET DOCACTION=" + "'" 
 				        + DocumentEngine.ACTION_None + "'"
-				        + " where AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
-				        + " and C_INVOICE_ID=" + invoice.get_ID();
+				        + " WHERE AD_CLIENT_ID=" + Env.getAD_Client_ID(ctx)
+				        + " AND C_INVOICE_ID=" + invoice.get_ID();
 				        
         pstmt1 = DB.prepareStatement(sql,invoice.get_TrxName());
         pstmt2 = DB.prepareStatement(sql2,invoice.get_TrxName());

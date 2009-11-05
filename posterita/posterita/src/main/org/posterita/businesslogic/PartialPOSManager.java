@@ -89,7 +89,7 @@ public class PartialPOSManager extends POSManager
         
         for(int i=0;i<orderlineIds.length;i++)
         {
-            String sql="delete from c_orderline where c_orderline_id="+orderlineIds[i].intValue();
+            String sql="DELETE FROM c_orderline WHERE c_orderline_id="+orderlineIds[i].intValue();
             
             PreparedStatement pstmt = null;
             try 

@@ -388,13 +388,13 @@ public final class Convert_PostgreSQLTest extends TestCase{
 	
 	//[ 1727193 ] Convert failed with decode in quoted string
 	public void test1727193() {
-		sql = "update a set a.ten_decode = 'b'";
-		sqe = "update a set a.ten_decode = 'b'";
+		sql = "UPDATE a set a.ten_decode = 'b'";
+		sqe = "UPDATE a set a.ten_decode = 'b'";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 		
-		sql = "update a set a.b = 'ten_decode'";
-		sqe = "update a set a.b = 'ten_decode'";
+		sql = "UPDATE a set a.b = 'ten_decode'";
+		sqe = "UPDATE a set a.b = 'ten_decode'";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 	}
