@@ -33,6 +33,10 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: RfQResponseRank.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
+ *  
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  	<li>BF [ 2892595 ] RfQResponseRank - ranking is not good
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2892595&group_id=176962&atid=879332
  */
 public class RfQResponseRank extends SvrProcess
 {
@@ -84,8 +88,8 @@ public class RfQResponseRank extends SvrProcess
 		if (responses.length == 1)
 		{
 			responses[0].setIsSelectedWinner(true);
-			responses[0].save();
-			throw new IllegalArgumentException("Only one completed RfQ Response found");
+			responses[0].saveEx();
+			return "Only one completed RfQ Response found";
 		}
 			
 		//	Rank
@@ -146,28 +150,31 @@ public class RfQResponseRank extends SvrProcess
 				{
 					Arrays.sort(respQtys, respQtys[0]);
 					int lastRank = 1;		//	multiple rank #1
-					BigDecimal lastAmt = Env.ZERO; 
-					for (int rank = 0; rank < respQtys.length; rank++)
+					BigDecimal lastAmt = Env.ZERO;
+					int rank = 0;
+					for (int k = 0; k < respQtys.length; k++)
 					{
-						MRfQResponseLineQty qty = respQtys[rank];
+						MRfQResponseLineQty qty = respQtys[k];
 						if (!qty.isActive() || qty.getRanking() == 999)
+						{
 							continue;
+						}
 						BigDecimal netAmt = qty.getNetAmt();
 						if (netAmt == null)
 						{
 							qty.setRanking(999);
+							qty.saveEx();
 							log.fine("  - Rank 999: " + qty);
+							continue;
 						}
-						else
+						
+						if (lastAmt.compareTo(netAmt) != 0)
 						{
-							if (lastAmt.compareTo(netAmt) != 0)
-							{
-								lastRank = rank+1;
-								lastAmt = qty.getNetAmt();
-							}
-							qty.setRanking(lastRank);
-							log.fine("  - Rank " + lastRank + ": " + qty);
+							lastRank = rank+1;
+							lastAmt = qty.getNetAmt();
 						}
+						qty.setRanking(lastRank);
+						log.fine("  - Rank " + lastRank + ": " + qty);
 						qty.save();
 						//	
 						if (rank == 0)	//	Update RfQ
@@ -175,6 +182,7 @@ public class RfQResponseRank extends SvrProcess
 							rfqQty.setBestResponseAmt(qty.getNetAmt());
 							rfqQty.save();
 						}
+						rank++;
 					}
 				}
 			}	//	for all rfq line qtys
