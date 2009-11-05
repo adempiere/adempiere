@@ -177,7 +177,7 @@ public class VCreateFromDialog extends CDialog implements ActionListener, TableM
 		createFrom.info();
 	}
 	
-	protected void setStatusLine(int selectedRowCount, String text) 
+	public void setStatusLine(int selectedRowCount, String text) 
 	{
 		StringBuffer sb = new StringBuffer(String.valueOf(selectedRowCount));
 		if (text != null && text.trim().length() > 0) {
