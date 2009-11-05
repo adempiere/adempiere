@@ -89,9 +89,9 @@ public class CommonTranslationHandler extends AbstractElementHandler implements 
 		
 		
 		StringBuffer sql = new StringBuffer(
-			"insert into "+parentTable+"_trl ("+parentTable+"_ID, "+
+			"INSERT INTO "+parentTable+"_trl ("+parentTable+"_ID, "+
 			" ad_client_ID, ad_org_id, CreatedBy, UpdatedBy, "+cast(pipoColumns)+
-			") values ( ?, ?, ?, ?, ? ");
+			") VALUES ( ?, ?, ?, ?, ? ");
 		
 		
 		for (int i = 0; i<pipoColumns.size(); i++) {

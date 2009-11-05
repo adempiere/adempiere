@@ -206,7 +206,7 @@ public class MenuElementHandler extends AbstractElementHandler {
 							colValue = rs1.getObject(q).toString();
 
 						StringBuffer sqlD = new StringBuffer(
-								"Insert INTO AD_Package_Imp_Backup"
+								"INSERT INTO AD_Package_Imp_Backup"
 										+ "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, "
 										+ "AD_PACKAGE_IMP_BACKUP_ID, AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID,"
 										+ " AD_TABLE_ID, AD_COLUMN_ID, AD_REFERENCE_ID, COLVALUE)"
@@ -252,7 +252,7 @@ public class MenuElementHandler extends AbstractElementHandler {
 					" WHERE AD_Tree_ID = 10").append(
 					" AND Node_ID = " + m_Menu.getAD_Menu_ID());
 		} else {
-			sqlB = new StringBuffer("Insert INTO AD_TREENODEMM").append(
+			sqlB = new StringBuffer("INSERT INTO AD_TREENODEMM").append(
 					"(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, ").append(
 					"Parent_ID, SeqNo, AD_Tree_ID, Node_ID)").append(
 					"VALUES(0, 0, 0, 0, ").append(

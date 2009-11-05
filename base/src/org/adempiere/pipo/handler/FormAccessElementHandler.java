@@ -73,7 +73,7 @@ public class FormAccessElementHandler extends AbstractElementHandler {
 		else{
 			Object_Status = "New";
 			AD_Backup_ID =0;
-			sqlB = new StringBuffer ("Insert INTO AD_Form_Access" 
+			sqlB = new StringBuffer ("INSERT INTO AD_Form_Access" 
 					+   "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
 					+   "AD_Role_ID, AD_Form_ID, isActive, isReadWrite) "
 					+	"VALUES(" 

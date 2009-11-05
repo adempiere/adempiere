@@ -154,7 +154,7 @@ public class DistFileElementHandler extends AbstractElementHandler {
 				}
 			}
 			//Record in transaction file 
-			StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Backup" ) 
+			StringBuffer sqlB = new StringBuffer ("INSERT INTO AD_Package_Imp_Backup" ) 
 					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
 					.append( "AD_PACKAGE_IMP_BACKUP_ID, AD_PACKAGE_IMP_DETAIL_ID, AD_PACKAGE_IMP_ID," ) 
 					.append( " AD_PACKAGE_IMP_ORG_DIR, AD_PACKAGE_IMP_BCK_DIR)" )

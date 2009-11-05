@@ -74,7 +74,7 @@ public class ProcessAccessElementHandler extends AbstractElementHandler {
 		else{
 			Object_Status = "New";
 			AD_Backup_ID =0;
-			sqlB = new StringBuffer ("Insert INTO AD_Process_Access")
+			sqlB = new StringBuffer ("INSERT INTO AD_Process_Access")
 					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
 					.append( "AD_Role_ID, AD_Process_ID, isActive, isReadWrite) " )
 					.append( "VALUES(" ) 

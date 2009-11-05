@@ -91,7 +91,7 @@ public class CopyRole extends SvrProcess
 			int no = DB.executeUpdateEx(sql, get_TrxName());
 			addLog(action++, null, new BigDecimal(no), "Old records deleted from " + table );
 			
-			sql = "Insert INTO " + table
+			sql = "INSERT INTO " + table
 					+   " (AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " 
 					+   "AD_Role_ID, " + keycolumn +", isActive";
 					if ( ! table.equals("AD_Document_Action_Access"))

@@ -78,7 +78,7 @@ public class WindowAccessElementHandler extends AbstractElementHandler {
 		else{
 			Object_Status = "New";
 			AD_Backup_ID =0;
-			sqlB = new StringBuffer ("Insert INTO AD_Window_Access") 
+			sqlB = new StringBuffer ("INSERT INTO AD_Window_Access") 
 					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
 					.append( "AD_Role_ID, AD_Window_ID, isActive, isReadWrite) " )
 					.append( "VALUES(" ) 

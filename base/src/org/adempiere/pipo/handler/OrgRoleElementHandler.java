@@ -69,7 +69,7 @@ public class OrgRoleElementHandler extends AbstractElementHandler {
 		else{
 			Object_Status = "New";
 			AD_Backup_ID =0;
-			sqlB = new StringBuffer ("Insert INTO AD_Role_OrgAccess")
+			sqlB = new StringBuffer ("INSERT INTO AD_Role_OrgAccess")
 					.append( "(AD_Client_ID, CreatedBy, UpdatedBy, " ) 
 					.append( "AD_Role_ID, AD_Org_ID, isActive, isReadOnly) " )
 					.append( "VALUES(" ) 

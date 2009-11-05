@@ -167,7 +167,7 @@ public class ReferenceTableElementHandler extends AbstractElementHandler {
 					throw new POSaveFailedException("ReferenceTable");
 				}
 			} else {
-				sqlB = new StringBuffer("Insert INTO AD_Ref_Table")
+				sqlB = new StringBuffer("INSERT INTO AD_Ref_Table")
 						.append(
 								"(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, ")
 						.append(

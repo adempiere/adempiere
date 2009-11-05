@@ -97,25 +97,25 @@ public final class Convert_PostgreSQLTest extends TestCase{
 	public void testAlterColumn() {
 		sql = "ALTER TABLE Test MODIFY T_Integer NUMBER(10) NOT NULL";
 		//sqe = "ALTER TABLE Test ALTER COLUMN T_Integer TYPE NUMERIC(10); ALTER TABLE Test ALTER COLUMN T_Integer SET NOT NULL;";
-		sqe = "insert into t_alter_column values('test','T_Integer','NUMERIC(10)','NOT NULL',null)";
+		sqe = "INSERT INTO t_alter_column values('test','T_Integer','NUMERIC(10)','NOT NULL',null)";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 		
 		sql = "ALTER TABLE Test MODIFY T_Integer NUMBER(10) NULL";
 		//sqe = "ALTER TABLE Test ALTER COLUMN T_Integer TYPE NUMERIC(10); ALTER TABLE Test ALTER COLUMN T_Integer DROP NOT NULL;";
-		sqe = "insert into t_alter_column values('test','T_Integer','NUMERIC(10)','NULL',null)";
+		sqe = "INSERT INTO t_alter_column values('test','T_Integer','NUMERIC(10)','NULL',null)";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 		
 		sql = "ALTER TABLE Test MODIFY T_Integer NOT NULL";
-		sqe = "insert into t_alter_column values('test','T_Integer',null,'NOT NULL',null)";
+		sqe = "INSERT INTO t_alter_column values('test','T_Integer',null,'NOT NULL',null)";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 		
 		// Line 407 of ImportProduct.java
 		sql = "ALTER TABLE LPI_Publication MODIFY AD_Client_ID NUMERIC(10) DEFAULT NULL";
 		//sqe = "ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID TYPE NUMERIC(10); ALTER TABLE LPI_Publication ALTER COLUMN AD_Client_ID SET DEFAULT NULL; ";
-		sqe = "insert into t_alter_column values('lpi_publication','AD_Client_ID','NUMERIC(10)',null,'NULL')";
+		sqe = "INSERT INTO t_alter_column values('lpi_publication','AD_Client_ID','NUMERIC(10)',null,'NULL')";
         r = convert.convert(sql);
         assertEquals(sqe, r[0]);
         
@@ -127,17 +127,17 @@ public final class Convert_PostgreSQLTest extends TestCase{
         
         //[ adempiere-Bugs-1746266 ]
         sql = "ALTER TABLE someTableName MODIFY someColumnName NVARCHAR2(64)";
-        sqe = "insert into t_alter_column values('sometablename','someColumnName','VARCHAR(64)',null,null)";
+        sqe = "INSERT INTO t_alter_column values('sometablename','someColumnName','VARCHAR(64)',null,null)";
         r = convert.convert(sql);
         assertEquals(sqe, r[0].trim());
         
         sql = "ALTER TABLE S_Resource MODIFY IsActive CHAR(1) DEFAULT 'Y'";
-        sqe = "insert into t_alter_column values('s_resource','IsActive','CHAR(1)',null,'Y')";
+        sqe = "INSERT INTO t_alter_column values('s_resource','IsActive','CHAR(1)',null,'Y')";
         r = convert.convert(sql);
         assertEquals(sqe, r[0].trim());
         
         sql = "ALTER TABLE PP_Order_NodeNext MODIFY PP_Order_NodeNext_ID NULL";
-        sqe = "insert into t_alter_column values('pp_order_nodenext','PP_Order_NodeNext_ID',null,'NULL',null)";
+        sqe = "INSERT INTO t_alter_column values('pp_order_nodenext','PP_Order_NodeNext_ID',null,'NULL',null)";
         r = convert.convert(sql);
         assertEquals(sqe, r[0].trim());
 	}

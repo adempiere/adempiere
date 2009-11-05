@@ -1123,7 +1123,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 						
 					}
 
-					DDL = "insert into t_alter_column values('";
+					DDL = "INSERT INTO t_alter_column values('";
 					String tableName = sqlStatement.substring(0, begin_col - action.length());
 					tableName = tableName.toUpperCase().replaceAll("ALTER TABLE", "");
 					tableName = tableName.trim().toLowerCase();

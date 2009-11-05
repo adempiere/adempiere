@@ -322,7 +322,7 @@ public class PackInHandler extends DefaultHandler {
 			
 			AD_Package_Imp_ID = DB.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp", null);
 			
-			StringBuffer sqlB = new StringBuffer ("Insert INTO AD_Package_Imp") 
+			StringBuffer sqlB = new StringBuffer ("INSERT INTO AD_Package_Imp") 
 					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
 					.append( "AD_PACKAGE_IMP_ID, RELEASENO, PK_VERSION, VERSION " ) 
 					.append( ", DESCRIPTION, NAME, CREATOR" ) 
@@ -353,7 +353,7 @@ public class PackInHandler extends DefaultHandler {
 				AD_Package_Imp_Inst_ID = DB.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp_Inst", null);
 				
 				//Insert Package into package install log
-				sqlB = new StringBuffer ("Insert INTO AD_Package_Imp_Inst") 
+				sqlB = new StringBuffer ("INSERT INTO AD_Package_Imp_Inst") 
 						.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
 						.append( "AD_PACKAGE_IMP_INST_ID, RELEASENO, PK_VERSION, VERSION " ) 
 						.append( ", DESCRIPTION, NAME, CREATOR" ) 

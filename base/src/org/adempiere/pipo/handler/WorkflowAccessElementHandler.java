@@ -73,7 +73,7 @@ public class WorkflowAccessElementHandler extends AbstractElementHandler {
 		else{
 			Object_Status = "New";
 			AD_Backup_ID =0;
-			sqlB = new StringBuffer ("Insert INTO AD_Workflow_Access") 
+			sqlB = new StringBuffer ("INSERT INTO AD_Workflow_Access") 
 					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
 					.append( "AD_Role_ID, AD_Workflow_ID, isActive, isReadWrite) " )
 					.append( "VALUES(" ) 
