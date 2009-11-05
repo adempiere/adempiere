@@ -1,591 +1,321 @@
 [Account_Value],[Account_Name],[Account_Description],[Account_Type],[Account_Sign],[Account_Document],[Account_Summary],[Default_Account],[Account_Parent]
-1,Current assets and short term investments,,Asset,,,Yes,,
-111,Cash in  hand,,Asset,,,Yes,,1
-11110000,VND Cash in  hand,11110000,Asset,,Yes,No,CB_ASSET_ACCT,111
-11120000,Foreign currencies – USD,,Asset,,,No,,111
-11130000,Gold-silver-precious stones,,Asset,,,No,,111
-112,Cash at  Bank,,Asset,,,Yes,,1
-11211000,Cash at  Bank-VND demand account,,Asset,,Yes,No,B_ASSET_ACCT,112
-11212000,Cash at  Bank-VND account at VCB Hai Duong,,Asset,,Yes,No,B_UNALLOCATEDCASH_ACCT,112
-11211200,Cash at  Bank-unknown origin,,Asset,,Yes,No,B_UNIDENTIFIED_ACCT,112
-11222000,Foreign cash in bank – Capital account,,Asset,,,No,,112
-11223000,Foreign cash in bank – USD demand  account,,Asset,,,No,,112
-113,Cash in transit,,Asset,,,Yes,,1
-11310000,Cash in transit,,Asset,,Yes,No,CB_CASHTRANSFER_ACCT,113
-11320000,Bank in transit,,Asset,,Yes,No,B_INTRANSIT_ACCT,113
-121,Short term security investment,,Asset,,,Yes,,1
-12110000,Shares,,Asset,,,No,,121
-12120000,Bonds - bills,,Asset,,,No,,121
-128,Other short - term investments,,Asset,,,Yes,,1
-12810000,Time deposit,,Asset,,,No,,128
-12820000,Current investments,,Asset,,,No,,128
-12830000,Intercompany short term investments,,Asset,,,No,,128
-12840000,Other short term investments,,Asset,,,No,,128
-12880000,Other short term investment,,Asset,,,No,,128
-129,Provision for devaluation of short term investment,,Asset,,,Yes,,1
-131,Account receivables-trade,,Asset,,,Yes,,1
-13110000,Account receivables-trade,,Asset,,Yes,No,C_RECEIVABLE_ACCT,131
-13111000,Long term trade receivable,,Asset,,Yes,No,,131
-13112000,Regular trade debtor,,Asset,,Yes,No,,131
-13113000,Post-dated checks- bills receivable,,Asset,,Yes,No,,131
-13114000,Doubtful trade debtors,,Asset,,Yes,No,,131
-13115000,Discounted bills,,Asset,,Yes,No,,131
-13116000,Intercompany debtors,,Asset,,Yes,No,,131
-13117000,Invoices to be sent,,Asset,,Yes,No,,131
-13118000,Creditnotes to be received,,Asset,,Yes,No,,131
-13120000,Account receivables-services,,Asset,,Yes,No,C_RECEIVABLE_SERVICES_ACCT,131
-13150000,Advances to suppliers,,Asset,,Yes,No,V_PREPAYMENT_ACCT,131
-13160000,Account receivables without invoice,,Asset,,Yes,No,NOTINVOICEDRECEIVABLES_ACCT,131
-13180000,Other Account receivables,,Asset,,,No,,131
-133,Deductible VAT,,Asset,,,Yes,,1
-13310000,Deductible VAT for goods and services,,Asset,,Yes,No,T_CREDIT_ACCT,133
-13320000,Deductible for fixed assets,,Asset,,,No,,133
-136,Inter-company receivables,,Asset,,,Yes,,1
-13610000,Working capital provided to sub-untils by holding company,,Asset,,,No,,136
-13680000,Other inter-company receivables,,Asset,,Yes,No,INTERCOMPANYDUEFROM_ACCT,136
-138,Other receivables,,Asset,,,Yes,,1
-13810000,Shortage of assets awaiting for resolution,,Asset,,,No,,138
-13850000,Receivables from equitizing activities,,Asset,,,No,,138
-13880000,Others,,Asset,,,No,,138
-13881000,Long term other receivable,,Asset,,,No,,138
-13882000,Withholding tax es and other taxes prepayment,,Asset,,,No,,138
-13883000,Income taxes prepayment,,Asset,,,No,,138
-13884000,Other debtors,,Asset,,,No,,138
-139,Provision for doubtful debts,,Asset,,,Yes,,1
-13900000,Provision for doubtful debts,,Asset,,,No,,139
-13910000,Provision on long term trade receivable,,Asset,,,No,,139
-13920000,Provision on long term other  receivable,,Asset,,,No,,139
-13930000,Provision for bad debts,,Asset,,,No,,139
-13940000,Provision on other debtors,,Asset,,,No,,139
-141,Advances,,Asset,,,Yes,,1
-14110000,Advances for employees,,Asset,,Yes,No,E_PREPAYMENT_ACCT,141
-142,Short- term prepaid expenses,,Asset,,,Yes,,1
-14210000,Short- term prepaid expenses,,Asset,,,No,,142
-144,Short term pledges- collateral and deposit,,Asset,,,Yes,,1
-14410000,Short term pledges- collateral and deposit,,Asset,,,No,,144
-151,Goods in transit,,Asset,,,Yes,,1
-15110000,Goods in transit,,Asset,,,Yes,,151
-15120000,Goods received without invoice,,Asset,,Yes,No,NOTINVOICEDRECEIPTS_ACCT,151
-152,Raw materials,,Asset,,,Yes,,1
-15210000,Raw materials,,Asset,,,No,P_TRADEDISCOUNTREC_ACCT,152
+1,TÀI SẢN NGẮN HẠN,,Asset,,,Yes,,
+111,Tiền mặt,,Asset,,,Yes,,1
+11110000,Tiền mặt tại quỹ – VNĐ,,Asset,,Yes,No,CB_ASSET_ACCT,111
+11120000,Tiền mặt tại quỹ – USD,,Asset,,,No,,111
+11130000,Vàng- bạc- kim khí quý- đá quý,,Asset,,,No,,111
+112,Tiền gửi Ngân hàng,,Asset,,,Yes,,1
+11211000,Tiền gửi ngân hàng – VNĐ,,Asset,,Yes,No,B_ASSET_ACCT,112
+11211100,Tiền nhận được chưa phân bổ,,Asset,,Yes,No,B_UNALLOCATEDCASH_ACCT,112
+11211200,Tiền gửi ko rõ nguồn gốc,,Asset,,Yes,No,B_UNIDENTIFIED_ACCT,112
+11220000,Tiền gửi ngân hàng – USD,,Asset,,,No,,112
+11230000,Vàng- bạc- kim khí quý- đá quý,,Asset,,,No,,112
+113,Tiền đang chuyển,,Asset,,,Yes,,1
+11310000,Tiền mặt đang chuyển,,Asset,,Yes,No,CB_CASHTRANSFER_ACCT,113
+11320000,Tiền ngân hàng đang chuyển,,Asset,,Yes,No,B_INTRANSIT_ACCT,113
+121,Đầu tư chứng khoán ngắn hạn,,Asset,,,Yes,,1
+12110000,Cổ phiếu,,Asset,,,No,,121
+12120000,Trái phiếu- tín phiếu- kỳ phiếu,,Asset,,,No,,121
+128,Đầu tư ngắn hạn khác ,,Asset,,,Yes,,1
+12810000,Tiền gửi có kỳ hạn ,,Asset,,,No,,128
+12880000,Đầu tư ngắn hạn khác,,Asset,,,No,,128
+129,Dự phòng giảm giá đầu tư ngắn hạn,,Asset,,,Yes,,1
+131,Phải thu của khách hàng,,Asset,,,Yes,,1
+13110000,Phải thu thương mại,,Asset,,Yes,No,C_RECEIVABLE_ACCT,131
+13120000,Phải thu dịch vụ,,Asset,,Yes,No,C_RECEIVABLE_SERVICES_ACCT,131
+13150000,Ứng trước cho nhà cung cấp,,Asset,,Yes,No,V_PREPAYMENT_ACCT,131
+13160000,Phải thu chưa có hóa đơn,,Asset,,Yes,No,NOTINVOICEDRECEIVABLES_ACCT,131
+13180000,Phải thu khách hàng khác,,Asset,,,No,,131
+133,Thuế GTGT được khấu trừ,,Asset,,,Yes,,1
+13310000,Thuế GTGT được khấu trừ của hàng hóa- dịch vụ,,Asset,,Yes,No,T_CREDIT_ACCT,133
+13320000,Thuế GTGT được khấu trừ của TSCĐ,,Asset,,,No,,133
+136,Phải thu nội bộ,,Asset,,,Yes,,1
+13610000,Vốn kinh doanh ở các đơn vị trực thuộc,,Asset,,,No,,136
+13680000,Phải thu nội bộ khác,,Asset,,Yes,No,INTERCOMPANYDUEFROM_ACCT,136
+138,Phải thu khác,,Asset,,,Yes,,1
+13810000,Tài sản thiếu chờ xử lý,,Asset,,,No,,138
+13850000,Phải thu về cổ phần hoá,,Asset,,,No,,138
+13880000,Phải thu khác,,Asset,,,No,,138
+139,Dự phòng phải thu khó đòi ,,Asset,,,Yes,,1
+13900000,Dự phòng phải thu khó đòi ,,Asset,,,No,,139
+141,Tạm ứng,,Asset,,,Yes,,1
+14110000,Tạm ứng cho nhân viên,,Asset,,Yes,No,E_PREPAYMENT_ACCT,141
+142,Chi phí trả trước ngắn hạn,,Asset,,,Yes,,1
+14210000,Chi phí trả trước ngắn hạn,,Asset,,,No,,142
+144,Cầm cố- ký quỹ- ký cược ngắn hạn,,Asset,,,Yes,,1
+14410000,Cầm cố- ký quỹ- ký cược ngắn hạn,,Asset,,,No,,144
+151,Hàng mua đang đi đường ,,Asset,,,Yes,,1
+15110000,Hàng mua đang đi đường ,,Asset,,,Yes,,151
+15120000,Hàng nhận về chưa có hóa đơn,,Asset,,Yes,No,NOTINVOICEDRECEIPTS_ACCT,151
+152,Nguyên liệu- vật liệu,,Asset,,,Yes,,1
+15210000,Nguyên liệu- vật liệu,,Asset,,,No,P_TRADEDISCOUNTREC_ACCT,152
 15211000,Packaging material,,Asset,,,No,P_TRADEDISCOUNTREC_ACCT,152
-153,Tools and supplies,,Asset,,,Yes,,1
-15310000,Tools and supplies,,Asset,,,No,,153
-154,Work in progress,,Asset,,,Yes,,1
-15410000,Work in progress,,Asset,,Yes,No,PJ_WIP_ACCT,154
-155,Finished goods,,Asset,,,Yes,,1
-15510000,Finished goods,,Asset,,Yes,No,P_ASSET_ACCT,155
-15511000,Finished manufactured goods,,Asset,,Yes,No,,155
-15512000,Finished purchased goods,,Asset,,Yes,No,,155
-15513000,Subproducts and residuals,,Asset,,Yes,No,,155
-15514000,Other stock,,Asset,,Yes,No,,155
-15520000,Finished goods-project,,Asset,,Yes,No,PJ_ASSET_ACCT,155
-156,Merchandise goods,,Asset,,,Yes,,1
-15610000,Purchase costs,,Asset,,Yes,No,W_INVENTORY_ACCT,156
-15620000,Incidental expenses,,Asset,,Yes,No,,156
-15670000,Merchandise real-estate,,Asset,,,No,,156
-157,Goods on consignment,,Asset,,,Yes,,1
-15710000,Goods on consignment,,Asset,,,No,,157
-158,Merchandise goods in bonded warehouse,,Asset,,,Yes,,1
-15810000,Merchandise goods in bonded warehouse,,Asset,,,No,,158
-159,Provision for decline in value of inventories,,Asset,,,Yes,,1
-15910000,Provision for decline in value of inventories,,Asset,,,No,,159
-15911000,provision on raw materials,,Asset,,,No,,159
-15912000,provision on packaging materials,,Asset,,,No,,159
-15913000,provision on work in progress,,Asset,,,No,,159
-15914000,Provision on finished (manufactured) goods,,Asset,,,No,,159
-15915000,Provision on finished (purchased) goods,,Asset,,,No,,159
-15916000,Provision on subproducts,,Asset,,,No,,159
-15917000,provision on stock in transit,,Asset,,,No,,159
-15918000,provision on other stocks,,Asset,,,No,,159
-2,Non-current assets,,Asset,,,Yes,,
-211,Tangible Fixed Assets,,Asset,,,Yes,,2
-21110000,Buildings and structures,,Asset,,,No,,211
-21120000,Machinery and equipment,,Asset,,,No,,211
-21130000,Transportation and transmission equipment,,Asset,,,No,,211
-21140000,Office equipment,,Asset,,,No,,211
-21150000,Perennial trees-working and producing animals,,Asset,,,No,,211
-21180000,Other tangible fixed assets,,Asset,,,No,,211
-212,Finance lease assets,,Asset,,,Yes,,2
-21210000,Finance lease assets,,Asset,,,No,,212
-213,Intangible fixed assets,,Asset,,,Yes,,2
-21310000,Land use right,,Asset,,,No,,213
-21320000,Mastheads and publishing titles,,Asset,,,No,,213
-21330000,Copyrights- patents,,Asset,,,No,,213
-21340000,Trade marks,,Asset,,,No,,213
-21350000,Computer software,,Asset,,,No,,213
-21360000,Licenses and franchises,,Asset,,,No,,213
-21380000,Other intangible fixed assets,,Asset,,,No,,213
-21381000,R&D expense,,Asset,,,No,,213
-21382000,Industrial property,,Asset,,,No,,213
-21383000,Prepayment for intangible assets,,Asset,,,No,,213
-21384000,Other intangible assets,,Asset,,,No,,213
-214,Accumulated depreciation of fixed assets,,Asset,,,Yes,,2
-21410000,Depreciation of tangible assets,,Asset,,,No,,214
-21411000,Dep Land and buildings,,Asset,,,No,,214
-21412000,Dep Plant- machinery and equipment,,Asset,,,No,,214
-21413000,Dep Furniture and vehicles,,Asset,,,No,,214
-21414000,Dep Others,,Asset,,,No,,214
-21420000,Depreciation of finance lease assets,,Asset,,,No,,214
-21430000,Depreciation of intangible assets,,Asset,,,No,,214
-21431000,Dep R&D expense,,Asset,,,No,,214
-21432000,Dep Industrial property,,Asset,,,No,,214
-21433000,Dep Goodwill,,Asset,,,No,,214
-21434000,Dep Property  transfer rights,,Asset,,,No,,214
-21435000,Dep Computer software,,Asset,,,No,,214
-21436000,Dep Prepayment for intangible assets,,Asset,,,No,,214
-21437000,Dep Other intangible assets,,Asset,,,No,,214
-21470000,Depreciation of investment property,,Asset,,,No,,214
-217,Investment property,,Asset,,,Yes,,2
-21710000,Investment property,,Asset,,,No,,217
-221,Investments in subsidiary,,Asset,,,Yes,,2
-22110000,Investments in subsidiary,,Asset,,,No,,221
-222,Shares in joint venture,,Asset,,,Yes,,2
-22210000,Shares in joint venture,,Asset,,,No,,222
-223,Investments in associates,,Asset,,,Yes,,2
-22310000,Investments in associates,,Asset,,,No,,223
-228,Other long term investments,,Asset,,,Yes,,2
-22810000,Shares,,Asset,,,No,,228
-22820000,Bonds,,Asset,,,No,,228
-22830000,Other long term investments,,Asset,,,No,,228
-229,Provision for devaluation of long term investments,,Asset,,,Yes,,2
-22910000,Provision for devaluation of long term investments,,Asset,,,No,,229
-241,Construction  in progress,,Asset,,,Yes,,2
-24110000,Acquisition of fixed assets,,Asset,,,No,,241
-24120000,Construction in progress,,Asset,,,No,,241
-24130000,Extra-ordinary repairs,,Asset,,,No,,241
-242,Long term prepayment expense,,Asset,,,Yes,,2
-24210000,Long term prepayment expense,,Asset,,,No,,242
-24220000,First establishment expense,,Asset,,,No,,242
-24230000,Capital increase expense,,Asset,,,No,,242
-24240000,Other expense to be amortized,,Asset,,,No,,242
-24250000,Accumulated amortization of expense to be amortised,,Asset,,,No,,242
-243,Deferred tax assets,,Asset,,,Yes,,2
-24310000,Deferred tax assets,,Asset,,,No,,243
-244,Long term deposit- pledges,,Asset,,,Yes,,2
-24410000,Long term deposit- pledges,,Asset,,,No,,244
-3,Liabilities,,Liability,,,Yes,,
-311,Short term borrowing,,Liability,,,Yes,,3
-31111000,Credit institution short term loans,,Liability,,,No,,311
-31112000,Other short term loans,,Liability,,,No,,311
-31113000,Third party portion of LT loan due within 1 year,,Liability,,,No,,311
-31114000,Intercompany  shorterm loans,,Liability,,,No,,311
-31115000,Intercomany  portion of LT due within 1 year,,Liability,,,No,,311
-31116000,Portion of LT due within 1 year fin leasing and similar,,,,,,,
-315,Current portion of long term loan,,Liability,,,Yes,,3
-31510000,Current portion of long term loan,,Liability,,,No,,315
-331,Payable to suppliers,,Liability,,,Yes,,3
-33110000,Accounts Payable,,Liability,,Yes,No,V_LIABILITY_ACCT,331
-33114000,Fixed assets creditors,,Liability,,Yes,No,,331
-33115000,Bill of exchange payable,,Liability,,Yes,No,,331
-33116000,Intercompany trade creditors,,Liability,,Yes,No,,331
-33120000,Other services payables,,Liability,,Yes,No,V_LIABILITY_SERVICES_ACCT,331
-33150000,Prepaid suppliers,,Liability,,Yes,No,C_PREPAYMENT_ACCT,331
-33170000,Pending payable,,Liability,,Yes,No,B_PAYMENTSELECT_ACCT,331
-33180000,Other payables,,Liability,,,No,,331
-333,Taxes and obligation to State budget,,Liability,,,Yes,,3
-3331,Value Added Tax (VAT),,Liability,,,Yes,,333
-33311000,Output VAT,,Liability,,Yes,No,T_DUE_ACCT,3331
-33312000,VAT on imported goods,,Liability,,,No,,3331
-33320000,Special consumption tax,,Liability,,,No,,333
-33330000,Import and export duties,,Liability,,,No,,333
-33340000,Corporate income tax,,Liability,,,No,,333
-33350000,Personal income tax,,Liability,,,No,,333
-33360000,Tax on use of natural resources,,Liability,,,No,,333
-33370000,Land and housing tax- land rental charges,,Liability,,,No,,333
-33388000,Other taxes,,Liability,,Yes,No,WITHHOLDING_ACCT,333
-33381000,Tax deduction,,Liability,,Yes,No,T_RECEIVABLES_ACCT,333
-33390000,Fees- charges and other payables,,Liability,,Yes,No,T_LIABILITY_ACCT,333
-334,Payable to employees,,Liability,,,Yes,,3
-33410000,Payable to employees,,Liability,,,No,,334
-33480000,Payables to other labourers,,Liability,,,No,,334
-335,Accrual Expenses,,Liability,,,Yes,,3
-33510000,Accrual Expenses,,Liability,,,No,,335
-336,Inter-company payables,,Liability,,,Yes,,3
-33610000,Inter-company payables,,Liability,,Yes,No,INTERCOMPANYDUETO_ACCT,336
-337,Progress payment due to construction contract,,Liability,,,Yes,,3
-33710000,Progress payment due to construction contract,,Liability,,,No,,337
-338,Other payables,,Liability,,,Yes,,3
-33810000,Surplus of assets awaiting resolution,,Liability,,,No,,338
-33820000,Trade union fees,,Liability,,,No,,338
-33830000,Social insurance,,Liability,,,No,,338
-33840000,Health insurance,,Liability,,,No,,338
-33850000,Payables of equitization activities,,Liability,,,No,,338
-33860000,Short term deposits- pledges received,,Liability,,,No,,338
-33870000,Un-earned revenue,,Liability,,Yes,No,UNEARNEDREVENUE_ACCT,338
-33880000,Other payables,,Liability,,,No,,338
-33881000,Other liabilities – non current portion,,Liability,,,No,,338
+153,Công cụ- dụng cụ ,,Asset,,,Yes,,1
+15310000,Công cụ- dụng cụ ,,Asset,,,No,,153
+154,Chi phí sản xuất- kinh doanh dở dang,,Asset,,,Yes,,1
+15410000,Chi phí sản xuất- kinh doanh dở dang,,Asset,,Yes,No,P_WIP_ACCT,154
+15420000,Chi phí sản xuất- kinh doanh dở dang,,Asset,,Yes,No,PJ_WIP_ACCT,154
+155,Thành phẩm,,Asset,,,Yes,,1
+15510000,Thành phẩm,,Asset,,Yes,No,P_ASSET_ACCT,155
+15520000,Thành phẩm dự án,,Asset,,Yes,No,PJ_ASSET_ACCT,155
+156,Hàng hóa,,Asset,,,Yes,,1
+15610000,Giá mua hàng hóa,,Asset,,Yes,No,W_INVENTORY_ACCT,156
+15620000,Chi phí thu mua hàng hóa,,Asset,,Yes,No,,156
+15670000,Hàng hóa bất động sản ,,Asset,,,No,,156
+157,Hàng gửi đi bán,,Asset,,,Yes,,1
+15710000,Hàng gửi đi bán,,Asset,,,No,,157
+158,Hàng hoá kho bảo thuế,,Asset,,,Yes,,1
+15810000,Hàng hoá kho bảo thuế,,Asset,,,No,,158
+159,Dự phòng giảm giá hàng tồn kho,,Asset,,,Yes,,1
+15910000,Dự phòng giảm giá hàng tồn kho,,Asset,,,No,,159
+2,TÀI SẢN DÀI HẠN,,Asset,,,Yes,,
+211,Tài sản cố định hữu hình,,Asset,,,Yes,,2
+21110000,Nhà cửa- vật kiến trúc,,Asset,,,No,,211
+21120000,Máy móc- thiết bị,,Asset,,,No,,211
+21130000,Phương tiện vận tải- truyền dẫn,,Asset,,,No,,211
+21140000,Thiết bị- dụng cụ quản lý,,Asset,,,No,,211
+21150000,Cây lâu năm- súc vật làm việc và cho sản phẩm,,Asset,,,No,,211
+21180000,TSCĐ khác ,,Asset,,,No,,211
+212,Tài sản cố định thuê tài chính,,Asset,,,Yes,,2
+21210000,Tài sản cố định thuê tài chính,,Asset,,,No,,212
+213,Tài sản cố định vô hình,,Asset,,,Yes,,2
+21310000,Quyền sử dụng đất,,Asset,,,No,,213
+21320000,Quyền phát hành,,Asset,,,No,,213
+21330000,Bản quyền- bằng sáng chế,,Asset,,,No,,213
+21340000,Nhãn hiệu hàng hoá,,Asset,,,No,,213
+21350000,Phần mềm máy vi tính,,Asset,,,No,,213
+21360000,Giấy phép và giấy phép nhượng quyền,,Asset,,,No,,213
+21380000,TSCĐ vô hình khác,,Asset,,,No,,213
+214,Hao mòn tài sản cố định,,Asset,,,Yes,,2
+21410000,Hao mòn TSCĐ hữu hình,,Asset,,,No,,214
+21420000,Hao mòn TSCĐ thuê tài chính,,Asset,,,No,,214
+21430000,Hao mòn TSCĐ vô hình ,,Asset,,,No,,214
+21470000,Hao mòn bất động sản đầu tư,,Asset,,,No,,214
+217,Bất động sản đầu tư,,Asset,,,Yes,,2
+21710000,Bất động sản đầu tư,,Asset,,,No,,217
+221,Đầu tư vào công ty con,,Asset,,,Yes,,2
+22110000,Đầu tư vào công ty con,,Asset,,,No,,221
+222,Vốn góp liên doanh,,Asset,,,Yes,,2
+22210000,Vốn góp liên doanh,,Asset,,,No,,222
+223,Đầu tư vào công ty liên kết,,Asset,,,Yes,,2
+22310000,Đầu tư vào công ty liên kết,,Asset,,,No,,223
+228,Đầu tư dài hạn khác,,Asset,,,Yes,,2
+22810000,Cổ phiếu,,Asset,,,No,,228
+22820000,Trái phiếu,,Asset,,,No,,228
+22830000,Đầu tư dài hạn khác,,Asset,,,No,,228
+229,Dự phòng giảm giá đầu tư dài hạn,,Asset,,,Yes,,2
+22910000,Dự phòng giảm giá đầu tư dài hạn,,Asset,,,No,,229
+241,Xây dựng cơ bản dở dang ,,Asset,,,Yes,,2
+24110000,Mua sắm TSCĐ,,Asset,,,No,,241
+24120000,Xây dựng cơ bản,,Asset,,,No,,241
+24130000,Sửa chữa lớn TSCĐ,,Asset,,,No,,241
+242,Chi phí trả trước dài hạn,,Asset,,,Yes,,2
+24210000,Chi phí trả trước dài hạn,,Asset,,,No,,242
+243,Tài sản thuế thu nhập hoãn lại,,Asset,,,Yes,,2
+24310000,Tài sản thuế thu nhập hoãn lại,,Asset,,,No,,243
+244,Ký quỹ- ký cược dài hạn,,Asset,,,Yes,,2
+24410000,Ký quỹ- ký cược dài hạn,,Asset,,,No,,244
+3,NỢ PHẢI TRẢ,,Liability,,,Yes,,
+311,Vay ngắn hạn,,Liability,,,Yes,,3
+315,Nợ dài hạn đến hạn trả,,Liability,,,Yes,,3
+31510000,Nợ dài hạn đến hạn trả,,Liability,,,No,,315
+331,Phải trả cho người bán,,Liability,,,Yes,,3
+33110000,Phải trả thương mại,,Liability,,Yes,No,V_LIABILITY_ACCT,331
+33120000,Phải trả dịch vụ,,Liability,,Yes,No,V_LIABILITY_SERVICES_ACCT,331
+33150000,Trả trước của khách hàng,,Liability,,Yes,No,C_PREPAYMENT_ACCT,331
+33170000,Phải trả chờ xử lý,,Liability,,Yes,No,B_PAYMENTSELECT_ACCT,331
+33180000,Phải trả khác,,Liability,,,No,,331
+333,Thuế và các khoản phải nộp Nhà nước,,Liability,,,Yes,,3
+3331,Thuế giá trị gia tăng phải nộp,,Liability,,,Yes,,333
+33311000,Thuế GTGT đầu ra,,Liability,,Yes,No,T_DUE_ACCT,3331
+33312000,Thuế GTGT hàng nhập khẩu,,Liability,,,No,,3331
+33320000,Thuế tiêu thụ đặc biệt ,,Liability,,,No,,333
+33330000,Thuế xuất- nhập khẩu,,Liability,,,No,,333
+33340000,Thuế thu nhập doanh nghiệp ,,Liability,,,No,,333
+33350000,Thuế thu nhập cá nhân,,Liability,,,No,,333
+33360000,Thuế tài nguyên,,Liability,,,No,,333
+33370000,Thuế nhà đất- tiền thuê đất,,Liability,,,No,,333
+33388000,Các loại thuế khác,,Liability,,Yes,No,WITHHOLDING_ACCT,333
+33381000,Khấu trừ thuế,,Liability,,Yes,No,T_RECEIVABLES_ACCT,333
+33390000,Phí- lệ phí và các khoản phải nộp khác,,Liability,,Yes,No,T_LIABILITY_ACCT,333
+334,Phải trả người lao động,,Liability,,,Yes,,3
+33410000,Phải trả công nhân viên,,Liability,,,No,,334
+33480000,Phải trả người lao động khác,,Liability,,,No,,334
+335,Chi phí phải trả,,Liability,,,Yes,,3
+33510000,Chi phí phải trả,,Liability,,,No,,335
+336,Phải trả nội bộ,,Liability,,,Yes,,3
+33610000,Phải trả nội bộ,,Liability,,Yes,No,INTERCOMPANYDUETO_ACCT,336
+337,Thanh toán theo tiến độ kế hoạch hợp đồng xây dựng,,Liability,,,Yes,,3
+33710000,Thanh toán theo tiến độ kế hoạch hợp đồng xây dựng,,Liability,,,No,,337
+338,Phải trả- phải nộp khác,,Liability,,,Yes,,3
+33810000,Tài sản thừa chờ giải quyết,,Liability,,,No,,338
+33820000,Kinh phí công đoàn,,Liability,,,No,,338
+33830000,Bảo hiểm xã hội,,Liability,,,No,,338
+33840000,Bảo hiểm y tế,,Liability,,,No,,338
+33850000,Phải trả về cổ phần hoá,,Liability,,,No,,338
+33860000,Nhận ký quỹ- ký cược ngắn hạn,,Liability,,,No,,338
+33870000,Doanh thu chưa thực hiện,,Liability,,Yes,No,UNEARNEDREVENUE_ACCT,338
+33880000,Phải trả- phải nộp khác ,,Liability,,,No,,338
 33882000,Other creditors,,Liability,,,No,,338
-341,Long term borrowings,,Liability,,,Yes,,3
-34110000,Long term borrowings,,Liability,,,No,,341
-34111000,Subordinated loan,,Liability,,,No,,341
-34112000,Credit institutions,,Liability,,,No,,341
-34113000,Unsubordinated loan,,Liability,,,No,,341
-34114000,Other loans,,Liability,,,No,,341
-34115000,Intercompany long term loan,,Liability,,,No,,341
-34116000,Suppliers,,Liability,,,No,,341
-34117000,Bill of exchange payable,,Liability,,,No,,341
-34118000,Advances received/ contract in progress,,Liability,,,No,,341
-342,Long term liabilities,,Liability,,,Yes,,3
-34210000,Long term liabilities,,Liability,,,No,,342
-34220000,Financial leasing and similar obligation long term loan,,Liability,,,No,,342
-343,Bond,,Liability,,,Yes,,3
-34310000,Value of securities,,Liability,,,No,,343
-34320000,Discount of securities,,Liability,,,No,,343
-34330000,Excess of securities,,Liability,,,No,,343
-344,Long term deposits- pledges received,,Liability,,,Yes,,3
-34410000,Long term deposits- pledges received,,Liability,,,No,,344
-347,Deferred tax liabilities,,Liability,,,Yes,,3
-34710000,Deferred tax liabilities,,Liability,,,No,,347
-351,Provision for unemployment fund,,Liability,,,Yes,,3
-35110000,Provision for unemployment fund,,Liability,,,No,,351
-352,Provision for payables,,Liability,,,Yes,,3
-35210000,Provision for payables,,Liability,,,No,,352
-4,Owner’s Equity,,Owner's Equity,,,Yes,,
-411,Business Capital,,Owner's Equity,,,Yes,,4
-41110000,Contributed capital,,Owner's Equity,,,No,,411
-41120000,Capital surplus,,Owner's Equity,,,No,,411
-41180000,Other capitals,,Owner's Equity,,,No,,411
-412,Differences from assets revaluation,,Owner's Equity,,,Yes,,4
-41210000,Differences from assets revaluation,,Owner's Equity,,,No,,412
-413,Exchange rate difference,,Owner's Equity,,,Yes,,4
-41310000,Exchange rate difference at closing balance date,,Owner's Equity,,Yes,No,UNREALIZEDGAIN_ACCT,413
-41312000,Loss Exchange rate difference at closing balance date,,Owner's Equity,,Yes,No,UNREALIZEDLOSS_ACCT,413
-41320000,Exchange rate difference in construction period,,Owner's Equity,,,No,,413
-414,Investments and development fund,,Owner's Equity,,,Yes,,4
-41410000,Investments and development fund,,Owner's Equity,,,No,,414
-415,Financial reserve funds,,Owner's Equity,,,Yes,,4
-41510000,Financial reserve funds,,Owner's Equity,,,No,,415
-418,Financial reserve funds equity,,Owner's Equity,,,Yes,,4
-41810000,Financial reserve funds equity,,Owner's Equity,,,No,,418
-419,Stock fund,,Owner's Equity,,,Yes,,4
-41910000,Stock fund,,Owner's Equity,,,No,,419
-421,Retained earnings,,Owner's Equity,,,Yes,,4
-42110000,Prior year earnings,,Owner's Equity,,,No,,421
-42120000,Current year earnings,,Owner's Equity,,Yes,No,RETAINEDEARNING_ACCT,421
-431,Welfare and reward funds,,Owner's Equity,,,Yes,,4
-43110000,Reward funds,,Owner's Equity,,,No,,431
-43120000,Welfare funds,,Owner's Equity,,,No,,431
-43130000,Welfare funds used for fixed assets investments,,Owner's Equity,,,No,,431
-441,Capital expenditure funds,,Owner's Equity,,,Yes,,4
-44110000,Capital expenditure funds,,Owner's Equity,,,No,,441
-461,Subsidy funds from state budget,,Owner's Equity,,,Yes,,4
-46110000,Prior year,,Owner's Equity,,,No,,461
-46120000,Current year,,Owner's Equity,,,No,,461
-466,Funds invested in fixed assets,,Owner's Equity,,,Yes,,4
-5,Revenue,,Revenue,,,Yes,,
-511,Revenue,,Revenue,,,Yes,,5
-51110000,Revenue from sale of merchandise,,Revenue,,Yes,No,P_REVENUE_ACCT,511
-51120000,Revenue from sales of finished goods,,Revenue,,,No,,511
-51130000,Revenue from services,,Revenue,,,No,,511
-51140000,Revenue from government grants,,Revenue,,,No,,511
-51150000,Revenue not yet issue invoice,,Revenue,,Yes,No,NOTINVOICEDREVENUE_ACCT,511
-51170000,Revenue from investments property,,Revenue,,,No,,511
-512,Inter-company revenue,,Revenue,,,Yes,,5
-51210000,Revenue from sale of merchandise,,Revenue,,,No,,512
-51220000,Revenue from sales of finished goods,,Revenue,,,No,,512
-51230000,Revenue from services,,Revenue,,,No,,512
-515,Revenue from financial activities,,Revenue,,,Yes,,5
-51510000,Revenue from financial activities,,Revenue,,,No,,515
-51511000,Realised exchange gain,,Revenue,,,No,,515
-51512000,Bank and third party interest income long term loans,,Revenue,,,No,,515
-51513000,Bank and third party interest income short  term loans,,Revenue,,,No,,515
-51514000,Intercompany  interest income,,Revenue,,,No,,515
-51515000,Customer interest income,,Revenue,,,No,,515
-51516000,Other financial income,,Revenue,,,No,,515
-51520000,Discount payment received,,Revenue,,Yes,No,PAYDISCOUNT_REV_ACCT,515
-51530000,Bank interest,,Revenue,,Yes,No,B_INTERESTREV_ACCT,515
-51540000,Gain on evaluating bank,,Revenue,,Yes,No,B_REVALUATIONGAIN_ACCT,515
-51550000,Gain on foreign currencies payment,,Revenue,,Yes,No,REALIZEDGAIN_ACCT,515
-521,Sales discounts,,Revenue,,,Yes,,5
-52110000,Sales discounts,,Revenue,,Yes,No,P_TRADEDISCOUNTGRANT_ACCT,521
-531,Sales returns,,Revenue,,,Yes,,5
-53110000,Sales returns,,Revenue,,,No,,531
-532,Sales rebates,,Revenue,,,Yes,,5
-53210000,Sales rebates,,Revenue,,,No,,532
-53220000,Free goods,,Revenue,,,No,,532
-53230000,Off  invoices rebate,,Revenue,,,No,,532
-53240000,Rebate linked to transport and warehousing,,Revenue,,,No,,532
-53250000,Intercompany discount,,Revenue,,,No,,532
-6,Operating Costs,,Expense,,,Yes,,
-611,Purchase,,Expense,,,Yes,,6
-61110000,Purchases of raw materials,,Expense,,,No,,611
-61120000,Purchase of goods,,Expense,,,No,,611
-621,Direct material costs,,Expense,,,Yes,,6
-622,Direct labor cost,,Expense,,,Yes,,6
-62210000,Direct labor cost,,Expense,,,No,,622
-62211000,Direct wages ( blue collar),,Expense,,,No,,622
-62212000,Pre retirement,,Expense,,,No,,622
-62213000,Termination contract,,Expense,,,No,,622
-62214000,Expatriate package,,Expense,,,No,,622
-62215000,Blue collar social security,,Expense,,,No,,622
-62216000,Recruitment,,Expense,,,No,,622
-62217000,Training and seminars,,Expense,,,No,,622
-62218000,Traveling and entertainment,,Expense,,,No,,622
-62219000,Canteen expense,,Expense,,,No,,622
-62220000,Personnel insurance,,Expense,,,No,,622
-62221000,Clothing and uniforms,,Expense,,,No,,622
-62222000,Other personnel expenses,,Expense,,,No,,622
-62223000,Pensions,,Expense,,,No,,622
-623,Construction machinery running costs,,Expense,,,Yes,,6
-62310000,Labor cost,,Expense,,,No,,623
-62320000,Material costs,,Expense,,,No,,623
-62330000,Tools and instrument expenses,,Expense,,,No,,623
-62340000,Depreciation expenses,,Expense,,,No,,623
-62370000,External services hired,,Expense,,,No,,623
-62380000,Other expenses paid in cash,,Expense,,,No,,623
-627,Factory overhead,,Expense,,,Yes,,6
-62710000,Factory staff cost,,Expense,,,No,,627
-62711000,Indirect salaries and bonus ( white collar),,Expense,,,No,,627
-62712000,Pre retirement,,Expense,,,No,,627
-62713000,Termination contract,,Expense,,,No,,627
-62714000,Expatriate package,,Expense,,,No,,627
-62715000,White collar social security,,Expense,,,No,,627
-62720000,Material cost,,Expense,,,No,,627
-62730000,Tools and instruments expenses,,Expense,,,No,,627
-62740000,Fixed assets depreciation,,Expense,,,No,,627
-62741000,Amortisation of expenses to be amortised,,Expense,,,No,,627
-62742000,Amortisation of intangible assets other than goodwill,,Expense,,,No,,627
-62743000,Amortisation tangible assets,,Expense,,,No,,627
-62770000,Fixed assets depreciation,,Expense,,,No,,627
-62780000,Other expenses paid in cash,,Expense,,,No,,627
-62780100,Recruitment,,Expense,,,No,,627
-62780200,Training and seminars,,Expense,,,No,,627
-62780300,Traveling and entertainment,,Expense,,,No,,627
-62780400,Canteen expense,,Expense,,,No,,627
-62780500,Personnel insurance,,Expense,,,No,,627
-62780600,Clothing and uniforms,,Expense,,,No,,627
-62780700,Other personnel expenses,,Expense,,,No,,627
-62780800,Pensions,,Expense,,,No,,627
-62780900,Production suppliers,,Expense,,,No,,627
-62781000,Documentation,,Expense,,,No,,627
-62781100,Telephone and fax,,Expense,,,No,,627
-62781200,Postage and express courier,,Expense,,,No,,627
-62781300,Stationery and printing,,Expense,,,No,,627
-62781400,Security,,Expense,,,No,,627
-62781500,Non personnel insurance,,Expense,,,No,,627
-62781600,Car insurance,,Expense,,,No,,627
-62781700,Lorry insurance,,Expense,,,No,,627
-62781800,Water,,Expense,,,No,,627
-62781900,Gas,,Expense,,,No,,627
-62782000,Electricity,,Expense,,,No,,627
-62782100,Fuel,,Expense,,,No,,627
-62782200,Car fuel,,Expense,,,No,,627
-62782300,Lorry fuel,,Expense,,,No,,627
-62782400,Other suppliers,,Expense,,,No,,627
-62782500,Packaging development,,Expense,,,No,,627
-62782600,Direct marketing campaigns,,Expense,,,No,,627
-631,Production costs,,Expense,,,Yes,,6
-63110000,Service costs,,Expense,,Yes,No,P_EXPENSE_ACCT,631
-63120000,Clearing production costs,,Expense,,Yes,No,P_INVENTORYCLEARING_ACCT,631
-63130000,Adjusting production costs,,Expense,,Yes,No,P_COSTADJUSTMENT_ACCT,631
-632,Cost of goods sold,,Expense,,,Yes,,6
-63210000,Cost of goods sold,,Expense,,Yes,No,P_COGS_ACCT,632
-63220000,Stock difference,,Expense,,Yes,No,W_DIFFERENCES_ACCT,632
-63230000,Stock adjustment,,Expense,,Yes,No,W_INVACTUALADJUST_ACCT,632
-63240000,Difference between cost and net realizable value,,Expense,,Yes,No,W_REVALUATION_ACCT,632
-63250000,Differnce between price and purchasing price,,Expense,,Yes,No,P_INVOICEPRICEVARIANCE_ACCT,632
+341,Vay dài hạn,,Liability,,,Yes,,3
+34110000,Vay dài hạn,,Liability,,,No,,341
+342,Nợ dài hạn,,Liability,,,Yes,,3
+34210000,Nợ dài hạn,,Liability,,,No,,342
+343,Trái phiếu phát hành,,Liability,,,Yes,,3
+34310000,Mệnh giá trái phiếu,,Liability,,,No,,343
+34320000,Chiết khấu trái phiếu,,Liability,,,No,,343
+34330000,Phụ trội trái phiếu,,Liability,,,No,,343
+344,Nhận ký quỹ- ký cược dài hạn,,Liability,,,Yes,,3
+34410000,Nhận ký quỹ- ký cược dài hạn,,Liability,,,No,,344
+347,Thuế thu nhập hoãn lại phải trả,,Liability,,,Yes,,3
+34710000,Thuế thu nhập hoãn lại phải trả,,Liability,,,No,,347
+351,Quỹ dự phòng trợ cấp mất việc làm,,Liability,,,Yes,,3
+35110000,Quỹ dự phòng trợ cấp mất việc làm,,Liability,,,No,,351
+352,Dự phòng phải trả,,Liability,,,Yes,,3
+35210000,Dự phòng phải trả,,Liability,,,No,,352
+4,VỐN CHỦ SỞ HỮU,,Owner's Equity,,,Yes,,
+411,Nguồn vốn kinh doanh,,Owner's Equity,,,Yes,,4
+41110000,Vốn đầu tư của chủ sở hữu,,Owner's Equity,,,No,,411
+41120000,Thặng dư vốn cổ phần,,Owner's Equity,,,No,,411
+41180000,Vốn khác ,,Owner's Equity,,,No,,411
+412,Chênh lệch đánh giá lại tài sản,,Owner's Equity,,,Yes,,4
+41210000,Chênh lệch đánh giá lại tài sản,,Owner's Equity,,,No,,412
+413,Chênh lệch tỷ giá hối đoái,,Owner's Equity,,,Yes,,4
+41311000,Lãi  tỷ giá hối đoái đánh giá lại cuối năm tài chính,,Owner's Equity,,Yes,No,UNREALIZEDGAIN_ACCT,413
+41312000,Lỗ  tỷ giá hối đoái đánh giá lại cuối năm tài chính,,Owner's Equity,,Yes,No,UNREALIZEDLOSS_ACCT,413
+41320000,Chênh lệch tỷ giá hối đoái trong giai đoạn đầu tư XDCB,,Owner's Equity,,,No,,413
+414,Quỹ đầu tư phát triển,,Owner's Equity,,,Yes,,4
+41410000,Quỹ đầu tư phát triển,,Owner's Equity,,,No,,414
+415,Quỹ dự phòng tài chính,,Owner's Equity,,,Yes,,4
+41510000,Quỹ dự phòng tài chính,,Owner's Equity,,,No,,415
+418,Các quỹ khác thuộc vốn chủ sở hữu,,Owner's Equity,,,Yes,,4
+41810000,Các quỹ khác thuộc vốn chủ sở hữu,,Owner's Equity,,,No,,418
+419,Cổ phiếu quỹ,,Owner's Equity,,,Yes,,4
+41910000,Cổ phiếu quỹ,,Owner's Equity,,,No,,419
+421,Lợi nhuận chưa phân phối,,Owner's Equity,,,Yes,,4
+42110000,Lợi nhuận chưa phân phối năm trước,,Owner's Equity,,,No,,421
+42120000,Lợi nhuận chưa phân phối năm nay,,Owner's Equity,,Yes,No,RETAINEDEARNING_ACCT,421
+431,Quỹ khen thưởng- phúc lợi,,Owner's Equity,,,Yes,,4
+43110000,Quỹ khen thưởng,,Owner's Equity,,,No,,431
+43120000,Quỹ phúc lợi,,Owner's Equity,,,No,,431
+43130000,Quỹ phúc lợi đã hình thành TSCĐ,,Owner's Equity,,,No,,431
+441,Nguồn vốn đầu tư xây dựng cơ bản,,Owner's Equity,,,Yes,,4
+44110000,Nguồn vốn đầu tư xây dựng cơ bản,,Owner's Equity,,,No,,441
+461,Nguồn kinh phí sự nghiệp,,Owner's Equity,,,Yes,,4
+46110000,Nguồn kinh phí sự nghiệp năm trước,,Owner's Equity,,,No,,461
+46120000,Nguồn kinh phí sự nghiệp năm nay,,Owner's Equity,,,No,,461
+466,Nguồn kinh phí đã hình thành TSCĐ,,Owner's Equity,,,Yes,,4
+5,DOANH THU,,Revenue,,,Yes,,
+511,Doanh thu bán hàng và cung cấp dịch vụ,,Revenue,,,Yes,,5
+51110000,Doanh thu bán hàng hóa,,Revenue,,Yes,No,P_REVENUE_ACCT,511
+51120000,Doanh thu bán các thành phẩm,,Revenue,,,No,,511
+51130000,Doanh thu cung cấp dịch vụ,,Revenue,,,No,,511
+51140000,Doanh thu trợ cấp- trợ giá,,Revenue,,,No,,511
+51150000,Doanh thu chưa phát hành hóa đơn,,Revenue,,Yes,No,NOTINVOICEDREVENUE_ACCT,511
+51170000,Doanh thu kinh doanh bất động sản đầu tư,,Revenue,,,No,,511
+512,Doanh thu bán hàng nội bộ,,Revenue,,,Yes,,5
+51210000,Doanh thu bán hàng hóa,,Revenue,,,No,,512
+51220000,Doanh thu bán các thành phẩm,,Revenue,,,No,,512
+51230000,Doanh thu cung cấp dịch vụ,,Revenue,,,No,,512
+515,Doanh thu hoạt động tài chính ,,Revenue,,,Yes,,5
+51510000,Doanh thu hoạt động tài chính ,,Revenue,,,No,,515
+51520000,Chiết khấu thanh toán nhận được,,Revenue,,Yes,No,PAYDISCOUNT_REV_ACCT,515
+51530000,Lãi ngân hàng,,Revenue,,Yes,No,B_INTERESTREV_ACCT,515
+51540000,Lãi do đánh giá lại tiền gửi ngân hàng,,Revenue,,Yes,No,B_REVALUATIONGAIN_ACCT,515
+51550000,Lãi do thanh toán bằng ngoại tệ,,Revenue,,Yes,No,REALIZEDGAIN_ACCT,515
+521,Chiết khấu thương mại,,Revenue,,,Yes,,5
+52110000,Chiết khấu thương mại,,Revenue,,Yes,No,P_TRADEDISCOUNTGRANT_ACCT,521
+531,Hàng bán bị trả lại,,Revenue,,,Yes,,5
+53110000,Hàng bán bị trả lại,,Revenue,,,No,,531
+532,Giảm giá hàng bán,,Revenue,,,Yes,,5
+53210000,Giảm giá hàng bán,,Revenue,,,No,,532
+6,CHI PHÍ SẢN XUẤT- KINH DOANH,,Expense,,,Yes,,
+611,Mua hàng,,Expense,,,Yes,,6
+61110000,Mua nguyên liệu- vật liệu,,Expense,,,No,,611
+61120000,Mua hàng hóa,,Expense,,,No,,611
+621,Chi phí nguyên liệu- vật liệu trực tiếp,,Expense,,,Yes,,6
+62110000,Chi phí nguyên liệu- vật liệu trực tiếp,,Expense,,,No,P_USAGEVARIANCE_ACCT,
+62120000,Chi phí nguyên liệu- vật liệu trực tiếp,,Expense,,,No,P_SCRAP_ACCT,
+62130000,Chi phí nguyên liệu- vật liệu trực tiếp,,Expense,,,No,P_FLOORSTOCK_ACCT,
+622,Chi phí nhân công trực tiếp,,Expense,,,Yes,,6
+62210000,Chi phí nhân công trực tiếp,,Expense,,,No,P_LABOR_ACCT,622
+623,Chi phí sử dụng máy thi công,,Expense,,,Yes,,6
+62310000,Chi phí nhân công,,Expense,,,No,,623
+62320000,Chi phí vật liệu,,Expense,,,No,,623
+62330000,Chi phí dụng cụ sản xuất,,Expense,,,No,P_RATEVARIANCE_ACCT,623
+62340000,Chi phí khấu hao máy thi công,,Expense,,,No,,623
+62370000,Chi phí dịch vụ mua ngoài,,Expense,,,No,P_METHODCHANGEVARIANCE_ACCT,623
+62380000,Chi phí bằng tiền khác,,Expense,,,No,P_MIXVARIANCE_ACCT,623
+627,Chi phí sản xuất chung,,Expense,,,Yes,,6
+62710000,Chi phí nhân viên phân xưởng,,Expense,,,No,,627
+62720000,Chi phí vật liệu,,Expense,,,No,,627
+62730000,Chi phí dụng cụ sản xuất,,Expense,,,No,,627
+62740000,Chi phí khấu hao TSCĐ,,Expense,,,No,,627
+62770000,Chi phí dịch vụ mua ngoài,,Expense,,,No,P_BURDEN_ACCT,627
+62771000,Chi phí dịch vụ mua ngoài,,Expense,,,No,P_OUTSIDEPROCESSING_ACCT,627
+62772000,Chi phí dịch vụ mua ngoài,,Expense,,,No,,627
+62773000,Chi phí dịch vụ mua ngoài,,Expense,,,No,,627
+62780000,Chi phí bằng tiền khác,,Expense,,,No,P_OVERHEAD_ACCT,627
+631,Giá thành sản xuất,,Expense,,,Yes,,6
+63100000,Giá thành sản xuất,,Expense,,,No,P_COSTOFPRODUCTION_ACCT,631
+63110000,Giá thành dịch vụ,,Expense,,Yes,No,P_EXPENSE_ACCT,631
+63120000,Bù trừ giá thành sản phẩm,,Expense,,Yes,No,P_INVENTORYCLEARING_ACCT,631
+63130000,Điều chỉnh giá thành sản phẩm,,Expense,,Yes,No,P_COSTADJUSTMENT_ACCT,631
+632,Giá vốn hàng bán,,Expense,,,Yes,,6
+63210000,Giá vốn hàng bán,,Expense,,Yes,No,P_COGS_ACCT,632
+63220000,Chênh lệch hàng tồn kho do kiểm kê,,Expense,,Yes,No,W_DIFFERENCES_ACCT,632
+63230000,Chênh lệch HTK do điều chỉnh,,Expense,,Yes,No,W_INVACTUALADJUST_ACCT,632
+63240000,Chênh lệch giữa giá vốn và giá trị thuần có thể thực hiện,,Expense,,Yes,No,W_REVALUATION_ACCT,632
+63250000,Chênh lệch giữa giá thành và giá mua,,Expense,,Yes,No,P_INVOICEPRICEVARIANCE_ACCT,632
 63251000,Purchase price variance on material standard – P/O,,Expense,,Yes,No,,632
 63252000,Purchase price variance on material deviation invoice – P/O,,Expense,,Yes,No,,632
-63260000,Standard cost,,Expense,,Yes,No,P_PURCHASEPRICEVARIANCE_ACCT,632
-63270000,Purchase variances,,Expense,,Yes,No,PPVOFFSET_ACCT,632
-635,Financial expenses,,Expense,,,Yes,,6
-63510000,Financial expenses,,Expense,,,No,,635
-63511000,Provision for financial fixed assets,,Expense,,,No,,635
-63512000,Write off financial assets,,Expense,,,No,,635
-63513000,Provision for bad debts,,Expense,,,No,,635
-63514000,Write off bad debt,,Expense,,,No,,635
-63515000,Realised exchange loss,,Expense,,,No,,635
-63516000,Bank and third party interest expense long term loans,,Expense,,,No,,635
-63517000,Bank and third party interest expense short term loans,,Expense,,,No,,635
-63518000,financial leasing interest,,Expense,,,No,,635
-63519000,Intercompany interest expense,,Expense,,,No,,635
-63520000,Suppliers interest expense,,Expense,,,No,,635
-63521000,Customer interest charge,,Expense,,,No,,635
-63522000,Supplier interest income,,Expense,,,No,,635
-63520000,Bank charges,,Expense,,Yes,No,B_EXPENSE_ACCT,635
-63530000,Payment discount,,Expense,,Yes,No,PAYDISCOUNT_EXP_ACCT,635
-63540000,Bank's interest expenses,,Expense,,Yes,No,B_INTERESTEXP_ACCT,635
-63550000,Loss on evaluating bank,,Expense,,Yes,No,B_REVALUATIONLOSS_ACCT,635
-63560000,Loss on foreign currencies payment,,Expense,,Yes,No,REALIZEDLOSS_ACCT,635
-641,Cost of goods sold,,Expense,,,Yes,,6
-64110000,Staff expenses,,Expense,,,No,,641
-64111000,Commissions to sales force,,Expense,,,No,,641
-64112000,Pre retirement,,Expense,,,No,,641
-64113000,Termination contract,,Expense,,,No,,641
-64114000,Expatriate package,,Expense,,,No,,641
-64120000,Material and packing materials,,Expense,,,No,,641
-64130000,Tools and instruments expenses,,Expense,,,No,,641
-64140000,Fixed assets depreciation,,Expense,,,No,,641
-64141000,Amortisation goodwill,,Expense,,,No,,641
-64142000,Amortisation of expenses to be amortised,,Expense,,,No,,641
-64143000,Amortisation of intangible assets other than goodwill,,Expense,,,No,,641
-64144000,Amortisation tangible assets,,Expense,,,No,,641
-64150000,Warranty expenses,,Expense,,,No,,641
-64170000,External services hired,,Expense,,,No,,641
-64170100,Car maintenance,,Expense,,,No,,641
-64170200,Lorry  maintenance,,Expense,,,No,,641
-64170300,Freight out,,Expense,,,No,,641
-64170400,Design,,Expense,,,No,,641
-64170500,Sample,,Expense,,,No,,641
-64170600,Innovation and demo centre,,Expense,,,No,,641
-64170700,Suppliers for demotration,,Expense,,,No,,641
-64170800,Building rent,,Expense,,,No,,641
-64170900,Documentation,,Expense,,,No,,641
-64171000,Telephone and fax,,Expense,,,No,,641
-64171100,Postage and express courier,,Expense,,,No,,641
-64171200,Stationery and printing,,Expense,,,No,,641
-64171300,Security,,Expense,,,No,,641
-64171400,Non personnel insurance,,Expense,,,No,,641
-64171500,Car insurance,,Expense,,,No,,641
-64171600,Lorry insurance,,Expense,,,No,,641
-64171700,Water,,Expense,,,No,,641
-64171800,Gas,,Expense,,,No,,641
-64171900,Electricity,,Expense,,,No,,641
-64172000,Fuel,,Expense,,,No,,641
-64172100,Car fuel,,Expense,,,No,,641
-64172200,Lorry fuel,,Expense,,,No,,641
-64172300,Other suppliers,,Expense,,,No,,641
-64172400,Market research,,Expense,,,No,,641
-64172500,Public relation campaigns,,Expense,,,No,,641
-64172600,Advertising campaigns,,Expense,,,No,,641
-64172700,Fairs and exhibitions,,Expense,,,No,,641
-64172800,Development of point of sales material,,Expense,,,No,,641
-64172900,Computer software licences,,Expense,,,No,,641
-64173000,Computer software maintenance contracts,,Expense,,,No,,641
-64173100,Computer software external assistance,,Expense,,,No,,641
-64173200,Computer software other expenses,,Expense,,,No,,641
-64173300,Computer hardware leasing,,Expense,,,No,,641
-64173400,Computer hardware maintenance ex  contracts,,Expense,,,No,,641
-64173500,Computer hardware maintenance  contracts,,Expense,,,No,,641
-64173600,Computer hardware outsourcing,,Expense,,,No,,641
-64173700,Computer hardware other expenses,,Expense,,,No,,641
-64173800,IT telecom/data,,Expense,,,No,,641
-64173900,IT telecom/internet,,Expense,,,No,,641
-64180000,Other expenses paid in cash,,Expense,,,No,,641
-64181000,Recruitment,,Expense,,,No,,641
-64182000,Training and seminars,,Expense,,,No,,641
-64183000,Traveling and entertainment,,Expense,,,No,,641
-64184000,Canteen expense,,Expense,,,No,,641
-64185000,Personnel insurance,,Expense,,,No,,641
-64186000,Clothing and uniforms,,Expense,,,No,,641
-64187000,Other personnel expenses,,Expense,,,No,,641
-64188000,Pensions,,Expense,,,No,,641
-64189000,Office suppliers,,Expense,,,No,,641
-64190000,P/R and entertainment other than with customers,,Expense,,,No,,641
-64191000,Sales meetings,,Expense,,,No,,641
-642,Administrative expenses,,Expense,,,Yes,,6
-64210000,Staff expenses,,Expense,,Yes,No,E_EXPENSE_ACCT,642
-64211000,Director fees,,Expense,,Yes,No,,642
-64212000,Pre retirement,,Expense,,Yes,No,,642
-64213000,Termination contract,,Expense,,Yes,No,,642
-64214000,Expatriate package,,Expense,,Yes,No,,642
-64215000,Repairs and maintenance labour,,Expense,,Yes,No,,642
-64220000,Office supply expenses,,Expense,,,No,,642
-64230000,Office equipment expenses,,Expense,,,No,,642
-64240000,Fixed assets depreciation,,Expense,,,No,,642
-64241000,Amortisation of expenses to be amortised,,Expense,,,No,,642
-64242000,Amortisation of intangible assets other than goodwill,,Expense,,,No,,642
-64243000,Amortisation tangible assets,,Expense,,,No,,642
-64250000,Taxes- fees and charges,,Expense,,,No,,642
-64251000,Building related local taxes,,Expense,,,No,,642
-64252000,Personnel related local taxes,,Expense,,,No,,642
-64253000,Machinery related local taxes,,Expense,,,No,,642
-64254000,Other local taxes,,Expense,,,No,,642
-64255000,Car tax,,Expense,,,No,,642
-64260000,Provision for expenses,,Expense,,Yes,No,WRITEOFF_ACCT,642
-64261000,Write off obsolete stocks,,Expense,,Yes,No,,642
-64262000,Provision for obsolete stocks,,Expense,,Yes,No,,642
-64270000,External services hired,,Expense,,,No,CH_EXPENSE_ACCT,642
-64270100,Royalties paid,,Expense,,,No,,642
-64270200,Royalties received,,Expense,,,No,,642
-64270300,Puracor fee expense,,Expense,,,No,,642
-64270400,Puracor fee income,,Expense,,,No,,642
-64270500,Repairs and maintenance spare parts and external labour,,Expense,,,No,,642
-64270600,Environmental,,Expense,,,No,,642
-64270700,Car maintenance,,Expense,,,No,,642
-64270800,Car operating leasing,,Expense,,,No,,642
-64270900,Lorry  operating leasing,,Expense,,,No,,642
-64271000,Documentation,,Expense,,,No,,642
-64271100,Telephone and fax,,Expense,,,No,,642
-64271200,Postage and express courier,,Expense,,,No,,642
-64271300,Stationery and printing,,Expense,,,No,,642
-64271400,Security,,Expense,,,No,,642
-64271500,Non personnel insurance,,Expense,,,No,,642
-64271600,Car insurance,,Expense,,,No,,642
-64271700,Lorry insurance,,Expense,,,No,,642
-64271800,Water,,Expense,,,No,,642
-64271900,Gas,,Expense,,,No,,642
-64272000,Electricity,,Expense,,,No,,642
-64272100,Fuel,,Expense,,,No,,642
-64272200,Car fuel,,Expense,,,No,,642
-64272300,Lorry fuel,,Expense,,,No,,642
-64272400,Other suppliers,,Expense,,,No,,642
-64272500,Lawyers'fees,,Expense,,,No,,642
-64272600,Audit fees,,Expense,,,No,,642
-64272700,Tax advice fees,,Expense,,,No,,642
-64272800,Accounting fees,,Expense,,,No,,642
-64272900,Registration and legal fees,,Expense,,,No,,642
-64273000,Kosher fee,,Expense,,,No,,642
-64273100,Other outside services,,Expense,,,No,,642
-64273200,Building rent,,Expense,,,No,,642
-64273300,Bank charge,,Expense,,,No,,642
-64273400,Bank guarantees,,Expense,,,No,,642
-64273500,Website,,Expense,,,No,,642
-64281000,Difference cash,,,,Yes,,CB_DIFFERENCES_ACCT,642
-64288000,Other expenses paid in cash,,Expense,,Yes,No,CB_EXPENSE_ACCT,642
-64288010,Recruitment,,Expense,,Yes,No,,642
-64288020,Training and seminars,,Expense,,Yes,No,,642
-64288030,Traveling and entertainment,,Expense,,Yes,No,,642
-64288040,Canteen expense,,Expense,,Yes,No,,642
-64288050,Personnel insurance,,Expense,,Yes,No,,642
-64288060,Clothing and uniforms,,Expense,,Yes,No,,642
-64288070,Other personnel expenses,,Expense,,Yes,No,,642
-64288080,Pensions,,Expense,,Yes,No,,642
-64288090,Forklift expenses,,Expense,,Yes,No,,642
-64288100,Cleaning,,Expense,,Yes,No,,642
-64288110,Pest  control ,,Expense,,Yes,No,,642
-64288120,Office suppliers,,Expense,,Yes,No,,642
-64288130,Equipment renting and operating leasing,,Expense,,Yes,No,,642
-64288140,Visit from group company,,Expense,,Yes,No,,642
-64288150,Trade marks and patents,,Expense,,Yes,No,,642
-64288160,Other provisions,,Expense,,Yes,No,,642
-64288170,Write off  other provision,,Expense,,Yes,No,,642
-64288180,Other expenses,,Expense,,Yes,No,,642
-64288190,Recharge from intercompany other than Puracor,,Expense,,Yes,No,,642
-64288200,IT recharge from intercompany,,Expense,,Yes,No,,642
-7,Other Income,,Revenue,,,Yes,,
-711,Other Income,,Revenue,,,Yes,,7
-71100000,Other Income,,Revenue,,Yes,No,CB_RECEIPT_ACCT,711
-71120000,Other Income,,Revenue,,Yes,No,CH_REVENUE_ACCT,711
-71121000,Gain on disposal of fixed assets,,Revenue,,Yes,No,,711
-71122000,Monetary correction gain,,Revenue,,Yes,No,,711
-71123000,Other operating income,,Revenue,,Yes,No,,711
-71124000,Recharge to intercompany,,Revenue,,Yes,No,,711
-71125000,IT recharge to intercompany,,Revenue,,Yes,No,,711
-71130000,Gain on Bank payment,,Revenue,,Yes,No,B_SETTLEMENTGAIN_ACCT,711
-8,Other Expenses,,Expense,,,Yes,,
-811,Other Expenses,,Expense,,,Yes,,8
-81100000,Other Expenses,,Expense,,Yes,No,,811
-81110000,Losses on sales of fixed assets,,Expense,,Yes,No,,811
-81120000,Monetary correction loss,,Expense,,Yes,No,,811
-81130000,Miscellaneous ,,Expense,,Yes,No,,811
-81140000,Fines,,Expense,,Yes,No,,811
-821,Corporate income tax expenses,,Expense,,,Yes,,8
-82110000,Current income tax expenses,,Expense,,Yes,No,T_EXPENSE_ACCT,821
-82111000,Provision income  taxes,,Expense,,Yes,No,,821
-82112000,Income tax es paid actual year,,Expense,,Yes,No,,821
-82113000,Income tax es paid previous year,,Expense,,Yes,No,,821
-82114000,Deferred tax expenses,,Expense,,,No,,821
-82130000,Loss on Bank payment,,Expense,,Yes,No,B_SETTLEMENTLOSS_ACCT,821
-9,Income summary,,Expense,,,Yes,,
-911,Income summary,,Expense,,,Yes,,9
-91100000,Income summary,,Expense,,Yes,No,INCOMESUMMARY_ACCT,911
-991, Suspense Account,,Expense,,,Yes,,9
-99110000, Suspense Account,,Expense,,Yes,No,DEFAULT_ACCT,991
-99120000,difference of reporting in foreign currencies,,Expense,,Yes,No,SUSPENSEBALANCING_ACCT,991
+63260000,Chênh lệc với giá định mức,,Expense,,Yes,No,P_PURCHASEPRICEVARIANCE_ACCT,632
+63270000,TK đối ứng với chênh lệch giá mua,,Expense,,Yes,No,PPVOFFSET_ACCT,632
+635,Chi phí tài chính ,,Expense,,,Yes,,6
+63510000,Chi phí tài chính ,,Expense,,,No,,635
+63520000,Phí ngân hàng,,Expense,,Yes,No,B_EXPENSE_ACCT,635
+63530000,Chiết khấu thanh toán,,Expense,,Yes,No,PAYDISCOUNT_EXP_ACCT,635
+63540000,Chi phí lãi ngân hàng,,Expense,,Yes,No,B_INTERESTEXP_ACCT,635
+63550000,Lỗ do đánh giá lại tiền gửi ngân hàng,,Expense,,Yes,No,B_REVALUATIONLOSS_ACCT,635
+63560000,Lỗ do thanh toán bằng ngoại tệ,,Expense,,Yes,No,REALIZEDLOSS_ACCT,635
+641,Chi phí bán hàng,,Expense,,,Yes,,6
+64110000,Chi phí nhân viên ,,Expense,,,No,,641
+64120000,Chi phí vật liệu- bao bì,,Expense,,,No,,641
+64130000,Chi phí dụng cụ- đồ dùng,,Expense,,,No,,641
+64140000,Chi phí khấu hao TSCĐ,,Expense,,,No,,641
+64150000,Chi phí bảo hành,,Expense,,,No,,641
+64170000,Chi phí dịch vụ mua ngoài,,Expense,,,No,,641
+64180000,Chi phí bằng tiền khác,,Expense,,,No,,641
+642,Chi phí quản lý doanh nghiệp,,Expense,,,Yes,,6
+64210000,Chi phí nhân viên quản lý,,Expense,,Yes,No,E_EXPENSE_ACCT,642
+64220000,Chi phí vật liệu quản lý,,Expense,,,No,,642
+64230000,Chi phí đồ dùng văn phòng,,Expense,,,No,,642
+64240000,Chi phí khấu hao TSCĐ,,Expense,,,No,,642
+64250000,Thuế- phí và lệ phí,,Expense,,,No,,642
+64260000,Chi phí dự phòng,,Expense,,Yes,No,WRITEOFF_ACCT,642
+64270000,Chi phí dịch vụ mua ngoài,,Expense,,,No,CH_EXPENSE_ACCT,642
+64281000,Chênh lệch quỹ tiền mặt,,Expense,,,No,CB_DIFFERENCES_ACCT,642
+64288000,Chi phí bằng tiền khác,,Expense,,Yes,No,CB_EXPENSE_ACCT,642
+7,THU NHẬP KHÁC,,Revenue,,,Yes,,
+711,Thu nhập khác,,Revenue,,,Yes,,7
+71100000,Tiền nhận được khác,,Revenue,,Yes,No,CB_RECEIPT_ACCT,711
+71120000,Thu nhập khác,,Revenue,,Yes,No,CH_REVENUE_ACCT,711
+71130000,Lãi do thanh toán ngân hàng,,Revenue,,Yes,No,B_SETTLEMENTGAIN_ACCT,711
+8,CHI PHÍ KHÁC,,Expense,,,Yes,,
+811,Chi phí khác,,Expense,,,Yes,,8
+81100000,Chi phí khác,,Expense,,Yes,No,,811
+821,Chi phí thuế thu nhập doanh nghiệp,,Expense,,,Yes,,8
+82110000,Chi phí thuế TNDN hiện hành,,Expense,,Yes,No,T_EXPENSE_ACCT,821
+82114000,Chi phí thuế TNDN hoãn lại,,Expense,,,No,,821
+82130000,Lỗ do thanh toán ngân hàng,,Expense,,Yes,No,B_SETTLEMENTLOSS_ACCT,821
+9,Xác định kết quả kinh doanh,,Expense,,,Yes,,
+911,Xác định kết quả kinh doanh,,Expense,,,Yes,,9
+91100000,Xác định kết quả kinh doanh,,Expense,,Yes,No,INCOMESUMMARY_ACCT,911
+991,Tài khoản treo,,Expense,,,Yes,,9
+99110000,Tài khoản treo,,Expense,,Yes,No,DEFAULT_ACCT,991
+99120000,Chênh lệch do báo cáo bằng đồng ngoại tệ,,Expense,,Yes,No,SUSPENSEBALANCING_ACCT,991
 99130000,Suspense error,,Expense,,Yes,No,SUSPENSEERROR_ACCT,991
-99140000,Difference due to rounding,,Expense,,Yes,No,CURRENCYBALANCING_ACCT,991
-999,Commitment account,,Memo,,,Yes,,9
-99950000,Purchasing commitment,,Memo,,Yes,No,COMMITMENTOFFSET_ACCT,999
-99960000,Purchasing commitment,,Memo,,Yes,No,COMMITMENTOFFSETSALES_ACCT,999
+99140000,Chênh lệch do làm tròn,,Expense,,Yes,No,CURRENCYBALANCING_ACCT,991
+999,Tài khoản kế toán cam kết,,Memo,,,Yes,,9
+99950000,Cam kết mua hàng,,Memo,,Yes,No,COMMITMENTOFFSET_ACCT,999
+99960000,Cam kết bán hàng,,Memo,,Yes,No,COMMITMENTOFFSETSALES_ACCT,999
