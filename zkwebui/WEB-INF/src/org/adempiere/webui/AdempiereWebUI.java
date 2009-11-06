@@ -25,15 +25,19 @@ import javax.servlet.http.HttpSession;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.DrillCommand;
+import org.adempiere.webui.component.TokenCommand;
 import org.adempiere.webui.component.ZoomCommand;
 import org.adempiere.webui.desktop.DefaultDesktop;
 import org.adempiere.webui.desktop.IDesktop;
+import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MRole;
 import org.compiere.model.MSession;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
@@ -160,7 +164,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
         Session currSess = Executions.getCurrent().getDesktop().getSession();
         HttpSession httpSess = (HttpSession) currSess.getNativeSession();
 
-		MSession.get (ctx, currSess.getRemoteAddr(),
+		MSession mSession = MSession.get (ctx, currSess.getRemoteAddr(),
 			currSess.getRemoteHost(), httpSess.getId() );
 
 		//enable full interface, relook into this when doing preference
@@ -238,6 +242,16 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 			currSess.setAttribute("application.desktop", appDesktop);
 			ExecutionCarryOver eco = new ExecutionCarryOver(this.getPage().getDesktop());
 			currSess.setAttribute("execution.carryover", eco);
+		}
+		
+		if ("Y".equalsIgnoreCase(Env.getContext(ctx, BrowserToken.REMEMBER_ME)))
+		{
+			MUser user = MUser.get(ctx);
+			BrowserToken.save(mSession, user);
+		}
+		else
+		{
+			BrowserToken.remove();
 		}
     }
 
@@ -326,5 +340,6 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		new ZoomCommand("onZoom", Command.IGNORE_OLD_EQUIV);
 		new DrillCommand("onDrillAcross", Command.IGNORE_OLD_EQUIV);
 		new DrillCommand("onDrillDown", Command.IGNORE_OLD_EQUIV);
+		new TokenCommand(TokenEvent.ON_USER_TOKEN, Command.IGNORE_OLD_EQUIV);
 	}
 }

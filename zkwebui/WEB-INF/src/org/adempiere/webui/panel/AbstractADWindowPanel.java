@@ -1347,8 +1347,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		String msg = CLogger.retrieveErrorString(null);
 		if (msg != null)
 		{
-			FDialog.error(curWindowNo, parent, null, msg);
-			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "SaveIgnored"), true, false);
+			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), msg), true, true);
 		}
 		//other error will be catch in the dataStatusChanged event		
 	}

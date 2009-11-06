@@ -34,13 +34,17 @@ import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Textbox;
 import org.adempiere.webui.component.Window;
+import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
+import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.Adempiere;
+import org.compiere.model.MSession;
+import org.compiere.model.MUser;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -63,6 +67,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 
@@ -75,11 +80,11 @@ import org.zkoss.zul.Image;
  * @date    July 18, 2007
  */
 public class LoginPanel extends Window implements EventListener
-{
+{	
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = -2243984359460922023L;
+	private static final long serialVersionUID = 3992171368813030624L;
 	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
     private ResourceBundle res = ResourceBundle.getBundle(RESOURCE);
 
@@ -91,6 +96,7 @@ public class LoginPanel extends Window implements EventListener
     private Textbox txtPassword;
     private Combobox lstLanguage;
     private LoginWindow wndLogin;
+    private Checkbox chkRememberMe;
 
     public LoginPanel(Properties ctx, LoginWindow loginWindow)
     {
@@ -102,6 +108,8 @@ public class LoginPanel extends Window implements EventListener
 
         AuFocus auf = new AuFocus(txtUserId);
         Clients.response(auf);
+        
+        BrowserToken.load(this.getUuid());
     }
 
     private void init()
@@ -167,6 +175,18 @@ public class LoginPanel extends Window implements EventListener
     	tr.appendChild(td);
     	td.appendChild(lstLanguage);
 
+    	tr = new Tr();
+        tr.setId("rowRememberMe");
+        table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(new Label(""));
+    	td = new Td();
+    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+    	tr.appendChild(td);
+    	td.appendChild(chkRememberMe);
+    	
     	div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
         ConfirmPanel pnlButtons = new ConfirmPanel(false);
@@ -176,6 +196,34 @@ public class LoginPanel extends Window implements EventListener
         pnlButtons.getButton(ConfirmPanel.A_OK).setSclass(ITheme.LOGIN_BUTTON_CLASS);
         div.appendChild(pnlButtons);
         this.appendChild(div);
+        
+        this.addEventListener(TokenEvent.ON_USER_TOKEN, new EventListener() {
+			
+			@Override
+			public void onEvent(Event event) throws Exception {
+				String[] data = (String[]) event.getData();
+				int AD_Session_ID = Integer.parseInt(data[0]);
+				MSession session = new MSession(Env.getCtx(), AD_Session_ID, null);
+				if (session.get_ID() == AD_Session_ID)
+				{
+					int AD_User_ID = session.getCreatedBy();
+					MUser user = MUser.get(Env.getCtx(), AD_User_ID);
+					if (user != null && user.get_ID() == AD_User_ID)
+					{
+					    String token = data[1];
+					    if (BrowserToken.validateToken(session, user, token))
+					    {
+					    	txtUserId.setValue(user.getName());
+					    	onUserIdChange();
+					    	txtPassword.setValue(token);
+					    	txtPassword.setAttribute("user.token.hash", token);
+					    	txtPassword.setAttribute("user.token.sid", AD_Session_ID);
+					    	chkRememberMe.setChecked(true);
+					    }
+					}
+				}
+			}
+		});
     }
 
     private void initComponents()
@@ -203,7 +251,7 @@ public class LoginPanel extends Window implements EventListener
         txtPassword.setId("txtPassword");
         txtPassword.setType("password");
         txtPassword.setCols(25);
-        txtPassword.setMaxlength(40);
+//        txtPassword.setMaxlength(40);
         txtPassword.setWidth("220px");
 
         lstLanguage = new Combobox();
@@ -233,6 +281,9 @@ public class LoginPanel extends Window implements EventListener
         		break;
         	}
         }
+        
+        //TODO: localization
+        chkRememberMe = new Checkbox("Remember Me");
    }
 
     public void onEvent(Event event)
@@ -255,31 +306,35 @@ public class LoginPanel extends Window implements EventListener
         {
         	if(eventComp.getId().equals(txtUserId.getId()))
         	{
-        		String userId = txtUserId.getValue();
-        		if(userId != null && userId.length() > 0)
-        		{
-	        		int AD_User_ID = DB.getSQLValue(null, "SELECT AD_User_ID FROM AD_User WHERE Name = ?", userId);
-	        		if(AD_User_ID > 0)
-	        		{
-	        			// Elaine 2009/02/06 Load preference from AD_Preference
-	        			UserPreference userPreference = SessionManager.getSessionApplication().loadUserPreference(AD_User_ID);
-	        			String initDefault = userPreference.getProperty(UserPreference.P_LANGUAGE);
-	        			for(int i = 0; i < lstLanguage.getItemCount(); i++)
-	        	        {
-	        	        	Comboitem li = lstLanguage.getItemAtIndex(i);
-	        	        	if(li.getLabel().equals(initDefault))
-	        	        	{
-	        	        		lstLanguage.setSelectedIndex(i);
-	        	        		languageChanged(li.getLabel()); // Elaine 2009/04/17 language changed
-	        	        		break;
-	        	        	}
-	        	        }
-	        		}
-        		}
+        		onUserIdChange();
         	}
         }
         //
     }
+
+	private void onUserIdChange() {
+		String userId = txtUserId.getValue();
+		if(userId != null && userId.length() > 0)
+		{
+			int AD_User_ID = DB.getSQLValue(null, "SELECT AD_User_ID FROM AD_User WHERE Name = ?", userId);
+			if(AD_User_ID > 0)
+			{
+				// Elaine 2009/02/06 Load preference from AD_Preference
+				UserPreference userPreference = SessionManager.getSessionApplication().loadUserPreference(AD_User_ID);
+				String initDefault = userPreference.getProperty(UserPreference.P_LANGUAGE);
+				for(int i = 0; i < lstLanguage.getItemCount(); i++)
+		        {
+		        	Comboitem li = lstLanguage.getItemAtIndex(i);
+		        	if(li.getLabel().equals(initDefault))
+		        	{
+		        		lstLanguage.setSelectedIndex(i);
+		        		languageChanged(li.getLabel()); // Elaine 2009/04/17 language changed
+		        		break;
+		        	}
+		        }
+			}
+		}
+	}
 
     private void languageChanged(String langName)
     {
@@ -309,6 +364,24 @@ public class LoginPanel extends Window implements EventListener
         Login login = new Login(ctx);
         String userId = txtUserId.getValue();
         String userPassword = txtPassword.getValue();
+        
+        //check is token
+        String token = (String) txtPassword.getAttribute("user.token.hash");
+        if (token != null && token.equals(userPassword))
+        {
+        	userPassword = "";
+        	int AD_Session_ID = (Integer)txtPassword.getAttribute("user.token.sid");
+        	MSession session = new MSession(Env.getCtx(), AD_Session_ID, null);
+        	if (session.get_ID() == AD_Session_ID)
+        	{
+        		MUser user = MUser.get(Env.getCtx(), session.getCreatedBy());
+        		if (BrowserToken.validateToken(session, user, token))
+        		{
+        			userPassword = user.getPassword();
+        		}
+        	}
+        }
+        
         KeyNamePair rolesKNPairs[] = login.getRoles(userId, userPassword);
         if(rolesKNPairs == null || rolesKNPairs.length == 0)
             throw new WrongValueException("User Id or Password invalid!!!");
@@ -348,6 +421,8 @@ public class LoginPanel extends Window implements EventListener
         Session currSess = Executions.getCurrent().getDesktop().getSession();
         currSess.setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
+        
+        Env.setContext(ctx, BrowserToken.REMEMBER_ME, chkRememberMe.isChecked());
     }
 
 }
