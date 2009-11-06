@@ -314,7 +314,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 				
 				//  Default
 				StringBuffer colSql = new StringBuffer(columnSql);
-				Class colClass = null;
+				Class<?> colClass = null;
 				
 				if (isKey)
 					colClass = IDColumn.class;
@@ -395,20 +395,44 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	{
 		if (!(value.equals("") || value.equals("%")) && index < m_queryColumns.size())
 		{
-			sql.append(" AND UPPER(").append(m_queryColumnsSql.get(index).toString()).append(") LIKE '");
-			sql.append(value);
-			
-			if (value.endsWith("%"))
-				sql.append("'");
-			else
-				sql.append("%'");
+			// Angelo Dabala' (genied) nectosoft: [2893220] avoid to append string parameters directly because of special chars like quote(s)
+			sql.append(" AND UPPER(").append(m_queryColumnsSql.get(index).toString()).append(") LIKE ?");
 		}
 	}
 
-	@Override
-	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException 
+	/**
+	 *  Get SQL WHERE parameter
+	 *  @param f field
+	 *  @return sql part
+	 */
+	private String getSQLText (Textbox f)
 	{
-	}
+		String s = f.getText().toUpperCase();
+		if (!s.endsWith("%"))
+			s += "%";
+		log.fine( "String=" + s);
+		return s;
+	}   //  getSQLText
+
+	/**
+	 *  Set Parameters for Query.
+	 *  (as defined in getSQLWhere)
+	 * 	@param pstmt statement
+	 *  @param forCount for counting records
+	 *  @throws SQLException
+	 */
+	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
+	{
+		int index = 1;
+		if (txt1.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(txt1));
+		if (txt2.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(txt2));
+		if (txt3.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(txt3));
+		if (txt4.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(txt4));
+	}   //  setParameters
 
     public void tableChanged(WTableModelEvent event)
     {
