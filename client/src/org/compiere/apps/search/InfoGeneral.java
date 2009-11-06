@@ -304,7 +304,7 @@ public class InfoGeneral extends Info
 					columnSql = columnName;
 				//  Default
 				StringBuffer colSql = new StringBuffer(columnSql);
-				Class colClass = null;
+				Class<?> colClass = null;
 				//
 				if (isKey)
 					colClass = IDColumn.class;
@@ -402,14 +402,24 @@ public class InfoGeneral extends Info
 	{
 		if (!(value.equals("") || value.equals("%")) && index < m_queryColumns.size())
 		{
-			sql.append(" AND UPPER(").append(m_queryColumnsSql.get(index).toString()).append(") LIKE '");
-			sql.append(value);
-			if (value.endsWith("%"))
-				sql.append("'");
-			else
-				sql.append("%'");
+			// Angelo Dabala' (genied) nectosoft: [2893220] avoid to append string parameters directly because of special chars like quote(s)
+			sql.append(" AND UPPER(").append(m_queryColumnsSql.get(index).toString()).append(") LIKE ?");
 		}
 	}	//	addSQLWhere
+
+	/**
+	 *  Get SQL WHERE parameter
+	 *  @param f field
+	 *  @return sql part
+	 */
+	private String getSQLText (CTextField f)
+	{
+		String s = f.getText().toUpperCase();
+		if (!s.endsWith("%"))
+			s += "%";
+		log.fine( "String=" + s);
+		return s;
+	}   //  getSQLText
 
 	/**
 	 *  Set Parameters for Query.
@@ -421,6 +431,14 @@ public class InfoGeneral extends Info
 	protected void setParameters(PreparedStatement pstmt, boolean forCount) throws SQLException
 	{
 		int index = 1;
+		if (textField1.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(textField1));
+		if (textField2.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(textField2));
+		if (textField3.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(textField3));
+		if (textField4.getText().length() > 0)
+			pstmt.setString(index++, getSQLText(textField4));
 	}   //  setParameters
 
 }	//	InfoGeneral
