@@ -31,20 +31,20 @@ public final class ALoginRes_es extends ListResourceBundle
 	static final Object[][] contents = new String[][]
 	{
 	{ "Connection", 		"Conexi\u00f3n" },
-	{ "Defaults", 			"Valores Predeterminados" },
-	{ "Login", 				"Login" },
+	{ "Defaults", 			"Predeterminados" },
+	{ "Login", 				"Autenticaci\u00f3n ADempiere" },
 	{ "File", 				"Archivo" },
 	{ "Exit", 				"Salir" },
 	{ "Help", 				"Ayuda" },
 	{ "About", 				"Acerca de" },
-	{ "Host", 				"Servidor" },
+	{ "Host", 				"&Servidor" },
 	{ "Database", 			"Base de datos" },
-	{ "User", 				"Usuario" },
-	{ "EnterUser", 			"Introducir Usuario Aplicaci\u00f3n" },
-	{ "Password", 			"Contrase\u00f1a" },
-	{ "EnterPassword", 		"Introduzca Contrase\u00f1a" },
-	{ "Language", 			"Idioma" },
-	{ "SelectLanguage", 	"Seleccione Idioma" },
+	{ "User", 				"&Usuario" },
+	{ "EnterUser", 			"Introduzca Usuario Aplicaci\u00f3n" },
+	{ "Password", 			"&Contrase\u00f1a" },
+	{ "EnterPassword", 		"Introduzca Contrase\u00f1a Aplicaci\u00f3n" },
+	{ "Language", 			"&Idioma" },
+	{ "SelectLanguage", 	"Seleccione su idioma" },
 	{ "Role", 				"Perfil" },
 	{ "Client", 			"Entidad" },
 	{ "Organization", 		"Organizaci\u00f3n" },
@@ -55,13 +55,13 @@ public final class ALoginRes_es extends ListResourceBundle
 	{ "NotConnected", 		"No Conectado" },
 	{ "DatabaseNotFound", 	"Base de datos no encontrada" },
 	{ "UserPwdError", 		"Usuario-Contrase\u00f1a no coinciden" },
-	{ "RoleNotFound", 		"Perfil no encontrado" },
+	{ "RoleNotFound", 		"Perfil no encontrado/incompleto" },
 	{ "Authorized", 		"Autorizado" },
 	{ "Ok", 				"Aceptar" },
 	{ "Cancel", 			"Cancelar" },
 	{ "VersionConflict", 	"Conflicto de versi\u00f3n:" },
 	{ "VersionInfo", 		"Servidor <> Cliente" },
-	{ "PleaseUpgrade", 		"Descargue una nueva versi\u00f3n del Programa" }
+	{ "PleaseUpgrade", 		"Favor descargar una nueva versi\u00f3n desde el servidor" }
 	};
 
 	/**

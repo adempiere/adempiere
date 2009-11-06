@@ -28,7 +28,7 @@ public class DBRes extends ListResourceBundle
 {
 	/** Data        */
 	static final Object[][] contents = new String[][]{
-	{ "CConnectionDialog", 	"Adempiere Connection" },
+	{ "CConnectionDialog", 	"ADempiere Connection" },
 	{ "Name", 				"Name" },
 	{ "AppsHost", 			"Application Host" },
 	{ "AppsPort", 			"Application Port" },
