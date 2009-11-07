@@ -100,9 +100,12 @@ public final class NaturalAccountMap<K,V> extends CCache<K,V>
 			String errMsg = "";
 
 			//  read lines
-			while ((line = in.readLine()) != null && errMsg.length() == 0)
-				errMsg = parseLine(line);
-			line = "";
+			int lineNo= 1;
+			while ((line = in.readLine()) != null && errMsg.length() == 0) {
+				errMsg = parseLine(line, lineNo);
+				lineNo++;
+			}
+			line = null;
 			in.close();
 
 			//  Error
@@ -137,13 +140,22 @@ public final class NaturalAccountMap<K,V> extends CCache<K,V>
 	 *  @throws Exception
 	 */
 	@SuppressWarnings("unchecked")
-	public String parseLine (String line) throws Exception
+	public String parseLine (String line, int lineNo) throws Exception
 	{
-		log.config(line);
+		log.config(lineNo+" : "+line);
 
+		if (line.trim().length()==0) {
+			log.log(Level.WARNING, "Line "+lineNo+" is empty, ignored. ");
+			return "";
+		}
+		
 		//  Fields with ',' are enclosed in "
 		StringBuffer newLine = new StringBuffer();
 		StringTokenizer st = new StringTokenizer(line, "\"", false);
+		if ((st==null )||(st.countTokens()==0)) {
+			log.log(Level.SEVERE, "Parse error: No \\\" found in line: "+lineNo);
+			return "";
+		}
 		newLine.append(st.nextToken());         //  first part
 		while (st.hasMoreElements())
 		{
