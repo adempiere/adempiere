@@ -166,8 +166,18 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	java.lang.String outZkHtmlTags()
 		</function-signature>
 		<description>
-	Returns the desktop info to render a desktop.
-	It is required only if outPageAttrs might not be called
+	Returns the ZK specific HTML tags, if not generated yet.
+		</description>
+	</function>
+	<function>
+		<name>outZkHeadHtmlTags</name>
+		<function-class>org.zkoss.zk.fn.ZkFns</function-class>
+		<function-signature>
+	java.lang.String outZkHeadHtmlTags(org.zkoss.zk.ui.Page)
+		</function-signature>
+		<description>
+	Returns the ZK specific HTML tags including the headers defined in the page,
+	if not generated yet
 		</description>
 	</function>
 
@@ -192,7 +202,6 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 		</description>
 	</function>
 
-	<!-- DSP only -->
 	<function>
 		<name>outLocaleJavaScript</name>
 		<function-class>org.zkoss.zk.fn.DspFns</function-class>
@@ -213,6 +222,39 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	Returns HTML tags to include all style sheets used by the specified device.
 	Note: unlike outLangStyleSheets, it can be called without current execution.
 	@param deviceType the device type. If null, "ajax" is assumed.
+		</description>
+	</function>
+
+	<function>
+		<name>setCacheControl</name>
+		<function-class>org.zkoss.zk.fn.DspFns</function-class>
+		<function-signature>
+	void setCacheControl(java.lang.String, int)
+		</function-signature>
+		<description>
+	Sets the Cache-Control and Expires headers for the current request.
+		</description>
+	</function>
+	<function>
+		<name>setCSSCacheControl</name>
+		<function-class>org.zkoss.zk.fn.DspFns</function-class>
+		<function-signature>
+	void setCSSCacheControl()
+		</function-signature>
+		<description>
+	Sets the Cache-Control and Expires headers for the CSS file
+	from class Web resource for the current request.
+		</description>
+	</function>
+	<function>
+		<name>setCWRCacheControl</name>
+		<function-class>org.zkoss.zk.fn.DspFns</function-class>
+		<function-signature>
+	void setCWRCacheControl()
+		</function-signature>
+		<description>
+	Sets the Cache-Control and Expires headers for
+	class Web resource for the current request.
 		</description>
 	</function>
 </taglib>

@@ -883,9 +883,10 @@
 		<xs:attribute name="value" type="dateType" use="optional" />
 		<xs:attribute name="lenient" type="booleanType" use="optional" />
 		<xs:attribute name="compact" type="booleanType" use="optional" />
-		<xs:attribute name="timeZone" type="xs:string" use="optional" />
 		<xs:attribute name="buttonVisible" type="booleanType" use="optional" />
 		<xs:attribute name="open" type="booleanType" use="optional" />
+		<xs:attribute name="displayedTimeZones" type="xs:string" use="optional" />
+		<xs:attribute name="timeZonesReadonly" type="booleanType" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- decimalbox -->
@@ -1289,7 +1290,7 @@
 		<xs:attribute name="src" type="xs:string" use="optional" />
 		<xs:attribute name="localized" type="booleanType" use="optional" />
 		<xs:attribute name="progressing" type="booleanType" use="optional" />
-		<xs:attribute name="mode" type="booleanType" use="optional" />
+		<xs:attribute name="mode" type="xs:string" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- intbox -->
@@ -1534,6 +1535,7 @@
 		<xs:attributeGroup ref="xulElementAttrGroup" />
 		<xs:attribute name="orient" type="orientAttrType" use="optional" />
 		<xs:attribute name="autodrop" type="booleanType" use="optional" />
+		<xs:attribute name="scrollable" type="booleanType" use="optional" />
 		<xs:attributeGroup ref="rootAttrGroup" />
 	</xs:complexType>
     <!-- menuitem -->
@@ -1603,13 +1605,13 @@
 			use="optional" />
 		<xs:attribute name="closable" type="booleanType" use="optional" />
 		<xs:attribute name="collapsible" type="booleanType" use="optional" />
-		<xs:attribute name="Floatable" type="booleanType" use="optional" />
-		<xs:attribute name="Framable" type="booleanType" use="optional" />
+		<xs:attribute name="floatable" type="booleanType" use="optional" />
+		<xs:attribute name="framable" type="booleanType" use="optional" />
 		<xs:attribute name="maximizable" type="booleanType" use="optional" />
 		<xs:attribute name="maximized" type="booleanType" use="optional" />
 		<xs:attribute name="minimized" type="booleanType" use="optional" />
 		<xs:attribute name="minimizable" type="booleanType" use="optional" />
-		<xs:attribute name="Movable" type="booleanType" use="optional" />
+		<xs:attribute name="movable" type="booleanType" use="optional" />
 		<xs:attribute name="open" type="booleanType" use="optional" />
 		<xs:attribute name="title" type="xs:string" use="optional" />
 	</xs:complexType>
@@ -1965,7 +1967,7 @@
 	<xs:element name="toolbar" type="toolbarType" />
 	<xs:complexType name="toolbarType">
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:group ref="anyGroup" />
+			<xs:group ref="baseGroup" />
 			<xs:element ref="toolbarbutton" />
 			<xs:element ref="button" />
 			<xs:element ref="image" />
