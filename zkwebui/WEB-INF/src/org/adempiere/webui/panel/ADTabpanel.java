@@ -426,14 +426,21 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                     editor.setGridTab(this.getGridTab());
                 	field.addPropertyChangeListener(editor);
                     editors.add(editor);
-                    editorIds.add(editor.getComponent().getUuid());
-                    Div div = new Div();
-                    div.setAlign("right");
-                    Label label = editor.getLabel();
-                    div.appendChild(label);
-                    if (label.getDecorator() != null)
-                    	div.appendChild(label.getDecorator());
-                    row.appendChild(div);
+                    editorIds.add(editor.getComponent().getUuid());                    
+                    if (field.isFieldOnly()) 
+                    {
+                    	row.appendChild(createSpacer());
+                    } 
+                    else 
+                    {
+                    	Div div = new Div();
+                        div.setAlign("right");
+                        Label label = editor.getLabel();
+	                    div.appendChild(label);
+	                    if (label.getDecorator() != null)
+	                    	div.appendChild(label.getDecorator());
+	                    row.appendChild(div);
+                    }
                     row.appendChild(editor.getComponent());
                     if (field.isLongField()) {
                     	row.setSpans("1,3,1");
@@ -463,15 +470,29 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                     {
                     	popupMenu.addMenuListener((ContextMenuListener)editor);
                         this.appendChild(popupMenu);
-                        if (popupMenu.isZoomEnabled() && editor instanceof IZoomableEditor)
+                        if (!field.isFieldOnly())
                         {
-                        	label.setStyle("cursor: pointer; text-decoration: underline;");
-                        	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) editor));
+                        	Label label = editor.getLabel();
+	                        if (popupMenu.isZoomEnabled() && editor instanceof IZoomableEditor)
+	                        {
+	                        	label.setStyle("cursor: pointer; text-decoration: underline;");
+	                        	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) editor));
+	                        }
+	
+	                        label.setContext(popupMenu.getId());
                         }
-
-                        label.setContext(popupMenu.getId());
                     }
                 }
+                else if (field.isHeading()) 
+                {
+    				//display just a label if we are "heading only"
+    				Label label = new Label(field.getHeader());
+    				Div div = new Div();
+    				div.setAlign("center");
+    				row.appendChild(createSpacer());
+    				div.appendChild(label);
+    				row.appendChild(div);
+    			}
             }
         }
 
