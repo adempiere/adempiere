@@ -72,6 +72,7 @@ public class SessionContextListener implements ExecutionInit,
             }
             serverContext.clear();
             serverContext.putAll(ctx);
+            exec.setAttribute(SESSION_CTX, serverContext);
 
             //set locale
             Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
@@ -88,7 +89,18 @@ public class SessionContextListener implements ExecutionInit,
     {
         if (parent == null)
         {
+        	Properties ctx = (Properties)exec.getDesktop().getSession().getAttribute(SESSION_CTX);
+        	if (ctx != null)
+        	{
+        		ServerContext serverContext = (ServerContext) Executions.getCurrent().getAttribute(SESSION_CTX);
+        		if (serverContext != null)
+        		{
+        			ctx.clear();
+        			ctx.putAll(serverContext);
+        		}
+        	}
             ServerContext.dispose();
+            exec.removeAttribute(SESSION_CTX);
         }
     }
 
@@ -108,26 +120,18 @@ public class SessionContextListener implements ExecutionInit,
      */
     public boolean init(Component comp, Event evt)
     {
-    	//setup context
-    	Properties ctx = (Properties)Executions.getCurrent().getDesktop().getSession().getAttribute(SESSION_CTX);
-        if (ctx == null)
-        {
-        	ctx = new Properties();
-        	HttpSession session = (HttpSession)Executions.getCurrent().getDesktop().getSession().getNativeSession();
-        	ctx.setProperty(SERVLET_SESSION_ID, session.getId());
-        	Executions.getCurrent().getDesktop().getSession().setAttribute(SESSION_CTX, ctx);
-        }
-        
-        ServerContext serverContext = ServerContext.getCurrentInstance();
+        ServerContext serverContext = (ServerContext) Executions.getCurrent().getAttribute(SESSION_CTX);
         if (serverContext == null)
         {
         	serverContext = ServerContext.newInstance();
         }
-        serverContext.clear();
-        serverContext.putAll(ctx);
+        else
+        {
+        	ServerContext.setCurrentInstance(serverContext);
+        }
 
         //set locale
-        Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
+        Locales.setThreadLocal(Env.getLanguage(serverContext).getLocale());
         
 		return true;
     }
@@ -148,19 +152,18 @@ public class SessionContextListener implements ExecutionInit,
      */
     public void afterResume(Component comp, Event evt)
     {
-    	//make sure context is correct
-    	Properties ctx = (Properties)Executions.getCurrent().getDesktop().getSession().getAttribute(SESSION_CTX);
-    	if (ctx != null)
+    	ServerContext serverContext = (ServerContext) Executions.getCurrent().getAttribute(SESSION_CTX);
+        if (serverContext == null)
     	{
-    		ServerContext serverContext = ServerContext.getCurrentInstance();
-    		if (serverContext == null) {
     			serverContext = ServerContext.newInstance();
-    			serverContext.putAll(ctx);
-    		} else {
-    			serverContext.clear();
-    			serverContext.putAll(ctx);
     		}
+        else
+        {
+        	ServerContext.setCurrentInstance(serverContext);
     	}
+
+        //set locale
+        Locales.setThreadLocal(Env.getLanguage(serverContext).getLocale());
     }
 
     /**
@@ -180,17 +183,6 @@ public class SessionContextListener implements ExecutionInit,
      */
 	public void cleanup(Component comp, Event evt, List errs) throws Exception 
 	{
-		//update session context
-    	Properties ctx = (Properties) Executions.getCurrent().getDesktop().getSession().getAttribute(SESSION_CTX);
-    	ServerContext serverContext = ServerContext.getCurrentInstance();
-    	
-    	if (ctx != null && serverContext != null 
-    		&& ctx.getProperty(SERVLET_SESSION_ID).equals(serverContext.getProperty(SERVLET_SESSION_ID)))
-    	{
-    		ctx.clear();
-    		ctx.putAll(serverContext);
-    	}
-    	
     	ServerContext.dispose();
 	}
 
