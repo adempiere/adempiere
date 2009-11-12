@@ -933,7 +933,7 @@ public final class APanel extends CPanel
             	        						if (index >= 0)
             	        							tabPanel.setSelectedIndex(index);
         	        						}
-        	        						gTab.setCurrentRow(i);
+        	        						gTab.navigate(i);
         	        						return true;
         	        					}
         	        				}
