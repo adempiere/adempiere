@@ -47,10 +47,16 @@ public class ADTabListModel extends AbstractListModel implements ListitemRendere
 	public static class ADTabLabel {
 		public String label;
 		public int tabLevel;
+		public String description;
 		
 		public ADTabLabel(String label, int tabLevel) {
 			this.label = label;
 			this.tabLevel = tabLevel;
+		}
+		
+		public ADTabLabel(String label, int tabLevel, String description) {
+			this(label,tabLevel);
+			this.description = description;
 		}
 	}
 

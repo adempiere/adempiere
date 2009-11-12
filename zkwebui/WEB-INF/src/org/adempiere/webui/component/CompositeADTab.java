@@ -39,7 +39,8 @@ import org.zkoss.zul.Div;
 public class CompositeADTab extends AbstractADTab
 {
     /** Logger                  */
-    private static CLogger  log = CLogger.getCLogger (CompositeADTab.class);
+    @SuppressWarnings("unused")
+	private static CLogger  log = CLogger.getCLogger (CompositeADTab.class);
 
     private List<ADTabListModel.ADTabLabel> tabLabelList = new ArrayList<ADTabListModel.ADTabLabel>();
 
@@ -70,7 +71,7 @@ public class CompositeADTab extends AbstractADTab
     	tabPanel.setParent(div);
         tabPanel.setVisible(false);
 
-        ADTabListModel.ADTabLabel tabLabel = new ADTabListModel.ADTabLabel(gTab.getName(), gTab.getTabLevel());
+        ADTabListModel.ADTabLabel tabLabel = new ADTabListModel.ADTabLabel(gTab.getName(), gTab.getTabLevel(),gTab.getDescription());
         tabLabelList.add(tabLabel);
 	}
 

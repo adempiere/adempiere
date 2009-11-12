@@ -72,6 +72,7 @@ public class ADButtonTabList extends Panel implements IADTabList, EventListener 
 		for (int i = 0; i < items.length; i++) {
 			ADTabLabel tabLabel = (ADTabLabel) items[i];
 			Button button = new Button();
+			button.setDynamicProperty("Title", tabLabel.description);
 			Text text = new Text(tabLabel.label);
 			button.appendChild(text);
 			int s = tabbox.getSelectedIndex();
