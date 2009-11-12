@@ -1923,8 +1923,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	{
 		 if (event.getSource() instanceof WButtonEditor)
 	     {
-			statusBar.setStatusLine(processButtonCallout((WButtonEditor)event.getSource()), true);
-	      	actionButton((WButtonEditor)event.getSource());
+			String error = processButtonCallout((WButtonEditor)event.getSource());
+			if (error != null && error.trim().length() > 0)
+			{
+				statusBar.setStatusLine(error, true);
+				return;
+			}
+			actionButton((WButtonEditor)event.getSource());
 	     }
 	}
 
