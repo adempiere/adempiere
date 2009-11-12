@@ -885,10 +885,13 @@ public abstract class Doc
 	 */
 	private void unlock()
 	{
+		String trxName = null;	//	outside trx if on server
+		if (MClient.isClientAccounting())
+			trxName = getTrxName(); // on trx if it's in client
 		StringBuffer sql = new StringBuffer ("UPDATE ");
 		sql.append(get_TableName()).append( " SET Processing='N' WHERE ")
 			.append(get_TableName()).append("_ID=").append(p_po.get_ID());
-		DB.executeUpdate(sql.toString(), null);		//	outside trx
+		DB.executeUpdate(sql.toString(), trxName);
 	}   //  unlock
 
 
