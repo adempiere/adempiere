@@ -50,10 +50,11 @@ public class DocumentSearch extends AbstractDocumentSearch {
 	protected boolean openWindow(int windowId, MQuery query) {
 		final AWindow frame = new AWindow();
 		AEnv.addToWindowManager(frame);
-		final boolean ok = frame.initWindow(windowId, query);
-		frame.pack();
-		AEnv.showCenterScreen(frame);
-		return ok;
+		if (frame.initWindow(windowId, query)) {
+			frame.pack();
+			AEnv.showCenterScreen(frame);
+		}
+		return true;
 	}
 
 }
