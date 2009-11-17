@@ -22,7 +22,10 @@ import java.beans.PropertyChangeListener;
 
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Locationbox;
+import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.adempiere.webui.window.WLocationDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MLocation;
@@ -40,13 +43,15 @@ import org.zkoss.zk.ui.event.Events;
  * 
  * This class is based on VLocation written by Jorg Janke
  **/
-public class WLocationEditor extends WEditor implements EventListener, PropertyChangeListener
+public class WLocationEditor extends WEditor implements EventListener, PropertyChangeListener, ContextMenuListener
 {
     private static final String[] LISTENER_EVENTS = {Events.ON_CLICK};
     
     private static CLogger log = CLogger.getCLogger(WLocationEditor.class);
     private MLocationLookup     m_Location;
     private MLocation           m_value;
+
+	private WEditorPopupMenu popupMenu;
     
     /**
      * Constructor without GridField
@@ -63,7 +68,7 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
        
         setColumnName(columnName);
         m_Location = mLocation;
-        getComponent().setButtonImage("/images/Location10.png");
+        init();
     }
 
     /**
@@ -73,9 +78,21 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
     public WLocationEditor(GridField gridField) {
 		super(new Locationbox(), gridField);
 		m_Location = (MLocationLookup)gridField.getLookup();
-		getComponent().setButtonImage("/images/Location10.png");
 	}
 
+    private void init()
+    {
+    	getComponent().setButtonImage("/images/Location10.png");
+    	
+    	popupMenu = new WEditorPopupMenu(false, false, true);
+    	popupMenu.addMenuListener(this);
+    	if (gridField != null && gridField.getGridTab() != null)
+		{
+			WFieldRecordInfo.addMenu(popupMenu);
+		}
+    	getComponent().setContext(popupMenu.getId());
+    }
+    
 	@Override
     public String getDisplay()
     {
@@ -183,4 +200,11 @@ public class WLocationEditor extends WEditor implements EventListener, PropertyC
         return LISTENER_EVENTS;
     }
 
+    @Override
+	public void onMenu(ContextMenuEvent evt) {
+		if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
+		}
+	}
 }

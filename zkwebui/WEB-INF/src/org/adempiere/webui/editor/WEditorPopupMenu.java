@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -39,12 +41,13 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
 	 * 
 	 */
 	private static final long serialVersionUID = 8172397145177408454L;
-	private static final String EVENT_ATTRIBUTE = "EVENT";
+	public static final String EVENT_ATTRIBUTE = "EVENT";
     public static final String ZOOM_EVENT = "ZOOM";
     public static final String REQUERY_EVENT = "REQUERY";
     public static final String PREFERENCE_EVENT = "VALUE_PREFERENCE";
     public static final String NEW_EVENT = "NEW_RECORD";
     public static final String UPDATE_EVENT = "UPDATE_RECORD"; // Elaine 2009/02/16 - update record
+    public static final String CHANGE_LOG_EVENT = "CHANGE_LOG";
    
     private boolean newEnabled = true;
     private boolean updateEnabled = true; // Elaine 2009/02/16 - update record
@@ -91,7 +94,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         {
             zoomItem = new Menuitem();
             zoomItem.setAttribute(EVENT_ATTRIBUTE, ZOOM_EVENT);
-            zoomItem.setLabel("Zoom");
+            zoomItem.setLabel(Msg.getMsg(Env.getCtx(), "Zoom"));
             zoomItem.setImage("/images/Zoom16.png");
             zoomItem.addEventListener(Events.ON_CLICK, this);
             
@@ -112,7 +115,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         {
             prefItem = new Menuitem();
             prefItem.setAttribute(EVENT_ATTRIBUTE, PREFERENCE_EVENT);
-            prefItem.setLabel("Value Preference");
+            prefItem.setLabel(Msg.getMsg(Env.getCtx(), "ValuePreference"));
             prefItem.setImage("/images/VPreference16.png");
             prefItem.addEventListener(Events.ON_CLICK, this);
             this.appendChild(prefItem);
@@ -122,7 +125,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         {
         	newItem = new Menuitem();
         	newItem.setAttribute(EVENT_ATTRIBUTE, NEW_EVENT);
-        	newItem.setLabel("New Record");
+        	newItem.setLabel(Msg.getMsg(Env.getCtx(), "NewRecord"));
         	newItem.setImage("/images/New16.png");
         	newItem.addEventListener(Events.ON_CLICK, this);
         	this.appendChild(newItem);
@@ -139,6 +142,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         	this.appendChild(updateItem);
         }
         //
+        
     }
     
     public void addMenuListener(ContextMenuListener listener)

@@ -18,6 +18,7 @@ package org.compiere.grid.ed;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Insets;
@@ -25,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.sql.PreparedStatement;
@@ -32,9 +35,13 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.FieldRecordInfo;
+import org.compiere.model.GridField;
 import org.compiere.model.MAccountLookup;
 import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
@@ -60,6 +67,35 @@ public final class VAccount extends JComponent
 	 */
 	private static final long serialVersionUID = -3397625857773619178L;
 
+	/******************************************************************************
+	 *	Mouse Listener
+	 */
+	final class VAccount_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VAccount_mouseAdapter(VAccount adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VNumber_mouseAdapter
+
+		private VAccount m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouseClicked
+
+	}
+	
 	/**
 	 *	Constructor
 	 *  @param columnName
@@ -90,6 +126,7 @@ public final class VAccount extends JComponent
 		m_text.addFocusListener(this);
 		m_text.setFont(AdempierePLAF.getFont_Field());
 		m_text.setForeground(AdempierePLAF.getTextColor_Normal());
+		m_text.addMouseListener(new VAccount_mouseAdapter(this));
 		this.add(m_text, BorderLayout.CENTER);
 
 		m_button.setIcon(Env.getImageIcon("Account10.gif"));
@@ -125,6 +162,8 @@ public final class VAccount extends JComponent
 	private int					m_WindowNo;
 
 	private String				m_columnName;
+	//	Popup
+	JPopupMenu 				popupMenu = new JPopupMenu();
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VAccount.class);
 
@@ -257,6 +296,12 @@ public final class VAccount extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
+		
 		if (e.getSource() == m_text)
 			cmd_text();
 		else
@@ -296,7 +341,8 @@ public final class VAccount extends JComponent
 		}
 	}	//	cmd_button
 
-	private boolean m_cmdTextRunning = false; 
+	private boolean m_cmdTextRunning = false;
+	private GridField m_mField; 
 	/**
 	 *	Text - try to find Alias or start Dialog
 	 */
@@ -398,6 +444,10 @@ public final class VAccount extends JComponent
 	{
 		if (mField != null)
 			m_WindowNo = mField.getWindowNo();
+		m_mField = mField;
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
+		
 	}   //  setField
 
 	/**

@@ -49,6 +49,7 @@ import javax.swing.SwingUtilities;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.apps.search.Info;
 import org.compiere.apps.search.InfoBPartner;
 import org.compiere.apps.search.InfoFactory;
@@ -679,6 +680,9 @@ public class VLookup extends JComponent
 		if (m_mField != null
 			&& MRole.getDefault().isShowPreference())
 			ValuePreference.addMenu (this, popupMenu);
+		
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 
@@ -698,6 +702,11 @@ public class VLookup extends JComponent
 		{
 			if (MRole.getDefault().isShowPreference())
 				ValuePreference.start (m_mField, getValue(), getDisplay());
+			return;
+		}
+		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
 			return;
 		}
 

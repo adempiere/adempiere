@@ -18,22 +18,34 @@
 package org.adempiere.webui.editor;
 
 import org.adempiere.webui.component.Urlbox;
+import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.FDialog;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.Events;
 
-public class WUrlEditor extends WEditor
+public class WUrlEditor extends WEditor implements ContextMenuListener
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
 	private String oldValue;
+	private WEditorPopupMenu popupMenu;
 
 	public WUrlEditor(GridField gridField)
 	{
 		super(new Urlbox(), gridField);
 		getComponent().setButtonImage("/images/Online10.png");
+		
+		popupMenu = new WEditorPopupMenu(false, false, true);
+		popupMenu.addMenuListener(this);
+		if (gridField != null && gridField.getGridTab() != null)
+		{
+			WFieldRecordInfo.addMenu(popupMenu);
+		}
+		getComponent().setContext(popupMenu.getId());
 	}
 
 
@@ -122,6 +134,16 @@ public class WUrlEditor extends WEditor
     {
         return LISTENER_EVENTS;
     }
+
+
+	@Override
+	public void onMenu(ContextMenuEvent evt) 
+	{
+		if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
+		}
+	}
 
 
 }

@@ -40,6 +40,7 @@ import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
@@ -151,10 +152,10 @@ public class VURL extends JComponent
 
 		m_text.addKeyListener(this);
 		m_text.addActionListener(this);
+		m_text.addMouseListener(new VURL_mouseAdapter(this));
 		//	Popup for Editor
 		if (fieldLength > displayLength)
-		{
-			addMouseListener(new VURL_mouseAdapter(this));
+		{			
 			mEditor = new CMenuItem (Msg.getMsg(Env.getCtx(), "Editor"), Env.getImageIcon("Editor16.gif"));
 			mEditor.addActionListener(this);
 			popupMenu.add(mEditor);
@@ -385,6 +386,11 @@ public class VURL extends JComponent
 				ValuePreference.start (m_mField, getValue());
 			return;
 		}
+		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
 
 		//  Invoke Editor
 		else if (e.getSource() == mEditor)
@@ -442,6 +448,8 @@ public class VURL extends JComponent
 		if (m_mField != null
 			&& MRole.getDefault().isShowPreference())
 			ValuePreference.addMenu (this, popupMenu);
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	

@@ -24,7 +24,9 @@ import org.adempiere.webui.ValuePreference;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.NumberBox;
 import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.util.DisplayType;
@@ -40,7 +42,7 @@ import org.zkoss.zk.ui.event.Events;
  *
  * @author Low Heng Sin
  */
-public class WNumberEditor extends WEditor
+public class WNumberEditor extends WEditor implements ContextMenuListener
 {
     public static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
 
@@ -51,6 +53,8 @@ public class WNumberEditor extends WEditor
     private boolean mandatory = false;
 
 	private int displayType;
+
+	private WEditorPopupMenu popupMenu;
 
     public WNumberEditor()
     {
@@ -110,6 +114,13 @@ public class WNumberEditor extends WEditor
 			displayType = DisplayType.Number;
 		DecimalFormat format = DisplayType.getNumberFormat(displayType, AEnv.getLanguage(Env.getCtx()));
 		getComponent().getDecimalbox().setFormat(format.toPattern());
+		
+		popupMenu = new WEditorPopupMenu(true, true, false);
+    	if (gridField.getGridTab() != null)
+		{
+			WFieldRecordInfo.addMenu(popupMenu);
+		}
+    	getComponent().setContext(popupMenu.getId());
     }
 
 	/**
@@ -203,6 +214,10 @@ public class WNumberEditor extends WEditor
 			if (MRole.getDefault().isShowPreference())
 				ValuePreference.start (this.getGridField(), getValue());
 			return;
+		}
+	 	else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
 		}
 	}
 }

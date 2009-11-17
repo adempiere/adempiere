@@ -34,6 +34,8 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.FieldRecordInfo;
+import org.compiere.model.GridField;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CTextPane;
 import org.compiere.util.CLogger;
@@ -153,6 +155,7 @@ public class VTextLong extends CTextPane
 	private String				m_oldText;
 	private String				m_initialText;
 	private volatile boolean	m_setting = false;
+	private GridField m_mField;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VTextLong.class);
 
@@ -204,6 +207,11 @@ public class VTextLong extends CTextPane
 			}
 			catch (PropertyVetoException pve)	{}
 		}
+		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
 	}	//	actionPerformed
 
 	/**
@@ -246,6 +254,9 @@ public class VTextLong extends CTextPane
 	 */
 	public void setField (org.compiere.model.GridField mField)
 	{
+		m_mField = mField;
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 

@@ -27,6 +27,7 @@ import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
@@ -144,6 +145,11 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        editor.setAttribute("EVENT", EDITOR_EVENT);
 	        editor.addEventListener(Events.ON_CLICK, popupMenu);
 	        popupMenu.appendChild(editor);
+	        
+	        if (gridField.getGridTab() != null)
+			{
+				WFieldRecordInfo.addMenu(popupMenu);
+			}
 
 	        getComponent().setContext(popupMenu.getId());
 
@@ -247,6 +253,10 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 		        super.fireValueChange(changeEvent);
 		        oldValue = newText;
 			}
+		}
+		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
 		}
 	}
 

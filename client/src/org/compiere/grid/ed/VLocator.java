@@ -42,6 +42,8 @@ import javax.swing.SwingUtilities;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
 import org.compiere.apps.AWindow;
+import org.compiere.apps.FieldRecordInfo;
+import org.compiere.model.GridField;
 import org.compiere.model.MLocator;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MQuery;
@@ -190,6 +192,7 @@ public class VLocator extends JComponent
 	JPopupMenu 					popupMenu = new JPopupMenu();
 	private CMenuItem 			mZoom;
 	private CMenuItem 			mRefresh;
+	private GridField m_mField;
 
 	/**
 	 *	Enable/disable
@@ -365,6 +368,12 @@ public class VLocator extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
+		
 		//	Refresh
 		if (e.getSource() == mRefresh)
 		{
@@ -536,6 +545,9 @@ public class VLocator extends JComponent
 	 */
 	public void setField (org.compiere.model.GridField mField)
 	{
+		m_mField = mField;
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 

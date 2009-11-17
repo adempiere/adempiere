@@ -28,6 +28,7 @@ import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MRole;
@@ -144,6 +145,10 @@ ContextMenuListener, IZoomableEditor
         if (gridField != null) 
         {
         	popupMenu = new WEditorPopupMenu(zoom, true, true);
+        	if (gridField.getGridTab() != null)
+    		{
+    			WFieldRecordInfo.addMenu(popupMenu);
+    		}
         	getComponent().setContext(popupMenu.getId());
         }
     }
@@ -373,6 +378,10 @@ ContextMenuListener, IZoomableEditor
 			if (MRole.getDefault().isShowPreference())
 				ValuePreference.start (this.getGridField(), getValue());
 			return;
+		}
+		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
 		}
 	}
 	

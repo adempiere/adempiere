@@ -46,6 +46,7 @@ import javax.swing.text.Document;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.AEnv;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
@@ -431,6 +432,11 @@ public class VDate extends JComponent
 				ValuePreference.start (m_mField, getValue(), getDisplay());
 			return;
 		}
+		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
 		if (e.getSource() == m_button)
 		{
 			m_button.setEnabled(false);
@@ -556,6 +562,8 @@ public class VDate extends JComponent
 		if (m_mField != null
 			&& MRole.getDefault().isShowPreference())
 			ValuePreference.addMenu (this, popupMenu);
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}	//  setField
 
 	/**

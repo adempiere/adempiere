@@ -17,7 +17,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.logging.Level;
 
+import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.ui.event.Event;
@@ -28,7 +31,7 @@ import org.zkoss.zul.Timebox;
  *
  * @author Low Heng Sin
  */
-public class WTimeEditor extends WEditor
+public class WTimeEditor extends WEditor implements ContextMenuListener
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     private static final CLogger logger;
@@ -39,6 +42,7 @@ public class WTimeEditor extends WEditor
     }
 
     private Timestamp oldValue = new Timestamp(0);
+	private WEditorPopupMenu popupMenu;
 
     /**
      *
@@ -47,6 +51,7 @@ public class WTimeEditor extends WEditor
     public WTimeEditor(GridField gridField)
     {
         super(new Timebox(), gridField);
+        init();
     }
 
     /**
@@ -61,6 +66,7 @@ public class WTimeEditor extends WEditor
 			String title)
 	{
 		super(new Timebox(), columnName, title, null, mandatory, readonly, updateable);
+		init();
 	}
 
 	/**
@@ -81,13 +87,26 @@ public class WTimeEditor extends WEditor
 	{
 		super(new Timebox(), label, description, mandatory, readonly, updateable);
 		setColumnName("Time");
+		init();
 	}
 
 	public WTimeEditor()
 	{
 		this("Time", "Time", false, false, true);
+		init();
 	}   // VDate
 
+	private void init()
+	{
+		popupMenu = new WEditorPopupMenu(false, false, true);
+		popupMenu.addMenuListener(this);
+		if (gridField != null && gridField.getGridTab() != null)
+		{
+			WFieldRecordInfo.addMenu(popupMenu);
+		}
+		getComponent().setContext(popupMenu.getId());
+	}
+	
 	public void onEvent(Event event)
     {
 		if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()))
@@ -173,5 +192,13 @@ public class WTimeEditor extends WEditor
 	@Override
 	public void fillHorizontal() {
 		//do nothing, can't stretch a timebox
+	}
+
+	@Override
+	public void onMenu(ContextMenuEvent evt) {
+		if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
+		}
 	}
 }

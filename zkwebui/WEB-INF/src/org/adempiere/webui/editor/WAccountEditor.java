@@ -18,8 +18,11 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Combinationbox;
+import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.window.WAccountDialog;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MAccountLookup;
 import org.compiere.model.MRole;
@@ -34,13 +37,15 @@ import org.zkoss.zk.ui.event.Events;
  * @author Low Heng Sin
  *
  */
-public class WAccountEditor extends WEditor
+public class WAccountEditor extends WEditor implements ContextMenuListener
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
 
 	private MAccountLookup		m_mAccount;
 
 	private Object m_value;
+
+	private WEditorPopupMenu popupMenu;
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WAccountEditor.class);
@@ -51,6 +56,14 @@ public class WAccountEditor extends WEditor
 		getComponent().setButtonImage("/images/Account10.png");
 
 		m_mAccount = new MAccountLookup (gridField.getVO().ctx, gridField.getWindowNo());
+		
+		popupMenu = new WEditorPopupMenu(false, false, true);
+		popupMenu.addMenuListener(this);
+		if (gridField != null && gridField.getGridTab() != null)
+		{
+			WFieldRecordInfo.addMenu(popupMenu);
+		}
+		getComponent().setContext(popupMenu.getId());
 	}
 
 	@Override
@@ -195,6 +208,14 @@ public class WAccountEditor extends WEditor
 	@Override
 	public void setReadWrite(boolean readWrite) {
 		getComponent().setEnabled(readWrite);
+	}
+
+	@Override
+	public void onMenu(ContextMenuEvent evt) {
+		if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
+		}
 	}
 
 

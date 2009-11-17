@@ -16,7 +16,10 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import org.adempiere.webui.component.DatetimeBox;
+import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -27,7 +30,7 @@ import org.zkoss.zk.ui.event.Events;
  *
  * @author Low Heng Sin
  */
-public class WDatetimeEditor extends WEditor
+public class WDatetimeEditor extends WEditor implements ContextMenuListener
 {
 	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
     @SuppressWarnings("unused")
@@ -39,6 +42,7 @@ public class WDatetimeEditor extends WEditor
     }
 
     private Timestamp oldValue = new Timestamp(0);
+	private WEditorPopupMenu popupMenu;
 
     /**
      *
@@ -95,6 +99,13 @@ public class WDatetimeEditor extends WEditor
 	private void init()
 	{
 		getComponent().setDateFormat(DisplayType.getDateFormat());
+		popupMenu = new WEditorPopupMenu(false, false, true);
+		popupMenu.addMenuListener(this);
+		if (gridField != null && gridField.getGridTab() != null)
+		{
+			WFieldRecordInfo.addMenu(popupMenu);
+		}
+		getComponent().setContext(popupMenu.getId());
 	}
 
 	public void onEvent(Event event)
@@ -184,4 +195,12 @@ public class WDatetimeEditor extends WEditor
         return LISTENER_EVENTS;
     }
 
+
+	@Override
+	public void onMenu(ContextMenuEvent evt) {
+		if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
+		}
+	}
 }

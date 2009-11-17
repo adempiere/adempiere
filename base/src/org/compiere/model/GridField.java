@@ -87,6 +87,8 @@ public class GridField
 	/** The Mnemonic				*/
 	private char			m_mnemonic = 0;
 	
+	private GridTab m_gridTab;
+	
 	/**
 	 *  Dispose
 	 */
@@ -1752,5 +1754,21 @@ public class GridField
 		
 		
 		return list;
+	}
+	
+	/**
+	 * @param gridTab
+	 */
+	public void setGridTab(GridTab gridTab)
+	{
+		m_gridTab = gridTab;
+	}
+
+	/**
+	 * @return GridTab
+	 */
+	public GridTab getGridTab()
+	{
+		return m_gridTab;
 	}
 }   //  MField

@@ -19,6 +19,7 @@ package org.compiere.grid.ed;
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -31,6 +32,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 import java.math.BigDecimal;
@@ -39,11 +42,14 @@ import java.text.ParseException;
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
+import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 
 import org.compiere.apps.AEnv;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
@@ -74,6 +80,38 @@ public final class VNumber extends JComponent
 	public final static int SIZE = 12;
 	/** Automatically pop up calculator */
 	public final static boolean AUTO_POPUP = false;
+	
+	JPopupMenu          		popupMenu = new JPopupMenu();
+	
+	/******************************************************************************
+	 *	Mouse Listener
+	 */
+	final class VNumber_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VNumber_mouseAdapter(VNumber adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VNumber_mouseAdapter
+
+		private VNumber m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouseClicked
+
+	}
+	
 	/**
 	 *  IDE Bean Constructor
 	 */
@@ -127,6 +165,8 @@ public final class VNumber extends JComponent
 			setReadWrite(false);
 		else
 			setReadWrite(true);
+		
+		m_text.addMouseListener(new VNumber_mouseAdapter(this));
 	}	//	VNumber
 
 	/**
@@ -512,6 +552,11 @@ public final class VNumber extends JComponent
 				ValuePreference.start (m_mField, getValue());
 			return;
 		}
+		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
 
 		if (e.getSource() == m_button)
 		{
@@ -690,11 +735,13 @@ public final class VNumber extends JComponent
 	public void setField (GridField mField)
 	{
 		m_mField = mField;
-		/**
+		
 		if (m_mField != null
 			&& MRole.getDefault().isShowPreference())
 			ValuePreference.addMenu (this, popupMenu);
-		**/
+		
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 	
 	/*

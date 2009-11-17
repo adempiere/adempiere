@@ -333,6 +333,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			if (voF != null)
 			{
 				GridField field = new GridField (voF);
+				field.setGridTab(this);
 				String columnName = field.getColumnName();
 				//FR [ 1757088 ] - this create Bug [ 1866793 ]
 				/*

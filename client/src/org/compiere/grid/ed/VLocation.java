@@ -35,6 +35,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MLocation;
@@ -340,6 +341,12 @@ public class VLocation extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_GridField);
+			return;
+		}
+		
 		if (e.getSource() == mDelete)
 			m_value = null;        //  create new
 		//
@@ -395,6 +402,8 @@ public class VLocation extends JComponent
 	public void setField (org.compiere.model.GridField mField)
 	{
 		m_GridField = mField;
+		if (m_GridField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 }	//	VLocation

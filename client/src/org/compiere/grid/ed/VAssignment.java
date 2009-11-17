@@ -40,6 +40,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.apps.search.InfoSchedule;
 import org.compiere.model.GridField;
 import org.compiere.model.MResourceAssignment;
@@ -175,6 +176,7 @@ public class VAssignment extends JComponent
 	/**	The Format				*/
 	private DateFormat			m_dateFormat = DisplayType.getDateFormat(DisplayType.DateTime);
 	private NumberFormat		m_qtyFormat = DisplayType.getNumberFormat(DisplayType.Quantity);
+	private GridField m_mField;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VAssignment.class);
 	
@@ -354,6 +356,9 @@ public class VAssignment extends JComponent
 	 */
 	public void setField(GridField mField)
 	{
+		m_mField = mField;
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}	//	setField
 
 	/**
@@ -371,6 +376,11 @@ public class VAssignment extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
 		if (!m_button.isEnabled())
 			return;
 		m_button.setEnabled(false);

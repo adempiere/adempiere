@@ -34,6 +34,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.CaretListener;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.MRole;
 import org.compiere.model.Obscure;
@@ -144,10 +145,10 @@ public final class VString extends CTextField
 
 		this.addKeyListener(this);
 		this.addActionListener(this);
+		addMouseListener(new VString_mouseAdapter(this));
 		//	Popup for Editor
 		if (fieldLength > displayLength)
-		{
-			addMouseListener(new VString_mouseAdapter(this));
+		{			
 			mEditor = new CMenuItem (Msg.getMsg(Env.getCtx(), "Editor"), Env.getImageIcon("Editor16.gif"));
 			mEditor.addActionListener(this);
 			popupMenu.add(mEditor);
@@ -277,6 +278,11 @@ public final class VString extends CTextField
 				ValuePreference.start (m_mField, getValue());
 			return;
 		}
+		else if(e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
 
 		//  Invoke Editor
 		if (e.getSource() == mEditor)
@@ -305,6 +311,8 @@ public final class VString extends CTextField
 		if (m_mField != null
 			&& MRole.getDefault().isShowPreference())
 			ValuePreference.addMenu (this, popupMenu);
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	/**

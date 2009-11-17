@@ -34,6 +34,7 @@ import org.adempiere.webui.grid.WBPartner;
 import org.adempiere.webui.panel.InfoBPartnerPanel;
 import org.adempiere.webui.panel.InfoPanel;
 import org.adempiere.webui.panel.InfoProductPanel;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
 import org.compiere.model.MLookup;
@@ -164,7 +165,11 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			getComponent().setButtonImage("/images/PickOpen10.png");
 		}
 		
-		(getComponent().getTextbox()).setContext(popupMenu.getId());
+		getComponent().getTextbox().setContext(popupMenu.getId());
+		if (gridField != null && gridField.getGridTab() != null)
+		{
+			WFieldRecordInfo.addMenu(popupMenu);
+		}
 
 		return;
 	}
@@ -296,6 +301,10 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 				infoPanel = null;
 			}
 			actionBPartner(false);
+		}
+		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
 		}
 		//
 	}

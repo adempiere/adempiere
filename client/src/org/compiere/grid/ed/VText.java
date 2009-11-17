@@ -32,7 +32,9 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.apps.ScriptEditor;
+import org.compiere.model.GridField;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CTextArea;
 import org.compiere.util.Env;
@@ -138,6 +140,7 @@ public class VText extends CTextArea
 	private String				m_oldText;
 	private String				m_initialText;
 	private volatile boolean	m_setting = false;
+	private GridField m_mField;
 
 	/**
 	 *	Set Editor to value
@@ -193,6 +196,11 @@ public class VText extends CTextArea
 			}
 			catch (PropertyVetoException pve)	{}
 		}
+		else if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
 	}	//	actionPerformed
 
 	private int findWindowNo() {
@@ -240,6 +248,9 @@ public class VText extends CTextArea
 	 */
 	public void setField (org.compiere.model.GridField mField)
 	{
+		m_mField = mField;
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 }	//	VText

@@ -16,13 +16,20 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 
 import javax.swing.JLabel;
+import javax.swing.JPopupMenu;
+import javax.swing.SwingUtilities;
 
+import org.compiere.apps.FieldRecordInfo;
+import org.compiere.model.GridField;
 import org.compiere.swing.CCheckBox;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -41,6 +48,35 @@ public class VCheckBox extends CCheckBox
 	 */
 	private static final long serialVersionUID = -3822806631369725112L;
 
+	/******************************************************************************
+	 *	Mouse Listener
+	 */
+	final class VCheckBox_mouseAdapter extends MouseAdapter
+	{
+		/**
+		 *	Constructor
+		 *  @param adaptee adaptee
+		 */
+		VCheckBox_mouseAdapter(VCheckBox adaptee)
+		{
+			m_adaptee = adaptee;
+		}	//	VNumber_mouseAdapter
+
+		private VCheckBox m_adaptee;
+
+		/**
+		 *	Mouse Listener
+		 *  @param e event
+		 */
+		public void mouseClicked(MouseEvent e)
+		{
+			//	popup menu
+			if (SwingUtilities.isRightMouseButton(e))
+				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
+		}	//	mouseClicked
+
+	}
+	
 	/**
 	 *	Default Constructor
 	 */
@@ -85,6 +121,7 @@ public class VCheckBox extends CCheckBox
 		}
 		//
 		this.addActionListener(this);
+		addMouseListener(new VCheckBox_mouseAdapter(this));
 	}	//	VCheckBox
 
 	/** Mnemonic saved			*/
@@ -98,6 +135,9 @@ public class VCheckBox extends CCheckBox
 	}   //  dispose
 
 	private String		m_columnName;
+	private GridField m_mField;
+	//	Popup
+	JPopupMenu 				popupMenu = new JPopupMenu();
 
 	/**
 	 *	Set Editable
@@ -176,7 +216,12 @@ public class VCheckBox extends CCheckBox
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-	//	ADebug.info("VCheckBox.actionPerformed");
+		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
+		//	ADebug.info("VCheckBox.actionPerformed");
 		try
 		{
 			fireVetoableChange(m_columnName, null, getValue());
@@ -192,6 +237,9 @@ public class VCheckBox extends CCheckBox
 	 */
 	public void setField (org.compiere.model.GridField mField)
 	{
+		m_mField = mField;
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
 	/**

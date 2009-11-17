@@ -21,7 +21,10 @@ import java.beans.PropertyChangeEvent;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.event.ContextMenuEvent;
+import org.adempiere.webui.event.ContextMenuListener;
 import org.adempiere.webui.event.ValueChangeEvent;
+import org.adempiere.webui.window.WFieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -35,7 +38,7 @@ import org.zkoss.zk.ui.event.Events;
  * @date    Mar 11, 2007
  * @version $Revision: 0.10 $
  */
-public class WYesNoEditor extends WEditor
+public class WYesNoEditor extends WEditor implements ContextMenuListener
 {
     public static final String[] LISTENER_EVENTS = {Events.ON_CHECK};
     private static final CLogger logger;
@@ -46,6 +49,7 @@ public class WYesNoEditor extends WEditor
     }
 
     private boolean oldValue = false;
+	private WEditorPopupMenu popupMenu;
 
     public WYesNoEditor(GridField gridField)
     {
@@ -68,6 +72,14 @@ public class WYesNoEditor extends WEditor
 			getComponent().setLabel(label.getValue());
         label.setValue("");
         label.setTooltiptext("");
+        
+        popupMenu = new WEditorPopupMenu(false, false, true);
+		popupMenu.addMenuListener(this);
+		if (gridField != null && gridField.getGridTab() != null)
+		{
+			WFieldRecordInfo.addMenu(popupMenu);
+		}
+		getComponent().setContext(popupMenu.getId());
     }
 
     public void onEvent(Event event)
@@ -147,5 +159,14 @@ public class WYesNoEditor extends WEditor
     {
         return LISTENER_EVENTS;
     }
+
+	@Override
+	public void onMenu(ContextMenuEvent evt) 
+	{
+		if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
+		{
+			WFieldRecordInfo.start(gridField);
+		}
+	}
 
 }

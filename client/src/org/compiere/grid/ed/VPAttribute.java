@@ -36,6 +36,7 @@ import javax.swing.LookAndFeel;
 import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.FieldRecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.MAttributeSet;
@@ -199,6 +200,7 @@ public class VPAttribute extends JComponent
 	
 	/**	Calling Window Info				*/
 	private int					m_AD_Column_ID = 0;
+	private GridField m_mField;
 	/**	No Instance Key					*/
 	private static Integer		NO_INSTANCE = new Integer(0);
 	/**	Logger			*/
@@ -343,6 +345,10 @@ public class VPAttribute extends JComponent
 		//	To determine behavior
 		m_AD_Column_ID = mField.getAD_Column_ID();
 		m_GridField = mField;
+		
+		m_mField = mField;
+		if (m_mField != null)
+			FieldRecordInfo.addMenu(this, popupMenu);
 	}	//	setField
 
 	/**
@@ -359,6 +365,12 @@ public class VPAttribute extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
+		if (e.getActionCommand().equals(FieldRecordInfo.CHANGE_LOG_COMMAND))
+		{
+			FieldRecordInfo.start(m_mField);
+			return;
+		}
+		
 		if (!m_button.isEnabled ())
 			return;
 		m_button.setEnabled (false);
