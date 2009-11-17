@@ -91,8 +91,8 @@ public class MenuPanel extends Panel implements EventListener
         menuTree.setMultiple(false);
         menuTree.setId("mnuMain");
         menuTree.setWidth("100%");
-//        menuTree.setHeight("96%");
         menuTree.setVflex(true);
+        menuTree.setFixedLayout(false);
         menuTree.setPageSize(-1); // Due to bug in the new paging functionality
         
         menuTree.setStyle("border: none");
@@ -143,7 +143,7 @@ public class MenuPanel extends Panel implements EventListener
     
     private void generateMenu(Treechildren treeChildren, MTreeNode mNode)
     {
-        Enumeration nodeEnum = mNode.children();
+        Enumeration<?> nodeEnum = mNode.children();
       
         while(nodeEnum.hasMoreElements())
         {

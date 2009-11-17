@@ -21,6 +21,7 @@ package org.zkoss.zkmax.zul.render;
 import java.io.IOException;
 import java.io.Writer;
 
+import org.adempiere.webui.apps.AEnv;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
@@ -46,7 +47,7 @@ public class Combobox2Default implements ComponentRenderer {
 		final String zcls = self.getZclass();
 		final Execution exec = Executions.getCurrent();
 
-		String tableStyle = "display:inline-block";
+		String tableStyle = AEnv.isInternetExplorer() ? "display:inline" : "display:inline-block";
 		String inputAttrs = self.getInnerAttrs();
 		if (inputAttrs.indexOf("style") >= 0) {
 			inputAttrs = inputAttrs.substring(0, inputAttrs.indexOf("style"));

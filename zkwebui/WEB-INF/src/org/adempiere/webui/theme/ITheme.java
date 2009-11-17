@@ -59,4 +59,5 @@ public interface ITheme {
 
 	//stylesheet url
 	public static final String THEME_STYLESHEET = "/css/theme.css.dsp";
+	public static final String THEME_STYLESHEET_BY_BROWSER = "/css/theme*.css.dsp*";
 }

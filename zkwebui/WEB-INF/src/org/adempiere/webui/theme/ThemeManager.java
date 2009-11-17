@@ -59,6 +59,13 @@ public final class ThemeManager {
 	}
 
 	/**
+	 * @return url of theme stylesheet by browser
+	 */
+	public static String getStyleSheetByBrowser() {
+		return ITheme.THEME_PATH_PREFIX + getTheme() + ITheme.THEME_STYLESHEET_BY_BROWSER;
+	}
+
+	/**
 	 * @return title text for the browser window
 	 */
 	public static String getBrowserTitle() {

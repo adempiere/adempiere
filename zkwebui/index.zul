@@ -6,6 +6,7 @@ Copyright (C) 2007 Ashley G Ramdass.
 <?init zscript="theme.zs" ?>
 <?link rel="icon" type="image/png" href="${browserIcon}"?>
 <?link rel="stylesheet" type="text/css" href="${themeStyleSheet}"?>
+<?link rel="stylesheet" type="text/css" href="${themeStyleSheetByBrowser}"?>
 <?link rel="stylesheet" type="text/css" href="css/PAPanel.css"?>
 <zk>
 	<window use="org.adempiere.webui.AdempiereWebUI"/>

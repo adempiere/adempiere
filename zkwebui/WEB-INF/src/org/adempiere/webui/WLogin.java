@@ -19,19 +19,20 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.window.LoginWindow;
-import org.zkoss.zk.au.out.AuScript;
+import org.zkoss.zhtml.Text;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.metainfo.PageDefinition;
-import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.East;
 import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
 import org.zkoss.zkex.zul.West;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Vbox;
+import org.zkoss.zul.Window;
 
 /**
  *
@@ -45,6 +46,7 @@ public class WLogin extends AbstractUIPart
 
 	private IWebClient app;
 	private Borderlayout layout;
+	private Window browserWarningWindow;
 
     public WLogin(IWebClient app)
     {
@@ -81,10 +83,16 @@ public class WLogin extends AbstractUIPart
         if (!AEnv.isBrowserSupported())
         {
         	//TODO: localization
-        	String msg = "You might experience slow performance and user interface anomalies using your current browser to access the application. We recommend the use of Firefox, Google Chrome or Apple Safari to access the application.";
-        	String script = "alert('" + msg + "')";
-        	AuScript aus = new AuScript(null, script);
-        	Clients.response(aus);
+        	String msg = "You might experience slow performance and user interface anomalies using your current browser to access the application. We recommend the use of Firefox, Google Chrome or Apple Safari.";
+        	browserWarningWindow = new Window();
+        	Div div = new Div();
+        	div.setStyle("font-size: 9pt");
+        	div.appendChild(new Text(msg));
+        	browserWarningWindow.appendChild(div);
+        	browserWarningWindow.setPosition("top,right");
+        	browserWarningWindow.setWidth("550px");
+        	browserWarningWindow.setPage(page);
+        	browserWarningWindow.doOverlapped();
         }
         
         try {
@@ -166,6 +174,8 @@ public class WLogin extends AbstractUIPart
 	public void detach() {
 		layout.detach();
 		layout = null;
+		if (browserWarningWindow != null)
+			browserWarningWindow.detach();
 	}
 
 	public Component getComponent() {

@@ -597,6 +597,25 @@ public final class AEnv
     	} 
     	return supported;
     }
+    
+    /**
+     * @return true if user agent is internet explorer
+     */
+    public static boolean isInternetExplorer()
+    {
+    	Execution execution = Executions.getCurrent();
+    	if (execution == null)
+    		return false;
+
+    	Object n = execution.getNativeRequest();
+    	if (n instanceof ServletRequest) {
+    		String userAgent = Servlets.getUserAgent((ServletRequest) n);
+    		if (userAgent.indexOf("MSIE ") >= 0) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
 
     /**
      *
