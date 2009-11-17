@@ -715,116 +715,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		}
 		
 		createStandardCosts();
-		
-		MPPOrderBOM obom = (MPPOrderBOM)getMPPOrderBOM();
-
-		// Auto receipt and issue for kit
-		if (MPPOrderBOM.BOMTYPE_Make_To_Kit.equals(obom.getBOMType()) && MPPOrderBOM.BOMUSE_Manufacturing.equals(obom.getBOMUse()))
-		{				
-			Timestamp today = new Timestamp(System.currentTimeMillis());
-			ArrayList[][] issue = new ArrayList[m_lines.length][1];
-			
-			for (int i = 0; i < getLines().length ; i++)
-			{
-				MPPOrderBOMLine line =  m_lines[i];
 				
-				KeyNamePair id = null;
-				
-				if(MPPOrderBOMLine.ISSUEMETHOD_Backflush.equals(line.getIssueMethod()))
-				{
-					id = new KeyNamePair(line.get_ID(),"Y");
-				}
-				else
-					id = new KeyNamePair(line.get_ID(),"N");
-					
-					ArrayList<Object> data = new ArrayList<Object>();
-					
-					data.add(id); 				  		//0 - MPPOrderBOMLine ID
-					data.add(line.isCritical());  		//1 - Critical
-					MProduct product = (MProduct) line.getM_Product();
-					data.add(product.getValue()); 		//2 - Value
-					KeyNamePair productKey = new KeyNamePair(product.get_ID(),product.getName());
-					data.add(productKey); 				//3 - KeyNamePair Product
-					data.add(line.getQtyRequiered()); 	//4 - QtyToDeliver			
-					data.add(Env.ZERO); 				//5 - QtyScrapComponent
-					issue[i][0] = data;	
-				
-			}
-			
-			boolean forceIssue = false;
-			MOrderLine oline = oline = (MOrderLine)getC_OrderLine();				
-			if(MOrder.DELIVERYRULE_CompleteLine.equals(oline.getParent().getDeliveryRule()) ||
-			   MOrder.DELIVERYRULE_CompleteOrder.equals(oline.getParent().getDeliveryRule()))
-			{	
-				boolean isCompleteQtyDeliver = MPPOrder.isQtyAvailable(this, issue ,today);	
-				if (!isCompleteQtyDeliver)
-				{
-						throw new AdempiereException("@NoQtyAvailable@");
-				}
-			}
-			else if(MOrder.DELIVERYRULE_Availability.equals(oline.getParent().getDeliveryRule()) ||
-					MOrder.DELIVERYRULE_AfterReceipt.equals(oline.getParent().getDeliveryRule()) ||
-					MOrder.DELIVERYRULE_Manual.equals(oline.getParent().getDeliveryRule()))
-			{
-				throw new AdempiereException("@ActionNotSupported@");
-			}
-			else if(MOrder.DELIVERYRULE_Force.equals(oline.getParent().getDeliveryRule()))
-			{
-				forceIssue = true;
-			}
-			
-			
-			for(int i = 0; i < issue.length; i++ )
-			{
-				int M_AttributeSetInstance_ID = 0;
-				KeyNamePair key = (KeyNamePair) issue[i][0].get(0);
-				Boolean isCritical = (Boolean) issue[i][0].get(1);
-				String value = (String)issue[i][0].get(2);
-				KeyNamePair productkey = (KeyNamePair) issue[i][0].get(3);			
-				int M_Product_ID = productkey.getKey();
-				MProduct product = MProduct.get(getCtx(),  M_Product_ID);
-				BigDecimal qtyToDeliver = (BigDecimal)issue[i][0].get(4);	
-				BigDecimal qtyScrapComponent = (BigDecimal) issue[i][0].get(5);	
-				
-				int PP_Order_BOMLine_ID =  (Integer)key.getKey();
-				if(PP_Order_BOMLine_ID > 0)
-				{
-					MPPOrderBOMLine  orderBOMLine = new MPPOrderBOMLine(getCtx(), PP_Order_BOMLine_ID, get_TrxName());
-					//Validate if AttributeSet generate instance
-					M_AttributeSetInstance_ID = orderBOMLine.getM_AttributeSetInstance_ID();
-				}
-				
-				MStorage[] storages = MPPOrder.getStorages(getCtx(),
-						M_Product_ID,
-						getM_Warehouse_ID(),
-						M_AttributeSetInstance_ID
-						, today, get_TrxName());
-				
-				MPPOrder.createIssue(
-						this, 
-						key.getKey(), 
-						today, qtyToDeliver,
-						qtyScrapComponent, 
-						Env.ZERO, 
-						storages, forceIssue);
-			}	
-			MPPOrder.createReceipt(
-					this, 
-					today , 
-					getQtyDelivered(), 
-					getQtyOpen(), 
-					getQtyScrap(), 
-					getQtyReject(), 
-					getM_Locator_ID(), 
-					getM_AttributeSetInstance_ID());
-			setQtyDelivered(getQtyOpen());
-			return DOCSTATUS_Closed;
-		}
-		
 		//Create the Activity Control
 		autoReportActivities();
 
-		setProcessed(true);
+		//setProcessed(true);
 		setDocAction(DOCACTION_Close);
 
 		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
@@ -891,7 +786,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (m_processMsg != null)
 			return false;
 		
-		setProcessed(true);
+		//setProcessed(true);
 		setDocAction(DOCACTION_None);
 		return true;
 	} //	voidIt
@@ -951,7 +846,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if (m_processMsg != null)
 			return false;
 		setDocStatus(DOCSTATUS_Closed);
-		setProcessed(true);
+		//setProcessed(true);
 		setDocAction(DOCACTION_None);
 		return true;
 	} //	closeIt
@@ -1751,5 +1646,126 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				setupTimeVariance.intValueExact(), //durationSetup,
 				durationVariance // duration
 		);
+	}
+	
+	/**
+	 * Get Quantity to Deliver
+	 * @return Quantity to Deliver
+	 */
+	public BigDecimal getQtyToDeliver()
+	{
+		return getQtyOrdered().subtract(getQtyDelivered());
+	}
+	
+	/**
+	 * Create Auto Receipt and Issue based on Quantity
+	 * @param qtyShipment
+	 */
+	public void updateMakeToKit(BigDecimal qtyShipment)
+	{
+		MPPOrderBOM obom = (MPPOrderBOM)getMPPOrderBOM();
+		getLines(true);
+		// Auto receipt and issue for kit
+		if (MPPOrderBOM.BOMTYPE_Make_To_Kit.equals(obom.getBOMType()) && MPPOrderBOM.BOMUSE_Manufacturing.equals(obom.getBOMUse()))
+		{				
+			Timestamp today = new Timestamp(System.currentTimeMillis());
+			ArrayList[][] issue = new ArrayList[m_lines.length][1];
+			
+			for (int i = 0; i < getLines().length ; i++)
+			{
+				MPPOrderBOMLine line =  m_lines[i];
+				
+				KeyNamePair id = null;
+				
+				if(MPPOrderBOMLine.ISSUEMETHOD_Backflush.equals(line.getIssueMethod()))
+				{
+					id = new KeyNamePair(line.get_ID(),"Y");
+				}
+				else
+					id = new KeyNamePair(line.get_ID(),"N");
+					
+					ArrayList<Object> data = new ArrayList<Object>();
+					BigDecimal qtyToDeliver = qtyShipment.multiply(line.getQtyMultiplier());
+					data.add(id); 				  		//0 - MPPOrderBOMLine ID
+					data.add(line.isCritical());  		//1 - Critical
+					MProduct product = (MProduct) line.getM_Product();
+					data.add(product.getValue()); 		//2 - Value
+					KeyNamePair productKey = new KeyNamePair(product.get_ID(),product.getName());
+					data.add(productKey); 				//3 - KeyNamePair Product
+					data.add(qtyToDeliver); 	//4 - QtyToDeliver			
+					data.add(Env.ZERO); 				//5 - QtyScrapComponent
+					issue[i][0] = data;	
+				
+			}
+			
+			boolean forceIssue = false;
+			MOrderLine oline = oline = (MOrderLine)getC_OrderLine();				
+			if(MOrder.DELIVERYRULE_CompleteLine.equals(oline.getParent().getDeliveryRule()) ||
+			   MOrder.DELIVERYRULE_CompleteOrder.equals(oline.getParent().getDeliveryRule()))
+			{	
+				boolean isCompleteQtyDeliver = MPPOrder.isQtyAvailable(this, issue ,today);	
+				if (!isCompleteQtyDeliver)
+				{
+						throw new AdempiereException("@NoQtyAvailable@");
+				}
+			}
+			else if(MOrder.DELIVERYRULE_Availability.equals(oline.getParent().getDeliveryRule()) ||
+					MOrder.DELIVERYRULE_AfterReceipt.equals(oline.getParent().getDeliveryRule()) ||
+					MOrder.DELIVERYRULE_Manual.equals(oline.getParent().getDeliveryRule()))
+			{
+				throw new AdempiereException("@ActionNotSupported@");
+			}
+			else if(MOrder.DELIVERYRULE_Force.equals(oline.getParent().getDeliveryRule()))
+			{
+				forceIssue = true;
+			}
+			
+			
+			for(int i = 0; i < issue.length; i++ )
+			{
+				int M_AttributeSetInstance_ID = 0;
+				KeyNamePair key = (KeyNamePair) issue[i][0].get(0);
+				Boolean isCritical = (Boolean) issue[i][0].get(1);
+				String value = (String)issue[i][0].get(2);
+				KeyNamePair productkey = (KeyNamePair) issue[i][0].get(3);			
+				int M_Product_ID = productkey.getKey();
+				MProduct product = MProduct.get(getCtx(),  M_Product_ID);
+				BigDecimal qtyToDeliver = (BigDecimal)issue[i][0].get(4);	
+				BigDecimal qtyScrapComponent = (BigDecimal) issue[i][0].get(5);	
+				
+				int PP_Order_BOMLine_ID =  (Integer)key.getKey();
+				if(PP_Order_BOMLine_ID > 0)
+				{
+					MPPOrderBOMLine  orderBOMLine = new MPPOrderBOMLine(getCtx(), PP_Order_BOMLine_ID, get_TrxName());
+					//Validate if AttributeSet generate instance
+					M_AttributeSetInstance_ID = orderBOMLine.getM_AttributeSetInstance_ID();
+				}
+				
+				MStorage[] storages = MPPOrder.getStorages(getCtx(),
+						M_Product_ID,
+						getM_Warehouse_ID(),
+						M_AttributeSetInstance_ID
+						, today, get_TrxName());
+				
+				MPPOrder.createIssue(
+						this, 
+						key.getKey(), 
+						today, qtyToDeliver,
+						qtyScrapComponent, 
+						Env.ZERO, 
+						storages, forceIssue);
+			}	
+			MPPOrder.createReceipt(
+					this, 
+					today , 
+					getQtyDelivered(), 
+					qtyShipment, 
+					getQtyScrap(), 
+					getQtyReject(), 
+					getM_Locator_ID(), 
+					getM_AttributeSetInstance_ID());
+			//setQtyDelivered(getQtyOpen());
+			//return DOCSTATUS_Closed;
+		}
 	}
 } // MPPOrder

@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.eevolution.model;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -29,6 +30,7 @@ import org.compiere.model.MMovementLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
+import org.compiere.model.MRMALine;
 import org.compiere.model.MRequisition;
 import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MWarehouse;
@@ -208,62 +210,41 @@ public class LiberoValidator implements ModelValidator
 	public String docValidate (PO po, int timing)
 	{
 		log.info(po.get_TableName() + " Timing: "+timing);
-		if(po instanceof MInOut && timing == TIMING_BEFORE_COMPLETE)
+		
+		if (po instanceof MInOut && timing == TIMING_AFTER_COMPLETE)
 		{
 			MInOut inout = (MInOut)po;
 			if(inout.isSOTrx())
 			{
-				final String whereClause = "C_OrderLine_ID IS NOT NULL"
-											+" AND EXISTS (SELECT 1 FROM M_InOutLine iol"
-											+" WHERE iol.M_InOut_ID=? AND PP_Order.C_OrderLine_ID = iol.C_OrderLine_ID) AND " 
-											+ MPPOrder.COLUMNNAME_DocStatus + " =? "
-											+" AND EXISTS (SELECT 1 FROM PP_Order_BOM " 
-											+" WHERE PP_Order_BOM.PP_Order_ID=PP_Order.PP_Order_ID AND PP_Order_BOM.BOMType IN (?, ?))"; 
-				Collection<MPPOrder> orders = new Query(po.getCtx(), MPPOrder.Table_Name, whereClause, po.get_TrxName())
-												.setParameters(new Object[]{inout.getM_InOut_ID(),  
-																	 		MPPOrder.DOCSTATUS_InProgress,
-																	 		MPPOrderBOM.BOMTYPE_Make_To_Kit,
-																	 		MPPOrderBOM.BOMTYPE_Make_To_Order
-																	 		}).list();
-				for(MPPOrder order : orders)
-				{	   
-					String description = order.getDescription() !=  null ?  order.getDescription() : ""
-						+ Msg.translate(inout.getCtx(), MInOut.COLUMNNAME_M_InOut_ID) 
-						+ " : " 
-						+ Msg.translate(inout.getCtx(), MInOut.COLUMNNAME_DocumentNo);
-
-					order.setDescription(description);
-					order.closeIt();
-					order.setDocStatus(MPPOrder.DOCACTION_Close);
-					order.setDocAction(MPPOrder.DOCACTION_None);
-					order.saveEx();					   
-					 
-				}
-			} 						
-		}
-		else if (po instanceof MInOut && timing == TIMING_AFTER_COMPLETE)
-		{
-			MInOut inout = (MInOut)po;
-
-			for (MInOutLine line : inout.getLines())
-			{
-				final String whereClause = "C_OrderLine_ID=? AND PP_Cost_Collector_ID IS NOT NULL";
-				Collection<MOrderLine> olines = new Query(po.getCtx(), MOrderLine.Table_Name, whereClause, po.get_TrxName())
-												.setParameters(new Object[]{line.getC_OrderLine_ID()})
-												.list();
-				for (MOrderLine oline : olines)
-				{
-					if(oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0)
-					{	
-						MPPCostCollector cc = new MPPCostCollector(po.getCtx(), oline.getPP_Cost_Collector_ID(), po.get_TrxName());
-						String docStatus = cc.completeIt();
-						cc.setDocStatus(docStatus);
-						cc.setDocAction(MPPCostCollector.DOCACTION_Close);
-						cc.saveEx();
-						return null;
-					}
+				for (MInOutLine outline : inout.getLines())
+				{										
+					updateMPPOrder(outline);
+				
 				}
 			}
+			//Purchase Receipt
+			else
+			{	
+				for (MInOutLine line : inout.getLines())
+				{
+					final String whereClause = "C_OrderLine_ID=? AND PP_Cost_Collector_ID IS NOT NULL";
+					Collection<MOrderLine> olines = new Query(po.getCtx(), MOrderLine.Table_Name, whereClause, po.get_TrxName())
+													.setParameters(new Object[]{line.getC_OrderLine_ID()})
+													.list();
+					for (MOrderLine oline : olines)
+					{
+						if(oline.getQtyOrdered().compareTo(oline.getQtyDelivered()) >= 0)
+						{	
+							MPPCostCollector cc = new MPPCostCollector(po.getCtx(), oline.getPP_Cost_Collector_ID(), po.get_TrxName());
+							String docStatus = cc.completeIt();
+							cc.setDocStatus(docStatus);
+							cc.setDocAction(MPPCostCollector.DOCACTION_Close);
+							cc.saveEx();
+							return null;
+						}
+					}
+				}
+			}	
 		}
 		//
 		// Update Distribution Order Line
@@ -324,4 +305,68 @@ public class LiberoValidator implements ModelValidator
 	{
 		return m_AD_Client_ID;
 	}	//	getAD_Client_ID
+	
+	private void updateMPPOrder(MInOutLine outline)
+	{
+		MPPOrder order = null;
+		BigDecimal qtyShipment = Env.ZERO;
+		MInOut inout =  outline.getParent();
+		String movementType = inout.getMovementType();
+		int C_OrderLine_ID = 0;
+		if(MInOut.MOVEMENTTYPE_CustomerShipment.equals(movementType))
+		{
+		   C_OrderLine_ID = outline.getC_OrderLine_ID();
+		   qtyShipment = outline.getMovementQty();
+		}
+		else if (MInOut.MOVEMENTTYPE_CustomerReturns.equals(movementType)) 
+		{
+				MRMALine rmaline = new MRMALine(outline.getCtx(),outline.getM_RMALine_ID(), null); 
+				MInOutLine line = (MInOutLine) rmaline.getM_InOutLine();
+				C_OrderLine_ID = line.getC_OrderLine_ID();
+				qtyShipment = outline.getMovementQty().negate();
+		}
+		
+		final String whereClause = " C_OrderLine_ID = ? "
+				+ " AND DocStatus IN  (?,?)"
+				+ " AND EXISTS (SELECT 1 FROM  PP_Order_BOM "
+				+ " WHERE PP_Order_BOM.PP_Order_ID=PP_Order.PP_Order_ID AND PP_Order_BOM.BOMType =? )"; 
+	
+		order = new Query(outline.getCtx(), I_PP_Order.Table_Name, whereClause, outline.get_TrxName())
+			 .setParameters(new Object[]{C_OrderLine_ID,
+				 					 MPPOrder.DOCSTATUS_InProgress,
+				 					 MPPOrder.DOCSTATUS_Completed,
+				 					 MPPOrderBOM.BOMTYPE_Make_To_Kit
+				 					}).firstOnly();
+		if (order == null)
+		{	
+			return;
+		}
+		
+		if(MPPOrder.DOCSTATUS_InProgress.equals(order.getDocStatus()))
+		{
+			order.completeIt();
+			order.setDocStatus(MPPOrder.ACTION_Complete);
+			order.setDocAction(MPPOrder.DOCACTION_Close);
+			order.saveEx();			
+		}
+		if (MPPOrder.DOCSTATUS_Completed.equals(order.getDocStatus()))
+		{	
+			String description = order.getDescription() !=  null ?  order.getDescription() : ""
+				+ Msg.translate(inout.getCtx(), MInOut.COLUMNNAME_M_InOut_ID) 
+				+ " : " 
+				+ Msg.translate(inout.getCtx(), MInOut.COLUMNNAME_DocumentNo);
+			order.setDescription(description);
+			order.updateMakeToKit(qtyShipment);
+			order.saveEx();
+		}
+		
+		if(order.getQtyToDeliver().equals(Env.ZERO))
+		{
+			order.closeIt();
+			order.setDocStatus(MPPOrder.DOCACTION_Close);
+			order.setDocAction(MPPOrder.DOCACTION_None);
+			order.saveEx();
+		}
+		return;
+	}
 }	//	LiberoValidator
