@@ -2150,6 +2150,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (msg != null && msg.equals("Sorted"))
 			setCurrentRow(0, true);
 		//  set current row
+		m_DataStatusEvent = e;          //  setCurrentRow clear it, need to save again
 		m_DataStatusEvent.setCurrentRow(m_currentRow);
 		//  Same row - update value
 		if (oldCurrentRow == m_currentRow)
