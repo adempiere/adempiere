@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -33,6 +34,9 @@ import org.compiere.util.Msg;
  *	
  *  @author Jorg Janke
  *  @version $Id: MPaymentTerm.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Cristina Ghita, www.arhipac.ro
+ * 			<li>BF [ 2889886 ] Net days in payment term
+ * 				https://sourceforge.net/tracker/index.php?func=detail&aid=2889886&group_id=176962&atid=879332
  */
 public class MPaymentTerm extends X_C_PaymentTerm
 {
@@ -310,6 +314,12 @@ public class MPaymentTerm extends X_C_PaymentTerm
 				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Invalid@ @FixMonthCutoff@"));
 				return false;
 			}
+		}
+		
+		if (Integer.signum(getNetDays()) < 0)
+		{
+			throw new AdempiereException(Msg.parseTranslation(getCtx(), "@NetDays@") + " " +
+										 Msg.parseTranslation(getCtx(), "@positive.number@"));
 		}
 		
 		if (!newRecord || !isValid())
