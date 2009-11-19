@@ -720,24 +720,32 @@ public class ModelADServiceImpl implements ModelADService {
     	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
     	
     	DataRow dr = modelCRUD.getDataRow();
+    	
     	for (DataField field : dr.getFieldList()) {
     		// TODO: Implement lookup
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
 				int idxcol = po.get_ColumnIndex(field.getColumn());
 				if (idxcol < 0) {
 	    			// The column doesn't exist - it must exist as it's defined in security
-					throw new XFireFault("Web service type "
+					return rollbackAndSetError(trx, resp, ret, true, "Web service type "
 							+ m_webservicetype.getValue() + ": input column "
-							+ field.getColumn() + " not exists",
-							new QName("createData"));
+							+ field.getColumn() + " does not exist");
 				} else {
-	    			setValueAccordingToClass(po, poinfo, field, idxcol);
+					try {
+						setValueAccordingToClass(po, poinfo, field, idxcol);
+					}
+					catch (XFireFault e) {
+						log.log(Level.WARNING, "Error setting value", e);
+						return rollbackAndSetError(trx, resp, ret, true, "Web service type "
+								+ m_webservicetype.getValue() + ": input column "
+								+ field.getColumn() + " value could not be set: " + e.getLocalizedMessage());
+					}
 				}
     		} else {
-				throw new XFireFault("Web service type "
+    			
+    			return rollbackAndSetError(trx, resp, ret, true, "Web service type "
 						+ m_webservicetype.getValue() + ": input column "
-						+ field.getColumn() + " not allowed",
-						new QName("createData"));
+						+ field.getColumn() + " not allowed");
     		}
     	}
 
@@ -846,21 +854,28 @@ public class ModelADServiceImpl implements ModelADService {
     	for (DataField field : dr.getFieldList()) {
     		// TODO: Implement lookup
     		if (m_webservicetype.isInputColumnNameAllowed(field.getColumn())) {
-    			int idxcol = po.get_ColumnIndex(field.getColumn());
-    			if (idxcol < 0) {
-    				// The column doesn't exist try set_CustomColumn
-					throw new XFireFault("Web service type "
+				int idxcol = po.get_ColumnIndex(field.getColumn());
+				if (idxcol < 0) {
+	    			// The column doesn't exist - it must exist as it's defined in security
+					return rollbackAndSetError(trx, resp, ret, true, "Web service type "
 							+ m_webservicetype.getValue() + ": input column "
-							+ field.getColumn() + " not exists",
-							new QName("updateData"));
-    			} else {
-    				setValueAccordingToClass(po, poinfo, field, idxcol);
-    			}
+							+ field.getColumn() + " does not exist");
+				} else {
+					try {
+						setValueAccordingToClass(po, poinfo, field, idxcol);
+					}
+					catch (XFireFault e) {
+						log.log(Level.WARNING, "Error setting value", e);
+						return rollbackAndSetError(trx, resp, ret, true, "Web service type "
+								+ m_webservicetype.getValue() + ": input column "
+								+ field.getColumn() + " value could not be set: " + e.getLocalizedMessage());
+					}
+				}
     		} else {
-				throw new XFireFault("Web service type "
+    			
+    			return rollbackAndSetError(trx, resp, ret, true, "Web service type "
 						+ m_webservicetype.getValue() + ": input column "
-						+ field.getColumn() + " not allowed",
-						new QName("updateData"));
+						+ field.getColumn() + " not allowed");
     		}
     	}
 
