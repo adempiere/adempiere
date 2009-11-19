@@ -87,6 +87,8 @@ import org.compiere.util.ValueNamePair;
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  *  @author Cristina Ghita, www.arhipac.ro FR [2870645] Set null value for an ID
  *  @see  https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2870645&group_id=176962
+ *  @author Paul Bowden, phib BF 2900767 Zoom to child tab - inefficient queries
+ *  @see https://sourceforge.net/tracker/?func=detail&aid=2900767&group_id=176962&atid=879332
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
@@ -741,7 +743,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			return query.getWhereClause();
 		}
 
-		//	Find Refernce Column e.g. BillTo_ID -> C_BPartner_Location_ID
+		//	Find Reference Column e.g. BillTo_ID -> C_BPartner_Location_ID
 		String sql = "SELECT cc.ColumnName "
 			+ "FROM AD_Column c"
 			+ " INNER JOIN AD_Ref_Table r ON (c.AD_Reference_Value_ID=r.AD_Reference_ID)"
@@ -823,11 +825,13 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 
 		query.setTableName("xx");
-		StringBuffer result = new StringBuffer ("EXISTS (SELECT * FROM ")
+		// use IN instead of EXISTS as subquery should be highly selective
+		StringBuffer result = new StringBuffer (getTableName()).append(".").append(tabKeyColumn)
+			.append(" IN (SELECT xx.").append(tabKeyColumn)
+			.append(" FROM ")
 			.append(tableName).append(" xx WHERE ")
 			.append(query.getWhereClause(true))
-			.append(" AND xx.").append(tabKeyColumn).append("=")
-			.append(getTableName()).append(".").append(tabKeyColumn).append(")");
+			.append(")");
 		log.fine(result.toString());
 		return result.toString();
 	}	//	validateQuery
