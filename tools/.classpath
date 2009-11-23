@@ -8,6 +8,8 @@
 	<classpathentry exported="true" kind="lib" path="lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jnlp.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/iText-2.1.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/swingx-0.9.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/miglayout-3.7.1-swing.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/log4j.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/activation.jar"/>
