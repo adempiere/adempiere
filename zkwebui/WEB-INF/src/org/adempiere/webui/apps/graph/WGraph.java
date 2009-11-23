@@ -306,7 +306,7 @@ public class WGraph extends Div implements IdSpace {
 				area.setCoords(entity.getShapeCoords());
 				area.setShape(entity.getShapeType());
 				area.setTooltiptext(entity.getToolTipText());
-				area.setId("WG_" + key);
+				area.setId(count+"_WG_" + key);
 				count++;
 			}
 
@@ -316,8 +316,8 @@ public class WGraph extends Div implements IdSpace {
 					String areaId = me.getArea();
 					if (areaId != null) {
 						for (int i = 0; i < list.size(); i++) {
-							String s = "WG_" + list.get(i).getLabel();
-							if (areaId.equals(s)) {
+							String s = "_WG_" + list.get(i).getLabel();
+							if (areaId.endsWith(s)) {
 								chartMouseClicked(i);
 								return;
 							}
