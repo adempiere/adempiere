@@ -7,21 +7,22 @@
     </description>
   <!-- set global properties for this build -->
   <property file="build.properties"/>
-  <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
-  <property name="src" location="${adempiereLiberoMFG}/extension/eevolution/libero/src/main"/>	
+  <import file="${adempiere.trunk}/utils_dev/properties.xml"/>	
   <property name="src" location="extension/eevolution/warehousemanagement/src/main"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
 
   <path id="lib.class.path">
-     <fileset dir="${env.ADEMPIERE_HOME}/lib">
+     <fileset dir="${adempiere.trunk}/lib">
         <include name="*.jar"/>
      </fileset>
+    <fileset dir="${adempiere.trunk}/packages">
+       <include name="*.jar"/>
+    </fileset>
   </path>
 
   <target name="init" depends="clean">
     <echo message="Trunk location: ${adempiere.trunk}"/>
-    <echo message="ADempiere home: ${env.ADEMPIERE_HOME}"/>
     <!-- Create the time stamp -->
     <tstamp/>
     <!-- Create the build directory structure used by compile -->
