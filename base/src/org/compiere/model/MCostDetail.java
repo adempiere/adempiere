@@ -464,6 +464,54 @@ public class MCostDetail extends X_M_CostDetail
 		return ok;
 	}	//	createProduction
 	
+	/**************************************************************************
+	 * 	Get Cost Detail
+	 *	@param ctx context
+	 *	@param whereClause where clause
+	 *	@param ID 1st parameter
+	 *  @param M_AttributeSetInstance_ID ASI
+	 *	@param trxName trx
+	 *	@return cost detail
+	 *  @deprecated
+	 */
+	public static MCostDetail get (Properties ctx, String whereClause,
+		int ID, int M_AttributeSetInstance_ID, String trxName)
+	{
+		String sql = "SELECT * FROM M_CostDetail WHERE " + whereClause;
+
+		MClientInfo clientInfo = MClientInfo.get(ctx);
+		MAcctSchema primary = clientInfo.getMAcctSchema1();
+		int C_AcctSchema_ID = primary != null ? primary.getC_AcctSchema_ID() : 0;
+		if (C_AcctSchema_ID > 0)
+		{
+			sql = sql + " AND C_AcctSchema_ID=?";
+		}
+		MCostDetail retValue = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, null);
+			pstmt.setInt (1, ID);
+			pstmt.setInt (2, M_AttributeSetInstance_ID);
+			if (C_AcctSchema_ID > 0)
+			{
+				pstmt.setInt (3, C_AcctSchema_ID);
+			}
+			rs = pstmt.executeQuery ();
+			if (rs.next ())
+				retValue = new MCostDetail (ctx, rs, trxName);
+		}
+		catch (Exception e)
+		{
+			s_log.log (Level.SEVERE, sql + " - " + ID, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+		}
+		return retValue;
+	}
 	
 	/**************************************************************************
 	 * 	Get Cost Detail
