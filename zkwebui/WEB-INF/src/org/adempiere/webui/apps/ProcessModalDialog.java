@@ -307,9 +307,9 @@ public class ProcessModalDialog extends Window implements EventListener
 			try {
 				Executions.activate(desktop);
 				try {
-					ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
-					dispose();
+					ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);					
 				} finally {
+					dispose();
 					if (m_ASyncProcess != null) {
 						m_ASyncProcess.unlockUI(m_pi);
 					} else {
