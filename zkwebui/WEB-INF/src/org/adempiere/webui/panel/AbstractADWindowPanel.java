@@ -1511,7 +1511,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 
-		onSave(false);
+		if (!onSave(false))
+			return;
 		//
 		int table_ID = curTab.getAD_Table_ID();
 		int record_ID = curTab.getRecord_ID();
@@ -1542,7 +1543,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 
-		onSave(false);
+		if (!onSave(false))
+			return;
 
 		//	Query
 		MQuery query = new MQuery(curTab.getTableName());
@@ -1704,7 +1706,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		//  save first	---------------
 
 		if (curTab.needSave(true, false))
-			onSave();
+		{
+			if (!onSave(false))
+				return;
+		}
 
 		int table_ID = curTab.getAD_Table_ID();
 
