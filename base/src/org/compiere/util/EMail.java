@@ -62,7 +62,7 @@ import com.sun.mail.smtp.SMTPMessage;
  *
  *  @author Jorg Janke
  *  @version  $Id: EMail.java,v 1.4 2006/07/30 00:54:35 jjanke Exp $
- *	@author	Michael Judd BF [ 2736995 ] - toURL() in java.io.File has been deprecated
+ *	@author	Michael Judd BF [ 2736995 ] - toURL() in java.io.File has been depreciated
  */
 public final class EMail implements Serializable
 {
@@ -70,7 +70,7 @@ public final class EMail implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = -2526338392563042117L;
-	//use in serverbean
+	//use in server bean
 	public final static String HTML_MAIL_MARKER = "ContentType=text/html;";
 	/**
 	 *	Full Constructor
@@ -653,7 +653,7 @@ public final class EMail implements Serializable
 
 	/**
 	 *  Get Reply To
-	 *  @return Reoly To internet address
+	 *  @return Reply To internet address
 	 */
 	public InternetAddress getReplyTo()
 	{
