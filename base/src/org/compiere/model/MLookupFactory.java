@@ -848,24 +848,24 @@ public class MLookupFactory
 			//  date, number
 			else if (DisplayType.isDate(ldc.DisplayType) || DisplayType.isNumeric(ldc.DisplayType))
 			{
-				embedSQL.append("COALESCE(" + DB.TO_CHAR(TableName + "." + ldc.ColumnName, ldc.DisplayType, language.getAD_Language()) + ",'')");
+				embedSQL.append("NVL(" + DB.TO_CHAR(TableName + "." + ldc.ColumnName, ldc.DisplayType, language.getAD_Language()) + ",'')");
 			}
 			//  TableDir
 			else if ((ldc.DisplayType == DisplayType.TableDir || ldc.DisplayType == DisplayType.Search)
 			  && ldc.ColumnName.endsWith("_ID"))
 			{
 				String embeddedSQL = getLookup_TableDirEmbed(language, ldc.ColumnName, TableName);
-				embedSQL.append("COALESCE((").append(embeddedSQL).append("),'')");
+				embedSQL.append("NVL((").append(embeddedSQL).append("),'')");
 			}
 			//	Table - teo_sarca [ 1714261 ]
 			else if (ldc.DisplayType == DisplayType.Table && ldc.AD_Reference_ID != 0)
 			{
 				String embeddedSQL = getLookup_TableEmbed (language, ldc.ColumnName, TableName, ldc.AD_Reference_ID);
-				embedSQL.append("COALESCE((").append(embeddedSQL).append("),'')");
+				embedSQL.append("NVL((").append(embeddedSQL).append("),'')");
 			}
 			//  String
 			else
-				embedSQL.append("COALESCE(").append(TableName).append(".").append(ldc.ColumnName).append(",'')");
+				embedSQL.append("NVL(").append(TableName).append(".").append(ldc.ColumnName).append(",'')");
 		}
 
 		embedSQL.append(" FROM ").append(TableName);
