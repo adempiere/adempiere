@@ -35,6 +35,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.NoVendorForProductException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
@@ -364,7 +365,8 @@ public class ReleaseInOutBound extends SvrProcess
 		int C_BPartner_ID = 0;
 		int M_PriceList_ID = 0;
 		MProductPO po = null;
-		for (MProductPO ppo : MProductPO.getOfProduct(getCtx(), product.get_ID(), get_TrxName()))
+		MProductPO[] ppos = MProductPO.getOfProduct(getCtx(), product.getM_Product_ID(), null);
+		for (MProductPO ppo : ppos)
 		{
 			if (ppo.isCurrentVendor() && ppo.getC_BPartner_ID() != 0)
 			{
@@ -372,6 +374,15 @@ public class ReleaseInOutBound extends SvrProcess
 				po = ppo;
 				break;
 			}
+		}
+		
+		if (C_BPartner_ID == 0 && ppos.length > 0)
+		{
+			C_BPartner_ID = ppos[0].getC_BPartner_ID();
+		}
+		if (C_BPartner_ID == 0)
+		{
+			throw new NoVendorForProductException(product.getName());
 		}
 		
 		final String sql = "SELECT COALESCE(bp."+MBPartner.COLUMNNAME_PO_PriceList_ID
@@ -403,18 +414,18 @@ public class ReleaseInOutBound extends SvrProcess
 		reqline.saveEx();
 		
 		MOrderLine oline = new MOrderLine(getCtx(), boundline.getC_OrderLine_ID(), get_TrxName());
-		oline.setDescription( oline.getDescription() + Msg.translate(getCtx(),MRefList.getListName(getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, MPPOrderBOM.BOMTYPE_Make_To_Kit)) 
+		oline.setDescription(oline.getDescription() 
 				+ " "
-				+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+				+ Msg.translate(getCtx(),MRequisition.COLUMNNAME_M_Requisition_ID) 
 				+ " : "
-				+ order.getDocumentNo());
+				+ req.getDocumentNo());
 		oline.saveEx();
 		
-		boundline.setDescription(boundline.getDescription() + Msg.translate(boundline.getCtx(),MRefList.getListName(boundline.getCtx(), MPPOrderBOM.BOMTYPE_AD_Reference_ID, MPPOrderBOM.BOMTYPE_Make_To_Kit)) 
+		boundline.setDescription(boundline.getDescription()
 				+ " "
-				+ Msg.translate(boundline.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+				+ Msg.translate(boundline.getCtx(), MRequisition.COLUMNNAME_M_Requisition_ID) 
 				+ " : "
-				+ order.getDocumentNo());
+				+ req.getDocumentNo());
 	}
 	
 	/**
