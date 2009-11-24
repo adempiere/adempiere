@@ -30,7 +30,7 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091124L;
 
     /** Standard Constructor */
     public X_AD_ReplicationTable (Properties ctx, int AD_ReplicationTable_ID, String trxName)
@@ -207,6 +207,8 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	public static final String REPLICATIONTYPE_Merge = "M";
 	/** Reference = R */
 	public static final String REPLICATIONTYPE_Reference = "R";
+	/** Broadcast = B */
+	public static final String REPLICATIONTYPE_Broadcast = "B";
 	/** Set Replication Type.
 		@param ReplicationType 
 		Type of Data Replication
