@@ -863,6 +863,11 @@ public class MLookupFactory
 				String embeddedSQL = getLookup_TableEmbed (language, ldc.ColumnName, TableName, ldc.AD_Reference_ID);
 				embedSQL.append("NVL((").append(embeddedSQL).append("),'')");
 			}
+			//	ID
+			else if (DisplayType.isID(ldc.DisplayType))
+			{
+				embedSQL.append("NVL(" + DB.TO_CHAR(TableName + "." + ldc.ColumnName, ldc.DisplayType, language.getAD_Language()) + ",'')");
+			}
 			//  String
 			else
 				embedSQL.append("NVL(").append(TableName).append(".").append(ldc.ColumnName).append(",'')");
