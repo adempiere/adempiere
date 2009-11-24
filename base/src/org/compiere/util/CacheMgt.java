@@ -114,7 +114,7 @@ public class CacheMgt
 				counter++;
 			}
 		}
-		log.info("#" + counter + " (" + total + ")");
+		log.fine("#" + counter + " (" + total + ")");
 		return total;
 	}	//	reset
 
@@ -163,7 +163,7 @@ public class CacheMgt
 				}
 			}
 		}
-		log.info(tableName + ": #" + counter + " (" + total + ")");
+		log.fine(tableName + ": #" + counter + " (" + total + ")");
 
 		return total;
 	}	//	reset
