@@ -545,8 +545,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			String text = "";
 			if(rulee.getScript() != null)
 			{
-				text = rulee.getScript().trim().replace("get", "process.get")
-				.replace(".process.get", ".get");
+				String regex = "[^.]get";
+				String replacement = "process.get";
+				text = rulee.getScript().trim().replaceAll(regex, replacement);
 			}
 			final String script =
 				s_scriptImport.toString()
@@ -1311,7 +1312,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			return 0; // TODO: throw exception?
 		}
 		//
-		MHRPeriod p = MHRPeriod.get(getCtx(), getHR_Period_ID());
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer();
 		//check client
