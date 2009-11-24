@@ -114,8 +114,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		//default paging size
 		pageSize = MSysConfig.getIntValue(PAGE_SIZE_KEY, 100);
 
-		//default true for backward compatibility
-		modeless = MSysConfig.getBooleanValue(MODE_LESS_KEY, true);
+		//default false for better performance
+		modeless = MSysConfig.getBooleanValue(MODE_LESS_KEY, false);
 	}
 
 	/**
