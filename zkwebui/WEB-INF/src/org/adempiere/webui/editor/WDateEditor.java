@@ -41,7 +41,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WDateEditor extends WEditor implements ContextMenuListener
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_OK};
     @SuppressWarnings("unused")
 	private static final CLogger logger;
 
@@ -118,7 +118,7 @@ public class WDateEditor extends WEditor implements ContextMenuListener
 
 	public void onEvent(Event event)
     {
-		if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()))
+		if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()) || Events.ON_OK.equalsIgnoreCase(event.getName()))
 		{
 	        Date date = getComponent().getValue();
 	        Timestamp newValue = null;

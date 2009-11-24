@@ -29,7 +29,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WFileDirectoryEditor extends WEditor
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_OK};
 
 	private static final CLogger log = CLogger.getCLogger(WFileDirectoryEditor.class);
 
@@ -87,7 +87,7 @@ public class WFileDirectoryEditor extends WEditor
 
 	public void onEvent(Event event)
 	{
-		if (Events.ON_CHANGE.equals(event.getName()))
+		if (Events.ON_CHANGE.equals(event.getName()) || Events.ON_OK.equals(event.getName()))
 		{
 			String newValue = getComponent().getText();
 			if (oldValue != null && newValue != null && oldValue.equals(newValue)) {

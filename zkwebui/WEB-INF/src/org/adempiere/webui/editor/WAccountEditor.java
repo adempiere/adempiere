@@ -39,7 +39,7 @@ import org.zkoss.zk.ui.event.Events;
  */
 public class WAccountEditor extends WEditor implements ContextMenuListener
 {
-	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CLICK, Events.ON_CHANGE, Events.ON_OK};
 
 	private MAccountLookup		m_mAccount;
 
@@ -183,7 +183,7 @@ public class WAccountEditor extends WEditor implements ContextMenuListener
 
 	public void onEvent(Event event)
 	{
-		if (Events.ON_CHANGE.equals(event.getName()))
+		if (Events.ON_CHANGE.equals(event.getName()) || Events.ON_OK.equals(event.getName()))
 		{
 			cmd_text();
 		}

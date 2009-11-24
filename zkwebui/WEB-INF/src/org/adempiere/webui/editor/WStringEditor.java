@@ -48,7 +48,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 {
     private static final String EDITOR_EVENT = "EDITOR";
 
-	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE};
+	private static final String[] LISTENER_EVENTS = {Events.ON_CHANGE, Events.ON_OK};
 
     private String oldValue;
 
@@ -168,7 +168,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 
     public void onEvent(Event event)
     {
-    	if (Events.ON_CHANGE.equals(event.getName()))
+    	if (Events.ON_CHANGE.equals(event.getName()) || Events.ON_OK.equals(event.getName()))
     	{
 	        String newValue = getComponent().getValue();
 	        if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
