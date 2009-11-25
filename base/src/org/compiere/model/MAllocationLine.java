@@ -299,8 +299,8 @@ public class MAllocationLine extends X_C_AllocationLine
 			String update = "UPDATE C_Order o "
 				+ "SET C_Payment_ID=" 
 					+ (reverse ? "NULL " : "(SELECT C_Payment_ID FROM C_Invoice WHERE C_Invoice_ID=" + C_Invoice_ID + ") ")
-				+ "WHERE EXISTS (SELECT * FROM C_Invoice i "
-					+ "WHERE o.C_Order_ID=i.C_Order_ID AND i.C_Invoice_ID=" + C_Invoice_ID + ")";
+				+ "WHERE o.C_Order_ID = (SELECT i.C_Order_ID FROM C_Invoice i "
+					+ "WHERE i.C_Invoice_ID=" + C_Invoice_ID + ")";
 			if (DB.executeUpdate(update, get_TrxName()) > 0)
 				log.fine("C_Payment_ID=" + C_Payment_ID 
 					+ (reverse ? " UnLinked from" : " Linked to")
@@ -328,8 +328,8 @@ public class MAllocationLine extends X_C_AllocationLine
 			String update = "UPDATE C_Order o "
 				+ "SET C_CashLine_ID="
 					+ (reverse ? "NULL " : "(SELECT C_CashLine_ID FROM C_Invoice WHERE C_Invoice_ID=" + C_Invoice_ID + ") ")
-				+ "WHERE EXISTS (SELECT * FROM C_Invoice i "
-					+ "WHERE o.C_Order_ID=i.C_Order_ID AND i.C_Invoice_ID=" + C_Invoice_ID + ")";
+				+ "WHERE o.C_Order_ID = (SELECT i.C_Order_ID FROM C_Invoice i "
+					+ "WHERE i.C_Invoice_ID=" + C_Invoice_ID + ")";
 			if (DB.executeUpdate(update, get_TrxName()) > 0)
 				log.fine("C_CashLine_ID=" + C_CashLine_ID 
 					+ (reverse ? " UnLinked from" : " Linked to")
