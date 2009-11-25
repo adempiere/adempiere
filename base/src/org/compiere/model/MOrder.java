@@ -1230,7 +1230,13 @@ public class MOrder extends X_C_Order implements DocAction
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PREPAY_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
 				// ignore -- don't validate Prepay Orders depending on sysconfig parameter
 			} else {
-				MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
+				MBPartner bp = null;
+				if (getC_BPartner_ID() != getBill_BPartner_ID()) {
+					bp = new MBPartner (getCtx(), getBill_BPartner_ID(), get_TrxName());
+				} else {
+					bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
+				}
+
 				if (MBPartner.SOCREDITSTATUS_CreditStop.equals(bp.getSOCreditStatus()))
 				{
 					m_processMsg = "@BPartnerCreditStop@ - @TotalOpenBalance@=" 
