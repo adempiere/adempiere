@@ -67,7 +67,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1797443523668842806L;
+	private static final long serialVersionUID = 2961293943433626554L;
 	private final static int PAGE_SIZE = 100;
 	
     public static InfoPanel create (int WindowNo,
@@ -355,7 +355,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             String orderBy)
 	{
         String sql =contentPanel.prepareTable(layout, from,
-                where.toString(),false,
+                where.toString(),p_multipleSelection,
                 getTableName(),false);
         p_layout = contentPanel.getLayout();
 		m_sqlMain = sql.toString();
@@ -490,7 +490,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     			List<Object> subList = line.subList(0, PAGE_SIZE);
     			model = new ListModelTable(subList);
 	            model.addTableModelListener(this);
-	            contentPanel.setData(model, columnHeader);
+	            contentPanel.setData(model, null);
 	            
 	            pageNo = 0;
         	}
@@ -504,7 +504,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         		}
 	            model = new ListModelTable(line);
 	            model.addTableModelListener(this);
-	            contentPanel.setData(model, columnHeader);	            
+	            contentPanel.setData(model, null);
         	}
         }
         int no = line.size();
@@ -609,6 +609,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		//	Multi Selection
 		if (p_multipleSelection)
 		{
+			m_results.addAll(getSelectedRowKeys());
 		}
 		else    //  singleSelection
 		{
@@ -634,6 +635,54 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		
 		return key;        
 	}   //  getSelectedRowKey
+	
+	/**
+     *  Get the keys of selected row/s based on layout defined in prepareTable
+     *  @return IDs if selection present
+     *  @author ashley
+     */
+    protected ArrayList<Integer> getSelectedRowKeys()
+    {
+        ArrayList<Integer> selectedDataList = new ArrayList<Integer>();
+        
+        if (contentPanel.getKeyColumnIndex() == -1)
+        {
+            return selectedDataList;
+        }
+        
+        if (p_multipleSelection)
+        {
+        	int[] rows = contentPanel.getSelectedIndices();
+            for (int row = 0; row < rows.length; row++)
+            {
+                Object data = contentPanel.getModel().getValueAt(rows[row], contentPanel.getKeyColumnIndex());
+                if (data instanceof IDColumn)
+                {
+                    IDColumn dataColumn = (IDColumn)data;
+                    selectedDataList.add(dataColumn.getRecord_ID());
+                }
+                else
+                {
+                    log.severe("For multiple selection, IDColumn should be key column for selection");
+                }
+            }
+        }
+        
+        if (selectedDataList.size() == 0)
+        {
+        	int row = contentPanel.getSelectedRow();
+    		if (row != -1 && contentPanel.getKeyColumnIndex() != -1)
+    		{
+    			Object data = contentPanel.getModel().getValueAt(row, contentPanel.getKeyColumnIndex());
+    			if (data instanceof IDColumn)
+    				selectedDataList.add(((IDColumn)data).getRecord_ID());
+    			if (data instanceof Integer)
+    				selectedDataList.add((Integer)data);
+    		}
+        }
+      
+        return selectedDataList;
+    }   //  getSelectedRowKeys
 
 	/**
 	 *	Get selected Keys
@@ -643,7 +692,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	{
 		if (!m_ok || m_results.size() == 0)
 			return null;
-		return m_results.toArray();
+		return m_results.toArray(new Integer[0]);
 	}	//	getSelectedKeys;
 
 	/**
@@ -912,7 +961,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             		List<Object> subList = line.subList(start, end);
         			model = new ListModelTable(subList);
     	            model.addTableModelListener(this);
-    	            contentPanel.setData(model, getColumnHeader(p_layout));
+    	            contentPanel.setData(model, null);
     	            
     	            //workaround for scrollbar position problem
     	            contentPanel.renderAll();
@@ -993,14 +1042,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 
         //  End Worker
         saveSelection();
-        if (contentPanel != null)
-        {
-            Object data = getSelectedKey();
-            ValueChangeEvent valuechange = new ValueChangeEvent
-            (this, p_keyColumn , data, data);
-        
-            fireValueChange(valuechange);
-        }        
         this.detach();
     }   //  dispose
         

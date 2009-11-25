@@ -56,11 +56,11 @@ import org.zkoss.zul.ListModel;
  * @author Sendy Yagambrum
  */
 public class WListbox extends Listbox implements IMiniTable, TableValueChangeListener, WTableModelListener
-{
+{	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -9012847495178031267L;
+	private static final long serialVersionUID = 8717707799347994189L;
 
 	/**	Logger. */
 	private static CLogger logger = CLogger.getCLogger(MiniTable.class);
@@ -103,16 +103,22 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 */
 	public void setData(ListModelTable model, List< ? extends String> columnNames)
 	{
-	    //	 instantiate our custom row renderer
-	    WListItemRenderer rowRenderer = new WListItemRenderer(columnNames);
+		WListItemRenderer rowRenderer = null;
+		if (columnNames != null && columnNames.size() > 0)
+		{
+	    	//	 instantiate our custom row renderer
+		    rowRenderer = new WListItemRenderer(columnNames);
 
-	    // add listener for listening to component changes
-	    rowRenderer.addTableValueChangeListener(this);
-
+	    	// add listener for listening to component changes
+	    	rowRenderer.addTableValueChangeListener(this);
+		}
 	    // assign the model and renderer
 	    this.setModel(model);
-	    getModel().setNoColumns(columnNames.size());
-	    this.setItemRenderer(rowRenderer);
+	    if (rowRenderer != null)
+	    {
+	    	getModel().setNoColumns(columnNames.size());
+	    	this.setItemRenderer(rowRenderer);
+	    }
 
 	    // re-render
 	    this.repaint();
@@ -1037,6 +1043,10 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 	public int getColumnCount() {
 		return getModel() != null ? getModel().getNoColumns() : 0;
+	}
+	
+	public int getKeyColumnIndex() {
+		return m_keyColumnIndex;
 	}
 
 }

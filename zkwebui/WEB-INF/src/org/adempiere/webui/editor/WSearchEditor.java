@@ -402,12 +402,17 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 	{
 		log.fine("Value=" + value);
 
-		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), value, value);
+		ValueChangeEvent evt = new ValueChangeEvent(this, this.getColumnName(), getValue(), value);
 		// -> ADTabpanel - valuechange
 		fireValueChange(evt);
 		
 		//  is the value updated ?
 		boolean updated = false;
+		if (value instanceof Object[] && ((Object[])value).length > 0)
+		{
+			value = ((Object[])value)[0];
+		}
+		
 		if (value == null && getValue() == null)
 			updated = true;
 		else if (value != null && value.equals(getValue()))
@@ -470,7 +475,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		 *  - Window closed                 -> ignore       => result == null && !cancalled
 		 */
 
-		Object result = null;			
+		Object result[] = null;			
 		boolean cancelled = false;	
 
 		String col = lookup.getColumnName();		//	fully qualified name
@@ -501,7 +506,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 
 			//	Show Info
 			InfoProductPanel ip = new InfoProductPanel (lookup.getWindowNo(),
-					M_Warehouse_ID, M_PriceList_ID, false,queryValue, whereClause);
+					M_Warehouse_ID, M_PriceList_ID, true, queryValue, whereClause);
 
 			ip.setVisible(true);
 			ip.setTitle("Product Info");
@@ -513,7 +518,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			AEnv.showWindow(ip);
 			
 			cancelled = ip.isCancelled();
-			result = ip.getSelectedKey();
+			result = ip.getSelectedKeys();
 		}
 		else if (col.equals("C_BPartner_ID"))
 		{
@@ -538,7 +543,7 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			AEnv.showWindow(ip);
 
 			cancelled = ip.isCancelled();
-			result = ip.getSelectedKey();
+			result = ip.getSelectedKeys();
 		}
 		else	//	General Info
 		{
@@ -558,16 +563,19 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 			AEnv.showWindow(ig);
 
 			cancelled = ig.isCancelled();
-			result = ig.getSelectedKey();
+			result = ig.getSelectedKeys();
 
 		}
 
 		infoPanel = null;
 		//  Result
-		if (result != null)
+		if (result != null && result.length > 0)
 		{
 			//ensure data binding happen
-			actionCombo (result);	//	data binding
+			if (result.length > 1)
+				actionCombo (result);
+			else
+				actionCombo (result[0]);
 		}
 		else if (cancelled)
 		{

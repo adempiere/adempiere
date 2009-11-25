@@ -269,7 +269,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 			{
 				listcell.setValue(Boolean.valueOf(field.toString()));
 
-				if (table != null)
+				if (table != null && columnIndex == 0)
 					table.setCheckmark(false);
 				Checkbox checkbox = new Checkbox();
 				checkbox.setChecked(Boolean.valueOf(field.toString()));
@@ -449,38 +449,46 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
         String headerText = headerValue.toString();
         if (m_headers.size() <= headerIndex || m_headers.get(headerIndex) == null)
         {
-            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
-            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
-
-            header = new ListHeader(headerText);
-
-            header.setSort("auto");
-            header.setSortAscending(ascComparator);
-            header.setSortDescending(dscComparator);
-
-            int width = headerText.trim().length() * 9;
-            if (width > 300)
-            	width = 300;
-            else if (classType != null)
-            {
-            	if (classType.equals(String.class))
-            	{
-            		if (width > 0 && width < 180)
-            			width = 180;
-            	}
-            	else if (classType.equals(IDColumn.class))
-            	{
-            		header.setSort("none");
-            		if (width == 0)
-            			width = 30;
-            	}
-            	else if (width > 0 && width < 100)
-            		width = 100;
-            }
-            else if (width > 0 && width < 100)
-            	width = 100;
-
-            header.setWidth(width + "px");
+        	if (classType != null && classType.isAssignableFrom(IDColumn.class))
+        	{
+        		header = new ListHeader("");
+        		header.setWidth("20px");
+        	}
+        	else
+        	{
+	            Comparator<Object> ascComparator =  getColumnComparator(true, headerIndex);
+	            Comparator<Object> dscComparator =  getColumnComparator(false, headerIndex);
+	
+	            header = new ListHeader(headerText);
+	
+	            header.setSort("auto");
+	            header.setSortAscending(ascComparator);
+	            header.setSortDescending(dscComparator);
+	
+	            int width = headerText.trim().length() * 9;
+	            if (width > 300)
+	            	width = 300;
+	            else if (classType != null)
+	            {
+	            	if (classType.equals(String.class))
+	            	{
+	            		if (width > 0 && width < 180)
+	            			width = 180;
+	            	}
+	            	else if (classType.equals(IDColumn.class))
+	            	{
+	            		header.setSort("none");
+	            		if (width == 0)
+	            			width = 30;
+	            	}
+		            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
+	            		width = 100;
+	            }
+	            else if (width > 0 && width < 100)
+	            	width = 100;
+	
+	            header.setWidth(width + "px");
+        	}
             m_headers.add(header);
         }
         else
@@ -738,8 +746,16 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	    }
 
 	    m_listeners.add(listener);
+	}
 
-	    return;
+	public void removeTableValueChangeListener(TableValueChangeListener listener)
+	{
+		if (listener == null)
+	    {
+	    	return;
+		}
+
+	    m_listeners.remove(listener);
 	}
 
 	/**

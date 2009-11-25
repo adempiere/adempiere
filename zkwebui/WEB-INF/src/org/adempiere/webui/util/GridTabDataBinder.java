@@ -12,6 +12,9 @@
  *****************************************************************************/
 package org.adempiere.webui.util;
 
+import java.util.Properties;
+
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
@@ -19,6 +22,8 @@ import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Trx;
 
 /**
  * Transfer data from editor to GridTab
@@ -90,8 +95,33 @@ public class GridTabDataBinder implements ValueChangeListener {
         	mTable.setValueAt (e.getNewValue(), row, col);
         else
         {
-        //  mTable.setValueAt (e.getNewValue(), row, col, true);
-           	mTable.setValueAt (e.getNewValue(), row, col);  //  -> dataStatusChanged -> dynamicDisplay
+        	
+        	Object newValue = e.getNewValue();
+			Integer newValues[] = null;
+			
+			if (newValue instanceof Integer[])
+			{
+				newValues = ((Integer[])newValue);
+				newValue = newValues[0];
+				
+				if (newValues.length > 1)
+				{
+					Integer valuesCopy[] = new Integer[newValues.length - 1];
+					System.arraycopy(newValues, 1, valuesCopy, 0, valuesCopy.length);
+					newValues = valuesCopy;
+				}
+				else
+				{
+					newValues = null;
+				}
+			}
+			else if (newValue instanceof Object[])
+			{
+				logger.severe("Multiple values can only be processed for IDs (Integer)");
+				throw new IllegalArgumentException("Multiple Selection values not available for this field. " + e.getPropertyName());
+			}
+			
+           	mTable.setValueAt (newValue, row, col);
             //  Force Callout
             if ( e.getPropertyName().equals("S_ResourceAssignment_ID") )
             {
@@ -101,7 +131,86 @@ public class GridTabDataBinder implements ValueChangeListener {
                     gridTab.processFieldChange(mField);     //  Dependencies & Callout
                 }
             }
+            
+			if (newValues != null && newValues.length > 0)
+			{
+				// Save data, since record need to be used for generating clones.
+				if (!gridTab.dataSave(false))
+				{
+					throw new AdempiereException("SaveError");
+				}
+				
+				// Retrieve the current record ID
+				int recordId = gridTab.getKeyID(gridTab.getCurrentRow());
+				
+				Trx trx = Trx.get(Trx.createTrxName(), true);
+				trx.start();
+				try
+				{
+					saveMultipleRecords(Env.getCtx(), gridTab.getTableName(), e.getPropertyName(), recordId, newValues, trx.getTrxName());
+					trx.commit();
+					gridTab.dataRefreshAll();
+				}
+				catch(Exception ex)
+				{
+					trx.rollback();
+					logger.severe(ex.getMessage());
+					throw new AdempiereException("SaveError");
+				}
+				finally
+				{
+					trx.close();
+				}
+			}
         }
 
-    } // ValueChange	
+    } // ValueChange
+	
+	/**************************************************************************
+	 * Save Multiple records - Clone a record and assign new values to each 
+	 * clone for a specific column.
+	 * @param ctx context
+	 * @param tableName Table Name
+	 * @param columnName Column for which value need to be changed
+	 * @param recordId Record to clone
+	 * @param values Values to be assigned to clones for the specified column
+	 * @param trxName Transaction
+	 * @throws Exception If error is occured when loading the PO or saving clones
+	 * 
+	 * @author ashley
+	 */
+	protected void saveMultipleRecords(Properties ctx, String tableName, 
+			String columnName, int recordId, Integer[] values, 
+			String trxName) throws Exception
+	{
+		if (values == null)
+		{
+			return ;
+		}
+		
+		int oldRow = gridTab.getCurrentRow();
+		GridField lineField = gridTab.getField("Line");	
+		
+		for (int i = 0; i < values.length; i++)
+		{
+			if (!gridTab.dataNew(true))
+			{
+				throw new IllegalStateException("Could not clone tab");
+			}
+			
+			gridTab.setValue(columnName, values[i]);
+			
+			if (lineField != null)
+			{
+				gridTab.setValue(lineField, 0);
+			}
+			
+			if (!gridTab.dataSave(false))
+			{
+				throw new IllegalStateException("Could not update tab");
+			}
+			
+			gridTab.setCurrentRow(oldRow);
+		}
+	}
 }

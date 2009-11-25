@@ -94,10 +94,10 @@ import org.zkoss.zkex.zul.South;
  */
 public class InfoProductPanel extends InfoPanel implements EventListener
 {
-    /**
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8334769481995098193L;
+	private static final long serialVersionUID = 73880400775610395L;
 	private Label lblValue = new Label();
 	private Textbox fieldValue = new Textbox();
 	private Label lblName = new Label();
@@ -451,19 +451,20 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		contentPanel.addActionListener(new EventListener() {
 			public void onEvent(Event event) throws Exception {
 				int row = contentPanel.getSelectedRow();
+				if (row >= 0) {
+					int M_Warehouse_ID = 0;
+					ListItem listitem = pickWarehouse.getSelectedItem();
+					if (listitem != null)
+						M_Warehouse_ID = (Integer)listitem.getValue();
 
-				int M_Warehouse_ID = 0;
-				ListItem listitem = pickWarehouse.getSelectedItem();
-				if (listitem != null)
-					M_Warehouse_ID = (Integer)listitem.getValue();
+					int M_PriceList_Version_ID = 0;
+					listitem = pickPriceList.getSelectedItem();
+					if (listitem != null)
+						M_PriceList_Version_ID = (Integer)listitem.getValue();
 
-				int M_PriceList_Version_ID = 0;
-				listitem = pickPriceList.getSelectedItem();
-				if (listitem != null)
-					M_PriceList_Version_ID = (Integer)listitem.getValue();
-
-        		refresh(contentPanel.getValueAt(row,2), M_Warehouse_ID, M_PriceList_Version_ID);
-        		borderlayout.getSouth().setOpen(true);
+        			refresh(contentPanel.getValueAt(row,2), M_Warehouse_ID, M_PriceList_Version_ID);
+        			borderlayout.getSouth().setOpen(true);
+				}
 			}
 		});
 	}
