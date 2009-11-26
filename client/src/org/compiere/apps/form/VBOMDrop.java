@@ -42,7 +42,6 @@ import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
-import org.compiere.model.MProductBOM;
 import org.compiere.model.MProject;
 import org.compiere.model.MProjectLine;
 import org.compiere.model.MRole;
@@ -56,6 +55,8 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.eevolution.model.MPPProductBOM;
+import org.eevolution.model.MPPProductBOMLine;
 
 /**
  *	Drop BOM
@@ -328,26 +329,27 @@ public class VBOMDrop extends CPanel
 	 */
 	private void addBOMLines (MProduct product, BigDecimal qty)
 	{
-		MProductBOM[] bomLines = MProductBOM.getBOMLines(product);
+		MPPProductBOM bom = MPPProductBOM.getDefault(product, null);
+		MPPProductBOMLine[] bomLines = bom.getLines(true);
 		for (int i = 0; i < bomLines.length; i++)
 			addBOMLine (bomLines[i], qty);
 		log.fine("#" + bomLines.length);
-	}	//	addBOMLines
-
+	}
+	
 	/**
 	 * 	Add BOM Line to this.
 	 * 	Calls addBOMLines if added product is a BOM
 	 * 	@param line BOM Line
 	 * 	@param qty quantity
 	 */
-	private void addBOMLine (MProductBOM line, BigDecimal qty)
+	private void addBOMLine (MPPProductBOMLine line, BigDecimal qty)
 	{
 		log.fine(line.toString());
-		String bomType = line.getBOMType();
+		String bomType = line.getComponentType();
 		if (bomType == null)
-			bomType = MProductBOM.BOMTYPE_StandardPart;
+			bomType = MPPProductBOMLine.COMPONENTTYPE_Component;
 		//
-		BigDecimal lineQty = line.getBOMQty().multiply(qty);
+		BigDecimal lineQty = line.getQty();
 		MProduct product = line.getProduct();
 		if (product == null)
 			return;
@@ -357,6 +359,7 @@ public class VBOMDrop extends CPanel
 			addDisplay (line.getM_Product_ID(),
 				product.getM_Product_ID(), bomType, product.getName(), lineQty);
 	}	//	addBOMLine
+
 
 	/**
 	 * 	Add Line to Display
@@ -372,7 +375,7 @@ public class VBOMDrop extends CPanel
 		log.fine("M_Product_ID=" + M_Product_ID + ",Type=" + bomType + ",Name=" + name + ",Qty=" + lineQty);
 		//
 		boolean selected = true;
-		if (MProductBOM.BOMTYPE_StandardPart.equals(bomType))
+		if (MPPProductBOMLine.COMPONENTTYPE_Component.equals(bomType))
 		{
 			String title = "";
 			JCheckBox cb = new JCheckBox(title);
@@ -382,7 +385,7 @@ public class VBOMDrop extends CPanel
 			m_selectionList.add(cb);
 			this.add(cb, new ALayoutConstraint(m_bomLine++, 0));
 		}
-		else if (MProductBOM.BOMTYPE_OptionalPart.equals(bomType))
+		else if (MPPProductBOMLine.COMPONENTTYPE_Option.equals(bomType))
 		{
 			String title = Msg.getMsg(Env.getCtx(), "Optional");
 			JCheckBox cb = new JCheckBox(title);
@@ -392,9 +395,9 @@ public class VBOMDrop extends CPanel
 			m_selectionList.add(cb);
 			this.add(cb, new ALayoutConstraint(m_bomLine++, 0));
 		}
-		else	//	Alternative
+		else if (MPPProductBOMLine.COMPONENTTYPE_Variant.equals(bomType))
 		{
-			String title = Msg.getMsg(Env.getCtx(), "Alternative") + " " + bomType;
+			String title = Msg.getMsg(Env.getCtx(), "Variant") + " " + bomType;
 			JRadioButton b = new JRadioButton(title);
 			String groupName = String.valueOf(parentM_Product_ID) + "_" + bomType;
 			ButtonGroup group = (ButtonGroup)m_buttonGroups.get(groupName);
