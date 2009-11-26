@@ -219,15 +219,23 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	}
 	
 	/**
+	 * @param fallback use QtyBOM/QtyPercentage if CostAllocationPerc is zero 
 	 * @return co-product cost allocation percent (i.e. -1/qty)
 	 */
-	public BigDecimal getCostAllocationPerc()
+	public BigDecimal getCostAllocationPerc(boolean fallback)
 	{
-		BigDecimal qty = getQty(false).negate();
-		BigDecimal allocationPercent = Env.ZERO;
-		if (qty.signum() != 0)
+		BigDecimal allocationPercent = super.getCostAllocationPerc();
+		if (allocationPercent.signum() != 0)
+			return allocationPercent;
+		//
+		// Fallback and try to calculate it from Qty
+		if (fallback)
 		{
-			allocationPercent = Env.ONE.divide(qty, 4, RoundingMode.HALF_UP);
+			BigDecimal qty = getQty(false).negate();
+			if (qty.signum() != 0)
+			{
+				allocationPercent = Env.ONE.divide(qty, 4, RoundingMode.HALF_UP);
+			}
 		}
 		return allocationPercent;
 	}

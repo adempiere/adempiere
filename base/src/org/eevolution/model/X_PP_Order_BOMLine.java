@@ -34,7 +34,7 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091125L;
 
     /** Standard Constructor */
     public X_PP_Order_BOMLine (Properties ctx, int PP_Order_BOMLine_ID, String trxName)
@@ -157,6 +157,34 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return (String)get_Value(COLUMNNAME_BackflushGroup);
 	}
 
+	public I_C_UOM getC_UOM() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** ComponentType AD_Reference_ID=53225 */
 	public static final int COMPONENTTYPE_AD_Reference_ID=53225;
 	/** By-Product = BY */
@@ -195,32 +223,24 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return (String)get_Value(COLUMNNAME_ComponentType);
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException
-    {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
+	/** Set Cost Allocation Percent.
+		@param CostAllocationPerc 
+		Cost allocation percent in case of a co-product.
 	  */
-	public void setC_UOM_ID (int C_UOM_ID)
+	public void setCostAllocationPerc (BigDecimal CostAllocationPerc)
 	{
-		if (C_UOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+		set_Value (COLUMNNAME_CostAllocationPerc, CostAllocationPerc);
 	}
 
-	/** Get UOM.
-		@return Unit of Measure
+	/** Get Cost Allocation Percent.
+		@return Cost allocation percent in case of a co-product.
 	  */
-	public int getC_UOM_ID () 
+	public BigDecimal getCostAllocationPerc () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAllocationPerc);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Date Delivered.

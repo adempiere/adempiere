@@ -104,6 +104,21 @@ public interface I_PP_Order_BOMLine
 	  */
 	public String getBackflushGroup();
 
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws RuntimeException;
+
     /** Column name ComponentType */
     public static final String COLUMNNAME_ComponentType = "ComponentType";
 
@@ -116,6 +131,19 @@ public interface I_PP_Order_BOMLine
 	  * Component Type for a Bill of Material or Formula
 	  */
 	public String getComponentType();
+
+    /** Column name CostAllocationPerc */
+    public static final String COLUMNNAME_CostAllocationPerc = "CostAllocationPerc";
+
+	/** Set Cost Allocation Percent.
+	  * Cost allocation percent in case of a co-product.
+	  */
+	public void setCostAllocationPerc (BigDecimal CostAllocationPerc);
+
+	/** Get Cost Allocation Percent.
+	  * Cost allocation percent in case of a co-product.
+	  */
+	public BigDecimal getCostAllocationPerc();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -132,21 +160,6 @@ public interface I_PP_Order_BOMLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateDelivered */
     public static final String COLUMNNAME_DateDelivered = "DateDelivered";
