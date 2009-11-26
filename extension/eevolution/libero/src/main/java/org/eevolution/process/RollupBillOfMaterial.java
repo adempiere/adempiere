@@ -175,7 +175,7 @@ public class RollupBillOfMaterial extends SvrProcess
 			{
 				continue;
 			}
-			final BigDecimal costPrice = baseCost.getCurrentCostPriceLL().multiply(bomline.getCostAllocationPerc());
+			final BigDecimal costPrice = baseCost.getCurrentCostPriceLL().multiply(bomline.getCostAllocationPerc(true));
 			//
 			// Get/Create Cost
 			MCost cost = MCost.get(baseCost.getCtx(), baseCost.getAD_Client_ID(), baseCost.getAD_Org_ID(),
