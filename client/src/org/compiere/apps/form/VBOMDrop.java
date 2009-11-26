@@ -357,7 +357,7 @@ public class VBOMDrop extends CPanel
 			addBOMLines (product, lineQty);		//	recursive
 		else
 			addDisplay (line.getM_Product_ID(),
-				product.getM_Product_ID(), bomType, product.getName(), lineQty);
+				product.getM_Product_ID(), bomType, product.getName(), line.getFeature(), lineQty);
 	}	//	addBOMLine
 
 
@@ -370,9 +370,9 @@ public class VBOMDrop extends CPanel
 	 *	@param lineQty qty
 	 */
 	private void addDisplay (int parentM_Product_ID,
-		int M_Product_ID, String bomType, String name, BigDecimal lineQty)
+		int M_Product_ID, String bomType, String name, String feature , BigDecimal lineQty)
 	{
-		log.fine("M_Product_ID=" + M_Product_ID + ",Type=" + bomType + ",Name=" + name + ",Qty=" + lineQty);
+		log.fine("M_Product_ID=" + M_Product_ID + ",Type=" + bomType + ",Name=" + name + ",feature=" + feature + ",Qty=" + lineQty);
 		//
 		boolean selected = true;
 		if (MPPProductBOMLine.COMPONENTTYPE_Component.equals(bomType))
@@ -387,8 +387,8 @@ public class VBOMDrop extends CPanel
 		}
 		else if (MPPProductBOMLine.COMPONENTTYPE_Option.equals(bomType))
 		{
-			String title = Msg.getMsg(Env.getCtx(), "Optional");
-			JCheckBox cb = new JCheckBox(title);
+			//String title = Msg.getMsg(Env.getCtx(), "Optional");
+			JCheckBox cb = new JCheckBox(feature);
 			cb.setSelected(false);
 			selected = false;
 			cb.addActionListener(this);
@@ -397,9 +397,9 @@ public class VBOMDrop extends CPanel
 		}
 		else if (MPPProductBOMLine.COMPONENTTYPE_Variant.equals(bomType))
 		{
-			String title = Msg.getMsg(Env.getCtx(), "Variant") + " " + bomType;
-			JRadioButton b = new JRadioButton(title);
-			String groupName = String.valueOf(parentM_Product_ID) + "_" + bomType;
+			//String title = Msg.getMsg(Env.getCtx(), "Variant") + " " + bomType;
+			JRadioButton b = new JRadioButton(feature);
+			String groupName = feature + "_" + String.valueOf(parentM_Product_ID) + "_" + bomType;
 			ButtonGroup group = (ButtonGroup)m_buttonGroups.get(groupName);
 			if (group == null)
 			{

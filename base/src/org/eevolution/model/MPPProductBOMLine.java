@@ -52,7 +52,8 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 	 * 
 	 */
 	private static final long serialVersionUID = -6729103151164195906L;
-
+	MPPProductBOM m_bom = null;
+	
 	/**
 	 *  Default Constructor
 	 *  @param ctx context
@@ -96,6 +97,24 @@ public class MPPProductBOMLine extends X_PP_Product_BOMLine
 		return new ProductLowLevelCalculator(getCtx(), get_TrxName()).getLowLevel(getM_Product_ID());
 	}
 
+	/**
+	 * get Parent BOM
+	 * @return
+	 */
+	public MPPProductBOM getParent()
+	{
+		if(m_bom == null)
+		{	
+			m_bom = new MPPProductBOM (getCtx(), this.getPP_Product_BOM_ID(), get_TrxName());
+		}
+		return m_bom;
+	}
+	
+	public MProduct getProduct()
+	{
+		return MProduct.get(getCtx(), getM_Product_ID());
+	}
+	
 	/**
 	 * Calculate Low Level of a Product
 	 * @param ID Product
@@ -388,4 +407,6 @@ class ProductLowLevelCalculator
 		tableproduct.put(M_Product_ID, PP_Product_BOM_ID);
 		return false;
 	}
+	
+	
 }
