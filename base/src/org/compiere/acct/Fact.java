@@ -735,6 +735,32 @@ public final class Fact
 				factLine.setPostingType(m_postingType);
 				if (dl.isOverwriteOrg())	//	set Org explicitly
 					factLine.setAD_Org_ID(dl.getOrg_ID());
+				// Silvano - freepath - F3P - Bug#2904994 Fact distribtution only overwriting Org
+				if(dl.isOverwriteAcct())
+					factLine.setAccount_ID(dl.getAccount_ID());
+				if(dl.isOverwriteActivity())
+					factLine.setC_Activity_ID(dl.getC_Activity_ID());
+				if(dl.isOverwriteBPartner())
+					factLine.setC_BPartner_ID(dl.getC_BPartner_ID());
+				if(dl.isOverwriteCampaign())
+					factLine.setC_Campaign_ID(dl.getC_Campaign_ID());
+				if(dl.isOverwriteLocFrom())
+					factLine.setC_LocFrom_ID(dl.getC_LocFrom_ID());
+				if(dl.isOverwriteLocTo())
+					factLine.setC_LocTo_ID(dl.getC_LocTo_ID());
+				if(dl.isOverwriteOrgTrx())
+					factLine.setAD_OrgTrx_ID(dl.getAD_OrgTrx_ID());
+				if(dl.isOverwriteProduct())
+					factLine.setM_Product_ID(dl.getM_Product_ID());
+				if(dl.isOverwriteProject())
+					factLine.setC_Project_ID(dl.getC_Project_ID());
+				if(dl.isOverwriteSalesRegion())
+					factLine.setC_SalesRegion_ID(dl.getC_SalesRegion_ID());
+				if(dl.isOverwriteUser1())				
+					factLine.setUser1_ID(dl.getUser1_ID());
+				if(dl.isOverwriteUser2())				
+					factLine.setUser2_ID(dl.getUser2_ID());					
+				// F3P end
 				//
 				if (dl.getAmt().signum() < 0)
 					factLine.setAmtSource(dLine.getC_Currency_ID(), null, dl.getAmt().abs()); 
