@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="WEB-INF/src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/zk.jar" sourcepath="WEB-INF/lib/zk-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/zcommon.jar" sourcepath="WEB-INF/lib/zcommon-sources.jar"/>
@@ -12,7 +11,11 @@
 	<classpathentry kind="src" path="/client"/>
 	<classpathentry kind="src" path="/JasperReports"/>
 	<classpathentry kind="src" path="/JasperReportsTools"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v5.5.27"/>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v5.5.27">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web;#system#"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/tools/lib/xercesImpl.jar"/>
@@ -28,5 +31,10 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/fckez.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-6-sun-1.6.0.16">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.java"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
