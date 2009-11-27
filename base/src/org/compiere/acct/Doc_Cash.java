@@ -244,9 +244,11 @@ public class Doc_Cash extends Doc
 			}
 		}	//  lines
 
-		//  Cash Asset
-		fact.createLine(null, getAccount(Doc.ACCTTYPE_CashAsset, as),
-			getC_Currency_ID(), assetAmt);
+		if (assetAmt.compareTo(Env.ZERO) != 0) {  // Carlos Ruiz - globalqss [BF 2904269]
+			//  Cash Asset
+			fact.createLine(null, getAccount(Doc.ACCTTYPE_CashAsset, as),
+				getC_Currency_ID(), assetAmt);
+		}
 
 		//
 		ArrayList<Fact> facts = new ArrayList<Fact>();

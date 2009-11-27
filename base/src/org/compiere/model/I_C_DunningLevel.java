@@ -223,6 +223,19 @@ public interface I_C_DunningLevel
 	  */
 	public BigDecimal getInterestPercent();
 
+    /** Column name InvoiceCollectionType */
+    public static final String COLUMNNAME_InvoiceCollectionType = "InvoiceCollectionType";
+
+	/** Set Collection Status.
+	  * Invoice Collection Status
+	  */
+	public void setInvoiceCollectionType (String InvoiceCollectionType);
+
+	/** Get Collection Status.
+	  * Invoice Collection Status
+	  */
+	public String getInvoiceCollectionType();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -287,6 +300,19 @@ public interface I_C_DunningLevel
 	  * Show/print all invoices which are not due (yet).
 	  */
 	public boolean isShowNotDue();
+
+    /** Column name IsStatement */
+    public static final String COLUMNNAME_IsStatement = "IsStatement";
+
+	/** Set Is Statement.
+	  * Dunning Level is a definition of a statement
+	  */
+	public void setIsStatement (boolean IsStatement);
+
+	/** Get Is Statement.
+	  * Dunning Level is a definition of a statement
+	  */
+	public boolean isStatement();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

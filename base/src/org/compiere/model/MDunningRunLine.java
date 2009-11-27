@@ -272,6 +272,7 @@ public class MDunningRunLine extends X_C_DunningRunLine
 	 *	@param newRecord new
 	 *	@return true
 	 */
+	@Override
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//	Set Amt
@@ -288,16 +289,23 @@ public class MDunningRunLine extends X_C_DunningRunLine
 				getC_CurrencyFrom_ID(), getC_CurrencyTo_ID(), getAD_Client_ID(), getAD_Org_ID()));
 		//	Total
 		setTotalAmt(getConvertedAmt().add(getFeeAmt()).add(getInterestAmt()));
-		// Reset Collection Status only if null
-		if (getInvoice()!=null && getInvoice().getInvoiceCollectionType ()==null)			
+		//	Set Collection Status
+		if (isProcessed() && getInvoice() != null)
 		{
-			if (m_invoice!=null)
-			{
-				m_invoice.setInvoiceCollectionType (X_C_Invoice.INVOICECOLLECTIONTYPE_Dunning);
-				m_invoice.save ();
+			I_C_DunningLevel level = getParent().getC_DunningLevel();
+			if (level != null) {
+				getInvoice().setC_DunningLevel_ID(level.getC_DunningLevel_ID());
+				if (level.getInvoiceCollectionType() != null) {
+					getInvoice().setInvoiceCollectionType (level.getInvoiceCollectionType());
+				} else {
+					if (! level.isStatement()) {
+						getInvoice().setInvoiceCollectionType (MInvoice.INVOICECOLLECTIONTYPE_Dunning);
+					}
+				}
+				getInvoice().saveEx();
 			}
 		}
-		//
+
 		return true;
 	}	//	beforeSave
 	

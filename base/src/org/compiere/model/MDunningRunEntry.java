@@ -42,7 +42,7 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2028055451030209868L;
+	private static final long serialVersionUID = -3838792682143065656L;
 
 	/** Logger								*/
 	private static CLogger		s_log = CLogger.getCLogger (MPayment.class);
@@ -188,8 +188,20 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 	 */
 	public MDunningRunLine[] getLines() 
 	{
+		return getLines(false); 
+	}	//	getLines
+
+	/**
+	 * 	Get Lines
+	 *  @param onlyInvoices only with invoices 
+	 *	@return Array of all lines for this Run
+	 */
+	public MDunningRunLine[] getLines (boolean onlyInvoices) 
+	{
 		ArrayList<MDunningRunLine> list = new ArrayList<MDunningRunLine>();
 		String sql = "SELECT * FROM C_DunningRunLine WHERE C_DunningRunEntry_ID=?";
+		if (onlyInvoices)
+			sql += " AND C_Invoice_ID IS NOT NULL";
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -221,7 +233,47 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 		MDunningRunLine[] retValue = new MDunningRunLine[list.size()];
 		list.toArray(retValue);
 		return retValue;
+	}	//	getLines
+
+	/**
+	 * 	Check whether has Invoices
+	 *	@return true if it has Invoices
+	 */
+	public boolean hasInvoices() 
+	{
+		boolean retValue = false;
+		String sql = "SELECT COUNT(*) FROM C_DunningRunLine WHERE C_DunningRunEntry_ID=? AND C_Invoice_ID IS NOT NULL";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt.setInt(1, get_ID ());
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next())
+			{
+				if (rs.getInt(1) > 0) 
+					retValue = true;
+			}
+			rs.close();
+			pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
 	}
+		return retValue;
+	}	//	hasInvoices
 
 	/**
 	 * Get Parent
@@ -245,7 +297,7 @@ public class MDunningRunEntry extends X_C_DunningRunEntry
 			for (int i=0;i<theseLines.length;i++) 
 			{
 				theseLines[i].setProcessed (true);
-				theseLines[i].save (get_TrxName());
+				theseLines[i].saveEx(get_TrxName());
 			}
 			if (level.isSetCreditStop () || level.isSetPaymentTerm ()) 
 			{

@@ -32,7 +32,7 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091123L;
 
     /** Standard Constructor */
     public X_C_DunningLevel (Properties ctx, int C_DunningLevel_ID, String trxName)
@@ -50,6 +50,8 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 			setIsSetPaymentTerm (false);
 			setIsShowAllDue (false);
 			setIsShowNotDue (false);
+			setIsStatement (false);
+// N
 			setName (null);
 			setPrintName (null);
         } */
@@ -332,6 +334,34 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 		return bd;
 	}
 
+	/** InvoiceCollectionType AD_Reference_ID=394 */
+	public static final int INVOICECOLLECTIONTYPE_AD_Reference_ID=394;
+	/** Dunning = D */
+	public static final String INVOICECOLLECTIONTYPE_Dunning = "D";
+	/** Collection Agency = C */
+	public static final String INVOICECOLLECTIONTYPE_CollectionAgency = "C";
+	/** Legal Procedure = L */
+	public static final String INVOICECOLLECTIONTYPE_LegalProcedure = "L";
+	/** Uncollectable = U */
+	public static final String INVOICECOLLECTIONTYPE_Uncollectable = "U";
+	/** Set Collection Status.
+		@param InvoiceCollectionType 
+		Invoice Collection Status
+	  */
+	public void setInvoiceCollectionType (String InvoiceCollectionType)
+	{
+
+		set_Value (COLUMNNAME_InvoiceCollectionType, InvoiceCollectionType);
+	}
+
+	/** Get Collection Status.
+		@return Invoice Collection Status
+	  */
+	public String getInvoiceCollectionType () 
+	{
+		return (String)get_Value(COLUMNNAME_InvoiceCollectionType);
+	}
+
 	/** Set Credit Stop.
 		@param IsSetCreditStop 
 		Set the business partner to credit stop
@@ -419,6 +449,30 @@ public class X_C_DunningLevel extends PO implements I_C_DunningLevel, I_Persiste
 	public boolean isShowNotDue () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsShowNotDue);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Statement.
+		@param IsStatement 
+		Dunning Level is a definition of a statement
+	  */
+	public void setIsStatement (boolean IsStatement)
+	{
+		set_Value (COLUMNNAME_IsStatement, Boolean.valueOf(IsStatement));
+	}
+
+	/** Get Is Statement.
+		@return Dunning Level is a definition of a statement
+	  */
+	public boolean isStatement () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsStatement);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

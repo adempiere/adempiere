@@ -31,7 +31,7 @@ public class MDunning extends X_C_Dunning
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 796291742140033745L;
+	private static final long serialVersionUID = -3844081441218291895L;
 
 	/**
 	 * 	Standard Constructor
@@ -55,4 +55,18 @@ public class MDunning extends X_C_Dunning
 		super(ctx, rs, trxName);
 	}	//	MDunning
 
+
+	/**
+     * 	String Representation
+     *	@return info
+     */
+    @Override
+	public String toString()
+    {
+	    StringBuffer sb = new StringBuffer("MDunning[").append(get_ID())
+	        .append("-").append(getName());
+	    sb.append("]");
+	    return sb.toString();
+    }	//	toString
+	
 }	//	MDunning

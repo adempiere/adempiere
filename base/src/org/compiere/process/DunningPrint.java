@@ -83,7 +83,7 @@ public class DunningPrint extends SvrProcess
 	}	//	prepare
 
 	/**
-	 * Pocess
+	 * Process
 	 * @return info
 	 * @throws Exception
 	 */

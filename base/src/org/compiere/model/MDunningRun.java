@@ -39,7 +39,7 @@ public class MDunningRun extends X_C_DunningRun
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8450276205229694644L;
+	private static final long serialVersionUID = 6858939271415643483L;
 
 	/**
 	 * 	Standard Constructor
@@ -88,6 +88,7 @@ public class MDunningRun extends X_C_DunningRun
 					MDunningLevel.Table_Name,
 					"C_Dunning_ID=? AND C_DunningLevel_ID=?",
 					get_TrxName())
+			.setOnlyActiveRecords(true)
 			.setParameters(new Object[]{getC_Dunning_ID(), getC_DunningLevel_ID()})
 			.setOrderBy("DaysAfterDue DESC, C_DunningLevel_ID")
 			.list();
@@ -98,6 +99,7 @@ public class MDunningRun extends X_C_DunningRun
 					MDunningLevel.Table_Name,
 					"C_Dunning_ID=?",
 					get_TrxName())
+			.setOnlyActiveRecords(true)
 			.setParameters(new Object[]{getC_Dunning_ID()})
 			.setOrderBy("DaysAfterDue DESC, C_DunningLevel_ID")
 			.list();
@@ -114,6 +116,17 @@ public class MDunningRun extends X_C_DunningRun
 	 */
 	public MDunningRunEntry[] getEntries (boolean requery)
 	{
+		return getEntries(requery, false);
+	}
+	
+	/**
+	 * 	Get Entries
+	 * 	@param requery requery requery
+	 *  @param onlyInvoices only invoices
+	 *	@return entries
+	 */
+	public MDunningRunEntry[] getEntries (boolean requery, boolean onlyInvoices)
+	{
 		if (m_entries != null && !requery)
 			return m_entries;
 		
@@ -126,14 +139,18 @@ public class MDunningRun extends X_C_DunningRun
 			pstmt.setInt (1, getC_DunningRun_ID());
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next ())
+			{
+				MDunningRunEntry thisEntry = new MDunningRunEntry(getCtx(), rs, get_TrxName());
+				if (!(onlyInvoices && thisEntry.hasInvoices()))
 				list.add (new MDunningRunEntry(getCtx(), rs, get_TrxName()));
+			}
 			rs.close ();
 			pstmt.close ();
 			pstmt = null;
 		}
 		catch (Exception e)
 		{
-			log.log(Level.SEVERE, "getEntries", e);
+			log.log(Level.SEVERE, sql, e);
 		}
 		try
 		{
@@ -158,9 +175,7 @@ public class MDunningRun extends X_C_DunningRun
 	public boolean deleteEntries(boolean force)
 	{
 		getEntries(true);
-		for (int i = 0; i < m_entries.length; i++)
-		{
-			MDunningRunEntry entry = m_entries[i];
+		for (MDunningRunEntry entry : m_entries) {
 			entry.delete(force);
 		}
 		boolean ok = getEntries(true).length == 0;
