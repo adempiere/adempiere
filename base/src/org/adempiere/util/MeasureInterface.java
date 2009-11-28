@@ -19,7 +19,7 @@ import java.math.BigDecimal;
 /**
  * 	Custom Measure Interface
  *	
- *  @author Jorg Janke
+ *  @author victor.perez@e-evolution.com, www.e-evolution.com
  */
 public interface MeasureInterface
 {
