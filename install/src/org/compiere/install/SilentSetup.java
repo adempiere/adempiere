@@ -19,7 +19,7 @@ public class SilentSetup {
 		if (adempiereHome == null || adempiereHome.length() == 0)
 			adempiereHome = System.getProperty("user.dir");
 		
-		boolean envLoaded = false;
+//		boolean envLoaded = false;
 		String fileName = adempiereHome + File.separator + ConfigurationData.ADEMPIERE_ENV_FILE;
 		File env = new File(fileName);
 		if (!env.exists())
@@ -69,10 +69,10 @@ public class SilentSetup {
 			CLogMgt.setLevel(args[0]);
 		else
 			CLogMgt.setLevel(Level.INFO);
-		//	File Loger at least FINE
+		//	File Logger at least FINE
 		if (fileHandler.getLevel().intValue() > Level.FINE.intValue())
 			fileHandler.setLevel(Level.FINE);
 		
 		new SilentSetup();
-	}	//	main
+	}
 }
