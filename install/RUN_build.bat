@@ -1,5 +1,4 @@
-@Title Build Adempiere Installer
-@Rem  $Header: /cvsroot/adempiere/install/RUN_build.bat,v 1.6 2005/09/13 04:27:12 jjanke Exp $
+@Title Build ADempiere Installer
 @Echo off
 
 @CALL ..\utils_dev\myDevEnv.bat
