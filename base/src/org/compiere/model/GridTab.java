@@ -82,6 +82,8 @@ import org.compiere.util.ValueNamePair;
  *  				https://sourceforge.net/tracker/?func=detail&aid=2873323&group_id=176962&atid=879332
  *  			<li>BF [ 2874109 ] Tab ORDER BY clause is not supporting context variables
  *  				https://sourceforge.net/tracker/?func=detail&aid=2874109&group_id=176962&atid=879332
+ *  			<li>BF [ 2905287 ] GridTab query is not build correctly
+ *  				https://sourceforge.net/tracker/?func=detail&aid=2905287&group_id=176962&atid=879332
  *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
@@ -663,7 +665,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			{
 				if (where.length() > 0 )
 					where.append(" AND ");
-				where.append(q);
+				where.append(" (").append(q).append(")");
 			}
 		}
 
