@@ -497,8 +497,9 @@ public class ReleaseInOutBound extends SvrProcess
 							description = oline.getDescription();
 						
 						description = description 
-									+ Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
-								    + " : "
+									+ " "
+									+ Msg.translate(oline.getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
+									+ " : "
 								    + order.getDocumentNo();
 						oline.setDescription(description);
 						oline.saveEx();
@@ -508,6 +509,7 @@ public class ReleaseInOutBound extends SvrProcess
 							boundDescription = boundline.getDescription();
 						
 						boundDescription = boundDescription 
+										 + " "
 										 + Msg.translate(getCtx(), MPPOrder.COLUMNNAME_PP_Order_ID) 
 										 + " : "
 										 + order.getDocumentNo();
