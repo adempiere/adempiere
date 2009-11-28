@@ -603,7 +603,7 @@ public class MMeasure extends X_PA_Measure
 						log.log(Level.SEVERE, retValue);
 						break;
 					}
-					if ( !  (rule.getEventType().equals(MRule.EVENTTYPE_ModelValidatorTableEvent) 
+					if ( !  (rule.getEventType().equals(MRule.EVENTTYPE_MeasureForPerformanceAnalysis) 
 						  && rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs))) {
 						retValue = "Script " + cmd
 							+ " must be of type JSR 223 and event measure"; 
