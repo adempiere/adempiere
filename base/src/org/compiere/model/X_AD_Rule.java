@@ -30,7 +30,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091106L;
+	private static final long serialVersionUID = 20091128L;
 
     /** Standard Constructor */
     public X_AD_Rule (Properties ctx, int AD_Rule_ID, String trxName)
@@ -55,7 +55,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -179,6 +179,8 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public static final String EVENTTYPE_ModelValidatorLoginEvent = "L";
 	/** Human Resource & Payroll = H */
 	public static final String EVENTTYPE_HumanResourcePayroll = "H";
+	/** Measure for Performance Analysis = M */
+	public static final String EVENTTYPE_MeasureForPerformanceAnalysis = "M";
 	/** Set Event Type.
 		@param EventType 
 		Type of Event

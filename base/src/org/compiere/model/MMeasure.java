@@ -22,14 +22,20 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import javax.script.ScriptEngine;
+
 import org.adempiere.apps.graph.GraphColumn;
+import org.adempiere.util.MeasureInterface;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
+
 
 /**
  * 	Performance Measure
@@ -39,6 +45,9 @@ import org.compiere.util.TimeUtil;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1887674 ] Deadlock when try to modify PA Goal's Measure Target
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * 			<li>FR [ 2905227 ] Calculate Measure based on the script to PA
+ * 			<li>https://sourceforge.net/tracker/?func=detail&aid=2905227&group_id=176962&atid=879335
  */
 public class MMeasure extends X_PA_Measure
 {
@@ -355,6 +364,8 @@ public class MMeasure extends X_PA_Measure
 				return updateRequests();
 			else if (MEASURETYPE_Project.equals(mt))
 				return updateProjects();
+			else if(MEASURETYPE_UserDefined.equals(mt))
+				return updateUserDefined();
 			//	Projects
 		}
 		catch (Exception e)
@@ -363,7 +374,7 @@ public class MMeasure extends X_PA_Measure
 		}
 		return false;
 	}	//	updateGoals
-	
+
 	/**
 	 * 	Update/save Manual Goals
 	 * 	@return true if updated
@@ -568,5 +579,88 @@ public class MMeasure extends X_PA_Measure
 		}
 		return true;
 	}	//	updateProjects
-
+	/**
+	 * 	Update/save update User Defined
+	 * 	@return true if updated
+	 */
+	private boolean updateUserDefined()
+	{
+		MGoal[] goals = MGoal.getMeasureGoals (getCtx(), getPA_Measure_ID());
+		for (MGoal goal:goals)
+		{
+			BigDecimal amt = Env.ZERO;
+			PO po = new MTable(getCtx(),get_Table_ID(),get_TrxName()).getPO(get_ID(), get_TrxName());
+			StringTokenizer st = new StringTokenizer(getCalculationClass(), ";,", false);
+			while (st.hasMoreTokens())      //  for each class
+			{
+				String cmd = st.nextToken().trim();	
+				String retValue = "";
+				if (cmd.toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
+					
+					MRule rule = MRule.get(getCtx(), cmd.substring(MRule.SCRIPT_PREFIX.length()));
+					if (rule == null) {
+						retValue = "Script " + cmd + " not found"; 
+						log.log(Level.SEVERE, retValue);
+						break;
+					}
+					if ( !  (rule.getEventType().equals(MRule.EVENTTYPE_ModelValidatorTableEvent) 
+						  && rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs))) {
+						retValue = "Script " + cmd
+							+ " must be of type JSR 223 and event measure"; 
+						log.log(Level.SEVERE, retValue);
+						break;
+					}
+					ScriptEngine engine = rule.getScriptEngine();
+					MRule.setContext(engine, po.getCtx(), 0);
+					engine.put(MRule.ARGUMENTS_PREFIX + "Ctx", po.getCtx());
+					engine.put(MRule.ARGUMENTS_PREFIX + "PO", po);
+					try 
+					{
+						Object value =  engine.eval(rule.getScript());
+						amt = (BigDecimal)value;
+					}
+					catch (Exception e)
+					{
+						log.log(Level.SEVERE, "", e);
+						retValue = 	"Script Invalid: " + e.toString();
+						return false;
+					}	
+				} 
+				else 
+				{
+					MeasureInterface custom = null;
+					try
+					{
+						Class<?> clazz = Class.forName(cmd);
+						custom = (MeasureInterface)clazz.newInstance();
+					}
+					catch (Exception e)
+					{
+						log.log(Level.SEVERE, "No custom measure class "
+								+ cmd + " - " + e.toString(), e);
+						return false;
+					}
+					
+					try
+					{
+						amt = custom.getValue();
+					}
+					catch (Exception e)
+					{
+						log.log(Level.SEVERE, custom.toString(), e);
+						return false;
+					}					
+				}			
+				
+				if (!Util.isEmpty(retValue))		//	interrupt on first error
+				{
+					log.severe (retValue);
+					return false;
+				}
+			}			
+			goal.setMeasureActual(amt);
+			goal.save(get_TrxName());
+		}
+		return true;
+	}	//	updateUserDefinedGoals
 }	//	MMeasure
