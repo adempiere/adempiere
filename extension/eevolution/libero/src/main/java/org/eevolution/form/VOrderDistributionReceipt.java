@@ -480,11 +480,9 @@ public class VOrderDistributionReceipt extends CPanel
 		}
 		
 		movement.completeIt();
-		movement.setDocAction(MMovement.ACTION_Complete);
-		movement.setDocStatus(MMovement.DOCACTION_Close);
-		movement.save();
-		
-		
+		movement.setDocAction(MMovement.DOCACTION_Close);
+		movement.setDocStatus(MMovement.ACTION_Complete);
+		movement.saveEx();
 		trx.commit();
 		generateMovements_complete(movement);
 		
