@@ -124,7 +124,10 @@ public class GenerateShipmentOutBound extends SvrProcess
 		while (shipments.hasMoreElements())
 		{	
 			MInOut inout = (MInOut) shipments.nextElement();
-			inout.completeIt();
+			inout.setDocAction(p_DocAction);
+			inout.processIt(p_DocAction);		
+			if (!inout.processIt(p_DocAction))
+				log.warning("Failed: " + inout);
 			inout.saveEx();
 		}			
 		return ""; //;"@DocumentNo@ " + bound.getDocumentNo();
