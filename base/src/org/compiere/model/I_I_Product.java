@@ -214,18 +214,18 @@ public interface I_I_Product
 	  */
 	public boolean isDiscontinued();
 
-    /** Column name DiscontinuedBy */
-    public static final String COLUMNNAME_DiscontinuedBy = "DiscontinuedBy";
+    /** Column name DiscontinuedAt */
+    public static final String COLUMNNAME_DiscontinuedAt = "DiscontinuedAt";
 
-	/** Set Discontinued by.
-	  * Discontinued By
+	/** Set Discontinued At.
+	  * Discontinued At indicates Date when product was discontinued
 	  */
-	public void setDiscontinuedBy (Timestamp DiscontinuedBy);
+	public void setDiscontinuedAt (Timestamp DiscontinuedAt);
 
-	/** Get Discontinued by.
-	  * Discontinued By
+	/** Get Discontinued At.
+	  * Discontinued At indicates Date when product was discontinued
 	  */
-	public Timestamp getDiscontinuedBy();
+	public Timestamp getDiscontinuedAt();
 
     /** Column name DocumentNote */
     public static final String COLUMNNAME_DocumentNote = "DocumentNote";
