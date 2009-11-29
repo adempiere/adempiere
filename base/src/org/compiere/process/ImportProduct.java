@@ -176,7 +176,7 @@ public class ImportProduct extends SvrProcess
 		//	Copy From Product if Import does not have value
 		String[] strFields = new String[] {"Value","Name","Description","DocumentNote","Help",
 			"UPC","SKU","Classification","ProductType",
-			"Discontinued","DiscontinuedBy","ImageURL","DescriptionURL"};
+			"Discontinued","DiscontinuedBy","DiscontinuedAt","ImageURL","DescriptionURL"};
 		for (int i = 0; i < strFields.length; i++)
 		{
 			sql = new StringBuffer ("UPDATE I_Product i "
@@ -207,7 +207,7 @@ public class ImportProduct extends SvrProcess
 		//	Copy From Product_PO if Import does not have value
 		String[] strFieldsPO = new String[] {"UPC",
 			"PriceEffective","VendorProductNo","VendorCategory","Manufacturer",
-			"Discontinued","DiscontinuedBy"};
+			"Discontinued","DiscontinuedBy", "DiscontinuedAt"};
 		for (int i = 0; i < strFieldsPO.length; i++)
 		{
 			sql = new StringBuffer ("UPDATE I_PRODUCT i "
@@ -449,14 +449,14 @@ public class ImportProduct extends SvrProcess
 				+ "IsCurrentVendor,C_UOM_ID,C_Currency_ID,UPC,"
 				+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
 				+ "VendorProductNo,VendorCategory,Manufacturer,"
-				+ "Discontinued,DiscontinuedBy,Order_Min,Order_Pack,"
+				+ "Discontinued,DiscontinuedBy, DiscontinuedAt, Order_Min,Order_Pack,"
 				+ "CostPerOrder,DeliveryTime_Promised) "
 				+ "SELECT ?,?, "
 				+ "AD_Client_ID,AD_Org_ID,'Y',SysDate,CreatedBy,SysDate,UpdatedBy,"
 				+ "'Y',C_UOM_ID,C_Currency_ID,UPC,"
 				+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
 				+ "VendorProductNo,VendorCategory,Manufacturer,"
-				+ "Discontinued,DiscontinuedBy,Order_Min,Order_Pack,"
+				+ "Discontinued,DiscontinuedBy, DiscontinuedAt, Order_Min,Order_Pack,"
 				+ "CostPerOrder,DeliveryTime_Promised "
 				+ "FROM I_Product "
 				+ "WHERE I_Product_ID=?", get_TrxName());
@@ -505,11 +505,11 @@ public class ImportProduct extends SvrProcess
 						+ "SET (Value,Name,Description,DocumentNote,Help,"
 						+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
 						+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
-						+ "Discontinued,DiscontinuedBy,Updated,UpdatedBy)= "
+						+ "Discontinued,DiscontinuedBy, DiscontinuedAt, Updated,UpdatedBy)= "
 						+ "(SELECT Value,Name,Description,DocumentNote,Help,"
 						+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
 						+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
-						+ "Discontinued,DiscontinuedBy,SysDate,UpdatedBy"
+						+ "Discontinued,DiscontinuedBy, DiscontinuedAt, SysDate,UpdatedBy"
 						+ " FROM I_Product WHERE I_Product_ID="+I_Product_ID+") "
 						+ "WHERE M_Product_ID="+M_Product_ID;
 					PreparedStatement pstmt_updateProduct = DB.prepareStatement
@@ -546,12 +546,12 @@ public class ImportProduct extends SvrProcess
 							+ "SET (IsCurrentVendor,C_UOM_ID,C_Currency_ID,UPC,"
 							+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
 							+ "VendorProductNo,VendorCategory,Manufacturer,"
-							+ "Discontinued,DiscontinuedBy,Order_Min,Order_Pack,"
+							+ "Discontinued,DiscontinuedBy, DiscontinuedAt, Order_Min,Order_Pack,"
 							+ "CostPerOrder,DeliveryTime_Promised,Updated,UpdatedBy)= "
 							+ "(SELECT CAST('Y' AS CHAR),C_UOM_ID,C_Currency_ID,UPC,"    //jz fix EDB unknown datatype error
 							+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
 							+ "VendorProductNo,VendorCategory,Manufacturer,"
-							+ "Discontinued,DiscontinuedBy,Order_Min,Order_Pack,"
+							+ "Discontinued,DiscontinuedBy, DiscontinuedAt, Order_Min,Order_Pack,"
 							+ "CostPerOrder,DeliveryTime_Promised,SysDate,UpdatedBy"
 							+ " FROM I_Product"
 							+ " WHERE I_Product_ID="+I_Product_ID+") "
