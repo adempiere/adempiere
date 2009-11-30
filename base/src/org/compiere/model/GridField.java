@@ -1296,6 +1296,8 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
 				m_value==null ? null : m_value.toString());
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+					m_value==null ? null : m_value.toString());
 		}
 		
 		//  Does not fire, if same value
