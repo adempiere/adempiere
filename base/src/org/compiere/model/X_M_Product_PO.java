@@ -247,21 +247,21 @@ public class X_M_Product_PO extends PO implements I_M_Product_PO, I_Persistent
 		return false;
 	}
 
-	/** Set Discontinued by.
-		@param DiscontinuedBy 
-		Discontinued By
+	/** Set Discontinued at.
+		@param DiscontinuedAt
+		Discontinued At
 	  */
-	public void setDiscontinuedBy (Timestamp DiscontinuedBy)
+	public void setDiscontinuedAt (Timestamp DiscontinuedAt)
 	{
-		set_Value (COLUMNNAME_DiscontinuedBy, DiscontinuedBy);
+		set_Value (COLUMNNAME_DiscontinuedAt, DiscontinuedAt);
 	}
 
-	/** Get Discontinued by.
-		@return Discontinued By
+	/** Get Discontinued at.
+		@return Discontinued At
 	  */
-	public Timestamp getDiscontinuedBy () 
+	public Timestamp getDiscontinuedAt () 
 	{
-		return (Timestamp)get_Value(COLUMNNAME_DiscontinuedBy);
+		return (Timestamp)get_Value(COLUMNNAME_DiscontinuedAt);
 	}
 
 	/** Set Current vendor.
