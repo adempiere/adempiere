@@ -31,7 +31,7 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091201L;
 
     /** Standard Constructor */
     public X_C_TaxBase (Properties ctx, int C_TaxBase_ID, String trxName)
@@ -81,6 +81,8 @@ public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent
 	public static final String BASE_Price = "P";
 	/** Quantity = Q */
 	public static final String BASE_Quantity = "Q";
+	/** Weight = W */
+	public static final String BASE_Weight = "W";
 	/** Set Base.
 		@param Base 
 		Calculation Base

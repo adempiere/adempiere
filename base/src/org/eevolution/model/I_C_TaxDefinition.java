@@ -67,12 +67,12 @@ public interface I_C_TaxDefinition
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
 	/** Set Organization Type.
-	  * Organization Type
+	  * Organization Type allows you to categorize your organizations
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID);
 
 	/** Get Organization Type.
-	  * Organization Type
+	  * Organization Type allows you to categorize your organizations
 	  */
 	public int getAD_OrgType_ID();
 

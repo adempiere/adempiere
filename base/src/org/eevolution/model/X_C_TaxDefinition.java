@@ -32,7 +32,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091201L;
 
     /** Standard Constructor */
     public X_C_TaxDefinition (Properties ctx, int C_TaxDefinition_ID, String trxName)
@@ -81,7 +81,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 
 	/** Set Organization Type.
 		@param AD_OrgType_ID 
-		Organization Type
+		Organization Type allows you to categorize your organizations
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID)
 	{
@@ -92,7 +92,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 	}
 
 	/** Get Organization Type.
-		@return Organization Type
+		@return Organization Type allows you to categorize your organizations
 	  */
 	public int getAD_OrgType_ID () 
 	{
