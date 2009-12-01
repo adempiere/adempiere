@@ -72,6 +72,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SecureEngine;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.au.out.AuFocus;
 import org.zkoss.zk.ui.Component;
@@ -1310,6 +1311,11 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 // globalqss - Carlos Ruiz - 20060711
                 // fix a bug with virtualColumn + isSelectionColumn not yielding results
                 GridField field = getTargetMField(ColumnName);
+                // add encryption here if the field is encrypted.
+                if (field.isEncryptedColumn()) {
+                	value = SecureEngine.encrypt(value);
+                }
+
                 boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
                 String ColumnSQL = field.getColumnSQL(false);
                 if (value.toString().indexOf('%') != -1)
@@ -1407,6 +1413,10 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             Object parsedValue = parseValue(field, value);
             if (parsedValue == null)
                 continue;
+            //encrypt the value if we are searching an encrypted column.
+            if (field.isEncryptedColumn()) {
+            	value = SecureEngine.encrypt(value);
+            }
             String infoDisplay = value.toString();
             if (field.isLookup())
                 infoDisplay = field.getLookup().getDisplay(value);
