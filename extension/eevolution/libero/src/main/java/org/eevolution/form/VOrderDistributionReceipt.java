@@ -460,11 +460,8 @@ public class VOrderDistributionReceipt extends CPanel
 		movement.setDeliveryViaRule(order.getDeliveryViaRule());
 		movement.setDocAction(MMovement.ACTION_Prepare);
 		movement.setDocStatus(MMovement.DOCSTATUS_Drafted);
-		
-		if (!movement.save())
-			 throw new AdempiereException("Can not save Inventory Move");
-		
-		
+		movement.saveEx();
+	
 		for (int i = 0 ; i < selection.size() ; i++ )
 		{
 			int DD_OrderLine_ID = selection.get(i);
@@ -479,9 +476,8 @@ public class VOrderDistributionReceipt extends CPanel
 			line.saveEx();
 		}
 		
-		movement.completeIt();
 		movement.setDocAction(MMovement.DOCACTION_Close);
-		movement.setDocStatus(MMovement.ACTION_Complete);
+		movement.setDocStatus(movement.completeIt());
 		movement.saveEx();
 		trx.commit();
 		generateMovements_complete(movement);
