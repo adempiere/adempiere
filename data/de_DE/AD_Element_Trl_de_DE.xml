@@ -2008,7 +2008,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="Invoiced">in Rechnung gestellt</value>
   <value column="PrintName" original="Invoiced">Berechnete Menge</value>
   <value column="Description" original="Is this invoiced?">Zeigt an, ob der Betrag berechnet wird.</value>
-  <value column="Help" original="If selected, invoices are created">Zeigt an, ob der Betrag berechnet wird.</value>
+  <value column="Help" original="If selected, invoices are created">Wenn selektiert, werden Rechnungen erzeugt.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -2218,7 +2218,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="System Language">System-Sprache</value>
   <value column="PrintName" original="System Language">System-Sprache</value>
   <value column="Description" original="The screens, etc. are maintained in this Language">Die Oberfläche wird in dieser Sprache verwaltet</value>
-  <value column="Help" original="Select, if you want to have translated screens available in this language.  Please notify your system administrator to run the language maintenance scripts to enable the use of this language.  If the language is not supplied, you can translate the terms yourself. ">Wählen Sie, ob Sie die Oberfläche in diese Sprache übersetzt verwenden möchten. Beachten Sie, dass Ihr Systemadministrator die Sprachverwaltungsfunktionen nutzen muss, um die Verwendung dieser Sprache zu ermöglichen. Wenn es kein Sprachpaket für diese Sprache gibt, können Sie die Einträge auch selbst übersetzen.</value>
+  <value column="Help" original="Select, if you want to have translated screens available in this language.  Please notify your system administrator to run the language maintenance scripts to enable the use of this language.  If the language is not supplied, you can translate the terms yourself.">Wählen Sie, ob Sie die Oberfläche in diese Sprache übersetzt verwenden möchten. Beachten Sie, dass Ihr Systemadministrator die Sprachverwaltungsfunktionen nutzen muss, um die Verwendung dieser Sprache zu ermöglichen. Wenn es kein Sprachpaket für diese Sprache gibt, können Sie die Einträge auch selbst übersetzen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -2829,7 +2829,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
  <row id="520" trl="Y">
   <value column="Name" original="List Price">Listenpreis</value>
   <value column="PrintName" original="List Price">Listenpreis</value>
-  <value column="Description" original="List Price">"Der offizielle Listenpreis in der Dokumentenwährung</value>
+  <value column="Description" original="List Price">Der offizielle Listenpreis in der Dokumentenwährung. Er dient als Grundlage für die Rabattierung.</value>
   <value column="Help" original="The List Price is the official List Price in the document currency.">"Listenpreis" ist der offizielle Listenpreis in der Dokumentenwährung.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -2889,8 +2889,8 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
  <row id="530" trl="Y">
   <value column="Name" original="On Hand Quantity">Verfügbare Menge</value>
   <value column="PrintName" original="On Hand Qty">Verfügbare Menge</value>
-  <value column="Description" original="On Hand Quantity">Verfügbare Menge</value>
-  <value column="Help" original="The On Hand Quantity indicates the quantity of a product that is on hand in a warehouse.">"Verfügbare Menge" gibt die Menge des Produktes an, die im Lager verfügbar ist.</value>
+  <value column="Description" original="On Hand Quantity">"Verfügbare Menge" gibt die Menge des Produktes an, die als Bestand im Lager verfügbar ist</value>
+  <value column="Help" original="The On Hand Quantity indicates the quantity of a product that is on hand in a warehouse.">"Verfügbare Menge" gibt die Menge des Produktes an, die als Bestand im Lager verfügbar ist.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3269,8 +3269,8 @@ Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending b
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="580" trl="Y">
-  <value column="Name" original="Suspense Balancing Acct">Suspense Balancing Acct</value>
-  <value column="PrintName" original="Suspense Balancing Acct">Suspense Balancing Acct</value>
+  <value column="Name" original="Suspense Balancing Acct">Konto Rundungsdifferenzen</value>
+  <value column="PrintName" original="Suspense Balancing Acct">Konto Rundungsdifferenzen</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -3865,8 +3865,8 @@ Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fe
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="855" trl="Y">
-  <value column="Name" original="Credit limit">Credit limit</value>
-  <value column="PrintName" original="Credit limit">Credit limit</value>
+  <value column="Name" original="Credit limit">Kreditlimit</value>
+  <value column="PrintName" original="Credit limit">Kreditlimit</value>
   <value column="Description" original="Amount of Credit allowed">Amount of Credit allowed</value>
   <value column="Help" original="The Credit Limit field indicates the credit limit for this account.">The Credit Limit field indicates the credit limit for this account.</value>
   <value column="PO_Description" original=""/>
@@ -4337,8 +4337,8 @@ Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fe
  <row id="957" trl="Y">
   <value column="Name" original="Standard Price">Standardpreis</value>
   <value column="PrintName" original="Std Price">Standardpreis</value>
-  <value column="Description" original="Standard Price">Standardpreis</value>
-  <value column="Help" original="The Standard Price indicates the standard or normal price for a product on this price list">Preis mit Standardrabattierung gegenber Listenpreis.</value>
+  <value column="Description" original="Standard Price">Preis mit Standardrabattierung gegenüber Listenpreis. In der Verkaufspreisliste der Verkaufspreis, in der Einkaufspreislisten der Einkaufspreis.</value>
+  <value column="Help" original="The Standard Price indicates the standard or normal price for a product on this price list">Preis mit Standardrabattierung gegenüber Listenpreis.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -4964,7 +4964,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="Name" original="Invoice Line">Rechnungsposition</value>
   <value column="PrintName" original="Invoice Line">Rechnungsposition</value>
   <value column="Description" original="Invoice Detail Line">Rechnungszeile</value>
-  <value column="Help" original="The Invoice Line uniquely identifies a single line of an Invoice.">Eine "Rechnunsposition" bezeichnet eine einzelne Position auf der Rechnung.</value>
+  <value column="Help" original="The Invoice Line uniquely identifies a single line of an Invoice.">Eine "Rechnungsposition" bezeichnet eine einzelne Position auf der Rechnung.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5173,7 +5173,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
  <row id="1103" trl="Y">
   <value column="Name" original="Default">Standard</value>
   <value column="PrintName" original="Default">Standard</value>
-  <value column="Description" original="Default value">Standardeintrag;  ein Haken im Kontrollkästchen zeigt an, dass dieser Eintrag als Vorlage verwendet wird.</value>
+  <value column="Description" original="Default value">Standardeintrag; ein Häkchen im Kontrollkästchen zeigt an, dass dieser Eintrag als Vorlage verwendet wird.</value>
   <value column="Help" original="The Default Checkbox indicates if this record will be used as a default value.">Das Selektionsfeld "Standard" zeigt an, dass dieser Eintrag als Vorgabe verwendet wird</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -7905,8 +7905,8 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1508" trl="Y">
-  <value column="Name" original="Allocated">Allocated</value>
-  <value column="PrintName" original="Allocated">Allocated</value>
+  <value column="Name" original="Allocated">zugeordnet</value>
+  <value column="PrintName" original="Allocated">zugeordnet</value>
   <value column="Description" original="Indicates if the payment has been allocated">Indicates if the payment has been allocated</value>
   <value column="Help" original="The Allocated checkbox indicates if a payment has been allocated or associated with an invoice or invoices.">The Allocated checkbox indicates if a payment has been allocated or associated with an invoice or invoices.</value>
   <value column="PO_Description" original=""/>
@@ -8860,9 +8860,9 @@ The same applies to vendor invoices.</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1624" trl="Y">
-  <value column="Name" original="Invoice Price Variance">Verkaufspreisabweichung</value>
-  <value column="PrintName" original="Invoice Price Variance">Verkaufspreisabweichung</value>
-  <value column="Description" original="Difference between Costs and Invoice Price (IPV)">Difference between Costs and Invoice Price (IPV)</value>
+  <value column="Name" original="Invoice Price Variance">Rechnungspreisabweichung</value>
+  <value column="PrintName" original="Invoice Price Variance">Rechnungspreisabweichung</value>
+  <value column="Description" original="Difference between Costs and Invoice Price (IPV)">Unterschied zwischen Kosten und Rechnungspreis (IPV)</value>
   <value column="Help" original="The Invoice Price Variance is used reflects the difference between the current Costs and the Invoice Price.">The Invoice Price Variance is used reflects the difference between the current Costs and the Invoice Price.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -9445,7 +9445,7 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
  <row id="1692" trl="Y">
   <value column="Name" original="Delete existing Accounting Entries">Existierende Buchungen löschen</value>
   <value column="PrintName" original="Delete existing Accounting Entries">Existierende Buchungen löschen</value>
-  <value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Die ausgewählten Buchführungs-Einträge werden gelöscht! Gefärlich!!!</value>
+  <value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">Die ausgewählten Buchführungs-Einträge werden gelöscht! Gefährlich!!!</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -9873,8 +9873,8 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1739" trl="Y">
-  <value column="Name" original="PPV Offset">PPV Offset</value>
-  <value column="PrintName" original="PPV Offset">PPV Offset</value>
+  <value column="Name" original="PPV Offset">Ertr. aus Bewertung Finanzmittelfonds</value>
+  <value column="PrintName" original="PPV Offset">Ertr. aus Bewertung Finanzmittelfonds</value>
   <value column="Description" original="Purchase Price Variance Offset Account">Purchase Price Variance Offset Account</value>
   <value column="Help" original="Offset account for standard costing purchase price variances. The counter account is Product PPV.">Offset account for standard costing purchase price variances. The counter account is Product PPV.</value>
   <value column="PO_Description" original=""/>
@@ -11515,7 +11515,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
  <row id="1915" trl="Y">
   <value column="Name" original="Manufacturer">Hersteller</value>
   <value column="PrintName" original="Manufacturer">Hersteller</value>
-  <value column="Description" original="Manufacturer of the Product">Der Hersteller des Produktes (genutzt, wenn abweichend von Geschäftspartner / Lieferant).</value>
+  <value column="Description" original="Manufacturer of the Product">Der Hersteller des Produktes (genutzt, wenn abweichend von Geschäftspartner/Lieferant).</value>
   <value column="Help" original="The manufacturer of the Product (used if different from the Business Partner / Vendor)">Der Hersteller des Produktes (genutzt, wenn abweichend von Geschäftspartner / Lieferant).</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -15188,8 +15188,8 @@ In the display of products in the Web Store, the product is displayed in the ini
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2308" trl="Y">
-  <value column="Name" original="Workflow Activity Result">Workflow Activity Result</value>
-  <value column="PrintName" original="Wf Activity Result">Wf Activity Result</value>
+  <value column="Name" original="Workflow Activity Result">Workflow-Aktivitäts-Ergebnis Result</value>
+  <value column="PrintName" original="Wf Activity Result">Wf Aktivitäts-Ergebnis</value>
   <value column="Description" original="Result of the Workflow Process Activity">Result of the Workflow Process Activity</value>
   <value column="Help" original="Activity Result of the execution of the Workflow Process Instrance">Activity Result of the execution of the Workflow Process Instrance</value>
   <value column="PO_Description" original=""/>
@@ -15208,8 +15208,8 @@ In the display of products in the Web Store, the product is displayed in the ini
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2310" trl="Y">
-  <value column="Name" original="Workflow Event Audit">Workflow Event Audit</value>
-  <value column="PrintName" original="Wf Event Audit">Wf Event Audit</value>
+  <value column="Name" original="Workflow Event Audit">Workflow Ereignisansicht</value>
+  <value column="PrintName" original="Wf Event Audit">Wf Ereignisansicht</value>
   <value column="Description" original="Workflow Process Activity Event Audit Information">Workflow Process Activity Event Audit Information</value>
   <value column="Help" original="History of chenges ov the Workflow Process Activity">History of chenges ov the Workflow Process Activity</value>
   <value column="PO_Description" original=""/>
@@ -15218,7 +15218,7 @@ In the display of products in the Web Store, the product is displayed in the ini
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2311" trl="Y">
-  <value column="Name" original="Workflow Node Parameter">Workflow Node Parameter</value>
+  <value column="Name" original="Workflow Node Parameter">Workflow Knotendaten</value>
   <value column="PrintName" original="Wf Node Parameter">Wf Node Parameter</value>
   <value column="Description" original="Workflow Node Execution Parameter">Workflow Node Execution Parameter</value>
   <value column="Help" original="Parameter for the execution of the Workflow Node">Parameter for the execution of the Workflow Node</value>
@@ -15248,7 +15248,7 @@ In the display of products in the Web Store, the product is displayed in the ini
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2314" trl="Y">
-  <value column="Name" original="Workflow Responsible">Workflow - Verantwortlicher</value>
+  <value column="Name" original="Workflow Responsible">Workflow-Verantwortlicher</value>
   <value column="PrintName" original="Wf Responsible">Wf Responsible</value>
   <value column="Description" original="Responsible for Workflow Execution">Verantwortlicher für die Ausführung des Workflow</value>
   <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Die Verantwortung für die Ausführung eines Workflow liegt bei einem Nutzer. "Workflow - Verantwortlicher" ermöglicht anzugeben, auf welche Weise dieser Nutzer gefunden wird.</value>
@@ -15389,7 +15389,7 @@ durch das System erfolgt. Manuell bedeutet, die Auslösung erfolgt ausschließli
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2332" trl="Y">
-  <value column="Name" original="Workflow State">Workflow State</value>
+  <value column="Name" original="Workflow State">Workflow-Status</value>
   <value column="PrintName" original="Wf State">Wf State</value>
   <value column="Description" original="State of the execution of the workflow">State of the execution of the workflow</value>
   <value column="Help" original=""/>
@@ -15401,7 +15401,7 @@ durch das System erfolgt. Manuell bedeutet, die Auslösung erfolgt ausschließli
  <row id="2333" trl="Y">
   <value column="Name" original="Working Time">Bearbeitungszeit</value>
   <value column="PrintName" original="Working Time">Working Time</value>
-  <value column="Description" original="Workflow Simulation Execution Time">Zeit, die der Durchführende einer Akivität benötigt, um die Aufgabe in (Zeiteinheiten) durchzuführen.</value>
+  <value column="Description" original="Workflow Simulation Execution Time">Zeit, die der Durchführende einer Aktivität benötigt, um die Aufgabe in (Zeiteinheiten) durchzuführen.</value>
   <value column="Help" original="Amount of time the performer of the activity needs to perform the task in Duration Unit">Zeit, die der Durchführende einer Akivität benötigt, um die Aufgabe in (Zeiteinheiten) durchzuführen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -15643,7 +15643,7 @@ XOR bedeutet der erste Vorgang/Aktivität bei dem die Auslöse-Bedingung erfüll
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2358" trl="Y">
-  <value column="Name" original="Workflow Processor">Workflow - Prozessor</value>
+  <value column="Name" original="Workflow Processor">Workflow-Prozessor</value>
   <value column="PrintName" original="Workflow Processor">Workflow - Prozessor</value>
   <value column="Description" original="Workflow Processor Server">Workflow Processor Server</value>
   <value column="Help" original="Workflow Processor Server">Workflow Processor Server</value>
@@ -15653,7 +15653,7 @@ XOR bedeutet der erste Vorgang/Aktivität bei dem die Auslöse-Bedingung erfüll
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2359" trl="Y">
-  <value column="Name" original="Workflow Processorl Log">Workflow Processorl Log</value>
+  <value column="Name" original="Workflow Processorl Log">Workflow Prozessor Log</value>
   <value column="PrintName" original="Workflow Processor Log">Workflow-Prozessor-Protokoll</value>
   <value column="Description" original="Result of the execution of the Workflow Processor">Ergebnis der Ausführung des Workflow-Prozessors</value>
   <value column="Help" original="Result of the execution of the Workflow Processor">Ergebnis der Ausführung des Workflow-Prozessors</value>
@@ -16555,8 +16555,8 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2452" trl="Y">
-  <value column="Name" original="Requisition">Bestellanfoderung</value>
-  <value column="PrintName" original="Requisition">Bestellanforderung</value>
+  <value column="Name" original="Requisition">Bedarf</value>
+  <value column="PrintName" original="Requisition">Bedarf</value>
   <value column="Description" original="Material Requisition">Materialbedarf</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -16685,8 +16685,8 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2465" trl="Y">
-  <value column="Name" original="Workflow Key">Workflow Key</value>
-  <value column="PrintName" original="Workflow">Workflow</value>
+  <value column="Name" original="Workflow-Key">Workflow-Schlüssel</value>
+  <value column="PrintName" original="Workflow">Workflow-Schlüssel </value>
   <value column="Description" original="Key of the Workflow to start">Key of the Workflow to start</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -16925,7 +16925,7 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2491" trl="Y">
-  <value column="Name" original="Access Log">Access Log</value>
+  <value column="Name" original="Access Log">Zugriffs-Log</value>
   <value column="PrintName" original="Access Log">Access Log</value>
   <value column="Description" original="Log of Access to the System">Log of Access to the System</value>
   <value column="Help" original=""/>
@@ -18652,7 +18652,7 @@ The Remind Days are the days when the next email reminder is sent.</value>
  <row id="2670" trl="Y">
   <value column="Name" original="Model Validation Classes">Modell-Validierungs-Klassen</value>
   <value column="PrintName" original="Model Validation Classes">Modell-Validierungs-Klassen</value>
-  <value column="Description" original="List of data model validation classes separated by ;">Liste von Modell-Validierungs-Klassen, separiert durch ;</value>
+  <value column="Description" original="List of data model validation classes separated by ;">Liste von Modell-Validierungs-Klassen, separiert durch ";"</value>
   <value column="Help" original="List of classes implementing the interface org.compiere.model.ModelValidator, separaed by semicolon.&#10;The class is called for the client and alows to validate documents in the prepare stage and monitor model changes.">Liste von Klassen, die das Interface org.compiere.model.ModelValidator implementieren, separiert durch Semikolon. Die Klassen werden für den Compiere-Client aufgerufen und erlauben die Validierung von Dokumenten im Vorbereitungs-Schritt und das Überwachen von Modelländerungen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -19703,7 +19703,7 @@ Example: "Updated-Created" would list the age of the entry in days</value>
  <row id="2783" trl="Y">
   <value column="Name" original="Change Notice">Änderungsmeldung</value>
   <value column="PrintName" original="Change Notice">Änderungsmeldung</value>
-  <value column="Description" original="Bill of Materials (Engineering) Change Notice (Version)">bezüglich einer Stückliste</value>
+  <value column="Description" original="Bill of Materials (Engineering) Change Notice (Version)">Äbderungsmeldung bezüglich einer Stückliste</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -20203,7 +20203,7 @@ Note that you can over- or under-allocate the payment.  When processing the paym
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2833" trl="Y">
-  <value column="Name" original="Invoice Amt">Invoice Amt</value>
+  <value column="Name" original="Invoice Amt">Rechnungssumme</value>
   <value column="PrintName" original="Invoice Amt">Invoice Amt</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
@@ -20225,7 +20225,7 @@ Note that you can over- or under-allocate the payment.  When processing the paym
  <row id="2835" trl="Y">
   <value column="Name" original="Full BP Access">Vollzugriff Geschäftspartner</value>
   <value column="PrintName" original="Full BP Access">Vollzugriff Geschäftspartner</value>
-  <value column="Description" original="The user/contact has full access to Business Partner information and resources">Nutzer/Kontakt hat vollen Zugriff auf alle Daten oder Ressourcen des Geschäftspartner</value>
+  <value column="Description" original="The user/contact has full access to Business Partner information and resources">Nutzer/Kontakt hat vollen Zugriff auf alle Daten oder Ressourcen des Geschäftspartners</value>
   <value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab "BP Access"</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -20464,8 +20464,8 @@ Note that you can over- or under-allocate the payment.  When processing the paym
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2861" trl="Y">
-  <value column="Name" original="Commitment Offset">Commitment Offset</value>
-  <value column="PrintName" original="Commitment Offset">Commitment Offset</value>
+  <value column="Name" original="Commitment Offset">Sonstige Rückstellungen</value>
+  <value column="PrintName" original="Commitment Offset">Sonstige Rückstellungen</value>
   <value column="Description" original="Budgetary Commitment Offset Account">Budgetary Commitment Offset Account</value>
   <value column="Help" original="The Commitment Offset Account is used for posting Commitments and Reservations.  It is usually an off-balance sheet and gain-and-loss account.">The Commitment Offset Account is used for posting Commitments and Reservations.  It is usually an off-balance sheet and gain-and-loss account.</value>
   <value column="PO_Description" original=""/>
@@ -23934,10 +23934,10 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="52042" trl="N">
-  <value column="Name" original="Template BPartner">Template BPartner</value>
-  <value column="PrintName" original="Template BPartner">Template BPartner</value>
-  <value column="Description" original="BPartner that is to be used as template when new customers are created">BPartner that is to be used as template when new customers are created</value>
+ <row id="52042" trl="Y">
+  <value column="Name" original="Template BPartner">Vorlage GPartner</value>
+  <value column="PrintName" original="Template BPartner">Vorlage GPartner</value>
+  <value column="Description" original="BPartner that is to be used as template when new customers are created">Geschäftspartner, der als Vorlage verwendet wird, wenn neue Geschäftspartner angelegt werden. </value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -23954,29 +23954,29 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="52044" trl="N">
-  <value column="Name" original="Locked">Locked</value>
-  <value column="PrintName" original="Locked">Locked</value>
-  <value column="Description" original="Whether the terminal is locked">Whether the terminal is locked</value>
+ <row id="52044" trl="Y">
+  <value column="Name" original="Locked">Gesperrt</value>
+  <value column="PrintName" original="Locked">Gespert</value>
+  <value column="Description" original="Whether the terminal is locked">Zeigt an, dass dieser Kassenplatz gesperrt ist.</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="52045" trl="N">
-  <value column="Name" original="Lock Time">Lock Time</value>
-  <value column="PrintName" original="Lock Time">Lock Time</value>
-  <value column="Description" original="Time in minutes the terminal should be kept in a locked state.">Time in minutes the terminal should be kept in a locked state.</value>
+ <row id="52045" trl="Y">
+  <value column="Name" original="Lock Time">Sperrzeit</value>
+  <value column="PrintName" original="Lock Time">Sperrzeit</value>
+  <value column="Description" original="Time in minutes the terminal should be kept in a locked state.">Zeit in Minuten, die der Kassenplatz im gesperrten Zustand bleiben soll.</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="52046" trl="N">
-  <value column="Name" original="Sales Pricelist">Sales Pricelist</value>
-  <value column="PrintName" original="Sales Pricelist">Sales Pricelist</value>
+ <row id="52046" trl="Y">
+  <value column="Name" original="Sales Pricelist">Verkaufs-Preisliste</value>
+  <value column="PrintName" original="Sales Pricelist">Verkaufs-Preisliste</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -23994,9 +23994,9 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="52048" trl="N">
-  <value column="Name" original="POS Terminal">POS Terminal</value>
-  <value column="PrintName" original="POS Terminal">POS Terminal</value>
+ <row id="52048" trl="Y">
+  <value column="Name" original="POS Terminal">Kassenplatz</value>
+  <value column="PrintName" original="POS Terminal">Kassenplatz</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -24014,10 +24014,10 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="52050" trl="N">
-  <value column="Name" original="Receipt Footer Msg">Receipt Footer Msg</value>
-  <value column="PrintName" original="Receipt Footer Msg">Receipt Footer Msg</value>
-  <value column="Description" original="This message will be displayed at the bottom of a receipt when doing a sales or purchase">This message will be displayed at the bottom of a receipt when doing a sales or purchase</value>
+ <row id="52050" trl="Y">
+  <value column="Name" original="Receipt Footer Msg">Beleg - Fußzeilen-Nachricht </value>
+  <value column="PrintName" original="Receipt Footer Msg">Beleg - Fußzeilen-Nachricht </value>
+  <value column="Description" original="This message will be displayed at the bottom of a receipt when doing a sales or purchase">Diese Nachricht wird in der Fußzeile eines Belegs angezeigt, wenn ein Einkauf oder Verkauf durchgeführt wird.</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -24064,9 +24064,9 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="52073" trl="N">
-  <value column="Name" original="Round Off Factor">Round Off Factor</value>
-  <value column="PrintName" original="Round Off Factor">Round Off Factor</value>
+ <row id="52073" trl="Y">
+  <value column="Name" original="Round Off Factor">Rundungsfaktor</value>
+  <value column="PrintName" original="Round Off Factor">Wiederholungen unterdrücken</value>
   <value column="Description" original="Used to Round Off Payment Amount">Used to Round Off Payment Amount</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -28031,20 +28031,20 @@ http:/de.wikipedia.org/wiki/Sicherheitsbestand</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53678" trl="N">
-  <value column="Name" original="Allow Positive">Allow Positive</value>
-  <value column="PrintName" original="Allow Positive">Allow Positive</value>
-  <value column="Description" original=""/>
+ <row id="53678" trl="Y">
+  <value column="Name" original="Allow Positive">Positiv zulassen</value>
+  <value column="PrintName" original="Allow Positive">Positiv zulassen</value>
+  <value column="Description" original="">Positive Werte gestatten</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53679" trl="N">
-  <value column="Name" original="Allow Negative">Allow Negative</value>
-  <value column="PrintName" original="Allow Negative">Allow Negative</value>
-  <value column="Description" original=""/>
+ <row id="53679" trl="Y">
+  <value column="Name" original="Allow Negative">Negativ zulassen</value>
+  <value column="PrintName" original="Allow Negative">Negativ zulassen</value>
+  <value column="Description" original="">Negative Werte zulassen</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -28101,9 +28101,9 @@ http:/de.wikipedia.org/wiki/Sicherheitsbestand</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53685" trl="N">
-  <value column="Name" original="Last Run">Last Run</value>
-  <value column="PrintName" original="Last Run">Last Run</value>
+ <row id="53685" trl="Y">
+  <value column="Name" original="Last Run">Letzter Lauf</value>
+  <value column="PrintName" original="Last Run">Letzter Lauf</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -28121,10 +28121,10 @@ http:/de.wikipedia.org/wiki/Sicherheitsbestand</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53688" trl="N">
-  <value column="Name" original="Factor">Factor</value>
-  <value column="PrintName" original="Factor">Factor</value>
-  <value column="Description" original="Scaling factor.">Scaling factor.</value>
+ <row id="53688" trl="Y">
+  <value column="Name" original="Factor">Faktor</value>
+  <value column="PrintName" original="Factor">Faktor</value>
+  <value column="Description" original="Scaling factor.">Skalierungs-Faktor - Die Zahlen werden für die Anzeige durch den Skalierungs-Faktor dividiert. 123000 mit einem S-Faktor 1000 wird als 123 angezeigt</value>
   <value column="Help" original="Numbers are divided by the scaling factor for presentation.  E.g. 123,000 with a scaling factor of 1,000 will display as 123.">Numbers are divided by the scaling factor for presentation.  E.g. 123,000 with a scaling factor of 1,000 will display as 123.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -28151,19 +28151,19 @@ http:/de.wikipedia.org/wiki/Sicherheitsbestand</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53691" trl="N">
-  <value column="Name" original="Suppress Repeats">Suppress Repeats</value>
-  <value column="PrintName" original="Suppress Repeats">Suppress Repeats</value>
-  <value column="Description" original="Suppress repeated elements in column.">Suppress repeated elements in column.</value>
+ <row id="53691" trl="Y">
+  <value column="Name" original="Suppress Repeats">Wiederholungen unterdrücken</value>
+  <value column="PrintName" original="Suppress Repeats">Wiederholungen unterdrücken</value>
+  <value column="Description" original="Suppress repeated elements in column.">Unterdrückt sich wiederholende Elemente in einer Tabelle</value>
   <value column="Help" original="Determines whether repeated elements in a column are repeated in a printed table.">Determines whether repeated elements in a column are repeated in a printed table.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53709" trl="N">
-  <value column="Name" original="Column No">Column No</value>
-  <value column="PrintName" original="Column No">Column No</value>
+ <row id="53709" trl="Y">
+  <value column="Name" original="Column No">Spalten-Nr.</value>
+  <value column="PrintName" original="Column No">Spalten-Nr.</value>
   <value column="Description" original="Dashboard content column number">Dashboard content column number</value>
   <value column="Help" original="Dashboard content column number, not used by the swing client at the moment.">Dashboard content column number, not used by the swing client at the moment.</value>
   <value column="PO_Description" original=""/>
@@ -28191,9 +28191,9 @@ http:/de.wikipedia.org/wiki/Sicherheitsbestand</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53715" trl="N">
-  <value column="Name" original="Collapsible">Collapsible</value>
-  <value column="PrintName" original="Collapsible">Collapsible</value>
+ <row id="53715" trl="Y">
+  <value column="Name" original="Collapsible">Minimierbar</value>
+  <value column="PrintName" original="Collapsible">Minimierbar</value>
   <value column="Description" original="Flag to indicate the state of the dashboard panel">Flag to indicate the state of the dashboard panel</value>
   <value column="Help" original="Flag to indicate the state of the dashboard panel (i.e. collapsible or static)">Flag to indicate the state of the dashboard panel (i.e. collapsible or static)</value>
   <value column="PO_Description" original=""/>
@@ -28465,9 +28465,489 @@ Credit Work in Process Account </value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53797" trl="N">
-  <value column="Name" original="Import Price List">Import Price List</value>
-  <value column="PrintName" original="Import Price List">Import Price List</value>
+ <row id="53797" trl="Y">
+  <value column="Name" original="Import Price List">Preisliste importieren</value>
+  <value column="PrintName" original="Import Price List">Preisliste importieren</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53800" trl="N">
+  <value column="Name" original="Promotion Group">Promotion Group</value>
+  <value column="PrintName" original="Promotion Group">Promotion Group</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53801" trl="N">
+  <value column="Name" original="Promotion Group Line">Promotion Group Line</value>
+  <value column="PrintName" original="Promotion Group Line">Promotion Group Line</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53802" trl="N">
+  <value column="Name" original="Promotion">Promotion</value>
+  <value column="PrintName" original="Promotion">Promotion</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53803" trl="Y">
+  <value column="Name" original="Relative Priority">Relative Priorität</value>
+  <value column="PrintName" original="Relative Priority">Relative Priorität</value>
+  <value column="Description" original="Which promotion should be apply to a product">Die relative Priorität legt fest, welche Promotion verwendet werden soll, wenn ein Produkt in mehreren Promotions-Kampagnen gelistet ist. Die Promotion mit der höchsten Priorität wird verwendet.</value>
+  <value column="Help" original="The relative priority indicate the promotion to use when a product exists in more than one promotion. Promotion with the highest priority take precedence.">Die relative Priorität legt fest, welche Promotion verwendet werden soll, wenn ein Produkt in mehreren Promotions-Kampagnen gelistet ist. Die Promotion mit der höchsten Priorität wird verwendet.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53804" trl="N">
+  <value column="Name" original="Promotion Line">Promotion Line</value>
+  <value column="PrintName" original="Promotion Line">Promotion Line</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53805" trl="N">
+  <value column="Name" original="Mandatory Promotion Line">Mandatory Promotion Line</value>
+  <value column="PrintName" original="Mandatory Promotion Line">Mandatory Promotion Line</value>
+  <value column="Description" original="Order must have this promotion line">Order must have this promotion line</value>
+  <value column="Help" original="The mandatory promotion check box indicates that the order must have this promotion line">The mandatory promotion check box indicates that the order must have this promotion line</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53806" trl="N">
+  <value column="Name" original="Promotion Pre Condition">Promotion Pre Condition</value>
+  <value column="PrintName" original="Promotion Pre Condition">Promotion Pre Condition</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53807" trl="N">
+  <value column="Name" original="Usage Counter">Usage Counter</value>
+  <value column="PrintName" original="Usage Counter">Usage Counter</value>
+  <value column="Description" original="Usage counter">Usage counter</value>
+  <value column="Help" original="Counter to record how many times this promotion have been used">Counter to record how many times this promotion have been used</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53808" trl="N">
+  <value column="Name" original="Usage Limit">Usage Limit</value>
+  <value column="PrintName" original="Usage Limit">Usage Limit</value>
+  <value column="Description" original="Maximum usage limit">Maximum usage limit</value>
+  <value column="Help" original="Maximum number of time this promotion can be use">Maximum number of time this promotion can be use</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53809" trl="N">
+  <value column="Name" original="Promotion Code">Promotion Code</value>
+  <value column="PrintName" original="Promotion Code">Promotion Code</value>
+  <value column="Description" original="User entered promotion code at sales time">User entered promotion code at sales time</value>
+  <value column="Help" original="If present, user entered the promotion code at sales time to get this promotion">If present, user entered the promotion code at sales time to get this promotion</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53810" trl="N">
+  <value column="Name" original="Distribution Type">Distribution Type</value>
+  <value column="PrintName" original="Distribution Type">Distribution Type</value>
+  <value column="Description" original="Type of quantity distribution calculation using comparison qty and order qty as operand">Type of quantity distribution calculation using comparison qty and order qty as operand</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53811" trl="N">
+  <value column="Name" original="Distribution Sorting">Distribution Sorting</value>
+  <value column="PrintName" original="Distribution Sorting">Distribution Sorting</value>
+  <value column="Description" original="Quantity distribution sorting by unit price">Quantity distribution sorting by unit price</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53812" trl="N">
+  <value column="Name" original="Promotion Reward">Promotion Reward</value>
+  <value column="PrintName" original="Promotion Reward">Promotion Reward</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53813" trl="N">
+  <value column="Name" original="For all distribution">For all distribution</value>
+  <value column="PrintName" original="For all distribution">For all distribution</value>
+  <value column="Description" original="This reward is for all distribution">This reward is for all distribution</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53814" trl="N">
+  <value column="Name" original="Same distribution for source and target">Same distribution for source and target</value>
+  <value column="PrintName" original="Same distribution for source and target">Same distribution for source and target</value>
+  <value column="Description" original="Use the same distribution for source and target">Use the same distribution for source and target</value>
+  <value column="Help" original="Use the same distribution for source and target. Source distribution is for the entitlement of the reward, target distribution is the distribution to get the product to apply the reward to">Use the same distribution for source and target. Source distribution is for the entitlement of the reward, target distribution is the distribution to get the product to apply the reward to</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53815" trl="N">
+  <value column="Name" original="Target distribution">Target distribution</value>
+  <value column="PrintName" original="Target distribution">Target distribution</value>
+  <value column="Description" original="Get product from target distribution to apply the promotion reward">Get product from target distribution to apply the promotion reward</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53816" trl="N">
+  <value column="Name" original="Reward Type">Reward Type</value>
+  <value column="PrintName" original="Reward Type">Reward Type</value>
+  <value column="Description" original="Type of reward which consists of percentage discount, flat discount or absolute amount">Type of reward which consists of percentage discount, flat discount or absolute amount</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53821" trl="Y">
+  <value column="Name" original="Report Cube">Berichts-Würfel</value>
+  <value column="PrintName" original="Report Cube">Berichts-Würfel</value>
+  <value column="Description" original="Define reporting cube for pre-calculation of summary accounting data.">Define reporting cube for pre-calculation of summary accounting data.</value>
+  <value column="Help" original="Summary data will be generated for each period of the selected calendar, grouped by the selected dimensions..">Summary data will be generated for each period of the selected calendar, grouped by the selected dimensions..</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53822" trl="N">
+  <value column="Name" original="Activity Dimension">Activity Dimension</value>
+  <value column="PrintName" original="Activity Dimension">Activity Dimension</value>
+  <value column="Description" original="Include Activity as a cube dimension">Include Activity as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53823" trl="N">
+  <value column="Name" original="OrgTrx Dimension">OrgTrx Dimension</value>
+  <value column="PrintName" original="OrgTrx Dimension">OrgTrx Dimension</value>
+  <value column="Description" original="Include OrgTrx as a cube dimension">Include OrgTrx as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53824" trl="Y">
+  <value column="Name" original="Business Partner Dimension">Geschäftspartner-Dimension</value>
+  <value column="PrintName" original="Business Partner Dimension">Geschäftspartner-Dimension</value>
+  <value column="Description" original="Include Business Partner as a cube dimension">Geschäftspartner als Dimension im Würfel einfügen</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53825" trl="N">
+  <value column="Name" original="Campaign Dimension">Campaign Dimension</value>
+  <value column="PrintName" original="Campaign Dimension">Campaign Dimension</value>
+  <value column="Description" original="Include Campaign as a cube dimension">Include Campaign as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53826" trl="N">
+  <value column="Name" original="Location From Dimension">Location From Dimension</value>
+  <value column="PrintName" original="Location From Dimension">Location From Dimension</value>
+  <value column="Description" original="Include Location From as a cube dimension">Include Location From as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53827" trl="N">
+  <value column="Name" original="Location To  Dimension">Location To  Dimension</value>
+  <value column="PrintName" original="Location To Dimension">Location To Dimension</value>
+  <value column="Description" original="Include Location To as a cube dimension">Include Location To as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53828" trl="N">
+  <value column="Name" original="Project Phase  Dimension">Project Phase  Dimension</value>
+  <value column="PrintName" original="Project Phase Dimension">Project Phase Dimension</value>
+  <value column="Description" original="Include Project Phase as a cube dimension">Include Project Phase as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53829" trl="N">
+  <value column="Name" original="Project Task  Dimension">Project Task  Dimension</value>
+  <value column="PrintName" original="Project Task Dimension">Project Task Dimension</value>
+  <value column="Description" original="Include Project Task as a cube dimension">Include Project Task as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53830" trl="N">
+  <value column="Name" original="Project Dimension">Project Dimension</value>
+  <value column="PrintName" original="Project Dimension">Project Dimension</value>
+  <value column="Description" original="Include Project as a cube dimension">Include Project as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53831" trl="Y">
+  <value column="Name" original="Sales Region Dimension">Vertriebsregions-Dimension</value>
+  <value column="PrintName" original="Sales Region Dimension">Vertriebsregions-Dimension</value>
+  <value column="Description" original="Include Sales Region as a cube dimension">Bezieht die Vertriebsregion als Würfeldimension mit ein</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53832" trl="N">
+  <value column="Name" original="Sub Acct Dimension">Sub Acct Dimension</value>
+  <value column="PrintName" original="Sub Acct Dimension">Sub Acct Dimension</value>
+  <value column="Description" original="Include Sub Acct as a cube dimension">Include Sub Acct as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53833" trl="N">
+  <value column="Name" original="GL Budget Dimension">GL Budget Dimension</value>
+  <value column="PrintName" original="GL Budget Dimension">GL Budget Dimension</value>
+  <value column="Description" original="Include GL Budget as a cube dimension">Include GL Budget as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53834" trl="Y">
+  <value column="Name" original="Product Dimension">Produkt-Dimension</value>
+  <value column="PrintName" original="Product Dimension">Produkt-Dimension</value>
+  <value column="Description" original="Include Product as a cube dimension">Produkt als Würfeldimension in einen Analysewürfel mit einbeziehen.</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53835" trl="N">
+  <value column="Name" original="User 1 Dimension">User 1 Dimension</value>
+  <value column="PrintName" original="User 1 Dimension">User 1 Dimension</value>
+  <value column="Description" original="Include User 1 as a cube dimension">Include User 1 as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53836" trl="N">
+  <value column="Name" original="User 2 Dimension">User 2 Dimension</value>
+  <value column="PrintName" original="User 2 Dimension">User 2 Dimension</value>
+  <value column="Description" original="Include User 2 as a cube dimension">Include User 2 as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53837" trl="N">
+  <value column="Name" original="Last Recalculated">Last Recalculated</value>
+  <value column="PrintName" original="Last Recalculated">Last Recalculated</value>
+  <value column="Description" original="The time last recalculated.">The time last recalculated.</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53866" trl="Y">
+  <value column="Name" original="Referenced RMA">Referenzierte Rücksendung</value>
+  <value column="PrintName" original="Ref RMA">Ref Rücksendung</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53867" trl="Y">
+  <value column="Name" original="Referenced RMA Line">Referenzierte Rücksendungs-Position</value>
+  <value column="PrintName" original="Ref RMA Line">Ref. Rücksende-Position</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53874" trl="N">
+  <value column="Name" original="Parent Column">Parent Column</value>
+  <value column="PrintName" original="Parent Column">Parent Column</value>
+  <value column="Description" original="The link column on the parent tab.">The link column on the parent tab.</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53891" trl="N">
+  <value column="Name" original="Promotion Distribution">Promotion Distribution</value>
+  <value column="PrintName" original="Promotion Distribution">Promotion Distribution</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53893" trl="N">
+  <value column="Name" original="Copy From Report and Process">Copy From Report and Process</value>
+  <value column="PrintName" original="Copy From Report and Process">Copy From Report and Process</value>
+  <value column="Description" original="Copy settings from one report and process to another.">Copy settings from one report and process to another.</value>
+  <value column="Help" original="Copy the settings from the selected report and process to the current one.  This overwrites existing settings and translations.">Copy the settings from the selected report and process to the current one.  This overwrites existing settings and translations.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53894" trl="N">
+  <value column="Name" original="Chart Type">Chart Type</value>
+  <value column="PrintName" original="Chart Type">Chart Type</value>
+  <value column="Description" original="Type fo chart to render">Type fo chart to render</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53895" trl="N">
+  <value column="Name" original="Goal Display">Ziel-Anzeige</value>
+  <value column="PrintName" original="Goal Display">Ziel-Anzeige</value>
+  <value column="Description" original="Type of goal display on dashboard">Definiert die Anzeigeart für ein Ziel auf dem Dashboard, z.B. als html-Tabelle oder Graph.</value>
+  <value column="Help" original="Display goal on dashboard as html table or graph.">Display goal on dashboard as html table or graph.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53897" trl="N">
+  <value column="Name" original="User Element 2 Dimension">User Element 2 Dimension</value>
+  <value column="PrintName" original="User Element 2 Dimension">User Element 2 Dimension</value>
+  <value column="Description" original="Include User Element 2 as a cube dimension">Include User Element 2 as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53898" trl="N">
+  <value column="Name" original="User Element 1 Dimension">User Element 1 Dimension</value>
+  <value column="PrintName" original="User Element 1 Dimension">User Element 1 Dimension</value>
+  <value column="Description" original="Include User Element 1 as a cube dimension">Include User Element 1 as a cube dimension</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53909" trl="Y">
+  <value column="Name" original="Logo">Logo</value>
+  <value column="PrintName" original="Logo">Logo</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53910" trl="N">
+  <value column="Name" original="Logo Report">Logo Report</value>
+  <value column="PrintName" original="Logo Report">Logo Report</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53911" trl="N">
+  <value column="Name" original="Logo Web">Logo Web</value>
+  <value column="PrintName" original="Logo Web">Logo Web</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53926" trl="N">
+  <value column="Name" original="PO Tax exempt">PO Tax exempt</value>
+  <value column="PrintName" original="PO Tax exempt">PO Tax exempt</value>
+  <value column="Description" original="Business partner is exempt from tax on purchases">Business partner is exempt from tax on purchases</value>
+  <value column="Help" original="If a business partner is exempt from tax on purchases, the exempt tax rate is used. For this, you need to set up a tax rate with a 0% rate and indicate that this is your tax exempt rate.  This is required for tax reporting, so that you can track tax exempt transactions.">If a business partner is exempt from tax on purchases, the exempt tax rate is used. For this, you need to set up a tax rate with a 0% rate and indicate that this is your tax exempt rate.  This is required for tax reporting, so that you can track tax exempt transactions.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53927" trl="Y">
+  <value column="Name" original="UOM Type">Maßeinheit</value>
+  <value column="PrintName" original="UOM Type">Maßeinheit</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -28485,9 +28965,9 @@ Credit Work in Process Account </value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="1000001" trl="N">
-  <value column="Name" original="CityName">CityName</value>
-  <value column="PrintName" original="City Name">City Name</value>
+ <row id="1000001" trl="Y">
+  <value column="Name" original="CityName">Stadt-Name</value>
+  <value column="PrintName" original="City Name">Stadt-Name</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -28495,9 +28975,9 @@ Credit Work in Process Account </value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="1000002" trl="N">
-  <value column="Name" original="ClientName">ClientName</value>
-  <value column="PrintName" original="Client Name">Client Name</value>
+ <row id="1000002" trl="Y">
+  <value column="Name" original="ClientName">Kunden-Name</value>
+  <value column="PrintName" original="Client Name">Kunden-Name</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
