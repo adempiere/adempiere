@@ -1181,9 +1181,16 @@ public final class Env
 				ctxInfo = getContext(ctx, token);	// get global context
 			if (ctxInfo.length() == 0)
 			{
-				s_log.config("No Context Win=" + WindowNo + " for: " + token);
-				if (!ignoreUnparsable)
-					return "";						//	token not found
+				if (token.endsWith("_ID"))
+				{
+					outStr.append("0");
+				}
+				else
+				{
+					s_log.config("No Context Win=" + WindowNo + " for: " + token);
+					if (!ignoreUnparsable)
+						return "";						//	token not found
+				}
 			}
 			else
 				outStr.append(ctxInfo);				// replace context with Context
