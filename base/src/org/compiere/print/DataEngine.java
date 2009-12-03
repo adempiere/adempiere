@@ -59,6 +59,9 @@ import org.compiere.util.ValueNamePair;
  * 					https://sourceforge.net/tracker/?func=detail&aid=2876268&group_id=176962&atid=879332
  * @author victor.perez@e-evolution.com 
  *				<li>FR [ 2011569 ] Implementing new Summary flag in Report View  http://sourceforge.net/tracker/index.php?func=detail&aid=2011569&group_id=176962&atid=879335
+ * @author Paul Bowden (phib)
+ * 				<li> BF 2908435 Virtual columns with lookup reference types can't be printed
+ *                   https://sourceforge.net/tracker/?func=detail&aid=2908435&group_id=176962&atid=879332
  */
 public class DataEngine
 {
@@ -301,6 +304,7 @@ public class DataEngine
 
 				//	Fully qualified Table.Column for ordering
 				String orderName = tableName + "." + ColumnName;
+				String lookupSQL = orderName;
 				PrintDataColumn pdc = null;
 
 				//  -- Key --
@@ -322,14 +326,20 @@ public class DataEngine
 						|| (AD_Reference_ID == DisplayType.Search && AD_Reference_Value_ID == 0)
 					)
 				{
-					if (ColumnSQL.length() > 0)
-					{
-						log.warning(ColumnName + " - virtual column not allowed with this Display type");
-						continue;
-					}
+
 					//  Creates Embedded SQL in the form
 					//  SELECT ColumnTable.Name FROM ColumnTable WHERE TableName.ColumnName=ColumnTable.ColumnName
-					String eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, ColumnName, tableName);
+					String eSql;
+
+					if (ColumnSQL.length() > 0)
+					{
+						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, ColumnName, tableName, "(" + ColumnSQL + ")");
+						lookupSQL = ColumnSQL;
+					}
+					else
+					{
+						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, ColumnName, tableName);
+					}
 
 					//	TableName
 					String table = ColumnName;
@@ -339,8 +349,8 @@ public class DataEngine
 					String display = ColumnName;
 					//	=> (..) AS AName, Table.ID,
 					sqlSELECT.append("(").append(eSql).append(") AS ").append(m_synonym).append(display).append(",")
-						.append(tableName).append(".").append(ColumnName).append(",");
-					groupByColumns.add(tableName+"."+ColumnName);
+							.append(lookupSQL).append(" AS ").append(ColumnName).append(",");
+					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
 					//
 					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
@@ -354,8 +364,7 @@ public class DataEngine
 				{
 					if (ColumnSQL.length() > 0)
 					{
-						log.warning(ColumnName + " - virtual column not allowed with this Display type");
-						continue;
+						lookupSQL = ColumnSQL;
 					}
 					if (AD_Reference_Value_ID <= 0)
 					{
@@ -369,9 +378,9 @@ public class DataEngine
 						sqlSELECT.append(m_synonym).append(".Value||'-'||");
 					sqlSELECT.append(m_synonym).append(".").append(display);
 					sqlSELECT.append(" AS ").append(m_synonym).append(display).append(",")
-						.append(tableName).append(".").append(ColumnName).append(",");
+						.append(lookupSQL).append(" AS ").append(ColumnName).append(",");
 					groupByColumns.add(m_synonym+display);
-					groupByColumns.add(tableName+"."+ColumnName);
+					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
 
 					//	=> x JOIN table A ON (x.KeyColumn=A.Key)
@@ -380,7 +389,7 @@ public class DataEngine
 					else
 						sqlFROM.append(" LEFT OUTER JOIN ");
 					sqlFROM.append(tr.TableName).append(" ").append(m_synonym).append(" ON (")
-						.append(tableName).append(".").append(ColumnName).append("=")
+						.append(lookupSQL).append("=")
 						.append(m_synonym).append(".").append(tr.KeyColumn).append(")");
 					//
 					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
@@ -393,8 +402,7 @@ public class DataEngine
 				{
 					if (ColumnSQL.length() > 0)
 					{
-						log.warning(ColumnName + " - virtual column not allowed with this Display type");
-						continue;
+						lookupSQL = ColumnSQL;
 					}
 					if (Env.isBaseLanguage(m_language, "AD_Ref_List"))
 					{
@@ -408,7 +416,7 @@ public class DataEngine
 						else
 							sqlFROM.append(" LEFT OUTER JOIN ");
 						sqlFROM.append("AD_Ref_List ").append(m_synonym).append(" ON (")
-							.append(tableName).append(".").append(ColumnName).append("=").append(m_synonym).append(".Value")
+							.append(lookupSQL).append("=").append(m_synonym).append(".Value")
 							.append(" AND ").append(m_synonym).append(".AD_Reference_ID=").append(AD_Reference_Value_ID).append(")");
 					}
 					else
@@ -425,7 +433,7 @@ public class DataEngine
 						else
 							sqlFROM.append(" LEFT OUTER JOIN ");
 						sqlFROM.append(" AD_Ref_List X").append(m_synonym).append(" ON (")
-							.append(tableName).append(".").append(ColumnName).append("=X")
+							.append(lookupSQL).append("=X")
 							.append(m_synonym).append(".Value AND X").append(m_synonym).append(".AD_Reference_ID=").append(AD_Reference_Value_ID)
 							.append(")");
 						if (IsMandatory)
@@ -437,7 +445,7 @@ public class DataEngine
 							.append(" AND ").append(m_synonym).append(".AD_Language='").append(m_language.getAD_Language()).append("')");
 					}
 					// 	TableName.ColumnName,
-					sqlSELECT.append(tableName).append(".").append(ColumnName).append(",");
+					sqlSELECT.append(lookupSQL).append(" AS ").append(ColumnName).append(",");
 					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
 					synonymNext();
 				}
@@ -451,8 +459,7 @@ public class DataEngine
 				{
 					if (ColumnSQL.length() > 0)
 					{
-						log.warning(ColumnName + " - virtual column not allowed with this Display type");
-						continue;
+						lookupSQL = ColumnSQL;
 					}
 					//	TableName, DisplayColumn
 					String table = ""; 
@@ -494,9 +501,9 @@ public class DataEngine
 					//	=> A.Name AS AName, table.ID,
 					sqlSELECT.append(m_synonym).append(".").append(display).append(" AS ")
 						.append(m_synonym).append(synonym).append(",")
-						.append(tableName).append(".").append(ColumnName).append(",");
+						.append(lookupSQL).append(" AS ").append(ColumnName).append(",");
 					groupByColumns.add(m_synonym+"."+synonym);
-					groupByColumns.add(tableName+"."+ColumnName);
+					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + synonym;
 					//	=> x JOIN table A ON (table.ID=A.Key)
 					if (IsMandatory)
@@ -504,7 +511,7 @@ public class DataEngine
 					else
 						sqlFROM.append(" LEFT OUTER JOIN ");
 					sqlFROM.append(table).append(" ").append(m_synonym).append(" ON (")
-						.append(tableName).append(".").append(ColumnName).append("=")
+						.append(lookupSQL).append("=")
 						.append(m_synonym).append(".").append(key).append(")");
 					//
 					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
