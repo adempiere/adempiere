@@ -75,14 +75,13 @@ public class MTaxCategory extends X_C_TaxCategory
 		List<MTax> list = new Query(getCtx(), MTax.Table_Name, whereClause,  get_TrxName())
 			.setParameters(new Object[]{getC_TaxCategory_ID()})
 			.list();
-		if (list.size() == 1)
+		if (list.size() == 0) {
+			throw new AdempiereException("NoDefaultTaxRate"); // Error - should be at least one default
+		} else if (list.size() == 1) {
 			m_tax = list.get(0);
-		else {
-			// Error - should only be one default	
-			throw new AdempiereException("TooManyDefaults");
+		} else {
+			throw new AdempiereException("TooManyDefaults"); // Error - should only be one default
 		}
-		
-			
 		
 		return m_tax;
 	} // getDefaultTax
