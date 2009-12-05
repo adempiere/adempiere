@@ -624,7 +624,7 @@ public class VPayment extends CDialog
 		Object[] a = values.keySet().toArray();
 		for (int i = 0; i < a.length; i++)
 		{			
-                        String PaymentRule = (String)a[i];		//	used for Panel selection
+            String PaymentRule = (String)a[i];		//	used for Panel selection
 			if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule)			//	SO
 				&& !m_isSOTrx)
 				continue;
