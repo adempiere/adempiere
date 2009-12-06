@@ -74,6 +74,26 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
       return sb.toString();
     }
 
+	/** Set Current Cost Price.
+		@param CurrentCostPrice 
+		The currently used cost price
+	  */
+	public void setCurrentCostPrice (BigDecimal CurrentCostPrice)
+	{
+		set_Value (COLUMNNAME_CurrentCostPrice, CurrentCostPrice);
+	}
+
+	/** Get Current Cost Price.
+		@return The currently used cost price
+	  */
+	public BigDecimal getCurrentCostPrice () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrentCostPrice);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record

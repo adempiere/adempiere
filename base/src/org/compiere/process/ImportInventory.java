@@ -22,8 +22,10 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MAttributeSetInstance;
+import org.compiere.model.MCost;
 import org.compiere.model.MInventory;
 import org.compiere.model.MInventoryLine;
 import org.compiere.model.MProduct;
@@ -32,7 +34,7 @@ import org.compiere.util.DB;
 import org.compiere.util.TimeUtil;
 
 /**
- *	Import Physical Inventory fom I_Inventory
+ *	Import Physical Inventory from I_Inventory
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ImportInventory.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
@@ -49,7 +51,20 @@ public class ImportInventory extends SvrProcess
 	private Timestamp		p_MovementDate = null;
 	/**	Delete old Imported				*/
 	private boolean			p_DeleteOldImported = false;
-
+	
+	//@Trifon
+	/**	Update Costing					*/
+	private boolean			p_UpdateCosting = false;
+	/**	Accounting Schema in which costing to be updated	*/
+	private int				p_C_AcctSchema_ID = 0;
+	MAcctSchema acctSchema 	= null;
+	/**	Cost Type for which costing to be updated		*/
+	private int				p_M_CostType_ID = 0;
+	/**	Cost Element for which costing to be updated	*/
+	private int				p_M_CostElement_ID = 0;
+	/**	Organization for which Costing record must be updated	*/
+	private int				p_AD_OrgTrx_ID = 0;
+	
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
@@ -71,6 +86,16 @@ public class ImportInventory extends SvrProcess
 				p_MovementDate = (Timestamp)para[i].getParameter();
 			else if (name.equals("DeleteOldImported"))
 				p_DeleteOldImported = "Y".equals(para[i].getParameter());
+			else if (name.equals("IsUpdateCosting"))
+				p_UpdateCosting = "Y".equals(para[i].getParameter());
+			else if (name.equals("C_AcctSchema_ID"))
+				p_C_AcctSchema_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("M_CostType_ID"))
+				p_M_CostType_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("M_CostElement_ID"))
+				p_M_CostElement_ID = ((BigDecimal)para[i].getParameter()).intValue();
+			else if (name.equals("AD_OrgTrx_ID"))
+				p_AD_OrgTrx_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -85,7 +110,23 @@ public class ImportInventory extends SvrProcess
 	protected String doIt() throws java.lang.Exception
 	{
 		log.info("M_Locator_ID=" + p_M_Locator_ID + ",MovementDate=" + p_MovementDate);
-		//
+		
+		if (p_UpdateCosting) {
+			if (p_C_AcctSchema_ID <= 0) {
+				throw new IllegalArgumentException("Accounting Schema required!");
+			}
+			if (p_M_CostType_ID <= 0) {
+				throw new IllegalArgumentException("Cost Type required!");
+			}
+			if (p_M_CostElement_ID <= 0 ) {
+				throw new IllegalArgumentException("Cost Element required!");
+			}
+			if (p_AD_OrgTrx_ID < 0 ) {
+				throw new IllegalArgumentException("AD_OrgTrx required!");
+			}
+			 acctSchema = MAcctSchema.get(getCtx(), p_C_AcctSchema_ID, get_TrxName());
+		}
+		
 		StringBuffer sql = null;
 		int no = 0;
 		String clientCheck = " AND AD_Client_ID=" + p_AD_Client_ID;
@@ -282,8 +323,21 @@ public class ImportInventory extends SvrProcess
 					imp.setM_Inventory_ID(line.getM_Inventory_ID());
 					imp.setM_InventoryLine_ID(line.getM_InventoryLine_ID());
 					imp.setProcessed(true);
-					if (imp.save())
+					if (imp.save()) {
 						noInsertLine++;
+						//@Trifon update Product cost record if Update costing is enabled
+						if (p_UpdateCosting) {
+							MCost cost = MCost.get (MProduct.get(getCtx(), imp.getM_Product_ID()), /*M_AttributeSetInstance_ID*/ 0
+									, acctSchema, p_AD_OrgTrx_ID, p_M_CostElement_ID, get_TrxName());
+							cost.setCurrentCostPrice( imp.getCurrentCostPrice() );
+							if (cost.save()) {
+								// nothing here.
+							} else {
+								log.log(Level.SEVERE, "Cost not saved!");
+								break;
+							}
+						}
+					}
 				}
 			}
 			rs.close();

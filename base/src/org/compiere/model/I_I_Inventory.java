@@ -78,6 +78,19 @@ public interface I_I_Inventory
 	  */
 	public int getCreatedBy();
 
+    /** Column name CurrentCostPrice */
+    public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";
+
+	/** Set Current Cost Price.
+	  * The currently used cost price
+	  */
+	public void setCurrentCostPrice (BigDecimal CurrentCostPrice);
+
+	/** Get Current Cost Price.
+	  * The currently used cost price
+	  */
+	public BigDecimal getCurrentCostPrice();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
