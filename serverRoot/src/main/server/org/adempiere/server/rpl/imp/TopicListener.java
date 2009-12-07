@@ -41,7 +41,8 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.jms.Topic;
 
-import org.adempiere.server.rpl.XMLHelper;
+import org.adempiere.process.rpl.imp.ImportHelper;
+import org.adempiere.process.rpl.XMLHelper;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.compiere.server.ReplicationProcessor;
 import org.compiere.util.CLogger;

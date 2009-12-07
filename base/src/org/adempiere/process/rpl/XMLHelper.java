@@ -26,7 +26,7 @@
 * Sponsors:                                                           *
 * - E-evolution (http://www.e-evolution.com)                          *
 **********************************************************************/
-package org.adempiere.server.rpl;
+package org.adempiere.process.rpl;
 
 import java.io.File;
 import java.io.IOException;

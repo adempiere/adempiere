@@ -26,11 +26,11 @@
  * Sponsors:                                                          *
  *  - E-evolution (http://www.e-evolution.com/)                       *
  **********************************************************************/
-package org.adempiere.server.rpl.imp;
+package org.adempiere.process.rpl.imp;
 
 import java.util.logging.Level;
 
-import org.adempiere.server.rpl.XMLHelper;
+import org.adempiere.process.rpl.XMLHelper;
 import org.compiere.Adempiere;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;

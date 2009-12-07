@@ -32,6 +32,7 @@ package org.adempiere.process;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.logging.Level;
 
@@ -54,6 +55,7 @@ import org.compiere.util.Msg;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
+
 
 /**
  *	
@@ -214,20 +216,21 @@ public class Export extends SvrProcess
 	 */
 	private void generateExportFormat(Element rootElement, MEXPFormat exportFormat, ResultSet rs, PO masterPO, int masterID, HashMap<String, Integer> variableMap) throws SQLException, Exception 
 	{
-		MEXPFormatLine[] formatLines = (MEXPFormatLine[]) exportFormat.getFormatLines();
+		Collection<MEXPFormatLine> formatLines = exportFormat.getFormatLines();
 		@SuppressWarnings("unused")
 		boolean elementHasValue = false;
 		
-		for (int i = 0; i < formatLines.length; i++) {
-			if ( formatLines[i].getType().equals(X_EXP_FormatLine.TYPE_XMLElement) ) {
+		for (MEXPFormatLine formatLine : formatLines) 
+		{
+			if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_XMLElement) ) {
 				// process single XML Attribute
 				// Create new element
-				Element newElement = outDocument.createElement(formatLines[i].getValue());
+				Element newElement = outDocument.createElement(formatLine.getValue());
 
-				if (formatLines[i].getAD_Column_ID() == 0) {
+				if (formatLine.getAD_Column_ID() == 0) {
 					throw new Exception(Msg.getMsg (getCtx(), "EXPColumnMandatory"));
 				}
-				MColumn column = MColumn.get(getCtx(), formatLines[i].getAD_Column_ID());
+				MColumn column = MColumn.get(getCtx(), formatLine.getAD_Column_ID());
 				if (column == null) {
 					throw new Exception(Msg.getMsg (getCtx(), "EXPColumnMandatory"));
 				}
@@ -241,7 +244,7 @@ public class Export extends SvrProcess
 				if (value != null) {
 					valueString = value.toString();
 				} else {
-					if (formatLines[i].isMandatory()) {
+					if (formatLine.isMandatory()) {
 						throw new Exception(Msg.getMsg (getCtx(), "EXPFieldMandatory"));
 					}
 				}
@@ -278,17 +281,17 @@ public class Export extends SvrProcess
 				} else {
 					// Empty field.
 				}
-			} else if ( formatLines[i].getType().equals(X_EXP_FormatLine.TYPE_XMLAttribute) ) {
+			} else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_XMLAttribute) ) {
 				// process single XML Attribute
 /*				// Create new element
 				Element newElement = outDocument.createElement(formatLines[i].getValue());
 				if (hasContent) {
 					rootElement.appendChild(newElement);
 				}*/
-				if (formatLines[i].getAD_Column_ID() == 0) {
+				if (formatLine.getAD_Column_ID() == 0) {
 					throw new Exception(Msg.getMsg (getCtx(), "EXPColumnMandatory"));
 				}
-				MColumn column = MColumn.get(getCtx(), formatLines[i].getAD_Column_ID());
+				MColumn column = MColumn.get(getCtx(), formatLine.getAD_Column_ID());
 				if (column == null) {
 					throw new Exception(Msg.getMsg (getCtx(), "EXPColumnMandatory"));
 				}
@@ -302,7 +305,7 @@ public class Export extends SvrProcess
 				if (value != null) {
 					valueString = value.toString();
 				} else {
-					if (formatLines[i].isMandatory()) {
+					if (formatLine.isMandatory()) {
 						throw new Exception(Msg.getMsg (getCtx(), "EXPFieldMandatory"));
 					}
 				}
@@ -330,17 +333,17 @@ public class Export extends SvrProcess
 				}*/
 				log.info("EXP Field - column=["+column.getColumnName()+"]; value=" + value);
 				if (valueString != null && !"".equals(valueString) && !"null".equals(valueString)) {
-					rootElement.setAttribute(formatLines[i].getValue(), valueString);
+					rootElement.setAttribute(formatLine.getValue(), valueString);
 					elementHasValue = true;
 					//increaseVariable(variableMap, formatLines[i].getVariableName()); // Increase value of Variable if any Variable 
 					//increaseVariable(variableMap, TOTAL_SEGMENTS);
 				} else {
 					// Empty field.
 				}
-			} else if ( formatLines[i].getType().equals(X_EXP_FormatLine.TYPE_EmbeddedEXPFormat) ) {
+			} else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_EmbeddedEXPFormat) ) {
 				// process Embedded Export Format
 				
-				int embeddedFormat_ID = formatLines[i].getEXP_EmbeddedFormat_ID();
+				int embeddedFormat_ID = formatLine.getEXP_EmbeddedFormat_ID();
 				MEXPFormat embeddedFormat = new MEXPFormat(getCtx(), embeddedFormat_ID, get_TrxName());
 				
 				MTable tableEmbedded = MTable.get(getCtx(), embeddedFormat.getAD_Table_ID());
@@ -366,8 +369,8 @@ public class Export extends SvrProcess
 						int embeddedID = rsEmbedded.getInt(tableEmbedded.getTableName() + "_ID");
 						PO poEmbedded = tableEmbedded.getPO (embeddedID, get_TrxName());
 						
-						Element embeddedElement = outDocument.createElement(formatLines[i].getValue());
-						embeddedElement.appendChild(outDocument.createComment(formatLines[i].getDescription()));
+						Element embeddedElement = outDocument.createElement(formatLine.getValue());
+						embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
 						generateExportFormat(embeddedElement, embeddedFormat, rsEmbedded, poEmbedded, embeddedID, variableMap);
 						rootElement.appendChild(embeddedElement);
 					}

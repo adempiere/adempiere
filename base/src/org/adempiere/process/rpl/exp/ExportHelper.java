@@ -34,6 +34,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -62,6 +63,7 @@ import org.compiere.model.MEXPProcessorType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
+
 
 /**
  * @author Trifon N. Trifonov
@@ -232,7 +234,7 @@ public class ExportHelper {
 		
 		for (int id : ids)
 		{	
-				PO po = table.getPO(id, null);
+				PO po = table.getPO(id, exportFormat.get_TrxName());
 				log.info("Client = " + client.toString());
 				log.finest("po.getAD_Org_ID() = " + po.getAD_Org_ID());
 				log.finest("po.get_TrxName() = " + po.get_TrxName());
@@ -302,20 +304,22 @@ public class ExportHelper {
 	 */
 	private void generateExportFormat(Element rootElement, MEXPFormat exportFormat, ResultSet rs, PO masterPO, int masterID, HashMap<String, Integer> variableMap) throws SQLException, Exception 
 	{
-		MEXPFormatLine[] formatLines = (MEXPFormatLine[]) exportFormat.getFormatLines();
+		Collection<MEXPFormatLine> formatLines = exportFormat.getFormatLines();
 		@SuppressWarnings("unused")
 		boolean elementHasValue = false;
 		
-		for (int i = 0; i < formatLines.length; i++) {
-			if ( formatLines[i].getType().equals(X_EXP_FormatLine.TYPE_XMLElement) ) {
+		//for (int i = 0; i < formatLines.length; i++) {
+		for (MEXPFormatLine formatLine : formatLines)
+		{	
+			if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_XMLElement) ) {
 				// process single XML Attribute
 				// Create new element
-				Element newElement = outDocument.createElement(formatLines[i].getValue());
+				Element newElement = outDocument.createElement(formatLine.getValue());
 
-				if (formatLines[i].getAD_Column_ID() == 0) {
+				if (formatLine.getAD_Column_ID() == 0) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
-				MColumn column = MColumn.get(masterPO.getCtx(), formatLines[i].getAD_Column_ID());
+				MColumn column = MColumn.get(masterPO.getCtx(), formatLine.getAD_Column_ID());
 				if (column == null) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
@@ -330,14 +334,14 @@ public class ExportHelper {
 					valueString = value.toString();
 				} else {
 					//  Could remove this exception and create empty XML Element when column do not have value. 
-					if (formatLines[i].isMandatory()) {
+					if (formatLine.isMandatory()) {
 						//throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPFieldMandatory"));
 					}
 				}
 				if (column.getAD_Reference_ID() == DisplayType.Date) {
 					if (valueString != null) {
-						if (formatLines[i].getDateFormat() != null && !"".equals(formatLines[i].getDateFormat())) {
-							m_customDateFormat = new SimpleDateFormat( formatLines[i].getDateFormat() ); // "MM/dd/yyyy"
+						if (formatLine.getDateFormat() != null && !"".equals(formatLine.getDateFormat())) {
+							m_customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
 							//Date date = m_customDateFormat.parse ( valueString );
 							valueString = m_customDateFormat.format(Timestamp.valueOf (valueString));
 							newElement.setAttribute("DateFormat", m_customDateFormat.toPattern()); // Add "DateForamt attribute"
@@ -351,8 +355,8 @@ public class ExportHelper {
 					}
 				} else if (column.getAD_Reference_ID() == DisplayType.DateTime) {
 					if (valueString != null) {
-						if (formatLines[i].getDateFormat() != null && !"".equals(formatLines[i].getDateFormat())) {
-							m_customDateFormat = new SimpleDateFormat( formatLines[i].getDateFormat() ); // "MM/dd/yyyy"
+						if (formatLine.getDateFormat() != null && !"".equals(formatLine.getDateFormat())) {
+							m_customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
 							//Date date = m_customDateFormat.parse ( valueString );
 							valueString = m_customDateFormat.format(Timestamp.valueOf (valueString));
 							newElement.setAttribute("DateFormat", m_customDateFormat.toPattern()); // Add "DateForamt attribute"
@@ -374,19 +378,19 @@ public class ExportHelper {
 					//increaseVariable(variableMap, TOTAL_SEGMENTS);
 				} else {
 					// Empty field.
-					if (formatLines[i].isMandatory()) {
+					if (formatLine.isMandatory()) {
 						Text newText = outDocument.createTextNode("");
 						newElement.appendChild(newText);
 						rootElement.appendChild(newElement);
 						elementHasValue = true;
 					}
 				}
-			} else if ( formatLines[i].getType().equals(X_EXP_FormatLine.TYPE_XMLAttribute) ) {
+			} else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_XMLAttribute) ) {
 				// process single XML Attribute
-				if (formatLines[i].getAD_Column_ID() == 0) {
+				if (formatLine.getAD_Column_ID() == 0) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
-				MColumn column = MColumn.get(masterPO.getCtx(), formatLines[i].getAD_Column_ID());
+				MColumn column = MColumn.get(masterPO.getCtx(), formatLine.getAD_Column_ID());
 				if (column == null) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
@@ -400,7 +404,7 @@ public class ExportHelper {
 				if (value != null) {
 					valueString = value.toString();
 				} else {
-					if (formatLines[i].isMandatory()) {
+					if (formatLine.isMandatory()) {
 						throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPFieldMandatory"));
 					}
 				}
@@ -428,17 +432,19 @@ public class ExportHelper {
 				}*/
 				log.info("EXP Field - column=["+column.getColumnName()+"]; value=" + value);
 				if (valueString != null && !"".equals(valueString) && !"null".equals(valueString)) {
-					rootElement.setAttribute(formatLines[i].getValue(), valueString);
+					rootElement.setAttribute(formatLine.getValue(), valueString);
 					elementHasValue = true;
 					//increaseVariable(variableMap, formatLines[i].getVariableName()); // Increase value of Variable if any Variable 
 					//increaseVariable(variableMap, TOTAL_SEGMENTS);
 				} else {
 					// Empty field.
 				}
-			} else if ( formatLines[i].getType().equals(X_EXP_FormatLine.TYPE_EmbeddedEXPFormat) ) {
+			} 
+			else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_EmbeddedEXPFormat) ) 
+			{
 				// process Embedded Export Format
 				
-				int embeddedFormat_ID = formatLines[i].getEXP_EmbeddedFormat_ID();
+				int embeddedFormat_ID = formatLine.getEXP_EmbeddedFormat_ID();
 				MEXPFormat embeddedFormat = new MEXPFormat(masterPO.getCtx(), embeddedFormat_ID, masterPO.get_TrxName());
 				
 				MTable tableEmbedded = MTable.get(masterPO.getCtx(), embeddedFormat.getAD_Table_ID());
@@ -465,9 +471,9 @@ public class ExportHelper {
 						int embeddedID = rsEmbedded.getInt(tableEmbedded.getTableName() + "_ID");
 						PO poEmbedded = tableEmbedded.getPO (embeddedID, masterPO.get_TrxName());
 						
-						Element embeddedElement = outDocument.createElement(formatLines[i].getValue());
-						if (formatLines[i].getDescription() != null && !"".equals(formatLines[i].getDescription())) {
-							embeddedElement.appendChild(outDocument.createComment(formatLines[i].getDescription()));
+						Element embeddedElement = outDocument.createElement(formatLine.getValue());
+						if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) {
+							embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
 						}
 						generateExportFormat(embeddedElement, embeddedFormat, rsEmbedded, poEmbedded, embeddedID, variableMap);
 						rootElement.appendChild(embeddedElement);
@@ -482,10 +488,12 @@ public class ExportHelper {
 					pstmt = null;
 				}
 
-			} else if ( formatLines[i].getType().equals(X_EXP_FormatLine.TYPE_ReferencedEXPFormat) ) {
+			} 
+			else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_ReferencedEXPFormat) ) 
+			{
 				// process Referenced Export Format
 				
-				int embeddedFormat_ID = formatLines[i].getEXP_EmbeddedFormat_ID();
+				int embeddedFormat_ID = formatLine.getEXP_EmbeddedFormat_ID();
 				MEXPFormat embeddedFormat = new MEXPFormat(masterPO.getCtx(), embeddedFormat_ID, masterPO.get_TrxName());
 				
 				MTable tableEmbedded = MTable.get(masterPO.getCtx(), embeddedFormat.getAD_Table_ID());
@@ -499,10 +507,10 @@ public class ExportHelper {
 					sql.append(" AND ").append(embeddedFormat.getWhereClause());
 				}
 				log.info(sql.toString());
-				if (formatLines[i].getAD_Column_ID() == 0) {
+				if (formatLine.getAD_Column_ID() == 0) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
-				MColumn column = MColumn.get(masterPO.getCtx(), formatLines[i].getAD_Column_ID());
+				MColumn column = MColumn.get(masterPO.getCtx(), formatLine.getAD_Column_ID());
 				if (column == null) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
@@ -532,9 +540,9 @@ public class ExportHelper {
 						int embeddedID = rsEmbedded.getInt(tableEmbedded.getTableName() + "_ID");
 						PO poEmbedded = tableEmbedded.getPO (embeddedID, masterPO.get_TrxName());
 						
-						Element embeddedElement = outDocument.createElement(formatLines[i].getValue());
-						if (formatLines[i].getDescription() != null && !"".equals(formatLines[i].getDescription())) {
-							embeddedElement.appendChild(outDocument.createComment(formatLines[i].getDescription()));
+						Element embeddedElement = outDocument.createElement(formatLine.getValue());
+						if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) {
+							embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
 						}
 						generateExportFormat(embeddedElement, embeddedFormat, rsEmbedded, poEmbedded, embeddedID, variableMap);
 						rootElement.appendChild(embeddedElement);

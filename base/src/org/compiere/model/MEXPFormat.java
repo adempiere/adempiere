@@ -30,19 +30,13 @@
 
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.model.MTable;
-import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 /**
  * @author Trifon N. Trifonov
@@ -51,10 +45,11 @@ import org.compiere.util.DB;
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195090&group_id=176962&atid=879335
  */
 public class MEXPFormat extends X_EXP_Format {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1070027055056912752L;
+	private static final long serialVersionUID = 1455411275338766608L;
 
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MEXPFormat.class);
@@ -69,86 +64,29 @@ public class MEXPFormat extends X_EXP_Format {
 		super (ctx, rs, trxName);
 	}
 	
-	public MEXPFormatLine[] getFormatLines() {
+	public Collection<MEXPFormatLine> getFormatLines() {
 		return getFormatLinesOrderedBy(X_EXP_FormatLine.COLUMNNAME_Position);
 	}
 	
-	public MEXPFormatLine[] getFormatLinesOrderedBy(String orderBy) {
-		List<MEXPFormatLine> resultList = new ArrayList<MEXPFormatLine>();
-		                   
-		StringBuffer sql = new StringBuffer("SELECT * ")
-			.append(" FROM ").append(X_EXP_FormatLine.Table_Name)
-			.append(" WHERE ").append(X_EXP_FormatLine.COLUMNNAME_EXP_Format_ID).append("=?")
-			.append(" AND IsActive = ?")
-			.append(" ORDER BY ").append(orderBy);
-		PreparedStatement pstmt = null;
-		MEXPFormatLine exportLine = null;
-		try {
-			pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
-			pstmt.setInt(1, getEXP_Format_ID());
-			pstmt.setString(2, "Y");
-			ResultSet rs = pstmt.executeQuery ();
-			while ( rs.next() ) {
-				exportLine = new MEXPFormatLine (getCtx(), rs, get_TrxName());
-				resultList.add(exportLine);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} catch (SQLException e) {
-			s_log.log(Level.SEVERE, sql.toString(), e);
-		} finally {
-			try	{
-				if (pstmt != null) pstmt.close ();
-				pstmt = null;
-			} catch (Exception e) {	pstmt = null; }
-		}
-
-		MEXPFormatLine[] result = (MEXPFormatLine[])resultList.toArray( new MEXPFormatLine[0]);
-		return result;
+	public Collection<MEXPFormatLine> getFormatLinesOrderedBy(String orderBy) 
+	{
+		final String clauseWhere = X_EXP_FormatLine.COLUMNNAME_EXP_Format_ID + "=?";	
+		return new Query(getCtx() , I_EXP_FormatLine.Table_Name, clauseWhere , get_TrxName())
+						.setOnlyActiveRecords(true)
+						.setParameters(new Object[]{getEXP_Format_ID()})
+						.setOrderBy(orderBy)
+						.list();
 	}
 
-	public MEXPFormatLine[] getUniqueColumns() throws SQLException {
-		List<MEXPFormatLine> resultList = new ArrayList<MEXPFormatLine>();
-		                   
-		StringBuffer sql = new StringBuffer("SELECT * ")
-			.append(" FROM ").append(X_EXP_FormatLine.Table_Name)
-			.append(" WHERE ").append(X_EXP_FormatLine.COLUMNNAME_EXP_Format_ID).append("= ?")
-			.append(" AND IsActive = ?")
-			.append(" AND ").append(X_EXP_FormatLine.COLUMNNAME_IsPartUniqueIndex).append("= ?")
-			.append(" ORDER BY ").append(X_EXP_FormatLine.COLUMNNAME_Position);
-		PreparedStatement pstmt = null;
-		MEXPFormatLine exportLine = null;
-		log.info(sql.toString());
-		
-		log.info("pstmt.setInt(1, getEXP_Format_ID() = " + getEXP_Format_ID());
-		try {
-			pstmt = DB.prepareStatement (sql.toString(), get_TrxName());
-			pstmt.setInt(1, getEXP_Format_ID());
-			pstmt.setString(2, "Y");
-			pstmt.setString(3, "Y");
-			ResultSet rs = pstmt.executeQuery ();
-			while ( rs.next() ) {
-				exportLine = new MEXPFormatLine (getCtx(), rs, get_TrxName());
-				resultList.add(exportLine);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} catch (SQLException e) {
-			s_log.log(Level.SEVERE, sql.toString(), e);
-			throw e;
-		} finally {
-			try	{
-				if (pstmt != null) pstmt.close ();
-				pstmt = null;
-			} catch (Exception e) {	pstmt = null; }
-		}
-
-		MEXPFormatLine[] result = (MEXPFormatLine[])resultList.toArray( new MEXPFormatLine[0]);
-		return result;
+	public Collection<MEXPFormatLine> getUniqueColumns() throws SQLException {	
+		final String clauseWhere = X_EXP_FormatLine.COLUMNNAME_EXP_Format_ID+"= ?"
+								 + " AND " + X_EXP_FormatLine.COLUMNNAME_IsPartUniqueIndex +"= ?";
+		return new Query(getCtx(), I_EXP_FormatLine.Table_Name, clauseWhere, get_TrxName())
+													 .setOnlyActiveRecords(true)
+													 .setParameters(new Object[]{getEXP_Format_ID(), "Y"})
+													 .setOrderBy(X_EXP_FormatLine.COLUMNNAME_Position)
+													 .list();
 	}
-
 	
 	public static MEXPFormat getFormatByValueAD_Client_IDAndVersion(Properties ctx, String value, int AD_Client_ID, String version, String trxName) 
 			throws SQLException 

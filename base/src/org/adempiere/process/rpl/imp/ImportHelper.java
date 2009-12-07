@@ -26,20 +26,22 @@
  * Sponsors:                                                          *
  *  - E-evolution (http://www.e-evolution.com/)                       *
  **********************************************************************/
-package org.adempiere.server.rpl.imp;
+package org.adempiere.process.rpl.imp;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.process.rpl.exp.ExportHelper;
-import org.adempiere.server.rpl.XMLHelper;
+import org.adempiere.process.rpl.XMLHelper;
 import org.compiere.model.I_AD_Client;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
@@ -266,8 +268,8 @@ public class ImportHelper {
 		StringBuffer orderBy = new StringBuffer(MEXPFormatLine.COLUMNNAME_IsMandatory).append(" DESC ")
 			.append(", ").append(MEXPFormatLine.COLUMNNAME_Position);
 		
-		MEXPFormatLine[] formatLines = expFormat.getFormatLinesOrderedBy(orderBy.toString());
-		if (formatLines == null || formatLines.length < 1) 
+		Collection<MEXPFormatLine> formatLines = expFormat.getFormatLinesOrderedBy(orderBy.toString());
+		if (formatLines == null || formatLines.size() < 1) 
 		{
 			throw new Exception(Msg.getMsg(ctx, "EXPFormatNoLines"));
 		}
@@ -472,8 +474,7 @@ public class ImportHelper {
 						//
 						if (!Util.isEmpty(value.toString()))
 						{
-							double doubleValue = Double.parseDouble(value.toString());
-							value = new BigDecimal(doubleValue);
+							value = new Integer(value.toString());
 						}
 						else
 						{
@@ -567,21 +568,24 @@ public class ImportHelper {
 		}
 		
 		// Get list with all Unique columns!
-		MEXPFormatLine[] uniqueFormatLines = expFormat.getUniqueColumns();
-		if (uniqueFormatLines == null || uniqueFormatLines.length < 1) 
+		Collection<MEXPFormatLine> uniqueFormatLines = expFormat.getUniqueColumns();
+		if (uniqueFormatLines == null || uniqueFormatLines.size() < 1) 
 		{
-			throw new Exception(Msg.getMsg(ctx, "EXPFormatLineNoUniqueColumns"));
+			throw new AdempiereException(Msg.getMsg(ctx, "EXPFormatLineNoUniqueColumns"));
 		}
 		
-		Object[] cols 	= new Object[uniqueFormatLines.length];
-		Object[] params = new Object[uniqueFormatLines.length];
+		Object[] cols 	= new Object[uniqueFormatLines.size()];
+		Object[] params = new Object[uniqueFormatLines.size()];
 		StringBuffer whereClause= new StringBuffer("");
 		int col = 0;
+		String formatLines = "";
 		for (MEXPFormatLine uniqueFormatLine : uniqueFormatLines) 
 		{
 			MColumn column = MColumn.get(ctx, uniqueFormatLine.getAD_Column_ID());
 			log.info("column = ["+column+"]");
 			String valuecol=column.getColumnName();
+			
+			formatLines = formatLines + "|"+ valuecol;
 			
 			if (MEXPFormatLine.TYPE_XMLElement.equals(uniqueFormatLine.getType())) 
 			{
@@ -626,10 +630,23 @@ public class ImportHelper {
 			{
 				params[col] = (String)cols[col];
 			}
-			else if(	DisplayType.Amount		== column.getAD_Reference_ID() 
-					||  DisplayType.Number		== column.getAD_Reference_ID() 
-					||	DisplayType.CostPrice	== column.getAD_Reference_ID() 
-					|| 	DisplayType.Quantity	== column.getAD_Reference_ID())
+			else if (  DisplayType.isID(column.getAD_Reference_ID())
+					|| DisplayType.Integer	==	column.getAD_Reference_ID()) 
+			{
+				Object value =  cols[col];
+				if (!Util.isEmpty(value.toString()))
+				{
+					//double doubleValue = Double.parseDouble(value.toString());
+					value = new Integer(value.toString());
+				}
+				else
+				{
+					value=null;
+				}
+				
+				params[col] = value;
+			}	
+			else if( DisplayType.isNumeric(column.getAD_Reference_ID()))
 			{
 				valuecol="Round("+valuecol+",2)";
 				params[col] = new BigDecimal((String)cols[col]).setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -653,7 +670,7 @@ public class ImportHelper {
 		
 		if(values.size()>1)//The Return Object must be always one
 		{
-			throw new Exception(Msg.getMsg(ctx, "EXPFormatIncorrectFormatDefinition"));
+			throw new AdempiereException(Msg.getMsg(ctx, "EXPFormatLineNoUniqueColumns") + " : " +expFormat.getName() + "(" +formatLines+")");
 		}
 		
 		if(values.size()<=0)//Means that is a new record

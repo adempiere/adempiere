@@ -30,8 +30,9 @@ package org.adempiere.server.rpl.imp;
 
 import java.util.Properties;
 
+import org.adempiere.process.rpl.imp.ImportHelper;
+import org.adempiere.process.rpl.XMLHelper;
 import org.adempiere.server.rpl.IImportProcessor;
-import org.adempiere.server.rpl.XMLHelper;
 import org.compiere.model.MIMPProcessor;
 import org.compiere.model.X_IMP_ProcessorParameter;
 import org.compiere.server.ReplicationProcessor;
