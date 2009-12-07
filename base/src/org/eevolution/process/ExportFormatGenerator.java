@@ -51,8 +51,6 @@ public class ExportFormatGenerator extends SvrProcess
 	private String m_parent_table = null;
 	private String m_format_value = null;
 	private int m_level = -1;
-	private MTab currentTab = null;
-	private MWindow window = null;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
@@ -87,7 +85,7 @@ public class ExportFormatGenerator extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		window = new MWindow(getCtx(),p_AD_Window_ID, get_TrxName());
+		MWindow window = new MWindow(getCtx(),p_AD_Window_ID, get_TrxName());
 		MTab[] tabs = window.getTabs(true, get_TrxName());
 		
 		
@@ -358,32 +356,4 @@ public class ExportFormatGenerator extends SvrProcess
 				log.info("Export Format Line:"+formatLine.getName());
 				return formatLine.getEXP_FormatLine_ID();		
 		  }
-	private void createEmbededFormat(MTable table, MColumn col,boolean force) throws Exception
-	{
-		if(col.isParent() && getTab().getTabLevel() > 0)
-		{
-			String tableName = col.getColumnName().substring(0, col.getColumnName().lastIndexOf("_ID"));
-			
-			MEXPFormat format =	MEXPFormat.getFormatByValueAD_Client_IDAndVersion(getCtx(), tableName, getAD_Client_ID(), version, get_TrxName());
-			if (format != null)
-			{
-				createFormatLine(format, MTable.get(col.getCtx(), tableName), col, 0 , force);
-				return;
-			}
-		}
-	}
-	
-	private MTab getTab()
-	{
-		return currentTab;
-	}
-	
-	private MWindow getWindow()
-	{
-		return window;
-	}
-	private void setTab(MTab tab) 
-	{
-		currentTab = tab;
-	}
 }	//	Generate Export Format
