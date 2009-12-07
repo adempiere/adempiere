@@ -382,10 +382,12 @@ public final class Env
 		if (WindowNo != WINDOW_FIND && WindowNo != WINDOW_MLOOKUP)
 			s_log.finest("Context("+WindowNo+","+TabNo+") " + context + "==" + value);
 		//
-		if (value == null || value.equals(""))
-			ctx.remove(WindowNo+"|"+TabNo+"|"+context);
-		else
-			ctx.setProperty(WindowNo+"|"+TabNo+"|"+context, value);
+		if (value == null)
+			if (context.endsWith("_ID"))
+				value = new String("-1");
+			else
+				value = new String("");
+		ctx.setProperty(WindowNo+"|"+TabNo+"|"+context, value);
 	}	//	setContext
 
 	/**
@@ -1181,16 +1183,9 @@ public final class Env
 				ctxInfo = getContext(ctx, token);	// get global context
 			if (ctxInfo.length() == 0)
 			{
-				if (token.endsWith("_ID"))
-				{
-					outStr.append("0");
-				}
-				else
-				{
-					s_log.config("No Context Win=" + WindowNo + " for: " + token);
-					if (!ignoreUnparsable)
-						return "";						//	token not found
-				}
+				s_log.config("No Context Win=" + WindowNo + " for: " + token);
+				if (!ignoreUnparsable)
+					return "";						//	token not found
 			}
 			else
 				outStr.append(ctxInfo);				// replace context with Context
