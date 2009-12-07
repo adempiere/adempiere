@@ -36,7 +36,7 @@ public class MRMALine extends X_M_RMALine
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4939372209739721247L;
+	private static final long serialVersionUID = 7542507297588438252L;
 
 	/**
 	 * 	Standard Constructor
@@ -291,15 +291,7 @@ public class MRMALine extends X_M_RMALine
             return success;
         }
         
-        MRMA rma = getParent();
-        rma.updateAmount();
-        
-        if (!rma.save(get_TrxName()))
-        {
-            throw new IllegalStateException("Could not update RMA grand total");
-        }
-        
-        return true;
+        return updateHeaderAmt();
     }
     
     @Override
@@ -310,17 +302,33 @@ public class MRMALine extends X_M_RMALine
             return success;
         }
         
-        MRMA rma = getParent();
-        rma.updateAmount();
-        
-        if (!rma.save(get_TrxName()))
-        {
-            throw new IllegalStateException("Could not update RMA grand total");
-        }
-        
-        return true;
+        return updateHeaderAmt();
     }
-    
+
+	/**
+	 *	Update Amount on Header
+	 *	@return true if header updated
+	 */
+	private boolean updateHeaderAmt()
+	{
+		// Update header only if the document is not processed
+		if (isProcessed() && !is_ValueChanged(COLUMNNAME_Processed))
+			return true;
+
+		//	Update RMA Header
+		String sql = "UPDATE M_RMA "
+			+ " SET Amt="
+				+ "(SELECT COALESCE(SUM(LineNetAmt),0) FROM M_RMALine WHERE M_RMA.M_RMA_ID=M_RMALine.M_RMA_ID) "
+			+ "WHERE M_RMA_ID=?";
+		int no = DB.executeUpdateEx(sql, new Object[]{getM_RMA_ID()}, get_TrxName());
+		if (no != 1)
+			log.warning("(1) #" + no);
+
+		m_parent = null;
+
+		return no == 1;
+	}	//	updateHeaderTax
+
     /**
      *  Add to Description
      *  @param description text
