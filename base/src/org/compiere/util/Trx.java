@@ -138,15 +138,37 @@ public class Trx implements VetoableChangeListener
 	private long m_startTime;
 
 	/**
-	 * 	Get Connection
-	 *	@return connection
+	 * Get connection
+	 * @return connection
 	 */
 	public Connection getConnection()
+	{
+		return getConnection(true);
+	}
+
+	/**
+	 * 	Get Connection
+	 *  @param createNew if true, create new connection if the trx does not have one created yet
+	 *	@return connection
+	 */
+	public Connection getConnection(boolean createNew)
 	{
 		log.log(Level.ALL, "Active=" + isActive() + ", Connection=" + m_connection);
 		
 		if (m_connection == null)	//	get new Connection
-			setConnection(DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED));
+		{
+			if (createNew)
+			{
+				if (s_cache == null || !s_cache.containsKey(m_trxName))
+				{
+					new Exception("Illegal to getConnection for Trx that is not register.").printStackTrace();
+					return null;
+				}
+				setConnection(DB.createConnection(false, Connection.TRANSACTION_READ_COMMITTED));
+			}
+			else
+				return null;
+		}
 		if (!isActive())
 			start();
 		return m_connection;
@@ -444,6 +466,7 @@ public class Trx implements VetoableChangeListener
 		throws PropertyVetoException
 	{
 		log.info(evt.toString());
+		throw new PropertyVetoException("Skip reset for trx entries cache", evt);
 	}	//	vetoableChange	
 	
 	/**
