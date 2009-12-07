@@ -39,7 +39,24 @@ public final class ProcessUtil {
 	
 	private ProcessUtil() {}
 	
+	/**
+	 * @param processInfo
+	 * @param ProcedureName
+	 * @param trx
+	 * @return boolean
+	 */
 	public static boolean startDatabaseProcedure (ProcessInfo processInfo, String ProcedureName, Trx trx) {
+		return startDatabaseProcedure(processInfo, ProcedureName, trx, true);
+	}
+
+	/**
+	 * @param processInfo
+	 * @param ProcedureName
+	 * @param trx
+	 * @param managedTrx false if trx is managed by caller
+	 * @return boolean
+	 */
+	public static boolean startDatabaseProcedure (ProcessInfo processInfo, String ProcedureName, Trx trx, boolean managedTrx) {
 		String sql = "{call " + ProcedureName + "(?)}";
 		String trxName = trx != null ? trx.getTrxName() : null;
 		try
@@ -49,23 +66,26 @@ public final class ProcessUtil {
 			cstmt.setInt(1, processInfo.getAD_PInstance_ID());
 			cstmt.executeUpdate();
 			cstmt.close();
-			if (trx != null && trx.isActive())
+			if (trx != null && trx.isActive() && managedTrx)
 			{
 				trx.commit(true);
-				trx.close();
 			}
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			if (trx != null && trx.isActive())
+			if (trx != null && trx.isActive() && managedTrx)
 			{
 				trx.rollback();
-				trx.close();
 			}
 			processInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + e.getLocalizedMessage());
 			processInfo.setError (true);
 			return false;
+		}
+		finally
+		{
+			if (trx != null && managedTrx)
+				trx.close();
 		}
 		return true;
 	}
@@ -75,7 +95,24 @@ public final class ProcessUtil {
 		return startJavaProcess(Env.getCtx(), pi, trx);
 	}
 	
+	/**
+	 * @param ctx
+	 * @param pi
+	 * @param trx
+	 * @return boolean
+	 */
 	public static boolean startJavaProcess(Properties ctx, ProcessInfo pi, Trx trx) {
+		return startJavaProcess(ctx, pi, trx, true);
+	}
+
+	/**
+	 * @param ctx
+	 * @param pi
+	 * @param trx
+	 * @param managedTrx false if trx is managed by caller
+	 * @return boolean
+	 */
+	public static boolean startJavaProcess(Properties ctx, ProcessInfo pi, Trx trx, boolean managedTrx) {
 		String className = pi.getClassName();
 		if (className == null) {
 			MProcess proc = new MProcess(ctx, pi.getAD_Process_ID(), trx.getTrxName());
@@ -121,11 +158,9 @@ public final class ProcessUtil {
 		try
 		{
 			success = process.startProcess(ctx, pi, trx);
-			if (success && trx != null)
+			if (success && trx != null && managedTrx)
 			{
 				trx.commit(true);
-				trx.close();
-				trx = null;
 			}
 		}
 		catch (Exception e)
@@ -136,7 +171,7 @@ public final class ProcessUtil {
 		}
 		finally
 		{
-			if (trx != null)
+			if (trx != null && managedTrx)
 			{
 				trx.rollback();
 				trx.close();
@@ -277,69 +312,7 @@ public final class ProcessUtil {
 	 * @return
 	 */
 	public static boolean startJavaProcessWithoutTrxClose(Properties ctx, ProcessInfo pi, Trx trx) {
-		String className = pi.getClassName();
-		if (className == null) {
-			MProcess proc = new MProcess(ctx, pi.getAD_Process_ID(), trx.getTrxName());
-			if (proc.getJasperReport() != null)
-				className = JASPER_STARTER_CLASS;
-		}
-		//Get Class
-		Class<?> processClass = null;
-		try
-		{
-			processClass = Class.forName (className);
-		}
-		catch (ClassNotFoundException ex)
-		{
-			log.log(Level.WARNING, className, ex);
-			pi.setSummary ("ClassNotFound", true);
-			return false;
-		}
-		
-		//Get Process
-		ProcessCall process = null;
-		try
-		{
-			process = (ProcessCall)processClass.newInstance();
-		}
-		catch (Exception ex)
-		{
-			log.log(Level.WARNING, "Instance for " + className, ex);
-			pi.setSummary ("InstanceError", true);
-			return false;
-		}
-		
-		if (processClass == null) {
-			pi.setSummary("No Instance for " + pi.getClassName(), true);
-			return false;
-		}
-		
-		try
-		{
-			boolean success = process.startProcess(ctx, pi, trx);
-			if (trx != null)
-			{
-				if(success){
-//
-				} else {
-					trx.rollback();
-					trx.close();
-					return false;
-				}	
-			}
-		}
-		catch (Exception e)
-		{
-			if (trx != null)
-			{
-				trx.rollback();
-				trx.close();
-			}
-			pi.setSummary("ProcessError", true);
-			log.log(Level.SEVERE, pi.getClassName(), e);
-			return false;
-		}
-		return true;
+		return startJavaProcess(ctx, pi, trx, false);
 	}
 	
 	

@@ -42,7 +42,7 @@ public class MProcess extends X_AD_Process
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2404724380401712390L;
+	private static final long serialVersionUID = 6665942554198058466L;
 
 
 	/**
@@ -184,6 +184,17 @@ public class MProcess extends X_AD_Process
 	 */
 	public MPInstance processIt (int Record_ID, Trx trx)
 	{
+		return processIt(Record_ID, trx, true);
+	}
+
+	/**************************************************************************
+	 * 	Process w/o parameter
+	 *	@param Record_ID record
+	 *	@param trx transaction
+	 *	@return Process Instance
+	 */
+	public MPInstance processIt (int Record_ID, Trx trx, boolean managedTrx)
+	{
 		MPInstance pInstance = new MPInstance (this, Record_ID);
 		//	Lock
 		pInstance.setIsProcessing(true);
@@ -193,7 +204,7 @@ public class MProcess extends X_AD_Process
 
 		ProcessInfo processInfo = new ProcessInfo("", this.getAD_Process_ID());
 		processInfo.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
-		ok = processIt(processInfo, trx);
+		ok = processIt(processInfo, trx, managedTrx);
 
 		//	Unlock
 		pInstance.setResult(ok ? MPInstance.RESULT_OK : MPInstance.RESULT_ERROR);
@@ -213,6 +224,17 @@ public class MProcess extends X_AD_Process
 	 */
 	public boolean processIt (ProcessInfo pi, Trx trx)
 	{
+		return processIt(pi, trx, true);
+	}
+
+	/**
+	 * 	Process It (sync)
+	 *	@param pi Process Info
+	 *	@param trx transaction
+	 *	@return true if OK
+	 */
+	public boolean processIt (ProcessInfo pi, Trx trx, boolean managedTrx)
+	{
 		if (pi.getAD_PInstance_ID() == 0)
 		{
 			MPInstance pInstance = new MPInstance (this, pi.getRecord_ID());
@@ -228,7 +250,7 @@ public class MProcess extends X_AD_Process
 		if (Classname != null && Classname.length() > 0)
 		{
 			pi.setClassName(Classname);
-			ok = startClass(pi, trx);
+			ok = startClass(pi, trx, managedTrx);
 		}
 		else
 		{
@@ -236,7 +258,7 @@ public class MProcess extends X_AD_Process
 			String ProcedureName = getProcedureName();
 			if (ProcedureName != null && ProcedureName.length() > 0)
 			{
-				ok = startProcess (ProcedureName, pi, trx);
+				ok = startProcess (ProcedureName, pi, trx, managedTrx);
 			}
 			else
 			{
@@ -263,16 +285,17 @@ public class MProcess extends X_AD_Process
 	 *  Start Database Process
 	 *  @param ProcedureName PL/SQL procedure name
 	 *  @param pInstance process instance
+	 *  @param managedTrx false if trx is managed by caller
 	 *	see ProcessCtl.startProcess
 	 *  @return true if success
 	 */
-	private boolean startProcess (String ProcedureName, ProcessInfo processInfo, Trx trx)
+	private boolean startProcess (String ProcedureName, ProcessInfo processInfo, Trx trx, boolean managedTrx)
 	{
 		int AD_PInstance_ID = processInfo.getAD_PInstance_ID();
 		//  execute on this thread/connection
 		log.info(ProcedureName + "(" + AD_PInstance_ID + ")");
 		
-		return ProcessUtil.startDatabaseProcedure(processInfo, ProcedureName, trx);
+		return ProcessUtil.startDatabaseProcedure(processInfo, ProcedureName, trx, managedTrx);
 	}   //  startProcess
 
 
@@ -286,14 +309,15 @@ public class MProcess extends X_AD_Process
 	 *  @param Classname    name of the class to call
 	 *  @param pi	process info
 	 *  @param trx transaction
+	 *  @param managedTrx false if trx is managed by caller
 	 *  @return     true if success
 	 *	see ProcessCtl.startClass
 	 */
-	private boolean startClass (ProcessInfo pi, Trx trx)
+	private boolean startClass (ProcessInfo pi, Trx trx, boolean managedTrx)
 	{
 		log.info(pi.getClassName());
 		
-		return ProcessUtil.startJavaProcess(getCtx(), pi, trx);
+		return ProcessUtil.startJavaProcess(getCtx(), pi, trx, managedTrx);
 	}   //  startClass
 
 	
@@ -431,60 +455,7 @@ public class MProcess extends X_AD_Process
 	 */
 	public boolean processItWithoutTrxClose (ProcessInfo pi, Trx trx)
 	{
-		if (pi.getAD_PInstance_ID() == 0)
-		{
-			MPInstance pInstance = new MPInstance (this, pi.getRecord_ID());
-			//	Lock
-			pInstance.setIsProcessing(true);
-			pInstance.save();
-		}
-
-		boolean ok = false;
-
-		//	Java Class
-		String Classname = getClassname();
-		if (Classname != null && Classname.length() > 0)
-		{
-			pi.setClassName(Classname);
-			ok = startClassWithoutTrxClose(pi, trx);
-		}
-		else
-		{
-			//	PL/SQL Procedure
-			String ProcedureName = getProcedureName();
-			if (ProcedureName != null && ProcedureName.length() > 0)
-			{
-				ok = startProcess (ProcedureName, pi, trx);
-			}
-			else
-			{
-				String msg = "No Classname or ProcedureName for " + getName();
-				pi.setSummary(msg, ok);
-				log.warning(msg);
-			}
-		}
-		
-		return ok;
+		return processIt(pi, trx, false);
 	}	//	processItWithoutTrxClose
-	
-	/**
-	 *  Start Java Class (sync) without closing the given transaction.
-	 *      instanciate the class implementing the interface ProcessCall.
-	 *  The class can be a Server/Client class (when in Package
-	 *  org adempiere.process or org.compiere.model) or a client only class
-	 *  (e.g. in org.compiere.report)
-	 *
-	 *  @param Classname    name of the class to call
-	 *  @param pi	process info
-	 *  @param trx transaction
-	 *  @return     true if success
-	 *	see ProcessCtl.startClass
-	 */
-	private boolean startClassWithoutTrxClose (ProcessInfo pi, Trx trx)
-	{
-		log.info(pi.getClassName());
-		return ProcessUtil.startJavaProcessWithoutTrxClose(getCtx(), pi, trx);
-	}   //  startClassWithoutTrxClose
-
 	
 }	//	MProcess
