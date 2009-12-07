@@ -56,7 +56,7 @@ public class PreparedStatementProxy extends StatementProxy {
 		try {
 			Connection conn = null;
 			Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo
-					.getTrxName(), true);
+					.getTrxName(), false);
 			if (trx != null) {
 				conn = trx.getConnection();
 			} else {

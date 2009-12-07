@@ -113,7 +113,7 @@ public class StatementProxy implements InvocationHandler {
 		try
 		{
 			Connection conn = null;
-			Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo.getTrxName(), true);
+			Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo.getTrxName(), false);
 			if (trx != null)
 			{
 				conn = trx.getConnection();
