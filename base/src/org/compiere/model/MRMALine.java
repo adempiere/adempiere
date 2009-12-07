@@ -291,10 +291,29 @@ public class MRMALine extends X_M_RMALine
             return success;
         }
         
-        MRMA rma = new MRMA(getCtx(), getM_RMA_ID(), get_TrxName());
+        MRMA rma = getParent();
         rma.updateAmount();
         
-        if (!rma.save())
+        if (!rma.save(get_TrxName()))
+        {
+            throw new IllegalStateException("Could not update RMA grand total");
+        }
+        
+        return true;
+    }
+    
+    @Override
+    protected  boolean afterDelete(boolean success)
+    {
+        if (!success)
+        {
+            return success;
+        }
+        
+        MRMA rma = getParent();
+        rma.updateAmount();
+        
+        if (!rma.save(get_TrxName()))
         {
             throw new IllegalStateException("Could not update RMA grand total");
         }
