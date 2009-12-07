@@ -79,7 +79,7 @@ public class ModelValidationEngine
 		super ();
 		// Load global validators
 		
-		MTable table = MTable.get(new Properties(), X_AD_ModelValidator.Table_ID);
+		MTable table = MTable.get(Env.getCtx(), X_AD_ModelValidator.Table_ID);
 		Query query = table.createQuery("IsActive='Y'", null);
 		query.setOrderBy("SeqNo");
 		try {
@@ -100,7 +100,7 @@ public class ModelValidationEngine
 		}
 		
 		// Go through all Clients and start Validators 
-		MClient[] clients = MClient.getAll(new Properties());
+		MClient[] clients = MClient.getAll(Env.getCtx());
 		for (int i = 0; i < clients.length; i++) 
 		{
 			String classNames = clients[i].getModelValidationClasses();
