@@ -1285,11 +1285,15 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
 				((Boolean)newValue).booleanValue());
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+					m_value==null ? null : (((Boolean)m_value) ? "Y" : "N"));
 		}
 		else if (newValue instanceof Timestamp)
 		{
 			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (Timestamp)m_value);
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+					m_value==null ? null : m_value.toString().substring(0, m_value.toString().indexOf(".")));
 		}
 		else
 		{
