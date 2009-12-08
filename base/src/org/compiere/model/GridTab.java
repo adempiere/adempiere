@@ -84,7 +84,12 @@ import org.compiere.util.ValueNamePair;
  *  				https://sourceforge.net/tracker/?func=detail&aid=2874109&group_id=176962&atid=879332
  *  			<li>BF [ 2905287 ] GridTab query is not build correctly
  *  				https://sourceforge.net/tracker/?func=detail&aid=2905287&group_id=176962&atid=879332
- *  @author Victor Perez , e-Evolution.SC [1877902] Implement JSR 223 Scripting APIs to Callout
+ *  @author Victor Perez , e-Evolution.SC 
+ *  		<li>FR [1877902] Implement JSR 223 Scripting APIs to Callout
+ *  		<li>BF [ 2910358 ] Error in context when a field is found in different tabs.
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2910358&group_id=176962&atid=879332
+ *     		<li>BF [ 2910368 ] Error in context when IsActive field is found in different
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
  *  @author Carlos Ruiz, qss FR [1877902]
  *  @see  http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1877902&group_id=176962 to FR [1877902]
  *  @author Cristina Ghita, www.arhipac.ro FR [2870645] Set null value for an ID
@@ -94,6 +99,7 @@ import org.compiere.util.ValueNamePair;
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
+
 	/**
 	 * 
 	 */
@@ -619,10 +625,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 			else
 			{
-				String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc, true);
+				//BF [ 2910358 ] 
+				//String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc, true);
+				String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, this.getParentTabNo(),lc);
+				//BF [ 2910358 ] 
 				// explicit parent link defined
 				if ( m_parentColumnName.length() > 0 )
-					value = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_parentColumnName, true);
+				{	
+				//	value = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_parentColumnName, true);
+					value = Env.getContext(m_vo.ctx, m_vo.WindowNo, this.getParentTabNo(),m_parentColumnName);
+				}	
 				
 				//	Same link value?
 				if (refresh)
@@ -3027,4 +3039,24 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 		return list;
 	}
+	
+	//BF [ 2910358 ] 
+	/**
+	 * get Parent Tab No
+	 * @return Tab No
+	 */
+	private int getParentTabNo()
+	{
+		int tabNo = m_vo.TabNo;
+		int currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
+		int parentLevel = currentLevel-1;
+		if (parentLevel < 0)
+			return tabNo;
+			while (parentLevel != currentLevel)
+			{
+				tabNo--;				
+				currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
+			}
+		return tabNo;
+	}	
 }	//	GridTab

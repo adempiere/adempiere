@@ -59,15 +59,22 @@ import org.compiere.util.Evaluator;
  *  @author Teo Sarca, teo.sarca@gmail.com
  *  		<li>BF [ 2874646 ] GridField issue when a lookup is key
  *  			https://sourceforge.net/tracker/?func=detail&aid=2874646&group_id=176962&atid=879332
+ *  @author victor.perez@e-evolution.com,www.e-evolution.com
+ *  		<li>BF [ 2910358 ] Error in context when a field is found in different tabs.
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2910358&group_id=176962&atid=879332
+ *     		<li>BF [ 2910368 ] Error in context when IsActive field is found in different
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
 	implements Serializable, Evaluatee
 {
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1783359481690560938L;
+	private static final long serialVersionUID = 1124123543602986028L;
 
 	/**
 	 *  Field Constructor.
@@ -416,8 +423,9 @@ public class GridField
 				return false;
 		}
 		
+		//BF [ 2910368 ]
 		//  Always editable if Active
-		if (checkContext && "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, "IsActive"))
+		if (checkContext && "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "IsActive"))
 				&& (   m_vo.ColumnName.equals("Processing")
 					|| m_vo.ColumnName.equals("PaymentRule")
 					|| m_vo.ColumnName.equals("DocAction") 
@@ -433,9 +441,9 @@ public class GridField
 		//  IsActive field is editable, if record not processed
 		if (m_vo.ColumnName.equals("IsActive"))
 			return true;
-
-		//  Record is not Active
-		if (checkContext && !Env.getContext(m_vo.ctx, m_vo.WindowNo, "IsActive").equals("Y"))
+		// BF [ 2910368 ]
+		// Record is not Active
+		if (checkContext && !Env.getContext(m_vo.ctx, m_vo.WindowNo,m_vo.TabNo, "IsActive").equals("Y"))
 			return false;
 
 		//  ultimately visibility decides
@@ -1287,6 +1295,11 @@ public class GridField
 				((Boolean)newValue).booleanValue());
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
 					m_value==null ? null : (((Boolean)m_value) ? "Y" : "N"));
+			//BF [ 2910368 ] 
+			if(m_vo.ColumnName.equals("IsActive")) 
+			{	
+				Env.setContext(m_vo.ctx, m_vo.WindowNo,m_vo.TabNo, m_vo.ColumnName, ((Boolean)newValue).booleanValue() ? "Y" : "N");
+			}
 		}
 		else if (newValue instanceof Timestamp)
 		{
@@ -1300,8 +1313,12 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
 				m_value==null ? null : m_value.toString());
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
-					m_value==null ? null : m_value.toString());
+			//BF [ 2910358 ] 
+			if(isKey())
+			{	
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+				m_value==null ? null : m_value.toString());
+			}
 		}
 		
 		//  Does not fire, if same value

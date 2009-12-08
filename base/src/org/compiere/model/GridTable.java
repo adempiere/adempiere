@@ -73,14 +73,21 @@ import org.compiere.util.ValueNamePair;
  *			<li>BF [ 1943682 ] Copy Record should not copy IsApproved and IsGenerated
  *			<li>BF [ 1949543 ] Window freeze if there is a severe exception
  *			<li>BF [ 1984310 ] GridTable.getClientOrg() doesn't work for AD_Client/AD_Org
+ *  @author victor.perez@e-evolution.com,www.e-evolution.com
+ *  		<li>BF [ 2910358 ] Error in context when a field is found in different tabs.
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2910358&group_id=176962&atid=879332
+ *     		<li>BF [ 2910368 ] Error in context when IsActive field is found in different
+ *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
  */
 public class GridTable extends AbstractTableModel
 	implements Serializable
 {
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4071601543088224064L;
+	private static final long serialVersionUID = 4273775926021737068L;
 
 	/**
 	 *	JDBC Based Buffered Table
@@ -115,6 +122,8 @@ public class GridTable extends AbstractTableModel
 	private boolean			    m_withAccessControl;
 	private boolean			    m_readOnly = true;
 	private boolean			    m_deleteable = true;
+	
+	public static final String CTX_KeyColumnName = "KeyColumnName";
 	//
 
 	/**	Rowcount                    */
@@ -291,8 +300,16 @@ public class GridTable extends AbstractTableModel
 		select.append(" FROM ").append(m_tableName);
 		m_SQL_Select = select.toString();
 		m_SQL_Count = "SELECT COUNT(*) FROM " + m_tableName;
-		//
-
+		//BF [ 2910358 ] 
+		//Restore the Original Value for Key Column Name based in Tab Context Value
+		String parentKey = Env.getContext(m_ctx, m_WindowNo, getParentTabNo(), CTX_KeyColumnName);
+		String valueKey = Env.getContext(m_ctx, m_WindowNo, getParentTabNo(), parentKey);
+		
+		if(valueKey != null && valueKey.length() > 0)
+		{
+			Env.setContext(m_ctx, m_WindowNo,  parentKey, valueKey);
+		}	
+		
 		StringBuffer where = new StringBuffer("");
 		//	WHERE
 		if (m_whereClause.length() > 0)
@@ -3227,4 +3244,23 @@ public class GridTable extends AbstractTableModel
 		// @TODO: configurable aggressive - compare each column with the DB
 		return false;
 	}
+	
+	/**
+	 * get Parent Tab No
+	 * @return Tab No
+	 */
+	private int getParentTabNo()
+	{
+		int tabNo = m_TabNo;
+		int currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
+		int parentLevel = currentLevel-1;
+		if (parentLevel < 0)
+			return tabNo;
+			while (parentLevel != currentLevel)
+			{
+				tabNo--;				
+				currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
+			}
+		return tabNo;
+	}	
 }
