@@ -17,9 +17,7 @@
 package org.compiere.model;
 
 import java.io.InputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.CallableStatement;
@@ -1476,7 +1474,7 @@ public class MSequence extends X_AD_Sequence
 			String website, String prm_USER, String prm_PASSWORD,
 			String prm_TABLE, String prm_ALTKEY, String prm_COMMENT,
 			String prm_PROJECT) {
-		StringBuffer read = new StringBuffer("");
+		StringBuffer read = new StringBuffer();
 		int retValue = -1;
 		try {
 			String completeUrl = website + "?" + "USER="
@@ -1493,34 +1491,21 @@ public class MSequence extends X_AD_Sequence
 			String protocol = url.getProtocol();
 			if (!protocol.equals("http"))
 				throw new IllegalArgumentException("URL must use 'http:' protocol");
-			String host = url.getHost();
-			int port = url.getPort();
-			if (port == -1) port = 80;  // if no port, use the default HTTP port
-			String filename = url.getFile();
-			// Open a network socket connection to the specified host and port
-			Socket socket = new Socket(host, port);
-			// Get input and output streams for the socket
-			InputStream from_server = socket.getInputStream();
-			PrintWriter to_server =
-				new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
-
-			// Send the HTTP GET command to the Web server, specifying the file.
-			// This uses an old and very simple version of the HTTP protocol
-			to_server.println("GET " + filename);
-			to_server.flush();  // Send it right now!
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setRequestMethod("GET");
+			conn.setAllowUserInteraction(false);
+			InputStream is =  conn.getInputStream();
 
 			// Now read the server's response, and write it to the file
 			byte[] buffer = new byte[4096];
 			int bytes_read;
-			while((bytes_read = from_server.read(buffer)) != -1) {
+			while((bytes_read = is.read(buffer)) != -1) {
 				for (int i = 0; i < bytes_read; i++) {
 					if (buffer[i] != 10)
 						read.append((char) buffer[i]);
 				}
 			}
-
-			// When the server closes the connection, we close our stuff
-			socket.close();
+			conn.disconnect();
 			retValue = Integer.parseInt(read.toString());
 			if (retValue <= 0)
 				retValue = -1;
