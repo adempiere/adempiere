@@ -249,8 +249,9 @@ implements ImportProcess
 				+ "SET C_BPartner_Location_ID=(SELECT C_BPartner_Location_ID"
 				+ " FROM C_BPartner_Location bpl INNER JOIN C_Location l ON (bpl.C_Location_ID=l.C_Location_ID)"
 				+ " WHERE i.C_BPartner_ID=bpl.C_BPartner_ID AND bpl.AD_Client_ID=i.AD_Client_ID"
-				+ " AND DUMP(i.Address1)=DUMP(l.Address1) AND DUMP(i.Address2)=DUMP(l.Address2)"
-				+ " AND DUMP(i.City)=DUMP(l.City) AND DUMP(i.Postal)=DUMP(l.Postal) AND DUMP(i.Postal_Add)=DUMP(l.Postal_Add)"
+				+ " AND COALESCE(i.Address1, 'NULL')=COALESCE(l.Address1, 'NULL') AND COALESCE(i.Address2, 'NULL')=COALESCE(l.Address2, 'NULL')"
+				+ " AND COALESCE(i.City, 'NULL')=COALESCE(l.City, 'NULL') AND COALESCE(i.Postal, 'NULL')=COALESCE(l.Postal, 'NULL')"
+				+ " AND COALESCE(i.Postal_Add, 'NULL')=COALESCE(l.Postal_Add, 'NULL')"
 				+ " AND i.C_Region_ID=l.C_Region_ID AND i.C_Country_ID=l.C_Country_ID) "
 				+ "WHERE C_BPartner_ID IS NOT NULL AND C_BPartner_Location_ID IS NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
