@@ -74,6 +74,7 @@ public class MTaxCategory extends X_C_TaxCategory
 		String whereClause = COLUMNNAME_C_TaxCategory_ID+"=? AND "+ COLUMNNAME_IsDefault+"='Y'";
 		List<MTax> list = new Query(getCtx(), MTax.Table_Name, whereClause,  get_TrxName())
 			.setParameters(new Object[]{getC_TaxCategory_ID()})
+			.setOnlyActiveRecords(true)
 			.list();
 		if (list.size() == 0) {
 			throw new AdempiereException("NoDefaultTaxRate"); // Error - should be at least one default
