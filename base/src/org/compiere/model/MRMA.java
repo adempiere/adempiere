@@ -319,6 +319,14 @@ public class MRMA extends X_M_RMA implements DocAction
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
+		
+		for (MRMALine line : lines)
+		{
+			if (!line.checkQty()) {
+				m_processMsg = "@AmtReturned>Shipped@";
+				return DocAction.STATUS_Invalid;
+			}
+		}
 
         // Updates Amount
 		setAmt(getTotalAmount());

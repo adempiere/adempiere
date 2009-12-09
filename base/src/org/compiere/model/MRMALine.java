@@ -34,11 +34,6 @@ import org.compiere.util.Msg;
 public class MRMALine extends X_M_RMALine
 {
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 7542507297588438252L;
-
-	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_RMALine_ID id
@@ -220,39 +215,38 @@ public class MRMALine extends X_M_RMALine
     protected boolean beforeSave(boolean newRecord)
     {
 		if (newRecord && getParent().isComplete()) {
-			log.saveError("ParentComplete", Msg.translate(getCtx(), "M_RMALine"));
+			log.saveError("ParentComplete", Msg.translate(getCtx(), "M_RMA"));
 			return false;
 		}
-        if (this.getM_InOutLine_ID() == 0 && this.getC_Charge_ID() == 0)
+        if (getM_InOutLine_ID() == 0 && getC_Charge_ID() == 0)
         {
-            log.saveError("FillMandatory", "Shipment/Receipt Line or charge should be entered");
+            log.saveError("FillShipLineOrCharge", "");
             return false;
         }
         
-        if (this.getM_InOutLine_ID() != 0 && this.getC_Charge_ID() != 0)
+        if (getM_InOutLine_ID() != 0 && getC_Charge_ID() != 0)
         {
-            log.saveError("Error", "Either shipment/receipt line or charge should be selected");
+            log.saveError("JustShipLineOrCharge", "");
             return false;
         }
         
         init();
         if (m_ioLine != null)
         {
-            if (m_ioLine.getMovementQty().compareTo(getQty()) < 0)
-            {
-                log.saveError("Error", "Amount to be returned is greater than the amount shipped");
+        	if (! checkQty()) {
+                log.saveError("AmtReturned>Shipped", "");
                 return false;
-            }
-            
-            if (newRecord)
+        	}
+        	
+            if (newRecord || is_ValueChanged(COLUMNNAME_M_InOutLine_ID))
             {
-                String whereClause = "M_RMA_ID=" + this.getM_RMA_ID() + " and M_InOutLine_ID=" + this.getM_InOutLine_ID();
-                
+                String whereClause = "M_RMA_ID=" + getM_RMA_ID() + " AND M_InOutLine_ID=" + getM_InOutLine_ID() + " AND M_RMALine_ID!=" + getM_RMALine_ID();
+
                 int lineIds[] = MRMALine.getAllIDs(MRMALine.Table_Name, whereClause, this.get_TrxName());
                 
                 if (lineIds.length > 0)
                 {
-                    log.saveError("Error", "Shipment/Receipt line is already defined in another line");
+                    log.saveError("InOutLineAlreadyEntered", "");
                     return false;
                 }
             }
@@ -283,7 +277,26 @@ public class MRMALine extends X_M_RMALine
         return true;
     }
     
-    @Override
+    public boolean checkQty() {
+        if (m_ioLine.getMovementQty().compareTo(getQty()) < 0)
+        {
+        	return false;
+        }
+        BigDecimal totalQty = DB.getSQLValueBD(get_TrxName(), 
+        		"SELECT SUM(Qty) FROM M_RMALine rl JOIN M_RMA r ON (r.M_RMA_ID = rl.M_RMA_ID) WHERE M_InOutLine_ID = ? AND r.Processed = 'Y' AND r.DocStatus IN ('CO','CL')", 
+        		getM_InOutLine_ID());
+        if (totalQty == null)
+        	totalQty = Env.ZERO;
+        totalQty = totalQty.add(getQty());
+        if (m_ioLine.getMovementQty().compareTo(totalQty) < 0)
+        {
+        	return false;
+        }
+        
+		return true;
+	}
+
+	@Override
     protected  boolean afterSave(boolean newRecord, boolean success)
     {
         if (!success)
