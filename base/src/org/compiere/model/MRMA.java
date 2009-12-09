@@ -226,6 +226,8 @@ public class MRMA extends X_M_RMA implements DocAction
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (newRecord)
+			setC_Order_ID(0);
 	    getShipment();
 		//	Set BPartner
 		if (getC_BPartner_ID() == 0)
