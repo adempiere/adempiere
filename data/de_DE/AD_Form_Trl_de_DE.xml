@@ -107,4 +107,94 @@
   <value column="Description" original="Maintain Products with Attributes in a Table Grid">Verwalten von Produkten mit zusätzlichen Merkmalen in einer Matrix</value>
   <value column="Help" original="Select one or two attributes if a Product Attribute and display/maintain products in a row or table grid.">Wählen Sie ein oder zwei zusätzliche Produkteigenschaften und zeigen/bearbeiten Sie diese in einer Matrixdarstellung.</value>
  </row>
+ <row id="53001" trl="N">
+  <value column="Name" original="BOM &amp; Formula Info">BOM &amp; Formula Info</value>
+  <value column="Description" original="Shows in two different panels the parent-component relationship for the product entered in the Product field.">Shows in two different panels the parent-component relationship for the product entered in the Product field.</value>
+  <value column="Help" original="The BOM &amp; Formula Review option menu shows in two different panels the parent-component relationship for the product entered in the Product field.&#10;&#10;You need to introduce the parent product you want to see its components then click the OK button, next drag the left margin of the panel to the right and you will have the two panels.&#10;&#10;When you need to consult an implosion, click the implosion check box and enter the component you wish to consult and tick the Implosion check box.&#10;&#10;You need to introduce the parent product you want to see its components then click the OK button, next drag the left margin of the panel to the right and you will have the two panels.&#10;&#10;The left panel shows the BOM hierarchies in a tree form. The right panel shows the information connected with the BOM for every product in it">The BOM &amp; Formula Review option menu shows in two different panels the parent-component relationship for the product entered in the Product field.
+
+You need to introduce the parent product you want to see its components then click the OK button, next drag the left margin of the panel to the right and you will have the two panels.
+
+When you need to consult an implosion, click the implosion check box and enter the component you wish to consult and tick the Implosion check box.
+
+You need to introduce the parent product you want to see its components then click the OK button, next drag the left margin of the panel to the right and you will have the two panels.
+
+The left panel shows the BOM hierarchies in a tree form. The right panel shows the information connected with the BOM for every product in it</value>
+ </row>
+ <row id="53002" trl="N">
+  <value column="Name" original="Product Configuration BOM">Product Configuration BOM</value>
+  <value column="Description" original="This form let create a product configure with multy level using options and variants">This form let create a product configure with multy level using options and variants</value>
+  <value column="Help" original="A configurable Bill of Material (CBOM) is used by industries that have multiple options and highly configurable products.&#10;&#10;The CBOM is used to dynamically create &quot;end-items&quot; that a company sells. The benefit of using CBOM structure is it reduces the work-effort needed to maintain product structures. The configurable BOM is most frequently driven by &quot;configurator&quot; software, however it can be enabled manually (manual maintenance is infrequent because its unwieldy to manage the number of permutaions and combinations of possible configurations) The development of the CBOM is dependent on having a Modular BOM structure in place (see Modular BOM). The Modular BOM structure provides the assemblies/sub-systems that can be selected to &quot;configure&quot; an end-item.">A configurable Bill of Material (CBOM) is used by industries that have multiple options and highly configurable products.
+
+The CBOM is used to dynamically create "end-items" that a company sells. The benefit of using CBOM structure is it reduces the work-effort needed to maintain product structures. The configurable BOM is most frequently driven by "configurator" software, however it can be enabled manually (manual maintenance is infrequent because its unwieldy to manage the number of permutaions and combinations of possible configurations) The development of the CBOM is dependent on having a Modular BOM structure in place (see Modular BOM). The Modular BOM structure provides the assemblies/sub-systems that can be selected to "configure" an end-item.</value>
+ </row>
+ <row id="53003" trl="N">
+  <value column="Name" original="MRP Info">MRP Info</value>
+  <value column="Description" original="Show the detail of MRP calculation">Show the detail of MRP calculation</value>
+  <value column="Help" original="Show the detail of MRP calculation">Show the detail of MRP calculation</value>
+ </row>
+ <row id="53004" trl="N">
+  <value column="Name" original="Planned Order Approval ">Planned Order Approval </value>
+  <value column="Description" original="A planned manufacturing order is a manufacturing order suggested by the MRP process and contains its quantity and its release and promise dates.">A planned manufacturing order is a manufacturing order suggested by the MRP process and contains its quantity and its release and promise dates.</value>
+  <value column="Help" original="A planned manufacturing order is a manufacturing order suggested by the MRP process and contains its quantity and its release and promise dates. when you approve a manufacturing planned order you convert it in a manufacturing order with the status of In Process.&#10;&#10;When you approve a planned order you are telling the system that the manufacturing order is ready to start its process with the approval you change the order status from Draft to In Process.">A planned manufacturing order is a manufacturing order suggested by the MRP process and contains its quantity and its release and promise dates. when you approve a manufacturing planned order you convert it in a manufacturing order with the status of In Process.
+
+When you approve a planned order you are telling the system that the manufacturing order is ready to start its process with the approval you change the order status from Draft to In Process.</value>
+ </row>
+ <row id="53005" trl="N">
+  <value column="Name" original="CRP Info">CRP Info</value>
+  <value column="Description" original="It shows graphically of the required and available time for each manufacturing resource.">It shows graphically of the required and available time for each manufacturing resource.</value>
+  <value column="Help" original="It shows graphically of the required and available time for each manufacturing resource.">It shows graphically of the required and available time for each manufacturing resource.</value>
+ </row>
+ <row id="53006" trl="N">
+  <value column="Name" original="Resource Load View">Resource Load View</value>
+  <value column="Description" original="It shows graphically of the required and available time for each manufacturing resource.">It shows graphically of the required and available time for each manufacturing resource.</value>
+  <value column="Help" original="It shows graphically of the required and available time for each manufacturing resource.">It shows graphically of the required and available time for each manufacturing resource.</value>
+ </row>
+ <row id="53007" trl="N">
+  <value column="Name" original="Order Receipt &amp; Issue">Order Receipt &amp; Issue</value>
+  <value column="Description" original="Order Receipt &amp; Issue">Order Receipt &amp; Issue</value>
+  <value column="Help" original="The form shows at the upper side static information around the product and the manufacturing resource where it has to be made, it also shows a summary of the quantities to be controlled in the MO such as the Original and delivered quantities and the Quantity to deliver for the MO up to date.&#10;&#10;If the production process requires production in batch, then the Qty Batchs shows the Number of batches the shop floor needs to do and the Qty Batch Size contains the size of every batch to be produced.&#10;&#10;&#10;If you want to issue the MO components before you receive the finished product you should tick the checkbox Is Delivery, this case is recommended when you have a long to medium lead time and you want to have the inventory quantities as reliable as possible at every moment.&#10;&#10;If you have small lead time and you wish to save clerk time then you must tick Is Backflush checkbox and you will receive the finished product at the same time you issue automatically the components&#10;&#10;The Backflush Group field is used when you want to issue just components belonging to this group. (This characteristic could not be included in the current version).&#10;&#10;At the lower part of the window you can find the list of every MO component, this can be modified according with the real products and quantities given to the shop floor.&#10;&#10;The quantities to be issued are selected with the checkbox at the first column of the list of components. If the actual quantity is different from the standard quantity showed in the column Qty to deliver you should edit this field to enter the right quantity to be issued.&#10;&#10;Finally a message box asks if you want to close the OM document, you should click the ok button if this MO does not have any more transactions and has to be closed.&#10;&#10;">The form shows at the upper side static information around the product and the manufacturing resource where it has to be made, it also shows a summary of the quantities to be controlled in the MO such as the Original and delivered quantities and the Quantity to deliver for the MO up to date.
+
+If the production process requires production in batch, then the Qty Batchs shows the Number of batches the shop floor needs to do and the Qty Batch Size contains the size of every batch to be produced.
+
+
+If you want to issue the MO components before you receive the finished product you should tick the checkbox Is Delivery, this case is recommended when you have a long to medium lead time and you want to have the inventory quantities as reliable as possible at every moment.
+
+If you have small lead time and you wish to save clerk time then you must tick Is Backflush checkbox and you will receive the finished product at the same time you issue automatically the components
+
+The Backflush Group field is used when you want to issue just components belonging to this group. (This characteristic could not be included in the current version).
+
+At the lower part of the window you can find the list of every MO component, this can be modified according with the real products and quantities given to the shop floor.
+
+The quantities to be issued are selected with the checkbox at the first column of the list of components. If the actual quantity is different from the standard quantity showed in the column Qty to deliver you should edit this field to enter the right quantity to be issued.
+
+Finally a message box asks if you want to close the OM document, you should click the ok button if this MO does not have any more transactions and has to be closed.
+
+</value>
+ </row>
+ <row id="53008" trl="N">
+  <value column="Name" original="Generate Movement Manual">Generate Movement Manual</value>
+  <value column="Description" original="Generate Movement to a Order Distribution">Generate Movement to a Order Distribution</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53009" trl="N">
+  <value column="Name" original="Payroll Action Notice">Payroll Action Notice</value>
+  <value column="Description" original="Payroll Action Notice let entry the events that happend with any Employee">Payroll Action Notice let entry the events that happend with any Employee</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53010" trl="N">
+  <value column="Name" original="Generate Shipments &amp; Invoices (manual)">Generate Shipments &amp; Invoices (manual)</value>
+  <value column="Description" original="Select and generate shipments &amp; Invoices">Select and generate shipments &amp; Invoices</value>
+  <value column="Help" original="Generate Shipments &amp; Invoices from Orders.  &#10;Select the orders to generate the shipments &amp; Invoices for.">Generate Shipments &amp; Invoices from Orders.  
+Select the orders to generate the shipments &amp; Invoices for.</value>
+ </row>
+ <row id="53012" trl="N">
+  <value column="Name" original="Material Receipt Distribution Order">Material Receipt Distribution Order</value>
+  <value column="Description" original="Material Receipt Distribution Order">Material Receipt Distribution Order</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53013" trl="N">
+  <value column="Name" original="Manufacturing Workflow Editor">Manufacturing Workflow Editor</value>
+  <value column="Description" original="Edit Manufacturing Workflows">Edit Manufacturing Workflows</value>
+  <value column="Help" original="Edit the graphical layout of manufacturing workflows">Edit the graphical layout of manufacturing workflows</value>
+ </row>
 </adempiereTrl>
