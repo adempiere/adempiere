@@ -34,6 +34,11 @@ import org.compiere.util.Msg;
 public class MRMALine extends X_M_RMALine
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3540322234762687347L;
+
+	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_RMALine_ID id
