@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo	Adempiere PostgreSQL Database Export 	$Revision: 1.3 $
+echo	ADempiere PostgreSQL Database Export
 
 # $Id: DBExport.sh,v 1.3 2005/01/22 21:59:15 jjanke Exp $
 
