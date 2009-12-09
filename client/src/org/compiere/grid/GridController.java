@@ -424,12 +424,13 @@ public class GridController extends CPanel
 					//  VEditor => this - New Editor value to be updated here (MTable)
 					vEditor.addVetoableChangeListener(this);
 					//  Add to VPanel
-					vPanel.addField(vEditor, mField);
+					vPanel.addFieldBuffered(vEditor, mField);
 					//  APanel Listen to buttons
 					if (mField.getDisplayType() == DisplayType.Button && m_aPanel != null)
 						((JButton)vEditor).addActionListener (m_aPanel);
 				}
 			}   //  for all fields
+			vPanel.addFieldBuffered(null, null);  // flush the last one through
 
 			//	No Included Grid Controller
 			/*

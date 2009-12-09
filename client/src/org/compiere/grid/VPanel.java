@@ -173,6 +173,10 @@ public final class VPanel extends CTabbedPane
 		}
 	};
 
+	private VEditor prevEditor = null;
+	private GridField prevField = null;
+	private boolean wrap = false;
+
 	/**	Logger	*/
 	private static CLogger log = CLogger.getCLogger (VPanel.class);
 	
@@ -203,11 +207,26 @@ public final class VPanel extends CTabbedPane
 			}
 		}
 	}	//	setMnemonic
-	
+
 	/**
-	 *	Add Field and Label to Panel
+	 *	Add Field and Label to buffer and push buffered field to Panel
 	 *  @param editor editor
 	 *  @param mField field model
+	 */
+	public void addFieldBuffered (VEditor editor, GridField mField)
+	{
+		wrap = mField != null ? !mField.isSameLine() : false;
+		
+		if ( prevEditor != null && prevField != null)
+			addField(prevEditor, prevField);
+		prevEditor = editor;
+		prevField = mField;
+	}
+	/**
+	 *	Add the previous Field and Label to Panel
+	 *  @param editor editor
+	 *  @param mField field model
+	 *  @param wrap move to next line after this field
 	 */
 	public void addField (VEditor editor, GridField mField)
 	{
@@ -266,7 +285,10 @@ public final class VPanel extends CTabbedPane
 		
 		//	*** The Label ***
 		if ( label == null)
+		{
 			label = new CLabel("");
+			label.setName(mField.getColumnName());
+		}
 		//
 		if (mField.isCreateMnemonic())
 			setMnemonic(label, mField.getMnemonic());
@@ -299,6 +321,10 @@ public final class VPanel extends CTabbedPane
 			if ( mField.isLongField() )
 			{
 				constraints += mField.isLongField() ? ",spanx" : "";
+			}
+			if ( wrap )
+			{
+				constraints += ", wrap";
 			}
 			
 			//	Add Field
