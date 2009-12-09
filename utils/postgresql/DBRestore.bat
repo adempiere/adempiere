@@ -1,8 +1,6 @@
-@Echo	Adempiere Database Import		$Revision: 1.3 $
+@Echo	ADempiere Database Import
 
-@Rem $Id: ImportAdempiere.bat,v 1.3 2005/01/22 21:59:15 jjanke Exp $
-
-@Echo	Importing Adempiere DB from %ADEMPIERE_HOME%\data\ExpDat.dmp (%ADEMPIERE_DB_NAME%)
+@Echo	Importing ADempiere DB from %ADEMPIERE_HOME%\data\ExpDat.dmp (%ADEMPIERE_DB_NAME%)
 
 @if (%ADEMPIERE_HOME%) == () goto environment
 @if (%ADEMPIERE_DB_NAME%) == () goto environment
@@ -31,13 +29,16 @@
 @echo Import Adempiere_pg.dmp
 @echo -------------------------------------
 @psql -h %ADEMPIERE_DB_SERVER% -p %ADEMPIERE_DB_PORT% -d %ADEMPIERE_DB_NAME% -U %2 -c "drop schema sqlj cascade"
+@set ADEMPIERE_ALTER_ROLE_SQL="ALTER ROLE %2 SET search_path TO adempiere, pg_catalog"
+@psql -h %ADEMPIERE_DB_SERVER% -p %ADEMPIERE_DB_PORT% -d %ADEMPIERE_DB_NAME% -U %2 -c "%ADEMPIERE_ALTER_ROLE_SQL%"
 @psql -h %ADEMPIERE_DB_SERVER% -p %ADEMPIERE_DB_PORT% -d %ADEMPIERE_DB_NAME% -U %2 -f %ADEMPIERE_HOME%/data/ExpDat.dmp
+@set ADEMPIERE_ALTER_ROLE_SQL=
 
 @set PGPASSWORD=
 @goto end
 
 :environment
-@Echo Please make sure that the enviroment variables are set correctly:
+@Echo Please make sure that the environment variables are set correctly:
 @Echo		ADEMPIERE_HOME	e.g. D:\ADEMPIERE2
 @Echo		ADEMPIERE_DB_NAME 	e.g. adempiere or xe
 @Echo		ADEMPIERE_DB_SERVER 	e.g. dbserver.adempiere.org

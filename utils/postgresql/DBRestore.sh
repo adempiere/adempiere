@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# $Id: ImportAdempiere.sh,v 1.10 2005/12/20 07:12:17 jjanke Exp $
-echo	ADempiere Database Import		$Revision: 1.10 $
+echo	ADempiere Database Import
 
-echo	Importing Adempiere DB from $ADEMPIERE_HOME/data/ExpDat.dmp 
+echo	Importing ADempiere DB from $ADEMPIERE_HOME/data/ExpDat.dmp 
 
 if [ $# -le 2 ] 
   then
