@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # $Id: ImportAdempiere.sh,v 1.10 2005/12/20 07:12:17 jjanke Exp $
-echo	Adempiere Database Import		$Revision: 1.10 $
+echo	ADempiere Database Import		$Revision: 1.10 $
 
 echo	Importing Adempiere DB from $ADEMPIERE_HOME/data/ExpDat.dmp 
 
@@ -43,6 +43,8 @@ echo -------------------------------------
 echo Import Adempiere_pg.dmp
 echo -------------------------------------
 psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -c "drop schema sqlj cascade"
+ADEMPIERE_ALTER_ROLE_SQL="ALTER ROLE $2 SET search_path TO adempiere, pg_catalog"
+psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -c "$ADEMPIERE_ALTER_ROLE_SQL"
 psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -f $ADEMPIERE_HOME/data/ExpDat.dmp
 
 PGPASSWORD=
