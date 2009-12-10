@@ -102,7 +102,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7198494041906579986L;
+	private static final long serialVersionUID = -5882167959482156252L;
 
 	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
 	
@@ -187,13 +187,15 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private DataStatusEvent m_lastDataStatusEvent;
 	
 	// Context property names:
-	public static final String CTX_KeyColumnName = "KeyColumnName";
-	public static final String CTX_LinkColumnName = "LinkColumnName";
-	public static final String CTX_TabLevel = "TabLevel";
-	public static final String CTX_AccessLevel = "AccessLevel";
-	public static final String CTX_AD_Tab_ID = "AD_Tab_ID";
-	public static final String CTX_Name = "Name";
-	public static final String CTX_AD_Table_ID = "AD_Table_ID";
+	public static final String CTX_KeyColumnName = "_TabInfo_KeyColumnName";
+	public static final String CTX_LinkColumnName = "_TabInfo_LinkColumnName";
+	public static final String CTX_TabLevel = "_TabInfo_TabLevel";
+	public static final String CTX_AccessLevel = "_TabInfo_AccessLevel";
+	public static final String CTX_AD_Tab_ID = "_TabInfo_AD_Tab_ID";
+	public static final String CTX_Name = "_TabInfo_Name";
+	public static final String CTX_AD_Table_ID = "_TabInfo_AD_Table_ID";
+	public static final String CTX_FindSQL = "_TabInfo_FindSQL";
+	public static final String CTX_SQL = "_TabInfo_SQL";
 	
 
 

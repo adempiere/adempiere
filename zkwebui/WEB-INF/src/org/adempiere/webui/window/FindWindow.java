@@ -60,6 +60,7 @@ import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.part.MultiTabPart;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
+import org.compiere.model.GridTab;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
@@ -97,7 +98,7 @@ import org.zkoss.zul.Hbox;
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = 4937678675702382252L;
 	/** Main Window for the Lookup Panel   */
@@ -1480,7 +1481,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         String finalSQL = MRole.getDefault().addAccessSQL(sql.toString(),
             m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
         finalSQL = Env.parseContext(Env.getCtx(), m_targetWindowNo, finalSQL, false);
-        Env.setContext(Env.getCtx(), m_targetWindowNo, TABNO, "FindSQL", finalSQL);
+        Env.setContext(Env.getCtx(), m_targetWindowNo, TABNO, GridTab.CTX_FindSQL, finalSQL);
 
         //  Execute Qusery
         m_total = 999999;

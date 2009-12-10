@@ -359,7 +359,7 @@ public class GridTable extends AbstractTableModel
 			m_SQL += " ORDER BY " + m_orderClause;
 		//
 		log.fine(m_SQL_Count);
-		Env.setContext(m_ctx, m_WindowNo, m_TabNo, "SQL", m_SQL);
+		Env.setContext(m_ctx, m_WindowNo, m_TabNo, GridTab.CTX_SQL, m_SQL);
 		return m_SQL;
 	}	//	createSelectSql
 

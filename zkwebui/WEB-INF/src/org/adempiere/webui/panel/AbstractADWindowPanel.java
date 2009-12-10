@@ -427,8 +427,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		gridWindow.initTab(tabIndex);
 
 		GridTab gTab = gridWindow.getTab(tabIndex);
-		Env.setContext(ctx, curWindowNo, tabIndex, "TabLevel", Integer
-		        .toString(gTab.getTabLevel()));
+		Env.setContext(ctx, curWindowNo, tabIndex, GridTab.CTX_TabLevel, Integer.toString(gTab.getTabLevel()));
 
 		// Query first tab
 		if (tabIndex == 0)

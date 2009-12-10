@@ -75,6 +75,7 @@ import org.compiere.model.DataStatusEvent;
 import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
+import org.compiere.model.GridTab;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
@@ -111,8 +112,10 @@ import org.compiere.util.ValueNamePair;
 public final class Find extends CDialog
 		implements ActionListener, ChangeListener, DataStatusListener
 {
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 6414604433732835410L;
-	
 	private int m_AD_Tab_ID;
 
 	/**
@@ -1425,7 +1428,7 @@ public final class Find extends CDialog
 		String finalSQL = MRole.getDefault().addAccessSQL(sql.toString(), 
 			m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		finalSQL = Env.parseContext(Env.getCtx(), m_targetWindowNo, finalSQL, false);
-		Env.setContext(Env.getCtx(), m_targetWindowNo, TABNO, "FindSQL", finalSQL);
+		Env.setContext(Env.getCtx(), m_targetWindowNo, TABNO, GridTab.CTX_FindSQL, finalSQL);
 
 		//  Execute Qusery
 		m_total = 999999;
