@@ -160,6 +160,8 @@ public class MenuPanel extends Panel implements EventListener
                 generateMenu(treeItemChildren, mChildNode);
                 if(treeItemChildren.getChildren().size() != 0)
                     treeitem.appendChild(treeItemChildren);
+                
+                treeitem.getTreerow().addEventListener(Events.ON_CLICK, this);
             }
             else
             {
@@ -204,6 +206,10 @@ public class MenuPanel extends Panel implements EventListener
                 if(selectedItem.getValue() != null)
                 {
                     fireMenuSelectedEvent(selectedItem);
+                }
+                else
+                {
+                	selectedItem.setOpen(!selectedItem.isOpen());
                 }
         	}
         }
