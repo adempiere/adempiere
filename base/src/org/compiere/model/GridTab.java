@@ -99,7 +99,6 @@ import org.compiere.util.ValueNamePair;
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
-
 	/**
 	 * 
 	 */
@@ -625,16 +624,18 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 			else
 			{
-				//BF [ 2910358 ] 
-				//String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc, true);
-				String value = Env.getContext(m_vo.ctx, m_vo.WindowNo, this.getParentTabNo(),lc);
-				//BF [ 2910358 ] 
-				// explicit parent link defined
+				String value = null;
 				if ( m_parentColumnName.length() > 0 )
 				{	
-				//	value = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_parentColumnName, true);
-					value = Env.getContext(m_vo.ctx, m_vo.WindowNo, this.getParentTabNo(),m_parentColumnName);
-				}	
+					// explicit parent link defined
+					value = Env.getContext(m_vo.ctx, m_vo.WindowNo, getParentTabNo(), m_parentColumnName, true);
+					if (value == null || value.length() == 0)
+						value = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_parentColumnName, true); // back compatibility
+				} else {
+					value = Env.getContext(m_vo.ctx, m_vo.WindowNo, getParentTabNo(), lc, true);
+					if (value == null || value.length() == 0)
+						value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc, true); // back compatibility
+				}
 				
 				//	Same link value?
 				if (refresh)
@@ -3048,15 +3049,15 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private int getParentTabNo()
 	{
 		int tabNo = m_vo.TabNo;
-		int currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
+		int currentLevel = m_vo.TabLevel;
 		int parentLevel = currentLevel-1;
 		if (parentLevel < 0)
 			return tabNo;
-			while (parentLevel != currentLevel)
-			{
-				tabNo--;				
-				currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
-			}
+		while (parentLevel != currentLevel)
+		{
+			tabNo--;
+			currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
+		}
 		return tabNo;
 	}	
 }	//	GridTab

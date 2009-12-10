@@ -532,6 +532,31 @@ public final class Env
 	}	//	getContext
 
 	/**
+	 * Get Value of Context for Window & Tab,
+	 * if not found global context if available.
+	 * If TabNo is TAB_INFO only tab's context will be checked.
+	 * @param ctx context
+	 * @param WindowNo window no
+	 * @param TabNo tab no
+	 * @param context context key
+	 * @param onlyTab if true, no window value is searched
+	 * @return value or ""
+	 */
+	public static String getContext (Properties ctx, int WindowNo, int TabNo, String context, boolean onlyTab)
+	{
+		if (ctx == null || context == null)
+			throw new IllegalArgumentException ("Require Context");
+		String s = ctx.getProperty(WindowNo+"|"+TabNo+"|"+context);
+		// If TAB_INFO, don't check Window and Global context - teo_sarca BF [ 2017987 ]
+		if (TAB_INFO == TabNo)
+			return s != null ? s : "";
+		//
+		if (s == null && ! onlyTab)
+			return getContext(ctx, WindowNo, context, false);
+		return s;
+	}	//	getContext
+
+	/**
 	 *	Get Context and convert it to an integer (0 if error)
 	 *  @param ctx context
 	 *  @param context context key

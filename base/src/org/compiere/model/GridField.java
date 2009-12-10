@@ -69,8 +69,6 @@ import org.compiere.util.Evaluator;
 public class GridField 
 	implements Serializable, Evaluatee
 {
-
-
 	/**
 	 * 
 	 */
@@ -1295,11 +1293,6 @@ public class GridField
 				((Boolean)newValue).booleanValue());
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
 					m_value==null ? null : (((Boolean)m_value) ? "Y" : "N"));
-			//BF [ 2910368 ] 
-			if(m_vo.ColumnName.equals("IsActive")) 
-			{	
-				Env.setContext(m_vo.ctx, m_vo.WindowNo,m_vo.TabNo, m_vo.ColumnName, ((Boolean)newValue).booleanValue() ? "Y" : "N");
-			}
 		}
 		else if (newValue instanceof Timestamp)
 		{
@@ -1313,12 +1306,8 @@ public class GridField
 			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
 				m_value==null ? null : m_value.toString());
-			//BF [ 2910358 ] 
-			if(isKey())
-			{	
-				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
 				m_value==null ? null : m_value.toString());
-			}
 		}
 		
 		//  Does not fire, if same value

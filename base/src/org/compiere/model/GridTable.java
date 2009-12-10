@@ -82,8 +82,6 @@ import org.compiere.util.ValueNamePair;
 public class GridTable extends AbstractTableModel
 	implements Serializable
 {
-
-
 	/**
 	 * 
 	 */
@@ -122,8 +120,6 @@ public class GridTable extends AbstractTableModel
 	private boolean			    m_withAccessControl;
 	private boolean			    m_readOnly = true;
 	private boolean			    m_deleteable = true;
-	
-	public static final String CTX_KeyColumnName = "KeyColumnName";
 	//
 
 	/**	Rowcount                    */
@@ -300,15 +296,16 @@ public class GridTable extends AbstractTableModel
 		select.append(" FROM ").append(m_tableName);
 		m_SQL_Select = select.toString();
 		m_SQL_Count = "SELECT COUNT(*) FROM " + m_tableName;
-		//BF [ 2910358 ] 
+		//BF [ 2910358 ]
 		//Restore the Original Value for Key Column Name based in Tab Context Value
-		String parentKey = Env.getContext(m_ctx, m_WindowNo, getParentTabNo(), CTX_KeyColumnName);
-		String valueKey = Env.getContext(m_ctx, m_WindowNo, getParentTabNo(), parentKey);
-		
-		if(valueKey != null && valueKey.length() > 0)
+		int parentTabNo = getParentTabNo();
+		String parentKey = Env.getContext(m_ctx, m_WindowNo, parentTabNo, GridTab.CTX_KeyColumnName, true);
+		String valueKey = Env.getContext(m_ctx, m_WindowNo, parentTabNo, parentKey, true);
+		String currKey = Env.getContext(m_ctx, m_WindowNo, parentKey);
+		if (valueKey != null && valueKey.length() > 0 && parentKey != null && parentKey.length() > 0 && ! currKey.equals(valueKey))
 		{
-			Env.setContext(m_ctx, m_WindowNo,  parentKey, valueKey);
-		}	
+			Env.setContext(m_ctx, m_WindowNo, parentKey, valueKey);
+		}
 		
 		StringBuffer where = new StringBuffer("");
 		//	WHERE
@@ -3256,11 +3253,11 @@ public class GridTable extends AbstractTableModel
 		int parentLevel = currentLevel-1;
 		if (parentLevel < 0)
 			return tabNo;
-			while (parentLevel != currentLevel)
-			{
-				tabNo--;				
-				currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
-			}
+		while (parentLevel != currentLevel)
+		{
+			tabNo--;				
+			currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
+		}
 		return tabNo;
 	}	
 }
