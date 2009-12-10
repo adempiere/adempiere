@@ -51,7 +51,11 @@ public class ImportPriceList extends SvrProcess
 	private int				m_AD_Client_ID = 0;
 	/**	Delete old Imported				*/
 	private boolean			m_deleteOldImported = false;
-
+	
+	private boolean			p_importPriceList  = true;
+	private boolean			p_importPriceStd = true;
+	private boolean			p_importPriceLimit = true;
+	
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
@@ -65,6 +69,12 @@ public class ImportPriceList extends SvrProcess
 				m_AD_Client_ID = ((BigDecimal)para[i].getParameter()).intValue();
 			else if (name.equals("DeleteOldImported"))
 				m_deleteOldImported = "Y".equals(para[i].getParameter());
+			else if (name.equals("IsImportPriceList"))
+				p_importPriceList = "Y".equals(para[i].getParameter());
+			else if (name.equals("IsImportPriceStd"))
+				p_importPriceStd = "Y".equals(para[i].getParameter());
+			else if (name.equals("IsImportPriceLimit"))
+				p_importPriceLimit = "Y".equals(para[i].getParameter());
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -377,9 +387,9 @@ public class ImportPriceList extends SvrProcess
 						ppvb.setBreakValue(imp.getBreakValue());
 						isInsert = true;
 					}
-					ppvb.setPriceLimit(imp.getPriceLimit());
-					ppvb.setPriceList(imp.getPriceList());
-					ppvb.setPriceStd(imp.getPriceStd());
+					if (p_importPriceLimit) ppvb.setPriceLimit(imp.getPriceLimit());
+					if (p_importPriceList) ppvb.setPriceList(imp.getPriceList());
+					if (p_importPriceStd) ppvb.setPriceStd(imp.getPriceStd());
 					if (ppvb.save())
 					{
 						if (isInsert)
@@ -401,9 +411,9 @@ public class ImportPriceList extends SvrProcess
 					MProductPrice pp = MProductPrice.get(getCtx(), pricelistversion.getM_PriceList_Version_ID(), imp.getM_Product_ID(), get_TrxName());
 					boolean isInsert = false;
 					if (pp != null) {
-						pp.setPriceLimit(imp.getPriceLimit());
-						pp.setPriceList(imp.getPriceList());
-						pp.setPriceStd(imp.getPriceStd());
+						if (p_importPriceLimit) pp.setPriceLimit(imp.getPriceLimit());
+						if (p_importPriceList) pp.setPriceList(imp.getPriceList());
+						if (p_importPriceStd) pp.setPriceStd(imp.getPriceStd());
 					} else {
 						pp = new MProductPrice(pricelistversion, imp.getM_Product_ID(), imp.getPriceList(), imp.getPriceStd(), imp.getPriceLimit());
 						isInsert = true;
