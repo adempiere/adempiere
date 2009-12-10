@@ -797,6 +797,7 @@ public class MiniTable extends CTable implements IMiniTable
 
 		int row = getRowCount() + 1;
 		setRowCount(row);
+		boolean symbol = false;  
 		for (int col = 0; col < layout.length; col++)
 		{
 			Class<?> c = layout[col].getColClass();
@@ -810,9 +811,10 @@ public class MiniTable extends CTable implements IMiniTable
 			}
 			else
 			{	
-				if(col == 0 )
+				if(col == 0 &&  symbol == false)
 				{	
 					setValueAt(" Σ  " , row -1 , col);
+					symbol = true;
 				}	
 				else
 					setValueAt(null , row - 1, col );	
@@ -872,6 +874,7 @@ public class MiniTable extends CTable implements IMiniTable
 
 		int row = getRowCount() + 1;
 		setRowCount(row);
+		boolean symbol = true;
 		for (int col = 0; col < layout.length; col++)
 		{
 			Class<?> c = layout[col].getColClass();
@@ -885,9 +888,10 @@ public class MiniTable extends CTable implements IMiniTable
 			}
 			else
 			{	
-				if(col == 1 )
+				if(c == String.class && symbol)
 				{	
 					setValueAt(" Σ  " , row -1 , col );
+					symbol = false;
 				}	
 				else
 					setValueAt(null , row - 1, col );	
