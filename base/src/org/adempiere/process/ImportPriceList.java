@@ -39,6 +39,7 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Import Price Lists from I_PriceList
@@ -415,7 +416,10 @@ public class ImportPriceList extends SvrProcess
 						if (p_importPriceList) pp.setPriceList(imp.getPriceList());
 						if (p_importPriceStd) pp.setPriceStd(imp.getPriceStd());
 					} else {
-						pp = new MProductPrice(pricelistversion, imp.getM_Product_ID(), imp.getPriceList(), imp.getPriceStd(), imp.getPriceLimit());
+						pp = new MProductPrice(pricelistversion, imp.getM_Product_ID()
+								, p_importPriceList?imp.getPriceList():Env.ZERO
+								, p_importPriceStd?imp.getPriceStd():Env.ZERO
+								, p_importPriceLimit?imp.getPriceLimit():Env.ZERO);
 						isInsert = true;
 					}
 					if (pp.save())
