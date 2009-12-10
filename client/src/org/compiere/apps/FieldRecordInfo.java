@@ -93,6 +93,7 @@ public class FieldRecordInfo extends CDialog
 		{
 			log.log(Level.SEVERE, "", e);
 		}
+		this.setPreferredSize(new Dimension(640, 480));
 		AEnv.positionCenterWindow (owner, this);
 		AEnv.showCenterScreen(this);
 	}	//	FieldRecordInfo

@@ -76,8 +76,8 @@ public class WFieldRecordInfo extends Window implements EventListener
 		super ();
 		this.setTitle(title);
 		this.setAttribute("modal", Boolean.TRUE);
-		this.setWidth("600px");
-		this.setHeight("400px");
+		this.setWidth("640px");
+		this.setHeight("480px");
 		this.setBorder("normal");
 		this.setSizable(true);
 		this.setClosable(true);
