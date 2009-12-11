@@ -32,7 +32,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091210L;
 
     /** Standard Constructor */
     public X_AD_Role (Properties ctx, int AD_Role_ID, String trxName)
@@ -41,32 +41,32 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
       /** if (AD_Role_ID == 0)
         {
 			setAD_Role_ID (0);
-			setAllow_Info_Account (false);
-// N
-			setAllow_Info_Asset (false);
-// N
-			setAllow_Info_BPartner (false);
-// N
-			setAllow_Info_CashJournal (false);
-// N
+			setAllow_Info_Account (true);
+// Y
+			setAllow_Info_Asset (true);
+// Y
+			setAllow_Info_BPartner (true);
+// Y
+			setAllow_Info_CashJournal (true);
+// Y
 			setAllow_Info_CRP (true);
 // Y
-			setAllow_Info_InOut (false);
-// N
-			setAllow_Info_Invoice (false);
-// N
+			setAllow_Info_InOut (true);
+// Y
+			setAllow_Info_Invoice (true);
+// Y
 			setAllow_Info_MRP (true);
 // Y
-			setAllow_Info_Order (false);
-// N
-			setAllow_Info_Payment (false);
-// N
+			setAllow_Info_Order (true);
+// Y
+			setAllow_Info_Payment (true);
+// Y
 			setAllow_Info_Product (true);
 // Y
-			setAllow_Info_Resource (false);
-// N
-			setAllow_Info_Schedule (false);
-// N
+			setAllow_Info_Resource (true);
+// Y
+			setAllow_Info_Schedule (true);
+// Y
 			setConfirmQueryRecords (0);
 // 0
 			setIsAccessAllOrgs (false);
