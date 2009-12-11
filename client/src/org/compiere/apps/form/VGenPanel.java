@@ -35,7 +35,6 @@ import org.compiere.apps.ProcessCtl;
 import org.compiere.apps.StatusBar;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MMovement;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;

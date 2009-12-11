@@ -43,11 +43,6 @@ import org.compiere.util.Msg;
  */
 public class VMerge extends Merge implements FormPanel, ActionListener
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 149783846292562740L;
-	
 	private CPanel panel = new CPanel();
 	
 	/**	FormFrame			*/

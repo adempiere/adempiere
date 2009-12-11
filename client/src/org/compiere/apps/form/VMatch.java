@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -64,11 +64,6 @@ import org.compiere.util.Msg;
 public class VMatch extends Match
 	implements FormPanel, ActionListener, TableModelListener, ListSelectionListener
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6381583335194660502L;
-	
 	private CPanel panel = new CPanel();
 
 	/**

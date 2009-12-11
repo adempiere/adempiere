@@ -57,12 +57,6 @@ import org.compiere.util.TrxRunnable;
 public class VAllocation extends Allocation
 	implements FormPanel, ActionListener, TableModelListener, VetoableChangeListener
 {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -5322824600164192235L;
-	
 	private CPanel panel = new CPanel();
 
 	/**

@@ -40,7 +40,6 @@ import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.IProcessParameter;
 import org.compiere.apps.ProcessCtl;
-import org.compiere.apps.ProcessParameter;
 import org.compiere.apps.ProcessParameterPanel;
 import org.compiere.grid.ed.VCheckBox;
 import org.compiere.grid.ed.VComboBox;
@@ -69,12 +68,6 @@ import org.compiere.util.ValueNamePair;
 public class VPaySelect extends PaySelect implements FormPanel, ActionListener, TableModelListener, ASyncProcess
 {
 	/** @todo withholding */
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2872767371244295934L;
-	
 	private CPanel panel = new CPanel();
 
 	/**

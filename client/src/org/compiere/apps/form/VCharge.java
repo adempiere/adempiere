@@ -23,10 +23,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import javax.swing.JButton;
@@ -36,22 +32,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.model.MAccount;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MCharge;
-import org.compiere.model.MElementValue;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CPanel;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
@@ -64,11 +52,6 @@ import org.compiere.util.Util;
 public class VCharge extends Charge
 	implements FormPanel, ActionListener
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2478440763968206819L;
-
 	private CPanel panel = new CPanel();
 	/**
 	 *	Initialize Panel
