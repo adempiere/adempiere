@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
 /**
@@ -39,6 +40,18 @@ public class MTax extends X_C_Tax
 	 */
 	private static final long serialVersionUID = 4140382472528327237L;
 
+	/**	Cache						*/
+	private static CCache<Integer,MTax>		s_cache	= new CCache<Integer,MTax>(Table_Name, 5);
+	/**	Cache of Client						*/
+	private static CCache<Integer,MTax[]>	s_cacheAll = new CCache<Integer,MTax[]>(Table_Name, 5);
+	
+	/**	100					*/
+	private static BigDecimal ONEHUNDRED = new BigDecimal(100);
+	/**	Child Taxes			*/
+	private MTax[]			m_childTaxes = null;
+	/** Postal Codes		*/
+	private MTaxPostal[]	m_postals = null;
+	
 
 	/**
 	 * 	Get All Tax codes (for AD_Client)
@@ -58,6 +71,7 @@ public class MTax extends X_C_Tax
 		List<MTax> list = new Query(ctx, MTax.Table_Name, whereClause, null)
 								.setParameters(new Object[]{AD_Client_ID})
 								.setOrderBy("C_Country_ID, C_Region_ID, To_Country_ID, To_Region_ID")
+								.setOnlyActiveRecords(true)
 								.list();
 		for (MTax tax : list)
 		{
@@ -87,11 +101,6 @@ public class MTax extends X_C_Tax
 		return retValue;
 	}	//	get
 
-	/**	Cache						*/
-	private static CCache<Integer,MTax>		s_cache	= new CCache<Integer,MTax>(Table_Name, 5);
-	/**	Cache of Client						*/
-	private static CCache<Integer,MTax[]>	s_cacheAll = new CCache<Integer,MTax[]>(Table_Name, 5);
-	
 	/**************************************************************************
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -145,14 +154,6 @@ public class MTax extends X_C_Tax
 		setC_TaxCategory_ID (C_TaxCategory_ID);	//	FK
 	}	//	MTax
 
-	/**	100					*/
-	private static BigDecimal ONEHUNDRED = new BigDecimal(100);
-	/**	Child Taxes			*/
-	private MTax[]			m_childTaxes = null;
-	/** Postal Codes		*/
-	private MTaxPostal[]	m_postals = null;
-	
-	
 	/**
 	 * 	Get Child Taxes
 	 * 	@param requery reload
@@ -168,8 +169,9 @@ public class MTax extends X_C_Tax
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = COLUMNNAME_Parent_Tax_ID+"=?";
 		List<MTax> list = new Query(getCtx(), MTax.Table_Name, whereClause,  get_TrxName())
-		.setParameters(new Object[]{getC_Tax_ID()})
-	 	.list();	
+			.setParameters(new Object[]{getC_Tax_ID()})
+			.setOnlyActiveRecords(true)
+			.list();	
 		//red1 - end -
 	 
 		m_childTaxes = new MTax[list.size ()];
@@ -190,10 +192,10 @@ public class MTax extends X_C_Tax
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = MTaxPostal.COLUMNNAME_C_Tax_ID+"=?";
 		List<MTaxPostal> list = new Query(getCtx(), MTaxPostal.Table_Name, whereClause,  get_TrxName())
-		.setParameters(new Object[]{getC_Tax_ID()})
-		.setOnlyActiveRecords(true)
-		.setOrderBy(MTaxPostal.COLUMNNAME_Postal+", "+MTaxPostal.COLUMNNAME_Postal_To)
-		.list();	
+			.setParameters(new Object[]{getC_Tax_ID()})
+			.setOnlyActiveRecords(true)
+			.setOrderBy(MTaxPostal.COLUMNNAME_Postal+", "+MTaxPostal.COLUMNNAME_Postal_To)
+			.list();	
 		//red1 - end -
 
 		if (list.size() > 0) { 
@@ -274,6 +276,23 @@ public class MTax extends X_C_Tax
 		return finalTax;
 	}	//	calculateTax
 
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		if (isDefault()) {
+			// @Trifon - Ensure that only one tax rate is set as Default!
+			String whereClause = MTax.COLUMNNAME_C_TaxCategory_ID+"=? AND IsDefault='Y'";
+			List<MTax> list = new Query(getCtx(), MTax.Table_Name, whereClause,  get_TrxName())
+				.setParameters(new Object[]{getC_TaxCategory_ID()})
+				.setOnlyActiveRecords(true)
+				.list();
+			if (list.size() >= 1) {
+				log.saveError("Error", Msg.parseTranslation(getCtx(), "Only one @C_Tax_ID@ per @C_TaxCategory_ID@ can be marked as Default!"));
+				return false;
+			}
+		}
+		return super.beforeSave(newRecord);
+	}
+	
 	/**
 	 * 	After Save
 	 *	@param newRecord new
