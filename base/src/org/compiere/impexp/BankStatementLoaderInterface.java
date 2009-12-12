@@ -36,7 +36,7 @@ import org.compiere.model.MBankStatementLoader;
  *
  *  -loadLines() is called, request the loader to start loading statement lines
  *
- *  -for everu statement line that the loader encounteres, it calls the
+ *  -for every statement line that the loader encounters, it calls the
  *  saveLine() method of the MBankStatement controller object it obtained
  *  as part of the call to init()
  *
@@ -52,7 +52,7 @@ public interface BankStatementLoaderInterface
 	/**
 	 * Initialize the loader
 	 * @param controller Reference to the MBankStatementLoader controller object
-	 * @return Initialized succesfully
+	 * @return Initialized successfully
 	 */
 	public boolean init(MBankStatementLoader controller);
 
@@ -66,24 +66,24 @@ public interface BankStatementLoaderInterface
 
 	/**
 	 * Start importing statement lines
-	 * @return Statement lines imported succesfully
+	 * @return Statement lines imported successfully
 	 */	
 	public boolean loadLines();
 
 	/**
 	 * Return the most recent error
 	 * @return Error message
-	 * This error message will be handled as a Adempiere message,
+	 * This error message will be handled as a ADempiere message,
 	 * (e.g. it can be translated)
 	 */
 	public String getLastErrorMessage();
 
 	/**
 	 * Return the most recent error description
-	 * @return Error discription
+	 * @return Error description
 	 * This is an additional error description, it can be used to provided
-	 * descriptive iformation, such as a file name or SQL error, that can not
-	 * be translated by the Adempiere message system.
+	 * descriptive information, such as a file name or SQL error, that can not
+	 * be translated by the ADempiere message system.
 	 */
 	public String getLastErrorDescription();
 	
@@ -112,7 +112,7 @@ public interface BankStatementLoaderInterface
 	 * Additional reference information
 	 * Statement level reference information. If a specific loader class
 	 * does not provided this, it is allowed to return null.
-	 * @return Error discription
+	 * @return Statement Reference
 	 */
 	public String getStatementReference();
 	
@@ -138,7 +138,7 @@ public interface BankStatementLoaderInterface
 	 * Statement line level reference information.
 	 * For OFX this is the <REFNUM> field.
 	 * If a specific loader does not provided this, it is allowed to return null.
-	 * @return Error discription
+	 * @return Reference
 	 */
 	public String getReference();
 	
@@ -180,7 +180,7 @@ public interface BankStatementLoaderInterface
 	
 	/**
 	 * Effective date
-	 * Date theat the funds became available.
+	 * Date at the funds became available.
 	 * If a specific loader does not provide this, it is allowed to return null.
 	 * @return Effective date
 	 */
@@ -261,5 +261,5 @@ public interface BankStatementLoaderInterface
 	 */
 	public BigDecimal getChargeAmt();
 
-}	//BankStatementLoaderInterface	
+}	
 
