@@ -26,6 +26,7 @@ package org.adempiere.webui.panel;
 import java.text.MessageFormat;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
@@ -45,6 +46,7 @@ import org.adempiere.webui.window.LoginWindow;
 import org.compiere.Adempiere;
 import org.compiere.model.MSession;
 import org.compiere.model.MUser;
+import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -87,6 +89,7 @@ public class LoginPanel extends Window implements EventListener
 	private static final long serialVersionUID = 3992171368813030624L;
 	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
     private ResourceBundle res = ResourceBundle.getBundle(RESOURCE);
+    private static CLogger logger = CLogger.getCLogger(LoginPanel.class);
 
     private Properties ctx;
     private Label lblUserId;
@@ -202,25 +205,31 @@ public class LoginPanel extends Window implements EventListener
 			@Override
 			public void onEvent(Event event) throws Exception {
 				String[] data = (String[]) event.getData();
-				int AD_Session_ID = Integer.parseInt(data[0]);
-				MSession session = new MSession(Env.getCtx(), AD_Session_ID, null);
-				if (session.get_ID() == AD_Session_ID)
+				try 
 				{
-					int AD_User_ID = session.getCreatedBy();
-					MUser user = MUser.get(Env.getCtx(), AD_User_ID);
-					if (user != null && user.get_ID() == AD_User_ID)
+					int AD_Session_ID = Integer.parseInt(data[0]);
+					MSession session = new MSession(Env.getCtx(), AD_Session_ID, null);
+					if (session.get_ID() == AD_Session_ID)
 					{
-					    String token = data[1];
-					    if (BrowserToken.validateToken(session, user, token))
-					    {
-					    	txtUserId.setValue(user.getName());
-					    	onUserIdChange();
-					    	txtPassword.setValue(token);
-					    	txtPassword.setAttribute("user.token.hash", token);
-					    	txtPassword.setAttribute("user.token.sid", AD_Session_ID);
-					    	chkRememberMe.setChecked(true);
-					    }
+						int AD_User_ID = session.getCreatedBy();
+						MUser user = MUser.get(Env.getCtx(), AD_User_ID);
+						if (user != null && user.get_ID() == AD_User_ID)
+						{
+						    String token = data[1];
+						    if (BrowserToken.validateToken(session, user, token))
+						    {
+						    	txtUserId.setValue(user.getName());
+						    	onUserIdChange();
+						    	txtPassword.setValue(token);
+						    	txtPassword.setAttribute("user.token.hash", token);
+						    	txtPassword.setAttribute("user.token.sid", AD_Session_ID);
+						    	chkRememberMe.setChecked(true);
+						    }
+						}
 					}
+				} catch (Exception e) {
+					//safe to ignore
+					logger.log(Level.INFO, e.getLocalizedMessage(), e);
 				}
 			}
 		});

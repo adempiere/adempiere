@@ -462,8 +462,22 @@ public class GridPanel extends Borderlayout implements EventListener
 				renderer.setFocusToEditor();
 			}
 		} else {
-			Component cmp = row.getFirstChild().getFirstChild().getNextSibling();
-			Clients.response(new AuScript(null, "scrollToRow('" + cmp.getUuid() + "');"));
+			Component cmp = null;
+			List<?> childs = row.getChildren();
+			for (Object o : childs) {
+				Component c = (Component) o;
+				if (!c.isVisible())
+					continue;
+				c = c.getFirstChild();
+				if (c == null)
+					continue;
+				if (c.getNextSibling() != null) {
+					cmp = c.getNextSibling();
+					break;
+				}
+			}
+			if (cmp != null)
+				Clients.response(new AuScript(null, "scrollToRow('" + cmp.getUuid() + "');"));
 
 			if (columnOnClick != null && columnOnClick.trim().length() > 0) {
 				List<?> list = row.getChildren();
