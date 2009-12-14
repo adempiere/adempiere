@@ -70,27 +70,52 @@ public class GridWindow implements Serializable
 	 */
 	public static GridWindow get (Properties ctx, int WindowNo, int AD_Window_ID)
 	{
+		return get(ctx, WindowNo, AD_Window_ID, false);
+	}
+	
+	/**
+	 * 	Get Grid Window
+	 *  @param ctx context
+	 *  @param WindowNo window no for ctx
+	 *  @param AD_Window_ID window id
+	 *  @param virtual
+	 *	@return window or null if not found
+	 */
+	public static GridWindow get (Properties ctx, int WindowNo, int AD_Window_ID, boolean virtual)
+	{
 		log.config("Window=" + WindowNo + ", AD_Window_ID=" + AD_Window_ID);
 		GridWindowVO mWindowVO = GridWindowVO.create (Env.getCtx(), WindowNo, AD_Window_ID);
 		if (mWindowVO == null)
 			return null;
-		return new GridWindow(mWindowVO);
+		return new GridWindow(mWindowVO, virtual);
 	}	//	get
 
-	
 	/**************************************************************************
 	 *	Constructor
 	 *  @param vo value object
 	 */
 	public GridWindow (GridWindowVO vo)
 	{
+		this(vo, false);
+	}
+	
+	/**************************************************************************
+	 *	Constructor
+	 *  @param vo value object
+	 *  @param virtual
+	 */
+	public GridWindow (GridWindowVO vo, boolean virtual)
+	{
 		m_vo = vo;
+		m_virtual = virtual;
 		if (loadTabData())
 			enableEvents();
 	}	//	MWindow
 
 	/** Value Object                */
 	private GridWindowVO   	m_vo;
+	/** use virtual table			*/
+	private boolean m_virtual;
 	/**	Tabs						*/
 	private ArrayList<GridTab>	m_tabs = new ArrayList<GridTab>();
 	/** Model last updated			*/
@@ -141,7 +166,7 @@ public class GridWindow implements Serializable
 			GridTabVO mTabVO = (GridTabVO)m_vo.Tabs.get(t);
 			if (mTabVO != null)
 			{
-				GridTab mTab = new GridTab(mTabVO, this);
+				GridTab mTab = new GridTab(mTabVO, this, m_virtual);
 				m_tabs.add(mTab);
 			}
 		}	//  for all tabs

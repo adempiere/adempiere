@@ -277,7 +277,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	                    "AccessTableNoView")
 	                    + "(No Window Model Info)");
 	        }
-	        gridWindow = new GridWindow(gWindowVO);
+	        gridWindow = new GridWindow(gWindowVO, true);
 	        title = gridWindow.getName();
 
 	        // Set SO/AutoNew for Window
@@ -1519,7 +1519,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (!getComponent().getDesktop().isServerPushEnabled())
 			getComponent().getDesktop().enableServerPush(true);
 
-		ProcessModalDialog dialog = new ProcessModalDialog(null,this.getTitle(),this,0,
+		ProcessModalDialog dialog = new ProcessModalDialog(this,0,
 				AD_Process_ID,table_ID, record_ID, true);
 		if (dialog.isValid()) {
 			dialog.setPosition("center");
@@ -1905,8 +1905,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 		else
 		{
-			ProcessModalDialog dialog = new ProcessModalDialog(null,
-					Env.getHeader(ctx, curWindowNo), this, curWindowNo,
+			ProcessModalDialog dialog = new ProcessModalDialog(this, curWindowNo,
 					wButton.getProcess_ID(), table_ID, record_ID, startWOasking);
 
 			if (dialog.isValid())

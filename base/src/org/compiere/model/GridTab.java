@@ -99,10 +99,11 @@ import org.compiere.util.ValueNamePair;
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5882167959482156252L;
+	private static final long serialVersionUID = 7198494041906579986L;
 
 	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
 	
@@ -112,13 +113,28 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  MTab provides a property listener for changed rows and a
 	 *  DataStatusListener for communicating changes of the underlying data
 	 *  @param vo Value Object
+	 *  @param w
 	 */
 	public GridTab(GridTabVO vo, GridWindow w)
+	{
+		this(vo, w, false);
+	}
+	
+	/**
+	 *	Create Tab (Model) from Value Object.
+	 *  <p>
+	 *  MTab provides a property listener for changed rows and a
+	 *  DataStatusListener for communicating changes of the underlying data
+	 *  @param vo Value Object
+	 *  @param w
+	 *  @param virtual
+	 */
+	public GridTab(GridTabVO vo, GridWindow w, boolean virtual)
 	{
 		m_window = w;
 		m_vo = vo;
 		//  Create MTable
-		m_mTable = new GridTable (m_vo.ctx, m_vo.AD_Table_ID, m_vo.TableName, m_vo.WindowNo, m_vo.TabNo, true);
+		m_mTable = new GridTable (m_vo.ctx, m_vo.AD_Table_ID, m_vo.TableName, m_vo.WindowNo, m_vo.TabNo, true, virtual);
 		m_mTable.setReadOnly(m_vo.IsReadOnly || m_vo.IsView);
 		m_mTable.setDeleteable(m_vo.IsDeleteable);
 		//  Load Tab
@@ -637,7 +653,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					value = Env.getContext(m_vo.ctx, m_vo.WindowNo, getParentTabNo(), lc, true);
 					if (value == null || value.length() == 0)
 						value = Env.getContext(m_vo.ctx, m_vo.WindowNo, lc, true); // back compatibility
-				}
+				}	
 				
 				//	Same link value?
 				if (refresh)
@@ -3055,11 +3071,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		int parentLevel = currentLevel-1;
 		if (parentLevel < 0)
 			return tabNo;
-		while (parentLevel != currentLevel)
-		{
-			tabNo--;
-			currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
-		}
+			while (parentLevel != currentLevel)
+			{
+				tabNo--;				
+				currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
+			}
 		return tabNo;
 	}	
 }	//	GridTab

@@ -30,6 +30,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -85,7 +88,7 @@ public class GridTable extends AbstractTableModel
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4273775926021737068L;
+	private static final long serialVersionUID = 6148998589248950598L;
 
 	/**
 	 *	JDBC Based Buffered Table
@@ -100,6 +103,23 @@ public class GridTable extends AbstractTableModel
 	public GridTable(Properties ctx, int AD_Table_ID, String TableName, int WindowNo, int TabNo,
 		boolean withAccessControl)
 	{
+		this(ctx, AD_Table_ID, TableName, WindowNo, TabNo, withAccessControl, false);
+	}
+
+	/**
+	 *	JDBC Based Buffered Table
+	 *
+	 *  @param ctx Properties
+	 *  @param AD_Table_ID table id
+	 *  @param TableName table name
+	 *  @param WindowNo window no
+	 *  @param TabNo tab no
+	 *  @param withAccessControl    if true adds AD_Client/Org restrictuins
+	 *  @param virtual use virtual table mode if table is mark as high volume
+	 */
+	public GridTable(Properties ctx, int AD_Table_ID, String TableName, int WindowNo, int TabNo,
+		boolean withAccessControl, boolean virtual)
+	{
 		super();
 		log.info(TableName);
 		m_ctx = ctx;
@@ -108,6 +128,7 @@ public class GridTable extends AbstractTableModel
 		m_WindowNo = WindowNo;
 		m_TabNo = TabNo;
 		m_withAccessControl = withAccessControl;
+		m_virtual = virtual && MTable.get(ctx, AD_Table_ID).isHighVolume();
 	}	//	MTable
 
 	private static CLogger		log = CLogger.getCLogger(GridTable.class.getName());
@@ -120,6 +141,11 @@ public class GridTable extends AbstractTableModel
 	private boolean			    m_withAccessControl;
 	private boolean			    m_readOnly = true;
 	private boolean			    m_deleteable = true;
+	//virtual table state variables
+	private boolean				m_virtual;
+	private	int					m_cacheStart;
+	private int					m_cacheEnd;
+	public static final String CTX_KeyColumnName = "KeyColumnName";
 	//
 
 	/**	Rowcount                    */
@@ -296,7 +322,7 @@ public class GridTable extends AbstractTableModel
 		select.append(" FROM ").append(m_tableName);
 		m_SQL_Select = select.toString();
 		m_SQL_Count = "SELECT COUNT(*) FROM " + m_tableName;
-		//BF [ 2910358 ]
+		//BF [ 2910358 ] 
 		//Restore the Original Value for Key Column Name based in Tab Context Value
 		int parentTabNo = getParentTabNo();
 		String parentKey = Env.getContext(m_ctx, m_WindowNo, parentTabNo, GridTab.CTX_KeyColumnName, true);
@@ -304,8 +330,8 @@ public class GridTable extends AbstractTableModel
 		String currKey = Env.getContext(m_ctx, m_WindowNo, parentKey);
 		if (valueKey != null && valueKey.length() > 0 && parentKey != null && parentKey.length() > 0 && ! currKey.equals(valueKey))
 		{
-			Env.setContext(m_ctx, m_WindowNo, parentKey, valueKey);
-		}
+			Env.setContext(m_ctx, m_WindowNo,  parentKey, valueKey);
+		}	
 		
 		StringBuffer where = new StringBuffer("");
 		//	WHERE
@@ -356,7 +382,9 @@ public class GridTable extends AbstractTableModel
 
 		//	ORDER BY
 		if (!m_orderClause.equals(""))
+		{
 			m_SQL += " ORDER BY " + m_orderClause;
+		}
 		//
 		log.fine(m_SQL_Count);
 		Env.setContext(m_ctx, m_WindowNo, m_TabNo, GridTab.CTX_SQL, m_SQL);
@@ -538,6 +566,11 @@ public class GridTable extends AbstractTableModel
 			return true;
 		}
 
+		if (m_virtual)
+		{
+			verifyVirtual();
+		}
+
 		//	create m_SQL and m_countSQL
 		createSelectSql();
 		if (m_SQL == null || m_SQL.equals(""))
@@ -549,10 +582,19 @@ public class GridTable extends AbstractTableModel
 		//	Start Loading
 		m_loader = new Loader();
 		m_rowCount = m_loader.open(maxRows);
-		m_buffer = new ArrayList<Object[]>(m_rowCount+10);
+		if (m_virtual)
+			m_buffer = new ArrayList<Object[]>(210);
+		else
+			m_buffer = new ArrayList<Object[]>(m_rowCount+10);
 		m_sort = new ArrayList<MSort>(m_rowCount+10);
+		m_cacheStart = m_cacheEnd = -1;
 		if (m_rowCount > 0)
-			m_loader.start();
+		{
+			if (m_rowCount < 1000)
+				m_loader.run();
+			else
+				m_loader.start();
+		}
 		else
 			m_loader.close();
 		m_open = true;
@@ -562,6 +604,24 @@ public class GridTable extends AbstractTableModel
 		m_inserting = false;
 		return true;
 	}	//	open
+
+	private void verifyVirtual()
+	{
+		if (m_indexKeyColumn == -1)
+		{
+			m_virtual = false;
+			return;
+		}
+		GridField[] fields = getFields();
+		for(int i = 0; i < fields.length; i++)
+		{
+			if (fields[i].isKey() && i != m_indexKeyColumn)
+			{
+				m_virtual = false;
+				return;
+			}
+		}
+	}
 
 	/**
 	 *  Wait until async loader of Table and Lookup Fields is complete
@@ -658,6 +718,8 @@ public class GridTable extends AbstractTableModel
 		if (m_sort != null)
 			m_sort.clear();
 		m_sort = null;
+
+		m_cacheStart = m_cacheEnd = -1;
 
 		if (finalCall)
 			dispose();
@@ -778,7 +840,7 @@ public class GridTable extends AbstractTableModel
 		for (int i = 0; i < m_sort.size(); i++)
 		{
 			MSort sort = (MSort)m_sort.get(i);
-			Object[] rowData = (Object[])m_buffer.get(sort.index);
+			Object[] rowData = getDataAtRow(i);
 			if (rowData[col] == null)
 				sort.data = null;
 			else if (isLookup || isASI)
@@ -792,6 +854,17 @@ public class GridTable extends AbstractTableModel
 		MSort sort = new MSort(0, null);
 		sort.setSortAsc(ascending);
 		Collections.sort(m_sort, sort);
+		if (m_virtual)
+		{
+			m_buffer.clear();
+			m_cacheStart = m_cacheEnd = -1;
+
+			//release sort memory
+			for (int i = 0; i < m_sort.size(); i++)
+			{
+				m_sort.get(i).data = null;
+			}
+		}
 		//	update UI
 		fireTableDataChanged();
 		//  Info detected by MTab.dataStatusChanged and current row set to 0
@@ -852,9 +925,9 @@ public class GridTable extends AbstractTableModel
 
 		//	need to wait for data read into buffer
 		int loops = 0;
-		while (row >= m_buffer.size() && m_loader.isAlive() && loops < 15)
+		while (row >= m_sort.size() && m_loader.isAlive() && loops < 15)
 		{
-			log.fine("Waiting for loader row=" + row + ", size=" + m_buffer.size());
+			log.fine("Waiting for loader row=" + row + ", size=" + m_sort.size());
 			try
 			{
 				Thread.sleep(500);		//	1/2 second
@@ -865,15 +938,14 @@ public class GridTable extends AbstractTableModel
 		}
 
 		//	empty buffer
-		if (row >= m_buffer.size())
+		if (row >= m_sort.size())
 		{
 		//	log.fine( "Empty buffer");
 			return null;
 		}
 
 		//	return Data item
-		MSort sort = (MSort)m_sort.get(row);
-		Object[] rowData = (Object[])m_buffer.get(sort.index);
+		Object[] rowData = getDataAtRow(row);
 		//	out of bounds
 		if (rowData == null || col > rowData.length)
 		{
@@ -883,6 +955,116 @@ public class GridTable extends AbstractTableModel
 		return rowData[col];
 	}	//	getValueAt
 
+private Object[] getDataAtRow(int row)
+	{
+		MSort sort = (MSort)m_sort.get(row);
+		Object[] rowData = null;
+		if (m_virtual)
+		{
+			int bufferrow = -1;
+			if (sort.index != -1 && (row < m_cacheStart || row > m_cacheEnd))
+			{
+				fillBuffer(row);
+			}
+			bufferrow = row - m_cacheStart;
+
+			rowData = (Object[])m_buffer.get(bufferrow);
+		}
+		else
+		{
+			rowData = (Object[])m_buffer.get(sort.index);
+		}
+		return rowData;
+	}
+
+	private void setDataAtRow(int row, Object[] rowData) {
+		MSort sort = m_sort.get(row);
+		if (m_virtual)
+		{
+			int bufferrow = -1;
+			if (sort.index != -1 && (row < m_cacheStart || row > m_cacheEnd))
+			{
+				fillBuffer(row);
+			}
+			bufferrow = row - m_cacheStart;
+			m_buffer.set(bufferrow, rowData);
+		}
+		else
+		{
+			m_buffer.set(sort.index, rowData);
+		}
+
+	}
+
+	private void fillBuffer(int start)
+	{
+		//adjust start if needed
+		if (start > 0)
+		{
+			if (start + 200 >= m_sort.size())
+			{
+				start = start - (200 - ( m_sort.size() - start ));
+				if (start < 0)
+					start = 0;
+			}
+		}
+		StringBuffer sql = new StringBuffer();
+		sql.append(m_SQL_Select)
+			.append(" WHERE ")
+			.append(getKeyColumnName())
+			.append(" IN (");
+		m_cacheStart = start;
+		m_cacheEnd = m_cacheStart - 1;
+		Map<Integer, Integer>rowmap = new LinkedHashMap<Integer, Integer>(200);
+		for(int i = start; i < start+200 && i < m_sort.size(); i++)
+		{
+			if(i > start)
+				sql.append(",");
+			sql.append(m_sort.get(i).index);
+			rowmap.put(m_sort.get(i).index, i);
+		}
+		sql.append(")");
+		m_buffer = new ArrayList<Object[]>(210);
+		for(int i = 0; i < 200; i++)
+			m_buffer.add(null);
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try
+		{
+			stmt = DB.prepareStatement(sql.toString(), null);
+			rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				Object[] data = readData(rs);
+				int row = rowmap.remove(data[m_indexKeyColumn]);
+				m_buffer.set(row - m_cacheStart, data);
+				m_cacheEnd++;
+			}
+			if (!rowmap.isEmpty())
+			{
+				List<Integer> toremove = new ArrayList<Integer>();
+				for(Map.Entry<Integer, Integer> entry : rowmap.entrySet())
+				{
+					toremove.add(entry.getValue());
+				}
+				Collections.reverse(toremove);
+				for(Integer row : toremove)
+				{
+					m_sort.remove(row);
+					m_buffer.remove(row - m_cacheStart);
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
+		}
+		finally
+		{
+			DB.close(rs, stmt);
+		}
+	}
+	
 	/**
 	 *	Indicate that there will be a change
 	 *  @param changed changed
@@ -958,8 +1140,8 @@ public class GridTable extends AbstractTableModel
 		m_oldValue[2] = oldValue;
 
 		//	Set Data item
-		MSort sort = (MSort)m_sort.get(row);
-		Object[] rowData = (Object[])m_buffer.get(sort.index);
+		
+		Object[] rowData = getDataAtRow(row);
 		m_rowChanged = row;
 
 		/**	Selection
@@ -981,7 +1163,7 @@ public class GridTable extends AbstractTableModel
 
 		//	save & update
 		rowData[col] = value;
-		m_buffer.set(sort.index, rowData);
+		setDataAtRow(row, rowData);
 		//  update Table
 		fireTableCellUpdated(row, col);
 		//  update MField
@@ -1127,6 +1309,8 @@ public class GridTable extends AbstractTableModel
 		//  Value not changed
 		if (m_rowData == null)
 		{
+			//reset out of sync variable
+			m_rowChanged = -1;
 			log.fine("No Changes");
 			return SAVE_ERROR;
 		}
@@ -1180,8 +1364,7 @@ public class GridTable extends AbstractTableModel
 		}
 
 		//	get updated row data
-		MSort sort = (MSort)m_sort.get(m_rowChanged);
-		Object[] rowData = (Object[])m_buffer.get(sort.index);
+		Object[] rowData = getDataAtRow(m_rowChanged);
 
 		//	Check Mandatory
 		String missingColumns = getMandatory(rowData);
@@ -1714,7 +1897,12 @@ public class GridTable extends AbstractTableModel
 			{
 				rowDataDB = readData(rs);
 				//	update buffer
-				m_buffer.set(sort.index, rowDataDB);
+				setDataAtRow(m_rowChanged, rowDataDB);
+				if (m_virtual)
+				{
+					MSort sort = m_sort.get(m_rowChanged);
+					sort.index = getKeyID(m_rowChanged);
+				}
 				fireTableRowsUpdated(m_rowChanged, m_rowChanged);
 			}
 			else
@@ -1764,8 +1952,7 @@ public class GridTable extends AbstractTableModel
 	{
 		log.fine("ID=" + Record_ID);
 		//
-		MSort sort = (MSort)m_sort.get(m_rowChanged);
-		Object[] rowData = (Object[])m_buffer.get(sort.index);
+		Object[] rowData = getDataAtRow(m_rowChanged);
 		//
 		MTable table = MTable.get (m_ctx, m_AD_Table_ID);
 		PO po = null;
@@ -1874,7 +2061,12 @@ public class GridTable extends AbstractTableModel
 			{
 				Object[] rowDataDB = readData(rs);
 				//	update buffer
-				m_buffer.set(sort.index, rowDataDB);
+				setDataAtRow(m_rowChanged, rowDataDB);
+				if (m_virtual)
+				{
+					MSort sort = m_sort.get(m_rowChanged);
+					sort.index = getKeyID(m_rowChanged);
+				}
 				fireTableRowsUpdated(m_rowChanged, m_rowChanged);
 			}
 		}
@@ -2167,12 +2359,21 @@ public class GridTable extends AbstractTableModel
 		m_compareDB = true;		
 		m_newRow = currentRow + 1;
 		//  if there is no record, the current row could be 0 (and not -1)
-		if (m_buffer.size() < m_newRow)
-			m_newRow = m_buffer.size();
+		if (m_sort.size() < m_newRow)
+			m_newRow = m_sort.size();
 
 		//	add Data at end of buffer
-		MSort newSort = new MSort(m_buffer.size(), null);	//	index
-		m_buffer.add(rowData);
+		MSort newSort = m_virtual
+				? new MSort(-1, null)
+				: new MSort(m_sort.size(), null);	//	index
+		if (m_virtual)
+		{
+			m_buffer.add(m_newRow, rowData);
+		}
+		else
+		{
+			m_buffer.add(rowData);
+		}
 		//	add Sort pointer
 		m_sort.add(m_newRow, newSort);
 		m_rowCount++;
@@ -2181,8 +2382,7 @@ public class GridTable extends AbstractTableModel
 		if (copyCurrent)
 		{
 			boolean hasDocTypeTargetField = (getField("C_DocTypeTarget_ID") != null);
-			MSort sort = (MSort) m_sort.get(currentRow);
-			Object[] origData = (Object[])m_buffer.get(sort.index);
+			Object[] origData = getDataAtRow(currentRow);
 			for (int i = 0; i < size; i++)
 			{
 				GridField field = (GridField)m_fields.get(i);
@@ -2280,7 +2480,7 @@ public class GridTable extends AbstractTableModel
 		//  fireDataStatusEvent(Log.retrieveError());
 
 		MSort sort = (MSort)m_sort.get(row);
-		Object[] rowData = (Object[])m_buffer.get(sort.index);
+		Object[] rowData = getDataAtRow(row);
 		//
 		MTable table = MTable.get (m_ctx, m_AD_Table_ID);
 		PO po = null;
@@ -2347,19 +2547,31 @@ public class GridTable extends AbstractTableModel
 		}
 
 		//	Get Sort
-		int bufferRow = sort.index;
+		int bufferRow = m_virtual
+			? row - m_cacheStart
+			: sort.index;
 		//	Delete row in Buffer and shifts all below up
 		m_buffer.remove(bufferRow);
 		m_rowCount--;
 
 		//	Delete row in Sort
 		m_sort.remove(row);
-		//	Correct pointer in Sort
-		for (int i = 0; i < m_sort.size(); i++)
+		if (!m_virtual)
 		{
-			MSort ptr = (MSort)m_sort.get(i);
-			if (ptr.index > bufferRow)
-				ptr.index--;	//	move up
+			//	Correct pointer in Sort
+			for (int i = 0; i < m_sort.size(); i++)
+			{
+				MSort ptr = (MSort)m_sort.get(i);
+				if (ptr.index > bufferRow)
+					ptr.index--;	//	move up
+			}
+		}
+		else
+		{
+			if (m_cacheStart == row)
+				m_cacheStart++;
+			else
+				m_cacheEnd--;
 		}
 
 		//	inform
@@ -2389,7 +2601,9 @@ public class GridTable extends AbstractTableModel
 		{
 			//	Get Sort
 			MSort sort = (MSort)m_sort.get(m_newRow);
-			int bufferRow = sort.index;
+			int bufferRow = m_virtual
+				? m_buffer.size() - 1
+				: sort.index;
 			//	Delete row in Buffer and shifts all below up
 			m_buffer.remove(bufferRow);
 			m_rowCount--;
@@ -2408,8 +2622,7 @@ public class GridTable extends AbstractTableModel
 			//	update buffer
 			if (m_rowData != null)
 			{
-				MSort sort = (MSort)m_sort.get(m_rowChanged);
-				m_buffer.set(sort.index, m_rowData);
+				setDataAtRow(m_rowChanged, m_rowData);
 			}
 			m_changed = false;
 			m_rowData = null;
@@ -2435,7 +2648,7 @@ public class GridTable extends AbstractTableModel
 			return;
 
 		MSort sort = (MSort)m_sort.get(row);
-		Object[] rowData = (Object[])m_buffer.get(sort.index);
+		Object[] rowData = getDataAtRow(row);
 
 		//  ignore
 		dataIgnore();
@@ -2472,7 +2685,7 @@ public class GridTable extends AbstractTableModel
 		}
 
 		//	update buffer
-		m_buffer.set(sort.index, rowDataDB);
+		setDataAtRow(row, rowDataDB);
 		//	info
 		m_rowData = null;
 		m_changed = false;
@@ -3045,14 +3258,24 @@ public class GridTable extends AbstractTableModel
 						return;
 					}
 					//  Get Data
-					Object[] rowData = readData(m_rs);
+					int recordId = 0;
+					Object[] rowData = null;
+					if (m_virtual)
+						recordId = m_rs.getInt(getKeyColumnName());
+					else
+						rowData = readData(m_rs);
 					//	add Data
-					MSort sort = new MSort(m_buffer.size(), null);	//	index
-					m_buffer.add(rowData);
+					MSort sort = m_virtual
+						? new MSort(recordId, null)
+						: new MSort(m_buffer.size(), null);	//	index
+					if (!m_virtual)
+					{
+						m_buffer.add(rowData);
+					}
 					m_sort.add(sort);
 
-					//	Statement all 250 rows & sleep
-					if (m_buffer.size() % 250 == 0)
+					//	Statement all 1000 rows & sleep
+					if (m_sort.size() % 1000 == 0)
 					{
 						//	give the other processes a chance
 						try
@@ -3067,7 +3290,7 @@ public class GridTable extends AbstractTableModel
 							return;
 						}
 						DataStatusEvent evt = createDSE();
-						evt.setLoading(m_buffer.size());
+						evt.setLoading(m_sort.size());
 						fireDataStatusChanged(evt);
 					}
 				}	//	while(rs.next())
@@ -3253,11 +3476,11 @@ public class GridTable extends AbstractTableModel
 		int parentLevel = currentLevel-1;
 		if (parentLevel < 0)
 			return tabNo;
-		while (parentLevel != currentLevel)
-		{
-			tabNo--;				
-			currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
-		}
+			while (parentLevel != currentLevel)
+			{
+				tabNo--;				
+				currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
+			}
 		return tabNo;
 	}	
 }
