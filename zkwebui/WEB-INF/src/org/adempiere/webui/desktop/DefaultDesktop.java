@@ -45,6 +45,7 @@ import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MGoal;
 import org.compiere.model.MMenu;
+import org.compiere.model.MQuery;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
@@ -466,5 +467,11 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	public void openWorkflow(int workflowID) {
 		autoHideMenu();
 		super.openWorkflow(workflowID);
+	}
+
+	@Override
+	public void showWindow(int AD_Window_ID, MQuery query) {
+		autoHideMenu();
+		super.showWindow(AD_Window_ID, query);
 	}
 }
