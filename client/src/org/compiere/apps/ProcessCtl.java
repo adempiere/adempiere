@@ -78,7 +78,6 @@ public class ProcessCtl implements Runnable
 	 *  @param pi ProcessInfo process info
 	 *  @param trx Transaction
 	 *  @return worker started ProcessCtl instance or null for workflow
-	 *  @deprecated
 	 */
 	public static ProcessCtl process (ASyncProcess parent, int WindowNo, ProcessInfo pi, Trx trx)
 	{
