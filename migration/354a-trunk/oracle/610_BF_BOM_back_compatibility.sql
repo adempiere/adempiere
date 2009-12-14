@@ -1,3 +1,6 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
+
 -- Nov 26, 2009 11:22:12 AM CST
 -- Libero Manufacturing
 UPDATE AD_TreeNodeMM SET Parent_ID=53022, SeqNo=0, Updated=SysDate WHERE AD_Tree_ID=10 AND Node_ID=53023
