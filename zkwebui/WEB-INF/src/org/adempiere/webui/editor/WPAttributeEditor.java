@@ -292,12 +292,14 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 
 	@Override
 	public boolean isReadWrite() {
-		return !getComponent().getTextbox().isReadonly();
+		return getComponent().getButton().isEnabled();
 	}
 
 	@Override
 	public void setReadWrite(boolean readWrite) {
 		getComponent().setEnabled(readWrite);
+		
+		getComponent().getTextbox().setReadonly(true);
 	}
 
 

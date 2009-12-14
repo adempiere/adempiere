@@ -161,4 +161,11 @@ public class EditorBox extends Div {
 	public void setToolTipText(String tooltiptext) {
 		txt.setTooltiptext(tooltiptext);
 	}
+	
+	/**
+	 * @return Button
+	 */
+	public Button getButton() {
+		return btn;
+	}
 }
