@@ -21,7 +21,7 @@ EXECDIR=/home/adempiere/Adempiere
 ENVFILE=/home/adempiere/.bash_profile
 ADEMPIEREUSER=adempiere
 # STOPMESSAGE="Halting VM" # Message when using java 5
-STOPMESSAGE="INFO.*\[Server\].*Shutting down the server" # Message when using java 6
+STOPMESSAGE="INFO.*Server\].*Shutdown complete" # Message when using java 6
 
 . /etc/rc.d/init.d/functions
  
@@ -53,12 +53,12 @@ start () {
 	ITERATIONS=0
 	while [ $STATUSTEST -eq 0 ] ; do
 	    sleep 2
-	    tail -n 5 $LOGFILE | grep -q 'INFO.*\[Server\].*Started in' && STATUSTEST=1
+	    tail -n 9 $LOGFILE | grep -q 'INFO.*\[Server\].*Started in' && STATUSTEST=1
 	    echo -n "."
 	    ITERATIONS=`expr $ITERATIONS + 1`
 	    if [ $ITERATIONS -gt $MAXITERATIONS ]
-	    then
-	        break
+		then
+		break
 	    fi
 	done
 	if [ $STATUSTEST -eq 0 ]
@@ -84,7 +84,8 @@ stop () {
     fi
     echo -n "Stopping ADempiere ERP: "
     source $ENVFILE 
-    export LASTLOG=`ls -t $ADEMPIERE_HOME/jboss/server/adempiere/log/adempiere_??????????????.log | head -1`
+    # export LASTLOG=`ls -t $ADEMPIERE_HOME/jboss/server/adempiere/log/adempiere_??????????????.log | head -1`
+    export LASTLOG=$ADEMPIERE_HOME/jboss/server/adempiere/log/server.log
     su $ADEMPIEREUSER -c "cd $EXECDIR/utils;$EXECDIR/utils/RUN_Server2Stop.sh &> /dev/null &"
     RETVAL=$?
     if [ $RETVAL -eq 0 ] ; then
@@ -98,13 +99,30 @@ stop () {
 	    ITERATIONS=`expr $ITERATIONS + 1`
 	    if [ $ITERATIONS -gt $MAXITERATIONS ]
 	    then
-	        break
+		break
 	    fi
 	done
 	if [ $STATUSTEST -eq 0 ]
 	then
 	    echo "Service hasn't stopped within the timeout allowed, please review file $LASTLOG to see the status of the service"
-	    echo_warning
+	    echo "Trying direct kill with signal -15"
+	    # Adempiere didn't finish - try direct kill with signal 15, then signal 9
+	    kill -15 `ps ax | grep -v grep | grep $EXECDIR | sed -e 's/^ *//g' | cut -f 1 -d " "`
+	    sleep 5
+	    getadempierestatus
+	    if [ $ADEMPIERESTATUS -ne 0 ] ; then
+		echo_success
+	    else
+		echo "Trying direct kill with signal -9"
+		kill -9 `ps ax | grep -v grep | grep $EXECDIR | sed -e 's/^ *//g' | cut -f 1 -d " "`
+		sleep 5
+		getadempierestatus
+		if [ $ADEMPIERESTATUS -ne 0 ] ; then
+		    echo_success
+		else
+		    echo_warning
+		fi
+	    fi
 	else
 	    echo_success
 	fi
@@ -118,7 +136,7 @@ stop () {
 
 restart () {
     stop
-    sleep 1
+    sleep 2
     start
 }
 
@@ -144,10 +162,10 @@ rhstatus () {
 case "$1" in
     start)
 	start
-        ;;
+	;;
     stop)
 	stop
-        ;;
+	;;
     reload)
 	restart
 	;;
@@ -161,8 +179,8 @@ case "$1" in
 	rhstatus
 	;;
     *)
-        echo $"Usage: $0 {start|stop|reload|restart|condrestart|status}"
-        exit 1
+	echo $"Usage: $0 {start|stop|reload|restart|condrestart|status}"
+	exit 1
 esac
- 
+
 exit 0
