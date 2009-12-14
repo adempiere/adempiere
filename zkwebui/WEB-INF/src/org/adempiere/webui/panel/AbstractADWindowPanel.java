@@ -250,7 +250,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		// https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2832968&group_id=176962
 		// it's harmless, if there is no bug then this must never fail
 		Session currSess = Executions.getCurrent().getDesktop().getSession();
-		int checkad_user_id=(Integer)currSess.getAttribute("Check_AD_User_ID");
+		int checkad_user_id = -1;
+		if (currSess != null && currSess.getAttribute("Check_AD_User_ID") != null)
+			checkad_user_id = (Integer)currSess.getAttribute("Check_AD_User_ID");
 		if (checkad_user_id!=Env.getAD_User_ID(ctx))  
 		{
 			String msg = "Bug 2832968 SessionUser="
