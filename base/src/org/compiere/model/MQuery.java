@@ -85,6 +85,7 @@ public class MQuery implements Serializable
 				+ "WHERE i.AD_PInstance_ID=ip.AD_PInstance_ID"
 				+ " AND pp.AD_Process_ID=i.AD_Process_ID"
 				+ " AND pp.ColumnName=ip.ParameterName"
+				+ " AND pp.IsActive='Y'"
 				+ " AND ip.AD_PInstance_ID=?";
 		else
 			SQL = "SELECT ip.ParameterName,ip.P_String,ip.P_String_To, ip.P_Number,ip.P_Number_To,"
@@ -94,6 +95,7 @@ public class MQuery implements Serializable
 				+ "WHERE i.AD_PInstance_ID=ip.AD_PInstance_ID"
 				+ " AND pp.AD_Process_ID=i.AD_Process_ID"
 				+ " AND pp.ColumnName=ip.ParameterName"
+				+ " AND pp.IsActive='Y'"
 				+ " AND pp.AD_Process_Para_ID=ppt.AD_Process_Para_ID"
 				+ " AND ip.AD_PInstance_ID=?"
 				+ " AND ppt.AD_Language=?";
