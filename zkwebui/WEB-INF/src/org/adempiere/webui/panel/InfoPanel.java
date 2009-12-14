@@ -23,6 +23,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -31,6 +33,7 @@ import java.util.logging.Level;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.ListModelTable;
+import org.adempiere.webui.component.WListItemRenderer;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.ValueChangeEvent;
@@ -49,6 +52,7 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.ListModelExt;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.event.ZulEvents;
 
@@ -62,7 +66,7 @@ import org.zkoss.zul.event.ZulEvents;
  * @author Elaine
  * @version	Info.java Adempiere Swing UI 3.4.1
  */
-public abstract class InfoPanel extends Window implements EventListener, WTableModelListener
+public abstract class InfoPanel extends Window implements EventListener, WTableModelListener, ListModelExt
 {
 	/**
 	 * 
@@ -272,6 +276,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         this.setMaximizable(true);
         
         this.addEventListener(Events.ON_OK, this);
+
+        contentPanel.setOddRowSclass(null);
 	}  //  init
 	protected ConfirmPanel confirmPanel;
 	/** Master (owning) Window  */
@@ -286,7 +292,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected String			p_whereClause = "";
 	protected StatusBarPanel statusBar = new StatusBarPanel();
 	/**                    */
-    private Vector<Object> line;
+    private List<Object> line;
+
 	private boolean			    m_ok = false;
 	/** Cancel pressed - need to differentiate between OK - Cancel - Exit	*/
 	private boolean			    m_cancel = false;
@@ -302,6 +309,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	private String              m_sqlCount;
 	/** Order By Clause         */
 	private String              m_sqlOrder;
+	private String              m_sqlUserOrder;
 	/**ValueChange listeners       */
     private ArrayList<ValueChangeListener> listeners = new ArrayList<ValueChangeListener>();
 	/** Loading success indicator       */
@@ -317,6 +325,10 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	protected WListbox contentPanel = new WListbox();
 	protected Paging paging;
 	protected int pageNo;
+	private int m_count;
+	private int cacheStart;
+	private int cacheEnd;
+	private boolean m_useDatabasePaging = false;
 	
 	private static final String[] lISTENER_EVENTS = {};
 
@@ -355,16 +367,24 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             String orderBy)
 	{
         String sql =contentPanel.prepareTable(layout, from,
-                where.toString(),p_multipleSelection,
+                where,p_multipleSelection,
                 getTableName(),false);
         p_layout = contentPanel.getLayout();
-		m_sqlMain = sql.toString();
+		m_sqlMain = sql;
 		m_sqlCount = "SELECT COUNT(*) FROM " + from + " WHERE " + where;
 		//
 		m_sqlOrder = "";
+		m_sqlUserOrder = "";
 		if (orderBy != null && orderBy.length() > 0)
 			m_sqlOrder = " ORDER BY " + orderBy;
 			
+		int p = from.indexOf(" ");
+		String tableName = p > 0 ? from.substring(0, p) : from;
+		MTable table = MTable.get(Env.getCtx(), tableName);
+		if (table != null)
+		{
+			m_useDatabasePaging = table.isHighVolume() && DB.getDatabase().isPagingSupported();
+		}
 	}   //  prepareTable
 
 	
@@ -373,122 +393,85 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	protected void executeQuery()
 	{
-		line = new Vector<Object>();
-		if (!testCount())
+		line = new ArrayList<Object>();
+		cacheStart = -1;
+		cacheEnd = -1;
+
+		if (m_useDatabasePaging)
 		{
+			testCount();
 			return ;
 		}
-		PreparedStatement m_pstmt = null;
-		ResultSet m_rs = null;
-		        
-		long start = System.currentTimeMillis();
-			//
-	
-        String dynWhere = getSQLWhere();
-        StringBuffer sql = new StringBuffer (m_sqlMain);
-        if (dynWhere.length() > 0)
-            sql.append(dynWhere);   //  includes first AND
-        sql.append(m_sqlOrder);
-        String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString());    //  Variables
-        dataSql = MRole.getDefault().addAccessSQL(dataSql, getTableName(), 
-            MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
-        log.finer(dataSql);
-		try
+		else
 		{
-			m_pstmt = DB.prepareStatement(dataSql, null);
-			setParameters (m_pstmt, false);	//	no count
-			log.fine("Start query - " + (System.currentTimeMillis()-start) + "ms");
-			m_rs = m_pstmt.executeQuery();
-			log.fine("End query - " + (System.currentTimeMillis()-start) + "ms");
+			readLine(0, -1);
+		}
+	}
             
-			while (m_rs.next())
+	private void readData(ResultSet rs) throws SQLException {
+		int colOffset = 1;  //  columns start with 1
+		List<Object> data = new ArrayList<Object>();
+		for (int col = 0; col < p_layout.length; col++)
+		{
+			Object value = null;
+			Class<?> c = p_layout[col].getColClass();
+			int colIndex = col + colOffset;
+			if (c == IDColumn.class)
 			{
-															
-				int colOffset = 1;  //  columns start with 1
-                Vector<Object> data = new Vector<Object>();
-				for (int col = 0; col < p_layout.length; col++)
-				{
-					Object value = null;
-					Class<?> c = p_layout[col].getColClass();
-					int colIndex = col + colOffset;
-					if (c == IDColumn.class)
-					{
-                        value = new IDColumn(m_rs.getInt(colIndex));
+		        value = new IDColumn(rs.getInt(colIndex));
 						
-					}
-					else if (c == Boolean.class)
-                        value = new Boolean("Y".equals(m_rs.getString(colIndex)));
-					else if (c == Timestamp.class)
-                        value = m_rs.getTimestamp(colIndex);
-					else if (c == BigDecimal.class)
-                        value = m_rs.getBigDecimal(colIndex);
-					else if (c == Double.class)
-                        value = new Double(m_rs.getDouble(colIndex));
-					else if (c == Integer.class)
-                        value = new Integer(m_rs.getInt(colIndex));
-					else if (c == KeyNamePair.class)
-					{
-						String display = m_rs.getString(colIndex);
-						int key = m_rs.getInt(colIndex+1);
-                        value = new KeyNamePair(key, display);
-
-						colOffset++;
-					}
-					else
-					{
-                        value = m_rs.getString(colIndex);
-					}
-					data.add(value);
-				}
-                line.add(data);
 			}
+			else if (c == Boolean.class)
+		        value = new Boolean("Y".equals(rs.getString(colIndex)));
+			else if (c == Timestamp.class)
+		        value = rs.getTimestamp(colIndex);
+			else if (c == BigDecimal.class)
+		        value = rs.getBigDecimal(colIndex);
+			else if (c == Double.class)
+		        value = new Double(rs.getDouble(colIndex));
+			else if (c == Integer.class)
+		        value = new Integer(rs.getInt(colIndex));
+			else if (c == KeyNamePair.class)
+			{
+				String display = rs.getString(colIndex);
+				int key = rs.getInt(colIndex+1);
+                value = new KeyNamePair(key, display);
+
+				colOffset++;
+			}
+			else
+			{
+		        value = rs.getString(colIndex);
+			}
+			data.add(value);
+		}
+        line.add(data);
+	}
             
-		}        
-		
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, dataSql, e);
-		}
-		
-		try
-		{
-			if (m_rs != null)
-				m_rs.close();
-			if (m_pstmt != null)
-				m_pstmt.close();
-		}
-		catch (SQLException e) 
-		{
-			log.log(Level.SEVERE, "closeRS", e);
-		}
-        
-		m_rs = null;
-		m_pstmt = null;        
-	}  
-    
     protected void renderItems()
     {
     	Vector<String> columnHeader = getColumnHeader(p_layout);
-        if (line != null)
+        if (m_count > 0)
         {
-        	if (line.size() > PAGE_SIZE) 
+        	if (m_count > PAGE_SIZE)
         	{
         		if (paging == null) 
         		{
 	        		paging = new Paging();
 	    			paging.setPageSize(PAGE_SIZE);
-	    			paging.setTotalSize(line.size());
+	    			paging.setTotalSize(m_count);
 	    			paging.setDetailed(true);
 	    			paging.addEventListener(ZulEvents.ON_PAGING, this);
 	    			insertPagingComponent();
         		}
         		else
         		{
-        			paging.setTotalSize(line.size());
+        			paging.setTotalSize(m_count);
         			paging.setActivePage(0);
         		}
-    			List<Object> subList = line.subList(0, PAGE_SIZE);
+    			List<Object> subList = readLine(0, PAGE_SIZE);
     			model = new ListModelTable(subList);
+    			model.setSorter(this);
 	            model.addTableModelListener(this);
 	            contentPanel.setData(model, null);
 	            
@@ -498,24 +481,105 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         	{
         		if (paging != null) 
         		{
-        			paging.setTotalSize(line.size());
+        			paging.setTotalSize(m_count);
         			paging.setActivePage(0);
         			pageNo = 0;
         		}
-	            model = new ListModelTable(line);
+	            model = new ListModelTable(readLine(0, -1));
+	            model.setSorter(this);
 	            model.addTableModelListener(this);
 	            contentPanel.setData(model, null);
         	}
         }
-        int no = line.size();
+        int no = m_count;
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
                 
         addDoubleClickListener();
-        //workaround for scrollbar position problem
-        contentPanel.renderAll();
     }
     
+    private List<Object> readLine(int start, int end) {
+    	//cacheStart & cacheEnd - 1 based index, start & end - 0 based index
+    	if (cacheStart >= 1 && cacheEnd > cacheStart)
+    	{
+    		if (start+1 >= cacheStart && end+1 <= cacheEnd)
+    		{
+    			return end == -1 ? line : line.subList(start, end);
+    		}
+    	}
+
+    	if (!testCount())
+		{
+    		line = new ArrayList<Object>();
+			return line;
+		}
+
+    	cacheStart = start + 1 - (PAGE_SIZE * 4);
+    	if (cacheStart <= 0)
+    		cacheStart = 1;
+
+    	if (end == -1)
+    	{
+    		cacheEnd = m_count;
+    	}
+    	else
+    	{
+	    	cacheEnd = end + 1 + (PAGE_SIZE * 4);
+	    	if (cacheEnd > m_count)
+	    		cacheEnd = m_count;
+    	}
+
+    	line = new ArrayList<Object>();
+
+    	PreparedStatement m_pstmt = null;
+		ResultSet m_rs = null;
+
+		long startTime = System.currentTimeMillis();
+			//
+
+        String dynWhere = getSQLWhere();
+        StringBuffer sql = new StringBuffer (m_sqlMain);
+        if (dynWhere.length() > 0)
+            sql.append(dynWhere);   //  includes first AND
+        if (m_sqlUserOrder != null && m_sqlUserOrder.trim().length() > 0)
+        	sql.append(m_sqlUserOrder);
+        else
+        	sql.append(m_sqlOrder);
+        String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString());    //  Variables
+        dataSql = MRole.getDefault().addAccessSQL(dataSql, getTableName(),
+            MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+        if (end > start && DB.getDatabase().isPagingSupported())
+        {
+        	dataSql = DB.getDatabase().addPagingSQL(dataSql, cacheStart, cacheEnd);
+        }
+        log.finer(dataSql);
+		try
+		{
+			m_pstmt = DB.prepareStatement(dataSql, null);
+			setParameters (m_pstmt, false);	//	no count
+			log.fine("Start query - " + (System.currentTimeMillis()-startTime) + "ms");
+			m_rs = m_pstmt.executeQuery();
+			log.fine("End query - " + (System.currentTimeMillis()-startTime) + "ms");
+
+			while (m_rs.next())
+			{
+				readData(m_rs);
+			}
+		}
+
+		catch (SQLException e)
+		{
+			log.log(Level.SEVERE, dataSql, e);
+		}
+
+		finally
+		{
+			DB.close(m_rs, m_pstmt);
+		}
+
+		return line;
+	}
+
     private void addDoubleClickListener() {
 		Iterator<?> i = contentPanel.getListenerIterator(Events.ON_DOUBLE_CLICK);
 		while (i.hasNext()) {
@@ -556,7 +620,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		countSql = MRole.getDefault().addAccessSQL	(countSql, getTableName(), 
 													MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 		log.finer(countSql);
-		int no = -1;
+		m_count = -1;
 		
 		try
 		{
@@ -565,7 +629,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			ResultSet rs = pstmt.executeQuery();
 		
 			if (rs.next())
-				no = rs.getInt(1);
+				m_count = rs.getInt(1);
 			
 			rs.close();
 			pstmt.close();
@@ -573,10 +637,10 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, countSql, e);
-			no = -2;
+			m_count = -2;
 		}
 		
-		log.fine("#" + no + " - " + (System.currentTimeMillis()-start) + "ms");
+		log.fine("#" + m_count + " - " + (System.currentTimeMillis()-start) + "ms");
 		
 		//Armen: add role checking (Patch #1694788 )
 		//MRole role = MRole.getDefault(); 		
@@ -956,15 +1020,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             		pageNo = pgNo;
             		int start = pageNo * PAGE_SIZE;
             		int end = start + PAGE_SIZE;
-            		if (end > line.size())
-            			end = line.size();
-            		List<Object> subList = line.subList(start, end);
+            		List<Object> subList = readLine(start, end);
         			model = new ListModelTable(subList);
+        			model.setSorter(this);
     	            model.addTableModelListener(this);
     	            contentPanel.setData(model, null);
     	            
-    	            //workaround for scrollbar position problem
-    	            contentPanel.renderAll();
     				contentPanel.setSelectedIndex(0);
     			}
             }
@@ -1045,5 +1106,23 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         this.detach();
     }   //  dispose
         
+	public void sort(Comparator cmpr, boolean ascending) {
+		WListItemRenderer.ColumnComparator lsc = (WListItemRenderer.ColumnComparator) cmpr;
+		if (m_useDatabasePaging)
+		{
+			int col = lsc.getColumnIndex();
+			m_sqlUserOrder = " ORDER BY " + p_layout[col].getColSQL();
+			if (!ascending)
+				m_sqlUserOrder += " DESC ";
+			executeQuery();
+			renderItems();
+		}
+		else
+		{
+			Collections.sort(line, lsc);
+			renderItems();
+		}
+	}
+
 
 }	//	Info

@@ -51,6 +51,8 @@ public class ListModelTable extends ListModelList implements ListModelExt
 	/** The number of columns in the table. */
 	private int m_noColumns;
 
+	private ListModelExt sorter = null;
+
 	/**
 	 * Default constructor.
 	 *
@@ -324,7 +326,10 @@ public class ListModelTable extends ListModelList implements ListModelExt
      */
     public void sort(Comparator cmpr, boolean ascending)
     {
-        Collections.sort(this.getInnerList(), cmpr);
+    	if (sorter != null)
+    		sorter.sort(cmpr, ascending);
+    	else
+        	Collections.sort(this.getInnerList(), cmpr);
 
         WTableModelEvent event = new WTableModelEvent(this,
                 WTableModelEvent.ALL_ROWS,
@@ -381,5 +386,10 @@ public class ListModelTable extends ListModelList implements ListModelExt
 		if (Executions.getCurrent() != null) {
 			fireEvent(ListDataEvent.CONTENTS_CHANGED, fromRow, toRow);
 		}
+	}
+
+	public void setSorter(ListModelExt lme)
+	{
+		sorter = lme;
 	}
 }

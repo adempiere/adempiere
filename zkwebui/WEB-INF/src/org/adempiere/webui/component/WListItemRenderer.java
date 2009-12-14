@@ -533,22 +533,33 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
      */
     protected Comparator<Object> getColumnComparator(boolean ascending, final int columnIndex)
     {
-        Comparator<Object> comparator;
-        final MSort sort = new MSort(0, null);
+    	return new ColumnComparator(ascending, columnIndex);
+    }
 
-        sort.setSortAsc(ascending);
+    public static class ColumnComparator implements Comparator<Object>
+    {
 
-        comparator = new Comparator<Object>()
+    	private int columnIndex;
+		private MSort sort;
+
+		public ColumnComparator(boolean ascending, int columnIndex)
+    	{
+    		this.columnIndex = columnIndex;
+    		sort = new MSort(0, null);
+        	sort.setSortAsc(ascending);
+    	}
+
+        public int compare(Object o1, Object o2)
         {
-            public int compare(Object o1, Object o2)
-            {
                 Object item1 = ((List<?>)o1).get(columnIndex);
                 Object item2 = ((List<?>)o2).get(columnIndex);
                 return sort.compare(item1, item2);
-            }
-        };
+        }
 
-        return comparator;
+		public int getColumnIndex()
+		{
+			return columnIndex;
+		}
     }
 
 	/**

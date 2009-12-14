@@ -44,9 +44,13 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 	private List<EventListener> doubleClickListeners = new ArrayList<EventListener>();
     private List<EventListener> onDropListeners = new ArrayList<EventListener>();
 	private boolean draggable;
+	private String oddRowSclass;
 	
     public Listbox() {
 		super();
+		//cache default
+		oddRowSclass = super.getOddRowSclass();
+		super.setOddRowSclass(oddRowSclass);
 	}
     
     public Listbox(KeyNamePair[] pairs) {
@@ -56,6 +60,9 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
     			this.appendItem(pair.getName(), pair.getKey());
     		}
     	}
+    	//cache default
+		oddRowSclass = super.getOddRowSclass();
+		super.setOddRowSclass(oddRowSclass);
     }
 
 	public void setEnabled(boolean enabled)
@@ -303,4 +310,21 @@ public class Listbox extends org.zkoss.zul.Listbox implements EventListener
 		}
 		return b;
 	}    
+
+	@Override
+	public String getOddRowSclass() {
+		if (oddRowSclass == null)
+			return null;
+		else
+			return super.getOddRowSclass();
+	}
+
+	@Override
+	public void setOddRowSclass(String scls) {
+		if (scls != null && scls.length() == 0)
+			oddRowSclass = null;
+		else
+			oddRowSclass = scls;
+		super.setOddRowSclass(scls);
+	}
 }
