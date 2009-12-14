@@ -100,9 +100,12 @@ public class DashboardRunnable implements Runnable, Serializable
     			if (serverContext == null) {
     				serverContext = ServerContext.newInstance();	        	
     				serverContext.putAll(ctx);
-    			} else if (!ctx.getProperty(SessionContextListener.SERVLET_SESSION_ID).equals(serverContext.getProperty(SessionContextListener.SERVLET_SESSION_ID))) {
-    				serverContext.clear();
-    				serverContext.putAll(ctx);
+    			} else {
+    				String id = ctx.getProperty(SessionContextListener.SERVLET_SESSION_ID);
+    				if (id == null || !id.equals(serverContext.getProperty(SessionContextListener.SERVLET_SESSION_ID))) {
+    					serverContext.clear();
+    					serverContext.putAll(ctx);
+    				}
     			}
     		}
     		dashboardPanels.get(i).refresh(template);
@@ -116,9 +119,12 @@ public class DashboardRunnable implements Runnable, Serializable
     		if (serverContext == null) {
     			serverContext = ServerContext.newInstance();	        	
     			serverContext.putAll(ctx);
-    		} else if (!ctx.getProperty(SessionContextListener.SERVLET_SESSION_ID).equals(serverContext.getProperty(SessionContextListener.SERVLET_SESSION_ID))) {
-    			serverContext.clear();
-    			serverContext.putAll(ctx);
+    		} else {
+    			String id = ctx.getProperty(SessionContextListener.SERVLET_SESSION_ID);
+				if (id == null || !id.equals(serverContext.getProperty(SessionContextListener.SERVLET_SESSION_ID))) {
+					serverContext.clear();
+					serverContext.putAll(ctx);
+				}
     		}
     	}
     	appDesktop.onServerPush(template);
