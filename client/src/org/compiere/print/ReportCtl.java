@@ -33,6 +33,7 @@ import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.compiere.util.Trx;
 
 /**
  *	Report Controller.
@@ -285,7 +286,26 @@ public class ReportCtl
 				pi.setPrintPreview( !IsDirectPrint );
 				pi.setRecord_ID ( Record_ID );
 				//	Execute Process
-				ProcessCtl worker = ProcessCtl.process(parent, WindowNo, pi, null);
+				if (Ini.isClient())
+				{
+					ProcessCtl.process(parent, WindowNo, pi, null);
+				}
+				else
+				{
+					try 
+					{
+						ClassLoader loader = Thread.currentThread().getContextClassLoader();
+						if (loader == null)
+							loader = ReportCtl.class.getClassLoader();
+						Class<?> clazz = loader.loadClass("org.adempiere.webui.apps.WProcessCtl");
+						Method method = clazz.getDeclaredMethod("process", ASyncProcess.class, Integer.TYPE, ProcessInfo.class, Trx.class);
+						method.invoke(null, parent, WindowNo, pi, null);
+					}
+					catch (Exception e)
+					{
+						throw new AdempiereException(e);
+					}
+				}
 			}
 			else
 			{

@@ -376,7 +376,7 @@ public class WPaySelect extends PaySelect
 		int AD_Proces_ID = 155;	//	C_PaySelection_CreatePayment
 
 		//	Execute Process
-		ProcessModalDialog dialog = new ProcessModalDialog(null, form.getFormName(), this, m_WindowNo, 
+		ProcessModalDialog dialog = new ProcessModalDialog(this, m_WindowNo, 
 				AD_Proces_ID, X_C_PaySelection.Table_ID, m_ps.getC_PaySelection_ID(), false);
 		if (dialog.isValid()) {
 			try {

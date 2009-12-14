@@ -22,14 +22,11 @@ import java.util.logging.Level;
 
 import javax.sql.RowSet;
 
-import org.adempiere.webui.component.Listbox;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.apps.ProcessCtl;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
-import org.compiere.print.AReport;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
@@ -92,13 +89,11 @@ public class WReport implements EventListener {
 
 	/**	The Query						*/
 	private MQuery	 	m_query;
-	/**	The Popup						*/
-	private Listbox		m_listbox;
 	private Menupopup 	m_popup;
 	/**	The Option List					*/
 	private ArrayList<KeyNamePair>	m_list = new ArrayList<KeyNamePair>();
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(AReport.class);
+	private static CLogger log = CLogger.getCLogger(WReport.class);
 	/** The parent window for locking/unlocking during process execution */
 	Component parent;
 	/** The parent window number */
@@ -213,7 +208,7 @@ public class WReport implements EventListener {
 			ProcessInfo pi = new ProcessInfo ("", pf.getJasperProcess_ID());
 			
 			//	Execute Process
-			ProcessCtl worker = ProcessCtl.process(null, WindowNo, pi, null);
+			WProcessCtl.process(null, WindowNo, pi, null);
 		}
 		else
 		{
@@ -239,5 +234,5 @@ public class WReport implements EventListener {
 			Menuitem mi = (Menuitem) event.getTarget();
 			launchReport(m_list.get(Integer.parseInt(mi.getValue().toString())));
 		}
-	}
+	}		
 }

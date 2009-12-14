@@ -60,39 +60,27 @@ import org.zkoss.zul.Html;
  */
 public class ProcessModalDialog extends Window implements EventListener
 {
-	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -351486051681812866L;
+	private static final long serialVersionUID = 8828804363347622789L;
 	private boolean m_autoStart;
 
-
 	/**
-	 * Dialog to start a process/report
-	 * @param ctx
-	 * @param parent
-	 * @param title
 	 * @param aProcess
 	 * @param WindowNo
-	 * @param AD_Process_ID
-	 * @param tableId
-	 * @param recordId
+	 * @param pi
 	 * @param autoStart
 	 */
-	public ProcessModalDialog (Window parent, String title, 
-			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
-			int tableId, int recordId, boolean autoStart)
+	public ProcessModalDialog(ASyncProcess aProcess, int WindowNo, ProcessInfo pi, boolean autoStart)
 	{
-		
-		log.info("Process=" + AD_Process_ID );
 		m_ctx = Env.getCtx();
 		m_ASyncProcess = aProcess;
 		m_WindowNo = WindowNo;
-		m_AD_Process_ID = AD_Process_ID;
-		m_tableId = tableId;
-		m_recordId = recordId;
+		m_pi = pi;
 		m_autoStart = autoStart;
+		
+		log.info("Process=" + pi.getAD_Process_ID());		
 		try
 		{
 			initComponents();
@@ -102,6 +90,41 @@ public class ProcessModalDialog extends Window implements EventListener
 		{
 			log.log(Level.SEVERE, "", ex);
 		}
+	}
+	
+	/**
+	 * Dialog to start a process/report
+	 * @param ctx
+	 * @param aProcess
+	 * @param WindowNo
+	 * @param AD_Process_ID
+	 * @param tableId
+	 * @param recordId
+	 * @param autoStart
+	 */
+	public ProcessModalDialog (  ASyncProcess aProcess, int WindowNo, int AD_Process_ID, int tableId, int recordId, boolean autoStart)
+	{						
+		this(aProcess, WindowNo, new ProcessInfo("", AD_Process_ID, tableId, recordId), autoStart);		
+	}
+	
+	/**
+	 * Dialog to start a process/report
+	 * @param ctx
+	 * @param parent not used
+	 * @param title not used
+	 * @param aProcess
+	 * @param WindowNo
+	 * @param AD_Process_ID
+	 * @param tableId
+	 * @param recordId
+	 * @param autoStart
+	 * @deprecated
+	 */
+	public ProcessModalDialog (Window parent, String title, 
+			ASyncProcess aProcess, int WindowNo, int AD_Process_ID,
+			int tableId, int recordId, boolean autoStart)
+	{
+		this(aProcess, WindowNo, AD_Process_ID, tableId, recordId, autoStart);
 	}	//	ProcessDialog
 
 	private void initComponents() {
@@ -137,9 +160,6 @@ public class ProcessModalDialog extends Window implements EventListener
 	private ASyncProcess m_ASyncProcess;
 	private int m_WindowNo;
 	private Properties m_ctx;
-	private int m_tableId;
-	private int m_recordId;
-	private int 		    m_AD_Process_ID;
 	private String		    m_Name = null;
 	private StringBuffer	m_messageText = new StringBuffer();
 	private String          m_ShowHelp = null; // Determine if a Help Process Window is shown
@@ -206,7 +226,7 @@ public class ProcessModalDialog extends Window implements EventListener
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_AD_Process_ID);
+			pstmt.setInt(1, m_pi.getAD_Process_ID());
 			if (trl)
 				pstmt.setString(2, Env.getAD_Language(m_ctx));
 			ResultSet rs = pstmt.executeQuery();
@@ -245,9 +265,9 @@ public class ProcessModalDialog extends Window implements EventListener
 		
 
 		//	Move from APanel.actionButton
-		m_pi = new ProcessInfo(m_Name, m_AD_Process_ID, m_tableId, m_recordId);
 		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		m_pi.setTitle(m_Name);
 		parameterPanel = new ProcessParameterPanel(m_WindowNo, m_pi);
 		centerPanel.getChildren().clear();
 		if ( parameterPanel.init() ) {
