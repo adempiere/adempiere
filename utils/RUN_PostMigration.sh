@@ -39,11 +39,11 @@ JAVA_OPTS="-Xms128m -Xmx512m -Djava.awt.headless=true"
 ADEMPIERE_OPTS="-DADEMPIERE_HOME=$ADEMPIERE_HOME -DPropertyFile=../Adempiere.properties"
 
 #Run generate model
-echo
-echo Generate Model
-echo
-
-$JAVA_HOME/bin/java $JAVA_OPTS $ADEMPIERE_OPTS -classpath $MYCLASSPATH org.adempiere.util.GenerateModel src/org/compiere/model org.compiere.model 'D' '%' 
+#echo
+#echo Generate Model
+#echo
+#
+#$JAVA_HOME/bin/java $JAVA_OPTS $ADEMPIERE_OPTS -classpath $MYCLASSPATH org.adempiere.util.GenerateModel src/org/compiere/model org.compiere.model 'D' '%' 
 
 #Add missing translations
 echo
