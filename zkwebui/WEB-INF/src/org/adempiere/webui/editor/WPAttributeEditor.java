@@ -80,6 +80,8 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		{
 			WFieldRecordInfo.addMenu(popupMenu);
 		}
+		
+		getComponent().getTextbox().setReadonly(true);
 	}
 
 	@Override
