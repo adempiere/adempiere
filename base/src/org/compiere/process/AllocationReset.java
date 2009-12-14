@@ -22,8 +22,10 @@ import java.sql.Timestamp;
 import java.util.logging.Level;
 
 import org.compiere.model.MAllocationHdr;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
 /**
@@ -44,6 +46,8 @@ public class AllocationReset extends SvrProcess
 	private Timestamp	p_DateAcct_To = null;
 	/** Allocation directly		*/
 	private int			p_C_AllocationHdr_ID = 0;
+	/** All Allocations */
+	private boolean		p_AllAllocations = false;
 	/** Transaction				*/
 	private Trx			m_trx = null;
 	
@@ -70,6 +74,8 @@ public class AllocationReset extends SvrProcess
 				p_DateAcct_From = (Timestamp)para[i].getParameter();
 				p_DateAcct_To = (Timestamp)para[i].getParameter_To();
 			}
+			else if (name.equals("AllAllocations"))
+				p_AllAllocations = "Y".equals(para[i].getParameter());
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -84,7 +90,11 @@ public class AllocationReset extends SvrProcess
 	{
 		log.info ("C_BP_Group_ID=" + p_C_BP_Group_ID + ", C_BPartner_ID=" + p_C_BPartner_ID
 			+ ", DateAcct= " + p_DateAcct_From + " - " + p_DateAcct_To
-			+ ", C_AllocationHdr_ID=" + p_C_AllocationHdr_ID);
+			+ ", C_AllocationHdr_ID=" + p_C_AllocationHdr_ID
+			+ ", AllAllocations=" + p_AllAllocations);
+		
+		if (p_C_AllocationHdr_ID == 0 && ! p_AllAllocations)
+			throw new AdempiereUserError(Msg.parseTranslation(getCtx(), "@Mandatory@: @C_AllocationHdr_ID@"));
 
 		m_trx = Trx.get(Trx.createTrxName("AllocReset"), true);
 		int count = 0;
