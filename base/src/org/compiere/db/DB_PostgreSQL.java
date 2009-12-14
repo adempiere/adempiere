@@ -84,16 +84,17 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	/** Cached Database Name	*/
 	private String			m_dbName = null;
         
-        private String				m_userName = null;
-        	/** Connection String       	*/
+    private String				m_userName = null;
+    
+    /** Connection String       	*/
 	private String          		m_connectionURL;
         
-        private boolean                         m_supportAlias = false;
-            
 	/**	Logger			*/
 	private static CLogger			log	= CLogger.getCLogger (DB_PostgreSQL.class);
     
-     private static int              m_maxbusyconnections = 0;
+    private static int              m_maxbusyconnections = 0;
+     
+    public static final String NATIVE_MARKER = "NATIVE_"+Database.DB_POSTGRESQL+"_KEYWORK";
 
 	/**
 	 *  Get Database Name
@@ -791,21 +792,19 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		return false;
 	}
 
+	/**
+	 * Implemented using the limit and offset feature. use 1 base index for start and end parameter
+	 * @param sql
+	 * @param start
+	 * @param end
+	 */
+	public String addPagingSQL(String sql, int start, int end) {
+		String newSql = sql + " " + NATIVE_MARKER + "LIMIT " + ( end - start + 1 )
+			+ "  " + NATIVE_MARKER + "OFFSET " + (start - 1);
+		return newSql;
+	}
 
-
-        /*
-         public boolean getSupportAlias()
-        {             
-             
-		if (s_driver == null)
-		{
-			s_driver = new org.postgresql.Driver();
-                        if(s_driver.getVersion().indexOf("PostgreSQL 8.2") != -1)
-                        return true;
-                       
-		}
-             return false;
-
-        }*/
-
+	public boolean isPagingSupported() {
+		return true;
+	}
 }   //  DB_PostgreSQL

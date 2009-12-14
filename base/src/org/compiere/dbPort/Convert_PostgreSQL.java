@@ -22,6 +22,7 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.compiere.db.DB_PostgreSQL;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -107,6 +108,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		
 		String statement = replaceQuotedStrings(sqlStatement, retVars);
 		statement = convertWithConvertMap(statement);
+		statement = statement.replace(DB_PostgreSQL.NATIVE_MARKER, "");
 		
 		String cmpString = statement.toUpperCase();
 		boolean isCreate = cmpString.startsWith("CREATE ");

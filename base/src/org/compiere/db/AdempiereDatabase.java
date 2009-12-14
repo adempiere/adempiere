@@ -301,6 +301,21 @@ public interface AdempiereDatabase
 	 * Default sql use to test whether a connection is still valid
 	 */
 	public final static String DEFAULT_CONN_TEST_SQL = "SELECT Version FROM AD_System";
-	
+
+	/**
+	 * Is the database have sql extension that return a subset of the query result
+	 * @return boolean
+	 */
+	public boolean isPagingSupported();
+
+	/**
+	 * modify sql to return a subset of the query result
+	 * @param sql
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public String addPagingSQL(String sql, int start, int end);
+
 }   //  AdempiereDatabase
 

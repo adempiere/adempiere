@@ -1108,6 +1108,14 @@ public class DB_Oracle implements AdempiereDatabase
 	public boolean isQueryTimeoutSupported() {
 		return true;
 	}
+	
+	public String addPagingSQL(String sql, int start, int end) {
+		String newSql = "SELECT * FROM (" + sql + ") WHERE ROWNUM BETWEEN " + start + " AND " + end;
+		return newSql;
+	}
 
+	public boolean isPagingSupported() {
+		return true;
+	}
 
 }   //  DB_Oracle
