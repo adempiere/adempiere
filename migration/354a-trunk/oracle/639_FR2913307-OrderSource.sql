@@ -1,3 +1,6 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
+
 REM ======================================================================
 CREATE TABLE C_OrderSource
   (
