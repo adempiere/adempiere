@@ -975,6 +975,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			toolbar.lock(curTab.isLocked());
 		}
+		
+		toolbar.enablePrint(curTab.isPrinted());
 	}
 
 	/**
@@ -1133,7 +1135,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         adTab.evaluate(e);
 
-        toolbar.enablePrint(true);
+        toolbar.enablePrint(curTab.isPrinted());
         toolbar.enableReport(true);
     }
 
@@ -1190,7 +1192,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             toolbar.enableNavigation(false);
             toolbar.enableTabNavigation(false);
             toolbar.enableIgnore(true);
-            toolbar.enablePrint(true);
+            toolbar.enablePrint(curTab.isPrinted());
             toolbar.enableReport(true);
         }
         else
@@ -1239,7 +1241,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             toolbar.enableNavigation(false);
             toolbar.enableTabNavigation(false);
             toolbar.enableIgnore(true);
-            toolbar.enablePrint(true);
+            toolbar.enablePrint(curTab.isPrinted());
             toolbar.enableReport(true);
         }
         else
