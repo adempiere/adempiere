@@ -23,6 +23,7 @@ import org.adempiere.webui.part.AbstractUIPart;
 import org.compiere.model.MMenu;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.zkoss.zk.ui.event.Events;
 
 /**
  * Base class for desktop implementation
@@ -35,6 +36,7 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
 
 	private List<Object> windows = null;
 
+	@SuppressWarnings("unused")
 	private static final CLogger logger = CLogger.getCLogger(AbstractDesktop.class);
 
 	public AbstractDesktop() {
@@ -186,14 +188,22 @@ public abstract class AbstractDesktop extends AbstractUIPart implements IDesktop
    	 */
    	protected void showModal(Window win)
    	{
-		try
-		{
-			win.doModal();
-		}
-		catch(InterruptedException e)
-		{
-			
-		}
+   		//fall back to highlighted if can't execute doModal
+   		if (Events.inEventListener())
+   		{
+			try
+			{
+				win.doModal();
+			}
+			catch(InterruptedException e)
+			{
+				
+			}
+   		}
+   		else
+   		{
+   			showHighlighted(win, null);
+   		}
 			
 	}
    	
