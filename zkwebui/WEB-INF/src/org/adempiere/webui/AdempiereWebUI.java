@@ -37,6 +37,7 @@ import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MRole;
 import org.compiere.model.MSession;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MSystem;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -244,7 +245,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 			currSess.setAttribute("execution.carryover", eco);
 		}
 		
-		if ("Y".equalsIgnoreCase(Env.getContext(ctx, BrowserToken.REMEMBER_ME)))
+		if ("Y".equalsIgnoreCase(Env.getContext(ctx, BrowserToken.REMEMBER_ME)) && MSystem.isZKRememberUserAllowed())
 		{
 			MUser user = MUser.get(ctx);
 			BrowserToken.save(mSession, user);

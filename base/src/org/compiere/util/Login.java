@@ -318,8 +318,11 @@ public class Login
 			//
 			if (Ini.isClient())
 			{
-				Ini.setProperty(Ini.P_UID, app_user);
-				if (Ini.isPropertyBool(Ini.P_STORE_PWD))
+				if (MSystem.isSwingRememberUserAllowed())
+					Ini.setProperty(Ini.P_UID, app_user);
+				else
+					Ini.setProperty(Ini.P_UID, "");
+				if (Ini.isPropertyBool(Ini.P_STORE_PWD) && MSystem.isSwingRememberPasswordAllowed())
 					Ini.setProperty(Ini.P_PWD, app_pwd);
 				
 				m_connectionProfile = rs.getString(4);		//	User Based

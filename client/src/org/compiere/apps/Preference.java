@@ -53,6 +53,7 @@ import org.compiere.db.CConnection;
 import org.compiere.grid.ed.VDate;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MRole;
+import org.compiere.model.MSystem;
 import org.compiere.model.MUser;
 import org.compiere.print.CPrinter;
 import org.compiere.swing.CButton;
@@ -257,15 +258,18 @@ public final class Preference extends CDialog
 		customizePane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
 		Border insetBorder = BorderFactory.createEmptyBorder(2, 2, 2, 0); 
-		CPanel loginPanel = new CPanel();
-		loginPanel.setBorder(BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Login")));
-		loginPanel.setLayout(new GridLayout(1, 2));
-		autoLogin.setBorder(insetBorder);
-		storePassword.setBorder(insetBorder);
-		loginPanel.add(autoLogin);
-		loginPanel.add(storePassword);
-		customizePane.add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0
-				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
+		if (MSystem.isSwingRememberPasswordAllowed()) {
+			CPanel loginPanel = new CPanel();
+			loginPanel.setBorder(BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Login")));
+			loginPanel.setLayout(new GridLayout(1, 2));
+			autoLogin.setBorder(insetBorder);
+			storePassword.setBorder(insetBorder);
+			loginPanel.add(autoLogin);
+			loginPanel.add(storePassword);
+
+			customizePane.add(loginPanel, new GridBagConstraints(0, 0, 1, 1, 1.0, 0.0
+					,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(2, 0, 2, 0), 0, 0));
+		}
 		
 		CPanel windowPanel = new CPanel();
 		windowPanel.setBorder(BorderFactory.createTitledBorder(Msg.getMsg(Env.getCtx(), "Window")));
@@ -480,10 +484,15 @@ public final class Preference extends CDialog
 				logMigrationScript.setEnabled(false);
 			}
 		}
-		//	AutoLogin
-		autoLogin.setSelected(Ini.isPropertyBool(Ini.P_A_LOGIN));
-		//	Save Password
-		storePassword.setSelected(Ini.isPropertyBool(Ini.P_STORE_PWD));
+		if (MSystem.isSwingRememberPasswordAllowed()) {
+			//	AutoLogin
+			autoLogin.setSelected(Ini.isPropertyBool(Ini.P_A_LOGIN));
+			//	Save Password
+			storePassword.setSelected(Ini.isPropertyBool(Ini.P_STORE_PWD));
+		} else {
+			autoLogin.setSelected(false);
+			storePassword.setSelected(false);
+		}
 		//	Show Acct Tab
 		if (MRole.getDefault().isShowAcct())
 			showAcct.setSelected(Ini.isPropertyBool(Ini.P_SHOW_ACCT));
@@ -566,10 +575,15 @@ public final class Preference extends CDialog
 		Ini.setProperty(Ini.P_ADEMPIERESYS, adempiereSys.isSelected());
 		//	LogMigrationScript
 		Ini.setProperty(Ini.P_LOGMIGRATIONSCRIPT, logMigrationScript.isSelected());
-		//	AutoLogin
-		Ini.setProperty(Ini.P_A_LOGIN, (autoLogin.isSelected()));
-		//	Save Password
-		Ini.setProperty(Ini.P_STORE_PWD, (storePassword.isSelected()));
+		if (MSystem.isSwingRememberPasswordAllowed()) {
+			//	AutoLogin
+			Ini.setProperty(Ini.P_A_LOGIN, (autoLogin.isSelected()));
+			//	Save Password
+			Ini.setProperty(Ini.P_STORE_PWD, (storePassword.isSelected()));
+		} else {
+			Ini.setProperty(Ini.P_A_LOGIN, false);
+			Ini.setProperty(Ini.P_STORE_PWD, false);
+		}
 		//	Show Acct Tab
 		Ini.setProperty(Ini.P_SHOW_ACCT, (showAcct.isSelected()));
 		Env.setContext(Env.getCtx(), "#ShowAcct", (showAcct.isSelected()));

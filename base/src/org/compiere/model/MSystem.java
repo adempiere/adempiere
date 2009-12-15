@@ -55,7 +55,7 @@ public class MSystem extends X_AD_System
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5528932721084369075L;
+	private static final long serialVersionUID = 8639311032004561198L;
 
 	/**
 	 * 	Load System Record
@@ -461,7 +461,38 @@ public class MSystem extends X_AD_System
 		*/
 	}	//	info
 	
-	
+	/*
+	 * Allow remember me feature
+	 * ZK_LOGIN_ALLOW_REMEMBER_ME and SWING_ALLOW_REMEMBER_ME parameter allow the next values
+	 *   U - Allow remember the username (default for zk)
+	 *   P - Allow remember the username and password (default for swing)
+	 *   N - None
+	 *   
+	 *	@return boolean representing if remember me feature is allowed
+	 */
+	private static final String SYSTEM_ALLOW_REMEMBER_USER = "U";
+	private static final String SYSTEM_ALLOW_REMEMBER_PASSWORD = "P";
+
+	public static boolean isZKRememberUserAllowed() {
+		String ca = MSysConfig.getValue("ZK_LOGIN_ALLOW_REMEMBER_ME", SYSTEM_ALLOW_REMEMBER_USER);
+		return (ca.equalsIgnoreCase(SYSTEM_ALLOW_REMEMBER_USER) || ca.equalsIgnoreCase(SYSTEM_ALLOW_REMEMBER_PASSWORD));
+	}
+
+	public static boolean isZKRememberPasswordAllowed() {
+		String ca = MSysConfig.getValue("ZK_LOGIN_ALLOW_REMEMBER_ME", SYSTEM_ALLOW_REMEMBER_USER);
+		return (ca.equalsIgnoreCase(SYSTEM_ALLOW_REMEMBER_PASSWORD));
+	}
+
+	public static boolean isSwingRememberUserAllowed() {
+		String ca = MSysConfig.getValue("SWING_LOGIN_ALLOW_REMEMBER_ME", SYSTEM_ALLOW_REMEMBER_PASSWORD);
+		return (ca.equalsIgnoreCase(SYSTEM_ALLOW_REMEMBER_USER) || ca.equalsIgnoreCase(SYSTEM_ALLOW_REMEMBER_PASSWORD));
+	}
+
+	public static boolean isSwingRememberPasswordAllowed() {
+		String ca = MSysConfig.getValue("SWING_LOGIN_ALLOW_REMEMBER_ME", SYSTEM_ALLOW_REMEMBER_PASSWORD);
+		return (ca.equalsIgnoreCase(SYSTEM_ALLOW_REMEMBER_PASSWORD));
+	}
+
 	/**
 	 * 	Test
 	 *	@param args

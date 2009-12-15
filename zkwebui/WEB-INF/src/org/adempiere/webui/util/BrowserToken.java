@@ -21,6 +21,7 @@ import java.util.logging.Level;
 
 import org.compiere.Adempiere;
 import org.compiere.model.MSession;
+import org.compiere.model.MSystem;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.au.out.AuScript;
@@ -126,7 +127,11 @@ public final class BrowserToken {
 		BASE64Encoder encoder = new BASE64Encoder();
 	    digest.reset();
 	    digest.update(session.getWebSession().getBytes("UTF-8"));
-	    String password = user.getPassword();
+	    String password = null;
+	    if (MSystem.isZKRememberPasswordAllowed())
+	    	password = user.getPassword();
+	    else
+	    	password = new String("");
 	    byte[] input = digest.digest(password.getBytes("UTF-8"));
 	    String hash = encoder.encode(input);
 	    hash = URLEncoder.encode(hash, "UTF-8");

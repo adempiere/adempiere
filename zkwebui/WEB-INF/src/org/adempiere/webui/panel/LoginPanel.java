@@ -24,6 +24,7 @@
 package org.adempiere.webui.panel;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -45,6 +46,7 @@ import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.Adempiere;
 import org.compiere.model.MSession;
+import org.compiere.model.MSystem;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -178,17 +180,19 @@ public class LoginPanel extends Window implements EventListener
     	tr.appendChild(td);
     	td.appendChild(lstLanguage);
 
-    	tr = new Tr();
-        tr.setId("rowRememberMe");
-        table.appendChild(tr);
-    	td = new Td();
-    	tr.appendChild(td);
-    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
-    	td.appendChild(new Label(""));
-    	td = new Td();
-    	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
-    	tr.appendChild(td);
-    	td.appendChild(chkRememberMe);
+    	if (MSystem.isZKRememberUserAllowed()) {
+        	tr = new Tr();
+            tr.setId("rowRememberMe");
+            table.appendChild(tr);
+        	td = new Td();
+        	tr.appendChild(td);
+        	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+        	td.appendChild(new Label(""));
+        	td = new Td();
+        	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
+        	tr.appendChild(td);
+        	td.appendChild(chkRememberMe);
+    	}
     	
     	div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
@@ -218,12 +222,16 @@ public class LoginPanel extends Window implements EventListener
 						    String token = data[1];
 						    if (BrowserToken.validateToken(session, user, token))
 						    {
-						    	txtUserId.setValue(user.getName());
-						    	onUserIdChange();
-						    	txtPassword.setValue(token);
-						    	txtPassword.setAttribute("user.token.hash", token);
-						    	txtPassword.setAttribute("user.token.sid", AD_Session_ID);
-						    	chkRememberMe.setChecked(true);
+						    	if (MSystem.isZKRememberUserAllowed()) {
+						    		txtUserId.setValue(user.getName());
+							    	onUserIdChange();
+							    	chkRememberMe.setChecked(true);
+						    	}
+						    	if (MSystem.isZKRememberPasswordAllowed()) {
+							    	txtPassword.setValue(token);
+							    	txtPassword.setAttribute("user.token.hash", token);
+							    	txtPassword.setAttribute("user.token.sid", AD_Session_ID);
+						    	}
 						    }
 						}
 					}
@@ -278,6 +286,8 @@ public class LoginPanel extends Window implements EventListener
 			lstLanguage.appendItem(langName, language.getAD_Language());
 		}
 
+        chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
+
         //set base language
         String baseLanguage = Language.getBaseLanguage().getName();
         for(int i = 0; i < lstLanguage.getItemCount(); i++)
@@ -290,9 +300,6 @@ public class LoginPanel extends Window implements EventListener
         		break;
         	}
         }
-        
-        //TODO: localization
-        chkRememberMe = new Checkbox("Remember Me");
    }
 
     public void onEvent(Event event)
@@ -349,10 +356,15 @@ public class LoginPanel extends Window implements EventListener
     {
     	Language language = findLanguage(langName);
 
-    	res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
+    	//	Locales
+		Locale loc = language.getLocale();
+		Locale.setDefault(loc);
+		res = ResourceBundle.getBundle(RESOURCE, loc);
+		
     	lblUserId.setValue(res.getString("User"));
     	lblPassword.setValue(res.getString("Password"));
     	lblLanguage.setValue(res.getString("Language"));
+    	chkRememberMe.setLabel(Msg.getMsg(language, "RememberMe"));
     }
 
 	private Language findLanguage(String langName) {
