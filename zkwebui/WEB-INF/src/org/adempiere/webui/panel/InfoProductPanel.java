@@ -944,7 +944,10 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		InfoPAttributePanel ia = new InfoPAttributePanel(this);
 		m_pAttributeWhere = ia.getWhereClause();
 		if (m_pAttributeWhere != null)
+		{
 			executeQuery();
+			renderItems();
+		}
 	}	//	cmdInfoAttribute
 
 	/**
@@ -1155,6 +1158,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
     	if(component == m_InfoPAttributeButton)
     	{
     		cmd_InfoPAttribute();
+    		return;
     	}
 
     	m_pAttributeWhere = null;

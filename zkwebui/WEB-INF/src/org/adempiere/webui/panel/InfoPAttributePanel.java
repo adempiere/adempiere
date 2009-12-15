@@ -71,6 +71,9 @@ public class InfoPAttributePanel extends Window implements EventListener
 	{
 		super();
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
+		this.setBorder("normal");
+		this.setMaximizable(true);
+		this.setSizable(true);
 		
 		try
 		{
