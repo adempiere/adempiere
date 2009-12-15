@@ -52,9 +52,11 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.impl.ExecutionCarryOver;
+import org.zkoss.zk.ui.sys.DesktopCache;
 import org.zkoss.zk.ui.sys.DesktopCtrl;
 import org.zkoss.zk.ui.sys.ExecutionCtrl;
 import org.zkoss.zk.ui.sys.ExecutionsCtrl;
+import org.zkoss.zk.ui.sys.SessionCtrl;
 import org.zkoss.zk.ui.sys.Visualizer;
 import org.zkoss.zul.Window;
 
@@ -211,6 +213,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 							}
 						}
 						appDesktop.getComponent().detach();
+						DesktopCache desktopCache = ((SessionCtrl)currSess).getDesktopCache();
+						if (desktopCache != null)
+							desktopCache.removeDesktop(Executions.getCurrent().getDesktop());
 					} catch (Exception e) {
 						appDesktop = null;
 					} finally {

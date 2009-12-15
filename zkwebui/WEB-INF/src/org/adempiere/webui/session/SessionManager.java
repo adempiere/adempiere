@@ -73,6 +73,7 @@ public class SessionManager
     {
         Env.getCtx().clear();
         Session session = getSession();
+        session.removeAttribute(SessionContextListener.SESSION_CTX);
         session.invalidate();
     }
     
