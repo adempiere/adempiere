@@ -40,6 +40,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Separator;
 
@@ -174,7 +175,7 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 
 		//	Set & enable Fields
 		
-		lbl1.setValue(Msg.translate(Env.getCtx(), m_queryColumns.get(0).toString()).substring(1));
+		lbl1.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), m_queryColumns.get(0).toString())));
 		
 		if (m_queryColumns.size() > 1)
 		{

@@ -135,7 +135,7 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     }
     public void initComponents()
     {
-        lblDocumentNo = new Label(Msg.translate(Env.getCtx(), "DocumentNo").substring(1));
+        lblDocumentNo = new Label(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
         lblDescription = new Label(Msg.translate(Env.getCtx(), "Description"));
         lblDateOrdered = new Label(Msg.translate(Env.getCtx(), "DateOrdered"));
         lblOrderRef = new Label(Msg.translate(Env.getCtx(), "POReference"));

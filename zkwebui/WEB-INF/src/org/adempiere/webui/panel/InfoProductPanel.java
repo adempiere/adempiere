@@ -206,9 +206,9 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	private void initComponents()
 	{
 		lblValue = new Label();
-		lblValue.setValue(Msg.translate(Env.getCtx(), "Value").substring(1));
+		lblValue.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Value")));
 		lblName = new Label();
-		lblName.setValue(Msg.translate(Env.getCtx(), "Name").substring(1));
+		lblName.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Name")));
 		lblUPC =  new Label();
 		lblUPC.setValue(Msg.translate(Env.getCtx(), "UPC"));
 		lblSKU = new Label();
@@ -220,7 +220,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		lblProductCategory.setValue(Msg.translate(Env.getCtx(), "M_Product_Category_ID"));
 		//
 		lblWarehouse = new Label();
-		lblWarehouse.setValue(Msg.getMsg(Env.getCtx(), "Warehouse").substring(1));
+		lblWarehouse.setValue(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Warehouse")));
 		lblVendor = new Label();
 		lblVendor.setValue(Msg.translate(Env.getCtx(), "Vendor"));
 

@@ -141,7 +141,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
    
     private void initComponents()
     {
-        lblDocumentNo = new Label(Msg.translate(Env.getCtx(), "DocumentNo").substring(1));
+        lblDocumentNo = new Label(Util.cleanAmp(Msg.translate(Env.getCtx(), "DocumentNo")));
         lblDescription = new Label(Msg.translate(Env.getCtx(), "Description"));
         lblDateInvoiced = new Label(Msg.translate(Env.getCtx(), "DateInvoiced"));
         lblGrandTotal = new Label(Msg.translate(Env.getCtx(), "GrandTotal"));

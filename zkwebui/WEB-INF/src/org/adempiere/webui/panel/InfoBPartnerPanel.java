@@ -39,6 +39,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Intbox;
@@ -140,9 +141,9 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	private void initComponents()
 	{
 		lblValue = new Label();
-		lblValue.setValue(Msg.translate(Env.getCtx(), "Value").substring(1));
+		lblValue.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Value")));
 		lblName = new Label();
-		lblName.setValue(Msg.translate(Env.getCtx(), "Name").substring(1));
+		lblName.setValue(Util.cleanAmp(Msg.translate(Env.getCtx(), "Name")));
 		lblContact = new Label();
 		lblContact.setValue(Msg.translate(Env.getCtx(), "Contact"));
 		lblEMail = new Label();
