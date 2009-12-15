@@ -1067,5 +1067,4 @@ UPDATE AD_Column SET DefaultValue='''N''',Updated=TO_DATE('2009-12-04 11:17:22',
 
 UPDATE C_BPartner SET IsManufacturer = 'N' WHERE IsManufacturer is null;
 
-ALTER TABLE C_BPartner ALTER COLUMN IsManufacturer SET DEFAULT 'N';
-
+ALTER TABLE C_BPartner MODIFY IsManufacturer DEFAULT 'N';
