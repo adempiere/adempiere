@@ -1,3 +1,5 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
 -- Dec 2, 2009 2:53:35 PM CET
 -- FR [2906574] - Product Central Data; https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2906574&group_id=176962
 INSERT INTO AD_Tab (AD_Client_ID,AD_Column_ID,AD_Org_ID,AD_Tab_ID,AD_Table_ID,AD_Window_ID,Created,CreatedBy,EntityType,HasTree,Help,ImportFields,IsActive,IsAdvancedTab,IsInfoTab,IsInsertRecord,IsReadOnly,IsSingleRow,IsSortTab,IsTranslationTab,Name,Processing,SeqNo,TabLevel,Updated,UpdatedBy) VALUES (0,13469,0,53289,771,140,TO_DATE('2009-12-02 14:53:34','YYYY-MM-DD HH24:MI:SS'),100,'D','N',NULL,'N','Y','N','Y','Y','N','N','N','N','Costs','N',150,0,TO_DATE('2009-12-02 14:53:34','YYYY-MM-DD HH24:MI:SS'),100)
