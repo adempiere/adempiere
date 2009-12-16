@@ -84,7 +84,7 @@ public class MPPWFNodeProduct extends X_PP_WF_Node_Product
 			int seqNo = DB.getSQLValueEx(get_TrxName(), sql, getAD_WF_Node_ID(), get_ID());
 			setSeqNo(seqNo);
 		}
-		if(getQty().equals(Env.ZERO) && isSubcontracting())
+		if(getQty().compareTo(Env.ZERO)==0 && isSubcontracting())
 		{
 			setQty(Env.ONE);
 		}

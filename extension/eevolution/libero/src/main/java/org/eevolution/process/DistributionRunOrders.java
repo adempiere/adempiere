@@ -229,7 +229,7 @@ public class DistributionRunOrders extends SvrProcess
  	            		QtyToDistribute = QtyAvailable.subtract(QtyReserved);
  	            	}	
      	
- 	            	//if(QtyToDistribute.equals(Env.ZERO))
+ 	            	//if(QtyToDistribute.compareTo(Env.ZERO)==0)
  	            	//	continue;
  	            		
  	            	MDistributionRunLine m_runLine = new MDistributionRunLine(getCtx(),0 ,get_TrxName());

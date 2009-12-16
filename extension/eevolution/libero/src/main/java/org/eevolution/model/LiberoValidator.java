@@ -360,7 +360,7 @@ public class LiberoValidator implements ModelValidator
 			order.saveEx();
 		}
 		
-		if(order.getQtyToDeliver().equals(Env.ZERO))
+		if(order.getQtyToDeliver().compareTo(Env.ZERO)==0)
 		{
 			order.closeIt();
 			order.setDocStatus(MPPOrder.DOCACTION_Close);
