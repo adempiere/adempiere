@@ -1,10 +1,10 @@
 SET SQLBLANKLINES ON
 SET DEFINE OFF
 
-REM ======================================================================
+--- Table: C_OrderSource -------------------------------------------------------
 CREATE TABLE C_OrderSource
   (
-    C_OrderSource_ID  NUMBER(10,0),
+    C_OrderSource_ID  NUMBER(10,0)		NOT NULL,
     AD_Client_ID      NUMBER(10,0)      NOT NULL,
     AD_Org_ID         NUMBER(10,0)      NOT NULL,
     IsActive          CHAR(1)           DEFAULT 'Y' NOT NULL,
@@ -16,25 +16,22 @@ CREATE TABLE C_OrderSource
     Name              NVARCHAR2(60)     NOT NULL,
     Description       NVARCHAR2(255),
     Help              NVARCHAR2(2000),
-
-    primary key(C_OrderSource_ID),
-    UNIQUE(AD_Client_ID,Value),
-
-    foreign key(AD_Client_ID) references AD_Client(AD_Client_ID),
-    foreign key(AD_Org_ID) references AD_Org(AD_Org_ID),
-    foreign key(CreatedBy) references AD_User(AD_User_ID),
-    foreign key(UpdatedBy) references AD_User(AD_User_ID),
-
+    CONSTRAINT COrderSource_Key PRIMARY KEY(C_OrderSource_ID),
+    CONSTRAINT ADClient_COrderSource FOREIGN KEY(AD_Client_ID) REFERENCES AD_Client(AD_Client_ID),
+    CONSTRAINT ADOrg_COrderSource FOREIGN KEY(AD_Org_ID) REFERENCES AD_Org(AD_Org_ID),
+    CONSTRAINT ADUser1_COrderSource FOREIGN KEY(CreatedBy) REFERENCES AD_User(AD_User_ID),
+    CONSTRAINT ADUser2_COrderSource FOREIGN KEY(UpdatedBy) REFERENCES AD_User(AD_User_ID),
     CHECK(IsActive IN ('Y', 'N'))
   );
 
+CREATE UNIQUE INDEX COrderSource_Value ON C_OrderSource (AD_Client_ID,Value);
 
 --- Table: C_Order -------------------------------------------------------------
 ALTER TABLE C_Order 
 ADD C_OrderSource_ID NUMBER(10,0);
 
 ALTER TABLE C_Order 
-ADD CONSTRAINT C_Order__C_OrderS_C_OrderSou FOREIGN KEY(C_OrderSource_ID)  REFERENCES C_OrderSource(C_OrderSource_ID);
+ADD CONSTRAINT COrderSource_COrder FOREIGN KEY(C_OrderSource_ID)  REFERENCES C_OrderSource(C_OrderSource_ID);
 
 
 
@@ -54,12 +51,6 @@ INSERT INTO AD_Table_Trl (AD_Language,AD_Table_ID, Name, IsTranslated,AD_Client_
 -- FF [2913307] - New table: Order Source
 -- https://sourceforge.net/tracker/?func=detail&aid=2913307&group_id=176962&atid=883808
 INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy,CurrentNext,CurrentNextSys,Description,IncrementNo,IsActive,IsAudited,IsAutoSequence,IsTableID,Name,StartNewYear,StartNo,Updated,UpdatedBy) VALUES (0,0,53352,TO_DATE('2009-09-18 13:05:42','YYYY-MM-DD HH24:MI:SS'),0,1000000,50000,'Table C_OrderSource',1,'Y','N','Y','Y','C_OrderSource','N',1000000,TO_DATE('2009-09-18 13:05:42','YYYY-MM-DD HH24:MI:SS'),0)
-;
-
--- Sep 18, 2009 1:05:43 PM CEST
--- FF [2913307] - New table: Order Source
--- https://sourceforge.net/tracker/?func=detail&aid=2913307&group_id=176962&atid=883808
-INSERT INTO AD_Sequence (AD_Client_ID,AD_Org_ID,AD_Sequence_ID,Created,CreatedBy,CurrentNext,CurrentNextSys,Description,IncrementNo,IsActive,IsAudited,IsAutoSequence,IsTableID,Name,StartNewYear,StartNo,Updated,UpdatedBy) VALUES (0,0,53353,TO_DATE('2009-09-18 13:05:43','YYYY-MM-DD HH24:MI:SS'),0,1000000,100,'Table C_OrderSource',1,'Y','N','Y','Y','C_OrderSource','N',1000000,TO_DATE('2009-09-18 13:05:43','YYYY-MM-DD HH24:MI:SS'),0)
 ;
 
 -- Sep 18, 2009 1:05:44 PM CEST
