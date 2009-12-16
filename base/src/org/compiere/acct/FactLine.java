@@ -230,20 +230,22 @@ public final class FactLine extends X_Fact_Acct
 		if (AmtSourceCr != null)
 			setAmtSourceCr (AmtSourceCr);
 		//  one needs to be non zero
-		if (getAmtSourceDr().equals(Env.ZERO) && getAmtSourceCr().equals(Env.ZERO))
+		if (getAmtSourceDr().compareTo(Env.ZERO)==0 && getAmtSourceCr().compareTo(Env.ZERO)==0)
 			return false;
 		//	Currency Precision
 		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
 		if (AmtSourceDr != null && AmtSourceDr.scale() > precision)
 		{
 			BigDecimal AmtSourceDr1 = AmtSourceDr.setScale(precision, BigDecimal.ROUND_HALF_UP);
-			log.warning("Source DR Precision " + AmtSourceDr + " -> " + AmtSourceDr1);
+			if (AmtSourceDr1.compareTo(AmtSourceDr) != 0)
+				log.warning("Source DR Precision " + AmtSourceDr + " -> " + AmtSourceDr1);
 			setAmtSourceDr(AmtSourceDr1);
 		}
 		if (AmtSourceCr != null && AmtSourceCr.scale() > precision)
 		{
 			BigDecimal AmtSourceCr1 = AmtSourceCr.setScale(precision, BigDecimal.ROUND_HALF_UP);
-			log.warning("Source CR Precision " + AmtSourceCr + " -> " + AmtSourceCr1);
+			if (AmtSourceCr1.compareTo(AmtSourceCr) != 0)
+				log.warning("Source CR Precision " + AmtSourceCr + " -> " + AmtSourceCr1);
 			setAmtSourceCr(AmtSourceCr1);
 		}
 		return true;

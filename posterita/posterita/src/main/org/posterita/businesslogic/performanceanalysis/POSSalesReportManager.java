@@ -289,7 +289,7 @@ public class POSSalesReportManager
                     
                     taxAmt = webOrderLineBean.getTaxAmt();
                     
-                    if(taxAmt.equals(Env.ZERO))
+                    if(taxAmt.compareTo(Env.ZERO)==0)
                     {
                         
                         if(order.getOrderType().equals(UDIOrderTypes.POS_ORDER.getOrderType()))
@@ -859,7 +859,7 @@ public class POSSalesReportManager
 			
 			
             
-            if (!sales.equals(Env.ZERO))
+            if (sales.compareTo(Env.ZERO)!=0)
             {
                 BigDecimal profit = sales.subtract(cost);
                 

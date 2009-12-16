@@ -104,7 +104,7 @@ public class Matcher
 				BigDecimal qty1 = rs.getBigDecimal(8);
 				BigDecimal qty2 = rs.getBigDecimal(9);
 				BigDecimal Qty = qty1.min(qty2);
-				if  (Qty.equals(Env.ZERO))
+				if  (Qty.compareTo(Env.ZERO)==0)
 					continue;
 				Timestamp dateTrx1 = rs.getTimestamp(6);
 				Timestamp dateTrx2 = rs.getTimestamp(7);

@@ -106,7 +106,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 	{
 		if (Amt == null)
 			throw new IllegalArgumentException("Required parameter missing - Amt");
-		if (CurFrom_ID == CurTo_ID || Amt.equals(Env.ZERO))
+		if (CurFrom_ID == CurTo_ID || Amt.compareTo(Env.ZERO)==0)
 			return Amt;
 		//	Get Rate
 		BigDecimal retValue = getRate (CurFrom_ID, CurTo_ID, 

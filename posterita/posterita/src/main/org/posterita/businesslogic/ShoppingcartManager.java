@@ -295,7 +295,7 @@ public class ShoppingcartManager
 		//weird logic!
 		
 		BigDecimal discountedTotal = bean.getPayAmt();
-		/*if(bean.getDiscountAmt()!=null && bean.getDiscountAmt().equals(Env.ZERO))
+		/*if(bean.getDiscountAmt()!=null && bean.getDiscountAmt().compareTo(Env.ZERO)==0)
         {
             discountedTotal = null;
         }  */             

@@ -318,13 +318,13 @@ public class StockManager
     			discountedLineTotal = bean.getPrice();
     		}
 
-    		if (discountPercentOnLine != null && !discountPercentOnLine.equals(Env.ZERO))
+    		if (discountPercentOnLine != null && discountPercentOnLine.compareTo(Env.ZERO)!=0)
     		{
     			BigDecimal discFactor = (Env.ONEHUNDRED.subtract(discountPercentOnLine)).divide(Env.ONEHUNDRED, 12, RoundingMode.HALF_DOWN);
     			actualLineInclTotalPrice = (lineTotal).multiply(discFactor).setScale(2, RoundingMode.HALF_UP);
     			
     		}
-    		else if (discountedLineInclUnitPrice != null && !discountedLineInclUnitPrice.equals(Env.ZERO))
+    		else if (discountedLineInclUnitPrice != null && discountedLineInclUnitPrice.compareTo(Env.ZERO)!=0)
     		{
     			if(isTaxIncluded)
     			{

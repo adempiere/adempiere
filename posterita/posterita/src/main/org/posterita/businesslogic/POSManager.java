@@ -526,7 +526,7 @@ public class POSManager
                 cashLine.setWriteOffAmt(writeOffAmount);
                 cashLine.setDiscountAmt(discountAmt);
                 
-                if(!(discountAmt.equals(Env.ZERO)))
+                if(!(discountAmt.compareTo(Env.ZERO)==0))
                 {
                     cashLine.setAmount(invoice.getGrandTotal().subtract(discountAmt).subtract(writeOffAmount));
                 }
@@ -570,7 +570,7 @@ public class POSManager
             paymentCreated = true;
             BigDecimal amt = null;
             
-            if(!(discountAmt.equals(Env.ZERO)))
+            if(!(discountAmt.compareTo(Env.ZERO)==0))
             {
             	amt = invoice.getGrandTotal().subtract(discountAmt).subtract(writeOffAmount);
             }
@@ -833,7 +833,7 @@ public class POSManager
                 }
             }
             
-            if(!subTotal.equals(Env.ZERO))
+            if(subTotal.compareTo(Env.ZERO)!=0)
             {
                 try
                 {
@@ -891,11 +891,11 @@ public class POSManager
             totalLines = totalLines.add(bean.getLineNetAmt());
             totalTax = totalTax.add(bean.getTaxAmt());
             totalQty=totalQty.add(bean.getQtyTotal());
-            if (bean.getDiscountAmt()!=null && !bean.getDiscountAmt().equals(Env.ZERO))
+            if (bean.getDiscountAmt()!=null && bean.getDiscountAmt().compareTo(Env.ZERO)!=0)
             {
                 discountAmt = bean.getDiscountAmt();
             }
-            if (bean.getWriteOffAmt()!=null && !bean.getWriteOffAmt().equals(Env.ZERO))
+            if (bean.getWriteOffAmt()!=null && bean.getWriteOffAmt().compareTo(Env.ZERO)!=0)
             {
                 writeOffAmt = bean.getWriteOffAmt();
             }

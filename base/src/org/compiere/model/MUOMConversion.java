@@ -62,7 +62,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 	static public BigDecimal convert (Properties ctx,
 		int C_UOM_ID, int C_UOM_To_ID, BigDecimal qty)
 	{
-		if (qty == null || qty.equals(Env.ZERO) || C_UOM_ID == C_UOM_To_ID)
+		if (qty == null || qty.compareTo(Env.ZERO)==0 || C_UOM_ID == C_UOM_To_ID)
 			return qty;
 		BigDecimal retValue = getRate (ctx, C_UOM_ID, C_UOM_To_ID);
 		if (retValue != null)
@@ -397,7 +397,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		BigDecimal qty, boolean StdPrecision)
 	{
 		//  Nothing to do
-		if (qty == null || qty.equals(Env.ZERO)
+		if (qty == null || qty.compareTo(Env.ZERO)==0
 				|| C_UOM_From_ID == C_UOM_To_ID)
 			return qty;
 		//
@@ -530,7 +530,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 		int M_Product_ID, int C_UOM_To_ID, BigDecimal qtyPrice)
 	{
 		//	No conversion
-		if (qtyPrice == null || qtyPrice.equals(Env.ZERO) 
+		if (qtyPrice == null || qtyPrice.compareTo(Env.ZERO)==0 
 			|| C_UOM_To_ID == 0|| M_Product_ID == 0)
 		{
 			s_log.fine("No Conversion - QtyPrice=" + qtyPrice);

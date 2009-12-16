@@ -365,12 +365,12 @@ public class ProductCost
 		}
 
 		//  Return Costs
-		if (costType != null && cost != null && !cost.equals(Env.ZERO))
+		if (costType != null && cost != null && cost.compareTo(Env.ZERO)!=0)
 		{
 			log.fine("Costs=" + cost);
 			return cost;
 		}
-		else if (current != null && !current.equals(Env.ZERO))
+		else if (current != null && current.compareTo(Env.ZERO)!=0)
 		{
 			log.fine("Current=" + current);
 			return current;
@@ -414,19 +414,19 @@ public class ProductCost
 		//  Try to find non ZERO Price
 		String costSource = "PriceList-PO";
 		BigDecimal costs = getPriceList (as, true);
-		if (costs == null || costs.equals(Env.ZERO))
+		if (costs == null || costs.compareTo(Env.ZERO)==0)
 		{
 			costSource = "PO Cost";
 			costs = getPOCost(as);
 		}
-		if (costs == null || costs.equals(Env.ZERO))
+		if (costs == null || costs.compareTo(Env.ZERO)==0)
 		{
 			costSource = "PriceList";
 			costs = getPriceList (as, false);
 		}
 
 		//  if not found use $1 (to be able to do material transactions)
-		if (costs == null || costs.equals(Env.ZERO))
+		if (costs == null || costs.compareTo(Env.ZERO)==0)
 		{
 			costSource = "Not Found";
 			costs = new BigDecimal("1");
@@ -492,12 +492,12 @@ public class ProductCost
 			return null;
 
 		BigDecimal price = PriceLimit;  //  best bet
-		if (price == null || price.equals(Env.ZERO))
+		if (price == null || price.compareTo(Env.ZERO)==0)
 			price = PriceStd;
-		if (price == null || price.equals(Env.ZERO))
+		if (price == null || price.compareTo(Env.ZERO)==0)
 			price = PriceList;
 		//  Convert
-		if (price != null && !price.equals(Env.ZERO))
+		if (price != null && price.compareTo(Env.ZERO)!=0)
 			price = MConversionRate.convert (as.getCtx(),
 				price, C_Currency_ID, as.getC_Currency_ID(), 
 				as.getAD_Client_ID(), 0);
@@ -547,12 +547,12 @@ public class ProductCost
 			return null;
 
 		BigDecimal cost = PriceLastPO;  //  best bet
-		if (cost == null || cost.equals(Env.ZERO))
+		if (cost == null || cost.compareTo(Env.ZERO)==0)
 			cost = PricePO;
-		if (cost == null || cost.equals(Env.ZERO))
+		if (cost == null || cost.compareTo(Env.ZERO)==0)
 			cost = PriceList;
 		//  Convert - standard precision!! - should be costing precision
-		if (cost != null && !cost.equals(Env.ZERO))
+		if (cost != null && cost.compareTo(Env.ZERO)!=0)
 			cost = MConversionRate.convert (as.getCtx(),
 				cost, C_Currency_ID, as.getC_Currency_ID(), as.getAD_Client_ID(), as.getAD_Org_ID());
 		return cost;

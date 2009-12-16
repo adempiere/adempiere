@@ -193,7 +193,7 @@ public class CalloutTimeExpense extends CalloutEngine
 		//	Converted Amount = Unit price
 		BigDecimal ConvertedAmt = ExpenseAmt;
 		//	convert if required
-		if (!ConvertedAmt.equals(Env.ZERO) && C_Currency_To_ID != C_Currency_From_ID.intValue())
+		if (ConvertedAmt.compareTo(Env.ZERO)!=0 && C_Currency_To_ID != C_Currency_From_ID.intValue())
 		{
 			int AD_Client_ID = Env.getContextAsInt (ctx, WindowNo, "AD_Client_ID");
 			int AD_Org_ID = Env.getContextAsInt (ctx, WindowNo, "AD_Org_ID");

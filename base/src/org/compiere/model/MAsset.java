@@ -239,7 +239,7 @@ public class MAsset extends X_A_Asset
 	public BigDecimal getQty ()
 	{
 		BigDecimal qty = super.getQty();
-		if (qty == null || qty.equals(Env.ZERO))
+		if (qty == null || qty.compareTo(Env.ZERO)==0)
 			setQty(Env.ONE);
 		return super.getQty();
 	}	//	getQty
