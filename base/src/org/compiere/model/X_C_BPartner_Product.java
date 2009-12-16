@@ -31,7 +31,7 @@ public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091216L;
 
     /** Standard Constructor */
     public X_C_BPartner_Product (Properties ctx, int C_BPartner_Product_ID, String trxName)
@@ -40,6 +40,7 @@ public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_
       /** if (C_BPartner_Product_ID == 0)
         {
 			setC_BPartner_ID (0);
+			setIsManufacturer (false);
 			setM_Product_ID (0);
 			setShelfLifeMinDays (0);
 			setShelfLifeMinPct (0);
@@ -117,6 +118,30 @@ public class X_C_BPartner_Product extends PO implements I_C_BPartner_Product, I_
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Is Manufacturer.
+		@param IsManufacturer 
+		Indicate role of this Business partner as Manufacturer
+	  */
+	public void setIsManufacturer (boolean IsManufacturer)
+	{
+		set_Value (COLUMNNAME_IsManufacturer, Boolean.valueOf(IsManufacturer));
+	}
+
+	/** Get Is Manufacturer.
+		@return Indicate role of this Business partner as Manufacturer
+	  */
+	public boolean isManufacturer () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsManufacturer);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Manufacturer.

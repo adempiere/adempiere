@@ -119,6 +119,19 @@ public interface I_C_BPartner_Product
 	  */
 	public boolean isActive();
 
+    /** Column name IsManufacturer */
+    public static final String COLUMNNAME_IsManufacturer = "IsManufacturer";
+
+	/** Set Is Manufacturer.
+	  * Indicate role of this Business partner as Manufacturer
+	  */
+	public void setIsManufacturer (boolean IsManufacturer);
+
+	/** Get Is Manufacturer.
+	  * Indicate role of this Business partner as Manufacturer
+	  */
+	public boolean isManufacturer();
+
     /** Column name Manufacturer */
     public static final String COLUMNNAME_Manufacturer = "Manufacturer";
 

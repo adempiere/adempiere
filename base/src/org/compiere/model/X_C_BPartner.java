@@ -33,7 +33,7 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091216L;
 
     /** Standard Constructor */
     public X_C_BPartner (Properties ctx, int C_BPartner_ID, String trxName)
@@ -471,15 +471,15 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Dunning Grace.
-		@param DunningGrace Dunning Grace	  */
+	/** Set Dunning Grace Date.
+		@param DunningGrace Dunning Grace Date	  */
 	public void setDunningGrace (Timestamp DunningGrace)
 	{
 		set_Value (COLUMNNAME_DunningGrace, DunningGrace);
 	}
 
-	/** Get Dunning Grace.
-		@return Dunning Grace	  */
+	/** Get Dunning Grace Date.
+		@return Dunning Grace Date	  */
 	public Timestamp getDunningGrace () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DunningGrace);
@@ -686,6 +686,30 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public boolean isEmployee () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsEmployee);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Is Manufacturer.
+		@param IsManufacturer 
+		Indicate role of this Business partner as Manufacturer
+	  */
+	public void setIsManufacturer (boolean IsManufacturer)
+	{
+		set_Value (COLUMNNAME_IsManufacturer, Boolean.valueOf(IsManufacturer));
+	}
+
+	/** Get Is Manufacturer.
+		@return Indicate role of this Business partner as Manufacturer
+	  */
+	public boolean isManufacturer () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsManufacturer);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

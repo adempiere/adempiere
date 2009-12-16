@@ -297,10 +297,10 @@ public interface I_C_BPartner
     /** Column name DunningGrace */
     public static final String COLUMNNAME_DunningGrace = "DunningGrace";
 
-	/** Set Dunning Grace	  */
+	/** Set Dunning Grace Date	  */
 	public void setDunningGrace (Timestamp DunningGrace);
 
-	/** Get Dunning Grace	  */
+	/** Get Dunning Grace Date	  */
 	public Timestamp getDunningGrace();
 
     /** Column name DUNS */
@@ -434,6 +434,19 @@ public interface I_C_BPartner
 	  * Indicates if  this Business Partner is an employee
 	  */
 	public boolean isEmployee();
+
+    /** Column name IsManufacturer */
+    public static final String COLUMNNAME_IsManufacturer = "IsManufacturer";
+
+	/** Set Is Manufacturer.
+	  * Indicate role of this Business partner as Manufacturer
+	  */
+	public void setIsManufacturer (boolean IsManufacturer);
+
+	/** Get Is Manufacturer.
+	  * Indicate role of this Business partner as Manufacturer
+	  */
+	public boolean isManufacturer();
 
     /** Column name IsOneTime */
     public static final String COLUMNNAME_IsOneTime = "IsOneTime";
