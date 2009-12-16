@@ -21,13 +21,12 @@
 *                                                                     *
 * Contributors:                                                       *
 * - Carlos Ruiz - globalqss                                           *
-***********************************************************************/
+**********************************************************************/
 package org.adempiere.process;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.logging.Level;
 
 import org.compiere.model.MPriceList;
@@ -283,7 +282,7 @@ public class ImportPriceList extends SvrProcess
 		{
 			//	Set Imported = Y
 			pstmt_setImported = DB.prepareStatement
-				("UPDATE I_PriceList SET I_IsImported='Y', M_PriceList_ID=?, "
+				("UPDATE I_PriceList SET I_IsImported='Y', M_PriceList_ID=?, M_PriceList_Version_ID=?, "
 				+ "Updated=SysDate, Processed='Y' WHERE I_PriceList_ID=?", get_TrxName());
 
 			//
@@ -296,7 +295,7 @@ public class ImportPriceList extends SvrProcess
 				int M_PriceList_ID = imp.getM_PriceList_ID();
 				if (M_PriceList_ID == 0) {
 					// try to obtain the ID directly from DB
-					M_PriceList_ID = DB.getSQLValue(get_TrxName(), "SELECT M_PriceList_ID FROM M_PriceList WHERE AD_Client_ID=? AND Name=?", m_AD_Client_ID, imp.getName());
+					M_PriceList_ID = DB.getSQLValue(get_TrxName(), "SELECT M_PriceList_ID FROM M_PriceList WHERE IsActive='Y' AND AD_Client_ID=? AND Name=?", m_AD_Client_ID, imp.getName());
 					if (M_PriceList_ID < 0)
 						M_PriceList_ID = 0;
 				}
@@ -330,7 +329,7 @@ public class ImportPriceList extends SvrProcess
 				int M_PriceList_Version_ID = imp.getM_PriceList_Version_ID();
 				if (M_PriceList_Version_ID == 0) {
 					// try to obtain the ID directly from DB
-					M_PriceList_Version_ID = DB.getSQLValue(get_TrxName(), "SELECT M_PriceList_Version_ID FROM M_PriceList_Version WHERE ValidFrom=? AND M_PriceList_ID=?", new Object[]{imp.getValidFrom(), M_PriceList_ID});
+					M_PriceList_Version_ID = DB.getSQLValue(get_TrxName(), "SELECT M_PriceList_Version_ID FROM M_PriceList_Version WHERE IsActive='Y' AND ValidFrom=? AND M_PriceList_ID=?", new Object[]{imp.getValidFrom(), M_PriceList_ID});
 					if (M_PriceList_Version_ID < 0)
 						M_PriceList_Version_ID = 0;
 				}
@@ -373,6 +372,7 @@ public class ImportPriceList extends SvrProcess
 							"SELECT M_ProductPriceVendorBreak_ID " +
 							"FROM M_ProductPriceVendorBreak " +
 							"WHERE M_PriceList_Version_ID=? AND " +
+							"IsActive='Y' AND " +
 							"C_BPartner_ID=? AND " +
 							"M_Product_ID=? AND " +
 							"BreakValue=?", 
@@ -442,15 +442,13 @@ public class ImportPriceList extends SvrProcess
 				
 				//	Update I_PriceList
 				pstmt_setImported.setInt(1, M_PriceList_ID);
-				pstmt_setImported.setInt(2, I_PriceList_ID);
+				pstmt_setImported.setInt(2, M_PriceList_Version_ID);
+				pstmt_setImported.setInt(3, I_PriceList_ID);
 				no = pstmt_setImported.executeUpdate();
 				//
 				commitEx();
 			}	//	for all I_PriceList
 			//
-		}
-		catch (SQLException e)
-		{
 		}
 		finally
 		{
