@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.panel;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -57,6 +58,7 @@ import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
+import org.compiere.model.Lookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
@@ -1400,22 +1402,45 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		Vector<String> data = new Vector<String>();
 		// FR [ 2877111 ]
 		final String keyColumnName = curTab.getKeyColumnName();
-		final String sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(ctx), keyColumnName, "[?","?]")
-								   .replace("[?.?]", "?");
+		String sql = null;
+		if (! "".equals(keyColumnName)) {
+			sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(ctx), keyColumnName, "[?","?]")
+			   .replace("[?.?]", "?");
+		}
 		int noOfRows = curTab.getRowCount();
 		for(int i=0; i<noOfRows; i++)
 		{
-			final int id = curTab.getKeyID(i);
 			StringBuffer displayValue = new StringBuffer();
-			String value = DB.getSQLValueStringEx(null, sql, id);
-			value = value.replace(" - ", " | ");
-			displayValue.append(value);
-			// Append ID
-			if (displayValue.length() == 0 || CLogMgt.isLevelFine())
+			if ("".equals(keyColumnName))
 			{
-				if (displayValue.length() > 0)
-					displayValue.append(" | ");
-				displayValue.append("<").append(id).append(">");
+				ArrayList<String> parentColumnNames = curTab.getParentColumnNames();
+				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();)
+				{
+					String columnName = iter.next();
+					GridField field = curTab.getField(columnName);
+					if(field.isLookup()){
+						Lookup lookup = field.getLookup();
+						if (lookup != null){
+							displayValue = displayValue.append(lookup.getDisplay(curTab.getValue(i,columnName))).append(" | ");
+						} else {
+							displayValue = displayValue.append(curTab.getValue(i,columnName)).append(" | ");
+						}
+					} else {
+						displayValue = displayValue.append(curTab.getValue(i,columnName)).append(" | ");
+					}
+				}
+			} else {
+				final int id = curTab.getKeyID(i);
+				String value = DB.getSQLValueStringEx(null, sql, id);
+				value = value.replace(" - ", " | ");
+				displayValue.append(value);
+				// Append ID
+				if (displayValue.length() == 0 || CLogMgt.isLevelFine())
+				{
+					if (displayValue.length() > 0)
+						displayValue.append(" | ");
+					displayValue.append("<").append(id).append(">");
+				}
 			}
 			//
 			data.add(displayValue.toString());

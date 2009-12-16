@@ -29,8 +29,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -77,6 +79,7 @@ import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.GridWorkbench;
+import org.compiere.model.Lookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
@@ -1824,22 +1827,45 @@ public final class APanel extends CPanel
 		Vector<String> data = new Vector<String>();
 		// FR [ 2877111 ]
 		final String keyColumnName = m_curTab.getKeyColumnName();
-		final String sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(m_ctx), keyColumnName, "[?","?]")
-								   .replace("[?.?]", "?");
+		String sql = null;
+		if (! "".equals(keyColumnName)) {
+			sql = MLookupFactory.getLookup_TableDirEmbed(Env.getLanguage(m_ctx), keyColumnName, "[?","?]")
+			   .replace("[?.?]", "?");
+		}
 		int noOfRows = m_curTab.getRowCount();
 		for(int i = 0; i < noOfRows; i++)
 		{
-			final int id = m_curTab.getKeyID(i);
 			StringBuffer displayValue = new StringBuffer();
-			String value = DB.getSQLValueStringEx(null, sql, id);
-			value = value.replace(" - ", " | ");
-			displayValue.append(value);
-			// Append ID
-			if (displayValue.length() == 0 || CLogMgt.isLevelFine())
+			if ("".equals(keyColumnName))
 			{
-				if (displayValue.length() > 0)
-					displayValue.append(" | ");
-				displayValue.append("<").append(id).append(">");
+				ArrayList<String> parentColumnNames = m_curTab.getParentColumnNames();
+				for (Iterator<String> iter = parentColumnNames.iterator(); iter.hasNext();)
+				{
+					String columnName = iter.next();
+					GridField field = m_curTab.getField(columnName);
+					if(field.isLookup()){
+						Lookup lookup = field.getLookup();
+						if (lookup != null){
+							displayValue = displayValue.append(lookup.getDisplay(m_curTab.getValue(i,columnName))).append(" | ");
+						} else {
+							displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
+						}
+					} else {
+						displayValue = displayValue.append(m_curTab.getValue(i,columnName)).append(" | ");
+					}
+				}
+			} else {
+				final int id = m_curTab.getKeyID(i);
+				String value = DB.getSQLValueStringEx(null, sql, id);
+				value = value.replace(" - ", " | ");
+				displayValue.append(value);
+				// Append ID
+				if (displayValue.length() == 0 || CLogMgt.isLevelFine())
+				{
+					if (displayValue.length() > 0)
+						displayValue.append(" | ");
+					displayValue.append("<").append(id).append(">");
+				}
 			}
 			//
 			data.add(displayValue.toString());
