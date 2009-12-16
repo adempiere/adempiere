@@ -234,19 +234,19 @@ public class ImportPriceList extends SvrProcess
 		if (no != 0)
 			log.warning("Invalid Currency=" + no);
 
-		//	Mandatory Name
+		//	Mandatory Name or PriceListID
 		sql = new StringBuffer ("UPDATE I_PriceList "
-			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=No Mandatory Name,' "
-			+ "WHERE Name IS NULL"
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Mandatory Name or PriceListID,' "
+			+ "WHERE Name IS NULL AND M_PriceList_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
 			log.warning("No Mandatory Name=" + no);
 
-		//	Mandatory ValidFrom
+		//	Mandatory ValidFrom or PriceListVersionID
 		sql = new StringBuffer ("UPDATE I_PriceList "
-			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=No Mandatory ValidFrom,' "
-			+ "WHERE ValidFrom IS NULL"
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Mandatory ValidFrom or PriceListVersionID,' "
+			+ "WHERE ValidFrom IS NULL AND M_PriceList_Version_ID IS NULL"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
