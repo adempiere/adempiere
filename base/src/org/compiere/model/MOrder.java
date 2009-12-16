@@ -1650,9 +1650,9 @@ public class MOrder extends X_C_Order implements DocAction
 		getLines(true,null);
 		log.info(toString());
 		StringBuffer info = new StringBuffer();
-
-		boolean realTimePOS = false;
-
+		
+		boolean realTimePOS = MSysConfig.getBooleanValue("REAL_TIME_POS", false , getAD_Client_ID());
+		
 		//	Create SO Shipment - Force Shipment
 		MInOut shipment = null;
 		if (MDocType.DOCSUBTYPESO_OnCreditOrder.equals(DocSubTypeSO)		//	(W)illCall(I)nvoice
