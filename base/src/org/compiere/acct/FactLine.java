@@ -292,13 +292,15 @@ public final class FactLine extends X_Fact_Acct
 		if (AmtAcctDr != null && AmtAcctDr.scale() > precision)
 		{
 			BigDecimal AmtAcctDr1 = AmtAcctDr.setScale(precision, BigDecimal.ROUND_HALF_UP);
-			log.warning("Accounted DR Precision " + AmtAcctDr + " -> " + AmtAcctDr1);
+			if (AmtAcctDr1.compareTo(AmtAcctDr) != 0)
+				log.warning("Accounted DR Precision " + AmtAcctDr + " -> " + AmtAcctDr1);
 			setAmtAcctDr(AmtAcctDr1);
 		}
 		if (AmtAcctCr != null && AmtAcctCr.scale() > precision)
 		{
 			BigDecimal AmtAcctCr1 = AmtAcctCr.setScale(precision, BigDecimal.ROUND_HALF_UP);
-			log.warning("Accounted CR Precision " + AmtAcctCr + " -> " + AmtAcctCr1);
+			if (AmtAcctCr1.compareTo(AmtAcctCr) != 0)
+				log.warning("Accounted CR Precision " + AmtAcctCr + " -> " + AmtAcctCr1);
 			setAmtAcctCr(AmtAcctCr1);
 		}
 	}   //  setAmtAcct
