@@ -326,12 +326,18 @@ public class GridTable extends AbstractTableModel
 		//Restore the Original Value for Key Column Name based in Tab Context Value
 		int parentTabNo = getParentTabNo();
 		String parentKey = Env.getContext(m_ctx, m_WindowNo, parentTabNo, GridTab.CTX_KeyColumnName, true);
-		String valueKey = Env.getContext(m_ctx, m_WindowNo, parentTabNo, parentKey, true);
-		String currKey = Env.getContext(m_ctx, m_WindowNo, parentKey);
-		if (valueKey != null && valueKey.length() > 0 && parentKey != null && parentKey.length() > 0 && ! currKey.equals(valueKey))
-		{
-			Env.setContext(m_ctx, m_WindowNo,  parentKey, valueKey);
-		}	
+		String valueKey = null;
+		String currKey = null;
+		if (parentKey != null && parentKey.length() > 0) {
+			valueKey = Env.getContext(m_ctx, m_WindowNo, parentTabNo, parentKey, true);
+			currKey = Env.getContext(m_ctx, m_WindowNo, parentKey);
+			if (currKey == null)
+				currKey = new String("");
+			if (valueKey != null && valueKey.length() > 0 && parentKey != null && parentKey.length() > 0 && ! currKey.equals(valueKey))
+			{
+				Env.setContext(m_ctx, m_WindowNo,  parentKey, valueKey);
+			}	
+		}
 		
 		StringBuffer where = new StringBuffer("");
 		//	WHERE
