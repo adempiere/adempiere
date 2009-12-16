@@ -342,6 +342,17 @@ public interface I_C_Order
 	  */
 	public int getC_Order_ID();
 
+    /** Column name C_OrderSource_ID */
+    public static final String COLUMNNAME_C_OrderSource_ID = "C_OrderSource_ID";
+
+	/** Set Order Source	  */
+	public void setC_OrderSource_ID (int C_OrderSource_ID);
+
+	/** Get Order Source	  */
+	public int getC_OrderSource_ID();
+
+	public I_C_OrderSource getC_OrderSource() throws RuntimeException;
+
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
 

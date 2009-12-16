@@ -14,16 +14,17 @@ CREATE TABLE C_OrderSource
     Description       VARCHAR(255),
     Help              VARCHAR(2000),
 
-    primary key(C_OrderSource_ID),
-    UNIQUE(AD_Client_ID,Value),
+    CONSTRAINT COrderSource_Key primary key(C_OrderSource_ID),
 
-    foreign key(AD_Client_ID) references AD_Client(AD_Client_ID),
-    foreign key(AD_Org_ID) references AD_Org(AD_Org_ID),
-    foreign key(CreatedBy) references AD_User(AD_User_ID),
-    foreign key(UpdatedBy) references AD_User(AD_User_ID),
+    CONSTRAINT ADClient_COrderSource foreign key(AD_Client_ID) references AD_Client(AD_Client_ID),
+    CONSTRAINT ADOrg_COrderSource foreign key(AD_Org_ID) references AD_Org(AD_Org_ID),
+    CONSTRAINT ADUser1_COrderSource foreign key(CreatedBy) references AD_User(AD_User_ID),
+    CONSTRAINT ADUser2_COrderSource foreign key(UpdatedBy) references AD_User(AD_User_ID),
 
     CHECK(IsActive IN ('Y', 'N'))
   );
+
+CREATE UNIQUE INDEX COrderSource_Value ON C_OrderSource (AD_Client_ID,Value);
 
 --- Table: C_Order -------------------------------------------------------------
 ALTER TABLE C_Order 

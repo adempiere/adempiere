@@ -33,7 +33,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20091216L;
 
     /** Standard Constructor */
     public X_C_Order (Properties ctx, int C_Order_ID, String trxName)
@@ -633,6 +633,31 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public int getC_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_OrderSource getC_OrderSource() throws RuntimeException
+    {
+		return (I_C_OrderSource)MTable.get(getCtx(), I_C_OrderSource.Table_Name)
+			.getPO(getC_OrderSource_ID(), get_TrxName());	}
+
+	/** Set Order Source.
+		@param C_OrderSource_ID Order Source	  */
+	public void setC_OrderSource_ID (int C_OrderSource_ID)
+	{
+		if (C_OrderSource_ID < 1) 
+			set_Value (COLUMNNAME_C_OrderSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_OrderSource_ID, Integer.valueOf(C_OrderSource_ID));
+	}
+
+	/** Get Order Source.
+		@return Order Source	  */
+	public int getC_OrderSource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderSource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
