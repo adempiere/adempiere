@@ -91,12 +91,12 @@ INSERT INTO AD_Column_Trl (AD_Language,AD_Column_ID, Name, IsTranslated,AD_Clien
 UPDATE AD_Column SET IsMandatory='N',Updated=TO_DATE('2009-12-16 08:25:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=58799
 ;
 
--- manual
-update C_BPartner_Product set ismanufacturer='N' where ismanufacturer is null;
-
 -- Dec 16, 2009 8:25:02 AM COT
 ALTER TABLE C_BPartner_Product ADD IsManufacturer CHAR(1) DEFAULT NULL  CHECK (IsManufacturer IN ('Y','N'))
 ;
+
+-- manual
+update C_BPartner_Product set ismanufacturer='N' where ismanufacturer is null;
 
 -- Dec 16, 2009 8:25:17 AM COT
 UPDATE AD_Column SET IsMandatory='Y',Updated=TO_DATE('2009-12-16 08:25:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=58799
