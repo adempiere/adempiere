@@ -1078,6 +1078,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         toolbar.enableCopy(!changed && insertRecord && !curTab.isSortTab());
         toolbar.enableRefresh(!changed);
         toolbar.enableDelete(!changed && !readOnly && !curTab.isSortTab());
+        toolbar.enableDeleteSelection(!changed && !readOnly && !curTab.isSortTab());
         //
         if (readOnly && curTab.isAlwaysUpdateField())
         {
@@ -1093,10 +1094,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             toolbar.enabledNew(true);
             toolbar.enableDelete(false);
             toolbar.enableDeleteSelection(false);
-        }
-        else
-        {
-            toolbar.enableDeleteSelection(true);
         }
 
         //  History (on first Tab only)

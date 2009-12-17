@@ -1134,6 +1134,7 @@ public final class APanel extends CPanel
 		aCopy.setEnabled(!changed && insertRecord);
 		aRefresh.setEnabled(!changed);
 		aDelete.setEnabled(!changed && !readOnly);
+		aDeleteSelection.setEnabled(!changed && !readOnly);
 		//
 		if (readOnly && m_curTab.isAlwaysUpdateField())
 			readOnly = false;
@@ -1145,8 +1146,6 @@ public final class APanel extends CPanel
 			aNew.setEnabled(true);
 			aDelete.setEnabled(false);
 			aDeleteSelection.setEnabled(false);
-		} else {
-			aDeleteSelection.setEnabled(true);
 		}
 
 		//	Single-Multi
