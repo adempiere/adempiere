@@ -1320,8 +1320,20 @@ public final class APanel extends CPanel
 							}
 						}
 						else    //  Don't save
-							m_curTab.dataIgnore();
-					}
+						{
+							int newRecord= m_curTab.getTableModel().getNewRow();     //VOSS COM
+
+							if( newRecord == -1)
+								m_curTab.dataIgnore();
+							else
+							{      
+								m_curWinTab.setSelectedIndex(m_curTabIndex);
+								setBusy(false, true);
+								return;
+							}
+						}
+		            }
+
 					else    //  new record, but nothing changed
 						m_curTab.dataIgnore();
 				}   //  there is a change

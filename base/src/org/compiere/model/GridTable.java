@@ -88,7 +88,7 @@ public class GridTable extends AbstractTableModel
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6148998589248950598L;
+	private static final long serialVersionUID = 9013625748218987868L;
 
 	/**
 	 *	JDBC Based Buffered Table
@@ -158,6 +158,7 @@ public class GridTable extends AbstractTableModel
 	private boolean			    m_inserting = false;
 	/** Inserted Row number         */
 	private int                 m_newRow = -1;
+	
 	/**	Is the Resultset open?      */
 	private boolean			    m_open = false;
 	/**	Compare to DB before save	*/
@@ -3149,7 +3150,10 @@ private Object[] getDataAtRow(int row)
 			.append(",Tab=").append(m_TabNo).append("]").toString();
 	}   //  toString
 
-
+	public int getNewRow()
+	{
+		return m_newRow;
+	}
 	
 	/**************************************************************************
 	 *	ASync Loader
@@ -3470,6 +3474,7 @@ private Object[] getDataAtRow(int row)
 		// @TODO: configurable aggressive - compare each column with the DB
 		return false;
 	}
+
 	
 	/**
 	 * get Parent Tab No
