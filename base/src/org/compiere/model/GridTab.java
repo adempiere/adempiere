@@ -99,11 +99,10 @@ import org.compiere.util.ValueNamePair;
  */
 public class GridTab implements DataStatusListener, Evaluatee, Serializable
 {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7198494041906579986L;
+	private static final long serialVersionUID = -8762357519103152929L;
 
 	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
 	
@@ -947,8 +946,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_SAVE));
 			
 			if (retValue) {
-				// refresh parent tabs with the same table
-				refreshParentsSameTable();
+				// refresh parent tabs
+				refreshParents();
 			}
 			
 			return retValue;
@@ -999,7 +998,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return false;
 	}
 
-	private void refreshParentsSameTable() {
+	private void refreshParents() {
 		if (isDetail()) {
 			// get parent tab
 			// the parent tab is the first tab above with level = this_tab_level-1
@@ -1007,9 +1006,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			for (int i = m_window.getTabIndex(this) - 1; i >= 0; i--) {
 				GridTab parentTab = m_window.getTab(i);
 				if (parentTab.m_vo.TabLevel == level-1) {
-					if (parentTab.getAD_Table_ID() == getAD_Table_ID()) {
-						parentTab.dataRefresh();
-					}
+					parentTab.dataRefresh();
 					// search for the next parent
 					if (parentTab.isDetail()) {
 						level = parentTab.m_vo.TabLevel;

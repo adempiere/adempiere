@@ -141,12 +141,14 @@ public class MPaymentTerm extends X_C_PaymentTerm
 		getSchedule(true);
 		if (m_schedule.length == 0)
 		{
-			setIsValid(true);
+			if (! isValid())
+				setIsValid(true);
 			return "@OK@";
 		}
 		if (m_schedule.length == 1)
 		{
-			setIsValid(false);
+			if (isValid())
+				setIsValid(false);
 			if (m_schedule[0].isValid())
 			{
 				m_schedule[0].setIsValid(false);
@@ -164,7 +166,8 @@ public class MPaymentTerm extends X_C_PaymentTerm
 				total = total.add(percent);
 		}
 		boolean valid = total.compareTo(HUNDRED) == 0;
-		setIsValid (valid);
+		if (isValid() != valid)
+			setIsValid (valid);
 		for (int i = 0; i < m_schedule.length; i++)
 		{
 			if (m_schedule[i].isValid() != valid)
