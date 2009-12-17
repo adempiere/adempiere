@@ -888,7 +888,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 						}
 					}
 					else    //  Don't save
-						curTab.dataIgnore();
+					{
+						int newRecord= curTab.getTableModel().getNewRow();     //VOSS COM
+
+						if( newRecord == -1)
+							curTab.dataIgnore();
+						else
+						{
+							return false;
+						}
+					}
 				}
 				else    //  new record, but nothing changed
 					curTab.dataIgnore();
