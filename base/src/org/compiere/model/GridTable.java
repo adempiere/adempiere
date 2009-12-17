@@ -1359,7 +1359,7 @@ private Object[] getDataAtRow(int row)
 		try
 		{
 			if (!manualCmd)
-				m_vetoableChangeSupport.fireVetoableChange(PROPERTY, 0, m_rowChanged);
+				m_vetoableChangeSupport.fireVetoableChange(PROPERTY, -1, m_rowChanged);
 		}
 		catch (PropertyVetoException pve)
 		{
