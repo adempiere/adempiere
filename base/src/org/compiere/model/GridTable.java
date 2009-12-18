@@ -2376,6 +2376,14 @@ private Object[] getDataAtRow(int row)
 		if (m_virtual)
 		{
 			m_buffer.add(m_newRow, rowData);
+			if (m_cacheStart == -1)
+			{
+				m_cacheStart = m_cacheEnd = m_newRow;
+			}
+			else if (m_cacheEnd < m_newRow)
+			{
+				m_cacheEnd = m_newRow;
+			}
 		}
 		else
 		{
@@ -2576,9 +2584,18 @@ private Object[] getDataAtRow(int row)
 		else
 		{
 			if (m_cacheStart == row)
-				m_cacheStart++;
+			{
+				if (m_cacheStart < m_cacheEnd)
+					m_cacheStart++;
+				else
+					m_cacheStart = m_cacheEnd = -1;
+			}
 			else
+			{
 				m_cacheEnd--;
+				if (m_cacheStart > m_cacheEnd)
+					m_cacheStart = m_cacheEnd;
+			}
 		}
 
 		//	inform
@@ -2616,6 +2633,15 @@ private Object[] getDataAtRow(int row)
 			m_rowCount--;
 			//	Delete row in Sort
 			m_sort.remove(m_newRow);	//	pintint to the last column, so no adjustment
+			if (m_virtual)
+			{
+				if (m_cacheEnd == m_newRow)
+				{
+					m_cacheEnd--;
+					if (m_cacheStart > m_cacheEnd)
+						m_cacheStart = m_cacheEnd;
+				}
+			}
 			//
 			m_changed = false;
 			m_rowData = null;
