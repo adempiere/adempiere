@@ -24,12 +24,12 @@ import java.io.OutputStream;
 import org.adempiere.pdf.viewer.PDFViewerBean;
 import org.compiere.model.MSysConfig;
 
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.DefaultFontMapper;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.DefaultFontMapper;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * Generate PDF document using iText
@@ -49,8 +49,8 @@ public class Document {
 		try {
             final PageFormat pf = pageable.getPageFormat(0);
             
-            final com.lowagie.text.Document document =
-            	new com.lowagie.text.Document(new Rectangle(
+            final com.itextpdf.text.Document document =
+            	new com.itextpdf.text.Document(new Rectangle(
             			(int) pf.getWidth(), (int) pf.getHeight()));
             final PdfWriter writer = PdfWriter.getInstance(
                     document, output);

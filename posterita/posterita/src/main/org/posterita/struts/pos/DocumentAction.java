@@ -59,7 +59,7 @@ import org.posterita.exceptions.OperationException;
 import org.posterita.form.InventoryForm;
 import org.posterita.struts.core.DefaultForm;
 
-import com.lowagie.text.DocumentException;
+import com.itextpdf.text.DocumentException;
 
 public class DocumentAction extends POSDispatchAction
 {

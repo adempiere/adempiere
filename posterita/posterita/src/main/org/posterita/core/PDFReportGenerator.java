@@ -28,18 +28,20 @@ import java.util.Properties;
 
 import org.posterita.exceptions.OperationException;
 import org.posterita.lib.PropertiesConstant;
-import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public abstract class PDFReportGenerator 
 {
@@ -47,8 +49,8 @@ public abstract class PDFReportGenerator
     protected float MARGIN = 30f;
     
     //setting default fonts
-    protected Font TITLE_FONT = FontFactory.getFont(FontFactory.HELVETICA,18,Font.BOLD,new Color(255,0,0));
-    protected Font SUBTITLE_FONT = FontFactory.getFont(FontFactory.HELVETICA,15,Font.BOLD,new Color(255,0,0));
+    protected Font TITLE_FONT = FontFactory.getFont(FontFactory.HELVETICA,18,Font.BOLD,BaseColor.BLUE);
+    protected Font SUBTITLE_FONT = FontFactory.getFont(FontFactory.HELVETICA,15,Font.BOLD,BaseColor.BLUE);
     protected Font HEADER_FONT = FontFactory.getFont(FontFactory.HELVETICA,10,Font.BOLD);
     protected Font DATA_FONT = FontFactory.getFont(FontFactory.HELVETICA,10);    
     

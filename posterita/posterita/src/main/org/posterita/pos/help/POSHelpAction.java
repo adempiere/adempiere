@@ -38,7 +38,7 @@ import org.posterita.exceptions.OperationException;
 import org.posterita.form.POSHelpForm;
 import org.posterita.struts.core.BaseDispatchAction;
 
-import com.lowagie.text.DocumentException;
+import com.itextpdf.text.DocumentException;
 
 public class POSHelpAction extends BaseDispatchAction
 {

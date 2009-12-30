@@ -73,7 +73,7 @@ import org.posterita.exceptions.UOMValuePrecisionNotValidException;
 import org.posterita.form.InventoryLineForm;
 import org.posterita.struts.core.DefaultForm;
 
-import com.lowagie.text.DocumentException;
+import com.itextpdf.text.DocumentException;
 
 public class InventoryCartAction extends POSDispatchAction
 {

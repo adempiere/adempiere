@@ -67,17 +67,18 @@ import org.posterita.lib.UdiConstants;
 import org.posterita.util.PathInfo;
 import org.posterita.util.PoManager;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Element;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.Image;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class CustomerManager 
 {
@@ -909,7 +910,7 @@ public class CustomerManager
 			
 			PdfPTable main = new PdfPTable(2);
 			main.setWidthPercentage(71.0f);
-			main.getDefaultCell().setBorderColor(Color.gray);
+			main.getDefaultCell().setBorderColor(BaseColor.GRAY);
 				
 			PdfPCell cell = new PdfPCell();
 			cell.setMinimumHeight(150.0f);
