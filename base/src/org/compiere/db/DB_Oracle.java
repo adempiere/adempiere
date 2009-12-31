@@ -1110,12 +1110,12 @@ public class DB_Oracle implements AdempiereDatabase
 	}
 	
 	public String addPagingSQL(String sql, int start, int end) {
-		String newSql = "SELECT * FROM (" + sql + ") WHERE ROWNUM BETWEEN " + start + " AND " + end;
-		return newSql;
+		//not supported, too many corner case that doesn't work using rownum. to investigate later
+		return sql;
 	}
 
 	public boolean isPagingSupported() {
-		return true;
+		return false;
 	}
 
 }   //  DB_Oracle
