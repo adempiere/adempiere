@@ -1015,6 +1015,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					}
 				}
 			}
+			// refresh this tab
+			dataRefresh();
 		}
 	}
 
