@@ -988,6 +988,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 		
 		toolbar.enablePrint(curTab.isPrinted());
+		
+        if (gridWindow.isTransaction() && isFirstTab())
+        {
+        	toolbar.enableHistoryRecords(true);
+        }
+        else
+        {
+        	toolbar.enableHistoryRecords(false);
+        }
+
 	}
 
 	/**
