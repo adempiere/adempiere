@@ -288,8 +288,8 @@ public class MRMALine extends X_M_RMALine
         	return false;
         }
         BigDecimal totalQty = DB.getSQLValueBD(get_TrxName(), 
-        		"SELECT SUM(Qty) FROM M_RMALine rl JOIN M_RMA r ON (r.M_RMA_ID = rl.M_RMA_ID) WHERE M_InOutLine_ID = ? AND r.Processed = 'Y' AND r.DocStatus IN ('CO','CL')", 
-        		getM_InOutLine_ID());
+        		"SELECT SUM(Qty) FROM M_RMALine rl JOIN M_RMA r ON (r.M_RMA_ID = rl.M_RMA_ID) WHERE M_InOutLine_ID = ? AND M_RMALine_ID != ? AND r.Processed = 'Y' AND r.DocStatus IN ('CO','CL')", 
+        		getM_InOutLine_ID(), getM_RMALine_ID());
         if (totalQty == null)
         	totalQty = Env.ZERO;
         totalQty = totalQty.add(getQty());
