@@ -14,7 +14,6 @@
 package org.adempiere.webui.apps.form;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Label;
@@ -40,6 +39,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zul.Space;
 
 /**
@@ -147,7 +147,7 @@ public class WInOutGen extends InOutGen implements IFormController, EventListene
 		lDocType.setText(Msg.translate(Env.getCtx(), "C_DocType_ID"));
 		cmbDocType.addItem(new KeyNamePair(MOrder.Table_ID, Msg.translate(Env.getCtx(), "Order")));
 		cmbDocType.addItem(new KeyNamePair(MRMA.Table_ID, Msg.translate(Env.getCtx(), "VendorRMA")));
-		cmbDocType.addActionListener(form);
+		cmbDocType.addActionListener(this);
 		cmbDocType.setSelectedIndex(0);
 		
 		form.getStatusBar().setStatusLine(Msg.getMsg(Env.getCtx(), "InOutGenerateSel"));//@@
