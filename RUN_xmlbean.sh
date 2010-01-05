@@ -1,7 +1,7 @@
 #	This script rebuilds ADInterface
 #
 
-AD_SRC=../adempiere343
+AD_SRC=../globalqss/adempiere355a/
 BASEDIR=.
 
 #check java home
