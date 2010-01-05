@@ -990,6 +990,8 @@ public class MOrder extends X_C_Order implements DocAction
 		if (!success || newRecord)
 			return success;
 		
+		// TODO: The changes here with UPDATE are not being saved on change log - audit problem  
+		
 		//	Propagate Description changes
 		if (is_ValueChanged("Description") || is_ValueChanged("POReference"))
 		{
@@ -1004,17 +1006,30 @@ public class MOrder extends X_C_Order implements DocAction
 
 		//	Propagate Changes of Payment Info to existing (not reversed/closed) invoices
 		if (is_ValueChanged("PaymentRule") || is_ValueChanged("C_PaymentTerm_ID")
-			|| is_ValueChanged("DateAcct") || is_ValueChanged("C_Payment_ID")
+			|| is_ValueChanged("C_Payment_ID")
 			|| is_ValueChanged("C_CashLine_ID"))
 		{
 			String sql = "UPDATE C_Invoice i "
-				+ "SET (PaymentRule,C_PaymentTerm_ID,DateAcct,C_Payment_ID,C_CashLine_ID)="
-					+ "(SELECT PaymentRule,C_PaymentTerm_ID,DateAcct,C_Payment_ID,C_CashLine_ID "
+				+ "SET (PaymentRule,C_PaymentTerm_ID,C_Payment_ID,C_CashLine_ID)="
+					+ "(SELECT PaymentRule,C_PaymentTerm_ID,C_Payment_ID,C_CashLine_ID "
 					+ "FROM C_Order o WHERE i.C_Order_ID=o.C_Order_ID)"
 				+ "WHERE DocStatus NOT IN ('RE','CL') AND C_Order_ID=" + getC_Order_ID();
 			//	Don't touch Closed/Reversed entries
 			int no = DB.executeUpdate(sql, get_TrxName());
 			log.fine("Payment -> #" + no);
+		}
+	      
+		//	Propagate Changes of Date Account to existing (not completed/reversed/closed) invoices
+		if (is_ValueChanged("DateAcct"))
+		{
+			String sql = "UPDATE C_Invoice i "
+				+ "SET (DateAcct)="
+					+ "(SELECT DateAcct "
+					+ "FROM C_Order o WHERE i.C_Order_ID=o.C_Order_ID)"
+				+ "WHERE DocStatus NOT IN ('CO','RE','CL') AND Processed='N' AND C_Order_ID=" + getC_Order_ID();
+			//	Don't touch Completed/Closed/Reversed entries
+			int no = DB.executeUpdate(sql, get_TrxName());
+			log.fine("DateAcct -> #" + no);
 		}
 	      
 		//	Sync Lines
