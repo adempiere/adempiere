@@ -472,6 +472,9 @@
 		<copy file="${basedir}/jboss/server/adempiere/conf/jboss-serviceTemplate.xml" tofile="${basedir}/jboss/server/adempiere/conf/jboss-service.xml" filtering="yes" overwrite="yes" />
 		<copy file="${basedir}/jboss/server/adempiere/conf/login-configTemplate.xml" tofile="${basedir}/jboss/server/adempiere/conf/login-config.xml" filtering="yes" overwrite="yes" />
 
+		<!-- Filter JBoss Templates HTTP Invoker	-->
+		<copy file="${basedir}/jboss/server/adempiere/deploy/http-invoker.sar/META-INF/jboss-serviceTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/http-invoker.sar/META-INF/jboss-service.xml" filtering="yes" overwrite="yes" />
+
 		<!-- Filter Tomcat 6.0 				-->
 		<copy file="${basedir}/jboss/server/adempiere/deploy/jboss-web.deployer/serverTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/jboss-web.deployer/server.xml" filtering="yes" overwrite="yes" />
 
