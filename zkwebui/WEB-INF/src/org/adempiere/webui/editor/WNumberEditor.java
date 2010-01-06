@@ -116,7 +116,7 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 		getComponent().getDecimalbox().setFormat(format.toPattern());
 		
 		popupMenu = new WEditorPopupMenu(true, true, false);
-    	if (gridField.getGridTab() != null)
+    	if (gridField != null && gridField.getGridTab() != null)
 		{
 			WFieldRecordInfo.addMenu(popupMenu);
 		}

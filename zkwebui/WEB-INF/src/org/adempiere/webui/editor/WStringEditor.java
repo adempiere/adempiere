@@ -146,7 +146,7 @@ public class WStringEditor extends WEditor implements ContextMenuListener
 	        editor.addEventListener(Events.ON_CLICK, popupMenu);
 	        popupMenu.appendChild(editor);
 	        
-	        if (gridField.getGridTab() != null)
+	        if (gridField != null && gridField.getGridTab() != null)
 			{
 				WFieldRecordInfo.addMenu(popupMenu);
 			}

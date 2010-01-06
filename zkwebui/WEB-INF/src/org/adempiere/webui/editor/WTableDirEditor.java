@@ -145,7 +145,7 @@ ContextMenuListener, IZoomableEditor
         if (gridField != null) 
         {
         	popupMenu = new WEditorPopupMenu(zoom, true, true);
-        	if (gridField.getGridTab() != null)
+        	if (gridField != null &&  gridField.getGridTab() != null)
     		{
     			WFieldRecordInfo.addMenu(popupMenu);
     		}

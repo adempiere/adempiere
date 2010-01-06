@@ -114,7 +114,7 @@ public class WLocatorEditor extends WEditor implements EventListener, PropertyCh
 		if (gridField != null) 
         {
         	popupMenu = new WEditorPopupMenu(true, true, false);
-        	if (gridField.getGridTab() != null)
+        	if (gridField != null && gridField.getGridTab() != null)
     		{
     			WFieldRecordInfo.addMenu(popupMenu);
     		}
