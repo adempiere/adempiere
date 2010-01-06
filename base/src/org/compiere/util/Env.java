@@ -384,7 +384,8 @@ public final class Env
 		//
 		if (value == null)
 			if (context.endsWith("_ID"))
-				value = new String("-1");
+				// TODO: Research potential problems with tables with Record_ID=0
+				value = new String("0");
 			else
 				value = new String("");
 		ctx.setProperty(WindowNo+"|"+TabNo+"|"+context, value);
