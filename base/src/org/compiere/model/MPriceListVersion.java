@@ -40,7 +40,7 @@ public class MPriceListVersion extends X_M_PriceList_Version
 	private static final long serialVersionUID = -3607494586575155059L;
 
 	/**
-	 * 	Standard Cinstructor
+	 * 	Standard Constructor
 	 *	@param ctx context
 	 *	@param M_PriceList_Version_ID id
 	 *	@param trxName transaction
