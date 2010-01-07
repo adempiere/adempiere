@@ -31,6 +31,8 @@ import java.util.logging.Level;
 import javax.net.ssl.HttpsURLConnection;
 
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /**
  *  Payment Processor Abstract Class
@@ -123,11 +125,58 @@ public abstract class PaymentProcessor
 	public abstract boolean processCC () throws IllegalArgumentException;
 
 	/**
-	 *  Payment is procesed successfully
+	 *  Payment is processed successfully
 	 *  @return true if OK
 	 */
 	public abstract boolean isProcessedOK();
 
+	/**************************************************************************/
+	// Validation methods. Override if you have specific needs.
+
+	/**
+	 * Validate payment before process. 
+	 *  @return  "" or Error AD_Message.
+	 *  @throws IllegalArgumentException
+	 */
+	public String validate() throws IllegalArgumentException {
+		String msg = null;
+		if (MPayment.TENDERTYPE_CreditCard.equals(p_mp.getTenderType())) {
+			msg = validateCreditCard();
+		} else if (MPayment.TENDERTYPE_Check.equals(p_mp.getTenderType())) {
+			msg = validateCheckNo();
+		} else if (MPayment.TENDERTYPE_Account.equals(p_mp.getTenderType())) {
+			msg = validateAccountNo();
+		}
+		return(msg);
+	}
+	
+	/**
+	 * Standard account validation.
+	 * @return
+	 */
+	public String validateAccountNo() {
+		return MPaymentValidate.validateAccountNo(p_mp.getAccountNo());
+	}
+	
+	public String validateCheckNo() {
+		return MPaymentValidate.validateCheckNo(p_mp.getCheckNo());
+	}
+	
+	public String validateCreditCard() throws IllegalArgumentException {
+		String msg = MPaymentValidate.validateCreditCardNumber(p_mp.getCreditCardNumber(), p_mp.getCreditCardType());
+		if (msg != null && msg.length() > 0)
+			throw new IllegalArgumentException(Msg.getMsg(Env.getCtx(), msg));
+		msg = MPaymentValidate.validateCreditCardExp(p_mp.getCreditCardExpMM(), p_mp.getCreditCardExpYY());
+		if (msg != null && msg.length() > 0)
+			throw new IllegalArgumentException(Msg.getMsg(Env.getCtx(), msg));
+		if (p_mp.getCreditCardVV() != null && p_mp.getCreditCardVV().length() > 0)
+		{
+			msg = MPaymentValidate.validateCreditCardVV(p_mp.getCreditCardVV(), p_mp.getCreditCardType());
+			if (msg != null && msg.length() > 0)
+				throw new IllegalArgumentException(Msg.getMsg(Env.getCtx(), msg));
+		}
+		return(msg);
+	}
 	
 	/**************************************************************************
 	 * 	Set Timeout
@@ -287,7 +336,6 @@ public abstract class PaymentProcessor
 			// open secure connection
 			URL url = new URL(urlString);
 			HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-		//	URLConnection connection = url.openConnection();
 			connection.setDoOutput(true);
 			connection.setUseCaches(false);
 			connection.setRequestProperty("Content-Type","application/x-www-form-urlencoded");

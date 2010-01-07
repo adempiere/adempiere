@@ -1325,29 +1325,8 @@ public class VPayment extends CDialog
 			vp = (ValueNamePair)kTypeCombo.getSelectedItem();
 			if (vp != null)
 				CCType = vp.getValue();
-			//
-			String error = MPaymentValidate.validateCreditCardNumber(kNumberField.getText(), CCType);
-			if (error.length() != 0)
-			{
-				kNumberField.setBackground(AdempierePLAF.getFieldBackground_Error());
-				if (error.indexOf('?') == -1)
-				{
-					ADialog.error(m_WindowNo, this, error);
-					dataOK = false;
-				}
-				else    //  warning
-				{
-					if (!ADialog.ask(m_WindowNo, this, error))
-						dataOK = false;
-				}
-			}
-			error = MPaymentValidate.validateCreditCardExp(kExpField.getText());
-			if(error.length() != 0)
-			{
-				kExpField.setBackground(AdempierePLAF.getFieldBackground_Error());
-				ADialog.error(m_WindowNo, this, error);
-				dataOK = false;
-			}
+			// Validation of the credit card number is moved to the payment processor.
+			// Different payment processors can have different validation rules.
 		}
 
 		//	T (Transfer)	BPartner_Bank

@@ -20,8 +20,6 @@ package org.compiere.process;
 import java.util.logging.Level;
 
 import org.compiere.model.MPayment;
-import org.compiere.model.MPaymentValidate;
-import org.compiere.util.Msg;
 
 
 /**
@@ -58,19 +56,6 @@ public class PaymentOnline extends SvrProcess
 		log.info("Record_ID=" + getRecord_ID());
 		//	get Payment
 		MPayment pp = new MPayment (getCtx(), getRecord_ID(), get_TrxName());
-		//	Validate Number
-		String msg = MPaymentValidate.validateCreditCardNumber(pp.getCreditCardNumber(), pp.getCreditCardType());
-		if (msg != null && msg.length() > 0)
-			throw new IllegalArgumentException(Msg.getMsg(getCtx(), msg));
-		msg = MPaymentValidate.validateCreditCardExp(pp.getCreditCardExpMM(), pp.getCreditCardExpYY());
-		if (msg != null && msg.length() > 0)
-			throw new IllegalArgumentException(Msg.getMsg(getCtx(), msg));
-		if (pp.getCreditCardVV() != null && pp.getCreditCardVV().length() > 0)
-		{
-			msg = MPaymentValidate.validateCreditCardVV(pp.getCreditCardVV(), pp.getCreditCardType());
-			if (msg != null && msg.length() > 0)
-				throw new IllegalArgumentException(Msg.getMsg(getCtx(), msg));
-		}
 		
 		//  Process it
 		boolean ok = pp.processOnline();
