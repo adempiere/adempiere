@@ -450,8 +450,10 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 */
 	public MDDOrderLine[] getLines (boolean requery, String orderBy)
 	{
-		if (m_lines != null && !requery)
+		if (m_lines != null && !requery) {
+			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
+		}
 		//
 		String orderClause = "";
 		if (orderBy != null && orderBy.length() > 0)
@@ -842,15 +844,14 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	 * 	@param lines distribution order lines (ordered by M_Product_ID for deadlock prevention)
 	 * 	@return true if (un) reserved
 	 */
-	private void reserveStock (MDDOrderLine[] lines)
+	public void reserveStock (MDDOrderLine[] lines)
 	{
 		BigDecimal Volume = Env.ZERO;
 		BigDecimal Weight = Env.ZERO;
 		
 		//	Always check and (un) Reserve Inventory		
-		for (int i = 0; i < lines.length; i++)
+		for (MDDOrderLine line : lines)
 		{
-			MDDOrderLine line = lines[i];
 			MLocator locator_from = MLocator.get(getCtx(),line.getM_Locator_ID());
 			MLocator locator_to = MLocator.get(getCtx(),line.getM_LocatorTo_ID());			
 			BigDecimal reserved_ordered = line.getQtyOrdered()
@@ -878,15 +879,15 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				if (product.isStocked())
 				{
 					//	Update Storage
-					if (!MStorage.add(getCtx(), locator_from.getM_Warehouse_ID(), locator_from.getM_Locator_ID(), 
+					if (!MStorage.add(getCtx(), locator_to.getM_Warehouse_ID(), locator_to.getM_Locator_ID(), 
 						line.getM_Product_ID(), 
 						line.getM_AttributeSetInstance_ID(), line.getM_AttributeSetInstance_ID(),
 						Env.ZERO, reserved_ordered , Env.ZERO , get_TrxName()))
 					{
 						throw new AdempiereException();
-					}				
+					}
 					
-					if (!MStorage.add(getCtx(), locator_to.getM_Warehouse_ID(), locator_to.getM_Locator_ID(), 
+					if (!MStorage.add(getCtx(), locator_from.getM_Warehouse_ID(), locator_from.getM_Locator_ID(), 
 						line.getM_Product_ID(), 
 						line.getM_AttributeSetInstanceTo_ID(), line.getM_AttributeSetInstance_ID(),
 						Env.ZERO, Env.ZERO , reserved_ordered, get_TrxName()))
@@ -897,7 +898,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				}	//	stockec
 				//	update line
 				line.setQtyReserved(line.getQtyReserved().add(reserved_ordered));
-				line.saveEx(get_TrxName());
+				line.saveEx();
 				//
 				Volume = Volume.add(product.getVolume().multiply(line.getQtyOrdered()));
 				Weight = Weight.add(product.getWeight().multiply(line.getQtyOrdered()));
