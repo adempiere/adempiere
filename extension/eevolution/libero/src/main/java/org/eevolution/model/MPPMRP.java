@@ -503,21 +503,6 @@ public class MPPMRP extends X_PP_MRP
 		return DOCSTATUS_InProgress.equals(docStatus)
 				|| DOCSTATUS_Completed.equals(docStatus);
 	}
-	
-	public void setQty(BigDecimal qty, int C_UOM_ID)
-	{
-		BigDecimal qtyProduct = qty;
-		if (C_UOM_ID > 0)
-		{
-			qtyProduct = MUOMConversion.convertProductTo(getCtx(), getM_Product_ID(), C_UOM_ID, qty);
-			if (qtyProduct == null)
-			{
-				throw new NoUOMConversionException(getM_Product_ID(), 0, C_UOM_ID);
-			}
-		}
-		super.setQty(qtyProduct);
-	}
-	
 
 	/**
 	 * Create MRP record based in Forecast 
@@ -557,7 +542,7 @@ public class MPPMRP extends X_PP_MRP
 		mrp.setDateOrdered(fl.getDatePromised());
 		mrp.setM_Warehouse_ID(fl.getM_Warehouse_ID());
 		mrp.setM_Product_ID(fl.getM_Product_ID());
-		mrp.setQty(fl.getQty(), 0);  
+		mrp.setQty(fl.getQty());  
 		mrp.setDocStatus(DocAction.STATUS_InProgress);
 		mrp.saveEx();
 	}
@@ -618,7 +603,7 @@ public class MPPMRP extends X_PP_MRP
 		mrp.setDateOrdered(ol.getDateOrdered());
 		mrp.setM_Warehouse_ID(ol.getM_Warehouse_ID());
 		mrp.setM_Product_ID(ol.getM_Product_ID());
-		mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()), ol.getC_UOM_ID());
+		mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
 		mrp.saveEx();
 
 		MOrder o = ol.getParent();
@@ -651,7 +636,7 @@ public class MPPMRP extends X_PP_MRP
 		mrpSupply.setPP_Order(o);
 		mrpSupply.setM_Product_ID(o.getM_Product_ID());
 		mrpSupply.setM_Warehouse_ID(o.getM_Warehouse_ID());
-		mrpSupply.setQty(o.getQtyOrdered().subtract(o.getQtyDelivered()), o.getC_UOM_ID());
+		mrpSupply.setQty(o.getQtyOrdered().subtract(o.getQtyDelivered()));
 		mrpSupply.saveEx();
 		//
 		// Demand
@@ -691,7 +676,7 @@ public class MPPMRP extends X_PP_MRP
 		mrp.setPP_Order(obl.getParent());
 		mrp.setM_Warehouse_ID(obl.getM_Warehouse_ID());
 		mrp.setM_Product_ID(obl.getM_Product_ID());
-		mrp.setQty(qty, obl.getC_UOM_ID());
+		mrp.setQty(qty);
 		mrp.saveEx();
 	}
 
@@ -743,7 +728,7 @@ public class MPPMRP extends X_PP_MRP
 			mrp.setDateOrdered(ol.getDateOrdered());
 			mrp.setM_Warehouse_ID(source.getM_Warehouse_ID()); 
 			mrp.setM_Product_ID(ol.getM_Product_ID());                           
-			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()), ol.getC_UOM_ID());
+			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
 			mrp.setDocStatus(ol.getParent().getDocStatus());
 			mrp.saveEx();
 		}
@@ -759,7 +744,7 @@ public class MPPMRP extends X_PP_MRP
 			mrp.setDateOrdered(ol.getDateOrdered());
 			mrp.setM_Warehouse_ID(source.getM_Warehouse_ID());
 			mrp.setM_Product_ID(ol.getM_Product_ID());
-			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()), ol.getC_UOM_ID());
+			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
 			mrp.setDocStatus(ol.getParent().getDocStatus());
 			mrp.setOrderType(MPPMRP.ORDERTYPE_DistributionOrder);
 			mrp.setTypeMRP(MPPMRP.TYPEMRP_Demand);
@@ -776,7 +761,7 @@ public class MPPMRP extends X_PP_MRP
 			mrp.setDateOrdered(ol.getDateOrdered());
 			mrp.setM_Product_ID(ol.getM_Product_ID());                           
 			mrp.setM_Warehouse_ID(target.getM_Warehouse_ID()); 
-			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()), ol.getC_UOM_ID());
+			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
 			mrp.setDocStatus(ol.getParent().getDocStatus());
 			mrp.saveEx();
 		}	
@@ -792,7 +777,7 @@ public class MPPMRP extends X_PP_MRP
 			mrp.setDateOrdered(ol.getDateOrdered());
 			mrp.setM_Product_ID(ol.getM_Product_ID());
 			mrp.setM_Warehouse_ID(target.getM_Warehouse_ID());
-			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()), ol.getC_UOM_ID());
+			mrp.setQty(ol.getQtyOrdered().subtract(ol.getQtyDelivered()));
 			mrp.setDocStatus(ol.getParent().getDocStatus());
 			mrp.setOrderType(MPPMRP.ORDERTYPE_DistributionOrder);
 			mrp.setTypeMRP(MPPMRP.TYPEMRP_Supply);
@@ -836,7 +821,7 @@ public class MPPMRP extends X_PP_MRP
 		mrp.setDescription(rl.getDescription());                                                        
 		mrp.setM_Product_ID(rl.getM_Product_ID());
 		// We create a MRP record only for Not Ordered Qty. The Order will generate a MRP record for Ordered Qty.
-		mrp.setQty(rl.getQty().subtract(rl.getQtyOrdered()), 0);
+		mrp.setQty(rl.getQty().subtract(rl.getQtyOrdered()));
 		// MRP record for a requisition will be ALWAYS Drafted because
 		// a requisition generates just Planned Orders (which is a wish list)
 		// and not Scheduled Receipts
