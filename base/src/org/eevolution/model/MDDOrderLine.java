@@ -663,6 +663,12 @@ public class MDDOrderLine extends X_DD_OrderLine
 		return true;
 	}	//	afterDelete
 	
-
-	
+	/**
+	 * Quantity To Deliver
+	 * @return Quantity To Deliver
+	 */
+	public BigDecimal getQtyToDeliver()
+	{
+		return getQtyOrdered().subtract(getQtyDelivered());
+	}
 }	//	MDDOrderLine
