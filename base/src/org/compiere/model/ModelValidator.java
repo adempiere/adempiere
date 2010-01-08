@@ -161,7 +161,7 @@ public interface ModelValidator
 	 *	@param po persistent object
 	 *	@param timing see TIMING_ constants
      *	@return error message or null - 
-     *	if not null, the pocument will be marked as Invalid.
+     *	if not null, the document will be marked as Invalid.
 	 */
 	public String docValidate (PO po, int timing);
 		

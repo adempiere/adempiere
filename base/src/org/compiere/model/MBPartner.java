@@ -282,7 +282,7 @@ public class MBPartner extends X_C_BPartner
 	}	//	MBPartner
 
 	/**
-	 * 	Import Contstructor
+	 * 	Import Constructor
 	 *	@param impBP import
 	 */
 	public MBPartner (X_I_BPartner impBP)
