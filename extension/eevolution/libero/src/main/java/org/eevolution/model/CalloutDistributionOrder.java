@@ -196,6 +196,28 @@ public class CalloutDistributionOrder extends CalloutEngine
 		return "";
 	}	//	qty
 
+	/**
+	 * Validate that ConfirmedQty is minor that QtyToDeliver
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return 
+	 */
+	public String qtyConfirmed (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		I_DD_OrderLine line = GridTabWrapper.create(mTab, I_DD_OrderLine.class);		
+		MDDOrderLine orderLine = new MDDOrderLine(ctx, line.getDD_OrderLine_ID(), null);
+		if (orderLine.getConfirmedQty().compareTo(orderLine.getQtyToDeliver()) >= 0 )
+		{
+			String info =Msg.parseTranslation(ctx, "@ConfirmedQty@ : "+line.getConfirmedQty()+" > @QtyToDeliver@ : " +  orderLine.getQtyToDeliver());
+			mTab.fireDataStatusEEvent ("", info, false);
+		}
+		line.setConfirmedQty(orderLine.getQtyToDeliver());
+		return "";		
+	}	
+	
 	public String bPartner (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		I_M_Movement m_movement = GridTabWrapper.create(mTab, I_M_Movement.class);		
@@ -217,6 +239,5 @@ public class CalloutDistributionOrder extends CalloutEngine
 		}
 		return "";
 	}	
-
-}	//	CalloutOrder
+}	//	Callout Distribution Order
 
