@@ -276,6 +276,7 @@ public class LiberoValidator implements ModelValidator
 			{	
 				MDDOrder order = new MDDOrder(move.getCtx(), move.getDD_Order_ID(), move.get_TrxName());
 				order.setIsInTransit(true);
+				order.reserveStock(order.getLines(true, null));
 				order.saveEx();
 			}	
 
