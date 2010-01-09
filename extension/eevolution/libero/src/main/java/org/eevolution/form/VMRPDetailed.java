@@ -78,7 +78,6 @@ import org.compiere.model.MTable;
 import org.compiere.model.MUOM;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.X_M_Forecast;
-import org.compiere.model.X_T_Aging;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
@@ -278,34 +277,34 @@ public class VMRPDetailed
 	/**  Array of Column Info    */
 	private static final ColumnInfo[] m_layout = 
 	{
-		new ColumnInfo(" ", "PP_MRP.PP_MRP_ID", IDColumn.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), MProduct.COLUMNNAME_Value), "(Select Value from M_Product p where p.M_Product_ID=PP_MRP.M_Product_ID) AS ProductValue", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), MProduct.COLUMNNAME_Name), "(Select Name from M_Product p where p.M_Product_ID=PP_MRP.M_Product_ID)", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), MResource.COLUMNNAME_S_Resource_ID), "(Select Name from S_Resource sr where sr.S_Resource_ID=PP_MRP.S_Resource_ID)", String.class),	// 4L - BUG #59
-		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_M_Warehouse_ID), "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID=PP_MRP.M_Warehouse_ID)", String.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DatePromised), "PP_MRP.DatePromised", Timestamp.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyGrossReq"), "(CASE WHEN PP_MRP.TypeMRP='D' THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),   
-		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyScheduledReceipts"), "(CASE WHEN PP_MRP.TypeMRP='S' AND PP_MRP.DocStatus  IN ('IP','CO') THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "PlannedQty"), "(CASE WHEN PP_MRP.TypeMRP='S' AND PP_MRP.DocStatus ='DR' THEN PP_MRP.Qty ELSE NULL END)",  BigDecimal.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHandProjected"), "bomQtyOnHand(PP_MRP.M_Product_ID , PP_MRP.M_Warehouse_ID, 0)",  BigDecimal.class),
+		new ColumnInfo(" ", getTableName() +".PP_MRP_ID", IDColumn.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MProduct.COLUMNNAME_Value), "(Select Value from M_Product p where p.M_Product_ID="+getTableName()+".M_Product_ID) AS ProductValue", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MProduct.COLUMNNAME_Name), "(Select Name from M_Product p where p.M_Product_ID="+getTableName()+".M_Product_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MResource.COLUMNNAME_S_Resource_ID), "(Select Name from S_Resource sr where sr.S_Resource_ID="+getTableName()+".S_Resource_ID)", String.class),	// 4L - BUG #59
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_M_Warehouse_ID), "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID="+getTableName()+".M_Warehouse_ID)", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DatePromised), ""+getTableName()+".DatePromised", Timestamp.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyGrossReq"), "(CASE WHEN "+getTableName()+".TypeMRP='D' THEN "+getTableName()+".Qty ELSE NULL END)",  BigDecimal.class),   
+		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyScheduledReceipts"), "(CASE WHEN "+getTableName()+".TypeMRP='S' AND "+getTableName()+".DocStatus  IN ('IP','CO') THEN "+getTableName()+".Qty ELSE NULL END)",  BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "PlannedQty"), "(CASE WHEN "+getTableName()+".TypeMRP='S' AND "+getTableName()+".DocStatus ='DR' THEN "+getTableName()+".Qty ELSE NULL END)",  BigDecimal.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHandProjected"), "bomQtyOnHand("+getTableName()+".M_Product_ID , "+getTableName()+".M_Warehouse_ID, 0)",  BigDecimal.class),
 		isBaseLanguage ?
-			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_TypeMRP), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=53230 AND Value = PP_MRP.TypeMRP)", String.class) :
+			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_TypeMRP), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=53230 AND Value = "+getTableName()+".TypeMRP)", String.class) :
 			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_TypeMRP), "(SELECT rlt.Name FROM  AD_Ref_List rl INNER JOIN AD_Ref_List_Trl  rlt ON (rl.AD_Ref_List_ID=rlt.AD_Ref_List_ID)  "
 					+ "WHERE rl.AD_Reference_ID=53230 AND rlt.AD_Language = '"+ Env.getLoginLanguage(Env.getCtx()).getAD_Language()
-					+"' AND Value = PP_MRP.TypeMRP)", String.class), 
+					+"' AND Value = "+getTableName()+".TypeMRP)", String.class), 
 		isBaseLanguage ?
-			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_OrderType), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=53229 AND Value = PP_MRP.OrderType)", String.class) :
+			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_OrderType), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=53229 AND Value = "+getTableName()+".OrderType)", String.class) :
 			new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_OrderType), "(SELECT rlt.Name FROM  AD_Ref_List rl INNER JOIN AD_Ref_List_Trl  rlt ON (rl.AD_Ref_List_ID=rlt.AD_Ref_List_ID)  "
 					+ "WHERE rl.AD_Reference_ID=53229 AND rlt.AD_Language = '"+ Env.getLoginLanguage(Env.getCtx()).getAD_Language()
-					+"' AND Value = PP_MRP.OrderType)", String.class),	
-		new ColumnInfo(Msg.translate(Env.getCtx(), MPPOrder.COLUMNNAME_DocumentNo), "documentNo(PP_MRP.PP_MRP_ID)", String.class),
+					+"' AND Value = "+getTableName()+".OrderType)", String.class),	
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPOrder.COLUMNNAME_DocumentNo), "documentNo("+getTableName()+".PP_MRP_ID)", String.class),
 		isBaseLanguage ?
-		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DocStatus), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=131 AND Value = PP_MRP.DocStatus)", String.class) :
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DocStatus), "(SELECT Name FROM  AD_Ref_List WHERE AD_Reference_ID=131 AND Value = "+getTableName()+".DocStatus)", String.class) :
 		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DocStatus), "(SELECT rlt.Name FROM  AD_Ref_List rl INNER JOIN AD_Ref_List_Trl  rlt ON (rl.AD_Ref_List_ID=rlt.AD_Ref_List_ID)  "
 																+ "WHERE rl.AD_Reference_ID=131 AND rlt.AD_Language = '"+ Env.getLoginLanguage(Env.getCtx()).getAD_Language()
-																+"' AND Value = PP_MRP.DocStatus)", String.class),		
-		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule), "PP_MRP.DateStartSchedule", Timestamp.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_C_BPartner_ID), "(SELECT cb.Name FROM C_BPartner cb WHERE cb.C_BPartner_ID=PP_MRP.C_BPartner_ID)", String.class)
+																+"' AND Value = "+getTableName()+".DocStatus)", String.class),		
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule), ""+getTableName()+".DateStartSchedule", Timestamp.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), MPPMRP.COLUMNNAME_C_BPartner_ID), "(SELECT cb.Name FROM C_BPartner cb WHERE cb.C_BPartner_ID="+getTableName()+".C_BPartner_ID)", String.class)
 	};
 
 	/**
@@ -677,7 +676,7 @@ public class VMRPDetailed
 	 */
 	private void fillPicks() throws Exception
 	{       
-		prepareTable (m_layout, getTableName(), getSQLWhere(), "ProductValue, DatePromised");         
+		prepareTable (m_layout, getTableName(), getSQLWhere(), "TypeMRP , ProductValue , DatePromised");         
 	}
 
 
@@ -748,35 +747,35 @@ public class VMRPDetailed
 
 		 if (fProduct_ID.getValue() != null)
 		 {
-			 sql.append(" AND PP_MRP.M_Product_ID=?");
-			 sql.append(" AND ((PP_MRP.OrderType IN ('SOO','MOP','POO','POR','STK','DOO')) OR (PP_MRP.OrderType='FCT' AND PP_MRP.DatePromised >= SYSDATE))");
+			 sql.append(" AND "+getTableName()+".M_Product_ID=?");
+			 sql.append(" AND (("+getTableName()+".OrderType IN ('SOO','MOP','POO','POR','STK','DOO')) OR ("+getTableName()+".OrderType='FCT' AND "+getTableName()+".DatePromised >= SYSDATE))");
 			 fillHead();
 			 setMRP();
 		 }
 
 		 if (isAttributeSetInstance()) {
 
-			 sql.append(" AND PP_MRP.M_AttributeSetInstance_ID=?");
+			 sql.append(" AND "+getTableName()+".M_AttributeSetInstance_ID=?");
 			 fillHead();
 			 setMRP();
 		 }
 
 		 if (fResource_ID.getValue() != null)
-			 sql.append(" AND PP_MRP.S_Resource_ID=?");
+			 sql.append(" AND "+getTableName()+".S_Resource_ID=?");
 		 if (fPlanner_ID.getValue() != null)
-			 sql.append(" AND PP_MRP.Planner_ID=?");
+			 sql.append(" AND "+getTableName()+".Planner_ID=?");
 		 if (fWarehouse_ID.getValue() != null)
-			 sql.append(" AND PP_MRP.M_Warehouse_ID=?");
+			 sql.append(" AND "+getTableName()+".M_Warehouse_ID=?");
 		 if (fDateFrom.getValue() != null || fDateFrom.getValue() != null)
 		 {
 			 Timestamp from = (Timestamp)fDateFrom.getValue();
 			 Timestamp to = (Timestamp)fDateTo.getValue();
 			 if (from == null && to != null)
-				 sql.append(" AND TRUNC(PP_MRP.DatePromised) <= ?");
+				 sql.append(" AND TRUNC("+getTableName()+".DatePromised) <= ?");
 			 else if (from != null && to == null)
-				 sql.append(" AND TRUNC(PP_MRP.DatePromised) >= ?");
+				 sql.append(" AND TRUNC("+getTableName()+".DatePromised) >= ?");
 			 else if (from != null && to != null)
-				 sql.append(" AND TRUNC(PP_MRP.DatePromised) BETWEEN ? AND ?");
+				 sql.append(" AND TRUNC("+getTableName()+".DatePromised) BETWEEN ? AND ?");
 		 }
 
 		 log.fine("MRP Info.setWhereClause="+ sql.toString());
@@ -1068,7 +1067,7 @@ public class VMRPDetailed
 
 		 sql.append( " FROM ").append(from);
 		 //
-		 StringBuffer where = new StringBuffer("PP_MRP.DocStatus IN ('DR','IP','CO')  AND PP_MRP.IsActive='Y' and PP_MRP.Qty!=0 ");
+		 StringBuffer where = new StringBuffer(""+getTableName()+".DocStatus IN ('DR','IP','CO')  AND "+getTableName()+".IsActive='Y' and "+getTableName()+".Qty!=0 ");
 		 sql.append(" WHERE ").append(where.toString());
 		 if (!staticWhere.equals("")) 
 			 sql.append(staticWhere);
@@ -1174,9 +1173,9 @@ public class VMRPDetailed
 	  *  Get Table name Synonym
 	  *  @return table name
 	  */
-	 String getTableName()
+	 static String getTableName()
 	 {
-		 return MPPMRP.Table_Name;
+		 return "RV_PP_MRP";
 	 }   //  getTableName
 	 
 	 protected Properties getCtx() {
@@ -1333,22 +1332,22 @@ public class VMRPDetailed
 			 p_table.autoSize();
 			 setCursor(Cursor.getDefaultCursor());   
 
-			 // 00 PP_MRP.PP_MRP_ID"
-			 // 01 Value, "(Select Value from M_Product p where p.M_Product_ID=PP_MRP.M_Product_ID)", String.class)
-			 // 02 Name, "(Select Name from M_Product p where p.M_Product_ID=PP_MRP.M_Product_ID)", String.class),
-			 // 03 Resource", "(Select Name from S_Resource sr where sr.S_Resource_ID=PP_MRP.S_Resource_ID)", String.class),	
-			 // 04 Warehouse", "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID=PP_MRP.M_Warehouse_ID)", String.class),
-			 // 05 DatePromised, "PP_MRP.DatePromised", Timestamp.class),
-			 // 06 Gross Reqs."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='D' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),        
-			 // 07 Schedule Reciept."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus IN ('IP', 'CO') AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
-			 // 08 Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus = 'DR' AND m.PP_MRP_ID=PP_MRP.PP_MRP_ID)",  BigDecimal.class),
-			 // 09 Proj QOH"), "bomQtyOnHand( PP_MRP.M_Product_ID , PP_MRP.M_Warehouse_ID, 0)",  BigDecimal.class),
-			 // 10 Details"), "PP_MRP.Type", String.class),
-			 // 11 Type"), "PP_MRP.TypeMRP", String.class),
-			 // 12 DocumentNo"), "documentNo(PP_MRP.PP_MRP_ID)", String.class),
-			 // 13 DocStatus"), "PP_MRP.DocStatus", String.class),	// 4L - BUG #59
-			 // 14 DateStartSchedule"), "PP_MRP.DateStartSchedule", Timestamp.class),
-			 // 15 C_BPartner_ID"), "(SELECT cb.Name FROM C_BPartner cb WHERE cb.C_BPartner_ID=PP_MRP.C_BPartner_ID)", String.class)
+			 // 00 "+getTableName()+".PP_MRP_ID"
+			 // 01 Value, "(Select Value from M_Product p where p.M_Product_ID="+getTableName()+".M_Product_ID)", String.class)
+			 // 02 Name, "(Select Name from M_Product p where p.M_Product_ID="+getTableName()+".M_Product_ID)", String.class),
+			 // 03 Resource", "(Select Name from S_Resource sr where sr.S_Resource_ID="+getTableName()+".S_Resource_ID)", String.class),	
+			 // 04 Warehouse", "(Select Name from M_Warehouse wh where wh.M_Warehouse_ID="+getTableName()+".M_Warehouse_ID)", String.class),
+			 // 05 DatePromised, ""+getTableName()+".DatePromised", Timestamp.class),
+			 // 06 Gross Reqs."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='D' AND m.PP_MRP_ID="+getTableName()+".PP_MRP_ID)",  BigDecimal.class),        
+			 // 07 Schedule Reciept."), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus IN ('IP', 'CO') AND m.PP_MRP_ID="+getTableName()+".PP_MRP_ID)",  BigDecimal.class),
+			 // 08 Plan Orders"), "(SELECT m.Qty FROM PP_MRP m WHERE m.TypeMRP='S' AND m.DocStatus = 'DR' AND m.PP_MRP_ID="+getTableName()+".PP_MRP_ID)",  BigDecimal.class),
+			 // 09 Proj QOH"), "bomQtyOnHand( "+getTableName()+".M_Product_ID , "+getTableName()+".M_Warehouse_ID, 0)",  BigDecimal.class),
+			 // 10 Details"), ""+getTableName()+".Type", String.class),
+			 // 11 Type"), ""+getTableName()+".TypeMRP", String.class),
+			 // 12 DocumentNo"), "documentNo("+getTableName()+".PP_MRP_ID)", String.class),
+			 // 13 DocStatus"), ""+getTableName()+".DocStatus", String.class),	
+			 // 14 DateStartSchedule"), ""+getTableName()+".DateStartSchedule", Timestamp.class),
+			 // 15 C_BPartner_ID"), "(SELECT cb.Name FROM C_BPartner cb WHERE cb.C_BPartner_ID="+getTableName()+".C_BPartner_ID)", String.class)
 			 if (getM_Product_ID() > 0) {
 				 BigDecimal OnHand = getQtyOnHand();
 				 for (int row=0; row < p_table.getRowCount(); row++)
@@ -1356,7 +1355,7 @@ public class VMRPDetailed
 					 Timestamp datepromised = (Timestamp)p_table.getValueAt(row,5); 
 					 Timestamp today = new Timestamp (System.currentTimeMillis());
 					 IDColumn id = (IDColumn)p_table.getValueAt(row,0);
-					 String TypeMRP = DB.getSQLValueString(null, "SELECT TypeMRP FROM PP_MRP WHERE PP_MRP_ID=?", id.getRecord_ID());
+					 String TypeMRP = DB.getSQLValueString(null, "SELECT TypeMRP FROM "+ getTableName() + " WHERE PP_MRP_ID=?", id.getRecord_ID());
 					 String OrderType = (String) p_table.getValueAt(row,11);
 					 if (MPPMRP.TYPEMRP_Demand.equals(TypeMRP)
 							 || (MPPMRP.ORDERTYPE_Forecast.equals(OrderType) // TODO: arhipac: teo_sarca: is this ok, since gross req = sum of all demands ??? 

@@ -334,19 +334,18 @@ public class MRP extends SvrProcess
 			for (int level = 0 ; level <= lowlevel ; level++)
 			{
 				log.info("Current Level Is :" + level);
-				String sql = "SELECT p.M_Product_ID, p.Name, p.LowLevel, mrp.Qty, mrp.DatePromised"
-							+ ", mrp.TypeMRP, mrp.OrderType, mrp.DateOrdered, mrp.M_Warehouse_ID"
-							+ ", mrp.PP_MRP_ID, mrp.DateStartSchedule, mrp.DateFinishSchedule"
-						+" FROM PP_MRP mrp"
-						+" INNER JOIN M_Product p ON (p.M_Product_ID = mrp.M_Product_ID)"
-						+" WHERE mrp.TypeMRP=?"
-						+" AND mrp.AD_Client_ID=?"
-						+" AND mrp.AD_Org_ID=? "
-						+" AND M_Warehouse_ID=? "
-						+" AND mrp.DatePromised<=?"
-						+" AND COALESCE(p.LowLevel,0)=? "
-						+(p_M_Product_ID > 0 ? " AND mrp.M_Product_ID="+p_M_Product_ID : "")
-						+" ORDER BY  mrp.M_Product_ID , mrp.DatePromised";
+				String sql = "SELECT mrp.M_Product_ID, mrp.LowLevel, mrp.Qty, mrp.DatePromised"
+							+", mrp.TypeMRP, mrp.OrderType, mrp.DateOrdered, mrp.M_Warehouse_ID"
+							+", mrp.PP_MRP_ID, mrp.DateStartSchedule, mrp.DateFinishSchedule"
+							+" FROM RV_PP_MRP mrp"
+							+" WHERE mrp.TypeMRP=?"
+							+" AND mrp.AD_Client_ID=?"
+							+" AND mrp.AD_Org_ID=? "
+							+" AND mrp.M_Warehouse_ID=?"
+							+" AND mrp.DatePromised<=?"
+							+" AND COALESCE(mrp.LowLevel,0)=? "
+							+(p_M_Product_ID > 0 ? " AND mrp.M_Product_ID="+p_M_Product_ID : "")
+							+" ORDER BY  mrp.M_Product_ID , mrp.DatePromised";
 				pstmt = DB.prepareStatement (sql, get_TrxName());
 				pstmt.setString(1, MPPMRP.TYPEMRP_Demand);
 				pstmt.setInt(2, AD_Client_ID);
@@ -354,7 +353,7 @@ public class MRP extends SvrProcess
 				pstmt.setInt(4, M_Warehouse_ID);
 				pstmt.setTimestamp(5, Planning_Horizon);
 				pstmt.setInt(6, level);
-				rs = pstmt.executeQuery();                               
+				rs = pstmt.executeQuery();
 				while (rs.next())
 				{
 					final int PP_MRP_ID = rs.getInt(MPPMRP.COLUMNNAME_PP_MRP_ID);
@@ -554,7 +553,7 @@ public class MRP extends SvrProcess
 		// Quantity Project On hand 100 
 		// Safety Stock 150
 		// 150 > 100 The Quantity Project On hand is now 50
-		if(m_product_planning.getSafetyStock().signum() > 0
+		/*if(m_product_planning.getSafetyStock().signum() > 0
 				&& m_product_planning.getSafetyStock().compareTo(QtyProjectOnHand) > 0)
 		{
 			String comment = Msg.translate(getCtx(), MStorage.COLUMNNAME_QtyOnHand) 
@@ -564,7 +563,7 @@ public class MRP extends SvrProcess
 			createMRPNote("MRP-001", AD_Org_ID, 0, product , null , QtyProjectOnHand , comment);
 			QtyProjectOnHand =  QtyProjectOnHand.subtract(m_product_planning.getSafetyStock());
 		}
-		log.info("QtyOnHand :" + QtyProjectOnHand);
+		log.info("QtyOnHand :" + QtyProjectOnHand);*/
 	}
 	
 	protected MPPProductPlanning getProductPlanning(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product) throws SQLException
@@ -1278,6 +1277,7 @@ public class MRP extends SvrProcess
 				// aka: Push Out
 				if(mrp.isReleased()
 						&& QtyNetReqs.negate().signum() > 0
+						&& mrp.getDateStartSchedule() != null 
 						&& mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) < 0)
 				{
 					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
@@ -1293,6 +1293,7 @@ public class MRP extends SvrProcess
 				// aka: Pull In 
 				if(mrp.isReleased()
 						&& QtyNetReqs.negate().signum() > 0
+						&& mrp.getDateStartSchedule() != null 
 						&& mrp.getDateStartSchedule().compareTo(DemandDateStartSchedule) > 0)
 				{
 					String comment = Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DateStartSchedule)
@@ -1307,6 +1308,7 @@ public class MRP extends SvrProcess
 				// if(date release > today && date release + after floating)
 				if (!mrp.isReleased()
 						&& QtyNetReqs.negate().signum() > 0
+						&& mrp.getDateStartSchedule() != null 
 						&& mrp.getDatePromised().compareTo(getToday()) >= 0)
 				{
 					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
@@ -1320,6 +1322,7 @@ public class MRP extends SvrProcess
 				// if (date release < today && date erelese + before floating)
 				if (!mrp.isReleased()
 						&& QtyNetReqs.negate().signum() > 0
+						&& mrp.getDateStartSchedule() != null 
 						&& mrp.getDatePromised().compareTo(getToday()) < 0)
 				{
 					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
@@ -1331,6 +1334,7 @@ public class MRP extends SvrProcess
 				//MRP-110 Past Due  Action Notice
 				//Indicates that a schedule supply order receipt is past due.		
 				if(mrp.isReleased()
+						&& mrp.getDateStartSchedule() != null 
 						&& mrp.getDatePromised().compareTo(getToday()) < 0)
 				{
 					String comment =  Msg.translate(getCtx(), MPPMRP.COLUMNNAME_DatePromised)
