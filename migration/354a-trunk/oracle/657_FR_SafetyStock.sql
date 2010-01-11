@@ -1,5 +1,4 @@
 SET SQLBLANKLINES ON
-;
 
 CREATE OR REPLACE VIEW rv_pp_mrp AS 
 SELECT 
@@ -72,7 +71,7 @@ SYSDATE, --mrp.datestartschedule,
 SYSDATE, --mrp.datefinishschedule,
 SYSDATE, --mrp.datestart,
 SYSDATE, --mrp.datesimulation,
-'CO',  --mrp.docstatus,
+CAST('CO' AS nvarchar2(2)),  --mrp.docstatus,
 null, --mrp.m_forecast_id,
 null, --mrp.m_forecastline_id,
 null, --mrp.value,
@@ -88,11 +87,11 @@ pp.safetystock - bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) AS qty, --mr
 pp.s_resource_id,
 null, --planner_id
 null, --mrp.priority,
-'STK', --mrp.ordertype,
+CAST('STK' AS nvarchar2(3)), --mrp.ordertype,
 'D' , --mrp.typemrp,
 p.LowLevel,
 null, --C_BPartner_ID
-'Safety Stock'   --documentNo(mrp.pp_mrp_id) AS documentNo
+CAST('Safety Stock' AS nvarchar2(80))   --documentNo(mrp.pp_mrp_id) AS documentNo
 FROM pp_product_planning pp 
 INNER JOIN M_Product p ON (pp.M_Product_ID = p.M_Product_ID)
 WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) < pp.safetystock 
