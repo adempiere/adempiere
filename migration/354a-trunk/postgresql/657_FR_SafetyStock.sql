@@ -35,7 +35,6 @@ mrp.pp_order_bomline_id,
 mrp.dd_order_id,
 mrp.dd_orderline_id,
 mrp.qty,
-mrp.name,
 mrp.s_resource_id,
 mrp.planner_id,
 mrp.priority,
@@ -84,7 +83,6 @@ null, --pp_order_bomline_id
 null, --mrp.dd_order_id,
 null, --mrp.dd_orderline_id,
 pp.safetystock - bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) AS qty, --mrp.qty,
-null, --mrp.name,
 pp.s_resource_id,
 null, --planner_id
 null, --mrp.priority,
@@ -92,7 +90,7 @@ null, --mrp.priority,
 'D' , --mrp.typemrp,
 p.LowLevel,
 null, --C_BPartner_ID
-'Safety Strock'   --documentNo(mrp.pp_mrp_id) AS documentNo
+'Safety Stock'   --documentNo(mrp.pp_mrp_id) AS documentNo
 FROM pp_product_planning pp 
 INNER JOIN M_Product p ON (pp.M_Product_ID = p.M_Product_ID)
 WHERE bomqtyonhand(pp.M_Product_ID,pp.M_Warehouse_ID, 0) < pp.safetystock 
