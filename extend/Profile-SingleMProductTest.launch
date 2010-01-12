@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.junit.launchconfig">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/extend/src/test/performance/SingleMProductTest.java"/>
@@ -7,6 +7,9 @@
 <listEntry value="1"/>
 </listAttribute>
 <booleanAttribute key="org.eclipse.debug.core.appendEnvironmentVariables" value="true"/>
+<mapAttribute key="org.eclipse.debug.core.preferred_launchers">
+<mapEntry key="[run]" value="org.eclipse.jdt.junit.launchconfig"/>
+</mapAttribute>
 <booleanAttribute key="org.eclipse.hyades.trace.ui.ATTR_AUTO_MONITORING" value="true"/>
 <stringAttribute key="org.eclipse.hyades.trace.ui.ATTR_DATA_COLLECTOR" value="org.eclipse.tptp.trace.ui.jvmpiMechanism:org.eclipse.tptp.analysisType.memoryHeap,org.eclipse.tptp.analysisType.execution"/>
 <stringAttribute key="org.eclipse.hyades.trace.ui.ATTR_DESTINATION_FILE" value=""/>

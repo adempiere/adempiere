@@ -1,4 +1,21 @@
 AdempiereProperties=C:/Adempiere/Adempiere.properties
 isClient=Y
 AD_Client_ID=11
+#AD_Client_ID=1000006
 AD_User_ID=0
+# LogLevel: OFF, SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST, ALL
+LogLevel=OFF
+
+# MProductTest - Tenant: GardenWorld
+AD_Org_ID=0
+M_Product_Category_ID=105
+C_TaxCategory_ID=107
+C_UOM_ID=100
+ProductType=I
+
+# MProductTest - Tenant: Test6
+#AD_Org_ID=0
+#M_Product_Category_ID=1000006
+#C_TaxCategory_ID=1000010
+#C_UOM_ID=100
+#ProductType=I
