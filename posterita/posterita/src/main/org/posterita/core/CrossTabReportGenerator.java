@@ -25,17 +25,15 @@ import java.awt.Color;
 import java.util.Iterator;
 
 import org.posterita.exceptions.OperationException;
-
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
 
 
 public class CrossTabReportGenerator extends PDFReportGenerator
@@ -111,7 +109,7 @@ public class CrossTabReportGenerator extends PDFReportGenerator
                         
                         if(j == noOfRows - 1)
                         {
-                            cell.setBackgroundColor(BaseColor.GRAY);
+                            cell.setBackgroundColor(new Color(170,170,170));
                         }
                         
                         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -129,7 +127,7 @@ public class CrossTabReportGenerator extends PDFReportGenerator
                         if(k == columnCount-1)
                         {
                             PdfPCell cell = new PdfPCell(new Paragraph(txtck));
-                            cell.setBackgroundColor(BaseColor.GRAY);
+                            cell.setBackgroundColor(new Color(170,170,170));
                             cell.setHorizontalAlignment(Element.ALIGN_CENTER);
                             cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
                             cell.setPaddingBottom(5);
@@ -147,7 +145,7 @@ public class CrossTabReportGenerator extends PDFReportGenerator
                             
                             if(j == noOfRows - 1)
                             {
-                                cell.setBackgroundColor(BaseColor.GRAY);                            
+                                cell.setBackgroundColor(new Color(170,170,170));                            
                             }
                             
                             table.addCell(cell); 

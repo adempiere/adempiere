@@ -52,7 +52,7 @@ import org.posterita.exceptions.ApplicationException;
 import org.posterita.exceptions.OperationException;
 import org.posterita.struts.core.DefaultForm;
 
-import com.itextpdf.text.DocumentException;
+import com.lowagie.text.DocumentException;
 
 public class POSInfoAction extends POSDispatchAction
 {

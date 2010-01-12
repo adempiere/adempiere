@@ -65,7 +65,7 @@ import org.posterita.form.OrderLineForm;
 import org.posterita.lib.UdiConstants;
 import org.posterita.struts.core.DefaultForm;
 
-import com.itextpdf.text.DocumentException;
+import com.lowagie.text.DocumentException;
 
 public class BarcodeAction extends POSDispatchAction
 {

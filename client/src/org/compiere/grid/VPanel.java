@@ -61,7 +61,7 @@ import org.compiere.util.Util;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
-import com.itextpdf.text.Font;
+import com.lowagie.text.Font;
 
 /**
  *  Single Row Panel.

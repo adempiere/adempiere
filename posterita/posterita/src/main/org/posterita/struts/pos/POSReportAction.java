@@ -102,7 +102,7 @@ import org.posterita.struts.core.BaseDispatchAction;
 import org.posterita.struts.core.DefaultForm;
 import org.posterita.util.PathInfo;
 
-import com.itextpdf.text.DocumentException;
+import com.lowagie.text.DocumentException;
 
 
 public class POSReportAction extends BaseDispatchAction

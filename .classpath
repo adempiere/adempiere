@@ -135,7 +135,7 @@
 	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-3.5.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="packages/liberoHR.jar"/>
 	<classpathentry exported="true" kind="lib" path="packages/liberoMFG.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/iText-2.1.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/miglayout-3.7.1-swing.jar"/>
-	<classpathentry kind="lib" path="tools/lib/iText-5.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

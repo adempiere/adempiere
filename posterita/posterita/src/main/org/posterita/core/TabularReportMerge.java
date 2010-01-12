@@ -40,18 +40,17 @@ import org.posterita.Constants;
 import org.posterita.businesslogic.performanceanalysis.ReportManager;
 import org.posterita.exceptions.OperationException;
 
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Chunk;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.lowagie.text.Chunk;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 
 public class TabularReportMerge 
 {
@@ -264,7 +263,7 @@ public class TabularReportMerge
         PdfPCell header = new PdfPCell(new Paragraph(new Chunk(title, style1) + "\n" + new Chunk(subtitle, style2) + "\n", style1));
         header.setColspan(7);
         header.setHorizontalAlignment(Element.ALIGN_CENTER);
-        header.setBackgroundColor(BaseColor.BLACK);
+        header.setBackgroundColor(new Color(0xC0, 0xC0, 0xC0));
         mytable.addCell(header);
         
         // Table sub header        
@@ -371,29 +370,29 @@ public class TabularReportMerge
         PdfPCell header = new PdfPCell(new Paragraph(new Chunk(title, style1) + "\n" + new Chunk(subtitle, style2) + "\n", style1));
         header.setColspan(4);
         header.setHorizontalAlignment(Element.ALIGN_CENTER);
-        header.setBackgroundColor(BaseColor.BLACK);
+        header.setBackgroundColor(new Color(0xC0, 0xC0, 0xC0));
         mytable.addCell(header);
         
         //Date Header
         PdfPCell dateHeader = new PdfPCell(new Paragraph("From : " + new Chunk(TimestampConvertor.convertTimeStamp(fromDate, TimestampConvertor.DEFAULT_DATE_PATTERN1), style1), style1));
         dateHeader.setColspan(1);
         dateHeader.setHorizontalAlignment(Element.ALIGN_LEFT);
-        dateHeader.setBackgroundColor(BaseColor.GRAY);
-        dateHeader.setBorderColor(BaseColor.WHITE);
+        dateHeader.setBackgroundColor(Color.GRAY);
+        dateHeader.setBorderColor(Color.WHITE);
         mytable.addCell(dateHeader);
         
         dateHeader = new PdfPCell(new Paragraph("To : " + new Chunk(TimestampConvertor.convertTimeStamp(toDate, TimestampConvertor.DEFAULT_DATE_PATTERN1), style1), style1));
         dateHeader.setColspan(3);
         dateHeader.setHorizontalAlignment(Element.ALIGN_LEFT);
-        dateHeader.setBackgroundColor(BaseColor.GRAY);
-        dateHeader.setBorderColor(BaseColor.WHITE);
+        dateHeader.setBackgroundColor(Color.GRAY);
+        dateHeader.setBorderColor(Color.WHITE);
         mytable.addCell(dateHeader);
          
         // Info Header
         PdfPCell infoHeader = new PdfPCell(new Paragraph("ALL VALUES ARE EXCLUSIVE OF VAT - SALES FIGURES ARE TAKEN AFTER DISCOUNT", style5));
         infoHeader.setColspan(4);
         infoHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
-        infoHeader.setBackgroundColor(BaseColor.BLACK);
+        infoHeader.setBackgroundColor(new Color(0xC0, 0xC0, 0xC0));
         mytable.addCell(infoHeader);
         
         // Rows Header
@@ -469,29 +468,29 @@ public class TabularReportMerge
         PdfPCell header = new PdfPCell(new Paragraph(new Chunk(title, style1) + "\n" + new Chunk(subtitle, style2) + "\n", style1));
         header.setColspan(6);
         header.setHorizontalAlignment(Element.ALIGN_CENTER);
-        header.setBackgroundColor(BaseColor.BLACK);
+        header.setBackgroundColor(new Color(0xC0, 0xC0, 0xC0));
         mytable.addCell(header);
         
         //Date Header
         PdfPCell dateHeader = new PdfPCell(new Paragraph("From : " + new Chunk(TimestampConvertor.convertTimeStamp(fromDate, TimestampConvertor.DEFAULT_DATE_PATTERN1), style1), style1));
         dateHeader.setColspan(2);
         dateHeader.setHorizontalAlignment(Element.ALIGN_LEFT);
-        dateHeader.setBackgroundColor(BaseColor.GRAY);
-        dateHeader.setBorderColor(BaseColor.WHITE);
+        dateHeader.setBackgroundColor(Color.GRAY);
+        dateHeader.setBorderColor(Color.WHITE);
         mytable.addCell(dateHeader);
         
         dateHeader = new PdfPCell(new Paragraph("To : " + new Chunk(TimestampConvertor.convertTimeStamp(toDate, TimestampConvertor.DEFAULT_DATE_PATTERN1), style1), style1));
         dateHeader.setColspan(4);
         dateHeader.setHorizontalAlignment(Element.ALIGN_LEFT);
-        dateHeader.setBackgroundColor(BaseColor.GRAY);
-        dateHeader.setBorderColor(BaseColor.WHITE);
+        dateHeader.setBackgroundColor(Color.GRAY);
+        dateHeader.setBorderColor(Color.WHITE);
         mytable.addCell(dateHeader);
          
         // Info Header
         PdfPCell infoHeader = new PdfPCell(new Paragraph("ALL VALUES ARE EXCLUSIVE OF VAT & BASED ON PURCHASE PRICES", style5));
         infoHeader.setColspan(6);
         infoHeader.setHorizontalAlignment(Element.ALIGN_CENTER);
-        infoHeader.setBackgroundColor(BaseColor.BLACK);
+        infoHeader.setBackgroundColor(new Color(0xC0, 0xC0, 0xC0));
         mytable.addCell(infoHeader);
         
         // Rows Header

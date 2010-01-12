@@ -7,6 +7,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/barbecue-1.5-beta1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/poi-3.0.1-FINAL-20070705.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jnlp.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/iText-2.1.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/swingx-0.9.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/miglayout-3.7.1-swing.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -24,6 +25,5 @@
 	<classpathentry exported="true" kind="lib" path="lib/jcommon-1.0.14.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jfreechart-1.0.11.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javaee.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/iText-5.0.0.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
