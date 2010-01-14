@@ -49,7 +49,7 @@ public class BankTransfer extends SvrProcess
 	private int 		p_To_C_BankAccount_ID= 0;		// Bank Account To
 	private Timestamp	p_StatementDate = null;  		// Date Statement
 	private Timestamp	p_DateAcct = null;  			// Date Account
-
+	private int         m_created = 0;
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
@@ -129,8 +129,7 @@ public class BankTransfer extends SvrProcess
 			p_DateAcct = p_StatementDate;
 
 		generateBankTransfer();
-
-		return "@OK@ ";
+		return "@Created@ = " + m_created;
 	}	//	doIt
 	
 
@@ -181,7 +180,7 @@ public class BankTransfer extends SvrProcess
 		paymentBankTo.save();
 		paymentBankTo.processIt(MPayment.DOCACTION_Complete);
 		paymentBankTo.saveEx();
-	
+		m_created++;
 		return;
 
 	}  //  createCashLines
