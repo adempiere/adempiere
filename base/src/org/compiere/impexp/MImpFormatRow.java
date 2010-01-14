@@ -58,7 +58,7 @@ public class MImpFormatRow extends X_AD_ImpFormat_Row
 	}	//	MImpFormatRow
 
 	/**
-	 * 	Load Construcor
+	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param rs result set
 	 *  @param trxName transaction
@@ -69,7 +69,7 @@ public class MImpFormatRow extends X_AD_ImpFormat_Row
 	}	//	MImpFormatRow
 	
 	/**
-	 * 	Parent Construcor
+	 * 	Parent Constructor
 	 *	@param format format parent
 	 */
 	public MImpFormatRow (MImpFormat format)
@@ -79,7 +79,7 @@ public class MImpFormatRow extends X_AD_ImpFormat_Row
 	}	//	MImpFormatRow
 	
 	/**
-	 * 	Parent/Copy Construcor
+	 * 	Parent/Copy Constructor
 	 *	@param parent format parent
 	 *	@param original to copy
 	 */
