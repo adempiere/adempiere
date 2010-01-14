@@ -156,13 +156,33 @@ public class AmtInWords_ES implements AmtInWords
 				{
 					s = s.replaceFirst ("UN CIENTO", "CIEN");
 				}
+				if (s.startsWith ("DOS CIENTOS", 1))
+				{
+					s = s.replaceFirst ("DOS CIENTOS", "DOSCIENTOS");
+				}
+				if (s.startsWith ("TRES CIENTOS", 1))
+				{
+					s = s.replaceFirst ("TRES CIENTOS", "TRESCIENTOS");
+				}
+				if (s.startsWith ("CUATRO CIENTOS", 1))
+				{
+					s = s.replaceFirst ("CUATRO CIENTOS", "CUATROCIENTOS");
+				}
 				if (s.startsWith ("CINCO CIENTOS", 1))
 				{
 					s = s.replaceFirst ("CINCO CIENTOS", "QUINIENTOS");
 				}
+				if (s.startsWith ("SEIS CIENTOS", 1))
+				{
+					s = s.replaceFirst ("SEIS CIENTOS", "SEISCIENTOS");
+				}
 				if (s.startsWith ("SIETE CIENTOS", 1))
 				{
 					s = s.replaceFirst ("SIETE CIENTOS", "SETECIENTOS");
+				}
+				if (s.startsWith ("OCHO CIENTOS", 1))
+				{
+					s = s.replaceFirst ("OCHO CIENTOS", "OCHOCIENTOS");
 				}
 				if (s.startsWith ("NUEVE CIENTOS", 1))
 				{
