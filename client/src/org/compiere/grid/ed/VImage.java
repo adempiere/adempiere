@@ -80,7 +80,6 @@ public class VImage extends JButton
 	 */
 	public void setValue(Object value)
 	{
-		log.warning("=" + value);
 		int newValue = 0;
 		if (value instanceof Integer)
 			newValue = ((Integer)value).intValue();
