@@ -510,7 +510,7 @@ public final class MPayment extends X_C_Payment
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "processOnline", e);
-			setErrorMessage("Payment Processor Error");
+			setErrorMessage("Payment Processor Error: " + e.getMessage());
 		}
 		setIsApproved(approved);
 		return approved;
