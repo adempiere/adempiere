@@ -35,7 +35,9 @@ import org.compiere.util.Env;
 
 /**
  *	Import Order from I_Order
- *
+ *  @author Oscar Gomez
+ * 			<li>BF [ 2936629 ] Error when creating bpartner in the importation order
+ * 			<li>https://sourceforge.net/tracker/?func=detail&aid=2936629&group_id=176962&atid=879332
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ImportOrder.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
@@ -553,7 +555,7 @@ public class ImportOrder extends SvrProcess
 						continue;
 					//
 					bpl = new MBPartnerLocation (bp);
-					bpl.setC_Location_ID (imp.getC_Location_ID ());
+					bpl.setC_Location_ID (loc.getC_Location_ID ());
 					if (!bpl.save ())
 						continue;
 				}
