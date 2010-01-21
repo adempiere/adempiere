@@ -68,6 +68,8 @@ import org.eevolution.model.MHRProcess;
 
 /**
  *  @author Oscar Gomez
+ * 			<li>BF [ 2936481 ] no show employee into action notice
+ * 			<li>https://sourceforge.net/tracker/?func=detail&aid=2936481&group_id=176962&atid=934929
  *  @author Cristina Ghita, www.arhipac.ro
  *  @version $Id: VHRActionNotice.java
  *  
@@ -339,9 +341,16 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 			if (pp != null){
 				HR_Process_ID = pp.getKey();
 				MHRProcess process = new MHRProcess(Env.getCtx(),HR_Process_ID, null);
-				MHRPeriod period = MHRPeriod.get(Env.getCtx(), process.getHR_Period_ID());
-				dateStart= period.getStartDate();				
-				dateEnd  = period.getEndDate();
+					if(process.getHR_Period_ID() > 0)
+					{
+						MHRPeriod period = MHRPeriod.get(Env.getCtx(), process.getHR_Period_ID());
+						dateStart= period.getStartDate();				
+						dateEnd  = period.getEndDate();
+					}
+					else
+					{
+						dateEnd = process.getDateAcct();
+					}
 				HR_Payroll_ID = process.getHR_Payroll_ID();
 				getEmployeeValid(process);
 				fieldEmployee.setReadWrite(true);
@@ -480,7 +489,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 				+ " WHERE hm.Processed='N' AND hp.HR_Process_ID = " +fieldProcess.getValue()
 				//+ " AND IsStatic = 'Y' " // Just apply incidences [add 30Dic2006 to see everything]
 				+ " AND hm.C_BPartner_ID = " + fieldEmployee.getValue()
-				// + " AND (Qty > 0 OR Amount > 0 OR hm.TextMsg IS NOT NULL OR ServiceDate IS NOT NULL) "
+					+ " AND (Qty > 0 OR Amount > 0 OR hm.TextMsg IS NOT NULL OR ServiceDate IS NOT NULL) "
 				);
 		if (fieldValidFrom.getValue() == null) {
 			sqlQuery.append(" AND " +DB.TO_DATE(dateStart)+" >= hm.ValidFrom  AND "+DB.TO_DATE(dateEnd)+" <=  hm.ValidTo ");
