@@ -48,6 +48,7 @@ import org.compiere.model.MColumn;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.model.X_EXP_FormatLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -70,6 +71,10 @@ import org.w3c.dom.Text;
  * @author Antonio Cañaveral, e-Evolution
  * 				<li>[ 2195016 ] Implementation delete records messages
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195016&group_id=176962&atid=879332
+ * @author victor.perez@e-evolution.com, e-Evolution
+ * 				<li>[ 2195090 ] Stabilization of replication
+ * 				<li>https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2936561&group_id=176962
+ *
  */
 public class ExportHelper {
 	
@@ -230,11 +235,13 @@ public class ExportHelper {
 		MClient client = MClient.get (exportFormat.getCtx(), m_AD_Client_ID);
 		MTable table = MTable.get(exportFormat.getCtx(), exportFormat.getAD_Table_ID());
 		log.info("Table = " + table);
-		int[] ids = MTable.getAllIDs(table.getTableName(), where, null);
 		
-		for (int id : ids)
+		Collection<PO> datas = new Query(exportFormat.getCtx(),table.getTableName(), exportFormat.getWhereClause(), exportFormat.get_TrxName())
+		.setOnlyActiveRecords(true)
+		.list();
+		
+		for (PO po : datas)
 		{	
-				PO po = table.getPO(id, exportFormat.get_TrxName());
 				log.info("Client = " + client.toString());
 				log.finest("po.getAD_Org_ID() = " + po.getAD_Org_ID());
 				log.finest("po.get_TrxName() = " + po.get_TrxName());
@@ -242,9 +249,10 @@ public class ExportHelper {
 					po.set_TrxName("exportRecord");
 				}
 				
-				if (po.get_KeyColumns().length > 1 || po.get_KeyColumns().length < 1) {
-					throw new Exception(Msg.getMsg (po.getCtx(), "ExportMultiColumnNotSupported"));
+				if (po.get_KeyColumns().length < 1) {
+					throw new Exception(Msg.getMsg (po.getCtx(), "ExportNoneColumnKeyNotSupported"));//TODO: Create Mesagge.
 				}
+				
 				// TODO - get proper Export Format!
 				String version = "3.2.0";		
 				outDocument = createNewDocument();
@@ -445,7 +453,8 @@ public class ExportHelper {
 				// process Embedded Export Format
 				
 				int embeddedFormat_ID = formatLine.getEXP_EmbeddedFormat_ID();
-				MEXPFormat embeddedFormat = new MEXPFormat(masterPO.getCtx(), embeddedFormat_ID, masterPO.get_TrxName());
+				//get from cache
+				MEXPFormat embeddedFormat = MEXPFormat.get(masterPO.getCtx(), embeddedFormat_ID, masterPO.get_TrxName());
 				
 				MTable tableEmbedded = MTable.get(masterPO.getCtx(), embeddedFormat.getAD_Table_ID());
 				log.info("Table Embedded = " + tableEmbedded);
@@ -494,7 +503,8 @@ public class ExportHelper {
 				// process Referenced Export Format
 				
 				int embeddedFormat_ID = formatLine.getEXP_EmbeddedFormat_ID();
-				MEXPFormat embeddedFormat = new MEXPFormat(masterPO.getCtx(), embeddedFormat_ID, masterPO.get_TrxName());
+				//get from cache
+				MEXPFormat embeddedFormat =  MEXPFormat.get(masterPO.getCtx(), embeddedFormat_ID, masterPO.get_TrxName());
 				
 				MTable tableEmbedded = MTable.get(masterPO.getCtx(), embeddedFormat.getAD_Table_ID());
 				log.info("Table Embedded = " + tableEmbedded);

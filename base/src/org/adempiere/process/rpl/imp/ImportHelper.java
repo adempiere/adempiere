@@ -66,6 +66,10 @@ import org.w3c.dom.NodeList;
  * @author Antonio Cañaveral, e-Evolution
  * 				<li>[ 2195016 ] Implementation delete records messages
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195016&group_id=176962&atid=879332
+ * @author	victor.perez@e-evolution.com, e-Evolution
+ * 				<li>[ 2195090 ] Stabilization of replication
+ * 				<li>https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2936561&group_id=176962
+ *
  */
 public class ImportHelper {
 
@@ -165,8 +169,6 @@ public class ImportHelper {
 		
 		PO po = importElement(ctx, result, rootElement, expFormat, ReplicationType, trxName);
 		
-		boolean resultSave=false;
-		
 		if(po != null)
 		{
 			// Here must invoke other method else we get cycle...
@@ -174,13 +176,13 @@ public class ImportHelper {
 			||	ModelValidator.TYPE_BEFORE_DELETE_REPLICATION 	==	ReplicationEvent 
 			||	ModelValidator.TYPE_DELETE 						== 	ReplicationEvent)
 			{
-				resultSave=po.delete(true);
+				po.deleteEx(true);
 			}
 			else
 			{
 				if(X_AD_ReplicationTable.REPLICATIONTYPE_Broadcast.equals(ReplicationType))
 				{
-					resultSave = po.saveReplica(true);
+					po.saveReplica(true);
 					MReplicationStrategy rplStrategy = new MReplicationStrategy(client.getCtx(), client.getAD_ReplicationStrategy_ID(), null);
 					ExportHelper expHelper = new ExportHelper(client, rplStrategy);
 					expHelper.exportRecord(	po, 
@@ -191,7 +193,7 @@ public class ImportHelper {
 				else if(X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(ReplicationType)
 					||  X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType))
 				{
-					resultSave = po.saveReplica(true);
+					po.saveReplica(true);
 				}
 				/*else if (X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType))
 				{
@@ -209,9 +211,8 @@ public class ImportHelper {
 					
 					
 			}
-		}
-		
-		result.append("ResultSave=").append(resultSave).append("; ");
+		}		
+		result.append("Save Successful ;");
 		/*if (resultSave) 
 		{
 			if(ReplicationMode == MReplicationStrategy.REPLICATION_DOCUMENT && 
@@ -264,11 +265,9 @@ public class ImportHelper {
 		{
 			throw new Exception(Msg.getMsg(ctx, "EDIMultiColumnNotSupported"));
 		}
-		
-		StringBuffer orderBy = new StringBuffer(MEXPFormatLine.COLUMNNAME_IsMandatory).append(" DESC ")
-			.append(", ").append(MEXPFormatLine.COLUMNNAME_Position);
-		
-		Collection<MEXPFormatLine> formatLines = expFormat.getFormatLinesOrderedBy(orderBy.toString());
+				
+		Collection<MEXPFormatLine> formatLines = expFormat.getFormatLinesOrderedBy(MEXPFormatLine.COLUMNNAME_IsMandatory 
+		+ " , " + MEXPFormatLine.COLUMNNAME_Position);
 		if (formatLines == null || formatLines.size() < 1) 
 		{
 			throw new Exception(Msg.getMsg(ctx, "EXPFormatNoLines"));
@@ -281,6 +280,8 @@ public class ImportHelper {
 			log.info("formatLine: [" + formatLine.toString() + "]");			
 			//Get the value
 			Object value = getValueFromFormat(formatLine,po,rootElement,result,ReplicationType,trxName);
+			if (value == null || value.toString().equals(""))
+				continue;	
 			//Set the value
 			setReplicaValues(value, formatLine, po, result);
 		}		
@@ -313,7 +314,8 @@ public class ImportHelper {
 		else if (MEXPFormatLine.TYPE_ReferencedEXPFormat.equals(line.getType())) 
 		{
 			// Referenced Export Format
-			MEXPFormat referencedExpFormat = new MEXPFormat(ctx, line.getEXP_EmbeddedFormat_ID(), trxName);
+			//get from cache
+			MEXPFormat referencedExpFormat = MEXPFormat.get(ctx, line.getEXP_EmbeddedFormat_ID(), trxName);
 			log.info("referencedExpFormat = " + referencedExpFormat);
 
 			int refRecord_ID = 0;
@@ -340,25 +342,14 @@ public class ImportHelper {
 		} 
 		else if (MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(line.getType())) 
 		{
-			boolean resSave = false;
-			if (po.get_ID() == 0) 
-			{
-				resSave = po.saveReplica(true);
-				result.append("ResultSave-MasterPO=").append(resSave).append("; ");
-				log.info("ResultSave-MasterPO = " + resSave);
-			} 
-			else 
-			{
-				resSave = true; 
-			}
-			
-			if (!resSave) 
-			{
-				throw new Exception("Failed to save Master PO");
+			if(po.is_Changed())
+			{	
+				po.saveReplica(true);
 			}
 			
 			// Embedded Export Format It is used for Parent-Son records like Order&OrderLine
-			MEXPFormat referencedExpFormat = new MEXPFormat(ctx, line.getEXP_EmbeddedFormat_ID(), trxName);
+			//get from cache
+			MEXPFormat referencedExpFormat = MEXPFormat.get(ctx, line.getEXP_EmbeddedFormat_ID(), trxName);
 			log.info("embeddedExpFormat = " + referencedExpFormat);
 
 			NodeList nodeList = XMLHelper.getNodeList("/"+rootElement.getNodeName() + "/" + line.getValue(), rootElement);
@@ -372,9 +363,9 @@ public class ImportHelper {
 				log.info("=== BEGIN RECURSION CALL ===");
 				embeddedPo = importElement(ctx, result, referencedElement, referencedExpFormat,ReplicationType, trxName);
 				log.info("embeddedPo = " + embeddedPo);
+				embeddedPo.saveReplica(true);
+				result.append(" Embedded Save Successful ; ");
 				
-				boolean rSave = embeddedPo.saveReplica(true);
-				result.append("ResultSave-EmbeddedPO=").append(rSave).append("; ");
 			}
 
 		} 
@@ -474,7 +465,7 @@ public class ImportHelper {
 						//
 						if (!Util.isEmpty(value.toString()))
 						{
-							value = new Integer(value.toString());
+							value = new BigDecimal(value.toString());
 						}
 						else
 						{
@@ -600,15 +591,20 @@ public class ImportHelper {
 			{
 				// Referenced Export Format
 				log.info("referencedExpFormat.EXP_EmbeddedFormat_ID = " + uniqueFormatLine.getEXP_EmbeddedFormat_ID());
-				MEXPFormat referencedExpFormat = new MEXPFormat(ctx, uniqueFormatLine.getEXP_EmbeddedFormat_ID(), trxName);
+				//get from cache
+				MEXPFormat referencedExpFormat = MEXPFormat.get(ctx, uniqueFormatLine.getEXP_EmbeddedFormat_ID(), trxName);
 				log.info("referencedExpFormat = " + referencedExpFormat);
 				
 				int record_ID = 0;
 				// Find Record_ID by ???Value??? In fact by Columns set as Part Of Unique Index in Export Format!
 				Element referencedNode = ((Element) rootElement.getElementsByTagName(uniqueFormatLine.getValue()).item(0));
 				log.info("referencedNode = " + referencedNode);
-				
+				if (referencedNode == null) 
+				{					
+					throw new IllegalArgumentException("referencedNode can't be null!");
+				}
 				record_ID = getID(ctx, referencedExpFormat, referencedNode, uniqueFormatLine.getValue(), trxName);
+
 				log.info("record_ID = " + record_ID);
 				
 				cols[col] = new Integer(record_ID);

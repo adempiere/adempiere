@@ -207,7 +207,7 @@ public class TopicListener implements MessageListener {
 			}
 			catch (Exception e)
 			{
-				log.info("Connection with clientID '" + clientID +"' already exists");
+				log.info("Connection with clientID '" + clientID +"' already exists" + e.toString());
 				conn.close();
 				return;
 			}
@@ -256,14 +256,17 @@ public class TopicListener implements MessageListener {
 
 		conn.start();
 		log.finest("Waiting for JMS messages...");
-
-		MIMPProcessorLog pLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Connected to JMS Server. Waiting for messages!");
-		StringBuffer logReference = new StringBuffer("topicName = ").append(topicName)
-			.append(", subscriptionName = ").append( subscriptionName )
-		;
-		pLog.setReference( logReference.toString() );
-		boolean resultSave = pLog.save();
-		log.finest("Result Save = " + resultSave);
+		if(replicationProcessor !=null)
+		{	
+			MIMPProcessorLog pLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Connected to JMS Server. Waiting for messages!");
+			StringBuffer logReference = new StringBuffer("topicName = ").append(topicName)
+				.append(", subscriptionName = ").append( subscriptionName )
+			;
+			pLog.setReference( logReference.toString() );
+			boolean resultSave = pLog.save();
+			log.finest("Result Save = " + resultSave);
+		}
+		
 	}
 	
 	/**

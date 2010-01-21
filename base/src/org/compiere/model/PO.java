@@ -2229,10 +2229,10 @@ public abstract class PO
 		return save();
 	}	//	save
 
-	public boolean saveReplica (boolean isFromReplication)
+	public void saveReplica (boolean isFromReplication) throws AdempiereException
 	{
 		setReplication(isFromReplication);
-		return save();
+		saveEx();
 	}
 
 	/**
