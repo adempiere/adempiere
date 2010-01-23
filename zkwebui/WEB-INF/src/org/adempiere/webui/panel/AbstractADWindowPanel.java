@@ -1448,7 +1448,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			} else {
 				final int id = curTab.getKeyID(i);
 				String value = DB.getSQLValueStringEx(null, sql, id);
-				value = value.replace(" - ", " | ");
+				if (value != null)
+					value = value.replace(" - ", " | ");
 				displayValue.append(value);
 				// Append ID
 				if (displayValue.length() == 0 || CLogMgt.isLevelFine())

@@ -1868,7 +1868,8 @@ public final class APanel extends CPanel
 			} else {
 				final int id = m_curTab.getKeyID(i);
 				String value = DB.getSQLValueStringEx(null, sql, id);
-				value = value.replace(" - ", " | ");
+				if (value != null)
+					value = value.replace(" - ", " | ");
 				displayValue.append(value);
 				// Append ID
 				if (displayValue.length() == 0 || CLogMgt.isLevelFine())
