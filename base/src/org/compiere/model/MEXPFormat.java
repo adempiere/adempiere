@@ -50,11 +50,10 @@ import org.compiere.util.CLogger;
  *
  */
 public class MEXPFormat extends X_EXP_Format {
-
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1455411275338766608L;
+	private static final long serialVersionUID = -5011042965945626099L;
 
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MEXPFormat.class);
