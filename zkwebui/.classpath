@@ -31,10 +31,6 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/fckez.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-6-sun-1.6.0.16">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.java"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
