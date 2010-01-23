@@ -2114,6 +2114,9 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		}
 		reversal.setC_Order_ID(getC_Order_ID());
 		reversal.addDescription("{->" + getDocumentNo() + ")");
+		//FR1948157
+		reversal.setReversal_ID(getC_Invoice_ID());
+		reversal.saveEx(get_TrxName());
 		//
 		if (!reversal.processIt(DocAction.ACTION_Complete))
 		{
@@ -2121,14 +2124,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			return false;
 		}
 		reversal.setC_Payment_ID(0);
-		//FR1948157
-		reversal.setReversal_ID(getC_Invoice_ID());
 		reversal.setIsPaid(true);
 		reversal.closeIt();
 		reversal.setProcessing (false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
-		reversal.save(get_TrxName());
+		reversal.saveEx(get_TrxName());
 		m_processMsg = reversal.getDocumentNo();
 		//
 		addDescription("(" + reversal.getDocumentNo() + "<-)");

@@ -2372,7 +2372,7 @@ public final class MPayment extends X_C_Payment
 		reversal.addDescription("{->" + getDocumentNo() + ")");
 		//FR [ 1948157  ] 
 		reversal.setReversal_ID(getC_Payment_ID());
-		reversal.save(get_TrxName());
+		reversal.saveEx(get_TrxName());
 		//	Post Reversal
 		if (!reversal.processIt(DocAction.ACTION_Complete))
 		{

@@ -641,7 +641,7 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 		reverse.setDescription(description);
 		//[ 1948157  ]
 		reverse.setReversal_ID(getGL_JournalBatch_ID());
-		reverse.save();
+		reverse.saveEx();
 		//
 		
 		//	Reverse Journals

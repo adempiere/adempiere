@@ -54,8 +54,7 @@ public class MInOut extends X_M_InOut implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1925611141368881643L;
-
+	private static final long serialVersionUID = 727186799622809208L;
 
 	/**
 	 * 	Create Shipment From Order
@@ -760,7 +759,7 @@ public class MInOut extends X_M_InOut implements DocAction
 	 * 	Is Reversal
 	 *	@return reversal
 	 */
-	private boolean isReversal()
+	public boolean isReversal()
 	{
 		return m_reversal;
 	}	//	isReversal
@@ -2025,6 +2024,9 @@ public class MInOut extends X_M_InOut implements DocAction
 		// Set M_RMA_ID
 		reversal.setM_RMA_ID(getM_RMA_ID());
 		reversal.addDescription("{->" + getDocumentNo() + ")");
+		//FR1948157
+		reversal.setReversal_ID(getM_InOut_ID());
+		reversal.saveEx(get_TrxName());
 		//
 		if (!reversal.processIt(DocAction.ACTION_Complete)
 			|| !reversal.getDocStatus().equals(DocAction.STATUS_Completed))
@@ -2033,12 +2035,10 @@ public class MInOut extends X_M_InOut implements DocAction
 			return false;
 		}
 		reversal.closeIt();
-		//FR1948157
-		reversal.setReversal_ID(getM_InOut_ID());
 		reversal.setProcessing (false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
-		reversal.save(get_TrxName());
+		reversal.saveEx(get_TrxName());
 		//
 		addDescription("(" + reversal.getDocumentNo() + "<-)");
 
