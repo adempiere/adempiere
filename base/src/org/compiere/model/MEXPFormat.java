@@ -114,8 +114,11 @@ public class MEXPFormat extends X_EXP_Format {
 		if(exp_format != null)
 			return exp_format;
 		exp_format = new MEXPFormat(ctx, EXP_Format_ID , trxName);
+		if(exp_format!=null)
+		{	
 		exp_format.getFormatLines();
 		exp_format_by_id_cache.put(EXP_Format_ID, exp_format);
+		}
 		return exp_format;
 	}
 	
@@ -133,9 +136,13 @@ public class MEXPFormat extends X_EXP_Format {
 
 		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereCluse.toString(),trxName)
 					.setParameters(new Object[] {value,AD_Client_ID,version}).first();
+		
+		if(retValue != null)
+		{	
 		retValue.getFormatLines();
 		s_cache.put (key, retValue);
 		exp_format_by_id_cache.put(retValue.getEXP_Format_ID(), retValue);
+		}
 		
 		return retValue;
 	}
@@ -156,9 +163,13 @@ public class MEXPFormat extends X_EXP_Format {
 		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereClause.toString(),trxName)
 						.setParameters(new Object[] {AD_Client_ID,AD_Table_ID,version})
 						.first();
+		if(retValue!=null)
+		{	
 		retValue.getFormatLines();
 		s_cache.put (key, retValue);
 		exp_format_by_id_cache.put(retValue.getEXP_Format_ID(), retValue);
+		}
+		
 		return retValue;
 	}
 

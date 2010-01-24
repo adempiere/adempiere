@@ -233,7 +233,6 @@ public class ExportFormatGenerator extends SvrProcess
 					referenceFormat.setAD_Table_ID(MTable.getTable_ID(m_parent_table));
 					referenceFormat.setDescription(table.getDescription());
 					referenceFormat.setHelp(table.getHelp());
-					referenceFormat.setVersion(version);
 					referenceFormat.saveEx();
 					
 					int AD_Column_ID=DB.getSQLValue(get_TrxName(), "SELECT AD_Column_ID FROM AD_Column WHERE AD_Table_ID=(SELECT AD_Table_ID FROM AD_Table WHERE TableName=?) AND UPPER(ColumnName)='DOCUMENTNO'",m_parent_table);
@@ -331,11 +330,15 @@ public class ExportFormatGenerator extends SvrProcess
 					log.info("Table Name:"+tableName);
 				
 					if(tableName==null)
+					{	
 						log.info("Table Name: null");
+						return 0;
+					}
 					
 					tabledir = MTable.get(getCtx(), tableName);	
 					if(tabledir==null)
-						throw new Exception ("Ilegal Table Name");
+						return 0;
+					//	throw new Exception ("Ilegal Table Name");
 					
 					formatLine.setValue(tabledir.getTableName()+"_Reference");
 					formatLine.setName("Referenced "+ tabledir.getTableName());
