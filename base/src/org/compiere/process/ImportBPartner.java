@@ -244,14 +244,16 @@ implements ImportProcess
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Found Contact=" + no);
 
-		//	Existing Location ? Exact Match
+//		Existing Location ? Exact Match
 		sql = new StringBuffer ("UPDATE I_BPartner i "
 				+ "SET C_BPartner_Location_ID=(SELECT C_BPartner_Location_ID"
 				+ " FROM C_BPartner_Location bpl INNER JOIN C_Location l ON (bpl.C_Location_ID=l.C_Location_ID)"
 				+ " WHERE i.C_BPartner_ID=bpl.C_BPartner_ID AND bpl.AD_Client_ID=i.AD_Client_ID"
-				+ " AND COALESCE(i.Address1, 'NULL')=COALESCE(l.Address1, 'NULL') AND COALESCE(i.Address2, 'NULL')=COALESCE(l.Address2, 'NULL')"
-				+ " AND COALESCE(i.City, 'NULL')=COALESCE(l.City, 'NULL') AND COALESCE(i.Postal, 'NULL')=COALESCE(l.Postal, 'NULL')"
-				+ " AND COALESCE(i.Postal_Add, 'NULL')=COALESCE(l.Postal_Add, 'NULL')"
+				+ " AND (i.Address1=l.Address1 OR (i.Address1 IS NULL AND l.Address1 IS NULL))"
+				+ " AND (i.Address2=l.Address2 OR (i.Address2 IS NULL AND l.Address2 IS NULL))"
+				+ " AND (i.City=l.City OR (i.City IS NULL AND l.City IS NULL))"
+				+ " AND (i.Postal=l.Postal OR (i.Postal IS NULL AND l.Postal IS NULL))"
+				+ " AND (i.Postal_Add=l.Postal_Add OR (l.Postal_Add IS NULL AND l.Postal_Add IS NULL))"
 				+ " AND i.C_Region_ID=l.C_Region_ID AND i.C_Country_ID=l.C_Country_ID) "
 				+ "WHERE C_BPartner_ID IS NOT NULL AND C_BPartner_Location_ID IS NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
