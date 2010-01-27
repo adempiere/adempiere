@@ -347,17 +347,17 @@ public class FinReport extends SvrProcess
 
 			//	SELECT SUM()
 			StringBuffer select = new StringBuffer ("SELECT ");
-			if (m_lines[line].getAmountType() != null)				//	line amount type overwrites column
+			if (m_lines[line].getPAAmountType() != null)				//	line amount type overwrites column
 			{
 				String sql = m_lines[line].getSelectClause (true);
 				select.append (sql);
-				info.append(": LineAmtType=").append(m_lines[line].getAmountType());
+				info.append(": LineAmtType=").append(m_lines[line].getPAAmountType());
 			}
-			else if (m_columns[col].getAmountType() != null)
+			else if (m_columns[col].getPAAmountType() != null)
 			{
 				String sql = m_columns[col].getSelectClause (true);
 				select.append (sql);
-				info.append(": ColumnAmtType=").append(m_columns[col].getAmountType());
+				info.append(": ColumnAmtType=").append(m_columns[col].getPAAmountType());
 			}
 			else
 			{
@@ -376,7 +376,7 @@ public class FinReport extends SvrProcess
 			if (m_columns[col].isColumnTypeRelativePeriod())
 				relativeOffset = m_columns[col].getRelativePeriod();
 			FinReportPeriod frp = getPeriod (relativeOffset);
-			if (m_lines[line].getAmountType() != null)			//	line amount type overwrites column
+			if (m_lines[line].getPAPeriodType() != null)			//	line amount type overwrites column
 			{
 				info.append(" - LineDateAcct=");
 				if (m_lines[line].isPeriod())
@@ -403,11 +403,11 @@ public class FinReport extends SvrProcess
 				}
 				else
 				{
-					log.log(Level.SEVERE, "No valid Line AmountType");
+					log.log(Level.SEVERE, "No valid Line PAPeriodType");
 					select.append("=0");	// valid sql	
 				}
 			}
-			else if (m_columns[col].getAmountType() != null)
+			else if (m_columns[col].getPAPeriodType() != null)
 			{
 				info.append(" - ColumnDateAcct=");
 				if (m_columns[col].isPeriod())
@@ -434,7 +434,7 @@ public class FinReport extends SvrProcess
 				}
 				else
 				{
-					log.log(Level.SEVERE, "No valid Column AmountType");
+					log.log(Level.SEVERE, "No valid Column PAPeriodType");
 					select.append("=0");	// valid sql	
 				}
 			}
@@ -926,9 +926,9 @@ public class FinReport extends SvrProcess
 
 			//	SELECT SUM()
 			StringBuffer select = new StringBuffer ("SELECT ");
-			if (m_lines[line].getAmountType() != null)				//	line amount type overwrites column
+			if (m_lines[line].getPAAmountType() != null)				//	line amount type overwrites column
 				select.append (m_lines[line].getSelectClause (true));
-			else if (m_columns[col].getAmountType() != null)
+			else if (m_columns[col].getPAAmountType() != null)
 				select.append (m_columns[col].getSelectClause (true));
 			else
 			{
@@ -944,7 +944,7 @@ public class FinReport extends SvrProcess
 				select.append(" FROM Fact_Acct fb WHERE TRUNC(DateAcct) ");
 			}
 			FinReportPeriod frp = getPeriod (m_columns[col].getRelativePeriod());
-			if (m_lines[line].getAmountType() != null)			//	line amount type overwrites column
+			if (m_lines[line].getPAPeriodType() != null)			//	line amount type overwrites column
 			{
 				if (m_lines[line].isPeriod())
 					select.append(frp.getPeriodWhere());
@@ -955,7 +955,7 @@ public class FinReport extends SvrProcess
 				else
 					select.append(frp.getTotalWhere());
 			}
-			else if (m_columns[col].getAmountType() != null)
+			else if (m_columns[col].getPAPeriodType() != null)
 			{
 				if (m_columns[col].isPeriod())
 					select.append(frp.getPeriodWhere());
@@ -1075,9 +1075,9 @@ public class FinReport extends SvrProcess
 				continue;
 			}
 			//	Amount Type ... Qty
-			if (m_lines[line].getAmountType() != null)				//	line amount type overwrites column
+			if (m_lines[line].getPAAmountType() != null)				//	line amount type overwrites column
 				insert.append (m_lines[line].getSelectClause (false));
-			else if (m_columns[col].getAmountType() != null)
+			else if (m_columns[col].getPAAmountType() != null)
 				insert.append (m_columns[col].getSelectClause (false));
 			else
 			{

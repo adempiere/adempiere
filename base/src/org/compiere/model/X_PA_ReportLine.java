@@ -77,52 +77,6 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
       return sb.toString();
     }
 
-	/** AmountType AD_Reference_ID=235 */
-	public static final int AMOUNTTYPE_AD_Reference_ID=235;
-	/** Total Debit Only = DT */
-	public static final String AMOUNTTYPE_TotalDebitOnly = "DT";
-	/** Total Credit Only = CT */
-	public static final String AMOUNTTYPE_TotalCreditOnly = "CT";
-	/** Total Balance = BT */
-	public static final String AMOUNTTYPE_TotalBalance = "BT";
-	/** Period Balance = BP */
-	public static final String AMOUNTTYPE_PeriodBalance = "BP";
-	/** Period Credit Only = CP */
-	public static final String AMOUNTTYPE_PeriodCreditOnly = "CP";
-	/** Period Debit Only = DP */
-	public static final String AMOUNTTYPE_PeriodDebitOnly = "DP";
-	/** Period Quantity = QP */
-	public static final String AMOUNTTYPE_PeriodQuantity = "QP";
-	/** Total Quantity = QT */
-	public static final String AMOUNTTYPE_TotalQuantity = "QT";
-	/** Year Balance = BY */
-	public static final String AMOUNTTYPE_YearBalance = "BY";
-	/** Year Credit Only = CY */
-	public static final String AMOUNTTYPE_YearCreditOnly = "CY";
-	/** Year Debit Only = DY */
-	public static final String AMOUNTTYPE_YearDebitOnly = "DY";
-	/** Year Quantity = QY */
-	public static final String AMOUNTTYPE_YearQuantity = "QY";
-	/** Natural Balance = BN */
-	public static final String AMOUNTTYPE_NaturalBalance = "BN";
-	/** Set Amount Type.
-		@param AmountType 
-		Type of amount to report
-	  */
-	public void setAmountType (String AmountType)
-	{
-
-		set_Value (COLUMNNAME_AmountType, AmountType);
-	}
-
-	/** Get Amount Type.
-		@return Type of amount to report
-	  */
-	public String getAmountType () 
-	{
-		return (String)get_Value(COLUMNNAME_AmountType);
-	}
-
 	/** CalculationType AD_Reference_ID=236 */
 	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
 	/** Add (Op1+Op2) = A */
@@ -317,6 +271,66 @@ public class X_PA_ReportLine extends PO implements I_PA_ReportLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** PAAmountType AD_Reference_ID=53328 */
+	public static final int PAAMOUNTTYPE_AD_Reference_ID=53328;
+	/** Balance (expected sign) = B */
+	public static final String PAAMOUNTTYPE_BalanceExpectedSign = "B";
+	/** Credit Only = C */
+	public static final String PAAMOUNTTYPE_CreditOnly = "C";
+	/** Debit Only = D */
+	public static final String PAAMOUNTTYPE_DebitOnly = "D";
+	/** Quantity (expected sign) = Q */
+	public static final String PAAMOUNTTYPE_QuantityExpectedSign = "Q";
+	/** Balance (accounted sign) = S */
+	public static final String PAAMOUNTTYPE_BalanceAccountedSign = "S";
+	/** Quantity (accounted sign) = R */
+	public static final String PAAMOUNTTYPE_QuantityAccountedSign = "R";
+	/** Set Amount Type.
+		@param PAAmountType 
+		PA Amount Type for reporting
+	  */
+	public void setPAAmountType (String PAAmountType)
+	{
+
+		set_Value (COLUMNNAME_PAAmountType, PAAmountType);
+	}
+
+	/** Get Amount Type.
+		@return PA Amount Type for reporting
+	  */
+	public String getPAAmountType () 
+	{
+		return (String)get_Value(COLUMNNAME_PAAmountType);
+	}
+
+	/** PAPeriodType AD_Reference_ID=53327 */
+	public static final int PAPERIODTYPE_AD_Reference_ID=53327;
+	/** Total = T */
+	public static final String PAPERIODTYPE_Total = "T";
+	/** Year = Y */
+	public static final String PAPERIODTYPE_Year = "Y";
+	/** Period = P */
+	public static final String PAPERIODTYPE_Period = "P";
+	/** Natural = N */
+	public static final String PAPERIODTYPE_Natural = "N";
+	/** Set Period Type.
+		@param PAPeriodType 
+		PA Period Type
+	  */
+	public void setPAPeriodType (String PAPeriodType)
+	{
+
+		set_Value (COLUMNNAME_PAPeriodType, PAPeriodType);
+	}
+
+	/** Get Period Type.
+		@return PA Period Type
+	  */
+	public String getPAPeriodType () 
+	{
+		return (String)get_Value(COLUMNNAME_PAPeriodType);
 	}
 
 	/** Set Report Line.

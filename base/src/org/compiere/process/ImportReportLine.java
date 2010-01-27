@@ -168,8 +168,8 @@ public class ImportReportLine extends SvrProcess
 
 		//	Copy/Sync from first Row of Line
 		sql = new StringBuffer ("UPDATE I_ReportLine i "
-			+ "SET (Description, SeqNo, IsSummary, IsPrinted, LineType, CalculationType, AmountType, PostingType)="
-			+ " (SELECT Description, SeqNo, IsSummary, IsPrinted, LineType, CalculationType, AmountType, PostingType"
+			+ "SET (Description, SeqNo, IsSummary, IsPrinted, LineType, CalculationType, AmountType, PAAmountType, PAPeriodType, PostingType)="
+			+ " (SELECT Description, SeqNo, IsSummary, IsPrinted, LineType, CalculationType, AmountType, PAAmountType, PAPeriodType, PostingType"
 			+ " FROM I_ReportLine ii WHERE i.Name=ii.Name AND i.PA_ReportLineSet_ID=ii.PA_ReportLineSet_ID"
 			+ " AND ii.I_ReportLine_ID=(SELECT MIN(I_ReportLine_ID) FROM I_ReportLine iii"
 			+ " WHERE i.Name=iii.Name AND i.PA_ReportLineSet_ID=iii.PA_ReportLineSet_ID)) "
@@ -213,13 +213,29 @@ public class ImportReportLine extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.config("Invalid CalculationType=" + no);
 
-		//	Validate Optional Amount Type -
+		//	Convert Optional Amount Type to PAAmount Type and PAPeriodType
 		sql = new StringBuffer ("UPDATE I_ReportLine "
-			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid CalculationType, ' "
-			+ "WHERE AmountType IS NOT NULL AND UPPER(AmountType) NOT IN ('BP','CP','DP','QP', 'BY','CY','DY','QY', 'BT','CT','DT','QT')"
+			+ "SET PAAmountType = substr(AmountType,1,1), PAPeriodType = substr(AmountType,1,2) "
+			+ "WHERE AmountType IS NOT NULL AND (PAAmountType IS NULL OR PAPeriodType IS NULL) "
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.config("Converted AmountType=" + no);
+		
+		//		Validate Optional Amount Type -
+		sql = new StringBuffer ("UPDATE I_ReportLine "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid PAAmountType, ' "
+			+ "WHERE PAAmountType IS NOT NULL AND UPPER(AmountType) NOT IN ('B','C','D','Q','S','R')"
 			+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.config("Invalid AmountType=" + no);
+		
+		//		Validate Optional Period Type -
+		sql = new StringBuffer ("UPDATE I_ReportLine "
+			+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid PAPeriodType, ' "
+			+ "WHERE PAPeriodType IS NOT NULL AND UPPER(AmountType) NOT IN ('P','Y','T','N')"
+			+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.config("Invalid PeriodType=" + no);
 
 		//	Validate Optional Posting Type - A B E S R
 		sql = new StringBuffer ("UPDATE I_ReportLine "
@@ -316,8 +332,8 @@ public class ImportReportLine extends SvrProcess
 
 		//	****	Update ReportLine
 		sql = new StringBuffer ("UPDATE PA_ReportLine r "
-			+ "SET (Description,SeqNo,IsSummary,IsPrinted,LineType,CalculationType,AmountType,PostingType,Updated,UpdatedBy)="
-			+ " (SELECT Description,SeqNo,IsSummary,IsPrinted,LineType,CalculationType,AmountType,PostingType,SysDate,UpdatedBy"
+			+ "SET (Description,SeqNo,IsSummary,IsPrinted,LineType,CalculationType,AmountType,PAAmountType,PAPeriodType,PostingType,Updated,UpdatedBy)="
+			+ " (SELECT Description,SeqNo,IsSummary,IsPrinted,LineType,CalculationType,AmountType,PAAmountType,PAPeriodType,PostingType,SysDate,UpdatedBy"
 			+ " FROM I_ReportLine i WHERE r.Name=i.Name AND r.PA_ReportLineSet_ID=i.PA_ReportLineSet_ID"
 			+ " AND i.I_ReportLine_ID=(SELECT MIN(I_ReportLine_ID) FROM I_ReportLine iii"
 			+ " WHERE i.Name=iii.Name AND i.PA_ReportLineSet_ID=iii.PA_ReportLineSet_ID)) "

@@ -62,19 +62,6 @@ public interface I_I_ReportLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AmountType */
-    public static final String COLUMNNAME_AmountType = "AmountType";
-
-	/** Set Amount Type.
-	  * Type of amount to report
-	  */
-	public void setAmountType (String AmountType);
-
-	/** Get Amount Type.
-	  * Type of amount to report
-	  */
-	public String getAmountType();
-
     /** Column name CalculationType */
     public static final String COLUMNNAME_CalculationType = "CalculationType";
 
@@ -240,6 +227,32 @@ public interface I_I_ReportLine
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name PAAmountType */
+    public static final String COLUMNNAME_PAAmountType = "PAAmountType";
+
+	/** Set Amount Type.
+	  * PA Amount Type for reporting
+	  */
+	public void setPAAmountType (String PAAmountType);
+
+	/** Get Amount Type.
+	  * PA Amount Type for reporting
+	  */
+	public String getPAAmountType();
+
+    /** Column name PAPeriodType */
+    public static final String COLUMNNAME_PAPeriodType = "PAPeriodType";
+
+	/** Set Period Type.
+	  * PA Period Type
+	  */
+	public void setPAPeriodType (String PAPeriodType);
+
+	/** Get Period Type.
+	  * PA Period Type
+	  */
+	public String getPAPeriodType();
 
     /** Column name PA_ReportLine_ID */
     public static final String COLUMNNAME_PA_ReportLine_ID = "PA_ReportLine_ID";

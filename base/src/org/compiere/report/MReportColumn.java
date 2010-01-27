@@ -70,23 +70,26 @@ public class MReportColumn extends X_PA_ReportColumn
 	 */
 	public String getSelectClause (boolean withSum)
 	{
-		//	Amount Type = Period Balance, Period Credit
-		String amountType = getAmountType().substring(0,1);	//	first character
+		String amountType = getPAAmountType();	//	first character
 		StringBuffer sb = new StringBuffer();
 		if (withSum)
 			sb.append("SUM(");
-		if (AmountType_Balance.equals(amountType))
+		if (PAAMOUNTTYPE_BalanceExpectedSign.equals(amountType))
 		//	sb.append("AmtAcctDr-AmtAcctCr");
 			sb.append("acctBalance(Account_ID,AmtAcctDr,AmtAcctCr)");
-		else if (AmountType_CR.equals(amountType))
+		else if ( PAAMOUNTTYPE_BalanceAccountedSign.equals(amountType) )
+			sb.append("AmtAcctDr-AmtAcctCr");
+		else if (PAAMOUNTTYPE_CreditOnly.equals(amountType))
 			sb.append("AmtAcctCr");
-		else if (AmountType_DR.equals(amountType))
+		else if (PAAMOUNTTYPE_DebitOnly.equals(amountType))
 			sb.append("AmtAcctDr");
-		else if (AmountType_Qty.equals(amountType))
+		else if (PAAMOUNTTYPE_QuantityAccountedSign.equals(amountType))
 			sb.append("Qty");
+		else if (PAAMOUNTTYPE_QuantityExpectedSign.equals(amountType))
+			sb.append("acctBalance(Account_ID,Qty,0)");
 		else
 		{
-			log.log(Level.SEVERE, "AmountType=" + getAmountType () + ", at=" + amountType);
+			log.log(Level.SEVERE, "AmountType=" + getPAAmountType () + ", at=" + amountType);
 			return "NULL";
 		}
 		if (withSum)
@@ -100,13 +103,10 @@ public class MReportColumn extends X_PA_ReportColumn
 	 */
 	public boolean isPeriod()
 	{
-		String at = getAmountType();
-		if (at == null)
+		String pt = getPAPeriodType();
+		if (pt == null)
 			return false;
-		return AMOUNTTYPE_PeriodBalance.equals(at)
-			|| AMOUNTTYPE_PeriodCreditOnly.equals(at)
-			|| AMOUNTTYPE_PeriodDebitOnly.equals(at)
-			|| AMOUNTTYPE_PeriodQuantity.equals(at);
+		return PAPERIODTYPE_Period.equals(pt);
 	}	//	isPeriod
 
 	/**
@@ -115,13 +115,10 @@ public class MReportColumn extends X_PA_ReportColumn
 	 */
 	public boolean isYear()
 	{
-		String at = getAmountType();
-		if (at == null)
+		String pt = getPAPeriodType();
+		if (pt == null)
 			return false;
-		return AMOUNTTYPE_YearBalance.equals(at)
-			|| AMOUNTTYPE_YearCreditOnly.equals(at)
-			|| AMOUNTTYPE_YearDebitOnly.equals(at)
-			|| AMOUNTTYPE_YearQuantity.equals(at);
+		return PAPERIODTYPE_Year.equals(pt);
 	}	//	isYear
 
 	/**
@@ -130,13 +127,10 @@ public class MReportColumn extends X_PA_ReportColumn
 	 */
 	public boolean isTotal()
 	{
-		String at = getAmountType();
-		if (at == null)
+		String pt = getPAPeriodType();
+		if (pt == null)
 			return false;
-		return AMOUNTTYPE_TotalBalance.equals(at)
-			|| AMOUNTTYPE_TotalCreditOnly.equals(at)
-			|| AMOUNTTYPE_TotalDebitOnly.equals(at)
-			|| AMOUNTTYPE_TotalQuantity.equals(at);
+		return PAPERIODTYPE_Total.equals(pt);
 	}	//	isTotalBalance
 
 	/**
@@ -145,10 +139,10 @@ public class MReportColumn extends X_PA_ReportColumn
 	 * @return true if Natural Balance Amount Type
 	 */
 	public boolean isNatural() {
-		String at = getAmountType();
-		if (at == null)
+		String pt = getPAPeriodType();
+		if (pt == null)
 			return false;
-		return AMOUNTTYPE_NaturalBalance.equals(at);
+		return PAPERIODTYPE_Natural.equals(pt);
 	}
 
 	/**
@@ -351,7 +345,8 @@ public class MReportColumn extends X_PA_ReportColumn
 	{
 		StringBuffer sb = new StringBuffer ("MReportColumn[")
 			.append(get_ID()).append(" - ").append(getName()).append(" - ").append(getDescription())
-			.append(", SeqNo=").append(getSeqNo()).append(", AmountType=").append(getAmountType())
+			.append(", SeqNo=").append(getSeqNo()).append(", AmountType=").append(getPAAmountType())
+			.append(", PeriodType=").append(getPAPeriodType())
 			.append(", CurrencyType=").append(getCurrencyType()).append("/").append(getC_Currency_ID())
 			.append(" - ColumnType=").append(getColumnType());
 		if (isColumnTypeCalculation())
@@ -364,15 +359,6 @@ public class MReportColumn extends X_PA_ReportColumn
 		sb.append ("]");
 		return sb.toString ();
 	}	//	toString
-
-	static final String		AmountType_Balance = "B";
-	static final String		AmountType_CR = "C";
-	static final String		AmountType_DR = "D";
-	static final String		AmountType_Qty = "Q";
-	//
-	static final String		AmountType_Period = "P";
-	static final String		AmountType_Year = "Y";
-	static final String		AmountType_Total = "T";
 
 	/**
 	 * 	Calculation Type Range
