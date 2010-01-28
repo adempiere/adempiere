@@ -37,6 +37,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
@@ -60,6 +61,7 @@ import org.compiere.db.CConnection;
 import org.compiere.interfaces.MD5;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MAttachmentEntry;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MProcess;
 import org.compiere.model.X_AD_PInstance_Para;
 import org.compiere.process.ClientProcess;
@@ -368,6 +370,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
 		String Name=pi.getTitle();
         int AD_PInstance_ID=pi.getAD_PInstance_ID();
         int Record_ID=pi.getRecord_ID();
+        
         log.info( "Name="+Name+"  AD_PInstance_ID="+AD_PInstance_ID+" Record_ID="+Record_ID);
         String trxName = null;
         if (trx != null) {
@@ -423,6 +426,15 @@ public class ReportStarter implements ProcessCall, ClientProcess
         String jasperName = data.getJasperName();
         String name =  jasperReport.getName();
         File reportDir = data.getReportDir();
+        
+       	// Add reportDir to class path
+		ClassLoader scl = ClassLoader.getSystemClassLoader();
+		try {
+			java.net.URLClassLoader ucl = new java.net.URLClassLoader(new java.net.URL[]{reportDir.toURI().toURL()}, scl);
+			net.sf.jasperreports.engine.util.JRResourcesUtil.setThreadClassLoader(ucl);
+		} catch (MalformedURLException me) {
+			log.warning("Could not add report directory to classpath: "+ me.getMessage());
+		}
 
         if (jasperReport != null) {
 			File[] subreports;
@@ -462,9 +474,20 @@ public class ReportStarter implements ProcessCall, ClientProcess
             // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
             params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
 
-            Language currLang = Env.getLanguage(Env.getCtx());
-            params.put("CURRENT_LANG", currLang.getAD_Language());
-            params.put(JRParameter.REPORT_LOCALE, currLang.getLocale());
+        	Language currLang = Env.getLanguage(Env.getCtx());
+        	ProcessInfoParameter[] pip = pi.getParameter();
+        	// Check for language parameter
+        	if (pip!=null) {
+        		for (int i=0; i<pip.length; i++) {
+        			if ("CURRENT_LANG".equalsIgnoreCase(pip[i].getParameterName())) {
+        				currLang = (Language)pip[i].getParameter();
+        			}
+        		}
+        	}
+            
+           	params.put("CURRENT_LANG", currLang.getAD_Language());
+           	params.put(JRParameter.REPORT_LOCALE, currLang.getLocale());
+           	
             // Resources
             File resFile = null;
             if (reportPath.startsWith("attachment:") && attachment != null) {
