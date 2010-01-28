@@ -212,7 +212,7 @@ public class RequisitionPOCreate extends SvrProcess
 		}
 		if (p_DateDoc_From != null)
 		{
-			whereClause.append(" AND r.DateDoc => ?");
+			whereClause.append(" AND r.DateDoc >= ?");
 			params.add(p_DateDoc_From);
 		}
 		if (p_DateDoc_To != null)
@@ -222,7 +222,7 @@ public class RequisitionPOCreate extends SvrProcess
 		}
 		if (p_DateRequired_From != null)
 		{
-			whereClause.append(" AND r.DateRequired => ?");
+			whereClause.append(" AND r.DateRequired >= ?");
 			params.add(p_DateRequired_From);
 		}
 		if (p_DateRequired_To != null)
@@ -232,7 +232,7 @@ public class RequisitionPOCreate extends SvrProcess
 		}
 		if (p_PriorityRule != null)
 		{
-			whereClause.append(" AND r.PriorityRule => ?");
+			whereClause.append(" AND r.PriorityRule >= ?");
 			params.add(p_PriorityRule);
 		}
 		if (p_AD_User_ID > 0)
