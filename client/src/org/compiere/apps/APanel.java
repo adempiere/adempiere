@@ -33,7 +33,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Properties;
+import java.util.TreeMap;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -113,7 +115,7 @@ import org.compiere.util.Util;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: APanel.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
- * 
+ *
  *  Colin Rooney 2007/03/20 RFE#1670185 & related BUG#1684142 - Extend Sec to Info Queries
  *  @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  *  @contributor fer_luck@centuryon.com , FR [ 1757088 ]
@@ -127,13 +129,13 @@ import org.compiere.util.Util;
  *  @author Teo Sarca, teo.sarca@gmail.com
  *  			<li>BF [ 2876892 ] Save included tab before calling button action
  *  				https://sourceforge.net/tracker/?func=detail&aid=2876892&group_id=176962&atid=879332
- *  @author victor.perez@e-evolution.com 
+ *  @author victor.perez@e-evolution.com
  *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
  *  @autor tobi42, metas GmBH
  *  			<li>BF [ 2799362 ] You can press New button a lot of times
  *  @author Cristina Ghita, www.arhipac.ro
  *  @see FR [ 2877111 ] See identifiers columns when delete records https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962
- * 
+ *
  * 	@author hengsin, hengsin.low@idalica.com
  *  @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
  *  @sponsor www.metas.de
@@ -142,12 +144,12 @@ public final class APanel extends CPanel
 	implements DataStatusListener, ChangeListener, ActionListener, ASyncProcess
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 6066778919781303581L;
 
 	private boolean isNested = false;
-	
+
 	/**
 	 * Constructs a new instance.
 	 * Need to call initPanel for dynamic initialization
@@ -161,7 +163,7 @@ public final class APanel extends CPanel
 			m_curGC = gc;
 			gc.addDataStatusListener(this);
 			m_curTab = gc.getMTab();
-			
+
 			Component tabElement = null;
 			tabElement = gc;
 			VTabbedPane tabPane = new VTabbedPane(false);
@@ -174,20 +176,20 @@ public final class APanel extends CPanel
 		catch(Exception e){
 			log.log(Level.SEVERE, "", e);
 		}
-		
+
 		createMenu();
-		
-		MRole role = MRole.getDefault(); 
+
+		MRole role = MRole.getDefault();
 		m_curGC.query (m_onlyCurrentRows, m_onlyCurrentDays, role.getMaxQueryRecords());
 		m_curTab.navigateCurrent();     //  updates counter
 		m_curGC.dynamicDisplay(0);
 	}
-	
+
 	public APanel(AWindow window)
 	{
 		super();
 		m_window = window;
-				
+
 		m_ctx = Env.getCtx();
 		//
 		try
@@ -203,7 +205,7 @@ public final class APanel extends CPanel
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(APanel.class);
-	
+
 	private AWindow m_window;
 	private boolean isCancel = false; //Goodwill
 
@@ -291,7 +293,7 @@ public final class APanel extends CPanel
 		northLayout.setAlignment(FlowLayout.LEFT);
 		toolBar.putClientProperty("JToolBar.isRollover", Boolean.TRUE);
 		toolBar.setBorderPainted(false);
-		toolBar.setFloatable(false); // teo_sarca, [ 1666591 ] Toolbar should not be floatable 
+		toolBar.setFloatable(false); // teo_sarca, [ 1666591 ] Toolbar should not be floatable
 		northPanel.add(toolBar, null);
 	}	//	jbInit
 
@@ -309,9 +311,9 @@ public final class APanel extends CPanel
 	//	Local (added to toolbar)
 	private AppsAction	    aReport, aEnd, aHome, aHelp, aProduct, aLogout,
 							aAccount, aCalculator, aCalendar, aEditor, aPreference, aScript,
-							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner, 
+							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner,
 							aDeleteSelection, aShowAllWindow;
-	
+
 	private SwitchAction aSwitchLinesDownAction, aSwitchLinesUpAction;
 
 	private WindowMenu m_WindowMenu;
@@ -354,7 +356,7 @@ public final class APanel extends CPanel
 		aRefresh = 	addAction("Refresh",		mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0),	false);
 		mEdit.addSeparator();
 		aFind = 	addAction("Find",			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), true);	//	toggle
-		if (m_isPersonalLock)			
+		if (m_isPersonalLock)
 			aLock = addAction("Lock",			mEdit, 	null,	true);		//	toggle
 		//								View
 		JMenu mView = AEnv.getMenu("View");
@@ -363,7 +365,7 @@ public final class APanel extends CPanel
 		{
 			aProduct =	addAction("InfoProduct",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.ALT_MASK),	false);
 		}
-		if (MRole.getDefault().isAllow_Info_BPartner())		
+		if (MRole.getDefault().isAllow_Info_BPartner())
 		{
 			aBPartner =	addAction("InfoBPartner",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.SHIFT_MASK+Event.ALT_MASK),	false);
 		}
@@ -373,48 +375,48 @@ public final class APanel extends CPanel
 		}
 		if (MRole.getDefault().isAllow_Info_Schedule())
 		{
-			AEnv.addMenuItem("InfoSchedule", null, null, mView, this);			
+			AEnv.addMenuItem("InfoSchedule", null, null, mView, this);
 		}
-		//FR [ 1966328 ] 
+		//FR [ 1966328 ]
 		if (MRole.getDefault().isAllow_Info_MRP())
 		{
-			AEnv.addMenuItem("InfoMRP", "Info", null, mView, this);	
+			AEnv.addMenuItem("InfoMRP", "Info", null, mView, this);
 		}
 		if (MRole.getDefault().isAllow_Info_CRP())
 		{
-			AEnv.addMenuItem("InfoCRP", "Info", null, mView, this);	
+			AEnv.addMenuItem("InfoCRP", "Info", null, mView, this);
 		}
 		mView.addSeparator();
 		if (MRole.getDefault().isAllow_Info_Order())
 		{
-			AEnv.addMenuItem("InfoOrder", "Info", null, mView, this);	
+			AEnv.addMenuItem("InfoOrder", "Info", null, mView, this);
 		}
 		if (MRole.getDefault().isAllow_Info_Invoice())
 		{
-			AEnv.addMenuItem("InfoInvoice", "Info", null, mView, this);			
+			AEnv.addMenuItem("InfoInvoice", "Info", null, mView, this);
 		}
 		if (MRole.getDefault().isAllow_Info_InOut())
 		{
-			AEnv.addMenuItem("InfoInOut", "Info", null, mView, this);	
+			AEnv.addMenuItem("InfoInOut", "Info", null, mView, this);
 		}
 		if (MRole.getDefault().isAllow_Info_Payment())
 		{
-			AEnv.addMenuItem("InfoPayment", "Info", null, mView, this);	
+			AEnv.addMenuItem("InfoPayment", "Info", null, mView, this);
 		}
 		if (MRole.getDefault().isAllow_Info_CashJournal())
 		{
-			AEnv.addMenuItem("InfoCashLine", "Info", null, mView, this);	
+			AEnv.addMenuItem("InfoCashLine", "Info", null, mView, this);
 		}
 		if (MRole.getDefault().isAllow_Info_Resource())
 		{
-			AEnv.addMenuItem("InfoAssignment", "Info", null, mView, this);	
+			AEnv.addMenuItem("InfoAssignment", "Info", null, mView, this);
 		}
 		if (MRole.getDefault().isAllow_Info_Asset())
 		{
-			AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);	
+			AEnv.addMenuItem("InfoAsset", "Info", null, mView, this);
 		}
 
-		
+
 
 		mView.addSeparator();
 		aAttachment = addAction("Attachment",	mView, 	KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0),	true);		//	toggle
@@ -455,13 +457,13 @@ public final class APanel extends CPanel
 			mTools.addSeparator();
 			aPreference = addAction("Preference",	mTools, 	null,	false);
 		}
-		
+
 		//Window
 		AMenu aMenu = (AMenu)Env.getWindow(0);
 		m_WindowMenu = new WindowMenu(aMenu.getWindowManager(), m_window);
 		menuBar.add(m_WindowMenu);
 		aShowAllWindow = addAction("ShowAllWindow", null, KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK),	false);
-		
+
 		//								Help
 		JMenu mHelp = AEnv.getMenu("Help");
 		menuBar.add(mHelp);
@@ -547,7 +549,7 @@ public final class APanel extends CPanel
 	//	String s = null;
 	//	if (b != null)
 	//		s = b.getToolTipText();
-		
+
 		//	Key Strokes
 		if (accelerator != null)
 		{
@@ -621,7 +623,7 @@ public final class APanel extends CPanel
 
 	private HashMap<Integer, GridController> includedMap;
 
-	
+
 	/**************************************************************************
 	 *	Dynamic Panel Initialization - either single window or workbench.
 	 *  <pre>
@@ -663,7 +665,8 @@ public final class APanel extends CPanel
 		}
 
 		Dimension windowSize = m_mWorkbench.getWindowSize();
-		
+
+		MQuery detailQuery = null;
 		/**
 		 *  WorkBench Loop
 		 */
@@ -740,6 +743,16 @@ public final class APanel extends CPanel
 						//  initial user query for single workbench tab
 						if (m_mWorkbench.getWindowCount() == 1)
 						{
+							if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null
+								&& query.getZoomValue() instanceof Integer && (Integer)query.getZoomValue() > 0)
+					    	{
+					    		if (!query.getZoomTableName().equalsIgnoreCase(gTab.getTableName()))
+					    		{
+					    			detailQuery = query;
+					    			query = new MQuery();
+					    			query.addRestriction("1=2");
+					    		}
+					    	}
 							isCancel = false; //Goodwill
 							query = initialQuery (query, gTab);
 							if (isCancel) return false; //Cancel opening window
@@ -793,18 +806,18 @@ public final class APanel extends CPanel
 						//	If we have a zoom query, switch to single row
 						if (tab == 0 && goSingleRow)
 							gc.switchSingleRow();
-						
+
                         // FR [ 1757088 ]
 						GridField[] fields = gc.getMTab().getFields();
 						int m_tab_id = 0;
 						for(int f =0 ; f < fields.length ; f ++)
 						{
-							m_tab_id = fields[f].getIncluded_Tab_ID();						  
+							m_tab_id = fields[f].getIncluded_Tab_ID();
 							if ( m_tab_id != 0)
 							{
 								includedMap.put(m_tab_id, gc);
 							}
-						}  
+						}
 
 						//	Is this tab included?
 						if (includedMap.size() > 0)
@@ -817,7 +830,7 @@ public final class APanel extends CPanel
 								GridSynchronizer synchronizer = new GridSynchronizer(mWindow, parent, gc);
 								if (parent == m_curGC)
 									synchronizer.activateChild();
-								included = parent.includeTab(gc,this,synchronizer);								
+								included = parent.includeTab(gc,this,synchronizer);
 							}
 						}
 						initSwitchLineAction();
@@ -878,11 +891,11 @@ public final class APanel extends CPanel
 			setPreferredSize(windowSize);
 		else
 			revalidate();
-		
-		if (zoomToDetailTab(query)) {
-			return true;			
+
+		if (detailQuery != null && zoomToDetailTab(detailQuery)) {
+			return true;
 		}
-		
+
 		Dimension size = getPreferredSize();
 		log.info( "fini - " + size);
 		m_curWinTab.requestFocusInWindow();
@@ -902,63 +915,120 @@ public final class APanel extends CPanel
     	        	gTab = m_mWorkbench.getMWindow(0).getTab(tab);
     	        	if (gTab.isSortTab())
     	        		continue;
-    	        	
-    	        	if (gTab.getTabLevel() == 1 && gTab.getTableName().equalsIgnoreCase(query.getZoomTableName()))
+
+    	        	if (gTab.getTableName().equalsIgnoreCase(query.getZoomTableName()))
     	        	{
-    	        		GridField[] fields = gTab.getFields();
-    	        		for (GridField field : fields)
-    	        		{
-    	        			if (field.getColumnName().equalsIgnoreCase(query.getZoomColumnName()))
-    	        			{
-    	        				if (query.getZoomValue() != null && query.getZoomValue() instanceof Integer)
-    	        				{    	        					
-    	        					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
-    	        					{
-    	        						m_mWorkbench.getMWindow(0).initTab(tab);
-    	        						int index = tabPanel.findTabindex(gTab);
-    	        						if (index >= 0)
-    	        						{
-    	        							GridController gc = (GridController) tabPanel.getComponentAt(index);
-    	        							gc.activate();
-    	        							gc.query(false, 0, 0);
-    	        						}
-    	        					}	
-        	        				GridTable table = gTab.getTableModel();
-        	        				int count = table.getRowCount();
-        	        				for(int i = 0; i < count; i++)
-        	        				{
-        	        					int id = table.getKeyID(i);
-        	        					if (id == ((Integer)query.getZoomValue()).intValue())
-        	        					{
-        	        						if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
-        	        						{
-        	        							int index = tabPanel.findTabindex(gTab);
-            	        						if (index >= 0)
-            	        							tabPanel.setSelectedIndex(index);
-        	        						}
-        	        						gTab.navigate(i);
-        	        						return true;
-        	        					}
-        	        				}
-    	        				}
-    	        				else
-    	        				{
-    	        					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
-    	        					{
-    	        						int index = tabPanel.findTabindex(gTab);
-    	        						if (index >= 0)
-    	        							tabPanel.setSelectedIndex(index);
-    	        					}
-	        						return true;
-    	        				}
-    	        				break;
-    	        			}
-    	        		}
+	        			if (doZoomToDetail(gTab, query, tab)) {
+	        				return true;
+	        			}
     	        	}
     	        }
     		}
     	}
         return false;
+	}
+
+	private boolean doZoomToDetail(GridTab gTab, MQuery query, int tabIndex) {
+		GridField[] fields = gTab.getFields();
+		for (GridField field : fields)
+		{
+			if (field.getColumnName().equalsIgnoreCase(query.getZoomColumnName()))
+			{
+				m_mWorkbench.getMWindow(0).initTab(tabIndex);
+				int parentId = DB.getSQLValue(null, "SELECT " + gTab.getLinkColumnName() + " FROM " + gTab.getTableName() + " WHERE " + query.getWhereClause());
+				if (parentId > 0)
+				{
+					Map<Integer, Object[]>parentMap = new TreeMap<Integer, Object[]>();
+					int index = tabIndex;
+					int oldpid = parentId;
+					GridTab currentTab = gTab;
+					while (index > 0)
+					{
+						index--;
+						GridTab pTab = m_mWorkbench.getMWindow(0).getTab(index);
+						if (pTab.getTabLevel() < currentTab.getTabLevel())
+						{
+							m_mWorkbench.getMWindow(0).initTab(index);
+							if (index > 0)
+							{
+								if (pTab.getLinkColumnName() != null && pTab.getLinkColumnName().trim().length() > 0)
+								{
+									int pid = DB.getSQLValue(null, "SELECT " + pTab.getLinkColumnName() + " FROM " + pTab.getTableName() + " WHERE " + currentTab.getLinkColumnName() + " = ?", oldpid);
+									if (pid > 0)
+									{
+										parentMap.put(index, new Object[]{currentTab.getLinkColumnName(), oldpid});
+										oldpid = pid;
+										currentTab = pTab;
+									}
+									else
+									{
+										parentMap.clear();
+										break;
+									}
+								}
+							}
+							else
+							{
+								parentMap.put(index, new Object[]{currentTab.getLinkColumnName(), oldpid});
+							}
+						}
+					}
+					for(Map.Entry<Integer, Object[]> entry : parentMap.entrySet())
+					{
+						GridTab pTab = m_mWorkbench.getMWindow(0).getTab(entry.getKey());
+						Object[] value = entry.getValue();
+						MQuery pquery = new MQuery(pTab.getAD_Table_ID());
+						pquery.addRestriction((String)value[0], "=", value[1]);
+						pTab.setQuery(pquery);
+						GridController gc = (GridController) tabPanel.getComponentAt(entry.getKey());
+						gc.activate();
+						gc.query(false, 0, 0);
+					}
+
+
+					MQuery targetQuery = new MQuery(gTab.getAD_Table_ID());
+					targetQuery.addRestriction(gTab.getLinkColumnName(), "=", parentId);
+					gTab.setQuery(targetQuery);
+					GridController gc = null;
+					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+					{
+						int target = tabPanel.findTabindex(gTab);
+						gc = (GridController) tabPanel.getComponentAt(target);
+					}
+					else
+					{
+						GridController parent = includedMap.get(gTab.getAD_Tab_ID());
+						gc = parent.findChild(gTab);
+					}
+					gc.activate();
+					gc.query(false, 0, 0);
+
+					GridTable table = gTab.getTableModel();
+    				int count = table.getRowCount();
+    				for(int i = 0; i < count; i++)
+    				{
+    					int id = table.getKeyID(i);
+    					if (id == ((Integer)query.getZoomValue()).intValue())
+    					{
+    						if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+    						{
+    							tabPanel.setSelectedIndex(tabPanel.findTabindex(gTab));
+    						}
+    						else
+    						{
+    							GridController parent = includedMap.get(gTab.getAD_Tab_ID());
+    							int pindex = tabPanel.findTabindex(parent.getMTab());
+    							if (pindex >= 0)
+    								tabPanel.setSelectedIndex(pindex);
+    						}
+    						gTab.navigate(i);
+    						return true;
+    					}
+    				}
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -969,7 +1039,7 @@ public final class APanel extends CPanel
 	{
 		return m_curWindowNo;
 	}	//	getWindowNo
-	
+
 	/**
 	 * 	Initial Query
 	 *	@param query initial query
@@ -1014,7 +1084,7 @@ public final class APanel extends CPanel
 		{
 			GridField[] findFields = mTab.getFields();
 			Find find = new Find (Env.getFrame(this), m_curWindowNo, mTab.getName(),
-				mTab.getAD_Tab_ID(), mTab.getAD_Table_ID(), mTab.getTableName(), 
+				mTab.getAD_Tab_ID(), mTab.getAD_Table_ID(), mTab.getTableName(),
 				where.toString(), findFields, 10);	//	no query below 10
 			query = find.getQuery();
 			isCancel = (query == null);//Goodwill
@@ -1023,8 +1093,8 @@ public final class APanel extends CPanel
 		}
 		return query;
 	}	//	initialQuery
-	
-	
+
+
 	/**
 	 *  Get Window Index
 	 *  @return Window Index
@@ -1055,8 +1125,8 @@ public final class APanel extends CPanel
 	{
 		return m_mWorkbench.getImage(getWindowIndex());
 	}	//	getImage
-	
-	
+
+
 	/**************************************************************************
 	 *	Data Status Listener (row change)			^ | v
 	 *  @param e event
@@ -1119,11 +1189,11 @@ public final class APanel extends CPanel
 		aLast.setEnabled(!lastRow);
 
 		//	update Change
-		
+
 		boolean changed = e.isChanged() || e.isInserting();
 		int changedColumn = e.getChangedColumn();
 		boolean inserting = e.isInserting();
-		
+
 		if(e.getAD_Message() != null && e.getAD_Message().equals("Saved"))
 			changed = false;
 		boolean readOnly = m_curTab.isReadOnly();
@@ -1231,7 +1301,7 @@ public final class APanel extends CPanel
 		}
 	}	//	set Busy
 
-	
+
 	/**************************************************************************
 	 *	Change Listener - (tab change)			<->
 	 *  @param e event
@@ -1325,7 +1395,7 @@ public final class APanel extends CPanel
 							if( newRecord == -1)
 								m_curTab.dataIgnore();
 							else
-							{      
+							{
 								m_curWinTab.setSelectedIndex(m_curTabIndex);
 								setBusy(false, true);
 								return;
@@ -1385,7 +1455,7 @@ public final class APanel extends CPanel
 				m_curTab.dataRefresh();
 			else	//	Requery & autoSize
 			{
-				MRole role = MRole.getDefault(); 
+				MRole role = MRole.getDefault();
 				m_curGC.query (m_onlyCurrentRows, m_onlyCurrentDays, role.getMaxQueryRecords());
 				/*
 				if (m_curGC.isNeedToSaveParent())
@@ -1401,7 +1471,7 @@ public final class APanel extends CPanel
 			if (m_curTab.getRowCount() == 0)
 			{
 				//	Automatically create New Record, if none & tab not RO
-				if (!m_curTab.isReadOnly() 
+				if (!m_curTab.isReadOnly()
 					&& (Env.isAutoNew(m_ctx, m_curWindowNo) || m_curTab.isQueryNewRecord()))
 				{
 					log.config("No record - New - AutoNew=" + Env.isAutoNew(m_ctx, m_curWindowNo)
@@ -1426,20 +1496,20 @@ public final class APanel extends CPanel
 					//not sure why, the following lines is needed to make dynamic resize work
 					//tested on jdk1.5, 1.6 using jgoodies look and feel
 					frame.getPreferredSize();
-					
+
 					if (frame.getExtendedState() != JFrame.MAXIMIZED_BOTH)
 					{
 						frame.setMinimumSize(frame.getSize());
 						revalidate();
 						SwingUtilities.invokeLater(new Runnable() {
-		
+
 							public void run() {
 								JFrame frame = Env.getFrame(APanel.this);
 								frame.validate();
 								AEnv.showCenterScreen(frame);
 								frame.setMinimumSize(null);
 							}
-							
+
 						});
 					}
 				}
@@ -1526,7 +1596,7 @@ public final class APanel extends CPanel
 			m_curGC.acceptEditorChanges();
 			m_curWinTab.setSelectedIndex(index+1);
 		}
-			
+
 	}	//	navigateDetail
 
 	/**
@@ -1563,7 +1633,7 @@ public final class APanel extends CPanel
 		}
 	}	//	navigateParent
 
-	
+
 	/**************************************************************************
 	 *	Action Listener
 	 *  @param e event
@@ -1574,7 +1644,7 @@ public final class APanel extends CPanel
 		//	+ " - " + new Timestamp(e.getWhen()) + " " + isUILocked());
 		if (m_disposing || isUILocked())
 			return;
-			
+
 		m_lastModifiers = e.getModifiers();
 		String cmd = e.getActionCommand();
 		//	Do ScreenShot w/o busy
@@ -1641,7 +1711,7 @@ public final class APanel extends CPanel
 				m_curGC.switchRowPresentation();
 			//	Go
 			else if (cmd.equals(aHome.getName())) {
-				// show main menu - teo_sarca [ 1706409, 1707221 ] 
+				// show main menu - teo_sarca [ 1706409, 1707221 ]
 				setBusy(false, false);
 				AEnv.showWindow(Env.getWindow(0));
 				return;
@@ -1652,14 +1722,14 @@ public final class APanel extends CPanel
 				m_curGC.acceptEditorChanges();
 				m_curTab.navigate(0);
 			}
-			else if (cmd.equals(aSwitchLinesUpAction.getName())) 
+			else if (cmd.equals(aSwitchLinesUpAction.getName()))
 			{
 				//up-key + shift
 				m_curGC.getTable().removeEditor();
 				m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
 				m_curGC.getTable().requestFocus();
-			} 
-			else if (cmd.equals(aPrevious.getName())) 
+			}
+			else if (cmd.equals(aPrevious.getName()))
 			{ /* cmd_save(false); */
 				//up-image + shift
 				m_curGC.getTable().removeEditor();
@@ -1669,15 +1739,15 @@ public final class APanel extends CPanel
 				} else {
 					m_curTab.navigateRelative(-1);
 				}
-			} 
-			else if (cmd.equals(aSwitchLinesDownAction.getName())) 
+			}
+			else if (cmd.equals(aSwitchLinesDownAction.getName()))
 			{
 				//down-key + shift
 				m_curGC.getTable().removeEditor();
 				m_curTab.switchRows(m_curTab.getCurrentRow(), m_curTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
 				m_curGC.getTable().requestFocus();
-			} 
-			else if (cmd.equals(aNext.getName())) 
+			}
+			else if (cmd.equals(aNext.getName()))
 			{ /* cmd_save(false); */
 				//down-image + shift
 				m_curGC.getTable().removeEditor();
@@ -1746,7 +1816,7 @@ public final class APanel extends CPanel
 		if (top instanceof AMenu) {
 			((AMenu)top).logout();
 		}
-		
+
 	}
 
 	/**************************************************************************
@@ -1767,7 +1837,7 @@ public final class APanel extends CPanel
 		GridField field = m_curTab.getField(button.getColumnName());
 		return m_curTab.processCallout(field);
 	}	//	processButtonCallout
-	
+
 	/**
 	 *  Create New Record
 	 *  @param copy true if current record is to be copied
@@ -1780,10 +1850,10 @@ public final class APanel extends CPanel
 			log.warning("Insert Record disabled for Tab");
 			return;
 		}
-		
+
 		m_curGC.stopEditor(true);
 		m_curGC.acceptEditorChanges();
-		
+
 		// BF [ 2799362 ] attempt to save if save action is enabled. Using
 		// m_curTab.needSave instead might miss unfilled mandatory fields.
 		if(aSave.isEnabled()){
@@ -1791,7 +1861,7 @@ public final class APanel extends CPanel
 			if (Env.isAutoCommit(m_ctx, m_curWindowNo))
 			{
 				if (!cmd_save(true))
-				{	
+				{
 					return;
 				}
 			}
@@ -1799,7 +1869,7 @@ public final class APanel extends CPanel
 			else if (ADialog.ask(m_curWindowNo, this, "SaveChanges?", m_curTab.getCommitWarning()))
 			{   //  yes we want to save
 				if (!cmd_save(true))
-				{   
+				{
 					return;
 				}
 			}
@@ -1824,7 +1894,7 @@ public final class APanel extends CPanel
 				m_curGC.rowChanged(false, keyID);
 		m_curGC.dynamicDisplay(0);
 	}   //  cmd_delete
-	
+
 	/**
 	 * Show a list to select one or more items to delete.
 	 */
@@ -1884,10 +1954,10 @@ public final class APanel extends CPanel
 		}
 		// FR [ 2877111 ]
 		list.setListData(data);
-	
+
 		list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		messagePanel.add(scrollPane);
-		
+
 		final JOptionPane pane = new JOptionPane(
 				messagePanel, // message
 				JOptionPane.QUESTION_MESSAGE, // messageType
@@ -1963,13 +2033,13 @@ public final class APanel extends CPanel
 			if (!isNested)
 				m_window.setTitle(getTitle());
 		}
-		
+
 		//BEGIN - [FR 1953734]
 		if(m_curGC.isDetailGrid() && retValue){
 			m_curGC.getGCParent().refreshMTab(m_curGC);
 		}
 		//END - [FR 1953734]
-		
+
 		return retValue;
 	}   //  cmd_save
 
@@ -1988,14 +2058,14 @@ public final class APanel extends CPanel
 	private void cmd_ignore()
 	{
 		m_curGC.stopEditor(false);
-		// Ignore changes in APanelTab (e.g. VSortTab) - teo_sarca [ 1705429 ] 
+		// Ignore changes in APanelTab (e.g. VSortTab) - teo_sarca [ 1705429 ]
 		if (m_curAPanelTab != null)
 		{
 			m_curAPanelTab.loadData();
 		}
 		m_curTab.dataIgnore();
 		m_curGC.dynamicDisplay(0);
-		
+
 	}   //  cmd_ignore
 
 	/**
@@ -2019,7 +2089,7 @@ public final class APanel extends CPanel
 			ADialog.error(m_curWindowNo, this, "AccessCannotReport");
 			return;
 		}
-		
+
 		cmd_save(false);
 
 		//	Query
@@ -2058,7 +2128,7 @@ public final class APanel extends CPanel
 		new AReport (m_curTab.getAD_Table_ID(), aReport.getButton(), query, this, m_curWindowNo, m_curTab.getWhereExtended());
 	}	//	cmd_report
 
-	
+
 	/**
 	 * 	Zoom Across Menu
 	 */
@@ -2085,10 +2155,10 @@ public final class APanel extends CPanel
 				query.addRestriction(link, MQuery.EQUAL,
 					Env.getContext(m_ctx, m_curWindowNo, link));
 		}
-		new AZoomAcross (aZoomAcross.getButton(), 
+		new AZoomAcross (aZoomAcross.getButton(),
 			m_curTab.getTableName(), query);
 	}	//	cmd_zoom
-	
+
 	/**
 	 * 	Open/View Request
 	 */
@@ -2120,7 +2190,7 @@ public final class APanel extends CPanel
 		int AD_Table_ID = m_curTab.getAD_Table_ID();
 		new AArchive (aArchive.getButton(), AD_Table_ID, record_ID);
 	}	//	cmd_archive
-	
+
 	/**
 	 *	Print specific Report - or start default Report
 	 */
@@ -2128,7 +2198,7 @@ public final class APanel extends CPanel
 	{
 		cmd_print(false);
 	}
-	
+
 	/**
 	 *	Print specific Report - or start default Report
 	 */
@@ -2169,7 +2239,7 @@ public final class APanel extends CPanel
 		//	Gets Fields from AD_Field_v
 		GridField[] findFields = GridField.createFields(m_ctx, m_curWindowNo, 0, m_curTab.getAD_Tab_ID());
 		Find find = new Find (Env.getFrame(this), m_curWindowNo, m_curTab.getName(),
-			m_curTab.getAD_Tab_ID(), m_curTab.getAD_Table_ID(), m_curTab.getTableName(), 
+			m_curTab.getAD_Tab_ID(), m_curTab.getAD_Table_ID(), m_curTab.getTableName(),
 			m_curTab.getWhereExtended(), findFields, 1);
 		MQuery query = find.getQuery();
 		find.dispose();
@@ -2198,7 +2268,7 @@ public final class APanel extends CPanel
 			return;
 		}
 
-	//	Attachment va = 
+	//	Attachment va =
 		new Attachment (Env.getFrame(this), m_curWindowNo,
 			m_curTab.getAD_AttachmentID(), m_curTab.getAD_Table_ID(), record_ID, null);
 		//
@@ -2234,9 +2304,9 @@ public final class APanel extends CPanel
 		}
 		String description = infoName + ": " + infoDisplay;
 		//
-	//	AChat va = 
+	//	AChat va =
 		new AChat (Env.getFrame(this), m_curWindowNo,
-			m_curTab.getCM_ChatID(), m_curTab.getAD_Table_ID(), record_ID, 
+			m_curTab.getCM_ChatID(), m_curTab.getAD_Table_ID(), record_ID,
 			description, null);
 		//
 		m_curTab.loadChats();				//	reload
@@ -2292,10 +2362,10 @@ public final class APanel extends CPanel
 					m_onlyCurrentRows = false;
 				//
 				m_curTab.setQuery(null);	//	reset previous queries
-				MRole role = MRole.getDefault(); 
+				MRole role = MRole.getDefault();
 				int maxRows = role.getMaxQueryRecords();
 				//
-				log.config("OnlyCurrent=" + m_onlyCurrentRows 
+				log.config("OnlyCurrent=" + m_onlyCurrentRows
 					+ ", Days=" + m_onlyCurrentDays
 					+ ", MaxRows=" + maxRows);
 				m_curGC.query(m_onlyCurrentRows, m_onlyCurrentDays, maxRows );   //  autoSize
@@ -2342,7 +2412,7 @@ public final class APanel extends CPanel
 	private void cmd_winSize()
 	{
 		Dimension size = getSize();
-		if (!ADialog.ask(m_curWindowNo, this, "WinSizeSet", 
+		if (!ADialog.ask(m_curWindowNo, this, "WinSizeSet",
 			"x=" + size.width + " - y=" + size.height))
 		{
 			setPreferredSize(null);
@@ -2354,13 +2424,13 @@ public final class APanel extends CPanel
 		win.setWindowSize(size);
 		win.save();
 	}	//	cmdWinSize
-	
+
 	private void cmd_export()
 	{
 		new AExport(this);
 	}
-	
-	
+
+
 	/**************************************************************************
 	 *	Start Button Process
 	 *  @param vButton button
@@ -2407,7 +2477,7 @@ public final class APanel extends CPanel
 		if (record_ID == -1 && m_curTab.getKeyColumnName().equals("AD_Language"))
 			record_ID = Env.getContextAsInt (m_ctx, m_curWindowNo, "AD_Language_ID");
 		//	Record_ID - Change Log ID
-		if (record_ID == -1 
+		if (record_ID == -1
 			&& (vButton.getProcess_ID() == 306 || vButton.getProcess_ID() == 307))
 		{
 			Integer id = (Integer)m_curTab.getValue("AD_ChangeLog_ID");
@@ -2419,7 +2489,7 @@ public final class APanel extends CPanel
 			ADialog.error(m_curWindowNo, this, "SaveErrorRowNotFound");
 			return;
 		}
-		
+
 		boolean isProcessMandatory = false;
 
 		//	Pop up Payment Rules
@@ -2462,7 +2532,7 @@ public final class APanel extends CPanel
 		//  Pop up Create From
 		else if (col.equals("CreateFrom"))
 		{
-			// Run form only if the button has no process defined - teo_sarca [ 1974354 ] 
+			// Run form only if the button has no process defined - teo_sarca [ 1974354 ]
 			if (vButton.getProcess_ID() <= 0)
 			{
 				ICreateFrom cf = VCreateFromFactory.create(m_curTab);
@@ -2477,7 +2547,7 @@ public final class APanel extends CPanel
 					else
 						cf.closeWindow();
 					return;
-				}				
+				}
 				//	else may start process
 			}
 		}	//	CreateFrom
@@ -2552,18 +2622,18 @@ public final class APanel extends CPanel
 		if (m_curTab.needSave(true, false))
 			if (!cmd_save(true))
 				return;
-		
+
 		// call form
 		MProcess pr = new MProcess(m_ctx, vButton.getProcess_ID(), null);
 		int form_ID = pr.getAD_Form_ID();
-		if (form_ID != 0 ) 
+		if (form_ID != 0 )
 		{
-			
+
 			if (m_curTab.needSave(true, false))
 				if (!cmd_save(true))
 					return;
-			
-			FormFrame ff = new FormFrame(); 
+
+			FormFrame ff = new FormFrame();
 			String title = vButton.getDescription();
 			if (title == null || title.length() == 0)
 				title = vButton.getName();
@@ -2571,14 +2641,14 @@ public final class APanel extends CPanel
 			pi.setAD_User_ID (Env.getAD_User_ID(m_ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(m_ctx));
 			ff.setProcessInfo(pi);
-			ff.openForm(form_ID); 
-			ff.pack(); 
-			AEnv.showCenterScreen(ff); 
-			return; 
-		}		
+			ff.openForm(form_ID);
+			ff.pack();
+			AEnv.showCenterScreen(ff);
+			return;
+		}
 		else {
 			ProcessModalDialog dialog = new ProcessModalDialog(m_ctx, Env.getWindow(m_curWindowNo), Env.getHeader(m_ctx, m_curWindowNo),
-					this, m_curWindowNo, vButton.getProcess_ID(), table_ID, 
+					this, m_curWindowNo, vButton.getProcess_ID(), table_ID,
 					record_ID, startWOasking);
 			if (dialog.isValidDialog())
 			{
@@ -2589,7 +2659,7 @@ public final class APanel extends CPanel
 		}
 	}	//	actionButton
 
-	
+
 	/**************************************************************************
 	 *  Lock User Interface.
 	 *  Called from the Worker before processing
@@ -2609,13 +2679,13 @@ public final class APanel extends CPanel
 	public void unlockUI (ProcessInfo pi)
 	{
 	//	log.fine("" + pi);
-		boolean notPrint = pi != null 
+		boolean notPrint = pi != null
 			&& pi.getAD_Process_ID() != m_curTab.getAD_Process_ID()
 			&& pi.isReportingProcess() == false;
 		//
 		setBusy(false, notPrint);
 		//  Process Result
-		if (notPrint)		//	refresh if not print 
+		if (notPrint)		//	refresh if not print
 		{
 			//	Refresh data
 			m_curTab.dataRefresh();
@@ -2670,7 +2740,7 @@ public final class APanel extends CPanel
 	{
 		return m_curTab;
 	}	//	getCurrentTab
-	
+
 	/**
 	 * Get the number of tabs in the panels JTabbedPane.
 	 * @return no of tabs in the JTabbedPane of the panel
@@ -2678,7 +2748,7 @@ public final class APanel extends CPanel
 	public int noOfTabs() {
  		return m_curWinTab.getTabCount();
 	}
-	
+
 	/**
 	 * Get the selected tab index of the panels JTabbedPane.
 	 * @return selected index of JTabbedPane
@@ -2686,14 +2756,14 @@ public final class APanel extends CPanel
 	public int getSelectedTabIndex() {
  		return m_curWinTab.getSelectedIndex();
 	}
-	
+
 	/**
 	 * Set the tab index of the panels JTabbedPane.
 	 */
 	public void setSelectedTabIndex(int index) {
  		m_curWinTab.setSelectedIndex(index);
 	}
-	
+
 	/**
 	 * Get the name of the selected tab in the panels JTabbedPane.
 	 * @return name of selected tab
@@ -2704,7 +2774,7 @@ public final class APanel extends CPanel
  		title = title.substring(0,title.indexOf('<'));
  		return title;
 	}
-	
+
 	/**
 	 *  String representation
 	 *  @return String representation
@@ -2721,13 +2791,13 @@ public final class APanel extends CPanel
 	/**
 	 * Simple action class for the resort of tablelines (switch line no). Delegates actionPerformed
 	 * to APanel.
-	 * 
+	 *
 	 * @author Karsten Thiemann, kthiemann@adempiere.org
-	 * 
+	 *
 	 */
 	class SwitchAction extends AbstractAction {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 3837712049468116744L;
 
@@ -2791,7 +2861,7 @@ public final class APanel extends CPanel
 				aSwitchLinesUpAction.getName());
 		getActionMap().put(aSwitchLinesUpAction.getName(), aSwitchLinesUpAction);
 	}
-	
+
 	public boolean isNested() {
 		return isNested;
 	}

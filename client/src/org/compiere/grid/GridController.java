@@ -145,7 +145,7 @@ import org.compiere.util.Trx;
  *  </pre>
  * @author  Jorg Janke
  * @version $Id: GridController.java,v 1.8 2006/09/25 00:59:52 jjanke Exp $
- * 
+ *
  * @author Teo Sarca - BF [ 1742159 ], BF [ 1707876 ]
  * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
  * @contributor fer_luck @ centuryon  FR [ 1757088 ]
@@ -155,7 +155,7 @@ public class GridController extends CPanel
 		VetoableChangeListener,	PropertyChangeListener, MouseListener
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 7308782933999556880L;
 
@@ -185,7 +185,7 @@ public class GridController extends CPanel
 
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(GridController.class);
-	
+
 	/**
 	 *  The Layout
 	 */
@@ -196,14 +196,14 @@ public class GridController extends CPanel
 	private CPanel cardPanel = new CPanel();
 	private CardLayout cardLayout = new CardLayout();
 	//private JSplitPane srPane = new JSplitPane();
-	
+
 	private JScrollPane vPane = new JScrollPane();
 	private CScrollPane mrPane = new CScrollPane();
 	private CPanel xPanel = new CPanel();
 	private BorderLayout xLayout = new BorderLayout();
 	private VTable vTable = new VTable();
     //FR [ 1757088 ]
-	private VPanel vPanel = null; 
+	private VPanel vPanel = null;
 	private boolean detailGrid = false;
 
 	/**
@@ -226,7 +226,7 @@ public class GridController extends CPanel
 		cardPanel.add(vPane, "vPane");	//	Sequence Important!
 		cardPanel.add(mrPane, "mrPane");
 		cardPanel.setBorder(null);
-		cardPanel.setName("gc_cardPanel");		
+		cardPanel.setName("gc_cardPanel");
 		//  single row (w/o xPane it would be centered)
 		/*
 		srPane.setBorder(null);
@@ -252,7 +252,7 @@ public class GridController extends CPanel
 		graphPanel.setBorder(null);
 		graphPanel.setName("gc_graphPanel");
 		//srPane.setDividerLocation(200);
-		
+
 		vPane.setBorder(BorderFactory.createEmptyBorder());
 	}   //  jbInit
 
@@ -330,12 +330,12 @@ public class GridController extends CPanel
 
 	private ArrayList<GridSynchronizer> synchronizerList = new ArrayList<GridSynchronizer>();
 
-	public boolean initGrid (GridTab mTab, boolean onlyMultiRow, 
+	public boolean initGrid (GridTab mTab, boolean onlyMultiRow,
 			int WindowNo, APanel aPanel, GridWindow mWindow)
 	{
 		return initGrid(mTab, onlyMultiRow, WindowNo, aPanel, mWindow, false);
 	}
-	
+
 	/**************************************************************************
 	 *  Init Grid.
 	 *  <pre>
@@ -351,7 +351,7 @@ public class GridController extends CPanel
 	 * 	@param mWindow parent Window Model
 	 *  @return true if initialized
 	 */
-	public boolean initGrid (GridTab mTab, boolean onlyMultiRow, 
+	public boolean initGrid (GridTab mTab, boolean onlyMultiRow,
 		int WindowNo, APanel aPanel, GridWindow mWindow, boolean lazy)
 	{
 		log.config( "(" + mTab.toString() + ")");
@@ -371,7 +371,7 @@ public class GridController extends CPanel
 		xPanel.add(vPanel, BorderLayout.CENTER);
 
 		setTabLevel(m_mTab.getTabLevel());
-		
+
 		if (!lazy)
 			init();
 		else
@@ -379,12 +379,12 @@ public class GridController extends CPanel
 			//Load tab meta data, needed for includeTab to work
 			m_mTab.initTab(false);
 		}
-			
-		
+
+
 	//	log.config( "GridController.dynInit (" + mTab.toString() + ") - fini");
 		return true;
 	}   //  initGrid
-	
+
 	private void init()
 	{
 		//  Set up Multi Row Table
@@ -406,7 +406,7 @@ public class GridController extends CPanel
 				if (mField.isDisplayed())
 					vPanel.setMnemonic(mField);
 			}   //  for all fields
-			
+
 			//	Add Fields
 			for (int i = 0; i < size; i++)
 			{
@@ -481,15 +481,15 @@ public class GridController extends CPanel
 			switchMultiRow();
 		else
 			switchSingleRow();
-		
+
 		init = true;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return boolean
 	 */
-	public boolean isInit() 
+	public boolean isInit()
 	{
 		return init;
 	}
@@ -499,15 +499,15 @@ public class GridController extends CPanel
 	 * 	@param gc grid controller to add
 	 * 	@return GridSynchronizer
 	 */
-	
+
 	//FR [ 1757088 ]
 	public boolean includeTab (GridController gc , APanel aPanel, GridSynchronizer sync)
-	{	
+	{
 		GridController detail = gc;
-		detail.setDetailGrid(true);			
+		detail.setDetailGrid(true);
 		detail.addMouseListener(detail);
 		detail.enableEvents(AWTEvent.HIERARCHY_EVENT_MASK + AWTEvent.MOUSE_EVENT_MASK);
-		
+
 		vPanel.includeTab(detail);
 		//BEGIN - [FR 1953734]
 		gc.setGCParent(this);
@@ -523,7 +523,7 @@ public class GridController extends CPanel
 		if (detailGrid && vPanel != null)
 			vPanel.setBorder(BorderFactory.createLineBorder(AdempierePLAF.getPrimary2()));
 	}
-	
+
 	public boolean isDetailGrid(){
 		return detailGrid;
 	}
@@ -535,7 +535,7 @@ public class GridController extends CPanel
 	{
 		return m_mTab.getName();
 	}	//	getTitle
-	
+
 	/**
 	 *	Setup Multi-Row Table (add fields)
 	 * 	@param aPanel Panel
@@ -561,7 +561,7 @@ public class GridController extends CPanel
 			if (mField.getColumnName().equals(tc.getIdentifier().toString()))
 			{
 				//don't show included tab field in grid
-				if (mField.getIncluded_Tab_ID() > 0) 
+				if (mField.getIncluded_Tab_ID() > 0)
 				{
 					TableCellNone tcn = new TableCellNone(mField.getColumnName());
 					tc.setCellRenderer (tcn);
@@ -570,7 +570,7 @@ public class GridController extends CPanel
 					tc.setMinWidth (0);
 					tc.setMaxWidth (0);
 					tc.setPreferredWidth (0);
-				} 
+				}
 				else if (mField.getDisplayType () == DisplayType.RowID)
 				{
 					tc.setCellRenderer (new VRowIDRenderer (false));
@@ -627,7 +627,7 @@ public class GridController extends CPanel
 	public void activate ()
 	{
 		if (!init) init();
-		
+
 		//	Tree to be initiated on second/.. tab
 		if (m_mTab.isTreeTab() && m_mTab.getTabNo() != 0)
 		{
@@ -652,19 +652,33 @@ public class GridController extends CPanel
 			if (m_tree != null)
 				m_tree.initTree (AD_Tree_ID);
 		}
-		
+
 		activateChilds();
 	}	//	activate
 
 	/**
 	 * activate child grid controller ( included tab )
 	 */
-	private void activateChilds() 
+	private void activateChilds()
 	{
-		for (GridSynchronizer s : synchronizerList ) 
+		for (GridSynchronizer s : synchronizerList )
 		{
 			s.activateChild();
-		}		
+		}
+	}
+
+	public GridController findChild(GridTab gTab)
+	{
+		GridController gc = null;
+		for (GridSynchronizer s : synchronizerList )
+		{
+			if (s.getChild().getMTab().equals(gTab))
+			{
+				gc = s.getChild();
+				break;
+			}
+		}
+		return gc;
 	}
 
 	/**
@@ -703,7 +717,7 @@ public class GridController extends CPanel
 	{
 		return m_mTab.isNeedToSaveParent();
 	}*/
-	
+
 	/**************************************************************************
 	 *  Switch from single to multi & vice versa
 	 */
@@ -749,7 +763,7 @@ public class GridController extends CPanel
 		return m_singleRow;
 	}   //  isSingleRow
 
-	
+
 	/**************************************************************************
 	 *  Remove Listener - pass on to MTab
 	 *  @param l listener
@@ -786,7 +800,7 @@ public class GridController extends CPanel
 
 		//  Process Callout
 		GridField mField = m_mTab.getField(col);
-		if (mField != null 
+		if (mField != null
 			&& (mField.getCallout().length() > 0 || m_mTab.hasDependants(mField.getColumnName())))
 		{
 			String msg = m_mTab.processFieldChange(mField);     //  Dependencies & Callout
@@ -797,7 +811,7 @@ public class GridController extends CPanel
 		dynamicDisplay(col);
 	}   //  dataStatusChanged
 
-	
+
 	/**************************************************************************
 	 *  List Selection Listener (VTable) - row changed
 	 *  @param e event
@@ -969,14 +983,14 @@ public class GridController extends CPanel
 		boolean noData = m_mTab.getRowCount() == 0;
 		log.config(m_mTab.toString() + " - Rows=" + m_mTab.getRowCount());
 		//  All Components in vPanel (Single Row)
-		
+
 		Set<String> hiddens = new HashSet<String>();
 		Component[] comps = vPanel.getComponentsRecursive();
 		for (int i = 0; i < comps.length; i++)
 		{
 			Component comp = comps[i];
 			String columnName = comp.getName();
-			
+
 			if (columnName != null && columnName.length() > 0)
 			{
 				GridField mField = m_mTab.getField(columnName);
@@ -1018,8 +1032,8 @@ public class GridController extends CPanel
 							}
 						}
 					}
-					else 
-					{ 
+					else
+					{
 						if (comp.isVisible())
 							comp.setVisible(false);
 						hiddens.add(columnName);
@@ -1031,8 +1045,8 @@ public class GridController extends CPanel
 		// hide empty field group based on the environment
 		for (int i = 0; i < comps.length; i++) {
 			Component comp = comps[i];
-			
-			if (comp instanceof CollapsiblePanel) 
+
+			if (comp instanceof CollapsiblePanel)
 			{
 				if (comp.getName() == null || comp.getName().startsWith("IncludedTab#"))
 					continue;
@@ -1044,23 +1058,23 @@ public class GridController extends CPanel
 						if (childs[j].isVisible())
 						{
 							String columnName = childs[j].getName();
-							if (columnName != null && columnName.length() > 0) 
+							if (columnName != null && columnName.length() > 0)
 							{
 								GridField mField = m_mTab.getField(columnName);
-								if (mField != null) 
+								if (mField != null)
 								{
 									hasVisible = true;
 									break;
 								}
 							}
-						}						
+						}
 					}
 					if (comp.isVisible() != hasVisible)
 						comp.setVisible(hasVisible);
 				}
 			}
 		}
-		
+
 		//
 
 		log.config(m_mTab.toString() + " - fini - "
@@ -1080,16 +1094,16 @@ public class GridController extends CPanel
 		String name = (String)m_mTab.getValue("Name");
 		String description = (String)m_mTab.getValue("Description");
 		Boolean IsSummary = (Boolean)m_mTab.getValue("IsSummary");
-		boolean summary = IsSummary != null && IsSummary.booleanValue(); 
+		boolean summary = IsSummary != null && IsSummary.booleanValue();
 		String imageIndicator = (String)m_mTab.getValue("Action");  //  Menu - Action
 		//
-		m_tree.nodeChanged(save, keyID, name, description, 
+		m_tree.nodeChanged(save, keyID, name, description,
 			summary, imageIndicator);
 	}   //  rowChanged
 
 
 	/**************************************************************************
-	 * Save Multiple records - Clone a record and assign new values to each 
+	 * Save Multiple records - Clone a record and assign new values to each
 	 * clone for a specific column.
 	 * @param ctx context
 	 * @param tableName Table Name
@@ -1098,44 +1112,44 @@ public class GridController extends CPanel
 	 * @param values Values to be assigned to clones for the specified column
 	 * @param trxName Transaction
 	 * @throws Exception If error is occured when loading the PO or saving clones
-	 * 
+	 *
 	 * @author ashley
 	 */
-	protected void saveMultipleRecords(Properties ctx, String tableName, 
-			String columnName, int recordId, Integer[] values, 
+	protected void saveMultipleRecords(Properties ctx, String tableName,
+			String columnName, int recordId, Integer[] values,
 			String trxName) throws Exception
 	{
 		if (values == null)
 		{
 			return ;
 		}
-		
+
 		int oldRow = m_mTab.getCurrentRow();
-		GridField lineField = m_mTab.getField("Line");	
-		
+		GridField lineField = m_mTab.getField("Line");
+
 		for (int i = 0; i < values.length; i++)
 		{
 			if (!m_mTab.dataNew(true))
 			{
 				throw new IllegalStateException("Could not clone tab");
 			}
-			
+
 			m_mTab.setValue(columnName, values[i]);
-			
+
 			if (lineField != null)
 			{
 				m_mTab.setValue(lineField, 0);
 			}
-			
+
 			if (!m_mTab.dataSave(false))
 			{
 				throw new IllegalStateException("Could not update tab");
 			}
-			
+
 			m_mTab.setCurrentRow(oldRow);
 		}
 	}
-	
+
 	/**************************************************************************
 	 *  Vetoable Change Listener.
 	 * 	Called from VEditor
@@ -1168,7 +1182,7 @@ public class GridController extends CPanel
 		log.config("(" + m_mTab.toString() + ") "
 			+ e.getPropertyName() + "=" + e.getNewValue() + " (" + e.getOldValue() + ") "
 			+ (e.getOldValue() == null ? "" : e.getOldValue().getClass().getName()));
-		
+
 
 		//  Save Confirmation dialog    MTable-RowSave
 		if (e.getPropertyName().equals(GridTable.PROPERTY))
@@ -1197,7 +1211,7 @@ public class GridController extends CPanel
 		int row = m_mTab.getCurrentRow();
 		int col = mTable.findColumn(e.getPropertyName());
 		//
-		if (e.getNewValue() == null && e.getOldValue() != null 
+		if (e.getNewValue() == null && e.getOldValue() != null
 			&& e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
 			mTable.setChanged (true);
 		else
@@ -1210,12 +1224,12 @@ public class GridController extends CPanel
          	 */
 			Object newValue = e.getNewValue();
 			Integer newValues[] = null;
-			
+
 			if (newValue instanceof Integer[])
 			{
 				newValues = ((Integer[])newValue);
 				newValue = newValues[0];
-				
+
 				if (newValues.length > 1)
 				{
 					Integer valuesCopy[] = new Integer[newValues.length - 1];
@@ -1232,9 +1246,9 @@ public class GridController extends CPanel
 				log.severe("Multiple values can only be processed for IDs (Integer)");
 				throw new PropertyVetoException("Multiple Selection values not available for this field", e);
 			}
-			
+
 			mTable.setValueAt (newValue, row, col);	//	-> dataStatusChanged -> dynamicDisplay
-			
+
 			//	Force Callout
 			if (e.getPropertyName().equals("S_ResourceAssignment_ID"))
 			{
@@ -1242,7 +1256,7 @@ public class GridController extends CPanel
 				if (mField != null && mField.getCallout().length() > 0)
 					m_mTab.processFieldChange(mField);     //  Dependencies & Callout
 			}
-			
+
 			if (newValues != null && newValues.length > 0)
 			{
 				// Save data, since record need to be used for generating clones.
@@ -1250,10 +1264,10 @@ public class GridController extends CPanel
 				{
 					throw new PropertyVetoException("SaveError", e);
 				}
-				
+
 				// Retrieve the current record ID
 				int recordId = m_mTab.getKeyID(m_mTab.getCurrentRow());
-				
+
 				Trx trx = Trx.get(Trx.createTrxName(), true);
 				trx.start();
 				try
@@ -1278,7 +1292,7 @@ public class GridController extends CPanel
 	//	log.config( "GridController.vetoableChange (" + m_mTab.toString() + ") - fini", e.getPropertyName() + "=" + e.getNewValue());
 	}   //  vetoableChange
 
-	
+
 	/**************************************************************************
 	 *  Get Model Tab
 	 *  @return Model Tab
@@ -1296,7 +1310,7 @@ public class GridController extends CPanel
 	{
 		return m_mTab.getDisplayLogic();
 	}	//	getDisplayLogic
-	
+
 	/**
 	 *  Get VTable
 	 *  @return VTable
@@ -1306,7 +1320,7 @@ public class GridController extends CPanel
 		return vTable;
 	}   //  getTable
 
-	
+
 	/**
 	 * 	Set Window level Mnemonics
 	 *	@param set true if set otherwise unregiser
@@ -1316,7 +1330,7 @@ public class GridController extends CPanel
 		if (vPanel != null)
 			vPanel.setMnemonics(set);
 	}	//	setMnemonics
-	
+
 	/**
 	 *  Stop Table & SR Editors and move focus to graphPanel
 	 *  @param saveValue save value
@@ -1401,13 +1415,13 @@ public class GridController extends CPanel
 	{
 		return m_mTab != null ? m_mTab.isCurrent() : false;
 	}
-	
+
      //FR [ 1757088 ]
 	public VPanel getvPanel()
 	{
 		return vPanel;
 	}
-	
+
 	//BEGIN - [FR 1953734]
 	GridController m_Parent;
 	public void setGCParent(GridController gc){
@@ -1422,19 +1436,19 @@ public class GridController extends CPanel
 		includedTab.m_mTab.setCurrentRow(m_CurrentRowBeforeSave);
 	}
 	//END - [FR 1953734]
-	
+
 	/**
 	 * Accept pending editor changes.
 	 */
-	public void acceptEditorChanges() 
+	public void acceptEditorChanges()
 	{
 		if (isSingleRow())
 		{
 			Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 			if (c != null && this.isAncestorOf(c))
-			{				
+			{
 				Component t = c;
-				while (t != null && t != this) 
+				while (t != null && t != this)
 				{
 					if (t instanceof VManagedEditor)
 					{

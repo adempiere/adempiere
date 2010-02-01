@@ -22,19 +22,19 @@ import org.compiere.model.StateChangeEvent;
 import org.compiere.model.StateChangeListener;
 
 /**
- * 
+ *
  * @author Low Heng Sin
  *
  */
 public class GridSynchronizer implements PropertyChangeListener, StateChangeListener {
-	
+
 	private GridController parent;
 	private GridController child;
 	private GridWindow window;
 
 	/**
-	 * 
-	 * @param window 
+	 *
+	 * @param window
 	 * @param parent
 	 * @param child
 	 */
@@ -42,7 +42,7 @@ public class GridSynchronizer implements PropertyChangeListener, StateChangeList
 		this.window = window;
 		this.parent = parent;
 		this.child = child;
-	
+
 		parent.getMTab().addPropertyChangeListener(this);
 		parent.getMTab().addStateChangeListener(this);
 	}
@@ -51,7 +51,7 @@ public class GridSynchronizer implements PropertyChangeListener, StateChangeList
 	 * @param evt
 	 */
 	public void propertyChange(PropertyChangeEvent evt) {
-		MRole role = MRole.getDefault(); 
+		MRole role = MRole.getDefault();
 		child.query (false, 0, role.getMaxQueryRecords());
 	}
 
@@ -59,7 +59,7 @@ public class GridSynchronizer implements PropertyChangeListener, StateChangeList
 	 * @param event
 	 */
 	public void stateChange(StateChangeEvent event) {
-		MRole role = MRole.getDefault(); 
+		MRole role = MRole.getDefault();
 		child.query (false, 0, role.getMaxQueryRecords());
 	}
 
@@ -68,9 +68,12 @@ public class GridSynchronizer implements PropertyChangeListener, StateChangeList
 	 */
 	public void activateChild() {
 		window.initTab(window.getTabIndex(child.getMTab()));
-		child.activate();		
-		MRole role = MRole.getDefault(); 
+		child.activate();
+		MRole role = MRole.getDefault();
 		child.query (false, 0, role.getMaxQueryRecords());
 	}
 
+	public GridController getChild() {
+		return child;
+	}
 }
