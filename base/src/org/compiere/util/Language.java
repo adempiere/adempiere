@@ -609,21 +609,13 @@ public class Language implements Serializable
 			m_dateFormat = (SimpleDateFormat)DateFormat.getDateInstance
 				(DateFormat.SHORT, m_locale);
 			String sFormat = m_dateFormat.toPattern();
-			//	some short formats have only one M and d (e.g. ths US)
-			if (sFormat.indexOf("MM") == -1 && sFormat.indexOf("dd") == -1)
-			{
-				String nFormat = "";
-				for (int i = 0; i < sFormat.length(); i++)
+			//	some short formats have only one M and/or d (e.g. ths US)
+			if (sFormat.indexOf("MM") == -1 || sFormat.indexOf("dd") == -1)
 				{
-					if (sFormat.charAt(i) == 'M')
-						nFormat += "MM";
-					else if (sFormat.charAt(i) == 'd')
-						nFormat += "dd";
-					else
-						nFormat += sFormat.charAt(i);
-				}
+				sFormat = sFormat.replaceFirst("d+", "dd");
+				sFormat = sFormat.replaceFirst("M+", "MM");
 			//	log.finer(sFormat + " => " + nFormat);
-				m_dateFormat.applyPattern(nFormat);
+				m_dateFormat.applyPattern(sFormat);
 			}
 			//	Unknown short format => use JDBC
 			if (m_dateFormat.toPattern().length() != 8)
