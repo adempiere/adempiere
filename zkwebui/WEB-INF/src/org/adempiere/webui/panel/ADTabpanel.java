@@ -426,12 +426,12 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
                     editor.setGridTab(this.getGridTab());
                 	field.addPropertyChangeListener(editor);
                     editors.add(editor);
-                    editorIds.add(editor.getComponent().getUuid());                    
-                    if (field.isFieldOnly()) 
+                    editorIds.add(editor.getComponent().getUuid());
+                    if (field.isFieldOnly())
                     {
                     	row.appendChild(createSpacer());
-                    } 
-                    else 
+                    }
+                    else
                     {
                     	Div div = new Div();
                         div.setAlign("right");
@@ -478,12 +478,12 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	                        	label.setStyle("cursor: pointer; text-decoration: underline;");
 	                        	label.addEventListener(Events.ON_CLICK, new ZoomListener((IZoomableEditor) editor));
 	                        }
-	
+
 	                        label.setContext(popupMenu.getId());
                         }
                     }
                 }
-                else if (field.isHeading()) 
+                else if (field.isHeading())
                 {
     				//display just a label if we are "heading only"
     				Label label = new Label(field.getHeader());
@@ -1143,6 +1143,16 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
 	 */
 	public boolean isGridView() {
 		return listPanel.isVisible();
+	}
+
+	public IADTabpanel findEmbeddedPanel(GridTab gTab) {
+		IADTabpanel panel = null;
+		for(EmbeddedPanel ep : includedPanel) {
+			if (ep.tabPanel.getGridTab().equals(gTab)) {
+				return ep.tabPanel;
+			}
+		}
+		return panel;
 	}
 }
 

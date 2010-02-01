@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -99,7 +100,7 @@ import org.zkoss.zul.Menupopup;
  * @version $Revision: 0.10 $
  *
  * @author Cristina Ghita, www.arhipac.ro
- * @see FR [ 2877111 ] See identifiers columns when delete records https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962 
+ * @see FR [ 2877111 ] See identifiers columns when delete records https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2877111&group_id=176962
  *
  * @author hengsin, hengsin.low@idalica.com
  * @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
@@ -255,7 +256,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		int checkad_user_id = -1;
 		if (currSess != null && currSess.getAttribute("Check_AD_User_ID") != null)
 			checkad_user_id = (Integer)currSess.getAttribute("Check_AD_User_ID");
-		if (checkad_user_id!=Env.getAD_User_ID(ctx))  
+		if (checkad_user_id!=Env.getAD_User_ID(ctx))
 		{
 			String msg = "Bug 2832968 SessionUser="
 					+ checkad_user_id
@@ -263,10 +264,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					+ Env.getAD_User_ID(ctx)
 					+ ".  Please report conditions to your system administrator or in sf tracker 2832968";
 			logger.warning(msg);
-			throw new ApplicationException(msg); 
+			throw new ApplicationException(msg);
 		}
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
-		
+
 		// Set AutoCommit for this Window
 		if (embeddedTabindex < 0)
 		{
@@ -294,11 +295,23 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
         m_onlyCurrentRows =  embeddedTabindex < 0 && gridWindow.isTransaction();
 
+        MQuery detailQuery = null;
         /**
          * Window Tabs
          */
         if (embeddedTabindex < 0)
         {
+        	if (query != null && query.getZoomTableName() != null && query.getZoomColumnName() != null
+					&& query.getZoomValue() instanceof Integer && (Integer)query.getZoomValue() > 0)
+	    	{
+	    		if (!query.getZoomTableName().equalsIgnoreCase(gridWindow.getTab(0).getTableName()))
+	    		{
+	    			detailQuery = query;
+	    			query = new MQuery();
+	    			query.addRestriction("1=2");
+	    		}
+	    	}
+
 	        int tabSize = gridWindow.getTabCount();
 
 	        for (int tab = 0; tab < tabSize; tab++)
@@ -330,8 +343,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        {
 	        	toolbar.enableHistoryRecords(true);
 	        }
-	        
-	        if (zoomToDetailTab(query))
+
+	        if (detailQuery != null && zoomToDetailTab(detailQuery))
 	        {
 	        	return true;
 	        }
@@ -363,53 +376,118 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	        	gTab = gridWindow.getTab(tab);
     	        	if (gTab.isSortTab())
     	        		continue;
-    	        	if (gTab.getTabLevel() == 1 && gTab.getTableName().equalsIgnoreCase(query.getZoomTableName()))
+    	        	if (gTab.getTableName().equalsIgnoreCase(query.getZoomTableName()))
     	        	{
-    	        		GridField[] fields = gTab.getFields();
-    	        		for (GridField field : fields)
-    	        		{
-    	        			if (field.getColumnName().equalsIgnoreCase(query.getZoomColumnName()))
-    	        			{
-    	        				if (query.getZoomValue() != null && query.getZoomValue() instanceof Integer)
-    	        				{    	        					
-    	        					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
-    	        					{
-	        	        				IADTabpanel tp = adTab.findADTabpanel(gTab);
-	        	        				tp.createUI();
-	        	        				tp.query();
-    	        					}	
-        	        				GridTable table = gTab.getTableModel();
-        	        				int count = table.getRowCount();
-        	        				for(int i = 0; i < count; i++)
-        	        				{
-        	        					int id = table.getKeyID(i);
-        	        					if (id == ((Integer)query.getZoomValue()).intValue())
-        	        					{
-        	        						if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
-        	        						{
-        	        							setActiveTab(tab);
-        	        						}
-        	        						gTab.setCurrentRow(i);
-        	        						return true;
-        	        					}
-        	        				}
-    	        				}
-    	        				else
-    	        				{
-    	        					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
-    	        					{
-    	        						setActiveTab(tab);
-    	        					}
-	        						return true;
-    	        				}
-    	        				break;
-    	        			}
-    	        		}
+    	        		if (doZoomToDetail(gTab, query, tab)) {
+	        				return true;
+	        			}
     	        	}
     	        }
     		}
     	}
         return false;
+	}
+
+	private boolean doZoomToDetail(GridTab gTab, MQuery query, int tabIndex) {
+		GridField[] fields = gTab.getFields();
+		for (GridField field : fields)
+		{
+			if (field.getColumnName().equalsIgnoreCase(query.getZoomColumnName()))
+			{
+				gridWindow.initTab(tabIndex);
+				int parentId = DB.getSQLValue(null, "SELECT " + gTab.getLinkColumnName() + " FROM " + gTab.getTableName() + " WHERE " + query.getWhereClause());
+				if (parentId > 0)
+				{
+					Map<Integer, Object[]>parentMap = new TreeMap<Integer, Object[]>();
+					int index = tabIndex;
+					int oldpid = parentId;
+					GridTab currentTab = gTab;
+					while (index > 0)
+					{
+						index--;
+						GridTab pTab = gridWindow.getTab(index);
+						if (pTab.getTabLevel() < currentTab.getTabLevel())
+						{
+							gridWindow.initTab(index);
+							if (index > 0)
+							{
+								if (pTab.getLinkColumnName() != null && pTab.getLinkColumnName().trim().length() > 0)
+								{
+									int pid = DB.getSQLValue(null, "SELECT " + pTab.getLinkColumnName() + " FROM " + pTab.getTableName() + " WHERE " + currentTab.getLinkColumnName() + " = ?", oldpid);
+									if (pid > 0)
+									{
+										parentMap.put(index, new Object[]{currentTab.getLinkColumnName(), oldpid});
+										oldpid = pid;
+										currentTab = pTab;
+									}
+									else
+									{
+										parentMap.clear();
+										break;
+									}
+								}
+							}
+							else
+							{
+								parentMap.put(index, new Object[]{currentTab.getLinkColumnName(), oldpid});
+							}
+						}
+					}
+
+					for(Map.Entry<Integer, Object[]> entry : parentMap.entrySet())
+					{
+						GridTab pTab = gridWindow.getTab(entry.getKey());
+						Object[] value = entry.getValue();
+						MQuery pquery = new MQuery(pTab.getAD_Table_ID());
+						pquery.addRestriction((String)value[0], "=", value[1]);
+						pTab.setQuery(pquery);
+						IADTabpanel tp = adTab.findADTabpanel(pTab);
+        				tp.createUI();
+        				tp.query();
+					}
+
+					MQuery targetQuery = new MQuery(gTab.getAD_Table_ID());
+					targetQuery.addRestriction(gTab.getLinkColumnName(), "=", parentId);
+					gTab.setQuery(targetQuery);
+					IADTabpanel gc = null;
+					if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+					{
+						gc = adTab.findADTabpanel(gTab);
+					}
+					else
+					{
+						ADTabpanel parent = (ADTabpanel)includedMap.get(gTab.getAD_Tab_ID());
+						gc = parent.findEmbeddedPanel(gTab);
+					}
+					gc.createUI();
+					gc.query(false, 0, 0);
+
+					GridTable table = gTab.getTableModel();
+    				int count = table.getRowCount();
+    				for(int i = 0; i < count; i++)
+    				{
+    					int id = table.getKeyID(i);
+    					if (id == ((Integer)query.getZoomValue()).intValue())
+    					{
+    						if (!includedMap.containsKey(gTab.getAD_Tab_ID()))
+    						{
+    							setActiveTab(gridWindow.getTabIndex(gTab));
+    						}
+    						else
+    						{
+    							IADTabpanel parent = includedMap.get(gTab.getAD_Tab_ID());
+    							int pindex = gridWindow.getTabIndex(parent.getGridTab());
+    							if (pindex >= 0)
+    								setActiveTab(pindex);
+    						}
+    						gTab.setCurrentRow(i);
+    						return true;
+    					}
+    				}
+				}
+			}
+		}
+		return false;
 	}
 
 	private void initEmbeddedTab(MQuery query, int tabIndex) {
@@ -986,9 +1064,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			toolbar.lock(curTab.isLocked());
 		}
-		
+
 		toolbar.enablePrint(curTab.isPrinted());
-		
+
         if (gridWindow.isTransaction() && isFirstTab())
         {
         	toolbar.enableHistoryRecords(true);
@@ -1370,7 +1448,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), msg), true, true);
 		}
-		//other error will be catch in the dataStatusChanged event		
+		//other error will be catch in the dataStatusChanged event
 	}
 
     /**
@@ -1414,7 +1492,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		final Listbox listbox = new Listbox();
 		listbox.setHeight("400px");
-		
+
 		Vector<String> data = new Vector<String>();
 		// FR [ 2877111 ]
 		final String keyColumnName = curTab.getKeyColumnName();
@@ -1463,7 +1541,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			data.add(displayValue.toString());
 		}
 		// FR [ 2877111 ]
-		
+
 		for(int i = 0; i < data.size(); i++)
 		{
 			String record = data.get(i);
@@ -1785,7 +1863,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		}
 
 		boolean isProcessMandatory = false;
-		
+
 		//	Pop up Payment Rules
 
 		if (col.equals("PaymentRule"))
