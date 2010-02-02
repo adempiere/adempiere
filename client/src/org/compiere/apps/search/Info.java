@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.math.BigDecimal;
@@ -267,8 +268,11 @@ public abstract class Info extends CDialog
 	}   //  showAssignment
 
 	/** Window Width                */
-	protected static final int        INFO_WIDTH = 800;
+	Toolkit toolkit = Toolkit.getDefaultToolkit();
+	Dimension screensize = toolkit.getScreenSize();
 
+	protected final int        INFO_WIDTH = screensize.width > 1500 ? 1500 : screensize.width - 100;
+	protected final int        SCREEN_HEIGHT = screensize.height;
 	
 	/**************************************************************************
 	 *	Detail Constructor
@@ -277,7 +281,7 @@ public abstract class Info extends CDialog
 	 *  @param WindowNo window no
 	 *  @param tableName table name
 	 *  @param keyColumn key column name
-	 *  @param multiSelection muiliple selection
+	 *  @param multiSelection multiple selection
 	 *  @param whereClause where clause
 	 */
 	protected Info (Frame frame, boolean modal, int WindowNo,

@@ -326,13 +326,13 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
               
         CTabbedPane jTab  = new CTabbedPane();
         jTab.addTab(Msg.translate(Env.getCtx(), "Warehouse"), new JScrollPane(warehouseTbl));
-        jTab.setPreferredSize(new Dimension(INFO_WIDTH, 105));
+        jTab.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 250 : 105));
         jTab.addTab(Msg.translate(Env.getCtx(), "Description"), new JScrollPane(fieldDescription));
         jTab.addTab(Msg.translate(Env.getCtx(), "Substitute_ID"), new JScrollPane(substituteTbl));
         jTab.addTab(Msg.translate(Env.getCtx(), "RelatedProduct_ID"), new JScrollPane(relatedTbl));
 		jTab.addTab (Msg.getMsg(Env.getCtx(), "ATP"), new JScrollPane(m_tableAtp));
 		jTab.addChangeListener(this);
-        tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, 110));
+        tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 255 : 110));
         tablePanel.add(jTab);        
 
         warehouseStockPanel.setExpanded(false);
