@@ -176,6 +176,7 @@ public class WDocActionPanel extends Window implements EventListener
 		 *	Fill actionCombo
 		 */
 
+		boolean firstadded = true;
 		for (int i = 0; i < index; i++)
 		{
 			//	Serach for option and add it
@@ -185,11 +186,17 @@ public class WDocActionPanel extends Window implements EventListener
 			{
 				if (options[i].equals(s_value[j]))
 				{
-					lstDocAction.appendItem(s_name[j],s_value[j]);
+					Listitem newitem = lstDocAction.appendItem(s_name[j],s_value[j]);
+					if (firstadded) { 
+						// select by default the first added item - can be changed below
+						lstDocAction.setSelectedItem(newitem);
+						firstadded = false;
+					}
 					added = true;
 				}
 			}
 		}
+		// look if the current DocAction is within the list and assign it as selected if it exists
 		List<Listitem> lst = (List<Listitem>)lstDocAction.getItems();
 		for(Listitem item: lst)
 		{
