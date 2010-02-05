@@ -102,13 +102,15 @@ public class GridTabWrapper implements InvocationHandler
 			GridField field = m_gridTab.getField(propertyName);
 			if (field != null)
 			{
-				return field.getValue();
+				final Object value = field.getValue();
+				return value instanceof Boolean ? value : "Y".equals(value);
 			}
 			//
 			field = m_gridTab.getField("Is"+propertyName);
 			if (field != null)
 			{
-				return field.getValue();
+				final Object value = field.getValue();
+				return value instanceof Boolean ? value : "Y".equals(value);
 			}
 			//
 			throw new IllegalArgumentException("Method not supported - "+methodName);
