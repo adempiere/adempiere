@@ -40,7 +40,7 @@ import org.compiere.util.ValueNamePair;
  * 	@version 	$Id: MQuery.java,v 1.4 2006/07/30 00:58:04 jjanke Exp $
  * 
  * @author Teo Sarca
- * 		<li>BF [ 2860022 ] MQuery.get() is generating restictions for unexisting column
+ * 		<li>BF [ 2860022 ] MQuery.get() is generating restrictions for non-existent column
  * 			https://sourceforge.net/tracker/?func=detail&aid=2860022&group_id=176962&atid=879332
  */
 public class MQuery implements Serializable
@@ -298,7 +298,7 @@ public class MQuery implements Serializable
 	 *  Creates columnName=value
 	 * 	@param columnName columnName
 	 * 	@param value value
-	 * 	@return quary
+	 * 	@return query
 	 */
 	public static MQuery getEqualQuery (String columnName, int value)
 	{
@@ -357,7 +357,7 @@ public class MQuery implements Serializable
 	}	//	MQuery
 
 	/**	Serialization Info	**/
-	private static final long serialVersionUID = 4883859385509199305L;
+	private static final long serialVersionUID = 4883859385509199306L;
 
 	/**	Table Name					*/
 	private String		m_TableName = "";
@@ -403,6 +403,8 @@ public class MQuery implements Serializable
 	public static final int		EQUAL_INDEX = 0;
 	/** Not Equal		*/
 	public static final String	NOT_EQUAL = "!=";
+	/** Not Equal - 1		*/
+	public static final int		NOT_EQUAL_INDEX = 1;
 	/** Like			*/
 	public static final String	LIKE = " LIKE ";
 	/** Not Like		*/
@@ -442,6 +444,23 @@ public class MQuery implements Serializable
 		new ValueNamePair (EQUAL,			" = ")
 	};
 
+	/*************************************************************************
+	 * 	Add Restriction
+	 * 	@param ColumnName ColumnName
+	 * 	@param Operator Operator, e.g. = != ..
+	 * 	@param Code Code, e.g 0, All%
+	 *  @param InfoName Display Name
+	 * 	@param InfoDisplay Display of Code (Lookup)
+	 *  @param andCondition true=and, false=or
+	 *  @param depth ( = no open brackets )
+	 */
+	public void addRestriction (String ColumnName, String Operator,
+		Object Code, String InfoName, String InfoDisplay, boolean andCondition, int depth)
+	{
+		Restriction r = new Restriction (ColumnName, Operator,
+			Code, InfoName, InfoDisplay, andCondition, depth);
+		m_list.add(r);
+	}	//	addRestriction
 	
 	/*************************************************************************
 	 * 	Add Restriction
@@ -455,7 +474,7 @@ public class MQuery implements Serializable
 		Object Code, String InfoName, String InfoDisplay)
 	{
 		Restriction r = new Restriction (ColumnName, Operator,
-			Code, InfoName, InfoDisplay);
+			Code, InfoName, InfoDisplay, true, 0);
 		m_list.add(r);
 	}	//	addRestriction
 
@@ -469,7 +488,7 @@ public class MQuery implements Serializable
 		Object Code)
 	{
 		Restriction r = new Restriction (ColumnName, Operator,
-			Code, null, null);
+			Code, null, null, true, 0);
 		m_list.add(r);
 	}	//	addRestriction
 
@@ -483,10 +502,30 @@ public class MQuery implements Serializable
 		int Code)
 	{
 		Restriction r = new Restriction (ColumnName, Operator,
-			new Integer(Code), null, null);
+			new Integer(Code), null, null, true, 0);
 		m_list.add(r);
 	}	//	addRestriction
 
+	/**
+	 * 	Add Range Restriction (BETWEEN)
+	 * 	@param ColumnName ColumnName
+	 * 	@param Code Code, e.g 0, All%
+	 * 	@param Code_to Code, e.g 0, All%
+	 *  @param InfoName Display Name
+	 * 	@param InfoDisplay Display of Code (Lookup)
+	 * 	@param InfoDisplay_to Display of Code (Lookup)
+	 *  @param andCondition true=and, false=or
+	 *  @param depth ( = no open brackets )
+	 */
+	public void addRangeRestriction (String ColumnName,
+		Object Code, Object Code_to,
+		String InfoName, String InfoDisplay, String InfoDisplay_to, boolean andCondition, int depth)
+	{
+		Restriction r = new Restriction (ColumnName, Code, Code_to,
+			InfoName, InfoDisplay, InfoDisplay_to, andCondition, depth);
+		m_list.add(r);
+	}	//	addRestriction
+	
 	/**
 	 * 	Add Range Restriction (BETWEEN)
 	 * 	@param ColumnName ColumnName
@@ -501,7 +540,7 @@ public class MQuery implements Serializable
 		String InfoName, String InfoDisplay, String InfoDisplay_to)
 	{
 		Restriction r = new Restriction (ColumnName, Code, Code_to,
-			InfoName, InfoDisplay, InfoDisplay_to);
+			InfoName, InfoDisplay, InfoDisplay_to, true, 0);
 		m_list.add(r);
 	}	//	addRestriction
 
@@ -515,7 +554,7 @@ public class MQuery implements Serializable
 		Object Code, Object Code_to)
 	{
 		Restriction r = new Restriction (ColumnName, Code, Code_to,
-			null, null, null);
+			null, null, null, true, 0);
 		m_list.add(r);
 	}	//	addRestriction
 
@@ -532,18 +571,30 @@ public class MQuery implements Serializable
 	 * 	Add Restriction
 	 * 	@param whereClause SQL WHERE clause
 	 */
+	public void addRestriction (String whereClause, boolean andCondition, int joinDepth)
+	{
+		if (whereClause == null || whereClause.trim().length() == 0)
+			return;
+		Restriction r = new Restriction (whereClause, andCondition, joinDepth);
+		m_list.add(r);
+		m_newRecord = whereClause.equals(NEWRECORD);
+	}	//	addRestriction
+	/**
+	 * 	Add Restriction
+	 * 	@param whereClause SQL WHERE clause
+	 */
 	public void addRestriction (String whereClause)
 	{
 		if (whereClause == null || whereClause.trim().length() == 0)
 			return;
-		Restriction r = new Restriction (whereClause);
+		Restriction r = new Restriction (whereClause, true, 0);
 		m_list.add(r);
 		m_newRecord = whereClause.equals(NEWRECORD);
 	}	//	addRestriction
 
 	/**
 	 * 	New Record Query
-	 *	@return true if new nercord query
+	 *	@return true if new record query
 	 */
 	public boolean isNewRecordQuery()
 	{
@@ -566,21 +617,39 @@ public class MQuery implements Serializable
 	 */
 	public String getWhereClause (boolean fullyQualified)
 	{
+		int currentDepth = 0;
 		boolean qualified = fullyQualified;
 		if (qualified && (m_TableName == null || m_TableName.length() == 0))
 			qualified = false;
 		//
 		StringBuffer sb = new StringBuffer();
+		sb.append('(');
 		for (int i = 0; i < m_list.size(); i++)
 		{
 			Restriction r = (Restriction)m_list.get(i);
 			if (i != 0)
 				sb.append(r.andCondition ? " AND " : " OR ");
+			for ( ; currentDepth < r.joinDepth; currentDepth++ )
+			{
+				sb.append('(');
+			}
 			if (qualified)
 				sb.append(r.getSQL(m_TableName));
 			else
 				sb.append(r.getSQL(null));
+			
+			for ( ; currentDepth > r.joinDepth; currentDepth-- )
+			{
+				sb.append(')');
+			}
 		}
+		
+		// close brackets
+		for ( ; currentDepth > 0; currentDepth-- )
+		{
+			sb.append(')');
+		}
+		sb.append(')');
 		return sb.toString();
 	}	//	getWhereClause
 
@@ -591,18 +660,32 @@ public class MQuery implements Serializable
 	public String getInfo ()
 	{
 		StringBuffer sb = new StringBuffer();
+		int currentDepth = 0;
 		if (m_TableName != null)
 			sb.append(m_TableName).append(": ");
 		//
 		for (int i = 0; i < m_list.size(); i++)
 		{
 			Restriction r = (Restriction)m_list.get(i);
+			for ( ; currentDepth < r.joinDepth; currentDepth++ )
+			{
+				sb.append('(');
+			}
+			for ( ; currentDepth > r.joinDepth; currentDepth-- )
+			{
+				sb.append(')');
+			}
 			if (i != 0)
 				sb.append(r.andCondition ? " AND " : " OR ");
 			//
 			sb.append(r.getInfoName())
 				.append(r.getInfoOperator())
 				.append(r.getInfoDisplayAll());
+		}
+		// close brackets
+		for ( ; currentDepth > 0; currentDepth-- )
+		{
+			sb.append(')');
 		}
 		return sb.toString();
 	}	//	getInfo
@@ -627,7 +710,7 @@ public class MQuery implements Serializable
 
 	/**
 	 * 	Get Restriction Count
-	 * 	@return number of restricctions
+	 * 	@return number of restrictions
 	 */
 	public int getRestrictionCount()
 	{
@@ -636,7 +719,7 @@ public class MQuery implements Serializable
 
 	/**
 	 * 	Is Query Active
-	 * 	@return true if number of restricctions > 0
+	 * 	@return true if number of restrictions > 0
 	 */
 	public boolean isActive()
 	{
@@ -884,7 +967,7 @@ class Restriction  implements Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4521978087587321242L;
+	private static final long serialVersionUID = -4521978087587321243L;
 
 	/**
 	 * 	Restriction
@@ -895,13 +978,18 @@ class Restriction  implements Serializable
 	 * 	@param infoDisplay Display of Code (Lookup)
 	 */
 	Restriction (String columnName, String operator,
-		Object code, String infoName, String infoDisplay)
+		Object code, String infoName, String infoDisplay, boolean andCondition, int depth)
 	{
 		this.ColumnName = columnName.trim();
 		if (infoName != null)
 			InfoName = infoName;
 		else
 			InfoName = ColumnName;
+
+		
+		this.andCondition = andCondition;
+		this.joinDepth = depth < 0 ? 0 : depth;
+		
 		//
 		this.Operator = operator;
 		//	Boolean
@@ -938,9 +1026,9 @@ class Restriction  implements Serializable
 	 */
 	Restriction (String columnName,
 		Object code, Object code_to,
-		String infoName, String infoDisplay, String infoDisplay_to)
+		String infoName, String infoDisplay, String infoDisplay_to, boolean andCondition, int depth)
 	{
-		this (columnName, MQuery.BETWEEN, code, infoName, infoDisplay);
+		this (columnName, MQuery.BETWEEN, code, infoName, infoDisplay, andCondition, depth);
 
 		//	Code_to
 		Code_to = code_to;
@@ -959,16 +1047,18 @@ class Restriction  implements Serializable
 	}	//	Restriction
 
 	/**
-	 * 	Create Restriction with dircet WHERE clause
+	 * 	Create Restriction with direct WHERE clause
 	 * 	@param whereClause SQL WHERE Clause
 	 */
-	Restriction (String whereClause)
+	Restriction (String whereClause, boolean andCondition, int depth)
 	{
-		DircetWhereClause = whereClause;
+		DirectWhereClause = whereClause;
+		this.andCondition = andCondition;
+		this.joinDepth = depth;
 	}	//	Restriction
 
 	/**	Direct Where Clause	*/
-	protected String	DircetWhereClause = null;
+	protected String	DirectWhereClause = null;
 	/**	Column Name			*/
 	protected String 	ColumnName;
 	/** Name				*/
@@ -985,6 +1075,8 @@ class Restriction  implements Serializable
 	protected String 	InfoDisplay_to;
 	/** And/Or Condition	*/
 	protected boolean	andCondition = true;
+	/** And/Or condition nesting depth ( = number of open brackets at and/or) */
+	protected int		joinDepth = 0;
 
 	/**
 	 * 	Return SQL construct for this restriction
@@ -993,8 +1085,8 @@ class Restriction  implements Serializable
 	 */
 	public String getSQL (String tableName)
 	{
-		if (DircetWhereClause != null)
-			return DircetWhereClause;
+		if (DirectWhereClause != null)
+			return DirectWhereClause;
 		//
 		StringBuffer sb = new StringBuffer();
 		if (tableName != null && tableName.length() > 0)

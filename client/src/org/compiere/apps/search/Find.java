@@ -59,6 +59,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.TableColumnModelEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -115,12 +116,12 @@ public final class Find extends CDialog
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6414604433732835410L;
+	private static final long serialVersionUID = 6414604433732835411L;
 	private int m_AD_Tab_ID;
 
 	/**
 	 *	Find Constructor
-	 *	@param owner Frame Dialog Onwer
+	 *	@param owner Frame Dialog Owner
 	 *  @param targetWindowNo WindowNo of target window
 	 *	@param title 
 	 *	@param AD_Table_ID
@@ -248,7 +249,10 @@ public final class Find extends CDialog
 		public boolean isCellEditable(int row, int column)
 		{
 			boolean editable = ( column == INDEX_COLUMNNAME
-					|| column == INDEX_OPERATOR );
+					|| column == INDEX_OPERATOR 
+					|| column == INDEX_ANDOR
+					|| column == INDEX_LEFTBRACKET
+					|| column == INDEX_RIGHTBRACKET );
 			if (!editable && row >= 0)
 			{
 				String columnName = null;
@@ -265,18 +269,44 @@ public final class Find extends CDialog
 				//  Create Editor
 				editable = getTargetMField(columnName) != null;
 			}
+			
+			if ( column == INDEX_ANDOR && row == 0 )
+				editable = false;
+			
 			return editable;
 		}
+		
+	    public void columnMoved(TableColumnModelEvent e) {
+	        if (isEditing()) {
+	            cellEditor.stopCellEditing();
+	        }
+	        super.columnMoved(e);
+	    }
+
+	    public void columnMarginChanged(ChangeEvent e) {
+	        if (isEditing()) {
+	            cellEditor.stopCellEditing();
+	        }
+	        super.columnMarginChanged(e);
+	    }
+
 	};
 
-	/** Index ColumnName = 0		*/
-	public static final int		INDEX_COLUMNNAME = 0;
-	/** Index Operator = 1			*/
-	public static final int		INDEX_OPERATOR = 1;
-	/** Index Value = 2				*/
-	public static final int		INDEX_VALUE = 2;
-	/** Index Value2 = 3			*/
-	public static final int		INDEX_VALUE2 = 3;
+
+	/** Index AndOr = 0		*/
+	public static final int		INDEX_ANDOR = 0;
+	/** Index LeftBracket = 1		*/
+	public static final int		INDEX_LEFTBRACKET = 1;
+	/** Index ColumnName = 2		*/
+	public static final int		INDEX_COLUMNNAME = 2;
+	/** Index Operator = 3			*/
+	public static final int		INDEX_OPERATOR = 3;
+	/** Index Value = 4				*/
+	public static final int		INDEX_VALUE = 4;
+	/** Index Value2 = 5			*/
+	public static final int		INDEX_VALUE2 = 5;
+	/** Index RightBracket = 6		*/
+	public static final int		INDEX_RIGHTBRACKET = 6;
 
 	/**	Advanced Search Column 		*/
 	public CComboBox 	columns = null;
@@ -284,6 +314,12 @@ public final class Find extends CDialog
 	public CComboBox 	operators = null;
 	private MUserQuery[] userQueries;
 	private ValueNamePair[] columnValueNamePairs;
+	
+	private CComboBox leftBrackets;
+
+	private CComboBox rightBrackets;
+
+	private CComboBox andOr;
 	
 	private static final String FIELD_SEPARATOR = "<^>";
 	private static final String SEGMENT_SEPARATOR = "<~>";
@@ -348,7 +384,7 @@ public final class Find extends CDialog
 		docNoLabel.setText(Msg.translate(Env.getCtx(),"DocumentNo"));
 		docNoField.setText("%");
 		docNoField.setColumns(FIELDLENGTH);
-		advancedScrollPane.setPreferredSize(new Dimension(450, 150));
+		advancedScrollPane.setPreferredSize(new Dimension(540, 410));
 		southPanel.add(statusBar, BorderLayout.SOUTH);
 		this.getContentPane().add(southPanel, BorderLayout.SOUTH);
 		//
@@ -557,7 +593,7 @@ public final class Find extends CDialog
 	private void initFindAdvanced()
 	{
 		log.config("");
-		advancedTable.setModel(new DefaultTableModel(0, 4));
+		advancedTable.setModel(new DefaultTableModel(0, 7));
 		advancedTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		advancedTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 		advancedTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE);
@@ -622,7 +658,7 @@ public final class Find extends CDialog
 		columns = new CComboBox(columnValueNamePairs);
 		columns.addActionListener(this);		
 		TableColumn tc = advancedTable.getColumnModel().getColumn(INDEX_COLUMNNAME);
-		tc.setPreferredWidth(150);
+		tc.setPreferredWidth(120);
 		FindCellEditor dce = new FindCellEditor(columns); 
 
 		dce.addCellEditorListener(new CellEditorListener()
@@ -645,31 +681,58 @@ public final class Find extends CDialog
 		tc.setCellEditor(dce);
 		tc.setHeaderValue(Msg.translate(Env.getCtx(), "AD_Column_ID"));
 
-		//	1 = Operators
+
+		// 0 = And/Or
+		andOr = new CComboBox(new String[] {"",Msg.getMsg(Env.getCtx(),"AND"),Msg.getMsg(Env.getCtx(), "OR")});
+		tc = advancedTable.getColumnModel().getColumn(INDEX_ANDOR);
+		tc.setPreferredWidth(45);
+		dce = new FindCellEditor(andOr);
+		tc.setCellEditor(dce);
+		tc.setHeaderValue(Msg.getMsg(Env.getCtx(), "And/Or"));
+		
+		// 1 = Left Bracket
+		leftBrackets = new CComboBox(new String[] {"","(","((","((("});
+		tc = advancedTable.getColumnModel().getColumn(INDEX_LEFTBRACKET);
+		tc.setPreferredWidth(25);
+		dce = new FindCellEditor(leftBrackets);
+		tc.setCellEditor(dce);
+		tc.setHeaderValue("(");
+
+		//	3 = Operators
 		operators = new CComboBox(MQuery.OPERATORS);
 		tc = advancedTable.getColumnModel().getColumn(INDEX_OPERATOR);
-		tc.setPreferredWidth(40);
+		tc.setPreferredWidth(55);
 		dce = new FindCellEditor(operators);
 		tc.setCellEditor(dce);
 		tc.setHeaderValue(Msg.getMsg(Env.getCtx(), "Operator"));
 
-		// 	2 = QueryValue
+		// 	4 = QueryValue
 		tc = advancedTable.getColumnModel().getColumn(INDEX_VALUE);
 		FindValueEditor fve = new FindValueEditor(this, false);		
 		tc.setCellEditor(fve);
+		tc.setPreferredWidth(120);
 		tc.setCellRenderer(new ProxyRenderer(new FindValueRenderer(this, false)));
 		tc.setHeaderValue(Msg.getMsg(Env.getCtx(), "QueryValue"));
 
-		// 	3 = QueryValue2
+		// 	5 = QueryValue2
 		tc = advancedTable.getColumnModel().getColumn(INDEX_VALUE2);
-		tc.setPreferredWidth(50);
-		fve = new FindValueEditor(this, false);
+		tc.setPreferredWidth(120);
+		fve = new FindValueEditor(this, true);
 		tc.setCellEditor(fve);
 		tc.setCellRenderer(new ProxyRenderer(new FindValueRenderer(this, false)));
 		tc.setHeaderValue(Msg.getMsg(Env.getCtx(), "QueryValue2"));
 		
-		AutoCompletion.enable(columns);
-		AutoCompletion.enable(operators);
+		// 6 = Right Bracket
+		rightBrackets = new CComboBox(new String[] {"",")","))",")))"});
+		tc = advancedTable.getColumnModel().getColumn(INDEX_RIGHTBRACKET);
+		tc.setPreferredWidth(25);
+		dce = new FindCellEditor(rightBrackets);
+		tc.setCellEditor(dce);
+		tc.setHeaderValue(")");
+		
+		// phib: disabled auto-completion as it causes date fields to have to be entered twice
+		//AutoCompletion.enable(columns);
+		//AutoCompletion.enable(operators);
 		
 		//user query
 		userQueries = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
@@ -799,9 +862,16 @@ public final class Find extends CDialog
 		}
 	}	//	actionPerformed
 
+	/**
+	 * Parse delimited string into user query
+	 * Old field sequence: column, operator, value, value to
+	 * New field sequence: column, operator, value, value to, and/or, left brackets, right brackets
+	 * @param userQuery
+	 */
 	private void parseUserQuery(MUserQuery userQuery) {
 		String code = userQuery.getCode();
-		String[] segments = code.split(Pattern.quote(SEGMENT_SEPARATOR));
+		log.fine("Parse user query: " + code);
+		String[] segments = code.split(Pattern.quote(SEGMENT_SEPARATOR),-1);
 		advancedTable.stopEditor(true);
 		DefaultTableModel model = (DefaultTableModel)advancedTable.getModel();
 		int cnt = model.getRowCount();
@@ -811,38 +881,62 @@ public final class Find extends CDialog
 		for (int i = 0; i < segments.length; i++)
 		{
 			String[] fields = segments[i].split(Pattern.quote(FIELD_SEPARATOR));
-			model.addRow(new Object[] {null, MQuery.OPERATORS[MQuery.EQUAL_INDEX], null, null});
+			model.addRow(new Object[] {"","", null, MQuery.OPERATORS[MQuery.EQUAL_INDEX], null, null, ""});
 			String columnName = null;
 			for (int j = 0; j < fields.length; j++)
 			{
-				if (j == INDEX_COLUMNNAME)
+				// column
+				if (j == 0 )  
 				{
 					for (ValueNamePair vnp : columnValueNamePairs)
 					{
 						if (vnp.getValue().equals(fields[j]))
 						{
-							model.setValueAt(vnp, i, j);
+							model.setValueAt(vnp, i, INDEX_COLUMNNAME);
 							columnName = fields[j];
 							break;
 						}
 					}
 				}
-				else if (j == INDEX_OPERATOR)
+				// operator
+				else if (j == 1)
 				{
 					for (ValueNamePair vnp : MQuery.OPERATORS)
 					{
 						if (vnp.getValue().equals(fields[j]))
 						{
-							model.setValueAt(vnp, i, j);
+							model.setValueAt(vnp, i, INDEX_OPERATOR);
 							break;
 						}
 					}
 				}
-				else
+				// value
+				else if ( j == 2  && fields[j].length() > 0 )
 				{
 					GridField field = getTargetMField(columnName);
 					Object value = parseString(field, fields[j]);
-					model.setValueAt(value, i, j);
+					model.setValueAt(value, i, INDEX_VALUE);
+				}
+				// value 2
+				else if ( j == 3 && fields[j].length() > 0 )
+				{
+						GridField field = getTargetMField(columnName);
+						Object value = parseString(field, fields[j]);
+						model.setValueAt(value, i, INDEX_VALUE2);
+				}
+				// and/or
+				else if (j == 4 && fields[j].length() > 0 )
+				{
+					if ( i != 0 )
+						model.setValueAt(fields[j], i, INDEX_ANDOR);
+				}
+				else if ( j == 5 && fields[j].length() > 0 )
+				{
+					model.setValueAt(fields[j], i, INDEX_LEFTBRACKET);
+				}
+				else if ( j == 6 && fields[j].length() > 0 )
+				{
+					model.setValueAt(fields[j], i, INDEX_RIGHTBRACKET);
 				}
 			}
 		}
@@ -987,7 +1081,8 @@ public final class Find extends CDialog
 	{
 		advancedTable.stopEditor(true);
 		DefaultTableModel model = (DefaultTableModel)advancedTable.getModel();
-		model.addRow(new Object[] {null, MQuery.OPERATORS[MQuery.EQUAL_INDEX], null, null});
+		int rows = model.getRowCount();
+		model.addRow(new Object[] {rows == 0 ? "" : "AND","", null, MQuery.OPERATORS[MQuery.EQUAL_INDEX], null, null,""});
 		advancedTable.requestFocusInWindow();
 	}	//	cmd_new
 
@@ -1001,6 +1096,7 @@ public final class Find extends CDialog
 		m_query = new MQuery(m_tableName);
 		m_query.addRestriction(Env.parseContext(Env.getCtx(), m_targetWindowNo, m_whereExtended, false));
 		StringBuffer code = new StringBuffer();
+		int openBrackets = 0;
 		for (int row = 0; row < advancedTable.getRowCount(); row++)
 		{
 			//	Column
@@ -1016,6 +1112,17 @@ public final class Find extends CDialog
 				continue;
 			boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
 			String ColumnSQL = field.getColumnSQL(false);
+			
+			String lBrackets = (String) advancedTable.getValueAt(row, INDEX_LEFTBRACKET);
+			if ( lBrackets != null )
+				openBrackets += lBrackets.length();
+			String rBrackets = (String) advancedTable.getValueAt(row, INDEX_RIGHTBRACKET);
+			if ( rBrackets != null )
+				openBrackets -= rBrackets.length();
+			
+			boolean and = true;
+			if ( row > 0 )
+				and = !"OR".equals((String) advancedTable.getValueAt(row, INDEX_ANDOR));
 			//	Op
 			Object op = advancedTable.getValueAt(row, INDEX_OPERATOR);
 			if (op == null)
@@ -1025,7 +1132,36 @@ public final class Find extends CDialog
 			//	Value	******
 			Object value = advancedTable.getValueAt(row, INDEX_VALUE);
 			if (value == null)
+			{
+				if ( MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op) 
+						||  MQuery.OPERATORS[MQuery.NOT_EQUAL_INDEX].equals(op) )
+				{
+					m_query.addRestriction(ColumnSQL, Operator, null,
+							infoName, null, and, openBrackets);
+					
+					if (code.length() > 0)
+						code.append(SEGMENT_SEPARATOR);
+					code.append(ColumnName)
+					.append(FIELD_SEPARATOR)
+					.append(Operator)
+					.append(FIELD_SEPARATOR)
+					.append("")
+					.append(FIELD_SEPARATOR)
+					.append("")
+					.append(FIELD_SEPARATOR)
+					.append( and ? "AND" : "OR")
+					.append(FIELD_SEPARATOR)
+					.append(lBrackets != null ? lBrackets : "")
+					.append(FIELD_SEPARATOR)
+					.append(rBrackets != null ? rBrackets : "");
+				}
+				else
+				{
 				continue;
+				}
+			}
+			else 
+			{
 			Object parsedValue = parseValue(field, value);
 			if (parsedValue == null)
 				continue;
@@ -1046,17 +1182,19 @@ public final class Find extends CDialog
 				if (parsedValue2 == null)
 					continue;
 				m_query.addRangeRestriction(ColumnSQL, parsedValue, parsedValue2,
-					infoName, infoDisplay, infoDisplay_to);
+							infoName, infoDisplay, infoDisplay_to, and, openBrackets);
 			}
 			else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
 				if (!(parsedValue instanceof Integer)) {
 					continue;
 				}
-				m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()));
+					m_query
+
+					.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()), and, openBrackets);
 			}
 			else
 				m_query.addRestriction(ColumnSQL, Operator, parsedValue,
-					infoName, infoDisplay);
+							infoName, infoDisplay, and, openBrackets);
 			
 			if (code.length() > 0)
 				code.append(SEGMENT_SEPARATOR);
@@ -1066,7 +1204,15 @@ public final class Find extends CDialog
 				.append(FIELD_SEPARATOR)
 				.append(value.toString())
 				.append(FIELD_SEPARATOR)
-				.append(value2 != null ? value2.toString() : "");
+				.append(value2 != null ? value2.toString() : "")
+				.append(FIELD_SEPARATOR)
+				.append( and ? "AND" : "OR")
+				.append(FIELD_SEPARATOR)
+				.append(lBrackets != null ? lBrackets : "")
+				.append(FIELD_SEPARATOR)
+				.append(rBrackets != null ? rBrackets : "");
+			
+			}
 		}
 		Object selected = fQueryName.getSelectedItem();
 		if (selected != null && saveQuery) {
@@ -1095,8 +1241,7 @@ public final class Find extends CDialog
 					ADialog.warn (m_targetWindowNo, this, "DeleteError", name);
 				return;
 			}
-			else
-				return;
+			
 			uq.setCode (code.toString());
 			uq.setAD_Table_ID (m_AD_Table_ID);
 			//
@@ -1229,7 +1374,7 @@ public final class Find extends CDialog
 	 * 	Parse Value
 	 * 	@param field column
 	 * 	@param in value
-	 * 	@return data type corected value
+	 * 	@return data type corrected value
 	 */
 	private Object parseValue (GridField field, Object in)
 	{
@@ -1296,10 +1441,11 @@ public final class Find extends CDialog
 	 * 	Parse String
 	 * 	@param field column
 	 * 	@param in value
-	 * 	@return data type corected value
+	 * 	@return data type corrected value
 	 */
 	private Object parseString(GridField field, String in)
 	{
+		log.log(Level.FINE, "Parse: " +field + ":" + in);
 		if (in == null)
 			return null;
 		int dt = field.getDisplayType();

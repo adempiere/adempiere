@@ -116,6 +116,8 @@ public final class FindValueEditor extends AbstractCellEditor implements TableCe
 		boolean enabled = !m_valueToColumn || (m_valueToColumn && m_between); 
 		log.config("(" + value + ") - Enabled=" + enabled);
 
+		if ( enabled )
+		{
 		String columnName = null;
 		Object column = table.getModel().getValueAt(row, Find.INDEX_COLUMNNAME);
 		if (column != null)
@@ -134,6 +136,11 @@ public final class FindValueEditor extends AbstractCellEditor implements TableCe
 		m_editor.setValue(value);
 		m_editor.setReadWrite(enabled);
 		m_editor.setBorder(null);
+		}
+		else
+		{
+			m_editor = null;
+		}
 		//
 		return (Component)m_editor;
 	}   //	getTableCellEditorComponent
