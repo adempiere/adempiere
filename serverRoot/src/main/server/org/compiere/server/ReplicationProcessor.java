@@ -85,62 +85,66 @@ public class ReplicationProcessor extends AdempiereServer {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void doWork() {
-		if (isProcessRunning) {
+	protected void doWork() 
+	{
+		if (isProcessRunning) 
+		{
 			// process is already started successfully!
 			
-		} else {
-			// process is not started!
-			
-			m_summary = new StringBuffer();
-			String trxName = mImportProcessor.get_TrxName();
-			if ( trxName == null || "".equals(trxName) ) {
+		} 
+		else 
+		{
+		    // process is not started!
+		    
+		    m_summary = new StringBuffer();
+		    String trxName = mImportProcessor.get_TrxName();
+		    if ( trxName == null || "".equals(trxName) ) 
+		    {
 //				trxName = "ImportProcessor-" + System.currentTimeMillis();
-			}
-			log.fine("trxName = " + trxName);
-			log.fine("ImportProcessor = " + mImportProcessor);
-			
-			int IMP_ProcessorType_ID = 0;
-			IMP_ProcessorType_ID = mImportProcessor.getIMP_Processor_Type_ID();
-			X_IMP_Processor_Type impProcessor_Type = new X_IMP_Processor_Type(mImportProcessor.getCtx(), IMP_ProcessorType_ID, trxName );
-			log.fine("impProcessor_Type = " + impProcessor_Type); // TODO --- REMOVE
-			
-			String javaClass = impProcessor_Type.getJavaClass();
-			IImportProcessor importProcessor = null;
-			try {
-				Class clazz = Class.forName(javaClass);
-				importProcessor = (IImportProcessor)clazz.newInstance();
-				
-				importProcessor.process(mImportProcessor.getCtx(), this, trxName );
-
-			} catch (Exception e) {
+		    }
+		    log.fine("trxName = " + trxName);
+		    log.fine("ImportProcessor = " + mImportProcessor);
+		    
+		    int IMP_ProcessorType_ID = 0;
+		    IMP_ProcessorType_ID = mImportProcessor.getIMP_Processor_Type_ID();
+		    X_IMP_Processor_Type impProcessor_Type = new X_IMP_Processor_Type(mImportProcessor.getCtx(), IMP_ProcessorType_ID, trxName );
+		    log.fine("impProcessor_Type = " + impProcessor_Type); // TODO --- REMOVE
+		    
+		    String javaClass = impProcessor_Type.getJavaClass();
+		    IImportProcessor importProcessor = null;
+		    try 
+		    {
+			Class clazz = Class.forName(javaClass);
+			importProcessor = (IImportProcessor)clazz.newInstance();				
+			importProcessor.process(mImportProcessor.getCtx(), this, trxName );
+		    } 
+		    catch (Exception e) 
+		    {
 				isProcessRunning = false;
 				log.fine("ReplicationProcessor caught an exception !!!" );
 				e.printStackTrace();
-				
-				log.severe( e.getMessage() );
-				
+				log.severe(e.getMessage());
 				MIMPProcessorLog pLog = new MIMPProcessorLog(mImportProcessor, e.getMessage() );
 				pLog.setReference("#" + String.valueOf(p_runCount) + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-				boolean resultSave = pLog.save();
-				
-				try {
-					importProcessor.stop();
-				} catch (Exception e1) {
-					e1.printStackTrace();
-					MIMPProcessorLog pLog2 = new MIMPProcessorLog(mImportProcessor, e1.getMessage() );
-					
-					boolean resultSave2 = pLog2.save();
+				pLog.saveEx();
+				try 
+				{
+				    importProcessor.stop();
 				} 
-			}
-
+				catch (Exception e1) 
+				{
+				    e1.printStackTrace();
+				    MIMPProcessorLog pLog2 = new MIMPProcessorLog(mImportProcessor, e1.getMessage() );					
+				    pLog2.saveEx();
+				} 
+		    }
 			//
 			int no = mImportProcessor.deleteLog();
 			m_summary.append("Logs Records deleted=").append(no).append("; ");
 			//
 			MIMPProcessorLog pLog = new MIMPProcessorLog(mImportProcessor, m_summary.toString());
 			pLog.setReference("#" + String.valueOf(p_runCount) + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-			boolean resultSave = pLog.save();
+			pLog.saveEx();
 		}
 	}
 

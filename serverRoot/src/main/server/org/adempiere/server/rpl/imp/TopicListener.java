@@ -279,7 +279,7 @@ public class TopicListener implements MessageListener {
 				TextMessage txtMessage = (TextMessage) message;
 				
 				String text = txtMessage.getText();
-				//log.finest("Received message: \n" + text );
+				log.finest("Received message: \n" + text );
 
 				Document documentToBeImported = XMLHelper.createDocumentFromString( text );
 				StringBuffer result = new StringBuffer();
@@ -288,28 +288,45 @@ public class TopicListener implements MessageListener {
 
 				impHelper.importXMLDocument(result, documentToBeImported, trxName );
 				
-
-				MIMPProcessorLog pLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Imported Document!");
-				//pLog.setReference("topicName = " + topicName );
-				if (text.length() > 2000 ) {
-					pLog.setTextMsg( text.substring(0, 1999) );
-				} else {
-					pLog.setTextMsg( text);
+				log.finest("Replicated ...");
+				
+				if(replicationProcessor != null)
+				{	
+					MIMPProcessorLog pLog = new MIMPProcessorLog(replicationProcessor.getMImportProcessor(), "Imported Document!");
+					//pLog.setReference("topicName = " + topicName );
+					if (text.length() > 2000 ) {
+						pLog.setTextMsg( text.substring(0, 1999) );
+					} else {
+						pLog.setTextMsg( text);
+					}
+					
+					pLog.saveEx();
 				}
 				
-				boolean resultSave = pLog.save();
-				log.finest("Result Save = " + resultSave);
-
 				session.commit();
 								
-			} catch (Exception e) {
-				replicationProcessor.setProcessRunning(false);
-				try {
+			} 
+			catch (Exception e) 
+			{
+				log.finest("Rollback = " + e.toString());
+				try 
+				{
 					session.rollback();
-				} catch (JMSException e1) {
-					e1.printStackTrace();
+					stop();
+					//replicationProcessor.interrupt();
+					//replicationProcessor.join();	
+					replicationProcessor.setProcessRunning(false);
+				}
+				/*catch (InterruptedException e1) {
+				    // TODO Auto-generated catch block
+				    e1.printStackTrace();
+				}*/
+				catch (JMSException e2) 
+				{
+					e2.printStackTrace();
 				}
 				e.printStackTrace();
+				
 			}
 
 		} else {
