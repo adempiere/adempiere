@@ -433,8 +433,10 @@ public class ModelValidationEngine
 			list.add(listener);
 			m_docValidateListeners.put(propertyName, list);
 		}
-		//else
-		//	list.add(listener);
+		else if (!list.contains(listener))
+		{    
+		    list.add(listener);
+		}
 	}	//	addDocValidate
 
 	/**
@@ -850,11 +852,4 @@ public class ModelValidationEngine
 			}
 		}
 	}
-	
-	public Hashtable geDocValidateListeners()
-	{
-	    return m_docValidateListeners;    
-	}
-	
-
 }	//	ModelValidatorEngine
