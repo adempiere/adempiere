@@ -24,7 +24,7 @@
 * - Trifon Trifonov (trifonnt@users.sourceforge.net)                  *
 *                                                                     *
 * Sponsors:                                                           *
-* - E-evolution (http://www.e-evolution.com)                          *
+* - e-Evolution (http://www.e-evolution.com)                          *
 ***********************************************************************/
 
 package org.adempiere.model;
@@ -39,6 +39,7 @@ import org.compiere.model.PO;
 import org.compiere.model.X_AD_ReplicationDocument;
 import org.compiere.model.X_AD_ReplicationTable;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 
 /**
@@ -50,11 +51,15 @@ import org.compiere.util.CLogger;
  * <li> https://sourceforge.net/tracker/?func=detail&aid=2875989&group_id=176962&atid=879332
  * <li>[ 2195090 ] Stabilization of replication
  * <li>https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2936561&group_id=176962
+ * <li> BF2947615 The document recplicacion not working
+ * <li> https://sourceforge.net/tracker/?func=detail&aid=2947615&group_id=176962&atid=879332
  *
  *	@version $Id$
  */
 public class ExportModelValidator implements ModelValidator
 {
+    	/** Context variable which says if replication is enabled */
+	public static final String CTX_IsReplicationEnabled = "#IsReplicationEnabled";
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(ExportModelValidator.class);
@@ -129,8 +134,8 @@ public class ExportModelValidator implements ModelValidator
 				if (X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(rplTable.getReplicationType())
 					|| X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(rplTable.getReplicationType())) 
 				{
-					MTable table = MTable.get (client.getCtx(), rplTable.getAD_Table_ID());
-					engine.addModelChange(table.getTableName(), this);
+				    String tableName = MTable.getTableName(client.getCtx(), rplTable.getAD_Table_ID());
+				    engine.addModelChange(tableName, this);
 				}
 			}
 		}
@@ -140,10 +145,9 @@ public class ExportModelValidator implements ModelValidator
 			for (X_AD_ReplicationDocument rplDocument : rplStrategy.getReplicationDocuments()) {				
 				if (X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(rplDocument.getReplicationType())
 					|| X_AD_ReplicationDocument.REPLICATIONTYPE_Reference.equals(rplDocument.getReplicationType())) 
-				{
-					//MDocType docType = MDocType.get(client.getCtx(), rplDocuments[i].getC_DocType_ID());
-					MTable table = MTable.get (client.getCtx(), rplDocument.getAD_Table_ID());			
-					engine.addDocValidate(table.getTableName(), this);
+				{				    	
+				    String tableName = MTable.getTableName(client.getCtx(), rplDocument.getAD_Table_ID());
+				    engine.addDocValidate(tableName, this);
 				}
 			}
 		}
@@ -167,10 +171,16 @@ public class ExportModelValidator implements ModelValidator
 			|| type == TYPE_AFTER_NEW 
 			|| type == TYPE_BEFORE_DELETE) // After Change or After New
 			{
-				expHelper.exportRecord(	po, 
-						MReplicationStrategy.REPLICATION_TABLE,
-						MReplicationStrategy.getReplicationTable(po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID()).getReplicationType(),
-						type);
+		    	X_AD_ReplicationTable replicationTable = MReplicationStrategy.getReplicationTable(
+		    		po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID());
+        		    if (replicationTable != null) 
+        		    {
+        				expHelper.exportRecord(
+        		        po, 
+        		        MReplicationStrategy.REPLICATION_TABLE, 
+        		        replicationTable.getReplicationType(),
+        		        type);
+        		    }
 			}			
 		}
 
@@ -188,7 +198,7 @@ public class ExportModelValidator implements ModelValidator
 	 */
 	public String docValidate (PO po, int type) 
 	{
-		log.info("po.get_TableName() = " + po.get_TableName());
+		log.info("Replicate the Document = " + po.get_TableName() + " with Type = " + type);
 		String result = null;
 		if (expHelper != null) {
 			try {
@@ -196,13 +206,30 @@ public class ExportModelValidator implements ModelValidator
 					|| type == TIMING_AFTER_CLOSE 
 					|| type == TIMING_AFTER_REVERSECORRECT 
 					|| type == TIMING_AFTER_VOID
-					|| type == TIMING_AFTER_PREPARE
+					//|| type == TIMING_AFTER_PREPARE
 				)
 				{
-					expHelper.exportRecord(	po, 
-											MReplicationStrategy.REPLICATION_DOCUMENT ,
-											MReplicationStrategy.getReplicationDocument(po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID()).getReplicationType(),
-											type);					
+				    X_AD_ReplicationDocument replicationDocument = null;
+				    int C_DocType_ID = po.get_ValueAsInt("C_DocType_ID");
+				    if (C_DocType_ID > 0)
+				    {
+					replicationDocument = MReplicationStrategy.getReplicationDocument(
+						po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID(), C_DocType_ID);
+				    }
+				    else
+				    {
+					replicationDocument = MReplicationStrategy.getReplicationDocument(
+						po.getCtx(), m_AD_ReplicationStrategy_ID, po.get_Table_ID());
+				    }
+				    
+				    
+				    if (replicationDocument != null) {
+					expHelper.exportRecord(	
+					po, 
+					MReplicationStrategy.REPLICATION_DOCUMENT,
+					replicationDocument.getReplicationType(),
+					type);			
+				    }
 									
 				}
 			} catch (Exception e) {
@@ -223,6 +250,7 @@ public class ExportModelValidator implements ModelValidator
 	 */
 	public String login (int AD_Org_ID, int AD_Role_ID, int AD_User_ID)
 	{
+	    Env.setContext(Env.getCtx(), CTX_IsReplicationEnabled, true);
 		m_AD_Org_ID = AD_Org_ID;
 		m_AD_Role_ID = AD_Role_ID;
 		m_AD_User_ID = AD_User_ID;

@@ -27,6 +27,8 @@ import org.compiere.util.CLogger;
  * @author victor.perez@e-evolution.com, e-Evolution
  * <li> BF2875989 Deactivate replication records are include to replication
  * <li> https://sourceforge.net/tracker/?func=detail&aid=2875989&group_id=176962&atid=879332
+ * <li> BF2947615 The document recplicacion not working
+ * <li> https://sourceforge.net/tracker/?func=detail&aid=2947615&group_id=176962&atid=879332
  */
 public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	/**
@@ -57,6 +59,7 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	public Collection <X_AD_ReplicationTable> getReplicationTables() {
 		String whereClause = new StringBuffer(X_AD_ReplicationTable.COLUMNNAME_AD_ReplicationStrategy_ID)+"=?"; // #1
 		return new Query(getCtx(), X_AD_ReplicationTable.Table_Name, whereClause, get_TrxName())
+			.setClient_ID()
 			.setParameters(new Object[]{getAD_ReplicationStrategy_ID()})
 			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
@@ -70,6 +73,7 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	public Collection<X_AD_ReplicationDocument> getReplicationDocuments() {
 		String whereClause = "AD_ReplicationStrategy_ID=?"; // #1
 		return new Query(getCtx(),X_AD_ReplicationDocument.Table_Name,whereClause,get_TrxName())
+			.setClient_ID()
 			.setParameters(new Object[]{getAD_ReplicationStrategy_ID()})
 			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
@@ -86,6 +90,7 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	{
 		String whereClause = "AD_ReplicationStrategy_ID=? AND AD_Table_ID=?";
 		return new Query(ctx, X_AD_ReplicationTable.Table_Name, whereClause, null)
+			.setClient_ID()
 			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
 			.setParameters(new Object[]{AD_ReplicationStrategy_ID, AD_Table_ID})
@@ -102,11 +107,28 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	{
 		String whereClause = "AD_ReplicationStrategy_ID=? AND AD_Table_ID=?";
 		return new Query(ctx, X_AD_ReplicationDocument.Table_Name, whereClause, null)
+			.setClient_ID()
 			.setOnlyActiveRecords(true)
 			.setApplyAccessFilter(false)
 			.setParameters(new Object[]{AD_ReplicationStrategy_ID, AD_Table_ID})
 			.first()
 		;
+	}
+	
+	/**
+	 * 
+	 * @param AD_Table_ID
+	 * @return X_AD_ReplicationDocument Document to replication
+	 */
+	public static X_AD_ReplicationDocument getReplicationDocument(Properties ctx ,int AD_ReplicationStrategy_ID , int AD_Table_ID, int C_DocType_ID)
+	{
+		String whereClause = "AD_ReplicationStrategy_ID=? AND AD_Table_ID=? AND C_DocType_ID=?";
+		return new Query(ctx, X_AD_ReplicationDocument.Table_Name, whereClause, null)
+			.setClient_ID()
+			.setOnlyActiveRecords(true)
+			.setApplyAccessFilter(false)
+			.setParameters(new Object[]{AD_ReplicationStrategy_ID, AD_Table_ID, C_DocType_ID})
+			.first();
 	}
 
 }
