@@ -29,8 +29,6 @@
  **********************************************************************/
 package org.adempiere.process.rpl.exp;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -45,22 +43,21 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.adempiere.process.rpl.IExportProcessor;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
+import org.compiere.model.MEXPFormat;
+import org.compiere.model.MEXPFormatLine;
+import org.compiere.model.MEXPProcessor;
+import org.compiere.model.MEXPProcessorType;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_EXP_FormatLine;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
-import org.compiere.model.MEXPFormat;
-import org.compiere.model.MEXPFormatLine;
-import org.compiere.model.MEXPProcessor;
-import org.compiere.model.MEXPProcessorType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
@@ -74,6 +71,8 @@ import org.w3c.dom.Text;
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				<li>[ 2195090 ] Stabilization of replication
  * 				<li>https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2936561&group_id=176962
+ *				<li>BF [2947622] The replication ID (Primary Key) is not working
+ *				<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
  *
  */
 public class ExportHelper {
@@ -157,49 +156,21 @@ public class ExportHelper {
 
 		outDocument = createNewDocument();
 
-		StringBuffer sql = new StringBuffer("SELECT * ")
-					.append("FROM ").append(po.get_TableName()).append(" ")
-				   .append("WHERE ").append(po.get_KeyColumns()[0]).append("=?")
-		;
-		
-		if (exportFormat.getWhereClause() != null & !"".equals(exportFormat.getWhereClause())) {
-			sql.append(" AND ").append(exportFormat.getWhereClause());
-		}
-		
-		ResultSet rs = null;
-		PreparedStatement pstmt = null;
-		try
+		HashMap<String, Integer> variableMap = new HashMap<String, Integer>();
+
+		Element rootElement = outDocument.createElement(exportFormat.getValue());
+		if (exportFormat.getDescription() != null && !"".equals(exportFormat.getDescription())) 
 		{
-			pstmt = DB.prepareStatement(sql.toString(), po.get_TrxName());
-			pstmt.setInt(1, po.get_ID());
-			rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				HashMap<String, Integer> variableMap = new HashMap<String, Integer>();
-				//variableMap.put(TOTAL_SEGMENTS, new Integer(1));
-				
-				Element rootElement = outDocument.createElement(exportFormat.getValue());
-				if (exportFormat.getDescription() != null && !"".equals(exportFormat.getDescription())) {
-					rootElement.appendChild(outDocument.createComment(exportFormat.getDescription()));
-				}
-				rootElement.setAttribute("AD_Client_Value", client.getValue());
-				rootElement.setAttribute("Version", exportFormat.getVersion());
-				rootElement.setAttribute("ReplicationMode", ReplicationMode.toString());
-				rootElement.setAttribute("ReplicationType", ReplicationType);
-				rootElement.setAttribute("ReplicationEvent", ReplicationEvent.toString());
-				outDocument.appendChild(rootElement);
-				generateExportFormat(rootElement, exportFormat, rs, po, po.get_ID(), variableMap);
-			}
-			
-		} finally {
-			try {
-				if (rs != null) rs.close();
-				if (pstmt != null) pstmt.close();
-			} catch (SQLException ex) {/*ignored*/}
-			rs = null;
-			pstmt = null;
-		}
-		
+		    rootElement.appendChild(outDocument.createComment(exportFormat.getDescription()));
+		}	
+		rootElement.setAttribute("AD_Client_Value", client.getValue());
+		rootElement.setAttribute("Version", exportFormat.getVersion());
+		rootElement.setAttribute("ReplicationMode", ReplicationMode.toString());
+		rootElement.setAttribute("ReplicationType", ReplicationType);
+		rootElement.setAttribute("ReplicationEvent", ReplicationEvent.toString());
+		outDocument.appendChild(rootElement);
+		generateExportFormat(rootElement, exportFormat, po, po.get_ID(), variableMap);
+		    		
 		MEXPProcessor mExportProcessor = null;
 		mExportProcessor = new MEXPProcessor (po.getCtx(), m_rplStrategy.getEXP_Processor_ID(), po.get_TrxName() );
 		log.fine("ExportProcessor = " + mExportProcessor);
@@ -236,11 +207,11 @@ public class ExportHelper {
 		MTable table = MTable.get(exportFormat.getCtx(), exportFormat.getAD_Table_ID());
 		log.info("Table = " + table);
 		
-		Collection<PO> datas = new Query(exportFormat.getCtx(),table.getTableName(), exportFormat.getWhereClause(), exportFormat.get_TrxName())
+		Collection<PO> records = new Query(exportFormat.getCtx(),table.getTableName(), exportFormat.getWhereClause(), exportFormat.get_TrxName())
 		.setOnlyActiveRecords(true)
 		.list();
 		
-		for (PO po : datas)
+		for (PO po : records)
 		{	
 				log.info("Client = " + client.toString());
 				log.finest("po.getAD_Org_ID() = " + po.getAD_Org_ID());
@@ -257,48 +228,20 @@ public class ExportHelper {
 				String version = "3.2.0";		
 				outDocument = createNewDocument();
 		
-				StringBuffer sql = new StringBuffer("SELECT * ")
-							.append("FROM ").append(table.getTableName()).append(" ")
-						   .append("WHERE ").append(po.get_KeyColumns()[0]).append("=?")
-				;
-				
-				if (exportFormat.getWhereClause() != null & !"".equals(exportFormat.getWhereClause())) {
-					sql.append(" AND ").append(exportFormat.getWhereClause());
-				}
-				
-				ResultSet rs = null;
-				PreparedStatement pstmt = null;
-				try
+
+				HashMap<String, Integer> variableMap = new HashMap<String, Integer>();		
+				Element rootElement = outDocument.createElement(exportFormat.getValue());
+				if (exportFormat.getDescription() != null && !"".equals(exportFormat.getDescription())) 
 				{
-					pstmt = DB.prepareStatement(sql.toString(), po.get_TrxName());
-					pstmt.setInt(1, po.get_ID());
-					rs = pstmt.executeQuery();
-					if (rs.next())
-					{
-						HashMap<String, Integer> variableMap = new HashMap<String, Integer>();
-						//variableMap.put(TOTAL_SEGMENTS, new Integer(1));
-						
-						Element rootElement = outDocument.createElement(exportFormat.getValue());
-						if (exportFormat.getDescription() != null && !"".equals(exportFormat.getDescription())) {
-							rootElement.appendChild(outDocument.createComment(exportFormat.getDescription()));
-						}
-						rootElement.setAttribute("AD_Client_Value", client.getValue());
-						rootElement.setAttribute("Version", exportFormat.getVersion());
-						rootElement.setAttribute("ReplicationMode", ReplicationMode.toString());
-						rootElement.setAttribute("ReplicationType", ReplicationType);
-						rootElement.setAttribute("ReplicationEvent", ReplicationEvent.toString());
-						outDocument.appendChild(rootElement);
-						generateExportFormat(rootElement, exportFormat, rs, po, po.get_ID(), variableMap);
-					}
-					
-				} finally {
-					try {
-						if (rs != null) rs.close();
-						if (pstmt != null) pstmt.close();
-					} catch (SQLException ex) {/*ignored*/}
-					rs = null;
-					pstmt = null;
-				}			
+				    rootElement.appendChild(outDocument.createComment(exportFormat.getDescription()));
+				}
+				rootElement.setAttribute("AD_Client_Value", client.getValue());
+				rootElement.setAttribute("Version", exportFormat.getVersion());
+				rootElement.setAttribute("ReplicationMode", ReplicationMode.toString());
+				rootElement.setAttribute("ReplicationType", ReplicationType);
+				rootElement.setAttribute("ReplicationEvent", ReplicationEvent.toString());						
+				outDocument.appendChild(rootElement);
+				generateExportFormat(rootElement, exportFormat, po, po.get_ID(), variableMap);			
 		}// finish record read
 		return outDocument;
 	}	
@@ -310,7 +253,7 @@ public class ExportHelper {
 	 *   <DocumentNo>101</DocumentNo>
 	 * </C_Invoice>
 	 */
-	private void generateExportFormat(Element rootElement, MEXPFormat exportFormat, ResultSet rs, PO masterPO, int masterID, HashMap<String, Integer> variableMap) throws SQLException, Exception 
+	private void generateExportFormat(Element rootElement, MEXPFormat exportFormat, PO masterPO, int masterID, HashMap<String, Integer> variableMap) throws SQLException, Exception 
 	{
 		Collection<MEXPFormatLine> formatLines = exportFormat.getFormatLines();
 		@SuppressWarnings("unused")
@@ -323,7 +266,7 @@ public class ExportHelper {
 				// process single XML Attribute
 				// Create new element
 				Element newElement = outDocument.createElement(formatLine.getValue());
-
+				log.info("Format Line Seach key"+ formatLine.getValue());
 				if (formatLine.getAD_Column_ID() == 0) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
@@ -336,7 +279,7 @@ public class ExportHelper {
 				} else { }
 				//log.info("["+column.getColumnName()+"]");
 				
-				Object value = rs.getObject(column.getColumnName());
+				Object value = masterPO.get_Value(column.getColumnName());
 				String valueString = null;
 				if (value != null) {
 					valueString = value.toString();
@@ -350,14 +293,12 @@ public class ExportHelper {
 					if (valueString != null) {
 						if (formatLine.getDateFormat() != null && !"".equals(formatLine.getDateFormat())) {
 							m_customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
-							//Date date = m_customDateFormat.parse ( valueString );
+						
 							valueString = m_customDateFormat.format(Timestamp.valueOf (valueString));
 							newElement.setAttribute("DateFormat", m_customDateFormat.toPattern()); // Add "DateForamt attribute"
-						} else {
-							//valueString = m_dateFormat.format (Timestamp.valueOf (valueString));
-							//newElement.setAttribute("DateFormat", m_dateTimeFormat.toPattern()); // Add "DateForamt attribute
-							//Standard Japanese Format (default) works better (yyyy-mm-dd)
-							newElement.setAttribute("DateFormat", valueString);	
+						} else 
+						{
+								newElement.setAttribute("DateFormat", valueString);	
 						}
 								
 					}
@@ -365,13 +306,9 @@ public class ExportHelper {
 					if (valueString != null) {
 						if (formatLine.getDateFormat() != null && !"".equals(formatLine.getDateFormat())) {
 							m_customDateFormat = new SimpleDateFormat( formatLine.getDateFormat() ); // "MM/dd/yyyy"
-							//Date date = m_customDateFormat.parse ( valueString );
 							valueString = m_customDateFormat.format(Timestamp.valueOf (valueString));
 							newElement.setAttribute("DateFormat", m_customDateFormat.toPattern()); // Add "DateForamt attribute"
 						} else {
-							//valueString = m_dateTimeFormat.format (Timestamp.valueOf (valueString));
-							//newElement.setAttribute("DateFormat", m_dateTimeFormat.toPattern()); // Add "DateForamt attribute
-							//Standard Japanese Format (default) works better (yyyy-mm-dd hh:mm:ss m.mm)
 							newElement.setAttribute("DateFormat", valueString);	
 						}
 					}
@@ -382,8 +319,6 @@ public class ExportHelper {
 					newElement.appendChild(newText);
 					rootElement.appendChild(newElement);
 					elementHasValue = true;
-					//increaseVariable(variableMap, formatLines[i].getVariableName()); // Increase value of Variable if any Variable 
-					//increaseVariable(variableMap, TOTAL_SEGMENTS);
 				} else {
 					// Empty field.
 					if (formatLine.isMandatory()) {
@@ -407,7 +342,7 @@ public class ExportHelper {
 				} else { }
 				//log.info("["+column.getColumnName()+"]");
 				
-				Object value = rs.getObject(column.getColumnName());
+				Object value = masterPO.get_Value(column.getColumnName());
 				String valueString = null;
 				if (value != null) {
 					valueString = value.toString();
@@ -442,8 +377,7 @@ public class ExportHelper {
 				if (valueString != null && !"".equals(valueString) && !"null".equals(valueString)) {
 					rootElement.setAttribute(formatLine.getValue(), valueString);
 					elementHasValue = true;
-					//increaseVariable(variableMap, formatLines[i].getVariableName()); // Increase value of Variable if any Variable 
-					//increaseVariable(variableMap, TOTAL_SEGMENTS);
+
 				} else {
 					// Empty field.
 				}
@@ -458,44 +392,30 @@ public class ExportHelper {
 				
 				MTable tableEmbedded = MTable.get(masterPO.getCtx(), embeddedFormat.getAD_Table_ID());
 				log.info("Table Embedded = " + tableEmbedded);
-				StringBuffer sql = new StringBuffer("SELECT * ")
-					   .append("FROM ").append(tableEmbedded.getTableName()).append(" ")
-					   .append("WHERE ").append(masterPO.get_KeyColumns()[0]).append("=?")
-					   //+ "WHERE " + po.get_WhereClause(false)
-				;
-				if (embeddedFormat.getWhereClause() != null & !"".equals(embeddedFormat.getWhereClause())) {
-					sql.append(" AND ").append(embeddedFormat.getWhereClause());
-				}
-				log.info(sql.toString());
-				ResultSet rsEmbedded = null;
-				PreparedStatement pstmt = null;
-				try
+				
+				final StringBuffer whereClause = new StringBuffer(masterPO.get_KeyColumns()[0] +"=?");
+
+				if (embeddedFormat.getWhereClause() != null & !"".equals(embeddedFormat.getWhereClause())) 
 				{
-					pstmt = DB.prepareStatement(sql.toString(), masterPO.get_TrxName());
-					pstmt.setInt(1, masterID);
-					rsEmbedded = pstmt.executeQuery();
-					while (rsEmbedded.next())
-					{
-						//System.out.println("Trifon - tableEmbedded.getTableName()_ID = "+ tableEmbedded.getTableName() + "_ID");
-						int embeddedID = rsEmbedded.getInt(tableEmbedded.getTableName() + "_ID");
-						PO poEmbedded = tableEmbedded.getPO (embeddedID, masterPO.get_TrxName());
-						
-						Element embeddedElement = outDocument.createElement(formatLine.getValue());
-						if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) {
-							embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
-						}
-						generateExportFormat(embeddedElement, embeddedFormat, rsEmbedded, poEmbedded, embeddedID, variableMap);
-						rootElement.appendChild(embeddedElement);
-					}
-					
-				} finally {
-					try {
-						if (rsEmbedded != null) rsEmbedded.close();
-						if (pstmt != null) pstmt.close();
-					} catch (SQLException ex) {  }
-					rsEmbedded = null;
-					pstmt = null;
+				    whereClause.append(" AND ").append(embeddedFormat.getWhereClause());
 				}
+				Collection<PO> instances = new Query(masterPO.getCtx(),
+					tableEmbedded.getTableName(), whereClause.toString(),
+					masterPO.get_TrxName()).setClient_ID().setParameters(
+					new Object[] { masterID }).list();
+
+				for (PO instance : instances) 
+				{		
+        				Element embeddedElement = outDocument.createElement(formatLine.getValue());
+        				if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) 
+        				{
+        					embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
+        				}
+        					
+        				generateExportFormat(embeddedElement, embeddedFormat, instance, instance.get_ID(), variableMap);
+        				rootElement.appendChild(embeddedElement);
+				}
+
 
 			} 
 			else if ( formatLine.getType().equals(X_EXP_FormatLine.TYPE_ReferencedEXPFormat) ) 
@@ -508,64 +428,35 @@ public class ExportHelper {
 				
 				MTable tableEmbedded = MTable.get(masterPO.getCtx(), embeddedFormat.getAD_Table_ID());
 				log.info("Table Embedded = " + tableEmbedded);
-				StringBuffer sql = new StringBuffer("SELECT * ")
-					   .append("FROM ").append(tableEmbedded.getTableName()).append(" ")
-					   .append("WHERE ").append(tableEmbedded.getTableName() + "_ID").append("=?")
-					   //+ "WHERE " + po.get_WhereClause(false)
-				;
-				if (embeddedFormat.getWhereClause() != null & !"".equals(embeddedFormat.getWhereClause())) {
-					sql.append(" AND ").append(embeddedFormat.getWhereClause());
-				}
-				log.info(sql.toString());
-				if (formatLine.getAD_Column_ID() == 0) {
-					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
-				}
-				MColumn column = MColumn.get(masterPO.getCtx(), formatLine.getAD_Column_ID());
-				if (column == null) {
-					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
-				}
-				if ( column.isVirtualColumn() ) {
-					log.info("This is Virtual Column!");
-				} else { }
-				//log.info("["+column.getColumnName()+"]");
-				Object value = rs.getObject(column.getColumnName());
-/*				String valueString = null;
-				if (value != null) {
-					valueString = value.toString();
-				} else {
-					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPFieldMandatory"));
-				}
-*/				
-				log.info(sql.toString());
-				ResultSet rsEmbedded = null;
-				PreparedStatement pstmt = null;
-				try
+
+				final StringBuffer whereClause = new StringBuffer(tableEmbedded.getTableName() + "_ID =?");
+				if (embeddedFormat.getWhereClause() != null & !"".equals(embeddedFormat.getWhereClause())) 
 				{
-					pstmt = DB.prepareStatement(sql.toString(), masterPO.get_TrxName());
-					pstmt.setObject(1, value);
-					rsEmbedded = pstmt.executeQuery();
-					while (rsEmbedded.next())
-					{
-						//System.out.println("Trifon - tableEmbedded.getTableName()_ID = "+ tableEmbedded.getTableName() + "_ID");
-						int embeddedID = rsEmbedded.getInt(tableEmbedded.getTableName() + "_ID");
-						PO poEmbedded = tableEmbedded.getPO (embeddedID, masterPO.get_TrxName());
-						
-						Element embeddedElement = outDocument.createElement(formatLine.getValue());
-						if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) {
-							embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
-						}
-						generateExportFormat(embeddedElement, embeddedFormat, rsEmbedded, poEmbedded, embeddedID, variableMap);
-						rootElement.appendChild(embeddedElement);
-					}
-					
-				} finally {
-					try {
-						if (rsEmbedded != null) rsEmbedded.close();
-						if (pstmt != null) pstmt.close();
-					} catch (SQLException ex) {  }
-					rsEmbedded = null;
-					pstmt = null;
+				    whereClause.append(" AND ").append(embeddedFormat.getWhereClause());
 				}
+				
+				Object value = masterPO.get_Value(tableEmbedded.getTableName() + "_ID");
+				if (value == null)
+				{	
+				    continue;
+				}
+				
+				Collection<PO> instances = new Query(masterPO.getCtx(),tableEmbedded.getTableName(), whereClause.toString(),masterPO.get_TrxName())
+                                				.setClient_ID()
+                                				.setParameters(new Object[] { value })
+                                				.list();
+
+				for (PO instance : instances)
+				{		
+        				Element embeddedElement = outDocument.createElement(formatLine.getValue());
+        				if (formatLine.getDescription() != null && !"".equals(formatLine.getDescription())) 
+        				{
+        					embeddedElement.appendChild(outDocument.createComment(formatLine.getDescription()));
+        				}
+        				
+        				generateExportFormat(embeddedElement, embeddedFormat, instance, instance.get_ID(), variableMap);
+        						rootElement.appendChild(embeddedElement);
+				}		
 
 			}
 			

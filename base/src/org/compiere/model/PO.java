@@ -86,6 +86,8 @@ import org.w3c.dom.Element;
  * @author Victor Perez, e-Evolution SC
  *			<li>[ 2195894 ] Improve performance in PO engine
  *			<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2195894&group_id=176962&atid=879335
+ *			<li>BF [2947622] The replication ID (Primary Key) is not working
+ *			<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
  */
 public abstract class PO
 	implements Serializable, Comparator, Evaluatee
@@ -2512,6 +2514,14 @@ public abstract class PO
 			int no = saveNew_getID();
 			if (no <= 0)
 				no = DB.getNextID(getAD_Client_ID(), p_info.getTableName(), m_trxName);
+			// the primary key is not overwrite with the local sequence	
+			if (isReplication())
+			{
+				if (get_ID() > 0)
+				{
+					no = get_ID();
+				}
+			}
 			if (no <= 0)
 			{
 				log.severe("No NextID (" + no + ")");

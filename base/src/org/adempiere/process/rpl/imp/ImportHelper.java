@@ -40,8 +40,8 @@ import java.util.Properties;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.process.rpl.exp.ExportHelper;
 import org.adempiere.process.rpl.XMLHelper;
+import org.adempiere.process.rpl.exp.ExportHelper;
 import org.compiere.model.I_AD_Client;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
@@ -52,7 +52,9 @@ import org.compiere.model.MTable;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.model.X_AD_ReplicationDocument;
 import org.compiere.model.X_AD_ReplicationTable;
+import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -69,6 +71,8 @@ import org.w3c.dom.NodeList;
  * @author	victor.perez@e-evolution.com, e-Evolution
  * 				<li>[ 2195090 ] Stabilization of replication
  * 				<li>https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2936561&group_id=176962
+ *				<li>BF [2947622] The replication ID (Primary Key) is not working
+ *				<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
  *
  */
 public class ImportHelper {
@@ -171,65 +175,62 @@ public class ImportHelper {
 		
 		if(po != null)
 		{
-			// Here must invoke other method else we get cycle...
-			if (ModelValidator.TYPE_BEFORE_DELETE 				==	ReplicationEvent 
-			||	ModelValidator.TYPE_BEFORE_DELETE_REPLICATION 	==	ReplicationEvent 
-			||	ModelValidator.TYPE_DELETE 						== 	ReplicationEvent)
-			{
-				po.deleteEx(true);
-			}
-			else
-			{
-				if(X_AD_ReplicationTable.REPLICATIONTYPE_Broadcast.equals(ReplicationType))
-				{
-					po.saveReplica(true);
-					MReplicationStrategy rplStrategy = new MReplicationStrategy(client.getCtx(), client.getAD_ReplicationStrategy_ID(), null);
-					ExportHelper expHelper = new ExportHelper(client, rplStrategy);
-					expHelper.exportRecord(	po, 
-											MReplicationStrategy.REPLICATION_TABLE,
-											X_AD_ReplicationTable.REPLICATIONTYPE_Merge,
-											ModelValidator.TYPE_AFTER_CHANGE);
-				}
-				else if(X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(ReplicationType)
-					||  X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType))
-				{
-					po.saveReplica(true);
-				}
-				/*else if (X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType))
-				{
-					//Do nothing??	
-				}*/
-				else if(X_AD_ReplicationTable.REPLICATIONTYPE_Local.equals(ReplicationType))
-				{
-					//Do nothing??	
-				}
-				else
-				{
-					// Replication Type is not one of the possible values...ERROR
-					throw new Exception(Msg.getMsg(ctx, "EXPReplicationTypeNonValidType"));
-				}
-					
-					
-			}
-		}		
-		result.append("Save Successful ;");
-		/*if (resultSave) 
-		{
-			if(ReplicationMode == MReplicationStrategy.REPLICATION_DOCUMENT && 
-			   ReplicationType == X_AD_ReplicationDocument.REPLICATIONTYPE_Merge)
-			{
-				String status = po.get_ValueAsString("DocStatus");
-				String action = po.get_ValueAsString("DocAction");
-				DocAction	m_document;
-				m_document=(DocAction) po;
-				DocumentEngine engine = new DocumentEngine (m_document, status);
-				engine.processIt (action);
-			}
-			// Success in save
-		} else {
-			// Failed in save
-			throw new Exception(Msg.getMsg(ctx, "EXPFormatFailedSave"));
-		}*/
+		    	if(MReplicationStrategy.REPLICATION_TABLE==ReplicationMode)
+		    	{    
+        			// Here must invoke other method else we get cycle...
+        			if (	ModelValidator.TYPE_BEFORE_DELETE == ReplicationEvent 
+        			||	ModelValidator.TYPE_BEFORE_DELETE_REPLICATION == ReplicationEvent 
+        			||	ModelValidator.TYPE_DELETE == ReplicationEvent)
+        			{
+        				po.deleteEx(true);
+        			}
+        			else
+        			{
+        				if(X_AD_ReplicationTable.REPLICATIONTYPE_Broadcast.equals(ReplicationType))
+        				{
+        				    po.saveReplica(true);
+        					MReplicationStrategy rplStrategy = new MReplicationStrategy(client.getCtx(), client.getAD_ReplicationStrategy_ID(), null);
+        					ExportHelper expHelper = new ExportHelper(client, rplStrategy);
+        					expHelper.exportRecord(	po, 
+        								MReplicationStrategy.REPLICATION_TABLE,
+        								X_AD_ReplicationTable.REPLICATIONTYPE_Merge,
+        								ModelValidator.TYPE_AFTER_CHANGE);
+        					
+        				}
+        				else if(X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(ReplicationType)
+        					||  X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType))
+        				{
+        					if(po.is_Changed())
+        					{	
+        						po.saveReplica(true);
+        					}	
+        				}
+        				/*else if (X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType))
+        				{
+        					//Do nothing??	
+        				}*/
+        				else if(X_AD_ReplicationTable.REPLICATIONTYPE_Local.equals(ReplicationType))
+        				{
+        					//Do nothing??	
+        				}
+        				else
+        				{
+        					// Replication Type is not one of the possible values...ERROR
+        					throw new Exception(Msg.getMsg(ctx, "EXPReplicationTypeNonValidType"));
+        				}
+        			}	
+		    	}
+		    	else if(MReplicationStrategy.REPLICATION_DOCUMENT == ReplicationMode  
+		    		&& X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(ReplicationType)
+		    		&& po instanceof DocAction)
+		    	{
+		    		   Env.setContext(Env.getCtx(), "#AD_Client_ID", po.getAD_Client_ID());
+				   DocAction document = (DocAction)po;
+				   document.processIt(document.getDocAction());		   
+				   po.saveEx();
+		    	}	
+		}	
+		result.append("Save Successful ;");		
 	}
 
 	/**
@@ -279,7 +280,7 @@ public class ImportHelper {
 			log.info("=================== Beginnig of Format Line ===============================");
 			log.info("formatLine: [" + formatLine.toString() + "]");			
 			//Get the value
-			Object value = getValueFromFormat(formatLine,po,rootElement,result,ReplicationType,trxName);
+			Object value = getValueFromFormat(formatLine,po,rootElement,result,ReplicationType);
 			if (value == null || value.toString().equals(""))
 				continue;	
 			//Set the value
@@ -300,7 +301,7 @@ public class ImportHelper {
 	 * @throws Exception
 	 */
 	private Object getValueFromFormat(MEXPFormatLine line,PO po,Element rootElement,
-					StringBuffer result, String ReplicationType, String trxName) throws Exception
+					StringBuffer result, String ReplicationType) throws Exception
 	{
 		Object value = null;
 		
@@ -315,7 +316,7 @@ public class ImportHelper {
 		{
 			// Referenced Export Format
 			//get from cache
-			MEXPFormat referencedExpFormat = MEXPFormat.get(ctx, line.getEXP_EmbeddedFormat_ID(), trxName);
+			MEXPFormat referencedExpFormat = MEXPFormat.get(ctx, line.getEXP_EmbeddedFormat_ID(), po.get_TrxName());
 			log.info("referencedExpFormat = " + referencedExpFormat);
 
 			int refRecord_ID = 0;
@@ -329,7 +330,7 @@ public class ImportHelper {
 			log.info("referencedNode = " + referencedNode);
 			if(referencedNode!=null)
 			{
-				refRecord_ID = getID(ctx, referencedExpFormat, referencedNode, line.getValue(), trxName);
+				refRecord_ID = getID(ctx, referencedExpFormat, referencedNode, line.getValue(), po.get_TrxName());
 				log.info("refRecord_ID = " + refRecord_ID);
 				value = new Integer(refRecord_ID);
 			}
@@ -349,7 +350,7 @@ public class ImportHelper {
 			
 			// Embedded Export Format It is used for Parent-Son records like Order&OrderLine
 			//get from cache
-			MEXPFormat referencedExpFormat = MEXPFormat.get(ctx, line.getEXP_EmbeddedFormat_ID(), trxName);
+			MEXPFormat referencedExpFormat = MEXPFormat.get(ctx, line.getEXP_EmbeddedFormat_ID(), po.get_TrxName());
 			log.info("embeddedExpFormat = " + referencedExpFormat);
 
 			NodeList nodeList = XMLHelper.getNodeList("/"+rootElement.getNodeName() + "/" + line.getValue(), rootElement);
@@ -361,7 +362,7 @@ public class ImportHelper {
 				PO embeddedPo = null;
 				// Import embedded PO
 				log.info("=== BEGIN RECURSION CALL ===");
-				embeddedPo = importElement(ctx, result, referencedElement, referencedExpFormat,ReplicationType, trxName);
+				embeddedPo = importElement(ctx, result, referencedElement, referencedExpFormat,ReplicationType, po.get_TrxName());
 				log.info("embeddedPo = " + embeddedPo);
 				embeddedPo.saveReplica(true);
 				result.append(" Embedded Save Successful ; ");
@@ -394,12 +395,13 @@ public class ImportHelper {
 	 */
 	private void setReplicaValues(Object value,MEXPFormatLine line,PO po,StringBuffer result)throws Exception
 	{
+		MColumn column = MColumn.get(ctx, line.getAD_Column_ID());
+		log.info("column=[" + column + "]");
+		
 		if (value !=null)
 		{
 			if (!MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(line.getType()) ) 
 			{
-				MColumn column = MColumn.get(ctx, line.getAD_Column_ID());
-				log.info("column=[" + column + "]");
 				
 				// Clazz
 				Class clazz = DisplayType.getClass(column.getAD_Reference_ID(), true);
@@ -481,7 +483,11 @@ public class ImportHelper {
 					} 
 					else if(DisplayType.YesNo == column.getAD_Reference_ID())
 					{
-						po.set_ValueOfColumn(line.getAD_Column_ID(), value);
+						if(clazz == Boolean.class)
+						{						 
+							String v = value.toString().equals("true") ? "Y" : "N";	
+							po.set_ValueOfColumn(line.getAD_Column_ID(), v);
+						}
 					}
 					else 
 					{
@@ -491,7 +497,8 @@ public class ImportHelper {
 								
 								if(clazz == Boolean.class)
 								{
-									po.set_ValueOfColumn(line.getAD_Column_ID(), value);
+									String v = value.toString().equals("true") ? "Y" : "N";	
+									po.set_ValueOfColumn(line.getAD_Column_ID(), v);
 								}
 								else
 								{
@@ -565,6 +572,7 @@ public class ImportHelper {
 			throw new AdempiereException(Msg.getMsg(ctx, "EXPFormatLineNoUniqueColumns"));
 		}
 		
+		int replication_id = 0;
 		Object[] cols 	= new Object[uniqueFormatLines.size()];
 		Object[] params = new Object[uniqueFormatLines.size()];
 		StringBuffer whereClause= new StringBuffer("");
@@ -634,6 +642,10 @@ public class ImportHelper {
 				{
 					//double doubleValue = Double.parseDouble(value.toString());
 					value = new Integer(value.toString());
+					if (DisplayType.ID	==	column.getAD_Reference_ID())
+					{
+						replication_id = (Integer) value;
+					}
 				}
 				else
 				{
@@ -671,7 +683,14 @@ public class ImportHelper {
 		
 		if(values.size()<=0)//Means that is a new record
 		{
-			return MTable.get(ctx, expFormat.getAD_Table_ID()).getPO(0,trxName);
+			PO po = po = MTable.get(ctx, expFormat.getAD_Table_ID()).getPO(0,trxName);
+			
+			if (replication_id > 0 )
+			{
+				po.set_CustomColumn(po.get_KeyColumns()[0], replication_id);
+			}
+
+			return po;
 		}
 		
 		return values.get(0);//Return the first (unique) record.
