@@ -224,7 +224,7 @@ public class ImportHelper {
 		    		&& X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(ReplicationType)
 		    		&& po instanceof DocAction)
 		    	{
-		    		   Env.setContext(Env.getCtx(), "#AD_Client_ID", po.getAD_Client_ID());
+		    		   Env.setContext(po.getCtx(), "#AD_Client_ID", po.getAD_Client_ID());
 				   DocAction document = (DocAction)po;
 				   document.processIt(document.getDocAction());		   
 				   po.saveEx();
