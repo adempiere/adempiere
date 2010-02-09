@@ -205,7 +205,7 @@ public class WReport implements EventListener {
 		if(pf != null && pf.getJasperProcess_ID() > 0)
 		{
 			// It's a report using the JasperReports engine
-			ProcessInfo pi = new ProcessInfo ("", pf.getJasperProcess_ID());
+			ProcessInfo pi = new ProcessInfo ("", pf.getJasperProcess_ID(), pf.getAD_Table_ID(), Record_ID);
 			
 			//	Execute Process
 			WProcessCtl.process(null, WindowNo, pi, null);
