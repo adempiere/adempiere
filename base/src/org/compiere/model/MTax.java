@@ -31,7 +31,9 @@ import org.compiere.util.TimeUtil;
  *
  *	@author Jorg Janke
  *	@version $Id: MTax.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
- * 	red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query 
+ * 	red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
+ *  trifonnt - BF [2913276] - Allow only one Default Tax Rate per Tax Category
+ *  mjmckay - BF [2948632] - Allow edits to the Defautl Tax Rate 
  */
 public class MTax extends X_C_Tax
 {	
@@ -280,9 +282,12 @@ public class MTax extends X_C_Tax
 	protected boolean beforeSave(boolean newRecord) {
 		if (isDefault()) {
 			// @Trifon - Ensure that only one tax rate is set as Default!
-			String whereClause = MTax.COLUMNNAME_C_TaxCategory_ID+"=? AND IsDefault='Y'";
+			// @Mckay - Allow edits to the Default tax rate
+			String whereClause = MTax.COLUMNNAME_C_TaxCategory_ID+"=? AND " + 
+								 MTax.COLUMNNAME_C_Tax_ID+"<>? AND "+
+								 "IsDefault='Y'";
 			List<MTax> list = new Query(getCtx(), MTax.Table_Name, whereClause,  get_TrxName())
-				.setParameters(new Object[]{getC_TaxCategory_ID()})
+				.setParameters(new Object[]{getC_TaxCategory_ID(), getC_Tax_ID()})
 				.setOnlyActiveRecords(true)
 				.list();
 			if (list.size() >= 1) {
