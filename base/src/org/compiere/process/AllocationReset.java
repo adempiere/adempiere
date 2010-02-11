@@ -79,6 +79,12 @@ public class AllocationReset extends SvrProcess
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
+		
+		if ( !p_AllAllocations && getTable_ID() == MAllocationHdr.Table_ID && getRecord_ID() > 0 )
+		{
+			p_C_AllocationHdr_ID = getRecord_ID();
+		}
+			
 	}	//	prepare
 	
 	/**
