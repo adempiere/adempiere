@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,6 +38,7 @@ import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import org.compiere.model.MAttachment;
 import org.compiere.model.MRequest;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogMgt;
@@ -467,7 +470,7 @@ public class RequestEMailProcessor extends SvrProcess
 		// Set start date as sent date of e-mail
 		req.setStartDate(new Timestamp(msg.getSentDate().getTime()));
 		
-		// defaults priority Medium, confidenciality partner
+		// defaults priority Medium, confidentiality partner
 		if (p_DefaultConfidentiality != null) {
 			req.setConfidentialType (p_DefaultConfidentiality);
 			req.setConfidentialTypeEntry (p_DefaultConfidentiality);
@@ -479,6 +482,48 @@ public class RequestEMailProcessor extends SvrProcess
 		
 		if (req.save(get_TrxName())) {
 			log.info("created request " + req.getR_Request_ID() + " from msg -> " + hdrs[0]);
+			
+
+			// get simple attachments and attach to request
+			if ( msg.isMimeType("multipart/*" ) )
+			{
+				try {
+					Multipart mp = (Multipart) msg.getContent();
+
+					for (int i=0, n=mp.getCount(); i<n; i++) {
+						Part part = mp.getBodyPart(i);
+
+						String disposition = part.getDisposition();
+
+						if ((disposition != null) && 
+								((disposition.equals(Part.ATTACHMENT) || 
+										(disposition.equals(Part.INLINE))))) {
+
+							MAttachment attach = req.createAttachment();
+
+							InputStream in = part.getInputStream();
+
+							ByteArrayOutputStream out = new ByteArrayOutputStream();
+							final int BUF_SIZE = 1 << 8; //1KiB buffer
+							byte[] buffer = new byte[BUF_SIZE];
+							int bytesRead = -1;
+							while((bytesRead = in.read(buffer)) > -1) {
+								out.write(buffer, 0, bytesRead);
+							}
+							in.close();
+
+							byte[] bytes = out.toByteArray();
+
+							attach.addEntry(part.getFileName(), bytes);
+							attach.saveEx(get_TrxName());
+						}
+					}
+				}
+				catch (IOException e) {
+					log.log(Level.FINE, "Error extracting attachments", e);
+				}
+			}
+
 			return true;
 		} else {
 			return false;
