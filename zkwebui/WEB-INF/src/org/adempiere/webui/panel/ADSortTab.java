@@ -138,7 +138,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 	private boolean uiCreated;
 
 	/**
-	 * 	Dyanamic Init
+	 * 	Dynamic Init
 	 *  @param AD_Table_ID Table No
 	 *  @param AD_ColumnSortOrder_ID Sort Column
 	 *  @param AD_ColumnSortYesNo_ID YesNo Column
@@ -701,7 +701,7 @@ public class ADSortTab extends Panel implements IADTabpanel
 	{
 		saveData();
 		adWindowPanel = null;
-	}	//	dispoase
+	}	//	dispose
 
 	/**
 	 * List Item
