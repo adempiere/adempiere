@@ -130,7 +130,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		+ " LEFT OUTER JOIN M_ProductPrice pr ON (p.M_Product_ID=pr.M_Product_ID AND pr.IsActive='Y')"
 		+ " LEFT OUTER JOIN M_AttributeSet pa ON (p.M_AttributeSet_ID=pa.M_AttributeSet_ID)"
 		+ " LEFT OUTER JOIN M_Product_PO ppo ON (p.M_Product_ID=ppo.M_Product_ID and ppo.IsCurrentVendor='Y')"
-		+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)";
+		+ " LEFT OUTER JOIN C_BPartner bp ON (ppo.C_BPartner_ID=bp.C_BPartner_ID)"
+		+ " LEFT OUTER JOIN M_Product_Trl pt ON (p.M_Product_ID = pt.M_Product_ID AND pt.AD_Language = '" + Env.getAD_Language(Env.getCtx()) + "')";
 
 	/**  Array of Column Info    */
 	private static Info_Column[] s_productLayout = null;
@@ -733,8 +734,12 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 
 		//  => Name
 		String name = fieldName.getText().toUpperCase();
-		if (!(name.equals("") || name.equals("%")))
-			where.append(" AND UPPER(p.Name) LIKE ?");
+		if (!(name.equals("") || name.equals("%"))) {
+			if (Env.getAD_Language(Env.getCtx()).equals( "en_US") )
+				where.append(" AND UPPER(p.Name) LIKE ?");
+			else
+				where.append(" AND UPPER(pt.Name) LIKE ?");
+		}
 
 		//  => UPC
 		String upc = fieldUPC.getText().toUpperCase();
@@ -860,7 +865,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 
 	
 	/**************************************************************************
-	 *  Action Listner
+	 *  Action Listener
 	 *	@param e event
 	 */
 	public void actionPerformed (ActionEvent e)
@@ -878,7 +883,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		}
 		m_pAttributeWhere = null;
 		
-		//	Query Product Attribure Instance
+		//	Query Product Attribute Instance
 		int row = p_table.getSelectedRow();
 		if (e.getSource().equals(m_PAttributeButton) && row != -1)
 		{
@@ -1055,7 +1060,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			list.add(new Info_Column(" ", "p.M_Product_ID", IDColumn.class, !p_multiSelection));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Discontinued").substring(0, 1), "p.Discontinued", Boolean.class));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Value"), "p.Value", String.class));
-			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Name"), "p.Name", String.class));
+			list.add(new Info_Column(Msg.translate(Env.getCtx(), "Name"), "COALESCE(pt.Name, p.Name)", String.class));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "QtyAvailable"), "bomQtyAvailable(p.M_Product_ID,?,0) AS QtyAvailable", Double.class, true, true, null));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "PriceList"), "bomPriceList(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceList",  BigDecimal.class));
 			list.add(new Info_Column(Msg.translate(Env.getCtx(), "PriceStd"), "bomPriceStd(p.M_Product_ID, pr.M_PriceList_Version_ID) AS PriceStd", BigDecimal.class));
