@@ -237,6 +237,10 @@ public class ImportProductPlanning extends SvrProcess
 	 */
 	private void importForecast(X_I_ProductPlanning ipp)
 	{
+		if(ipp.getForecastValue()==null)
+		{
+			return;
+		}		
 		if(ipp.getM_Forecast_ID()==0)
 		{
 			ipp.setI_ErrorMsg(Msg.getMsg(getCtx(),"@M_Forecast_ID@ @NotFound@"));
@@ -244,11 +248,7 @@ public class ImportProductPlanning extends SvrProcess
 			isImported=false;
 			return;
 		}
-		if(ipp.getForecastValue()==null)
-		{
-			return;
-		}
-		
+
 		MForecast forecast = new MForecast(getCtx(), ipp.getM_Forecast_ID(), get_TrxName());
 		
 		final StringBuffer whereClause=new StringBuffer();
@@ -381,20 +381,26 @@ public class ImportProductPlanning extends SvrProcess
 		for(X_I_ProductPlanning ppi : getRecords(false, p_IsImportOnlyNoErrors))
 		{
 			if(ppi.getC_BPartner_ID()==0)
-				ppi.setC_BPartner_ID(getID(I_C_BPartner.Table_Name,I_C_BPartner.COLUMNNAME_Value +  "=?", new Object[]{ppi.getBPartner_Value()}));
+				ppi.setC_BPartner_ID(getID(I_C_BPartner.Table_Name,I_C_BPartner.COLUMNNAME_Value +  "=?", 
+						new Object[]{ppi.getBPartner_Value()}));
 			if(ppi.getM_Product_ID()==0)	
-				ppi.setM_Product_ID(getID(I_M_Product.Table_Name,I_M_Product.COLUMNNAME_Value +  "=?", new Object[]{ppi.getProductValue()}));
+				ppi.setM_Product_ID(getID(I_M_Product.Table_Name,I_M_Product.COLUMNNAME_Value +  "=?", 
+						new Object[]{ppi.getProductValue()}));
 			if(ppi.getM_Warehouse_ID()==0)
-				ppi.setM_Warehouse_ID(getID(I_M_Warehouse.Table_Name,I_M_Warehouse.COLUMNNAME_Value + "=?", new Object[]{ppi.getWarehouseValue()}));
+				ppi.setM_Warehouse_ID(getID(I_M_Warehouse.Table_Name,I_M_Warehouse.COLUMNNAME_Value + "=?", 
+						new Object[]{ppi.getWarehouseValue()}));
 			if(ppi.getAD_Org_ID()==0)
-				ppi.setAD_Org_ID(getID(I_AD_Org.Table_Name,I_AD_Org.COLUMNNAME_Value +  "=?", new Object[]{ppi.getOrgValue()}));
+				ppi.setAD_Org_ID(getID(I_AD_Org.Table_Name,I_AD_Org.COLUMNNAME_Value +  "=?", 
+						new Object[]{ppi.getOrgValue()}));
 			if(ppi.getDD_NetworkDistribution_ID()==0)
-				ppi.setDD_NetworkDistribution_ID(getID(I_DD_NetworkDistribution.Table_Name,I_DD_NetworkDistribution.COLUMNNAME_Value 
-						+  "=?", new Object[]{ppi.getNetworkDistributionValue()}));
+				ppi.setDD_NetworkDistribution_ID(getID(I_DD_NetworkDistribution.Table_Name,I_DD_NetworkDistribution.COLUMNNAME_Value +  "=?", 
+						new Object[]{ppi.getNetworkDistributionValue()}));
 			if(ppi.getPP_Product_BOM_ID()==0)
-				ppi.setPP_Product_BOM_ID(getID(I_PP_Product_BOM.Table_Name,I_PP_Product_BOM.COLUMNNAME_Value +  "=?", new Object[]{ppi.getProduct_BOM_Value()}));
+				ppi.setPP_Product_BOM_ID(getID(I_PP_Product_BOM.Table_Name,I_PP_Product_BOM.COLUMNNAME_Value +  "=?", 
+						new Object[]{ppi.getProduct_BOM_Value()}));
 			if(ppi.getM_Forecast_ID()==0)
-				ppi.setM_Forecast_ID(getID(I_M_Forecast.Table_Name,I_M_Forecast.COLUMNNAME_Name + "=?" , new Object[]{ppi.getForecastValue()}));
+				ppi.setM_Forecast_ID(getID(I_M_Forecast.Table_Name,I_M_Forecast.COLUMNNAME_Name + "=?" , 
+						new Object[]{ppi.getForecastValue()}));
 			if(ppi.getS_Resource_ID()==0)
 				ppi.setS_Resource_ID(getID(I_S_Resource.Table_Name, I_S_Resource.COLUMNNAME_Value +  "=? AND " 
 						+ I_S_Resource.COLUMNNAME_ManufacturingResourceType + "=?", new Object[]{ppi.getResourceValue(), "PT"}));
