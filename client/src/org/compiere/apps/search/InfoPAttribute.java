@@ -86,7 +86,7 @@ public class InfoPAttribute extends CDialog
 
 	/**	Resulting Query			*/
 	private String		m_query = "";
-	/**	Product Attribure Editors	*/
+	/**	Product Attribute Editors	*/
 	private ArrayList<Component>	m_productEditors = new ArrayList<Component>();
 	private ArrayList<Component>	m_productEditorsTo = new ArrayList<Component>();
 	/**	Instance Attribute Editors	*/

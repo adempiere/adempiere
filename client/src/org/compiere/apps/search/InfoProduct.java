@@ -154,6 +154,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	private CTextField fieldVendor = new CTextField(10);
 	private CLabel labelProductCategory = new CLabel();
 	private VComboBox pickProductCategory = new VComboBox();
+	private CLabel labelAS = new CLabel(); // @Trifon
+	private VComboBox pickAS = new VComboBox(); // @Trifon
 	
 	//Begin - fer_luck @ centuryon
 	private CTextArea fieldDescription = new CTextArea();
@@ -214,6 +216,10 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		labelProductCategory.setText(Msg.translate(Env.getCtx(), "M_Product_Category_ID"));
 		pickProductCategory.setBackground(AdempierePLAF.getInfoBackground());
 		
+		// @Trifon
+		labelAS.setText(Msg.translate(Env.getCtx(), "M_AttributeSet_ID"));
+		pickAS.setBackground(AdempierePLAF.getInfoBackground());
+		
 		m_InfoPAttributeButton.setMargin(new Insets(2,2,2,2));
 		m_InfoPAttributeButton.setToolTipText(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
 		m_InfoPAttributeButton.addActionListener(this);
@@ -244,6 +250,8 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		parameterPanel.add(pickPriceList, null);
 		parameterPanel.add(labelProductCategory, null);
 		parameterPanel.add(pickProductCategory, null);
+		parameterPanel.add(labelAS, null); // @Trifon
+		parameterPanel.add(pickAS, null);  // @Trifon
 		
 		//	Product Attribute Instance
 		m_PAttributeButton = ConfirmPanel.createPAttributeButton(true);
@@ -500,6 +508,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		pickWarehouse.addActionListener(this);
 		pickPriceList.addActionListener(this);
 		pickProductCategory.addActionListener(this);
+		pickAS.addActionListener(this); // @Trifon
 	}	//	initInfo
 
 	/**
@@ -563,6 +572,15 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			for (KeyNamePair kn : DB.getKeyNamePairs(SQL, true)) {
 				pickProductCategory.addItem(kn);
 			}
+			
+			// Attribute Set - @Trifon
+			SQL = MRole.getDefault().addAccessSQL (
+					"SELECT M_AttributeSet_ID, Name FROM M_AttributeSet WHERE IsActive='Y'",
+						"M_AttributeSet", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO)
+					+ " ORDER BY Name";
+				for (KeyNamePair kn : DB.getKeyNamePairs(SQL, true)) {
+					pickAS.addItem(kn);
+				}
 		}
 		catch (SQLException e)
 		{
@@ -696,6 +714,11 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			where.append(" AND p.M_Product_Category_ID=?");
 		}
 		
+		//  Optional Attribute Set
+		if (getM_AttributeSet_ID() > 0) {
+			where.append(" AND p.M_AttributeSet_ID=?");
+		}
+		
 		//	Product Attribute Search
 		if (m_pAttributeWhere != null)
 		{
@@ -772,6 +795,12 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		if (M_Product_Category_ID > 0) {
 			pstmt.setInt(index++, M_Product_Category_ID);
 			log.fine("M_Product_Category_ID=" + M_Product_Category_ID);
+		}
+		//  => Attribute Set - @Trifon
+		int M_AttributeSet_ID = getM_AttributeSet_ID();
+		if (M_AttributeSet_ID > 0) {
+			pstmt.setInt(index++, M_AttributeSet_ID);
+			log.fine("M_AttributeSet_ID=" + M_AttributeSet_ID);
 		}
 		//	Rest of Parameter in Query for Attribute Search
 		if (m_pAttributeWhere != null)
@@ -1264,5 +1293,16 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		if (pc != null)
 			M_Product_Category_ID = pc.getKey();
 		return M_Product_Category_ID;
+	}
+	
+	/**
+	 * @return selected Attribute Set ID
+	 */
+	public int getM_AttributeSet_ID() {
+		int M_AttributeSet_ID = 0;
+		KeyNamePair as = (KeyNamePair)pickAS.getSelectedItem();
+		if (as != null)
+			M_AttributeSet_ID = as.getKey();
+		return M_AttributeSet_ID;
 	}
 }	//	InfoProduct

@@ -613,7 +613,7 @@ public class MProduct extends X_M_Product
 		// AttributeSetInstance reset
 		if (is_ValueChanged(COLUMNNAME_M_AttributeSet_ID))
 		{
-			MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(),getM_AttributeSetInstance_ID(), get_TrxName());
+			MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), getM_AttributeSetInstance_ID(), get_TrxName());
 			setM_AttributeSetInstance_ID(0);
 			// Delete the old m_attributesetinstance
 			if (!asi.delete(true, get_TrxName()))
