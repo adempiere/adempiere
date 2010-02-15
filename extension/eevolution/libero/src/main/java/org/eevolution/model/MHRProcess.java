@@ -543,11 +543,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		try
 		{
 			String text = "";
-			if(rulee.getScript() != null)
+			if (rulee.getScript() != null)
 			{
-				String regex = "[^.]get";
-				String replacement = "process.get";
-				text = rulee.getScript().trim().replaceAll(regex, replacement);
+				text = rulee.getScript().trim().replaceAll("\\bget", "process.get")
+				.replace(".process.get", ".get");
 			}
 			final String script =
 				s_scriptImport.toString()
