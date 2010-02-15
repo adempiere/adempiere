@@ -288,6 +288,10 @@ public final class MPayment extends X_C_Payment
 		setAccountNo(ba.getAccountNo());
 		setIsReceipt (X_C_Order.PAYMENTRULE_DirectDebit.equals	//	AR only
 				(preparedPayment.getPaymentRule()));
+		if ( MPaySelectionCheck.PAYMENTRULE_DirectDebit.equals(preparedPayment.getPaymentRule()) )
+			setTenderType(MPayment.TENDERTYPE_DirectDebit);
+		else if ( MPaySelectionCheck.PAYMENTRULE_DirectDeposit.equals(preparedPayment.getPaymentRule()))
+			setTenderType(MPayment.TENDERTYPE_DirectDeposit);
 		//
 		int check = MPaymentValidate.validateRoutingNo(getRoutingNo()).length()
 			+ MPaymentValidate.validateAccountNo(getAccountNo()).length();
