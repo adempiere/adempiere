@@ -22,6 +22,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Product_Planning
  *  @author Adempiere (generated) 
@@ -32,7 +33,7 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100215L;
 
     /** Standard Constructor */
     public X_PP_Product_Planning (Properties ctx, int PP_Product_Planning_ID, String trxName)
@@ -175,14 +176,17 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 	}
 
 	/** Set Is MPS.
-		@param IsMPS Is MPS	  */
+		@param IsMPS 
+		Determines if this product is part of the master production schedule
+	  */
 	public void setIsMPS (boolean IsMPS)
 	{
 		set_Value (COLUMNNAME_IsMPS, Boolean.valueOf(IsMPS));
 	}
 
 	/** Get Is MPS.
-		@return Is MPS	  */
+		@return Determines if this product is part of the master production schedule
+	  */
 	public boolean isMPS () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsMPS);
@@ -288,6 +292,14 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getM_Product_ID()));
+    }
 
 	public I_M_Warehouse getM_Warehouse() throws RuntimeException
     {
@@ -434,31 +446,6 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return bd;
 	}
 
-	public I_AD_User getPlanner() throws RuntimeException
-    {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
-			.getPO(getPlanner_ID(), get_TrxName());	}
-
-	/** Set Planner.
-		@param Planner_ID Planner	  */
-	public void setPlanner_ID (int Planner_ID)
-	{
-		if (Planner_ID < 1) 
-			set_Value (COLUMNNAME_Planner_ID, null);
-		else 
-			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
-	}
-
-	/** Get Planner.
-		@return Planner	  */
-	public int getPlanner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
@@ -507,24 +494,29 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		return ii.intValue();
 	}
 
-	/** Set Safety Stock Qty.
-		@param SafetyStock 
-		Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public void setSafetyStock (BigDecimal SafetyStock)
+	public I_AD_User getPlanner() throws RuntimeException
+    {
+		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+			.getPO(getPlanner_ID(), get_TrxName());	}
+
+	/** Set Planner.
+		@param Planner_ID Planner	  */
+	public void setPlanner_ID (int Planner_ID)
 	{
-		set_Value (COLUMNNAME_SafetyStock, SafetyStock);
+		if (Planner_ID < 1) 
+			set_Value (COLUMNNAME_Planner_ID, null);
+		else 
+			set_Value (COLUMNNAME_Planner_ID, Integer.valueOf(Planner_ID));
 	}
 
-	/** Get Safety Stock Qty.
-		@return Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
-	  */
-	public BigDecimal getSafetyStock () 
+	/** Get Planner.
+		@return Planner	  */
+	public int getPlanner_ID () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SafetyStock);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_Planner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public I_S_Resource getS_Resource() throws RuntimeException
@@ -553,6 +545,26 @@ public class X_PP_Product_Planning extends PO implements I_PP_Product_Planning, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Safety Stock Qty.
+		@param SafetyStock 
+		Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public void setSafetyStock (BigDecimal SafetyStock)
+	{
+		set_Value (COLUMNNAME_SafetyStock, SafetyStock);
+	}
+
+	/** Get Safety Stock Qty.
+		@return Safety stock is a term used to describe a level of stock that is maintained below the cycle stock to buffer against stock-outs
+	  */
+	public BigDecimal getSafetyStock () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_SafetyStock);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Time Fence.
