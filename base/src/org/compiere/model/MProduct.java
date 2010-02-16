@@ -616,7 +616,9 @@ public class MProduct extends X_M_Product
 			MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(), getM_AttributeSetInstance_ID(), get_TrxName());
 			setM_AttributeSetInstance_ID(0);
 			// Delete the old m_attributesetinstance
-			if (!asi.delete(true, get_TrxName()))
+			try {
+				asi.deleteEx(true, get_TrxName());
+			} catch (AdempiereException ex)
 			{
 				log.saveError("Error", "Error deleting the AttributeSetInstance");
 				return false;
