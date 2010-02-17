@@ -161,6 +161,7 @@ public class Calendar extends CDialog
 	private JLabel lTZ = new JLabel();
 	private CButton bOK = new CButton();
 	private GridBagLayout timeLayout = new GridBagLayout();
+	private boolean userTime = true;
 
 	/**
 	 *	Static init
@@ -234,6 +235,9 @@ public class Calendar extends CDialog
 		bOK.setIcon(Env.getImageIcon("Ok16.gif"));
 		bOK.setMargin(new Insets(0,1,0,1));
 		bOK.addActionListener(this);
+		
+		AutoCompletion.enable(fHour);
+		
 	}	//	jbInit
 
 	/**
@@ -310,7 +314,7 @@ public class Calendar extends CDialog
 		//	Days
 		m_days = new CButton[6*7];
 		m_currentDay = m_calendar.get(java.util.Calendar.DATE);
-		for (int i = 0; i < 6; i++)		//	six weeks a month maximun
+		for (int i = 0; i < 6; i++)		//	six weeks a month maximum
 			for (int j = 0; j < 7; j++)	//	seven days
 			{
 				int index = i*7 + j;
@@ -339,11 +343,12 @@ public class Calendar extends CDialog
 		//	update UI from m_current...
 		m_setting = false;
 		setCalendar();
+		userTime = false;
 	}	//	loadData
 
 	/**
 	 *	Create Week Day Label
-	 *  @param title Weedkay Title
+	 *  @param title Weekday Title
 	 *  @return week day
 	 */
 	private JLabel createWeekday (String title)
@@ -410,7 +415,7 @@ public class Calendar extends CDialog
 
 
 	/**************************************************************************
-	 *	Set Calandar from m_current variables and update UI
+	 *	Set Calendar from m_current variables and update UI
 	 */
 	private void setCalendar()
 	{
@@ -465,6 +470,12 @@ public class Calendar extends CDialog
 			}
 		}
 
+		if ( !userTime )
+		{
+			m_current24Hour = 0;
+			m_currentMinute = 0;
+		}
+		
 		//	Set Hour
 		boolean pm = m_current24Hour > 11;
 		int index = m_current24Hour;
@@ -474,7 +485,7 @@ public class Calendar extends CDialog
 			index = 0;
 		fHour.setSelectedIndex(index);
 		//	Set Minute
-		int m = m_calendar.get(java.util.Calendar.MINUTE);
+		int m = m_currentMinute;
 		fMinute.setValue(new Integer(m));
 		//	Set PM
 		cbPM.setSelected(pm);
@@ -495,6 +506,9 @@ public class Calendar extends CDialog
 	{
 		//	Hour
 		int h = fHour.getSelectedIndex();
+		if ( h != m_current24Hour )
+			userTime = true;
+		
 		m_current24Hour = h;
 		if (m_hasAM_PM && cbPM.isSelected())
 			m_current24Hour += 12;
@@ -503,6 +517,9 @@ public class Calendar extends CDialog
 
 		//	Minute
 		Integer ii = (Integer)fMinute.getValue();
+		if ( m_currentMinute != ii.intValue() )
+			userTime = true;
+		
 		m_currentMinute = ii.intValue();
 		if (m_currentMinute < 0 || m_currentMinute > 59)
 			m_currentMinute = 0;
@@ -540,7 +557,7 @@ public class Calendar extends CDialog
 	}	//	isCancel
 	
 	/**************************************************************************
-	 *	Action Listener for Month/Year combo & dat buttons.
+	 *	Action Listener for Month/Year combo & date buttons.
 	 *	- Double clicking on a date closes it
 	 *  - set m_current...
 	 *  @param e Event
@@ -587,6 +604,8 @@ public class Calendar extends CDialog
 				m_currentDay = m_calendar.get(java.util.Calendar.DATE);
 				m_currentMonth = m_calendar.get(java.util.Calendar.MONTH) + 1;
 				m_currentYear = m_calendar.get(java.util.Calendar.YEAR);
+				m_current24Hour = m_calendar.get(java.util.Calendar.HOUR_OF_DAY);
+				m_currentMinute = m_calendar.get(java.util.Calendar.MINUTE);
 			}
 			//	Cancel
 			else if (text.equals("x"))
@@ -756,7 +775,7 @@ public class Calendar extends CDialog
 			return;
 		}
 
-		//	Modified Hour/Miinute
+		//	Modified Hour/Minute
 		setTime();
 		m_lastDay = -1;
 	}	//	keyReleased
@@ -783,7 +802,7 @@ public class Calendar extends CDialog
 /**
  *	Minute Spinner Model.
  *  Based on Number Model - uses snap size to determine next value.
- *  Allows to manually set any ninute, but return even snap value
+ *  Allows to manually set any minute, but return even snap value
  *  when spinner buttons are used.
  *
  * 	@author 	Jorg Janke
