@@ -82,7 +82,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2674502713710863413L;
+	private static final long serialVersionUID = 2076229793041196087L;
 
 	/**
 	 *	Standard Constructor

@@ -97,7 +97,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 73880400775610395L;
+	private static final long serialVersionUID = 6804975825156657866L;
 	private Label lblValue = new Label();
 	private Textbox fieldValue = new Textbox();
 	private Label lblName = new Label();
@@ -116,6 +116,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 	private Label lblProductCategory = new Label();
 	private Listbox pickProductCategory = new Listbox();
 	//
+	private Label lblAS = new Label();
+	private Listbox pickAS = new Listbox();
 
 	// Elaine 2008/11/25
 	private Borderlayout borderlayout = new Borderlayout();
@@ -219,6 +221,8 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		lblProductCategory = new Label();
 		lblProductCategory.setValue(Msg.translate(Env.getCtx(), "M_Product_Category_ID"));
 		//
+		lblAS = new Label();
+		lblAS.setValue(Msg.translate(Env.getCtx(), "M_AttributeSet_ID"));
 		lblWarehouse = new Label();
 		lblWarehouse.setValue(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Warehouse")));
 		lblVendor = new Label();
@@ -251,6 +255,12 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		pickProductCategory.setWidth("150px");
 		pickProductCategory.addEventListener(Events.ON_SELECT, this);
 		//
+		pickAS = new Listbox();
+		pickAS.setRows(0);
+		pickAS.setMultiple(false);
+		pickAS.setMold("select");
+		pickAS.setWidth("150px");
+		pickAS.addEventListener(Events.ON_SELECT, this);
 
 		pickWarehouse = new Listbox();
 		pickWarehouse.setRows(0);
@@ -281,8 +291,6 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		row.appendChild(fieldUPC);
 		row.appendChild(lblWarehouse.rightAlign());
 		row.appendChild(pickWarehouse);
-		row.appendChild(lblPriceList.rightAlign());
-		row.appendChild(pickPriceList);
 		row.appendChild(m_InfoPAttributeButton);
 
 		row = new Row();
@@ -294,11 +302,18 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		row.appendChild(fieldSKU);
 		row.appendChild(lblVendor.rightAlign());
 		row.appendChild(fieldVendor);
-		row.appendChild(lblProductCategory.rightAlign());
-		row.appendChild(pickProductCategory);
 		//
 
-        // Product Attribute Instance
+		row = new Row();
+		rows.appendChild(row);
+		row.appendChild(lblPriceList.rightAlign());
+		row.appendChild(pickPriceList);
+		row.appendChild(lblProductCategory.rightAlign());
+		row.appendChild(pickProductCategory);
+		row.appendChild(lblAS.rightAlign());
+		row.appendChild(pickAS);
+		
+		// Product Attribute Instance
 		m_PAttributeButton = confirmPanel.createButton(ConfirmPanel.A_PATTRIBUTE);
 		confirmPanel.addComponentsLeft(m_PAttributeButton);
 		m_PAttributeButton.addActionListener(this);
@@ -609,6 +624,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		pickWarehouse.addEventListener(Events.ON_SELECT,this);
 		pickPriceList.addEventListener(Events.ON_SELECT,this);
 		pickProductCategory.addEventListener(Events.ON_SELECT, this); // Elaine 2008/11/21
+		pickAS.addEventListener(Events.ON_SELECT, this);
 	}	//	initInfo
 
 	/**
@@ -670,7 +686,15 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 			for (KeyNamePair kn : DB.getKeyNamePairs(SQL, true)) {
 				pickProductCategory.addItem(kn);
 			}
-			//
+
+			//	Attribute Sets
+			SQL = MRole.getDefault().addAccessSQL (
+				"SELECT M_AttributeSet_ID, Name FROM M_AttributeSet WHERE IsActive='Y'",
+					"M_AttributeSet", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO)
+				+ " ORDER BY Name";
+			for (KeyNamePair kn : DB.getKeyNamePairs(SQL, true)) {
+				pickAS.addItem(kn);
+			}
 		}
 		catch (SQLException e)
 		{
@@ -797,6 +821,11 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		}
 		//
 
+		//  Optional Attribute Set
+		if (getM_AttributeSet_ID() > 0) {
+			where.append(" AND p.M_AttributeSet_ID=?");
+		}
+
 		//	Product Attribute Search
 		if (m_pAttributeWhere != null)
 		{
@@ -875,6 +904,11 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 			log.fine("M_Product_Category_ID=" + M_Product_Category_ID);
 		}
 		//
+		int M_AttributeSet_ID = getM_AttributeSet_ID();
+		if (M_AttributeSet_ID > 0) {
+			pstmt.setInt(index++, M_AttributeSet_ID);
+			log.fine("M_AttributeSet_ID=" + M_AttributeSet_ID);
+		}
 		//	Rest of Parameter in Query for Attribute Search
 		if (m_pAttributeWhere != null)
 			return;
@@ -1389,4 +1423,16 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		return M_Product_Category_ID;
 	}
     //
+    
+    public int getM_AttributeSet_ID()
+    {
+		int M_AttributeSet_ID = 0;
+
+		ListItem itemAS = (ListItem)pickAS.getSelectedItem();
+		if (itemAS!=null)
+			M_AttributeSet_ID = Integer.parseInt(itemAS.getValue().toString());
+
+		return M_AttributeSet_ID;
+	}
+    
 }	//	InfoProduct

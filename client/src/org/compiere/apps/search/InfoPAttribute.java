@@ -40,6 +40,7 @@ import org.compiere.grid.ed.VLine;
 import org.compiere.grid.ed.VNumber;
 import org.compiere.grid.ed.VString;
 import org.compiere.model.MAttribute;
+import org.compiere.model.MAttributeSet;
 import org.compiere.model.MRole;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
@@ -62,7 +63,10 @@ public class InfoPAttribute extends CDialog
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4307517787262162793L;
+	private static final long serialVersionUID = -4309055112258081495L;
+	
+	/* the attribute set selected on the InfoProduct window */
+	private int p_M_AttributeSet_ID = 0;
 
 	/**
 	 * 	Constructor.
@@ -72,6 +76,9 @@ public class InfoPAttribute extends CDialog
 	public InfoPAttribute (JDialog parent)
 	{
 		super (parent, Msg.getMsg(Env.getCtx(), "InfoPAttribute"), true);
+		if (parent instanceof InfoProduct) {
+			p_M_AttributeSet_ID = ((InfoProduct)parent).getM_AttributeSet_ID();
+		}
 		try
 		{
 			jbInit();
@@ -131,6 +138,16 @@ public class InfoPAttribute extends CDialog
 	private void dynInit()
 	{
 		int row = addAttributes();
+		
+		boolean isGuarantee = true;
+		boolean isSerial = true;
+		boolean isLot = true;
+		if (p_M_AttributeSet_ID > 0) {
+			MAttributeSet as = new MAttributeSet(Env.getCtx(), p_M_AttributeSet_ID, null);
+			isGuarantee = as.isGuaranteeDate();
+			isSerial = as.isSerNo();
+			isLot = as.isLot();
+		}
 		//
 		String s = Msg.translate(Env.getCtx(), "GuaranteeDate");
 		guaranteeDateSelection = new VComboBox (new Object[]
@@ -138,14 +155,20 @@ public class InfoPAttribute extends CDialog
 	//	guaranteeDateSelection.setPreferredSize();
 		initLotSelection();
 		//	Fixed Instance Selection Fields		
-		centerPanel.add(serNoLabel, new ALayoutConstraint(row++, 0));
-		centerPanel.add(serNoField, null);
-		centerPanel.add(lotLabel, new ALayoutConstraint(row++, 0));
-		centerPanel.add(lotField, null);
-		centerPanel.add(lotLabel2, new ALayoutConstraint(row++, 0));
-		centerPanel.add(lotSelection, null);
-		centerPanel.add(guaranteeDateSelection, new ALayoutConstraint(row++, 0));
-		centerPanel.add(guaranteeDateField, null);
+		if (isSerial) {
+			centerPanel.add(serNoLabel, new ALayoutConstraint(row++, 0));
+			centerPanel.add(serNoField, null);
+		}
+		if (isLot) {
+			centerPanel.add(lotLabel, new ALayoutConstraint(row++, 0));
+			centerPanel.add(lotField, null);
+			centerPanel.add(lotLabel2, new ALayoutConstraint(row++, 0));
+			centerPanel.add(lotSelection, null);
+		}
+		if (isGuarantee) {
+			centerPanel.add(guaranteeDateSelection, new ALayoutConstraint(row++, 0));
+			centerPanel.add(guaranteeDateField, null);
+		}
 		//
 		Dimension d = centerPanel.getPreferredSize();
 		d.width = 400;
@@ -161,17 +184,23 @@ public class InfoPAttribute extends CDialog
 		int row = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String whereAttributeSet;
+		if (p_M_AttributeSet_ID > 0)
+			whereAttributeSet = "AND M_Attribute_ID IN (SELECT M_Attribute_ID FROM M_AttributeUse WHERE M_AttributeSet_ID="+p_M_AttributeSet_ID+")";
+		else
+			whereAttributeSet = "";
 		String sql = MRole.getDefault().addAccessSQL(
 			"SELECT M_Attribute_ID, Name, Description, AttributeValueType, IsInstanceAttribute "
 			+ "FROM M_Attribute "
 			+ "WHERE IsActive='Y' "
-			+ "ORDER BY IsInstanceAttribute, Name", 
+			+ whereAttributeSet
+			+ " ORDER BY IsInstanceAttribute, Name", 
 			"M_Attribute", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		boolean instanceLine = false;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			rs = pstmt.executeQuery();
-			boolean instanceLine = false;
 			while (rs.next())
 			{
 				int attribute_ID = rs.getInt(1);
@@ -231,6 +260,27 @@ public class InfoPAttribute extends CDialog
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
+		
+		// print instance line if not printed
+		if (!instanceLine) {
+			boolean isGuarantee = true;
+			boolean isSerial = true;
+			boolean isLot = true;
+			if (p_M_AttributeSet_ID > 0) {
+				MAttributeSet as = new MAttributeSet(Env.getCtx(), p_M_AttributeSet_ID, null);
+				isGuarantee = as.isGuaranteeDate();
+				isSerial = as.isSerNo();
+				isLot = as.isLot();
+			}
+			if (isGuarantee || isSerial || isLot) {
+				CPanel group = new CPanel();
+				group.setBorder(new VLine(Msg.translate(Env.getCtx(), "IsInstanceAttribute")));
+				group.add(Box.createVerticalStrut(VLine.SPACE));
+				centerPanel.add(group, new ALayoutConstraint(row++, 0));
+				instanceLine = true;
+			}
+		}
+		
 		return row;
 	}	//	addProductAttributes
 
@@ -282,8 +332,13 @@ public class InfoPAttribute extends CDialog
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
 		list.add(new KeyNamePair(-1, ""));
 		
+		String whereAttributeSet;
+		if (p_M_AttributeSet_ID > 0)
+			whereAttributeSet = "AND M_Product_ID IN (SELECT M_Product_ID FROM M_Product WHERE M_AttributeSet_ID="+p_M_AttributeSet_ID+")";
+		else
+			whereAttributeSet = "";
 		String sql = MRole.getDefault().addAccessSQL(
-			"SELECT M_Lot_ID, Name FROM M_Lot WHERE IsActive='Y' ORDER BY 2",
+			"SELECT M_Lot_ID, Name FROM M_Lot WHERE IsActive='Y' " + whereAttributeSet + " ORDER BY 2",
 			"M_Lot", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

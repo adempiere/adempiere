@@ -34,6 +34,7 @@ import org.adempiere.webui.editor.WNumberEditor;
 import org.adempiere.webui.editor.WStringEditor;
 import org.compiere.apps.search.InfoPAttribute;
 import org.compiere.model.MAttribute;
+import org.compiere.model.MAttributeSet;
 import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -60,8 +61,11 @@ public class InfoPAttributePanel extends Window implements EventListener
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6385043105828153806L;
+	private static final long serialVersionUID = -4922961793415942591L;
 
+	/* the attribute set selected on the InfoProduct window */
+	private int p_M_AttributeSet_ID = 0;
+	
 	/**
 	 * 	Constructor.
 	 * 	Called from InfoProduct,cmd_InfoPAttribute
@@ -70,6 +74,9 @@ public class InfoPAttributePanel extends Window implements EventListener
 	public InfoPAttributePanel(Window parent)
 	{
 		super();
+		if (parent instanceof InfoProductPanel) {
+			p_M_AttributeSet_ID = ((InfoProductPanel)parent).getM_AttributeSet_ID();
+		}
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPAttribute"));
 		this.setBorder("normal");
 		this.setMaximizable(true);
@@ -141,6 +148,16 @@ public class InfoPAttributePanel extends Window implements EventListener
 	private void dynInit()
 	{
 		addAttributes();
+
+		boolean isGuarantee = true;
+		boolean isSerial = true;
+		boolean isLot = true;
+		if (p_M_AttributeSet_ID > 0) {
+			MAttributeSet as = new MAttributeSet(Env.getCtx(), p_M_AttributeSet_ID, null);
+			isGuarantee = as.isGuaranteeDate();
+			isSerial = as.isSerNo();
+			isLot = as.isLot();
+		}
 		//
 		String s = Msg.translate(Env.getCtx(), "GuaranteeDate");
 		guaranteeDateSelection = new Listbox();
@@ -154,39 +171,47 @@ public class InfoPAttributePanel extends Window implements EventListener
 		initLotSelection();
 		
 		//	Fixed Instance Selection Fields
-		Row row = new Row();
-		rows.appendChild(row);
-		Div div = new Div();
-		div.setAlign("right");
-		div.appendChild(serNoLabel);
-		row.appendChild(div);
-		row.appendChild(serNoField.getComponent());
-		serNoField.getComponent().setWidth("150px");
+		Row row;
+		Div div;
+		if (isSerial) {
+			row	= new Row();
+			rows.appendChild(row);
+			div = new Div();
+			div.setAlign("right");
+			div.appendChild(serNoLabel);
+			row.appendChild(div);
+			row.appendChild(serNoField.getComponent());
+			serNoField.getComponent().setWidth("150px");
+		}
 		
-		row = new Row();
-		rows.appendChild(row);
-		div = new Div();
-		div.setAlign("right");
-		div.appendChild(lotLabel);
-		row.appendChild(div);
-		row.appendChild(lotField.getComponent());
-		lotField.getComponent().setWidth("150px");
+		if (isLot) {
+			row = new Row();
+			rows.appendChild(row);
+			div = new Div();
+			div.setAlign("right");
+			div.appendChild(lotLabel);
+			row.appendChild(div);
+			row.appendChild(lotField.getComponent());
+			lotField.getComponent().setWidth("150px");
 
-		row = new Row();
-		rows.appendChild(row);
-		div = new Div();
-		div.setAlign("right");
-		div.appendChild(lotLabel2);
-		row.appendChild(div);
-		row.appendChild(lotSelection);
-		
-		row = new Row();
-		rows.appendChild(row);
-		div = new Div();
-		div.setAlign("right");
-		div.appendChild(guaranteeDateSelection);
-		row.appendChild(div);
-		row.appendChild(guaranteeDateField);
+			row = new Row();
+			rows.appendChild(row);
+			div = new Div();
+			div.setAlign("right");
+			div.appendChild(lotLabel2);
+			row.appendChild(div);
+			row.appendChild(lotSelection);
+		}
+
+		if (isGuarantee) {
+			row = new Row();
+			rows.appendChild(row);
+			div = new Div();
+			div.setAlign("right");
+			div.appendChild(guaranteeDateSelection);
+			row.appendChild(div);
+			row.appendChild(guaranteeDateField);
+		}
 	}	//	dynInit
 
 	/**
@@ -197,17 +222,23 @@ public class InfoPAttributePanel extends Window implements EventListener
 	{
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		String whereAttributeSet;
+		if (p_M_AttributeSet_ID > 0)
+			whereAttributeSet = "AND M_Attribute_ID IN (SELECT M_Attribute_ID FROM M_AttributeUse WHERE M_AttributeSet_ID="+p_M_AttributeSet_ID+")";
+		else
+			whereAttributeSet = "";
 		String sql = MRole.getDefault().addAccessSQL(
 			"SELECT M_Attribute_ID, Name, Description, AttributeValueType, IsInstanceAttribute "
 			+ "FROM M_Attribute "
 			+ "WHERE IsActive='Y' "
-			+ "ORDER BY IsInstanceAttribute, Name", 
+			+ whereAttributeSet
+			+ " ORDER BY IsInstanceAttribute, Name", 
 			"M_Attribute", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
+		boolean instanceLine = false;
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			rs = pstmt.executeQuery();
-			boolean instanceLine = false;
 			while (rs.next())
 			{
 				int attribute_ID = rs.getInt(1);
@@ -307,6 +338,38 @@ public class InfoPAttributePanel extends Window implements EventListener
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
+		
+		// print instance line if not printed
+		if (!instanceLine) {
+			boolean isGuarantee = true;
+			boolean isSerial = true;
+			boolean isLot = true;
+			if (p_M_AttributeSet_ID > 0) {
+				MAttributeSet as = new MAttributeSet(Env.getCtx(), p_M_AttributeSet_ID, null);
+				isGuarantee = as.isGuaranteeDate();
+				isSerial = as.isSerNo();
+				isLot = as.isLot();
+			}
+			if (isGuarantee || isSerial || isLot) {
+				Row row = new Row();
+				rows.appendChild(row);
+				row.setSpans("2");
+				Label group = new Label(Msg.translate(Env.getCtx(), "IsInstanceAttribute")); 
+				row.appendChild(group);
+				rows.appendChild(row);
+				
+				row = new Row();
+				rows.appendChild(row);
+				row.setSpans("2");
+                Separator separator = new Separator();
+                separator.setBar(true);
+    			row.appendChild(separator);
+    			rows.appendChild(row);
+    			
+				instanceLine = true;
+			}
+		}
+		
 		return 0;
 	}	//	addProductAttributes
 
@@ -358,8 +421,13 @@ public class InfoPAttributePanel extends Window implements EventListener
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
 		list.add(new KeyNamePair(-1, ""));
 		
+		String whereAttributeSet;
+		if (p_M_AttributeSet_ID > 0)
+			whereAttributeSet = "AND M_Product_ID IN (SELECT M_Product_ID FROM M_Product WHERE M_AttributeSet_ID="+p_M_AttributeSet_ID+")";
+		else
+			whereAttributeSet = "";
 		String sql = MRole.getDefault().addAccessSQL(
-			"SELECT M_Lot_ID, Name FROM M_Lot WHERE IsActive='Y' ORDER BY 2",
+			"SELECT M_Lot_ID, Name FROM M_Lot WHERE IsActive='Y' " + whereAttributeSet + " ORDER BY 2",
 			"M_Lot", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
