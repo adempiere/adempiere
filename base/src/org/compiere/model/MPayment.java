@@ -1281,7 +1281,7 @@ public final class MPayment extends X_C_Payment
 	public void setC_DocType_ID (boolean isReceipt)
 	{
 		setIsReceipt(isReceipt);
-		String sql = "SELECT C_DocType_ID FROM C_DocType WHERE AD_Client_ID=? AND DocBaseType=? ORDER BY IsDefault DESC";
+		String sql = "SELECT C_DocType_ID FROM C_DocType WHERE IsActive='Y' AND AD_Client_ID=? AND DocBaseType=? ORDER BY IsDefault DESC";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
