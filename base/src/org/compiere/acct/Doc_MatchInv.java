@@ -216,6 +216,8 @@ public class Doc_MatchInv extends Doc
 					pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
 					pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
 					pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+					pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+					pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
 					pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 					pv.setUser1_ID(m_invoiceLine.getUser1_ID());
 					pv.setUser2_ID(m_invoiceLine.getUser2_ID());
@@ -251,6 +253,8 @@ public class Doc_MatchInv extends Doc
 		cr.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
 		cr.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
 		cr.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+		cr.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+		cr.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
 		cr.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 		cr.setUser1_ID(m_invoiceLine.getUser1_ID());
 		cr.setUser2_ID(m_invoiceLine.getUser2_ID());
@@ -293,6 +297,8 @@ public class Doc_MatchInv extends Doc
 			pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
 			pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
 			pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+			pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+			pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
 			pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
 			pv.setUser1_ID(m_invoiceLine.getUser1_ID());
 			pv.setUser2_ID(m_invoiceLine.getUser2_ID());

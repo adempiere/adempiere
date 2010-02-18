@@ -394,6 +394,14 @@ public final class FactLine extends X_Fact_Acct
 			setC_Project_ID (m_docLine.getC_Project_ID());
 		if (getC_Project_ID() == 0)
 			setC_Project_ID (m_doc.getC_Project_ID());
+		if (m_docLine != null)
+			setC_ProjectPhase_ID(m_docLine.getC_ProjectPhase_ID());
+		if (getC_ProjectPhase_ID() == 0)
+			setC_ProjectPhase_ID (m_doc.getC_ProjectPhase_ID());
+		if (m_docLine != null)
+			setC_ProjectTask_ID(m_docLine.getC_ProjectTask_ID());
+		if (getC_ProjectTask_ID() == 0)
+			setC_ProjectTask_ID (m_doc.getC_ProjectTask_ID());
 		//	Campaign
 		if (m_docLine != null)
 			setC_Campaign_ID (m_docLine.getC_Campaign_ID());
@@ -1092,6 +1100,8 @@ public final class FactLine extends X_Fact_Acct
 				//	Dimensions
 				setAD_OrgTrx_ID(fact.getAD_OrgTrx_ID());
 				setC_Project_ID (fact.getC_Project_ID());
+				setC_ProjectPhase_ID(fact.getC_ProjectPhase_ID());
+				setC_ProjectTask_ID(fact.getC_ProjectTask_ID());
 				setC_Activity_ID(fact.getC_Activity_ID());
 				setC_Campaign_ID(fact.getC_Campaign_ID());
 				setC_SalesRegion_ID(fact.getC_SalesRegion_ID());

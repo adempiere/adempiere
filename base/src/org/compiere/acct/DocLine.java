@@ -984,6 +984,38 @@ public class DocLine
 	}   //  getC_Project_ID
 
 	/**
+	 *  Get Project Phase
+	 *  @return C_ProjectPhase_ID
+	 */
+	public int getC_ProjectPhase_ID()
+	{
+		int index = p_po.get_ColumnIndex("C_ProjectPhase_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}   //  getC_ProjectPhase_ID
+	
+	/**
+	 *  Get Project Task
+	 *  @return C_ProjectTask_ID
+	 */
+	public int getC_ProjectTask_ID()
+	{
+		int index = p_po.get_ColumnIndex("C_ProjectTask_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}   //  getC_ProjectTask_ID
+	
+	/**
 	 *  Get Campaign
 	 *  @return C_Campaign_ID
 	 */

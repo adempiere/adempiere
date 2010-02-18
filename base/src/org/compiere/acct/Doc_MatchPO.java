@@ -204,6 +204,8 @@ public class Doc_MatchPO extends Doc
 				cr.setC_Activity_ID(m_oLine.getC_Activity_ID());
 				cr.setC_Campaign_ID(m_oLine.getC_Campaign_ID());
 				cr.setC_Project_ID(m_oLine.getC_Project_ID());
+				cr.setC_ProjectPhase_ID(m_oLine.getC_ProjectPhase_ID());
+				cr.setC_ProjectTask_ID(m_oLine.getC_ProjectTask_ID());
 				cr.setC_UOM_ID(m_oLine.getC_UOM_ID());
 				cr.setUser1_ID(m_oLine.getUser1_ID());
 				cr.setUser2_ID(m_oLine.getUser2_ID());
@@ -220,6 +222,8 @@ public class Doc_MatchPO extends Doc
 				dr.setC_Activity_ID(m_oLine.getC_Activity_ID());
 				dr.setC_Campaign_ID(m_oLine.getC_Campaign_ID());
 				dr.setC_Project_ID(m_oLine.getC_Project_ID());
+				dr.setC_ProjectPhase_ID(m_oLine.getC_ProjectPhase_ID());
+				dr.setC_ProjectTask_ID(m_oLine.getC_ProjectTask_ID());
 				dr.setC_UOM_ID(m_oLine.getC_UOM_ID());
 				dr.setUser1_ID(m_oLine.getUser1_ID());
 				dr.setUser2_ID(m_oLine.getUser2_ID());

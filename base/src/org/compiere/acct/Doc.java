@@ -2014,6 +2014,38 @@ public abstract class Doc
 	}	//	getC_Project_ID
 	
 	/**
+	 * 	Get C_ProjectPhase_ID
+	 *	@return Project Phase
+	 */
+	public int getC_ProjectPhase_ID()
+	{
+		int index = p_po.get_ColumnIndex("C_ProjectPhase_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}	//	getC_ProjectPhase_ID
+	
+	/**
+	 * 	Get C_ProjectTask_ID
+	 *	@return Project Task
+	 */
+	public int getC_ProjectTask_ID()
+	{
+		int index = p_po.get_ColumnIndex("C_ProjectTask_ID");
+		if (index != -1)
+		{
+			Integer ii = (Integer)p_po.get_Value(index);
+			if (ii != null)
+				return ii.intValue();
+		}
+		return 0;
+	}	//	getC_ProjectTask_ID
+	
+	/**
 	 * 	Get C_SalesRegion_ID
 	 *	@return Sales Region
 	 */
