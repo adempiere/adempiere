@@ -323,21 +323,13 @@ public class GridField
 			return false;
 
 		//  Numeric Keys and Created/Updated as well as 
-		//	DocumentNo/Value/ASI are not mandatory (persistence layer manages them)
-		if (m_vo.ColumnName.equals("DocumentNo") && m_vo.AD_Column_ID == 53251){
-			// TODO - Find why Report Parameter marked as Mandatory is not displayed as Mandatory?
-			// Find better solution?
-			// https://sourceforge.net/tracker/?func=detail&aid=2902292&group_id=176962&atid=879334
-			// https://sourceforge.net/tracker/?func=detail&aid=2897730&group_id=176962&atid=879332
-			return true;
-		} else if ((m_vo.IsKey && m_vo.ColumnName.endsWith("_ID"))
+		//	DocumentNo/Value/ASI ars not mandatory (persistency layer manages them)
+		if ((m_vo.IsKey && m_vo.ColumnName.endsWith("_ID"))
 				|| m_vo.ColumnName.startsWith("Created") || m_vo.ColumnName.startsWith("Updated")
 				|| m_vo.ColumnName.equals("Value") 
 				|| m_vo.ColumnName.equals("DocumentNo")
 				|| m_vo.ColumnName.equals("M_AttributeSetInstance_ID"))	//	0 is valid
-		{
 			return false;
-		}
 
 		//  Mandatory if displayed
 		return isDisplayed (checkContext);
