@@ -515,7 +515,7 @@ public class MPeriod extends X_C_Period
 			}
 			if (date2.after(last))
 			{
-				log.warning ("Automatic Period Control:" + date2 + " after last day - " + first);
+				log.warning ("Automatic Period Control:" + date2 + " after last day - " + last);
 				return false;
 			}
 			//	We are OK
