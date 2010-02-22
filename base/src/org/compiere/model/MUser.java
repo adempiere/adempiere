@@ -171,10 +171,12 @@ public class MUser extends X_AD_User
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		
 		MUser retValue = null;
-		/* TODO: Implement same validation as in Login.java - 
-		 * about (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='N') */
 		String sql = "SELECT * FROM AD_User "
-			+ "WHERE Name=? AND (Password=? OR Password=?) AND IsActive='Y' AND AD_Client_ID=?";
+			+ "WHERE COALESCE(LDAPUser, Name)=? "  // #1
+			+ " AND ((Password=? AND (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='N') " // #2 
+			+    "OR (Password=? AND (SELECT IsEncrypted FROM AD_Column WHERE AD_Column_ID=417)='Y'))" // #3
+			+ " AND IsActive='Y' AND AD_Client_ID=?" // #4
+		;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -182,7 +184,7 @@ public class MUser extends X_AD_User
 			pstmt = DB.prepareStatement (sql, null);
 			pstmt.setString (1, name);
 			pstmt.setString (2, password);
-			pstmt.setString(3, SecureEngine.encrypt(password));
+			pstmt.setString (3, SecureEngine.encrypt(password));
 			pstmt.setInt(4, AD_Client_ID);
 			rs = pstmt.executeQuery ();
 			if (rs.next ())
