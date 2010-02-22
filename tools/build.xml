@@ -315,6 +315,10 @@
 			<zipfileset src="lib/xercesImpl.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!-- cron job -->
+			<zipfileset src="lib/cron4j-2.2.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>			
 		</jar>
 
 	</target>

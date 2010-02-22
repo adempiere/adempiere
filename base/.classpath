@@ -23,6 +23,7 @@
 	<classpathentry kind="lib" path="/tools/lib/looks-2.0.4.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/activemq-core-5.0.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/cron4j-2.2.1.jar"/>
 	<classpathentry kind="src" path="/JasperReportsTools"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

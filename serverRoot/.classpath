@@ -8,6 +8,7 @@
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry kind="lib" path="/jboss/client/jbossall-client.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/activemq-core-5.0.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/cron4j-2.2.1.jar"/>
 	<classpathentry kind="src" path="/serverApps"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

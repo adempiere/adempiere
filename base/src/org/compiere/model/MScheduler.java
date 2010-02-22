@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: Adempiere ERP & CRM Smart Business Solution                        *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import it.sauronsoftware.cron4j.SchedulingPattern;
+
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
@@ -27,18 +29,17 @@ import org.compiere.util.DB;
 
 /**
  *	Scheduler Model
- *	
+ *
  *  @author Jorg Janke
  *  @version $Id: MScheduler.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MScheduler extends X_AD_Scheduler
-	implements AdempiereProcessor
+	implements AdempiereProcessor, AdempiereProcessor2
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1887276680441074725L;
-
+	private static final long serialVersionUID = 6563650236096742870L;
 
 	/**
 	 * 	Get Active
@@ -54,7 +55,7 @@ public class MScheduler extends X_AD_Scheduler
 		list.toArray (retValue);
 		return retValue;
 	}	//	getActive
-	
+
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -94,7 +95,7 @@ public class MScheduler extends X_AD_Scheduler
 	private MSchedulerPara[] m_parameter = null;
 	/** Process Recipients			*/
 	private MSchedulerRecipient[]	m_recipients = null;
-	
+
 	/**
 	 * 	Get Server ID
 	 *	@return id
@@ -141,7 +142,7 @@ public class MScheduler extends X_AD_Scheduler
 		if (getKeepLogDays() < 1)
 			return 0;
 		String sql = "DELETE AD_SchedulerLog "
-			+ "WHERE AD_Scheduler_ID=" + getAD_Scheduler_ID() 
+			+ "WHERE AD_Scheduler_ID=" + getAD_Scheduler_ID()
 			+ " AND (Created+" + getKeepLogDays() + ") < SysDate";
 		int no = DB.executeUpdateEx(sql, get_TrxName());
 		return no;
@@ -155,7 +156,7 @@ public class MScheduler extends X_AD_Scheduler
 	{
 		return MProcess.get(getCtx(), getAD_Process_ID());
 	}	//	getProcess
-	
+
 	/**
 	 * 	Get Parameters
 	 *	@param reload reload
@@ -175,7 +176,7 @@ public class MScheduler extends X_AD_Scheduler
 		list.toArray(m_parameter);
 		return m_parameter;
 	}	//	getParameter
-	
+
 	/**
 	 * 	Get Recipients
 	 *	@param reload reload
@@ -195,7 +196,7 @@ public class MScheduler extends X_AD_Scheduler
 		list.toArray(m_recipients);
 		return m_recipients;
 	}	//	getRecipients
-	
+
 	/**
 	 * 	Get Recipient AD_User_IDs
 	 *	@return array of user IDs
@@ -233,13 +234,13 @@ public class MScheduler extends X_AD_Scheduler
 		//
 		return list.toArray(new Integer[list.size()]);
 	}	//	getRecipientAD_User_IDs
-	
+
 	/**
 	 * 	Before Save
 	 *	@param newRecord new
 	 *	@return true
 	 */
-	protected boolean beforeSave(boolean newRecord) 
+	protected boolean beforeSave(boolean newRecord)
 	{
 		//	Set Schedule Type & Frequencies
 		if (SCHEDULETYPE_Frequency.equals(getScheduleType()))
@@ -248,22 +249,23 @@ public class MScheduler extends X_AD_Scheduler
 				setFrequencyType(FREQUENCYTYPE_Day);
 			if (getFrequency() < 1)
 				setFrequency(1);
+			setCronPattern(null);
 		}
-		else if (SCHEDULETYPE_MonthDay.equals(getScheduleType()))
+		else if (SCHEDULETYPE_CronSchedulingPattern.equals(getScheduleType()))
 		{
-			if (getMonthDay() < 1 || getMonthDay() > 31)
-				setMonthDay(1);
-		}
-		else //	SCHEDULETYPE_WeekDay
-		{
-			if (getScheduleType() == null)
-				setScheduleType(SCHEDULETYPE_WeekDay);
-			if (getWeekDay() == null)
-				setWeekDay(WEEKDAY_Monday);
+			String pattern = getCronPattern();
+			if (pattern != null && pattern.trim().length() > 0)
+			{
+				if (!SchedulingPattern.validate(pattern))
+				{
+					log.saveError("Error", "InvalidCronPattern");
+					return false;
+				}
+			}
 		}
 		return true;
 	}	//	beforeSave
-	
+
 	/**
 	 * 	String Representation
 	 *	@return info
@@ -274,5 +276,5 @@ public class MScheduler extends X_AD_Scheduler
 		sb.append (get_ID ()).append ("-").append (getName()).append ("]");
 		return sb.toString ();
 	}	//	toString
-	
+
 }	//	MScheduler

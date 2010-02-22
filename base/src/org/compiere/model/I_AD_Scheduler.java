@@ -106,6 +106,19 @@ public interface I_AD_Scheduler
 	  */
 	public int getCreatedBy();
 
+    /** Column name CronPattern */
+    public static final String COLUMNNAME_CronPattern = "CronPattern";
+
+	/** Set Cron Scheduling Pattern.
+	  * Cron pattern to define when the process should be invoked.
+	  */
+	public void setCronPattern (String CronPattern);
+
+	/** Get Cron Scheduling Pattern.
+	  * Cron pattern to define when the process should be invoked.
+	  */
+	public String getCronPattern();
+
     /** Column name DateLastRun */
     public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 
@@ -183,6 +196,19 @@ public interface I_AD_Scheduler
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsIgnoreProcessingTime */
+    public static final String COLUMNNAME_IsIgnoreProcessingTime = "IsIgnoreProcessingTime";
+
+	/** Set Ignore Processing Time.
+	  * Do not include processing time for the DateNextRun calculation
+	  */
+	public void setIsIgnoreProcessingTime (boolean IsIgnoreProcessingTime);
+
+	/** Get Ignore Processing Time.
+	  * Do not include processing time for the DateNextRun calculation
+	  */
+	public boolean isIgnoreProcessingTime();
 
     /** Column name KeepLogDays */
     public static final String COLUMNNAME_KeepLogDays = "KeepLogDays";

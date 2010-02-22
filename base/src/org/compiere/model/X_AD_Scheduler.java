@@ -31,7 +31,7 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100219L;
 
     /** Standard Constructor */
     public X_AD_Scheduler (Properties ctx, int AD_Scheduler_ID, String trxName)
@@ -41,8 +41,6 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
         {
 			setAD_Process_ID (0);
 			setAD_Scheduler_ID (0);
-			setFrequency (0);
-			setFrequencyType (null);
 			setKeepLogDays (0);
 // 7
 			setName (null);
@@ -129,6 +127,23 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Cron Scheduling Pattern.
+		@param CronPattern 
+		Cron pattern to define when the process should be invoked.
+	  */
+	public void setCronPattern (String CronPattern)
+	{
+		set_Value (COLUMNNAME_CronPattern, CronPattern);
+	}
+
+	/** Get Cron Scheduling Pattern.
+		@return Cron pattern to define when the process should be invoked.
+	  */
+	public String getCronPattern () 
+	{
+		return (String)get_Value(COLUMNNAME_CronPattern);
 	}
 
 	/** Set Date last run.
@@ -228,6 +243,30 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 		return (String)get_Value(COLUMNNAME_FrequencyType);
 	}
 
+	/** Set Ignore Processing Time.
+		@param IsIgnoreProcessingTime 
+		Do not include processing time for the DateNextRun calculation
+	  */
+	public void setIsIgnoreProcessingTime (boolean IsIgnoreProcessingTime)
+	{
+		set_Value (COLUMNNAME_IsIgnoreProcessingTime, Boolean.valueOf(IsIgnoreProcessingTime));
+	}
+
+	/** Get Ignore Processing Time.
+		@return Do not include processing time for the DateNextRun calculation
+	  */
+	public boolean isIgnoreProcessingTime () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIgnoreProcessingTime);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Days to keep Log.
 		@param KeepLogDays 
 		Number of days to keep the log entries
@@ -322,6 +361,8 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	public static final String SCHEDULETYPE_WeekDay = "W";
 	/** Month Day = M */
 	public static final String SCHEDULETYPE_MonthDay = "M";
+	/** Cron Scheduling Pattern = C */
+	public static final String SCHEDULETYPE_CronSchedulingPattern = "C";
 	/** Set Schedule Type.
 		@param ScheduleType 
 		Type of schedule

@@ -138,5 +138,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/iText-2.1.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/miglayout-3.7.1-swing.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/payflow.jar"/>
+	<classpathentry kind="lib" path="tools/lib/cron4j-2.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
