@@ -108,7 +108,7 @@ public class Merge
 					+ "(SELECT rt.AD_Reference_ID FROM AD_Ref_Table rt"
 					+ " INNER JOIN AD_Column cc ON (rt.AD_Table_ID=cc.AD_Table_ID AND rt.AD_Key=cc.AD_Column_ID) "
 					+ "WHERE cc.IsKey='Y' AND cc.ColumnName=?)"	//	#2
-			+ ") AND c.ColumnSQL IS NULL"
+			+ ") AND c.ColumnSQL IS NULL "
 			+ "ORDER BY t.LoadSeq DESC";
 		PreparedStatement pstmt = null;
 		
@@ -159,8 +159,8 @@ public class Merge
 				
 			}
 			//
-			if (success)
-				m_trx.commit();
+			if ( success )
+				success = m_trx.commit();
 			else
 				m_trx.rollback();
 			
@@ -170,6 +170,7 @@ public class Merge
 		catch (Exception ex)
 		{
 			log.log(Level.SEVERE, ColumnName, ex);
+			success = false;
 		}
 		//	Cleanup
 		try
