@@ -46,6 +46,7 @@ import org.compiere.db.CConnectionEditor;
 import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
 import org.compiere.model.MSystem;
+import org.compiere.model.MUser;
 import org.compiere.print.CPrinter;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
@@ -758,6 +759,14 @@ public final class ALogin extends CDialog
 			return;
 		log.config(": " + client);
 		m_comboActive = true;
+		// @Trifon - Set Proper "#AD_Client_ID", #AD_User_ID and "#SalesRep_ID"  
+		// https://sourceforge.net/tracker/?func=detail&aid=2957215&group_id=176962&atid=879332
+		Env.setContext(m_ctx, "#AD_Client_ID", client.getKey());
+		MUser user = MUser.get (m_ctx, userTextField.getText(), new String (passwordField.getPassword()) );
+		if (user != null) {
+			Env.setContext(m_ctx, "#AD_User_ID", user.getAD_User_ID() );
+			Env.setContext(m_ctx, "#SalesRep_ID", user.getAD_User_ID() );
+		}
 		//
 		KeyNamePair[] orgs = m_login.getOrgs(client);
 		//  delete existing cleint items
