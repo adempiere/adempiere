@@ -1,3 +1,4 @@
+SET DEFINE OFF;
 -- 02/10/2009 11:33:15 AM
 -- Add signed amount type to fin report
 INSERT INTO AD_Reference (AD_Client_ID,AD_Org_ID,AD_Reference_ID,Created,CreatedBy,EntityType,IsActive,IsOrderByValue,Name,Updated,UpdatedBy,ValidationType) VALUES (0,0,53327,TO_DATE('2009-10-02 11:33:12','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','N','PA_Report Period Type',TO_DATE('2009-10-02 11:33:12','YYYY-MM-DD HH24:MI:SS'),100,'L')
