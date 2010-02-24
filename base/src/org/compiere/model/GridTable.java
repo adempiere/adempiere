@@ -48,6 +48,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.MSort;
 import org.compiere.util.SecureEngine;
+import org.compiere.util.Trx;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -3201,6 +3202,7 @@ private Object[] getDataAtRow(int row)
 
 		private PreparedStatement   m_pstmt = null;
 		private ResultSet 		    m_rs = null;
+		private Trx trx = null;
 
 		/**
 		 *	Open ResultSet
@@ -3213,7 +3215,7 @@ private Object[] getDataAtRow(int row)
 			//	Get Number of Rows
 			int rows = 0;
 			PreparedStatement pstmt = null;
-			ResultSet rs = null;
+			ResultSet rs = null;			
 			try
 			{
 				pstmt = DB.prepareStatement(m_SQL_Count, null);
@@ -3233,24 +3235,29 @@ private Object[] getDataAtRow(int row)
 			}
 			finally
 			{
-				DB.close(rs, pstmt);
+				DB.close(rs, pstmt);				
 			}
 			StringBuffer info = new StringBuffer("Rows=");
 			info.append(rows);
 			if (rows == 0)
 				info.append(" - ").append(m_SQL_Count);
-			
+						
+			//postgresql need trx to use cursor based resultset
+			String trxName = m_virtual ? Trx.createTrxName("Loader") : null;
+			trx  = trxName != null ? Trx.get(trxName, true) : null;
 			//	open Statement (closed by Loader.close)
 			try
 			{
-				m_pstmt = DB.prepareStatement(m_SQL, null);
+				m_pstmt = DB.prepareStatement(m_SQL, trxName);
 				if (maxRows > 0 && rows > maxRows)
 				{
 					m_pstmt.setMaxRows(maxRows);
 					info.append(" - MaxRows=").append(maxRows);
 					rows = maxRows;
 				}
-			//	m_pstmt.setFetchSize(20);
+				//ensure not all row is fectch into memory for virtual table
+				if (m_virtual)
+					m_pstmt.setFetchSize(100);
 				setParameter (m_pstmt, false);
 				m_rs = m_pstmt.executeQuery();
 			}
@@ -3272,6 +3279,8 @@ private Object[] getDataAtRow(int row)
 			DB.close(m_rs, m_pstmt);
 			m_rs = null;
 			m_pstmt = null;
+			if (trx != null)
+				trx.close();
 		}	//	close
 
 		/**
@@ -3335,7 +3344,10 @@ private Object[] getDataAtRow(int row)
 			{
 				log.log(Level.SEVERE, "run", e);
 			}
-			close();
+			finally
+			{
+				close();
+			}
 			fireDataStatusIEvent("", "");
 		}	//	run
 
