@@ -436,7 +436,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		for (int i = 0; i < checks.length; i++)
 		{
 			MPaySelectionCheck check = checks[i];
-			MPayment payment = new MPayment(check.getCtx(), check.getC_Payment_ID(), null);
+			MPayment payment = new MPayment(check.getCtx(), check.getC_Payment_ID(), check.get_TrxName());
 			//	Existing Payment
 			if (check.getC_Payment_ID() != 0)
 			{
@@ -450,7 +450,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			}
 			else	//	New Payment
 			{
-				payment = new MPayment(check.getCtx(), 0, null);
+				payment = new MPayment(check.getCtx(), 0, check.get_TrxName());
 				payment.setAD_Org_ID(check.getAD_Org_ID());
 				//
 				if (check.getPaymentRule().equals(PAYMENTRULE_Check))
