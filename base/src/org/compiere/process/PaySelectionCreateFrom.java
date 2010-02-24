@@ -19,6 +19,7 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.logging.Level;
 
 import org.compiere.model.MPaySelection;
@@ -52,6 +53,8 @@ public class PaySelectionCreateFrom extends SvrProcess
 	/**	Payment Selection			*/
 	private int			p_C_PaySelection_ID = 0;
 
+	private Timestamp p_DueDate = null;
+
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
@@ -77,6 +80,8 @@ public class PaySelectionCreateFrom extends SvrProcess
 				p_C_BPartner_ID = para[i].getParameterAsInt();
 			else if (name.equals("C_BP_Group_ID"))
 				p_C_BP_Group_ID = para[i].getParameterAsInt();
+			else if (name.equals("DueDate"))
+				p_DueDate = (Timestamp) para[i].getParameter();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
@@ -102,6 +107,10 @@ public class PaySelectionCreateFrom extends SvrProcess
 			throw new IllegalArgumentException("Not found C_PaySelection_ID=" + p_C_PaySelection_ID);
 		if (psel.isProcessed())
 			throw new IllegalArgumentException("@Processed@");
+
+		if ( p_DueDate == null )
+			p_DueDate = psel.getPayDate();
+		
 	//	psel.getPayDate();
 
 		String sql = "SELECT C_Invoice_ID,"
@@ -154,7 +163,7 @@ public class PaySelectionCreateFrom extends SvrProcess
 		else if (p_C_BP_Group_ID != 0)
 			sql += " AND EXISTS (SELECT * FROM C_BPartner bp "
 				+ "WHERE bp.C_BPartner_ID=i.C_BPartner_ID AND bp.C_BP_Group_ID=?)";	//	##
-		//	PO Matching Requiremnent
+		//	PO Matching Requirement
 		if (p_MatchRequirement.equals("P") || p_MatchRequirement.equals("B"))
 		{
 			sql += " AND EXISTS (SELECT * FROM C_InvoiceLine il "
@@ -162,7 +171,7 @@ public class PaySelectionCreateFrom extends SvrProcess
 				+ " AND QtyInvoiced=(SELECT SUM(Qty) FROM M_MatchPO m "
 					+ "WHERE il.C_InvoiceLine_ID=m.C_InvoiceLine_ID))";
 		}
-		//	Receipt Matching Requiremnent
+		//	Receipt Matching Requirement
 		if (p_MatchRequirement.equals("R") || p_MatchRequirement.equals("B"))
 		{
 			sql += " AND EXISTS (SELECT * FROM C_InvoiceLine il "
@@ -192,7 +201,7 @@ public class PaySelectionCreateFrom extends SvrProcess
 			if (p_OnlyDiscount)
 				pstmt.setTimestamp(index++, psel.getPayDate());
 			if (p_OnlyDue)
-				pstmt.setTimestamp(index++, psel.getPayDate());
+				pstmt.setTimestamp(index++, p_DueDate);
 			if (p_C_BPartner_ID != 0)
 				pstmt.setInt (index++, p_C_BPartner_ID);
 			else if (p_C_BP_Group_ID != 0)
