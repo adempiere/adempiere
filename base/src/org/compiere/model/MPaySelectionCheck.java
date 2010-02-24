@@ -226,8 +226,9 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			while (rs.next())
 			{
 				MPaySelectionCheck check = new MPaySelectionCheck (Env.getCtx(), rs, trxName);
-				//	Set new Check Document No - saved in confirmPrint
+				//	Set new Check Document No
 				check.setDocumentNo(String.valueOf(docNo++));
+				check.save(); 
 				list.add(check);
 			}
 			rs.close();
