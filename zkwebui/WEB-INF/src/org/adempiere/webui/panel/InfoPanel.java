@@ -383,7 +383,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		MTable table = MTable.get(Env.getCtx(), tableName);
 		if (table != null)
 		{
-			m_useDatabasePaging = table.isHighVolume() && DB.getDatabase().isPagingSupported();
+			m_useDatabasePaging = table.isHighVolume();
 		}
 	}   //  prepareTable
 
@@ -548,7 +548,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         String dataSql = Msg.parseTranslation(Env.getCtx(), sql.toString());    //  Variables
         dataSql = MRole.getDefault().addAccessSQL(dataSql, getTableName(),
             MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
-        if (end > start && DB.getDatabase().isPagingSupported())
+        if (end > start && m_useDatabasePaging && DB.getDatabase().isPagingSupported())
         {
         	dataSql = DB.getDatabase().addPagingSQL(dataSql, cacheStart, cacheEnd);
         }
@@ -560,10 +560,22 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			log.fine("Start query - " + (System.currentTimeMillis()-startTime) + "ms");
 			m_rs = m_pstmt.executeQuery();
 			log.fine("End query - " + (System.currentTimeMillis()-startTime) + "ms");
+			//skips the row that we dont need if we can't use native db paging
+			if (end > start && m_useDatabasePaging && !DB.getDatabase().isPagingSupported())
+			{
+				m_rs.absolute(cacheStart-1);
+			}
 
+			int rowPointer = cacheStart-1;
 			while (m_rs.next())
 			{
+				rowPointer++;
 				readData(m_rs);
+				//check now of rows loaded, break if we hit the suppose end
+				if (m_useDatabasePaging && rowPointer >= cacheEnd)
+				{
+					break;
+				}
 			}
 		}
 
