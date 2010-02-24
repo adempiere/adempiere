@@ -714,7 +714,7 @@ public final class APanel extends CPanel
 					ADialog.error(0, null, "AccessTableNoView", "(No Window Model Info)");
 					return false;
 				}
-				GridWindow mWindow = new GridWindow (wVO);			                //  Timing: ca. 0.3-1 sec
+				GridWindow mWindow = new GridWindow (wVO, true);			                //  Timing: ca. 0.3-1 sec
 				//	Set SO/AutoNew for Window
 				Env.setContext(m_ctx, m_curWindowNo, "IsSOTrx", mWindow.isSOTrx());
 				if (!autoNew && mWindow.isTransaction())
