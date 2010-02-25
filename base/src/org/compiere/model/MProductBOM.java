@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -62,35 +63,13 @@ public class MProductBOM extends X_M_Product_BOM
 	 */
 	public static MProductBOM[] getBOMLines (Properties ctx, int M_Product_ID, String trxName)
 	{
-		String sql = "SELECT * FROM M_Product_BOM WHERE M_Product_ID=? ORDER BY Line";
-		ArrayList<MProductBOM> list = new ArrayList<MProductBOM>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MProductBOM (ctx, rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
+ 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "M_Product_ID=?";
+		List <MProductBOM> list = new Query(ctx, MProductBOM.Table_Name, whereClause, trxName)
+		.setParameters(new Object[]{M_Product_ID})
+		.setOrderBy("Line")
+		.list();
+ 
 	//	s_log.fine("getBOMLines - #" + list.size() + " - M_Product_ID=" + M_Product_ID);
 		MProductBOM[] retValue = new MProductBOM[list.size()];
 		list.toArray(retValue);
