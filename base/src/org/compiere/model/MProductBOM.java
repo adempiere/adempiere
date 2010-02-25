@@ -64,8 +64,8 @@ public class MProductBOM extends X_M_Product_BOM
 	public static MProductBOM[] getBOMLines (Properties ctx, int M_Product_ID, String trxName)
 	{
  		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "M_Product_ID=?";
-		List <MProductBOM> list = new Query(ctx, MProductBOM.Table_Name, whereClause, trxName)
+		final String whereClause = "M_Product_ID=?";
+		List <MProductBOM> list = new Query(ctx, I_M_Product_BOM.Table_Name, whereClause, trxName)
 		.setParameters(new Object[]{M_Product_ID})
 		.setOrderBy("Line")
 		.list();
