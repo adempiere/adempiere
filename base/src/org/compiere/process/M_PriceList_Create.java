@@ -264,6 +264,7 @@ public class M_PriceList_Create extends SvrProcess {
 					+ "         ,limit_addamt" + "         ,limit_discount"
 					+ "         ,limit_rounding" + "         ,limit_minamt"
 					+ "         ,limit_maxamt" + "         ,limit_fixed"
+					+ "			,group1" + " 			,group2"
 					+ "         ,c_conversiontype_id"
 					+ " FROM	M_DiscountSchemaLine"
 					+ " WHERE	M_DiscountSchema_ID="
@@ -292,10 +293,9 @@ public class M_PriceList_Create extends SvrProcess {
 					//
 					sqlins = "INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID) "
 							+ " SELECT DISTINCT " + m_AD_PInstance_ID +", po.M_Product_ID "
-							+ " FROM	M_Product p, M_Product_PO po"
-							+ " WHERE	p.M_Product_ID=po.M_Product_ID "
-							+ " AND	(p.AD_Client_ID="
-							+ v.getInt("AD_Client_ID")
+							+ " FROM M_Product p, M_Product_PO po"
+							+ " WHERE p.M_Product_ID=po.M_Product_ID "
+							+ " AND	(p.AD_Client_ID=" + v.getInt("AD_Client_ID")
 							+ " OR p.AD_Client_ID=0)"
 							+ " AND	p.IsActive='Y' AND po.IsActive='Y' AND po.IsCurrentVendor='Y' "
 							//
@@ -303,15 +303,16 @@ public class M_PriceList_Create extends SvrProcess {
 							//
 							// globalqss - detected bug, JDBC returns zero for null values
 							// so we're going to use NULLIF(value, 0)
-							+ " AND (NULLIF(" + dl.getInt("M_Product_Category_ID")
-							+ ",0) IS NULL OR p.M_Product_Category_ID IN ("
-							+ getSubCategoryWhereClause(dl.getInt("M_Product_Category_ID")) + "))"
-							+ " AND (NULLIF(" + dl.getInt("C_BPartner_ID")
-							+ ",0) IS NULL OR po.C_BPartner_ID="
-							+ dl.getInt("C_BPartner_ID") + ")" 
-							+ " AND (NULLIF(" + dl.getInt("M_Product_ID")
-							+ ",0) IS NULL OR p.M_Product_ID="
-							+ dl.getInt("M_Product_ID") + ")";
+							+ " AND (NULLIF(" + dl.getInt("M_Product_Category_ID") + ",0) IS NULL"
+							+ " OR p.M_Product_Category_ID IN (" + getSubCategoryWhereClause(dl.getInt("M_Product_Category_ID")) + "))"
+							+ " AND (NULLIF(" + dl.getInt("C_BPartner_ID") + ",0) IS NULL OR po.C_BPartner_ID=" + dl.getInt("C_BPartner_ID") + ")"
+							+ " AND (NULLIF(" + dl.getInt("M_Product_ID") + ",0) IS NULL OR p.M_Product_ID=" + dl.getInt("M_Product_ID") + ")";
+					
+					if (dl.getString("Group1")!=null)
+						sqlins = sqlins + " AND (p.Group1=('" + dl.getString("Group1") + "'))";
+					if (dl.getString("Group2")!=null)
+						sqlins = sqlins + " AND (p.Group2=('" + dl.getString("Group2") + "'))";		
+					
 					cnti = DB.executeUpdate(sqlins, get_TrxName());
 					if (cnti == -1)
 						raiseError(" INSERT INTO T_Selection ", sqlins);
@@ -323,54 +324,57 @@ public class M_PriceList_Create extends SvrProcess {
 					// Create Selection from existing PriceList
 					//
 					sqlins = "INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID)"
-							+ " SELECT	DISTINCT " + m_AD_PInstance_ID +", p.M_Product_ID"
-							+ " FROM	M_Product p, M_ProductPrice pp"
-							+ " WHERE	p.M_Product_ID=pp.M_Product_ID"
-							+ " AND	pp.M_PriceList_Version_ID = "
-							+ v.getInt("M_PriceList_Version_Base_ID")
+							+ " SELECT DISTINCT " + m_AD_PInstance_ID +", p.M_Product_ID"
+							+ " FROM M_Product p, M_ProductPrice pp"
+							+ " WHERE p.M_Product_ID=pp.M_Product_ID"
+							+ " AND	pp.M_PriceList_Version_ID = " + v.getInt("M_PriceList_Version_Base_ID")
 							+ " AND	p.IsActive='Y' AND pp.IsActive='Y'"
 							//
 							//Optional Restrictions
 							//
-							+ " AND (NULLIF(" + dl.getInt("M_Product_Category_ID")
-							+ ",0) IS NULL OR p.M_Product_Category_ID IN ("
-							+ getSubCategoryWhereClause(dl.getInt("M_Product_Category_ID")) + "))"
-							+ " AND	(NULLIF(" + dl.getInt("C_BPartner_ID")
-							+ ",0) IS NULL OR EXISTS "
-							+ " (SELECT m_product_id"
-							+ "  , c_bpartner_id"
-							+ "  , ad_client_id"
-							+ "  , ad_org_id"
-							+ "  , isactive"
-							+ "   , created "
-							+ "  , createdby"
-							+ "  , updated "
-							+ "  , updatedby"
-							+ "  , iscurrentvendor"
-							+ "  , c_uom_id"
-							+ "  , c_currency_id"
-							+ "  , pricelist"
-							+ " , pricepo"
-							+ " ,priceeffective"
-							+ " ,pricelastpo"
-							+ " ,pricelastinv"
-							+ " ,vendorproductno"
-							+ " ,upc"
-							+ " ,vendorcategory"
-							+ " ,discontinued"
-							+ " ,discontinuedby"
-							+ " ,order_min"
-							+ " ,order_pack"
-							+ " ,costperorder"
-							+ " ,deliverytime_promised"
-							+ " ,deliverytime_actual"
-							+ " ,qualityrating"
-							+ " ,royaltyamt"
-							+ " , manufacturer  FROM M_Product_PO po WHERE po.M_Product_ID=p.M_Product_ID AND po.C_BPartner_ID="
-							+ dl.getInt("C_BPartner_ID") + "))" 
-							+ " AND	(NULLIF(" + dl.getInt("M_Product_ID")
-							+ ",0) IS NULL OR p.M_Product_ID="
-							+ dl.getInt("M_Product_ID") + ")";
+							+ " AND (NULLIF(" + dl.getInt("M_Product_Category_ID") + ",0) IS NULL"
+							+ " OR p.M_Product_Category_ID IN (" + getSubCategoryWhereClause(dl.getInt("M_Product_Category_ID")) + "))"
+							+ " AND	(NULLIF(" + dl.getInt("C_BPartner_ID") + ",0) IS NULL OR EXISTS "
+							+ "(SELECT m_product_id"
+							+ ",c_bpartner_id"
+							+ ",ad_client_id"
+							+ ",ad_org_id"
+							+ ",isactive"
+							+ ",created "
+							+ ",createdby"
+							+ ",updated "
+							+ ",updatedby"
+							+ ",iscurrentvendor"
+							+ ",c_uom_id"
+							+ ",c_currency_id"
+							+ ",pricelist"
+							+ ",pricepo"
+							+ ",priceeffective"
+							+ ",pricelastpo"
+							+ ",pricelastinv"
+							+ ",vendorproductno"
+							+ ",upc"
+							+ ",vendorcategory"
+							+ ",discontinued"
+							+ ",discontinuedby"
+							+ ",order_min"
+							+ ",order_pack"
+							+ ",costperorder"
+							+ ",deliverytime_promised"
+							+ ",deliverytime_actual"
+							+ ",qualityrating"
+							+ ",royaltyamt"
+							+ ",group1"
+							+ ",group2"
+							+ ",manufacturer FROM M_Product_PO po WHERE po.M_Product_ID=p.M_Product_ID"
+							+ " AND po.C_BPartner_ID=" + dl.getInt("C_BPartner_ID") + "))" 
+							+ " AND	(NULLIF(" + dl.getInt("M_Product_ID") + ",0) IS NULL OR p.M_Product_ID=" + dl.getInt("M_Product_ID") + ")";
+					
+					if (dl.getString("Group1")!=null)
+						sqlins = sqlins + " AND (p.Group1=('" + dl.getString("Group1") + "'))";
+					if (dl.getString("Group2")!=null)
+						sqlins = sqlins + " AND (p.Group2=('" + dl.getString("Group2") + "'))";		
+					
 					cnti = DB.executeUpdate(sqlins, get_TrxName());
 					if (cnti == -1)
 						raiseError(
