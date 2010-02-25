@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.List;
+import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
@@ -91,28 +93,11 @@ public final class MPayment extends X_C_Payment
 	 */
 	public static MPayment[] getOfBPartner (Properties ctx, int C_BPartner_ID, String trxName)
 	{
-		ArrayList<MPayment> list = new ArrayList<MPayment>();
-		String sql = "SELECT * FROM C_Payment WHERE C_BPartner_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, C_BPartner_ID);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MPayment(ctx,rs, trxName));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "C_BPartner_ID=?";
+		List <MPayment> list = new Query(ctx, MPayment.Table_Name, whereClause, null)
+		.setParameters(new Object[]{C_BPartner_ID})
+		.list();
 
 		//
 		MPayment[] retValue = new MPayment[list.size()];
