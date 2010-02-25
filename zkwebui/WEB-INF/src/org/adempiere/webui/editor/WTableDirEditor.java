@@ -246,6 +246,7 @@ ContextMenuListener, IZoomableEditor
 	        {
 	            int size = lookup.getSize();
 	            
+	            boolean found = false;
 	            for (int i = 0; i < size; i++)
 	            {
 	                Object obj = lookup.getElementAt(i);
@@ -253,28 +254,52 @@ ContextMenuListener, IZoomableEditor
 	                {
 	                    KeyNamePair lookupKNPair = (KeyNamePair) obj;
 	                    getComponent().appendItem(lookupKNPair.getName(), lookupKNPair.getKey());
+	                    if (!found && oldValue != null && oldValue instanceof Integer &&
+	                    	lookupKNPair.getKey() == (Integer)oldValue)
+	                    {
+	                    	found = true;
+	                	}
 	                }
 	                else if (obj instanceof ValueNamePair)
 	                {
 	                    ValueNamePair lookupKNPair = (ValueNamePair) obj;
 	                    getComponent().appendItem(lookupKNPair.getName(), lookupKNPair.getValue());
-	                }
+	                    if (!found && oldValue != null && lookupKNPair.getValue().equals(oldValue.toString()))
+		                {
+	                    	found = true;
+	                	}
+	            	}
+	        	}	        	        
+	            if (!found && oldValue != null)
+	            {
+	            	NamePair pair = lookup.getDirect(oldValue, false, false);
+	            	if (pair != null) {
+		    			if (pair instanceof KeyNamePair) {
+		    				int key = ((KeyNamePair)pair).getKey();
+		    				getComponent().appendItem(pair.getName(), key);
+		    			} else if (pair instanceof ValueNamePair) {
+		    				ValueNamePair valueNamePair = (ValueNamePair) pair;
+		                    getComponent().appendItem(valueNamePair.getName(), valueNamePair.getValue());
+		    			}
+	            	}
 	            }
-	        }	        	        
+	        }
     	}
     	else
     	{
     		if (lookup != null)
 	        {
     			NamePair pair = lookup.getDirect(oldValue, false, false);
-    			if (pair instanceof KeyNamePair) {
-    				int key = ((KeyNamePair)pair).getKey();
-    				getComponent().appendItem(pair.getName(), key);
-    			} else if (pair instanceof ValueNamePair) {
-    				ValueNamePair valueNamePair = (ValueNamePair) pair;
-                    getComponent().appendItem(valueNamePair.getName(), valueNamePair.getValue());
-    			}
-	        }
+    			if (pair != null) {
+    				if (pair instanceof KeyNamePair) {
+    					int key = ((KeyNamePair)pair).getKey();
+    					getComponent().appendItem(pair.getName(), key);
+    				} else if (pair instanceof ValueNamePair) {
+    					ValueNamePair valueNamePair = (ValueNamePair) pair;
+                    	getComponent().appendItem(valueNamePair.getName(), valueNamePair.getValue());
+    				}
+	        	}
+    		}
     	}
     	getComponent().setValue(oldValue);
     }
