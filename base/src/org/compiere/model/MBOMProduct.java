@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -47,34 +48,12 @@ public class MBOMProduct extends X_M_BOMProduct
 	 */
 	public static MBOMProduct[] getOfBOM (MBOM bom) 
 	{
-		ArrayList<MBOMProduct> list = new ArrayList<MBOMProduct>();
-		String sql = "SELECT * FROM M_BOMProduct WHERE M_BOM_ID=? ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, bom.get_TrxName());
-			pstmt.setInt (1, bom.getM_BOM_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MBOMProduct (bom.getCtx(), rs, bom.get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "M_BOM_ID=?";
+		List <MBOMProduct> list = new Query(bom.getCtx(), I_M_BOMProduct.Table_Name, whereClause, bom.get_TrxName()) // @TODO: Review implications of using transaction 
+		.setParameters(bom.getM_BOM_ID())
+		.setOrderBy("SeqNo")
+		.list(); 
 		
 		MBOMProduct[] retValue = new MBOMProduct[list.size ()];
 		list.toArray (retValue);
