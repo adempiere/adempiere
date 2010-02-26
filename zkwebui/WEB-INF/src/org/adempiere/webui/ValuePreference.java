@@ -44,6 +44,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Space;
 import org.zkoss.zul.Vbox;
 
 /**
@@ -54,7 +55,7 @@ import org.zkoss.zul.Vbox;
  *  @version  $Id: ValuePreference.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
 public class ValuePreference extends Window implements EventListener
-{
+{	
 	/**
 	 * 
 	 */
@@ -307,6 +308,12 @@ public class ValuePreference extends Window implements EventListener
 		row.appendChild(cbWindow);
 		rows.appendChild(row);
 		
+		row = new Row();
+		row.setSpans("1, 5");
+		row.appendChild(new Space());
+		row.appendChild(lExplanation);
+		rows.appendChild(row);
+		
 		//
 		Separator separator = new Separator();
 		separator.setBar(true);
@@ -429,7 +436,6 @@ public class ValuePreference extends Window implements EventListener
 		if (Env.getLanguage(Env.getCtx()).isBaseLanguage())
 		{
 			lExplanation.setValue(expl.toString ());
-			this.invalidate();
 		}
 	}   //  setExplanation
 
