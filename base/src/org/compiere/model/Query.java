@@ -126,18 +126,9 @@ public class Query
 	 * Set query parameters
 	 * @param parameters
 	 */
-	public Query setParameters(Object[] parameters)
+	public Query setParameters(Object ...parameters)
 	{
 		this.parameters = parameters;
-		return this;
-	}
-	
-	/**
-	 * Set query parameters (one integer)
-	 * @int_param integer parameter
-	 */
-	public Query setParameters(int int_param) {
-		this.parameters = new Object[]{int_param};
 		return this;
 	}
 	
