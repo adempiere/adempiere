@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -74,39 +75,14 @@ public class MRequestType extends X_R_RequestType
 	 */
 	public static MRequestType getDefault (Properties ctx)
 	{
-		MRequestType retValue = null;
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		String sql = "SELECT * FROM R_RequestType "
-			+ "WHERE AD_Client_ID IN (0," + AD_Client_ID + ") "
-			+ "ORDER BY IsDefault DESC, AD_Client_ID DESC";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = new MRequestType (ctx, rs, null);
-				if (!retValue.isDefault())
-					retValue = null;
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			s_log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
+ 
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "AD_Client_ID IN (0," + AD_Client_ID + ")";
+		MRequestType retValue = new Query(ctx, I_R_RequestType.Table_Name, whereClause, null)
+			.setOrderBy("IsDefault DESC, AD_Client_ID DESC")
+			.first();
+	
 		return retValue;
 	}	//	get
 
