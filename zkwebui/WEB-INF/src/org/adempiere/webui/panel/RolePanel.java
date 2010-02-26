@@ -93,9 +93,6 @@ public class RolePanel extends Window implements EventListener, Deferrable
         if(rolesKNPairs == null)
             throw new ApplicationException("Login is invalid, UserName: " + userName + " and Password:" + password);
 
-        //set app server credentials
-        CConnection.get().setAppServerCredential(userName, password);
-
         initComponents();
         init();
         this.setId("rolePanel");

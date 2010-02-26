@@ -38,15 +38,15 @@ import javax.servlet.ServletRequest;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.apps.ALogin;
-import org.compiere.db.CConnection;
-import org.compiere.interfaces.Server;
+import org.compiere.acct.Doc;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.Lookup;
+import org.compiere.model.MAcctSchema;
 import org.compiere.model.MQuery;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
+import org.compiere.util.CacheMgt;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
@@ -226,25 +226,6 @@ public final class AEnv
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AEnv.class);
 
-	/**
-	 *  Is AppsServer Active ?
-	 *  @return true if active
-	 */
-	public static boolean isServerActive()
-	{
-		return CConnection.get().isAppsServerOK(true);
-	}   //  isServerActive
-
-	/**
-	 *  Get Server Version
-	 *  @return Apps Server Version
-	 *  @see ALogin#checkVersion
-	 */
-	public static String getServerVersion ()
-	{
-		return CConnection.get().getServerVersion();
-	}   //  getServerVersion
-
 	/**	Window Cache		*/
 	private static Map<String, CCache<Integer,GridWindowVO>> windowCache = new HashMap<String, CCache<Integer,GridWindowVO>>();
 
@@ -336,11 +317,13 @@ public final class AEnv
 		int AD_Table_ID, int Record_ID, boolean force)
 	{
 
-		log.config("Window=" + WindowNo
+		log.info("Window=" + WindowNo
 			+ ", AD_Table_ID=" + AD_Table_ID + "/" + Record_ID
 			+ ", Force=" + force);
 		
-		String error = DocumentEngine.postImmediate(Env.getCtx(), AD_Client_ID, AD_Table_ID, Record_ID, force, null);
+		String error = null;
+		MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(Env.getCtx(), AD_Client_ID);
+		error = Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, null);
 
 		return error;
 	}   //  postImmediate
@@ -355,24 +338,7 @@ public final class AEnv
 
 		log.config("TableName=" + tableName + ", Record_ID=" + Record_ID);
 
-		//  try to get from Server when enabled
-		if (isServerActive())
-		{
-			log.config("trying server");
-			try
-			{
-				Server server = CConnection.get().getServer();
-				if (server != null)
-				{
-					server.cacheReset(tableName, Record_ID);
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, "(RE)", e);
-			}
-		}
-
+		CacheMgt.get().reset(tableName, Record_ID);
 	}   //  cacheReset
 
 	/**
