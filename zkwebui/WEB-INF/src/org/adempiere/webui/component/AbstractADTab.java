@@ -18,14 +18,18 @@
 package org.adempiere.webui.component;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import org.adempiere.webui.panel.ADSortTab;
 import org.adempiere.webui.panel.ADTabpanel;
 import org.adempiere.webui.panel.IADTabpanel;
 import org.adempiere.webui.part.AbstractUIPart;
 import org.compiere.model.DataStatusEvent;
+import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 import org.compiere.util.Evaluator;
 
 /**
@@ -119,6 +123,7 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
             canJump = canNavigateTo(oldIndex, newIndex);
             if (canJump) 
             {
+            	prepareContext(newIndex, newTab);
 	            doTabSelectionChanged(oldIndex, newIndex);
             }
         }
@@ -126,6 +131,59 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
         return canJump;
     }
     
+    private void prepareContext(int newIndex, IADTabpanel newTab) {
+		//update context
+		if (newTab != null)
+		{
+			List<Integer> parents = new ArrayList<Integer>();
+			//get parent list
+			if (newIndex > 0)
+			{
+				int currentLevel = newTab.getTabLevel();
+				for (int i = newIndex - 1; i >= 0; i--)
+				{
+					IADTabpanel adtab = tabPanelList.get(i);
+					if (adtab.getGridTab() == null) continue;
+					if (adtab instanceof ADSortTab) continue;
+					if (adtab.getTabLevel() < currentLevel || i == 0)
+					{
+						parents.add(i);
+						currentLevel = adtab.getTabLevel();
+					}
+				}
+				Collections.reverse(parents);
+			}
+
+			//clear context
+			for (int i = 0; i < tabPanelList.size(); i++)
+			{
+				IADTabpanel adtab = tabPanelList.get(i);
+				if (adtab.getGridTab() == null) continue;
+				if (adtab instanceof ADSortTab) continue;
+				GridField[] fields = adtab.getGridTab().getFields();
+				for (GridField gf : fields)
+				{
+					Env.setContext(Env.getCtx(), gf.getWindowNo(),  gf.getColumnName(), "");
+				}
+			}
+
+			//add parent value to context
+			if (!parents.isEmpty())
+			{
+				for(int i : parents)
+				{
+					IADTabpanel adtab = tabPanelList.get(i);
+
+					GridField[] fields = adtab.getGridTab().getFields();
+					for (GridField gf : fields)
+					{
+						gf.updateContext();
+					}
+				}
+			}
+		}
+	}
+
     protected abstract void doTabSelectionChanged(int oldIndex, int newIndex);
 
     public boolean isDisplay(int index) {

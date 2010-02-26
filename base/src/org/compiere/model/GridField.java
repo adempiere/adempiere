@@ -1278,6 +1278,19 @@ public class GridField
 		m_inserting = inserting;
 		m_error = false;        //  reset error
 
+		updateContext();
+
+		//  Does not fire, if same value
+		Object oldValue = m_oldValue;
+		if (inserting)
+			oldValue = INSERTING;
+		m_propertyChangeListeners.firePropertyChange(PROPERTY, oldValue, m_value);
+	}   //  setValue
+
+	/**
+	 * Update env. context with current value
+	 */
+	public void updateContext() {
 		//	Set Context
 		if (m_vo.displayType == DisplayType.Text 
 			|| m_vo.displayType == DisplayType.Memo
@@ -1286,15 +1299,15 @@ public class GridField
 			|| m_vo.displayType == DisplayType.RowID
 			|| isEncrypted())
 			;	//	ignore
-		else if (newValue instanceof Boolean)
+		else if (m_value instanceof Boolean)
 		{
 			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
-				((Boolean)newValue).booleanValue());
+				((Boolean)m_value).booleanValue());
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
 					m_value==null ? null : (((Boolean)m_value) ? "Y" : "N"));
 		}
-		else if (newValue instanceof Timestamp)
+		else if (m_value instanceof Timestamp)
 		{
 			backupValue(); // teo_sarca [ 1699826 ]
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (Timestamp)m_value);
@@ -1308,14 +1321,8 @@ public class GridField
 				m_value==null ? null : m_value.toString());
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
 				m_value==null ? null : m_value.toString());
-		}
-		
-		//  Does not fire, if same value
-		Object oldValue = m_oldValue;
-		if (inserting)
-			oldValue = INSERTING;
-		m_propertyChangeListeners.firePropertyChange(PROPERTY, oldValue, m_value);
-	}   //  setValue
+		}		
+	}
 
 	/**
 	 * 	Set Value and Validate
