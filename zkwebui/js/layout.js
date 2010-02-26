@@ -19,9 +19,11 @@ function ad_closeBuble(uuid) {
 }
 
 function scrollToRow(uuid){  
-	 var cmp = $e(uuid);  
-	 cmp.style.display="inline";
-	 cmp.focus();
-	 cmp.style.display="none";
+	var cmp = $e(uuid);  
+	if (!(typeof cmp == "undefined") && !(cmp == null)) {
+		cmp.style.display="inline";
+		cmp.focus();
+		cmp.style.display="none";
+	}
 }
  
