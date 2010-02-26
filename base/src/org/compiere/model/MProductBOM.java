@@ -16,15 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -65,8 +61,8 @@ public class MProductBOM extends X_M_Product_BOM
 	{
  		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		final String whereClause = "M_Product_ID=?";
-		List <MProductBOM> list = new Query(ctx, I_M_Product_BOM.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{M_Product_ID})
+		List <MProductBOM> list = new Query(ctx, MProductBOM.Table_Name, whereClause, trxName)
+		.setParameters(M_Product_ID)
 		.setOrderBy("Line")
 		.list();
  

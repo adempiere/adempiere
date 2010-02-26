@@ -22,12 +22,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
-import java.util.logging.Level;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
@@ -82,7 +80,7 @@ public final class MPayment extends X_C_Payment
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5273805787122033169L;
+	private static final long serialVersionUID = 6200327948230438741L;
 
 	/**
 	 * 	Get Payments Of BPartner
@@ -96,7 +94,7 @@ public final class MPayment extends X_C_Payment
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "C_BPartner_ID=?";
 		List <MPayment> list = new Query(ctx, MPayment.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{C_BPartner_ID})
+		.setParameters(C_BPartner_ID)
 		.list();
 
 		//

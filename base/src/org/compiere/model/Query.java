@@ -133,6 +133,15 @@ public class Query
 	}
 	
 	/**
+	 * Set query parameters (one integer)
+	 * @int_param integer parameter
+	 */
+	public Query setParameters(int int_param) {
+		this.parameters = new Object[]{int_param};
+		return this;
+	}
+	
+	/**
 	 * Set query parameters
 	 * @param parameters collection of parameters
 	 */
@@ -754,4 +763,5 @@ public class Query
 		}
 		return retValue;
 	}	//	get_IDs
+
 }
