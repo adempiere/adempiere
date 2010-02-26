@@ -61,7 +61,7 @@ public class MProductBOM extends X_M_Product_BOM
 	{
  		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		final String whereClause = "M_Product_ID=?";
-		List <MProductBOM> list = new Query(ctx, MProductBOM.Table_Name, whereClause, trxName)
+		List <MProductBOM> list = new Query(ctx, I_M_Product_BOM.Table_Name, whereClause, trxName)
 		.setParameters(M_Product_ID)
 		.setOrderBy("Line")
 		.list();

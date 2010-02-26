@@ -93,7 +93,7 @@ public final class MPayment extends X_C_Payment
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "C_BPartner_ID=?";
-		List <MPayment> list = new Query(ctx, MPayment.Table_Name, whereClause, trxName)
+		List <MPayment> list = new Query(ctx, I_C_Payment.Table_Name, whereClause, trxName)
 		.setParameters(C_BPartner_ID)
 		.list();
 

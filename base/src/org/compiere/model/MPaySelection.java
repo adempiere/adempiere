@@ -85,7 +85,7 @@ public class MPaySelection extends X_C_PaySelection
 		}
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "C_PaySelection_ID=?";
-		List <MPaySelectionLine> list = new Query(getCtx(), MPaySelectionLine.Table_Name, whereClause, get_TrxName())
+		List <MPaySelectionLine> list = new Query(getCtx(), I_C_PaySelectionLine.Table_Name, whereClause, get_TrxName())
 			.setParameters(getC_PaySelection_ID())
 			.setOrderBy("Line")
 			.list()

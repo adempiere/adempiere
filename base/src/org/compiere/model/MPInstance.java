@@ -127,7 +127,7 @@ public class MPInstance extends X_AD_PInstance
 			return m_parameters;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		String whereClause = "AD_PInstance_ID=?";
-		List <MPInstancePara> list = new Query(getCtx(), MPInstancePara.Table_Name, whereClause, null) // @TODO: Review implications of using transaction 
+		List <MPInstancePara> list = new Query(getCtx(), I_AD_PInstance_Para.Table_Name, whereClause, null) // @TODO: Review implications of using transaction 
 		.setParameters(getAD_PInstance_ID())
 		.list();
 
