@@ -16,15 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Msg;
 
 /**
@@ -69,36 +66,13 @@ public class MBOM extends X_M_BOM
 	public static MBOM[] getOfProduct (Properties ctx, int M_Product_ID, 
 		String trxName, String whereClause)
 	{
-		ArrayList<MBOM> list = new ArrayList<MBOM>();
-		String sql = "SELECT * FROM M_BOM WHERE M_Product_ID=?";
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String sql = "M_Product_ID = ?";
 		if (whereClause != null && whereClause.length() > 0)
 			sql += " AND " + whereClause;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MBOM (ctx, rs, trxName));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		List <MPayment> list = new Query(ctx, I_M_BOM.Table_Name, sql, trxName)
+		.setParameters(M_Product_ID)
+		.list();
 		
 		MBOM[] retValue = new MBOM[list.size ()];
 		list.toArray (retValue);

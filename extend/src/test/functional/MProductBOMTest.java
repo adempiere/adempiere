@@ -13,6 +13,8 @@
  *****************************************************************************/
 package test.functional;
 
+import org.compiere.model.MBOM;
+import org.compiere.model.MLocation;
 import org.compiere.model.MProductBOM;
 import org.compiere.util.Env;
 
@@ -35,6 +37,23 @@ public class MProductBOMTest extends AdempiereTestCase
 	{
 		MProductBOM[] lines = MProductBOM.getBOMLines(getCtx(), 145, getTrxName());
 	 	assertTrue("ProductBOM should have lines", lines.length > 0);
+	}
+	private MBOM bom = null;
+
+	public void testBOMCreation() {
+		bom = new MBOM(getCtx(), 0, getTrxName());
+		// BOM load test case of qualified bom parent for testing MBOM.getOfProduct
+		bom.setM_Product_ID(134);
+		bom.setBOMType("A");
+		bom.setName("PatioTable");
+
+		boolean saveResult = bom.save(); //
+		assertTrue("MBOM.save()", saveResult);
+		try {
+			commit();
+		} catch (Exception e) {
+			fail(e.getLocalizedMessage());
+		}
 	}
 
 }
