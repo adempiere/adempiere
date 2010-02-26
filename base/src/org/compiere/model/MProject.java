@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -204,33 +205,12 @@ public class MProject extends X_C_Project
 	 */
 	public MProjectLine[] getLines()
 	{
-		ArrayList<MProjectLine> list = new ArrayList<MProjectLine>();
-		String sql = "SELECT * FROM C_ProjectLine WHERE C_Project_ID=? ORDER BY Line";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Project_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MProjectLine (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "C_Project_ID=?";
+		List <MProjectLine> list = new Query(getCtx(), I_C_ProjectLine.Table_Name, whereClause, get_TrxName())
+			.setParameters(getC_Project_ID())
+			.setOrderBy("Line")
+			.list();
 		//
 		MProjectLine[] retValue = new MProjectLine[list.size()];
 		list.toArray(retValue);
@@ -243,33 +223,12 @@ public class MProject extends X_C_Project
 	 */
 	public MProjectIssue[] getIssues()
 	{
-		ArrayList<MProjectIssue> list = new ArrayList<MProjectIssue>();
-		String sql = "SELECT * FROM C_ProjectIssue WHERE C_Project_ID=? ORDER BY Line";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Project_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MProjectIssue (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "C_Project_ID=?";
+		List <MProjectIssue> list = new Query(getCtx(), I_C_ProjectIssue.Table_Name, whereClause, get_TrxName())
+			.setParameters(getC_Project_ID())
+			.setOrderBy("Line")
+			.list();
 		//
 		MProjectIssue[] retValue = new MProjectIssue[list.size()];
 		list.toArray(retValue);
@@ -282,33 +241,12 @@ public class MProject extends X_C_Project
 	 */
 	public MProjectPhase[] getPhases()
 	{
-		ArrayList<MProjectPhase> list = new ArrayList<MProjectPhase>();
-		String sql = "SELECT * FROM C_ProjectPhase WHERE C_Project_ID=? ORDER BY SeqNo";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_Project_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MProjectPhase (getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		String whereClause = "C_Project_ID=?";
+		List <MProjectPhase> list = new Query(getCtx(), I_C_ProjectPhase.Table_Name, whereClause, get_TrxName())
+			.setParameters(getC_Project_ID())
+			.setOrderBy("SeqNo")
+			.list();
 		//
 		MProjectPhase[] retValue = new MProjectPhase[list.size()];
 		list.toArray(retValue);
