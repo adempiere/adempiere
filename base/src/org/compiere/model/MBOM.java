@@ -67,10 +67,10 @@ public class MBOM extends X_M_BOM
 		String trxName, String whereClause)
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String sql = "M_Product_ID = ?";
+		String where = "M_Product_ID=?";
 		if (whereClause != null && whereClause.length() > 0)
-			sql += " AND " + whereClause;
-		List <MPayment> list = new Query(ctx, I_M_BOM.Table_Name, sql, trxName)
+			where += " AND " + whereClause;
+		List <MBOM> list = new Query(ctx, I_M_BOM.Table_Name, where, trxName)
 		.setParameters(M_Product_ID)
 		.list();
 		
