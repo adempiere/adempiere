@@ -1,18 +1,21 @@
 //MProductTest.java
 package test.functional;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductPricing;
 import org.compiere.model.X_I_Product;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
 
 public class MProductTest extends AdempiereTestCase {
-
+/*
 	public int getProduct_Category_ID(String productCategory) {
 		String sql = "select m_product_category_id from m_product_category where name = ?";
 		PreparedStatement pstmt = null;
@@ -68,7 +71,7 @@ public class MProductTest extends AdempiereTestCase {
 		return C_Uom_ID;
 
 	}
-
+ 
 	public void testCreateMProduct() {
 		MProduct m_product = new MProduct(getCtx(), 0, getTrxName());
 		m_product.setAD_Org_ID(0);
@@ -90,5 +93,12 @@ public class MProductTest extends AdempiereTestCase {
 
 		boolean saveResult = m_product.save();
 		assertEquals("Create new product.", true, saveResult);
+	} */
+	
+	public void testSetBaseInfo() {
+		MProductPricing prodprice = new MProductPricing(122,100, new BigDecimal (100),true);
+		int uom = 0;
+		uom = prodprice.getC_UOM_ID();
+		assertTrue("UOM must be correct", uom == 100);
 	}
 }
