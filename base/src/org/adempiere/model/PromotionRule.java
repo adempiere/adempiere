@@ -37,9 +37,6 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
-import org.compiere.model.X_M_PromotionDistribution;
-import org.compiere.model.X_M_PromotionLine;
-import org.compiere.model.X_M_PromotionReward;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -97,17 +94,17 @@ public class PromotionRule {
 					"M_PromotionDistribution.M_Promotion_ID = ? AND M_PromotionDistribution.IsActive = 'Y'", order.get_TrxName());
 			query.setParameters(new Object[]{entry.getKey()});
 			query.setOrderBy("SeqNo");
-			List<X_M_PromotionDistribution> list = query.<X_M_PromotionDistribution>list();
+			List<MPromotionDistribution> list = query.<MPromotionDistribution>list();
 
 			Query rewardQuery = new Query(Env.getCtx(), MTable.get(order.getCtx(), I_M_PromotionReward.Table_ID),
 					"M_PromotionReward.M_Promotion_ID = ? AND M_PromotionReward.IsActive = 'Y'", order.get_TrxName());
 			rewardQuery.setParameters(new Object[]{entry.getKey()});
 			rewardQuery.setOrderBy("SeqNo");
-			List<X_M_PromotionReward> rewardList = rewardQuery.<X_M_PromotionReward>list();
+			List<MPromotionReward> rewardList = rewardQuery.<MPromotionReward>list();
 
-			List<X_M_PromotionLine> promotionLines = new ArrayList<X_M_PromotionLine>();
+			List<MPromotionLine> promotionLines = new ArrayList<MPromotionLine>();
 			for (Integer M_PromotionLine_ID : entry.getValue()) {
-				X_M_PromotionLine promotionLine = new X_M_PromotionLine(order.getCtx(), M_PromotionLine_ID, order.get_TrxName());
+				MPromotionLine promotionLine = new MPromotionLine(order.getCtx(), M_PromotionLine_ID, order.get_TrxName());
 				promotionLines.add(promotionLine);
 			}
 			while (true) {
@@ -116,7 +113,7 @@ public class PromotionRule {
 				Set<Integer>mandatoryLineSet = new HashSet<Integer>();
 				boolean mandatoryLineNotFound = false;
 				List<Integer> validPromotionLineIDs = new ArrayList<Integer>();
-				for (X_M_PromotionLine promotionLine : promotionLines) {
+				for (MPromotionLine promotionLine : promotionLines) {
 					if (promotionLine.getM_PromotionGroup_ID() == 0 && promotionLine.getMinimumAmt() != null && promotionLine.getMinimumAmt().signum() >= 0) {
 						if (orderAmount.compareTo(promotionLine.getMinimumAmt()) >= 0) {
 							orderAmount = orderAmount.subtract(promotionLine.getMinimumAmt());
@@ -130,14 +127,14 @@ public class PromotionRule {
 				if (mandatoryLineNotFound) {
 					break;
 				}
-				for (X_M_PromotionDistribution pd : list) {
+				for (MPromotionDistribution pd : list) {
 					if (entry.getValue().contains(pd.getM_PromotionLine_ID())) {
 						//sort available orderline base on distribution sorting type
 						List<Integer> orderLineIdList = new ArrayList<Integer>();
 						orderLineIdList.addAll(orderLineQty.keySet());
 						if (pd.getDistributionSorting() != null) {
 							Comparator<Integer> cmp = olComparator;
-							if (pd.getDistributionSorting().equals(X_M_PromotionDistribution.DISTRIBUTIONSORTING_Descending))
+							if (pd.getDistributionSorting().equals(MPromotionDistribution.DISTRIBUTIONSORTING_Descending))
 								cmp = Collections.reverseOrder(cmp);
 							Collections.sort(orderLineIdList, cmp);
 						}
@@ -171,7 +168,7 @@ public class PromotionRule {
 					}
 				}
 
-				for (X_M_PromotionReward pr : rewardList) {
+				for (MPromotionReward pr : rewardList) {
 					if (pr.isForAllDistribution()) {
 						Collection<DistributionSet> all = distributions.values();
 						BigDecimal totalPrice = BigDecimal.ZERO;
@@ -189,13 +186,13 @@ public class PromotionRule {
 							}
 						}
 						BigDecimal discount = BigDecimal.ZERO;
-						if (pr.getRewardType().equals(X_M_PromotionReward.REWARDTYPE_AbsoluteAmount)) {
+						if (pr.getRewardType().equals(MPromotionReward.REWARDTYPE_AbsoluteAmount)) {
 							if (pr.getAmount().compareTo(totalPrice) < 0) {
 								discount = totalPrice.subtract(pr.getAmount());
 							}
-						} else if (pr.getRewardType().equals(X_M_PromotionReward.REWARDTYPE_FlatDiscount)) {
+						} else if (pr.getRewardType().equals(MPromotionReward.REWARDTYPE_FlatDiscount)) {
 							discount = pr.getAmount();
-						} else if (pr.getRewardType().equals(X_M_PromotionReward.REWARDTYPE_Percentage)) {
+						} else if (pr.getRewardType().equals(MPromotionReward.REWARDTYPE_Percentage)) {
 							discount = pr.getAmount().divide(BigDecimal.valueOf(100.00)).multiply(totalPrice);
 						}
 						if (discount.signum() > 0) {
@@ -216,7 +213,7 @@ public class PromotionRule {
 						//sort by reward distribution sorting
 						if (pr.getDistributionSorting() != null ) {
 							Comparator<Integer> cmp = new OrderLineComparator(orderLineIndex);
-							if (pr.getDistributionSorting().equals(X_M_PromotionReward.DISTRIBUTIONSORTING_Descending))
+							if (pr.getDistributionSorting().equals(MPromotionReward.DISTRIBUTIONSORTING_Descending))
 								cmp = Collections.reverseOrder(cmp);
 							Set<Integer> keySet = distributionSet.orderLines.keySet();
 							List<Integer> keyList = new ArrayList<Integer>();
@@ -261,13 +258,13 @@ public class PromotionRule {
 							}
 							for (MOrderLine ol : lines) {
 								if (ol.getC_OrderLine_ID() == C_OrderLine_ID) {
-									if (pr.getRewardType().equals(X_M_PromotionReward.REWARDTYPE_Percentage)) {
+									if (pr.getRewardType().equals(MPromotionReward.REWARDTYPE_Percentage)) {
 										BigDecimal priceActual = ol.getPriceActual();
 										BigDecimal discount = priceActual.multiply(pr.getAmount().divide(BigDecimal.valueOf(100.00)));
 										addDiscountLine(order, ol, discount, qty, pr.getC_Charge_ID(), pr.getM_Promotion());
-									} else if (pr.getRewardType().equals(X_M_PromotionReward.REWARDTYPE_FlatDiscount)) {
+									} else if (pr.getRewardType().equals(MPromotionReward.REWARDTYPE_FlatDiscount)) {
 										addDiscountLine(order, ol, pr.getAmount(), BigDecimal.valueOf(1.00), pr.getC_Charge_ID(), pr.getM_Promotion());
-									} else if (pr.getRewardType().equals(X_M_PromotionReward.REWARDTYPE_AbsoluteAmount)) {
+									} else if (pr.getRewardType().equals(MPromotionReward.REWARDTYPE_AbsoluteAmount)) {
 										BigDecimal priceActual = ol.getPriceActual();
 										totalPrice = totalPrice.add(priceActual.multiply(qty));
 									}
@@ -279,7 +276,7 @@ public class PromotionRule {
 							if (setBalance.signum() == 0)
 								break;
 						}
-						if (pr.getRewardType().equals(X_M_PromotionReward.REWARDTYPE_AbsoluteAmount))  {
+						if (pr.getRewardType().equals(MPromotionReward.REWARDTYPE_AbsoluteAmount))  {
 							if (pr.getAmount().compareTo(totalPrice) < 0) {
 								addDiscountLine(order, null, totalPrice.subtract(pr.getAmount()), BigDecimal.valueOf(1.00), pr.getC_Charge_ID(), pr.getM_Promotion());
 							}
@@ -414,7 +411,7 @@ public class PromotionRule {
 	 * @return Distribution Qty
 	 * @throws Exception
 	 */
-	private static DistributionSet calculateDistributionQty(X_M_PromotionDistribution distribution,
+	private static DistributionSet calculateDistributionQty(MPromotionDistribution distribution,
 			DistributionSet prevSet, List<Integer> validPromotionLineIDs, Map<Integer, BigDecimal> orderLineQty, List<Integer> orderLineIdList, String trxName) throws Exception {
 
 		String sql = "SELECT C_OrderLine.C_OrderLine_ID FROM M_PromotionLine"
@@ -474,9 +471,9 @@ public class PromotionRule {
 			match = true;
 		}
 		if (match) {
-			if (X_M_PromotionDistribution.DISTRIBUTIONTYPE_Max.equals(distribution.getDistributionType())) {
+			if (MPromotionDistribution.DISTRIBUTIONTYPE_Max.equals(distribution.getDistributionType())) {
 				setQty = compare > 0 ? totalOrderLineQty : distribution.getQty();
-			} else if (X_M_PromotionDistribution.DISTRIBUTIONTYPE_Min.equals(distribution.getDistributionType())) {
+			} else if (MPromotionDistribution.DISTRIBUTIONTYPE_Min.equals(distribution.getDistributionType())) {
 				setQty = compare < 0 ? totalOrderLineQty : distribution.getQty();
 			} else {
 				setQty = compare > 0 ? totalOrderLineQty.subtract(distribution.getQty())
@@ -543,11 +540,11 @@ public class PromotionRule {
 	private static List<Integer> findPromotionLine(int promotion_ID, MOrder order) throws SQLException {
 		Query query = new Query(Env.getCtx(), MTable.get(order.getCtx(), I_M_PromotionLine.Table_ID), " M_PromotionLine.M_Promotion_ID = ? AND M_PromotionLine.IsActive = 'Y'", order.get_TrxName());
 		query.setParameters(new Object[]{promotion_ID});
-		List<X_M_PromotionLine>plist = query.<X_M_PromotionLine>list();
+		List<MPromotionLine>plist = query.<MPromotionLine>list();
 		//List<M_PromotionLine_ID>
 		List<Integer>applicable = new ArrayList<Integer>();
 		MOrderLine[] lines = order.getLines();
-		for (X_M_PromotionLine pl : plist) {
+		for (MPromotionLine pl : plist) {
 			boolean match = false;
 			if (pl.getM_PromotionGroup_ID() > 0) {
 				String sql = "SELECT DISTINCT C_OrderLine.C_OrderLine_ID FROM M_PromotionGroup INNER JOIN M_PromotionGroupLine"
