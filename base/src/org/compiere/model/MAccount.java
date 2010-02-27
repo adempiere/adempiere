@@ -358,7 +358,7 @@ public class MAccount extends X_C_ValidCombination
 	 *	@param where where clause
 	 *	@param trxName transaction
 	 */
-	public static void updateValueDescription (Properties ctx, String where, String trxName)
+	public static void updateValueDescription (Properties ctx, final String where, String trxName)
 	{
 		List<MAccount> accounts=  new Query(ctx,MAccount.Table_Name,where,trxName)
 		.setOrderBy(MAccount.COLUMNNAME_C_ValidCombination_ID).list();
