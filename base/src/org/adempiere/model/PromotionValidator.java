@@ -140,10 +140,11 @@ public class PromotionValidator implements ModelValidator {
 	}
 
 	public void initialize(ModelValidationEngine engine, MClient client) {
-		engine.addDocValidate(X_C_Order.Table_Name, this);
-		engine.addModelChange(X_C_OrderLine.Table_Name, this);
 		if (client != null)
 			m_AD_Client_ID = client.getAD_Client_ID();
+		engine.addDocValidate(X_C_Order.Table_Name, this);
+		engine.addModelChange(X_C_OrderLine.Table_Name, this);
+		
 	}
 
 	public String login(int AD_Org_ID, int AD_Role_ID, int AD_User_ID) {
