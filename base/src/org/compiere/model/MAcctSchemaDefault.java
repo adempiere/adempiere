@@ -47,8 +47,8 @@ public class MAcctSchemaDefault extends X_C_AcctSchema_Default
 	public static MAcctSchemaDefault get (Properties ctx, int C_AcctSchema_ID)
 	{
 		String whereClause = "C_AcctSchema_ID=?";
-		return new Query(ctx,MAcctSchemaDefault.Table_Name,whereClause,null)
-		.setParameters(new Object[]{C_AcctSchema_ID})
+		return new Query(ctx,I_C_AcctSchema_Default.Table_Name,whereClause,null)
+		.setParameters(C_AcctSchema_ID)
 		.firstOnly();
 	}	//	get
 	

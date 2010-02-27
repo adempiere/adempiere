@@ -50,8 +50,8 @@ public class MAcctSchemaGL extends X_C_AcctSchema_GL
 	public static MAcctSchemaGL get (Properties ctx, int C_AcctSchema_ID)
 	{
 		String whereClause = "C_AcctSchema_ID=?";
-		return new Query(ctx,MAcctSchemaGL.Table_Name,whereClause,null)
-		.setParameters(new Object[]{C_AcctSchema_ID})
+		return new Query(ctx,I_C_AcctSchema_GL.Table_Name,whereClause,null)
+		.setParameters(C_AcctSchema_ID)
 		.firstOnly();		
 	}	//	get
 	

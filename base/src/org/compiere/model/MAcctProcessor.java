@@ -49,7 +49,7 @@ public class MAcctProcessor extends X_C_AcctProcessor
 	 */
 	public static MAcctProcessor[] getActive (Properties ctx)
 	{
-		List<MAcctProcessor> list = new Query(ctx, MAcctProcessor.Table_Name, null, null)
+		List<MAcctProcessor> list = new Query(ctx, I_C_AcctProcessor.Table_Name, null, null)
 										.setOnlyActiveRecords(true)
 										.list();
 		return list.toArray(new MAcctProcessor[list.size()]);		
@@ -129,8 +129,8 @@ public class MAcctProcessor extends X_C_AcctProcessor
 	public AdempiereProcessorLog[] getLogs ()
 	{
 		String whereClause = "C_AcctProcessor_ID=? ";
-		List<MAcctProcessor> list = new Query(getCtx(), MAcctProcessorLog.Table_Name,whereClause,get_TrxName())
-		.setParameters(new Object[]{getC_AcctProcessor_ID()})
+		List<MAcctProcessor> list = new Query(getCtx(), I_C_AcctProcessorLog.Table_Name,whereClause,get_TrxName())
+		.setParameters(getC_AcctProcessor_ID())
 		.setOrderBy("Created DESC")
 		.list();
 		return list.toArray(new MAcctProcessorLog[list.size()]);		

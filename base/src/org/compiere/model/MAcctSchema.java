@@ -115,7 +115,7 @@ public class MAcctSchema extends X_C_AcctSchema
 			params.add(AD_Client_ID);
 		}	
 		
-		List <MAcctSchema> ass = new Query(ctx, MAcctSchema.Table_Name,whereClause,trxName)
+		List <MAcctSchema> ass = new Query(ctx, I_C_AcctSchema.Table_Name,whereClause,trxName)
 		.setParameters(params)
 		.setOrderBy(MAcctSchema.COLUMNNAME_C_AcctSchema_ID)
 		.list();

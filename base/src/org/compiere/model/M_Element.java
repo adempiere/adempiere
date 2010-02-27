@@ -110,7 +110,7 @@ public class M_Element extends X_AD_Element
 		String whereClause = "EXISTS (SELECT 1 FROM AD_Column c "
 				+ "WHERE c.AD_Element_ID=AD_Element.AD_Element_ID AND c.AD_Column_ID=?)";
 		M_Element retValue = new Query(ctx, Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{AD_Column_ID})
+		.setParameters(AD_Column_ID)
 		.firstOnly();
 		return retValue;
 	}	//	get

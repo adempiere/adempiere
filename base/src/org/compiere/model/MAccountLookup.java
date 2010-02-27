@@ -181,7 +181,7 @@ public final class MAccountLookup extends Lookup implements Serializable
 		String whereClause = "AD_Client_ID=?";
 		params.add(Env.getAD_Client_ID(m_ctx));
 		
-		List<MAccount> accounts = new Query(Env.getCtx(),MAccount.Table_Name,whereClause,null)
+		List<MAccount> accounts = new Query(Env.getCtx(),I_C_ValidCombination.Table_Name,whereClause,null)
 		.setParameters(params)
 		.setOrderBy(MAccount.COLUMNNAME_Combination)
 		.setOnlyActiveRecords(onlyActive)

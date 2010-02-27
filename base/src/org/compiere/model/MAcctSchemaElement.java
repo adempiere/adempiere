@@ -62,8 +62,9 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 		ArrayList<MAcctSchemaElement> list = new ArrayList<MAcctSchemaElement>();
 		
 		String whereClause = "C_AcctSchema_ID=? AND IsActive=?";
-		List<MAcctSchemaElement> elements= new Query(as.getCtx(), MAcctSchemaElement.Table_Name,whereClause,as.get_TrxName())
-		.setParameters(new Object[]{as.getC_AcctSchema_ID(),"Y"}).setOrderBy("SeqNo")
+		List<MAcctSchemaElement> elements= new Query(as.getCtx(), I_C_AcctSchema_Element.Table_Name,whereClause,as.get_TrxName())
+		.setParameters(as.getC_AcctSchema_ID(),"Y")
+		.setOrderBy("SeqNo")
 		.list();
 		
 		for(MAcctSchemaElement ase : elements)
