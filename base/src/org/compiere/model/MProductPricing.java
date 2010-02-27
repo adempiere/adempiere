@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
@@ -717,30 +718,14 @@ public class MProductPricing
 		if (m_M_Product_ID == 0)
 			return;
 		//
-		String sql = "SELECT C_UOM_ID, M_Product_Category_ID FROM M_Product WHERE M_Product_ID=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_M_Product_ID);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_C_UOM_ID = rs.getInt (1);
-				m_M_Product_Category_ID = rs.getInt(2);
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
+		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
+		 String whereClause = "M_Product_ID=?";
+		 MProduct retValue = new Query(Env.getCtx(), I_M_Product.Table_Name, whereClause, null)
+			.setParameters(m_M_Product_ID)
+ 			.first();
+		 m_C_UOM_ID = retValue.getC_UOM_ID();
+		 m_M_Product_Category_ID = retValue.getM_Product_Category_ID();
+
 	}	//	setBaseInfo
 
 	/**
