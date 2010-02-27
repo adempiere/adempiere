@@ -117,7 +117,7 @@ public class PromotionRule {
 				boolean mandatoryLineNotFound = false;
 				List<Integer> validPromotionLineIDs = new ArrayList<Integer>();
 				for (X_M_PromotionLine promotionLine : promotionLines) {
-					if (promotionLine.getM_PromotionGroup_ID() == 0 && promotionLine.getMinimumAmt() != null && promotionLine.getMinimumAmt().signum() > 0) {
+					if (promotionLine.getM_PromotionGroup_ID() == 0 && promotionLine.getMinimumAmt() != null && promotionLine.getMinimumAmt().signum() >= 0) {
 						if (orderAmount.compareTo(promotionLine.getMinimumAmt()) >= 0) {
 							orderAmount = orderAmount.subtract(promotionLine.getMinimumAmt());
 							validPromotionLineIDs.add(promotionLine.getM_PromotionLine_ID());
