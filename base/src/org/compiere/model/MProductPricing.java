@@ -716,15 +716,13 @@ public class MProductPricing
 	{
 		if (m_M_Product_ID == 0)
 			return;
-		//
-		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		 final String whereClause = "M_Product_ID=?";
-		 MProduct retValue = new Query(Env.getCtx(), I_M_Product.Table_Name, whereClause, null)
-			.setParameters(m_M_Product_ID)
- 			.first();
-		 m_C_UOM_ID = retValue.getC_UOM_ID();
-		 m_M_Product_Category_ID = retValue.getM_Product_Category_ID();
-
+		
+		MProduct product = MProduct.get(Env.getCtx(), m_M_Product_ID);
+		if (product != null) {
+			 m_C_UOM_ID = product.getC_UOM_ID();
+			 m_M_Product_Category_ID = product.getM_Product_Category_ID();
+		}
+		
 	}	//	setBaseInfo
 
 	/**
