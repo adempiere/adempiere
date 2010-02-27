@@ -494,6 +494,7 @@ public class WWFActivity extends ADForm implements EventListener
 				m_column = node.getColumn();
 			if (m_column != null && m_column.get_ID() != 0)
 			{
+				fAnswerList.removeAllItems();
 				int dt = m_column.getAD_Reference_ID();
 				if (dt == DisplayType.YesNo)
 				{

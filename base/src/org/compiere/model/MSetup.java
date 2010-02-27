@@ -1030,6 +1030,14 @@ public final class MSetup
 		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
 		if (no != 1)
 			log.log(Level.SEVERE, "TaxCategory NOT inserted");
+		
+		sqlCmd = new StringBuffer ("INSERT INTO C_TaxCategory_Trl (AD_Language,C_TaxCategory_ID, Description,Name, IsTranslated,AD_Client_ID,AD_Org_ID,Created,Createdby,Updated,UpdatedBy)");
+		sqlCmd.append(" SELECT l.AD_Language,t.C_TaxCategory_ID, t.Description,t.Name, 'N',t.AD_Client_ID,t.AD_Org_ID,t.Created,t.Createdby,t.Updated,t.UpdatedBy FROM AD_Language l, C_TaxCategory t");
+		sqlCmd.append(" WHERE l.IsActive='Y' AND l.IsSystemLanguage='Y' AND l.IsBaseLanguage='N' AND t.C_TaxCategory_ID=").append(C_TaxCategory_ID);
+		sqlCmd.append(" AND NOT EXISTS (SELECT * FROM C_TaxCategory_Trl tt WHERE tt.AD_Language=l.AD_Language AND tt.C_TaxCategory_ID=t.C_TaxCategory_ID)");
+		no = DB.executeUpdate(sqlCmd.toString(), m_trx.getTrxName());
+		if (no < 0)
+			log.log(Level.SEVERE, "TaxCategory Translation NOT inserted");
 
 		//  Tax - Zero Rate
 		MTax tax = new MTax (m_ctx, "Standard", Env.ZERO, C_TaxCategory_ID, m_trx.getTrxName());

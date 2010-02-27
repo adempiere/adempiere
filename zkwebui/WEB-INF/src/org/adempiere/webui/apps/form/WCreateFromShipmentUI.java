@@ -440,7 +440,7 @@ public class WCreateFromShipmentUI extends CreateFromShipment implements EventLi
 		orderField.removeAllItems();
 		orderField.addItem(pp);
 		
-		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, false);
+		ArrayList<KeyNamePair> list = loadOrderData(C_BPartner_ID, forInvoice, sameWarehouseCb.isSelected());
 		for(KeyNamePair knp : list)
 			orderField.addItem(knp);
 		
