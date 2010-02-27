@@ -81,6 +81,9 @@ public class MRequestType extends X_R_RequestType
 		MRequestType retValue = new Query(ctx, I_R_RequestType.Table_Name, whereClause, null)
 			.setOrderBy("IsDefault DESC, AD_Client_ID DESC")
 			.first();
+		
+		if (retValue != null && !retValue.isDefault())	 
+            retValue = null;
 	
 		return retValue;
 	}	//	get
