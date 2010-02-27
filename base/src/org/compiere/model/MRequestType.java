@@ -18,10 +18,8 @@ package org.compiere.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -40,10 +38,11 @@ import org.compiere.util.Env;
  */
 public class MRequestType extends X_R_RequestType
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6235793036503665638L;
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6235793036503665638L;
 
 	/**
 	 * 	Get Request Type (cached)
@@ -78,7 +77,7 @@ public class MRequestType extends X_R_RequestType
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
  
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "AD_Client_ID IN (0," + AD_Client_ID + ")";
+		final String whereClause = "AD_Client_ID IN (0," + AD_Client_ID + ")";
 		MRequestType retValue = new Query(ctx, I_R_RequestType.Table_Name, whereClause, null)
 			.setOrderBy("IsDefault DESC, AD_Client_ID DESC")
 			.first();

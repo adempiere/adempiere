@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
@@ -719,7 +718,7 @@ public class MProductPricing
 			return;
 		//
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		 String whereClause = "M_Product_ID=?";
+		 final String whereClause = "M_Product_ID=?";
 		 MProduct retValue = new Query(Env.getCtx(), I_M_Product.Table_Name, whereClause, null)
 			.setParameters(m_M_Product_ID)
  			.first();

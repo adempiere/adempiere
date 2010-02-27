@@ -77,10 +77,12 @@ import org.compiere.util.ValueNamePair;
 public final class MPayment extends X_C_Payment 
 	implements DocAction, ProcessCall
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6200327948230438741L;
+
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6200327948230438741L;
 
 	/**
 	 * 	Get Payments Of BPartner
@@ -92,7 +94,7 @@ public final class MPayment extends X_C_Payment
 	public static MPayment[] getOfBPartner (Properties ctx, int C_BPartner_ID, String trxName)
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "C_BPartner_ID=?";
+		final String whereClause = "C_BPartner_ID=?";
 		List <MPayment> list = new Query(ctx, I_C_Payment.Table_Name, whereClause, trxName)
 		.setParameters(C_BPartner_ID)
 		.list();

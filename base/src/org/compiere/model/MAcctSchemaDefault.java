@@ -33,10 +33,12 @@ import org.compiere.util.KeyNamePair;
  */
 public class MAcctSchemaDefault extends X_C_AcctSchema_Default
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 199959007595802866L;
+
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 199959007595802866L;
 
 	/**
 	 * 	Get Accounting Schema Default Info
@@ -46,7 +48,7 @@ public class MAcctSchemaDefault extends X_C_AcctSchema_Default
 	 */
 	public static MAcctSchemaDefault get (Properties ctx, int C_AcctSchema_ID)
 	{
-		String whereClause = "C_AcctSchema_ID=?";
+		final String whereClause = "C_AcctSchema_ID=?";
 		return new Query(ctx,I_C_AcctSchema_Default.Table_Name,whereClause,null)
 		.setParameters(C_AcctSchema_ID)
 		.firstOnly();

@@ -30,10 +30,11 @@ import org.compiere.util.Env;
  */
 public class MPaySelection extends X_C_PaySelection
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -6521282913549455131L;
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6521282913549455131L;
 
 	/**
 	 * 	Default Constructor
@@ -84,7 +85,7 @@ public class MPaySelection extends X_C_PaySelection
 			return m_lines;
 		}
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "C_PaySelection_ID=?";
+		final String whereClause = "C_PaySelection_ID=?";
 		List <MPaySelectionLine> list = new Query(getCtx(), I_C_PaySelectionLine.Table_Name, whereClause, get_TrxName())
 			.setParameters(getC_PaySelection_ID())
 			.setOrderBy("Line")

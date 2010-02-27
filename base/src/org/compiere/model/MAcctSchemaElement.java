@@ -40,10 +40,12 @@ import org.compiere.util.Msg;
  */
 public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 4215184252533527719L;
+
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4215184252533527719L;
 
 
 	/**
@@ -61,7 +63,7 @@ public final class MAcctSchemaElement extends X_C_AcctSchema_Element
 		s_log.fine("C_AcctSchema_ID=" + as.getC_AcctSchema_ID());
 		ArrayList<MAcctSchemaElement> list = new ArrayList<MAcctSchemaElement>();
 		
-		String whereClause = "C_AcctSchema_ID=? AND IsActive=?";
+		final String whereClause = "C_AcctSchema_ID=? AND IsActive=?";
 		List<MAcctSchemaElement> elements= new Query(as.getCtx(), I_C_AcctSchema_Element.Table_Name,whereClause,as.get_TrxName())
 		.setParameters(as.getC_AcctSchema_ID(),"Y")
 		.setOrderBy("SeqNo")

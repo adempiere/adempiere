@@ -16,11 +16,8 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -36,10 +33,11 @@ import org.compiere.util.Env;
  */
 public class MProject extends X_C_Project
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1781787100948563589L;
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1781787100948563589L;
 
 	/**
 	 * 	Create new Project by copying
@@ -206,7 +204,7 @@ public class MProject extends X_C_Project
 	public MProjectLine[] getLines()
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "C_Project_ID=?";
+		final String whereClause = "C_Project_ID=?";
 		List <MProjectLine> list = new Query(getCtx(), I_C_ProjectLine.Table_Name, whereClause, get_TrxName())
 			.setParameters(getC_Project_ID())
 			.setOrderBy("Line")

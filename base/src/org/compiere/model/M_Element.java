@@ -33,10 +33,11 @@ import org.compiere.util.Msg;
  */
 public class M_Element extends X_AD_Element
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7426812810619889250L;
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6644398794862560030L;
 
 	/**
 	 * 	Get case sensitive Column Name
@@ -107,7 +108,7 @@ public class M_Element extends X_AD_Element
 	{
 		if (AD_Column_ID ==0)
 			return null;
-		String whereClause = "EXISTS (SELECT 1 FROM AD_Column c "
+		final String whereClause = "EXISTS (SELECT 1 FROM AD_Column c "
 				+ "WHERE c.AD_Element_ID=AD_Element.AD_Element_ID AND c.AD_Column_ID=?)";
 		M_Element retValue = new Query(ctx, Table_Name, whereClause, trxName)
 		.setParameters(AD_Column_ID)
