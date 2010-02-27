@@ -28,7 +28,12 @@
 ***********************************************************************/
 package test.functional;
 
+import java.math.BigDecimal;
+
 import org.compiere.model.MAlert;
+import org.compiere.model.MAlertProcessor;
+import org.compiere.model.MAlertProcessorLog;
+import org.compiere.model.MProductPricing;
 import org.compiere.model.X_AD_AlertProcessor;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -89,6 +94,15 @@ public class AlertTest extends AdempiereTestCase
 */
 		
 		commit();
+	}
+	public void testAlertProcessor() {
+		MAlertProcessor alertpro = new MAlertProcessor(getCtx(), 100,null);
+		alertpro.setAD_AlertProcessor_ID(100);
+		MAlertProcessorLog[] test = (MAlertProcessorLog[]) alertpro.getLogs();
+		assertTrue("Alert Processor has logs", test.length > 0);
+		MAlert[] alerts = (MAlert[])alertpro.getAlerts(true);
+		assertTrue("There are alerts", alerts.length> 0);
+		assertTrue ("There are active recs", MAlertProcessor.getActive(getCtx()).length > 0);
 	}
 	
 }
