@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.compiere.model.MProduct;
+import org.compiere.model.MProductPrice;
 import org.compiere.model.MProductPricing;
 import org.compiere.model.X_I_Product;
 import org.compiere.util.DB;
@@ -93,12 +94,17 @@ public class MProductTest extends AdempiereTestCase {
 
 		boolean saveResult = m_product.save();
 		assertEquals("Create new product.", true, saveResult);
-	} */
+	}  
 	
 	public void testSetBaseInfo() {
 		MProductPricing prodprice = new MProductPricing(122,100, new BigDecimal (100),true);
 		int uom = 0;
 		uom = prodprice.getC_UOM_ID();
 		assertTrue("UOM must be correct", uom == 100);
+	} */
+	
+	public void testPrice() {
+		MProductPrice test = MProductPrice.get(getCtx(), 105, 124, getTrxName());
+		assertTrue("Confirming Prod ID to be true", test.getM_Product_ID() == 124);
 	}
 }
