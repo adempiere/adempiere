@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import org.compiere.model.MBPGroup;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MLocation;
+import org.compiere.model.MProductPrice;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -459,8 +460,7 @@ public class MBPartnerTest extends AdempiereTestCase {
 	private MProcessPara = null;
 	private MIssue = null;
 	private MQuery = null;
-	*/
-
+	
     public int getC_Region_ID(String Region) {
 		String sql = "select c_region_id from c_region where name = ?";
 		PreparedStatement pstmt = null;
@@ -550,6 +550,10 @@ public class MBPartnerTest extends AdempiereTestCase {
     		fail(e.getLocalizedMessage());
     	}
 
-    }
+    } */
+	public void testBPartner() {
+		MBPartner test = MBPartner.getBPartnerCashTrx(getCtx(), 11);
+		assertTrue("Confirming right BPartner record", test.getC_BPartner_ID() == 112);
+	}
 
 }
