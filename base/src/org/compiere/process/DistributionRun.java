@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_T_DistributionRunDetail;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MDistributionRun;
 import org.compiere.model.MDistributionRunDetail;
@@ -723,9 +724,9 @@ public class DistributionRun extends SvrProcess
 			+" WHERE rl.M_DistributionRun_ID="+p_M_DistributionRun_ID+" AND l.RatioTotal<>0 AND rl.IsActive='Y' AND ll.IsActive='Y'";	
 			no = DB.executeUpdate(sql, get_TrxName());
 			
-			Query query = MTable.get(getCtx(), MDistributionRunDetail.Table_ID).
+			Query query = MTable.get(getCtx(), I_T_DistributionRunDetail.Table_ID).
 			createQuery(MDistributionRunDetail.COLUMNNAME_M_DistributionRun_ID + "=?", get_TrxName());
-			query.setParameters(new Object[]{p_M_DistributionRun_ID});
+			query.setParameters(p_M_DistributionRun_ID);
 			
 			List<MDistributionRunDetail> records = query.list();
 			

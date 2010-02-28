@@ -83,12 +83,6 @@ public class ExportHelper {
 	/** XML Document 			*/
 	private Document outDocument = null; 
 	
-	/** Date Time Format		*/
-	private SimpleDateFormat	m_dateTimeFormat = null;
-
-	/** Date Format				*/
-	private SimpleDateFormat	m_dateFormat = null;
-	
 	/** Custom Date Format		*/
 	private SimpleDateFormat	m_customDateFormat = null;
 	
@@ -103,14 +97,14 @@ public class ExportHelper {
 		m_AD_Client_ID = client.getAD_Client_ID();
 		m_rplStrategy = rplStrategy;
 		
-		m_dateTimeFormat = DisplayType.getDateFormat(DisplayType.DateTime, Language.getLanguage(Env.getAD_Language(client.getCtx())));
-		m_dateFormat 	 = DisplayType.getDateFormat(DisplayType.Date, Language.getLanguage(Env.getAD_Language(client.getCtx())));
+		DisplayType.getDateFormat(DisplayType.DateTime, Language.getLanguage(Env.getAD_Language(client.getCtx())));
+		DisplayType.getDateFormat(DisplayType.Date, Language.getLanguage(Env.getAD_Language(client.getCtx())));
 	}
 	
 	public ExportHelper(Properties ctx , int AD_Client_ID) {
 		m_AD_Client_ID = AD_Client_ID;
-		m_dateTimeFormat = DisplayType.getDateFormat(DisplayType.DateTime, Language.getLanguage(Env.getAD_Language(ctx)));
-		m_dateFormat 	 = DisplayType.getDateFormat(DisplayType.Date, Language.getLanguage(Env.getAD_Language(ctx)));
+		DisplayType.getDateFormat(DisplayType.DateTime, Language.getLanguage(Env.getAD_Language(ctx)));
+		DisplayType.getDateFormat(DisplayType.Date, Language.getLanguage(Env.getAD_Language(ctx)));
 	}
 	
 		/**
@@ -224,8 +218,6 @@ public class ExportHelper {
 					throw new Exception(Msg.getMsg (po.getCtx(), "ExportNoneColumnKeyNotSupported"));//TODO: Create Mesagge.
 				}
 				
-				// TODO - get proper Export Format!
-				String version = "3.2.0";		
 				outDocument = createNewDocument();
 		
 
@@ -443,7 +435,7 @@ public class ExportHelper {
 				
 				Collection<PO> instances = new Query(masterPO.getCtx(),tableEmbedded.getTableName(), whereClause.toString(),masterPO.get_TrxName())
                                 				.setClient_ID()
-                                				.setParameters(new Object[] { value })
+                                				.setParameters(value)
                                 				.list();
 
 				for (PO instance : instances)

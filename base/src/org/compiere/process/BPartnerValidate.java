@@ -21,6 +21,7 @@ import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.logging.Level;
 
+import org.compiere.model.I_C_BPartner;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPayment;
@@ -84,9 +85,9 @@ public class BPartnerValidate extends SvrProcess
 		}
 		else
 		{
-			String whereClause = "C_BP_Group_ID=?";
-		 	Iterator<MBPartner> it = new Query(getCtx(), MBPartner.Table_Name, whereClause, get_TrxName())
-			.setParameters(new Object[]{p_C_BP_Group_ID})
+			final String whereClause = "C_BP_Group_ID=?";
+		 	Iterator<MBPartner> it = new Query(getCtx(), I_C_BPartner.Table_Name, whereClause, get_TrxName())
+			.setParameters(p_C_BP_Group_ID)
 	 		.setOnlyActiveRecords(true)
 			.iterate();
 		 	while(it.hasNext())

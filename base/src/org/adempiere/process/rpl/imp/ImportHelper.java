@@ -526,7 +526,7 @@ public class ImportHelper {
 	{
 		final String whereClause = I_AD_Client.COLUMNNAME_Value + "= ? ";
 		MClient result = new Query(ctx,I_AD_Client.Table_Name,whereClause,trxName)
-								.setParameters(new Object[]{value})
+								.setParameters(value)
 								.firstOnly();
 		
 		s_log.info("Client_Value =[" + value + "]");
