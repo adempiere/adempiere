@@ -221,7 +221,7 @@ public class MAttributeSet extends X_M_AttributeSet
 		{
 			final String whereClause = X_M_AttributeSetExclude.COLUMNNAME_M_AttributeSet_ID+"=?";
 			List<X_M_AttributeSetExclude> list = new Query(getCtx(), X_M_AttributeSetExclude.Table_Name, whereClause, null)
-				.setParameters(new Object[]{get_ID()})
+				.setParameters(get_ID())
 				.setOnlyActiveRecords(true)
 				.list();
 			m_excludes = new X_M_AttributeSetExclude[list.size ()];
@@ -253,9 +253,9 @@ public class MAttributeSet extends X_M_AttributeSet
 			return true;
 		if (m_excludeLots == null)
 		{
-			String whereClause = X_M_LotCtlExclude.COLUMNNAME_M_LotCtl_ID+"=?";
+			final String whereClause = X_M_LotCtlExclude.COLUMNNAME_M_LotCtl_ID+"=?";
 			List<X_M_LotCtlExclude> list = new Query(getCtx(), X_M_LotCtlExclude.Table_Name, whereClause, null)
-			.setParameters(new Object[]{getM_LotCtl_ID()})
+			.setParameters(getM_LotCtl_ID())
 			.setOnlyActiveRecords(true)
 			.list();
 			m_excludeLots = new X_M_LotCtlExclude[list.size ()];
@@ -287,9 +287,9 @@ public class MAttributeSet extends X_M_AttributeSet
 			return true;
 		if (m_excludeSerNos == null)
 		{
-			String whereClause = X_M_SerNoCtlExclude.COLUMNNAME_M_SerNoCtl_ID+"=?";
+			final String whereClause = X_M_SerNoCtlExclude.COLUMNNAME_M_SerNoCtl_ID+"=?";
 			List<X_M_SerNoCtlExclude> list = new Query(getCtx(), X_M_SerNoCtlExclude.Table_Name, whereClause, null)
-			.setParameters(new Object[]{getM_SerNoCtl_ID()})
+			.setParameters(getM_SerNoCtl_ID())
 			.setOnlyActiveRecords(true)
 			.list();
 			m_excludeSerNos = new X_M_SerNoCtlExclude[list.size ()];

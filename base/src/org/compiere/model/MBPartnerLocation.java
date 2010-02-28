@@ -59,7 +59,7 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID, String trxName)
 	{
 		List<MBPartnerLocation> list = new Query(ctx, Table_Name, "C_BPartner_ID=?", trxName)
-			.setParameters(new Object[]{C_BPartner_ID})
+			.setParameters(C_BPartner_ID)
 			.list();
 		MBPartnerLocation[] retValue = new MBPartnerLocation[list.size ()];
 		list.toArray (retValue);

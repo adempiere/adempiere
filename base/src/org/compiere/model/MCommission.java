@@ -80,9 +80,9 @@ public class MCommission extends X_C_Commission
 	{
 		//[ 1867477 ]
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "IsActive='Y' AND C_Commission_ID=?";
-		List<MCommissionLine> list  = new Query(getCtx(), MCommissionLine.Table_Name, whereClause, get_TrxName())
-		.setParameters(new Object[]{getC_Commission_ID()})
+		final String whereClause = "IsActive='Y' AND C_Commission_ID=?";
+		List<MCommissionLine> list  = new Query(getCtx(), I_C_CommissionLine.Table_Name, whereClause, get_TrxName())
+		.setParameters(getC_Commission_ID())
 		.setOrderBy("Line")
 		.list();	
 		//	Convert

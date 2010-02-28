@@ -69,14 +69,14 @@ public class MCash extends X_C_Cash implements DocAction
 		Timestamp dateAcct, int C_Currency_ID, String trxName)
 	{
 		//	Existing Journal
-		String whereClause = "C_Cash.AD_Org_ID=?"						//	#1
+		final String whereClause = "C_Cash.AD_Org_ID=?"						//	#1
 		+ " AND TRUNC(C_Cash.StatementDate)=?"			//	#2
 		+ " AND C_Cash.Processed='N'"
 		+ " AND EXISTS (SELECT * FROM C_CashBook cb "
 			+ "WHERE C_Cash.C_CashBook_ID=cb.C_CashBook_ID AND cb.AD_Org_ID=C_Cash.AD_Org_ID"
 			+ " AND cb.C_Currency_ID=?)";			//	#3
-		MCash retValue = new Query(ctx, MCash.Table_Name, whereClause, trxName)
-			.setParameters(new Object[]{AD_Org_ID,TimeUtil.getDay(dateAcct),C_Currency_ID})
+		MCash retValue = new Query(ctx, I_C_Cash.Table_Name, whereClause, trxName)
+			.setParameters(AD_Org_ID,TimeUtil.getDay(dateAcct),C_Currency_ID)
 			.first()
 		;
 		
@@ -108,12 +108,12 @@ public class MCash extends X_C_Cash implements DocAction
 	public static MCash get (Properties ctx, int C_CashBook_ID, 
 		Timestamp dateAcct, String trxName)
 	{
-		String whereClause ="C_CashBook_ID=?"			//	#1
+		final String whereClause ="C_CashBook_ID=?"			//	#1
 				+ " AND TRUNC(StatementDate)=?"			//	#2
 				+ " AND Processed='N'";
 		
 		MCash retValue = new Query(ctx, MCash.Table_Name, whereClause, trxName)
-			.setParameters(new Object[]{C_CashBook_ID, TimeUtil.getDay(dateAcct)})
+			.setParameters(C_CashBook_ID, TimeUtil.getDay(dateAcct))
 			.first()
 		;
 		
@@ -217,10 +217,10 @@ public class MCash extends X_C_Cash implements DocAction
 			return m_lines;
 		}
 		
-		String whereClause =MCashLine.COLUMNNAME_C_Cash_ID+"=?"; 
-		List<MCashLine> list = new Query(getCtx(),MCashLine.Table_Name,  whereClause, get_TrxName())
-								.setParameters(new Object[]{getC_Cash_ID()})
-								.setOrderBy(MCashLine.COLUMNNAME_Line)
+	final String whereClause =MCashLine.COLUMNNAME_C_Cash_ID+"=?"; 
+		List<MCashLine> list = new Query(getCtx(),I_C_CashLine.Table_Name,  whereClause, get_TrxName())
+								.setParameters(getC_Cash_ID())
+								.setOrderBy(I_C_CashLine.COLUMNNAME_Line)
 								.setOnlyActiveRecords(true)
 								.list();
 		

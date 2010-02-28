@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -156,12 +157,10 @@ public class MConversionRate extends X_C_Conversion_Rate
 		spotCal.set(Calendar.SECOND, 0);
 		spotCal.set(Calendar.MILLISECOND, 0);
 		startTs = new java.sql.Timestamp(spotCal.getTimeInMillis());
-		
+		final String whereClause = "C_Currency_ID=? and C_Currency_ID_To=? and ValidFrom>=? and ValidTo<=? and C_ConversionType_ID=?";
 		MConversionRate rate, updateRate = null;
-		java.util.List<MConversionRate> rates = new Query(ctx, MConversionRate.Table_Name, 
-				"C_Currency_ID=? and C_Currency_ID_To=? and ValidFrom>=? and ValidTo<=? and C_ConversionType_ID=?",
-				trxName)
-				.setParameters(new Object[]{curFrom.get_ID(), curTo.get_ID(), startTs, startTs, MConversionType.TYPE_SPOT})
+		List<MConversionRate> rates = new Query(ctx, I_C_Conversion_Rate.Table_Name, whereClause,trxName)
+				.setParameters(curFrom.get_ID(), curTo.get_ID(), startTs, startTs, MConversionType.TYPE_SPOT)
 				.list();
 
 		if (rates.size()>0) {

@@ -46,9 +46,9 @@ public class MContainer extends X_CM_Container
 	public static MContainer get(Properties ctx, String relURL, int CM_WebProject_Id, String trxName) {
 		MContainer thisContainer = null;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
-		String whereClause = "(RelativeURL LIKE ? OR RelativeURL LIKE ?) AND CM_WebProject_ID=?";
-		thisContainer = new Query(ctx, MContainer.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{relURL, relURL+"/",CM_WebProject_Id})
+		final String whereClause = "(RelativeURL LIKE ? OR RelativeURL LIKE ?) AND CM_WebProject_ID=?";
+		thisContainer = new Query(ctx, I_CM_Container.Table_Name, whereClause, trxName)
+		.setParameters(relURL, relURL+"/",CM_WebProject_Id)
 		.first();
 
 		return thisContainer;
@@ -66,9 +66,9 @@ public class MContainer extends X_CM_Container
 	public static MContainer get(Properties ctx, int CM_Container_ID, int CM_WebProject_Id, String trxName) {
 		MContainer thisContainer = null;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
-		String whereClause = "CM_Container_ID=? AND CM_WebProject_ID=?";
-		thisContainer = new Query(ctx, MContainer.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{CM_Container_ID, CM_WebProject_Id})
+		final String whereClause = "CM_Container_ID=? AND CM_WebProject_ID=?";
+		thisContainer = new Query(ctx, I_CM_Container.Table_Name, whereClause, trxName)
+		.setParameters(CM_Container_ID, CM_WebProject_Id)
 		.first();
 		//
 		return thisContainer;
@@ -112,9 +112,9 @@ public class MContainer extends X_CM_Container
 	{
 		MContainer cc = null;
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
-		String whereClause = "CM_Container_ID=?";
-		cc = new Query(ctx, MContainer.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{CM_Container_ID})
+		final String whereClause = "CM_Container_ID=?";
+		cc = new Query(ctx, I_CM_Container.Table_Name, whereClause, trxName)
+		.setParameters(CM_Container_ID)
 		.first();
 		//
 		return cc;
@@ -130,9 +130,9 @@ public class MContainer extends X_CM_Container
 	public static MContainer[] getContainers (MWebProject project)
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1/trifon
-		String whereClause = "CM_WebProject_ID=?";
-		List<MContainer> list = new Query(project.getCtx(), MContainer.Table_Name, whereClause, project.get_TrxName())
-		.setParameters(new Object[]{project.getCM_WebProject_ID ()})
+		final String whereClause = "CM_WebProject_ID=?";
+		List<MContainer> list = new Query(project.getCtx(), I_CM_Container.Table_Name, whereClause, project.get_TrxName())
+		.setParameters(project.getCM_WebProject_ID ())
 		.setOrderBy("CM_Container_ID")
 		.list();
 		//
