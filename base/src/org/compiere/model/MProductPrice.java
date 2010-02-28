@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -51,37 +52,10 @@ public class MProductPrice extends X_M_ProductPrice
 	public static MProductPrice get (Properties ctx, int M_PriceList_Version_ID, int M_Product_ID,
 		String trxName)
 	{
-		MProductPrice retValue = null;
-		String sql = "SELECT * FROM M_ProductPrice WHERE M_PriceList_Version_ID=? AND M_Product_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, M_PriceList_Version_ID);
-			pstmt.setInt (2, M_Product_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = new MProductPrice (ctx, rs, trxName);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = MProductPrice.COLUMNNAME_M_PriceList_Version_ID +"=? AND "+MProductPrice.COLUMNNAME_M_Product_ID+"=?";
+		MProductPrice retValue = new Query(ctx,I_M_ProductPrice.Table_Name,  whereClause, trxName)
+		.setParameters(M_PriceList_Version_ID, M_Product_ID)
+		.first();
 		return retValue;
 	}	//	get
 	
