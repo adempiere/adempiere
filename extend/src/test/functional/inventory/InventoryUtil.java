@@ -18,6 +18,10 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_C_BPartner;
+import org.compiere.model.I_M_Product;
+import org.compiere.model.I_M_Product_Category;
+import org.compiere.model.I_M_Warehouse;
 import org.compiere.model.MBPGroup;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
@@ -56,8 +60,8 @@ public final class InventoryUtil
 	public static MProduct getCreateProduct(String value, String MMPolicy)
 	{
 		Properties ctx = Env.getCtx();
-		MProduct product = new Query(ctx, MProduct.Table_Name, "Value=?", null)
-			.setParameters(new Object[]{value})
+		MProduct product = new Query(ctx, I_M_Product.Table_Name, "Value=?", null)
+			.setParameters(value)
 			.setOnlyActiveRecords(true)
 			.setClient_ID()
 			.firstOnly();
@@ -104,9 +108,9 @@ public final class InventoryUtil
 		if (MMPolicy == null)
 			MMPolicy = MProductCategory.MMPOLICY_FiFo;
 		Properties ctx = Env.getCtx();
-		String whereClause = MProductCategory.COLUMNNAME_Value+"=?";
-		MProductCategory pc = new Query(ctx, MProductCategory.Table_Name, whereClause, null)
-							.setParameters(new Object[]{value})
+		final String whereClause = I_M_Product_Category.COLUMNNAME_Value+"=?";
+		MProductCategory pc = new Query(ctx, I_M_Product_Category.Table_Name, whereClause, null)
+							.setParameters(value)
 							.setOnlyActiveRecords(true)
 							.setClient_ID()
 							.firstOnly();
@@ -136,9 +140,9 @@ public final class InventoryUtil
 	public static MBPartner getCreatePartner(String value)
 	{
 		Properties ctx = Env.getCtx();
-		String whereClause = MBPartner.COLUMNNAME_Value+"=?";
-		MBPartner bp = new Query(ctx, MBPartner.Table_Name, whereClause, null)
-						.setParameters(new Object[]{value})
+		final String whereClause = MBPartner.COLUMNNAME_Value+"=?";
+		MBPartner bp = new Query(ctx, I_C_BPartner.Table_Name, whereClause, null)
+						.setParameters(value)
 						.setClient_ID()
 						.firstOnly();
 		if (bp == null)
@@ -339,9 +343,9 @@ public final class InventoryUtil
 		if (AD_Org_ID <= 0)
 			AD_Org_ID = getFirst_Org_ID();
 		Properties ctx = Env.getCtx();
-		String whereClause = "AD_Org_ID=? AND Value=?";
-		MWarehouse wh = new Query(ctx, MWarehouse.Table_Name, whereClause, null)
-							.setParameters(new Object[]{AD_Org_ID, value})
+		final String whereClause = "AD_Org_ID=? AND Value=?";
+		MWarehouse wh = new Query(ctx, I_M_Warehouse.Table_Name, whereClause, null)
+							.setParameters(AD_Org_ID, value)
 							.setClient_ID()
 							.firstOnly();
 		if (wh != null)

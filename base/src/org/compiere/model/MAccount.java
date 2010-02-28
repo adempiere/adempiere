@@ -242,9 +242,9 @@ public class MAccount extends X_C_ValidCombination
 	 */
 	public static MAccount get (Properties ctx, int C_AcctSchema_ID, String alias)
 	{
-		String whereClause = "C_AcctSchema_ID=? AND Alias=?";
-		MAccount retValue =  new Query(ctx,MAccount.Table_Name,whereClause.toString(),null)
-		.setParameters(new Object[]{C_AcctSchema_ID,alias})
+		final String whereClause = "C_AcctSchema_ID=? AND Alias=?";
+		MAccount retValue =  new Query(ctx,I_C_ValidCombination.Table_Name,whereClause.toString(),null)
+		.setParameters(C_AcctSchema_ID,alias)
 		.firstOnly();
 		return retValue;
 	}	//	get

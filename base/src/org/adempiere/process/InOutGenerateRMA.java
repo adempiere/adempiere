@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.compiere.model.I_C_InvoiceLine;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoiceLine;
@@ -204,10 +205,10 @@ public class InOutGenerateRMA extends SvrProcess
                 //
                 // Link to corresponding Invoice Line (if any) - teo_sarca [ 2818523 ]
                 // The MMatchInv records will be automatically generated on MInOut.completeIt()
-            	final MInvoiceLine invoiceLine = new Query(shipment.getCtx(), MInvoiceLine.Table_Name,
-            			MInvoiceLine.COLUMNNAME_M_RMALine_ID+"=?",
+            	final MInvoiceLine invoiceLine = new Query(shipment.getCtx(), I_C_InvoiceLine.Table_Name,
+            			I_C_InvoiceLine.COLUMNNAME_M_RMALine_ID+"=?",
             			shipment.get_TrxName())
-            	.setParameters(new Object[]{rmaLine.getM_RMALine_ID()})
+            	.setParameters(rmaLine.getM_RMALine_ID())
             	.firstOnly();
             	if (invoiceLine != null)
             	{

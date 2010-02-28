@@ -95,7 +95,7 @@ public class M_Production_Run extends SvrProcess {
 
 			String whereClause = "M_Production_ID=? ";
 			List<X_M_ProductionPlan> lines = new Query(getCtx(), X_M_ProductionPlan.Table_Name , whereClause, get_TrxName())
-													  .setParameters(new Object[]{p_Record_ID })
+													  .setParameters(p_Record_ID)
 													  .setOrderBy("Line, M_Product_ID")
 													  .list();
 				for (X_M_ProductionPlan pp :lines)
@@ -125,7 +125,7 @@ public class M_Production_Run extends SvrProcess {
 					{	
 						whereClause = "M_ProductionPlan_ID= ? ";
 						List<X_M_ProductionLine> production_lines = new Query(getCtx(), X_M_ProductionLine.Table_Name , whereClause, get_TrxName())
-																  .setParameters(new Object[]{pp.getM_ProductionPlan_ID()})
+																  .setParameters(pp.getM_ProductionPlan_ID())
 																  .setOrderBy("Line")
 															  .list();
 					
