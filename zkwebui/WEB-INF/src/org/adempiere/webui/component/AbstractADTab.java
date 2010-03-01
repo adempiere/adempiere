@@ -153,6 +153,10 @@ public abstract class AbstractADTab extends AbstractUIPart implements IADTab
 				}
 				Collections.reverse(parents);
 			}
+			else
+			{
+				parents.add(0);
+			}
 
 			//clear context
 			for (int i = 0; i < tabPanelList.size(); i++)
