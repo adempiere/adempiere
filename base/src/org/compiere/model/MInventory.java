@@ -146,7 +146,7 @@ public class MInventory extends X_M_Inventory implements DocAction
 		}
 		//
 		List<MInventoryLine> list = new Query(getCtx(), MInventoryLine.Table_Name, "M_Inventory_ID=?", get_TrxName())
-										.setParameters(new Object[]{get_ID()})
+										.setParameters(get_ID())
 										.setOrderBy(MInventoryLine.COLUMNNAME_Line)
 										.list();
 		m_lines = list.toArray(new MInventoryLine[list.size()]);

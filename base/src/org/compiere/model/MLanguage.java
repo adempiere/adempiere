@@ -70,7 +70,7 @@ public class MLanguage extends X_AD_Language
 	public static MLanguage get (Properties ctx, String AD_Language)
 	{
 		return new Query(ctx, Table_Name, COLUMNNAME_AD_Language+"=?", null)
-					.setParameters(new Object[]{AD_Language})
+					.setParameters(AD_Language)
 					.firstOnly();
 	}	//	get
 
@@ -83,7 +83,7 @@ public class MLanguage extends X_AD_Language
 	public static MLanguage[] getWithLanguage (Properties ctx, String LanguageISO)
 	{
 		List<MLanguage> list = new Query(ctx, Table_Name, COLUMNNAME_LanguageISO+"=?", null)
-								.setParameters(new Object[]{LanguageISO})
+								.setParameters(LanguageISO)
 								.list();
 		return list.toArray(new MLanguage[list.size()]);
 	}	//	get
@@ -95,7 +95,7 @@ public class MLanguage extends X_AD_Language
 	public static void maintain (Properties ctx)
 	{
 		List<MLanguage> list = new Query(ctx, Table_Name, "IsSystemLanguage=? AND IsBaseLanguage=?", null)
-								.setParameters(new Object[]{true, false})
+								.setParameters(true, false)
 								.setOnlyActiveRecords(true)
 								.list();
 		for (MLanguage language : list) {

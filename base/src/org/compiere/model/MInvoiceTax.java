@@ -74,7 +74,7 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		}
 		
 		retValue = new Query(line.getCtx(), Table_Name, "C_Invoice_ID=? AND C_Tax_ID=?", trxName)
-						.setParameters(new Object[]{line.getC_Invoice_ID(), C_Tax_ID})
+						.setParameters(line.getC_Invoice_ID(), C_Tax_ID)
 						.firstOnly();
 		if (retValue != null)
 		{

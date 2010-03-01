@@ -60,7 +60,7 @@ public class MInOutLine extends X_M_InOutLine
 	{
 		String whereClause = "C_OrderLine_ID=?" + (!Util.isEmpty(where, true) ? " AND "+where : "");
 		List<MInOutLine> list = new Query(ctx, Table_Name, whereClause, trxName)
-									.setParameters(new Object[]{C_OrderLine_ID})
+									.setParameters(C_OrderLine_ID)
 									.list();
 		return list.toArray (new MInOutLine[list.size()]);
 	}	//	getOfOrderLine
@@ -78,7 +78,7 @@ public class MInOutLine extends X_M_InOutLine
 	{
 		String whereClause = "M_RMALine_ID=? " + (!Util.isEmpty(where, true) ? " AND "+where : "");
 		List<MRMALine> list = new Query(ctx, Table_Name, whereClause, trxName)
-									.setParameters(new Object[]{M_RMALine_ID})
+									.setParameters(M_RMALine_ID)
 									.list();
 		return list.toArray (new MInOutLine[list.size()]);
 	}	//	getOfRMALine

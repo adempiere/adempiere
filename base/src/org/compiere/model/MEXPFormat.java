@@ -87,7 +87,7 @@ public class MEXPFormat extends X_EXP_Format {
 		final String clauseWhere = X_EXP_FormatLine.COLUMNNAME_EXP_Format_ID + "=?";	
 		m_lines = new Query(getCtx() , I_EXP_FormatLine.Table_Name, clauseWhere , get_TrxName())
 						.setOnlyActiveRecords(true)
-						.setParameters(new Object[]{getEXP_Format_ID()})
+						.setParameters(getEXP_Format_ID())
 						.setOrderBy(orderBy)
 						.list();
 		return m_lines;
@@ -102,7 +102,7 @@ public class MEXPFormat extends X_EXP_Format {
 								 + " AND " + X_EXP_FormatLine.COLUMNNAME_IsPartUniqueIndex +"= ?";
 		m_lines_unique = new Query(getCtx(), I_EXP_FormatLine.Table_Name, clauseWhere, get_TrxName())
 													 .setOnlyActiveRecords(true)
-													 .setParameters(new Object[]{getEXP_Format_ID(), "Y"})
+													 .setParameters(getEXP_Format_ID(), "Y")
 													 .setOrderBy(X_EXP_FormatLine.COLUMNNAME_Position)
 													 .list();
 		return m_lines_unique;
@@ -135,7 +135,7 @@ public class MEXPFormat extends X_EXP_Format {
 		.append(" AND ").append(X_EXP_Format.COLUMNNAME_Version).append(" = ?");
 
 		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereCluse.toString(),trxName)
-					.setParameters(new Object[] {value,AD_Client_ID,version}).first();
+					.setParameters(value,AD_Client_ID,version).first();
 		
 		if(retValue != null)
 		{	
@@ -161,7 +161,7 @@ public class MEXPFormat extends X_EXP_Format {
 			.append("  AND ").append(X_EXP_Format.COLUMNNAME_Version).append(" = ?");
 
 		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereClause.toString(),trxName)
-						.setParameters(new Object[] {AD_Client_ID,AD_Table_ID,version})
+						.setParameters(AD_Client_ID,AD_Table_ID,version)
 						.first();
 		if(retValue!=null)
 		{	

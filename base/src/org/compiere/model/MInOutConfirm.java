@@ -151,9 +151,9 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		final String whereClause = MInOutLineConfirm.COLUMNNAME_M_InOutConfirm_ID+"=?";
-		List<MInOutLineConfirm> list = new Query(getCtx(), MInOutLineConfirm.Table_Name, whereClause, get_TrxName())
-		.setParameters(new Object[]{getM_InOutConfirm_ID()})
+		final String whereClause = I_M_InOutLineConfirm.COLUMNNAME_M_InOutConfirm_ID+"=?";
+		List<MInOutLineConfirm> list = new Query(getCtx(), I_M_InOutLineConfirm.Table_Name, whereClause, get_TrxName())
+		.setParameters(getM_InOutConfirm_ID())
 		.list();
 		m_lines = new MInOutLineConfirm[list.size ()];
 		list.toArray (m_lines);

@@ -80,8 +80,8 @@ public class MFreightCategory extends X_M_FreightCategory {
      */
     public static MFreightCategory getByValue(Properties ctx, String value, String trxName) {
         
-        Query q = new Query(ctx, MFreightCategory.Table_Name, "Value=? AND AD_Client_ID=?", trxName);
-        q.setParameters(new Object[]{value, Env.getAD_Client_ID(ctx)});
+        Query q = new Query(ctx, I_M_FreightCategory.Table_Name, "Value=? AND AD_Client_ID=?", trxName);
+        q.setParameters(value, Env.getAD_Client_ID(ctx));
         return q.first();
     }
     

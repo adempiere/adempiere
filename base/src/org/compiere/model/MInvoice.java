@@ -74,7 +74,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 	public static MInvoice[] getOfBPartner (Properties ctx, int C_BPartner_ID, String trxName)
 	{
 		List<MInvoice> list = new Query(ctx, Table_Name, COLUMNNAME_C_BPartner_ID+"=?", trxName)
-									.setParameters(new Object[]{C_BPartner_ID})
+									.setParameters(C_BPartner_ID)
 									.list();
 		return list.toArray(new MInvoice[list.size()]);
 	}	//	getOfBPartner
@@ -630,9 +630,9 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		String whereClauseFinal = "C_Invoice_ID=? ";
 		if (whereClause != null)
 			whereClauseFinal += whereClause;
-		List<MInvoiceLine> list = new Query(getCtx(), MInvoiceLine.Table_Name, whereClauseFinal, get_TrxName())
-										.setParameters(new Object[]{getC_Invoice_ID()})
-										.setOrderBy(MInvoiceLine.COLUMNNAME_Line)
+		List<MInvoiceLine> list = new Query(getCtx(), I_C_InvoiceLine.Table_Name, whereClauseFinal, get_TrxName())
+										.setParameters(getC_Invoice_ID())
+										.setOrderBy(I_C_InvoiceLine.COLUMNNAME_Line)
 										.list();
 		return list.toArray(new MInvoiceLine[list.size()]);
 	}	//	getLines
@@ -784,8 +784,8 @@ public class MInvoice extends X_C_Invoice implements DocAction
 			return m_taxes;
 
 		final String whereClause = MInvoiceTax.COLUMNNAME_C_Invoice_ID+"=?";
-		List<MInvoiceTax> list = new Query(getCtx(), MInvoiceTax.Table_Name, whereClause, get_TrxName())
-										.setParameters(new Object[]{get_ID()})
+		List<MInvoiceTax> list = new Query(getCtx(), I_C_InvoiceTax.Table_Name, whereClause, get_TrxName())
+										.setParameters(get_ID())
 										.list();
 		m_taxes = list.toArray(new MInvoiceTax[list.size()]);
 		return m_taxes;

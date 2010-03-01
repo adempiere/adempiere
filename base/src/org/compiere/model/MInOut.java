@@ -623,8 +623,8 @@ public class MInOut extends X_M_InOut implements DocAction
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		List<MInOutLine> list = new Query(getCtx(), MInOutLine.Table_Name, "M_InOut_ID=?", get_TrxName())
-		.setParameters(new Object[]{getM_InOut_ID()})
+		List<MInOutLine> list = new Query(getCtx(), I_M_InOutLine.Table_Name, "M_InOut_ID=?", get_TrxName())
+		.setParameters(getM_InOut_ID())
 		.setOrderBy(MInOutLine.COLUMNNAME_Line)
 		.list();
 		//
@@ -655,8 +655,8 @@ public class MInOut extends X_M_InOut implements DocAction
 			set_TrxName(m_confirms, get_TrxName());
 			return m_confirms;
 		}
-		List<MInOutConfirm> list = new Query(getCtx(), MInOutConfirm.Table_Name, "M_InOut_ID=?", get_TrxName())
-		.setParameters(new Object[]{getM_InOut_ID()})
+		List<MInOutConfirm> list = new Query(getCtx(), I_M_InOutConfirm.Table_Name, "M_InOut_ID=?", get_TrxName())
+		.setParameters(getM_InOut_ID())
 		.list();
 		m_confirms = new MInOutConfirm[list.size ()];
 		list.toArray (m_confirms);

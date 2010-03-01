@@ -85,11 +85,11 @@ public class MDunningRun extends X_C_DunningRun
 			// just one level
 			levels = new Query(
 					getCtx(),
-					MDunningLevel.Table_Name,
+					I_C_DunningLevel.Table_Name,
 					"C_Dunning_ID=? AND C_DunningLevel_ID=?",
 					get_TrxName())
 			.setOnlyActiveRecords(true)
-			.setParameters(new Object[]{getC_Dunning_ID(), getC_DunningLevel_ID()})
+			.setParameters(getC_Dunning_ID(), getC_DunningLevel_ID())
 			.setOrderBy("DaysAfterDue DESC, C_DunningLevel_ID")
 			.list();
 		} else {
