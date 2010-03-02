@@ -335,7 +335,7 @@ public class MMovementLine extends X_M_MovementLine
 			whereClause += " AND (" + where + ")";
 		//
 		List<MMovementLine> list = new Query(ctx, Table_Name, whereClause, trxName)
-										.setParameters(new Object[]{DD_OrderLine_ID})
+										.setParameters(DD_OrderLine_ID)
 										.list();
 		return list.toArray(new MMovementLine[list.size()]);
 	}       //      getOfOrderLine 

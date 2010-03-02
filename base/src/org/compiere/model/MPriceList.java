@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Iterator;
@@ -87,7 +86,7 @@ public class MPriceList extends X_M_PriceList
 		//	Get from DB
 		final String whereClause = "AD_Client_ID=? AND IsDefault=? AND IsSOPriceList=?";
 		retValue = new Query(ctx, Table_Name, whereClause, null)
-						.setParameters(new Object[]{AD_Client_ID, "Y", IsSOPriceList ? "Y" : "N"})
+						.setParameters(AD_Client_ID, "Y", IsSOPriceList ? "Y" : "N")
 						.setOrderBy("M_PriceList_ID")
 						.first();
 		
@@ -134,7 +133,7 @@ public class MPriceList extends X_M_PriceList
 		//	Get from DB
 		final String whereClause = "AD_Client_ID=? AND IsDefault=? AND IsSOPriceList=? AND C_Currency_ID=?";
 		retValue = new Query(ctx, Table_Name, whereClause, null)
-						.setParameters(new Object[]{AD_Client_ID, "Y", IsSOPriceList ? "Y" : "N", Integer.valueOf(M_Currency_ID)})
+						.setParameters(AD_Client_ID, "Y", IsSOPriceList ? "Y" : "N", Integer.valueOf(M_Currency_ID))
 						.setOrderBy("M_PriceList_ID")
 						.first();
 		
@@ -244,8 +243,8 @@ public class MPriceList extends X_M_PriceList
 			return m_plv;
 
 		final String whereClause = "M_PriceList_ID=? AND TRUNC(ValidFrom)<=? AND IsActive=?";
-		m_plv = new Query(getCtx(), MPriceListVersion.Table_Name, whereClause, get_TrxName())
-					.setParameters(new Object[]{getM_PriceList_ID(), valid, "Y"})
+		m_plv = new Query(getCtx(), I_M_PriceList_Version.Table_Name, whereClause, get_TrxName())
+					.setParameters(getM_PriceList_ID(), valid, "Y")
 					.setOrderBy("ValidFrom DESC")
 					.first();
 		if (m_plv == null)

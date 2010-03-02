@@ -45,7 +45,7 @@ public class MProductPO extends X_M_Product_PO
 	{
 		final String whereClause = "M_Product_ID=? AND IsActive=?";
 		List<MProductPO> list = new Query(ctx, Table_Name, whereClause, trxName)
-									.setParameters(new Object[]{M_Product_ID, "Y"})
+									.setParameters(M_Product_ID, "Y")
 									.setOrderBy("IsCurrentVendor DESC")
 									.list();
 		return list.toArray(new MProductPO[list.size()]);

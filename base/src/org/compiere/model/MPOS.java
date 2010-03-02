@@ -64,7 +64,7 @@ public class MPOS extends X_C_POS
 	{
 		String whereClause = field+"=?";
 		List<MPOS> list = new Query(ctx, Table_Name, whereClause, null)
-										.setParameters(new Object[]{ID})
+										.setParameters(ID)
 										.setOnlyActiveRecords(true)
 										.setOrderBy(COLUMNNAME_Name)
 										.list();

@@ -223,8 +223,8 @@ public class MElementValue extends X_C_ElementValue
 			//
 			// Check Valid Combinations - teo_sarca FR [ 1883533 ]
 			String whereClause = MAccount.COLUMNNAME_Account_ID+"=?";
-			POResultSet<MAccount> rs = new Query(getCtx(), MAccount.Table_Name, whereClause, get_TrxName())
-					.setParameters(new Object[]{get_ID()})
+			POResultSet<MAccount> rs = new Query(getCtx(), I_C_ValidCombination.Table_Name, whereClause, get_TrxName())
+					.setParameters(get_ID())
 					.scroll();
 			try {
 				while(rs.hasNext()) {

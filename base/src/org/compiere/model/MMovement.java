@@ -102,8 +102,8 @@ public class MMovement extends X_M_Movement implements DocAction
 		}
 		//
 		final String whereClause = "M_Movement_ID=?";
-		List<MMovement> list = new Query(getCtx(), MMovementLine.Table_Name, whereClause, get_TrxName())
-		 										.setParameters(new Object[]{getM_Movement_ID()})
+		List<MMovement> list = new Query(getCtx(), I_M_MovementLine.Table_Name, whereClause, get_TrxName())
+		 										.setParameters(getM_Movement_ID())
 		 										.setOrderBy(MMovementLine.COLUMNNAME_Line)
 		 										.list();
 		m_lines = new MMovementLine[list.size ()];
@@ -121,8 +121,8 @@ public class MMovement extends X_M_Movement implements DocAction
 		if (m_confirms != null && !requery)
 			return m_confirms;
 
-		List<MMovementConfirm> list = new Query(getCtx(), MMovementConfirm.Table_Name, "M_Movement_ID=?", get_TrxName())
-										.setParameters(new Object[]{get_ID()})
+		List<MMovementConfirm> list = new Query(getCtx(), I_M_MovementConfirm.Table_Name, "M_Movement_ID=?", get_TrxName())
+										.setParameters(get_ID())
 										.list();
 		m_confirms = list.toArray(new MMovementConfirm[list.size()]);
 		return m_confirms;

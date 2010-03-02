@@ -645,8 +645,8 @@ public class MOrder extends X_C_Order implements DocAction
 		if (orderClause.length() == 0)
 			orderClause = MOrderLine.COLUMNNAME_Line;
 		//
-		List<MOrderLine> list = new Query(getCtx(), MOrderLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
-										.setParameters(new Object[]{get_ID()})
+		List<MOrderLine> list = new Query(getCtx(), I_C_OrderLine.Table_Name, whereClauseFinal.toString(), get_TrxName())
+										.setParameters(get_ID())
 										.setOrderBy(orderClause)
 										.list();
 		for (MOrderLine ol : list) {
@@ -731,8 +731,8 @@ public class MOrder extends X_C_Order implements DocAction
 		if (m_taxes != null && !requery)
 			return m_taxes;
 		//
-		List<MOrderTax> list = new Query(getCtx(), MOrderTax.Table_Name, "C_Order_ID=?", get_TrxName())
-									.setParameters(new Object[]{get_ID()})
+		List<MOrderTax> list = new Query(getCtx(), I_C_OrderTax.Table_Name, "C_Order_ID=?", get_TrxName())
+									.setParameters(get_ID())
 									.list();
 		m_taxes = list.toArray(new MOrderTax[list.size()]);
 		return m_taxes;
@@ -749,8 +749,8 @@ public class MOrder extends X_C_Order implements DocAction
 							        +" WHERE il.C_Invoice_ID=C_Invoice.C_Invoice_ID"
 							        		+" AND il.C_OrderLine_ID=ol.C_OrderLine_ID"
 							        		+" AND ol.C_Order_ID=?)";
-		List<MInvoice> list = new Query(getCtx(), MInvoice.Table_Name, whereClause, get_TrxName())
-									.setParameters(new Object[]{get_ID()})
+		List<MInvoice> list = new Query(getCtx(), I_C_Invoice.Table_Name, whereClause, get_TrxName())
+									.setParameters(get_ID())
 									.setOrderBy("C_Invoice_ID DESC")
 									.list();
 		return list.toArray(new MInvoice[list.size()]);
@@ -780,8 +780,8 @@ public class MOrder extends X_C_Order implements DocAction
 			+" WHERE iol.M_InOut_ID=M_InOut.M_InOut_ID"
 			+" AND iol.C_OrderLine_ID=ol.C_OrderLine_ID"
 			+" AND ol.C_Order_ID=?)";
-		List<MInvoice> list = new Query(getCtx(), MInOut.Table_Name, whereClause, get_TrxName())
-									.setParameters(new Object[]{get_ID()})
+		List<MInvoice> list = new Query(getCtx(), I_M_InOut.Table_Name, whereClause, get_TrxName())
+									.setParameters(get_ID())
 									.setOrderBy("M_InOut_ID DESC")
 									.list();
 		return list.toArray(new MInOut[list.size()]);

@@ -100,7 +100,7 @@ public class MDunningRun extends X_C_DunningRun
 					"C_Dunning_ID=?",
 					get_TrxName())
 			.setOnlyActiveRecords(true)
-			.setParameters(new Object[]{getC_Dunning_ID()})
+			.setParameters(getC_Dunning_ID())
 			.setOrderBy("DaysAfterDue DESC, C_DunningLevel_ID")
 			.list();
 		}

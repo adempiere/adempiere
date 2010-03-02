@@ -66,8 +66,8 @@ public class MMatchInv extends X_M_MatchInv
 			return new MMatchInv[]{};
 		//
 		final String whereClause = "M_InOutLine_ID=? AND C_InvoiceLine_ID=?";
-		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{M_InOutLine_ID, C_InvoiceLine_ID})
+		List<MMatchInv> list = new Query(ctx, I_M_MatchInv.Table_Name, whereClause, trxName)
+		.setParameters(M_InOutLine_ID, C_InvoiceLine_ID)
 		.list();
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	get
@@ -86,8 +86,8 @@ public class MMatchInv extends X_M_MatchInv
 			return new MMatchInv[]{};
 		//
 		String whereClause = "C_InvoiceLine_ID=?";
-		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{C_InvoiceLine_ID})
+		List<MMatchInv> list = new Query(ctx, I_M_MatchInv.Table_Name, whereClause, trxName)
+		.setParameters(C_InvoiceLine_ID)
 		.list();
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInvoiceLine
@@ -107,8 +107,8 @@ public class MMatchInv extends X_M_MatchInv
 		//
 		final String whereClause = "EXISTS (SELECT 1 FROM M_InOutLine l"
 			+" WHERE M_MatchInv.M_InOutLine_ID=l.M_InOutLine_ID AND l.M_InOut_ID=?)"; 
-		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{M_InOut_ID})
+		List<MMatchInv> list = new Query(ctx, I_M_MatchInv.Table_Name, whereClause, trxName)
+		.setParameters(M_InOut_ID)
 		.list();
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInOut
@@ -128,8 +128,8 @@ public class MMatchInv extends X_M_MatchInv
 		//
 		final String whereClause = " EXISTS (SELECT 1 FROM C_InvoiceLine il"
 				+" WHERE M_MatchInv.C_InvoiceLine_ID=il.C_InvoiceLine_ID AND il.C_Invoice_ID=?)";
-		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{C_Invoice_ID})
+		List<MMatchInv> list = new Query(ctx, I_M_MatchInv.Table_Name, whereClause, trxName)
+		.setParameters(C_Invoice_ID)
 		.list();
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInvoice
@@ -470,8 +470,8 @@ public class MMatchInv extends X_M_MatchInv
 		}
 		//
 		final String whereClause = MMatchInv.COLUMNNAME_M_InOutLine_ID+"=?";
-		List<MMatchInv> list = new Query(ctx, MMatchInv.Table_Name, whereClause, trxName)
-		.setParameters(new Object[]{M_InOutLine_ID})
+		List<MMatchInv> list = new Query(ctx, I_M_MatchInv.Table_Name, whereClause, trxName)
+		.setParameters(M_InOutLine_ID)
 		.list();
 		return list.toArray (new MMatchInv[list.size()]);
 	}	//	getInOutLine

@@ -589,9 +589,9 @@ public class MPeriod extends X_C_Period
 				" AND (? BETWEEN StartDate AND EndDate" +
 				" OR ? BETWEEN StartDate AND EndDate)" +
 				" AND PeriodType=?",get_TrxName());
-		query.setParameters(new Object[] {year.getC_Calendar_ID(),
+		query.setParameters(year.getC_Calendar_ID(),
 				getStartDate(), getEndDate(),
-				getPeriodType()});
+				getPeriodType());
 		
 		List<MPeriod> periods = query.list();
 		

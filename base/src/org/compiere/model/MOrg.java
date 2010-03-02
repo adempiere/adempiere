@@ -48,7 +48,7 @@ public class MOrg extends X_AD_Org
 		List<MOrg> list = new Query(po.getCtx(), Table_Name, "AD_Client_ID=?", null)
 								.setOrderBy(COLUMNNAME_Value)
 								.setOnlyActiveRecords(true)
-								.setParameters(new Object[]{po.getAD_Client_ID()})
+								.setParameters(po.getAD_Client_ID())
 								.list();
 		for (MOrg org : list)
 		{
