@@ -54,8 +54,8 @@ public class MResourceUnAvailable extends X_S_ResourceUnAvailable
 									+" AND TRUNC("+COLUMNNAME_DateFrom+") <= ?"
 									+" AND TRUNC("+COLUMNNAME_DateTo+") >= ?";
 		Properties ctx = r instanceof PO ? ((PO)r).getCtx() : Env.getCtx();
-		return new Query(ctx, MResourceUnAvailable.Table_Name, whereClause, null)
-						.setParameters(new Object[]{r.getS_Resource_ID(), r.getAD_Client_ID(), date, date})
+		return new Query(ctx, I_S_ResourceUnAvailable.Table_Name, whereClause, null)
+						.setParameters(r.getS_Resource_ID(), r.getAD_Client_ID(), date, date)
 						.match();
 	}
 	

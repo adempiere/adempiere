@@ -102,10 +102,10 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		}
 		
 		//red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query  
- 	 	String whereClause = MRequisitionLine.COLUMNNAME_M_Requisition_ID+"=?";
-	 	List <MRequisitionLine> list = new Query(getCtx(), MRequisitionLine.Table_Name, whereClause, get_TrxName())
-			.setParameters(new Object[]{get_ID()})
-			.setOrderBy(MRequisitionLine.COLUMNNAME_Line)
+ 	 	String whereClause = I_M_RequisitionLine.COLUMNNAME_M_Requisition_ID+"=?";
+	 	List <MRequisitionLine> list = new Query(getCtx(), I_M_RequisitionLine.Table_Name, whereClause, get_TrxName())
+			.setParameters(get_ID())
+			.setOrderBy(I_M_RequisitionLine.COLUMNNAME_Line)
 			.list();
 	 	//  red1 - end -
 

@@ -72,8 +72,8 @@ public class MTaxCategory extends X_C_TaxCategory
 		MTax m_tax = new MTax(getCtx(), 0, get_TrxName());
 		
 		String whereClause = COLUMNNAME_C_TaxCategory_ID+"=? AND "+ COLUMNNAME_IsDefault+"='Y'";
-		List<MTax> list = new Query(getCtx(), MTax.Table_Name, whereClause,  get_TrxName())
-			.setParameters(new Object[]{getC_TaxCategory_ID()})
+		List<MTax> list = new Query(getCtx(), I_C_Tax.Table_Name, whereClause,  get_TrxName())
+			.setParameters(getC_TaxCategory_ID())
 			.setOnlyActiveRecords(true)
 			.list();
 		if (list.size() == 0) {

@@ -604,7 +604,7 @@ public class MUOMConversion extends X_C_UOM_Conversion
 			+ " AND EXISTS (SELECT 1 FROM M_Product p "
 				+ "WHERE C_UOM_Conversion.M_Product_ID=p.M_Product_ID AND C_UOM_Conversion.C_UOM_ID=p.C_UOM_ID)";
 		List<MUOMConversion> conversions = new Query(ctx, Table_Name, whereClause, null)
-		.setParameters(new Object[]{M_Product_ID})
+		.setParameters(M_Product_ID)
 		.setOnlyActiveRecords(true)
 		.list();
 		list.addAll(conversions);

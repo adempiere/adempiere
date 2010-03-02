@@ -59,8 +59,8 @@ public class MRequisitionLine extends X_M_RequisitionLine
 		final String whereClause = "EXISTS (SELECT 1 FROM C_OrderLine ol"
 										+" WHERE ol.C_OrderLine_ID=M_RequisitionLine.C_OrderLine_ID"
 										+" AND ol.C_Order_ID=?)";
-		List<MRequisitionLine> list = new Query(ctx, MRequisitionLine.Table_Name, whereClause, trxName)
-			.setParameters(new Object[]{C_Order_ID})
+		List<MRequisitionLine> list = new Query(ctx, I_M_RequisitionLine.Table_Name, whereClause, trxName)
+			.setParameters(C_Order_ID)
 			.list();
 		return list.toArray(new MRequisitionLine[list.size()]);
 	}
@@ -91,8 +91,8 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	public static MRequisitionLine[] forC_OrderLine_ID(Properties ctx, int C_OrderLine_ID, String trxName)
 	{
 		final String whereClause = COLUMNNAME_C_OrderLine_ID+"=?";
-		List<MRequisitionLine> list = new Query(ctx, MRequisitionLine.Table_Name, whereClause, trxName)
-			.setParameters(new Object[]{C_OrderLine_ID})
+		List<MRequisitionLine> list = new Query(ctx, I_M_RequisitionLine.Table_Name, whereClause, trxName)
+			.setParameters(C_OrderLine_ID)
 			.list();
 		return list.toArray(new MRequisitionLine[list.size()]);
 	}

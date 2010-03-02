@@ -168,8 +168,8 @@ public class MRMALine extends X_M_RMALine
      */
     private int getInvoiceLineId()
     {
-    	int invoiceLine_ID = new Query(getCtx(), MInvoiceLine.Table_Name, "M_InOutLine_ID=?", get_TrxName())
-    	.setParameters(new Object[]{getM_InOutLine_ID()})
+    	int invoiceLine_ID = new Query(getCtx(), I_C_InvoiceLine.Table_Name, "M_InOutLine_ID=?", get_TrxName())
+    	.setParameters(getM_InOutLine_ID())
     	.firstIdOnly();
     	return invoiceLine_ID <= 0 ? 0 : invoiceLine_ID;
     }

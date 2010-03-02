@@ -237,8 +237,8 @@ public class MRequest extends X_R_Request
 	public MRequestAction[] getActions()
 	{
 		final String whereClause = MRequestAction.COLUMNNAME_R_Request_ID+"=?";
-		List<MRequestAction> list = new Query(getCtx(), MRequestAction.Table_Name, whereClause, get_TrxName())
-										.setParameters(new Object[]{get_ID()})
+		List<MRequestAction> list = new Query(getCtx(), I_R_RequestAction.Table_Name, whereClause, get_TrxName())
+										.setParameters(get_ID())
 										.setOrderBy("Created DESC")
 										.list();
 		return list.toArray(new MRequestAction[list.size()]);
@@ -252,8 +252,8 @@ public class MRequest extends X_R_Request
 	public MRequestUpdate[] getUpdates(String confidentialType)
 	{
 		final String whereClause = MRequestUpdate.COLUMNNAME_R_Request_ID+"=?";
-		List<MRequestUpdate> listUpdates = new Query(getCtx(), MRequestUpdate.Table_Name, whereClause, get_TrxName())
-										.setParameters(new Object[]{get_ID()})
+		List<MRequestUpdate> listUpdates = new Query(getCtx(), I_R_RequestUpdate.Table_Name, whereClause, get_TrxName())
+										.setParameters(get_ID())
 										.setOrderBy("Created DESC")
 										.list();
 		ArrayList<MRequestUpdate> list = new ArrayList<MRequestUpdate>();

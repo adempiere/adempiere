@@ -83,7 +83,7 @@ public class MTableScriptValidator extends X_AD_Table_ScriptValidator
 		// Fetch now
 		final String whereClause = "AD_Table_ID=? AND EventModelValidator=?";
 		mvrs = new Query(ctx, Table_Name, whereClause, null)
-		.setParameters(new Object[]{ad_table_id, event})
+		.setParameters(ad_table_id, event)
 		.setOnlyActiveRecords(true)
 		.setOrderBy(COLUMNNAME_SeqNo)
 		.list();

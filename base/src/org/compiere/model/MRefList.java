@@ -58,7 +58,7 @@ public class MRefList extends X_AD_Ref_List
 	public static MRefList get (Properties ctx, int AD_Reference_ID, String Value, String trxName)
 	{
 		return new Query(ctx, Table_Name, "AD_Reference_ID=? AND Value=?", trxName)
-					.setParameters(new Object[]{AD_Reference_ID, Value})
+					.setParameters(AD_Reference_ID, Value)
 					.firstOnly();
 	}	//	get
 

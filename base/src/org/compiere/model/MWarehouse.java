@@ -78,7 +78,7 @@ public class MWarehouse extends X_M_Warehouse
 	{
 		String whereClause = "IsActive=? AND AD_Org_ID=?";
 		List<MWarehouse> list = new Query(ctx, Table_Name, whereClause, null)
-										.setParameters(new Object[]{"Y", AD_Org_ID})
+										.setParameters("Y", AD_Org_ID)
 										.setOrderBy(COLUMNNAME_M_Warehouse_ID)
 										.list();
 		return list.toArray(new MWarehouse[list.size()]);
@@ -95,7 +95,7 @@ public class MWarehouse extends X_M_Warehouse
 	{
 		String whereClause = "IsActive=? AND IsInTransit=? AND AD_Org_ID=?";
 		List<MWarehouse> list = new Query(ctx, Table_Name, whereClause, null)
-										.setParameters(new Object[]{"Y", "Y", AD_Org_ID})
+										.setParameters("Y", "Y", AD_Org_ID)
 										.setOrderBy(COLUMNNAME_M_Warehouse_ID)
 										.list();
 		return list.toArray(new MWarehouse[list.size()]);
@@ -160,8 +160,8 @@ public class MWarehouse extends X_M_Warehouse
 			return m_locators;
 		//
 		final String whereClause = "IsActive=? AND M_Warehouse_ID=?";
-		List<MLocator> list = new Query(getCtx(), MLocator.Table_Name, whereClause, null)
-										.setParameters(new Object[]{"Y", getM_Warehouse_ID()})
+		List<MLocator> list = new Query(getCtx(), I_M_Locator.Table_Name, whereClause, null)
+										.setParameters("Y", getM_Warehouse_ID())
 										.setOrderBy("X,Y,Z")
 										.list();
 		m_locators = list.toArray(new MLocator[list.size()]);

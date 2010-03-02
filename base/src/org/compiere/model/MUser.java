@@ -74,8 +74,8 @@ public class MUser extends X_AD_User
 	 */
 	public static MUser[] getOfBPartner (Properties ctx, int C_BPartner_ID, String trxName)
 	{
-		List<MUser> list = new Query(ctx, MUser.Table_Name, "C_BPartner_ID=?", trxName)
-		.setParameters(new Object[]{C_BPartner_ID})
+		List<MUser> list = new Query(ctx, I_AD_User.Table_Name, "C_BPartner_ID=?", trxName)
+		.setParameters(C_BPartner_ID)
 		.setOnlyActiveRecords(true)
 		.list();
 		

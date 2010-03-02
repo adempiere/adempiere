@@ -95,8 +95,8 @@ public class MRMA extends X_M_RMA implements DocAction
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
-		List<MRMALine> list = new Query(getCtx(), MRMALine.Table_Name, "M_RMA_ID=?", get_TrxName())
-		.setParameters(new Object[]{getM_RMA_ID()})
+		List<MRMALine> list = new Query(getCtx(), I_M_RMALine.Table_Name, "M_RMA_ID=?", get_TrxName())
+		.setParameters(getM_RMA_ID())
 		.setOrderBy(MRMALine.COLUMNNAME_Line)
 		.list();
 
