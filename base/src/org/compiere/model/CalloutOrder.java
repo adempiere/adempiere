@@ -633,12 +633,16 @@ public class CalloutOrder extends CalloutEngine
 			+ "WHERE pl.C_Currency_ID=c.C_Currency_ID"
 			+ " AND pl.M_PriceList_ID=plv.M_PriceList_ID"
 			+ " AND pl.M_PriceList_ID=? "						//	1
+			+ " AND plv.ValidFrom <= ? "
 			+ "ORDER BY plv.ValidFrom DESC";
 		//	Use newest price list - may not be future
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_PriceList_ID.intValue());
+			Timestamp date = Env.getContextAsDate(ctx, WindowNo, "DateOrdered");
+			pstmt.setTimestamp(2, date);
+			
 			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
@@ -706,10 +710,25 @@ public class CalloutOrder extends CalloutEngine
 		//
 		int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
 		pp.setM_PriceList_ID(M_PriceList_ID);
+		Timestamp orderDate = (Timestamp)mTab.getValue("DateOrdered");
 		/** PLV is only accurate if PL selected in header */
 		int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
+		if ( M_PriceList_Version_ID == 0 && M_PriceList_ID > 0)
+		{
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql = "SELECT plv.M_PriceList_Version_ID "
+				+ "FROM M_PriceList_Version plv "
+				+ "WHERE plv.M_PriceList_ID=? "						//	1
+				+ " AND plv.ValidFrom <= ? "
+				+ "ORDER BY plv.ValidFrom DESC";
+			//	Use newest price list - may not be future
+			
+			M_PriceList_Version_ID = DB.getSQLValueEx(null, sql, M_PriceList_ID, orderDate);
+			if ( M_PriceList_Version_ID > 0 )
+				Env.setContext(ctx, WindowNo, "M_PriceList_Version_ID", M_PriceList_Version_ID );
+		}
 		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID); 
-		Timestamp orderDate = (Timestamp)mTab.getValue("DateOrdered");
 		pp.setPriceDate(orderDate);
 		//		
 		mTab.setValue("PriceList", pp.getPriceList());
