@@ -91,8 +91,8 @@ public class M_Element extends X_AD_Element
 		//
 		// TODO: caching if trxName == null
  	 	final String whereClause = "UPPER(ColumnName)=?";
-	 	M_Element retValue = new Query(ctx, M_Element.Table_Name, whereClause, trxName)
-			.setParameters(new Object[]{columnName.toUpperCase()})
+	 	M_Element retValue = new Query(ctx, I_AD_Element.Table_Name, whereClause, trxName)
+			.setParameters(columnName.toUpperCase())
 			.firstOnly();
 		return retValue;
 	}	//	get

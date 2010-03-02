@@ -33,9 +33,7 @@ import org.compiere.util.Env;
  */
 public class MAchievement extends X_PA_Achievement
 {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = -1438593600498523664L;
 
 	/**
@@ -56,9 +54,11 @@ public class MAchievement extends X_PA_Achievement
 	 */
 	public static MAchievement[] getOfMeasure (Properties ctx, int PA_Measure_ID)
 	{
-		String whereClause ="PA_Measure_ID=? AND IsAchieved='Y'"; 
-				List <MAchievement> list = new Query(ctx,MAchievement.Table_Name,  whereClause, null)
-				.setParameters(new Object[]{PA_Measure_ID}).setOrderBy("SeqNo, DateDoc").list();
+		final String whereClause ="PA_Measure_ID=? AND IsAchieved='Y'"; 
+				List <MAchievement> list = new Query(ctx,I_PA_Achievement.Table_Name,  whereClause, null)
+				.setParameters(PA_Measure_ID)
+				.setOrderBy("SeqNo, DateDoc")
+				.list();
 				
 				MAchievement[] retValue = new MAchievement[list.size ()];
 				retValue = list.toArray (retValue);

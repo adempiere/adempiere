@@ -416,7 +416,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 								   + I_C_Invoice.COLUMNNAME_DocStatus + " NOT IN (?,?)";
 				boolean InvoiceIsPaid = new Query(getCtx(), I_C_Invoice.Table_Name, whereClause, get_TrxName())
 				.setClient_ID()
-				.setParameters(new Object[]{line.getC_Invoice_ID(), "Y", MInvoice.DOCSTATUS_Voided, MInvoice.DOCSTATUS_Reversed})
+				.setParameters(line.getC_Invoice_ID(), "Y", X_C_Invoice.DOCSTATUS_Voided, X_C_Invoice.DOCSTATUS_Reversed)
 				.match();
 				if(InvoiceIsPaid)
 					throw new  AdempiereException("@ValidationError@ @C_Invoice_ID@ @IsPaid@");
