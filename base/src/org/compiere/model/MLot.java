@@ -70,16 +70,15 @@ public class MLot extends X_M_Lot
 	 *	@param M_Product_ID product
 	 *	@param lot
 	 *	@param trxName transaction
-	 *	@return Array of Lots for Product //red1 -- last Lot
+	 *	@return Last Lot for Product
 	 */
 	public static MLot getProductLot (Properties ctx, int M_Product_ID, String lot, String trxName)
 	{
 		final String whereClause = "M_Product_ID=? AND Name=?";
-		List <MLot> list = new Query(ctx, I_M_Lot.Table_Name, whereClause, trxName)
+		MLot retValue = new Query(ctx, I_M_Lot.Table_Name, whereClause, trxName)
 			.setParameters(M_Product_ID, lot)
- 			.list();
-		MLot retValue = null;
-		retValue = list.get(list.size()-1); //red1 get last lot
+			.setOrderBy(I_M_Lot.COLUMNNAME_M_Lot_ID + " DESC")
+ 			.first();
 		return retValue;
 	}	//	getProductLot
 

@@ -13,7 +13,6 @@
  *****************************************************************************/
 package test.functional;
 
-import org.compiere.model.MInvoice;
 import org.compiere.model.MLot;
 import org.compiere.util.Env;
 
@@ -35,8 +34,12 @@ public class MLotTest extends AdempiereTestCase
 	
 	public void testQuery() throws Exception
 	{
-		MLot retValue = MLot.getProductLot(getCtx(), 122, "Test", getTrxName()); //red1 test record created with such values
-		assertTrue("Last Lot Rec is 101", retValue.getM_Lot_ID() == 101);
+		// to set up record - in a clean seed database
+		// open material receipt window
+		// create a material receipt for the product Fertilizer #50
+		// and push the "New Record" button on the attribute set instance dialog
+		MLot retValue = MLot.getProductLot(getCtx(), 136, "100", getTrxName());
+		assertTrue("Last Lot Rec is 101", retValue.getM_Lot_ID() == 1000000);
 	 
 	}
 
