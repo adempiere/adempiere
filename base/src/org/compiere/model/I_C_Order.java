@@ -895,10 +895,14 @@ public interface I_C_Order
     /** Column name OrderType */
     public static final String COLUMNNAME_OrderType = "OrderType";
 
-	/** Set OrderType	  */
+	/** Set Order Type.
+	  * Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public void setOrderType (String OrderType);
 
-	/** Get OrderType	  */
+	/** Get Order Type.
+	  * Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public String getOrderType();
 
     /** Column name Pay_BPartner_ID */
@@ -991,6 +995,19 @@ public interface I_C_Order
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

@@ -34,7 +34,7 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100302L;
 
     /** Standard Constructor */
     public X_PP_Cost_Collector (Properties ctx, int PP_Cost_Collector_ID, String trxName)
@@ -197,6 +197,11 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 			 return 0;
 		return ii.intValue();
 	}
+
+	public I_C_DocType getC_DocType() throws RuntimeException
+    {
+		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
 		@param C_DocType_ID 
@@ -773,7 +778,9 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 			.getPO(getPP_Order_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order.
-		@param PP_Order_ID Manufacturing Order	  */
+		@param PP_Order_ID 
+		Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1) 
@@ -783,7 +790,8 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	}
 
 	/** Get Manufacturing Order.
-		@return Manufacturing Order	  */
+		@return Manufacturing Order
+	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -798,7 +806,9 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 			.getPO(getPP_Order_Node_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order Activity.
-		@param PP_Order_Node_ID Manufacturing Order Activity	  */
+		@param PP_Order_Node_ID 
+		Workflow Node (activity), step or process
+	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
 	{
 		if (PP_Order_Node_ID < 1) 
@@ -808,7 +818,8 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 	}
 
 	/** Get Manufacturing Order Activity.
-		@return Manufacturing Order Activity	  */
+		@return Workflow Node (activity), step or process
+	  */
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
@@ -864,6 +875,26 @@ public class X_PP_Cost_Collector extends PO implements I_PP_Cost_Collector, I_Pe
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Processed On.
+		@param ProcessedOn 
+		The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn)
+	{
+		set_Value (COLUMNNAME_ProcessedOn, ProcessedOn);
+	}
+
+	/** Get Processed On.
+		@return The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ProcessedOn);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Process Now.

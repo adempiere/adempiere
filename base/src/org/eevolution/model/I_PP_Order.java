@@ -241,10 +241,14 @@ public interface I_PP_Order
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
 
-	/** Set DateConfirm	  */
+	/** Set DateConfirm.
+	  * Date Confirm of this Order
+	  */
 	public void setDateConfirm (Timestamp DateConfirm);
 
-	/** Get DateConfirm	  */
+	/** Get DateConfirm.
+	  * Date Confirm of this Order
+	  */
 	public Timestamp getDateConfirm();
 
     /** Column name DateDelivered */
@@ -276,10 +280,14 @@ public interface I_PP_Order
     /** Column name DateFinishSchedule */
     public static final String COLUMNNAME_DateFinishSchedule = "DateFinishSchedule";
 
-	/** Set DateFinishSchedule	  */
+	/** Set Date Finish Schedule.
+	  * Scheduled Finish date for this Order
+	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule);
 
-	/** Get DateFinishSchedule	  */
+	/** Get Date Finish Schedule.
+	  * Scheduled Finish date for this Order
+	  */
 	public Timestamp getDateFinishSchedule();
 
     /** Column name DateOrdered */
@@ -311,19 +319,27 @@ public interface I_PP_Order
     /** Column name DateStart */
     public static final String COLUMNNAME_DateStart = "DateStart";
 
-	/** Set DateStart	  */
+	/** Set Date Start.
+	  * Date Start for this Order
+	  */
 	public void setDateStart (Timestamp DateStart);
 
-	/** Get DateStart	  */
+	/** Get Date Start.
+	  * Date Start for this Order
+	  */
 	public Timestamp getDateStart();
 
     /** Column name DateStartSchedule */
     public static final String COLUMNNAME_DateStartSchedule = "DateStartSchedule";
 
-	/** Set DateStartSchedule	  */
+	/** Set Date Start Schedule.
+	  * Scheduled start date for this Order
+	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule);
 
-	/** Get DateStartSchedule	  */
+	/** Get Date Start Schedule.
+	  * Scheduled start date for this Order
+	  */
 	public Timestamp getDateStartSchedule();
 
     /** Column name Description */
@@ -544,10 +560,14 @@ public interface I_PP_Order
     /** Column name OrderType */
     public static final String COLUMNNAME_OrderType = "OrderType";
 
-	/** Set OrderType	  */
+	/** Set Order Type.
+	  * Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public void setOrderType (String OrderType);
 
-	/** Get OrderType	  */
+	/** Get Order Type.
+	  * Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public String getOrderType();
 
     /** Column name Planner_ID */
@@ -577,10 +597,14 @@ public interface I_PP_Order
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set Manufacturing Order	  */
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get Manufacturing Order	  */
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public int getPP_Order_ID();
 
     /** Column name PP_Product_BOM_ID */
@@ -623,6 +647,19 @@ public interface I_PP_Order
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
@@ -715,13 +752,13 @@ public interface I_PP_Order
     /** Column name QtyScrap */
     public static final String COLUMNNAME_QtyScrap = "QtyScrap";
 
-	/** Set QtyScrap.
-	  * Scrap Quantity for this componet
+	/** Set Scrap %.
+	  * Scrap % Quantity for this componet
 	  */
 	public void setQtyScrap (BigDecimal QtyScrap);
 
-	/** Get QtyScrap.
-	  * Scrap Quantity for this componet
+	/** Get Scrap %.
+	  * Scrap % Quantity for this componet
 	  */
 	public BigDecimal getQtyScrap();
 

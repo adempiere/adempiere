@@ -393,6 +393,19 @@ public interface I_GL_Journal
 	  */
 	public boolean isProcessed();
 
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
+
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
 

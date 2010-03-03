@@ -134,6 +134,8 @@ public interface I_PP_Cost_Collector
 	  */
 	public int getC_DocType_ID();
 
+	public I_C_DocType getC_DocType() throws RuntimeException;
+
     /** Column name C_DocTypeTarget_ID */
     public static final String COLUMNNAME_C_DocTypeTarget_ID = "C_DocTypeTarget_ID";
 
@@ -435,10 +437,14 @@ public interface I_PP_Cost_Collector
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set Manufacturing Order	  */
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get Manufacturing Order	  */
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public int getPP_Order_ID();
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
@@ -446,10 +452,14 @@ public interface I_PP_Cost_Collector
     /** Column name PP_Order_Node_ID */
     public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
 
-	/** Set Manufacturing Order Activity	  */
+	/** Set Manufacturing Order Activity.
+	  * Workflow Node (activity), step or process
+	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID);
 
-	/** Get Manufacturing Order Activity	  */
+	/** Get Manufacturing Order Activity.
+	  * Workflow Node (activity), step or process
+	  */
 	public int getPP_Order_Node_ID();
 
 	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException;
@@ -477,6 +487,19 @@ public interface I_PP_Cost_Collector
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

@@ -486,10 +486,10 @@ public interface I_C_Invoice
     /** Column name DunningGrace */
     public static final String COLUMNNAME_DunningGrace = "DunningGrace";
 
-	/** Set Dunning Grace	  */
+	/** Set Dunning Grace Date	  */
 	public void setDunningGrace (Timestamp DunningGrace);
 
-	/** Get Dunning Grace	  */
+	/** Get Dunning Grace Date	  */
 	public Timestamp getDunningGrace();
 
     /** Column name GenerateTo */
@@ -755,6 +755,19 @@ public interface I_C_Invoice
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name ProcessedOn */
+    public static final String COLUMNNAME_ProcessedOn = "ProcessedOn";
+
+	/** Set Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn);
+
+	/** Get Processed On.
+	  * The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

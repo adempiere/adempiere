@@ -33,7 +33,7 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100302L;
 
     /** Standard Constructor */
     public X_C_Invoice (Properties ctx, int C_Invoice_ID, String trxName)
@@ -859,15 +859,15 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
         return new KeyNamePair(get_ID(), getDocumentNo());
     }
 
-	/** Set Dunning Grace.
-		@param DunningGrace Dunning Grace	  */
+	/** Set Dunning Grace Date.
+		@param DunningGrace Dunning Grace Date	  */
 	public void setDunningGrace (Timestamp DunningGrace)
 	{
 		set_Value (COLUMNNAME_DunningGrace, DunningGrace);
 	}
 
-	/** Get Dunning Grace.
-		@return Dunning Grace	  */
+	/** Get Dunning Grace Date.
+		@return Dunning Grace Date	  */
 	public Timestamp getDunningGrace () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DunningGrace);
@@ -1331,6 +1331,26 @@ public class X_C_Invoice extends PO implements I_C_Invoice, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Processed On.
+		@param ProcessedOn 
+		The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn)
+	{
+		set_Value (COLUMNNAME_ProcessedOn, ProcessedOn);
+	}
+
+	/** Get Processed On.
+		@return The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ProcessedOn);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Process Now.

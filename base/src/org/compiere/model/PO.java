@@ -684,7 +684,7 @@ public abstract class PO
 				value = Integer.parseInt((String)value);
 			}
 		}
-
+		
 		return set_Value (index, value);
 	}   //  setValue
 
@@ -721,6 +721,7 @@ public abstract class PO
 			log.log(Level.WARNING, "Virtual Column" + colInfo);
 			return false;
 		}
+		
 		//
 		// globalqss -- Bug 1618469 - is throwing not updateable even on new records
 		// if (!p_info.isColumnUpdateable(index))
@@ -818,8 +819,35 @@ public abstract class PO
 				log.finest(ColumnName + " = " + m_newValues[index] + " (OldValue="+m_oldValues[index]+")");
 		}
 		set_Keys (ColumnName, m_newValues[index]);
+		
+		// FR 2962094 Fill ProcessedOn when the Processed column is changing from N to Y
+		setProcessedOn(ColumnName, value, m_oldValues[index]);
+		
 		return true;
 	}   //  setValue
+
+	/* FR 2962094 - Finish implementation of weighted average costing
+	   Fill the column ProcessedOn (if it exists) with a bigdecimal representation of current timestamp (with nanoseconds) 
+	*/ 
+	private void setProcessedOn(String ColumnName, Object value, Object oldValue) {
+		if ("Processed".equals(ColumnName)
+				&& value instanceof Boolean
+				&& ((Boolean)value).booleanValue() == true
+				&& (oldValue == null
+				    || (oldValue instanceof Boolean
+				        && ((Boolean)oldValue).booleanValue() == false))) {
+			if (get_ColumnIndex("ProcessedOn") > 0) {
+				// fill processed on column
+				//get current time from db
+				Timestamp ts = DB.getSQLValueTS(null, "SELECT CURRENT_TIMESTAMP FROM DUAL");
+				long mili = ts.getTime();
+				int nano = ts.getNanos();
+				double doublets = Double.parseDouble(Long.toString(mili) + "." + Integer.toString(nano));
+				BigDecimal bdtimestamp = new BigDecimal(doublets);
+				set_Value("ProcessedOn", bdtimestamp);
+			}
+		}
+	}
 
 	/**
 	 *  Set Value w/o check (update, r/o, ..).
@@ -895,6 +923,10 @@ public abstract class PO
 		log.finest(ColumnName + " = " + m_newValues[index]
 				+ " (" + (m_newValues[index]==null ? "-" : m_newValues[index].getClass().getName()) + ")");
 		set_Keys (ColumnName, m_newValues[index]);
+
+		// FR 2962094 Fill ProcessedOn when the Processed column is changing from N to Y
+		setProcessedOn(ColumnName, value, m_oldValues[index]);
+		
 		return true;
 	}   //  set_ValueNoCheck
 

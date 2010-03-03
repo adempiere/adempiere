@@ -34,7 +34,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100302L;
 
     /** Standard Constructor */
     public X_PP_Order (Properties ctx, int PP_Order_ID, String trxName)
@@ -400,14 +400,17 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	}
 
 	/** Set DateConfirm.
-		@param DateConfirm DateConfirm	  */
+		@param DateConfirm 
+		Date Confirm of this Order
+	  */
 	public void setDateConfirm (Timestamp DateConfirm)
 	{
 		set_ValueNoCheck (COLUMNNAME_DateConfirm, DateConfirm);
 	}
 
 	/** Get DateConfirm.
-		@return DateConfirm	  */
+		@return Date Confirm of this Order
+	  */
 	public Timestamp getDateConfirm () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateConfirm);
@@ -447,15 +450,18 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateFinish);
 	}
 
-	/** Set DateFinishSchedule.
-		@param DateFinishSchedule DateFinishSchedule	  */
+	/** Set Date Finish Schedule.
+		@param DateFinishSchedule 
+		Scheduled Finish date for this Order
+	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule)
 	{
 		set_Value (COLUMNNAME_DateFinishSchedule, DateFinishSchedule);
 	}
 
-	/** Get DateFinishSchedule.
-		@return DateFinishSchedule	  */
+	/** Get Date Finish Schedule.
+		@return Scheduled Finish date for this Order
+	  */
 	public Timestamp getDateFinishSchedule () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateFinishSchedule);
@@ -495,29 +501,35 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
 
-	/** Set DateStart.
-		@param DateStart DateStart	  */
+	/** Set Date Start.
+		@param DateStart 
+		Date Start for this Order
+	  */
 	public void setDateStart (Timestamp DateStart)
 	{
 		set_ValueNoCheck (COLUMNNAME_DateStart, DateStart);
 	}
 
-	/** Get DateStart.
-		@return DateStart	  */
+	/** Get Date Start.
+		@return Date Start for this Order
+	  */
 	public Timestamp getDateStart () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateStart);
 	}
 
-	/** Set DateStartSchedule.
-		@param DateStartSchedule DateStartSchedule	  */
+	/** Set Date Start Schedule.
+		@param DateStartSchedule 
+		Scheduled start date for this Order
+	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule)
 	{
 		set_Value (COLUMNNAME_DateStartSchedule, DateStartSchedule);
 	}
 
-	/** Get DateStartSchedule.
-		@return DateStartSchedule	  */
+	/** Get Date Start Schedule.
+		@return Scheduled start date for this Order
+	  */
 	public Timestamp getDateStartSchedule () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateStartSchedule);
@@ -929,15 +941,18 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set OrderType.
-		@param OrderType OrderType	  */
+	/** Set Order Type.
+		@param OrderType 
+		Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public void setOrderType (String OrderType)
 	{
 		set_Value (COLUMNNAME_OrderType, OrderType);
 	}
 
-	/** Get OrderType.
-		@return OrderType	  */
+	/** Get Order Type.
+		@return Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public String getOrderType () 
 	{
 		return (String)get_Value(COLUMNNAME_OrderType);
@@ -993,7 +1008,9 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	}
 
 	/** Set Manufacturing Order.
-		@param PP_Order_ID Manufacturing Order	  */
+		@param PP_Order_ID 
+		Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1) 
@@ -1003,7 +1020,8 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 	}
 
 	/** Get Manufacturing Order.
-		@return Manufacturing Order	  */
+		@return Manufacturing Order
+	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -1092,6 +1110,26 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Processed On.
+		@param ProcessedOn 
+		The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn)
+	{
+		set_Value (COLUMNNAME_ProcessedOn, ProcessedOn);
+	}
+
+	/** Get Processed On.
+		@return The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ProcessedOn);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Process Now.
@@ -1246,17 +1284,17 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return bd;
 	}
 
-	/** Set QtyScrap.
+	/** Set Scrap %.
 		@param QtyScrap 
-		Scrap Quantity for this componet
+		Scrap % Quantity for this componet
 	  */
 	public void setQtyScrap (BigDecimal QtyScrap)
 	{
 		set_Value (COLUMNNAME_QtyScrap, QtyScrap);
 	}
 
-	/** Get QtyScrap.
-		@return Scrap Quantity for this componet
+	/** Get Scrap %.
+		@return Scrap % Quantity for this componet
 	  */
 	public BigDecimal getQtyScrap () 
 	{
