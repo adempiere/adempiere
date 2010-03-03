@@ -26,7 +26,7 @@
  *                                                                    *
  * Sponsors:                                                          *
  *  - E-evolution (http://www.e-evolution.com/)                       *
- **********************************************************************/
+ *********************************************************************/
 package org.adempiere.process.rpl.exp;
 
 import java.sql.SQLException;
@@ -54,8 +54,6 @@ import org.compiere.model.Query;
 import org.compiere.model.X_EXP_FormatLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.w3c.dom.Document;
@@ -96,15 +94,10 @@ public class ExportHelper {
 	public ExportHelper(MClient client, MReplicationStrategy rplStrategy) {
 		m_AD_Client_ID = client.getAD_Client_ID();
 		m_rplStrategy = rplStrategy;
-		
-		DisplayType.getDateFormat(DisplayType.DateTime, Language.getLanguage(Env.getAD_Language(client.getCtx())));
-		DisplayType.getDateFormat(DisplayType.Date, Language.getLanguage(Env.getAD_Language(client.getCtx())));
 	}
 	
 	public ExportHelper(Properties ctx , int AD_Client_ID) {
 		m_AD_Client_ID = AD_Client_ID;
-		DisplayType.getDateFormat(DisplayType.DateTime, Language.getLanguage(Env.getAD_Language(ctx)));
-		DisplayType.getDateFormat(DisplayType.Date, Language.getLanguage(Env.getAD_Language(ctx)));
 	}
 	
 		/**

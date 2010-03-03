@@ -46,7 +46,7 @@ public class ExportFormatGenerator extends SvrProcess
 	private int			p_AD_Window_ID = 0;
 	private boolean     p_IsMandatory = false;
 	private boolean     p_IsInsertRecord= false;
-	private Hashtable m_formats = new Hashtable();
+	private Hashtable<String, MEXPFormat> m_formats = new Hashtable<String, MEXPFormat>();
 	private String version = "3.2.0";
 	private String m_parent_table = null;
 	private String m_format_value = null;

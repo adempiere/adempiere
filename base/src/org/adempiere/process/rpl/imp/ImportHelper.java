@@ -25,7 +25,7 @@
  *                                                                    *
  * Sponsors:                                                          *
  *  - E-evolution (http://www.e-evolution.com/)                       *
- **********************************************************************/
+ *********************************************************************/
 package org.adempiere.process.rpl.imp;
 
 import java.math.BigDecimal;
@@ -83,12 +83,6 @@ public class ImportHelper {
 	/** Static Logger 				*/
 	private static CLogger s_log = CLogger.getCLogger(ImportHelper.class);
 	
-	/** Date Time Format			*/
-	private SimpleDateFormat	m_dateTimeFormat = null;
-
-	/** Date Format					*/
-	private SimpleDateFormat	m_dateFormat = null;
-	
 	/** Custom Date Format			*/
 	private SimpleDateFormat	m_customDateFormat = null;
 	
@@ -98,9 +92,6 @@ public class ImportHelper {
 	public ImportHelper(Properties ctx) 
 	{
 		this.ctx = ctx;
-		// Construct DateFromat and DateTimeFormat
-		m_dateTimeFormat = DisplayType.getDateFormat(DisplayType.DateTime, Env.getLanguage(ctx));
-		m_dateFormat 	 = DisplayType.getDateFormat(DisplayType.Date, Env.getLanguage(ctx));
 	}
 	
 	/**
@@ -240,7 +231,6 @@ public class ImportHelper {
 	 * @throws Exception
 	 * @throws XPathExpressionException
 	 */
-	@SuppressWarnings("unchecked")
 	private PO importElement(Properties ctx, StringBuffer result, Element rootElement,
 			MEXPFormat expFormat, String ReplicationType, String trxName) throws Exception, XPathExpressionException 
 	{
@@ -404,7 +394,7 @@ public class ImportHelper {
 			{
 				
 				// Clazz
-				Class clazz = DisplayType.getClass(column.getAD_Reference_ID(), true);
+				Class<?> clazz = DisplayType.getClass(column.getAD_Reference_ID(), true);
 				
 				//	Handle Posted
 				if (column.getColumnName().equalsIgnoreCase("Posted") 
