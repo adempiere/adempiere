@@ -205,7 +205,7 @@ public class InOutGenerateRMA extends SvrProcess
                 //
                 // Link to corresponding Invoice Line (if any) - teo_sarca [ 2818523 ]
                 // The MMatchInv records will be automatically generated on MInOut.completeIt()
-            	final MInvoiceLine invoiceLine = new Query(shipment.getCtx(), I_C_InvoiceLine.Table_Name,
+            	MInvoiceLine invoiceLine = new Query(shipment.getCtx(), I_C_InvoiceLine.Table_Name,
             			I_C_InvoiceLine.COLUMNNAME_M_RMALine_ID+"=?",
             			shipment.get_TrxName())
             	.setParameters(rmaLine.getM_RMALine_ID())
