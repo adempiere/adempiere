@@ -39,8 +39,7 @@ public class MInventoryLine extends X_M_InventoryLine
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1336000922103246463L;
-
+	private static final long serialVersionUID = 5649152656460089476L;
 
 	/**
 	 * 	Get Inventory Line with parameters

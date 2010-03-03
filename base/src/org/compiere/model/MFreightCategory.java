@@ -32,8 +32,6 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.util.Env;
 /**
  *
  * @author Daniel Tamm
@@ -80,8 +78,8 @@ public class MFreightCategory extends X_M_FreightCategory {
      */
     public static MFreightCategory getByValue(Properties ctx, String value, String trxName) {
         
-        Query q = new Query(ctx, I_M_FreightCategory.Table_Name, "Value=? AND AD_Client_ID=?", trxName);
-        q.setParameters(value, Env.getAD_Client_ID(ctx));
+        Query q = new Query(ctx, I_M_FreightCategory.Table_Name, "Value=?", trxName);
+        q.setParameters(value).setClient_ID();
         return q.first();
     }
     

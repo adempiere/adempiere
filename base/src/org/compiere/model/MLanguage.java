@@ -138,7 +138,6 @@ public class MLanguage extends X_AD_Language
 	 * 	@param LanguageISO language code
 	 *	@param trxName transaction
 	 */
-	@SuppressWarnings("unused")
 	private MLanguage (Properties ctx, String AD_Language, String Name,
 		String CountryCode, String LanguageISO, String trxName)
 	{

@@ -216,7 +216,7 @@ public class MJournal extends X_GL_Journal implements DocAction
 	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
 		final String whereClause = "GL_Journal_ID=?";
-		List <MJournalLine> list = new Query(getCtx(), I_GL_JournalLine.Table_Name, whereClause.toString(), null)
+		List <MJournalLine> list = new Query(getCtx(), I_GL_JournalLine.Table_Name, whereClause, null)
 			.setParameters(getGL_Journal_ID())
 			.setOrderBy("Line")
 			.list();

@@ -77,9 +77,8 @@ public class MDocType extends X_C_DocType
 	 */
 	static public MDocType[] getOfClient (Properties ctx)
 	{
-		final String whereClause  = "AD_Client_ID=?";
-		List<MDocType> list = new Query(ctx, Table_Name, whereClause, null)
-									.setParameters(Env.getAD_Client_ID(ctx))
+		List<MDocType> list = new Query(ctx, Table_Name, null, null)
+									.setClient_ID()
 									.setOnlyActiveRecords(true)
 									.list();
 		return list.toArray(new MDocType[list.size()]);

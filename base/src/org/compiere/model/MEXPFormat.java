@@ -130,18 +130,18 @@ public class MEXPFormat extends X_EXP_Format {
 		if(retValue!=null)
 			return retValue;
 		
-		StringBuffer whereCluse = new StringBuffer(X_EXP_Format.COLUMNNAME_Value).append("=?")
+		StringBuffer whereClause = new StringBuffer(X_EXP_Format.COLUMNNAME_Value).append("=?")
 		.append(" AND AD_Client_ID = ?")
 		.append(" AND ").append(X_EXP_Format.COLUMNNAME_Version).append(" = ?");
 
-		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereCluse.toString(),trxName)
+		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereClause.toString(),trxName)
 					.setParameters(value,AD_Client_ID,version).first();
 		
 		if(retValue != null)
 		{	
-		retValue.getFormatLines();
-		s_cache.put (key, retValue);
-		exp_format_by_id_cache.put(retValue.getEXP_Format_ID(), retValue);
+			retValue.getFormatLines();
+			s_cache.put (key, retValue);
+			exp_format_by_id_cache.put(retValue.getEXP_Format_ID(), retValue);
 		}
 		
 		return retValue;
@@ -165,9 +165,9 @@ public class MEXPFormat extends X_EXP_Format {
 						.first();
 		if(retValue!=null)
 		{	
-		retValue.getFormatLines();
-		s_cache.put (key, retValue);
-		exp_format_by_id_cache.put(retValue.getEXP_Format_ID(), retValue);
+			retValue.getFormatLines();
+			s_cache.put (key, retValue);
+			exp_format_by_id_cache.put(retValue.getEXP_Format_ID(), retValue);
 		}
 		
 		return retValue;
