@@ -102,7 +102,7 @@ public class MMovement extends X_M_Movement implements DocAction
 		}
 		//
 		final String whereClause = "M_Movement_ID=?";
-		List<MMovement> list = new Query(getCtx(), I_M_MovementLine.Table_Name, whereClause, get_TrxName())
+		List<MMovementLine> list = new Query(getCtx(), I_M_MovementLine.Table_Name, whereClause, get_TrxName())
 		 										.setParameters(getM_Movement_ID())
 		 										.setOrderBy(MMovementLine.COLUMNNAME_Line)
 		 										.list();

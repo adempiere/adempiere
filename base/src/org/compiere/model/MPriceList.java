@@ -38,8 +38,7 @@ public class MPriceList extends X_M_PriceList
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 221716795566010352L;
-
+	private static final long serialVersionUID = -5096935348390226068L;
 
 	/**
 	 * 	Get Price List (cached)
@@ -87,6 +86,7 @@ public class MPriceList extends X_M_PriceList
 		final String whereClause = "AD_Client_ID=? AND IsDefault=? AND IsSOPriceList=?";
 		retValue = new Query(ctx, Table_Name, whereClause, null)
 						.setParameters(AD_Client_ID, "Y", IsSOPriceList ? "Y" : "N")
+						.setOnlyActiveRecords(true)
 						.setOrderBy("M_PriceList_ID")
 						.first();
 		
@@ -133,7 +133,8 @@ public class MPriceList extends X_M_PriceList
 		//	Get from DB
 		final String whereClause = "AD_Client_ID=? AND IsDefault=? AND IsSOPriceList=? AND C_Currency_ID=?";
 		retValue = new Query(ctx, Table_Name, whereClause, null)
-						.setParameters(AD_Client_ID, "Y", IsSOPriceList ? "Y" : "N", Integer.valueOf(M_Currency_ID))
+						.setParameters(AD_Client_ID, "Y", IsSOPriceList ? "Y" : "N", M_Currency_ID)
+						.setOnlyActiveRecords(true)
 						.setOrderBy("M_PriceList_ID")
 						.first();
 		
@@ -242,9 +243,10 @@ public class MPriceList extends X_M_PriceList
 		if (m_plv != null && m_plv.getValidFrom().before(valid))
 			return m_plv;
 
-		final String whereClause = "M_PriceList_ID=? AND TRUNC(ValidFrom)<=? AND IsActive=?";
+		final String whereClause = "M_PriceList_ID=? AND TRUNC(ValidFrom)<=?";
 		m_plv = new Query(getCtx(), I_M_PriceList_Version.Table_Name, whereClause, get_TrxName())
-					.setParameters(getM_PriceList_ID(), valid, "Y")
+					.setParameters(getM_PriceList_ID(), valid)
+					.setOnlyActiveRecords(true)
 					.setOrderBy("ValidFrom DESC")
 					.first();
 		if (m_plv == null)

@@ -639,7 +639,7 @@ public class MOrder extends X_C_Order implements DocAction
 	public MOrderLine[] getLines (String whereClause, String orderClause)
 	{
 		//red1 - using new Query class from Teo / Victor's MDDOrder.java implementation
-		StringBuffer whereClauseFinal = new StringBuffer(MOrderLine.COLUMNNAME_C_Order_ID+"=?");
+		StringBuffer whereClauseFinal = new StringBuffer(MOrderLine.COLUMNNAME_C_Order_ID+"=? ");
 		if (!Util.isEmpty(whereClause, true))
 			whereClauseFinal.append(whereClause);
 		if (orderClause.length() == 0)

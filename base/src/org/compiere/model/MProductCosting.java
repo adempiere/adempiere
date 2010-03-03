@@ -34,8 +34,7 @@ public class MProductCosting extends X_M_Product_Costing
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7980130899951986948L;
-
+	private static final long serialVersionUID = 5563448335633481151L;
 
 	/**
 	 * 	Get Costing Of Product

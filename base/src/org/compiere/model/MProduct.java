@@ -86,9 +86,8 @@ public class MProduct extends X_M_Product
 	 */
 	public static MProduct[] get (Properties ctx, String whereClause, String trxName)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		List<MProduct> list = new Query(ctx, Table_Name, "AD_Client_ID=? AND "+whereClause, trxName)
-								.setParameters(AD_Client_ID)
+		List<MProduct> list = new Query(ctx, Table_Name, whereClause, trxName)
+								.setClient_ID()
 								.list();
 		return list.toArray(new MProduct[list.size()]);
 	}	//	get
@@ -102,9 +101,9 @@ public class MProduct extends X_M_Product
 	 */
 	public static List<MProduct> getByUPC(Properties ctx, String upc, String trxName)
 	{
-		final String whereClause = "AD_Client_ID=? AND UPC=?";
+		final String whereClause = "UPC=?";
 		Query q = new Query(ctx, Table_Name, whereClause, trxName);
-		q.setParameters(Env.getAD_Client_ID(ctx), upc);
+		q.setParameters(upc).setClient_ID();
 		return(q.list());
 	}
 

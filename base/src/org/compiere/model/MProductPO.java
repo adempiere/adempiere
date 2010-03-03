@@ -43,9 +43,10 @@ public class MProductPO extends X_M_Product_PO
 	 */
 	public static MProductPO[] getOfProduct (Properties ctx, int M_Product_ID, String trxName)
 	{
-		final String whereClause = "M_Product_ID=? AND IsActive=?";
+		final String whereClause = "M_Product_ID=?";
 		List<MProductPO> list = new Query(ctx, Table_Name, whereClause, trxName)
-									.setParameters(M_Product_ID, "Y")
+									.setParameters(M_Product_ID)
+									.setOnlyActiveRecords(true)
 									.setOrderBy("IsCurrentVendor DESC")
 									.list();
 		return list.toArray(new MProductPO[list.size()]);

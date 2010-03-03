@@ -44,9 +44,9 @@ public class MPaymentAllocate extends X_C_PaymentAllocate
 	 */
 	public static MPaymentAllocate[] get (MPayment parent)
 	{
-		final String whereClause = "C_Payment_ID=? AND IsActive=?";
+		final String whereClause = "C_Payment_ID=?";
 		Query query = MTable.get(parent.getCtx(), Table_ID).createQuery(whereClause, parent.get_TrxName());
-		query.setParameters(parent.getC_Payment_ID(), "Y");
+		query.setParameters(parent.getC_Payment_ID()).setOnlyActiveRecords(true);
 		List<MPaymentAllocate> list = query.list();
 		return list.toArray(new MPaymentAllocate[list.size()]);
 	}	//	get
