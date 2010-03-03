@@ -60,9 +60,10 @@ public class MCostElement extends X_M_CostElement
 			return null;
 		}
 		//
-		final String whereClause = "AD_Client_ID=? AND CostingMethod=? AND CostElementType=?";
+		final String whereClause = "CostingMethod=? AND CostElementType=?";
 		MCostElement retValue = new Query(po.getCtx(), Table_Name, whereClause, po.get_TrxName())
-			.setParameters(po.getAD_Client_ID(), CostingMethod, COSTELEMENTTYPE_Material)
+			.setParameters(CostingMethod, COSTELEMENTTYPE_Material)
+			.setClient_ID()
 			.setOrderBy("AD_Org_ID")
 			.firstOnly();
 		if (retValue != null)
@@ -91,11 +92,17 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement getMaterialCostElement(Properties ctx, String CostingMethod)
 	{
-		final String whereClause = "AD_Client_ID=? AND CostingMethod=?";
-		MCostElement retValue = new Query(ctx, I_M_CostElement.Table_Name, whereClause, null)
-		.setParameters(Env.getAD_Client_ID(ctx), CostingMethod)
+		final String whereClause = "CostingMethod=?";
+		List<MCostElement> list = new Query(ctx, I_M_CostElement.Table_Name, whereClause, null)
+		.setParameters(CostingMethod)
+		.setClient_ID()
 		.setOrderBy(I_M_CostElement.COLUMNNAME_AD_Org_ID)
-		.firstOnly();
+		.list();
+		MCostElement retValue = null;
+		if (list.size() > 0)
+			retValue = list.get(0);
+		if (list.size() > 1)
+			s_log.info("More then one Material Cost Element for CostingMethod=" + CostingMethod);
 		return retValue;
 	}	//	getMaterialCostElement
 	
@@ -120,9 +127,10 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement[] getCostingMethods (PO po)
 	{
-		final String whereClause ="AD_Client_ID=? AND CostElementType='M' AND CostingMethod IS NOT NULL";
+		final String whereClause ="CostElementType=? AND CostingMethod IS NOT NULL";
 		List<MCostElement> list = new Query(po.getCtx(), I_M_CostElement.Table_Name, whereClause, po.get_TrxName())
-		.setParameters(po.getAD_Client_ID())
+		.setParameters(COSTELEMENTTYPE_Material)
+		.setClient_ID()
 		.setOnlyActiveRecords(true)
 		.list();
 		//
@@ -139,9 +147,9 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement[] getNonCostingMethods (PO po)
 	{
-		final String whereClause = "AD_Client_ID=? AND CostingMethod IS NULL";
-		List<MCostElement>list = new Query(po.getCtx(),MCostElement.Table_Name, whereClause, po.get_TrxName())
-		.setParameters(po.getAD_Client_ID())
+		final String whereClause = "CostingMethod IS NULL";
+		List<MCostElement>list = new Query(po.getCtx(),I_M_CostElement.Table_Name, whereClause, po.get_TrxName())
+		.setClient_ID()
 		.setOnlyActiveRecords(true)
 		.list(); 
 		//
@@ -178,12 +186,12 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement[] getElements (Properties ctx, String trxName)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(ctx);
 		int AD_Org_ID = 0; // Org is always ZERO - see beforeSave
 		
-		final String whereClause = "AD_Client_ID = ? AND AD_Org_ID = ?";
+		final String whereClause = "AD_Org_ID=?";
 		List<MCostElement> list = new Query(ctx, Table_Name, whereClause, trxName)
-					.setParameters(AD_Client_ID, AD_Org_ID)
+					.setParameters(AD_Org_ID)
+					.setClient_ID()
 					.list();
 		MCostElement[] retValue = new MCostElement[list.size()];
 		list.toArray(retValue);
@@ -268,7 +276,7 @@ public class MCostElement extends X_M_CostElement
 			}
 		}
 
-		//	Maintain Calclated
+		//	Maintain Calculated
 		/*
 		if (COSTELEMENTTYPE_Material.equals(getCostElementType()))
 		{
@@ -317,11 +325,13 @@ public class MCostElement extends X_M_CostElement
 		
 		//	Costing Methods on PC level
 		int M_Product_Category_ID = 0;
-		final String whereClause ="AD_Client_ID=? AND CostingMethod=?";
-		MProductCategory retValue = new Query(getCtx(), I_M_Product_Category_Acct.Table_Name, whereClause, null)
-		.setParameters(getAD_Client_ID(), getCostingMethod())
+		final String whereClause ="CostingMethod=?";
+		MProductCategoryAcct retValue = new Query(getCtx(), I_M_Product_Category_Acct.Table_Name, whereClause, null)
+		.setParameters(getCostingMethod())
+		.setClient_ID()
 		.first();
-		M_Product_Category_ID = retValue.getM_Product_Category_ID();
+		if (retValue != null)
+			M_Product_Category_ID = retValue.getM_Product_Category_ID();
 		if (M_Product_Category_ID != 0)
 		{
 			log.saveError("CannotDeleteUsed", Msg.getElement(getCtx(), "M_Product_Category_ID") 
