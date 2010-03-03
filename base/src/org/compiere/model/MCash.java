@@ -217,7 +217,7 @@ public class MCash extends X_C_Cash implements DocAction
 			return m_lines;
 		}
 		
-	final String whereClause =MCashLine.COLUMNNAME_C_Cash_ID+"=?"; 
+		final String whereClause =MCashLine.COLUMNNAME_C_Cash_ID+"=?"; 
 		List<MCashLine> list = new Query(getCtx(),I_C_CashLine.Table_Name,  whereClause, get_TrxName())
 								.setParameters(getC_Cash_ID())
 								.setOrderBy(I_C_CashLine.COLUMNNAME_Line)

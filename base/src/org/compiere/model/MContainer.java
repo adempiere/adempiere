@@ -32,9 +32,11 @@ import org.compiere.util.DB;
  */
 public class MContainer extends X_CM_Container
 {
-	/**	serialVersionUID	*/
-	private static final long serialVersionUID = 395679572291279730L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3999588662066631303L;
+
 	/**
 	 * 	get Container by Relative URL
 	 *	@param ctx

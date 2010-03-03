@@ -17,14 +17,10 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -35,7 +31,6 @@ import org.compiere.util.Env;
  */
 public class MProductPrice extends X_M_ProductPrice
 {
-	
 	/**
 	 * 
 	 */
