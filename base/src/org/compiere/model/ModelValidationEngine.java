@@ -215,7 +215,7 @@ public class ModelValidationEngine
 		}
 		
 		// now process the script model validator login
-		ArrayList<MRule> loginRules = MRule.getModelValidatorLoginRules (Env.getCtx());
+		List<MRule> loginRules = MRule.getModelValidatorLoginRules (Env.getCtx());
 		if (loginRules != null) {
 			for (MRule loginRule : loginRules) {
 				// currently just JSR 223 supported

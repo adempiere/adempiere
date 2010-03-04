@@ -17,21 +17,17 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
@@ -45,7 +41,8 @@ public class MRule extends X_AD_Rule
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 343261652226641676L;
+	private static final long serialVersionUID = -9166262780531877045L;
+	
 	//global or login context variable prefix
 	public final static String GLOBAL_CONTEXT_PREFIX = "G_";
 	//window context variable prefix
@@ -85,7 +82,7 @@ public class MRule extends X_AD_Rule
 	{
 		if (ruleValue == null)
 			return null;
-		Iterator it = s_cache.values().iterator();
+		Iterator<MRule> it = s_cache.values().iterator();
 		while (it.hasNext())
 		{
 			MRule retValue = (MRule)it.next();
@@ -112,15 +109,13 @@ public class MRule extends X_AD_Rule
 	 *	@param ctx context
 	 *	@return Rule
 	 */
-	public static ArrayList<MRule> getModelValidatorLoginRules (Properties ctx)
+	public static List<MRule> getModelValidatorLoginRules (Properties ctx)
 	{
 		final String whereClause = "EventType=?";
-		List<MRule>list = new Query(ctx,I_AD_Rule.Table_Name,whereClause,null)
+		List<MRule> rules = new Query(ctx,I_AD_Rule.Table_Name,whereClause,null)
 		.setParameters(EVENTTYPE_ModelValidatorLoginEvent)
 		.setOnlyActiveRecords(true)
 		.list();
-		ArrayList<MRule> rules = new ArrayList<MRule>();
-		rules.addAll(list);
 		if (rules != null && rules.size() > 0)
 			return rules;
 		else

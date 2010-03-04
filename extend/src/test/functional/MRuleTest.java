@@ -13,7 +13,7 @@
  *****************************************************************************/
 package test.functional;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.compiere.model.MRule;
 import org.compiere.util.Env;
@@ -38,7 +38,7 @@ public class MRuleTest extends AdempiereTestCase
 	{
 		MRule getrule = MRule.get(getCtx(), "beanshell:getAvailable");
 		assertTrue("BeanRule must be exact", getrule.getAD_Rule_ID()==1000000);
-		ArrayList<MRule> rules = MRule.getModelValidatorLoginRules(getCtx());
+		List<MRule> rules = MRule.getModelValidatorLoginRules(getCtx());
 		assertTrue("Rules has array", rules.size() > 0); //red1 set in DB Rule.EventType = L before testing
 
 	}
