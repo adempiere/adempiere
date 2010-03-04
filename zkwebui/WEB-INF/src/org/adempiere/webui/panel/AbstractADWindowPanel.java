@@ -1643,7 +1643,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (!getComponent().getDesktop().isServerPushEnabled())
 			getComponent().getDesktop().enableServerPush(true);
 
-		ProcessModalDialog dialog = new ProcessModalDialog(this,0,
+		ProcessModalDialog dialog = new ProcessModalDialog(this,getWindowNo(),
 				AD_Process_ID,table_ID, record_ID, true);
 		if (dialog.isValid()) {
 			dialog.setPosition("center");
