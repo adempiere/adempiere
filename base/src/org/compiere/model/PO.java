@@ -940,7 +940,7 @@ public abstract class PO
 	 */
 	protected final boolean set_ValueNoCheckE (String ColumnName, Object value)
 	{
-		return set_ValueNoCheckE (ColumnName, value);
+		return set_ValueNoCheck (ColumnName, value);
 	}	//	set_ValueNoCheckE
 
 	/**
