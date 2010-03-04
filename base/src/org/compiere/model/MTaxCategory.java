@@ -33,7 +33,7 @@ public class MTaxCategory extends X_C_TaxCategory
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2154364435808111060L;
+	private static final long serialVersionUID = -5521670797405300136L;
 
 	/**
 	 * 	Standard Constructor
@@ -71,7 +71,7 @@ public class MTaxCategory extends X_C_TaxCategory
 	{
 		MTax m_tax = new MTax(getCtx(), 0, get_TrxName());
 		
-		String whereClause = COLUMNNAME_C_TaxCategory_ID+"=? AND "+ COLUMNNAME_IsDefault+"='Y'";
+		final String whereClause = COLUMNNAME_C_TaxCategory_ID+"=? AND "+ COLUMNNAME_IsDefault+"='Y'";
 		List<MTax> list = new Query(getCtx(), I_C_Tax.Table_Name, whereClause,  get_TrxName())
 			.setParameters(getC_TaxCategory_ID())
 			.setOnlyActiveRecords(true)

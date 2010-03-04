@@ -76,9 +76,10 @@ public class MWarehouse extends X_M_Warehouse
 	 */
 	public static MWarehouse[] getForOrg (Properties ctx, int AD_Org_ID)
 	{
-		String whereClause = "IsActive=? AND AD_Org_ID=?";
+		final String whereClause = "AD_Org_ID=?";
 		List<MWarehouse> list = new Query(ctx, Table_Name, whereClause, null)
-										.setParameters("Y", AD_Org_ID)
+										.setParameters(AD_Org_ID)
+										.setOnlyActiveRecords(true)
 										.setOrderBy(COLUMNNAME_M_Warehouse_ID)
 										.list();
 		return list.toArray(new MWarehouse[list.size()]);
@@ -93,9 +94,10 @@ public class MWarehouse extends X_M_Warehouse
 	 */
 	public static MWarehouse[] getInTransitForOrg (Properties ctx, int AD_Org_ID)
 	{
-		String whereClause = "IsActive=? AND IsInTransit=? AND AD_Org_ID=?";
+		final String whereClause = "IsInTransit=? AND AD_Org_ID=?";
 		List<MWarehouse> list = new Query(ctx, Table_Name, whereClause, null)
-										.setParameters("Y", "Y", AD_Org_ID)
+										.setParameters("Y", AD_Org_ID)
+										.setOnlyActiveRecords(true)
 										.setOrderBy(COLUMNNAME_M_Warehouse_ID)
 										.list();
 		return list.toArray(new MWarehouse[list.size()]);
@@ -159,9 +161,10 @@ public class MWarehouse extends X_M_Warehouse
 		if (!reload && m_locators != null)
 			return m_locators;
 		//
-		final String whereClause = "IsActive=? AND M_Warehouse_ID=?";
+		final String whereClause = "M_Warehouse_ID=?";
 		List<MLocator> list = new Query(getCtx(), I_M_Locator.Table_Name, whereClause, null)
-										.setParameters("Y", getM_Warehouse_ID())
+										.setParameters(getM_Warehouse_ID())
+										.setOnlyActiveRecords(true)
 										.setOrderBy("X,Y,Z")
 										.list();
 		m_locators = list.toArray(new MLocator[list.size()]);

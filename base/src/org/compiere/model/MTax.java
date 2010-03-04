@@ -36,12 +36,12 @@ import org.compiere.util.TimeUtil;
  *  mjmckay - BF [2948632] - Allow edits to the Defautl Tax Rate 
  */
 public class MTax extends X_C_Tax
-{	
+{
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4140382472528327237L;
-
+	private static final long serialVersionUID = 6423328193350641479L;
+	
 	/**	Cache						*/
 	private static CCache<Integer,MTax>		s_cache	= new CCache<Integer,MTax>(Table_Name, 5);
 	/**	Cache of Client						*/
@@ -69,9 +69,8 @@ public class MTax extends X_C_Tax
 
 		//	Create it
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = "AD_Client_ID=?";
-		List<MTax> list = new Query(ctx, I_C_Tax.Table_Name, whereClause, null)
-								.setParameters(AD_Client_ID)
+		List<MTax> list = new Query(ctx, I_C_Tax.Table_Name, null, null)
+								.setClient_ID()
 								.setOrderBy("C_Country_ID, C_Region_ID, To_Country_ID, To_Region_ID")
 								.setOnlyActiveRecords(true)
 								.list();
@@ -169,7 +168,7 @@ public class MTax extends X_C_Tax
 			return m_childTaxes;
 		//
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		String whereClause = COLUMNNAME_Parent_Tax_ID+"=?";
+		final String whereClause = COLUMNNAME_Parent_Tax_ID+"=?";
 		List<MTax> list = new Query(getCtx(), I_C_Tax.Table_Name, whereClause,  get_TrxName())
 			.setParameters(getC_Tax_ID())
 			.setOnlyActiveRecords(true)

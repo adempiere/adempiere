@@ -38,8 +38,7 @@ public class MResourceUnAvailable extends X_S_ResourceUnAvailable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5532695704071630122L;
-
+	private static final long serialVersionUID = 1087763356022282086L;
 
 	/**
 	 * Check if a resource is not available

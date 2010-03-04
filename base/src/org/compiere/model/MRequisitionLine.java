@@ -45,7 +45,7 @@ public class MRequisitionLine extends X_M_RequisitionLine
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3556301115666692794L;
+	private static final long serialVersionUID = -2567343619431184322L;
 
 	/**
 	 * Get corresponding Requisition Line for given Order Line

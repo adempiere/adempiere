@@ -43,8 +43,7 @@ public class MRequest extends X_R_Request
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3989278951102963994L;
-
+	private static final long serialVersionUID = -6049674214655497548L;
 
 	/**
 	 * 	Get Request ID from mail text
