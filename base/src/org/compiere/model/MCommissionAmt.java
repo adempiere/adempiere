@@ -17,13 +17,10 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -88,35 +85,10 @@ public class MCommissionAmt extends X_C_CommissionAmt
 	 */
 	public MCommissionDetail[] getDetails()
 	{
-		String sql = "SELECT * FROM C_CommissionDetail WHERE C_CommissionAmt_ID=?";
-		ArrayList<MCommissionDetail> list = new ArrayList<MCommissionDetail>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_CommissionAmt_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-				list.add(new MCommissionDetail(getCtx(), rs, get_TrxName()));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e); 
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-
+		final String whereClause = I_C_CommissionDetail.COLUMNNAME_C_CommissionAmt_ID+"=?";
+	List<MCommissionDetail> list = new Query(getCtx(),I_C_CommissionDetail.Table_Name, whereClause, get_TrxName())
+		.setParameters(getC_CommissionAmt_ID())
+		.list();
 		//	Convert
 		MCommissionDetail[] retValue = new MCommissionDetail[list.size()];
 		list.toArray(retValue);
