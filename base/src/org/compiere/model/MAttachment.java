@@ -80,35 +80,10 @@ public class MAttachment extends X_AD_Attachment
 	 */
 	public static MAttachment get (Properties ctx, int AD_Table_ID, int Record_ID)
 	{
-		MAttachment retValue = null;
-		PreparedStatement pstmt = null;
-		String sql = "SELECT * FROM AD_Attachment WHERE AD_Table_ID=? AND Record_ID=?";
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Table_ID);
-			pstmt.setInt (2, Record_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MAttachment (ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_AD_Attachment.COLUMNNAME_AD_Table_ID+"=? AND "+I_AD_Attachment.COLUMNNAME_Record_ID+"=?";
+		MAttachment retValue = new Query(ctx,I_AD_Attachment.Table_Name,whereClause, null)
+		.setParameters(AD_Table_ID, Record_ID)
+		.first();
 		return retValue;
 	}	//	get
 	
