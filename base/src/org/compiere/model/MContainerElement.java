@@ -16,13 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 /**
  * CStage Element
@@ -46,34 +43,10 @@ public class MContainerElement extends X_CM_Container_Element
 	 *	@return ContainerElement
 	 */
 	public static MContainerElement get(Properties ctx, int CM_ContainerElement_ID, String trxName) {
-		MContainerElement thisContainerElement = null;
-		String sql = "SELECT * FROM CM_Container_Element WHERE CM_Container_Element_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, CM_ContainerElement_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				thisContainerElement = (new MContainerElement(ctx, rs, trxName));
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_CM_Container_Element.COLUMNNAME_CM_Container_Element_ID+"=?";
+		MContainerElement thisContainerElement = new Query(ctx,I_CM_Container_Element.Table_Name,whereClause, trxName)
+		.setParameters(CM_ContainerElement_ID)
+		.firstOnly();
 		return thisContainerElement;
 	}
 
