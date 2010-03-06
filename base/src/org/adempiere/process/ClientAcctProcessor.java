@@ -29,8 +29,13 @@
 
 package org.adempiere.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.acct.Doc;
@@ -41,6 +46,7 @@ import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
@@ -115,32 +121,101 @@ public class ClientAcctProcessor extends SvrProcess
 	 */
 	private void postSession()
 	{
-		for (int i = 0; i < Doc.getDocumentsTableID().length; i++)
+		List<BigDecimal> listProcessedOn = new ArrayList<BigDecimal>();
+		listProcessedOn.add(Env.ZERO); // to include potential null values
+
+		//get current time from db
+		Timestamp ts = DB.getSQLValueTS(get_TrxName(), "SELECT CURRENT_TIMESTAMP FROM DUAL");
+
+		//go back 2 second to be safe (to avoid posting documents being completed at this precise moment)
+		long ms = ts.getTime()- (2 * 1000);
+		ts = new Timestamp(ms);
+		long mili = ts.getTime();
+		BigDecimal value = new BigDecimal(Long.toString(mili));
+		
+		//first pass, collect all ts (FR 2962094 - required for weighted average costing)
+		int[] documentsTableID = Doc.getDocumentsTableID();
+		String[] documentsTableName = Doc.getDocumentsTableName();
+		for (int i = 0; i < documentsTableID.length; i++)
 		{
-			int AD_Table_ID = Doc.getDocumentsTableID()[i];
-			String TableName = Doc.getDocumentsTableName()[i];
+			int AD_Table_ID = documentsTableID[i];
+			String TableName = documentsTableName[i];
 			//	Post only special documents
-			if (p_AD_Table_ID != 0 
+			if (p_AD_Table_ID != 0
 				&& p_AD_Table_ID != AD_Table_ID)
 				continue;
-			//  SELECT * FROM table
-			StringBuffer sql = new StringBuffer ("SELECT * FROM ").append(TableName)
-				.append(" WHERE AD_Client_ID=?")
-				.append(" AND Processed='Y' AND Posted='N' AND IsActive='Y'")
-				.append(" ORDER BY Created");
-			//
-			int count = 0;
-			int countError = 0;
+			
+			StringBuffer sql = new StringBuffer ("SELECT DISTINCT ProcessedOn FROM ").append(TableName)
+				.append(" WHERE AD_Client_ID=? AND ProcessedOn<?")
+				.append(" AND Processed='Y' AND Posted='N' AND IsActive='Y'");
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try
 			{
 				pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 				pstmt.setInt(1, getAD_Client_ID());
+				pstmt.setBigDecimal(2, value);
 				rs = pstmt.executeQuery();
 				while (rs.next())
 				{
-					count++;
+					BigDecimal processedOn = rs.getBigDecimal(1);
+					if (!listProcessedOn.contains(processedOn))
+						listProcessedOn.add(processedOn);
+				}
+			}
+			catch (Exception e)
+			{
+				log.log(Level.SEVERE, sql.toString(), e);
+			}
+			finally
+			{
+				DB.close(rs, pstmt);
+			}
+		}
+
+		// initialize counters per table
+		int[] count = new int[documentsTableID.length];
+		int[] countError = new int[documentsTableID.length];
+		for (int i = 0; i < count.length; i++) {
+			count[i] = 0;
+			countError[i] = 0;
+		}
+		
+	  //sort and post in the processed date order
+	  Collections.sort(listProcessedOn);
+	  for (BigDecimal processedOn : listProcessedOn)
+	  {
+		
+		for (int i = 0; i < documentsTableID.length; i++)
+		{
+			int AD_Table_ID = documentsTableID[i];
+			String TableName = documentsTableName[i];
+			//	Post only special documents
+			if (p_AD_Table_ID != 0
+				&& p_AD_Table_ID != AD_Table_ID)
+				continue;
+			//  SELECT * FROM table
+			StringBuffer sql = new StringBuffer ("SELECT * FROM ").append(TableName)
+				.append(" WHERE AD_Client_ID=? AND (ProcessedOn");
+			if (processedOn.compareTo(Env.ZERO) != 0)
+				sql.append("=?");
+			else
+				sql.append(" IS NULL OR ProcessedOn=0");
+			sql.append(") AND Processed='Y' AND Posted='N' AND IsActive='Y'")
+				.append(" ORDER BY Created");
+			//
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try
+			{
+				pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
+				pstmt.setInt(1, getAD_Client_ID());
+				if (processedOn.compareTo(Env.ZERO) != 0)
+					pstmt.setBigDecimal(2, processedOn);
+				rs = pstmt.executeQuery();
+				while (rs.next())
+				{
+					count[i]++;
 					boolean ok = true;
 					// Run every posting document in own transaction
 					String innerTrxName = Trx.createTrxName("CAP");
@@ -174,7 +249,7 @@ public class ClientAcctProcessor extends SvrProcess
 						innerTrx = null;
 					}
 					if (!ok)
-						countError++;
+						countError[i]++;
 				}
 			}
 			catch (Exception e)
@@ -186,18 +261,25 @@ public class ClientAcctProcessor extends SvrProcess
 				DB.close(rs, pstmt);
 			}
 			
-			//
-			if (count > 0)
+		} // for tableID
+		
+	  } // for processedOn
+	  
+		for (int i = 0; i < documentsTableID.length; i++)
+		{
+			String TableName = documentsTableName[i];
+			if (count[i] > 0)
 			{
-				m_summary.append(TableName).append("=").append(count);
-				if (countError > 0)
-					m_summary.append("(Errors=").append(countError).append(")");
+				m_summary.append(TableName).append("=").append(count[i]);
+				if (countError[i] > 0)
+					m_summary.append("(Errors=").append(countError[i]).append(")");
 				m_summary.append(" - ");
 				log.finer(getName() + ": " + m_summary.toString());
 			}
 			else
 				log.finer(getName() + ": " + TableName + " - no work");
 		}
+		
 	}	//	postSession
 
 }	//	ClientAcctProcessor
