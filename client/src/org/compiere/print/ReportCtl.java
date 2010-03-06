@@ -267,7 +267,9 @@ public class ReportCtl
 			{
 				try 
 				{
-					ClassLoader loader = ReportCtl.class.getClassLoader();
+					ClassLoader loader = Thread.currentThread().getContextClassLoader();
+					if (loader == null)
+						loader = ReportCtl.class.getClassLoader();
 					Class<?> clazz = loader.loadClass("org.adempiere.webui.window.FDialog");
 					Method m = clazz.getMethod("error", Integer.TYPE, String.class);
 					m.invoke(null, 0, "NoDocPrintFormat");
