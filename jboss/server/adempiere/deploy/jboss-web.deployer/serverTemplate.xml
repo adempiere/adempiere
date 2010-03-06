@@ -21,7 +21,7 @@
     -->
     <Connector port="@ADEMPIERE_WEB_PORT@" address="${jboss.bind.address}"    
          maxThreads="250" maxHttpHeaderSize="8192"
-         emptySessionPath="true" protocol="HTTP/1.1"
+         emptySessionPath="false" protocol="HTTP/1.1"
          enableLookups="false" redirectPort="@ADEMPIERE_SSL_PORT@" acceptCount="100"
          connectionTimeout="20000" disableUploadTimeout="true" />
 
@@ -38,7 +38,7 @@
     
     <!-- Define an AJP 1.3 Connector on port 8009 -->
     <Connector port="8009" address="${jboss.bind.address}" protocol="AJP/1.3"
-         emptySessionPath="true" enableLookups="false" redirectPort="8443" />
+         emptySessionPath="false" enableLookups="false" redirectPort="8443" />
 
       <Engine name="jboss.web" defaultHost="localhost">
 
