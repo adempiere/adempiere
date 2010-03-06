@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -192,7 +193,9 @@ public class MWindow extends X_AD_Window
 		String sql = "SELECT * FROM AD_WF_Node";
 		if (whereClause != null && whereClause.length() > 0)
 			sql += " WHERE " + whereClause;
-		ArrayList<X_AD_WF_Node> list = new ArrayList<X_AD_WF_Node>();
+		
+		List<X_AD_WF_Node> list = new Query(ctx,X_AD_WF_Node.Table_Name,whereClause,trxName)
+		.list();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
