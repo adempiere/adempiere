@@ -31,10 +31,12 @@ import org.compiere.util.Env;
  */
 public class MCommissionRun extends X_C_CommissionRun
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3103035295526318283L;
+
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3103035295526318283L;
 
 	/**
 	 * 	Standard Constructor
@@ -83,7 +85,7 @@ public class MCommissionRun extends X_C_CommissionRun
 	 */
 	public MCommissionAmt[] getAmts()
 	{
-		final String whereClause = I_C_CommissionRun.COLUMNNAME_C_CommissionRun_ID+"=?";
+		final String whereClause = I_C_CommissionAmt.COLUMNNAME_C_CommissionRun_ID+"=?";
  		List<MCommissionAmt> list = new Query(getCtx(),I_C_CommissionAmt.Table_Name,whereClause,get_TrxName())
 		.setParameters(getC_CommissionRun_ID())
 		.list();
