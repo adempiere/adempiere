@@ -97,34 +97,10 @@ public class MTable extends X_AD_Table
 		}
 		}
 		//
-		MTable retValue = null;
-		String sql = "SELECT * FROM AD_Table WHERE UPPER(TableName)=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setString(1, tableName.toUpperCase());
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MTable (ctx, rs, null);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_AD_Table.COLUMNNAME_AD_Table_ID.toUpperCase()+"=?";
+		MTable retValue = new Query(ctx,I_AD_Table.Table_Name,whereClause,null)
+		.setParameters(tableName.toUpperCase())
+		.first();
 		
 		if (retValue != null)
 		{

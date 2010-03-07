@@ -16,14 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 /**
  *	User Roles Model
@@ -47,34 +44,10 @@ public class MUserRoles extends X_AD_User_Roles
 	 */
 	public static MUserRoles[] getOfRole (Properties ctx, int AD_Role_ID)
 	{
-		String sql = "SELECT * FROM AD_User_Roles WHERE AD_Role_ID=?";
-		ArrayList<MUserRoles> list = new ArrayList<MUserRoles>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Role_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MUserRoles (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "getOfRole", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_AD_User_Roles.COLUMNNAME_AD_Role_ID+"=?";	
+		List<MUserRoles> list = new Query(ctx,I_AD_User_Roles.Table_Name,whereClause,null)
+		.setParameters(AD_Role_ID)
+		.list();
 		MUserRoles[] retValue = new MUserRoles[list.size ()];
 		list.toArray (retValue);
 		return retValue;
@@ -88,34 +61,10 @@ public class MUserRoles extends X_AD_User_Roles
 	 */
 	public static MUserRoles[] getOfUser (Properties ctx, int AD_User_ID)
 	{
-		String sql = "SELECT * FROM AD_User_Roles WHERE AD_User_ID=?";
-		ArrayList<MUserRoles> list = new ArrayList<MUserRoles>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_User_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MUserRoles (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "getOfUser", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_AD_User_Roles.COLUMNNAME_AD_User_ID+"=?";	
+		List<MUserRoles> list = new Query(ctx,I_AD_User_Roles.Table_Name,whereClause,null)
+		.setParameters(AD_User_ID)
+		.list();
 		MUserRoles[] retValue = new MUserRoles[list.size ()];
 		list.toArray (retValue);
 		return retValue;
