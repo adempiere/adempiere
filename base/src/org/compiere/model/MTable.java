@@ -50,10 +50,11 @@ import org.compiere.util.Util;
  */
 public class MTable extends X_AD_Table
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2367316254623142732L;
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2367316254623142732L;
 
 	/**
 	 * 	Get Table from Cache
@@ -97,7 +98,7 @@ public class MTable extends X_AD_Table
 		}
 		}
 		//
-		final String whereClause = I_AD_Table.COLUMNNAME_AD_Table_ID.toUpperCase()+"=?";
+		final String whereClause = "UPPER("+I_AD_Table.COLUMNNAME_TableName+")=?";
 		MTable retValue = new Query(ctx,I_AD_Table.Table_Name,whereClause,null)
 		.setParameters(tableName.toUpperCase())
 		.first();
