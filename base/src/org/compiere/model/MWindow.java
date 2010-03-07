@@ -97,10 +97,10 @@ public class MWindow extends X_AD_Window
 	{
 		if (m_tabs != null && !reload)
 			return m_tabs;
-		final String whereClause = I_AD_Window.COLUMNNAME_AD_Window_ID+"=?";
-		List<MTab> list = new Query(getCtx(),I_AD_Window.Table_Name,whereClause,trxName)
+		final String whereClause = I_AD_Tab.COLUMNNAME_AD_Window_ID+"=?";
+		List<MTab> list = new Query(getCtx(),I_AD_Tab.Table_Name,whereClause,trxName)
 		.setParameters(getAD_Window_ID())
-		.setOrderBy("SeqNo")
+		.setOrderBy(I_AD_Tab.COLUMNNAME_SeqNo)
 		.list();
 		//
 		m_tabs = new MTab[list.size ()];
@@ -172,12 +172,8 @@ public class MWindow extends X_AD_Window
 	 * @return nodes
 	 */
 	public static X_AD_WF_Node[] getWFNodes (Properties ctx, String whereClause, String trxName)
-	{
-		String sql = "SELECT * FROM AD_WF_Node";
-		if (whereClause != null && whereClause.length() > 0)
-			sql += " WHERE " + whereClause;
-		
-		List<X_AD_WF_Node> list = new Query(ctx,X_AD_WF_Node.Table_Name,whereClause,trxName)
+	{		
+		List<X_AD_WF_Node> list = new Query(ctx,I_AD_WF_Node.Table_Name,whereClause,trxName)
 		.list();
 		X_AD_WF_Node[] retValue = new X_AD_WF_Node[list.size()];
 		list.toArray (retValue);
