@@ -236,7 +236,13 @@ public class ImportOrder extends SvrProcess
 			  + "WHERE C_OrderSource_ID IS NULL AND OrderSourceValue IS NOT NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Order Source=" + no);
-		
+		// Set proper error message
+		sql = new StringBuffer ("UPDATE I_Order "
+			  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Not Found Order Source, ' "
+			  + "WHERE C_OrderSource_ID IS NULL AND C_OrderSourceValue IS NOT NULL AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		if (no != 0)
+			log.warning("No OrderSource=" + no);
 		
 		//	Payment Term
 		sql = new StringBuffer ("UPDATE I_Order o "
