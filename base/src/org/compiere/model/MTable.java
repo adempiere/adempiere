@@ -50,11 +50,10 @@ import org.compiere.util.Util;
  */
 public class MTable extends X_AD_Table
 {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = -2367316254623142732L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2367316254623142732L;
 
 	/**
 	 * 	Get Table from Cache
@@ -98,10 +97,34 @@ public class MTable extends X_AD_Table
 		}
 		}
 		//
-		final String whereClause = "UPPER("+I_AD_Table.COLUMNNAME_TableName+")=?";
-		MTable retValue = new Query(ctx,I_AD_Table.Table_Name,whereClause,null)
-		.setParameters(tableName.toUpperCase())
-		.first();
+		MTable retValue = null;
+		String sql = "SELECT * FROM AD_Table WHERE UPPER(TableName)=?";
+		PreparedStatement pstmt = null;
+		try
+		{
+			pstmt = DB.prepareStatement (sql, null);
+			pstmt.setString(1, tableName.toUpperCase());
+			ResultSet rs = pstmt.executeQuery ();
+			if (rs.next ())
+				retValue = new MTable (ctx, rs, null);
+			rs.close ();
+			pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			s_log.log(Level.SEVERE, sql, e);
+		}
+		try
+		{
+			if (pstmt != null)
+				pstmt.close ();
+			pstmt = null;
+		}
+		catch (Exception e)
+		{
+			pstmt = null;
+		}
 		
 		if (retValue != null)
 		{
