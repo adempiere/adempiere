@@ -1236,9 +1236,9 @@ Note that printed payments are archived in Payment Selection (Prepared Payment).
   <value column="Help" original="The Request Processor Tab allows you to define processes that you want to occur and the frequency and timing of these processes. If no other user is found, the items are assigned to the supervisor. A Request Processor can be just for a specific Request Type or for all.">The Request Processor Tab allows you to define processes that you want to occur and the frequency and timing of these processes. If no other user is found, the items are assigned to the supervisor. A Request Processor can be just for a specific Request Type or for all.</value>
  </row>
  <row id="347" trl="Y">
-  <value column="Name" original="Mail Template">EMail-Vorlage</value>
+  <value column="Name" original="Mail Template">E-Mail-Vorlage</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Maintain Mail Template">Verwalten von EMail-Vorlagen</value>
+  <value column="Description" original="Maintain Mail Template">Verwalten von E-Mail-Vorlagen</value>
   <value column="Help" original="A mail template can contain variables, e.g. @Name@.  &#10;The variables are replaced based on the context. First, the the User is searched to find the variables.&#10;Additional objects are used for dunning (business partner, dunning entry), asset delivery (asset) and invoice print (business partner, invoice)">A mail template can contain variables, e.g. @Name@.  
 The variables are replaced based on the context. First, the the User is searched to find the variables.
 Additional objects are used for dunning (business partner, dunning entry), asset delivery (asset) and invoice print (business partner, invoice)</value>
