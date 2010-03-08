@@ -201,7 +201,7 @@
  <row id="144" trl="Y">
   <value column="Name" original="Product Category">Produkt-Kategorie</value>
   <value column="Description" original="Maintain Product Categories">Verwalten von Produkt-Kategorien</value>
-  <value column="Help" original="The Product Category allows you to define different groups of products.  These groups can be used in generating Price Lists, defining margins and for easily assigning different accounting parameters for products.">Eine Produktkategorie definiert eine Gruppe von bestimmten Produkten. Diese Gruppen können zur Erzeugung von Preislisten, Definition von Margen und zur einfachen Zuordnung verschiedener Buchhaltungsparamter zu Produkten verwendet werden.</value>
+  <value column="Help" original="The Product Category allows you to define different groups of products.  These groups can be used in generating Price Lists, defining margins and for easily assigning different accounting parameters for products.">Eine Produktkategorie definiert eine Gruppe von bestimmten Produkten. Diese Gruppen können zur Erzeugung von Preislisten, Definition von Margen und zur einfachen Zuordnung verschiedener Buchhaltungsparameter zu Produkten verwendet werden.</value>
  </row>
  <row id="146" trl="Y">
   <value column="Name" original="Price List">Preisliste</value>

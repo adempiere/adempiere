@@ -533,7 +533,7 @@ Postings are generated for an accounting schema, if the schema is valid and you 
  <row id="210" trl="Y">
   <value column="Name" original="Accounting">Buchführung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Accounting Parameters">Buchführungsparamter definieren</value>
+  <value column="Description" original="Define Accounting Parameters">Buchführungsparameter definieren</value>
   <value column="Help" original="The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this product.">The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this product.</value>
  </row>
  <row id="211" trl="Y">
@@ -1099,7 +1099,7 @@ Printing:
  <row id="323" trl="Y">
   <value column="Name" original="Accounting">Buchführung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Accounting">Buchführungsparamter definieren</value>
+  <value column="Description" original="Define Accounting">Buchführungsparameter definieren</value>
   <value column="Help" original="The Accounting Tab defines the default accounts for any business partner that references this group.  These default values can be modified for each business partner if required.">The Accounting Tab defines the default accounts for any business partner that references this group.  These default values can be modified for each business partner if required.</value>
  </row>
  <row id="324" trl="Y">
@@ -1650,7 +1650,7 @@ Please note that the Business Partner &lt;b&gt;must&lt;/b&gt; be an Employee wit
  <row id="419" trl="Y">
   <value column="Name" original="Accounting">Buchführung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Accounting Parameters">Buchführungsparamter definieren</value>
+  <value column="Description" original="Define Accounting Parameters">Buchführungsparameter definieren</value>
   <value column="Help" original="The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this Expense Type. Not all accounts apply.">The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this Expense Type. Not all accounts apply.</value>
  </row>
  <row id="420" trl="Y">
@@ -1668,7 +1668,7 @@ Please note that the Business Partner &lt;b&gt;must&lt;/b&gt; be an Employee wit
  <row id="422" trl="Y">
   <value column="Name" original="Accounting">Buchführung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Accounting Parameters">Buchführungsparamter definieren</value>
+  <value column="Description" original="Define Accounting Parameters">Buchführungsparameter definieren</value>
   <value column="Help" original="The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this resource.  Not all accounts apply to resources.">The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this resource.  Not all accounts apply to resources.</value>
  </row>
  <row id="423" trl="Y">
