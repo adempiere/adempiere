@@ -4135,10 +4135,10 @@ Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fe
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="923" trl="Y">
-  <value column="Name" original="Own Bank">Own Bank</value>
-  <value column="PrintName" original="Own Bank">Own Bank</value>
-  <value column="Description" original="Bank for this Organization">Bank for this Organization</value>
-  <value column="Help" original="The Own Bank field indicates if this bank is for this Organization as opposed to a Bank for a Business Partner.">The Own Bank field indicates if this bank is for this Organization as opposed to a Bank for a Business Partner.</value>
+  <value column="Name" original="Own Bank">Hausbank</value>
+  <value column="PrintName" original="Own Bank">Hausbank</value>
+  <value column="Description" original="Bank for this Organization">Die Hausbank für die aktuelle Organisation</value>
+  <value column="Help" original="The Own Bank field indicates if this bank is for this Organization as opposed to a Bank for a Business Partner.">Das Feld Hausbank gibt an, ob es sich bei dieser Bank um die Hausbank der aktuellen Oranization handelt.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
