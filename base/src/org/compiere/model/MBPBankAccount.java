@@ -30,16 +30,13 @@ import org.compiere.util.CLogger;
  */
 public class MBPBankAccount extends X_C_BP_BankAccount
 {
-	
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2580706419593695062L;
 
 	/**
-     * 
-     */
-    private static final long serialVersionUID = 2580706419593695062L;
-
-	/**
-	 * 	Get Accounst Of BPartner
+	 * 	Get Accounts Of BPartner
 	 *	@param ctx context
 	 *	@param C_BPartner_ID bpartner
 	 *	@return
@@ -47,7 +44,7 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 	public static MBPBankAccount[] getOfBPartner (Properties ctx, int C_BPartner_ID)
 	{
 		final String whereClause = MBPBankAccount.COLUMNNAME_C_BPartner_ID+"=?";
-		List<MBPBankAccount>list = new Query(ctx,MBPBankAccount.Table_Name,whereClause,null)
+		List<MBPBankAccount>list = new Query(ctx,I_C_BP_BankAccount.Table_Name,whereClause,null)
 		.setParameters(C_BPartner_ID)
 		.setOnlyActiveRecords(true)
 		.list();

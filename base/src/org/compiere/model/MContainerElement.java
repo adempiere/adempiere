@@ -29,11 +29,13 @@ import org.compiere.util.CLogger;
  */
 public class MContainerElement extends X_CM_Container_Element
 {
-	/**	serialVersionUID	*/
-	private static final long serialVersionUID = 7230036377422361941L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8487403111353473486L;
+	
 	/** Logger */
-	private static CLogger s_log = CLogger.getCLogger (MContainer.class);
+	private static CLogger s_log = CLogger.getCLogger (MContainerElement.class);
 
 	/**
 	 * 	get Container Element by ID
@@ -43,11 +45,7 @@ public class MContainerElement extends X_CM_Container_Element
 	 *	@return ContainerElement
 	 */
 	public static MContainerElement get(Properties ctx, int CM_ContainerElement_ID, String trxName) {
-		final String whereClause = I_CM_Container_Element.COLUMNNAME_CM_Container_Element_ID+"=?";
-		MContainerElement thisContainerElement = new Query(ctx,I_CM_Container_Element.Table_Name,whereClause, trxName)
-		.setParameters(CM_ContainerElement_ID)
-		.firstOnly();
-		return thisContainerElement;
+		return new MContainerElement(ctx, CM_ContainerElement_ID, trxName);
 	}
 
 	/***************************************************************************

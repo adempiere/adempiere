@@ -26,6 +26,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
 import org.compiere.util.Trx;
+import org.compiere.wf.MWFNode;
 
 /**
  *  Process Model
@@ -372,7 +373,7 @@ public class MProcess extends X_AD_Process
 				menues[i].setDescription(getDescription());
 				menues[i].saveEx();
 			}
-			X_AD_WF_Node[] nodes = MWindow.getWFNodes(getCtx(), "AD_Process_ID=" + getAD_Process_ID(), get_TrxName());
+			MWFNode[] nodes = MWindow.getWFNodes(getCtx(), "AD_Process_ID=" + getAD_Process_ID(), get_TrxName());
 			for (int i = 0; i < nodes.length; i++)
 			{
 				boolean changed = false;

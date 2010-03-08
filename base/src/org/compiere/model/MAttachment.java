@@ -24,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -45,7 +44,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.MimeType;
 import org.w3c.dom.Document;
@@ -72,7 +70,7 @@ public class MAttachment extends X_AD_Attachment
 
 
 	/**
-	 * 	Get Attachment
+	 * 	Get Attachment (if there are more than one attachment it gets the first in no specific order)
 	 *	@param ctx context
 	 *	@param AD_Table_ID table
 	 *	@param Record_ID record

@@ -26,6 +26,7 @@ import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.wf.MWFNode;
 
 /**
  *	Window Model
@@ -38,7 +39,7 @@ public class MWindow extends X_AD_Window
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6783399136841920556L;
+	private static final long serialVersionUID = -7604318488890368565L;
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MWindow.class);
 	
@@ -139,7 +140,7 @@ public class MWindow extends X_AD_Window
 				menues[i].save();
 			}
 			//
-			X_AD_WF_Node[] nodes = getWFNodes(getCtx(), "AD_Window_ID=" + getAD_Window_ID(), get_TrxName());
+			MWFNode[] nodes = getWFNodes(getCtx(), "AD_Window_ID=" + getAD_Window_ID(), get_TrxName());
 			for (int i = 0; i < nodes.length; i++)
 			{
 				boolean changed = false;
@@ -171,11 +172,11 @@ public class MWindow extends X_AD_Window
 	 * @param trxName transaction
 	 * @return nodes
 	 */
-	public static X_AD_WF_Node[] getWFNodes (Properties ctx, String whereClause, String trxName)
+	public static MWFNode[] getWFNodes (Properties ctx, String whereClause, String trxName)
 	{		
-		List<X_AD_WF_Node> list = new Query(ctx,I_AD_WF_Node.Table_Name,whereClause,trxName)
+		List<MWFNode> list = new Query(ctx,I_AD_WF_Node.Table_Name,whereClause,trxName)
 		.list();
-		X_AD_WF_Node[] retValue = new X_AD_WF_Node[list.size()];
+		MWFNode[] retValue = new MWFNode[list.size()];
 		list.toArray (retValue);
 		return retValue;
 	}	//	getWFNode

@@ -18,13 +18,10 @@ package org.compiere.model;
 
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
