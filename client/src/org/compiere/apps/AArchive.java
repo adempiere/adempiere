@@ -28,7 +28,6 @@ import javax.swing.JPopupMenu;
 import org.compiere.apps.form.ArchiveViewer;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.model.MBPartner;
-import org.compiere.print.ReportEngine;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -84,12 +83,6 @@ public class AArchive implements ActionListener
 	{
 		int reportCount = 0;
 		int documentCount = 0;
-		int[] add = ReportEngine.getDocumentWhat(m_Record_ID);
-		if (add[0]==2)
-		{
-			m_AD_Table_ID=318;
-			m_Record_ID = add[1];
-		}
 		
 		m_where = new StringBuffer();
 		m_where.append("(AD_Table_ID=").append(m_AD_Table_ID)

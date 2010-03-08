@@ -1434,7 +1434,7 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	 *  @param C_Order_ID id
 	 *	@return int Array with [printWhat, ID]
 	 */
-	public static int[] getDocumentWhat (int C_Order_ID)
+	private static int[] getDocumentWhat (int C_Order_ID)
 	{
 		int[] what = new int[2];
 		what[0] = ORDER;
