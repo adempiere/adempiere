@@ -40,10 +40,7 @@ import org.compiere.util.Util;
  * <li>2007-02-01 - teo_sarca - [ 1648850 ] MTable.getClass works incorrect for table "Fact_Acct"
  * </ul>
  * <ul>
- * @autor victor.perez@e-evolution.com, www.e-evolution.com
- * <li>RF [ 1784588 ] Use ModelPackage of EntityType to Find Model Class
- * <li>BF [ 2949927 ] The current Persistence Engine Allow not get I_Table 
- * <li> https://sourceforge.net/tracker/?func=detail&aid=2949927&group_id=176962&atid=879332
+ * <li>2007-08-30 - vpj-cd - [ 1784588 ] Use ModelPackage of EntityType to Find Model Class
  * </ul>
  *  @author Jorg Janke
  *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
@@ -191,6 +188,18 @@ public class MTable extends X_AD_Table
 		if (tableName == null || tableName.endsWith("_Trl"))
 			return null;
 		
+		//	Import Tables (Name conflict)
+		if (tableName.startsWith("I_"))
+		{
+			Class<?> clazz = getPOclass("org.compiere.model.X_" + tableName);
+			if (clazz != null)
+				return clazz;
+			s_log.warning("No class for table: " + tableName);
+			return null;
+		}
+			
+
+		
 		//check cache
 		Class<?> cache = s_classCache.get(tableName);
 		if (cache != null) 
@@ -246,16 +255,6 @@ public class MTable extends X_AD_Table
 		}	
 		//end [ 1784588 ] 
 
-		//	Import Tables (Name conflict)
-		if (tableName.startsWith("I_"))
-		{
-			Class<?> clazz = getPOclass("org.compiere.model.X_" + tableName);
-			if (clazz != null)
-				return clazz;
-			s_log.warning("No class for table: " + tableName);
-			return null;
-		}
-		
 		//	Strip table name prefix (e.g. AD_) Customizations are 3/4
 		String className = tableName;
 		int index = className.indexOf('_');
