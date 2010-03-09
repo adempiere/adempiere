@@ -450,7 +450,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             
     protected void renderItems()
     {
-    	Vector<String> columnHeader = getColumnHeader(p_layout);
         if (m_count > 0)
         {
         	if (m_count > PAGE_SIZE)
@@ -504,7 +503,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     	{
     		if (start+1 >= cacheStart && end+1 <= cacheEnd)
     		{
-    			return end == -1 ? line : line.subList(start, end);
+    			return end == -1 ? line : line.subList(start-cacheStart+1, end-cacheStart+2);
     		}
     	}
 
@@ -563,7 +562,11 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			//skips the row that we dont need if we can't use native db paging
 			if (end > start && m_useDatabasePaging && !DB.getDatabase().isPagingSupported())
 			{
-				m_rs.absolute(cacheStart-1);
+				for (int i = 0; i < cacheStart - 1; i++)
+				{
+					if (!m_rs.next())
+						break;
+				}
 			}
 
 			int rowPointer = cacheStart-1;
