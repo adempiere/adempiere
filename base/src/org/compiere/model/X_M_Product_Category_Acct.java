@@ -29,7 +29,7 @@ public class X_M_Product_Category_Acct extends PO implements I_M_Product_Categor
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100308L;
 
     /** Standard Constructor */
     public X_M_Product_Category_Acct (Properties ctx, int M_Product_Category_Acct_ID, String trxName)
@@ -232,6 +232,31 @@ public class X_M_Product_Category_Acct extends PO implements I_M_Product_Categor
 	public int getP_Asset_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_P_Asset_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ValidCombination getP_AverageCostVariance_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getP_AverageCostVariance_Acct(), get_TrxName());	}
+
+	/** Set Average Cost Variance.
+		@param P_AverageCostVariance_Acct 
+		Average Cost Variance
+	  */
+	public void setP_AverageCostVariance_Acct (int P_AverageCostVariance_Acct)
+	{
+		set_Value (COLUMNNAME_P_AverageCostVariance_Acct, Integer.valueOf(P_AverageCostVariance_Acct));
+	}
+
+	/** Get Average Cost Variance.
+		@return Average Cost Variance
+	  */
+	public int getP_AverageCostVariance_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_P_AverageCostVariance_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -136,6 +136,21 @@ public interface I_M_Product_Acct
 
 	public I_C_ValidCombination getP_Asset_A() throws RuntimeException;
 
+    /** Column name P_AverageCostVariance_Acct */
+    public static final String COLUMNNAME_P_AverageCostVariance_Acct = "P_AverageCostVariance_Acct";
+
+	/** Set Average Cost Variance.
+	  * Average Cost Variance
+	  */
+	public void setP_AverageCostVariance_Acct (int P_AverageCostVariance_Acct);
+
+	/** Get Average Cost Variance.
+	  * Average Cost Variance
+	  */
+	public int getP_AverageCostVariance_Acct();
+
+	public I_C_ValidCombination getP_AverageCostVariance_A() throws RuntimeException;
+
     /** Column name P_Burden_Acct */
     public static final String COLUMNNAME_P_Burden_Acct = "P_Burden_Acct";
 

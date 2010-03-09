@@ -526,6 +526,21 @@ public interface I_C_AcctSchema_Default
 
 	public I_C_ValidCombination getP_Asset_A() throws RuntimeException;
 
+    /** Column name P_AverageCostVariance_Acct */
+    public static final String COLUMNNAME_P_AverageCostVariance_Acct = "P_AverageCostVariance_Acct";
+
+	/** Set Average Cost Variance.
+	  * Average Cost Variance
+	  */
+	public void setP_AverageCostVariance_Acct (int P_AverageCostVariance_Acct);
+
+	/** Get Average Cost Variance.
+	  * Average Cost Variance
+	  */
+	public int getP_AverageCostVariance_Acct();
+
+	public I_C_ValidCombination getP_AverageCostVariance_A() throws RuntimeException;
+
     /** Column name PayDiscount_Exp_Acct */
     public static final String COLUMNNAME_PayDiscount_Exp_Acct = "PayDiscount_Exp_Acct";
 
@@ -1095,12 +1110,12 @@ public interface I_C_AcctSchema_Default
     public static final String COLUMNNAME_V_Liability_Services_Acct = "V_Liability_Services_Acct";
 
 	/** Set Vendor Service Liability.
-	  * Account for Vender Service Liability
+	  * Account for Vendor Service Liability
 	  */
 	public void setV_Liability_Services_Acct (int V_Liability_Services_Acct);
 
 	/** Get Vendor Service Liability.
-	  * Account for Vender Service Liability
+	  * Account for Vendor Service Liability
 	  */
 	public int getV_Liability_Services_Acct();
 

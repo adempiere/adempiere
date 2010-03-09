@@ -193,6 +193,7 @@
 58500,"Method Change Variance","Account for Method Change Variance","Expense",,"Yes","No","P_METHODCHANGEVARIANCE_ACCT",58,,,,,,,,,,
 58600,"Rate Variance","Account for Rate Variance","Expense",,"Yes","No","P_RATEVARIANCE_ACCT",58,,,,,,,,,,
 58700,"Mix Variance","Account for Mix Variance","Expense",,"Yes","No","P_MIXVARIANCE_ACCT",58,,,,,,,,,,
+58800,"Average Cost Variance","Account for Average Cost Variance","Expense",,"Yes","No","P_AVERAGECOSTVARIANCE_ACCT",58,,,,,,,,,,
 59,"CoGs Discounts",,"Expense",,,"Yes",,5,,,,,59,"CoGS Discounts",2,,,
 59100,"Trade discounts received","Received Trade Discounts (corrects Product expense)","Expense",,"Yes","No","P_TRADEDISCOUNTREC_ACCT",59,,,,,,,,,,
 59200,"Payment discount revenue","Granted early payment discount from vendors","Expense",,"Yes","No","PAYDISCOUNT_REV_ACCT",59,,,,,,,,,,
