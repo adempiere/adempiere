@@ -301,7 +301,7 @@ public final class Calculator extends CDialog
 		m_decimal = m_format.getDecimalFormatSymbols().getDecimalSeparator();
 
 		//	display start number
-		if (m_number.doubleValue() > 0.00 )
+		if (m_number.doubleValue() != 0.00 )
 		{
 			m_display = m_format.format(m_number);
 			display.setText(m_display);

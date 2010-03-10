@@ -18,6 +18,7 @@ package org.compiere.grid.ed;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -151,31 +152,6 @@ public final class MDocNumber extends PlainDocument
 			return;
 		}
 
-		//	Plus - remove minus sign
-		if (c == '+')
-		{
-		//	ADebug.trace(ADebug.l6_Database, "Plus=" + c);
-			//	only positive numbers
-			if (m_displayType == DisplayType.Integer)
-				return;
-			if (content.length() > 0 && content.charAt(0) == '-')
-				super.remove(0, 1);
-		}
-
-		//	Toggle Minus - put minus on start of string
-		else if (c == '-' || c == m_minusSign)
-		{
-		//	ADebug.trace(ADebug.l6_Database, "Minus=" + c);
-			//	no minus possible
-			if (m_displayType == DisplayType.Integer)
-				return;
-			//	remove or add
-			if (content.length() > 0 && content.charAt(0) == '-')
-				super.remove(0, 1);
-			else
-				super.insertString(0, "-", attr);
-		}
-
 		//	Decimal - remove other decimals
 		//	Thousand - treat as Decimal
 		else if (c == m_decimalSeparator || c == m_groupingSeparator || c == '.' || c == ',')
@@ -215,13 +191,30 @@ public final class MDocNumber extends PlainDocument
 		}	//	decimal or thousand
 
 		//	something else
-		else if (VNumber.AUTO_POPUP)
+		else if (VNumber.AUTO_POPUP || "=+-/*".indexOf(c) > -1)
 		{
-			log.fine("Input=" + c + " (" + (int)c + ")");
-			String result = VNumber.startCalculator(m_tc, getText(),
-				m_format, m_displayType, m_title);
-			super.remove(0, content.length());
-			super.insertString(0, result, attr);
+			
+			//	Minus - put minus on start of string
+			if ( c == m_minusSign && offset == 0 )
+			{
+				//	no minus possible
+				if (m_displayType == DisplayType.Integer)
+					return;
+				//	add at start of string
+				else
+					super.insertString(0, "-", attr);
+			}
+			else
+			{
+				log.fine("Input=" + c + " (" + (int)c + ")");
+			
+				String result = VNumber.startCalculator(m_tc, getText(),
+						m_format, m_displayType, m_title, c);
+				super.remove(0, content.length());
+				
+				// insertString(0, result, attr);
+				m_tc.setText(result);
+			}
 		}
 		else
 			ADialog.beep();

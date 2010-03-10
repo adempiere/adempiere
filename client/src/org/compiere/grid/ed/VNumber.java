@@ -558,10 +558,10 @@ public final class VNumber extends JComponent
 			return;
 		}
 
-		if (e.getSource() == m_button)
+		if (e.getSource() == m_button )
 		{
 			m_button.setEnabled(false);
-			String str = startCalculator(this, m_text.getText(), m_format, m_displayType, m_title);
+			String str = startCalculator(this, m_text.getText(), m_format, m_displayType, m_title, ' ');
 			m_text.setText(str);
 			m_button.setEnabled(true);
 			try
@@ -594,6 +594,7 @@ public final class VNumber extends JComponent
 		//  ESC
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			m_text.setText(m_initialText);
+		
 		m_modified = true;
 		m_setting = true;
 		try
@@ -693,9 +694,26 @@ public final class VNumber extends JComponent
 	 *  @param displayType display type
 	 *  @param title title
 	 *  @return value
+	 * @deprecated Use {@link #startCalculator(Container,String,DecimalFormat,int,String,char)} instead
 	 */
 	public static String startCalculator(Container jc, String value,
 		DecimalFormat format, int displayType, String title)
+	{
+		return startCalculator(jc, value, format, displayType, title, ' ');
+	}	//	startCalculator
+
+	/**
+	 *	Invalid Entry - Start Calculator
+	 *  @param jc parent
+	 * @param value value
+	 * @param format format
+	 * @param displayType display type
+	 * @param title title
+	 * @param operator optional math operator +-/*
+	 *  @return value
+	 */
+	public static String startCalculator(Container jc, String value,
+		DecimalFormat format, int displayType, String title, char operator)
 	{
 		log.config("Value=" + value);
 		BigDecimal startValue = new BigDecimal(0.0);
@@ -711,12 +729,14 @@ public final class VNumber extends JComponent
 		{
 			log.info("InvalidEntry - " + pe.getMessage());
 		}
-
+		
 		//	Find frame
 		Frame frame = Env.getFrame(jc);
 		//	Actual Call
 		Calculator calc = new Calculator(frame, title,
 			displayType, format, startValue);
+		if ( "*+-/".indexOf(operator) > -1 )
+			calc.handleInput(operator);
 		AEnv.showCenterWindow(frame, calc);
 		BigDecimal result = calc.getNumber();
 		log.config( "Result=" + result);
