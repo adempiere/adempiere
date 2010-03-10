@@ -126,14 +126,25 @@ public class AGlassPane extends JPanel implements MouseListener, ActionListener
 		m_timervalue = 0;
 
 		//  Start Timer
-		m_timer = new Timer (1000, this);     //  every second
+		if(m_timer == null)
+		{
+			m_timer = new Timer (1000, this);     //  every second
+		}
 		m_timer.start();
 
 		if (!isVisible())
 			setVisible(true);
 		repaint();
 	}   //  setBusyTimer
-
+	
+	@Override
+	public void setVisible(boolean flag) {
+		if(!flag && m_timer != null)
+		{
+			m_timer.stop();
+		}
+		super.setVisible(flag);
+	}
 	/**
 	 *  ActionListener
 	 *  @param e event
