@@ -86,7 +86,7 @@ public class WGraph extends Div implements IdSpace {
 
 	private boolean m_renderChart = true;
 
-	/** Zero/Zero Coordibate point */
+	/** Zero/Zero Coordinate point */
 	private Point m_point0_0 = null;
 
 	/** Logger */
