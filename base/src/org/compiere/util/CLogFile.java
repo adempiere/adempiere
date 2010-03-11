@@ -175,8 +175,10 @@ public class CLogFile extends Handler
 					}
 				}
 			}
-			if (m_file == null)		//	Fallback create temp file
-				m_file = File.createTempFile("adempiere", ".log");
+			if (m_file == null)	{	//	Fallback create temp file
+				m_fileNameDate = getFileNameDate(System.currentTimeMillis());
+				m_file = File.createTempFile("adempiere"+m_fileNameDate + "_", ".log");
+			}
 		}
 		catch (Exception ex)
 		{
