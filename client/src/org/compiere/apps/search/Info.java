@@ -1107,9 +1107,7 @@ public abstract class Info extends CDialog
 		//  Double click with selected row => exit/zoom
 		if (e.getClickCount() > 1 && p_table.getSelectedRow() != -1)
 		{
-			if (p_WindowNo == 0)
-				zoom();
-			else if (p_multiSelection && isDoubleClickTogglesSelection())
+			if (p_multiSelection && isDoubleClickTogglesSelection())
 			{
 				if (m_keyColumnIndex >= 0)
 				{
