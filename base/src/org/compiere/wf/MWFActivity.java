@@ -905,7 +905,13 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					success = doc.processIt (m_node.getDocAction());	//	** Do the work
 					setTextMsg(doc.getSummary());
 					processMsg = doc.getProcessMsg();
-					m_docStatus = doc.getDocStatus();
+					// Bug 1904717 - Invoice reversing has incorrect doc status
+					// Just prepare and complete return a doc status to take into account
+					// the rest of methods return boolean, so doc status must not be taken into account when not successful
+					if (   DocAction.ACTION_Prepare.equals(m_node.getDocAction())
+						|| DocAction.ACTION_Complete.equals(m_node.getDocAction()) 
+						|| success)
+						m_docStatus = doc.getDocStatus();
 				}
 				catch (Exception e) {
 					if (m_process != null)
