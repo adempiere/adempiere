@@ -21,7 +21,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -56,15 +55,17 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentValidate;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.X_C_Order;
 import org.compiere.process.DocAction;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -178,6 +179,7 @@ public class WPayment extends Window
 	/** Invoice Currency              */
 	private int	 				m_C_Currency_ID = 0;
 	private int                 m_AD_Client_ID = 0;
+	private boolean				m_Cash_As_Payment = true;
 	private int                 m_AD_Org_ID = 0;
 	private int                 m_C_BPartner_ID = 0;
 	private BigDecimal			m_Amount = Env.ZERO;	//	Payment Amount
@@ -185,7 +187,6 @@ public class WPayment extends Window
 	private boolean 			m_initOK = false;
 	/** Only allow changing Rule        */
 	private boolean             m_onlyRule = false;
-	private DecimalFormat 		m_Format = DisplayType.getNumberFormat(DisplayType.Amount);
 	private static Hashtable<Integer,KeyNamePair> s_Currencies = null;	//	EMU Currencies
 	
 	private boolean				m_needSave = false;
@@ -197,7 +198,6 @@ public class WPayment extends Window
 	private Borderlayout mainLayout = new Borderlayout();
 	private Panel northPanel = new Panel();
 	private Panel centerPanel = new Panel();
-//	private FlowLayout northLayout = new FlowLayout();
 	private Listbox paymentCombo = ListboxFactory.newDropdownListbox();
 	private Label paymentLabel = new Label();
 	private List<Panel> centerLayout = new ArrayList<Panel>();
@@ -244,6 +244,8 @@ public class WPayment extends Window
 	private Button sOnline = new Button();
 	private Listbox sBankAccountCombo = ListboxFactory.newDropdownListbox();
 	private Label sBankAccountLabel = new Label();
+	private Listbox bBankAccountCombo = ListboxFactory.newDropdownListbox();
+	private Label bBankAccountLabel = new Label();
 	private Grid pPanelLayout = GridFactory.newGridLayout();
 	private Label bCashBookLabel = new Label();
 	private Listbox bCashBookCombo = ListboxFactory.newDropdownListbox();
@@ -272,7 +274,6 @@ public class WPayment extends Window
 		mainLayout.appendChild(center);
 		center.appendChild(centerPanel);
 		//
-//		northPanel.setLayout(northLayout);
 		paymentLabel.setText(Msg.translate(Env.getCtx(), "PaymentRule"));
 		North north = new North();
 		north.setStyle("border: none");
@@ -285,11 +286,8 @@ public class WPayment extends Window
 		//      CreditCard
 		kPanel.appendChild(kLayout);
 		kNumberField.setWidth("160pt");
-//		kNumberField.setHeight("21em");
 		kExpField.setWidth("40pt");
-//		kExpField.setHeight("21em");
 		kApprovalField.setWidth("120pt");
-//		kApprovalField.setHeight("21em");
 		kTypeLabel.setText(Msg.translate(Env.getCtx(), "CreditCardType"));
 		kNumberLabel.setText(Msg.translate(Env.getCtx(), "CreditCardNumber"));
 		kExpLabel.setText(Msg.getMsg(Env.getCtx(), "Expires"));
@@ -381,16 +379,13 @@ public class WPayment extends Window
 		sPanel.appendChild(sPanelLayout);
 		sBankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
 		sAmountLabel.setText(Msg.getMsg(Env.getCtx(), "Amount"));
-		//sAmountField.setText("");
 		sRoutingLabel.setText(Msg.translate(Env.getCtx(), "RoutingNo"));
 		sNumberLabel.setText(Msg.translate(Env.getCtx(), "AccountNo"));
 		sCheckLabel.setText(Msg.translate(Env.getCtx(), "CheckNo"));
 		sCheckField.setCols(8);
 		sCurrencyLabel.setText(Msg.translate(Env.getCtx(), "C_Currency_ID"));
 		sNumberField.setWidth("100pt");
-//		sNumberField.setHeight("100em");
 		sRoutingField.setWidth("70pt");
-//		sRoutingField.setHeight("21em");
 		sStatus.setText(" ");
 		sOnline.setLabel(Msg.getMsg(Env.getCtx(), "Online"));
 		LayoutUtils.addSclass("action-text-button", sOnline);
@@ -464,8 +459,14 @@ public class WPayment extends Window
 		
 		rows = bPanelLayout.newRows();
 		row = rows.newRow();
-		row.appendChild(bCashBookLabel.rightAlign());
-		row.appendChild(bCashBookCombo);
+		if (m_Cash_As_Payment) {
+			bBankAccountLabel.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
+			row.appendChild(bBankAccountLabel.rightAlign());
+			row.appendChild(bBankAccountCombo);
+		} else {
+			row.appendChild(bCashBookLabel.rightAlign());
+			row.appendChild(bCashBookCombo);
+		}
 		
 		row = rows.newRow();
 		row.appendChild(bCurrencyLabel.rightAlign());
@@ -554,6 +555,7 @@ public class WPayment extends Window
 		 *	Get Data from Grid
 		 */
 		m_AD_Client_ID = ((Integer)m_mTab.getValue("AD_Client_ID")).intValue();
+		m_Cash_As_Payment = MSysConfig.getBooleanValue("CASH_AS_PAYMENT",true, m_AD_Client_ID);
 		m_AD_Org_ID = ((Integer)m_mTab.getValue("AD_Org_ID")).intValue();
 		m_C_BPartner_ID = ((Integer)m_mTab.getValue("C_BPartner_ID")).intValue();
 		m_PaymentRule = (String)m_mTab.getValue("PaymentRule");
@@ -595,6 +597,8 @@ public class WPayment extends Window
 				tRoutingField.setText(m_mPayment.getRoutingNo());
 				tNumberField.setText(m_mPayment.getAccountNo());
 				tStatus.setText(m_mPayment.getR_PnRef());
+				// Cash
+				bAmountField.setValue(m_mPayment.getPayAmt());
 			}
 		}
 		if (m_mPayment == null)
@@ -719,7 +723,6 @@ public class WPayment extends Window
 		SQL = "SELECT a.C_BP_BankAccount_ID, NVL(b.Name, ' ')||a.AccountNo AS Acct "
 			+ "FROM C_BP_BankAccount a,C_Bank b "
 			+ "WHERE C_BPartner_ID=? AND a.IsActive='Y'";
-		kp = null;
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
@@ -731,7 +734,6 @@ public class WPayment extends Window
 				String name = rs.getString(2);
 				KeyNamePair pp = new KeyNamePair(key, name);
 				tAccountCombo.addItem(pp);
-		//			kp = pp;
 			}
 			rs.close();
 			pstmt.close();
@@ -740,9 +742,6 @@ public class WPayment extends Window
 		{
 			log.log(Level.SEVERE, SQL, eac);
 		}
-		//	Set Selection
-		if (kp != null)
-			tAccountCombo.setSelectedKeyNamePair(kp);
 
 		/**
 		 *	Load Credit Cards
@@ -779,6 +778,7 @@ public class WPayment extends Window
 				String name = rs.getString(2);
 				KeyNamePair pp = new KeyNamePair(key, name);
 				sBankAccountCombo.addItem(pp);
+				bBankAccountCombo.addItem(pp);
 				if (key == m_C_BankAccount_ID)
 					kp = pp;
 				if (kp == null && rs.getString(3).equals("Y"))    //  Default
@@ -793,7 +793,10 @@ public class WPayment extends Window
 		}
 		//	Set Selection
 		if (kp != null)
+		{
 			sBankAccountCombo.setSelectedKeyNamePair(kp);
+			bBankAccountCombo.setSelectedKeyNamePair(kp);
+		}
 
 
 		/**
@@ -966,13 +969,49 @@ public class WPayment extends Window
 		}
 	}
 
+	/**************************************************************************
+	 *	Save Changes
+	 *	@return true, if Window can exit
+	 */
+	private boolean saveChanges() {
 
+		// BF [ 1920179 ] perform the save in a trx's context.
+		final boolean[] success = new boolean[] { false };
+		final TrxRunnable r = new TrxRunnable() {
+
+			public void run(String trxName) {
+				success[0] = saveChangesInTrx(trxName);
+			}
+		};
+		try {
+			Trx.run(r);
+		} catch (Throwable e) {
+			success[0] = false;
+			FDialog.error(m_WindowNo, this, "PaymentError", e.getLocalizedMessage());
+		}
+		if (m_cashLine != null)
+			m_cashLine.set_TrxName(null);
+		if (m_mPayment != null)
+			m_mPayment.set_TrxName(null);
+		if (m_mPaymentOriginal != null)
+			m_mPayment.set_TrxName(null);
+		return success[0];
+	} // saveChanges
+	
 	/**************************************************************************
 	 *	Save Changes
 	 *	@return true, if eindow can exit
 	 */
-	private boolean saveChanges()
+	private boolean saveChangesInTrx(final String trxName)
 	{
+		// set trxname for class objects
+		if (m_cashLine != null)
+			m_cashLine.set_TrxName(trxName);
+		if (m_mPayment != null)
+			m_mPayment.set_TrxName(trxName);
+		if (m_mPaymentOriginal != null)
+			m_mPaymentOriginal.set_TrxName(trxName);
+	
 		ValueNamePair vp = paymentCombo.getSelectedItem().toValueNamePair();
 		String newPaymentRule = vp.getValue();
 		log.info("New Rule: " + newPaymentRule);
@@ -992,14 +1031,25 @@ public class WPayment extends Window
 		int newC_CashBook_ID = m_C_CashBook_ID;
 		String newCCType = m_CCType;
 		int newC_BankAccount_ID = 0;
+		String payTypes = m_Cash_As_Payment ? "KTSDB" : "KTSD";
 		
 		//	B (Cash)		(Currency)
 		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash))
 		{
-			ListItem selected = bCashBookCombo.getSelectedItem(); 
-			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
-			if (kp != null)
-				newC_CashBook_ID = kp.getKey();
+			if (m_Cash_As_Payment){
+				// get bank account
+				ListItem selected = bBankAccountCombo.getSelectedItem(); 
+				KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
+				if (kp != null)
+					newC_BankAccount_ID = kp.getKey();
+			} else {
+				// get cash book
+				ListItem selected = bCashBookCombo.getSelectedItem(); 
+				KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
+				if (kp != null)
+					newC_CashBook_ID = kp.getKey();	
+			}
+			
 			newDateAcct = (Timestamp)bDateField.getValue();
 			
 			// Get changes to cash amount
@@ -1043,18 +1093,6 @@ public class WPayment extends Window
 		else
 			return false;
 
-		//  find Bank Account if not qualified yet
-		if ("KTSD".indexOf(newPaymentRule) != -1 && newC_BankAccount_ID == 0)
-		{
-			String tender = MPayment.TENDERTYPE_CreditCard;
-			if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit))
-				tender = MPayment.TENDERTYPE_DirectDeposit;
-			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_DirectDebit))
-				tender = MPayment.TENDERTYPE_DirectDebit;
-			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_Check))
-				tender = MPayment.TENDERTYPE_Check;
-		}
-
 		/***********************
 		 *  Changed PaymentRule
 		 */
@@ -1076,7 +1114,7 @@ public class WPayment extends Window
 				newC_CashLine_ID = 0;      //  reset
 			}
 			//  We had a change in Payment type (e.g. Check to CC)
-			else if ("KTSD".indexOf(m_PaymentRule) != -1 && "KTSD".indexOf(newPaymentRule) != -1 && m_mPaymentOriginal != null)
+			else if (payTypes.indexOf(m_PaymentRule) != -1 && payTypes.indexOf(newPaymentRule) != -1 && m_mPaymentOriginal != null)
 			{
 				log.fine("Old Payment(1) - " + m_mPaymentOriginal);
 				m_mPaymentOriginal.setDocAction(DocAction.ACTION_Reverse_Correct);
@@ -1089,7 +1127,7 @@ public class WPayment extends Window
 				m_mPayment.resetNew();
 			}
 			//	We had a Payment and something else (e.g. Check to Cash)
-			else if ("KTSD".indexOf(m_PaymentRule) != -1 && "KTSD".indexOf(newPaymentRule) == -1)
+			else if (payTypes.indexOf(m_PaymentRule) != -1 && payTypes.indexOf(newPaymentRule) == -1)
 			{
 				log.fine("Old Payment(2) - " + m_mPaymentOriginal);
 				if (m_mPaymentOriginal != null)
@@ -1139,10 +1177,9 @@ public class WPayment extends Window
 		/***********************
 		 *  CashBook
 		 */
-		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash))
+		if (newPaymentRule.equals(X_C_Order.PAYMENTRULE_Cash) && !m_Cash_As_Payment)
 		{
 			log.fine("Cash");
-			String description = (String)m_mTab.getValue("DocumentNo");
 			
 			if (C_Invoice_ID == 0 && order == null)
 			{
@@ -1157,11 +1194,8 @@ public class WPayment extends Window
 					&& payAmount.compareTo(m_cashLine.getAmount()) != 0)
 				{
 					log.config("Changed CashBook Amount");
-					//m_cashLine.setAmount(payAmount);
 					m_cashLine.setAmount((BigDecimal) bAmountField.getValue());
-					// ADialog.info(m_WindowNo, this, "m_cashLine - Changed Amount", "Amount: "+m_cashLine.getAmount());
-					if (m_cashLine.save())
-						log.config("CashAmt Changed");
+					m_cashLine.saveEx();
 				}
 				//	Different Date/CashBook
 				if (m_cashLine != null
@@ -1170,8 +1204,7 @@ public class WPayment extends Window
 				{
 					log.config("Changed CashBook/Date: " + m_C_CashBook_ID + "->" + newC_CashBook_ID);
 					MCashLine reverse = m_cashLine.createReversal();
-					if (!reverse.save())
-						FDialog.error(m_WindowNo, this, "PaymentError", "CashNotCancelled");
+					reverse.saveEx();
 					m_cashLine = null;
 				}
 				
@@ -1204,29 +1237,25 @@ public class WPayment extends Window
 							m_needSave = true;
 						}
 						cl.setAmount((BigDecimal)bAmountField.getValue());
-						if (cl.save())
-						{	
-							log.config("CashCreated");
-							if (invoice == null && C_Invoice_ID != 0)
-							{
-								invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);	
-							}
-							if (invoice != null) {
-								invoice.setC_CashLine_ID(cl.getC_CashLine_ID());
-								invoice.save();
-							}	
-							if (order == null && C_Order_ID != 0)
-							{
-								order = new MOrder (Env.getCtx(), C_Order_ID, null);
-							}
-							if (order != null) {
-								order.setC_CashLine_ID(cl.getC_CashLine_ID());
-								order.save();
-							}
-							log.config("Update Order & Invoice with CashLine");
+						cl.saveEx();
+						log.config("CashCreated");						
+						if (invoice == null && C_Invoice_ID != 0)
+						{
+							invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);	
+						}
+						if (invoice != null) {
+							invoice.setC_CashLine_ID(cl.getC_CashLine_ID());
+							invoice.saveEx(trxName);
 						}	
-						else
-							FDialog.error(m_WindowNo, this, "PaymentError", "CashNotCreated");
+						if (order == null && C_Order_ID != 0)
+						{
+							order = new MOrder (Env.getCtx(), C_Order_ID, null);
+						}
+						if (order != null) {
+							order.setC_CashLine_ID(cl.getC_CashLine_ID());
+							order.saveEx(trxName);
+						}
+						log.config("Update Order & Invoice with CashLine");						
 					}
 				}
 			}	//	have invoice
@@ -1234,7 +1263,8 @@ public class WPayment extends Window
 		/***********************
 		 *  Payments
 		 */
-		if ("KS".indexOf(newPaymentRule) != -1)
+		if (("KS".indexOf(newPaymentRule) != -1) || 
+				(newPaymentRule.equals(MOrder.PAYMENTRULE_Cash) && m_Cash_As_Payment))
 		{
 			log.fine("Payment - " + newPaymentRule);
 			//  Set Amount
@@ -1261,6 +1291,13 @@ public class WPayment extends Window
 				// Get changes to check amount
 				m_mPayment.setAmount(m_C_Currency_ID, (BigDecimal) sAmountField.getValue());
 			}
+			else if (newPaymentRule.equals(MOrder.PAYMENTRULE_Cash))
+			{
+				// Get changes to cash amount
+				m_mPayment.setTenderType(MPayment.TENDERTYPE_Cash);
+				m_mPayment.setBankCash(newC_BankAccount_ID, m_isSOTrx, MPayment.TENDERTYPE_Cash);
+				m_mPayment.setAmount(m_C_Currency_ID, payAmount);
+			}
 			m_mPayment.setC_BPartner_ID(m_C_BPartner_ID);
 			m_mPayment.setC_Invoice_ID(C_Invoice_ID);
 			if (order != null)
@@ -1270,14 +1307,13 @@ public class WPayment extends Window
 			}
 			m_mPayment.setDateTrx(m_DateAcct);
 			m_mPayment.setDateAcct(m_DateAcct);
-			if (!m_mPayment.save())
-				FDialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");
+			m_mPayment.saveEx();
 			
 			//  Save/Post
 			if (m_mPayment.get_ID() > 0 && MPayment.DOCSTATUS_Drafted.equals(m_mPayment.getDocStatus()))
 			{
 				boolean ok = m_mPayment.processIt(DocAction.ACTION_Complete);
-				m_mPayment.save();
+				m_mPayment.saveEx();
 				if (ok)
 					FDialog.info(m_WindowNo, this, "PaymentCreated", m_mPayment.getDocumentNo());
 				else
@@ -1334,10 +1370,6 @@ public class WPayment extends Window
 		if (m_onlyRule)
 			return true;
 
-		Timestamp DateAcct = m_DateAcct;
-		int C_PaymentTerm_ID = m_C_PaymentTerm_ID;
-		int C_CashBook_ID = m_C_CashBook_ID;
-		String CCType = m_CCType;
 		//
 		int C_BankAccount_ID = 0;
 
@@ -1348,41 +1380,20 @@ public class WPayment extends Window
 		//	B (Cash)		(Currency)
 		if (PaymentRule.equals(MOrder.PAYMENTRULE_Cash))
 		{
-			ListItem selected = bCashBookCombo.getSelectedItem(); 
-			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
-			if (kp != null)
-				C_CashBook_ID = kp.getKey();
-			DateAcct = (Timestamp)bDateField.getValue();
+			if (m_Cash_As_Payment)
+			{
+				ListItem selected = bBankAccountCombo.getSelectedItem(); 
+				KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
+				if (kp != null)
+					C_BankAccount_ID = kp.getKey();
+			}
 		}
 
 		//	K (CreditCard)  Type, Number, Exp, Approval
 		else if (PaymentRule.equals(MOrder.PAYMENTRULE_CreditCard))
 		{
-			ListItem selected = kTypeCombo.getSelectedItem(); 
-			vp = selected != null ? selected.toValueNamePair() : null;
-			if (vp != null)
-				CCType = vp.getValue();
-			//
-			String error = MPaymentValidate.validateCreditCardNumber(kNumberField.getText(), CCType);
-			if (error.length() != 0)
-			{
-				if (error.indexOf('?') == -1)
-				{
-					FDialog.error(m_WindowNo, this, error);
-					dataOK = false;
-				}
-				else    //  warning
-				{
-					if (!FDialog.ask(m_WindowNo, this, error))
-						dataOK = false;
-				}
-			}
-			error = MPaymentValidate.validateCreditCardExp(kExpField.getText());
-			if(error.length() != 0)
-			{
-				FDialog.error(m_WindowNo, this, error);
-				dataOK = false;
-			}
+			// Validation of the credit card number is moved to the payment processor.
+			// Different payment processors can have different validation rules.
 		}
 
 		//	T (Transfer)	BPartner_Bank
@@ -1402,10 +1413,7 @@ public class WPayment extends Window
 		//	P (PaymentTerm)	PaymentTerm
 		else if (PaymentRule.equals(X_C_Order.PAYMENTRULE_OnCredit))
 		{
-			ListItem selected = pTermCombo.getSelectedItem(); 
-			KeyNamePair kp = selected != null ? selected.toKeyNamePair() : null;
-			if (kp != null)
-				C_PaymentTerm_ID = kp.getKey();
+			// ok
 		}
 
 		//	S (Check)		(Currency) CheckNo, Routing
@@ -1441,19 +1449,15 @@ public class WPayment extends Window
 		}
 
 		//  find Bank Account if not qualified yet
-		if ("KTSD".indexOf(PaymentRule) != -1 && C_BankAccount_ID == 0)
+		if (("KTSD".indexOf(PaymentRule) != -1 || 
+				(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && m_Cash_As_Payment)) 
+					&& C_BankAccount_ID == 0)
 		{
-			String tender = MPayment.TENDERTYPE_CreditCard;
-			if (PaymentRule.equals(MOrder.PAYMENTRULE_DirectDeposit))
-				tender = MPayment.TENDERTYPE_DirectDeposit;
-			else if (PaymentRule.equals(MOrder.PAYMENTRULE_DirectDebit))
-				tender = MPayment.TENDERTYPE_DirectDebit;
-			else if (PaymentRule.equals(MOrder.PAYMENTRULE_Check))
-				tender = MPayment.TENDERTYPE_Check;
-			//	Check must have a bank account
-			if (C_BankAccount_ID == 0 && "S".equals(PaymentRule))
-                        {
-				FDialog.error(m_WindowNo, this, "PaymentNoProcessor");
+			// Check & Cash (Payment) must have a bank account
+			if (C_BankAccount_ID == 0 && (PaymentRule.equals(MOrder.PAYMENTRULE_Check)) || 
+					(PaymentRule.equals(MOrder.PAYMENTRULE_Cash) && m_Cash_As_Payment))
+           {
+				FDialog.error(m_WindowNo, this, "FillMandatory", bBankAccountLabel.getValue());
 				dataOK = false;
 			}
 		}
