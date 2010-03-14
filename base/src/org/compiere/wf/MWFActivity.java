@@ -36,7 +36,6 @@ import org.compiere.model.MBPartner;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MConversionRate;
-import org.compiere.model.MFactAcct;
 import org.compiere.model.MMailText;
 import org.compiere.model.MNote;
 import org.compiere.model.MOrg;
@@ -54,7 +53,6 @@ import org.compiere.model.Query;
 import org.compiere.model.X_AD_WF_Activity;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
-import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
 import org.compiere.util.DisplayType;
@@ -77,7 +75,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1584816335412184476L;
+	private static final long serialVersionUID = -3282235931100223816L;
 
 	/**
 	 * 	Get Activities for table/record 
@@ -232,8 +230,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	private String				m_newValue = null;
 	/** Process						*/
 	private MWFProcess 			m_process = null;
-	/** Post Immediate Candidate	*/
-	private DocAction			m_postImmediate = null;
 	/** List of email recipients	*/
 	private ArrayList<String> 	m_emails = new ArrayList<String>();
 
@@ -805,13 +801,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			
 			setWFState (done ? StateEngine.STATE_Completed : StateEngine.STATE_Suspended);
 			
-			//end vpj-cd e-evolution 03/08/2005 PostgreSQL
-			if (m_postImmediate != null)
-				try {
-					postImmediate();
-				} catch (Exception e) {
-					log.warning("Error posting document: " + e.toString());
-				}  // ignore any error in this posting
 		}
 		catch (Exception e)
 		{
@@ -868,7 +857,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	private boolean performWork (Trx trx) throws Exception
 	{
 		log.info (m_node + " [" + trx.getTrxName() + "]");
-		m_postImmediate = null;
 		m_docStatus = null;
 		if (m_node.getPriority() != 0)		//	overwrite priority if defined
 			setPriority(m_node.getPriority());
@@ -918,14 +906,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 						m_process.setProcessMsg(e.getLocalizedMessage());
 					throw e;
 				}
-				//	Post Immediate
-				if (success && DocAction.STATUS_Completed.equals(doc.getDocStatus()) && DocAction.ACTION_Complete.equals(m_node.getDocAction()))
-				{
-					MClient client = MClient.get(doc.getCtx(), doc.getAD_Client_ID());
-					if (client.isPostImmediate() || MClient.isClientAccountingImmediate())
-						m_postImmediate = doc;
-				}
-				//
 				if (m_process != null)
 					m_process.setProcessMsg(processMsg);
 			}
@@ -1521,19 +1501,6 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		}	//	instance parameter loop
 	}	//	fillParameter
 
-	/**
-	 * 	Post Immediate
-	 */
-	private void postImmediate()
-	{
-		if (MFactAcct.alreadyPosted(m_postImmediate.get_Table_ID(), m_postImmediate.get_ID(), m_postImmediate.get_TrxName()))
-			return;
-		
-		String error = DocumentEngine.postImmediate(m_postImmediate.getCtx(),
-				m_postImmediate.getAD_Client_ID(), m_postImmediate.get_Table_ID(), m_postImmediate.get_ID(), true,
-				m_postImmediate.get_TrxName());
-	}	//	PostImmediate
-	
 	/*********************************
 	 * 	Send EMail
 	 */

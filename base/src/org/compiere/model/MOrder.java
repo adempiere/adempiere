@@ -1790,10 +1790,9 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 		}
 		//	Manually Process Shipment
-		String status = shipment.completeIt();
-		shipment.setDocStatus(status);
-		shipment.save(get_TrxName());
-		if (!DOCSTATUS_Completed.equals(status))
+		shipment.processIt(DocAction.ACTION_Complete);
+		shipment.saveEx(get_TrxName());
+		if (!DOCSTATUS_Completed.equals(shipment.getDocStatus()))
 		{
 			m_processMsg = "@M_InOut_ID@: " + shipment.getProcessMsg();
 			return null;
@@ -1877,11 +1876,10 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 		}
 		//	Manually Process Invoice
-		String status = invoice.completeIt();
-		invoice.setDocStatus(status);
-		invoice.save(get_TrxName());
+		invoice.processIt(DocAction.ACTION_Complete);
+		invoice.saveEx(get_TrxName());
 		setC_CashLine_ID(invoice.getC_CashLine_ID());
-		if (!DOCSTATUS_Completed.equals(status))
+		if (!DOCSTATUS_Completed.equals(invoice.getDocStatus()))
 		{
 			m_processMsg = "@C_Invoice_ID@: " + invoice.getProcessMsg();
 			return null;

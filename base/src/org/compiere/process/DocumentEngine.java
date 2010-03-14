@@ -34,6 +34,7 @@ import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MCash;
 import org.compiere.model.MClient;
+import org.compiere.model.MColumn;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInventory;
 import org.compiere.model.MInvoice;
@@ -42,6 +43,7 @@ import org.compiere.model.MJournalBatch;
 import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
+import org.compiere.model.MTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -287,20 +289,20 @@ public class DocumentEngine implements DocAction
 					return false;
 			}
 			status = completeIt();
-			if (m_document != null 
-				&& !Ini.isClient())		//	Post Immediate if on Server
+			boolean ok =   STATUS_Completed.equals(status)
+						|| STATUS_InProgress.equals(status)
+						|| STATUS_WaitingPayment.equals(status)
+						|| STATUS_WaitingConfirmation.equals(status);
+			if (m_document != null && ok)
 			{
 				MClient client = MClient.get(m_document.getCtx(), m_document.getAD_Client_ID());
-				if (STATUS_Completed.equals(status) && client.isPostImmediate())
+				if (STATUS_Completed.equals(status) && MClient.isClientAccountingImmediate())
 				{
 					m_document.save();
 					postIt();
 				}
 			}
-			return STATUS_Completed.equals(status)
-				|| STATUS_InProgress.equals(status)
-				|| STATUS_WaitingPayment.equals(status)
-				|| STATUS_WaitingConfirmation.equals(status);
+			return ok;
 		}
 		if (ACTION_ReActivate.equals(m_action))
 			return reActivateIt();
@@ -1228,6 +1230,10 @@ public class DocumentEngine implements DocAction
 	public static String postImmediate (Properties ctx, 
 		int AD_Client_ID, int AD_Table_ID, int Record_ID, boolean force, String trxName)
 	{
+		// Ensure the table has Posted column / i.e. GL_JournalBatch can be completed but not posted
+		if (MColumn.getColumn_ID(MTable.getTableName(ctx, AD_Table_ID), "Posted") <= 0)
+			return null;
+			
 		String error = null;
 		if (MClient.isClientAccounting()) {
 			log.info ("Table=" + AD_Table_ID + ", Record=" + Record_ID);

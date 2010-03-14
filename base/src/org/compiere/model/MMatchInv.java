@@ -429,7 +429,11 @@ public class MMatchInv extends X_M_MatchInv
 				if (receipt.getMovementType().equals(MInOut.MOVEMENTTYPE_VendorReturns))
 					qty = getQty().negate();
 				//
-				BigDecimal price = cd.getAmt().divide(cd.getQty(),12,BigDecimal.ROUND_HALF_UP);
+				BigDecimal price = null;
+				if (cd.getQty().compareTo(Env.ZERO) == 0) // avoid division by zero
+					price = Env.ZERO;
+				else
+					price = cd.getAmt().divide(cd.getQty(),12,BigDecimal.ROUND_HALF_UP);
 				cd.setDeltaAmt(price.multiply(qty.negate()));
 				cd.setDeltaQty(qty.negate());
 				cd.setProcessed(false);

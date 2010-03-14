@@ -23,6 +23,7 @@ import java.util.logging.Level;
 
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
+import org.compiere.model.MClient;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MMatchInv;
@@ -30,11 +31,13 @@ import org.compiere.model.MMatchPO;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MRole;
 import org.compiere.model.MStorage;
+import org.compiere.process.DocumentEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 
 public class Match
 {
@@ -199,7 +202,14 @@ public class Match
 				}
 
 				//  Create it
-				createMatchRecord(invoice, M_InOutLine_ID, Line_ID, new BigDecimal(qty));
+				String innerTrxName = Trx.createTrxName("Match");
+				Trx innerTrx = Trx.get(innerTrxName, true);
+				if (createMatchRecord(invoice, M_InOutLine_ID, Line_ID, new BigDecimal(qty), innerTrxName))
+					innerTrx.commit();
+				else
+					innerTrx.rollback();
+				innerTrx.close();
+				innerTrx = null;
 			}
 		}
 		//  requery
@@ -379,10 +389,11 @@ public class Match
 	 *  @param M_InOutLine_ID shipment line
 	 *  @param Line_ID C_InvoiceLine_ID or C_OrderLine_ID
 	 *  @param qty quantity
+	 *  @param trxName 
 	 *  @return true if created
 	 */
 	protected boolean createMatchRecord (boolean invoice, int M_InOutLine_ID, int Line_ID,
-		BigDecimal qty)
+		BigDecimal qty, String trxName)
 	{
 		if (qty.compareTo(Env.ZERO) == 0)
 			return true;
@@ -391,11 +402,11 @@ public class Match
 			+ ", Qty=" + qty);
 		//
 		boolean success = false;
-		MInOutLine sLine = new MInOutLine (Env.getCtx(), M_InOutLine_ID, null);
+		MInOutLine sLine = new MInOutLine (Env.getCtx(), M_InOutLine_ID, trxName);
 		if (invoice)	//	Shipment - Invoice
 		{
 			//	Update Invoice Line
-			MInvoiceLine iLine = new MInvoiceLine (Env.getCtx(), Line_ID, null);
+			MInvoiceLine iLine = new MInvoiceLine (Env.getCtx(), Line_ID, trxName);
 			iLine.setM_InOutLine_ID(M_InOutLine_ID);
 			if (sLine.getC_OrderLine_ID() != 0)
 				iLine.setC_OrderLine_ID(sLine.getC_OrderLine_ID());
@@ -405,8 +416,12 @@ public class Match
 			{
 				MMatchInv match = new MMatchInv (iLine, null, qty);
 				match.setM_InOutLine_ID(M_InOutLine_ID);
-				if (match.save())
+				if (match.save()) {
 					success = true;
+					if (MClient.isClientAccountingImmediate()) {
+						String ignoreError = DocumentEngine.postImmediate(match.getCtx(), match.getAD_Client_ID(), match.get_Table_ID(), match.get_ID(), true, match.get_TrxName());						
+					}
+				}
 				else
 					log.log(Level.SEVERE, "Inv Match not created: " + match);
 			}
@@ -420,6 +435,9 @@ public class Match
 				matchPO.setM_InOutLine_ID(M_InOutLine_ID);
 				if (!matchPO.save())
 					log.log(Level.SEVERE, "PO(Inv) Match not created: " + matchPO);
+				if (MClient.isClientAccountingImmediate()) {
+					String ignoreError = DocumentEngine.postImmediate(matchPO.getCtx(), matchPO.getAD_Client_ID(), matchPO.get_Table_ID(), matchPO.get_ID(), true, matchPO.get_TrxName());						
+				}
 			}
 		}
 		else	//	Shipment - Order
@@ -428,7 +446,7 @@ public class Match
 			sLine.setC_OrderLine_ID(Line_ID);
 			sLine.save();
 			//	Update Order Line
-			MOrderLine oLine = new MOrderLine(Env.getCtx(), Line_ID, null);
+			MOrderLine oLine = new MOrderLine(Env.getCtx(), Line_ID, trxName);
 			if (oLine.get_ID() != 0)	//	other in MInOut.completeIt
 			{
 				oLine.setQtyReserved(oLine.getQtyReserved().subtract(qty));
@@ -451,7 +469,7 @@ public class Match
 							sLine.getM_Locator_ID(), 
 							sLine.getM_Product_ID(), 
 							sLine.getM_AttributeSetInstance_ID(), oLine.getM_AttributeSetInstance_ID(), 
-							null, null, qty.negate(), null);
+							null, null, qty.negate(), trxName);
 				}
 			}
 			else

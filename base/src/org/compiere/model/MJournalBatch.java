@@ -474,16 +474,13 @@ public class MJournalBatch extends X_GL_JournalBatch implements DocAction
 				;
 			else
 			{
-				String status = journal.completeIt();
-				if (!DocAction.STATUS_Completed.equals(status))
+				journal.processIt(DocAction.ACTION_Complete);
+				journal.saveEx();
+				if (!DocAction.STATUS_Completed.equals(journal.getDocStatus()))
 				{
-					journal.setDocStatus(status);
-					journal.save();
 					m_processMsg = journal.getProcessMsg();
-					return status;
+					return journal.getDocStatus();
 				}
-				journal.setDocStatus(DOCSTATUS_Completed);
-				journal.save();
 			}
 			//
 			TotalDr = TotalDr.add(journal.getTotalDr());

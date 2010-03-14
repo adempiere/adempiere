@@ -1681,8 +1681,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 						m_processMsg = "Could not create PO Matching";
 						return DocAction.STATUS_Invalid;
 					}
-					else
+					else {
 						matchPO++;
+						if (MClient.isClientAccountingImmediate()) {
+							String ignoreError = DocumentEngine.postImmediate(po.getCtx(), po.getAD_Client_ID(), po.get_Table_ID(), po.get_ID(), true, po.get_TrxName());						
+						}
+					}
 				}
 			}
 
@@ -1720,8 +1724,12 @@ public class MInvoice extends X_C_Invoice implements DocAction
 					m_processMsg = CLogger.retrieveErrorString("Could not create Invoice Matching");
 					return DocAction.STATUS_Invalid;
 				}
-				else
+				else {
 					matchInv++;
+					if (MClient.isClientAccountingImmediate()) {
+						String ignoreError = DocumentEngine.postImmediate(inv.getCtx(), inv.getAD_Client_ID(), inv.get_Table_ID(), inv.get_ID(), true, inv.get_TrxName());						
+					}
+				}
 			}
 		}	//	for all lines
 		if (matchInv > 0)

@@ -31,7 +31,6 @@ import java.util.logging.Level;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MClient;
 import org.compiere.model.MConversionRate;
 import org.compiere.model.MDocType;
 import org.compiere.model.MNote;
@@ -358,6 +357,9 @@ public abstract class Doc
 	/**	Log	per Document				*/
 	protected CLogger			log = CLogger.getCLogger(getClass());
 
+	/* If the transaction must be managed locally (false if it's managed externally by the caller) */ 
+	private boolean m_manageLocalTrx;
+
 	
 	/**************************************************************************
 	 *  Constructor
@@ -396,8 +398,11 @@ public abstract class Doc
 		//	Document Type
 		setDocumentType (defaultDocumentType);
 		m_trxName = trxName;
-		if (m_trxName == null)
+		m_manageLocalTrx = false;
+		if (m_trxName == null) {
 			m_trxName = "Post" + m_DocumentType + p_po.get_ID();
+			m_manageLocalTrx = true;
+		}
 		p_po.set_TrxName(m_trxName);
 
 		//	Amounts
@@ -551,7 +556,7 @@ public abstract class Doc
 		
 		//  Lock Record ----
 		String trxName = null;	//	outside trx if on server
-		if (MClient.isClientAccounting())
+		if (! m_manageLocalTrx)
 			trxName = getTrxName(); // on trx if it's in client
 		StringBuffer sql = new StringBuffer ("UPDATE ");
 		sql.append(get_TableName()).append( " SET Processing='Y' WHERE ")
@@ -830,8 +835,10 @@ public abstract class Doc
 					else
 					{
 						log.log(Level.SEVERE, "(fact not saved) ... rolling back");
-						trx.rollback();
-						trx.close();
+						if (m_manageLocalTrx) {
+							trx.rollback();
+							trx.close();
+						}
 						unlock();
 						return STATUS_Error;
 					}
@@ -841,30 +848,36 @@ public abstract class Doc
 			if (!save(getTrxName()))     //  contains unlock & document status update
 			{
 				log.log(Level.SEVERE, "(doc not saved) ... rolling back");
-				trx.rollback();
-				trx.close();
+				if (m_manageLocalTrx) {
+					trx.rollback();
+					trx.close();
+				}
 				unlock();
 				return STATUS_Error;
 			}
 			//	Success
-			trx.commit(true);
-			trx.close();
-			trx = null;
+			if (m_manageLocalTrx) {
+				trx.commit(true);
+				trx.close();
+				trx = null;
+			}
 		//  *** Transaction End         ***
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "... rolling back", e);
 			status = STATUS_Error;
-			try {
-				if (trx != null)
-					trx.rollback();
-			} catch (Exception e2) {}
-			try {
-				if (trx != null)
-					trx.close();
-				trx = null;
-			} catch (Exception e3) {}
+			if (m_manageLocalTrx) {
+				try {
+					if (trx != null)
+						trx.rollback();
+				} catch (Exception e2) {}
+				try {
+					if (trx != null)
+						trx.close();
+					trx = null;
+				} catch (Exception e3) {}
+			}
 			unlock();
 		}
 		p_Status = status;
@@ -886,7 +899,7 @@ public abstract class Doc
 	private void unlock()
 	{
 		String trxName = null;	//	outside trx if on server
-		if (MClient.isClientAccounting())
+		if (! m_manageLocalTrx)
 			trxName = getTrxName(); // on trx if it's in client
 		StringBuffer sql = new StringBuffer ("UPDATE ");
 		sql.append(get_TableName()).append( " SET Processing='N' WHERE ")
