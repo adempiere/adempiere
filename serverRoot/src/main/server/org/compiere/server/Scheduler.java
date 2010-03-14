@@ -301,7 +301,8 @@ public class Scheduler extends AdempiereServer
 					if (variable == null
 						|| (variable != null && variable.length() == 0))
 						value = null;
-					else if (variable.startsWith("@") && variable.endsWith("@"))	//	we have a variable / BF [1926032]
+					else if (  variable.indexOf('@') != -1
+							&& variable.indexOf('@') != variable.lastIndexOf('@'))	//	we have a variable / BF [1926032]
 					{
 						//	Strip
 						int index = variable.indexOf('@');
