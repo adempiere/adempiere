@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                        *
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -32,7 +32,6 @@ import org.compiere.model.MLdapProcessor;
 import org.compiere.model.MRequestProcessor;
 import org.compiere.model.MScheduler;
 import org.compiere.model.MSystem;
-import org.compiere.model.X_R_RequestProcessor;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
@@ -87,6 +86,9 @@ public abstract class AdempiereServer extends Thread
 		p_client = MClient.get(m_ctx);
 		Env.setContext(m_ctx, "#AD_Client_ID", p_client.getAD_Client_ID());
 		m_initialNap = initialNap;
+		Timestamp dateNextRun = getDateNextRun(true);
+		if (dateNextRun != null)
+			m_nextWork = dateNextRun.getTime();
 	//	log.info(model.getName() + " - " + getThreadGroup());
 	}	//	ServerBase
 
@@ -355,11 +357,11 @@ public abstract class AdempiereServer extends Thread
 		long typeSec = 600;			//	10 minutes
 		if (frequencyType == null)
 			typeSec = 300;			//	5 minutes
-		else if (X_R_RequestProcessor.FREQUENCYTYPE_Minute.equals(frequencyType))
+		else if (MRequestProcessor.FREQUENCYTYPE_Minute.equals(frequencyType))
 			typeSec = 60;
-		else if (X_R_RequestProcessor.FREQUENCYTYPE_Hour.equals(frequencyType))
+		else if (MRequestProcessor.FREQUENCYTYPE_Hour.equals(frequencyType))
 			typeSec = 3600;
-		else if (X_R_RequestProcessor.FREQUENCYTYPE_Day.equals(frequencyType))
+		else if (MRequestProcessor.FREQUENCYTYPE_Day.equals(frequencyType))
 			typeSec = 86400;
 		//
 		return typeSec * 1000 * frequency;		//	ms

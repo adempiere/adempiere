@@ -222,14 +222,15 @@ public class MScheduler extends X_AD_Scheduler
 					MUserRoles ur = urs[j];
 					if (!ur.isActive())
 						continue;
-					list.add(ur.getAD_User_ID());
+					if (!list.contains(ur.getAD_User_ID()))
+						list.add(ur.getAD_User_ID());
 				}
 			}
 		}
 		//	Add Updater
 		if (list.size() == 0)
 		{
-			list.add(getUpdatedBy());
+			list.add(getCreatedBy());
 		}
 		//
 		return list.toArray(new Integer[list.size()]);
