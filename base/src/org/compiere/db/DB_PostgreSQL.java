@@ -776,12 +776,29 @@ public class DB_PostgreSQL implements AdempiereDatabase
 
 	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start, String trxName) 
 	{
-
-		int no = DB.executeUpdate("CREATE SEQUENCE "+name.toUpperCase()
-							+ " INCREMENT " + increment 
-							+ " MINVALUE " + minvalue 
-							+ " MAXVALUE " + maxvalue 
-							+ " START " + start , trxName);
+		// Check if Sequence exists
+		final int cnt = DB.getSQLValueEx(trxName, "SELECT COUNT(*) FROM pg_class WHERE UPPER(relname)=? AND relkind='S'", name.toUpperCase());
+		final int no;
+		//
+		// New Sequence
+		if (cnt == 0)
+		{
+			no = DB.executeUpdate("CREATE SEQUENCE "+name.toUpperCase()
+								+ " INCREMENT " + increment 
+								+ " MINVALUE " + minvalue 
+								+ " MAXVALUE " + maxvalue 
+								+ " START " + start , trxName);
+		}
+		//
+		// Already existing sequence => ALTER
+		else
+		{
+			no = DB.executeUpdate("ALTER SEQUENCE "+name.toUpperCase()
+					+ " INCREMENT " + increment 
+					+ " MINVALUE " + minvalue 
+					+ " MAXVALUE " + maxvalue 
+					+ " RESTART " + start , trxName);
+		}
 		if(no == -1 )
 			return false;
 		else 

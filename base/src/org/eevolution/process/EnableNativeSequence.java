@@ -19,23 +19,28 @@ package org.eevolution.process;
 
 
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.Adempiere;
+import org.compiere.model.MPInstance;
 import org.compiere.model.MSequence;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_Table;
+import org.compiere.process.ProcessInfo;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Enable Native Sequence
  *	
  *  @author Victor Perez, e-Evolution, S.C.
+ *  @author Teo Sarca, teo.sarca@gmail.com
  */
 public class EnableNativeSequence extends SvrProcess
 {
@@ -50,36 +55,67 @@ public class EnableNativeSequence extends SvrProcess
 	protected String doIt()              
 	{
 		boolean SYSTEM_NATIVE_SEQUENCE = MSysConfig.getBooleanValue("SYSTEM_NATIVE_SEQUENCE",false);
-		
 		if(SYSTEM_NATIVE_SEQUENCE)
-			throw new AdempiereException("Native Sequence is Actived");
-		else
 		{
-			DB.executeUpdateEx("UPDATE AD_SysConfig SET Value='Y' WHERE Name='SYSTEM_NATIVE_SEQUENCE'",null);
-			MSysConfig.resetCache();
+			throw new AdempiereException("Native Sequence is Actived");
 		}
 		
-		List<MTable> tables = new Query(getCtx(),X_AD_Table.Table_Name,"", get_TrxName()).list();
-		for(MTable table : tables)
+		setSystemNativeSequence(true);
+		boolean ok = false;
+		try
 		{
-			if(!table.isView())
-			{	
-				if(!MSequence.createTableSequence(getCtx(), table.getTableName(), get_TrxName()))
-				{	
-					DB.executeUpdateEx("UPDATE AD_SysConfig SET Value='N' WHERE Name='SYSTEM_NATIVE_SEQUENCE'",null);
-					MSysConfig.resetCache();
-					new AdempiereException("Can not create Native Sequence");
-				}	
-				else
-				{	
-					this.addLog("Create Native Sequence for : "+table.getTableName());		
-				}
+			createSequence("AD_Sequence", null);
+			createSequence("AD_Issue", null);
+			createSequence("AD_ChangeLog", null);
+			//
+			final String whereClause = "TableName NOT IN ('AD_Sequence', 'AD_Issue', 'AD_ChangeLog')"; 
+			List<MTable> tables = new Query(getCtx(),X_AD_Table.Table_Name, whereClause, get_TrxName())
+				.setOrderBy("TableName")
+				.list();
+			for(MTable table : tables)
+			{
+				createSequence(table, get_TrxName());
+			}
+			ok = true;
+		}
+		finally
+		{
+			if (!ok)
+			{
+				setSystemNativeSequence(false);
 			}
 		}
 		
-		
 		return "@OK@";
-	} 
+	}
+	
+	private void createSequence(MTable table, String trxName)
+	{
+		if(!table.isView())
+		{	
+			if(!MSequence.createTableSequence(getCtx(), table.getTableName(), trxName))
+			{
+				throw new AdempiereException("Can not create Native Sequence for table "+table.getTableName());
+			}	
+			else
+			{	
+				this.addLog("Create Native Sequence for : "+table.getTableName());		
+			}
+		}
+	}
+	private void createSequence(String tableName, String trxName)
+	{
+		createSequence(MTable.get(getCtx(), tableName), trxName);
+	}
+	
+	private void setSystemNativeSequence(boolean value)
+	{
+		DB.executeUpdateEx("UPDATE AD_SysConfig SET Value=? WHERE Name='SYSTEM_NATIVE_SEQUENCE'",
+				new Object[]{value ? "Y" : "N"},
+				null // trxName
+		);
+		MSysConfig.resetCache();
+	}
 	
 	/**
 	 * Main test
@@ -88,15 +124,25 @@ public class EnableNativeSequence extends SvrProcess
 	 */
 	public static void main(String[] args) 
 	{
-		
-		try {
-			Adempiere.startupEnvironment(true);
-			CLogMgt.setLevel(Level.ALL);
-			EnableNativeSequence seqs = new EnableNativeSequence();
-			seqs.doIt();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Adempiere.startupEnvironment(true);
+		CLogMgt.setLevel(Level.INFO);
+
+		Properties ctx = Env.getCtx();
+		int AD_Process_ID = 53156; // HARDCODED
+
+		MPInstance pinstance = new MPInstance(ctx, AD_Process_ID, -1);
+		pinstance.saveEx();
+
+		ProcessInfo pi = new ProcessInfo("", AD_Process_ID, 0, 0);
+		pi.setAD_Client_ID(Env.getAD_Client_ID(ctx));
+		pi.setAD_User_ID(Env.getAD_User_ID(ctx));
+		pi.setAD_PInstance_ID(pinstance.getAD_PInstance_ID());
+		//
+		EnableNativeSequence proc = new EnableNativeSequence();
+		proc.startProcess(ctx, pi, null);
+		if (pi.isError())
+		{
+			throw new AdempiereException(pi.getSummary());
 		}
 	}
 }

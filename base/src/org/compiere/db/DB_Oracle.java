@@ -1092,8 +1092,8 @@ public class DB_Oracle implements AdempiereDatabase
 
 	public boolean createSequence(String name , int increment , int minvalue , int maxvalue ,int  start , String trxName) 
 	{
-
-		int no = DB.executeUpdateEx("CREATE SEQUENCE "+name.toUpperCase()													
+		int no = DB.executeUpdate("DROP SEQUENCE "+name.toUpperCase(), trxName);
+		no = DB.executeUpdateEx("CREATE SEQUENCE "+name.toUpperCase()													
 							+ " MINVALUE " + minvalue 
 							+ " MAXVALUE " + maxvalue
 							+ " START WITH " + start 
