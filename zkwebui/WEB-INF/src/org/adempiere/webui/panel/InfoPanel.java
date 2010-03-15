@@ -1126,7 +1126,47 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		if (m_useDatabasePaging)
 		{
 			int col = lsc.getColumnIndex();
-			m_sqlUserOrder = " ORDER BY " + p_layout[col].getColSQL();
+			String colsql = p_layout[col].getColSQL().trim();
+			int lastSpaceIdx = colsql.lastIndexOf(" ");
+			if (lastSpaceIdx > 0)
+			{
+				String tmp = colsql.substring(0, lastSpaceIdx).trim();
+				char last = tmp.charAt(tmp.length() - 1);
+				if (tmp.toLowerCase().endsWith("as"))
+				{
+					colsql = colsql.substring(lastSpaceIdx).trim();
+				}
+				else if (!(last == '*' || last == '-' || last == '+' || last == '/' || last == '>' || last == '<' || last == '='))
+				{
+					tmp = colsql.substring(lastSpaceIdx).trim();
+					if (tmp.startsWith("\"") && tmp.endsWith("\""))
+					{
+						colsql = colsql.substring(lastSpaceIdx).trim();
+					}
+					else
+					{
+						boolean hasAlias = true;
+						for(int i = 0; i < tmp.length(); i++)
+						{
+							char c = tmp.charAt(i);
+							if (Character.isLetterOrDigit(c))
+							{
+								continue;
+							}
+							else
+							{
+								hasAlias = false;
+								break;
+							}
+						}
+						if (hasAlias)
+						{
+							colsql = colsql.substring(lastSpaceIdx).trim();
+						}
+					}
+				}
+			}
+			m_sqlUserOrder = " ORDER BY " + colsql;
 			if (!ascending)
 				m_sqlUserOrder += " DESC ";
 			executeQuery();
