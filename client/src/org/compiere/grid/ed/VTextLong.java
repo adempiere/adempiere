@@ -249,7 +249,7 @@ public class VTextLong extends CTextPane
 	}	//	keyReleased
 
 	/**
-	 *  Set Field/WindowNo for ValuePreference (NOP)
+	 *  Set Field/WindowNo for ValuePreference
 	 *  @param mField field model
 	 */
 	public void setField (org.compiere.model.GridField mField)
