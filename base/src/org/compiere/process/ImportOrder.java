@@ -681,6 +681,9 @@ public class ImportOrder extends SvrProcess
 					order.setClientOrg (imp.getAD_Client_ID(), imp.getAD_Org_ID());
 					order.setC_DocTypeTarget_ID(imp.getC_DocType_ID());
 					order.setIsSOTrx(imp.isSOTrx());
+					if (imp.getDeliveryRule() != null ) {
+						order.setDeliveryRule(imp.getDeliveryRule());
+					}
 					if (imp.getDocumentNo() != null)
 						order.setDocumentNo(imp.getDocumentNo());
 					//	Ship Partner

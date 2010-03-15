@@ -32,7 +32,7 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100315L;
 
     /** Standard Constructor */
     public X_I_Order (Properties ctx, int I_Order_ID, String trxName)
@@ -562,6 +562,45 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	public I_C_OrderSource getC_OrderSource() throws RuntimeException
+    {
+		return (I_C_OrderSource)MTable.get(getCtx(), I_C_OrderSource.Table_Name)
+			.getPO(getC_OrderSource_ID(), get_TrxName());	}
+
+	/** Set Order Source.
+		@param C_OrderSource_ID Order Source	  */
+	public void setC_OrderSource_ID (int C_OrderSource_ID)
+	{
+		if (C_OrderSource_ID < 1) 
+			set_Value (COLUMNNAME_C_OrderSource_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_OrderSource_ID, Integer.valueOf(C_OrderSource_ID));
+	}
+
+	/** Get Order Source.
+		@return Order Source	  */
+	public int getC_OrderSource_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderSource_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Order Source Key.
+		@param C_OrderSourceValue Order Source Key	  */
+	public void setC_OrderSourceValue (String C_OrderSourceValue)
+	{
+		set_Value (COLUMNNAME_C_OrderSourceValue, C_OrderSourceValue);
+	}
+
+	/** Get Order Source Key.
+		@return Order Source Key	  */
+	public String getC_OrderSourceValue () 
+	{
+		return (String)get_Value(COLUMNNAME_C_OrderSourceValue);
+	}
+
 	/** Set ISO Country Code.
 		@param CountryCode 
 		Upper-case two-letter alphanumeric ISO Country code according to ISO 3166-1 - http://www.chemie.fu-berlin.de/diverse/doc/ISO_3166.html
@@ -751,6 +790,38 @@ public class X_I_Order extends PO implements I_I_Order, I_Persistent
 	public Timestamp getDateOrdered () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateOrdered);
+	}
+
+	/** DeliveryRule AD_Reference_ID=151 */
+	public static final int DELIVERYRULE_AD_Reference_ID=151;
+	/** After Receipt = R */
+	public static final String DELIVERYRULE_AfterReceipt = "R";
+	/** Availability = A */
+	public static final String DELIVERYRULE_Availability = "A";
+	/** Complete Line = L */
+	public static final String DELIVERYRULE_CompleteLine = "L";
+	/** Complete Order = O */
+	public static final String DELIVERYRULE_CompleteOrder = "O";
+	/** Force = F */
+	public static final String DELIVERYRULE_Force = "F";
+	/** Manual = M */
+	public static final String DELIVERYRULE_Manual = "M";
+	/** Set Delivery Rule.
+		@param DeliveryRule 
+		Defines the timing of Delivery
+	  */
+	public void setDeliveryRule (String DeliveryRule)
+	{
+
+		set_Value (COLUMNNAME_DeliveryRule, DeliveryRule);
+	}
+
+	/** Get Delivery Rule.
+		@return Defines the timing of Delivery
+	  */
+	public String getDeliveryRule () 
+	{
+		return (String)get_Value(COLUMNNAME_DeliveryRule);
 	}
 
 	/** Set Description.

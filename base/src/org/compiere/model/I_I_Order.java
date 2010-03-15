@@ -348,6 +348,26 @@ public interface I_I_Order
 
 	public I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
+    /** Column name C_OrderSource_ID */
+    public static final String COLUMNNAME_C_OrderSource_ID = "C_OrderSource_ID";
+
+	/** Set Order Source	  */
+	public void setC_OrderSource_ID (int C_OrderSource_ID);
+
+	/** Get Order Source	  */
+	public int getC_OrderSource_ID();
+
+	public I_C_OrderSource getC_OrderSource() throws RuntimeException;
+
+    /** Column name C_OrderSourceValue */
+    public static final String COLUMNNAME_C_OrderSourceValue = "C_OrderSourceValue";
+
+	/** Set Order Source Key	  */
+	public void setC_OrderSourceValue (String C_OrderSourceValue);
+
+	/** Get Order Source Key	  */
+	public String getC_OrderSourceValue();
+
     /** Column name CountryCode */
     public static final String COLUMNNAME_CountryCode = "CountryCode";
 
@@ -477,6 +497,19 @@ public interface I_I_Order
 	  * Date of Order
 	  */
 	public Timestamp getDateOrdered();
+
+    /** Column name DeliveryRule */
+    public static final String COLUMNNAME_DeliveryRule = "DeliveryRule";
+
+	/** Set Delivery Rule.
+	  * Defines the timing of Delivery
+	  */
+	public void setDeliveryRule (String DeliveryRule);
+
+	/** Get Delivery Rule.
+	  * Defines the timing of Delivery
+	  */
+	public String getDeliveryRule();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
