@@ -16,13 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.TimeUtil;
 
@@ -105,48 +102,20 @@ public class MPriceListVersion extends X_M_PriceList_Version
 	{
 		if (m_pp != null && !refresh)
 			return m_pp;
-		m_pp = getProductPrice(null);
+		m_pp = getProductPrice();
 		return m_pp;
 	}	//	getProductPrice
 	
 	/**
 	 * 	Get Product Price
-	 * 	@param whereClause optional where clause
 	 *	@return product price
 	 */
-	public MProductPrice[] getProductPrice (String whereClause)
+	public MProductPrice[] getProductPrice ()
 	{
-		ArrayList<MProductPrice> list = new ArrayList<MProductPrice>();
-		String sql = "SELECT * FROM M_ProductPrice WHERE M_PriceList_Version_ID=?";
-		if (whereClause != null)
-			sql += " " + whereClause;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName ());
-			pstmt.setInt (1, getM_PriceList_Version_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MProductPrice(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//
+		final String whereClause = I_M_ProductPrice.COLUMNNAME_M_PriceList_Version_ID+"=?";
+		List<MProductPrice> list = new Query(getCtx(),I_M_ProductPrice.Table_Name,whereClause,get_TrxName())
+		.setParameters(getM_PriceList_Version_ID())
+		.list();
 		MProductPrice[] pp = new MProductPrice[list.size()];
 		list.toArray(pp);
 		return pp;
