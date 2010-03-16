@@ -17,12 +17,10 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -52,45 +50,30 @@ public class MAttribute extends X_M_Attribute
 	public static MAttribute[] getOfClient(Properties ctx, 
 		boolean onlyProductAttributes, boolean onlyListAttributes)
 	{
-		ArrayList<MAttribute> list = new ArrayList<MAttribute>();
 		int AD_Client_ID = Env.getAD_Client_ID(ctx);
-		String sql = "SELECT * FROM M_Attribute "
-			+ "WHERE AD_Client_ID=? AND IsActive='Y'";
+		String sql = "";
+		ArrayList<Object> params = new ArrayList<Object>();
+		params.add(AD_Client_ID);
 		if (onlyProductAttributes)
-			sql += " AND IsInstanceAttribute='N'";
+			{
+				sql += " AND IsInstanceAttribute=?";
+				params.add("N");
+			}
 		if (onlyListAttributes)
-			sql += " AND AttributeValueType='L'";
-		sql += " ORDER BY Name";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Client_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MAttribute (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+			{
+				sql += " AND AttributeValueType=?";
+				params.add("L");
+			}
+		final String whereClause = "AD_Client_ID=?"+sql;
 		
+		List<MAttribute>list = new Query(ctx,I_M_Attribute.Table_Name,whereClause,null)
+		.setParameters(params.toArray())
+		.setOnlyActiveRecords(true)
+		.list();
+
 		MAttribute[] retValue = new MAttribute[list.size ()];
 		list.toArray (retValue);
-		s_log.fine("AD_Client_ID=" + AD_Client_ID + " - #" + retValue.length);
+		s_log.fine("AD_Client_ID=" + AD_Client_ID + " - #" + list.size());
 		return retValue;
 	}	//	getOfClient
 	
@@ -137,38 +120,10 @@ public class MAttribute extends X_M_Attribute
 	{
 		if (m_values == null && ATTRIBUTEVALUETYPE_List.equals(getAttributeValueType()))
 		{
-			ArrayList<MAttributeValue> list = new ArrayList<MAttributeValue>();
-			if (!isMandatory())
-				list.add (null);
-			//
-			String sql = "SELECT * FROM M_AttributeValue "
-				+ "WHERE M_Attribute_ID=? "
-				+ "ORDER BY Value";
-			PreparedStatement pstmt = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, getM_Attribute_ID());
-				ResultSet rs = pstmt.executeQuery();
-				while (rs.next())
-					list.add(new MAttributeValue (getCtx(), rs, null));
-				rs.close();
-				pstmt.close();
-				pstmt = null;
-			}
-			catch (SQLException ex)
-			{
-				log.log(Level.SEVERE, sql, ex);
-			}
-			try
-			{
-				if (pstmt != null)
-					pstmt.close();
-			}
-			catch (SQLException ex1)
-			{
-			}
-			pstmt = null;
+			final String whereClause = I_M_AttributeValue.COLUMNNAME_M_Attribute_ID+"=?";
+			List<MAttributeValue>list = new Query(getCtx(),I_M_AttributeValue.Table_Name,whereClause,null)
+			.setParameters(getM_Attribute_ID())
+			.list();
 			m_values = new MAttributeValue[list.size()];
 			list.toArray(m_values);
 		}
@@ -183,36 +138,10 @@ public class MAttribute extends X_M_Attribute
 	 */
 	public MAttributeInstance getMAttributeInstance (int M_AttributeSetInstance_ID)
 	{
-		MAttributeInstance retValue = null;
-		String sql = "SELECT * "
-			+ "FROM M_AttributeInstance "
-			+ "WHERE M_Attribute_ID=? AND M_AttributeSetInstance_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getM_Attribute_ID());
-			pstmt.setInt(2, M_AttributeSetInstance_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MAttributeInstance (getCtx(), rs, get_TrxName());
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
+		final String whereClause = I_M_AttributeInstance.COLUMNNAME_M_Attribute_ID+"=? AND "+I_M_AttributeInstance.COLUMNNAME_M_AttributeSetInstance_ID+"=?";
+		MAttributeInstance retValue = new Query(getCtx(),I_M_AttributeInstance.Table_Name,whereClause,get_TrxName())
+		.setParameters(getM_Attribute_ID(),M_AttributeSetInstance_ID)
+		.firstOnly();
 
 		return retValue;
 	}	//	getAttributeInstance
