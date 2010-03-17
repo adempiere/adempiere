@@ -33,9 +33,9 @@ public class MColorTest extends AdempiereTestCase
 	
 	public void testQuery() throws Exception
 	{
-		MColor clr = new MColor(getCtx(),1,getTrxName());
+		MColor clr = new MColor(getCtx(),1,getTrxName()); //red1 put in dummy record that has COLORTYPE = 'R' for and ADImageID = 101
 		CompiereColor url = clr.getAdempiereColor();
-		assertTrue("Color must be right", url.toString()=="");		
+		assertTrue("Color must be right", url.toString().length()>0);		
 
 	}
 
