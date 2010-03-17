@@ -62,13 +62,14 @@ public class MAttribute extends X_M_Attribute
 		if (onlyListAttributes)
 			{
 				sql += " AND AttributeValueType=?";
-				params.add("L");
+				params.add(MAttribute.ATTRIBUTEVALUETYPE_List);
 			}
 		final String whereClause = "AD_Client_ID=?"+sql;
 		
 		List<MAttribute>list = new Query(ctx,I_M_Attribute.Table_Name,whereClause,null)
-		.setParameters(params.toArray())
+		.setParameters(params)
 		.setOnlyActiveRecords(true)
+		.setOrderBy("Name")
 		.list();
 
 		MAttribute[] retValue = new MAttribute[list.size ()];
@@ -121,8 +122,12 @@ public class MAttribute extends X_M_Attribute
 		if (m_values == null && ATTRIBUTEVALUETYPE_List.equals(getAttributeValueType()))
 		{
 			final String whereClause = I_M_AttributeValue.COLUMNNAME_M_Attribute_ID+"=?";
-			List<MAttributeValue>list = new Query(getCtx(),I_M_AttributeValue.Table_Name,whereClause,null)
+			List<MAttributeValue> list = new ArrayList<MAttributeValue>();
+			if (!isMandatory())
+				list.add (null);
+			list = new Query(getCtx(),I_M_AttributeValue.Table_Name,whereClause,null)
 			.setParameters(getM_Attribute_ID())
+			.setOrderBy("Value")
 			.list();
 			m_values = new MAttributeValue[list.size()];
 			list.toArray(m_values);
@@ -141,7 +146,7 @@ public class MAttribute extends X_M_Attribute
 		final String whereClause = I_M_AttributeInstance.COLUMNNAME_M_Attribute_ID+"=? AND "+I_M_AttributeInstance.COLUMNNAME_M_AttributeSetInstance_ID+"=?";
 		MAttributeInstance retValue = new Query(getCtx(),I_M_AttributeInstance.Table_Name,whereClause,get_TrxName())
 		.setParameters(getM_Attribute_ID(),M_AttributeSetInstance_ID)
-		.firstOnly();
+		.first();
 
 		return retValue;
 	}	//	getAttributeInstance
