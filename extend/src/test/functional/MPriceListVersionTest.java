@@ -34,7 +34,7 @@ public class MPriceListVersionTest extends AdempiereTestCase
 	public void testQuery() throws Exception
 	{
 		MPriceListVersion plv = new MPriceListVersion(getCtx(), 101, getTrxName());
-		MProductPrice[] pp = plv.getProductPrice();
+		MProductPrice[] pp = plv.getProductPrice(false); //red1 tested also with (true) and ("isActive='Y'")
 		assertTrue("product must have prices", pp.length > 0);
 	}
 
