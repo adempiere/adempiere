@@ -18,14 +18,12 @@ package org.compiere.model;
 
 import java.awt.Color;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.plaf.CompiereColor;
-import org.compiere.util.DB;
 
 /**
  *  Color Persistent Object Model
@@ -170,13 +168,7 @@ public class MColor extends X_AD_Color
 	{
 		if (AD_Image_ID == 0)
 			return null;
-		final String whereClause = I_AD_Image.COLUMNNAME_AD_Image_ID+"=?";
-		//
-		MImage retValue = new Query(getCtx(),I_AD_Image.Table_Name,whereClause,null)
-		.setParameters(AD_Image_ID)
-		.firstOnly();
-
-		return retValue.getImageURL();
+		return MImage.get(getCtx(), AD_Image_ID).getImageURL();
 	}   //  getURL
 
 }   //  MColor
