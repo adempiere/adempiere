@@ -87,8 +87,7 @@ public class MAssetAddition extends X_A_Asset_Addition
             change.setA_Asset_ID(p_A_Asset_ID);            
             change.setA_QTY_Current(getA_QTY_Current());           
             change.setChangeType("ADD");
-            MRefList RefList = new MRefList (getCtx(), 0, null);	
-        	change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "ADD"));
+        	change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "ADD"));
             change.setPostingType("A");
             change.setAssetValueAmt(getAssetValueAmt());
             change.setA_QTY_Current(getA_QTY_Current());            
@@ -117,8 +116,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	            change.setA_Asset_ID(p_A_Asset_ID);            
 	            change.setA_QTY_Current(getA_QTY_Current());
 	            change.setChangeType("ADD");
-	            MRefList RefList = new MRefList (getCtx(), 0, null);	
-	        	change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "ADD"));
+	        	change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "ADD"));
 	            change.setPostingType(rs.getString("PostingType"));
 	            change.setAssetValueAmt(getAssetValueAmt());
 	            change.setA_QTY_Current(getA_QTY_Current());	            

@@ -2,7 +2,6 @@ package org.compiere.www;
 
 import java.io.IOException;
 
-
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,11 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.ecs.AlignType;
-
 import org.apache.ecs.xhtml.a;
 import org.apache.ecs.xhtml.body;
 import org.apache.ecs.xhtml.br;
-
 import org.apache.ecs.xhtml.form;
 import org.apache.ecs.xhtml.h2;
 import org.apache.ecs.xhtml.head;
@@ -31,9 +28,7 @@ import org.apache.ecs.xhtml.td;
 import org.apache.ecs.xhtml.textarea;
 import org.apache.ecs.xhtml.tr;
 import org.compiere.model.GridField;
-
 import org.compiere.util.Msg;
-
 import org.compiere.util.WebDoc;
 import org.compiere.util.WebEnv;
 import org.compiere.util.WebSessionCtx;
@@ -41,8 +36,12 @@ import org.compiere.util.WebUtil;
 
 public class WFindAdv extends HttpServlet
 {
-
-    public static final String	EQUAL = "=";
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -763641668438890217L;
+	
+	public static final String	EQUAL = "=";
     public static final String	NOT_EQUAL = "!=";
     public static final String	LIKE = "LIKE";
     public static final String	NOT_LIKE = "NOT LIKE";

@@ -85,6 +85,11 @@ public class VInOutInvoiceGen extends CPanel
 		ChangeListener, TableModelListener, ASyncProcess
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2327667535691916715L;
+
+	/**
 	 *	Initialize Panel
 	 *  @param WindowNo window
 	 *  @param frame frame

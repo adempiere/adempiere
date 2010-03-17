@@ -16,18 +16,30 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.MQuery;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebSessionCtx;
+import org.compiere.util.WebUtil;
 
 
 /**
@@ -38,6 +50,11 @@ import org.compiere.util.*;
  */
 public class WZoom extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7075820778158654964L;
+	
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(WAttachment.class);
 

@@ -33,7 +33,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.ecs.xhtml.body;
 import org.apache.ecs.xhtml.br;
 import org.apache.ecs.xhtml.form;
-import org.apache.ecs.xhtml.h2;
 import org.apache.ecs.xhtml.h6;
 import org.apache.ecs.xhtml.head;
 import org.apache.ecs.xhtml.hr;
@@ -65,7 +64,11 @@ import org.compiere.wf.MWorkflow;
  */
 public class WWorkflow extends HttpServlet
 {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7220553249782175533L;
+	
 	/**
 	 * Initialize global variables
 	 */

@@ -16,19 +16,37 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import org.apache.ecs.xhtml.button;
+import org.apache.ecs.xhtml.div;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.th;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.GridField;
+import org.compiere.model.MProcess;
+import org.compiere.model.MProcessPara;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebSessionCtx;
+import org.compiere.util.WebUtil;
 
 /**
  *  WLookup Servlet.
@@ -49,6 +67,11 @@ import org.compiere.util.*;
  */
 public class WLookup extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4835226093865297019L;
+
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WLookup.class);
 	

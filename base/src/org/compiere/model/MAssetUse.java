@@ -77,8 +77,7 @@ protected boolean afterSave (boolean newRecord,boolean success)
 		
 	change.setA_Asset_ID(p_A_Asset_ID);            
 	change.setChangeType("USE");
-	MRefList RefList = new MRefList (getCtx(), 0, null);
-	change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "USE"));
+	change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "USE"));
 	change.setUseUnits(getUseUnits());
 	change.save();
 	

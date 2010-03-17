@@ -17,14 +17,14 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import org.compiere.model.MAsset;
+import org.compiere.model.MAssetAcct;
+import org.compiere.model.MAssetAddition;
 import org.compiere.model.MAssetChange;
+import org.compiere.model.MDepreciationWorkfile;
 import org.compiere.model.MRefList;
-import org.compiere.model.X_A_Asset;
-import org.compiere.model.X_A_Asset_Acct;
-import org.compiere.model.X_A_Asset_Addition;
 import org.compiere.model.X_A_Asset_Split;
 import org.compiere.model.X_A_Depreciation_Exp;
-import org.compiere.model.X_A_Depreciation_Workfile;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 
@@ -82,9 +82,9 @@ public class AssetSplit extends SvrProcess
 		log.info("doIt - Starting Split = " + no);
 		
 		X_A_Asset_Split AssetSplit = new X_A_Asset_Split (getCtx(), p_Asset_Split_ID, null);
-		X_A_Asset Asset = new X_A_Asset (getCtx(), AssetSplit.getA_Asset_ID(), null);		
-		X_A_Depreciation_Workfile assetwk = new X_A_Depreciation_Workfile (getCtx(), AssetSplit.getA_Depreciation_Workfile_ID(), null);		
-		X_A_Asset_Acct assetacct = new X_A_Asset_Acct (getCtx(), AssetSplit.getA_Asset_Acct_ID(), null);
+		MAsset Asset = new MAsset (getCtx(), AssetSplit.getA_Asset_ID(), null);		
+		MDepreciationWorkfile assetwk = new MDepreciationWorkfile (getCtx(), AssetSplit.getA_Depreciation_Workfile_ID(), null);		
+		MAssetAcct assetacct = new MAssetAcct (getCtx(), AssetSplit.getA_Asset_Acct_ID(), null);
 		
 		v_AccumBalance_Org = assetwk.getA_Accumulated_Depr(); 		
 		v_SalvageValue_Org = assetwk.getA_Salvage_Value();
@@ -136,7 +136,7 @@ public class AssetSplit extends SvrProcess
 		    if (AssetSplit.getA_Asset_ID_To() == 0)
 		    {
 			    //Insert New Asset
-			    X_A_Asset AssetNew = new X_A_Asset (getCtx(), 0, null);
+			    MAsset AssetNew = new MAsset (getCtx(), 0, null);
 				AssetNew.setValue(Asset.getValue());
 				AssetNew.setA_Parent_Asset_ID(Asset.getA_Asset_ID());
 				AssetNew.setName(Asset.getName());
@@ -167,7 +167,7 @@ public class AssetSplit extends SvrProcess
 			    v_AssetNumber = AssetNew.getA_Asset_ID();
 			    
 				//Create Asset Addition Record
-				X_A_Asset_Addition assetadd = new X_A_Asset_Addition (getCtx(), 0, null);	
+				MAssetAddition assetadd = new MAssetAddition (getCtx(), 0, null);	
 				assetadd.setA_Asset_ID(AssetNew.getA_Asset_ID());
 				assetadd.setAssetValueAmt(v_CostBalance_New ); 
 				assetadd.setDescription("Split from Asset #" + AssetSplit.getA_Asset_ID());
@@ -188,7 +188,7 @@ public class AssetSplit extends SvrProcess
 				v_NewAssetAcctID = DB.getSQLValue(null, sql2);
 				
 				//Insert the New Asset in the Account File
-				X_A_Asset_Acct assetacctnew = new X_A_Asset_Acct (getCtx(), v_NewAssetAcctID, null);			  
+				MAssetAcct assetacctnew = new MAssetAcct (getCtx(), v_NewAssetAcctID, null);			  
 				assetacctnew.setA_Asset_ID(v_AssetNumber);
 				assetacctnew.setC_AcctSchema_ID(assetacct.getC_AcctSchema_ID());			  
 				assetacctnew.setA_Depreciation_ID(assetacct.getA_Depreciation_ID());
@@ -226,7 +226,7 @@ public class AssetSplit extends SvrProcess
 				
 							
 				//Insert the New Asset in the Deprecation Workfile
-				X_A_Depreciation_Workfile assetwknew = new X_A_Depreciation_Workfile (getCtx(), v_NewWorkfileID, null);				
+				MDepreciationWorkfile assetwknew = new MDepreciationWorkfile (getCtx(), v_NewWorkfileID, null);				
 				assetwknew.setA_Asset_ID(v_AssetNumber);
 				assetwknew.setA_Asset_Cost(assetwknew.getA_Asset_Cost().add(v_CostBalance_New));				
 				assetwknew.setA_Accumulated_Depr(v_AccumBalance_New);
@@ -286,8 +286,7 @@ public class AssetSplit extends SvrProcess
 				change.setA_Depreciation_Variable_Perc(assetacct.getA_Depreciation_Variable_Perc());
 				change.setA_Parent_Asset_ID(Asset.getA_Parent_Asset_ID());
 			    change.setChangeType("SPL");
-			    MRefList RefList = new MRefList (getCtx(), 0, null);	
-				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));   
+				change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));   
 			    change.setLot(AssetNew.getLot());
 				change.setSerNo(AssetNew.getSerNo());
 				change.setVersionNo(AssetNew.getVersionNo());
@@ -313,13 +312,13 @@ public class AssetSplit extends SvrProcess
 			    v_AssetNumber = AssetSplit.getA_Asset_ID_To();
 			    
 			    //Update Target Asset Record 
-			    X_A_Asset AssetNew = new X_A_Asset (getCtx(), v_AssetNumber, null);
+			    MAsset AssetNew = new MAsset (getCtx(), v_AssetNumber, null);
 			    AssetNew.setA_QTY_Current(AssetNew.getA_QTY_Current().add(v_QTY_New));
 				AssetNew.setA_QTY_Original(AssetNew.getA_QTY_Original().add(v_QTY_New));
 				AssetNew.save();
 				
 			     //Create Asset Addition Record
-				X_A_Asset_Addition assetadd = new X_A_Asset_Addition (getCtx(), 0, null);	
+				MAssetAddition assetadd = new MAssetAddition (getCtx(), 0, null);	
 				assetadd.setA_Asset_ID(v_AssetNumber);
 				assetadd.setAssetValueAmt(v_CostBalance_New ); 
 				assetadd.setDescription("Split from Asset #" + AssetSplit.getA_Asset_ID());
@@ -340,7 +339,7 @@ public class AssetSplit extends SvrProcess
 				v_NewAssetAcctID = DB.getSQLValue(null, sql2);
 				
 				//Update Target Asset in the Account File
-				X_A_Asset_Acct assetacctnew = new X_A_Asset_Acct (getCtx(), v_NewAssetAcctID, null);			  
+				MAssetAcct assetacctnew = new MAssetAcct (getCtx(), v_NewAssetAcctID, null);			  
 				assetacctnew.setA_Salvage_Value(assetacctnew.getA_Salvage_Value().add(v_SalvageValue_New));
 				assetacctnew.setA_Depreciation_Manual_Amount(assetacctnew.getA_Depreciation_Manual_Amount().add(v_ManDep_New));				
 				assetacctnew.save();
@@ -357,7 +356,7 @@ public class AssetSplit extends SvrProcess
 				
 							
 				//Update Target Asset in the Deprecation Workfile
-				X_A_Depreciation_Workfile assetwknew = new X_A_Depreciation_Workfile (getCtx(), v_NewWorkfileID, null);				
+				MDepreciationWorkfile assetwknew = new MDepreciationWorkfile (getCtx(), v_NewWorkfileID, null);				
 				assetwknew.setA_Asset_Cost(assetwknew.getA_Asset_Cost().add(v_CostBalance_New));
 				assetwknew.setA_Accumulated_Depr(assetwknew.getA_Accumulated_Depr().add(v_AccumBalance_New));				
 				assetwknew.setA_Salvage_Value(assetwknew.getA_Salvage_Value().add(v_SalvageValue_New));				
@@ -410,8 +409,7 @@ public class AssetSplit extends SvrProcess
 				change.setA_Depreciation_Variable_Perc(assetacct.getA_Depreciation_Variable_Perc());
 				change.setA_Parent_Asset_ID(Asset.getA_Parent_Asset_ID());
 			    change.setChangeType("SPL");
-			    MRefList RefList = new MRefList (getCtx(), 0, null);	
-				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));   
+				change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));   
 			    change.setLot(AssetNew.getLot());
 				change.setSerNo(AssetNew.getSerNo());
 				change.setVersionNo(AssetNew.getVersionNo());
@@ -439,7 +437,7 @@ public class AssetSplit extends SvrProcess
 			Asset.save();		    
 		    
 			//	Update original asset for the split
-			X_A_Asset_Addition assetaddold = new X_A_Asset_Addition (getCtx(), 0, null);	
+			MAssetAddition assetaddold = new MAssetAddition (getCtx(), 0, null);	
 			assetaddold.setA_Asset_ID(Asset.getA_Asset_ID());
 			assetaddold.setAssetValueAmt(v_CostBalance_New.multiply( new BigDecimal(-1))); 
 			assetaddold.setDescription("Split to Asset #" + v_AssetNumber);
@@ -464,8 +462,7 @@ public class AssetSplit extends SvrProcess
 			
 			MAssetChange change1 = new MAssetChange (getCtx(), 0, null);
 			change1.setChangeType("SPL");
-		    MRefList RefList = new MRefList (getCtx(), 0, null);	
-			change1.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));
+			change1.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "SPL"));
 			change1.setAssetValueAmt(v_CostBalance_New.multiply(new BigDecimal(-1)));
 			change1.setPostingType(assetacct.getPostingType());
 			if (assetacct.getA_Reval_Cal_Method() == null)

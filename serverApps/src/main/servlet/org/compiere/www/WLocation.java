@@ -67,6 +67,11 @@ import org.compiere.util.WebUtil;
  */
 public class WLocation extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 285780594700749274L;
+	
 	/**	Logger			*/
 	protected static CLogger	log = CLogger.getCLogger(WLocation.class);
 

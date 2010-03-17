@@ -470,6 +470,10 @@ public abstract class Doc
 	
 	/**	Actual Document Status  */
 	protected String			p_Status = null;
+	public String getPostStatus() {
+		return p_Status;
+	}
+
 	/** Error Message			*/
 	protected String			p_Error = null;
 	
@@ -581,6 +585,7 @@ public abstract class Doc
 		if (p_Error != null)
 			return p_Error;
 
+		Trx trx = Trx.get(getTrxName(), true);
 		//  Delete existing Accounting
 		if (repost)
 		{
@@ -588,6 +593,7 @@ public abstract class Doc
 			{
 				log.log(Level.SEVERE, toString() + " - Period Closed for already posed document");
 				unlock();
+				trx.commit(); trx.close();
 				return "PeriodClosed";
 			}
 			//	delete it
@@ -597,6 +603,7 @@ public abstract class Doc
 		{
 			log.log(Level.SEVERE, toString() + " - Document already posted");
 			unlock();
+			trx.commit(); trx.close();
 			return "AlreadyPosted";
 		}
 		

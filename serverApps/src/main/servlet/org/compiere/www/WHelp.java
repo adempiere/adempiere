@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 import org.compiere.util.WebDoc;
 import org.compiere.util.WebEnv;
 import org.compiere.util.WebUtil;
@@ -32,6 +33,11 @@ import org.compiere.util.WebUtil;
 
 public class WHelp extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2586562865823315494L;
+	
 	protected CLogger	log = CLogger.getCLogger(getClass());
 
 	public void init(ServletConfig config)
@@ -49,7 +55,7 @@ public class WHelp extends HttpServlet
 		WebDoc doc = null;
 		if (ws == null)	{
 			doc = WebDoc.createPopup("No Context");
-			doc.addPopupClose(ws.ctx);
+			doc.addPopupClose(Env.getCtx());
 		} else
 			doc = ws.mWindow.getHelpDoc(false);
 		WebUtil.createResponse(request, response, this, null, doc, false);

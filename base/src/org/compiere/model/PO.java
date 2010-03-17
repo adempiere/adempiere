@@ -2006,7 +2006,7 @@ public abstract class PO
 				// Creating and starting the transaction right here, but please note
 				// that this is not a good practice
 				trx = Trx.get(m_trxName, true);
-				log.warning("Transaction closed or never opened ("+m_trxName+") => starting now");
+				log.severe("Transaction closed or never opened ("+m_trxName+") => starting now --> " + toString());
 			}
 		}
 

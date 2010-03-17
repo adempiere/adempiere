@@ -384,8 +384,10 @@ public class ConfigOracle extends Config
 		setProperty(ConfigurationData.ADEMPIERE_DB_PASSWORD, databasePassword);
 
 		//	TNS Name Info via sqlplus 
-		String sqlplus = "sqlplus system/" + systemPassword + "@" 
-			+ databaseServer.getHostName() + "/" + databaseName
+		String sqlplus = "sqlplus system/" + systemPassword + "@"
+			+ "//" + databaseServer.getHostName()
+			+ ":" + databasePort
+			+ "/" + databaseName
 			+ " @utils/oracle/Test.sql";
 		log.config(sqlplus);
 		pass = testSQL(sqlplus);

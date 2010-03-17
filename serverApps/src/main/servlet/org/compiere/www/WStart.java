@@ -16,10 +16,16 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.compiere.util.*;
+import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebUtil;
 
 /**
  *  Application Start Page
@@ -42,6 +48,12 @@ import org.compiere.util.*;
  */
 public class WStart extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3520310916249390852L;
+
+
 	/**
 	 *  Set UI directory to Servlet init param
 	 */

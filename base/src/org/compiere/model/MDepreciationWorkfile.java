@@ -107,8 +107,7 @@ public class MDepreciationWorkfile extends X_A_Depreciation_Workfile
 		{
 				change.setA_Asset_ID(p_A_Asset_ID);            
 				change.setChangeType("BAL");
-				MRefList RefList = new MRefList (getCtx(), 0, null);
-				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "BAL"));
+				change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "BAL"));
 				change.setPostingType(getPostingType());
 				change.setAssetValueAmt(getA_Asset_Cost());
 				change.setA_QTY_Current(getA_QTY_Current());

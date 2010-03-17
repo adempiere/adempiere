@@ -30,6 +30,11 @@ import org.compiere.util.WebUtil;
 
 public class WForm extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3168260837305771442L;
+	
 	public void init(ServletConfig config)
 		throws ServletException
 	{

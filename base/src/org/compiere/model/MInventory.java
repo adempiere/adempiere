@@ -469,7 +469,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 							if(QtyMA.signum() != 0)
 							{	
 								String err = createCostDetail(line, ma.getM_AttributeSetInstance_ID() , QtyMA.negate());
-								if(err != null && err.length() > 0) return err;
+								if (err != null && err.length() > 0) {
+									m_processMsg = err;
+									return DocAction.STATUS_Invalid;
+								}
 							}
 							
 							qtyDiff = QtyNew;						
@@ -525,7 +528,10 @@ public class MInventory extends X_M_Inventory implements DocAction
 					if(qtyDiff.signum() != 0)
 					{	
 						String err = createCostDetail(line, line.getM_AttributeSetInstance_ID(), qtyDiff);
-						if(err != null && err.length() > 0) return err;
+						if (err != null && err.length() > 0) {
+							m_processMsg = err;
+							return DocAction.STATUS_Invalid;
+						}
 					}
 				}	//	Fallback
 			}	//	stock movement

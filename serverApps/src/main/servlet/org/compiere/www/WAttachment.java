@@ -16,14 +16,35 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.io.IOException;
+import java.util.Properties;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ecs.AlignType;
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.br;
+import org.apache.ecs.xhtml.form;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.label;
+import org.apache.ecs.xhtml.p;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.textarea;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.MAttachment;
+import org.compiere.model.MAttachmentEntry;
+import org.compiere.util.CLogger;
+import org.compiere.util.FileUpload;
+import org.compiere.util.Msg;
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebUtil;
 
 
 /**
@@ -34,6 +55,11 @@ import org.compiere.util.*;
  */
 public class WAttachment extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5720154824503276682L;
+	
 	/**	Logger			*/
 	private static CLogger	log = CLogger.getCLogger(WAttachment.class);
 

@@ -35,6 +35,11 @@ import org.compiere.util.Trx;
  */
 public class AdempiereTreeModel extends DefaultTreeModel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8503954687681402088L;
+
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(AdempiereTreeModel.class);
 

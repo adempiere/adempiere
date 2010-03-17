@@ -592,8 +592,7 @@ public class MAsset extends X_A_Asset
 				change.setA_Asset_ID(p_A_Asset_ID);
 				change.setA_Parent_Asset_ID(asset.getA_Parent_Asset_ID());
 				change.setChangeType("CRT");
-				MRefList RefList = new MRefList (getCtx(), 0, get_TrxName());	
-				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "CRT"));		    
+				change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "CRT"));		    
 				change.setIsInPosession(isOwned());
 				change.setIsDisposed(isDisposed());
 				change.setIsDepreciated(isDepreciated());
@@ -710,8 +709,7 @@ public class MAsset extends X_A_Asset
 						MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());		    
 						change.setA_Asset_ID(p_A_Asset_ID);
 						change.setChangeType("UPD");
-						MRefList RefList = new MRefList (getCtx(), 0, get_TrxName());	
-						change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "UPD"));
+						change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "UPD"));
 						change.setLot(getLot());
 						change.setSerNo(getSerNo());
 						change.setVersionNo(getVersionNo());

@@ -16,16 +16,46 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
-import org.compiere.util.*;
+import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Enumeration;
+import java.util.Properties;
+import java.util.logging.Level;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ecs.Element;
+import org.apache.ecs.xhtml.a;
+import org.apache.ecs.xhtml.base;
+import org.apache.ecs.xhtml.body;
+import org.apache.ecs.xhtml.head;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.link;
+import org.apache.ecs.xhtml.script;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.MForm;
+import org.compiere.model.MTree;
+import org.compiere.model.MTreeNode;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Login;
+import org.compiere.util.Msg;
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebSessionCtx;
+import org.compiere.util.WebUtil;
 
 /**
  * Web Menu
@@ -35,7 +65,11 @@ import org.compiere.util.*;
  */
 public class WMenu extends HttpServlet
 {
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6357775290362135602L;
+	
 	/** Logger */
 	protected CLogger	log	= CLogger.getCLogger (getClass ());
 

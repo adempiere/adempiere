@@ -68,8 +68,7 @@ public class MAssetAcct extends X_A_Asset_Acct {
 		if (isProcessing() == true) {
 			MAssetChange change = new MAssetChange(getCtx(), 0, null);
 			change.setChangeType("SET");
-			MRefList RefList = new MRefList(getCtx(), 0, null);
-			change.setTextDetails(RefList.getListDescription(getCtx(),
+			change.setTextDetails(MRefList.getListDescription(getCtx(),
 					"A_Update_Type", "SET"));
 			change.setPostingType(getPostingType());
 			change.setA_Split_Percent(getA_Split_Percent());

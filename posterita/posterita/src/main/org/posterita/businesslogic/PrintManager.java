@@ -350,7 +350,7 @@ public class PrintManager
             }
             
             // Overwrite printing arguments with arguments supplied
-            if (args != null || args.trim().length() != 0)
+            if (args != null && args.trim().length() > 0)
             {
             	printingArgs = args;
             }
@@ -368,7 +368,7 @@ public class PrintManager
             // Construct a new instance for the formatter
             formatter = (IPrintFormatter) constructor.newInstance(parameters);
             
-			String data = formatter.format(ctx, C_Order_ID, null);
+			String data = formatter.format(ctx, C_Order_ID, (Object[]) null);
 			
 			// Print no of copies
 			int noOfCopies = re.getPrintInfo().getCopies();			

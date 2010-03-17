@@ -34,6 +34,11 @@ import org.zkoss.zkex.zul.South;
  */
 public class FolderBrowser extends Window implements EventListener
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -923063158885832812L;
+	
 	private Textbox txtPath = new Textbox();
 	private Listbox listDir = new Listbox();
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);

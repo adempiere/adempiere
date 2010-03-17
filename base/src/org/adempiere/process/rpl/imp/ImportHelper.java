@@ -673,7 +673,7 @@ public class ImportHelper {
 		
 		if(values.size()<=0)//Means that is a new record
 		{
-			PO po = po = MTable.get(ctx, expFormat.getAD_Table_ID()).getPO(0,trxName);
+			PO po = MTable.get(ctx, expFormat.getAD_Table_ID()).getPO(0,trxName);
 			
 			if (replication_id > 0 )
 			{

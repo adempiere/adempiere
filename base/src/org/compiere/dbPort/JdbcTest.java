@@ -22,8 +22,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.sql.RowSet;
-
 import oracle.jdbc.pool.OracleDataSource;
 
 //import oracle.jdbc.rowset.*;
@@ -374,62 +372,6 @@ Connection Cache     Threads=10 	Yield=true 	ms= 12813 	each= 1281 	CacheSize=2,
 			e.printStackTrace();
 		}
 	}   //  statementTiming
-
-	/**
-	 *  Row Set Timing
-	 */
-	private static void rowSetTiming()
-	{
-		try
-		{
-			long startConnection = System.currentTimeMillis();
-			RowSet rowset = null;
-			/**
-			if (s_rType == R_JDBC_ROWSET)
-				rowset = new OracleJDBCRowSet ();
-			else if (s_rType == R_CACHED_ROWSET)
-				rowset = new OracleCachedRowSet();
-			**/
-			rowset.setUrl (CONNECTION);
-			rowset.setUsername (UID);
-			rowset.setPassword (PWD);
-			rowset.setFetchSize(s_fetchSize);
-
-			long startStatement = System.currentTimeMillis();
-			rowset.setCommand (STATEMENT);
-
-			long startQuery = System.currentTimeMillis();
-			rowset.execute ();
-
-			long startRetrieve = System.currentTimeMillis();
-			while (rowset.next ())
-			{
-			}
-			long endRetrieve = System.currentTimeMillis();
-			long endQuery = System.currentTimeMillis();
-
-			rowset.close();
-			long endStatement = System.currentTimeMillis();
-			long endConnection = System.currentTimeMillis();
-			//
-			System.out.println(R_INFO[s_rType]
-				+ "Fetch=" + s_fetchSize
-				+ " \tConn=" + (startStatement - startConnection)
-				+ " \tStmt=" + (startQuery - startStatement)
-				+ " \tQuery=" + (startRetrieve - startQuery)
-				+ " \tRetrieve=" + (endRetrieve - startRetrieve)
-				+ " \tClRs=" + (endQuery - endRetrieve)
-				+ " \tClStmt=" + (endStatement - endQuery)
-				+ " \tClConn=" + (endConnection - endStatement)
-				+ " \t- Total=" + (endConnection - startConnection)
-				+ " \tStmt=" + (endStatement - startStatement)
-				+ " \tQuery=" + (endQuery - startQuery));
-		}
-		catch (SQLException e)
-		{
-			e.printStackTrace();
-		}
-	}   //  rowSetTiming
 
 	/*************************************************************************/
 

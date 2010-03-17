@@ -57,6 +57,11 @@ import org.compiere.util.WebUtil;
 */
 public class WReport extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6281182537210181407L;
+	
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	/** Current MTab                                    */

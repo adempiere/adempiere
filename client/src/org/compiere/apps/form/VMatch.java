@@ -453,10 +453,10 @@ public class VMatch extends Match
 			+  "# = " + xMatchedToTable.getRowCount(),
 			xMatchedToTable.getRowCount() == 0);
 		statusBar.setStatusDB(0);
-	}   //  cmd_seachTo
+	}   //  cmd_searchTo
 	
 	/***************************************************************************
-	 *  Table Model Listener - calculate matchd Qty
+	 *  Table Model Listener - calculate matched Qty
 	 *  @param e event
 	 */
 	public void tableChanged (TableModelEvent e)
@@ -493,7 +493,7 @@ public class VMatch extends Match
 				}
 			}
 		}
-		//  update qualtities
+		//  update quantities
 		m_xMatchedTo = new BigDecimal(qty);
 		xMatchedTo.setValue(m_xMatchedTo);
 		difference.setValue(m_xMatched.subtract(m_xMatchedTo));

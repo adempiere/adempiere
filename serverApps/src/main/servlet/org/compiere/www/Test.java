@@ -16,12 +16,24 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.compiere.util.*;
+import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebUtil;
 public class Test extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8474219907861637179L;
+	
 	public void init(ServletConfig config)
 		throws ServletException
 	{

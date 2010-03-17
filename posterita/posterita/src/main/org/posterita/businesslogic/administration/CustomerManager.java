@@ -1223,7 +1223,7 @@ public class CustomerManager
         
         StringBuffer sql = new StringBuffer();
                
-        if(name != null || name.length() > 0)
+        if(name != null && name.length() > 0)
         {
             name = name.toUpperCase();
             sql.append(" UPPER(name)='" + name + "'");

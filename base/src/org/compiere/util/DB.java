@@ -1001,6 +1001,7 @@ public final class DB
 	{
 		if (sql == null || sql.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing - " + sql);
+		verifyTrx(trxName, sql);
 		//
 		int no = -1;
 		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
@@ -1075,6 +1076,7 @@ public final class DB
 		if (sql == null || sql.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing - " + sql);
 		//
+		verifyTrx(trxName, sql);
 		int no = -1;
 		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
 			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
@@ -2242,5 +2244,14 @@ public final class DB
 			DB.executeUpdateEx(insert.toString(), trxName);
 		}
 	}
+	
+	private static void verifyTrx(String trxName, String sql) {
+		if (trxName != null && Trx.get(trxName, false) == null) {
+			// Using a trx that was previously closed or never opened
+			// this is equivalent to commit without trx (autocommit)
+			log.severe("Transaction closed or never opened ("+trxName+") => this is equivalent to commit without trx (autocommit) --> " + sql); // severe?
+		}
+	}
+
 }	//	DB
 

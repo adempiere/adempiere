@@ -25,7 +25,7 @@
 *                                                                     *
 * Sponsors:                                                           *
 * - Company (http://www.globalqss.com)                                *
-***********************************************************************/
+**********************************************************************/
 
 package org.adempiere.process;
 
@@ -220,9 +220,10 @@ public class ClientAcctProcessor extends SvrProcess
 					// Run every posting document in own transaction
 					String innerTrxName = Trx.createTrxName("CAP");
 					Trx innerTrx = Trx.get(innerTrxName, true);
+					String postStatus = Doc.STATUS_NotPosted; 
+					Doc doc = Doc.get (m_ass, AD_Table_ID, rs, innerTrxName);
 					try
 					{
-						Doc doc = Doc.get (m_ass, AD_Table_ID, rs, innerTrxName);
 						if (doc == null)
 						{
 							log.severe(getName() + ": No Doc for " + TableName);
@@ -232,6 +233,7 @@ public class ClientAcctProcessor extends SvrProcess
 						{
 							String error = doc.post(false, false);   //  post no force/repost
 							ok = (error == null);
+							postStatus = doc.getPostStatus();
 						}
 					}
 					catch (Exception e)
@@ -243,8 +245,16 @@ public class ClientAcctProcessor extends SvrProcess
 					{
 						if (ok)
 							innerTrx.commit();
-						else
+						else {
 							innerTrx.rollback();
+							// save the posted status error (out of trx)
+							StringBuffer sqlupd = new StringBuffer("UPDATE ")
+								.append(doc.get_TableName()).append(" SET Posted='").append(postStatus)
+								.append("',Processing='N' ")
+								.append("WHERE ")
+								.append(doc.get_TableName()).append("_ID=").append(doc.get_ID());
+							DB.executeUpdateEx(sqlupd.toString(), null);
+						}
 						innerTrx.close();
 						innerTrx = null;
 					}

@@ -16,20 +16,62 @@
  *****************************************************************************/
 package org.compiere.www;
 
-import java.io.*;
-import java.math.*;
-import java.sql.*;
+import java.io.File;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.logging.*;
+import java.util.logging.Level;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.ecs.*;
-import org.apache.ecs.xhtml.*;
-import org.compiere.model.*;
-import org.compiere.print.*;
-import org.compiere.process.*;
-import org.compiere.util.*;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.ecs.AlignType;
+import org.apache.ecs.Element;
+import org.apache.ecs.xhtml.form;
+import org.apache.ecs.xhtml.i;
+import org.apache.ecs.xhtml.input;
+import org.apache.ecs.xhtml.option;
+import org.apache.ecs.xhtml.p;
+import org.apache.ecs.xhtml.select;
+import org.apache.ecs.xhtml.table;
+import org.apache.ecs.xhtml.td;
+import org.apache.ecs.xhtml.tr;
+import org.compiere.model.GridTab;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInventory;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MJournal;
+import org.compiere.model.MJournalBatch;
+import org.compiere.model.MMovement;
+import org.compiere.model.MOrder;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MPInstancePara;
+import org.compiere.model.MPayment;
+import org.compiere.model.MProcess;
+import org.compiere.model.MProcessPara;
+import org.compiere.print.ReportEngine;
+import org.compiere.process.DocumentEngine;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.WebDoc;
+import org.compiere.util.WebEnv;
+import org.compiere.util.WebSessionCtx;
+import org.compiere.util.WebUtil;
 import org.compiere.wf.MWFActivity;
 
 
@@ -41,6 +83,11 @@ import org.compiere.wf.MWFActivity;
  */
 public class WProcess extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3937980012432969521L;
+	
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	//Modified by Rob Klein 4/29/07

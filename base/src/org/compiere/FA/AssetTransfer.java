@@ -18,8 +18,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import org.compiere.model.MAssetChange;
+import org.compiere.model.MAssetTransfer;
 import org.compiere.model.MRefList;
-import org.compiere.model.X_A_Asset_Transfer;
 import org.compiere.model.X_A_Depreciation_Exp;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -72,7 +72,7 @@ public class AssetTransfer extends SvrProcess
 		int no = 0;
 		BigDecimal v_Balance = new BigDecimal("0.0");
 		
-		X_A_Asset_Transfer AssetTransfer = new X_A_Asset_Transfer (getCtx(), p_Asset_Transfer_ID, null);
+		MAssetTransfer AssetTransfer = new MAssetTransfer (getCtx(), p_Asset_Transfer_ID, null);
 		//X_C_Period Period = new X_C_Period (getCtx(), AssetTransfer.getC_Period_ID(), null);
 		
 		String sql = null;
@@ -233,8 +233,7 @@ public class AssetTransfer extends SvrProcess
 				
 				MAssetChange change = new MAssetChange (getCtx(), 0, null);
 				change.setChangeType("TRN");	
-				MRefList RefList = new MRefList (getCtx(), 0, null);	
-				change.setTextDetails(RefList.getListDescription (getCtx(),"A_Update_Type" , "TRN"));    
+				change.setTextDetails(MRefList.getListDescription (getCtx(),"A_Update_Type" , "TRN"));    
 				change.setPostingType(AssetTransfer.getPostingType());
 				change.setA_Split_Percent(AssetTransfer.getA_Split_Percent());
 				change.setA_Asset_ID(AssetTransfer.getA_Asset_ID());				

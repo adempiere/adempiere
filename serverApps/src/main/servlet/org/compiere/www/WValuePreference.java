@@ -56,6 +56,11 @@ import org.compiere.util.WebUtil;
  */
 public class WValuePreference extends HttpServlet
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6283213348834944668L;
+	
 	/**	Logger			*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
 	//Modified by Rob Klein 4/29/07

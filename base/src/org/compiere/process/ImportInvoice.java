@@ -532,7 +532,7 @@ public class ImportInvoice extends SvrProcess
 					//	Same Location Info
 					else if (imp.getC_Location_ID() == 0)
 					{
-						MLocation loc = bpl.getLocation(false);
+						MLocation loc = bpls[i].getLocation(false);
 						if (loc.equals(imp.getC_Country_ID(), imp.getC_Region_ID(), 
 								imp.getPostal(), "", imp.getCity(), 
 								imp.getAddress1(), imp.getAddress2()))

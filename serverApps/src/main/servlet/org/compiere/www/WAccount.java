@@ -34,7 +34,6 @@ import org.apache.ecs.xhtml.th;
 import org.apache.ecs.xhtml.tr;
 import org.compiere.model.GridField;
 import org.compiere.model.Lookup;
-import org.compiere.model.MField;
 import org.compiere.util.CLogger;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -45,7 +44,12 @@ import org.compiere.util.WebUtil;
 
 public class WAccount extends HttpServlet
 {
-     private static final String FIELD_NAME = "FieldName";
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7932467581955114222L;
+	
+	private static final String FIELD_NAME = "FieldName";
      private static final String FIELD_VALUE = "FieldValue";
      private static final String P_Command   = "PCommand";
      private static final String P_FORM_NAME   = "PForm";
