@@ -174,7 +174,7 @@ public class MColor extends X_AD_Color
 		//
 		MImage retValue = new Query(getCtx(),I_AD_Image.Table_Name,whereClause,null)
 		.setParameters(AD_Image_ID)
-		.first();
+		.firstOnly();
 
 		return retValue.getImageURL();
 	}   //  getURL
