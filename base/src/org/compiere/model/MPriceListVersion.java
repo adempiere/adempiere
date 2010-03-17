@@ -102,7 +102,7 @@ public class MPriceListVersion extends X_M_PriceList_Version
 	{
 		if (m_pp != null && !refresh)
 			return m_pp;
-		m_pp = getProductPrice();
+		m_pp = getProductPrice(null);
 		return m_pp;
 	}	//	getProductPrice
 	
@@ -110,9 +110,13 @@ public class MPriceListVersion extends X_M_PriceList_Version
 	 * 	Get Product Price
 	 *	@return product price
 	 */
-	public MProductPrice[] getProductPrice ()
+	public MProductPrice[] getProductPrice (String passedClause)
 	{
-		final String whereClause = I_M_ProductPrice.COLUMNNAME_M_PriceList_Version_ID+"=?";
+		if (passedClause != null)
+			passedClause=" AND "+passedClause;
+		else 
+			passedClause="";
+		final String whereClause = I_M_ProductPrice.COLUMNNAME_M_PriceList_Version_ID+"=?"+passedClause;
 		List<MProductPrice> list = new Query(getCtx(),I_M_ProductPrice.Table_Name,whereClause,get_TrxName())
 		.setParameters(getM_PriceList_Version_ID())
 		.list();
