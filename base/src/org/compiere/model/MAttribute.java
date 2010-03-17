@@ -57,7 +57,7 @@ public class MAttribute extends X_M_Attribute
 		if (onlyProductAttributes)
 			{
 				sql += " AND IsInstanceAttribute=?";
-				params.add("N");
+				params.add(false);
 			}
 		if (onlyListAttributes)
 			{
