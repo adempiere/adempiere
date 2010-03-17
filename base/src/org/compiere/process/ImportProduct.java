@@ -88,7 +88,7 @@ public class ImportProduct extends SvrProcess
 			sql = new StringBuffer ("DELETE I_Product "
 				+ "WHERE I_IsImported='Y'").append(clientCheck);
 			no = DB.executeUpdate(sql.toString(), get_TrxName());
-			log.info("Delete Old Impored =" + no);
+			log.info("Delete Old Imported =" + no);
 		}
 
 		//	Set Client, Org, IaActive, Created/Updated, 	ProductType
