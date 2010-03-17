@@ -1790,6 +1790,7 @@ K9VKSl,Vorsteuer-/Umsatzsteuerkonten zur Korrektur der Forderungen/ Verbindlichk
 9897,Vorsteuer in den Verbindlichkeiten zum ermäßigten Umsatzsteuersatz (EüR),Vorsteuer in den Verbindlichkeiten zum ermäßigten Umsatzsteuersatz (EüR),Memo,,,No,,K9VKSl,,,,,,,,,,
 9899,Gegenkonto 9896-9897 für die Aufteilung der Vorsteuer (EüR),Gegenkonto 9896-9897 für die Aufteilung der Vorsteuer (EüR),Memo,,,No,,K9VKSl,,,,,,,,,,
 9900,SO Commitment,,Memo,,,No,COMMITMENTOFFSETSALES_ACCT,K9VKSl,,,,,,,,,,
+9902,PO Commitment,,Memo,,,No,COMMITMENTOFFSET_ACCT,K9VKSl,,,,,,,,,,
 K9VKSm,Statistische Konten zu § 4 (4a) EStG,Statistische Konten zu § 4 (4a) EStG,Memo,,,Yes,,K9VKS,,,,,,,,,,
 9910,Gegenkonto zur Minderung der Entnahmen §4 (4a) EStG,Gegenkonto zur Minderung der Entnahmen §4 (4a) EStG,Memo,,,No,,K9VKSm,,,,,,,,,,
 9911,Minderung der Entnahmen §4 (4a) EStG (Haben),Minderung der Entnahmen §4 (4a) EStG (Haben),Memo,,,No,,K9VKSm,,,,,,,,,,
@@ -1813,3 +1814,4 @@ K9VKSo,"Statistische Konten für den GuV-Ausweis in ""Gutschrift bzw. Belastung 
 9921,Scrap,Scrap Account,Expense,,Yes,No,P_SCRAP_ACCT,,,,,,,,,,,
 9922,Using Variance,Account for Using Variance,Expense,,Yes,No,P_USAGEVARIANCE_ACCT,,,,,,,,,,,
 9923,Work In Process,Work In Process Account,Asset,,Yes,No,P_WIP_ACCT,,,,,,,,,,,
+9924,Average Cost Variance,Account for Average Cost Variance,Expense,,Yes,No,P_AVERAGECOSTVARIANCE_ACCT,,,,,,,,,,,
