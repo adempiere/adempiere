@@ -113,7 +113,7 @@ public class MPriceListVersion extends X_M_PriceList_Version
 	public MProductPrice[] getProductPrice (String passedClause)
 	{
 		if (passedClause != null)
-			passedClause=" AND "+passedClause;
+			passedClause=" "+passedClause;
 		else 
 			passedClause="";
 		final String whereClause = I_M_ProductPrice.COLUMNNAME_M_PriceList_Version_ID+"=?"+passedClause;
