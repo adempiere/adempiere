@@ -108,18 +108,17 @@ public class MPriceListVersion extends X_M_PriceList_Version
 	
 	/**
 	 * 	Get Product Price
-	 *	@return product price
+	 * 	@param whereClause optional where clause
+	 * 	@return product price
 	 */
-	public MProductPrice[] getProductPrice (String passedClause)
+	public MProductPrice[] getProductPrice (String whereClause)
 	{
-		if (passedClause != null)
-			passedClause=" "+passedClause;
-		else 
-			passedClause="";
-		final String whereClause = I_M_ProductPrice.COLUMNNAME_M_PriceList_Version_ID+"=?"+passedClause;
-		List<MProductPrice> list = new Query(getCtx(),I_M_ProductPrice.Table_Name,whereClause,get_TrxName())
-		.setParameters(getM_PriceList_Version_ID())
-		.list();
+		String localWhereClause = I_M_ProductPrice.COLUMNNAME_M_PriceList_Version_ID+"=?"+whereClause;
+		if (whereClause != null)
+			localWhereClause += " " + whereClause;
+		List<MProductPrice> list = new Query(getCtx(),I_M_ProductPrice.Table_Name,localWhereClause,get_TrxName())
+			.setParameters(getM_PriceList_Version_ID())
+			.list();
 		MProductPrice[] pp = new MProductPrice[list.size()];
 		list.toArray(pp);
 		return pp;
