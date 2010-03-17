@@ -170,26 +170,13 @@ public class MColor extends X_AD_Color
 	{
 		if (AD_Image_ID == 0)
 			return null;
+		final String whereClause = I_AD_Image.COLUMNNAME_AD_Image_ID+"=?";
 		//
-		String retValue = null;
-		String sql = "SELECT ImageURL FROM AD_Image WHERE AD_Image_ID=?";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt (1, AD_Image_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				retValue = rs.getString(1);
-			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		return retValue;
+		MImage retValue = new Query(getCtx(),I_AD_Image.Table_Name,whereClause,null)
+		.setParameters(AD_Image_ID)
+		.first();
+
+		return retValue.getImageURL();
 	}   //  getURL
 
 }   //  MColor
