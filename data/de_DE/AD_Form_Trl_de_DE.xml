@@ -40,7 +40,7 @@
  <row id="107" trl="Y">
   <value column="Name" original="Payment Selection (manual)">Zahlung auswählen (manuell)</value>
   <value column="Description" original="Manual Payment Selection">Manuelle Auswahl von Zahlungen</value>
-  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">Lieferanten-Rechnungen für Zahlung auswählen. Wenn Sie eine Rechnung nicht sehen stellen Sie sicher, dass sie nicht in einer anderen (unverarbeiteten) Zahlungsauswahl enthalten ist.</value>
+  <value column="Help" original="Select vendor invoices for payment. If you don't see an invoice, make sure that it is not included in a different (nprocessed) Payment Selection.">Lieferanten-Rechnungen für Zahlung auswählen. Wenn Sie eine Rechnung nicht sehen, stellen Sie sicher, dass sie nicht in einer anderen (unverarbeiteten) Zahlungsauswahl enthalten ist.</value>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Matching PO-Receipt-Invoice">Abgleich Bestellung-Lieferschein-Rechnung</value>

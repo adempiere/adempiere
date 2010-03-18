@@ -5,47 +5,47 @@
  <row id="100" trl="Y">
   <value column="Name" original="Each">Stück</value>
   <value column="Description" original=""/>
-  <value column="UOMSymbol" original="Ea ">Ea </value>
+  <value column="UOMSymbol" original="Ea ">St</value>
  </row>
  <row id="101" trl="Y">
   <value column="Name" original="Hour">Stunde</value>
   <value column="Description" original=""/>
-  <value column="UOMSymbol" original="h  ">h  </value>
+  <value column="UOMSymbol" original="h  ">Std</value>
  </row>
  <row id="102" trl="Y">
   <value column="Name" original="Day">Tag</value>
   <value column="Description" original=""/>
-  <value column="UOMSymbol" original="d  ">d  </value>
+  <value column="UOMSymbol" original="d  ">T</value>
  </row>
  <row id="103" trl="Y">
   <value column="Name" original="Minutes">Minute</value>
   <value column="Description" original="(lowest unit for resorce assigments)">(kleinste Einheit für Ressourcenzuordnung)</value>
-  <value column="UOMSymbol" original="m  ">m  </value>
+  <value column="UOMSymbol" original="m  ">m</value>
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Work Day">Arbeitstag</value>
   <value column="Description" original="8 hour">8 Stunden</value>
-  <value column="UOMSymbol" original="D  ">D  </value>
+  <value column="UOMSymbol" original="D  ">T</value>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Week">Woche</value>
   <value column="Description" original=""/>
-  <value column="UOMSymbol" original="w  ">w  </value>
+  <value column="UOMSymbol" original="w  ">W</value>
  </row>
  <row id="106" trl="Y">
   <value column="Name" original="Month">Monat</value>
   <value column="Description" original="30 days">30 Tage</value>
-  <value column="UOMSymbol" original="m  ">m  </value>
+  <value column="UOMSymbol" original="m  ">M</value>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Working Month">Arbeitsmonat</value>
   <value column="Description" original="20 days">20 Tage</value>
-  <value column="UOMSymbol" original="M  ">M  </value>
+  <value column="UOMSymbol" original="M  ">M</value>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Year">Jahr</value>
   <value column="Description" original=""/>
-  <value column="UOMSymbol" original="y  ">y  </value>
+  <value column="UOMSymbol" original="y  ">a</value>
  </row>
  <row id="109" trl="Y">
   <value column="Name" original="6-Pack">6er-Pack</value>

@@ -24015,8 +24015,8 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="52050" trl="Y">
-  <value column="Name" original="Receipt Footer Msg">Beleg - Fußzeilen-Nachricht </value>
-  <value column="PrintName" original="Receipt Footer Msg">Beleg - Fußzeilen-Nachricht </value>
+  <value column="Name" original="Receipt Footer Msg">Beleg - Fußzeilen-Nachricht</value>
+  <value column="PrintName" original="Receipt Footer Msg">Beleg - Fußzeilen-Nachricht</value>
   <value column="Description" original="This message will be displayed at the bottom of a receipt when doing a sales or purchase">Diese Nachricht wird in der Fußzeile eines Belegs angezeigt, wenn ein Einkauf oder Verkauf durchgeführt wird.</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
