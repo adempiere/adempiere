@@ -16,21 +16,19 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 /**
  *	Cash Book Model
  *	
  *  @author Jorg Janke
  *  @version $Id: MCashBook.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ *  @author red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MCashBook extends X_C_CashBook
 {
@@ -79,7 +77,7 @@ public class MCashBook extends X_C_CashBook
 	public static MCashBook get (Properties ctx, int AD_Org_ID, int C_Currency_ID)
 	{
 		//	Try from cache
-		Iterator it = s_cache.values().iterator();
+		Iterator<MCashBook> it = s_cache.values().iterator();
 		while (it.hasNext())
 		{
 			MCashBook cb = (MCashBook)it.next();
@@ -88,41 +86,16 @@ public class MCashBook extends X_C_CashBook
 		}
 		
 		//	Get from DB
-		MCashBook retValue = null;
-		String sql = "SELECT * FROM C_CashBook "
-			+ "WHERE AD_Org_ID=? AND C_Currency_ID=? "
-			+ "ORDER BY IsDefault DESC";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, AD_Org_ID);
-			pstmt.setInt (2, C_Currency_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
+		final String whereClause = I_C_CashBook.COLUMNNAME_AD_Org_ID+"=? AND "+I_C_CashBook.COLUMNNAME_C_Currency_ID+"=?";
+		MCashBook retValue = new Query(ctx,I_C_CashBook.Table_Name,whereClause,null)
+		.setParameters(AD_Org_ID,C_Currency_ID)
+		.setOrderBy("IsDefault DESC")
+		.first();
+		if (retValue!=null)
 			{
-				retValue = new MCashBook (ctx, rs, null);
 				Integer key = new Integer (retValue.getC_CashBook_ID());
 				s_cache.put (key, retValue);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "get", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
 		return retValue;
 	}	//	get
 	
