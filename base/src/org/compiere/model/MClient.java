@@ -24,7 +24,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -85,32 +85,10 @@ public class MClient extends X_AD_Client
 	 */
 	public static MClient[] getAll (Properties ctx)
 	{
-		ArrayList<MClient> list = new ArrayList<MClient>();
-		String sql = "SELECT * FROM AD_Client";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MClient client = new MClient (ctx, rs, null);
-				s_cache.put (new Integer (client.getAD_Client_ID()), client);
-				list.add (client);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+		List<MClient> list = new Query(ctx,I_AD_Client.Table_Name,null,null)
+		.list();
+		for(MClient client:list ){
+			s_cache.put (new Integer (client.getAD_Client_ID()), client);
 		}
 		MClient[] retValue = new MClient[list.size ()];
 		list.toArray (retValue);
