@@ -29,6 +29,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pdf.Document;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.apps.WReport;
+import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
@@ -93,7 +94,7 @@ import org.zkoss.zul.Vbox;
  */
 public class ZkReportViewer extends Window implements EventListener {
 	
-	private static final long serialVersionUID = 1492321933977608137L;
+	private static final long serialVersionUID = 4640088641140012438L;
 	/** Window No					*/
 	private int                 m_WindowNo;
 	/**	Print Context				*/
@@ -133,6 +134,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	private Window winExportFile = null;
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private Listbox cboType = new Listbox();
+	private Checkbox summary = new Checkbox();
 	
 	/**
 	 * 	Static Layout
@@ -210,6 +212,9 @@ public class ZkReportViewer extends Window implements EventListener {
 		comboReport.setMold("select");
 		comboReport.setTooltiptext(Msg.translate(m_ctx, "AD_PrintFormat_ID"));
 		toolBar.appendChild(comboReport);
+		
+		summary.setText(Msg.getMsg(m_ctx, "Summary"));
+		toolBar.appendChild(summary);
 		
 		bCustomize.setImage("/images/Preference24.png");
 		bCustomize.setTooltiptext("Customize Report");
@@ -376,6 +381,8 @@ public class ZkReportViewer extends Window implements EventListener {
 	 */
 	private void dynInit()
 	{
+		summary.addActionListener(this);
+		
 		fillComboReport(m_reportEngine.getPrintFormat().get_ID());
 
 		//	fill Drill Options (Name, TableName)
@@ -518,6 +525,11 @@ public class ZkReportViewer extends Window implements EventListener {
 			exportFile();
 		else if(event.getName().equals(Events.ON_CLICK) || event.getName().equals(Events.ON_SELECT)) 
 			actionPerformed(event);
+		else if (event.getTarget() == summary) 
+		{
+			m_reportEngine.setSummary(summary.isSelected());
+			cmd_report();
+		}
 	}
 
 	/**************************************************************************
