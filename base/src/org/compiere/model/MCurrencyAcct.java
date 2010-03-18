@@ -16,19 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
-
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 /**
  *	Currency Account Model 
  *	
  *  @author Jorg Janke
  *  @version $Id: MCurrencyAcct.java,v 1.3 2006/07/30 00:58:38 jjanke Exp $
+ *  @author red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MCurrencyAcct extends X_C_Currency_Acct
 {
@@ -47,38 +44,10 @@ public class MCurrencyAcct extends X_C_Currency_Acct
 	 */
 	public static MCurrencyAcct get (MAcctSchemaDefault as, int C_Currency_ID)
 	{
-		MCurrencyAcct retValue = null;
-		String sql = "SELECT * FROM C_Currency_Acct "
-			+ "WHERE C_AcctSchema_ID=? AND C_Currency_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, as.getC_AcctSchema_ID());
-			pstmt.setInt(2, C_Currency_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				retValue = new MCurrencyAcct (as.getCtx(), rs, null);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, "get", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_C_Currency_Acct.COLUMNNAME_C_AcctSchema_ID+"=? AND "+I_C_Currency_Acct.COLUMNNAME_C_Currency_ID+"=?";	
+		MCurrencyAcct retValue = new Query(as.getCtx(),I_C_Currency_Acct.Table_Name,whereClause,null)
+		.setParameters(as.getC_AcctSchema_ID(),C_Currency_ID)
+		.first();
 		return retValue;
 	}	//	get
 	
