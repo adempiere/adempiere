@@ -44,10 +44,10 @@ import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
 import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.I_PP_Cost_Collector;
@@ -295,12 +295,36 @@ public class DocumentEngine implements DocAction
 						|| STATUS_WaitingConfirmation.equals(status);
 			if (m_document != null && ok)
 			{
-				MClient client = MClient.get(m_document.getCtx(), m_document.getAD_Client_ID());
+				// PostProcess documents when invoice or inout (this is to postprocess the generated MatchPO and MatchInv if any)
+				ArrayList<PO> docsPostProcess = new ArrayList<PO>();;
+				if (m_document instanceof MInvoice || m_document instanceof MInOut) {
+					if (m_document instanceof MInvoice) {
+						docsPostProcess  = ((MInvoice) m_document).getDocsPostProcess();
+					}
+					if (m_document instanceof MInOut) {
+						docsPostProcess  = ((MInOut) m_document).getDocsPostProcess();
+					}
+				}
+				if (m_document instanceof PO && docsPostProcess.size() > 0) {
+					// Process (this is to update the ProcessedOn flag with a timestamp after the original document)
+					for (PO docafter : docsPostProcess) {
+						docafter.setProcessedOn("Processed", true, false);
+						docafter.save();
+					}
+				}
+				
 				if (STATUS_Completed.equals(status) && MClient.isClientAccountingImmediate())
 				{
 					m_document.save();
 					postIt();
+					
+					if (m_document instanceof PO && docsPostProcess.size() > 0) {
+						for (PO docafter : docsPostProcess) {
+							String ignoreError = DocumentEngine.postImmediate(docafter.getCtx(), docafter.getAD_Client_ID(), docafter.get_Table_ID(), docafter.get_ID(), true, docafter.get_TrxName());
+						}
+					}
 				}
+
 			}
 			return ok;
 		}

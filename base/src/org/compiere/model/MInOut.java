@@ -20,6 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -54,7 +55,7 @@ public class MInOut extends X_M_InOut implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 727186799622809208L;
+	private static final long serialVersionUID = -239302197968535277L;
 
 	/**
 	 * 	Create Shipment From Order
@@ -1481,14 +1482,16 @@ public class MInOut extends X_M_InOut implements DocAction
 							iLine.save();	//	update matched invoice with ASI
 							inv.setM_AttributeSetInstance_ID(sLine.getM_AttributeSetInstance_ID());
 						}
+						boolean isNewMatchInv = false;
+						if (inv.get_ID() == 0)
+							isNewMatchInv = true;
 						if (!inv.save(get_TrxName()))
 						{
 							m_processMsg = CLogger.retrieveErrorString("Could not create Inv Matching");
 							return DocAction.STATUS_Invalid;
 						}
-						if (MClient.isClientAccountingImmediate()) {
-							String ignoreError = DocumentEngine.postImmediate(inv.getCtx(), inv.getAD_Client_ID(), inv.get_Table_ID(), inv.get_ID(), true, inv.get_TrxName());						
-						}
+						if (isNewMatchInv)
+							addDocsPostProcess(inv);
 					}
 				}
 
@@ -1498,14 +1501,16 @@ public class MInOut extends X_M_InOut implements DocAction
 					log.fine("PO Matching");
 					//	Ship - PO
 					MMatchPO po = MMatchPO.create (null, sLine, getMovementDate(), matchQty);
+					boolean isNewMatchPO = false;
+					if (po.get_ID() == 0)
+						isNewMatchPO = true;
 					if (!po.save(get_TrxName()))
 					{
 						m_processMsg = "Could not create PO Matching";
 						return DocAction.STATUS_Invalid;
 					}
-					if (MClient.isClientAccountingImmediate()) {
-						String ignoreError = DocumentEngine.postImmediate(po.getCtx(), po.getAD_Client_ID(), po.get_Table_ID(), po.get_ID(), true, po.get_TrxName());						
-					}
+					if (isNewMatchPO)
+						addDocsPostProcess(po);
 					//	Update PO with ASI
 					if (   oLine != null && oLine.getM_AttributeSetInstance_ID() == 0
 						&& sLine.getMovementQty().compareTo(oLine.getQtyOrdered()) == 0) //  just if full match [ 1876965 ]
@@ -1524,14 +1529,16 @@ public class MInOut extends X_M_InOut implements DocAction
 						//	Ship - Invoice
 						MMatchPO po = MMatchPO.create (iLine, sLine,
 							getMovementDate(), matchQty);
+						boolean isNewMatchPO = false;
+						if (po.get_ID() == 0)
+							isNewMatchPO = true;
 						if (!po.save(get_TrxName()))
 						{
 							m_processMsg = "Could not create PO(Inv) Matching";
 							return DocAction.STATUS_Invalid;
 						}
-						if (MClient.isClientAccountingImmediate()) {
-							String ignoreError = DocumentEngine.postImmediate(po.getCtx(), po.getAD_Client_ID(), po.get_Table_ID(), po.get_ID(), true, po.get_TrxName());						
-						}
+						if (isNewMatchPO)
+							addDocsPostProcess(po);
 						//	Update PO with ASI
 						oLine = new MOrderLine (getCtx(), po.getC_OrderLine_ID(), get_TrxName());
 						if (   oLine != null && oLine.getM_AttributeSetInstance_ID() == 0
@@ -1571,6 +1578,17 @@ public class MInOut extends X_M_InOut implements DocAction
 		setDocAction(DOCACTION_Close);
 		return DocAction.STATUS_Completed;
 	}	//	completeIt
+
+	/* Save array of documents to process AFTER completing this one */
+	ArrayList<PO> docsPostProcess = new ArrayList<PO>();
+
+	private void addDocsPostProcess(PO doc) {
+		docsPostProcess.add(doc);
+	}
+
+	public ArrayList<PO> getDocsPostProcess() {
+		return docsPostProcess;
+	}
 
 	/**
 	 * Automatically creates a customer shipment for any

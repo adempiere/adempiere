@@ -95,7 +95,7 @@ public abstract class PO
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4112064325136026951L;
+	private static final long serialVersionUID = 6604764467216189092L;
 
 	private static final String USE_TIMEOUT_FOR_UPDATE = "org.adempiere.po.useTimeoutForUpdate";
 
@@ -829,7 +829,7 @@ public abstract class PO
 	/* FR 2962094 - Finish implementation of weighted average costing
 	   Fill the column ProcessedOn (if it exists) with a bigdecimal representation of current timestamp (with nanoseconds) 
 	*/ 
-	private void setProcessedOn(String ColumnName, Object value, Object oldValue) {
+	public void setProcessedOn(String ColumnName, Object value, Object oldValue) {
 		if ("Processed".equals(ColumnName)
 				&& value instanceof Boolean
 				&& ((Boolean)value).booleanValue() == true
