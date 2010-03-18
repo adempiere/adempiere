@@ -8,7 +8,7 @@
  </row>
  <row id="102" trl="Y">
   <value column="Description" original="Euro">Euro (100 Cent)</value>
-  <value column="CurSymbol" original="E">E</value>
+  <value column="CurSymbol" original="E">€</value>
  </row>
  <row id="103" trl="Y">
   <value column="Description" original="Deutsche Mark">Deutsche Mark (100 Pfennig)</value>
