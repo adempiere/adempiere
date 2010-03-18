@@ -662,7 +662,7 @@ public class Viewer extends CFrame
 			cmd_drill();
 		else if (e.getSource() == summary) //FR 201156
 		{	
-			Env.setContext(Env.getCtx(), 0, "IsReportSummary", (Boolean)summary.getValue() ? "Y" : "N" );
+			m_reportEngine.setSummary(summary.isSelected());
 			cmd_report();
 		}	
 		else if (cmd.equals("First"))

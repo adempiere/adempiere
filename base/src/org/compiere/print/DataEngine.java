@@ -119,9 +119,23 @@ public class DataEngine
 	 */
 	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query)
 	{
+		return getPrintData(ctx, format, query, false);
+	}
+	
+	/**************************************************************************
+	 * 	Load Data
+	 *
+	 * 	@param format print format
+	 * 	@param query query
+	 * 	@param ctx context
+	 *  @param summary
+	 * 	@return PrintData or null
+	 */
+	public PrintData getPrintData (Properties ctx, MPrintFormat format, MQuery query, boolean summary)
+	{
 
 		/** Report Summary FR [ 2011569 ]**/ 
-		m_summary = "Y".equals(Env.getContext(Env.getCtx(),0, "IsReportSummary")); 
+		m_summary = summary; 
 
 		if (format == null)
 			throw new IllegalStateException ("No print format");

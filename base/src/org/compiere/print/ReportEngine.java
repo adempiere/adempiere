@@ -165,6 +165,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 	/** Window */
 	private int m_windowNo = 0;
 	
+	private boolean m_summary = false;
+	
 	/**
 	 * 	Set PrintFormat.
 	 *  If Layout was created, re-create layout
@@ -221,7 +223,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 			return;
 		
 		DataEngine de = new DataEngine(m_printFormat.getLanguage(),m_trxName);
-		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query));
+		setPrintData(de.getPrintData (m_ctx, m_printFormat, m_query, m_summary));
 	//	m_printData.dump();
 	}	//	setPrintData
 
@@ -1595,5 +1597,8 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 		return m_windowNo;
 	}
 
- 	
+	public void setSummary(boolean summary)
+	{
+		m_summary = summary;
+	}
 }	//	ReportEngine
