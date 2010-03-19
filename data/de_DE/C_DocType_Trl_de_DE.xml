@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="C_DocType">
  <row id="0" trl="Y">
@@ -88,8 +87,8 @@
   <value column="DocumentNote" original=""/>
  </row>
  <row id="131" trl="Y">
-  <value column="Name" original="Return Material">Warenrückgabe</value>
-  <value column="PrintName" original="Return Material Authorization">Freigabe Warenrückgabe (RMA)</value>
+  <value column="Name" original="Customer Return Material">Warenrückgabe</value>
+  <value column="PrintName" original="Customer Return Material Authorization">Freigabe Warenrückgabe (RMA)</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="132" trl="Y">
@@ -178,7 +177,7 @@
   <value column="DocumentNote" original=""/>
  </row>
  <row id="149" trl="Y">
-  <value column="Name" original="MM Returns">Warenrückgabe</value>
+  <value column="Name" original="MM Customer Return">Warenrückgabe</value>
   <value column="PrintName" original="Return Material">Warenrückgabe</value>
   <value column="DocumentNote" original=""/>
  </row>

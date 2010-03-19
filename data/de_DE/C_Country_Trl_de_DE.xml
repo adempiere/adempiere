@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="C_Country">
  <row id="100" trl="Y">
@@ -10,7 +9,7 @@
  <row id="101" trl="Y">
   <value column="Name" original="Germany - Deutschland">Deutschland</value>
   <value column="Description" original="">Deutschland</value>
-  <value column="RegionName" original="">Bundesland</value>
+  <value column="RegionName" original="Bundesland">Bundesland</value>
  </row>
  <row id="102" trl="Y">
   <value column="Name" original="France">Frankreich</value>
@@ -1206,5 +1205,35 @@
   <value column="Name" original="Montenegro">Montenegro</value>
   <value column="Description" original="Montenegro">Montenegro</value>
   <value column="RegionName" original=""/>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Åland Islands">Åland Islands</value>
+  <value column="Description" original="Åland Islands">Åland Islands</value>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Saint Barthélemy">Saint Barthélemy</value>
+  <value column="Description" original="Saint Barthélemy">Saint Barthélemy</value>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Guernsey">Guernsey</value>
+  <value column="Description" original=""/>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Isle of Man">Isle of Man</value>
+  <value column="Description" original="Isle of Man">Isle of Man</value>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Jersey">Jersey</value>
+  <value column="Description" original="Jersey">Jersey</value>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Saint Martin">Saint Martin</value>
+  <value column="Description" original="Saint Martin">Saint Martin</value>
+  <value column="RegionName" original="State">State</value>
  </row>
 </adempiereTrl>

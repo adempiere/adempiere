@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--Adempiere(r) Release 3.5.4a_2009-09-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ${ADEMPIERE_VERSION} 20090924-1407 - ${ADEMPIERE_VENDOR}-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Element">
  <row id="101" trl="Y">
@@ -245,7 +244,7 @@
  <row id="131" trl="Y">
   <value column="Name" original="BPartner Tree">Primärbaum Geschäftspartner</value>
   <value column="PrintName" original="BPartner Tree">Primärbaum Geschäftspartner</value>
-  <value column="Description" original="Tree to determine business partner hierarchy">Baum zur Festlegung der Geschäftspartner-Hierarchie</value>
+  <value column="Description" original="Trees are used for (financial) reporting">Baum zur Festlegung der Geschäftspartner-Hierarchie</value>
   <value column="Help" original="Trees are used for (finanial) reporting">Bäume werden für das Erstellen von (Finanz-) Berichten verwendet</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -23774,9 +23773,9 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="52025" trl="Y">
-  <value column="Name" original="ClassName">ClassName</value>
-  <value column="PrintName" original="ClassName">ClassName</value>
+ <row id="52026" trl="N">
+  <value column="Name" original="Args">Args</value>
+  <value column="PrintName" original="Args">Args</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -24749,10 +24748,10 @@ Use the field Backflush Group for grouping the component in a Backflush Method.<
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53289" trl="Y">
-  <value column="Name" original="QtyScrap">Schrott</value>
-  <value column="PrintName" original="% Scrap">QtyScrap</value>
-  <value column="Description" original="Scrap Quantity for this componet">Menge an Material, das nicht den Anforderungen entspricht, bzw. wo Nacharbeiten unwirtschaftlich/unpraktisch sind.</value>
-  <value column="Help" original="Scrap Quantity for this componet"/>
+  <value column="Name" original="Scrap %">Schrott</value>
+  <value column="PrintName" original="Scrap %">QtyScrap</value>
+  <value column="Description" original="Scrap % Quantity for this componet">Menge an Material, das nicht den Anforderungen entspricht, bzw. wo Nacharbeiten unwirtschaftlich/unpraktisch sind.</value>
+  <value column="Help" original="Scrap % Quantity for this componet"/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -27201,16 +27200,6 @@ http:/de.wikipedia.org/wiki/Sicherheitsbestand</value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
- <row id="53586" trl="Y">
-  <value column="Name" original="Textmsg">Textmsg</value>
-  <value column="PrintName" original="Textmsg">Textmsg</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
-  <value column="PO_Description" original=""/>
-  <value column="PO_Help" original=""/>
-  <value column="PO_Name" original=""/>
-  <value column="PO_PrintName" original=""/>
- </row>
  <row id="53587" trl="Y">
   <value column="Name" original="A_Asset_Group_Acct_ID">A_Asset_Group_Acct_ID</value>
   <value column="PrintName" original="A_Asset_Group_Acct_ID">A_Asset_Group_Acct_ID</value>
@@ -27394,36 +27383,6 @@ http:/de.wikipedia.org/wiki/Sicherheitsbestand</value>
  <row id="53605" trl="Y">
   <value column="Name" original="AssetAccumDepreciationAmt">AssetAccumDepreciationAmt</value>
   <value column="PrintName" original="AssetAccumDepreciationAmt">AssetAccumDepreciationAmt</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
-  <value column="PO_Description" original=""/>
-  <value column="PO_Help" original=""/>
-  <value column="PO_Name" original=""/>
-  <value column="PO_PrintName" original=""/>
- </row>
- <row id="53606" trl="Y">
-  <value column="Name" original="Ad_User_ID">Ad_User_ID</value>
-  <value column="PrintName" original="Ad_User_ID">Ad_User_ID</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
-  <value column="PO_Description" original=""/>
-  <value column="PO_Help" original=""/>
-  <value column="PO_Name" original=""/>
-  <value column="PO_PrintName" original=""/>
- </row>
- <row id="53607" trl="Y">
-  <value column="Name" original="Versionno">Versionno</value>
-  <value column="PrintName" original="Versionno">Versionno</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
-  <value column="PO_Description" original=""/>
-  <value column="PO_Help" original=""/>
-  <value column="PO_Name" original=""/>
-  <value column="PO_PrintName" original=""/>
- </row>
- <row id="53608" trl="Y">
-  <value column="Name" original="Serno">Serno</value>
-  <value column="PrintName" original="Serno">Serno</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -27784,16 +27743,6 @@ http:/de.wikipedia.org/wiki/Sicherheitsbestand</value>
  <row id="53644" trl="Y">
   <value column="Name" original="I_Asset_ID">I_Asset_ID</value>
   <value column="PrintName" original="I_Asset_ID">I_Asset_ID</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
-  <value column="PO_Description" original=""/>
-  <value column="PO_Help" original=""/>
-  <value column="PO_Name" original=""/>
-  <value column="PO_PrintName" original=""/>
- </row>
- <row id="53645" trl="Y">
-  <value column="Name" original="I_Isimported">I_Isimported</value>
-  <value column="PrintName" original="I_Isimported">I_Isimported</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -28885,6 +28834,26 @@ Credit Work in Process Account ]]></value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
+ <row id="53838" trl="N">
+  <value column="Name" original="Allow Cities out of List">Allow Cities out of List</value>
+  <value column="PrintName" original="Allow Cities out of List">Allow Cities out of List</value>
+  <value column="Description" original="A flag to allow cities, currently not in the list, to be entered">A flag to allow cities, currently not in the list, to be entered</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="53839" trl="N">
+  <value column="Name" original="Capture Sequence">Capture Sequence</value>
+  <value column="PrintName" original="Capture Sequence">Capture Sequence</value>
+  <value column="Description" original=""/>
+  <value column="Help" original="The Capture Sequence defines the fields to be used when capturing an address on this country.  The following notations are used: @CO@=Country, @C@=City, @P@=Postal, @A@=PostalAdd, @R@=Region, @A1@=Address 1 to @A4@=Address 4.  Country is always mandatory, add a bang ! to make another field mandatory, for example @C!@ makes city mandatory, @A1!@ makes Address 1 mandatory.">The Capture Sequence defines the fields to be used when capturing an address on this country.  The following notations are used: @CO@=Country, @C@=City, @P@=Postal, @A@=PostalAdd, @R@=Region, @A1@=Address 1 to @A4@=Address 4.  Country is always mandatory, add a bang ! to make another field mandatory, for example @C!@ makes city mandatory, @A1!@ makes Address 1 mandatory.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
  <row id="53866" trl="Y">
   <value column="Name" original="Referenced RMA">Referenzierte RMA</value>
   <value column="PrintName" original="Ref RMA">Ref RMA</value>
@@ -29035,6 +29004,46 @@ Credit Work in Process Account ]]></value>
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
+ <row id="54061" trl="N">
+  <value column="Name" original="Period Type">Period Type</value>
+  <value column="PrintName" original="Period Type">Period Type</value>
+  <value column="Description" original="PA Period Type">PA Period Type</value>
+  <value column="Help" original="The Period Type to report on: Period, Year, Total or Natural. Natural = Year for P &amp; L accounts, Total for Balance Sheet accounts."><![CDATA[The Period Type to report on: Period, Year, Total or Natural. Natural = Year for P & L accounts, Total for Balance Sheet accounts.]]></value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54062" trl="N">
+  <value column="Name" original="Amount Type">Amount Type</value>
+  <value column="PrintName" original="Amount Type">Amount Type</value>
+  <value column="Description" original="PA Amount Type for reporting">PA Amount Type for reporting</value>
+  <value column="Help" original="The amount type to report on: Quantity, Credit Only, Debit Only, Balance (expected sign) or Balance (accounted sign). &quot;Expected sign&quot; adjusts the sign of the result based on the Account Type and Expected Sign of each Account Element, whereas &quot;accounted sign&quot; always returns DR-CR.">The amount type to report on: Quantity, Credit Only, Debit Only, Balance (expected sign) or Balance (accounted sign). "Expected sign" adjusts the sign of the result based on the Account Type and Expected Sign of each Account Element, whereas "accounted sign" always returns DR-CR.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54076" trl="N">
+  <value column="Name" original="Is Statement">Is Statement</value>
+  <value column="PrintName" original="Is Statement">Is Statement</value>
+  <value column="Description" original="Dunning Level is a definition of a statement">Dunning Level is a definition of a statement</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54077" trl="N">
+  <value column="Name" original="Cost Allocation Percent">Cost Allocation Percent</value>
+  <value column="PrintName" original="Allocation%">Allocation%</value>
+  <value column="Description" original="Cost allocation percent in case of a co-product.">Cost allocation percent in case of a co-product.</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
  <row id="54078" trl="Y">
   <value column="Name" original="Is Manufacturer">Hersteller</value>
   <value column="PrintName" original="Is Manufacturer">Hersteller</value>
@@ -29069,36 +29078,6 @@ Credit Work in Process Account ]]></value>
   <value column="Name" original="Sum Qty on Hand">Bestand (verfügbar)</value>
   <value column="PrintName" original="Sum Qty on Hand">Bestand (verfügbar)</value>
   <value column="Description" original="Summary of product on hand in all locators">Gibt an, welcher Bestand aktuell verfügbar ist, d.h. tatsächlicher Bestand - reservierte Menge</value>
-  <value column="Help" original=""/>
-  <value column="PO_Description" original=""/>
-  <value column="PO_Help" original=""/>
-  <value column="PO_Name" original=""/>
-  <value column="PO_PrintName" original=""/>
- </row>
- <row id="54088" trl="N">
-  <value column="Name" original="Embedded Tab">Embedded Tab</value>
-  <value column="PrintName" original="Embedded Tab">Embedded Tab</value>
-  <value column="Description" original=""/>
-  <value column="Help" original=""/>
-  <value column="PO_Description" original=""/>
-  <value column="PO_Help" original=""/>
-  <value column="PO_Name" original=""/>
-  <value column="PO_PrintName" original=""/>
- </row>
- <row id="54092" trl="Y">
-  <value column="Name" original="Average PO Price">Durchschn. EK (PO)</value>
-  <value column="PrintName" original="Average PO Price">Durchschn. EK (PO)</value>
-  <value column="Description" original="">Zeigt den duchschnittlichen Einkaufspreis basierend auf der Bestellung an.</value>
-  <value column="Help" original=""/>
-  <value column="PO_Description" original=""/>
-  <value column="PO_Help" original=""/>
-  <value column="PO_Name" original=""/>
-  <value column="PO_PrintName" original=""/>
- </row>
- <row id="54093" trl="Y">
-  <value column="Name" original="Last PO Price">Letzter EK-Preis</value>
-  <value column="PrintName" original="Last PO Price">Letzter EK-Preis</value>
-  <value column="Description" original="">Letzter EK-Preis - Maßgeblich ist der EK-Preis aus der Bestellung(Purchase Order). </value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -29140,6 +29119,126 @@ Credit Work in Process Account ]]></value>
   <value column="PrintName" original="Import Limit Price">Import Limit Price</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54099" trl="N">
+  <value column="Name" original="All Allocations">All Allocations</value>
+  <value column="PrintName" original="All Allocations">All Allocations</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54117" trl="N">
+  <value column="Name" original="Import Product Planning">Import Product Planning</value>
+  <value column="PrintName" original="Import Product Planning">Import Product Planning</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54118" trl="N">
+  <value column="Name" original="Network Distribution Key">Network Distribution Key</value>
+  <value column="PrintName" original="Network Distribution Key">Network Distribution Key</value>
+  <value column="Description" original="Key of the Network Distribution">Key of the Network Distribution</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54119" trl="N">
+  <value column="Name" original="Product BOM Key">Product BOM Key</value>
+  <value column="PrintName" original="Product BOM Key">Product BOM Key</value>
+  <value column="Description" original="Key of Product BOM">Key of Product BOM</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54120" trl="N">
+  <value column="Name" original="Forecast Key">Forecast Key</value>
+  <value column="PrintName" original="Forecast Key">Forecast Key</value>
+  <value column="Description" original="Key of the Forecast">Key of the Forecast</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54121" trl="N">
+  <value column="Name" original="Resource Key">Resource Key</value>
+  <value column="PrintName" original="Resource Key">Resource Key</value>
+  <value column="Description" original="Key of the Resource">Key of the Resource</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54122" trl="N">
+  <value column="Name" original="Planner Key">Planner Key</value>
+  <value column="PrintName" original="Planner Key">Planner Key</value>
+  <value column="Description" original="Search Key of the Planning">Search Key of the Planning</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54123" trl="N">
+  <value column="Name" original="Ignore Processing Time">Ignore Processing Time</value>
+  <value column="PrintName" original="Ignore Proccessing Time">Ignore Proccessing Time</value>
+  <value column="Description" original="Do not include processing time for the DateNextRun calculation">Do not include processing time for the DateNextRun calculation</value>
+  <value column="Help" original="When this is selected, the previous DateNextRun is always use as the source for the next DateNextRun calculation.">When this is selected, the previous DateNextRun is always use as the source for the next DateNextRun calculation.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54124" trl="N">
+  <value column="Name" original="Cron Scheduling Pattern">Cron Scheduling Pattern</value>
+  <value column="PrintName" original="Cron Scheduling Pattern">Cron Scheduling Pattern</value>
+  <value column="Description" original="Cron pattern to define when the process should be invoked.">Cron pattern to define when the process should be invoked.</value>
+  <value column="Help" original="Cron pattern to define when the process should be invoked. See http://en.wikipedia.org/wiki/Cron#crontab_syntax for cron scheduling syntax and example.">Cron pattern to define when the process should be invoked. See http://en.wikipedia.org/wiki/Cron#crontab_syntax for cron scheduling syntax and example.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54128" trl="N">
+  <value column="Name" original="Processed On">Processed On</value>
+  <value column="PrintName" original="Processed On">Processed On</value>
+  <value column="Description" original="The date+time (expressed in decimal format) when the document has been processed">The date+time (expressed in decimal format) when the document has been processed</value>
+  <value column="Help" original="The ProcessedOn Date+Time save the exact moment (nanoseconds precision if allowed by the DB) when a document has been processed.">The ProcessedOn Date+Time save the exact moment (nanoseconds precision if allowed by the DB) when a document has been processed.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54129" trl="N">
+  <value column="Name" original="Order Source Key">Order Source Key</value>
+  <value column="PrintName" original="Order Source Key">Order Source Key</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54132" trl="N">
+  <value column="Name" original="Average Cost Variance">Average Cost Variance</value>
+  <value column="PrintName" original="Average Cost Variance">Average Cost Variance</value>
+  <value column="Description" original="Average Cost Variance">Average Cost Variance</value>
+  <value column="Help" original="The Average Cost Variance is used in weighted average costing to reflect differences when posting costs for negative inventory.">The Average Cost Variance is used in weighted average costing to reflect differences when posting costs for negative inventory.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
