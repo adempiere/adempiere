@@ -33,6 +33,9 @@ import org.compiere.model.MIssue;
  *	
  *  @author Jorg Janke
  *  @version $Id: CLogErrorBuffer.java,v 1.3 2006/07/30 00:54:36 jjanke Exp $
+ * 
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 		<li>BF [ 2973298 ] NPE on CLogErrorBuffer
  */
 public class CLogErrorBuffer extends Handler
 {
@@ -200,7 +203,9 @@ public class CLogErrorBuffer extends Handler
 			//	Issue Reporting
 			if (isIssueError())
 			{
-				String loggerName = record.getLoggerName();			//	class name	
+				String loggerName = record.getLoggerName();			//	class name
+				if (loggerName == null)
+					loggerName = "";
 				String className = record.getSourceClassName();		//	physical class
 				String methodName = record.getSourceMethodName();	//	
 				if (DB.isConnected(false) 
