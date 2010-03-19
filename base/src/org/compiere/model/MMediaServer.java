@@ -17,21 +17,19 @@
 package org.compiere.model;
 
 import java.io.ByteArrayInputStream;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import org.apache.commons.net.ftp.FTPClient;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 
 /**
  * 	Media Server Model
  *	
  *  @author Jorg Janke
  *  @version $Id: MMediaServer.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *  @author red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MMediaServer extends X_CM_Media_Server
 {
@@ -48,36 +46,11 @@ public class MMediaServer extends X_CM_Media_Server
 	 */
 	public static MMediaServer[] getMediaServer (MWebProject project)
 	{
-		ArrayList<MMediaServer> list = new ArrayList<MMediaServer>();
-		PreparedStatement pstmt = null;
-		String sql = "SELECT * FROM CM_Media_Server WHERE CM_WebProject_ID=? ORDER BY CM_Media_Server_ID";
-		try
-		{
-			pstmt = DB.prepareStatement (sql, project.get_TrxName());
-			pstmt.setInt (1, project.getCM_WebProject_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				list.add (new MMediaServer (project.getCtx(), rs, project.get_TrxName()));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_CM_Media_Server.COLUMNNAME_CM_WebProject_ID+"=?";
+		List<MMediaServer> list = new Query(project.getCtx(),MMediaServer.Table_Name,whereClause,project.get_TrxName())
+		.setParameters(project.getCM_WebProject_ID())
+		.setOrderBy(I_CM_Media_Server.COLUMNNAME_CM_Media_Server_ID)
+		.list();
 		MMediaServer[] retValue = new MMediaServer[list.size ()];
 		list.toArray (retValue);
 		return retValue;

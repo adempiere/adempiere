@@ -19,10 +19,9 @@ package org.compiere.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -32,6 +31,7 @@ import org.compiere.util.DB;
  *  @author Jorg Janke
  *  @author victor.perez@e-evolution.com
  *  @see FR [ 1966326 ] Is necessary create method to get ID menu use menu Name http://sourceforge.net/tracker/index.php?func=detail&aid=1966326&group_id=176962&atid=879335
+ *  @author red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  *  @version $Id: MMenu.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
  */
 public class MMenu extends X_AD_Menu
@@ -61,29 +61,11 @@ public class MMenu extends X_AD_Menu
 	 * @param trxName transaction
 	 * @return MMenu
 	 */
-	public static MMenu[] get (Properties ctx, String whereClause, String trxName)
+	public static MMenu[] get (Properties ctx, final String whereClause, String trxName)
 	{
-		String sql = "SELECT * FROM AD_Menu";
-		if (whereClause != null && whereClause.length() > 0)
-			sql += " WHERE " + whereClause;
-		ArrayList<MMenu> list = new ArrayList<MMenu>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MMenu (ctx, rs, trxName));
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		List<MMenu> list = new Query(ctx,I_AD_Menu.Table_Name,whereClause,trxName)
+		.list();
+
 		MMenu[] retValue = new MMenu[list.size()];
 		list.toArray (retValue);
 		return retValue;
