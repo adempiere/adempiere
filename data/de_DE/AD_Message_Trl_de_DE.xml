@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.5.4a_2009-09-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Message">
  <row id="101" trl="Y">
@@ -4945,6 +4945,223 @@ Wollen Sie fortfahren?</value>
   <value column="MsgText" original="Next">Next</value>
   <value column="MsgTip" original="Suivant">Suivant</value>
  </row>
+ <row id="52441" trl="Y">
+  <value column="MsgText" original="Price List">Preisliste</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52442" trl="Y">
+  <value column="MsgText" original="Help">Hilfe</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52443" trl="Y">
+  <value column="MsgText" original="List Price">Listenpreis</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52444" trl="Y">
+  <value column="MsgText" original="Standard Price">Standardpreis</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52445" trl="Y">
+  <value column="MsgText" original="Limit Price">Limitpreis</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52446" trl="N">
+  <value column="MsgText" original="Tax Incl">Tax Incl</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52447" trl="N">
+  <value column="MsgText" original="Tax Excl">Tax Excl</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52448" trl="Y">
+  <value column="MsgText" original="Type of Price List">Preislisten-Typ</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52449" trl="Y">
+  <value column="MsgText" original="Purchase">Einkauf</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52450" trl="Y">
+  <value column="MsgText" original="Sales">Vertrieb</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52451" trl="N">
+  <value column="MsgText" original="Present for Product">Present for Product</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52452" trl="Y">
+  <value column="MsgText" original="Organisation">Organisation</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52453" trl="Y">
+  <value column="MsgText" original="Terminals">Kassen-Terminals</value>
+  <value column="MsgTip" original="Maintain POS Terminals">Kassen-Terminals verwalten</value>
+ </row>
+ <row id="52454" trl="Y">
+  <value column="MsgText" original="Cash Books">Kassenbücher</value>
+  <value column="MsgTip" original="Maintain Cash Books">Kassenbücher verwalten</value>
+ </row>
+ <row id="52455" trl="Y">
+  <value column="MsgText" original="Completed">Abgeschlossen - Completed</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52456" trl="Y">
+  <value column="MsgText" original="Drafted">Entwurf - Drafted</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52457" trl="Y">
+  <value column="MsgText" original="In Progress">In Bearbeitung</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52458" trl="Y">
+  <value column="MsgText" original="Invalid">Ungültig</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52459" trl="Y">
+  <value column="MsgText" original="Closed">Geschlossen - Closed</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52460" trl="Y">
+  <value column="MsgText" original="Cash">Bar</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52461" trl="Y">
+  <value column="MsgText" original="Card">Karte</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52462" trl="Y">
+  <value column="MsgText" original="Cheque">Scheck</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52463" trl="N">
+  <value column="MsgText" original="Mixed">Mixed</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52464" trl="N">
+  <value column="MsgText" original="Credit">Credit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52465" trl="N">
+  <value column="MsgText" original="Amount Paid">Amount Paid</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52467" trl="Y">
+  <value column="MsgText" original="Currency">Währung</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52468" trl="Y">
+  <value column="MsgText" original="Delete Price On Price List">Preis auf Preisliste löschen</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52470" trl="Y">
+  <value column="MsgText" original="HTML">HTML</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52471" trl="Y">
+  <value column="MsgText" original="PDF">PDF</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52472" trl="N">
+  <value column="MsgText" original="CSV">CSV</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52473" trl="Y">
+  <value column="MsgText" original="Sales Report">Verkaufs-Bericht</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52474" trl="Y">
+  <value column="MsgText" original="Best Selling Items">Meistverkaufte Produkte</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52475" trl="N">
+  <value column="MsgText" original="Stock Sales Report">Stock Sales Report</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52476" trl="N">
+  <value column="MsgText" original="Stock Transfer">Stock Transfer</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52477" trl="Y">
+  <value column="MsgText" original="Inventory Move">Lagerbewegung</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52478" trl="N">
+  <value column="MsgText" original="Move Confirmation">Move Confirmation</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52479" trl="Y">
+  <value column="MsgText" original="Barcode Printing">
+Barcode drucken</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52480" trl="Y">
+  <value column="MsgText" original="Base Price List">Basispreisliste</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52481" trl="Y">
+  <value column="MsgText" original="Delete Old Records">Alte Einträge löschen</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52482" trl="Y">
+  <value column="MsgText" original="Sales Price List">Verkaufspreisliste</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52483" trl="Y">
+  <value column="MsgText" original="Purchase Price List">Einkaufspreisliste</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52484" trl="Y">
+  <value column="MsgText" original="Terminal">Kassen-Terminal</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52485" trl="Y">
+  <value column="MsgText" original="Version">Version</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52486" trl="Y">
+  <value column="MsgText" original="Reports">Berichte</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52487" trl="Y">
+  <value column="MsgText" original="Create Price List">Preisliste erstellen</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="52488" trl="Y">
+  <value column="MsgText" original="Enforce Discount Upto Limit Price">Rabatt bis zum Limitpreis erzwingen.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52489" trl="N">
+  <value column="MsgText" original="Enforce Overide Limit Price">Enforce Overide Limit Price</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52490" trl="Y">
+  <value column="MsgText" original="Allowed Discount On Total Sales">Zulässiger Rabatt auf den Gesamtverkauf - Allowed Discount On Total Sales </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52491" trl="Y">
+  <value column="MsgText" original="Purchases Report">Einkaufs-Bericht</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52492" trl="N">
+  <value column="MsgText" original="Settle Payment For Purchases On Credit">Settle Payment For Purchases On Credit</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52493" trl="Y">
+  <value column="MsgText" original="User Manual">Benutzerhandbuch</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52494" trl="Y">
+  <value column="MsgText" original="Contact Us">Kontaktieren Sie uns</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52495" trl="Y">
+  <value column="MsgText" original="Discount Amount">Rabattbetrag</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="52496" trl="N">
+  <value column="MsgText" original="Writeoff Amount">Writeoff Amount</value>
+  <value column="MsgTip" original=""/>
+ </row>
  <row id="53001" trl="Y">
   <value column="MsgText" original="Item Availability in other Warehouses">Item Availability in other Warehouses</value>
   <value column="MsgTip" original=""/>
@@ -4985,6 +5202,54 @@ Wollen Sie fortfahren?</value>
   <value column="MsgText" original="This is a system parameter, you can't save it as client parameter">This is a system parameter, you can't save it as client parameter</value>
   <value column="MsgTip" original=""/>
  </row>
+ <row id="53011" trl="Y">
+  <value column="MsgText" original="Create">Erstellen</value>
+  <value column="MsgTip" original="Indicates that a supply order should be created to satisfy a negative projected on hand. This message is created if the flag 'Create Plan' is No.">Indicates that a supply order should be created to satisfy a negative projected on hand. This message is created if the flag 'Create Plan' is No.</value>
+ </row>
+ <row id="53012" trl="N">
+  <value column="MsgText" original="De-Expedite">De-Expedite</value>
+  <value column="MsgTip" original="Indicates that a schedule supply order is due before it is needed and should be delayed, or demand rescheduled to an earlier date.">Indicates that a schedule supply order is due before it is needed and should be delayed, or demand rescheduled to an earlier date.</value>
+ </row>
+ <row id="53013" trl="N">
+  <value column="MsgText" original="Expedite">Expedite</value>
+  <value column="MsgTip" original="Indicates that a scheduled supply order is due after is needed and should be rescheduled to an earlier date, or demand rescheduled to a later date.">Indicates that a scheduled supply order is due after is needed and should be rescheduled to an earlier date, or demand rescheduled to a later date.</value>
+ </row>
+ <row id="53014" trl="Y">
+  <value column="MsgText" original="Cancel">Abbrechen</value>
+  <value column="MsgTip" original="Indicate that a scheduled supply order is no longer needed and should be deleted.">Indicate that a scheduled supply order is no longer needed and should be deleted.</value>
+ </row>
+ <row id="53015" trl="N">
+  <value column="MsgText" original="Release Due For">Release Due For</value>
+  <value column="MsgTip" original="Indicate tha a supply order should be released. if it is a draft order , it must also be approved.">Indicate tha a supply order should be released. if it is a draft order , it must also be approved.</value>
+ </row>
+ <row id="53016" trl="N">
+  <value column="MsgText" original="Release Past Due For">Release Past Due For</value>
+  <value column="MsgTip" original="Indicates that a supply order was not released when it was due, and should be either released or expedited now, or the demand rescheduled for a later date.&#9;">Indicates that a supply order was not released when it was due, and should be either released or expedited now, or the demand rescheduled for a later date.	</value>
+ </row>
+ <row id="53017" trl="N">
+  <value column="MsgText" original="Quantity  Less than Minimum">Quantity  Less than Minimum</value>
+  <value column="MsgTip" original="Indicates that a supply order was created for a quantity less than the minimum quantity set in Product Planning Data">Indicates that a supply order was created for a quantity less than the minimum quantity set in Product Planning Data</value>
+ </row>
+ <row id="53018" trl="N">
+  <value column="MsgText" original="Quantity  Less than Maximum">Quantity Less than Maximum</value>
+  <value column="MsgTip" original="Indicates that a supply order was created for a quantity for a quantity greater than than maximum quantity set in the Product Planning Data">Indicates that a supply order was created for a quantity for a quantity greater than than maximum quantity set in the Product Planning Data</value>
+ </row>
+ <row id="53019" trl="N">
+  <value column="MsgText" original="Time Fence Conflict">Time Fence Conflict</value>
+  <value column="MsgTip" original="Indicates that there is an unsatisfied material requirement inside the planning time fence for this product. You should either manually schedule and expedite orders to fill this demand or delay fulfillment of the requirement that created the demand.">Indicates that there is an unsatisfied material requirement inside the planning time fence for this product. You should either manually schedule and expedite orders to fill this demand or delay fulfillment of the requirement that created the demand.</value>
+ </row>
+ <row id="53020" trl="Y">
+  <value column="MsgText" original="Past Due">Überfällig</value>
+  <value column="MsgTip" original="Indicates that a schedule supply order receipt is past due.">Indicates that a schedule supply order receipt is past due.</value>
+ </row>
+ <row id="53021" trl="N">
+  <value column="MsgText" original="No Data Planning">No Data Planning</value>
+  <value column="MsgTip" original="indicates that there is no data planning for this product">indicates that there is no data planning for this product</value>
+ </row>
+ <row id="53022" trl="N">
+  <value column="MsgText" original="Beginning Available Less Than Zero">Beginning Available Less Than Zero</value>
+  <value column="MsgTip" original="Indicates that the quantity on hand is less that safety stock">Zeigt an, dass die verfügbare Menge unter dem Sicherheitsbestand liegt</value>
+ </row>
  <row id="53023" trl="Y">
   <value column="MsgText" original="Wrong Script Value - format for JSR 223 Script must be engine:scriptName where supported engines must be something like groovy, jython, beanshell">Wrong Script Value - format for JSR 223 Script must be engine:scriptName where supported engines must be something like groovy, jython, beanshell</value>
   <value column="MsgTip" original=""/>
@@ -5005,6 +5270,154 @@ Wollen Sie fortfahren?</value>
  <row id="53027" trl="Y">
   <value column="MsgText" original="Only from same warehouse">Only from same warehouse</value>
   <value column="MsgTip" original="Show only orders with the same warehouse as selected in the material receipt">Show only orders with the same warehouse as selected in the material receipt</value>
+ </row>
+ <row id="53029" trl="Y">
+  <value column="MsgText" original="Choose the date of the most recent payment that you plan to allocate, but it must be in an open accounting period or it will not post.">Wählen Sie die zeitlich nächstliegende Zahlung, die Sie zuordnen möchten. Dieses muss in einer offenen Periode liegen, anderfalls wird es nicht ausgeführt.</value>
+  <value column="MsgTip" original="Prefer most recent payment date, within open period.">Prefer most recent payment date, within open period.</value>
+ </row>
+ <row id="53031" trl="N">
+  <value column="MsgText" original="MRP Info">MRP Info</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53033" trl="N">
+  <value column="MsgText" original="CRP Info">CRP Info</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53035" trl="N">
+  <value column="MsgText" original="Do not exist Transit Warehouse to this Organization">Do not exist Transit Warehouse to this Organization</value>
+  <value column="MsgTip" original="Do not exist Transit Warehouse to this Organization">Do not exist Transit Warehouse to this Organization</value>
+ </row>
+ <row id="53036" trl="N">
+  <value column="MsgText" original="Org targer do not linked to BPartner">Org targer do not linked to BPartner</value>
+  <value column="MsgTip" original="Org targer do not linked to BPartner">Org targer do not linked to BPartner</value>
+ </row>
+ <row id="53038" trl="Y">
+  <value column="MsgText" original="Check Missing Translation Records">Fehlende Übersetzungseinträge prüfen</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53039" trl="N">
+  <value column="MsgText" original="Do not exist default Locator for this Warehouse">Do not exist default Locator for this Warehouse</value>
+  <value column="MsgTip" original="Do not exist default Locator for this Warehouse">Do not exist default Locator for this Warehouse</value>
+ </row>
+ <row id="53040" trl="N">
+  <value column="MsgText" original="Do not exist Shipper for Create Distribution Order">Do not exist Shipper for Create Distribution Order</value>
+  <value column="MsgTip" original="Do not exist Shipper for Create Distribution Order">Do not exist Shipper for Create Distribution Order</value>
+ </row>
+ <row id="53043" trl="N">
+  <value column="MsgText" original="UOM can't be changed if the product has movements or costs">UOM can't be changed if the product has movements or costs</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53044" trl="N">
+  <value column="MsgText" original="Payment Allocate must not exists if the payment header has charge/invoice/order.">Payment Allocate must not exists if the payment header has charge/invoice/order.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53045" trl="N">
+  <value column="MsgText" original="Payment Amount must be equal to the sum of Allocate amounts.">Payment Amount must be equal to the sum of Allocate amounts.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53046" trl="N">
+  <value column="MsgText" original="Already posted to this account.">Already posted to this account.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53047" trl="Y">
+  <value column="MsgText" original="Invoice is fully matched.">Rechnung ist vollständig abgeglichen</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53048" trl="Y">
+  <value column="MsgText" original="No Current Vendor Selected">Kein aktueller Lieferant für dieses Produkt ausgewählt.</value>
+  <value column="MsgTip" original="Indicates that the Product has no Current Vendor selected">Indicates that the Product has no Current Vendor selected</value>
+ </row>
+ <row id="53049" trl="Y">
+  <value column="MsgText" original="Check attached file">Angefügte Dateiene überprüfen</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53050" trl="Y">
+  <value column="MsgText" original="No Vendor for Product : ">Kein Lieferant für dieses Produkt:</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53051" trl="N">
+  <value column="MsgText" original="Shipment Due">Shipment Due</value>
+  <value column="MsgTip" original="Indicates that a shipment for a Order Distribution is due.You should be taken at the source warehouse to ensure that the order is received on time.">Indicates that a shipment for a Order Distribution is due.You should be taken at the source warehouse to ensure that the order is received on time.</value>
+ </row>
+ <row id="53052" trl="N">
+  <value column="MsgText" original="Shipment Past Due">Shipment Past Due</value>
+  <value column="MsgTip" original="Indicates that a shipment for a Order Distribution is past due. You should either delay the orders created the requirement for the product or expedite them when the product does arrive.">Indicates that a shipment for a Order Distribution is past due. You should either delay the orders created the requirement for the product or expedite them when the product does arrive.</value>
+ </row>
+ <row id="53053" trl="N">
+  <value column="MsgText" original="No source of supply">No source of supply</value>
+  <value column="MsgTip" original="Indicates that the Product Planning Data for this product does not specify a valid network distribution.">Indicates that the Product Planning Data for this product does not specify a valid network distribution.</value>
+ </row>
+ <row id="53054" trl="N">
+  <value column="MsgText" original="Beginning Quantity Less Than Zero">Beginning Quantity Less Than Zero</value>
+  <value column="MsgTip" original="Indicates that the quantity on hand is negative.">Zeigt an, dass die verfügbare Menge negativ ist</value>
+ </row>
+ <row id="53055" trl="Y">
+  <value column="MsgText" original="Past Due Demand">Anforderung überfällig</value>
+  <value column="MsgTip" original="Indicates that a demand order is past due.">Indicates that a demand order is past due.</value>
+ </row>
+ <row id="53056" trl="Y">
+  <value column="MsgText" original="Business Partner has no Ship To Address">Geschäftspartner hat keine Lieferadresse!</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53057" trl="Y">
+  <value column="MsgText" original="Business Partner has no Bill To Address">Geschäftspartner hat keine Rechnungsadresse!</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53058" trl="Y">
+  <value column="MsgText" original="Business Partner has no Address">Geschäftspartner hat keine Adresse!</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53059" trl="Y">
+  <value column="MsgText" original="Current record was changed by another user, please ReQuery">Der aktuelle Eintrag wurde durch einen anderen Nutzer geändert. Bitte führen Sie ein ReQuery durch.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53060" trl="Y">
+  <value column="MsgText" original="Record on parent tab was changed by another user, please navigate to tab and ReQuery">Der Eintrag auf einem übergeordneten Register wurde von einem anderen Nutzer geändert. Bitte navigieren Sie zu diesem Register und führen Sie ein ReQuery durch. </value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53072" trl="N">
+  <value column="MsgText" original="In active account">In active account</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53073" trl="N">
+  <value column="MsgText" original="Account does not have Post Actual attribute">Account does not have Post Actual attribute</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53074" trl="N">
+  <value column="MsgText" original="Account does not have Post Budget attribute">Account does not have Post Budget attribute</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53075" trl="N">
+  <value column="MsgText" original="Account does not have Post Statistical attribute">Account does not have Post Statistical attribute</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53076" trl="Y">
+  <value column="MsgText" original="Window Tab Collapsible">Fenster-Register ist aufklappbar</value>
+  <value column="MsgTip" original="Make the vertical tab of window collapsible">Make the vertical tab of window collapsible</value>
+ </row>
+ <row id="53077" trl="N">
+  <value column="MsgText" original="Window Tab Placement">Window Tab Placement</value>
+  <value column="MsgTip" original="Placement of vertical tab, supported options are left ( default ) and right">Placement of vertical tab, supported options are left ( default ) and right</value>
+ </row>
+ <row id="53079" trl="N">
+  <value column="MsgText" original="Unknown MRP Error">Unknown MRP Error</value>
+  <value column="MsgTip" original="Indicates that there was an unclassified error durring MRP process">Indicates that there was an unclassified error durring MRP process</value>
+ </row>
+ <row id="53080" trl="Y">
+  <value column="MsgText" original="Cannot Create Document">Dokument kann nicht erstellt werden</value>
+  <value column="MsgTip" original="Indicates that there was an error durring document creation">Indicates that there was an error durring document creation</value>
+ </row>
+ <row id="53081" trl="Y">
+  <value column="MsgText" original="No UOM conversion found">Keine Maßeinheitenumrechnung gefunden</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53082" trl="Y">
+  <value column="MsgText" original="Customer RMA">Kunden-RMA</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53083" trl="N">
+  <value column="MsgText" original="Client Accounting is not enabled">Client Accounting is not enabled</value>
+  <value column="MsgTip" original="In order to run this process you need to enable client accounting, this can be done in window System Configurator, setting the parameter CLIENT_ACCOUNTING to [I]mmediate or [Q]ueue">In order to run this process you need to enable client accounting, this can be done in window System Configurator, setting the parameter CLIENT_ACCOUNTING to [I]mmediate or [Q]ueue</value>
  </row>
  <row id="520010" trl="Y">
   <value column="MsgText" original="1 Rupee">1 Rupee</value>

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.4.0s_2008-03-26 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ${env.ADEMPIERE_VERSION} 20080418-1115 - ${env.ADEMPIERE_VENDOR}-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--Adempiere(r) Release 3.5.4a_2009-09-15 -Smart Suite ERP,CRM and SCM- (c) 1999-2009 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="de_DE" table="AD_Form">
  <row id="100" trl="Y">

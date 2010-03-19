@@ -468,7 +468,7 @@
  </row>
  <row id="285" trl="Y">
   <value column="Description" original="Estonian Kroon">Krone (100 Senti)</value>
-  <value column="CurSymbol" original="Nfa">Nfa</value>
+  <value column="CurSymbol" original="KR">EEK</value>
  </row>
  <row id="286" trl="Y">
   <value column="Description" original="New Israeli Sheqel">Schekel (100 Agorot)</value>

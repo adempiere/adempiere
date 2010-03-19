@@ -110,4 +110,37 @@
  <row id="50000" trl="Y">
   <value column="Name" original="Allow Info In Role">Allow Info In Role</value>
  </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Accounts">Accounts</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Setup">Setup</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Dates">Dates</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Revaluation Accounts">Revaluation Accounts</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Contract">Contract</value>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Options">Options</value>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="General Ledger">General Ledger</value>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Machines">Machines</value>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Database">Database</value>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Manufacturing">Manufacturing</value>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="Logo">Logo</value>
+ </row>
 </adempiereTrl>

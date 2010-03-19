@@ -187,9 +187,44 @@
   <value column="PrintName" original="Vendor Return Material Authorization">Vendor Return Material Authorization</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="151" trl="Y">
+ <row id="151" trl="N">
   <value column="Name" original="MM Vendor Return">MM Vendor Return</value>
   <value column="PrintName" original="Vendor Return Material">Warenrückgabe Lieferant</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Payroll">Payroll</value>
+  <value column="PrintName" original="Payroll">Payroll</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="GL Journal Batch">GL Journal Batch</value>
+  <value column="PrintName" original="Journal Batch">Journal Batch</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="PrintName" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Maintenance Order">Maintenance Order</value>
+  <value column="PrintName" original="Maintenance Order">Maintenance Order</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50011" trl="N">
+  <value column="Name" original="Quality Order">Quality Order</value>
+  <value column="PrintName" original="Quality Order">Quality Order</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="PrintName" original="Distribution Order">Distribution Order</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50013" trl="N">
+  <value column="Name" original="Manufacturing Cost Collector">Manufacturing Cost Collector</value>
+  <value column="PrintName" original="Manufacturing Cost Collector">Manufacturing Cost Collector</value>
   <value column="DocumentNote" original=""/>
  </row>
 </adempiereTrl>

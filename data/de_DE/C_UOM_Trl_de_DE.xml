@@ -5,7 +5,7 @@
  <row id="100" trl="Y">
   <value column="Name" original="Each">Stück</value>
   <value column="Description" original=""/>
-  <value column="UOMSymbol" original="Ea ">St</value>
+  <value column="UOMSymbol" original="Ea ">Stk</value>
  </row>
  <row id="101" trl="Y">
   <value column="Name" original="Hour">Stunde</value>
@@ -51,5 +51,25 @@
   <value column="Name" original="6-Pack">6er-Pack</value>
   <value column="Description" original=""/>
   <value column="UOMSymbol" original="6Pk">6Pk</value>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Mililiter">Milliliter</value>
+  <value column="Description" original=""/>
+  <value column="UOMSymbol" original="ml">ml</value>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="kilogram">Kilogramm</value>
+  <value column="Description" original=""/>
+  <value column="UOMSymbol" original="Kg">Kg</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="milligram">Milligramm</value>
+  <value column="Description" original=""/>
+  <value column="UOMSymbol" original="mg">mg</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="litre">Liter</value>
+  <value column="Description" original=""/>
+  <value column="UOMSymbol" original="L">L</value>
  </row>
 </adempiereTrl>
