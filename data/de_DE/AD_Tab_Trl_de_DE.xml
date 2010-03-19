@@ -391,21 +391,21 @@ If the Control Amount is not zero, it is compared to the Total Debit Amount. The
   <value column="Help" original="The Product Tab defines each product and identifies it for use in price lists and orders. The Location is the default location when receiving the stored product.">The Product Tab defines each product and identifies it for use in price lists and orders. The Location is the default location when receiving the stored product.</value>
  </row>
  <row id="181" trl="Y">
-  <value column="Name" original="Substitute">Ersatz</value>
+  <value column="Name" original="Substitute">Ersatz-Produkte</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Substitute">Ersatz verwalten</value>
+  <value column="Description" original="Define Substitute">Hier können Produkte definiert werden, die anstelle des gewählten Produktes verwendet werden können.</value>
   <value column="Help" original="The Substitute Tab defines products which may be used as a replacement for the selected product.">Das Register "Ersatz" ermöglicht, Produkte zu definieren, die anstelle des gewählten Produktes verwendet werden können.</value>
  </row>
  <row id="182" trl="Y">
-  <value column="Name" original="Replenish">Nachbestellung</value>
+  <value column="Name" original="Replenish">Bestell-Strategie</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Product Replenishment">Nachbestellung verwalten</value>
+  <value column="Description" original="Define Product Replenishment">Verwaltung der automatischen Bestellstrategie für das Produkt, Mindest- oder Maximalbestände, Quelllager</value>
   <value column="Help" original="The Replenishment Tab defines the type of replenishment quantities.  This is used for automated ordering.  If you select a custom replenishment type, you need to create a class implementing org.compiere.util.ReplenishInterface and set that on warehouse level.">The Replenishment Tab defines the type of replenishment quantities.  This is used for automated ordering.  If you select a custom replenishment type, you need to create a class implementing org.compiere.util.ReplenishInterface and set that on warehouse level.</value>
  </row>
  <row id="183" trl="Y">
-  <value column="Name" original="Price">Preis</value>
+  <value column="Name" original="Price">Preisgestaltung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Product Pricing">Produktpreise</value>
+  <value column="Description" original="Product Pricing">Standard-, Listen- und Limitpreise für das Produkt, nach Preislisten geordnet</value>
   <value column="Help" original="The Pricing Tab displays the List, Standard and Limit prices for each price list a product is contained in.">The Pricing Tab displays the List, Standard and Limit prices for each price list a product is contained in.</value>
  </row>
  <row id="184" trl="Y">
@@ -533,7 +533,7 @@ Postings are generated for an accounting schema, if the schema is valid and you 
  <row id="210" trl="Y">
   <value column="Name" original="Accounting">Buchführung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Accounting Parameters">Buchführungsparameter definieren</value>
+  <value column="Description" original="Define Accounting Parameters">Produkt-Buchführungsparameter definieren - Verwaltung der Konten, die bei Transaktionen angesprochen werden </value>
   <value column="Help" original="The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this product.">The Accounting Tab defines the defaults to use when generating accounting transactions for orders and invoices which contain this product.</value>
  </row>
  <row id="211" trl="Y">
@@ -656,7 +656,7 @@ Saving/deleting the record starts processes which may take a while.</value>
  <row id="235" trl="Y">
   <value column="Name" original="Translation">Übersetzung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original=""/>
+  <value column="Description" original="">Verwaltung der Produktbezeichnungen in den verschiedenen, verwendeten Sprachen</value>
   <value column="Help" original=""/>
  </row>
  <row id="236" trl="Y">
@@ -682,9 +682,9 @@ You can also re-calculate the pricelist by referencing no pricelist or referenci
 </value>
  </row>
  <row id="239" trl="Y">
-  <value column="Name" original="Purchasing">Einkauf</value>
+  <value column="Name" original="Purchasing">Lieferanten</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Purchasing">Einkauf</value>
+  <value column="Description" original="Purchasing">Verwaltung von Lieferanten, Preisen und Randbedingungen (Packmengen, UPC/EAN, Mindestbestellmenge) für ein Produkt.</value>
   <value column="Help" original="The Purchasing Tab define the pricing and rules ( pack quantity, UPC, minimum order quantity) for each product.">Das Register "Einkauf" ermöglicht, Preise und Randbedingungen (Packmengen, UPC/EAN, Mindestbestellmenge) für ein Produkt anzugeben.</value>
  </row>
  <row id="241" trl="Y">
@@ -876,7 +876,7 @@ Please note that the Print Format is only used for Document Print when you want 
   <value column="Help" original="The Define Report View defines the views used in report generation">The Define Report View defines the views used in report generation</value>
  </row>
  <row id="289" trl="Y">
-  <value column="Name" original="Transactions">Transaktion</value>
+  <value column="Name" original="Transactions">Warenbewegungen</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Transactions for stored Products">Transaktionen für lagerhaltige Produkte</value>
   <value column="Help" original="The Transaction Tab displays the transactions that have been processed for this product.">Das Register "Transaktion" zeigt die für dieses Produkt durchgeführten Transaktionen.</value>
@@ -2517,9 +2517,9 @@ The optional balance check applies to the entire import, not for individual batc
   <value column="Help" original="System Registration Information">System Registration Information</value>
  </row>
  <row id="562" trl="Y">
-  <value column="Name" original="Business Partner">Geschäftspartner</value>
+  <value column="Name" original="Business Partner">GP-Spezifische Informationen</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Business Partner specific Information of a Product">Geschäftspartnerspezifische Informationen zum Produkt</value>
+  <value column="Description" original="Business Partner specific Information of a Product">Geschäftspartnerspezifische Informationen zum Produkt - als Referenzwerte, z.B. die beim GP verwendete Produktnummer</value>
   <value column="Help" original="Note that some information is for reference only!  The ">Note that some information is for reference only!  The </value>
  </row>
  <row id="563" trl="Y">
@@ -2908,10 +2908,10 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="Help" original="Detail information about the returned goods">Detail information about the returned goods</value>
  </row>
  <row id="630" trl="Y">
-  <value column="Name" original="Related">Zuordnung</value>
+  <value column="Name" original="Related">Zubehör-Produkte</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Related Product">Zugeordnetes Produkt</value>
-  <value column="Help" original="Related Product - e.g. for promotions">Ein zugeordnetes Produkt - z.B. für Werbezwecke</value>
+  <value column="Description" original="Related Product">Ein zugeordnetes Produkt - z.B. für Werbezwecke, um Produkt-Bündel zu verwalten</value>
+  <value column="Help" original="Related Product - e.g. for promotions">Ein zugeordnetes Produkt - z.B. für Werbezwecke, um Produkt-Bündel zu verwalten</value>
  </row>
  <row id="631" trl="Y">
   <value column="Name" original="Processor">Prozessor</value>
@@ -3371,7 +3371,7 @@ If a BOM is referenced  and enabled in Request Type, a BOM Change Request is aut
  <row id="707" trl="N">
   <value column="Name" original="Downloads">Download</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Maintain Product Downloads">Maintain Product Downloads</value>
+  <value column="Description" original="Maintain Product Downloads">Verwaltung der Produktspezifischen Downloads,  Angabe der Download-URLs</value>
   <value column="Help" original="Define downloads for a product.  If the product is an asset, the user can download the data.">Define downloads for a product.  If the product is an asset, the user can download the data.</value>
  </row>
  <row id="708" trl="Y">
@@ -5340,7 +5340,7 @@ Valid From/To is determined by the parent tax.]]></value>
  <row id="53246" trl="Y">
   <value column="Name" original="UOM Conversion">Maßeinheiten-Umrechnung</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original=""/>
+  <value column="Description" original="">Umrechnungstabellen der verschiedenen Maßeinheiten eines Produkts, z.B. Stück in 10er-Pack</value>
   <value column="Help" original=""/>
  </row>
  <row id="53271" trl="Y">
@@ -5427,16 +5427,42 @@ Valid From/To is determined by the parent tax.]]></value>
   <value column="Description" original="">Gibt die Quelle an, aus der dieser Auftrag stammt</value>
   <value column="Help" original=""/>
  </row>
- <row id="53288" trl="Y">
+ <row id="53286" trl="Y">
+  <value column="Name" original="BOM">Stückliste</value>
+  <value column="CommitWarning" original=""/>
+  <value column="Description" original="Bill of Material product lines">Hier werden die Unterteile definiert, aus denen ein Produkt zusammengesetzt ist</value>
+  <value column="Help" original="The Bill of Materials tab defines those products that are generated from other products.  A Bill of Material (BOM) is one or more Products or BOMs.&#10;&#10;Available Quantity:&#10;- Stored BOMs have to be created via &quot;Production&quot;&#10;- The available quantity of a non-stored BOMs is dynamically calculated&#10;- The attribute &quot;Stored&quot; is defined in the &quot;Product&quot; tab&#10;&#10;Price:&#10;- BOMs must be listed in Pricelists&#10;- If the price is 0.00, the price is dynamically calculated&#10;&#10;Printing:&#10;- Usually, only the BOM information is printed&#10;- For invoices, delivery slips and pick lists, you have the option to print the details&#10;- In the details, the quantity is listed - and the price, if this is dynamically calculated">The Bill of Materials tab defines those products that are generated from other products.  A Bill of Material (BOM) is one or more Products or BOMs.
+
+Available Quantity:
+- Stored BOMs have to be created via "Production"
+- The available quantity of a non-stored BOMs is dynamically calculated
+- The attribute "Stored" is defined in the "Product" tab
+
+Price:
+- BOMs must be listed in Pricelists
+- If the price is 0.00, the price is dynamically calculated
+
+Printing:
+- Usually, only the BOM information is printed
+- For invoices, delivery slips and pick lists, you have the option to print the details
+- In the details, the quantity is listed - and the price, if this is dynamically calculated</value>
+ </row>
+ <row id="53287" trl="Y">
+  <value column="Name" original="Components">Stücklisten-Bestandteile</value>
+  <value column="CommitWarning" original=""/>
+  <value column="Description" original="Components">Stücklisten-Bestandteile</value>
+  <value column="Help" original="Components of Bill fo Material">Components of Bill fo Material</value>
+ </row>
+row id="53288" trl="Y">
   <value column="Name" original="Manufacturer">Hersteller</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="">Hier kann ein Geschäftspartner als Hersteller von Produkten definiert werden</value>
   <value column="Help" original=""/>
  </row>
  <row id="53289" trl="Y">
-  <value column="Name" original="Costs">Kosten</value>
+  <value column="Name" original="Costs">Kostenübersicht</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original=""/>
+  <value column="Description" original="">Übersicht über die Kosten eines Produktes, den aktuellen Lagerbestand und die kumulierten Absatzmengen und -Werte</value>
   <value column="Help" original=""/>
  </row>
  <row id="53290" trl="Y">
