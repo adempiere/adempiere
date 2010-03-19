@@ -629,7 +629,7 @@ public class ImportGLJournal extends SvrProcess
 					|| !BatchDocumentNo.equals(impBatchDocumentNo))
 				{
 					BatchDocumentNo = impBatchDocumentNo;	//	cannot compare real DocumentNo
-					batch = new MJournalBatch (getCtx(), 0, null);
+					batch = new MJournalBatch (getCtx(), 0, get_TrxName());
 					batch.setClientOrg(imp.getAD_Client_ID(), imp.getAD_OrgDoc_ID());
 					if (imp.getBatchDocumentNo() != null 
 						&& imp.getBatchDocumentNo().length() > 0)
