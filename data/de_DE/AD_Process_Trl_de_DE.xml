@@ -179,7 +179,7 @@
  </row>
  <row id="136" trl="Y">
   <value column="Name" original="Verify BOM">Stückliste verifizieren</value>
-  <value column="Description" original="Verify BOM Structure">Stücklisten-Struktur verifizieren</value>
+  <value column="Description" original="Verify BOM Structure and Update Low Level">Stücklisten-Struktur verifizieren</value>
   <value column="Help" original="The Verify BOM Structure checks the elements and steps which comprise a Bill of Materials.">Das Verifizieren der Stücklistenstruktur überprüft die Elemente und Schritte, die eine Stückliste ausmachen.</value>
  </row>
  <row id="137" trl="Y">
@@ -426,7 +426,7 @@
  <row id="193" trl="Y">
   <value column="Name" original="Generate PO from Sales Order">Bestellung aus Auftrag generieren</value>
   <value column="Description" original="Create Purchase Order from Sales Orders">Bestellung aus Auftrag generieren</value>
-  <value column="Help" original="After completing sales orders, you can create one or more purchase orders for each sales order. A purchase order references always only one sales order (i.e. no consolidation of sales orders). &#10;The Organization of the Sales Order is used to create the Purchase Order. If a (default) PO document type is defined on Organization level, that is used instead of the document types defined on Client level.&#10;&#10;POs are created for all sales order lines where the product has a current vendor, the vendor has a Vendor Price List with all Products on the most current Price List Version. The Unit of Measure is copied; PO and SO can have different currencies.&#10;&#10;Once the process is run, you need to synchronize the SO/PO manually (e.g. in case of additional lines and changed lines (product &amp; quantity).&#10;">Nach Fertgstellung von Aufträgen können Sie eine oder mehrere Bestellungen für jeden Auftrag erstellen. Eine Bestellung bezieht sich immer nur auf einen Auftrag (d.h. keine Konsolidierung von Aufträgen). Die Organisation des Auftrages wird bei der Erstellung der Bestellung verwendet. Wenn eine (Standard-) Belegart für Bestellungen auf Organisationsebene definiert ist, wird diese verwendet statt der auf Mandantenebene definierten. Bestellungen werden für alle Auftragspositionen erstellt, auf denen das Produkt einen gegenwärtigen Lieferanten hat und dieser Lieferant eine Verkaufspreisliste mit allen Produkten auf der aktuellsten Preislistenversion hat. Die Maßeinheit wird kopiert; Bestellung und Auftrag können verschiedene Währungen haben. Nachdem der Prozess beendet ist, müssen Sie Auftrag und Bestellung manuell synchronisieren (z.B. im Fall von zusätzlichen Positionen und geänderten Positionen (Produkt und Menge)).</value>
+  <value column="Help" original="After completing sales orders, you can create one or more purchase orders for each sales order. A purchase order references always only one sales order (i.e. no consolidation of sales orders). &#10;The Organization of the Sales Order is used to create the Purchase Order. If a (default) PO document type is defined on Organization level, that is used instead of the document types defined on Client level.&#10;&#10;POs are created for all sales order lines where the product has a current vendor, the vendor has a Vendor Price List with all Products on the most current Price List Version. The Unit of Measure is copied; PO and SO can have different currencies.&#10;&#10;Once the process is run, you need to synchronize the SO/PO manually (e.g. in case of additional lines and changed lines (product &amp; quantity).">Nach Fertgstellung von Aufträgen können Sie eine oder mehrere Bestellungen für jeden Auftrag erstellen. Eine Bestellung bezieht sich immer nur auf einen Auftrag (d.h. keine Konsolidierung von Aufträgen). Die Organisation des Auftrages wird bei der Erstellung der Bestellung verwendet. Wenn eine (Standard-) Belegart für Bestellungen auf Organisationsebene definiert ist, wird diese verwendet statt der auf Mandantenebene definierten. Bestellungen werden für alle Auftragspositionen erstellt, auf denen das Produkt einen gegenwärtigen Lieferanten hat und dieser Lieferant eine Verkaufspreisliste mit allen Produkten auf der aktuellsten Preislistenversion hat. Die Maßeinheit wird kopiert; Bestellung und Auftrag können verschiedene Währungen haben. Nachdem der Prozess beendet ist, müssen Sie Auftrag und Bestellung manuell synchronisieren (z.B. im Fall von zusätzlichen Positionen und geänderten Positionen (Produkt und Menge)).</value>
  </row>
  <row id="194" trl="Y">
   <value column="Name" original="Import Business Partners">Geschäftspartner importieren</value>
@@ -1255,7 +1255,7 @@ Note that support is restricted to setup and test, but not data recovery.</value
   <value column="Help" original="Import a package">Import a package</value>
  </row>
  <row id="50010" trl="Y">
-  <value column="Name" original="CopyRole">Rolle kopieren</value>
+  <value column="Name" original="Copy Role">Rolle kopieren</value>
   <value column="Description" original="Copy Role">Kopie einer Rolle</value>
   <value column="Help" original="Copy role access records from one role to another.  The existing access records for the destination role will be deleted."/>
  </row>
@@ -1777,7 +1777,7 @@ This process should be implemented when the users are not connected.</value>
   <value column="Help" original=""/>
  </row>
  <row id="53166" trl="N">
-  <value column="Name" original="Recalculate Fact Summary">Recalculate Fact Summary</value>
+  <value column="Name" original="Recalculate Cube">Recalculate Cube</value>
   <value column="Description" original="Recalculate summary facts based on report cube definitions.">Recalculate summary facts based on report cube definitions.</value>
   <value column="Help" original=""/>
  </row>

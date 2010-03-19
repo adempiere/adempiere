@@ -358,7 +358,7 @@ If the Control Amount is not zero, it is compared to the Total Debit Amount. The
   <value column="Name" original="Tax">Steuer</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Tax definition">Steuersätze definieren</value>
-  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example, Sales Tax must be defined for each State in which it applies.&lt;br&gt;&#10;If you have multiple taxes, create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines, the tax is estimated, the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax, you need to adjust the percentage to result in the correct amount.&lt;br&gt;&#10;Valid From/To is determined by the parent tax.">Das Register "Steuersatz" verwaltet die diversen Steuern und Steuersätze zu jeder Steuerkategorie. Z.B. muss eine Verkaufssteuer für jeden Bundesstaat der USA angelegt werden, in dem sie erhoben wird.&lt;br&gt; If you have multiple taxes, create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines, the tax is estimated, the correct tax is calculated when the document is processed. The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax, you need to adjust the percentage to result in the correct amount.&lt;br&gt; Valid From/To is determined by the parent tax.</value>
+  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.&lt;br&gt;&#10;If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.&lt;br&gt;&#10;Valid From/To is determined by the parent tax."><![CDATA[Das Register "Steuersatz" verwaltet die diversen Steuern und Steuersätze zu jeder Steuerkategorie. Z.B. muss eine Verkaufssteuer für jeden Bundesstaat der USA angelegt werden, in dem sie erhoben wird.<br> If you have multiple taxes, create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines, the tax is estimated, the correct tax is calculated when the document is processed. The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax, you need to adjust the percentage to result in the correct amount.<br> Valid From/To is determined by the parent tax.]]></value>
  </row>
  <row id="176" trl="Y">
   <value column="Name" original="Tax Category">Steuerkategorie</value>
@@ -2971,7 +2971,7 @@ If the ratio and quantity is not 0, the quantity is calculated based on the rati
   <value column="Name" original="Tax ZIP">Steuer-PLZ</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Tax Postal/ZIP">Tax Postal/ZIP</value>
-  <value column="Help" original="For local tax, you may have to define a list of (ranges of) postal codes or ZIPs">For local tax, you may have to define a list of (ranges of) postal codes or ZIPs</value>
+  <value column="Help" original="For local tax you may have to define a list of (ranges of) postal codes or ZIPs">For local tax, you may have to define a list of (ranges of) postal codes or ZIPs</value>
  </row>
  <row id="641" trl="Y">
   <value column="Name" original="Requisition">Bestellanforderung</value>
@@ -3368,8 +3368,8 @@ If a BOM is referenced  and enabled in Request Type, a BOM Change Request is aut
   <value column="Description" original="Maintain Request Category">Anfragekategorien verwalten</value>
   <value column="Help" original="Category or Topic of the Request ">Category or Topic of the Request </value>
  </row>
- <row id="707" trl="Y">
-  <value column="Name" original="Download">Download</value>
+ <row id="707" trl="N">
+  <value column="Name" original="Downloads">Download</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Product Downloads">Maintain Product Downloads</value>
   <value column="Help" original="Define downloads for a product.  If the product is an asset, the user can download the data.">Define downloads for a product.  If the product is an asset, the user can download the data.</value>
@@ -4512,9 +4512,9 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Help" original=""/>
  </row>
  <row id="53050" trl="N">
-  <value column="Name" original="Order Line">Order Line</value>
+  <value column="Name" original="Distribution Order Line">Order Line</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original=""/>
+  <value column="Description" original="Distribution Order Line"/>
   <value column="Help" original=""/>
  </row>
  <row id="53051" trl="N">
@@ -4542,7 +4542,7 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Help" original="Manufacturing Schedule is a document group of documents or schedule identity  conveying authority for the manufacture of specified parts or products in specified quantities.">Manufacturing Schedule is a document group of documents or schedule identity  conveying authority for the manufacture of specified parts or products in specified quantities.</value>
  </row>
  <row id="53055" trl="N">
-  <value column="Name" original="Order">Order</value>
+  <value column="Name" original="Distribution Order">Order</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Distribution Order allow create Order inter warehouse to supply a demand ">Distribution Order allow create Order inter warehouse to supply a demand </value>
   <value column="Help" original="Distribution Order allow create Order inter warehouse to supply a demand ">Distribution Order allow create Order inter warehouse to supply a demand </value>

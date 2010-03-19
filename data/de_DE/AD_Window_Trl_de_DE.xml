@@ -166,7 +166,7 @@
  <row id="137" trl="Y">
   <value column="Name" original="Tax Rate">Steuersatz</value>
   <value column="Description" original="Maintain Taxes and their Rates">Steuern und Steuersätze verwalten</value>
-  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example, Sales Tax must be defined for each State in which it applies.">Das Register "Steuersatz" verwaltet die diversen Steuern und Steuersätze zu jeder Steuerkategorie. Z.B. muss eine Verkaufssteuer für jeden Bundesstaat der USA angelegt werden, in dem sie erhoben wird.</value>
+  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.">Das Register "Steuersatz" verwaltet die diversen Steuern und Steuersätze zu jeder Steuerkategorie. Z.B. muss eine Verkaufssteuer für jeden Bundesstaat der USA angelegt werden, in dem sie erhoben wird.</value>
  </row>
  <row id="138" trl="Y">
   <value column="Name" original="Tax Category">Steuerkategorie</value>
@@ -569,7 +569,7 @@ Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z
  <row id="237" trl="Y">
   <value column="Name" original="Resource Type">Ressourcenart</value>
   <value column="Description" original="Maintain Resource Types">Ressourcenarten verwalten</value>
-  <value column="Help" original="Maintain Resource types and their principal availability.">Ressourcenarten und ihre generelle Verfügbarkeit verwalten.</value>
+  <value column="Help" original="Maintain Resource types and their principal availability. it is used to calculate the available time in a resource. It allows input of starting time and end time for the slot according to the working days.">Ressourcenarten und ihre generelle Verfügbarkeit verwalten.</value>
  </row>
  <row id="238" trl="Y">
   <value column="Name" original="Print Color">Druck - Farbe</value>

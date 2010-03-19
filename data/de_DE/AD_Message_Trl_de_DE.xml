@@ -3894,7 +3894,7 @@ Wollen Sie fortfahren?</value>
   <value column="MsgTip" original=" "> </value>
  </row>
  <row id="52177" trl="Y">
-  <value column="MsgText" original="All Contents Â©">All Contents Â©</value>
+  <value column="MsgText" original="All Contents ©">All Contents ©</value>
   <value column="MsgTip" original="2006 Tamak ICT">2006 Tamak ICT</value>
  </row>
  <row id="52178" trl="Y">
@@ -5260,7 +5260,7 @@ Barcode drucken</value>
  </row>
  <row id="53025" trl="Y">
   <value column="MsgText" original="Build Version Error">Versionsfehler</value>
-  <value column="MsgTip" original="The program assumes build version {0}, but database has build version {1}. &#10;This IS likely TO cause hard TO fix errors. &#10;Please contact ADMINISTRATOR.">Programm basiert auf Datenbank-Version {0}, aber die Datenbank zeigt Version {1}. Dies führt wahrscheinlich zu schwer behebbaren Fehlern.
+  <value column="MsgTip" original="The program assumes build version {0}, but database has build version {1}. &#10;This is likely to cause hard to fix errors. &#10;Please contact administrator.">Programm basiert auf Datenbank-Version {0}, aber die Datenbank zeigt Version {1}. Dies führt wahrscheinlich zu schwer behebbaren Fehlern.
  Bitte den Systembetreuer informieren</value>
  </row>
  <row id="53026" trl="Y">

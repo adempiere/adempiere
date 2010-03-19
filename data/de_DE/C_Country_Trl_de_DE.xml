@@ -185,7 +185,7 @@
  <row id="139" trl="Y">
   <value column="Name" original="Brazil">Brasilien</value>
   <value column="Description" original="Brazil">Brasilien</value>
-  <value column="RegionName" original=""/>
+  <value column="RegionName" original="Estado"/>
  </row>
  <row id="140" trl="Y">
   <value column="Name" original="British Indian Ocean Territory">Britisches Territorium im Indischen Ozean</value>
@@ -265,7 +265,7 @@
  <row id="156" trl="Y">
   <value column="Name" original="Colombia">Kolumbien</value>
   <value column="Description" original="Colombia">Kolumbien</value>
-  <value column="RegionName" original=""/>
+  <value column="RegionName" original="Department"/>
  </row>
  <row id="157" trl="Y">
   <value column="Name" original="Comoros">Komoren</value>

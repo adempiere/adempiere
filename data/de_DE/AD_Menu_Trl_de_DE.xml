@@ -330,7 +330,7 @@
  <row id="194" trl="Y">
   <value column="Name" original="Order Transactions">Auftrags-Vorgänge</value>
   <value column="Description" original="Sales Order Transaction Report ">Bericht zu Verkaufs-Vorgängen</value>
- </row>
+</row>
  <row id="195" trl="Y">
   <value column="Name" original="Open Orders">Offene Aufträge</value>
   <value column="Description" original="Open Order Report">Bericht zu offenen Aufträgen</value>
@@ -1288,7 +1288,7 @@
   <value column="Description" original="Manage Request for Quotations">Ausschreibung verwalten</value>
  </row>
  <row id="455" trl="Y">
-  <value column="Name" original="RMA">Warenrücksendung - Freigabe (RMA)</value>
+  <value column="Name" original="Customer RMA">Warenrücksendung - Freigabe (RMA)</value>
   <value column="Description" original="Manage Return Material Authorization">Verwalten von Freigaben für die Warenrücksendung</value>
  </row>
  <row id="456" trl="Y">
@@ -1828,7 +1828,7 @@
   <value column="Description" original="Imports a package">Importiert ein Erweiterungspaket</value>
  </row>
  <row id="50007" trl="Y">
-  <value column="Name" original="CopyRole">Rolle kopieren</value>
+  <value column="Name" original="Copy Role">Rolle kopieren</value>
   <value column="Description" original="Copy Role">Kopie einer Rolle</value>
  </row>
  <row id="50008" trl="Y">
@@ -2596,7 +2596,7 @@
   <value column="Description" original="Define reporting cube for pre-calculation of summary accounting data.">Define reporting cube for pre-calculation of summary accounting data.</value>
  </row>
  <row id="53215" trl="N">
-  <value column="Name" original="Recalculate Fact Summary">Recalculate Fact Summary</value>
+  <value column="Name" original="Recalculate Cube">Recalculate Cube</value>
   <value column="Description" original="Recalculate summary facts based on report cube definitions.">Recalculate summary facts based on report cube definitions.</value>
  </row>
  <row id="53223" trl="N">
