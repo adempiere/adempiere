@@ -110,8 +110,8 @@
  <row id="122" trl="Y">
   <value column="Name" original="Country Region and City">Land, Region, Stadt</value>
   <value column="Description" original="Maintain Countries Regions and Cities">Länder, Regionen und Städte verwalten</value>
-  <value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level.">Hier definieren Sie die verschiedenen Einträge, die Sie im Adressfeld verwenden können. Das Format des Adressfeldes wird dadurch definiert sowie die Zuordnung von Regionen zu Ländern und  Städten zu Regionen oder Ländern. 
- &lt;p&gt;Sie definieren Länder üblicherweise nur auf Systemebene.</value>
+  <value column="Help" original="The Countries, Regions and Cities Window defines the different entities that can be used in any address field.  It defines the format of the address as well as associating Regions with Countries and Cities with Regions or Countries. &#10;&lt;p&gt;You would define Countries usually only on System level."><![CDATA[Hier definieren Sie die verschiedenen Einträge, die Sie im Adressfeld verwenden können. Das Format des Adressfeldes wird dadurch definiert sowie die Zuordnung von Regionen zu Ländern und  Städten zu Regionen oder Ländern. 
+ <p>Sie definieren Länder üblicherweise nur auf Systemebene.]]></value>
  </row>
  <row id="123" trl="Y">
   <value column="Name" original="Business Partner">Geschäftspartner</value>
@@ -465,10 +465,10 @@ You may want to define several Project cycles to differentiate the different typ
  <row id="213" trl="Y">
   <value column="Name" original="Performance Measure Calculation">Ergebnis - Kenngrößenberechnung</value>
   <value column="Description" original="Define how you calculate your performance measures">Definition der Berechnung der Kenngrößen</value>
-  <value column="Help" original="The Performance Measure Calculation defines how performance measures will be calculated. &#10;The sql needs to return a single value.  Please check examples.&lt;br&gt;&#10;The date trestriction is defined in the Goal. &#10;Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions.">The Performance Measure Calculation defines how performance measures will be calculated. 
-The sql needs to return a single value.  Please check examples.&lt;br&gt;
+  <value column="Help" original="The Performance Measure Calculation defines how performance measures will be calculated. &#10;The sql needs to return a single value.  Please check examples.&lt;br&gt;&#10;The date trestriction is defined in the Goal. &#10;Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions."><![CDATA[The Performance Measure Calculation defines how performance measures will be calculated. 
+The sql needs to return a single value.  Please check examples.<br>
 The date trestriction is defined in the Goal. 
-Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions.</value>
+Any restrictions for Organizations, Business Partners, Products, etc. are  as Performance Goal Restrictions.]]></value>
  </row>
  <row id="215" trl="Y">
   <value column="Name" original="Performance Measure">Ergebnis - Kenngröße</value>
@@ -508,8 +508,8 @@ Any restrictions for Organizations, Business Partners, Products, etc. are  as Pe
  <row id="224" trl="Y">
   <value column="Name" original="Print Form">Druck - Formulare</value>
   <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Verwalten von Druckformularen (Rechnungen, Schecks, ..)</value>
-  <value column="Help" original="Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;&#10;The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*).">Definieren Sie hier die Dokumente, die Sie in diesem Mandanten / dieser Organisation verwenden. Beachten Sie, dass das Scheckformat im Fenster "Bank" zugeordnet wird.&lt;p&gt;
-Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z.B. ein spezifisches Formular für eine Rechnung für den Export). Die nächste Ebene ist der Satz der Druckformate, den Sie für die druckende Organisation definiert haben. Der Standardsatz ist dann der Satz, der für alle Organisationen diese Mandanten definiert ist (Organisation=*).</value>
+  <value column="Help" original="Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;&#10;The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*)."><![CDATA[Definieren Sie hier die Dokumente, die Sie in diesem Mandanten / dieser Organisation verwenden. Beachten Sie, dass das Scheckformat im Fenster "Bank" zugeordnet wird.<p>
+Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z.B. ein spezifisches Formular für eine Rechnung für den Export). Die nächste Ebene ist der Satz der Druckformate, den Sie für die druckende Organisation definiert haben. Der Standardsatz ist dann der Satz, der für alle Organisationen diese Mandanten definiert ist (Organisation=*).]]></value>
  </row>
  <row id="225" trl="Y">
   <value column="Name" original="System Color">System-Farbe</value>
@@ -749,11 +749,11 @@ Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z
  <row id="273" trl="Y">
   <value column="Name" original="Click">Klick</value>
   <value column="Description" original="Maintain Web Click">Web-Clicks verwalten</value>
-  <value column="Help" original="Web Clicks allow you to track number of clicks.  Example:&#10;&amp;lt;a href=&quot;http://www.adempiere.com/wstore/click?http://www.adempiere.de&quot; target=&quot;_blank&quot;&amp;gt;&#10;where &quot;http://www.adempiere.com/wstore/click&quot; is your side and &quot;http://www.adempiere.de&quot; is the target page.&#10;If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks.&#10;">Web Clicks allow you to track number of clicks.  Example:
-&amp;lt;a href="http://www.adempiere.com/wstore/click?http://www.adempiere.de" target="_blank"&amp;gt;
+  <value column="Help" original="Web Clicks allow you to track number of clicks.  Example:&#10;&amp;lt;a href=&quot;http://www.adempiere.com/wstore/click?http://www.adempiere.de&quot; target=&quot;_blank&quot;&amp;gt;&#10;where &quot;http://www.adempiere.com/wstore/click&quot; is your side and &quot;http://www.adempiere.de&quot; is the target page.&#10;If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks."><![CDATA[Web Clicks allow you to track number of clicks.  Example:
+&lt;a href="http://www.adempiere.com/wstore/click?http://www.adempiere.de" target="_blank"&gt;
 where "http://www.adempiere.com/wstore/click" is your side and "http://www.adempiere.de" is the target page.
 If you created a web click for http://www.adempiere.de, you will be able to see details and total of web clicks.
-</value>
+]]></value>
  </row>
  <row id="274" trl="Y">
   <value column="Name" original="Counter">Zähler</value>
@@ -796,7 +796,7 @@ Unbalanced Journals are imported; the handling is based on your settings for the
  <row id="281" trl="Y">
   <value column="Name" original="Import Order">Import - Auftrag/Bestellung</value>
   <value column="Description" original="Import Orders">Aufträge und Bestellungen importieren</value>
-  <value column="Help" original="Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for &quot;don't know&quot;.&#10;In general, selection boxes are not selected if the value is not &quot;Y&quot; (i.e. could be null or any other value). All tests are made on &quot;Y&quot; or &quot;not Y&quot; - i.e. NULL values are not &quot;not Y&quot;, but NULL (don't know) - see SQL Language introductions. ">Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for "don't know".
+  <value column="Help" original="Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for &quot;don't know&quot;.&#10;In general, selection boxes are not selected if the value is not &quot;Y&quot; (i.e. could be null or any other value). All tests are made on &quot;Y&quot; or &quot;not Y&quot; - i.e. NULL values are not &quot;not Y&quot;, but NULL (don't know) - see SQL Language introductions.">Please set Y/N selections in the import loader format explicitly (e.g. as constants) and no not leave them NULL. A NULL value stands for "don't know".
 In general, selection boxes are not selected if the value is not "Y" (i.e. could be null or any other value). All tests are made on "Y" or "not Y" - i.e. NULL values are not "not Y", but NULL (don't know) - see SQL Language introductions. </value>
  </row>
  <row id="282" trl="Y">
@@ -807,14 +807,14 @@ In general, selection boxes are not selected if the value is not "Y" (i.e. could
  <row id="283" trl="Y">
   <value column="Name" original="Accounting Dimensions">Buchführungsdimensionen</value>
   <value column="Description" original="Maintain Non-Account Dimension Trees">Maintain Non-Account Dimension Trees</value>
-  <value column="Help" original="Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!&#10;">Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!
+  <value column="Help" original="Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!">Maintain Trees of non account segment trees.  Account segment trees (as well as user defined dimensions) are mainatained in the Account Element window. Please note that you will not be able to create new entities in this window if you have not default set for all manfatory values!
 </value>
  </row>
  <row id="284" trl="Y">
   <value column="Name" original="Replication">Replizierung</value>
   <value column="Description" original="Maintain Data Replication Targets">Verwaltung von Zielen für die Daten-Replizierung</value>
-  <value column="Help" original="Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.&lt;p&gt;&#10;Before(!) entering transactions, Start the Replication Run to set up the remote system.">Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.&lt;p&gt;
-Before(!) entering transactions, Start the Replication Run to set up the remote system.</value>
+  <value column="Help" original="Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.&lt;p&gt;&#10;Before(!) entering transactions, Start the Replication Run to set up the remote system."><![CDATA[Data Replication Target Details. Set up your system completely on the central system, before setting up the replication. Define the Replication target here and export the database and import it on the remote system.<p>
+Before(!) entering transactions, Start the Replication Run to set up the remote system.]]></value>
  </row>
  <row id="285" trl="Y">
   <value column="Name" original="Replication Strategy">Replizierung - Strategie</value>
@@ -1402,8 +1402,8 @@ A Specific production facility consisting of one or more people and/or machines 
   <value column="Help" original="Manufacturing Workflows (Routing) is a set of information detailing the method of manufacture of a particular item .It includes the operations to be performed their sequence the various work centers to be involved and the standards for setup and run. In some companies routing also includes information on tooling operator skill levels inspection operationstesting requirements etc.">Manufacturing Workflows (Routing) is a set of information detailing the method of manufacture of a particular item .It includes the operations to be performed their sequence the various work centers to be involved and the standards for setup and run. In some companies routing also includes information on tooling operator skill levels inspection operationstesting requirements etc.</value>
  </row>
  <row id="53006" trl="N">
-  <value column="Name" original="Bill of Materials &amp; Formula ">Bill of Materials &amp; Formula </value>
-  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula ">Maintain Product Bill of Materials &amp; Formula </value>
+  <value column="Name" original="Bill of Materials &amp; Formula "><![CDATA[Bill of Materials & Formula ]]></value>
+  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula "><![CDATA[Maintain Product Bill of Materials & Formula]]></value>
   <value column="Help" original="It is a list of all the subassemblies, intermediates, parts and raw material that go into a parent assembly showing the quantity of each required to make an assembly. There are a variety of display formats of bill of material, including single level bill of material, indented bill of material, modular (planning), costed bill of material, etc. May also be called &quot;formula&quot;, &quot;recipe&quot;, &quot;ingredients list&quot; in certain industries.&#10;It answers the question, what are the components of the product?">It is a list of all the subassemblies, intermediates, parts and raw material that go into a parent assembly showing the quantity of each required to make an assembly. There are a variety of display formats of bill of material, including single level bill of material, indented bill of material, modular (planning), costed bill of material, etc. May also be called "formula", "recipe", "ingredients list" in certain industries.
 It answers the question, what are the components of the product?</value>
  </row>

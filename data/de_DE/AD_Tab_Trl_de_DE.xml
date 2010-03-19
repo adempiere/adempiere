@@ -114,7 +114,7 @@
   <value column="Name" original="Role">Rolle</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Define responsibility roles">Definition von Rollen zur Zugriffssteuerung</value>
-  <value column="Help" original="Define the role and add the client and organizations the role has access to. You can give users access to this role and modify the access of this role to windows, forms, processes and reports as well as tasks. &lt;br&gt;&#10;If the Role User Level is Manual, the assigned acces rights are not automatically updated (e.g. if a role has a restricted number of Windows/Processes it can access). You need to add organizational access unless the role has access to all organizations. The SuperUser and the user creating a new role are assigned to the role automatically.  &lt;br&gt;&#10;If you select an Organization Tree, the user has access to the leaves of  summary organizations.&#10;Note: You cannot change the System Administrator role.">Definieren Sie eine Rolle und fügen Sie Mandanten und Organisationen hinzu, auf die die Rolle Zugriff hat. Sie können Nutzer dieser Rolle zuordnen und den Zugriff dieser Rolle auf Fenster, nicht dynamische Fenster, Prozesse, Berichte und Aufgaben modifizieren. &lt;br&gt; Wenn Sie für die Nutzer-Ebene "Manuell" selektiert haben, werden die Zugriffsrechte nicht automatisch aktualisiert (z.B. wenn eine Rolle nur auf eine begrenzte Auswahl von Fenstern/Prozessen Zugriff hat). Sie müssen Organisationsberechtigungen hinzufügen, es sei denn, die Rolle hat Zugriff auf alle Organisationen. Der SuperUser und der Nutzer, der eine neue Rolle anlegt, werden der Rolle automatisch zugeordnet. &lt;br&gt; Wenn Sie einen "Primärbaum Organisation" auswählen, hat der Nutzer Zugriff auf die Knoten von Zusammenfassungsorganisationen. Anmerkung:Sie können die Rolle "System-Administrator" nicht ändern.</value>
+  <value column="Help" original="Define the role and add the client and organizations the role has access to. You can give users access to this role and modify the access of this role to windows, forms, processes and reports as well as tasks. &lt;br&gt;&#10;If the Role User Level is Manual, the assigned acces rights are not automatically updated (e.g. if a role has a restricted number of Windows/Processes it can access). You need to add organizational access unless the role has access to all organizations. The SuperUser and the user creating a new role are assigned to the role automatically.  &lt;br&gt;&#10;If you select an Organization Tree, the user has access to the leaves of  summary organizations.&#10;Note: You cannot change the System Administrator role."><![CDATA[Definieren Sie eine Rolle und fügen Sie Mandanten und Organisationen hinzu, auf die die Rolle Zugriff hat. Sie können Nutzer dieser Rolle zuordnen und den Zugriff dieser Rolle auf Fenster, nicht dynamische Fenster, Prozesse, Berichte und Aufgaben modifizieren. <br> Wenn Sie für die Nutzer-Ebene "Manuell" selektiert haben, werden die Zugriffsrechte nicht automatisch aktualisiert (z.B. wenn eine Rolle nur auf eine begrenzte Auswahl von Fenstern/Prozessen Zugriff hat). Sie müssen Organisationsberechtigungen hinzufügen, es sei denn, die Rolle hat Zugriff auf alle Organisationen. Der SuperUser und der Nutzer, der eine neue Rolle anlegt, werden der Rolle automatisch zugeordnet. <br> Wenn Sie einen "Primärbaum Organisation" auswählen, hat der Nutzer Zugriff auf die Knoten von Zusammenfassungsorganisationen. Anmerkung:Sie können die Rolle "System-Administrator" nicht ändern.]]></value>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="User Assignment">Nutzer-Zuordnung</value>
@@ -132,7 +132,7 @@
   <value column="Name" original="Node">Knoten</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Define workflow nodes">Workflow-Knoten definieren</value>
-  <value column="Help" original="The Node Tab defines each Node, Activity or step in this Workflow.&lt;br&gt;&#10;The action (actibity) type determines the execution: &quot;Route&quot; may be used in routing control conditions.  &quot;None&quot; identifies manual execution.">Das Register "Knoten" ermöglicht, Knoten, Aktivitäten oder Schritte in diesem Workflow zu definieren.&lt;br&gt;Die Art der Aktion (Aktivität) bestimmt die Ausführung: "Route" kann für Umstände der Routenbestimmung verwendet werden. "Nichts" identifiziert manuelle Ausführung.</value>
+  <value column="Help" original="The Node Tab defines each Node, Activity or step in this Workflow.&lt;br&gt;&#10;The action (actibity) type determines the execution: &quot;Route&quot; may be used in routing control conditions.  &quot;None&quot; identifies manual execution."><![CDATA[Das Register "Knoten" ermöglicht, Knoten, Aktivitäten oder Schritte in diesem Workflow zu definieren.<br>Die Art der Aktion (Aktivität) bestimmt die Ausführung: "Route" kann für Umstände der Routenbestimmung verwendet werden. "Nichts" identifiziert manuelle Ausführung.]]></value>
  </row>
  <row id="123" trl="Y">
   <value column="Name" original="Node Translation">Übersetzung Knoten</value>
@@ -706,9 +706,9 @@ You can also re-calculate the pricelist by referencing no pricelist or referenci
   <value column="Help" original="The Tree Tab defines a Tree which will be displayed.">The Tree Tab defines a Tree which will be displayed.</value>
  </row>
  <row id="245" trl="Y">
-  <value column="Name" original="Report &amp; Process">Bericht &amp; Prozess</value>
+  <value column="Name" original="Report &amp; Process"><![CDATA[Bericht & Prozess]]></value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Report &amp; Process">Define Report &amp; Process</value>
+  <value column="Description" original="Define Report &amp; Process"><![CDATA[Define Report & Process]]></value>
   <value column="Help" original="The Report and Process Tab defines each report and process run in the system.  &#10;Please note that the Print Format is only used for Document Print when you want to share a common format defined on System level. For normal reports and formats, you would not define a Print Format here, but modify the generated print format and set it as the default.">The Report and Process Tab defines each report and process run in the system.  
 Please note that the Print Format is only used for Document Print when you want to share a common format defined on System level. For normal reports and formats, you would not define a Print Format here, but modify the generated print format and set it as the default.</value>
  </row>
@@ -885,7 +885,7 @@ Please note that the Print Format is only used for Document Print when you want 
   <value column="Name" original="Invoice">Rechnung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Vendor Invoice">Rechnung (Lieferant)</value>
-  <value column="Help" original="The Invoice Tab defines the parameters of an Invoice generated by a Business Partner.  It constitutes an accounts payable.  When generating a Receipt, the receipt document type of the purchase is used - or if not used/defined the default Material Receipt Document type.">The Invoice Tab defines the parameters of an Invoice generated by a Business Partner.  It constitutes an accounts payable.  When generating a Receipt, the receipt document type of the purchase is used - or if not used/defined the default Material Receipt Document type.</value>
+  <value column="Help" original="The Invoice Tab defines the parameters of an Invoice generated by a Business Partner.  It constitutes an accounts payable.">The Invoice Tab defines the parameters of an Invoice generated by a Business Partner.  It constitutes an accounts payable.  When generating a Receipt, the receipt document type of the purchase is used - or if not used/defined the default Material Receipt Document type.</value>
  </row>
  <row id="291" trl="Y">
   <value column="Name" original="Invoice Line">Rechnungsposition</value>
@@ -921,8 +921,8 @@ Please note that the Print Format is only used for Document Print when you want 
  <row id="296" trl="Y">
   <value column="Name" original="Material Receipt">Wareneingang</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Enter Receipts and Vendor Returns">Enter Receipts and Vendor Returns</value>
-  <value column="Help" original="The Shipments Tab allows you to generate, maintain, enter and process Shipments from a Vendor or Returns to a Vendor. ">The Shipments Tab allows you to generate, maintain, enter and process Shipments from a Vendor or Returns to a Vendor. </value>
+  <value column="Description" original="Enter Receipts">Enter Receipts and Vendor Returns</value>
+  <value column="Help" original="The Shipments Tab allows you to generate, maintain, enter and process Shipments from a Vendor.">The Shipments Tab allows you to generate, maintain, enter and process Shipments from a Vendor or Returns to a Vendor. </value>
  </row>
  <row id="297" trl="Y">
   <value column="Name" original="Receipt Line">Wareneingangs-Position</value>
@@ -1036,20 +1036,20 @@ Please note that the Print Format is only used for Document Print when you want 
   <value column="Name" original="Format Field">Format-Feld</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Format Fields">Maintain Format Fields</value>
-  <value column="Help" original="Define the individual field based on the table definition.  Please note that you have to make sure that a Constant has the correct  SQL data type (i.e. if it is a 'string', you need to enclose it like 'this').&#10;&lt;p&gt;Product mapping (for details see documentation):&#10;&lt;pre&gt;&#10;H_Item =&gt; Value&#10;H_ItemDesc =&gt; Name / Description&#10;H_ItemDefn =&gt; Help&#10;H_ItemType =&gt; ProductCategory&#10;H_PartnrID =&gt; Value of Business Partner&#10;H_Commodity1 =&gt; Vendor Product No&#10;H_Commodity2 =&gt; SKU&#10;H_ItemClass =&gt; Classification (A,B,C..)&#10;V_OperAmt_T_Cur =&gt; Currency&#10;V_OperAmt_T =&gt; Price &#10;&lt;/pre&gt;">Define the individual field based on the table definition.  Please note that you have to make sure that a Constant has the correct  SQL data type (i.e. if it is a 'string', you need to enclose it like 'this').
-&lt;p&gt;Product mapping (for details see documentation):
-&lt;pre&gt;
-H_Item =&gt; Value
-H_ItemDesc =&gt; Name / Description
-H_ItemDefn =&gt; Help
-H_ItemType =&gt; ProductCategory
-H_PartnrID =&gt; Value of Business Partner
-H_Commodity1 =&gt; Vendor Product No
-H_Commodity2 =&gt; SKU
-H_ItemClass =&gt; Classification (A,B,C..)
-V_OperAmt_T_Cur =&gt; Currency
-V_OperAmt_T =&gt; Price 
-&lt;/pre&gt;</value>
+  <value column="Help" original="Define the individual field based on the table definition.  Please note that you have to make sure that a Constant has the correct  SQL data type (i.e. if it is a 'string', you need to enclose it like 'this').&#10;&lt;p&gt;Product mapping (for details see documentation):&#10;&lt;pre&gt;&#10;H_Item =&gt; Value&#10;H_ItemDesc =&gt; Name / Description&#10;H_ItemDefn =&gt; Help&#10;H_ItemType =&gt; ProductCategory&#10;H_PartnrID =&gt; Value of Business Partner&#10;H_Commodity1 =&gt; Vendor Product No&#10;H_Commodity2 =&gt; SKU&#10;H_ItemClass =&gt; Classification (A,B,C..)&#10;V_OperAmt_T_Cur =&gt; Currency&#10;V_OperAmt_T =&gt; Price &#10;&lt;/pre&gt;"><![CDATA[Define the individual field based on the table definition.  Please note that you have to make sure that a Constant has the correct  SQL data type (i.e. if it is a 'string', you need to enclose it like 'this').
+<p>Product mapping (for details see documentation):
+<pre>
+H_Item => Value
+H_ItemDesc => Name / Description
+H_ItemDefn => Help
+H_ItemType => ProductCategory
+H_PartnrID => Value of Business Partner
+H_Commodity1 => Vendor Product No
+H_Commodity2 => SKU
+H_ItemClass => Classification (A,B,C..)
+V_OperAmt_T_Cur => Currency
+V_OperAmt_T => Price 
+</pre>]]></value>
  </row>
  <row id="317" trl="Y">
   <value column="Name" original="Bill of Materials">Stückliste</value>
@@ -1118,9 +1118,9 @@ Printing:
   <value column="Name" original="Payment Processor">Zahlungs-Prozessor</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Processor for online payments">Processor for online payments</value>
-  <value column="Help" original="The Electronic Payments Tab is used to define the parameters for the processing of electronic payments. If no currency is defined, all currencies are accepted. If a minumum amount is defined (or not zero), the payment processor is only used if the payment amount is equal or higher than the minumum amount. &lt;br&gt;&#10;The class needs to implement org.compiere.model.PaymentProcessor">The Electronic Payments Tab is used to define the parameters for the processing of electronic payments. If no currency is defined, all currencies are accepted. If a minumum amount is defined (or not zero), the payment processor is only used if the payment amount is equal or higher than the minumum amount. &lt;br&gt;
+  <value column="Help" original="The Electronic Payments Tab is used to define the parameters for the processing of electronic payments. If no currency is defined, all currencies are accepted. If a minumum amount is defined (or not zero), the payment processor is only used if the payment amount is equal or higher than the minumum amount. &lt;br&gt;&#10;The class needs to implement org.compiere.model.PaymentProcessor"><![CDATA[The Electronic Payments Tab is used to define the parameters for the processing of electronic payments. If no currency is defined, all currencies are accepted. If a minumum amount is defined (or not zero), the payment processor is only used if the payment amount is equal or higher than the minumum amount. <br>
 The class needs to implement org.compiere.model.PaymentProcessor
-</value>
+]]></value>
  </row>
  <row id="327" trl="Y">
   <value column="Name" original="Accounting">Buchführung</value>
@@ -1138,18 +1138,18 @@ The class needs to implement org.compiere.model.PaymentProcessor
   <value column="Name" original="Statement Line">Auszugs-Position</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Statement Line">Auszugs-Position</value>
-  <value column="Help" original="The Statement Line Tab defines the individual line items on the Bank Statement.  They can be entered manually or generated from payments entered.&#10;&lt;br&gt;For Posting, the bank account organization is used, if it is not a charge.">The Statement Line Tab defines the individual line items on the Bank Statement.  They can be entered manually or generated from payments entered.
-&lt;br&gt;For Posting, the bank account organization is used, if it is not a charge.</value>
+  <value column="Help" original="The Statement Line Tab defines the individual line items on the Bank Statement.  They can be entered manually or generated from payments entered.&#10;&lt;br&gt;For Posting, the bank account organization is used, if it is not a charge."><![CDATA[The Statement Line Tab defines the individual line items on the Bank Statement.  They can be entered manually or generated from payments entered.
+<br>For Posting, the bank account organization is used, if it is not a charge.]]></value>
  </row>
  <row id="330" trl="Y">
   <value column="Name" original="Payment">Zahlung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Payment or Receipt">Payment or Receipt</value>
-  <value column="Help" original="Enter payment or receipt for a Business Partner.  If it is for a single invoice it can be allocated directly to that invoice using this screen. You can also apply over/under payments:&lt;br&gt;&#10;You have an over-payment, if you received more money than due for a single invoice. Instead of writing the difference off (i.e. would be a gain), you can leave the amount unallocated and use it for later invoices or credit memos. Please note that the Amount is the payment amount, so you need to enter the over-payment as a negative amount.&lt;br&gt;&#10;You can also receive a partial payment (under-payment). If you decide not to write off the remaining invoice amount, enter the under-payment as a positive amount.&lt;br&gt;&#10;Note that printed payments are archived in Payment Selection (Prepared Payment).&#10;&lt;br&gt;For Posting, the bank account organization is used, if it is not a charge.">Enter payment or receipt for a Business Partner.  If it is for a single invoice it can be allocated directly to that invoice using this screen. You can also apply over/under payments:&lt;br&gt;
-You have an over-payment, if you received more money than due for a single invoice. Instead of writing the difference off (i.e. would be a gain), you can leave the amount unallocated and use it for later invoices or credit memos. Please note that the Amount is the payment amount, so you need to enter the over-payment as a negative amount.&lt;br&gt;
-You can also receive a partial payment (under-payment). If you decide not to write off the remaining invoice amount, enter the under-payment as a positive amount.&lt;br&gt;
+  <value column="Help" original="Enter payment or receipt for a Business Partner.  If it is for a single invoice it can be allocated directly to that invoice using this screen. You can also apply over/under payments:&lt;br&gt;&#10;You have an over-payment, if you received more money than due for a single invoice. Instead of writing the difference off (i.e. would be a gain), you can leave the amount unallocated and use it for later invoices or credit memos. Please note that the Amount is the payment amount, so you need to enter the over-payment as a negative amount.&lt;br&gt;&#10;You can also receive a partial payment (under-payment). If you decide not to write off the remaining invoice amount, enter the under-payment as a positive amount.&lt;br&gt;&#10;Note that printed payments are archived in Payment Selection (Prepared Payment).&#10;&lt;br&gt;For Posting, the bank account organization is used, if it is not a charge."><![CDATA[Enter payment or receipt for a Business Partner.  If it is for a single invoice it can be allocated directly to that invoice using this screen. You can also apply over/under payments:<br>
+You have an over-payment, if you received more money than due for a single invoice. Instead of writing the difference off (i.e. would be a gain), you can leave the amount unallocated and use it for later invoices or credit memos. Please note that the Amount is the payment amount, so you need to enter the over-payment as a negative amount.<br>
+You can also receive a partial payment (under-payment). If you decide not to write off the remaining invoice amount, enter the under-payment as a positive amount.<br>
 Note that printed payments are archived in Payment Selection (Prepared Payment).
-&lt;br&gt;For Posting, the bank account organization is used, if it is not a charge.</value>
+<br>For Posting, the bank account organization is used, if it is not a charge.]]></value>
  </row>
  <row id="331" trl="Y">
   <value column="Name" original="Accounting">Buchführung</value>
@@ -1259,8 +1259,8 @@ Additional objects are used for dunning (business partner, dunning entry), asset
   <value column="Name" original="Org Access">Berechtigung Organisationszugriff</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Role Org Access">Berechtigung für Organisations-Zugriff verwalten</value>
-  <value column="Help" original="Add the client and organizations the user has access to. Entries here are ignored, if User Org Access is selected or the role has access to all roles.&lt;br&gt;&#10;Note that access information is cached and requires re-login or reset of cache.">Add the client and organizations the user has access to. Entries here are ignored, if User Org Access is selected or the role has access to all roles.&lt;br&gt;
-Note that access information is cached and requires re-login or reset of cache.</value>
+  <value column="Help" original="Add the client and organizations the user has access to. Entries here are ignored, if User Org Access is selected or the role has access to all roles.&lt;br&gt;&#10;Note that access information is cached and requires re-login or reset of cache."><![CDATA[Add the client and organizations the user has access to. Entries here are ignored, if User Org Access is selected or the role has access to all roles.<br>
+Note that access information is cached and requires re-login or reset of cache.]]></value>
  </row>
  <row id="352" trl="Y">
   <value column="Name" original="Payment Selection">Zahlungsauswahl</value>
@@ -1354,8 +1354,8 @@ The amounts are converted from the transaction currency to the Commission Curren
   <value column="Name" original="Performance Measure Calculation">Ergebnis - Kenngrößenberechnung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain your Performance Measure Calculation">Definition der Berechnung der Kenngrößen</value>
-  <value column="Help" original="The Performance Measure Calculation defines how performance measures will be calculated. See examples.&lt;br&gt;&#10;The SELECT definition must contain the SELECT and FROM keywords in upper case, the WHERE definition must contain the WHERE keyword in upper case.  The main table must not have an alias!  The WHERE clause can only contain values of the main table (e.g. when selecting from Header and lines, only header variables can be used in the where clause) and be fully qualified if there is more then one table.">The Performance Measure Calculation defines how performance measures will be calculated. See examples.&lt;br&gt;
-The SELECT definition must contain the SELECT and FROM keywords in upper case, the WHERE definition must contain the WHERE keyword in upper case.  The main table must not have an alias!  The WHERE clause can only contain values of the main table (e.g. when selecting from Header and lines, only header variables can be used in the where clause) and be fully qualified if there is more then one table. </value>
+  <value column="Help" original="The Performance Measure Calculation defines how performance measures will be calculated. See examples.&lt;br&gt;&#10;The SELECT definition must contain the SELECT and FROM keywords in upper case, the WHERE definition must contain the WHERE keyword in upper case.  The main table must not have an alias!  The WHERE clause can only contain values of the main table (e.g. when selecting from Header and lines, only header variables can be used in the where clause) and be fully qualified if there is more then one table."><![CDATA[The Performance Measure Calculation defines how performance measures will be calculated. See examples.<br>
+The SELECT definition must contain the SELECT and FROM keywords in upper case, the WHERE definition must contain the WHERE keyword in upper case.  The main table must not have an alias!  The WHERE clause can only contain values of the main table (e.g. when selecting from Header and lines, only header variables can be used in the where clause) and be fully qualified if there is more then one table. ]]></value>
  </row>
  <row id="370" trl="Y">
   <value column="Name" original="Achievement">Zielerreichung</value>
@@ -1607,9 +1607,9 @@ New List Price: Base=List, Surcharge=0, Discount=0, Round]]></value>
   <value column="Name" original="Expense Report">Aufwands-Bericht</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Time and Expense Report">Zeit- und Aufwands-Bericht</value>
-  <value column="Help" original="Enter the time and expenses for the Employee or Contractor (Business Partner). &lt;br&gt;&#10;The price list determines the default costs of the expenses, products or resource to be reimbursed. In that sense, it is a &quot;Purchase Price&quot; list. The Warehouse is used to correct the inventory of items invoiced to customers (i.e. if not invoiced, the inventory is not adjusted).&lt;br&gt;&#10;Please note that the Business Partner &lt;b&gt;must&lt;/b&gt; be an Employee with an Address and Contact!">Enter the time and expenses for the Employee or Contractor (Business Partner). &lt;br&gt;
-The price list determines the default costs of the expenses, products or resource to be reimbursed. In that sense, it is a "Purchase Price" list. The Warehouse is used to correct the inventory of items invoiced to customers (i.e. if not invoiced, the inventory is not adjusted).&lt;br&gt;
-Please note that the Business Partner &lt;b&gt;must&lt;/b&gt; be an Employee with an Address and Contact!</value>
+  <value column="Help" original="Enter the time and expenses for the Employee or Contractor (Business Partner). &lt;br&gt;&#10;The price list determines the default costs of the expenses, products or resource to be reimbursed. In that sense, it is a &quot;Purchase Price&quot; list. The Warehouse is used to correct the inventory of items invoiced to customers (i.e. if not invoiced, the inventory is not adjusted).&lt;br&gt;&#10;Please note that the Business Partner &lt;b&gt;must&lt;/b&gt; be an Employee with an Address and Contact!"><![CDATA[Enter the time and expenses for the Employee or Contractor (Business Partner). <br>
+The price list determines the default costs of the expenses, products or resource to be reimbursed. In that sense, it is a "Purchase Price" list. The Warehouse is used to correct the inventory of items invoiced to customers (i.e. if not invoiced, the inventory is not adjusted).<br>
+Please note that the Business Partner <b>must</b> be an Employee with an Address and Contact!]]></value>
  </row>
  <row id="413" trl="Y">
   <value column="Name" original="Report Line">Berichtsposition</value>
@@ -1693,32 +1693,32 @@ Please note that the Business Partner &lt;b&gt;must&lt;/b&gt; be an Employee wit
   <value column="Name" original="Format Item">Format-Element</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Print Format Item">Print Format Item</value>
-  <value column="Help" original="Item in the print format maintaining layout information.  The following additional variables are available when printing:&#10;&lt;p&gt;@*Page@ - the current page number&#10;&lt;br&gt;@*PageCount@ - the total number of pages&#10;&lt;br&gt;@*MultiPageInfo@ - &quot;Page x of y&quot; - only printed if more than one page&#10;&lt;br&gt;@*CopyInfo@ - if it is a copy of the document &quot;Duplicate&quot; is printed&#10;&lt;br&gt;@*ReportName@ - name of the report&#10;&lt;br&gt;@*Header@ - Full Header with user/client/org name and connection&#10;&lt;br&gt;@*CurrentDate@ - the print date&#10;&lt;br&gt;@*CurrentDateTime@ - the print time&#10;&#10;&lt;p&gt;The layoit logic for forms is: &lt;br&gt;&#10;- if not printed: ignore &lt;br&gt;&#10;- set New Line Position &lt;br&gt;&#10;- new page &lt;br&gt;&#10;- new line, if something was printed since last new line&lt;br&gt;&#10;- format item&lt;br&gt;&#10;- print it (if not null/empty selected)&lt;br&gt;&#10;(i.e. supress null does not prevent new line)">Item in the print format maintaining layout information.  The following additional variables are available when printing:
-&lt;p&gt;@*Page@ - the current page number
-&lt;br&gt;@*PageCount@ - the total number of pages
-&lt;br&gt;@*MultiPageInfo@ - "Page x of y" - only printed if more than one page
-&lt;br&gt;@*CopyInfo@ - if it is a copy of the document "Duplicate" is printed
-&lt;br&gt;@*ReportName@ - name of the report
-&lt;br&gt;@*Header@ - Full Header with user/client/org name and connection
-&lt;br&gt;@*CurrentDate@ - the print date
-&lt;br&gt;@*CurrentDateTime@ - the print time
+  <value column="Help" original="Item in the print format maintaining layout information.  The following additional variables are available when printing:&#10;&lt;p&gt;@*Page@ - the current page number&#10;&lt;br&gt;@*PageCount@ - the total number of pages&#10;&lt;br&gt;@*MultiPageInfo@ - &quot;Page x of y&quot; - only printed if more than one page&#10;&lt;br&gt;@*CopyInfo@ - if it is a copy of the document &quot;Duplicate&quot; is printed&#10;&lt;br&gt;@*ReportName@ - name of the report&#10;&lt;br&gt;@*Header@ - Full Header with user/client/org name and connection&#10;&lt;br&gt;@*CurrentDate@ - the print date&#10;&lt;br&gt;@*CurrentDateTime@ - the print time&#10;&#10;&lt;p&gt;The layoit logic for forms is: &lt;br&gt;&#10;- if not printed: ignore &lt;br&gt;&#10;- set New Line Position &lt;br&gt;&#10;- new page &lt;br&gt;&#10;- new line, if something was printed since last new line&lt;br&gt;&#10;- format item&lt;br&gt;&#10;- print it (if not null/empty selected)&lt;br&gt;&#10;(i.e. supress null does not prevent new line)"><![CDATA[Item in the print format maintaining layout information.  The following additional variables are available when printing:
+<p>@*Page@ - the current page number
+<br>@*PageCount@ - the total number of pages
+<br>@*MultiPageInfo@ - "Page x of y" - only printed if more than one page
+<br>@*CopyInfo@ - if it is a copy of the document "Duplicate" is printed
+<br>@*ReportName@ - name of the report
+<br>@*Header@ - Full Header with user/client/org name and connection
+<br>@*CurrentDate@ - the print date
+<br>@*CurrentDateTime@ - the print time
 
-&lt;p&gt;The layoit logic for forms is: &lt;br&gt;
-- if not printed: ignore &lt;br&gt;
-- set New Line Position &lt;br&gt;
-- new page &lt;br&gt;
-- new line, if something was printed since last new line&lt;br&gt;
-- format item&lt;br&gt;
-- print it (if not null/empty selected)&lt;br&gt;
-(i.e. supress null does not prevent new line)</value>
+<p>The layoit logic for forms is: <br>
+- if not printed: ignore <br>
+- set New Line Position <br>
+- new page <br>
+- new line, if something was printed since last new line<br>
+- format item<br>
+- print it (if not null/empty selected)<br>
+(i.e. supress null does not prevent new line)]]></value>
  </row>
  <row id="427" trl="Y">
   <value column="Name" original="Print Paper">Druck - Papier</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Print Paper">Verwalten von Papierformaten</value>
-  <value column="Help" original="Printer Paper Size, Orientation and Margins. &#10;The Validation Code contains the Media Size name. The names of the media sizes correspond to those in the IPP 1.1 RFC 2911 - http://www.ietf.org/rfc/rfc2911.txt  &lt;br&gt;&#10;If the name is not found, the SizeX/Y with the dimension is used. Size and dimension are ignored, if a valid media size name is used.">Printer Paper Size, Orientation and Margins. 
-The Validation Code contains the Media Size name. The names of the media sizes correspond to those in the IPP 1.1 RFC 2911 - http://www.ietf.org/rfc/rfc2911.txt  &lt;br&gt;
-If the name is not found, the SizeX/Y with the dimension is used. Size and dimension are ignored, if a valid media size name is used.</value>
+  <value column="Help" original="Printer Paper Size, Orientation and Margins. &#10;The Validation Code contains the Media Size name. The names of the media sizes correspond to those in the IPP 1.1 RFC 2911 - http://www.ietf.org/rfc/rfc2911.txt  &lt;br&gt;&#10;If the name is not found, the SizeX/Y with the dimension is used. Size and dimension are ignored, if a valid media size name is used."><![CDATA[Printer Paper Size, Orientation and Margins. 
+The Validation Code contains the Media Size name. The names of the media sizes correspond to those in the IPP 1.1 RFC 2911 - http://www.ietf.org/rfc/rfc2911.txt  <br>
+If the name is not found, the SizeX/Y with the dimension is used. Size and dimension are ignored, if a valid media size name is used.]]></value>
  </row>
  <row id="428" trl="Y">
   <value column="Name" original="Display Order">Anzeige-Reihenfolge</value>
@@ -1766,7 +1766,7 @@ If the name is not found, the SizeX/Y with the dimension is used. Size and dimen
   <value column="Name" original="Print Table Format">Druck - Tabellenformat</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Define Report Table Format">Verwalten von Tabellenformaten für Berichte</value>
-  <value column="Help" original="The Print Table Format lets you define how table header, etc. is printed. If you leave the entries empty, the default colors and fonts are used:&lt;br&gt;&#10;Fonts are based on the Font used in the Report; Page Header and Table Header will be bold, the Function Font is Bold-Italic, the Footer Font is two points smaller, the Parameter Font is Italic.">Das Druck-Tabellenformat gibt vor, wie Tabellenkopf und -fuß usw. gedruckt werden. If you leave the entries empty, the default colors and fonts are used:&lt;br&gt; Fonts are based on the Font used in the Report; Page Header and Table Header will be bold, the Function Font is Bold-Italic, the Footer Font is two points smaller, the Parameter Font is Italic.</value>
+  <value column="Help" original="The Print Table Format lets you define how table header, etc. is printed. If you leave the entries empty, the default colors and fonts are used:&lt;br&gt;&#10;Fonts are based on the Font used in the Report; Page Header and Table Header will be bold, the Function Font is Bold-Italic, the Footer Font is two points smaller, the Parameter Font is Italic."><![CDATA[Das Druck-Tabellenformat gibt vor, wie Tabellenkopf und -fuß usw. gedruckt werden. If you leave the entries empty, the default colors and fonts are used:<br> Fonts are based on the Font used in the Report; Page Header and Table Header will be bold, the Function Font is Bold-Italic, the Footer Font is two points smaller, the Parameter Font is Italic.]]></value>
  </row>
  <row id="436" trl="Y">
   <value column="Name" original="Prepared Payment">Vorbereitete Zahlung</value>
@@ -2037,30 +2037,30 @@ Adempiere tries to map to existing products, if the UPC, the Key and the Vendor 
   <value column="Name" original="Inventory">Bestand</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Import Inventory">Import - Warenbestand</value>
-  <value column="Help" original="Validate and Import Inventory Transactions. The Locator is primarily determined by the Locator Key, then the Warehouse and X,Y,Z fields.&lt;p&gt;&#10;A Physical Inventory is created per Warehouse and Movement Date.">Validieren und importieren von Vorgängen zum Warenbestand Der Lagerort wird primär durch den Lagerortschlüssel, dann das Lager und die X,Y,Z-Felder.&lt;p&gt; Ein physischer Bestand wird pro Lager und Bewegungsdatum erstellt.</value>
+  <value column="Help" original="Validate and Import Inventory Transactions. The Locator is primarily determined by the Locator Key, then the Warehouse and X,Y,Z fields.&lt;p&gt;&#10;A Physical Inventory is created per Warehouse and Movement Date."><![CDATA[Validieren und importieren von Vorgängen zum Warenbestand Der Lagerort wird primär durch den Lagerortschlüssel, dann das Lager und die X,Y,Z-Felder.<p> Ein physischer Bestand wird pro Lager und Bewegungsdatum erstellt.]]></value>
  </row>
  <row id="482" trl="Y">
   <value column="Name" original="Table Access">Berechtigung Tabellenzugriff</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Table Access">Maintain Table Access</value>
-  <value column="Help" original="If listed here, the Role can(not) access all data of this table, even if the role has access to the functionality.&#10;&lt;br&gt;If you Include Access to a table and select Read Only, you can only read data (otherwise full access).&#10;&lt;br&gt;If you Exclude Access to a table and select Read Only, you can only read data (otherwise no access).&#10;&lt;br&gt;Please note that table access rules here are in addition to the Data Access Levels defined for a Table and the User Level defined for a Role. These rules are evaulated first and you only need to define the exceptions to these rules here.&#10;&lt;p&gt;&#10;Note that access information is cached and requires re-login or reset of cache. Be aware that if you use Include rules, that you need to include also several supporting entiries. As an alternative, grant access only to functionality required.">If listed here, the Role can(not) access all data of this table, even if the role has access to the functionality.
-&lt;br&gt;If you Include Access to a table and select Read Only, you can only read data (otherwise full access).
-&lt;br&gt;If you Exclude Access to a table and select Read Only, you can only read data (otherwise no access).
-&lt;br&gt;Please note that table access rules here are in addition to the Data Access Levels defined for a Table and the User Level defined for a Role. These rules are evaulated first and you only need to define the exceptions to these rules here.
-&lt;p&gt;
-Note that access information is cached and requires re-login or reset of cache. Be aware that if you use Include rules, that you need to include also several supporting entiries. As an alternative, grant access only to functionality required.</value>
+  <value column="Help" original="If listed here, the Role can(not) access all data of this table, even if the role has access to the functionality.&#10;&lt;br&gt;If you Include Access to a table and select Read Only, you can only read data (otherwise full access).&#10;&lt;br&gt;If you Exclude Access to a table and select Read Only, you can only read data (otherwise no access).&#10;&lt;br&gt;Please note that table access rules here are in addition to the Data Access Levels defined for a Table and the User Level defined for a Role. These rules are evaulated first and you only need to define the exceptions to these rules here.&#10;&lt;p&gt;&#10;Note that access information is cached and requires re-login or reset of cache. Be aware that if you use Include rules, that you need to include also several supporting entiries. As an alternative, grant access only to functionality required."><![CDATA[If listed here, the Role can(not) access all data of this table, even if the role has access to the functionality.
+<br>If you Include Access to a table and select Read Only, you can only read data (otherwise full access).
+<br>If you Exclude Access to a table and select Read Only, you can only read data (otherwise no access).
+<br>Please note that table access rules here are in addition to the Data Access Levels defined for a Table and the User Level defined for a Role. These rules are evaulated first and you only need to define the exceptions to these rules here.
+<p>
+Note that access information is cached and requires re-login or reset of cache. Be aware that if you use Include rules, that you need to include also several supporting entiries. As an alternative, grant access only to functionality required.]]></value>
  </row>
  <row id="483" trl="Y">
   <value column="Name" original="Record Access">Berechtigung Eintragszugriff</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Record Access">Maintain Record Access</value>
-  <value column="Help" original="You create Record Access records by enabling &quot;Personal Lock&quot; for the administrative role and Ctl-Lock (holding the Ctrl key while clicking on the Lock button).&#10;&lt;p&gt;&#10;If listed here, the Role can(not) access the data records of this table, even if the role has access to the functionality.&#10;&lt;br&gt;If you Include Access to a record and select Read Only, you can only read data (otherwise full access).&#10;&lt;br&gt;If you Exclude Access to a recorf and select Read Only, you can only read data (otherwise no access).&#10;Note that access information is cached and requires re-login or reset of cache.">You create Record Access records by enabling "Personal Lock" for the administrative role and Ctl-Lock (holding the Ctrl key while clicking on the Lock button). &lt;p&gt; If listed here, the Role can(not) access the data records of this table, even if the role has access to the functionality. &lt;br&gt;If you Include Access to a record and select Read Only, you can only read data (otherwise full access). &lt;br&gt;If you Exclude Access to a recorf and select Read Only, you can only read data (otherwise no access). Beachten Sie, dass Zugriffsinformation im Cache gespeichert werden und daher eine Neuanmeldung oder ein Leeren des Cache erforderlich sind.</value>
+  <value column="Help" original="You create Record Access records by enabling &quot;Personal Lock&quot; for the administrative role and Ctl-Lock (holding the Ctrl key while clicking on the Lock button).&#10;&lt;p&gt;&#10;If listed here, the Role can(not) access the data records of this table, even if the role has access to the functionality.&#10;&lt;br&gt;If you Include Access to a record and select Read Only, you can only read data (otherwise full access).&#10;&lt;br&gt;If you Exclude Access to a recorf and select Read Only, you can only read data (otherwise no access).&#10;Note that access information is cached and requires re-login or reset of cache."><![CDATA[You create Record Access records by enabling "Personal Lock" for the administrative role and Ctl-Lock (holding the Ctrl key while clicking on the Lock button). <p> If listed here, the Role can(not) access the data records of this table, even if the role has access to the functionality. <br>If you Include Access to a record and select Read Only, you can only read data (otherwise full access). <br>If you Exclude Access to a recorf and select Read Only, you can only read data (otherwise no access). Beachten Sie, dass Zugriffsinformation im Cache gespeichert werden und daher eine Neuanmeldung oder ein Leeren des Cache erforderlich sind.]]></value>
  </row>
  <row id="484" trl="Y">
   <value column="Name" original="Column Access">Berechtigung Spaltenzugriff</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Column Access">Maintain Column Access</value>
-  <value column="Help" original="If listed here, the Role can(not) access the column of this table, even if the role has access to the functionality.&#10;&lt;br&gt;If you Include Access to a column and select Read Only, you can only read data (otherwise full access).&#10;&lt;br&gt;If you Exclude Access to a column and select Read Only, you can only read data (otherwise no access).&#10;Note that access information is cached and requires re-login or reset of cache.">If listed here, the Role can(not) access the column of this table, even if the role has access to the functionality. &lt;br&gt;If you Include Access to a column and select Read Only, you can only read data (otherwise full access). &lt;br&gt;If you Exclude Access to a column and select Read Only, you can only read data (otherwise no access). Beachten Sie, dass Zugriffsinformation im Cache gespeichert werden und daher eine Neuanmeldung oder ein Leeren des Cache erforderlich sind.</value>
+  <value column="Help" original="If listed here, the Role can(not) access the column of this table, even if the role has access to the functionality.&#10;&lt;br&gt;If you Include Access to a column and select Read Only, you can only read data (otherwise full access).&#10;&lt;br&gt;If you Exclude Access to a column and select Read Only, you can only read data (otherwise no access).&#10;Note that access information is cached and requires re-login or reset of cache."><![CDATA[If listed here, the Role can(not) access the column of this table, even if the role has access to the functionality. <br>If you Include Access to a column and select Read Only, you can only read data (otherwise full access). <br>If you Exclude Access to a column and select Read Only, you can only read data (otherwise no access). Beachten Sie, dass Zugriffsinformation im Cache gespeichert werden und daher eine Neuanmeldung oder ein Leeren des Cache erforderlich sind.]]></value>
  </row>
  <row id="485" trl="Y">
   <value column="Name" original="Role">Rolle</value>
@@ -2192,10 +2192,10 @@ Note that access information is cached and requires re-login or reset of cache. 
   <value column="Name" original="General Ledger">Hauptbuch</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Import General Ledger">Import - Hauptbuch</value>
-  <value column="Help" original="A new Journal Batch is created, if the Batch Document No or accounting schema are different. A new Journal is created, if the Document No, Currency, Document Type, GL Category, Posting Type or Accounting type is different. You can also force the creation of a new Batch or Jornal by selecting the creat new flag.&lt;p&gt;&#10;Please note that there are three Organization Fields: The Document Organization is the owner of the document and set directly or per parameter default. The Organization is part of the accounting key and only required id no Valid Account Comination is specified; If not defined it is derived from the Document Organization. The Transaction Organization is part of the account combination.&lt;br&gt;&#10;The optional balance check applies to the entire import, not for individual batches or journals.&#10;&lt;br&gt;The document numbers will be overwritten if the document type is not set to manual sequences.">A new Journal Batch is created, if the Batch Document No or accounting schema are different. A new Journal is created, if the Document No, Currency, Document Type, GL Category, Posting Type or Accounting type is different. You can also force the creation of a new Batch or Jornal by selecting the creat new flag.&lt;p&gt;
-Please note that there are three Organization Fields: The Document Organization is the owner of the document and set directly or per parameter default. The Organization is part of the accounting key and only required id no Valid Account Comination is specified; If not defined it is derived from the Document Organization. The Transaction Organization is part of the account combination.&lt;br&gt;
+  <value column="Help" original="A new Journal Batch is created, if the Batch Document No or accounting schema are different. A new Journal is created, if the Document No, Currency, Document Type, GL Category, Posting Type or Accounting type is different. You can also force the creation of a new Batch or Jornal by selecting the creat new flag.&lt;p&gt;&#10;Please note that there are three Organization Fields: The Document Organization is the owner of the document and set directly or per parameter default. The Organization is part of the accounting key and only required id no Valid Account Comination is specified; If not defined it is derived from the Document Organization. The Transaction Organization is part of the account combination.&lt;br&gt;&#10;The optional balance check applies to the entire import, not for individual batches or journals.&#10;&lt;br&gt;The document numbers will be overwritten if the document type is not set to manual sequences."><![CDATA[A new Journal Batch is created, if the Batch Document No or accounting schema are different. A new Journal is created, if the Document No, Currency, Document Type, GL Category, Posting Type or Accounting type is different. You can also force the creation of a new Batch or Jornal by selecting the creat new flag.<p>
+Please note that there are three Organization Fields: The Document Organization is the owner of the document and set directly or per parameter default. The Organization is part of the accounting key and only required id no Valid Account Comination is specified; If not defined it is derived from the Document Organization. The Transaction Organization is part of the account combination.<br>
 The optional balance check applies to the entire import, not for individual batches or journals.
-&lt;br&gt;The document numbers will be overwritten if the document type is not set to manual sequences.</value>
+<br>The document numbers will be overwritten if the document type is not set to manual sequences.]]></value>
  </row>
  <row id="510" trl="Y">
   <value column="Name" original="Invoice">Rechnung</value>
@@ -3303,15 +3303,15 @@ Note that the Document Number may be overwritten - depending on the Number contr
   <value column="Name" original="Org Access">Berechtigung Organisationszugriff</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain User Org Access">Berechtigung für Zugriff auf Organisationen verwalten</value>
-  <value column="Help" original="Add the client and organizations the user has access to. Entries here are ignored, if in the Role, User Org Access is not selected or the role has access to all roles.&lt;br&gt;&#10;Note that access information is cached and requires re-login or reset of cache.">Add the client and organizations the user has access to. Entries here are ignored, if in the Role, User Org Access is not selected or the role has access to all roles.&lt;br&gt;
-Note that access information is cached and requires re-login or reset of cache.</value>
+  <value column="Help" original="Add the client and organizations the user has access to. Entries here are ignored, if in the Role, User Org Access is not selected or the role has access to all roles.&lt;br&gt;&#10;Note that access information is cached and requires re-login or reset of cache."><![CDATA[Add the client and organizations the user has access to. Entries here are ignored, if in the Role, User Org Access is not selected or the role has access to all roles.<br>
+Note that access information is cached and requires re-login or reset of cache.]]></value>
  </row>
  <row id="697" trl="Y">
   <value column="Name" original="Landed Costs">Landed Costs</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Landed cost to be allocated to material receipts">Landed cost to be allocated to material receipts</value>
-  <value column="Help" original="Landed costs allow you to allocate costs to previously received material receipts. Examples are freight, excise tax, insurance, etc.&lt;br&gt;&#10;Select either a Receipt, Receipt Line or a specific Product to allocate the costs to.">Landed costs allow you to allocate costs to previously received material receipts. Examples are freight, excise tax, insurance, etc.&lt;br&gt;
-Select either a Receipt, Receipt Line or a specific Product to allocate the costs to.</value>
+  <value column="Help" original="Landed costs allow you to allocate costs to previously received material receipts. Examples are freight, excise tax, insurance, etc.&lt;br&gt;&#10;Select either a Receipt, Receipt Line or a specific Product to allocate the costs to."><![CDATA[Landed costs allow you to allocate costs to previously received material receipts. Examples are freight, excise tax, insurance, etc.<br>
+Select either a Receipt, Receipt Line or a specific Product to allocate the costs to.]]></value>
  </row>
  <row id="698" trl="Y">
   <value column="Name" original="Landed Cost Allocation">Landed Costs-Zuordnung</value>
@@ -3323,7 +3323,7 @@ Select either a Receipt, Receipt Line or a specific Product to allocate the cost
   <value column="Name" original="Cost Element">Kostenart</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain product cost elements">Maintain product cost elements</value>
-  <value column="Help" original="You can maintain multiple Material Costs. Which of the Material Cost Types is used for accounting is determined by the costing method.&lt;br&gt;&#10;Define a Costing Method (for Material Elements) only if you want the cost calculated for that costing method. For accounting, the costing method defined in the Accounting Schema or Product Category Acct is used.">You can maintain multiple Material Costs. Welche der Materialkostenkategorien für die Buchführung verwendet wird, wird durch die Kostenrechnungsmethode bestimmt.&lt;br&gt; Definieren Sie ein Kostenrechnungsmethode (für Materialarten) nur, wenn Sie die Kosten für die Kostenrechnungsmethode berechnet haben möchten. Für die Buchfühung wird die Kostenrechnungsmethode, die im Buchführungsschema oder in der Produktkategoriebuchführung definiet ist, verwendet.</value>
+  <value column="Help" original="You can maintain multiple Material Costs. Which of the Material Cost Types is used for accounting is determined by the costing method.&lt;br&gt;&#10;Define a Costing Method (for Material Elements) only if you want the cost calculated for that costing method. For accounting, the costing method defined in the Accounting Schema or Product Category Acct is used."><![CDATA[You can maintain multiple Material Costs. Welche der Materialkostenkategorien für die Buchführung verwendet wird, wird durch die Kostenrechnungsmethode bestimmt.<br> Definieren Sie ein Kostenrechnungsmethode (für Materialarten) nur, wenn Sie die Kosten für die Kostenrechnungsmethode berechnet haben möchten. Für die Buchfühung wird die Kostenrechnungsmethode, die im Buchführungsschema oder in der Produktkategoriebuchführung definiet ist, verwendet.]]></value>
  </row>
  <row id="700" trl="Y">
   <value column="Name" original="Select Product">Produkt auswählen</value>
@@ -3444,9 +3444,9 @@ If a BOM is referenced  and enabled in Request Type, a BOM Change Request is aut
   <value column="Name" original="Update Recipients">Aktualisierungs-Empfänger</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Display Recipients of Request Updates">Display Recipients of Request Updates</value>
-  <value column="Help" original="List of Recipients of Request Updates (with reason).&lt;br&gt;&#10;Direct: Sales Rep, User and direct subscribers&#10;Indirect: Users with Role, Subscribers of updates for Request Category, Type, Group)">List of Recipients of Request Updates (with reason).&lt;br&gt;
+  <value column="Help" original="List of Recipients of Request Updates (with reason).&lt;br&gt;&#10;Direct: Sales Rep, User and direct subscribers&#10;Indirect: Users with Role, Subscribers of updates for Request Category, Type, Group)"><![CDATA[List of Recipients of Request Updates (with reason).<br>
 Direct: Sales Rep, User and direct subscribers
-Indirect: Users with Role, Subscribers of updates for Request Category, Type, Group)</value>
+Indirect: Users with Role, Subscribers of updates for Request Category, Type, Group)]]></value>
  </row>
  <row id="721" trl="Y">
   <value column="Name" original="Position">Position</value>
@@ -3647,10 +3647,10 @@ Note that the information is cached. To have effect you may have to re-login or 
   <value column="Name" original="Allocate">Zuordnung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Allocate Payments to Invoices">Allocate Payments to Invoices</value>
-  <value column="Help" original="You can directly allocate payments to invoices with the same currency when creating the Payment. &#10;Note that you can over- or under-allocate the payment.&lt;b&gt;&#10;When processing the payment, the allocation is created.&lt;b&gt;&#10;The Organization is set to the invoice organization">You can directly allocate payments to invoices with the same currency when creating the Payment. 
-Note that you can over- or under-allocate the payment.&lt;b&gt;
-When processing the payment, the allocation is created.&lt;b&gt;
-The Organization is set to the invoice organization</value>
+  <value column="Help" original="You can directly allocate payments to invoices with the same currency when creating the Payment. &#10;Note that you can over- or under-allocate the payment.&lt;b&gt;&#10;When processing the payment, the allocation is created.&lt;b&gt;&#10;The Organization is set to the invoice organization"><![CDATA[You can directly allocate payments to invoices with the same currency when creating the Payment. 
+Note that you can over- or under-allocate the payment.<b>
+When processing the payment, the allocation is created.<b>
+The Organization is set to the invoice organization]]></value>
  </row>
  <row id="756" trl="Y">
   <value column="Name" original="BP Access">Berechtigung Geschäftspartnerzugriff</value>
@@ -3777,8 +3777,8 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Name" original="Client Share">Gemeinsame Verwendung</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Force (not) sharing of client/org entities">(Nicht) gemeinsame Verwendung von Mandanten-/Organisationsstammdaten</value>
-  <value column="Help" original="Business Partner can be either defined on Client level (shared) or on Org level (not shared).  You can define here of Products are always shared (i.e. always created under Organization &quot;*&quot;) or if they are not shared (i.e. you cannot enter them with Organization &quot;*&quot;).&lt;br&gt;&#10;The creation of  &quot;Client and Org&quot; shared records is the default and is ignored.">Business Partner can be either defined on Client level (shared) or on Org level (not shared).  You can define here of Products are always shared (i.e. always created under Organization "*") or if they are not shared (i.e. you cannot enter them with Organization "*").&lt;br&gt;
-The creation of  "Client and Org" shared records is the default and is ignored.</value>
+  <value column="Help" original="Business Partner can be either defined on Client level (shared) or on Org level (not shared).  You can define here of Products are always shared (i.e. always created under Organization &quot;*&quot;) or if they are not shared (i.e. you cannot enter them with Organization &quot;*&quot;).&lt;br&gt;&#10;The creation of  &quot;Client and Org&quot; shared records is the default and is ignored."><![CDATA[Business Partner can be either defined on Client level (shared) or on Org level (not shared).  You can define here of Products are always shared (i.e. always created under Organization "*") or if they are not shared (i.e. you cannot enter them with Organization "*").<br>
+The creation of  "Client and Org" shared records is the default and is ignored.]]></value>
  </row>
  <row id="777" trl="Y">
   <value column="Name" original="System Issue">System-Problem</value>
@@ -4380,14 +4380,14 @@ If the profile is exclude (default), the assignees can view all but the defined 
  <row id="53028" trl="N">
   <value column="Name" original="Parent Product">Parent Product</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define the Parent Product to this BOM &amp; Formula">Define the Parent Product to this BOM &amp; Formula</value>
-  <value column="Help" original="Define the Parent Product to this BOM &amp; Formula">Define the Parent Product to this BOM &amp; Formula</value>
+  <value column="Description" original="Define the Parent Product to this BOM &amp; Formula"><![CDATA[Define the Parent Product to this BOM & Formula]]></value>
+  <value column="Help" original="Define the Parent Product to this BOM &amp; Formula"><![CDATA[Define the Parent Product to this BOM & Formula]]></value>
  </row>
  <row id="53029" trl="N">
-  <value column="Name" original="Components of the BOM &amp; Formula">Components of the BOM &amp; Formula</value>
+  <value column="Name" original="Components of the BOM &amp; Formula"><![CDATA[Components of the BOM & Formula]]></value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Components of the BOM &amp; Formula">Components of the BOM &amp; Formula</value>
-  <value column="Help" original="The information relative to every component that will be used in the BOM &amp; Formula of the finished product.">The information relative to every component that will be used in the BOM &amp; Formula of the finished product.</value>
+  <value column="Description" original="Components of the BOM &amp; Formula"><![CDATA[Components of the BOM & Formula]]></value>
+  <value column="Help" original="The information relative to every component that will be used in the BOM &amp; Formula of the finished product."><![CDATA[The information relative to every component that will be used in the BOM & Formula of the finished product.]]></value>
  </row>
  <row id="53030" trl="N">
   <value column="Name" original="Data Planning">Data Planning</value>
@@ -4455,7 +4455,7 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Name" original="Order Parent Product">Order Parent Product</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Order Parent Product used in the Manufacturing Order">Order Parent Product used in the Manufacturing Order</value>
-  <value column="Help" original="The BOM &amp; Formula used in the Manufacturing Order are taken by default from the Product Planning window.">The BOM &amp; Formula used in the Manufacturing Order are taken by default from the Product Planning window.</value>
+  <value column="Help" original="The BOM &amp; Formula used in the Manufacturing Order are taken by default from the Product Planning window."><![CDATA[The BOM & Formula used in the Manufacturing Order are taken by default from the Product Planning window.]]></value>
  </row>
  <row id="53041" trl="N">
   <value column="Name" original="Workflow">Workflow</value>
@@ -4671,17 +4671,17 @@ If the profile is exclude (default), the assignees can view all but the defined 
   <value column="Name" original="Tax Children">Tax Children</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Tax definition">Tax definition</value>
-  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.&lt;br&gt;&#10;If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.&lt;br&gt;&#10;Valid From/To is determined by the parent tax.">The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.&lt;br&gt;
-If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.&lt;br&gt;
-Valid From/To is determined by the parent tax.</value>
+  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.&lt;br&gt;&#10;If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.&lt;br&gt;&#10;Valid From/To is determined by the parent tax."><![CDATA[The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.<br>
+If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.<br>
+Valid From/To is determined by the parent tax.]]></value>
  </row>
  <row id="53079" trl="N">
   <value column="Name" original="Tax Parent">Tax Parent</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Tax definition">Tax definition</value>
-  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.&lt;br&gt;&#10;If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.&lt;br&gt;&#10;Valid From/To is determined by the parent tax.">The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.&lt;br&gt;
-If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.&lt;br&gt;
-Valid From/To is determined by the parent tax.</value>
+  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.&lt;br&gt;&#10;If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.&lt;br&gt;&#10;Valid From/To is determined by the parent tax."><![CDATA[The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.<br>
+If you have multiple taxes create a summary level tax with the approximate total tax rate and the actual tax rates pointing to the summary level tax as their parent. When entering the order or invoice lines the tax is estimated the correct tax is calculated when the document is processed.  The tax is always calculated from the line net amount. If one tax has a the tax basis the line net amount and another tax you need to adjust the percentage to result in the correct amount.<br>
+Valid From/To is determined by the parent tax.]]></value>
  </row>
  <row id="53080" trl="N">
   <value column="Name" original="Tax ZIP">Tax ZIP</value>
@@ -5176,9 +5176,9 @@ Valid From/To is determined by the parent tax.</value>
   <value column="Help" original=""/>
  </row>
  <row id="53179" trl="N">
-  <value column="Name" original="BOM &amp; Formula">BOM &amp; Formula</value>
+  <value column="Name" original="BOM &amp; Formula"><![CDATA[BOM & Formula]]></value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="BOM &amp; Formula">BOM &amp; Formula</value>
+  <value column="Description" original="BOM &amp; Formula"><![CDATA[BOM & Formula]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="53180" trl="N">
@@ -5292,7 +5292,7 @@ Valid From/To is determined by the parent tax.</value>
  <row id="53216" trl="N">
   <value column="Name" original="Components Translation">Components Translation</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="BOM &amp; Formula Line Translation">BOM &amp; Formula Line Translation</value>
+  <value column="Description" original="BOM &amp; Formula Line Translation"><![CDATA[BOM & Formula Line Translation]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="53217" trl="N">

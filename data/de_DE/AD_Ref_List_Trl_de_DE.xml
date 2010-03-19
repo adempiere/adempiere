@@ -120,11 +120,11 @@
  </row>
  <row id="122" trl="Y">
   <value column="Name" original="Revenue">Umsatz</value>
-  <value column="Description" original="Revenue (P&amp;L) Account">Revenue (P&amp;L) Account</value>
+  <value column="Description" original="Revenue (P&amp;L) Account"><![CDATA[Revenue (P&L) Account]]></value>
  </row>
  <row id="123" trl="Y">
   <value column="Name" original="Expense">Aufwand</value>
-  <value column="Description" original="Expense (P&amp;L) Account">Expense (P&amp;L) Account</value>
+  <value column="Description" original="Expense (P&amp;L) Account"><![CDATA[Expense (P&L) Account]]></value>
  </row>
  <row id="124" trl="Y">
   <value column="Name" original="Owner's Equity">Owner's Equity</value>
@@ -132,7 +132,7 @@
  </row>
  <row id="125" trl="Y">
   <value column="Name" original="Memo">Memo</value>
-  <value column="Description" original="Memo (Non Balance Sheet nor P&amp;L) Account">Memo (Non Balance Sheet nor P&amp;L) Account</value>
+  <value column="Description" original="Memo (Non Balance Sheet nor P&amp;L) Account"><![CDATA[Memo (Non Balance Sheet nor P&L) Account]]></value>
  </row>
  <row id="126" trl="Y">
   <value column="Name" original="Natural">Natural</value>
@@ -260,15 +260,15 @@
  </row>
  <row id="157" trl="Y">
   <value column="Name" original="Local">Lokal</value>
-  <value column="Description" original="Local &lt;-">Lokal &lt;-</value>
+  <value column="Description" original="Local &lt;-"><![CDATA[Lokal <-]]></value>
  </row>
  <row id="159" trl="Y">
   <value column="Name" original="Merge">Merge</value>
-  <value column="Description" original="Merge &lt;--&gt;">Merge &lt;--&gt;</value>
+  <value column="Description" original="Merge &lt;--&gt;"><![CDATA[Merge <-->]]></value>
  </row>
  <row id="160" trl="Y">
   <value column="Name" original="Reference">Referenz</value>
-  <value column="Description" original="Reference -&gt;">Reference -&gt;</value>
+  <value column="Description" original="Reference -&gt;"><![CDATA[Reference ->]]></value>
  </row>
  <row id="164" trl="Y">
   <value column="Name" original="Drafted">Entwurf</value>
@@ -343,7 +343,7 @@
   <value column="Description" original="Reopen Document and Reverse automaticly generated documents; You need to Complete the transaction after the change. ">Beleg wieder eröffnen und automatisch erzeugte Belege rückgängig machen; Sie müssen den Vorgang nach der Änderung fertig stellen.</value>
  </row>
  <row id="189" trl="Y">
-  <value column="Name" original="&lt;None&gt;">&lt;Nichts&gt;</value>
+  <value column="Name" original="&lt;None&gt;"><![CDATA[<Nichts>]]></value>
   <value column="Description" original="No action">Keine Verarbeitung</value>
  </row>
  <row id="190" trl="Y">
@@ -623,7 +623,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="271" trl="Y">
-  <value column="Name" original="&lt;No Action&gt;">&lt;Keine Aktion&gt;</value>
+  <value column="Name" original="&lt;No Action&gt;"><![CDATA[<Keine Aktion>]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="272" trl="Y">
@@ -939,15 +939,15 @@
   <value column="Description" original=""/>
  </row>
  <row id="367" trl="Y">
-  <value column="Name" original="&gt;=">&gt;=</value>
+  <value column="Name" original="&gt;="><![CDATA[>=]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="368" trl="Y">
-  <value column="Name" original="&gt;">&gt;</value>
+  <value column="Name" original="&gt;"><![CDATA[>]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="369" trl="Y">
-  <value column="Name" original="&lt;">&lt;</value>
+  <value column="Name" original="&lt;"><![CDATA[<]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="370" trl="Y">
@@ -955,11 +955,11 @@
   <value column="Description" original=""/>
  </row>
  <row id="371" trl="Y">
-  <value column="Name" original="&lt;=">&lt;=</value>
+  <value column="Name" original="&lt;="><![CDATA[<=]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="372" trl="Y">
-  <value column="Name" original="|&lt;x&gt;|">|&lt;x&gt;|</value>
+  <value column="Name" original="|&lt;x&gt;|"><![CDATA[|<x>|]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="373" trl="Y">
@@ -1043,7 +1043,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="393" trl="Y">
-  <value column="Name" original="&gt; 0">&gt; 0</value>
+  <value column="Name" original="&gt; 0"><![CDATA[> 0]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="394" trl="Y">
@@ -1051,7 +1051,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="395" trl="Y">
-  <value column="Name" original="&lt; 0">&lt; 0</value>
+  <value column="Name" original="&lt; 0"><![CDATA[< 0]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="396" trl="Y">
@@ -2176,7 +2176,7 @@
  </row>
  <row id="691" trl="Y">
   <value column="Name" original="Wait Complete">Warten und fertigstellen</value>
-  <value column="Description" original="Wait Condition ok, Complete Docuement">Warten auf Bedingung erfüllt, fertigstellen</value>
+  <value column="Description" original="Wait Condition ok Complete Docuement">Warten auf Bedingung erfüllt, fertigstellen</value>
  </row>
  <row id="692" trl="Y">
   <value column="Name" original="Purchase Order">Bestellung</value>
@@ -2203,7 +2203,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="699" trl="Y">
-  <value column="Name" original="Receivables &amp; Payables">Receivables &amp; Payables</value>
+  <value column="Name" original="Receivables &amp; Payables"><![CDATA[Receivables & Payables]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="700" trl="Y">
@@ -2539,7 +2539,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="785" trl="Y">
-  <value column="Name" original="PO Commitment &amp; Reservation">PO Commitment &amp; Reservation</value>
+  <value column="Name" original="PO Commitment &amp; Reservation"><![CDATA[PO Commitment & Reservation]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="786" trl="Y">
@@ -2967,11 +2967,11 @@
   <value column="Description" original=""/>
  </row>
  <row id="894" trl="Y">
-  <value column="Name" original="Time&amp;Material max Comitted">Time&amp;Material max Comitted</value>
+  <value column="Name" original="Time&amp;Material max Comitted"><![CDATA[Time&Material max Comitted]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="895" trl="Y">
-  <value column="Name" original="Time&amp;Material">Time&amp;Material</value>
+  <value column="Name" original="Time&amp;Material"><![CDATA[Time&Material]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="896" trl="Y">
@@ -3355,7 +3355,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="53223" trl="Y">
-  <value column="Name" original="PO/SO Commitment &amp; Reservation">PO/SO Commitment &amp; Reservation</value>
+  <value column="Name" original="PO/SO Commitment &amp; Reservation"><![CDATA[PO/SO Commitment & Reservation]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="53224" trl="Y">
@@ -3519,7 +3519,7 @@
   <value column="Description" original=""/>
  </row>
  <row id="53271" trl="N">
-  <value column="Name" original="Replace &amp; Expire">Replace &amp; Expire</value>
+  <value column="Name" original="Replace &amp; Expire"><![CDATA[Replace & Expire]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="53272" trl="N">
@@ -4160,7 +4160,7 @@
  </row>
  <row id="53441" trl="N">
   <value column="Name" original="Natural Balance">Natural Balance</value>
-  <value column="Description" original="BY for P &amp; L account, BT for Balance Sheet account">BY for P &amp; L account, BT for Balance Sheet account</value>
+  <value column="Description" original="BY for P &amp; L account, BT for Balance Sheet account"><![CDATA[BY for P & L account, BT for Balance Sheet account]]></value>
  </row>
  <row id="53442" trl="N">
   <value column="Name" original="Material Receipt">Material Receipt</value>
@@ -4219,11 +4219,11 @@
   <value column="Description" original=""/>
  </row>
  <row id="53462" trl="N">
-  <value column="Name" original="&gt;=">&gt;=</value>
+  <value column="Name" original="&gt;="><![CDATA[>=]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="53463" trl="N">
-  <value column="Name" original="&lt;=">&lt;=</value>
+  <value column="Name" original="&lt;="><![CDATA[<=]]></value>
   <value column="Description" original=""/>
  </row>
  <row id="53464" trl="N">

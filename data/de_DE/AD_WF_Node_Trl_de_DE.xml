@@ -109,13 +109,13 @@ Review and change the GL and Default accounts. The actual accounts used in trans
   <value column="Help" original=""/>
  </row>
  <row id="50002" trl="N">
-  <value column="Name" original="Bill of Material &amp; Formula Setup">Bill of Material &amp; Formula Setup</value>
+  <value column="Name" original="Bill of Material &amp; Formula Setup"><![CDATA[Bill of Material & Formula Setup]]></value>
   <value column="Description" original="Setup Manufacturing Management">Setup Manufacturing Management</value>
   <value column="Help" original=""/>
  </row>
  <row id="50003" trl="N">
-  <value column="Name" original="Warehouse &amp; Locators">Warehouse &amp; Locators</value>
-  <value column="Description" original="Warehouse &amp; Locators">Warehouse &amp; Locators</value>
+  <value column="Name" original="Warehouse &amp; Locators"><![CDATA[Warehouse & Locators]]></value>
+  <value column="Description" original="Warehouse &amp; Locators"><![CDATA[Warehouse & Locators]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="50004" trl="N">
@@ -259,18 +259,18 @@ Review and change the GL and Default accounts. The actual accounts used in trans
   <value column="Help" original=""/>
  </row>
  <row id="50049" trl="N">
-  <value column="Name" original="Multi Level BOM &amp; Formula Detail">Multi Level BOM &amp; Formula Detail</value>
+  <value column="Name" original="Multi Level BOM &amp; Formula Detail"><![CDATA[Multi Level BOM & Formula Detail]]></value>
   <value column="Description" original="Shows in two different panels the parent-component relationship for the product entered in the Product field.">Shows in two different panels the parent-component relationship for the product entered in the Product field.</value>
   <value column="Help" original=""/>
  </row>
  <row id="50050" trl="N">
-  <value column="Name" original="BOM &amp; Formula Info">BOM &amp; Formula Info</value>
+  <value column="Name" original="BOM &amp; Formula Info"><![CDATA[BOM & Formula Info]]></value>
   <value column="Description" original="Shows in two different panels the parent-component relationship for the product entered in the Product field.">Shows in two different panels the parent-component relationship for the product entered in the Product field.</value>
   <value column="Help" original=""/>
  </row>
  <row id="50051" trl="N">
-  <value column="Name" original="Bill of Materials &amp; Formula">Bill of Materials &amp; Formula</value>
-  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula ">Maintain Product Bill of Materials &amp; Formula </value>
+  <value column="Name" original="Bill of Materials &amp; Formula"><![CDATA[Bill of Materials & Formula]]></value>
+  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula "><![CDATA[Maintain Product Bill of Materials & Formula ]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="50052" trl="N">
@@ -299,13 +299,13 @@ Review and change the GL and Default accounts. The actual accounts used in trans
   <value column="Help" original=""/>
  </row>
  <row id="50057" trl="N">
-  <value column="Name" original="Print &amp; Release Order">Print &amp; Release Order</value>
-  <value column="Description" original="Print &amp; Release Order">Print &amp; Release Order</value>
+  <value column="Name" original="Print &amp; Release Order"><![CDATA[Print & Release Order]]></value>
+  <value column="Description" original="Print &amp; Release Order"><![CDATA[Print & Release Order]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="50058" trl="N">
-  <value column="Name" original="Order Receipt &amp; Issue">Order Receipt &amp; Issue</value>
-  <value column="Description" original="Order Receipt &amp; Issue">Order Receipt &amp; Issue</value>
+  <value column="Name" original="Order Receipt &amp; Issue"><![CDATA[Order Receipt & Issue]]></value>
+  <value column="Description" original="Order Receipt &amp; Issue"><![CDATA[Order Receipt & Issue]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="50059" trl="N">

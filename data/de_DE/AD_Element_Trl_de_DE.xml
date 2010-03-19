@@ -275,7 +275,7 @@
  <row id="134" trl="Y">
   <value column="Name" original="Organization Tree">Primärbaum Organisation</value>
   <value column="PrintName" original="Organization Tree">Primärbaum Organisation</value>
-  <value column="Description" original="Tree to determine organizational hierarchy">Baum zur Festlegung der Organisations-Hierarchie</value>
+  <value column="Description" original="Trees are used for (financial) reporting and security access (via role)">Baum zur Festlegung der Organisations-Hierarchie</value>
   <value column="Help" original="Trees are used for (finanial) reporting and security access (via role)">Bäume werden für das Erstellen von (Finanz-) Berichten und die Zugriffssteuerung (über die Rolle) verwendet.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -285,7 +285,7 @@
  <row id="135" trl="Y">
   <value column="Name" original="Product Tree">Primärbaum Produkt</value>
   <value column="PrintName" original="Product Tree">Primärbaum Produkt</value>
-  <value column="Description" original="Tree to determine product hierarchy">Baum zur Festlegung der Produkt-Hierarchie</value>
+  <value column="Description" original="Trees are used for (financial) reporting">Baum zur Festlegung der Produkt-Hierarchie</value>
   <value column="Help" original="Trees are used for (finanial) reporting">Bäume werden für das Erstellen von (Finanz-) Berichten verwendet</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -295,7 +295,7 @@
  <row id="136" trl="Y">
   <value column="Name" original="Project Tree">Primärbaum Projekt</value>
   <value column="PrintName" original="Project Tree">Primärbaum Projekt</value>
-  <value column="Description" original="Tree to determine project hierarchy">Baum zur Festlegung der Projekt-Hierarchie</value>
+  <value column="Description" original="Trees are used for (financial) reporting">Baum zur Festlegung der Projekt-Hierarchie</value>
   <value column="Help" original="Trees are used for (finanial) reporting">Bäume werden für das Erstellen von (Finanz-) Berichten verwendet</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -305,7 +305,7 @@
  <row id="137" trl="Y">
   <value column="Name" original="Sales Region Tree">Primärbaum Vertriebsgebiet</value>
   <value column="PrintName" original="Sales Region Tree">Primärbaum Vertriebsgebiet</value>
-  <value column="Description" original="Tree to determine sales regional hierarchy">Baum zur Festlegung der Hierarchie regionaler Vertriebsgebiete</value>
+  <value column="Description" original="Trees are used for (financial) reporting">Baum zur Festlegung der Hierarchie regionaler Vertriebsgebiete</value>
   <value column="Help" original="Trees are used for (finanial) reporting">Bäume werden für das Erstellen von (Finanz-) Berichten verwendet</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -1046,7 +1046,7 @@
   <value column="Name" original="Costing Method">Kostenrechnungsmethode</value>
   <value column="PrintName" original="Costing Method">Kostenrechnungsmethode</value>
   <value column="Description" original="Indicates how Costs will be calculated">Gibt an, wie die Kosten berechnet werden</value>
-  <value column="Help" original="The Costing Method indicates how costs will be calculated (Standard, Average, Lifo, FoFo).  The default costing method is defined on accounting schema level and can be optionally overwritten in the product category.  The costing method cannot conflict with the Material Movement Policy (defined on Product Category).">"Kostenrechnungsmethode" gibt an, wie die Kosten berechnet werden (Standard, Durchschnitt, LiFo, FiFo). Die Standardmethode ist auf Ebene des Kontenrahmens definiert und kann optional in der Produktkategorie überschrieben werden. Die Methode der Kostenrechnung kann nicht zur Art der Materialbewegung (definiert in der Produktkategorie) im Widerspruch stehen.</value>
+  <value column="Help" original="The Costing Method indicates how costs will be calculated (Standard, Average, Lifo, FiFo).  The default costing method is defined on accounting schema level and can be optionally overwritten in the product category.  The costing method cannot conflict with the Material Movement Policy (defined on Product Category).">"Kostenrechnungsmethode" gibt an, wie die Kosten berechnet werden (Standard, Durchschnitt, LiFo, FiFo). Die Standardmethode ist auf Ebene des Kontenrahmens definiert und kann optional in der Produktkategorie überschrieben werden. Die Methode der Kostenrechnung kann nicht zur Art der Materialbewegung (definiert in der Produktkategorie) im Widerspruch stehen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -1153,10 +1153,10 @@
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="260" trl="Y">
-  <value column="Name" original="ILN">D-U-N-S</value>
-  <value column="PrintName" original="ILN">D-U-N-S</value>
-  <value column="Description" original="International Location Number">Dun &amp; Bradstreet - Nummer - Für EDI verwendet - Details unter www.dnb.com/dunsno/list.htm</value>
-  <value column="Help" original="">Für EDI verwendet - Details unter www.dnb.com/dunsno/list.htm</value>
+  <value column="Name" original="D-U-N-S">D-U-N-S</value>
+  <value column="PrintName" original="D-U-N-S">D-U-N-S</value>
+  <value column="Description" original="Dun &amp; Bradstreet Number"><![CDATA[Dun & Bradstreet - Nummer - Für EDI verwendet - Details unter www.dnb.com/dunsno/list.htm]]></value>
+  <value column="Help" original="Used for EDI - For details see   www.dnb.com/dunsno/list.htm">Für EDI verwendet - Details unter www.dnb.com/dunsno/list.htm</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -1316,7 +1316,7 @@
   <value column="Name" original="Display Logic">Anzeigelogik</value>
   <value column="PrintName" original="Display Logic">Anzeigelogik</value>
   <value column="Description" original="If the Field is displayed, the result determines if the field is actually displayed">Wenn es ein anzuzeigendes Feld ist, bestimmt das Ergebnis, ob dieses Feld tatsächlich angezeigt wird.</value>
-  <value column="Help" original="format := {expression} [{logic} {expression}]&lt;br&gt; &#10;expression := @{context}@{operand}{value} or @{context}@{operand}{value}&lt;br&gt; &#10;logic := {|}|{&amp;}&lt;br&gt;&#10;context := any global or window context &lt;br&gt;&#10;value := strings or numbers&lt;br&gt;&#10;logic operators&#9;:= AND or OR with the previous result from left to right &lt;br&gt;&#10;operand := eq{=}, gt{&amp;gt;}, le{&amp;lt;}, not{~^!} &lt;br&gt;&#10;Examples: &lt;br&gt;&#10;@AD_Table_ID@=14 | @Language@!GERGER &lt;br&gt;&#10;@PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@&lt;br&gt;&#10;@Name@&gt;J&lt;br&gt;&#10;Strings may be in single quotes (optional)&#10;"><![CDATA[Format := {expression} [{logic} {expression}]<br>
+  <value column="Help" original="format := {expression} [{logic} {expression}]&lt;br&gt; &#10;expression := @{context}@{operand}{value} or @{context}@{operand}{value}&lt;br&gt; &#10;logic := {|}|{&amp;}&lt;br&gt;&#10;context := any global or window context &lt;br&gt;&#10;value := strings or numbers&lt;br&gt;&#10;logic operators&#9;:= AND or OR with the previous result from left to right &lt;br&gt;&#10;operand := eq{=}, gt{&amp;gt;}, le{&amp;lt;}, not{~^!} &lt;br&gt;&#10;Examples: &lt;br&gt;&#10;@AD_Table_ID@=14 | @Language@!GERGER &lt;br&gt;&#10;@PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@&lt;br&gt;&#10;@Name@&gt;J&lt;br&gt;&#10;Strings may be in single quotes (optional)"><![CDATA[Format := {expression} [{logic} {expression}]<br>
 expression := @{context}@{operand}{value} oder @{context}@{operand}{value}<br>
 logic := {|}|{&amp;}<br>
 context := jeglicher globaler oder Fenster-Kontext<br>
@@ -1448,7 +1448,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="Phone Format">Telefonnummern-Format</value>
   <value column="PrintName" original="Phone Format">Telefonnummern-Format</value>
   <value column="Description" original="Format of the phone; Can contain fixed format elements, Variables: &quot;_lLoOaAcCa09&quot;">Format der Telefonnummer; Kann feste Formatelemente enthalten, Variablen: "_lLoOaAcCa09"</value>
-  <value column="Help" original="&lt;B&gt;Validation elements:&lt;/B&gt;&#10; &#9;(Space) any character&#10;_&#9;Space (fixed character)&#10;l&#9;any Letter a..Z NO space&#10;L&#9;any Letter a..Z NO space converted to upper case&#10;o&#9;any Letter a..Z or space&#10;O&#9;any Letter a..Z or space converted to upper case&#10;a&#9;any Letters &amp; Digits NO space&#10;A&#9;any Letters &amp; Digits NO space converted to upper case&#10;c&#9;any Letters &amp; Digits or space&#10;C&#9;any Letters &amp; Digits or space converted to upper case&#10;0&#9;Digits 0..9 NO space&#10;9&#9;Digits 0..9 or space&#10;&#10;Example of format &quot;(000)_000-0000&quot;">&lt;B&gt;Validierungselemente:&lt;/B&gt; (Leerzeichen) jedes Zeichen _ Leerzeichen (festes Zeichen) l jeder Buchstabe a..Z OHNE Leerzeichen L jeder Buchstabe a..Z OHNE Leerzeichen umgewandelt in Großbuchstaben o jeder Buchstabe a..Z oder Leerzeichen O jeder Buchstabe a..Z oder Leerzeichen umgewandelt in Großbuchstaben a jeder Buchstabe &amp; alle Ziffern OHNE Leerzeichen A jeder Buchstabe &amp; alle Ziffern OHNE Leerzeichen umgewandelt in Großbuchstaben c jeder Buchstabe &amp; alle Ziffern oder Leerzeichen C jeder Buchstabe &amp; alle Ziffern oder Leerzeichen umgewandelt in Großbuchstaben 0 Ziffern 0..9 OHNE Leerzeichen 9 Ziffern 0..9 oder Leerzeichen Beispiel eines Formats "(000)_000-0000"</value>
+  <value column="Help" original="&lt;B&gt;Validation elements:&lt;/B&gt;&#10; &#9;(Space) any character&#10;_&#9;Space (fixed character)&#10;l&#9;any Letter a..Z NO space&#10;L&#9;any Letter a..Z NO space converted to upper case&#10;o&#9;any Letter a..Z or space&#10;O&#9;any Letter a..Z or space converted to upper case&#10;a&#9;any Letters &amp; Digits NO space&#10;A&#9;any Letters &amp; Digits NO space converted to upper case&#10;c&#9;any Letters &amp; Digits or space&#10;C&#9;any Letters &amp; Digits or space converted to upper case&#10;0&#9;Digits 0..9 NO space&#10;9&#9;Digits 0..9 or space&#10;&#10;Example of format &quot;(000)_000-0000&quot;"><![CDATA[<B>Validierungselemente:</B> (Leerzeichen) jedes Zeichen _ Leerzeichen (festes Zeichen) l jeder Buchstabe a..Z OHNE Leerzeichen L jeder Buchstabe a..Z OHNE Leerzeichen umgewandelt in Großbuchstaben o jeder Buchstabe a..Z oder Leerzeichen O jeder Buchstabe a..Z oder Leerzeichen umgewandelt in Großbuchstaben a jeder Buchstabe & alle Ziffern OHNE Leerzeichen A jeder Buchstabe & alle Ziffern OHNE Leerzeichen umgewandelt in Großbuchstaben c jeder Buchstabe & alle Ziffern oder Leerzeichen C jeder Buchstabe & alle Ziffern oder Leerzeichen umgewandelt in Großbuchstaben 0 Ziffern 0..9 OHNE Leerzeichen 9 Ziffern 0..9 oder Leerzeichen Beispiel eines Formats "(000)_000-0000"]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -1458,7 +1458,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="Postal Code Format">PLZ Format</value>
   <value column="PrintName" original="Postal Code Format">PLZ Format</value>
   <value column="Description" original="Format of the postal code; Can contain fixed format elements, Variables: &quot;_lLoOaAcCa09&quot;">Format der Postleitzahl; Kann feste Formatelemente enthalten, Variablen: "_lLoOaAcCa09"</value>
-  <value column="Help" original="&lt;B&gt;Validation elements:&lt;/B&gt;&#10; &#9;(Space) any character&#10;_&#9;Space (fixed character)&#10;l&#9;any Letter a..Z NO space&#10;L&#9;any Letter a..Z NO space converted to upper case&#10;o&#9;any Letter a..Z or space&#10;O&#9;any Letter a..Z or space converted to upper case&#10;a&#9;any Letters &amp; Digits NO space&#10;A&#9;any Letters &amp; Digits NO space converted to upper case&#10;c&#9;any Letters &amp; Digits or space&#10;C&#9;any Letters &amp; Digits or space converted to upper case&#10;0&#9;Digits 0..9 NO space&#10;9&#9;Digits 0..9 or space&#10;&#10;Example of format &quot;(000)_000-0000&quot;">&lt;B&gt;Validierungselemente:&lt;/B&gt; (Leerzeichen) jedes Zeichen _ Leerzeichen (festes Zeichen) l jeder Buchstabe a..Z OHNE Leerzeichen L jeder Buchstabe a..Z OHNE Leerzeichen umgewandelt in Großbuchstaben o jeder Buchstabe a..Z oder Leerzeichen O jeder Buchstabe a..Z oder Leerzeichen umgewandelt in Großbuchstaben a jeder Buchstabe &amp; alle Ziffern OHNE Leerzeichen A jeder Buchstabe &amp; alle Ziffern OHNE Leerzeichen umgewandelt in Großbuchstaben c jeder Buchstabe &amp; alle Ziffern oder Leerzeichen C jeder Buchstabe &amp; alle Ziffern oder Leerzeichen umgewandelt in Großbuchstaben 0 Ziffern 0..9 OHNE Leerzeichen 9 Ziffern 0..9 oder Leerzeichen Beispiel eines Formats "(000)_000-0000"</value>
+  <value column="Help" original="&lt;B&gt;Validation elements:&lt;/B&gt;&#10; &#9;(Space) any character&#10;_&#9;Space (fixed character)&#10;l&#9;any Letter a..Z NO space&#10;L&#9;any Letter a..Z NO space converted to upper case&#10;o&#9;any Letter a..Z or space&#10;O&#9;any Letter a..Z or space converted to upper case&#10;a&#9;any Letters &amp; Digits NO space&#10;A&#9;any Letters &amp; Digits NO space converted to upper case&#10;c&#9;any Letters &amp; Digits or space&#10;C&#9;any Letters &amp; Digits or space converted to upper case&#10;0&#9;Digits 0..9 NO space&#10;9&#9;Digits 0..9 or space&#10;&#10;Example of format &quot;(000)_000-0000&quot;"><![CDATA[<B>Validierungselemente:</B> (Leerzeichen) jedes Zeichen _ Leerzeichen (festes Zeichen) l jeder Buchstabe a..Z OHNE Leerzeichen L jeder Buchstabe a..Z OHNE Leerzeichen umgewandelt in Großbuchstaben o jeder Buchstabe a..Z oder Leerzeichen O jeder Buchstabe a..Z oder Leerzeichen umgewandelt in Großbuchstaben a jeder Buchstabe & alle Ziffern OHNE Leerzeichen A jeder Buchstabe & alle Ziffern OHNE Leerzeichen umgewandelt in Großbuchstaben c jeder Buchstabe & alle Ziffern oder Leerzeichen C jeder Buchstabe & alle Ziffern oder Leerzeichen umgewandelt in Großbuchstaben 0 Ziffern 0..9 OHNE Leerzeichen 9 Ziffern 0..9 oder Leerzeichen Beispiel eines Formats "(000)_000-0000"]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -1468,7 +1468,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="Additional Postal Format">Format PLZ-Zusatz</value>
   <value column="PrintName" original="Additional Postal Format">Format PLZ-Zusatz</value>
   <value column="Description" original="Format of the value; Can contain fixed format elements, Variables: &quot;_lLoOaAcCa09&quot;">Format des Wertes; Kann feste Formatelemente enthalten, Variablen: "_lLoOaAcCa09"</value>
-  <value column="Help" original="&lt;B&gt;Validation elements:&lt;/B&gt;&#10; &#9;(Space) any character&#10;_&#9;Space (fixed character)&#10;l&#9;any Letter a..Z NO space&#10;L&#9;any Letter a..Z NO space converted to upper case&#10;o&#9;any Letter a..Z or space&#10;O&#9;any Letter a..Z or space converted to upper case&#10;a&#9;any Letters &amp; Digits NO space&#10;A&#9;any Letters &amp; Digits NO space converted to upper case&#10;c&#9;any Letters &amp; Digits or space&#10;C&#9;any Letters &amp; Digits or space converted to upper case&#10;0&#9;Digits 0..9 NO space&#10;9&#9;Digits 0..9 or space&#10;&#10;Example of format &quot;(000)_000-0000&quot;">&lt;B&gt;Validierungselemente:&lt;/B&gt; (Leerzeichen) jedes Zeichen _ Leerzeichen (festes Zeichen) l jeder Buchstabe a..Z OHNE Leerzeichen L jeder Buchstabe a..Z OHNE Leerzeichen umgewandelt in Großbuchstaben o jeder Buchstabe a..Z oder Leerzeichen O jeder Buchstabe a..Z oder Leerzeichen umgewandelt in Großbuchstaben a jeder Buchstabe &amp; alle Ziffern OHNE Leerzeichen A jeder Buchstabe &amp; alle Ziffern OHNE Leerzeichen umgewandelt in Großbuchstaben c jeder Buchstabe &amp; alle Ziffern oder Leerzeichen C jeder Buchstabe &amp; alle Ziffern oder Leerzeichen umgewandelt in Großbuchstaben 0 Ziffern 0..9 OHNE Leerzeichen 9 Ziffern 0..9 oder Leerzeichen Beispiel eines Formats "(000)_000-0000"</value>
+  <value column="Help" original="&lt;B&gt;Validation elements:&lt;/B&gt;&#10; &#9;(Space) any character&#10;_&#9;Space (fixed character)&#10;l&#9;any Letter a..Z NO space&#10;L&#9;any Letter a..Z NO space converted to upper case&#10;o&#9;any Letter a..Z or space&#10;O&#9;any Letter a..Z or space converted to upper case&#10;a&#9;any Letters &amp; Digits NO space&#10;A&#9;any Letters &amp; Digits NO space converted to upper case&#10;c&#9;any Letters &amp; Digits or space&#10;C&#9;any Letters &amp; Digits or space converted to upper case&#10;0&#9;Digits 0..9 NO space&#10;9&#9;Digits 0..9 or space&#10;&#10;Example of format &quot;(000)_000-0000&quot;"><![CDATA[<B>Validierungselemente:</B> (Leerzeichen) jedes Zeichen _ Leerzeichen (festes Zeichen) l jeder Buchstabe a..Z OHNE Leerzeichen L jeder Buchstabe a..Z OHNE Leerzeichen umgewandelt in Großbuchstaben o jeder Buchstabe a..Z oder Leerzeichen O jeder Buchstabe a..Z oder Leerzeichen umgewandelt in Großbuchstaben a jeder Buchstabe & alle Ziffern OHNE Leerzeichen A jeder Buchstabe & alle Ziffern OHNE Leerzeichen umgewandelt in Großbuchstaben c jeder Buchstabe & alle Ziffern oder Leerzeichen C jeder Buchstabe & alle Ziffern oder Leerzeichen umgewandelt in Großbuchstaben 0 Ziffern 0..9 OHNE Leerzeichen 9 Ziffern 0..9 oder Leerzeichen Beispiel eines Formats "(000)_000-0000"]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -1928,7 +1928,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="Encrypted">Verschlüsselt</value>
   <value column="PrintName" original="Encrypted">Verschlüsselt</value>
   <value column="Description" original="Display or Storage is encrypted">Anzeige oder Speicherung sind verschlüsselt</value>
-  <value column="Help" original="Display encryption (in Window/Tab/Field) - all characters are displayed as '*' - in the database it is stored in clear text. You will not be able to report on these columns.&lt;br&gt;&#10;Data storage encryption (in Table/Column) - data is stored encrypted in the database (dangerous!) and you will not be able to report on those columns. Independent from Display encryption.">Anzeigeverschlüsselung (in Fenster/Register/Feld) - alle Zeichen werden als '*' angezeigt - in der Datenbank wird der Inhalt unverschlüsselt gespeichert. Diese Spalten können Sie in Berichten nicht verwenden.&lt;br&gt; Speicherverschlüsselung (in Tabelle/Spalte) - Daten werden in verschlüsselter Form in der Datenbank gespeichert (gefährlich!) und Sie können diese Spalten nicht in Berichten verwenden. Unabhängig von Anzeigeverschlüsselung.</value>
+  <value column="Help" original="Display encryption (in Window/Tab/Field) - all characters are displayed as '*' - in the database it is stored in clear text. You will not be able to report on these columns.&lt;br&gt;&#10;Data storage encryption (in Table/Column) - data is stored encrypted in the database (dangerous!) and you will not be able to report on those columns. Independent from Display encryption."><![CDATA[Anzeigeverschlüsselung (in Fenster/Register/Feld) - alle Zeichen werden als '*' angezeigt - in der Datenbank wird der Inhalt unverschlüsselt gespeichert. Diese Spalten können Sie in Berichten nicht verwenden.<br> Speicherverschlüsselung (in Tabelle/Spalte) - Daten werden in verschlüsselter Form in der Datenbank gespeichert (gefährlich!) und Sie können diese Spalten nicht in Berichten verwenden. Unabhängig von Anzeigeverschlüsselung.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -1998,7 +1998,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="Accounting Tab">Buchführungs-Register</value>
   <value column="PrintName" original="Accounting Tab">Buchführungs-Register</value>
   <value column="Description" original="This Tab contains accounting information">Dieses Register enthält Buchführungs-Informationen</value>
-  <value column="Help" original="The Accounting Tab checkbox indicates if this window contains accounting information. To display accounting information, enable this in Tools&gt;Preference and Role.">"Buchführungs-Register" zeigt an, dass dieses Register Buchführungs-Informationen enthält. Um Buchführungs-Informationen anzuzeigen, aktivieren Sie dies in "Werkzeuge-&gt;Einstellungen" und in der Rolle.</value>
+  <value column="Help" original="The Accounting Tab checkbox indicates if this window contains accounting information. To display accounting information, enable this in Tools&gt;Preference and Role."><![CDATA["Buchführungs-Register" zeigt an, dass dieses Register Buchführungs-Informationen enthält. Um Buchführungs-Informationen anzuzeigen, aktivieren Sie dies in "Werkzeuge->Einstellungen" und in der Rolle.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -2148,9 +2148,9 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="Sales Representative">Vertriebsbeauftragter</value>
   <value column="PrintName" original="Sales Rep">Vertriebsbeauftragter</value>
   <value column="Description" original="Indicates if  the business partner is a sales representative or company agent">Indicates if  the business partner is a sales representative or company agent</value>
-  <value column="Help" original="The Sales Rep checkbox indicates if this business partner is a sales representative. A sales representative may also be an emplyee, but does not need to be.">The Sales Rep checkbox indicates if this business partner is a sales representative. A sales representative may also be an emplyee, but does not need to be.</value>
+  <value column="Help" original="The Sales Rep checkbox indicates if this business partner is a sales representative. A sales representative may also be an employee, but does not need to be.">The Sales Rep checkbox indicates if this business partner is a sales representative. A sales representative may also be an emplyee, but does not need to be.</value>
   <value column="PO_Description" original="Business Partner responsible for documents">Für die Dokumente verantwortlicher Geschäftspartner</value>
-  <value column="PO_Help" original="The Sales Rep checkbox indicates if this business partner is a company agent. A company agent may also be an emplyee, but does not need to be.">The Sales Rep checkbox indicates if this business partner is a company agent. A company agent may also be an emplyee, but does not need to be.</value>
+  <value column="PO_Help" original="The Sales Rep checkbox indicates if this business partner is a company agent. A company agent may also be an employee, but does not need to be.">The Sales Rep checkbox indicates if this business partner is a company agent. A company agent may also be an emplyee, but does not need to be.</value>
   <value column="PO_Name" original="Company Agent">Sachbearbeiter</value>
   <value column="PO_PrintName" original="Company Agent">Sachbearbeiter</value>
  </row>
@@ -2258,7 +2258,7 @@ Ist für den Belegtyp eines Belegs kein Nummernkreis definiert, bleibt das Feld 
   <value column="Name" original="TranslationTab">Übersetzungsregister</value>
   <value column="PrintName" original="TranslationTab">Übersetzungsregister</value>
   <value column="Description" original="This Tab contains translation information">Dieses Register enthält die Übersetzungsinformationen</value>
-  <value column="Help" original="The Translation Tab checkbox indicate if a tab contains translation information. To display translation information, enable this in Tools&gt;Preference.">The Translation Tab checkbox indicate if a tab contains translation information. To display translation information, enable this in Tools&gt;Preference.</value>
+  <value column="Help" original="The Translation Tab checkbox indicate if a tab contains translation information. To display translation information, enable this in Tools&gt;Preference."><![CDATA[The Translation Tab checkbox indicate if a tab contains translation information. To display translation information, enable this in Tools>Preference.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3051,7 +3051,7 @@ Falls eine benutzerdefinierte Lagerhaltungsstrategie gewählt wird, muss eine Kl
   <value column="Name" original="Credit Limit">Kreditlimit</value>
   <value column="PrintName" original="Credit Limit">Kreditlimit</value>
   <value column="Description" original="Total outstanding invoice amounts allowed">Höchstsumme für Aussenstände</value>
-  <value column="Help" original="The Credit Limit indicates the total amount allowed 'on account' in primary accounting currency.  If the Credit Limit is 0, no ckeck is performed.  Credit Management is based on the Total Open Amount, which includes Vendor activities.">The Credit Limit indicates the total amount allowed 'on account' in primary accounting currency.  If the Credit Limit is 0, no ckeck is performed.  Credit Management is based on the Total Open Amount, which includes Vendor activities.</value>
+  <value column="Help" original="The Credit Limit indicates the total amount allowed &quot;on account&quot; in primary accounting currency.  If the Credit Limit is 0, no check is performed.  Credit Management is based on the Total Open Amount, which includes Vendor activities.">The Credit Limit indicates the total amount allowed 'on account' in primary accounting currency.  If the Credit Limit is 0, no ckeck is performed.  Credit Management is based on the Total Open Amount, which includes Vendor activities.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3572,7 +3572,7 @@ Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending b
   <value column="Name" original="Value Format">Value Format</value>
   <value column="PrintName" original="Value Format">Value Format</value>
   <value column="Description" original="Format of the value; Can contain fixed format elements, Variables: &quot;_lLoOaAcCa09&quot;">Format des Wertes; Kann feste Formatelemente enthalten, Variablen: "_lLoOaAcCa09"</value>
-  <value column="Help" original="&lt;B&gt;Validation elements:&lt;/B&gt;&#10; &#9;(Space) any character&#10;_&#9;Space (fixed character)&#10;l&#9;any Letter a..Z NO space&#10;L&#9;any Letter a..Z NO space converted to upper case&#10;o&#9;any Letter a..Z or space&#10;O&#9;any Letter a..Z or space converted to upper case&#10;a&#9;any Letters &amp; Digits NO space&#10;A&#9;any Letters &amp; Digits NO space converted to upper case&#10;c&#9;any Letters &amp; Digits or space&#10;C&#9;any Letters &amp; Digits or space converted to upper case&#10;0&#9;Digits 0..9 NO space&#10;9&#9;Digits 0..9 or space&#10;&#10;Example of format &quot;(000)_000-0000&quot;">&lt;B&gt;Validierungselemente:&lt;/B&gt; (Leerzeichen) jedes Zeichen _ Leerzeichen (festes Zeichen) l jeder Buchstabe a..Z OHNE Leerzeichen L jeder Buchstabe a..Z OHNE Leerzeichen umgewandelt in Großbuchstaben o jeder Buchstabe a..Z oder Leerzeichen O jeder Buchstabe a..Z oder Leerzeichen umgewandelt in Großbuchstaben a jeder Buchstabe &amp; alle Ziffern OHNE Leerzeichen A jeder Buchstabe &amp; alle Ziffern OHNE Leerzeichen umgewandelt in Großbuchstaben c jeder Buchstabe &amp; alle Ziffern oder Leerzeichen C jeder Buchstabe &amp; alle Ziffern oder Leerzeichen umgewandelt in Großbuchstaben 0 Ziffern 0..9 OHNE Leerzeichen 9 Ziffern 0..9 oder Leerzeichen Beispiel eines Formats "(000)_000-0000"</value>
+  <value column="Help" original="&lt;B&gt;Validation elements:&lt;/B&gt;&#10; &#9;(Space) any character&#10;_&#9;Space (fixed character)&#10;l&#9;any Letter a..Z NO space&#10;L&#9;any Letter a..Z NO space converted to upper case&#10;o&#9;any Letter a..Z or space&#10;O&#9;any Letter a..Z or space converted to upper case&#10;a&#9;any Letters &amp; Digits NO space&#10;A&#9;any Letters &amp; Digits NO space converted to upper case&#10;c&#9;any Letters &amp; Digits or space&#10;C&#9;any Letters &amp; Digits or space converted to upper case&#10;0&#9;Digits 0..9 NO space&#10;9&#9;Digits 0..9 or space&#10;&#10;Example of format &quot;(000)_000-0000&quot;"><![CDATA[<B>Validierungselemente:</B> (Leerzeichen) jedes Zeichen _ Leerzeichen (festes Zeichen) l jeder Buchstabe a..Z OHNE Leerzeichen L jeder Buchstabe a..Z OHNE Leerzeichen umgewandelt in Großbuchstaben o jeder Buchstabe a..Z oder Leerzeichen O jeder Buchstabe a..Z oder Leerzeichen umgewandelt in Großbuchstaben a jeder Buchstabe & alle Ziffern OHNE Leerzeichen A jeder Buchstabe & alle Ziffern OHNE Leerzeichen umgewandelt in Großbuchstaben c jeder Buchstabe & alle Ziffern oder Leerzeichen C jeder Buchstabe & alle Ziffern oder Leerzeichen umgewandelt in Großbuchstaben 0 Ziffern 0..9 OHNE Leerzeichen 9 Ziffern 0..9 oder Leerzeichen Beispiel eines Formats "(000)_000-0000"]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -3958,7 +3958,7 @@ Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fe
   <value column="Name" original="Enforce price limit">Preisuntergrenze erzwingen</value>
   <value column="PrintName" original="Enforce Price Limit">Preisuntergrenze erzwingen</value>
   <value column="Description" original="Do not allow prices below the limit price">Wenn aktiviert, kann kein Preis unterhalb des Limitpreises gesetzt werden.</value>
-  <value column="Help" original="The Enforce Price Limit check box indicates that prices cannot be below the limit price in Orders and Invoices.  Ths can be overwritten, if the role allows this.">The Enforce Price Limit check box indicates that prices cannot be below the limit price in Orders and Invoices.  Ths can be overwritten, if the role allows this.</value>
+  <value column="Help" original="The Enforce Price Limit check box indicates that prices cannot be below the limit price in Orders and Invoices.  This can be overwritten, if the role allows this.">The Enforce Price Limit check box indicates that prices cannot be below the limit price in Orders and Invoices.  Ths can be overwritten, if the role allows this.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -4398,7 +4398,7 @@ Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fe
   <value column="Name" original="Swift code">SWIFT-Code</value>
   <value column="PrintName" original="Swift code">SWIFT-Code</value>
   <value column="Description" original="Swift Code or BIC">SWIFT-Code bzw. BIC</value>
-  <value column="Help" original="The Swift Code (Society of Worldwide Interbank Financial Telecommunications) or BIC (Bank Identifier Code) is an identifier of a Bank. The first 4 characters are the bank code, followed by the 2 character country code, the two character location code and optional 3 character branch code. For details see http://www.swift.com/biconline/index.cfm">Der SWIFT-Code (Society of Worldwide Interbank Financial Telecommunications) oder BIC (Bank Identifier Code) ist eine Art internationale Bankleitzahl. Jeder SWIFT-Teilnehmer hat eine eindeutige Kennung. Diese hat 8 oder 11 Stellen und ist wie folgt aufgebaut: &lt;br&gt;bank code - 4 Stellen Alphazeichen frei gewählt (Bundesbank z.B. MARK) &lt;br&gt;country code - 2 Stellen Alphazeichen, ISO-Code des Landes (in Deutschland also DE) &lt;br&gt;location code - 2 Stellen alphanumerisch zur Ortsangabe (z.B. FF für Frankfurt) &lt;br&gt;branch code - wahlweise 3 Stellen alphanumerisch zur Bezeichnung von Filialen. Weitere Details unter http://www.swift.com/biconline/index.cfm</value>
+  <value column="Help" original="The Swift Code (Society of Worldwide Interbank Financial Telecommunications) or BIC (Bank Identifier Code) is an identifier of a Bank. The first 4 characters are the bank code, followed by the 2 character country code, the two character location code and optional 3 character branch code. For details see http://www.swift.com/biconline/index.cfm"><![CDATA[Der SWIFT-Code (Society of Worldwide Interbank Financial Telecommunications) oder BIC (Bank Identifier Code) ist eine Art internationale Bankleitzahl. Jeder SWIFT-Teilnehmer hat eine eindeutige Kennung. Diese hat 8 oder 11 Stellen und ist wie folgt aufgebaut: <br>bank code - 4 Stellen Alphazeichen frei gewählt (Bundesbank z.B. MARK) <br>country code - 2 Stellen Alphazeichen, ISO-Code des Landes (in Deutschland also DE) <br>location code - 2 Stellen alphanumerisch zur Ortsangabe (z.B. FF für Frankfurt) <br>branch code - wahlweise 3 Stellen alphanumerisch zur Bezeichnung von Filialen. Weitere Details unter http://www.swift.com/biconline/index.cfm]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -4528,13 +4528,13 @@ Die Sequenz, die für die Generierung dieser Hilfsnummer genutzt wird, ist im Fe
   <value column="Name" original="SO Sub Type">SO Sub Type</value>
   <value column="PrintName" original="SO Sub Type">SO Sub Type</value>
   <value column="Description" original="Sales Order Sub Type">Sales Order Sub Type</value>
-  <value column="Help" original="The SO Sub Type indicates the type of sales order this document refers to.  This field only appears when the Document Base Type is Sales Order.  The selection made here will determine which documents will be generated when an order is processed and which documents must be generated manually or in batches.  &lt;br&gt;&#10;The following outlines this process.&lt;br&gt;&#10;SO Sub Type of &lt;b&gt;Standard Order&lt;/b&gt; will generate just the &lt;b&gt;Order&lt;/b&gt; document when the order is processed.  &lt;br&gt;&#10;The &lt;b&gt;Delivery Note&lt;/b&gt;, &lt;b&gt;Invoice&lt;/b&gt; and &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.  &lt;br&gt;&#10;SO Sub Type of &lt;b&gt;Warehouse Order&lt;/b&gt; will generate the &lt;b&gt;Order&lt;/b&gt; and &lt;b&gt;Delivery Note&lt;/b&gt;. &lt;br&gt; The &lt;b&gt;Invoice&lt;/b&gt; and &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.&lt;br&gt;&#10;SO Sub Type of &lt;b&gt;Credit Order&lt;/b&gt; will generate the &lt;b&gt;Order&lt;/b&gt;, &lt;b&gt;Delivery Note&lt;/b&gt; and &lt;b&gt;Invoice&lt;/b&gt;. &lt;br&gt; The &lt;b&gt;Reciept&lt;/b&gt; must be generated via other processes.&lt;br&gt;&#10;SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document">The SO Sub Type indicates the type of sales order this document refers to.  This field only appears when the Document Base Type is Sales Order.  The selection made here will determine which documents will be generated when an order is processed and which documents must be generated manually or in batches.  &lt;br&gt;
-The following outlines this process.&lt;br&gt;
-SO Sub Type of &lt;b&gt;Standard Order&lt;/b&gt; will generate just the &lt;b&gt;Order&lt;/b&gt; document when the order is processed.  &lt;br&gt;
-The &lt;b&gt;Delivery Note&lt;/b&gt;, &lt;b&gt;Invoice&lt;/b&gt; and &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.  &lt;br&gt;
-SO Sub Type of &lt;b&gt;Warehouse Order&lt;/b&gt; will generate the &lt;b&gt;Order&lt;/b&gt; and &lt;b&gt;Delivery Note&lt;/b&gt;. &lt;br&gt; The &lt;b&gt;Invoice&lt;/b&gt; and &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.&lt;br&gt;
-SO Sub Type of &lt;b&gt;Credit Order&lt;/b&gt; will generate the &lt;b&gt;Order&lt;/b&gt;, &lt;b&gt;Delivery Note&lt;/b&gt; and &lt;b&gt;Invoice&lt;/b&gt;. &lt;br&gt; The &lt;b&gt;Reciept&lt;/b&gt; must be generated via other processes.&lt;br&gt;
-SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document</value>
+  <value column="Help" original="The SO Sub Type indicates the type of sales order this document refers to.  This field only appears when the Document Base Type is Sales Order.  The selection made here will determine which documents will be generated when an order is processed and which documents must be generated manually or in batches.  &lt;br&gt;&#13;&#10;The following outlines this process.&lt;br&gt;&#13;&#10;SO Sub Type of &lt;b&gt;Standard Order&lt;/b&gt; will generate just the &lt;b&gt;Order&lt;/b&gt; document when the order is processed.  &lt;br&gt;&#13;&#10;The &lt;b&gt;Delivery Note&lt;/b&gt;, &lt;b&gt;Invoice&lt;/b&gt; and &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.  &lt;br&gt;&#13;&#10;SO Sub Type of &lt;b&gt;Warehouse Order&lt;/b&gt; will generate the &lt;b&gt;Order&lt;/b&gt; and &lt;b&gt;Delivery Note&lt;/b&gt;. &lt;br&gt; The &lt;b&gt;Invoice&lt;/b&gt; and &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.&lt;br&gt;&#13;&#10;SO Sub Type of &lt;b&gt;Credit Order&lt;/b&gt; will generate the &lt;b&gt;Order&lt;/b&gt;, &lt;b&gt;Delivery Note&lt;/b&gt; and &lt;b&gt;Invoice&lt;/b&gt;. &lt;br&gt; The &lt;b&gt;Receipt&lt;/b&gt; must be generated via other processes.&lt;br&gt;&#13;&#10;SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document"><![CDATA[The SO Sub Type indicates the type of sales order this document refers to.  This field only appears when the Document Base Type is Sales Order.  The selection made here will determine which documents will be generated when an order is processed and which documents must be generated manually or in batches.  <br>
+The following outlines this process.<br>
+SO Sub Type of <b>Standard Order</b> will generate just the <b>Order</b> document when the order is processed.  <br>
+The <b>Delivery Note</b>, <b>Invoice</b> and <b>Receipt</b> must be generated via other processes.  <br>
+SO Sub Type of <b>Warehouse Order</b> will generate the <b>Order</b> and <b>Delivery Note</b>. <br> The <b>Invoice</b> and <b>Receipt</b> must be generated via other processes.<br>
+SO Sub Type of <b>Credit Order</b> will generate the <b>Order</b>, <b>Delivery Note</b> and <b>Invoice</b>. <br> The <b>Reciept</b> must be generated via other processes.<br>
+SO Sub Type of <b>POS</b> (Point of Sale) will generate all document]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -5514,7 +5514,7 @@ SO Sub Type of &lt;b&gt;POS&lt;/b&gt; (Point of Sale) will generate all document
   <value column="Name" original="Relative Priority">Relative Priorität</value>
   <value column="PrintName" original="Relative Priority">Relative Priorität</value>
   <value column="Description" original="Where inventory should be picked from first">Von wo eine Auslagerung zuerst erfolgen sollte</value>
-  <value column="Help" original="The Relative Priority indicates the location to pick from first if an product is stored in more than one location.  (100 = highest priority, 0 = lowest).  For outgoing shipments, the location is picked with the highest priority where the entire quantity can be shipped from.  If there is no location, the location with the highest priority is used.&#10;The Priority is ignored for products with Guarantee Date (always the oldest first) or if a speific instance is selected.&#10;Incoming receipts are stored at the location with the hoghest priority, if not explicitly selected.">The Relative Priority indicates the location to pick from first if an product is stored in more than one location.  (100 = highest priority, 0 = lowest).  For outgoing shipments, the location is picked with the highest priority where the entire quantity can be shipped from.  If there is no location, the location with the highest priority is used.
+  <value column="Help" original="The Relative Priority indicates the location to pick from first if an product is stored in more than one location.  (100 = highest priority, 0 = lowest).  For outgoing shipments, the location is picked with the highest priority where the entire quantity can be shipped from.  If there is no location, the location with the highest priority is used.&#13;&#10;The Priority is ignored for products with Guarantee Date (always the oldest first) or if a specific instance is selected.&#13;&#10;Incoming receipts are stored at the location with the highest priority, if not explicitly selected.">The Relative Priority indicates the location to pick from first if an product is stored in more than one location.  (100 = highest priority, 0 = lowest).  For outgoing shipments, the location is picked with the highest priority where the entire quantity can be shipped from.  If there is no location, the location with the highest priority is used.
 The Priority is ignored for products with Guarantee Date (always the oldest first) or if a speific instance is selected.
 Incoming receipts are stored at the location with the hoghest priority, if not explicitly selected.</value>
   <value column="PO_Description" original=""/>
@@ -7688,7 +7688,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Payment Processor Class">Klasse Zahlungs-Prozessor</value>
   <value column="PrintName" original="Payment Processor Class">Klasse Zahlungs-Prozessor</value>
   <value column="Description" original="Payment Processor Java Class">Java-Klasse für den Zahlungs-Prozessor</value>
-  <value column="Help" original="Payment Processor class identifies the Java class used to process payments extending the org.compiere.model.PaymentProcessor class. &lt;br&gt;&#10;Example implementations are Optimal Payments: org.compiere.model.PP_Optimal or Verisign: org.compiere.model.PP_PayFlowPro">"Klasse Zahlungs-Prozessor" bezeichnet die Java-Klasse zur Verarbeitung von Zahlungen, die org.compiere.model.PaymentProcessor erweitert. &lt;br&gt; Beispiele sind für Zahlungen über Optimal: org.compiere.model.PP_Optimal oder über Verisign: org.compiere.model.PP_PayFlowPro</value>
+  <value column="Help" original="Payment Processor class identifies the Java class used to process payments extending the org.compiere.model.PaymentProcessor class. &lt;br&gt;&#10;Example implementations are Optimal Payments: org.compiere.model.PP_Optimal or Verisign: org.compiere.model.PP_PayFlowPro"><![CDATA["Klasse Zahlungs-Prozessor" bezeichnet die Java-Klasse zur Verarbeitung von Zahlungen, die org.compiere.model.PaymentProcessor erweitert. <br> Beispiele sind für Zahlungen über Optimal: org.compiere.model.PP_Optimal oder über Verisign: org.compiere.model.PP_PayFlowPro]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -7978,7 +7978,7 @@ Incoming receipts are stored at the location with the hoghest priority, if not e
   <value column="Name" original="Mail Template">E-Mail-Vorlage</value>
   <value column="PrintName" original="Mail Template">E-Mail-Vorlage</value>
   <value column="Description" original="Text templates for mailings">Textvorlage für E-Mail</value>
-  <value column="Help" original="The Mail Template indicates the mail template for return messages. Mail text can include variables.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;&#10;So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;&#10;For Multi-Lingual systems, the template is translated based on the Business Partner's language selection.">The Mail Template indicates the mail template for return messages. Mail text can include variables. Priorität bei der Analyse haben Nutzer/Kontakt, Geschäftspartner und dann die weiteren Objekte (wie Anfrage, mahnung, Workflow, usw.).&lt;br&gt; Also wird @Name@ primär durch den Namen des Nutzer/Kontakt ersetzt wenn einer definiert ist, dann durch den Namen des Geschäftspartners wenn der definiert ist und dann durch den Namen eines der oben angegebenen Objekte.&lt;br&gt;In mehrsprachigen Systemen wird die Übersetzung der Vorlage basierend auf der Auswahl der Sprache für den Geschäftspartner verwendet.</value>
+  <value column="Help" original="The Mail Template indicates the mail template for return messages. Mail text can include variables.  The priority of parsing is User/Contact, Business Partner and then the underlying business object (like Request, Dunning, Workflow object).&lt;br&gt;&#10;So, @Name@ would resolve into the User name (if user is defined defined), then Business Partner name (if business partner is defined) and then the Name of the business object if it has a Name.&lt;br&gt;&#10;For Multi-Lingual systems, the template is translated based on the Business Partner's language selection."><![CDATA[The Mail Template indicates the mail template for return messages. Mail text can include variables. Priorität bei der Analyse haben Nutzer/Kontakt, Geschäftspartner und dann die weiteren Objekte (wie Anfrage, mahnung, Workflow, usw.).<br> Also wird @Name@ primär durch den Namen des Nutzer/Kontakt ersetzt wenn einer definiert ist, dann durch den Namen des Geschäftspartners wenn der definiert ist und dann durch den Namen eines der oben angegebenen Objekte.<br>In mehrsprachigen Systemen wird die Übersetzung der Vorlage basierend auf der Auswahl der Sprache für den Geschäftspartner verwendet.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -9184,7 +9184,7 @@ Man kann die Grafik entweder laden (in die Datenbank) oder auf die Grafik mit Hi
   <value column="Name" original="Read Only Logic">Read Only Logic</value>
   <value column="PrintName" original="Read Only Logic">Read Only Logic</value>
   <value column="Description" original="Logic to determine if field is read only (applies only when field is read-write)">Logic to determine if field is read only (applies only when field is read-write)</value>
-  <value column="Help" original="format := {expression} [{logic} {expression}]&lt;br&gt; &#10;expression := @{context}@{operand}{value} or @{context}@{operand}{value}&lt;br&gt; &#10;logic := {|}|{&amp;}&lt;br&gt;&#10;context := any global or window context &lt;br&gt;&#10;value := strings or numbers&lt;br&gt;&#10;logic operators&#9;:= AND or OR with the previous result from left to right &lt;br&gt;&#10;operand := eq{=}, gt{&amp;gt;}, le{&amp;lt;}, not{~^!} &lt;br&gt;&#10;Examples: &lt;br&gt;&#10;@AD_Table_ID@=14 | @Language@!GERGER &lt;br&gt;&#10;@PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@&lt;br&gt;&#10;@Name@&gt;J&lt;br&gt;&#10;Strings may be in single quotes (optional)">Format := {expression} [{logic} {expression}]&lt;br&gt; expression := @{context}@{operand}{value} oder @{context}@{operand}{value}&lt;br&gt; logic := {|}|{&amp;}&lt;br&gt; context := jeglicher globaler oder Fenster-Kontext &lt;br&gt; value := Zeichenketten oder Zahlen&lt;br&gt; logic operators := AND oder OR mit dem bisherigen Ergebnis von Links nach Rechts &lt;br&gt; operand := eq{=}, gt{&amp;gt;}, le{&amp;lt;}, not{~^!} &lt;br&gt; Beispiele: &lt;br&gt; @AD_Table_ID@=14 | @Language@!de_DE &lt;br&gt; @PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@&lt;br&gt; @Name@&gt;J&lt;br&gt; Zeichenketten können (optional) zwischen einfachen Anführungszeichen stehen.</value>
+  <value column="Help" original="format := {expression} [{logic} {expression}]&lt;br&gt; &#10;expression := @{context}@{operand}{value} or @{context}@{operand}{value}&lt;br&gt; &#10;logic := {|}|{&amp;}&lt;br&gt;&#10;context := any global or window context &lt;br&gt;&#10;value := strings or numbers&lt;br&gt;&#10;logic operators&#9;:= AND or OR with the previous result from left to right &lt;br&gt;&#10;operand := eq{=}, gt{&amp;gt;}, le{&amp;lt;}, not{~^!} &lt;br&gt;&#10;Examples: &lt;br&gt;&#10;@AD_Table_ID@=14 | @Language@!GERGER &lt;br&gt;&#10;@PriceLimit@&gt;10 | @PriceList@&gt;@PriceActual@&lt;br&gt;&#10;@Name@&gt;J&lt;br&gt;&#10;Strings may be in single quotes (optional)"><![CDATA[Format := {expression} [{logic} {expression}]<br> expression := @{context}@{operand}{value} oder @{context}@{operand}{value}<br> logic := {|}|{&}<br> context := jeglicher globaler oder Fenster-Kontext <br> value := Zeichenketten oder Zahlen<br> logic operators := AND oder OR mit dem bisherigen Ergebnis von Links nach Rechts <br> operand := eq{=}, gt{&gt;}, le{&lt;}, not{~^!} <br> Beispiele: <br> @AD_Table_ID@=14 | @Language@!de_DE <br> @PriceLimit@>10 | @PriceList@>@PriceActual@<br> @Name@>J<br> Zeichenketten können (optional) zwischen einfachen Anführungszeichen stehen.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -10416,9 +10416,9 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
   <value column="Name" original="Form">Fenster (nicht dynamisch)</value>
   <value column="PrintName" original="Form">Fenster (nicht dynamisch)</value>
   <value column="Description" original="If Selected, a Form is printed, if not selected a columnar List report">If Selected, a Form is printed, if not selected a columnar List report</value>
-  <value column="Help" original="A form has individual elements with layout information (example: invoice, check)&#10;&lt;br&gt;&#10;A columnar list report has individual columns (example: list of invoices)">A form has individual elements with layout information (example: invoice, check)
-&lt;br&gt;
-A columnar list report has individual columns (example: list of invoices)</value>
+  <value column="Help" original="A form has individual elements with layout information (example: invoice, check)&#10;&lt;br&gt;&#10;A columnar list report has individual columns (example: list of invoices)"><![CDATA[A form has individual elements with layout information (example: invoice, check)
+<br>
+A columnar list report has individual columns (example: list of invoices)]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -10720,11 +10720,11 @@ Underpayments (positive) is a partial payment for the invoice. You do not write 
   <value column="Name" original="Coordinates">Coordinates</value>
   <value column="PrintName" original="Coordinates">Coordinates</value>
   <value column="Description" original="Location coordinate">Location coordinate</value>
-  <value column="Help" original="This column contains the geographical coordinates (latitude/longitude) of the location.&lt;p&gt;&#10;In order to avoid unnecessary use of non-standard characters and space, the following standard presentation is used:&lt;br&gt;&#10;0000N 00000W 0000S 00000E &lt;br&gt;&#10;where the two last digits refer to minutes and the two or three first digits indicate the degrees&#10;">This column contains the geographical coordinates (latitude/longitude) of the location.&lt;p&gt;
-In order to avoid unnecessary use of non-standard characters and space, the following standard presentation is used:&lt;br&gt;
-0000N 00000W 0000S 00000E &lt;br&gt;
+  <value column="Help" original="This column contains the geographical coordinates (latitude/longitude) of the location.&lt;p&gt;&#10;In order to avoid unnecessary use of non-standard characters and space, the following standard presentation is used:&lt;br&gt;&#10;0000N 00000W 0000S 00000E &lt;br&gt;&#10;where the two last digits refer to minutes and the two or three first digits indicate the degrees"><![CDATA[This column contains the geographical coordinates (latitude/longitude) of the location.<p>
+In order to avoid unnecessary use of non-standard characters and space, the following standard presentation is used:<br>
+0000N 00000W 0000S 00000E <br>
 where the two last digits refer to minutes and the two or three first digits indicate the degrees
-</value>
+]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -10734,8 +10734,8 @@ where the two last digits refer to minutes and the two or three first digits ind
   <value column="Name" original="Locode">Locode</value>
   <value column="PrintName" original="Locode">Locode</value>
   <value column="Description" original="Location code - UN/LOCODE ">Location code - UN/LOCODE </value>
-  <value column="Help" original="UN/Locode is a combination of a 2-character country code and a 3-character location code, e.g. BEANR is known as the city of Antwerp (ANR) which is located in Belgium (BE).&#10;&lt;p&gt;See: http://www.unece.org/cefact/locode/service/main.htm">UN/Locode is a combination of a 2-character country code and a 3-character location code, e.g. BEANR is known as the city of Antwerp (ANR) which is located in Belgium (BE).
-&lt;p&gt;See: http://www.unece.org/cefact/locode/service/main.htm</value>
+  <value column="Help" original="UN/Locode is a combination of a 2-character country code and a 3-character location code, e.g. BEANR is known as the city of Antwerp (ANR) which is located in Belgium (BE).&#10;&lt;p&gt;See: http://www.unece.org/cefact/locode/service/main.htm"><![CDATA[UN/Locode is a combination of a 2-character country code and a 3-character location code, e.g. BEANR is known as the city of Antwerp (ANR) which is located in Belgium (BE).
+<p>See: http://www.unece.org/cefact/locode/service/main.htm]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -10835,8 +10835,8 @@ where the two last digits refer to minutes and the two or three first digits ind
   <value column="Name" original="Multi Lingual Documents">Multisprachliche Dokumente</value>
   <value column="PrintName" original="Multi Lingual Documents">Multisprachliche Dokumente</value>
   <value column="Description" original="Documents are Multi Lingual">Dokumente sind mehrsprachig verwendet</value>
-  <value column="Help" original="If selected, you enable multi lingual documents and need to maintain translations for entities used in documents (examples: Products, Payment Terms, ...).&lt;br&gt;&#10;Please note, that the base language is always English.">Wenn ausgewählt, müssen Sie Übersetzungen für alle in den Dokumenten verwendeten Elementen pflegen (Beispiel: Produkte, Zahlungsbedingungen, Anrede, ...).&lt;br&gt;
-Beachten Sie, dass Basissprache immer Englisch ist.</value>
+  <value column="Help" original="If selected, you enable multi lingual documents and need to maintain translations for entities used in documents (examples: Products, Payment Terms, ...).&lt;br&gt;&#10;Please note, that the base language is always English."><![CDATA[Wenn ausgewählt, müssen Sie Übersetzungen für alle in den Dokumenten verwendeten Elementen pflegen (Beispiel: Produkte, Zahlungsbedingungen, Anrede, ...).<br>
+Beachten Sie, dass Basissprache immer Englisch ist.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -10856,7 +10856,7 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="Name" original="Suppress Null">NULL unterdrücken</value>
   <value column="PrintName" original="Suppress Null">NULL unterdrücken</value>
   <value column="Description" original="Suppress columns or elements with NULL value">Unterdrücken von Spalten oder Elementen ohne Inhalt (bzw. Wert "NULL")</value>
-  <value column="Help" original="If a Form entry is NULL and if selected, the field (including label) is not printed. &lt;br&gt;&#10;If all elements in a table column are NULL and if selected, the column is not printed.">Wenn eine Eingabe NULL (leer) ist wird dieses Feld (und sein Bezeichner) nicht gedruckt. &lt;br&gt; Wenn alle Elemente einer Spalte NULL (leer) sind, wird die Spalte nicht gedruckt.</value>
+  <value column="Help" original="If a Form entry is NULL and if selected, the field (including label) is not printed. &lt;br&gt;&#10;If all elements in a table column are NULL and if selected, the column is not printed."><![CDATA[Wenn eine Eingabe NULL (leer) ist wird dieses Feld (und sein Bezeichner) nicht gedruckt. <br> Wenn alle Elemente einer Spalte NULL (leer) sind, wird die Spalte nicht gedruckt.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -12796,8 +12796,8 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="Name" original="Printer Name">Printer Name</value>
   <value column="PrintName" original="Printer Name">Printer Name</value>
   <value column="Description" original="Name of the Printer">Name of the Printer</value>
-  <value column="Help" original="Internal (Opereating System) Name of the Printer; Please mote that the printer name may be different on different clients. Enter a printer name, which applies to ALL clients (e.g. printer on a server). &lt;p&gt;&#10;If none is entered, the default printer is used. You specify your default printer when you log in. You can also change the default printer in Preferences.">Internal (Opereating System) Name of the Printer; Please mote that the printer name may be different on different clients. Enter a printer name, which applies to ALL clients (e.g. printer on a server). &lt;p&gt;
-If none is entered, the default printer is used. You specify your default printer when you log in. You can also change the default printer in Preferences.</value>
+  <value column="Help" original="Internal (Operating System) Name of the Printer; Please mote that the printer name may be different on different clients. Enter a printer name, which applies to ALL clients (e.g. printer on a server). &lt;p&gt;&#13;&#10;If none is entered, the default printer is used. You specify your default printer when you log in. You can also change the default printer in Preferences."><![CDATA[Internal (Opereating System) Name of the Printer; Please mote that the printer name may be different on different clients. Enter a printer name, which applies to ALL clients (e.g. printer on a server). <p>
+If none is entered, the default printer is used. You specify your default printer when you log in. You can also change the default printer in Preferences.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -13059,8 +13059,8 @@ Customer Self Services (CSS), auf deutsch Kundenselbstbedienung (KSB), sind Dien
   <value column="Name" original="Exclude">Ausschluß</value>
   <value column="PrintName" original="Exclude">Ausschluß</value>
   <value column="Description" original="Exclude access to the data - if not selected Include access to the data">Exclude access to the data - if not selected Include access to the data</value>
-  <value column="Help" original="If selected (excluded), the role cannot access the data specified.  If not selected (included), the role can ONLY access the data specified. Exclude items represent a negative list (i.e. you don't have access to the listed items). Include items represent a positive list (i.e. you only have access to the listed items).&#10;&lt;br&gt;You would usually  not mix Exclude and Include. If you have one include rule in your list, you would only have access to that item anyway.">If selected (excluded), the role cannot access the data specified.  If not selected (included), the role can ONLY access the data specified. Exclude items represent a negative list (i.e. you don't have access to the listed items). Include items represent a positive list (i.e. you only have access to the listed items).
-&lt;br&gt;You would usually  not mix Exclude and Include. If you have one include rule in your list, you would only have access to that item anyway.</value>
+  <value column="Help" original="If selected (excluded), the role cannot access the data specified.  If not selected (included), the role can ONLY access the data specified. Exclude items represent a negative list (i.e. you don't have access to the listed items). Include items represent a positive list (i.e. you only have access to the listed items).&#10;&lt;br&gt;You would usually  not mix Exclude and Include. If you have one include rule in your list, you would only have access to that item anyway."><![CDATA[If selected (excluded), the role cannot access the data specified.  If not selected (included), the role can ONLY access the data specified. Exclude items represent a negative list (i.e. you don't have access to the listed items). Include items represent a positive list (i.e. you only have access to the listed items).
+<br>You would usually  not mix Exclude and Include. If you have one include rule in your list, you would only have access to that item anyway.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -13490,7 +13490,7 @@ Customer Self Services (CSS), auf deutsch Kundenselbstbedienung (KSB), sind Dien
   <value column="Name" original="Internal Users">Internal Users</value>
   <value column="PrintName" original="Internal Users">Internal Users</value>
   <value column="Description" original="Number of Internal Users for Adempiere Support">Number of Internal Users for Adempiere Support</value>
-  <value column="Help" original="You can purchase professioal support from Adempiere, Inc. or their partners.  See http://www.adempiere.com for details.&#10;">You can purchase professioal support from Adempiere, Inc. or their partners.  See http://www.adempiere.com for details.
+  <value column="Help" original="&quot;You can purchase professional support from Adempiere, Inc. or their partners.  See http://www.adempiere.com for details.&#13;&#10;&quot;">You can purchase professioal support from Adempiere, Inc. or their partners.  See http://www.adempiere.com for details.
 </value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -13611,11 +13611,11 @@ Customer Self Services (CSS), auf deutsch Kundenselbstbedienung (KSB), sind Dien
   <value column="Name" original="Replication Type">Replication Type</value>
   <value column="PrintName" original="Replication Type">Replication Type</value>
   <value column="Description" original="Type of Data Replication">Type of Data Replication</value>
-  <value column="Help" original="The Type of data Replication determines the directon of the data replication.  &lt;br&gt;&#10;Reference means that the data in this system is read only -&gt; &lt;br&gt;&#10;Local means that the data in this system is not replicated to other systems - &lt;br&gt;&#10;Merge means that the data in this system is synchronized with the other system &lt;-&gt; &lt;br&gt;&#10;">The Type of data Replication determines the directon of the data replication.  &lt;br&gt;
-Reference means that the data in this system is read only -&gt; &lt;br&gt;
-Local means that the data in this system is not replicated to other systems - &lt;br&gt;
-Merge means that the data in this system is synchronized with the other system &lt;-&gt; &lt;br&gt;
-</value>
+  <value column="Help" original="The Type of data Replication determines the direction of the data replication.  &lt;br&gt;&#13;&#10;Reference means that the data in this system is read only -&gt; &lt;br&gt;&#13;&#10;Local means that the data in this system is not replicated to other systems - &lt;br&gt;&#13;&#10;Merge means that the data in this system is synchronized with the other system &lt;-&gt; &lt;br&gt;"><![CDATA[The Type of data Replication determines the directon of the data replication.  <br>
+Reference means that the data in this system is read only -> <br>
+Local means that the data in this system is not replicated to other systems - <br>
+Merge means that the data in this system is synchronized with the other system <-> <br>
+]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -13785,8 +13785,8 @@ Merge means that the data in this system is synchronized with the other system &
   <value column="Name" original="ID Range Start">ID Range Start</value>
   <value column="PrintName" original="ID Start">ID Start</value>
   <value column="Description" original="Start of the ID Range used">Start of the ID Range used</value>
-  <value column="Help" original="The ID Range allows to restrict the range of the internally used IDs. The standard rages are 0-899,999 for the Application Dictionary 900,000-999,999 for Application Dictionary customizations/extensions and &gt; 1,000,000 for client data. The standard system limit is 9,999,999,999 but can easily be extended.  The ID range is on a per table basis.&#10;Please note that the ID range is NOT enforced.">The ID Range allows to restrict the range of the internally used IDs. The standard rages are 0-899,999 for the Application Dictionary 900,000-999,999 for Application Dictionary customizations/extensions and &gt; 1,000,000 for client data. The standard system limit is 9,999,999,999 but can easily be extended.  The ID range is on a per table basis.
-Please note that the ID range is NOT enforced.</value>
+  <value column="Help" original="The ID Range allows to restrict the range of the internally used IDs. The standard rages are 0-899,999 for the Application Dictionary 900,000-999,999 for Application Dictionary customizations/extensions and &gt; 1,000,000 for client data. The standard system limit is 9,999,999,999 but can easily be extended.  The ID range is on a per table basis.&#10;Please note that the ID range is NOT enforced."><![CDATA[The ID Range allows to restrict the range of the internally used IDs. The standard rages are 0-899,999 for the Application Dictionary 900,000-999,999 for Application Dictionary customizations/extensions and > 1,000,000 for client data. The standard system limit is 9,999,999,999 but can easily be extended.  The ID range is on a per table basis.
+Please note that the ID range is NOT enforced.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -14446,10 +14446,10 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="Name" original="Dependent Entities">Dependent Entities</value>
   <value column="PrintName" original="Dependent Entities">Dependent Entities</value>
   <value column="Description" original="Also check access in dependent entities">Also check access in dependent entities</value>
-  <value column="Help" original="Also dependent entities are included.  Please be aware, that enabling this rule has severe consequences and that this is only wanted in some circumstances.&#10;&lt;p&gt;Example Rule: &quot;Include Payment Term Immediate with Dependent Entities&quot;&#10;&lt;br&gt;Primary effect: users with this role can only select the payment term Immediate&#10;&lt;br&gt;Secondary effect (dependent entities): users with this role can see only invoices/orders with the payment term immediate.">Also dependent entities are included.  Please be aware, that enabling this rule has severe consequences and that this is only wanted in some circumstances.
-&lt;p&gt;Example Rule: "Include Payment Term Immediate with Dependent Entities"
-&lt;br&gt;Primary effect: users with this role can only select the payment term Immediate
-&lt;br&gt;Secondary effect (dependent entities): users with this role can see only invoices/orders with the payment term immediate.</value>
+  <value column="Help" original="Also dependent entities are included.  Please be aware, that enabling this rule has severe consequences and that this is only wanted in some circumstances.&#10;&lt;p&gt;Example Rule: &quot;Include Payment Term Immediate with Dependent Entities&quot;&#10;&lt;br&gt;Primary effect: users with this role can only select the payment term Immediate&#10;&lt;br&gt;Secondary effect (dependent entities): users with this role can see only invoices/orders with the payment term immediate."><![CDATA[Also dependent entities are included.  Please be aware, that enabling this rule has severe consequences and that this is only wanted in some circumstances.
+<p>Example Rule: "Include Payment Term Immediate with Dependent Entities"
+<br>Primary effect: users with this role can only select the payment term Immediate
+<br>Secondary effect (dependent entities): users with this role can see only invoices/orders with the payment term immediate.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -14626,8 +14626,8 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2246" trl="Y">
-  <value column="Name" original="Due &gt; 31">Fälligkeit &gt; 31</value>
-  <value column="PrintName" original="Due &gt; 31">Fälligkeit &gt; 31</value>
+  <value column="Name" original="Due &gt; 31"><![CDATA[Fälligkeit > 31]]></value>
+  <value column="PrintName" original="Due &gt; 31"><![CDATA[Fälligkeit > 31]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -14646,8 +14646,8 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2248" trl="Y">
-  <value column="Name" original="Due &gt; 61">Fälligkeit &gt; 61</value>
-  <value column="PrintName" original="Due &gt; 61">Fälligkeit &gt; 61</value>
+  <value column="Name" original="Due &gt; 61"><![CDATA[Fälligkeit > 61]]></value>
+  <value column="PrintName" original="Due &gt; 61"><![CDATA[Fälligkeit > 61]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -14666,8 +14666,8 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2250" trl="Y">
-  <value column="Name" original="Due &gt; 91">Fälligkeit &gt; 91</value>
-  <value column="PrintName" original="Due &gt; 91">Fälligkeit &gt; 91</value>
+  <value column="Name" original="Due &gt; 91"><![CDATA[Fälligkeit > 91]]></value>
+  <value column="PrintName" original="Due &gt; 91"><![CDATA[Fälligkeit > 91]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -14706,8 +14706,8 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2254" trl="Y">
-  <value column="Name" original="Past Due &gt; 31">Überfällig &gt; 31</value>
-  <value column="PrintName" original="Past Due &gt; 31">Überfällig &gt; 31</value>
+  <value column="Name" original="Past Due &gt; 31"><![CDATA[Überfällig > 31]]></value>
+  <value column="PrintName" original="Past Due &gt; 31"><![CDATA[Überfällig > 31]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -14726,8 +14726,8 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2256" trl="Y">
-  <value column="Name" original="Past Due &gt; 61">Überfällig &gt; 61</value>
-  <value column="PrintName" original="Past Due &gt; 61">Überfällig &gt; 61</value>
+  <value column="Name" original="Past Due &gt; 61"><![CDATA[Überfällig > 61]]></value>
+  <value column="PrintName" original="Past Due &gt; 61"><![CDATA[Überfällig > 61]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -14746,8 +14746,8 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2258" trl="Y">
-  <value column="Name" original="Past Due &gt; 91">Überfällig &gt; 91</value>
-  <value column="PrintName" original="Past Due &gt; 91">Überfällig &gt; 91</value>
+  <value column="Name" original="Past Due &gt; 91"><![CDATA[Überfällig > 91]]></value>
+  <value column="PrintName" original="Past Due &gt; 91"><![CDATA[Überfällig > 91]]></value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
@@ -15131,7 +15131,7 @@ In the display of products in the Web Store, the product is displayed in the ini
   <value column="Name" original="Create Reciprocal Rate">Erzeuge reziproken Kurs</value>
   <value column="PrintName" original="Create Reciprocal">Erzeuge reziproken Kurs</value>
   <value column="Description" original="Create Reciprocal Rate from current information">Erzeuge reziproken Kurs aus der Information</value>
-  <value column="Help" original="If selected, the imported USD-&gt;EUR rate is used to create/calculate the reciprocal rate EUR-&gt;USD.">Wenn selektiert wird z.B. der importierte Kurs USD-&gt;EUR verwendet, um den Kurs EUR-&gt;USD zu erstellen.</value>
+  <value column="Help" original="If selected, the imported USD-&gt;EUR rate is used to create/calculate the reciprocal rate EUR-&gt;USD."><![CDATA[Wenn selektiert wird z.B. der importierte Kurs USD->EUR verwendet, um den Kurs EUR->USD zu erstellen.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -15615,7 +15615,7 @@ XOR bedeutet der erste Vorgang/Aktivität bei dem die Auslöse-Bedingung erfüll
  <row id="2355" trl="Y">
   <value column="Name" original="Organization Type">Organisationsart</value>
   <value column="PrintName" original="Org Type">Organisations-Art</value>
-  <value column="Description" original="Organization Type allows you to categorize your organizations">"Organisations-Art" ermöglicht die Kategorisierung Ihrer Organisationen</value>
+  <value column="Description" original="Organization Type">"Organisations-Art" ermöglicht die Kategorisierung Ihrer Organisationen</value>
   <value column="Help" original="Organization Type allows you to categorize your organizations for reporting purposes">Organisationsarten ewrmöglichen die Kategorisierung von Organisationen für Berichtszwecke.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -17159,7 +17159,7 @@ Dies kann genutzt werden, um Details zu definieren, wie Abläufe automatisert we
  <row id="2514" trl="Y">
   <value column="Name" original="Activity Tree">Baum Aktivität</value>
   <value column="PrintName" original="Activity Tree">Baum Aktivität</value>
-  <value column="Description" original="Tree to determine activity hierarchy">Baum zum Festlegen einer Berichtshierarchie</value>
+  <value column="Description" original="Trees are used for (financial) reporting">Baum zum Festlegen einer Berichtshierarchie</value>
   <value column="Help" original="Trees are used for (finanial) reporting">Bäume werden für das Erstellen von (Finanz-) Berichten verwendet</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -17169,7 +17169,7 @@ Dies kann genutzt werden, um Details zu definieren, wie Abläufe automatisert we
  <row id="2515" trl="Y">
   <value column="Name" original="Campaign Tree">Kampagnen-Baum</value>
   <value column="PrintName" original="Campaign Tree">Kampagnen-Baum</value>
-  <value column="Description" original="Tree to determine marketing campaign hierarchy">Baum zum Verwalten von Marketing-Kampagnen-Hierarchien</value>
+  <value column="Description" original="Trees are used for (financial) reporting">Baum zum Verwalten von Marketing-Kampagnen-Hierarchien</value>
   <value column="Help" original="Trees are used for (finanial) reporting">Bäume werden für das Erstellen von (Finanz-) Berichten verwendet</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -17581,7 +17581,7 @@ This default can be overwritten by defining explicit counter document relationsh
   <value column="Name" original="Open Balance">Offener Saldo</value>
   <value column="PrintName" original="Open Balance">Offener Saldo</value>
   <value column="Description" original="Total Open Balance Amount in primary Accounting Currency">Gesamt der offenen Beträge in primärer Buchführungswährung</value>
-  <value column="Help" original="The Total Open Balance Amount is the calculated open item amount for Customer and Vendor activity.  If the Balance is below zero, we owe the Business Partner.  The amout is used for Credit Management.&#10;Invoices and Payment Allocations determine the Open Balance (i.e. not Orders or Payments).">The Total Open Balance Amount is the calculated open item amount for Customer and Vendor activity.  If the Balance is below zero, we owe the Business Partner.  The amout is used for Credit Management.
+  <value column="Help" original="The Total Open Balance Amount is the calculated open item amount for Customer and Vendor activity.  If the Balance is below zero, we owe the Business Partner.  The amount is used for Credit Management.&#13;&#10;Invoices and Payment Allocations determine the Open Balance (i.e. not Orders or Payments).">The Total Open Balance Amount is the calculated open item amount for Customer and Vendor activity.  If the Balance is below zero, we owe the Business Partner.  The amout is used for Credit Management.
 Invoices and Payment Allocations determine the Open Balance (i.e. not Orders or Payments).</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -18197,12 +18197,12 @@ The sequence of City/Region/Postal is determined by the address format.</value>
   <value column="Name" original="Document Value Logic">Dokument-Wert-Logik</value>
   <value column="PrintName" original="Doc Value Logic">Doc Value Logic</value>
   <value column="Description" original="Logic to determine Workflow Start - If true, a workflow process is started for the document">Logik, um den Workflow-Start festzulegen - Wenn "true", wird für das Dokument ein Workflow-Prozess in Gang gesetzt.</value>
-  <value column="Help" original="You can enter simple logic using variables like @Created@=@Updated@, which fires, when a record is created. If you need to evaluate also values of other records, you need to use SQL logic and need to prefix this logic with &quot;SQL=&quot;. Example: start a Order verify workflow, when a business partner ordered something and is over the credit limit  &quot;SQL=EXISTS (SELECT * FROM C_BPartner bp WHERE C_Order. C_BPartner_ID=bp. C_BPartner_ID AND SO_CreditUsed &gt; SO_CreditLimit)&quot;.&#10;Note that the SQL based logic checks for duplicate workflows (i.e. a workflow is started only once per record).">Man kann eine einfache Logik mithilfe von Variablen wie z.B.: @Created@=@Updated@,die ausgelöst wird, wenn ein Eintrag erstellt wird. 
+  <value column="Help" original="You can enter simple logic using variables like @Created@=@Updated@, which fires, when a record is created. If you need to evaluate also values of other records, you need to use SQL logic and need to prefix this logic with &quot;SQL=&quot;. Example: start a Order verify workflow, when a business partner ordered something and is over the credit limit  &quot;SQL=EXISTS (SELECT * FROM C_BPartner bp WHERE C_Order. C_BPartner_ID=bp. C_BPartner_ID AND SO_CreditUsed &gt; SO_CreditLimit)&quot;.&#10;Note that the SQL based logic checks for duplicate workflows (i.e. a workflow is started only once per record)."><![CDATA[Man kann eine einfache Logik mithilfe von Variablen wie z.B.: @Created@=@Updated@,die ausgelöst wird, wenn ein Eintrag erstellt wird. 
 Wenn zusätzlich noch Werte aus anderen Einträgen mit einbezogen werden müssen,ist es notwendig, eine SQL-Logik einzusetzen. Diese muss mit dem Präfix "SQL=" eingeleitet werden. 
 
-Beispiel: Starte einen Auftragsbestätigungs-Workflow, wenn ein Business Partner etwas bestellt hat und über seinem Kreditlimit ist.  "SQL=EXISTS (SELECT * FROM C_BPartner bp WHERE C_Order. C_BPartner_ID=bp. C_BPartner_ID AND SO_CreditUsed &gt; SO_CreditLimit)".
+Beispiel: Starte einen Auftragsbestätigungs-Workflow, wenn ein Business Partner etwas bestellt hat und über seinem Kreditlimit ist.  "SQL=EXISTS (SELECT * FROM C_BPartner bp WHERE C_Order. C_BPartner_ID=bp. C_BPartner_ID AND SO_CreditUsed > SO_CreditLimit)".
 
-Man beachte, dass die SQL-basierte Logik auf doppelte Workflows prüft (dies bedeutet, dass ein Workflow nur einmal pro Eintrag ausgelöst wird).</value>
+Man beachte, dass die SQL-basierte Logik auf doppelte Workflows prüft (dies bedeutet, dass ein Workflow nur einmal pro Eintrag ausgelöst wird).]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -18653,7 +18653,7 @@ The Remind Days are the days when the next email reminder is sent.</value>
   <value column="Name" original="Model Validation Classes">Modell-Validierungs-Klassen</value>
   <value column="PrintName" original="Model Validation Classes">Modell-Validierungs-Klassen</value>
   <value column="Description" original="List of data model validation classes separated by ;">Liste von Modell-Validierungs-Klassen, separiert durch ";"</value>
-  <value column="Help" original="List of classes implementing the interface org.compiere.model.ModelValidator, separaed by semicolon.&#10;The class is called for the client and alows to validate documents in the prepare stage and monitor model changes.">Liste von Klassen, die das Interface org.compiere.model.ModelValidator implementieren, separiert durch Semikolon. Die Klassen werden für den Compiere-Client aufgerufen und erlauben die Validierung von Dokumenten im Vorbereitungs-Schritt und das Überwachen von Modelländerungen.</value>
+  <value column="Help" original="List of classes implementing the interface org.compiere.model.ModelValidator, separated by semicolon.&#13;&#10;The class is called for the client and allows to validate documents in the prepare stage and monitor model changes.">Liste von Klassen, die das Interface org.compiere.model.ModelValidator implementieren, separiert durch Semikolon. Die Klassen werden für den Compiere-Client aufgerufen und erlauben die Validierung von Dokumenten im Vorbereitungs-Schritt und das Überwachen von Modelländerungen.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -18913,8 +18913,8 @@ The Remind Days are the days when the next email reminder is sent.</value>
   <value column="Name" original="Column SQL">Column SQL</value>
   <value column="PrintName" original="Column SQL">Column SQL</value>
   <value column="Description" original="Virtual Column (r/o)">Virtual Column (r/o)</value>
-  <value column="Help" original="You can define virtual columns (not stored in the database). If defined, the Column name is the synonym of the SQL expression defined here. The SQL expression must be valid.&lt;br&gt;&#10;Example: &quot;Updated-Created&quot; would list the age of the entry in days">You can define virtual columns (not stored in the database). If defined, the Column name is the synonym of the SQL expression defined here. The SQL expression must be valid.&lt;br&gt;
-Example: "Updated-Created" would list the age of the entry in days</value>
+  <value column="Help" original="You can define virtual columns (not stored in the database). If defined, the Column name is the synonym of the SQL expression defined here. The SQL expression must be valid.&lt;br&gt;&#10;Example: &quot;Updated-Created&quot; would list the age of the entry in days"><![CDATA[You can define virtual columns (not stored in the database). If defined, the Column name is the synonym of the SQL expression defined here. The SQL expression must be valid.<br>
+Example: "Updated-Created" would list the age of the entry in days]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -19724,7 +19724,7 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="Name" original="Change Request">Änderungsauftrag</value>
   <value column="PrintName" original="Change Request">Änderungsauftrag</value>
   <value column="Description" original="BOM (Engineering) Change Request">BOM (Engineering) Change Request</value>
-  <value column="Help" original="Change requests for a Bill of Materials. They can be automatically created from Requests, if enabled in the Request Type and the Request Group referres to a Bill of Materials">Change requests for a Bill of Materials. They can be automatically created from Requests, if enabled in the Request Type and the Request Group referres to a Bill of Materials</value>
+  <value column="Help" original="Change requests for a Bill of Materials. They can be automatically created from Requests, if enabled in the Request Type and the Request Group refers to a Bill of Materials">Change requests for a Bill of Materials. They can be automatically created from Requests, if enabled in the Request Type and the Request Group referres to a Bill of Materials</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -19804,7 +19804,7 @@ Example: "Updated-Created" would list the age of the entry in days</value>
   <value column="Name" original="Advanced Tab">Erweitertes Register</value>
   <value column="PrintName" original="Advanced Tab">Erweitertes Register</value>
   <value column="Description" original="This Tab contains advanced Functionality">Dieses Register enthält erweiterte Funktionalität</value>
-  <value column="Help" original="The tab with advanced functionality is only displayed, if enabled in Tools&gt;Preference.">Register mit erweiterter Funktionalität werden nur angezeigt, wenn unter Extras&gt;Einstellungen aktiviert.</value>
+  <value column="Help" original="The tab with advanced functionality is only displayed, if enabled in Tools&gt;Preference."><![CDATA[Register mit erweiterter Funktionalität werden nur angezeigt, wenn unter Extras>Einstellungen aktiviert.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -20226,7 +20226,7 @@ Note that you can over- or under-allocate the payment.  When processing the paym
   <value column="Name" original="Full BP Access">Vollzugriff Geschäftspartner</value>
   <value column="PrintName" original="Full BP Access">Vollzugriff Geschäftspartner</value>
   <value column="Description" original="The user/contact has full access to Business Partner information and resources">Nutzer/Kontakt hat vollen Zugriff auf alle Daten oder Ressourcen des Geschäftspartner</value>
-  <value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab "BP Access"</value>
+  <value column="Help" original="If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselect it, the user has no access rights unless, you explicitly grant it in tab &quot;BP Access&quot;">If selected, the user has full access to the Business Partner (BP) information (Business Documents like Orders, Invoices - Requests) or resources (Assets, Downloads). If you deselet it, the user has no access rights unless, you explicitly grant it in tab "BP Access"</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -20336,7 +20336,7 @@ Note that you can over- or under-allocate the payment.  When processing the paym
   <value column="Name" original="Inventory Clearing">Inventurausbuchung</value>
   <value column="PrintName" original="Inventory Clearing">Inventory Clearing</value>
   <value column="Description" original="Product Inventory Clearing Account">Product Inventory Clearing Account</value>
-  <value column="Help" original="Account used for posting matched product (item) expenses (e.g. AP Invoice, Invoice Match).  You would use a different account then Product Expense, if you want to differentate service related costs from item related costs. The balance on the clearing account should be zero and accounts for the timing difference between invoice receipt and matching.">Account used for posting matched product (item) expenses (e.g. AP Invoice, Invoice Match).  You would use a different account then Product Expense, if you want to differentate service related costs from item related costs. The balance on the clearing account should be zero and accounts for the timing difference between invoice receipt and matching.
+  <value column="Help" original="Account used for posting matched product (item) expenses (e.g. AP Invoice, Invoice Match).  You would use a different account then Product Expense, if you want to differentiate service related costs from item related costs. The balance on the clearing account should be zero and accounts for the timing difference between invoice receipt and matching.">Account used for posting matched product (item) expenses (e.g. AP Invoice, Invoice Match).  You would use a different account then Product Expense, if you want to differentate service related costs from item related costs. The balance on the clearing account should be zero and accounts for the timing difference between invoice receipt and matching.
 </value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -20457,7 +20457,7 @@ Note that you can over- or under-allocate the payment.  When processing the paym
   <value column="Name" original="Commitment Type">Commitment Type</value>
   <value column="PrintName" original="Commitment Type">Commitment Type</value>
   <value column="Description" original="Create Commitment and/or Reservations for Budget Control">Create Commitment and/or Reservations for Budget Control</value>
-  <value column="Help" original="The Posting Type Commitments is created when posting Purchase Orders; The Posting Type Revervation is created when posting Requisitions.  This is used for bugetary control.">The Posting Type Commitments is created when posting Purchase Orders; The Posting Type Revervation is created when posting Requisitions.  This is used for bugetary control.</value>
+  <value column="Help" original="The Posting Type Commitments is created when posting Purchase Orders; The Posting Type Reservation is created when posting Requisitions.  This is used for budgetary control.">The Posting Type Commitments is created when posting Purchase Orders; The Posting Type Revervation is created when posting Requisitions.  This is used for bugetary control.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -20620,7 +20620,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Name" original="User Element 1">Nutzer-Element 1</value>
   <value column="PrintName" original="User Element 1">Nutzer-Element 1</value>
   <value column="Description" original="User defined accounting Element">User defined accounting Element</value>
-  <value column="Help" original="A user defined accounting element referres to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)">A user defined accounting element referres to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</value>
+  <value column="Help" original="A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)">A user defined accounting element referres to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -20630,7 +20630,7 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Name" original="User Element 2">Nutzer-Element 2</value>
   <value column="PrintName" original="User Element 2">Nutzer-Element 2</value>
   <value column="Description" original="User defined accounting Element">User defined accounting Element</value>
-  <value column="Help" original="A user defined accounting element referres to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)">A user defined accounting element referres to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested) </value>
+  <value column="Help" original="A user defined accounting element refers to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested)">A user defined accounting element referres to a Adempiere table. This allows to use any table content as an accounting dimension (e.g. Project Task).  Note that User Elements are optional and are populated from the context of the document (i.e. not requested) </value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -20690,8 +20690,8 @@ Accounting Segments like Organization, Account, Product may have several hierarc
   <value column="Name" original="Price Match Tolerance">Toleranz Preisabgleich</value>
   <value column="PrintName" original="Price Match Tolerance">Toleranz Preisabgleich</value>
   <value column="Description" original="PO-Invoice Match Price Tolerance in percent of the purchase price">PO-Invoice Match Price Tolerance in percent of the purchase price</value>
-  <value column="Help" original="Tolerance in Percent of matching the purchase order price to the invoice price.  The difference is posted as Invoice Price Tolerance for Standard Costing.  If defined, the PO-Invoice match must be explicitly approved, if the matching difference is greater then the tolerance.&lt;br&gt;&#10;Example: if the purchase price is $100 and the tolerance is 1 (percent), the invoice price must be between $99 and 101 to be automatically approved.">Tolerance in Percent of matching the purchase order price to the invoice price.  The difference is posted as Invoice Price Tolerance for Standard Costing.  If defined, the PO-Invoice match must be explicitly approved, if the matching difference is greater then the tolerance.&lt;br&gt;
-Example: if the purchase price is $100 and the tolerance is 1 (percent), the invoice price must be between $99 and 101 to be automatically approved.</value>
+  <value column="Help" original="Tolerance in Percent of matching the purchase order price to the invoice price.  The difference is posted as Invoice Price Tolerance for Standard Costing.  If defined, the PO-Invoice match must be explicitly approved, if the matching difference is greater then the tolerance.&lt;br&gt;&#10;Example: if the purchase price is $100 and the tolerance is 1 (percent), the invoice price must be between $99 and 101 to be automatically approved."><![CDATA[Tolerance in Percent of matching the purchase order price to the invoice price.  The difference is posted as Invoice Price Tolerance for Standard Costing.  If defined, the PO-Invoice match must be explicitly approved, if the matching difference is greater then the tolerance.<br>
+Example: if the purchase price is $100 and the tolerance is 1 (percent), the invoice price must be between $99 and 101 to be automatically approved.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -20871,7 +20871,7 @@ Example: if the purchase price is $100 and the tolerance is 1 (percent), the inv
   <value column="Name" original="Color Schema">Farb-Schema</value>
   <value column="PrintName" original="Color Schema">Farb-Schema</value>
   <value column="Description" original="Performance Color Schema">Ergebnis - Farb-Schema</value>
-  <value column="Help" original="Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).">Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).</value>
+  <value column="Help" original="Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronze-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be between 0 and unlimited (i.e. above 100%).">Visual representation of performance by color.  The Schema has often three levels (e.g. red-yellow-green).  Adempiere support two levels (e.g. red-green) or four levels (e.g. gray-bronce-silver-gold).  Note that Measures without a goal are represented white.  The percentages could be beween 0 and unlimited (i.e. above 100%).</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -21045,8 +21045,8 @@ The measure must support the data, otherwise it is ignored.</value>
   <value column="Name" original="Measure Data Type">Messgrößen-Typ</value>
   <value column="PrintName" original="Data Type">Messgrößen-Typ</value>
   <value column="Description" original="Type of data - Status or in Time">Type of data - Status or in Time</value>
-  <value column="Help" original="Status represents values valid at a certain time (e.g. Open Invoices) - No history is maintained.&lt;br&gt;&#10;Time represents a values at a given time (e.g. Invoice Amount on 1/1) - History is maintained">Status represents values valid at a certain time (e.g. Open Invoices) - No history is maintained.&lt;br&gt;
-Time represents a values at a given time (e.g. Invoice Amount on 1/1) - History is maintained</value>
+  <value column="Help" original="Status represents values valid at a certain time (e.g. Open Invoices) - No history is maintained.&lt;br&gt;&#10;Time represents a values at a given time (e.g. Invoice Amount on 1/1) - History is maintained"><![CDATA[Status represents values valid at a certain time (e.g. Open Invoices) - No history is maintained.<br>
+Time represents a values at a given time (e.g. Invoice Amount on 1/1) - History is maintained]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -21536,7 +21536,7 @@ Time represents a values at a given time (e.g. Invoice Amount on 1/1) - History 
   <value column="Name" original="Meta RobotsTag">Meta RobotsTag</value>
   <value column="PrintName" original="Meta RobotsTag">Meta RobotsTag</value>
   <value column="Description" original="RobotsTag defines how search robots should handle this content">RobotsTag defines how search robots should handle this content</value>
-  <value column="Help" original="The Meta Robots Tag define on how a search engines robot should handle this page and the following ones. It defines two keywords: (NO)INDEX which defines whether or not to index this content and (NO)FOLLOW which defines whether or not to folow links. The most common combination is INDEX,FOLLOW which will force a search robot to index the content and follow links and images.">The Meta Robots Tag define on how a search engines robot should handle this page and the following ones. It defines two keywords: (NO)INDEX which defines whether or not to index this content and (NO)FOLLOW which defines whether or not to folow links. The most common combination is INDEX,FOLLOW which will force a search robot to index the content and follow links and images.</value>
+  <value column="Help" original="The Meta Robots Tag define on how a search engines robot should handle this page and the following ones. It defines two keywords: (NO)INDEX which defines whether or not to index this content and (NO)FOLLOW which defines whether or not to follow links. The most common combination is INDEX,FOLLOW which will force a search robot to index the content and follow links and images.">The Meta Robots Tag define on how a search engines robot should handle this page and the following ones. It defines two keywords: (NO)INDEX which defines whether or not to index this content and (NO)FOLLOW which defines whether or not to folow links. The most common combination is INDEX,FOLLOW which will force a search robot to index the content and follow links and images.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -21867,7 +21867,7 @@ Time represents a values at a given time (e.g. Invoice Amount on 1/1) - History 
   <value column="Name" original="Media Server">Media Server</value>
   <value column="PrintName" original="Media Server">Media Server</value>
   <value column="Description" original="Media Server list to which content should get transfered">Media Server list to which content should get transfered</value>
-  <value column="Help" original="For performance optimization we save media content on static servers">For performance optimization we save media content on static servers</value>
+  <value column="Help" original="Media Server list to which content should get transferred">For performance optimization we save media content on static servers</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -22248,7 +22248,7 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="Name" original="Entity Type">Entitäts-Art</value>
   <value column="PrintName" original="Entity Type">Entitäts-Art</value>
   <value column="Description" original="System Entity Type">Systementitäts-Art</value>
-  <value column="Help" original="The entity type determines the ownership of Application Dictionary entries.  The types &quot;Dictionary&quot; and &quot;Adempiere&quot; should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).">The entity type determines the ownership of Application Dictionary entries.  The types "Dictionary" and "Adempiere" should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).</value>
+  <value column="Help" original="The entity type determines the ownership of Application Dictionary entries.  The types &quot;Dictionary&quot; and &quot;Adempiere&quot; should not be used and are maintained by Adempiere (i.e. all changes are reversed during migration to the current definition).">The entity type determines the ownership of Application Dictionary entries.  The types "Dictionary" and "Adempiere" should not be used and are maintainted by Adempiere (i.e. all changes are reversed during migration to the current definition).</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -22268,7 +22268,7 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="Name" original="Classpath">Classpath</value>
   <value column="PrintName" original="Classpath">Classpath</value>
   <value column="Description" original="Extension Classpath">Extension Classpath</value>
-  <value column="Help" original="If your appplication requires additional jar files, enter them here. The jar files must be located in the $ADEMPIERE_HOME/lib directory.">If your appplication requires additional jar files, enter them here. The jar files must be located in the $ADEMPIERE_HOME/lib directory.</value>
+  <value column="Help" original="If your application requires additional jar files, enter them here. The jar files must be located in the $ADEMPIERE_HOME/lib directory.">If your appplication requires additional jar files, enter them here. The jar files must be located in the $ADEMPIERE_HOME/lib directory.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -22557,7 +22557,7 @@ The ID is related 1 to 1 to the container ID</value>
  <row id="3083" trl="Y">
   <value column="Name" original="Acct Open Dr">Acct Open Dr</value>
   <value column="PrintName" original="Acct Open Dr">Acct Open Dr</value>
-  <value column="Description" original="Open Debit in document curreny &amp; rate">Open Debit in document curreny &amp; rate</value>
+  <value column="Description" original="Open Debit in document currency &amp; rate"><![CDATA[Open Debit in document curreny & rate]]></value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -22567,7 +22567,7 @@ The ID is related 1 to 1 to the container ID</value>
  <row id="3084" trl="N">
   <value column="Name" original="Acct Open Cr">Acct Open Cr</value>
   <value column="PrintName" original="Acct Open Cr">Acct Open Cr</value>
-  <value column="Description" original="Open Credit in document curreny &amp; rate">Open Credit in document curreny &amp; rate</value>
+  <value column="Description" original="Open Credit in document currency &amp; rate"><![CDATA[Open Credit in document curreny & rate]]></value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -22577,7 +22577,7 @@ The ID is related 1 to 1 to the container ID</value>
  <row id="3085" trl="N">
   <value column="Name" original="Acct Open Balance">Acct Open Balance</value>
   <value column="PrintName" original="Acct Open Balance">Acct Open Balance</value>
-  <value column="Description" original="Open Balance in document curreny &amp; rate">Open Balance in document curreny &amp; rate</value>
+  <value column="Description" original="Open Balance in document currency &amp; rate"><![CDATA[Open Balance in document curreny & rate]]></value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -22608,7 +22608,7 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="Name" original="Show All Due">Show All Due</value>
   <value column="PrintName" original="Show All Due">Show All Due</value>
   <value column="Description" original="Show/print all due invoices">Show/print all due invoices</value>
-  <value column="Help" original="The dunning letter with this level incudes all due invoices.">The dunning letter with this level incudes all due invoices.</value>
+  <value column="Help" original="The dunning letter with this level includes all due invoices.">The dunning letter with this level incudes all due invoices.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -22658,7 +22658,7 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="Name" original="Ldap Processor">LDAP-Server</value>
   <value column="PrintName" original="Ldap Processor">LDAP-Server</value>
   <value column="Description" original="LDAP Server to authenticate and authorize external systems based on Adempiere">LDAP-Server um externe Systeme basierend auf ADempiere-Daten zu authentifizieren</value>
-  <value column="Help" original="The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The &quot;o&quot; is the Client key and the optional &quot;ou&quot; is the Interest Area key.">The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The "o" is the Client key and the optional "ou" is the Interest Area key.</value>
+  <value column="Help" original="The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authenticate and authorize them.  There is only one server per Adempiere system.  The &quot;o&quot; is the Client key and the optional &quot;ou&quot; is the Interest Area key.">The LDAP Server allows third party software (e.g. Apache) to use the users defined in the system to authentificate and authorize them.  There is only one server per Adempiere system.  The "o" is the Client key and the optional "ou" is the Interest Area key.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -24155,10 +24155,10 @@ The ID is related 1 to 1 to the container ID</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53229" trl="N">
-  <value column="Name" original="Configuration LEVEL">Configuration LEVEL</value>
-  <value column="PrintName" original="Configuration LEVEL FOR this parameter">Configuration LEVEL FOR this parameter</value>
+  <value column="Name" original="Configuration Level">Configuration LEVEL</value>
+  <value column="PrintName" original="Configuration Level for this parameter">Configuration LEVEL FOR this parameter</value>
   <value column="Description" original="Configuration Level for this parameter">Configuration Level for this parameter</value>
-  <value column="Help" original="Configuration Level for this parameter&#10;S - just allowed SYSTEM configuration&#10;C - client configurable parameter&#10;O - org configurable parameter">Configuration Level for this parameter
+  <value column="Help" original="Configuration Level for this parameter&#10;S - just allowed system configuration&#10;C - client configurable parameter&#10;O - org configurable parameter">Configuration Level for this parameter
 S - just allowed SYSTEM configuration
 C - client configurable parameter
 O - org configurable parameter</value>
@@ -24319,9 +24319,9 @@ O - org configurable parameter</value>
  </row>
  <row id="53245" trl="Y">
   <value column="Name" original="BOM &amp; Formula">Materialstückliste/Formel/Rezeptur</value>
-  <value column="PrintName" original="BOM &amp; Formula">BOM &amp; Formula</value>
-  <value column="Description" original="BOM &amp; Formula">Materialstückliste (BOM=Bill of Material) &amp; Rezept pflegen</value>
-  <value column="Help" original="">The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM &amp; Formula for the entity will be the BOM/Formula which has the same name as the product.</value>
+  <value column="PrintName" original="BOM &amp; Formula"><![CDATA[BOM & Formula]]></value>
+  <value column="Description" original="BOM &amp; Formula"><![CDATA[Materialstückliste (BOM=Bill of Material) & Rezept pflegen]]></value>
+  <value column="Help" original=""><![CDATA[The name BOM/Formula that you introduce in this window will be considered the default BOM to produce the product in this Organization-Plant-Warehouse. If you do not fill this field the default BOM & Formula for the entity will be the BOM/Formula which has the same name as the product.]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -28272,12 +28272,12 @@ If you change the Standard Rates then this variance is generate.</value>
   <value column="Name" original="Floor Stock">Floor Stock</value>
   <value column="PrintName" original="Account for Floor Stock">Account for Floor Stock</value>
   <value column="Description" original="The Floor Stock account is the account used Manufacturing Order">The Floor Stock account is the account used Manufacturing Order</value>
-  <value column="Help" original="The Floor Stock is used for accounting the component with Issue method  is set Floor stock  into Bill of Material &amp; Formula Window.&#10;&#10;The components with Issue Method  defined as Floor stock is acounting next way:&#10;&#10;Debit Floor Stock Account&#10;Credit Work in Process Account ">The Floor Stock is used for accounting the component with Issue method  is set Floor stock  into Bill of Material &amp; Formula Window.
+  <value column="Help" original="The Floor Stock is used for accounting the component with Issue method  is set Floor stock  into Bill of Material &amp; Formula Window.&#10;&#10;The components with Issue Method  defined as Floor stock is acounting next way:&#10;&#10;Debit Floor Stock Account&#10;Credit Work in Process Account "><![CDATA[The Floor Stock is used for accounting the component with Issue method  is set Floor stock  into Bill of Material & Formula Window.
 
 The components with Issue Method  defined as Floor stock is acounting next way:
 
 Debit Floor Stock Account
-Credit Work in Process Account </value>
+Credit Work in Process Account ]]></value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
