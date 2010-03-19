@@ -11033,8 +11033,8 @@ Beachten Sie, dass Basissprache immer Englisch ist.</value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="1865" trl="Y">
-  <value column="Name" original="Header Row Font">Kopfzeile Zeichensatz</value>
-  <value column="PrintName" original="Header Row Font">Kopfzeile Zeichensatz</value>
+  <value column="Name" original="Header Row Font">Kopfzeile Schriftart</value>
+  <value column="PrintName" original="Header Row Font">Kopfzeile Schriftart</value>
   <value column="Description" original="Header row Font">Header row Font</value>
   <value column="Help" original="Font of the table header row">Font of the table header row</value>
   <value column="PO_Description" original=""/>
@@ -17538,9 +17538,9 @@ This default can be overwritten by defining explicit counter document relationsh
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="2558" trl="Y">
-  <value column="Name" original="Default Print Font">Standard-Zeichensatz</value>
-  <value column="PrintName" original="Default Print Font">Standard-Zeichensatz</value>
-  <value column="Description" original="">Zeichensatz der für Ausdrucke als Standard verwendet werden soll</value>
+  <value column="Name" original="Default Print Font">Standard-Schriftart</value>
+  <value column="PrintName" original="Default Print Font">Standard-Schriftart</value>
+  <value column="Description" original="">Schriftart, die für Ausdrucke als Standard verwendet werden soll</value>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
