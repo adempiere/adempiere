@@ -16,14 +16,11 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
  
 /**
@@ -35,6 +32,7 @@ import org.compiere.util.Env;
  *
  *  @author Jorg Janke
  *  @version $Id: MContactInterest.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query 
  */
 public class MContactInterest extends X_R_ContactInterest
 {
@@ -55,36 +53,11 @@ public class MContactInterest extends X_R_ContactInterest
 	public static MContactInterest get (Properties ctx, 
 		int R_InterestArea_ID, int AD_User_ID, boolean isActive, String trxName)
 	{
-		MContactInterest retValue = null;
-		String sql = "SELECT * FROM R_ContactInterest "
-			+ "WHERE R_InterestArea_ID=? AND AD_User_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			pstmt.setInt(1, R_InterestArea_ID);
-			pstmt.setInt(2, AD_User_ID);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = new MContactInterest (ctx, rs, trxName);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}		
+		final String whereClause = I_R_ContactInterest.COLUMNNAME_R_InterestArea_ID+"=? AND "+I_R_ContactInterest.COLUMNNAME_AD_User_ID+"=?";
+		MContactInterest retValue = new Query(ctx,I_R_ContactInterest.Table_Name,whereClause,trxName)
+		.setParameters(R_InterestArea_ID,AD_User_ID)
+		.first();
+
 		if (retValue == null)
 		{
 			retValue = new MContactInterest (ctx, R_InterestArea_ID, AD_User_ID, 
