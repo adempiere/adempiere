@@ -1732,7 +1732,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					query.addRestriction(link, MQuery.EQUAL,
 						Env.getContext(ctx, curWindowNo, link));
 			}
-			new WZoomAcross (toolbar.getEvent().getTarget(), curTab.getTableName(), query);
+			new WZoomAcross(toolbar.getEvent().getTarget(), curTab
+					.getTableName(), curTab.getAD_Window_ID(), query);
 		}
 	}
 

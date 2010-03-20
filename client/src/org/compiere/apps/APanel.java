@@ -2155,8 +2155,8 @@ public final class APanel extends CPanel
 				query.addRestriction(link, MQuery.EQUAL,
 					Env.getContext(m_ctx, m_curWindowNo, link));
 		}
-		new AZoomAcross (aZoomAcross.getButton(),
-			m_curTab.getTableName(), query);
+		new AZoomAcross(aZoomAcross.getButton(), m_curTab.getTableName(),
+				m_curTab.getAD_Window_ID(), query);
 	}	//	cmd_zoom
 
 	/**
