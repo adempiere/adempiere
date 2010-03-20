@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -38,6 +39,7 @@ import org.compiere.util.Env;
  *  @author Teo Sarca
  *  	<li>BF [ 2847648 ] Manufacture & shipment cost errors
  *  		https://sourceforge.net/tracker/?func=detail&aid=2847648&group_id=176962&atid=934929
+ * 	@author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
  *  @version $Id: MCostDetail.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  *  
  */
@@ -522,41 +524,15 @@ public class MCostDetail extends X_M_CostDetail
 	 *	@param trxName trx
 	 *	@return cost detail
 	 */
-	public static MCostDetail get (Properties ctx, String whereClause, 
+	public static MCostDetail get (Properties ctx, String passedClause, 
 		int ID, int M_AttributeSetInstance_ID, int C_AcctSchema_ID, String trxName)
 	{
-		String sql = "SELECT * FROM M_CostDetail WHERE " + whereClause
+		final String whereClause = passedClause
 			+ " AND M_AttributeSetInstance_ID=?"
 			+ " AND C_AcctSchema_ID=?";
-		MCostDetail retValue = null;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, ID);
-			pstmt.setInt (2, M_AttributeSetInstance_ID);
-			pstmt.setInt (3, C_AcctSchema_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MCostDetail (ctx, rs, trxName);
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql + " - " + ID, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		MCostDetail retValue = new Query(ctx,I_M_CostDetail.Table_Name,whereClause,trxName)
+		.setParameters(ID,M_AttributeSetInstance_ID,C_AcctSchema_ID)
+		.first();
 		return retValue;
 	}	//	get
 	
@@ -568,46 +544,20 @@ public class MCostDetail extends X_M_CostDetail
 	 */
 	public static boolean processProduct (MProduct product, String trxName)
 	{
-		String sql = "SELECT * FROM M_CostDetail "
-			+ "WHERE M_Product_ID=?"
-			+ " AND Processed='N' "
-			+ "ORDER BY C_AcctSchema_ID, M_CostElement_ID, AD_Org_ID, M_AttributeSetInstance_ID, Created";
+		final String whereClause = I_M_CostDetail.COLUMNNAME_M_Product_ID+"=?"
+			+ " AND "+I_M_CostDetail.COLUMNNAME_Processed+"=?";
 		int counterOK = 0;
 		int counterError = 0;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, trxName);
-			pstmt.setInt (1, product.getM_Product_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MCostDetail cd = new MCostDetail(product.getCtx(), rs, trxName);
-				if (cd.process())	//	saves
+		List<MCostDetail> list = new Query(product.getCtx(),I_M_CostDetail.Table_Name,whereClause,trxName)
+		.setParameters(product.getM_Product_ID(),false)
+		.setOrderBy("C_AcctSchema_ID, M_CostElement_ID, AD_Org_ID, M_AttributeSetInstance_ID, Created")
+		.list();
+		for (MCostDetail cd:list){
+			if (cd.process())	//	saves
 					counterOK++;
 				else
 					counterError++;
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-			counterError++;
-		}
-		
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
 		s_log.config("OK=" + counterOK + ", Errors=" + counterError);
 		return counterError == 0;
 	}	//	processProduct
