@@ -44,6 +44,7 @@ import org.compiere.util.Msg;
  * 			<li>BF [ 1733602 ] Price List including Tax Error - when a user changes the orderline or
  * 				invoice line for a product on a price list that includes tax, the net amount is
  * 				incorrectly calculated.
+ * @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
  */
 public class MInvoiceLine extends X_C_InvoiceLine
 {
@@ -63,38 +64,11 @@ public class MInvoiceLine extends X_C_InvoiceLine
 	{
 		if (sLine == null)
 			return null;
-		MInvoiceLine retValue = null;
-		String sql = "SELECT * FROM C_InvoiceLine WHERE M_InOutLine_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, sLine.get_TrxName());
-			pstmt.setInt (1, sLine.getM_InOutLine_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
-				retValue = new MInvoiceLine (sLine.getCtx(), rs, sLine.get_TrxName());
-				if (rs.next())
-					s_log.warning("More than one C_InvoiceLine of " + sLine);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_M_InOutLine.COLUMNNAME_M_InOutLine_ID+"=?";
+		MInvoiceLine retValue = new Query(sLine.getCtx(),I_C_InvoiceLine.Table_Name,whereClause,sLine.get_TrxName())
+		.setParameters(sLine.getM_InOutLine_ID())
+		.firstOnly();
+
 		return retValue;
 	}	//	getOfInOutLine
 
