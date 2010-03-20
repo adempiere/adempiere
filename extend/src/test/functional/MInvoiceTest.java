@@ -13,13 +13,15 @@
  *****************************************************************************/
 package test.functional;
 
+import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
 
 /**
- * @author Teo Sarca, www.arhipac.ro
+ * @author Teo Sarca, www.arhipac.ro //red1 reused for InvoiceLine test
  */
 public class MInvoiceTest extends AdempiereTestCase
 {
@@ -44,6 +46,10 @@ public class MInvoiceTest extends AdempiereTestCase
 			invoice.getLines(true); // test query
 			invoice.getTaxes(true); // test query
 		}
+		//test MinvoiceLine getOfInOutLine
+		MInOutLine iol = new MInOutLine(getCtx(),101,getTrxName()); //get InOutLine thats from InvoiceLine
+		MInvoiceLine invl = MInvoiceLine.getOfInOutLine(iol);
+		assertTrue("getOfInOutLine must work",invl.get_ID()>0);
 	}
 
 }
