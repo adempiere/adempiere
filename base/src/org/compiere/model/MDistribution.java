@@ -17,22 +17,21 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
  *	GL Distribution Model
  *	
  *  @author Jorg Janke
+ *  @author red1 FR: [ 2214883 ] Remove SQL code and Replace for Query
  *  @version $Id: MDistribution.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
  */
 public class MDistribution extends X_GL_Distribution
@@ -158,36 +157,11 @@ public class MDistribution extends X_GL_Distribution
 		MDistribution[] retValue = (MDistribution[])s_accounts.get(key);
 		if (retValue != null)
 			return retValue;
-		
-		String sql = "SELECT * FROM GL_Distribution "
-			+ "WHERE Account_ID=?";
-		ArrayList<MDistribution> list = new ArrayList<MDistribution>();
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, Account_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MDistribution (ctx, rs, null));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			s_log.log(Level.SEVERE, sql, e); 
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		final String whereClause = I_GL_Distribution.COLUMNNAME_Account_ID;
+
+		List<MDistribution> list = new Query(ctx,I_GL_Distribution.Table_Name,whereClause+"=?",null)
+		.setParameters(Account_ID)
+		.list();
 		//
 		retValue = new MDistribution[list.size ()];
 		list.toArray (retValue);
@@ -259,56 +233,32 @@ public class MDistribution extends X_GL_Distribution
 		if (m_lines != null && !reload) {
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
-		}
-		
+		}		
 		BigDecimal PercentTotal = Env.ZERO;
-		ArrayList<MDistributionLine> list = new ArrayList<MDistributionLine>();
-		String sql = "SELECT * FROM GL_DistributionLine "
-			+ "WHERE GL_Distribution_ID=? ORDER BY Line";
+		//red1 Query
+		final String whereClause = I_GL_DistributionLine.COLUMNNAME_GL_Distribution_ID+"=?";
+		List<MDistributionLine> list = new Query(getCtx(),I_GL_DistributionLine.Table_Name,whereClause,get_TrxName())
+		.setParameters(getGL_Distribution_ID())
+		.setOrderBy("Line")
+		.list();
+		//red1 Query  -end-
 		boolean hasNullRemainder = false;
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getGL_Distribution_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MDistributionLine dl = new MDistributionLine (getCtx(), rs, get_TrxName());
-				if (dl.isActive())
+		for (MDistributionLine dl:list){
+			if (dl.isActive())
 				{
 					PercentTotal = PercentTotal.add(dl.getPercent());
 					hasNullRemainder = Env.ZERO.compareTo(dl.getPercent()) == 0;
 				}
 				dl.setParent(this);
-				list.add (dl);
+				//	Update Ratio when saved and difference
+				if (hasNullRemainder)
+					PercentTotal = Env.ONEHUNDRED;
+				if (get_ID() != 0 && PercentTotal.compareTo(getPercentTotal()) != 0)
+					{
+						setPercentTotal(PercentTotal);
+						save();
+					}
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getLines", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//	Update Ratio when saved and difference
-		if (hasNullRemainder)
-			PercentTotal = Env.ONEHUNDRED;
-		if (get_ID() != 0 && PercentTotal.compareTo(getPercentTotal()) != 0)
-		{
-			setPercentTotal(PercentTotal);
-			save();
-		}
 		//	return
 		m_lines = new MDistributionLine[list.size ()];
 		list.toArray (m_lines);
