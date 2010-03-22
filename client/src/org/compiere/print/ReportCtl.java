@@ -336,6 +336,7 @@ public class ReportCtl
 				if (printerName!=null && printerName.trim().length()>0) {
 					// Override printer name
 					pip = new ProcessInfoParameter(PARAM_PRINTER_NAME, printerName, null, null, null);
+					jasperPrintParams.add(pip);
 				}
 				pip = new ProcessInfoParameter(PARAM_PRINT_FORMAT, format, null, null, null);
 				jasperPrintParams.add(pip);
