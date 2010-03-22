@@ -142,7 +142,7 @@ public class WWFActivity extends ADForm implements EventListener
 	private void init()
 	{
 		Grid grid = new Grid();
-		grid.setWidth("99%");
+		grid.setWidth("100%");
         grid.setHeight("100%");
         grid.setStyle("margin:0; padding:0; position: absolute; align: center; valign: center;");
         grid.makeNoStrip();
@@ -243,6 +243,7 @@ public class WWFActivity extends ADForm implements EventListener
 		north.appendChild(listbox);
 		north.setSplittable(true);
 		north.setFlex(true);
+		north.setHeight("50%");
 		layout.appendChild(north);
 		north.setStyle("background-color: transparent");
 		listbox.addEventListener(Events.ON_SELECT, this);
