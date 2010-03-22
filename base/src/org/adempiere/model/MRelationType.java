@@ -38,6 +38,7 @@ import org.compiere.model.MRefTable;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.model.X_AD_RelationType;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;

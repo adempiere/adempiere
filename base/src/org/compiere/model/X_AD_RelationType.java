@@ -15,11 +15,10 @@
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_RelationType
@@ -31,7 +30,7 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091113L;
+	private static final long serialVersionUID = 20100322L;
 
     /** Standard Constructor */
     public X_AD_RelationType (Properties ctx, int AD_RelationType_ID, String trxName)
@@ -43,8 +42,6 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 			setIsDirected (false);
 // N
 			setName (null);
-			setRole_Source (null);
-			setRole_Target (null);
 			setType (null);
 // I
         } */
@@ -221,7 +218,9 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 	/** Invoice = Invoice */
 	public static final String ROLE_SOURCE_Invoice = "Invoice";
 	/** Set Source Role.
-		@param Role_Source Source Role	  */
+		@param Role_Source 
+		If set, this role will be used as label for the zoom destination instead of the destinations's window name
+	  */
 	public void setRole_Source (String Role_Source)
 	{
 
@@ -229,7 +228,8 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 	}
 
 	/** Get Source Role.
-		@return Source Role	  */
+		@return If set, this role will be used as label for the zoom destination instead of the destinations's window name
+	  */
 	public String getRole_Source () 
 	{
 		return (String)get_Value(COLUMNNAME_Role_Source);
@@ -242,7 +242,9 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 	/** Invoice = Invoice */
 	public static final String ROLE_TARGET_Invoice = "Invoice";
 	/** Set Target Role.
-		@param Role_Target Target Role	  */
+		@param Role_Target 
+		If set, this role will be used as label for the zoom destination instead of the destinations's window name
+	  */
 	public void setRole_Target (String Role_Target)
 	{
 
@@ -250,7 +252,8 @@ public class X_AD_RelationType extends PO implements I_AD_RelationType, I_Persis
 	}
 
 	/** Get Target Role.
-		@return Target Role	  */
+		@return If set, this role will be used as label for the zoom destination instead of the destinations's window name
+	  */
 	public String getRole_Target () 
 	{
 		return (String)get_Value(COLUMNNAME_Role_Target);

@@ -92,10 +92,11 @@ public class ZoomInfoFactory {
 		for (final ZoomInfo zoomInfo : MRelationType.retrieveZoomInfos(po,
 				windowID)) {
 
-			logger.fine("Adding zoomInfo " + zoomInfo);
-
-			alreadySeen.add(zoomInfo.destinationDisplay);
-			result.add(zoomInfo);
+			if (alreadySeen.add(zoomInfo.destinationDisplay)) {
+				
+				logger.fine("Adding zoomInfo " + zoomInfo);
+				result.add(zoomInfo);
+			}
 		}
 
 		final GenericZoomProvider genericZoomProvider = new GenericZoomProvider();

@@ -22,7 +22,7 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MQuery;
-import org.compiere.model.MRMA;
+import org.compiere.model.MTab;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -42,7 +42,7 @@ public class GenericZoomProvider implements IZoomProvider {
 
 	public List<ZoomInfoFactory.ZoomInfo> retrieveZoomInfos(PO po) {
 
-		String sql = "SELECT DISTINCT ws.AD_Window_ID,ws.Name, wp.AD_Window_ID,wp.Name, t.TableName "
+		String sql = "SELECT DISTINCT ws.AD_Window_ID, ws.Name, wp.AD_Window_ID, wp.Name, t.TableName, tts.AD_Tab_ID, ttp.AD_Tab_ID "
 				+ "FROM AD_Table t ";
 		boolean baseLanguage = Env.isBaseLanguage(Env.getCtx(), "AD_Window");
 		if (baseLanguage)
@@ -51,11 +51,10 @@ public class GenericZoomProvider implements IZoomProvider {
 		else
 			sql += "INNER JOIN AD_Window_Trl ws ON (t.AD_Window_ID=ws.AD_Window_ID AND ws.AD_Language=?)"
 					+ " LEFT OUTER JOIN AD_Window_Trl wp ON (t.PO_Window_ID=wp.AD_Window_ID AND wp.AD_Language=?) ";
-		//
-		sql += "WHERE t.TableName NOT LIKE 'I%'" // No Import
-				+ " AND EXISTS (SELECT * FROM AD_Tab tt " // First Tab
-				+ "WHERE (tt.AD_Window_ID=ws.AD_Window_ID OR tt.AD_Window_ID=wp.AD_Window_ID)"
-				+ " AND tt.AD_Table_ID=t.AD_Table_ID AND tt.SeqNo=10)"
+		// WARNING - HardCoded: first tab must have SeqNo = 10
+		sql += "JOIN AD_Tab tts ON (tts.AD_Window_ID=ws.AD_Window_ID AND tts.AD_Table_ID=t.AD_Table_ID AND tts.SeqNo=10)" // first tab so
+				+" LEFT OUTER JOIN AD_Tab ttp ON (ttp.AD_Window_ID=wp.AD_Window_ID AND ttp.AD_Table_ID=t.AD_Table_ID AND ttp.SeqNo=10)" // first tab po
+				+" WHERE t.TableName NOT LIKE 'I%'" // No Import
 				+ " AND t.AD_Table_ID IN "
 				+ "(SELECT AD_Table_ID FROM AD_Column "
 				+ "WHERE ColumnName=? AND IsKey='N' AND IsParent='N') " // #x
@@ -79,70 +78,48 @@ public class GenericZoomProvider implements IZoomProvider {
 				int AD_Window_ID = rs.getInt(1);
 				String Name = rs.getString(2);
 				int PO_Window_ID = rs.getInt(3);
+				int AD_Tab_ID = rs.getInt(6);
+				int PO_Tab_ID = rs.getInt(7);
 				String targetTableName = rs.getString(5);
 
-				if (PO_Window_ID == 0) {
-
-					final MQuery query = evaluateQuery(targetTableName,
-							AD_Window_ID, Name, null, po);
-					result.add(new ZoomInfoFactory.ZoomInfo(AD_Window_ID,
-							query, Name));
-
-				} else {
-					final MQuery query = evaluateQuery(targetTableName,
-							AD_Window_ID, Name, Boolean.TRUE, po);
-					result.add(new ZoomInfoFactory.ZoomInfo(AD_Window_ID,
-							query, Name));
-					// // PO
-				}
-				if (PO_Window_ID != 0) {
-
+				final MQuery query = evaluateQuery(targetTableName,
+						AD_Tab_ID, Name, po);
+				result.add(new ZoomInfoFactory.ZoomInfo(AD_Window_ID,
+						query, Name));
+				if (PO_Window_ID != 0 && PO_Tab_ID != 0) {
 					Name = rs.getString(4);
-					final MQuery query = evaluateQuery(targetTableName,
-							PO_Window_ID, Name, Boolean.FALSE, po);
-
+					final MQuery querypo = evaluateQuery(targetTableName,
+							PO_Tab_ID, Name, po);
 					result.add(new ZoomInfoFactory.ZoomInfo(PO_Window_ID,
-							query, Name));
+							querypo, Name));
 				}
 			}
 			return result;
 
 		} catch (SQLException e) {
 			logger.log(Level.SEVERE, sql, e);
-			throw new AdempiereException();
+			throw new AdempiereException(e);
 		} finally {
 			DB.close(rs, pstmt);
 		}
 	}
 
 	private static MQuery evaluateQuery(String targetTableName,
-			int AD_Window_ID, String Name, Boolean isSO, final PO po) {
-
+			int AD_Tab_ID, String Name, final PO po) {
+		
+		MTab tab = new MTab(Env.getCtx(), AD_Tab_ID, null);
 		final MQuery query = new MQuery();
 
 		query.addRestriction(po.get_TableName() + "_ID=" + po.get_ID());
+		if (tab.getWhereClause() != null && tab.getWhereClause().length() > 0)
+			query.addRestriction(tab.getWhereClause());
 		query.setZoomTableName(targetTableName);
 		query.setZoomColumnName(po.get_KeyColumns()[0]);
 		query.setZoomValue(po.get_ID());
 
 		String sql = "SELECT COUNT(*) FROM " + targetTableName + " WHERE "
 				+ query.getWhereClause(false);
-		String sqlAdd = "";
-		if (isSO != null) {
-			/*
-			 * For RMA, Material Receipt window should be loaded for
-			 * IsSOTrx=true and Shipment for IsSOTrx=false
-			 */
-
-			if (MRMA.Table_Name.equals(po.get_TableName())
-					&& (AD_Window_ID == 169 || AD_Window_ID == 184)) {
-				isSO = !isSO;
-			}
-			sqlAdd = " AND IsSOTrx=" + (isSO.booleanValue() ? "'Y'" : "'N'");
-		}
-		int count = DB.getSQLValue(null, sql + sqlAdd);
-		if (count < 0 && isSO != null) // error try again w/o SO
-			count = DB.getSQLValue(null, sql);
+		int count = DB.getSQLValue(null, sql);
 
 		query.setRecordCount(count);
 

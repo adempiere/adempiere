@@ -14,11 +14,10 @@
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
  * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
-package org.adempiere.model;
+package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_RelationType
@@ -165,19 +164,27 @@ public interface I_AD_RelationType
     /** Column name Role_Source */
     public static final String COLUMNNAME_Role_Source = "Role_Source";
 
-	/** Set Source Role	  */
+	/** Set Source Role.
+	  * If set, this role will be used as label for the zoom destination instead of the destinations's window name
+	  */
 	public void setRole_Source (String Role_Source);
 
-	/** Get Source Role	  */
+	/** Get Source Role.
+	  * If set, this role will be used as label for the zoom destination instead of the destinations's window name
+	  */
 	public String getRole_Source();
 
     /** Column name Role_Target */
     public static final String COLUMNNAME_Role_Target = "Role_Target";
 
-	/** Set Target Role	  */
+	/** Set Target Role.
+	  * If set, this role will be used as label for the zoom destination instead of the destinations's window name
+	  */
 	public void setRole_Target (String Role_Target);
 
-	/** Get Target Role	  */
+	/** Get Target Role.
+	  * If set, this role will be used as label for the zoom destination instead of the destinations's window name
+	  */
 	public String getRole_Target();
 
     /** Column name Type */
