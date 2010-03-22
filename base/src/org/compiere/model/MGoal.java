@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -105,33 +106,14 @@ public class MGoal extends X_PA_Goal
 	 */
 	public static MGoal[] getGoals(Properties ctx)
 	{
-		ArrayList<MGoal> list = new ArrayList<MGoal>();
-		String sql = "SELECT * FROM PA_Goal WHERE IsActive='Y' "
-			+ "ORDER BY SeqNo";
-		sql = MRole.getDefault(ctx, false).addAccessSQL(sql, "PA_Goal", 
-			false, true);	//	RW to restrict Access
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MGoal goal = new MGoal (ctx, rs, null);
+		List<MGoal> list = new Query(ctx,I_PA_Goal.Table_Name,null,null)
+		.setOrderBy("SeqNo")
+		.setApplyAccessFilter(true)
+		.setOnlyActiveRecords(true)
+		.list();
+		for(MGoal goal:list)
 				goal.updateGoal(false);
-				list.add (goal);
-			}
-		}
-		catch (Exception e)
-		{
-			s_log.log (Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+			
 		MGoal[] retValue = new MGoal[list.size ()];
 		list.toArray (retValue);
 		return retValue;
