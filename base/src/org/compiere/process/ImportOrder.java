@@ -232,8 +232,8 @@ public class ImportOrder extends SvrProcess
 		// @Trifon - Import Order Source
 		sql = new StringBuffer ("UPDATE I_Order o "
 			  + "SET C_OrderSource_ID=(SELECT C_OrderSource_ID FROM C_OrderSource p"
-			  + " WHERE o.OrderSourceValue=p.Value AND o.AD_Client_ID=p.AD_Client_ID) "
-			  + "WHERE C_OrderSource_ID IS NULL AND OrderSourceValue IS NOT NULL AND I_IsImported<>'Y'").append (clientCheck);
+			  + " WHERE o.C_OrderSourceValue=p.Value AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "WHERE C_OrderSource_ID IS NULL AND C_OrderSourceValue IS NOT NULL AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set Order Source=" + no);
 		// Set proper error message
