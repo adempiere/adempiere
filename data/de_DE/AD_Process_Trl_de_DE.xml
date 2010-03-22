@@ -485,7 +485,7 @@
  <row id="205" trl="Y">
   <value column="Name" original="Cache Reset">Cache leeren</value>
   <value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">Cache des Systems leeren ** Schließen Sie alle Fenster, bevor Sie fortsetzen **</value>
-  <value column="Help" original="To increase performance, Adempiere caches repeatedly used data. This process clears the local cache.">Um die Leistung der Anwendung zu steigern, speichert Compiere wiederholt genutzte Daten zwischen. Dieser Prozess löscht den dafür genutzten lokalen Cache.</value>
+  <value column="Help" original="To increase performance, Adempiere caches repeatedly used data. This process clears the local cache.">Um die Leistung der Anwendung zu steigern, speichert ADempiere wiederholt genutzte Daten zwischen. Dieser Prozess löscht den dafür genutzten lokalen Cache.</value>
  </row>
  <row id="206" trl="Y">
   <value column="Name" original="Import Orders">Aufträge und Bestellungen importieren</value>

@@ -462,8 +462,8 @@
   <value column="Description" original=""/>
  </row>
  <row id="225" trl="Y">
-  <value column="Name" original="Freight included">Freight included</value>
-  <value column="Description" original="Freight cost included">Freight cost included</value>
+  <value column="Name" original="Freight included">Lieferkosten inbegriffen</value>
+  <value column="Description" original="Freight cost included">Lieferkosten inbegriffen</value>
  </row>
  <row id="226" trl="Y">
   <value column="Name" original="Fix price">Fix price</value>
@@ -2338,11 +2338,11 @@
   <value column="Description" original=""/>
  </row>
  <row id="734" trl="Y">
-  <value column="Name" original="None">Nichts</value>
+  <value column="Name" original="None">Keine</value>
   <value column="Description" original=""/>
  </row>
  <row id="735" trl="Y">
-  <value column="Name" original="EMail+Notice">EMail+Nachricht</value>
+  <value column="Name" original="EMail+Notice">E-Mail und Nachricht</value>
   <value column="Description" original=""/>
  </row>
  <row id="736" trl="Y">

@@ -3408,8 +3408,8 @@ Example: A tab with C_DocType_ID (1), DocumentNo (-2) will be sorted ascending b
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="598" trl="Y">
-  <value column="Name" original="Total Lines">Summe Zeilen</value>
-  <value column="PrintName" original="Total Lines">Summe Zeilen</value>
+  <value column="Name" original="Total Lines">Summe aller Positionen</value>
+  <value column="PrintName" original="Total Lines">Summe aller Positionen</value>
   <value column="Description" original="Total of all document lines">Summe aller Positionen zu diesem Beleg</value>
   <value column="Help" original="The Total amount displays the total of all lines in document currency">Zeigt die Summe aller Positionen in Belegwährung an.</value>
   <value column="PO_Description" original=""/>
@@ -9554,7 +9554,7 @@ Um Anpassungen(Customizations) durchzuführen, sollte die Entität kopiert und a
  <row id="1706" trl="N">
   <value column="Name" original="All Nodes">Alle Knoten</value>
   <value column="PrintName" original="All Nodes">Alle Knoten</value>
-  <value column="Description" original="All Nodes are included (Complete Tree)">Alle Knoten müssen im Baum enthalten sein, wenn diese Chackbox aktiviert ist</value>
+  <value column="Description" original="All Nodes are included (Complete Tree)">Alle Knoten müssen im Baum enthalten sein, wenn diese Checkbox aktiviert ist</value>
   <value column="Help" original="If selected, all Nodes must be in the tree.">If selected, all Nodes must be in the tree.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
@@ -28995,8 +28995,8 @@ Credit Work in Process Account ]]></value>
   <value column="PO_PrintName" original=""/>
  </row>
  <row id="53942" trl="N">
-  <value column="Name" original="Order Source">C_OrderSource_ID</value>
-  <value column="PrintName" original="Order Source">C_OrderSource_ID</value>
+  <value column="Name" original="Order Source">Auftragsursprung</value>
+  <value column="PrintName" original="Order Source">Auftragsursprung</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
