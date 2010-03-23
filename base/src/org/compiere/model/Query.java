@@ -75,6 +75,8 @@ public class Query
 	private String trxName = null;
 	private Object[] parameters = null;
 	private boolean applyAccessFilter = false;
+	private boolean applyAccessFilterRW = false;
+	private boolean applyAccessFilterFullyQualified = true;
 	private boolean onlyActiveRecords = false;
 	private boolean onlyClient_ID = false;
 	private int onlySelection_ID = -1;
@@ -171,6 +173,19 @@ public class Query
 		this.applyAccessFilter = flag;
 		return this;
 	}
+
+	/**
+	 * Turn on data access filter with controls
+	 * @param flag
+	 */
+	public Query setApplyAccessFilter(boolean fullyQualified, boolean RW)
+	{
+		this.applyAccessFilter = true;
+		this.applyAccessFilterFullyQualified = fullyQualified;
+		this.applyAccessFilterRW = RW;
+		return this;
+	}
+	
 	
 	/**
 	 * Select only active records (i.e. IsActive='Y')
@@ -678,7 +693,7 @@ public class Query
 		if (applyAccessFilter)
 		{
 			MRole role = MRole.getDefault(this.ctx, false);
-			sql = role.addAccessSQL(sql, table.getTableName(), true, false);
+			sql = role.addAccessSQL(sql, table.getTableName(), applyAccessFilterFullyQualified, applyAccessFilterRW);
 		}
 		if (CLogMgt.isLevelFinest()) log.finest("TableName = "+table.getTableName()+"... SQL = " +sql); //red1  - to assist in debugging SQL
 		return sql;
