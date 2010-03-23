@@ -5452,7 +5452,7 @@ Printing:
   <value column="Description" original="Components">Stücklisten-Bestandteile</value>
   <value column="Help" original="Components of Bill fo Material">Components of Bill fo Material</value>
  </row>
-row id="53288" trl="Y">
+ <row id="53288" trl="Y">
   <value column="Name" original="Manufacturer">Hersteller</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="">Hier kann ein Geschäftspartner als Hersteller von Produkten definiert werden</value>
