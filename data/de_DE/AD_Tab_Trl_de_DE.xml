@@ -3368,7 +3368,7 @@ If a BOM is referenced  and enabled in Request Type, a BOM Change Request is aut
   <value column="Help" original="Category or Topic of the Request ">Category or Topic of the Request </value>
  </row>
  <row id="707" trl="N">
-  <value column="Name" original="Downloads">Download</value>
+  <value column="Name" original="Download">Download</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Maintain Product Downloads">Verwaltung der Produktspezifischen Downloads,  Angabe der Download-URLs</value>
   <value column="Help" original="Define downloads for a product.  If the product is an asset, the user can download the data.">Define downloads for a product.  If the product is an asset, the user can download the data.</value>
@@ -5426,6 +5426,12 @@ Valid From/To is determined by the parent tax.]]></value>
   <value column="Description" original="">Gibt die Quelle an, aus der dieser Auftrag stammt</value>
   <value column="Help" original=""/>
  </row>
+ <row id="53285" trl="N">
+  <value column="Name" original="Relation Type">Relation Type</value>
+  <value column="CommitWarning" original=""/>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
  <row id="53286" trl="Y">
   <value column="Name" original="BOM">Stückliste</value>
   <value column="CommitWarning" original=""/>
@@ -5452,40 +5458,28 @@ Printing:
   <value column="Description" original="Components">Stücklisten-Bestandteile</value>
   <value column="Help" original="Components of Bill fo Material">Components of Bill fo Material</value>
  </row>
- <row id="53288" trl="Y">
-  <value column="Name" original="Manufacturer">Hersteller</value>
-  <value column="CommitWarning" original=""/>
-  <value column="Description" original="">Hier kann ein Geschäftspartner als Hersteller von Produkten definiert werden</value>
-  <value column="Help" original=""/>
- </row>
  <row id="53289" trl="Y">
   <value column="Name" original="Costs">Kostenübersicht</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original="">Übersicht über die Kosten eines Produktes, den aktuellen Lagerbestand und die kumulierten Absatzmengen und -Werte</value>
   <value column="Help" original=""/>
  </row>
- <row id="53290" trl="Y">
-  <value column="Name" original="Order Line Preview">Positionsvorschau</value>
+ <row id="53297" trl="N">
+  <value column="Name" original="Used in Process Parameter">Used in Process Parameter</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53291" trl="Y">
-  <value column="Name" original="Order Line Preview">Positionsvorschau</value>
+ <row id="53298" trl="N">
+  <value column="Name" original="Used in Field">Used in Field</value>
   <value column="CommitWarning" original=""/>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
- <row id="53292" trl="Y">
-  <value column="Name" original="Line Preview">Zeilenvorschau</value>
+ <row id="53307" trl="N">
+  <value column="Name" original="Import Product Planning">Import Product Planning</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="">Zeilenvorschau</value>
-  <value column="Help" original=""/>
- </row>
- <row id="53296" trl="Y">
-  <value column="Name" original="Line Preview">Zeilenvorschau</value>
-  <value column="CommitWarning" original=""/>
-  <value column="Description" original="">Zeilenvorschau in der Kundenrechnung</value>
+  <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
 </adempiereTrl>

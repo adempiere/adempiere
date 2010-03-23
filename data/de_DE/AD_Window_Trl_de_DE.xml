@@ -1786,4 +1786,19 @@ MRP - 110	 No exists Dem</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
+ <row id="53102" trl="N">
+  <value column="Name" original="Relation Type">Relation Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53104" trl="N">
+  <value column="Name" original="Withholding">Withholding</value>
+  <value column="Description" original="Define Withholding">Define Withholding</value>
+  <value column="Help" original="The Withholding Window defines withholding information for business partners.">The Withholding Window defines withholding information for business partners.</value>
+ </row>
+ <row id="53109" trl="N">
+  <value column="Name" original="Import Product Planning">Import Product Planning</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
 </adempiereTrl>

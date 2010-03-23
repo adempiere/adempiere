@@ -4293,6 +4293,10 @@
   <value column="Name" original="Chart">Chart</value>
   <value column="Description" original=""/>
  </row>
+ <row id="53503" trl="N">
+  <value column="Name" original="Broadcast">Broadcast</value>
+  <value column="Description" original="Broadcast &lt;&lt;-&gt;&gt;"><![CDATA[Broadcast <<->>]]></value>
+ </row>
  <row id="53504" trl="N">
   <value column="Name" original="Model Validator">Model Validator</value>
   <value column="Description" original=""/>
@@ -4384,5 +4388,81 @@
  <row id="53534" trl="N">
   <value column="Name" original="Other">Other</value>
   <value column="Description" original=""/>
+ </row>
+ <row id="53536" trl="N">
+  <value column="Name" original="Total">Total</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53537" trl="N">
+  <value column="Name" original="Year">Year</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53538" trl="N">
+  <value column="Name" original="Period">Period</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53540" trl="N">
+  <value column="Name" original="Natural">Natural</value>
+  <value column="Description" original="Year for P &amp; L account, Total for Balance Sheet account"><![CDATA[Year for P & L account, Total for Balance Sheet account]]></value>
+ </row>
+ <row id="53541" trl="N">
+  <value column="Name" original="Balance (expected sign)">Balance (expected sign)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53542" trl="N">
+  <value column="Name" original="Credit Only">Credit Only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53543" trl="N">
+  <value column="Name" original="Debit Only">Debit Only</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53544" trl="N">
+  <value column="Name" original="Quantity (expected sign)">Quantity (expected sign)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53545" trl="N">
+  <value column="Name" original="Balance (accounted sign)">Balance (accounted sign)</value>
+  <value column="Description" original="DR - CR">DR - CR</value>
+ </row>
+ <row id="53546" trl="N">
+  <value column="Name" original="Quantity (accounted sign)">Quantity (accounted sign)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53551" trl="N">
+  <value column="Name" original="Human Resource &amp; Payroll"><![CDATA[Human Resource & Payroll]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53552" trl="N">
+  <value column="Name" original="Order">Order</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53553" trl="N">
+  <value column="Name" original="Invoice">Invoice</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53554" trl="N">
+  <value column="Name" original="Implicit">Implicit</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53555" trl="N">
+  <value column="Name" original="Explicit">Explicit</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53556" trl="N">
+  <value column="Name" original="Measure for Performance Analysis">Measure for Performance Analysis</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53559" trl="N">
+  <value column="Name" original="Weight">Weight</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53561" trl="N">
+  <value column="Name" original="Safety Stock">Safety Stock</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53574" trl="N">
+  <value column="Name" original="Cron Scheduling Pattern">Cron Scheduling Pattern</value>
+  <value column="Description" original="Use cron style scheduling pattern">Use cron style scheduling pattern</value>
  </row>
 </adempiereTrl>

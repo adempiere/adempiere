@@ -5398,6 +5398,10 @@ Barcode drucken</value>
   <value column="MsgText" original="Window Tab Placement">Window Tab Placement</value>
   <value column="MsgTip" original="Placement of vertical tab, supported options are left ( default ) and right">Placement of vertical tab, supported options are left ( default ) and right</value>
  </row>
+ <row id="53078" trl="N">
+  <value column="MsgText" original="The city does not exist and can not be created from here.">The city does not exist and can not be created from here.</value>
+  <value column="MsgTip" original=""/>
+ </row>
  <row id="53079" trl="N">
   <value column="MsgText" original="Unknown MRP Error">Unknown MRP Error</value>
   <value column="MsgTip" original="Indicates that there was an unclassified error durring MRP process">Indicates that there was an unclassified error durring MRP process</value>
@@ -5418,6 +5422,54 @@ Barcode drucken</value>
   <value column="MsgText" original="Client Accounting is not enabled">Client Accounting is not enabled</value>
   <value column="MsgTip" original="In order to run this process you need to enable client accounting, this can be done in window System Configurator, setting the parameter CLIENT_ACCOUNTING to [I]mmediate or [Q]ueue">In order to run this process you need to enable client accounting, this can be done in window System Configurator, setting the parameter CLIENT_ACCOUNTING to [I]mmediate or [Q]ueue</value>
  </row>
+ <row id="53084" trl="N">
+  <value column="MsgText" original="Not exists a Business Partner linked for Organization">Not exists a Business Partner linked for Organization</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53085" trl="N">
+  <value column="MsgText" original="Print Movements">Print Movements</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53086" trl="N">
+  <value column="MsgText" original="Select Distribution Orders to generate Inventory Moves">Select Distribution Orders to generate Inventory Moves</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53087" trl="N">
+  <value column="MsgText" original="Inventory Moves are generated depending on the &quot;Delivery Rule&quot; selection in the Distribution Order">Inventory Moves are generated depending on the "Delivery Rule" selection in the Distribution Order</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53088" trl="N">
+  <value column="MsgText" original="PO {0} has {1} key columns. Needs to have exactly one.">PO {0} has {1} key columns. Needs to have exactly one.</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53089" trl="N">
+  <value column="MsgText" original="Neither reference {0} nor table {1} have an AD_Window_ID. IsSOTrx: {2}">Neither reference {0} nor table {1} have an AD_Window_ID. IsSOTrx: {2}</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53090" trl="N">
+  <value column="MsgText" original="Must be a positive number!">Must be a positive number!</value>
+  <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="53091" trl="N">
+  <value column="MsgText" original="Remember Me">Remember Me</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53092" trl="N">
+  <value column="MsgText" original="And/Or">And/Or</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53093" trl="N">
+  <value column="MsgText" original="AND">AND</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53094" trl="N">
+  <value column="MsgText" original="OR">OR</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="53095" trl="N">
+  <value column="MsgText" original="Invalid cron scheduling pattern">Invalid cron scheduling pattern</value>
+  <value column="MsgTip" original="Invalid cron scheduling pattern - check syntax">Invalid cron scheduling pattern - check syntax</value>
+ </row>
  <row id="520010" trl="Y">
   <value column="MsgText" original="1 Rupee">1 Rupee</value>
   <value column="MsgTip" original=" "> </value>
@@ -5425,5 +5477,29 @@ Barcode drucken</value>
  <row id="523847" trl="Y">
   <value column="MsgText" original="Slow Moving Items">Slow Moving Items</value>
   <value column="MsgTip" original=" "> </value>
+ </row>
+ <row id="523848" trl="N">
+  <value column="MsgText" original="The parent record (document) is already processed">The parent record (document) is already processed</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="523849" trl="N">
+  <value column="MsgText" original="Shipment/Receipt Line or charge should be entered">Shipment/Receipt Line or charge should be entered</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="523850" trl="N">
+  <value column="MsgText" original="Either shipment/receipt line or charge should be selected">Either shipment/receipt line or charge should be selected</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="523851" trl="N">
+  <value column="MsgText" original="Amount to be returned is greater than the amount shipped">Amount to be returned is greater than the amount shipped</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="523852" trl="N">
+  <value column="MsgText" original="Shipment/Receipt line is already defined in another line">Shipment/Receipt line is already defined in another line</value>
+  <value column="MsgTip" original=""/>
+ </row>
+ <row id="523853" trl="N">
+  <value column="MsgText" original="Shipment/Receipt has different Sales/Purchase transaction than RMA">Shipment/Receipt has different Sales/Purchase transaction than RMA</value>
+  <value column="MsgTip" original=""/>
  </row>
 </adempiereTrl>

@@ -14215,7 +14215,7 @@ You enable it by setting the COMPIERE_SECURE parameter of your Client and Server
   <value column="Name" original="Industry Info">Industry Info</value>
   <value column="PrintName" original="Industry Info">Industry Info</value>
   <value column="Description" original="Information of the industry (e.g. professional service, distribution of furnitures, ..)">Information of the industry (e.g. professional service, distribution of furnitures, ..)</value>
-  <value column="Help" original="Description if the industry ad precise as possible.">Description if the industry ad precise as possible.</value>
+  <value column="Help" original="This allows to have the three general situations of &quot;not open&quot; - &quot;open&quot; - &quot;closed&quot;">Description if the industry ad precise as possible.</value>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>
@@ -29019,6 +29019,66 @@ Credit Work in Process Account ]]></value>
   <value column="PrintName" original="Amount Type">Amount Type</value>
   <value column="Description" original="PA Amount Type for reporting">PA Amount Type for reporting</value>
   <value column="Help" original="The amount type to report on: Quantity, Credit Only, Debit Only, Balance (expected sign) or Balance (accounted sign). &quot;Expected sign&quot; adjusts the sign of the result based on the Account Type and Expected Sign of each Account Element, whereas &quot;accounted sign&quot; always returns DR-CR.">The amount type to report on: Quantity, Credit Only, Debit Only, Balance (expected sign) or Balance (accounted sign). "Expected sign" adjusts the sign of the result based on the Account Type and Expected Sign of each Account Element, whereas "accounted sign" always returns DR-CR.</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54070" trl="N">
+  <value column="Name" original="Relation Type">Relation Type</value>
+  <value column="PrintName" original="Relation Type">Relation Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54071" trl="N">
+  <value column="Name" original="Source Reference">Source Reference</value>
+  <value column="PrintName" original="Source Reference">Source Reference</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54072" trl="N">
+  <value column="Name" original="Target Reference">Target Reference</value>
+  <value column="PrintName" original="Target Reference">Target Reference</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54073" trl="N">
+  <value column="Name" original="Source Role">Source Role</value>
+  <value column="PrintName" original="Source Role">Source Role</value>
+  <value column="Description" original="If set, this role will be used as label for the zoom destination instead of the destinations's window name">If set, this role will be used as label for the zoom destination instead of the destinations's window name</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54074" trl="N">
+  <value column="Name" original="Directed">Directed</value>
+  <value column="PrintName" original="Directed">Directed</value>
+  <value column="Description" original="Tells whether one &quot;sees&quot; the other end of the relation from each end or just from the source">Tells whether one "sees" the other end of the relation from each end or just from the source</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54075" trl="N">
+  <value column="Name" original="Target Role">Target Role</value>
+  <value column="PrintName" original="Target Role">Target Role</value>
+  <value column="Description" original="If set, this role will be used as label for the zoom destination instead of the destinations's window name">If set, this role will be used as label for the zoom destination instead of the destinations's window name</value>
+  <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
   <value column="PO_Name" original=""/>

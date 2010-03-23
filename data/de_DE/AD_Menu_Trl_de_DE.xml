@@ -2646,8 +2646,24 @@
   <value column="Name" original="Order Source">Order Source</value>
   <value column="Description" original=""/>
  </row>
+ <row id="53251" trl="N">
+  <value column="Name" original="Relation Type">Relation Type</value>
+  <value column="Description" original=""/>
+ </row>
  <row id="53253" trl="N">
   <value column="Name" original="Storage per Product">Storage per Product</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53256" trl="N">
+  <value column="Name" original="Withholding">Withholding</value>
+  <value column="Description" original="Define Withholding">Define Withholding</value>
+ </row>
+ <row id="53257" trl="N">
+  <value column="Name" original="View MRP Records">View MRP Records</value>
+  <value column="Description" original="View MRP Records"/>
+ </row>
+ <row id="53264" trl="N">
+  <value column="Name" original="Import Product Planning">Import Product Planning</value>
   <value column="Description" original=""/>
  </row>
 </adempiereTrl>

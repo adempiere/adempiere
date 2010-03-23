@@ -1800,4 +1800,14 @@ This process should be implemented when the users are not connected.</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
+ <row id="53199" trl="N">
+  <value column="Name" original="Reset Allocation Direct">Reset Allocation Direct</value>
+  <value column="Description" original="Reset (delete) allocation of invoices to payments">Reset (delete) allocation of invoices to payments</value>
+  <value column="Help" original="Delete individual allocation. In contrast to &quot;Reverse&quot;, the allocation is deleted (no trace), if the period is open.">Delete individual allocation. In contrast to "Reverse", the allocation is deleted (no trace), if the period is open.</value>
+ </row>
+ <row id="53200" trl="N">
+  <value column="Name" original="Import Product Planning and Forecast">Import Product Planning and Forecast</value>
+  <value column="Description" original="Import Product Planning and Forecast">Import Product Planning and Forecast</value>
+  <value column="Help" original="Import and update  product planning data and forecast">Import and update  product planning data and forecast</value>
+ </row>
 </adempiereTrl>
