@@ -153,7 +153,7 @@ public class MUOM extends X_C_UOM
 	private static void loadUOMs (Properties ctx)
 	{
 		List<MUOM> list = new Query(ctx, Table_Name, "IsActive='Y'", null)
-								.setApplyAccessFilter(true)
+								.setApplyAccessFilter(MRole.SQL_NOTQUALIFIED, MRole.SQL_RO)
 								.list();
 		//
 		for (MUOM uom : list) {
