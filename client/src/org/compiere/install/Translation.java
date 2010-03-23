@@ -37,7 +37,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.compiere.Adempiere;
 import org.compiere.model.MLanguage;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
