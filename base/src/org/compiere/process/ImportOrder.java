@@ -721,6 +721,10 @@ public class ImportOrder extends SvrProcess
 						order.setDateOrdered(imp.getDateOrdered());
 					if (imp.getDateAcct() != null)
 						order.setDateAcct(imp.getDateAcct());
+					
+					// Set Order Source
+					if (imp.getC_OrderSource() != null)
+						order.setC_OrderSource_ID(imp.getC_OrderSource_ID());
 					//
 					order.save();
 					noInsert++;
