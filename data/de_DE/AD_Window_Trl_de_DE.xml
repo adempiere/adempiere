@@ -88,7 +88,7 @@
  </row>
  <row id="117" trl="Y">
   <value column="Name" original="Calendar Year and Period">Kalenderjahr und Periode</value>
-  <value column="Description" original="Maintain Calendars Years Periods">Kalenderjahre und Perioden verwalten </value>
+  <value column="Description" original="Maintain Calendars Years Periods">Kalenderjahre und Perioden verwalten</value>
   <value column="Help" original="The Calendar Year and Periods defines the calendars that will be used for period control and reporting. You can also define non-standard calendars (e.g. business year from July to June).">"Kalenderjahr und Periode" ermöglicht, die Kalender für Periodenkontrolle und Berichtssteuerung zu verwalten. Es ist auch möglich, nicht-standard Kalender anzulegen (z.B. für Geschäftsjahre von Juli bis Juni).</value>
  </row>
  <row id="118" trl="Y">
@@ -401,13 +401,13 @@
   <value column="Help" original="This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.">Dieses Fenster ist nur für die Systemebene. Spezifische Merkmale ermöglichen, einem Eintrag zusätzliche Information hinzuzufügen.</value>
  </row>
  <row id="197" trl="Y">
-  <value column="Name" original="Cashbook">Kassenbuch</value>
+  <value column="Name" original="Cashbook">Kassenbuch verwalten</value>
   <value column="Description" original="Maintain Cashbook">Kassenbuch</value>
   <value column="Help" original="The Cashbook Window defines the bank and account against which cash transactions will be processed.">Das Kassenbuch verzeichnet alle Ein-/Auszahlungen über die Kasse. Es können mehrere Kassenbücher angelegt werden.</value>
  </row>
  <row id="198" trl="Y">
   <value column="Name" original="Cash Journal">Kassenjournal</value>
-  <value column="Description" original="Cash transactions">Buchungen der Kasse </value>
+  <value column="Description" original="Cash transactions">Buchungen der Kasse</value>
   <value column="Help" original="The Cash Journal Window is used to record disbursements from and receipts to Petty Cash">Das Kassenjournal zeichnet Bewegungen auf dem Konto "Kasse" auf. Es gibt jeweils nur ein Journal pro Konto.</value>
  </row>
  <row id="200" trl="Y">
@@ -453,7 +453,7 @@ You may want to define several Project cycles to differentiate the different typ
  </row>
  <row id="210" trl="Y">
   <value column="Name" original="Commission Run">Provisions-Lauf</value>
-  <value column="Description" original="Check and modify Commissions">Kommissionen überprüfen und modifizieren</value>
+  <value column="Description" original="Check and modify Commissions">Provisionen überprüfen und modifizieren</value>
   <value column="Help" original="The Commission Run Window displays the results of processing commissions.  When the Generate Commission process is selected from the Commissions Window, the results are displayed here. If the result is satisfactory, generate an AP invoice to pay the commission.">Das Fenster "Kommissions-Lauf" zeigt die Ergebnisse von Kommissions-Läufen. Wenn der Prozess "Komissionen generieren" im Fenster "Komission" gestartet wurde, werden die Ergebnisse hier angezeigt. Wenn das Ergebnis zufriedenstellend ist, generieren Sie eine Zahlungsanweisung um die Kommission zu zahlen.</value>
  </row>
  <row id="212" trl="Y">
@@ -506,7 +506,7 @@ Any restrictions for Organizations, Business Partners, Products, etc. are  as Pe
  </row>
  <row id="224" trl="Y">
   <value column="Name" original="Print Form">Druck - Formulare</value>
-  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Verwalten von Druckformularen (Rechnungen, Schecks, ..)</value>
+  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Verwalten von Druckformularen (Rechnungen, Schecks, ...)</value>
   <value column="Help" original="Define the documents you use for this Client/Organnization.  Note that the check format is defined in the Bank (Account) Window.&lt;p&gt;&#10;The highest priotity has the Print Format, you define on a Document Type (example specific Export Invoice format). The next level is the set of Print Formats, you defined for the organziation of the document printed. The default is the set of Print Formats defines for all organizations of the Client (Organization=*)."><![CDATA[Definieren Sie hier die Dokumente, die Sie in diesem Mandanten / dieser Organisation verwenden. Beachten Sie, dass das Scheckformat im Fenster "Bank" zugeordnet wird.<p>
 Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z.B. ein spezifisches Formular für eine Rechnung für den Export). Die nächste Ebene ist der Satz der Druckformate, den Sie für die druckende Organisation definiert haben. Der Standardsatz ist dann der Satz, der für alle Organisationen diese Mandanten definiert ist (Organisation=*).]]></value>
  </row>
@@ -522,7 +522,7 @@ Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z
  </row>
  <row id="227" trl="Y">
   <value column="Name" original="System Image">System-Bild</value>
-  <value column="Description" original="Maintain Images and Icons">Verwalten von Bildern und Ikonen</value>
+  <value column="Description" original="Maintain Images and Icons">Verwalten von Bildern und Symbolen</value>
   <value column="Help" original=""/>
  </row>
  <row id="228" trl="Y">
@@ -532,7 +532,7 @@ Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z
  </row>
  <row id="229" trl="Y">
   <value column="Name" original="Window Customization">Fensteranpassung</value>
-  <value column="Description" original="Define Window Customization for Role/User">Fenster-Anpassung für Rolle bzw. Nutzer definieren</value>
+  <value column="Description" original="Define Window Customization for Role/User">Fenster-Anpassung für Rollen bzw. Nutzer definieren</value>
   <value column="Help" original="The customization values defined here overwrite/replace the default system definition if defined.">Die hier definierten Anpassungen überschreiben bzw. ersetzen die Standardeinstellungen.</value>
  </row>
  <row id="231" trl="Y">
@@ -742,7 +742,7 @@ Die höchste Priorität hat das Format, dass Sie einem Dokumententyp zuordnen (z
  </row>
  <row id="272" trl="Y">
   <value column="Name" original="Time Type">Zeit-Art</value>
-  <value column="Description" original="Maintain Time Recording Type">Zeit-Verschreibungs-Arten verwalten</value>
+  <value column="Description" original="Maintain Time Recording Type">Zeiterfassungsarten verwalten</value>
   <value column="Help" original="Maintain different types of time for reporting">Maintain different types of time for reporting</value>
  </row>
  <row id="273" trl="Y">
@@ -842,7 +842,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  </row>
  <row id="290" trl="Y">
   <value column="Name" original="Knowledge Synonym">Wissensbasis - Synonym</value>
-  <value column="Description" original="Knowlege Keyword Synonym">Synonyme zu Schlagworten </value>
+  <value column="Description" original="Knowlege Keyword Synonym">Synonyme zu Schlagworten</value>
   <value column="Help" original="Search Synonyms for Knowledge Keywords; Example: Product = Item">Vermerken Sie Synonyme für Schlagworte; Beispiel: Produkt = Artikel</value>
  </row>
  <row id="291" trl="Y">
@@ -887,7 +887,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  </row>
  <row id="299" trl="Y">
   <value column="Name" original="Workflow Responsible">Workflow - Verantwortlicher</value>
-  <value column="Description" original="Responsible for Workflow Execution">Verantwortlicher für die Ausführung des Workflow</value>
+  <value column="Description" original="Responsible for Workflow Execution">Verantwortlicher für die Ausführung des Workflows</value>
   <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">Die Verantwortung für die Ausführung eines Workflow liegt bei einem Nutzer. "Workflow - Verantwortlicher" ermöglicht anzugeben, auf welche Weise dieser Nutzer gefunden wird.</value>
  </row>
  <row id="300" trl="Y">
@@ -932,7 +932,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  </row>
  <row id="308" trl="Y">
   <value column="Name" original="Auction Topic Type">Auktions-Themenart</value>
-  <value column="Description" original="Maintain Auction Topic Type and Categories">Auktions-Themenarten und Kategorien verwalten</value>
+  <value column="Description" original="Maintain Auction Topic Type and Categories">Auktions-Themenarten und -Kategorien verwalten</value>
   <value column="Help" original="The Auction Topic Type determines what kind of auction is used for a particular area">Die Auktions-Themenart bestimmt, welche Art von Auktion für einen bestimmten Bereich verwendet wird</value>
  </row>
  <row id="309" trl="Y">
@@ -1091,7 +1091,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
   <value column="Help" original=""/>
  </row>
  <row id="340" trl="Y">
-  <value column="Name" original="System Registration">System-Registration</value>
+  <value column="Name" original="System Registration">System-Registrierung</value>
   <value column="Description" original="Register your System">Registrieren Sie Ihre System</value>
   <value column="Help" original="System Registration - Only one Record - Do not add additional records.">System Registration - Only one Record - Do not add additional records.</value>
  </row>
@@ -1182,7 +1182,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  </row>
  <row id="359" trl="Y">
   <value column="Name" original="Tax Declaration">Steuererklärung</value>
-  <value column="Description" original="Define the declaration to the tax authorities">Erzeugen einer Steuererklärung für die Finanzbehörde </value>
+  <value column="Description" original="Define the declaration to the tax authorities">Erzeugen einer Steuererklärung für die Finanzbehörde</value>
   <value column="Help" original="The tax declaration allows you to create supporting information and reconcile the documents with the accounting">Das Fenster "Steuererklärung" ermöglicht, unterstützende Information einzugeben und Belege mit der Buchführung abzugleichen.</value>
  </row>
  <row id="360" trl="Y">
@@ -1401,7 +1401,7 @@ A Specific production facility consisting of one or more people and/or machines 
   <value column="Help" original="Manufacturing Workflows (Routing) is a set of information detailing the method of manufacture of a particular item .It includes the operations to be performed their sequence the various work centers to be involved and the standards for setup and run. In some companies routing also includes information on tooling operator skill levels inspection operationstesting requirements etc.">Manufacturing Workflows (Routing) is a set of information detailing the method of manufacture of a particular item .It includes the operations to be performed their sequence the various work centers to be involved and the standards for setup and run. In some companies routing also includes information on tooling operator skill levels inspection operationstesting requirements etc.</value>
  </row>
  <row id="53006" trl="N">
-  <value column="Name" original="Bill of Materials &amp; Formula "><![CDATA[Bill of Materials & Formula ]]></value>
+  <value column="Name" original="Bill of Materials &amp; Formula "><![CDATA[Bill of Materials & Formula]]></value>
   <value column="Description" original="Maintain Product Bill of Materials &amp; Formula "><![CDATA[Maintain Product Bill of Materials & Formula]]></value>
   <value column="Help" original="It is a list of all the subassemblies, intermediates, parts and raw material that go into a parent assembly showing the quantity of each required to make an assembly. There are a variety of display formats of bill of material, including single level bill of material, indented bill of material, modular (planning), costed bill of material, etc. May also be called &quot;formula&quot;, &quot;recipe&quot;, &quot;ingredients list&quot; in certain industries.&#10;It answers the question, what are the components of the product?">It is a list of all the subassemblies, intermediates, parts and raw material that go into a parent assembly showing the quantity of each required to make an assembly. There are a variety of display formats of bill of material, including single level bill of material, indented bill of material, modular (planning), costed bill of material, etc. May also be called "formula", "recipe", "ingredients list" in certain industries.
 It answers the question, what are the components of the product?</value>
@@ -1501,7 +1501,7 @@ MRP - 110	 No exists Dem</value>
   <value column="Help" original="Each realtionship in the network contains a receiving warehouse and a warehouse source and a supply percentage. A relationship is one-way, warehouse to warehouse relationship.">Each realtionship in the network contains a receiving warehouse and a warehouse source and a supply percentage. A relationship is one-way, warehouse to warehouse relationship.</value>
  </row>
  <row id="53019" trl="Y">
-  <value column="Name" original="Migration Scripts">Migrations-Skripte</value>
+  <value column="Name" original="Migration Scripts">Migrationsskripte</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
@@ -1762,8 +1762,8 @@ MRP - 110	 No exists Dem</value>
   <value column="Help" original="View all unprocessed documents">View all unprocessed documents</value>
  </row>
  <row id="53097" trl="Y">
-  <value column="Name" original="Customer Return">Kunden-Rücksendung</value>
-  <value column="Description" original="Customer Return (Receipts)">Kunden-Rücksendung (Belege) - legt den Eingang eines Produkts von einer Kunden-Rücksendung fest. </value>
+  <value column="Name" original="Customer Return">Kundenrücksendung</value>
+  <value column="Description" original="Customer Return (Receipts)">Kundenrücksendung (Belege) - legt den Eingang eines Produkts von einer Kundenrücksendung fest. </value>
   <value column="Help" original="The Customer Return Window defines the receipt of product or material from a Customer Return.">The Customer Return Window defines the receipt of product or material from a Customer Return.</value>
  </row>
  <row id="53098" trl="Y">
