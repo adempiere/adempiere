@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="bg_BG" table="PP_Order_BOM">
+ <row id="50000" trl="N">
+  <value column="Name" original="Fertilizer #50">Fertilizer #50</value>
+  <value column="Description" original="50 # Bag of Lawn Fertilizer">50 # Bag of Lawn Fertilizer</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Fertilizer #70">Fertilizer #70</value>
+  <value column="Description" original="70 # Bag of Lawn Fertilizer">70 # Bag of Lawn Fertilizer</value>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

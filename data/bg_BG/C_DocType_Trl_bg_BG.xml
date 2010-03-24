@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="bg_BG" table="C_DocType">
  <row id="0" trl="Y">
@@ -88,8 +87,8 @@
   <value column="DocumentNote" original=""/>
  </row>
  <row id="131" trl="Y">
-  <value column="Name" original="Return Material">Return Material</value>
-  <value column="PrintName" original="Return Material Authorization">Разрешение за връщане на материали</value>
+  <value column="Name" original="Customer Return Material">Return Material</value>
+  <value column="PrintName" original="Customer Return Material Authorization">Разрешение за връщане на материали</value>
   <value column="DocumentNote" original=""/>
  </row>
  <row id="132" trl="Y">
@@ -182,174 +181,49 @@
   <value column="PrintName" original="Return Material">Return Material</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000000" trl="Y">
-  <value column="Name" original="GL Journal">Дневник за текущи сметки</value>
-  <value column="PrintName" original="Journal">Дневник</value>
+ <row id="150" trl="N">
+  <value column="Name" original="Vendor Return Material">Vendor Return Material</value>
+  <value column="PrintName" original="Vendor Return Material Authorization">Vendor Return Material Authorization</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000001" trl="Y">
+ <row id="151" trl="N">
+  <value column="Name" original="MM Vendor Return">MM Vendor Return</value>
+  <value column="PrintName" original="Vendor Return Material">Vendor Return Material</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Payroll">Payroll</value>
+  <value column="PrintName" original="Payroll">Payroll</value>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="50001" trl="N">
   <value column="Name" original="GL Journal Batch">GL Journal Batch</value>
-  <value column="PrintName" original="Journal Batch">Главна счетоводна книга</value>
+  <value column="PrintName" original="Journal Batch">Journal Batch</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000002" trl="Y">
-  <value column="Name" original="AR Invoice">Фактура</value>
-  <value column="PrintName" original="Invoice">Фактура</value>
+ <row id="50002" trl="N">
+  <value column="Name" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="PrintName" original="Manufacturing Order">Manufacturing Order</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000003" trl="Y">
-  <value column="Name" original="AR Invoice Indirect">Недиректни фактурирани</value>
-  <value column="PrintName" original="Invoice">Фактура</value>
+ <row id="50010" trl="N">
+  <value column="Name" original="Maintenance Order">Maintenance Order</value>
+  <value column="PrintName" original="Maintenance Order">Maintenance Order</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000004" trl="Y">
-  <value column="Name" original="AR Credit Memo">Кредитно известие</value>
-  <value column="PrintName" original="Credit Memo">Credit Memo</value>
+ <row id="50011" trl="N">
+  <value column="Name" original="Quality Order">Quality Order</value>
+  <value column="PrintName" original="Quality Order">Quality Order</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000005" trl="Y">
-  <value column="Name" original="AP Invoice">Фактура</value>
-  <value column="PrintName" original="Invoice">Фактура</value>
+ <row id="50012" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="PrintName" original="Distribution Order">Distribution Order</value>
   <value column="DocumentNote" original=""/>
  </row>
- <row id="1000006" trl="Y">
-  <value column="Name" original="AP CreditMemo">Дебитно известие</value>
-  <value column="PrintName" original="Credit Memo">Credit Memo</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000007" trl="Y">
-  <value column="Name" original="Match Invoice">Комплектоване на фактура</value>
-  <value column="PrintName" original="Match Invoice">Комплектоване на фактура</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000008" trl="Y">
-  <value column="Name" original="AR Receipt">AR Receipt</value>
-  <value column="PrintName" original="Payment">Плащане</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000009" trl="Y">
-  <value column="Name" original="AP Payment">AP Payment</value>
-  <value column="PrintName" original="Payment">Плащане</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000010" trl="Y">
-  <value column="Name" original="Allocation">Разпределение</value>
-  <value column="PrintName" original="Allocation">Разпределение</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000011" trl="Y">
-  <value column="Name" original="MM Shipment">Експедиция</value>
-  <value column="PrintName" original="Delivery Note">Експедиция</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000012" trl="Y">
-  <value column="Name" original="MM Shipment Indirect">Индиректна Експедиция</value>
-  <value column="PrintName" original="Delivery Note">Индиректна Експедиция</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000013" trl="Y">
-  <value column="Name" original="MM Receipt">Складова разписка</value>
-  <value column="PrintName" original="Vendor Delivery">Доставка от доставчик</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000014" trl="Y">
-  <value column="Name" original="MM Returns">MM Customer Return</value>
-  <value column="PrintName" original="Customer Returns">Customer Returns</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000015" trl="Y">
-  <value column="Name" original="Purchase Order">Заявка за покупка</value>
-  <value column="PrintName" original="Purchase Order">Заявка за покупка</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000016" trl="Y">
-  <value column="Name" original="Match PO">Комплекотване на искане за покупка</value>
-  <value column="PrintName" original="Match PO">Комплекотване на искане за покупка</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000017" trl="Y">
-  <value column="Name" original="Purchase Requisition">Purchase Requisition</value>
-  <value column="PrintName" original="Requisition">Искане</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000018" trl="Y">
-  <value column="Name" original="Bank Statement">Банково извлечение</value>
-  <value column="PrintName" original="Bank Statement">Банково извлечение</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000019" trl="Y">
-  <value column="Name" original="Cash Journal">Касов дневник</value>
-  <value column="PrintName" original="Cash Journal">Касов дневник</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000020" trl="Y">
-  <value column="Name" original="Material Movement">Material Movement</value>
-  <value column="PrintName" original="Inventory Move">Местене на инвентар</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000021" trl="Y">
-  <value column="Name" original="Physical Inventory">Физически инвентар</value>
-  <value column="PrintName" original="Phys.Inventory">Материален опис</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000022" trl="Y">
-  <value column="Name" original="Material Production">Material Production</value>
-  <value column="PrintName" original="Production">Производство</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000023" trl="Y">
-  <value column="Name" original="Project Issue">Project Issue</value>
-  <value column="PrintName" original="Project Issue">Project Issue</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000024" trl="Y">
-  <value column="Name" original="Binding offer">Binding offer</value>
-  <value column="PrintName" original="Quotation">Quotation</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000025" trl="Y">
-  <value column="Name" original="Non binding offer">Non binding offer</value>
-  <value column="PrintName" original="Proposal">Proposal</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000026" trl="Y">
-  <value column="Name" original="Prepay Order">Prepay Order</value>
-  <value column="PrintName" original="Prepay Order">Prepay Order</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000027" trl="Y">
-  <value column="Name" original="Return Material">Return Material</value>
-  <value column="PrintName" original="Return Material Authorization">Разрешение за връщане на материали</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000028" trl="Y">
-  <value column="Name" original="Standard Order">Standard Order</value>
-  <value column="PrintName" original="Order Confirmation">Потвърждаване на поръчка</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000029" trl="Y">
-  <value column="Name" original="Credit Order">Credit Order</value>
-  <value column="PrintName" original="Order Confirmation">Потвърждаване на поръчка</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000030" trl="Y">
-  <value column="Name" original="Warehouse Order">Warehouse Order</value>
-  <value column="PrintName" original="Order Confirmation">Потвърждаване на поръчка</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000031" trl="Y">
-  <value column="Name" original="POS Order">POS Order</value>
-  <value column="PrintName" original="Order Confirmation">Потвърждаване на поръчка</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000032" trl="Y">
-  <value column="Name" original="GL Document">GL Document</value>
-  <value column="PrintName" original="GL Document">GL Document</value>
-  <value column="DocumentNote" original=""/>
- </row>
- <row id="1000033" trl="Y">
-  <value column="Name" original="AR Pro Forma Invoice">AR Pro Forma Invoice</value>
-  <value column="PrintName" original="AR Pro Forma Invoice">AR Pro Forma Invoice</value>
+ <row id="50013" trl="N">
+  <value column="Name" original="Manufacturing Cost Collector">Manufacturing Cost Collector</value>
+  <value column="PrintName" original="Manufacturing Cost Collector">Manufacturing Cost Collector</value>
   <value column="DocumentNote" original=""/>
  </row>
 </adempiereTrl>

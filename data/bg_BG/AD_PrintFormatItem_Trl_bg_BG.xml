@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="bg_BG" table="AD_PrintFormatItem">
  <row id="2147" trl="N">
@@ -19,6 +18,70 @@
   <value column="PrintNameSuffix" original=""/>
  </row>
  <row id="2327" trl="N">
+  <value column="PrintName" original=""/>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="50477" trl="N">
+  <value column="PrintName" original="VendorProductNo">VendorProductNo</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="50992" trl="N">
+  <value column="PrintName" original="Setup">Setup</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51001" trl="N">
+  <value column="PrintName" original="Cost T">Cost T</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51005" trl="N">
+  <value column="PrintName" original="Cost TL">Cost TL</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51006" trl="N">
+  <value column="PrintName" original="Cost LL">Cost LL</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51013" trl="N">
+  <value column="PrintName" original="Levels">Levels</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51018" trl="N">
+  <value column="PrintName" original="Parent">Parent</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51026" trl="N">
+  <value column="PrintName" original=""/>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51066" trl="N">
+  <value column="PrintName" original="F  Cost">F  Cost</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51067" trl="N">
+  <value column="PrintName" original="F  Cost LL">F  Cost LL</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51068" trl="N">
+  <value column="PrintName" original="S Cost">S Cost</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51069" trl="N">
+  <value column="PrintName" original=""/>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51074" trl="N">
+  <value column="PrintName" original="Description">Description</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51075" trl="N">
+  <value column="PrintName" original="Help">Help</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51076" trl="N">
+  <value column="PrintName" original="Help">Help</value>
+  <value column="PrintNameSuffix" original=""/>
+ </row>
+ <row id="51337" trl="N">
   <value column="PrintName" original=""/>
   <value column="PrintNameSuffix" original=""/>
  </row>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="bg_BG" table="AD_Workflow">
  <row id="101" trl="Y">
@@ -47,25 +46,25 @@ You may want to check also the following Workflows:
  <row id="109" trl="Y">
   <value column="Name" original="Replication Setup">** Невалидно **</value>
   <value column="Description" original="Setup of data replication">Setup of data replication</value>
-  <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Define Replication per Remote&lt;br&gt;&#10;- Make sure that the ID range is unique per remote - otherwise you will loose transactions!&lt;br&gt;&#10;- Initially Start the Replication Run to setup Remote&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- Start the Replication Run when required">Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;
-&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;
-- setup system with all organizations, roles, etc.&lt;br&gt;
-- run the migration to make sure that it is up-to-date&lt;br&gt;
+  <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Define Replication per Remote&lt;br&gt;&#10;- Make sure that the ID range is unique per remote - otherwise you will loose transactions!&lt;br&gt;&#10;- Initially Start the Replication Run to setup Remote&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- Start the Replication Run when required"><![CDATA[Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.<p>
+<b>Central System:</b><br>
+- setup system with all organizations, roles, etc.<br>
+- run the migration to make sure that it is up-to-date<br>
 - export the central system
-&lt;p&gt;
-&lt;b&gt;Remote System:&lt;/b&gt;
-- install the exact version as Central System&lt;br&gt;
+<p>
+<b>Remote System:</b>
+- install the exact version as Central System<br>
 - import data from Central System in the remote locations
-&lt;p&gt;
-&lt;b&gt;Central System:&lt;/b&gt;
-- Define Replication per Remote&lt;br&gt;
-- Make sure that the ID range is unique per remote - otherwise you will loose transactions!&lt;br&gt;
+<p>
+<b>Central System:</b>
+- Define Replication per Remote<br>
+- Make sure that the ID range is unique per remote - otherwise you will loose transactions!<br>
 - Initially Start the Replication Run to setup Remote
-&lt;p&gt;
+<p>
 ** Enter Transactions **
-&lt;p&gt;
-&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;
-- Start the Replication Run when required</value>
+<p>
+<b>Central System:</b><br>
+- Start the Replication Run when required]]></value>
  </row>
  <row id="110" trl="Y">
   <value column="Name" original="Tax Setup">Конфигуриране на данъка</value>
@@ -188,5 +187,132 @@ The system converts the measures into percentages (based on the target and achie
   <value column="Name" original="Business Partner Approval">Business Partner Approval</value>
   <value column="Description" original="Example Document based workflow">Example Document based workflow</value>
   <value column="Help" original="When a new Business Partner is created, it is forwarded for review and credit check.">When a new Business Partner is created, it is forwarded for review and credit check.</value>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Manufacturing Management Setup">Manufacturing Management Setup</value>
+  <value column="Description" original="Setup Manufacturing Management">Setup Manufacturing Management</value>
+  <value column="Help" original="This workflow defines the Manufacturing Management and the supporting rules.">This workflow defines the Manufacturing Management and the supporting rules.</value>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Manufacturing Workflow Setup">Manufacturing Workflow Setup</value>
+  <value column="Description" original="Setup Manufacturing Workflow">Setup Manufacturing Workflow</value>
+  <value column="Help" original="This workflow defines the Manufacturing Workflow  Setup">This workflow defines the Manufacturing Workflow  Setup</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Bill of Material &amp; Formula Setup"><![CDATA[Bill of Material & Formula Setup]]></value>
+  <value column="Description" original="Setup Bill of Material &amp; Formula"><![CDATA[Setup Bill of Material & Formula]]></value>
+  <value column="Help" original="This workflow defines the Bill of Material &amp; Formula"><![CDATA[This workflow defines the Bill of Material & Formula]]></value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Planning Management Setup">Planning Management Setup</value>
+  <value column="Description" original="Setup Planning Management">Setup Planning Management</value>
+  <value column="Help" original="Before the production processes can be done, it is necessary to plan the activities which must be accomplished to assure the products can be gotten at the right time in order not to remain a long time in the warehouse, or at the contrary, to cause delays in shipments because components shortages in the manufacturing order.&#10;&#10;Another subject to take into account are the production cost and the capacity of shipping good quality products.&#10;&#10;Using Planning Management you answer the question: When and How Many products we must get?">Before the production processes can be done, it is necessary to plan the activities which must be accomplished to assure the products can be gotten at the right time in order not to remain a long time in the warehouse, or at the contrary, to cause delays in shipments because components shortages in the manufacturing order.
+
+Another subject to take into account are the production cost and the capacity of shipping good quality products.
+
+Using Planning Management you answer the question: When and How Many products we must get?</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Material Requirement Planning Setup">Material Requirement Planning Setup</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials. It create planned orders to balance demand ans supply for products and it issues recommendations to receipt material with the right quantities and at the right dates to satisfy the Master Production Schedule in the most efficient way.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials. It create planned orders to balance demand ans supply for products and it issues recommendations to receipt material with the right quantities and at the right dates to satisfy the Master Production Schedule in the most efficient way.</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Capacity Requirement Planning Setup">Capacity Requirement Planning Setup</value>
+  <value column="Description" original="The process of Capacity Plan Calculation allows us to know the available time in each manufacturing resource, as well as the required time to satisfy the Master Production Schedule.">The process of Capacity Plan Calculation allows us to know the available time in each manufacturing resource, as well as the required time to satisfy the Master Production Schedule.</value>
+  <value column="Help" original="It is a set of techniques which uses the planned orders by MRP, open manufacturing orders, manufacturing resources and the work-flows to calculate the required time for each resource along with the available time. With this information, we are able to balance the time demand with the available time. Through the knowledge of the required and available capacities it is possible to adjust the Master Production Schedule(MPS) until we arrive at a realistic one.">It is a set of techniques which uses the planned orders by MRP, open manufacturing orders, manufacturing resources and the work-flows to calculate the required time for each resource along with the available time. With this information, we are able to balance the time demand with the available time. Through the knowledge of the required and available capacities it is possible to adjust the Master Production Schedule(MPS) until we arrive at a realistic one.</value>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Distribution Resource Planning Setup">Distribution Resource Planning Setup</value>
+  <value column="Description" original="is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.">is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.</value>
+  <value column="Help" original="is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.">is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.</value>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="Discrete Manufacturing Setup">Discrete Manufacturing Setup</value>
+  <value column="Description" original="Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.">Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.</value>
+  <value column="Help" original="Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.&#10;&#10;Each time you need to release an order you need to be sure the components are complete in the warehouse, this is obtained by tracking the release and due dates for every component, this is easy to get using the shortages reports and from this module.&#10;&#10;This module mainly answer the question:&#10;&#10;What do I need to do to accomplish the&#10;MPS?&#10;&#10;If you cannot cover the MPS as you had planned, this module gives you information needed to decrease the effect on the costs and on the customer service.">Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.
+
+Each time you need to release an order you need to be sure the components are complete in the warehouse, this is obtained by tracking the release and due dates for every component, this is easy to get using the shortages reports and from this module.
+
+This module mainly answer the question:
+
+What do I need to do to accomplish the
+MPS?
+
+If you cannot cover the MPS as you had planned, this module gives you information needed to decrease the effect on the costs and on the customer service.</value>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Process_Manufacturing_Order">Process_Manufacturing_Order</value>
+  <value column="Description" original="(Standard Process Manufacturing Order)">(Standard Process Manufacturing Order)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Process_CostCollector">Process_CostCollector</value>
+  <value column="Description" original="(Standard Process Manufacturing Cost Collector)">(Standard Process Manufacturing Cost Collector)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Distribution Management Setup">Distribution Management Setup</value>
+  <value column="Description" original="Setup Distribution Management">Setup Distribution Management</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50011" trl="N">
+  <value column="Name" original="Process_Distribution_Order">Process_Distribution_Order</value>
+  <value column="Description" original="(Standard Process Distribution Order)">(Standard Process Distribution Order)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="Setup Replication">Setup Replication</value>
+  <value column="Description" original="Setup of data replication">Setup of data replication</value>
+  <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&lt;br&gt;&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&lt;br&gt;&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Replication Strategy&lt;br&gt;&#10;- Define Export Format&lt;br&gt;&#10;- Config Export Processor&lt;br&gt;&#10;- Start JMS Server&lt;br&gt;&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&lt;br&gt;&#10;- Config Import Processor&lt;br&gt;"><![CDATA[Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.<p>
+<b>Central System:</b><br>
+- setup system with all organizations, roles, etc.<br>
+- run the migration to make sure that it is up-to-date<br>
+- export the central system<br>
+<p>
+<b>Remote System:</b>
+- install the exact version as Central System<br>
+- import data from Central System in the remote locations<br>
+<p>
+<b>Central System:</b>
+- Replication Strategy<br>
+- Define Export Format<br>
+- Config Export Processor<br>
+- Start JMS Server<br>
+<p>
+** Enter Transactions **
+<p>
+<b>Remote System:</b><br>
+- Config Import Processor<br>]]></value>
+ </row>
+ <row id="50013" trl="N">
+  <value column="Name" original="Process_Payroll">Process_Payroll</value>
+  <value column="Description" original="(Standard Process Payroll)">(Standard Process Payroll)</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50014" trl="N">
+  <value column="Name" original="Setup Human Resource &amp; Payroll"><![CDATA[Setup Human Resource & Payroll]]></value>
+  <value column="Description" original="Setup Human Resource &amp; Payroll"><![CDATA[Setup Human Resource & Payroll]]></value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50015" trl="N">
+  <value column="Name" original="Patio Chair">Patio Chair</value>
+  <value column="Description" original="Routing for Assembly the Patio Chair">Routing for Assembly the Patio Chair</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50016" trl="N">
+  <value column="Name" original="Lawn Fertilizer">Lawn Fertilizer</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50017" trl="N">
+  <value column="Name" original="Fertilizer Packing Process">Fertilizer Packing Process</value>
+  <value column="Description" original="Production Line to Packing the Fertilizer Bag 50 and 70 kg ">Production Line to Packing the Fertilizer Bag 50 and 70 kg </value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50018" trl="N">
+  <value column="Name" original="Patio Furniture Set">Patio Furniture Set</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
  </row>
 </adempiereTrl>

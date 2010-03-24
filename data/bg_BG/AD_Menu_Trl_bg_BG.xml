@@ -1,198 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="bg_BG" table="AD_Menu">
  <row id="100" trl="Y">
   <value column="Name" original="Invoice Inquiry">Справки за Фактури</value>
   <value column="Description" original=""/>
- </row>
- <row id="101" trl="Y">
-  <value column="Name" original="Task">Задача</value>
-  <value column="Description" original="Maintain Tasks">Maintain Tasks</value>
- </row>
- <row id="102" trl="Y">
-  <value column="Name" original="Currency">Валута</value>
-  <value column="Description" original="Maintain Currencies">Поддържане валути</value>
- </row>
- <row id="103" trl="Y">
-  <value column="Name" original="Currency Rate">Валутен курс</value>
-  <value column="Description" original="Maintain Currency Conversion Rates">Maintain Currency Conversion Rates</value>
- </row>
- <row id="104" trl="Y">
-  <value column="Name" original="Calendar Year and Period">Календарна година и период</value>
-  <value column="Description" original="Maintain Calendars Years Periods">Maintain Calendars Years Periods</value>
- </row>
- <row id="105" trl="Y">
-  <value column="Name" original="Account Element">Сметкови елемент</value>
-  <value column="Description" original="Maintain Account Elements">Поддържане на сметкови елементи</value>
- </row>
- <row id="106" trl="Y">
-  <value column="Name" original="Account Combination">Комбинация сметки</value>
-  <value column="Description" original="Maintain Valid Account Combinations ">Поддържане на валидни комбинации от сметки</value>
- </row>
- <row id="107" trl="Y">
-  <value column="Name" original="Unit of Measure">Мерна единица</value>
-  <value column="Description" original="Maintain Unit of Measure ">Maintain Unit of Measure </value>
- </row>
- <row id="108" trl="Y">
-  <value column="Name" original="Location">Местоположение</value>
-  <value column="Description" original="Maintain Location Address">Maintain Location Address</value>
- </row>
- <row id="109" trl="Y">
-  <value column="Name" original="Country Region and City">Регион и град в страна</value>
-  <value column="Description" original="Maintain Countries Regions and Cities">Maintain Countries Regions and Cities</value>
- </row>
- <row id="110" trl="Y">
-  <value column="Name" original="Business Partner">Партньор</value>
-  <value column="Description" original="Maintain Business Partners">Поддържане делови партньори</value>
- </row>
- <row id="111" trl="Y">
-  <value column="Name" original="Accounting Schema">Счетоводна схема</value>
-  <value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Поддържане на счетоводна схема - за да бъдат промените в сила трябва повторно да влезете в системата</value>
- </row>
- <row id="113" trl="Y">
-  <value column="Name" original="Test">Тест</value>
-  <value column="Description" original="Test Screen">Test Screen</value>
- </row>
- <row id="114" trl="Y">
-  <value column="Name" original="Attachment">Приложение</value>
-  <value column="Description" original="Maintain Attachments">Поддържане на приложения</value>
- </row>
- <row id="115" trl="Y">
-  <value column="Name" original="Preference">Предпочитания</value>
-  <value column="Description" original="Maintain System Client Org and User Preferences">Maintain System Client Org and User Preferences</value>
- </row>
- <row id="116" trl="Y">
-  <value column="Name" original="Project">Проект</value>
-  <value column="Description" original="Maintain Projects">Поддържане на проекти</value>
- </row>
- <row id="117" trl="Y">
-  <value column="Name" original="GL Category">Категория на главна сметкова книга</value>
-  <value column="Description" original="Maintain General Ledger Categories">Поддържане на категории от главната сметкова книга</value>
- </row>
- <row id="118" trl="Y">
-  <value column="Name" original="GL Journal">Дневник за текущи сметки</value>
-  <value column="Description" original="Enter and change Manual Journal Entries">Въвеждане и промяна на ръчни въведения по дневника на счетоводната книга</value>
- </row>
- <row id="120" trl="Y">
-  <value column="Name" original="Activity (ABC)">Дейност (ABC)</value>
-  <value column="Description" original="Maintain Activities for Activity Based Costing">Поддържане на дейности за разходване базирано на дейности</value>
- </row>
- <row id="121" trl="Y">
-  <value column="Name" original="Document Type">Тип документ</value>
-  <value column="Description" original="Maintain Document Types">Maintain Document Types</value>
- </row>
- <row id="123" trl="Y">
-  <value column="Name" original="Tax Rate">Данъчна ставка</value>
-  <value column="Description" original="Maintain Taxes and their Rates">Maintain Taxes and their Rates</value>
- </row>
- <row id="124" trl="Y">
-  <value column="Name" original="Tax Category">Данъчна категория</value>
-  <value column="Description" original="Maintain Tax Categories">Maintain Tax Categories</value>
- </row>
- <row id="125" trl="Y">
-  <value column="Name" original="Warehouse &amp; Locators">Склад и локатори</value>
-  <value column="Description" original="Maintain Warehouses and Locators">Maintain Warehouses and Locators</value>
- </row>
- <row id="126" trl="Y">
-  <value column="Name" original="Product">Продукт</value>
-  <value column="Description" original="Maintain Products">Maintain Products</value>
- </row>
- <row id="127" trl="Y">
-  <value column="Name" original="Payment Term">Срок на плащане</value>
-  <value column="Description" original="Maintain Payment Terms">Maintain Payment Terms</value>
- </row>
- <row id="128" trl="Y">
-  <value column="Name" original="Shipper">Спедитор</value>
-  <value column="Description" original="Maintain Shippers">Maintain Shippers</value>
- </row>
- <row id="129" trl="Y">
-  <value column="Name" original="Sales Order">Заявка за продажба</value>
-  <value column="Description" original="Enter and change sales orders">Въвеждане и промяна на заявки за продажба</value>
- </row>
- <row id="130" trl="Y">
-  <value column="Name" original="Product Category">Продуктова категория</value>
-  <value column="Description" original="Maintain Product Categories">Maintain Product Categories</value>
- </row>
- <row id="132" trl="Y">
-  <value column="Name" original="Price List">Ценова листа</value>
-  <value column="Description" original="Maintain Product Price Lists">Maintain Product Price Lists</value>
- </row>
- <row id="133" trl="Y">
-  <value column="Name" original="Invoice Schedule">Календар за фактури</value>
-  <value column="Description" original="Maintain Invoicing Schedule">Maintain Invoicing Schedule</value>
- </row>
- <row id="134" trl="Y">
-  <value column="Name" original="Marketing Campaign">Маркетингова кампания</value>
-  <value column="Description" original="Maintain Marketing Campaigns">Maintain Marketing Campaigns</value>
- </row>
- <row id="135" trl="Y">
-  <value column="Name" original="GL Budget">Бюджет главна сметкова книга</value>
-  <value column="Description" original="Maintain General Ledger Budgets">Поддържане на бюджети по главна сметкова книга</value>
- </row>
- <row id="136" trl="Y">
-  <value column="Name" original="Marketing Channel">Маркетинг канал</value>
-  <value column="Description" original="Maintain Marketing  Channels">Maintain Marketing  Channels</value>
- </row>
- <row id="137" trl="Y">
-  <value column="Name" original="Sales Region">Регион за продажби</value>
-  <value column="Description" original="Maintain Sales Regions">Maintain Sales Regions</value>
- </row>
- <row id="138" trl="Y">
-  <value column="Name" original="Element">Елемент</value>
-  <value column="Description" original="Maintain System Elements">Maintain System Elements</value>
- </row>
- <row id="139" trl="Y">
-  <value column="Name" original="Table and Column">Таблица и колона</value>
-  <value column="Description" original="Maintain Tables and Columns">Maintain Tables and Columns</value>
- </row>
- <row id="140" trl="Y">
-  <value column="Name" original="Reference">Референция</value>
-  <value column="Description" original="Maintain System References">Maintain System References</value>
- </row>
- <row id="141" trl="Y">
-  <value column="Name" original="Window, Tab &amp; Field">Прозорец, табло и поле</value>
-  <value column="Description" original="Maintain Windows, Tabs &amp; Fields">Поддържа прозорци, табла и полета</value>
- </row>
- <row id="142" trl="Y">
-  <value column="Name" original="Validation Rules">Правила за валидиране</value>
-  <value column="Description" original="Maintain dynamic Validation Rules for columns and fields">Maintain dynamic Validation Rules for columns and fields</value>
- </row>
- <row id="143" trl="Y">
-  <value column="Name" original="Message">Съобщение</value>
-  <value column="Description" original="Maintain Information and Error Messages">Maintain Information and Error Messages</value>
- </row>
- <row id="144" trl="Y">
-  <value column="Name" original="Menu">Меню</value>
-  <value column="Description" original="Maintain Menu">Maintain Menu</value>
- </row>
- <row id="145" trl="Y">
-  <value column="Name" original="Language">Език</value>
-  <value column="Description" original="Maintain Languages">Maintain Languages</value>
- </row>
- <row id="147" trl="Y">
-  <value column="Name" original="User">Потребител</value>
-  <value column="Description" original="Maintain Users of the system">Maintain Users of the system</value>
- </row>
- <row id="148" trl="Y">
-  <value column="Name" original="Client">Клиент</value>
-  <value column="Description" original="Maintain Clients/Tenants">Maintain Clients/Tenants</value>
- </row>
- <row id="149" trl="Y">
-  <value column="Name" original="Organization">Организация</value>
-  <value column="Description" original="Maintain Organizations">Maintain Organizations</value>
- </row>
- <row id="150" trl="Y">
-  <value column="Name" original="Role">Роля</value>
-  <value column="Description" original="Maintain User Responsibilities">Maintain User Responsibilities</value>
- </row>
- <row id="151" trl="Y">
-  <value column="Name" original="Document Sequence">Документална последователност</value>
-  <value column="Description" original="Maintain System and Document Sequences">Поддържане на системна и документална последователност</value>
- </row>
- <row id="152" trl="Y">
-  <value column="Name" original="Workflow">Работен процес</value>
-  <value column="Description" original="Maintain Workflow">Maintain Workflow</value>
  </row>
  <row id="153" trl="Y">
   <value column="Name" original="Application Dictionary">Речник на приложението</value>
@@ -246,345 +57,29 @@
   <value column="Name" original="Material Management Rules">Правила за управление</value>
   <value column="Description" original=""/>
  </row>
- <row id="169" trl="Y">
-  <value column="Name" original="Accounting Fact Details">Детайли по счетоводния факт</value>
-  <value column="Description" original="Query Accounting Facts">Търсене счетоводни факти</value>
- </row>
- <row id="170" trl="Y">
-  <value column="Name" original="Tree">Дърво</value>
-  <value column="Description" original="Maintain Tree definition">Maintain Tree definition</value>
- </row>
- <row id="171" trl="Y">
-  <value column="Name" original="Bank">Банка</value>
-  <value column="Description" original="Maintain Bank">Поддържане на банка</value>
- </row>
- <row id="172" trl="Y">
-  <value column="Name" original="Dunning">Събиране на дългове</value>
-  <value column="Description" original="Maintain Dunning Levels">Maintain Dunning Levels</value>
- </row>
- <row id="173" trl="Y">
-  <value column="Name" original="Withholding (1099)">Уддръжки (1099)</value>
-  <value column="Description" original="Maintain Withholding Certificates">Поддържане на сертификати за уддръжки</value>
- </row>
- <row id="174" trl="Y">
-  <value column="Name" original="Charge">Вземане на такса</value>
-  <value column="Description" original="Maintain Charges">Maintain Charges</value>
- </row>
  <row id="175" trl="Y">
   <value column="Name" original="Organization Rules">Организационни правила</value>
   <value column="Description" original=""/>
- </row>
- <row id="176" trl="Y">
-  <value column="Name" original="Report &amp; Process">Отчитане и обработка</value>
-  <value column="Description" original="Maintain Reports &amp; Processes">Поддържане на отчети и процеси</value>
- </row>
- <row id="178" trl="Y">
-  <value column="Name" original="Invoice (Customer)">Фактура (клиент)</value>
-  <value column="Description" original="Customer Invoice Entry">Въвеждане на фактура за клиента</value>
- </row>
- <row id="179" trl="Y">
-  <value column="Name" original="Physical Inventory">Физически инвентар</value>
-  <value column="Description" original="Enter Physical Inventory">Въвеждане на физически инвентар</value>
- </row>
- <row id="180" trl="Y">
-  <value column="Name" original="Shipment (Customer)">Експедиционен лист (клиент)</value>
-  <value column="Description" original="Customer Inventory Shipments Customer Returns">Customer Inventory Shipments Customer Returns</value>
- </row>
- <row id="181" trl="Y">
-  <value column="Name" original="Inventory Move">Местене на инвентар</value>
-  <value column="Description" original="Inventory Move">Местене на инвентар</value>
  </row>
  <row id="183" trl="Y">
   <value column="Name" original="Material Management">Управление на Продуктите</value>
   <value column="Description" original=""/>
  </row>
- <row id="185" trl="Y">
-  <value column="Name" original="Import Business Partner">Импорт на бизнес партньор</value>
-  <value column="Description" original="Import Business Partner">Импорт на бизнес партньор</value>
- </row>
- <row id="186" trl="Y">
-  <value column="Name" original="Revenue Recognition">Признаване на приход</value>
-  <value column="Description" original="Revenue Recognition Rules">Правила за признаване на приход</value>
- </row>
- <row id="187" trl="Y">
-  <value column="Name" original="Perpetual Inventory">Постоянен инвентар</value>
-  <value column="Description" original="Maintain Perpetual Inventory Rules">Поддържане на постоянни инвентарни правила</value>
- </row>
- <row id="188" trl="Y">
-  <value column="Name" original="Vendor Details">Детайли за доставчика</value>
-  <value column="Description" original="Maintain Vendor Details">Maintain Vendor Details</value>
- </row>
- <row id="190" trl="Y">
-  <value column="Name" original="Greeting">Поздрав</value>
-  <value column="Description" original="Maintain Greetings">Maintain Greetings</value>
- </row>
- <row id="192" trl="Y">
-  <value column="Name" original="Generate Invoices">Генериранефактури</value>
-  <value column="Description" original="Generate and print Invoices from open Orders">Генерира се и се отпечатва фактура</value>
- </row>
- <row id="193" trl="Y">
-  <value column="Name" original="Generate Shipments">Генерирай експедиционни листове</value>
-  <value column="Description" original="Generate and print Shipments from open Orders">Generate and print Shipments from open Orders</value>
- </row>
- <row id="194" trl="Y">
-  <value column="Name" original="Order Transactions">Транзакции на ордер</value>
-  <value column="Description" original="Sales Order Transaction Report ">Справка за транзакциите на продажните поръчки</value>
- </row>
- <row id="195" trl="Y">
-  <value column="Name" original="Open Orders">Ордери с отворен статус</value>
-  <value column="Description" original="Open Order Report">Open Order Report</value>
- </row>
- <row id="196" trl="Y">
-  <value column="Name" original="Replenish Report">Минимални наличности</value>
-  <value column="Description" original="Inventory Replenish Report">Inventory Replenish Report</value>
- </row>
- <row id="197" trl="Y">
-  <value column="Name" original="Product Transaction Summary">Резюме за транзакциите на продукт</value>
-  <value column="Description" original="Product Transaction Summary">Резюме за транзакциите на продукт</value>
- </row>
- <row id="200" trl="Y">
-  <value column="Name" original="Request Processor">Обработване искане</value>
-  <value column="Description" original="Define Request Processors">Дефиниране на процесори на искане</value>
- </row>
- <row id="201" trl="Y">
-  <value column="Name" original="Report View">Изглед на отчета</value>
-  <value column="Description" original="Maintain Report Views">Maintain Report Views</value>
- </row>
- <row id="202" trl="Y">
-  <value column="Name" original="Invoice Transactions (Acct)">Фактурни транзакции (Счет.)</value>
-  <value column="Description" original="Invoice Transactions by Accounting Date">Invoice Transactions by Accounting Date</value>
- </row>
  <row id="203" trl="Y">
   <value column="Name" original="Requisition-to-Invoice">Доставки</value>
   <value column="Description" original=""/>
- </row>
- <row id="204" trl="Y">
-  <value column="Name" original="Material Receipt">Складова разписка</value>
-  <value column="Description" original="Vendor Shipments (Receipts)">Складови документи по доставчици (разписки)</value>
- </row>
- <row id="205" trl="Y">
-  <value column="Name" original="Purchase Order">Заявка за покупка</value>
-  <value column="Description" original="Manage Purchase Orders">Manage Purchase Orders</value>
- </row>
- <row id="206" trl="Y">
-  <value column="Name" original="Invoice (Vendor)">Фактура (доставчик)</value>
-  <value column="Description" original="Vendor Invoice Entry">Въвеждане на фактура от доставчик</value>
- </row>
- <row id="210" trl="Y">
-  <value column="Name" original="Daily Invoice">Дневни фактури</value>
-  <value column="Description" original="Imvoice Report per Day">Imvoice Report per Day</value>
- </row>
- <row id="211" trl="Y">
-  <value column="Name" original="Monthly Invoice">Месечни фактури</value>
-  <value column="Description" original="Imvoice Report per Month">Imvoice Report per Month</value>
- </row>
- <row id="212" trl="Y">
-  <value column="Name" original="Monthly Invoice Prod Cat">Месечни фактури катег. продукти</value>
-  <value column="Description" original="Imvoice Report by Product Category per Month">Imvoice Report by Product Category per Month</value>
- </row>
- <row id="213" trl="Y">
-  <value column="Name" original="Weekly Invoice Prod Cat">Седмични фактури катег. продукти</value>
-  <value column="Description" original="Imvoice Report by Product Category per Week">Imvoice Report by Product Category per Week</value>
- </row>
- <row id="214" trl="Y">
-  <value column="Name" original="Monthly Invoice Vendor">Месечни фактури от доставчик</value>
-  <value column="Description" original="Imvoice Report by Product Vendor per Month">Imvoice Report by Product Vendor per Month</value>
- </row>
- <row id="215" trl="Y">
-  <value column="Name" original="Weekly Invoice">Седмични фактури</value>
-  <value column="Description" original="Imvoice Report per Week">Imvoice Report per Week</value>
- </row>
- <row id="216" trl="Y">
-  <value column="Name" original="Form">Формуляр</value>
-  <value column="Description" original="Special Forms">Специални формуляри</value>
- </row>
- <row id="217" trl="Y">
-  <value column="Name" original="Generate Invoices (manual)">Генериране фактура (ръчно)</value>
-  <value column="Description" original="Select and generate invoices">Изберете и генерирайте фактура</value>
  </row>
  <row id="218" trl="Y">
   <value column="Name" original="System Admin">Системно администриране</value>
   <value column="Description" original=""/>
  </row>
- <row id="219" trl="Y">
-  <value column="Name" original="Project Setup and Use">Настройване и употреба на проекти</value>
-  <value column="Description" original="Setup of projects and project reporting">Конфигуриране на проекта и справките</value>
- </row>
- <row id="220" trl="Y">
-  <value column="Name" original="Java Version">Версия на Java</value>
-  <value column="Description" original="Displays the version of the default Java VM">Показва текущата версия на Java VM</value>
- </row>
- <row id="221" trl="Y">
-  <value column="Name" original="Error Message">Съобщение за грешка</value>
-  <value column="Description" original="Display Error Messages">Display Error Messages</value>
- </row>
- <row id="222" trl="Y">
-  <value column="Name" original="Import Loader Format">Импорт на формат на лоудъра</value>
-  <value column="Description" original="Maintain Import Loader Formats">Maintain Import Loader Formats</value>
- </row>
- <row id="223" trl="Y">
-  <value column="Name" original="Import File Loader">Зареждане на данни от файл</value>
-  <value column="Description" original="Load flat Files into import tables">Зареждане на импортните таблици от файл</value>
- </row>
- <row id="224" trl="Y">
-  <value column="Name" original="Language Setup">Настройка на език</value>
-  <value column="Description" original="Setup a new Language of the system and translate elements">Конфигуриране на нов език на системата и превеждане на елементите</value>
- </row>
- <row id="225" trl="Y">
-  <value column="Name" original="Initial Client Setup">Първоначално настройване на фирма</value>
-  <value column="Description" original="Initial new Client/Tenant Setup">Инсталация на нов клиент</value>
- </row>
- <row id="227" trl="Y">
-  <value column="Name" original="Vendor Selection">Избор на доставчик</value>
-  <value column="Description" original="Products with more than one vendor">Продукти с повече от един доставчик</value>
- </row>
- <row id="228" trl="Y">
-  <value column="Name" original="Production">Производство</value>
-  <value column="Description" original="Production based on Bill of Materials">Production based on Bill of Materials</value>
- </row>
- <row id="229" trl="Y">
-  <value column="Name" original="Material Transactions">Материални транзакции</value>
-  <value column="Description" original="Material Transactions">Материални транзакции</value>
- </row>
- <row id="230" trl="Y">
-  <value column="Name" original="Quarterly Invoice Customer by Product">Тримесечни фактури на клиент по продукт</value>
-  <value column="Description" original="Invoice Report by Customer and Product Category per Quarter">Invoice Report by Customer and Product Category per Quarter</value>
- </row>
- <row id="231" trl="Y">
-  <value column="Name" original="Quarterly Invoice Customer by Vendor">Тримесечни фактури по доставчик и продукт</value>
-  <value column="Description" original="Invoice Report by Customer and Product Vendor per Quarter">Invoice Report by Customer and Product Vendor per Quarter</value>
- </row>
- <row id="232" trl="Y">
-  <value column="Name" original="Business Partner Group">Група бизнес партньори</value>
-  <value column="Description" original="Maintain Business Partner Groups">Maintain Business Partner Groups</value>
- </row>
- <row id="233" trl="Y">
-  <value column="Name" original="Notice">Известие</value>
-  <value column="Description" original="View System Notices">Показва системните известия</value>
- </row>
- <row id="234" trl="Y">
-  <value column="Name" original="Bank Statement">Банково извлечение</value>
-  <value column="Description" original="Process Bank Statements">Обработка на банкови извлечения</value>
- </row>
- <row id="235" trl="Y">
-  <value column="Name" original="Payment">Плащане</value>
-  <value column="Description" original="Process Payments and Receipts">Process Payments and Receipts</value>
- </row>
  <row id="236" trl="Y">
   <value column="Name" original="Open Items">Документи с отворен статус</value>
   <value column="Description" original=""/>
  </row>
- <row id="237" trl="Y">
-  <value column="Name" original="Request">Заявка</value>
-  <value column="Description" original="Work on your requests">Позволява работа със заявките Ви</value>
- </row>
- <row id="238" trl="Y">
-  <value column="Name" original="Mail Template">Шаблон за мейл</value>
-  <value column="Description" original="Maintain Mail Template">Maintain Mail Template</value>
- </row>
- <row id="239" trl="Y">
-  <value column="Name" original="Custom Attribute">Поръчков атрибут</value>
-  <value column="Description" original="Maintain custom entity attributes">Поддържане на поръчкови атрибути на цялостта</value>
- </row>
- <row id="240" trl="Y">
-  <value column="Name" original="Cashbook">Касова книга</value>
-  <value column="Description" original="Maintain Cashbook">Поддържане на касова книга</value>
- </row>
- <row id="241" trl="Y">
-  <value column="Name" original="Cash Journal">Касов дневник</value>
-  <value column="Description" original="Cash transactions">Cash transactions</value>
- </row>
- <row id="243" trl="Y">
-  <value column="Name" original="Open Items">Документи с отворен статус</value>
-  <value column="Description" original="Open Item (Invoice) List">Списък с отворени позиции</value>
- </row>
- <row id="244" trl="Y">
-  <value column="Name" original="UnReconciled Payments">Непотвърдени плащания</value>
-  <value column="Description" original="Payments not reconciled with Bank Statement">Несъгласувани плащания с Банковите изисквания</value>
- </row>
- <row id="245" trl="Y">
-  <value column="Name" original="Payment Allocation">Разпределение на плащането</value>
-  <value column="Description" original="Allocate invoices and payments">Разпределяне на фактури и плащания</value>
- </row>
- <row id="246" trl="Y">
-  <value column="Name" original="Allocation">Разпределение</value>
-  <value column="Description" original="Payment - Invoice - Allocation">Плащане - Фактура - Разпределение</value>
- </row>
- <row id="249" trl="Y">
-  <value column="Name" original="Field Group">Група поле</value>
-  <value column="Description" original="Define Field Group">Define Field Group</value>
- </row>
- <row id="251" trl="Y">
-  <value column="Name" original="View Allocation">Разглеждане на разпределение</value>
-  <value column="Description" original="View and Reverse Allocations ">View and Reverse Allocations </value>
- </row>
- <row id="252" trl="Y">
-  <value column="Name" original="Invoice Transactions (Doc)">Сума по фактура</value>
-  <value column="Description" original="Invoice Transactions by Invoice Date">Invoice Transactions by Invoice Date</value>
- </row>
- <row id="253" trl="Y">
-  <value column="Name" original="Invoice Detail &amp; Margin">Подробности по фактура</value>
-  <value column="Description" original="Invoice (Line) Detail and Margin Report">Invoice (Line) Detail and Margin Report</value>
- </row>
- <row id="254" trl="Y">
-  <value column="Name" original="Generate Charges">Генериране на промените</value>
-  <value column="Description" original="Generate Charges from natural accounts">Генериране на промените от натуралните сметки</value>
- </row>
- <row id="255" trl="Y">
-  <value column="Name" original="Payment Selection">Избиране на плащане</value>
-  <value column="Description" original="Select Invoices for Payment">Select Invoices for Payment</value>
- </row>
- <row id="256" trl="Y">
-  <value column="Name" original="Product Transaction Value">Стойност на транзакцията на продукта</value>
-  <value column="Description" original="Product Transaction Value">Стойност на транзакцията на продукта</value>
- </row>
- <row id="257" trl="Y">
-  <value column="Name" original="Commission">Комисионна</value>
-  <value column="Description" original="Maintain Commissions and Royalties">Maintain Commissions and Royalties</value>
- </row>
- <row id="258" trl="Y">
-  <value column="Name" original="Project Reporting">Отчет проекти</value>
-  <value column="Description" original="Maintain Project Reporting Cycles">Maintain Project Reporting Cycles</value>
- </row>
- <row id="260" trl="Y">
-  <value column="Name" original="Project Status Summary">Статус на сумата по проекта</value>
-  <value column="Description" original="Project Status of Project Cycle">Статус на проекта от проектния цикъл</value>
- </row>
- <row id="261" trl="Y">
-  <value column="Name" original="Initial Client Setup Review">Преглед пърноначално настройване на фирмата</value>
-  <value column="Description" original="Review of system level setup of a new  Client">Преглед на системното ниво на нов Холдинг</value>
- </row>
  <row id="263" trl="Y">
   <value column="Name" original="Partner Relations">Отношения с партньорите</value>
   <value column="Description" original="Customer Relations and Partner Management">Customer Relations and Partner Management</value>
- </row>
- <row id="264" trl="Y">
-  <value column="Name" original="Commission Run">Натрупване на комисионна </value>
-  <value column="Description" original="Check and modify Commissions">Check and modify Commissions</value>
- </row>
- <row id="265" trl="Y">
-  <value column="Name" original="Accounting Setup">Конфигуриране на осчетоводяването</value>
-  <value column="Description" original="Review and change Accounting Setup">Преглед и промяна на кнфигурацията по осчетоводяването</value>
- </row>
- <row id="266" trl="Y">
-  <value column="Name" original="Business Partner Setup">Настройване на партньорите</value>
-  <value column="Description" original="Setup Business Partner Rules">Конфигуриране на правилата на бизнес партньора</value>
- </row>
- <row id="267" trl="Y">
-  <value column="Name" original="Price List Setup">Настройване на ценови листи</value>
-  <value column="Description" original="Define your Price Lists and Discounts">Дефинирайте ценовата листа и отстъпките</value>
- </row>
- <row id="268" trl="Y">
-  <value column="Name" original="Product Setup">Конфигуриране на продукт</value>
-  <value column="Description" original="Set up Products">Конфигуриране на продукти</value>
- </row>
- <row id="269" trl="Y">
-  <value column="Name" original="Sales Setup">Конфигуриране на продажби</value>
-  <value column="Description" original="Setup Sales">Конфигуриране на продажби</value>
- </row>
- <row id="270" trl="Y">
-  <value column="Name" original="Tax Setup">Конфигуриране на данъка</value>
-  <value column="Description" original="Setup tax calculation">Конфигуриране калкулацията на данъка</value>
  </row>
  <row id="271" trl="Y">
   <value column="Name" original="Service">Услуги</value>
@@ -594,701 +89,41 @@
   <value column="Name" original="Sales and Marketing">Продажби и Маркетинг</value>
   <value column="Description" original=""/>
  </row>
- <row id="275" trl="Y">
-  <value column="Name" original="Performance Goal">Целева производителност</value>
-  <value column="Description" original="Define Performance Goals">Define Performance Goals</value>
- </row>
- <row id="276" trl="Y">
-  <value column="Name" original="Performance Measure Calculation">Изчисляване на мерките за производителност</value>
-  <value column="Description" original="Define how you calculate your performance measures">Define how you calculate your performance measures</value>
- </row>
- <row id="277" trl="Y">
-  <value column="Name" original="Performance Measurement Setup">Дефиниране на Оценки за Ефективност</value>
-  <value column="Description" original="Setup your Performance Measurement">Setup your Performance Measurement</value>
- </row>
  <row id="278" trl="Y">
   <value column="Name" original="Performance Analysis">Анализ производителност</value>
   <value column="Description" original=""/>
- </row>
- <row id="279" trl="Y">
-  <value column="Name" original="Performance Measure">Мярка за производителност</value>
-  <value column="Description" original="Define your Performance Measures">Define your Performance Measures</value>
  </row>
  <row id="280" trl="Y">
   <value column="Name" original="Financial Reporting">Финансови справки</value>
   <value column="Description" original=""/>
  </row>
- <row id="281" trl="Y">
-  <value column="Name" original="Financial Report">Финансов отчет</value>
-  <value column="Description" original="Maintain Financial Reports">Maintain Financial Reports</value>
- </row>
- <row id="282" trl="Y">
-  <value column="Name" original="Report Column Set">Отчет за поредица в колона</value>
-  <value column="Description" original="Maintain Financial Report Column Sets">Поддържане на финансови отчети за поредица в колона</value>
- </row>
- <row id="283" trl="Y">
-  <value column="Name" original="Report Line Set">Отчет поредица редове</value>
-  <value column="Description" original="Maintain Financial Report Line Sets">Поддържане на серии редове от финансов отчет.</value>
- </row>
- <row id="284" trl="Y">
-  <value column="Name" original="Service Level">Ниво на услуги</value>
-  <value column="Description" original="Maintain Service Levels">Maintain Service Levels</value>
- </row>
- <row id="286" trl="Y">
-  <value column="Name" original="Payment Selection (manual)">Избиране плащания (ръчно)</value>
-  <value column="Description" original="Manual Payment Selection">Ръчен избор на плащанията</value>
- </row>
- <row id="287" trl="Y">
-  <value column="Name" original="Payment Print/Export">Печат/Експорт на плащания</value>
-  <value column="Description" original="Print or export your payments">Принтиране или експортиране на плащанията</value>
- </row>
- <row id="288" trl="Y">
-  <value column="Name" original="Cash Journal Detail">Детайли за касовия журнал</value>
-  <value column="Description" original="Detail Cash Journal Information">Информация на подробностите по паричния журнал</value>
- </row>
- <row id="289" trl="Y">
-  <value column="Name" original="Database export">Експорт на данни</value>
-  <value column="Description" original="Export (save) the database">Експорт (запази) базата</value>
- </row>
- <row id="290" trl="Y">
-  <value column="Name" original="Find (indirect use)">Намиране (недиректна упортеба)</value>
-  <value column="Description" original="Find Dialog (indirect use)">Find Dialog (indirect use)</value>
- </row>
- <row id="292" trl="Y">
-  <value column="Name" original="Material Transactions (indirect use)">Материални транзакции (недиректна употреба)</value>
-  <value column="Description" original="Material Transactions (indirect use)">Материални транзакции /недиректна употреба/</value>
- </row>
- <row id="293" trl="Y">
-  <value column="Name" original="Print Form">Отпечатване формуляр</value>
-  <value column="Description" original="Maintain Print Forms (Invoices, Checks, ..) used">Maintain Print Forms (Invoices, Checks, ..) used</value>
- </row>
- <row id="294" trl="Y">
-  <value column="Name" original="System Color">Системен цвят</value>
-  <value column="Description" original="Maintain System Colors">Maintain System Colors</value>
- </row>
- <row id="295" trl="Y">
-  <value column="Name" original="Desktop">Работен плот</value>
-  <value column="Description" original="Maintain Desktop">Поддържане на десктоп</value>
- </row>
- <row id="296" trl="Y">
-  <value column="Name" original="System Image">Системно изображение</value>
-  <value column="Description" original="Maintain Images and Icons">Maintain Images and Icons</value>
- </row>
- <row id="300" trl="Y">
-  <value column="Name" original="Workbench">Работна маса</value>
-  <value column="Description" original="Maintain Workbench">Maintain Workbench</value>
- </row>
  <row id="301" trl="Y">
   <value column="Name" original="Sales">Продажби</value>
   <value column="Description" original=""/>
- </row>
- <row id="302" trl="Y">
-  <value column="Name" original="Database transfer">Местене на база</value>
-  <value column="Description" original="Transfer the database">Премести базата.</value>
- </row>
- <row id="303" trl="Y">
-  <value column="Name" original="Synchronize Terminology">Синхронизирай Терминомогия</value>
-  <value column="Description" original="Synchronize the terminology within the system.">Синхронизирай терминологията в системата.</value>
- </row>
- <row id="304" trl="Y">
-  <value column="Name" original="Receivables Write-Off">Receivables Write-Off</value>
-  <value column="Description" original="Write off open receivables">Write off open receivables</value>
- </row>
- <row id="306" trl="Y">
-  <value column="Name" original="Resubmit Posting">Осчетоводи отново</value>
-  <value column="Description" original="Resubmit posting of documents with posting errors or locked documents">Resubmit posting of documents with posting errors</value>
- </row>
- <row id="307" trl="Y">
-  <value column="Name" original="Reset Accounting">Връщане в начално състояние на счетоводството</value>
-  <value column="Description" original="Reset Accounting Entries ** Stop Accounting Server before starting **">Връщане в начално състояние на въведенията по счетоводството</value>
- </row>
- <row id="308" trl="Y">
-  <value column="Name" original="Request (all)">Заявки (всички)</value>
-  <value column="Description" original="View and work on all requests">Показва и позволява рабопта с всички заявки</value>
- </row>
- <row id="309" trl="Y">
-  <value column="Name" original="Request Setup">Молба за конфигуриране</value>
-  <value column="Description" original="Set up the client to process requests">Конфигурирайте холдингите да пускат молби</value>
- </row>
- <row id="310" trl="Y">
-  <value column="Name" original="Discount Schema">Схема на отстъпки</value>
-  <value column="Description" original="Maintain Trade Discount Schema">Maintain Trade Discount Schema</value>
- </row>
- <row id="311" trl="Y">
-  <value column="Name" original="Inventory Valuation Report">Оценка на склада</value>
-  <value column="Description" original="Inventory Valuation Report">Оценка на склада</value>
- </row>
- <row id="312" trl="Y">
-  <value column="Name" original="Matching PO-Receipt-Invoice">Подобие на заявка за покупка</value>
-  <value column="Description" original="Match Purchase Orders, Receipts, Vendor Invoices">Подобия на заявки за покупки, Получатели, Фактури от доставчик</value>
- </row>
- <row id="313" trl="Y">
-  <value column="Name" original="Standard Cost Update">Обновяване на цените на продукт</value>
-  <value column="Description" original="Set standard and future cost price">Поставя бъдеща и стандартна цена</value>
- </row>
- <row id="314" trl="Y">
-  <value column="Name" original="Product Costing Report (old)">Справка за цената на продукта</value>
-  <value column="Description" original="Product Cost Report">Справка за цената на продукта</value>
- </row>
- <row id="315" trl="Y">
-  <value column="Name" original="Matched Invoices">Комплектовани фактури</value>
-  <value column="Description" original="View Matched Invoices">View Matched Invoices</value>
- </row>
- <row id="316" trl="Y">
-  <value column="Name" original="Matched Purchase Orders">Комплектовани заявки за покупка</value>
-  <value column="Description" original="View Matched Purchase Orders">View Matched Purchase Orders</value>
- </row>
- <row id="317" trl="Y">
-  <value column="Name" original="Expense Type">Тип разход</value>
-  <value column="Description" original="Maintain Expense Report Types">Maintain Expense Report Types</value>
- </row>
- <row id="318" trl="Y">
-  <value column="Name" original="Expense Report">Разходен отчет</value>
-  <value column="Description" original="Time and Expense Report">Отчет за време и разходи</value>
- </row>
- <row id="319" trl="Y">
-  <value column="Name" original="Resource">Ресурс</value>
-  <value column="Description" original="Maintain Resources">Maintain Resources</value>
- </row>
- <row id="320" trl="Y">
-  <value column="Name" original="Resource Type">Тип ресурс</value>
-  <value column="Description" original="Maintain Resource Types">Maintain Resource Types</value>
- </row>
- <row id="321" trl="Y">
-  <value column="Name" original="Recompile DB Objects">Прекомпилирай обектите на базата</value>
-  <value column="Description" original="Recompile Database Objects">Прекомпилирай обектите на базата</value>
- </row>
- <row id="322" trl="Y">
-  <value column="Name" original="Print Format">Формат отпечатване</value>
-  <value column="Description" original="Maintain Print Format">Maintain Print Format</value>
- </row>
- <row id="323" trl="Y">
-  <value column="Name" original="Print Font">Шрифт за печатане</value>
-  <value column="Description" original="Maintain Print Font">Maintain Print Font</value>
- </row>
- <row id="324" trl="Y">
-  <value column="Name" original="Print Color">Цвят на отпечатване</value>
-  <value column="Description" original="Maintain Print Color">Maintain Print Color</value>
- </row>
- <row id="325" trl="Y">
-  <value column="Name" original="Print Paper">Хартия отпечатване</value>
-  <value column="Description" original="Maintain Print Paper">Maintain Print Paper</value>
  </row>
  <row id="326" trl="Y">
   <value column="Name" original="Printing">Печат</value>
   <value column="Description" original="Print Definition">Print Definition</value>
  </row>
- <row id="327" trl="Y">
-  <value column="Name" original="Expenses (to be invoiced)">Расходи (не Фактурирани)</value>
-  <value column="Description" original="View expenses and charges not invoiced to customers">View expenses and charges not invoiced to customers</value>
- </row>
- <row id="328" trl="Y">
-  <value column="Name" original="Create Sales Orders from Expense">Създай клиентска поръчка от разходи</value>
-  <value column="Description" original="Create Sales Orders for Customers from Expense Reports">Създай клиентски поръчки от справки за разходи</value>
- </row>
- <row id="329" trl="Y">
-  <value column="Name" original="Create AP Expense Invoices">Създай AP разходни фактури</value>
-  <value column="Description" original="Create AP Invoices from Expenses to be paid to employees">Създай AP фактура от разходи за заплати на работници</value>
- </row>
- <row id="331" trl="Y">
-  <value column="Name" original="Print Table Format">Отпечатване таблица формат</value>
-  <value column="Description" original="Define Report Table Format">Define Report Table Format</value>
- </row>
- <row id="332" trl="Y">
-  <value column="Name" original="Request Type">Тип искане</value>
-  <value column="Description" original="Maintain Request Types">Maintain Request Types</value>
- </row>
- <row id="333" trl="Y">
-  <value column="Name" original="Interest Area">Област от интерес</value>
-  <value column="Description" original="Interest Area or Topic">Област от интерес или тема</value>
- </row>
- <row id="334" trl="Y">
-  <value column="Name" original="System">Система</value>
-  <value column="Description" original="System Definition">Дефиниция на система</value>
- </row>
- <row id="335" trl="Y">
-  <value column="Name" original="Generate PO from Sales Order">Генериране на доставка от продажба</value>
-  <value column="Description" original="Create Purchase Order from Sales Orders">Създай проъчка за покупка от клиентска поръчка</value>
- </row>
- <row id="336" trl="Y">
-  <value column="Name" original="Translation Import/Export">Експорт/Импорт превод</value>
-  <value column="Description" original="Import or Export Language Translation">Импорт или Експорт на превод за език</value>
- </row>
- <row id="337" trl="Y">
-  <value column="Name" original="Reopen Request">Преотвори изкане</value>
-  <value column="Description" original="Reopen closed requests">Отворете отново приключени заявки</value>
- </row>
- <row id="338" trl="Y">
-  <value column="Name" original="Import Report Line Set">Импорт конфигурация ред отчет</value>
-  <value column="Description" original="Import Report Line Sets">Import Report Line Sets</value>
- </row>
- <row id="339" trl="Y">
-  <value column="Name" original="Import Account">Импорт сметка</value>
-  <value column="Description" original="Import Natural Account Values">Import Natural Account Values</value>
- </row>
- <row id="340" trl="Y">
-  <value column="Name" original="Import Product">Импорт продукт</value>
-  <value column="Description" original="Import Products">Импорт продукти</value>
- </row>
- <row id="341" trl="Y">
-  <value column="Name" original="System Translation Check">Проверка превода на системата</value>
-  <value column="Description" original="Check System Language Translations">Проверка на езиковия превод</value>
- </row>
- <row id="342" trl="Y">
-  <value column="Name" original="Asset">Актив</value>
-  <value column="Description" original="Asset used internally or by customers">Актив използван вътрешно или от клиенти</value>
- </row>
- <row id="343" trl="Y">
-  <value column="Name" original="Asset Group">Група активи</value>
-  <value column="Description" original="Group of Assets">Група активи</value>
- </row>
- <row id="344" trl="Y">
-  <value column="Name" original="Training">Обучение</value>
-  <value column="Description" original="Repeated Training">Повторено обучение</value>
- </row>
  <row id="345" trl="Y">
   <value column="Name" original="Assets">Активи</value>
   <value column="Description" original=""/>
- </row>
- <row id="346" trl="Y">
-  <value column="Name" original="Generate Shipments (manual)">Генериране експ. лист (ръчно)</value>
-  <value column="Description" original="Select and generate shipments">Избери и генерирай доставка</value>
- </row>
- <row id="347" trl="Y">
-  <value column="Name" original="Print Invoices">Печат на фактури</value>
-  <value column="Description" original="Print Invoices to paper or send PDF">Печати фактури на хартия или изпрати PDF</value>
- </row>
- <row id="348" trl="Y">
-  <value column="Name" original="Deliver Assets">Достави активи</value>
-  <value column="Description" original="Deliver Customer Assets electronically">Електронно доставяне на активите на клиента</value>
- </row>
- <row id="349" trl="Y">
-  <value column="Name" original="Expenses (not reimbursed)">Expenses (not reimbursed)</value>
-  <value column="Description" original="View expenses and charges not reimbursed">View expenses and charges not reimbursed</value>
- </row>
- <row id="350" trl="Y">
-  <value column="Name" original="Statement of Accounts">Показване на сметки</value>
-  <value column="Description" original="Report Account Statement Beginning Balance and Transactions">Report Account Statement Beginning Balance and Transactions</value>
- </row>
- <row id="351" trl="Y">
-  <value column="Name" original="SQL Process">Password Maintenance</value>
-  <value column="Description" original="Process SQL Statements">Maintain Passwords</value>
- </row>
- <row id="352" trl="Y">
-  <value column="Name" original="Accounting Fact Balances">Accounting Fact Balances</value>
-  <value column="Description" original="Query Accounting Daily Balances">Query Accounting Daily Balances</value>
- </row>
- <row id="353" trl="Y">
-  <value column="Name" original="Attribute Set">Съвкупност артибути</value>
-  <value column="Description" original="Maintain Product Attribute Set">Поддържане съвкупност продуктови атрибути</value>
- </row>
- <row id="354" trl="Y">
-  <value column="Name" original="Serial No Control">Контрол сериен номер</value>
-  <value column="Description" original="Product Serial Number Control">Контрол сериен номер на продукт</value>
- </row>
- <row id="355" trl="Y">
-  <value column="Name" original="Lot Control">Контрол върху партида</value>
-  <value column="Description" original="Product Lot Control">Контрол върху продуктова пратида</value>
- </row>
- <row id="356" trl="Y">
-  <value column="Name" original="Lot">Партида</value>
-  <value column="Description" original="Product Lot Definition">Дефиниция на продуктова партида</value>
  </row>
  <row id="357" trl="Y">
   <value column="Name" original="Product Attributes">Продуктови атрибути</value>
   <value column="Description" original=""/>
  </row>
- <row id="358" trl="Y">
-  <value column="Name" original="Attribute Search">Търсене на атрибут</value>
-  <value column="Description" original="Common Search Attribute ">Общо търсене атрибут</value>
- </row>
- <row id="359" trl="Y">
-  <value column="Name" original="Attribute">Атрибут</value>
-  <value column="Description" original="Product Attribute">Продуктов атрибут</value>
- </row>
- <row id="360" trl="Y">
-  <value column="Name" original="Expense Invoice (Alpha)">Expense Invoice (Alpha)</value>
-  <value column="Description" original="Payables expense invoices - This is Alpha Functionality">Payables expense invoices - This is Alpha Functionality</value>
- </row>
- <row id="361" trl="Y">
-  <value column="Name" original="Recurring">Повтаряеми</value>
-  <value column="Description" original="Recurring Document">Повтарящи се документи</value>
- </row>
- <row id="362" trl="Y">
-  <value column="Name" original="Role Data Access">Role Data Access</value>
-  <value column="Description" original="Maintain Data Access Rules">Maintain Data Access Rules</value>
- </row>
- <row id="363" trl="Y">
-  <value column="Name" original="Import Inventory">Импорт инвентар</value>
-  <value column="Description" original="Import Inventory Transactions">Import Inventory Transactions</value>
- </row>
- <row id="364" trl="Y">
-  <value column="Name" original="Project Type">Тип проект</value>
-  <value column="Description" original="Maintain Project Type and Phase">Maintain Project Type and Phase</value>
- </row>
- <row id="365" trl="Y">
-  <value column="Name" original="Print Label">Отпечатване етикети</value>
-  <value column="Description" original="Print Label Format">Print Label Format</value>
- </row>
- <row id="366" trl="Y">
-  <value column="Name" original="Session Audit">Одит сесия</value>
-  <value column="Description" original="Audit of User Sessions">Audit of User Sessions</value>
- </row>
  <row id="367" trl="Y">
   <value column="Name" original="Security">Сигурност</value>
   <value column="Description" original=""/>
- </row>
- <row id="368" trl="Y">
-  <value column="Name" original="Change Audit">Промяна одит</value>
-  <value column="Description" original="Audit of data changes">Audit of data changes</value>
- </row>
- <row id="369" trl="Y">
-  <value column="Name" original="Time Type">Тип време</value>
-  <value column="Description" original="Maintain Time Recording Type">Maintain Time Recording Type</value>
- </row>
- <row id="370" trl="Y">
-  <value column="Name" original="Cost Type">Тип разход</value>
-  <value column="Description" original="Maintain Cost Types">Maintain Cost Types</value>
- </row>
- <row id="371" trl="Y">
-  <value column="Name" original="Advertisement">Реклама</value>
-  <value column="Description" original="Web Advertisement">Уеб реклама</value>
  </row>
  <row id="372" trl="Y">
   <value column="Name" original="Web">Интернет</value>
   <value column="Description" original=""/>
  </row>
- <row id="373" trl="Y">
-  <value column="Name" original="Import Bank Statement">Импортване на банково извлечение</value>
-  <value column="Description" original="Import Bank Statements">Import Bank Statements</value>
- </row>
- <row id="374" trl="Y">
-  <value column="Name" original="Import Payment">Import Payment</value>
-  <value column="Description" original="Import Payments">Импорт плащания</value>
- </row>
- <row id="375" trl="Y">
-  <value column="Name" original="Click">Кликване</value>
-  <value column="Description" original="Maintain Web Click">Maintain Web Click</value>
- </row>
- <row id="376" trl="Y">
-  <value column="Name" original="Import Order">Import Order</value>
-  <value column="Description" original="Import Orders">Импорт поръчки</value>
- </row>
- <row id="377" trl="Y">
-  <value column="Name" original="Invoice Payment Schedule">График плащания по фактури</value>
-  <value column="Description" original="Maintain Invoice Payment Schedule">Maintain Invoice Payment Schedule</value>
- </row>
- <row id="378" trl="Y">
-  <value column="Name" original="Import GL Journal">Import GL Journal</value>
-  <value column="Description" original="Import General Ledger Journals">Import General Ledger Journals</value>
- </row>
- <row id="379" trl="Y">
-  <value column="Name" original="Alert">Предупреждение</value>
-  <value column="Description" original="Adempiere Alert">Адемпиере предупреждение</value>
- </row>
- <row id="380" trl="Y">
-  <value column="Name" original="Counter">Counter</value>
-  <value column="Description" original="Web Counter">Web Counter</value>
- </row>
- <row id="381" trl="Y">
-  <value column="Name" original="Freight Category">Категория товар</value>
-  <value column="Description" original="Maintain Freight Categories">Maintain Freight Categories</value>
- </row>
- <row id="382" trl="Y">
-  <value column="Name" original="Import Invoice">Import Invoice</value>
-  <value column="Description" original="Import Invoices">Импорт на фактури</value>
- </row>
- <row id="383" trl="Y">
-  <value column="Name" original="Cache Reset">Изчистване на паметта</value>
-  <value column="Description" original="Reset Cache of the System ** Close all Windows before proceeding **">Изтрива кешираната информация на системата ** Първо затворете всички прозорци **</value>
- </row>
- <row id="384" trl="Y">
-  <value column="Name" original="Accounting Dimensions">Счетоводни Дименсии</value>
-  <value column="Description" original="Maintain Non-Account Dimension Trees">Maintain Non-Account Dimension Trees</value>
- </row>
- <row id="385" trl="Y">
-  <value column="Name" original="Replication">Replication</value>
-  <value column="Description" original="Maintain Data Replication Targets">Maintain Data Replication Targets</value>
- </row>
- <row id="386" trl="Y">
-  <value column="Name" original="Replication Strategy">Стратегия на копиране</value>
-  <value column="Description" original="Maintain Data Replication Strategy">Maintain Data Replication Strategy</value>
- </row>
- <row id="387" trl="Y">
-  <value column="Name" original="Project (Lines/Issues)">Проекти (Редове/Изписвания)</value>
-  <value column="Description" original="Maintain Sales Order and Work Order Details">Поддържане проекти по поръчки и работни ордери</value>
- </row>
- <row id="388" trl="Y">
-  <value column="Name" original="Knowledge Base">Knowledge Base</value>
-  <value column="Description" original="Maintain Knowledge Base">Maintain Knowledge Base</value>
- </row>
- <row id="389" trl="Y">
-  <value column="Name" original="Knowledge Category">Категория знание</value>
-  <value column="Description" original="Maintain Knoweledge Categories and Values">Поддържане на категории знания и стойности</value>
- </row>
- <row id="390" trl="Y">
-  <value column="Name" original="Knowledge Synonym">Синоним знание</value>
-  <value column="Description" original="Knowlege Keyword Synonym">Синоним ключова дума знание</value>
- </row>
- <row id="391" trl="Y">
-  <value column="Name" original="Knowledge Source">Източник знание</value>
-  <value column="Description" original="Source of Knowledge Entries">Източник на въведено знание</value>
- </row>
  <row id="392" trl="Y">
   <value column="Name" original="Knowledge Base">Knowledge Base</value>
   <value column="Description" original=""/>
- </row>
- <row id="393" trl="Y">
-  <value column="Name" original="Update Accounting Balance">Обновете счетоводния баланс</value>
-  <value column="Description" original="Update Daily Accounting Balances">Ежедневно обновяване на счетоводния бананс</value>
- </row>
- <row id="394" trl="Y">
-  <value column="Name" original="Business Partner Info">Информация за партньора</value>
-  <value column="Description" original="Document Information of Business Partners">Документна информация за партньорите</value>
- </row>
- <row id="395" trl="Y">
-  <value column="Name" original="Replication Setup">** Невалидно **</value>
-  <value column="Description" original="Setup of data replication">Setup of data replication</value>
- </row>
- <row id="396" trl="Y">
-  <value column="Name" original="Send Mail Text">Send Mail Text</value>
-  <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User</value>
- </row>
- <row id="397" trl="Y">
-  <value column="Name" original="Merge Entities">Сливане на същности</value>
-  <value column="Description" original="Merge From Entity to To Entity - Delete From">Merge From Entity to To Entity - Delete From</value>
- </row>
- <row id="398" trl="Y">
-  <value column="Name" original="Project Cycle Report">Project Cycle Report</value>
-  <value column="Description" original="Report Projects based on Project Cycle">Report Projects based on Project Cycle</value>
- </row>
- <row id="399" trl="Y">
-  <value column="Name" original="Customer Assets">Customer Assets</value>
-  <value column="Description" original="Report Customer Assets with Delivery Count">Report Customer Assets with Delivery Count</value>
- </row>
- <row id="400" trl="Y">
-  <value column="Name" original="Asset Delivery Details">Asset Delivery Details</value>
-  <value column="Description" original="Report Asset Deliveries Details">Report Asset Deliveries Details</value>
- </row>
- <row id="401" trl="Y">
-  <value column="Name" original="Issue to Project">Изписване по проект</value>
-  <value column="Description" original="Issue Material to Project from Receipt or manual Inventory Location">Изписване на Материал към Проект чрез Разписка или по позиция на инвентара</value>
- </row>
- <row id="402" trl="Y">
-  <value column="Name" original="Generate PO from Project">Създаване на поръчки към доставчик</value>
-  <value column="Description" original="Generate PO from Project Line(s)">Generate PO from Project Line(s)</value>
- </row>
- <row id="403" trl="Y">
-  <value column="Name" original="Project Detail Accounting Report">Project Detail Accounting Report</value>
-  <value column="Description" original="Accounting Fact Details of Project">Accounting Fact Details of Project</value>
- </row>
- <row id="404" trl="Y">
-  <value column="Name" original="Project Lines not Issued">Неиздадените наличности</value>
-  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project</value>
- </row>
- <row id="405" trl="Y">
-  <value column="Name" original="Project POs not Issued">Неиздадените наличности и поръчки към доставчик</value>
-  <value column="Description" original="Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project">Lists Project Lines with generated Purchase Orders of a Work Order or Asset Project, which are not issued to the Project</value>
- </row>
- <row id="406" trl="Y">
-  <value column="Name" original="RePrice Order/Invoice">Обновяване на цени Продажба/Фактура</value>
-  <value column="Description" original="Recalculate the price based on the latest price list version of an open order or invoice">Recalculate the price based on the latest price list version of an open order or invoice</value>
- </row>
- <row id="407" trl="Y">
-  <value column="Name" original="Quote convert">Преобразуване на документи</value>
-  <value column="Description" original="Convert open Proposal or Quotation to Order">Convert open Proposal or Quotation to Order</value>
- </row>
- <row id="408" trl="Y">
-  <value column="Name" original="Label Printer">Label printer</value>
-  <value column="Description" original="Maintain Label Printer Definition">Maintain Label Printer Definition</value>
- </row>
- <row id="409" trl="Y">
-  <value column="Name" original="Verify Document Types">Verify Document Types</value>
-  <value column="Description" original="Verify Document Types and Period Controls">Verify Document Types</value>
- </row>
- <row id="410" trl="Y">
-  <value column="Name" original="Project Margin (Work Order)">Планиране и издаване</value>
-  <value column="Description" original="Work Order Project Lines (planned revenue) vs. Project Issues (costs)">Work Order Project Lines (planned revenue) vs. Project Issues (costs)</value>
- </row>
- <row id="411" trl="Y">
-  <value column="Name" original="Storage Detail">Storage Detail</value>
-  <value column="Description" original="Storage Detail Report">Storage Detail Report</value>
- </row>
- <row id="412" trl="Y">
-  <value column="Name" original="Transaction Detail">Transaction Detail</value>
-  <value column="Description" original="Transaction Detail Report">Transaction Detail Report</value>
- </row>
- <row id="413" trl="Y">
-  <value column="Name" original="Aging">Aging</value>
-  <value column="Description" original="Aging Report">Aging Report</value>
- </row>
- <row id="414" trl="Y">
-  <value column="Name" original="Sales Rep Info">Sales Rep Info</value>
-  <value column="Description" original="Company Agent (Sales Rep) Information">Company Agent (Sales Rep) Information</value>
- </row>
- <row id="415" trl="Y">
-  <value column="Name" original="Clicks Monthy">Clicks Monthy</value>
-  <value column="Description" original="Clicks per Month">Clicks per Month</value>
- </row>
- <row id="416" trl="Y">
-  <value column="Name" original="Clicks Unprocessed">Clicks Unprocessed</value>
-  <value column="Description" original="Unprocessed Clicks">Unprocessed Clicks</value>
- </row>
- <row id="417" trl="Y">
-  <value column="Name" original="UnPosted Documents">Незаписани документи</value>
-  <value column="Description" original="Unposted Documents">Незаписани документи</value>
- </row>
- <row id="418" trl="Y">
-  <value column="Name" original="Currency Type">Валута/Тип</value>
-  <value column="Description" original="Maintain Currency Conversion Rate Types">Maintain Currency Conversion Rate Types</value>
- </row>
- <row id="419" trl="Y">
-  <value column="Name" original="POS">POS</value>
-  <value column="Description" original="Point Of Sales Terminal">ПОС Терминал</value>
- </row>
- <row id="420" trl="Y">
-  <value column="Name" original="Business Partner Organization">Принадлежност към Организации</value>
-  <value column="Description" original="Set and verify Organization ownership of Business Partners">Промяна и проверка на принадлежност към организации</value>
- </row>
- <row id="421" trl="Y">
-  <value column="Name" original="Product Organization">Product Organization</value>
-  <value column="Description" original="Set and verify Organization ownership of Products">Set and verify Organization ownership of Products</value>
- </row>
- <row id="422" trl="Y">
-  <value column="Name" original="Warehouse Organization">Warehouse Organization</value>
-  <value column="Description" original="Set and verify Organization ownership of Warehouse">Set and verify Organization ownership of Warehouse</value>
- </row>
- <row id="423" trl="Y">
-  <value column="Name" original="Load Bank Statement">Load Bank Statement</value>
-  <value column="Description" original="Load Bank Statement">Load Bank Statement</value>
- </row>
- <row id="424" trl="Y">
-  <value column="Name" original="Delete Import">Delete Import</value>
-  <value column="Description" original="Delete all data in Import Table">Delete all data in Import Table</value>
- </row>
- <row id="425" trl="Y">
-  <value column="Name" original="Import Currency Rate">Импорт на валутен курс</value>
-  <value column="Description" original="Import Currency Conversion Rates">Import Currency Conversion Rates</value>
- </row>
- <row id="426" trl="Y">
-  <value column="Name" original="BOM Drop">Прехвърляне по Списък от компоненти</value>
-  <value column="Description" original="Drop (expand) Bill of Materials">Drop (expand) Bill of Materials</value>
- </row>
- <row id="427" trl="Y">
-  <value column="Name" original="Workflow Responsible">Workflow Responsible</value>
-  <value column="Description" original="Responsible for Workflow Execution">Отговорност за извършване на работен процес</value>
- </row>
- <row id="428" trl="Y">
-  <value column="Name" original="Workflow Process">Workflow Process</value>
-  <value column="Description" original="Monitor workflow processes">Monitor workflow processes</value>
- </row>
- <row id="429" trl="Y">
-  <value column="Name" original="Workflow Activities (all)">Workflow Activities (all)</value>
-  <value column="Description" original="Monitor all Workflow activities">Monitor all Workflow activities</value>
- </row>
- <row id="430" trl="Y">
-  <value column="Name" original="Registration Attributes">Registration Attributes</value>
-  <value column="Description" original="Asset Registration Attributes">Asset Registration Attributes</value>
- </row>
- <row id="431" trl="Y">
-  <value column="Name" original="Registration">Регистрация</value>
-  <value column="Description" original="User Asset Registration">User Asset Registration</value>
- </row>
- <row id="432" trl="Y">
-  <value column="Name" original="Invoice Tax">Данък по фактура</value>
-  <value column="Description" original="Invoice Tax Reconciliation">Invoice Tax Reconciliation</value>
- </row>
- <row id="433" trl="Y">
-  <value column="Name" original="Accounting Fact Details">Детайли по счетоводния факт</value>
-  <value column="Description" original="Accounting Fact Details Report">Accounting Fact Details Report</value>
- </row>
- <row id="434" trl="Y">
-  <value column="Name" original="Accounting Fact Daily">Accounting Fact Daily</value>
-  <value column="Description" original="Accounting Fact Details summarized by Accounting Date">Accounting Fact Details summarized by Accounting Date</value>
- </row>
- <row id="435" trl="Y">
-  <value column="Name" original="Accounting Fact Period">Accounting Fact Period</value>
-  <value column="Description" original="Accounting Fact Details summarized by Accounting Period">Accounting Fact Details summarized by Accounting Period</value>
- </row>
- <row id="436" trl="Y">
-  <value column="Name" original="Reopen Order">Повторно ползване</value>
-  <value column="Description" original="Open previously closed Order">Open previously closed Order</value>
- </row>
- <row id="437" trl="Y">
-  <value column="Name" original="Bank Statement Matcher">Комплектоване на банкови извлечения</value>
-  <value column="Description" original="Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments">Algorithm to match Bank Statement Info to Business Partners, Invoices and Payments</value>
- </row>
- <row id="438" trl="Y">
-  <value column="Name" original="Payment Batch">Групова обработка плащания</value>
-  <value column="Description" original="Process Payment Patches for EFT">Обработване на плащания във формат за EFT</value>
- </row>
- <row id="439" trl="Y">
-  <value column="Name" original="Workflow Processor">Обработване на работен процес</value>
-  <value column="Description" original="Maintain Workflow Processor and Logs">Maintain Workflow Processor and Logs</value>
- </row>
- <row id="440" trl="Y">
-  <value column="Name" original="Accounting Processor">Счетоводен процесор</value>
-  <value column="Description" original="Maintain Accounting Processor and Logs">Maintain Accounting Processor and Logs</value>
- </row>
- <row id="441" trl="Y">
-  <value column="Name" original="Organization Type">Organization Type</value>
-  <value column="Description" original="Maintain Organization Types">Maintain Organization Types</value>
- </row>
- <row id="442" trl="Y">
-  <value column="Name" original="Auction Buyer">Auction Buyer</value>
-  <value column="Description" original="Maintain Auction Buyer Information">Maintain Auction Buyer Information</value>
- </row>
- <row id="443" trl="Y">
-  <value column="Name" original="Auction Seller">Auction Seller</value>
-  <value column="Description" original="Maintain Auction Seller Information">Maintain Auction Seller Information</value>
- </row>
- <row id="444" trl="Y">
-  <value column="Name" original="Package">Пакет</value>
-  <value column="Description" original="Manage Shipment Packages">Manage Shipment Packages</value>
- </row>
- <row id="445" trl="Y">
-  <value column="Name" original="Distribution List">Дистрибуционен лист</value>
-  <value column="Description" original="Maintain Distribution Lists">Maintain Distribution Lists</value>
- </row>
- <row id="446" trl="Y">
-  <value column="Name" original="Alert Processor">Процесор за предупреждения</value>
-  <value column="Description" original="Maintain Alert Processor/Server Parameter and Logs">Maintain Alert Processor/Server Parameter and Logs</value>
- </row>
- <row id="447" trl="Y">
-  <value column="Name" original="Bid Topic">Тема на наддаване</value>
-  <value column="Description" original="Topic with Bids and Offers">Topic with Bids and Offers</value>
- </row>
- <row id="448" trl="Y">
-  <value column="Name" original="Subscription Type">Тип абонамент</value>
-  <value column="Description" original="Maintain Subscription Types">Maintain Subscription Types</value>
- </row>
- <row id="449" trl="Y">
-  <value column="Name" original="Subscription">Абонамент</value>
-  <value column="Description" original="Maintain Subscriptions and Deliveries">Поддържане на абонаменти и доставки</value>
- </row>
- <row id="450" trl="Y">
-  <value column="Name" original="Scheduler">Scheduler</value>
-  <value column="Description" original="Maintain Schedule Processes and Logs">Maintain Schedule Processes and Logs</value>
- </row>
- <row id="451" trl="Y">
-  <value column="Name" original="Partner Relation">Partner Relation</value>
-  <value column="Description" original="Maintain Business Partner Relations">Поддържка на връзки между партньори</value>
- </row>
- <row id="452" trl="Y">
-  <value column="Name" original="RfQ Topic">RfQ Topic</value>
-  <value column="Description" original="Maintain RfQ Topics and Subscribers">Maintain RfQ Topics and Subscribers</value>
- </row>
- <row id="453" trl="Y">
-  <value column="Name" original="Auction Topic Type">Тип тема на аукцион</value>
-  <value column="Description" original="Maintain Auction Topic Type and Categories">Maintain Auction Topic Type and Categories</value>
- </row>
- <row id="454" trl="Y">
-  <value column="Name" original="RfQ">Искане за оферта</value>
-  <value column="Description" original="Manage Request for Quotations">Manage Request for Quotations</value>
- </row>
- <row id="455" trl="Y">
-  <value column="Name" original="RMA">Разрешение за връщане на материали</value>
-  <value column="Description" original="Manage Return Material Authorization">Manage Return Material Authorization</value>
  </row>
  <row id="456" trl="Y">
   <value column="Name" original="Server">Сървър</value>
@@ -1310,536 +145,168 @@
   <value column="Name" original="Market Place">Пазар</value>
   <value column="Description" original=""/>
  </row>
- <row id="461" trl="Y">
-  <value column="Name" original="Sequence Check">Sequence Check</value>
-  <value column="Description" original="Check System and Document Sequences">Check System and Document Sequences</value>
- </row>
- <row id="462" trl="Y">
-  <value column="Name" original="Dunning Run">Натрупване на събиране на дългове</value>
-  <value column="Description" original="Manage Dunning Runs">Manage Dunning Runs</value>
- </row>
- <row id="463" trl="Y">
-  <value column="Name" original="Requisition">Искане</value>
-  <value column="Description" original="Material Requisition">Material Requisition</value>
- </row>
- <row id="464" trl="Y">
-  <value column="Name" original="GL Distribution">GL Distribution</value>
-  <value column="Description" original="General Ledger Distribution">Дистрибуция главна сметкова книга</value>
- </row>
- <row id="465" trl="Y">
-  <value column="Name" original="Tree Maintenance">Поддръжка дърво</value>
-  <value column="Description" original="Maintain Trees">Maintain Trees</value>
- </row>
- <row id="466" trl="Y">
-  <value column="Name" original="RfQ Response">Отговор на искане за оферта</value>
-  <value column="Description" original="Manage RfQ Responses">Manage RfQ Responses</value>
- </row>
- <row id="467" trl="Y">
-  <value column="Name" original="RfQ Response">Отговор на искане за оферта</value>
-  <value column="Description" original="Detail RfQ Responses">Detail RfQ Responses</value>
- </row>
- <row id="468" trl="Y">
-  <value column="Name" original="RfQ Unanswered">RfQ Unanswered</value>
-  <value column="Description" original="Outstanding RfQ Responses">Outstanding RfQ Responses</value>
- </row>
- <row id="469" trl="Y">
-  <value column="Name" original="Workflow Editor">Редактор работни потоци</value>
-  <value column="Description" original="Edit Workflows">Edit Workflows</value>
- </row>
- <row id="470" trl="Y">
-  <value column="Name" original="Workflow Activities">Дейности по работен процес</value>
-  <value column="Description" original="My active workflow activities">My active workflow activities</value>
- </row>
- <row id="471" trl="Y">
-  <value column="Name" original="Open Requisitions">Open Requisitions</value>
-  <value column="Description" original="Detail Open Requisition Information">Detail Open Requisition Information</value>
- </row>
- <row id="472" trl="Y">
-  <value column="Name" original="Distribution Run">Натрупване дистрибуция</value>
-  <value column="Description" original="Distribution Run create Orders to distribute products to a selected list of partners">Натрупване на дистрибуция създава заявки за дистрибуция на продукти към избран списък от партньори</value>
- </row>
- <row id="473" trl="Y">
-  <value column="Name" original="UnLink Business Partner Org">Разделяне на Партньор от Организация</value>
-  <value column="Description" original="UnLink Business Partner from an Organization">UnLink Business Partner from an Organization</value>
- </row>
- <row id="474" trl="Y">
-  <value column="Name" original="Asset Delivery Month">Asset Delivery Month</value>
-  <value column="Description" original="Report Asset Deliveries Summary per month">Report Asset Deliveries Summary per month</value>
- </row>
- <row id="475" trl="Y">
-  <value column="Name" original="Access Audit">Одит на достъпа</value>
-  <value column="Description" original="Audit of Access to data or resources">Audit of Access to data or resources</value>
- </row>
- <row id="476" trl="Y">
-  <value column="Name" original="Counter Document">Документ щанд</value>
-  <value column="Description" original="Maintain Counter Document Types">Поддържане на типове щандови документи</value>
- </row>
- <row id="477" trl="Y">
-  <value column="Name" original="Demand">Търсене</value>
-  <value column="Description" original="Maintain Material Demand">Поддържане търсене на стоки</value>
- </row>
- <row id="478" trl="Y">
-  <value column="Name" original="Forecast">Прогноза</value>
-  <value column="Description" original="Maintain Material Forecast">Maintain Material Forecast</value>
- </row>
- <row id="479" trl="Y">
-  <value column="Name" original="Ship/Receipt Confirm">Ship/Receipt Confirm</value>
-  <value column="Description" original="Material Shipment or Receipt Confirmation">Потвърждение зе изпращане/получаване на материали</value>
- </row>
- <row id="480" trl="Y">
-  <value column="Name" original="RMA Type">Тип разрешение за връщане на материали</value>
-  <value column="Description" original="Return Material Authorization Type">Тип разрешение за връщане на материали</value>
- </row>
- <row id="481" trl="Y">
-  <value column="Name" original="Open Confirmation Details">Open Confirmation Details</value>
-  <value column="Description" original="Open Shipment or Receipt Confirmation Details">Open Shipment or Receipt Confirmation Details</value>
- </row>
- <row id="482" trl="Y">
-  <value column="Name" original="Open Confirmations">Open Confirmations</value>
-  <value column="Description" original="Open Shipment or Receipt Confirmations">Open Shipment or Receipt Confirmations</value>
- </row>
- <row id="483" trl="Y">
-  <value column="Name" original="Process Audit">Обработка одит</value>
-  <value column="Description" original="Audit process use">Употреба обработка одит</value>
- </row>
- <row id="484" trl="Y">
-  <value column="Name" original="Move Confirmation">Потвърждение на преместване</value>
-  <value column="Description" original="Confirm Inventory Moves">Потвърждаване на преместване на инвентар</value>
- </row>
- <row id="485" trl="Y">
-  <value column="Name" original="Print Format Detail">Print Format Detail</value>
-  <value column="Description" original="Print Format Detail Report">Print Format Detail Report</value>
- </row>
- <row id="486" trl="Y">
-  <value column="Name" original="Import Confirmations">Import Confirmations</value>
-  <value column="Description" original="Import Receipt/Shipment Confirmation Lines">Импорт редове разписка/потвърждение на спедиция</value>
- </row>
- <row id="487" trl="Y">
-  <value column="Name" original="Reset Password">Промяна на парола</value>
-  <value column="Description" original="Reset Passwords for User">Reset Passwords for User</value>
- </row>
- <row id="488" trl="Y">
-  <value column="Name" original="SLA Criteria">Критерии споразумение ниво сервиз</value>
-  <value column="Description" original="Service Level Agreement Criteria">Критерии споразумение ниво сервиз</value>
- </row>
- <row id="489" trl="Y">
-  <value column="Name" original="SLA by Partner">SLA по Партньор</value>
-  <value column="Description" original="Service Level Agreement">Service Level Agreement by Partner</value>
- </row>
- <row id="490" trl="Y">
-  <value column="Name" original="Price List Schema">Схема на ценова листа</value>
-  <value column="Description" original="Maintain Price List Schema">Maintain Price List Schema</value>
- </row>
- <row id="491" trl="Y">
-  <value column="Name" original="POS Terminal">ПОС Терминал</value>
-  <value column="Description" original="Maintain your Point of Sales Terminal">Maintain your Point of Sales Terminal</value>
- </row>
- <row id="492" trl="Y">
-  <value column="Name" original="POS Key Layout">Разположение на ПОС клавиатура</value>
-  <value column="Description" original="POS Function Key Layout">Разположение на ПОС функционална клавиатура</value>
- </row>
- <row id="493" trl="Y">
-  <value column="Name" original="Material Receipt Details">Детайли по материална разписка</value>
-  <value column="Description" original="Material Receipt Detail Information">Material Receipt Detail Information</value>
- </row>
- <row id="494" trl="Y">
-  <value column="Name" original="Shipment Details">Детайли на доставка</value>
-  <value column="Description" original="Shipment Detail Information">Shipment Detail Information</value>
- </row>
- <row id="495" trl="Y">
-  <value column="Name" original="Role Access Update">Role Access Update</value>
-  <value column="Description" original="Update the access rights of a role or roles of a client">Update the access rights of a role or roles of a client</value>
- </row>
- <row id="496" trl="Y">
-  <value column="Name" original="Reset Allocation">Reset Allocation</value>
-  <value column="Description" original="Reset (delete) allocation of invoices to payments">Reset (delete) allocation of invoices to payments</value>
- </row>
- <row id="497" trl="Y">
-  <value column="Name" original="Auto Allocation">Auto Allocation</value>
-  <value column="Description" original="Automatic allocation of invoices to payments">Automatic allocation of invoices to payments</value>
- </row>
- <row id="498" trl="Y">
-  <value column="Name" original="System Registration">Системна регистрация</value>
-  <value column="Description" original="Register your System">Register your System</value>
- </row>
- <row id="499" trl="Y">
-  <value column="Name" original="Reapply Customizations">Reapply Customizations</value>
-  <value column="Description" original="If you identified customizations in the Change Log, you can reapply them">If you identified customizations in the Change Log, you can reapply them</value>
- </row>
- <row id="500" trl="Y">
-  <value column="Name" original="Workflow to Client">Workflow to Client</value>
-  <value column="Description" original="Move custom workflow elements to the current client">Move custom workflow elements to the current client</value>
- </row>
  <row id="501" trl="Y">
   <value column="Name" original="Workflow">Работен процес</value>
   <value column="Description" original="Adempiere Workflow">Compiere Workflow</value>
- </row>
- <row id="502" trl="Y">
-  <value column="Name" original="Trial Balance">Trial Balance</value>
-  <value column="Description" original="Trial Balance for a period or date range">Trial Balance for a period or date range</value>
- </row>
- <row id="503" trl="Y">
-  <value column="Name" original="Internal Use Inventory">Инвентар за вътрешна употреба</value>
-  <value column="Description" original="Enter Internal Use of Inventory">Enter Internal Use of Inventory</value>
- </row>
- <row id="504" trl="Y">
-  <value column="Name" original="Product UOM Convert">Конвертиране на мярката на продукт</value>
-  <value column="Description" original="Brack-up or repackage same Products with different UOM">Brack-up or repackage same Products with different UOM</value>
- </row>
- <row id="505" trl="Y">
-  <value column="Name" original="Print Dunning Letters">Print Dunning Letters</value>
-  <value column="Description" original="Print Dunning letters to paper or send PDF">Print Dunning letters to paper or send PDF</value>
- </row>
- <row id="506" trl="Y">
-  <value column="Name" original="Validate Business Partner">Валидност</value>
-  <value column="Description" original="Check data consistency of Business Partner">Проверка на данните</value>
- </row>
- <row id="507" trl="Y">
-  <value column="Name" original="Order Batch Process">Order Batch Process</value>
-  <value column="Description" original="Process Orders in Batch">Process Orders in Batch</value>
- </row>
- <row id="508" trl="Y">
-  <value column="Name" original="Archive Viewer">Преглед архив</value>
-  <value column="Description" original="View automatically archived Documents">View automatically archived Documents</value>
- </row>
- <row id="509" trl="Y">
-  <value column="Name" original="UnAllocated Invoices">UnAllocated Invoices</value>
-  <value column="Description" original="Invoices not allocated to Payments">Invoices not allocated to Payments</value>
- </row>
- <row id="510" trl="Y">
-  <value column="Name" original="UnAllocated Payments">UnAllocated Payments</value>
-  <value column="Description" original="Payments not allocated to Invoices">Payments not allocated to Invoices</value>
- </row>
- <row id="511" trl="Y">
-  <value column="Name" original="Payment Details">Детайли за плащане</value>
-  <value column="Description" original="Payment Detail Report">Payment Detail Report</value>
- </row>
- <row id="512" trl="Y">
-  <value column="Name" original="Business Partner Open">Business Partner Open</value>
-  <value column="Description" original="Business Partner Open Amount">Business Partner Open Amount</value>
- </row>
- <row id="513" trl="Y">
-  <value column="Name" original="Commission Run Detail">Commission Run Detail</value>
-  <value column="Description" original="Commission Run Detail Report">Commission Run Detail Report</value>
- </row>
- <row id="514" trl="Y">
-  <value column="Name" original="Synchronize Doc Translation">Synchronize Doc Translation</value>
-  <value column="Description" original="Synchronize Document Translation">Synchronize Document Translation</value>
- </row>
- <row id="515" trl="Y">
-  <value column="Name" original="Material Reference">Material Reference</value>
-  <value column="Description" original="Material Transactions Cross Reference (used/resourced)">Material Transactions Cross Reference (used/resourced)</value>
- </row>
- <row id="516" trl="Y">
-  <value column="Name" original="Invoice Batch">Групово фактуриране</value>
-  <value column="Description" original="Expense Invoice Batch">Групово обработване на разходни фактури</value>
- </row>
- <row id="517" trl="Y">
-  <value column="Name" original="Window Customization">Персонални настройки на прозорец</value>
-  <value column="Description" original="Define Window Customization for Role/User">Define Window Customization for Role/User</value>
- </row>
- <row id="518" trl="Y">
-  <value column="Name" original="EDI Definition">EDI дефиниция</value>
-  <value column="Description" original="Maintain EDI Definition">Maintain EDI Definition</value>
- </row>
- <row id="519" trl="Y">
-  <value column="Name" original="EDI Transaction">EDI транзакция</value>
-  <value column="Description" original=""/>
- </row>
- <row id="520" trl="Y">
-  <value column="Name" original="Product Costs">Продуктова себестойност</value>
-  <value column="Description" original="Maintain Product Costs">Поддържане на продуктова себестойност</value>
- </row>
- <row id="521" trl="Y">
-  <value column="Name" original="Cost Element">Разходен елемент</value>
-  <value column="Description" original="Maintain Product Cost Element">Maintain Product Cost Element</value>
  </row>
  <row id="522" trl="Y">
   <value column="Name" original="Costing">Остойностяване</value>
   <value column="Description" original=""/>
  </row>
- <row id="523" trl="Y">
-  <value column="Name" original="Request Status">Статус на искане</value>
-  <value column="Description" original="Maintain Request Status">Поддържане на статус на искане</value>
- </row>
- <row id="524" trl="Y">
-  <value column="Name" original="Request Standard Response">Request Standard Response</value>
-  <value column="Description" original="Maintain Request Standard Response ">Поддържане на стандартен отговор на искане</value>
- </row>
- <row id="525" trl="Y">
-  <value column="Name" original="Request Resolution">Резолюция на искането</value>
-  <value column="Description" original="Maintain Request Resolutions">Поддържане на резолюции на исканията</value>
- </row>
- <row id="526" trl="Y">
-  <value column="Name" original="Request Group">Група искания</value>
-  <value column="Description" original="Maintain Request Group">Maintain Request Group</value>
- </row>
- <row id="527" trl="Y">
-  <value column="Name" original="Request Category">Категория искане</value>
-  <value column="Description" original="Maintain Request Category">Поддържане на категории искания</value>
- </row>
  <row id="528" trl="Y">
   <value column="Name" original="Request">Заявка</value>
   <value column="Description" original=""/>
- </row>
- <row id="529" trl="Y">
-  <value column="Name" original="Web Store">Уеб магазин</value>
-  <value column="Description" original="Define Web Store">Дефиниране на уеб магазин</value>
- </row>
- <row id="530" trl="Y">
-  <value column="Name" original="Position">Длъжност</value>
-  <value column="Description" original="Maintain Job Positions">Maintain Job Positions</value>
- </row>
- <row id="531" trl="Y">
-  <value column="Name" original="Position Category">Категория длъжност</value>
-  <value column="Description" original="Maintain Job Position Categories">Поддържане на категории длъжности</value>
- </row>
- <row id="532" trl="Y">
-  <value column="Name" original="Remuneration">Възнаграждение</value>
-  <value column="Description" original="Maintain Remuneration">Maintain Remuneration</value>
- </row>
- <row id="533" trl="Y">
-  <value column="Name" original="BOM Change Notice">BOM Change Notice</value>
-  <value column="Description" original="Maintain Bill of Materials (Engineering) Change Notice (Version)">Maintain Bill of Materials (Engineering) Change Notice (Version)</value>
- </row>
- <row id="534" trl="Y">
-  <value column="Name" original="Product BOM">Опис на компоненти</value>
-  <value column="Description" original="Maintain Product Bill of Materials">Опис на компоненти</value>
- </row>
- <row id="535" trl="Y">
-  <value column="Name" original="Invoice Requests">Invoice Requests</value>
-  <value column="Description" original="Create Invoice for Requests">Create Invoice for Requests</value>
- </row>
- <row id="536" trl="Y">
-  <value column="Name" original="Change Notice">Уведомление за промяна</value>
-  <value column="Description" original="Maintain (Engineering) Change Notice (Version)">Maintain (Engineering) Change Notice (Version)</value>
- </row>
- <row id="537" trl="Y">
-  <value column="Name" original="Storage Cleanup">Storage Cleanup</value>
-  <value column="Description" original="Inventory Storage Cleanup">Inventory Storage Cleanup</value>
- </row>
- <row id="538" trl="Y">
-  <value column="Name" original="Invoice Not Realized Gain/Loss">Invoice Not Realized Gain/Loss</value>
-  <value column="Description" original="Invoice Not Realized Gain &amp; Loss Report">Invoice Not Realized Gain &amp; Loss Report</value>
- </row>
- <row id="540" trl="Y">
-  <value column="Name" original="Product Cost">Product Cost</value>
-  <value column="Description" original="Product Cost Report">Справка за цената на продукта</value>
- </row>
- <row id="541" trl="Y">
-  <value column="Name" original="Product Cost Summary">Product Cost Summary</value>
-  <value column="Description" original="Product Cost Summary Report">Product Cost Summary Report</value>
- </row>
- <row id="542" trl="Y">
-  <value column="Name" original="Product Cost Detail">Product Cost Detail</value>
-  <value column="Description" original="Product Invoice Cost Detail Report">Product Invoice Cost Detail Report</value>
- </row>
- <row id="543" trl="Y">
-  <value column="Name" original="Order Detail">Детайли на документ</value>
-  <value column="Description" original="Order Detail Report">Order Detail Report</value>
- </row>
- <row id="544" trl="Y">
-  <value column="Name" original="Business Partner Detail">Детайли партньор</value>
-  <value column="Description" original="Business Partner Detail Report">Детайлен отчет за патньора</value>
- </row>
- <row id="545" trl="Y">
-  <value column="Name" original="Attribute Set Instance">Инстанция на комплект атрибути</value>
-  <value column="Description" original="View Attribute Set Instance detail and use">Показва детайлите и употребата на инстанция на комплект атрибути</value>
- </row>
- <row id="546" trl="Y">
-  <value column="Name" original="Create Costing Records">Създаване записи себестойност</value>
-  <value column="Description" original="Create Costing Records">Създават се записи за определяне на себестойността</value>
- </row>
- <row id="547" trl="Y">
-  <value column="Name" original="Tax Declaration">Tax Declaration</value>
-  <value column="Description" original="Define the declaration to the tax authorities">Дефиниране на декларацията пред данъчните власти</value>
- </row>
- <row id="548" trl="Y">
-  <value column="Name" original="Reporting Hierarchy">Йерархия на отчитане</value>
-  <value column="Description" original="Define Reporting Hierarchy">Define Reporting Hierarchy</value>
- </row>
- <row id="549" trl="Y">
-  <value column="Name" original="Create PO from Requisition">Create PO from Requisition</value>
-  <value column="Description" original="Create Purchase Orders from Requisitions">Create Purchase Orders from Requisitions</value>
- </row>
- <row id="550" trl="Y">
-  <value column="Name" original="Budget Control">Контрол върху бюджета</value>
-  <value column="Description" original="Maintain Budget Controls">Поддържане на контрол върху бюджета</value>
- </row>
- <row id="551" trl="Y">
-  <value column="Name" original="GL Fund (Alpha)">GL Fund (Alpha)</value>
-  <value column="Description" original="Maintain Fund Controls">Maintain Fund Controls</value>
- </row>
- <row id="552" trl="Y">
-  <value column="Name" original="System Issue Report">System Issue Report</value>
-  <value column="Description" original="Automatically created or manually entered System Issue Reports">Automatically created or manually entered System Issue Reports</value>
- </row>
- <row id="553" trl="Y">
-  <value column="Name" original="Quarter Invoice Product">Quarter Invoice Product</value>
-  <value column="Description" original="Imvoice Report by Product per Quarter">Imvoice Report by Product per Quarter</value>
- </row>
- <row id="554" trl="Y">
-  <value column="Name" original="Monthly Invoice Product">Monthly Invoice Product</value>
-  <value column="Description" original="Imvoice Report by Product per Month">Imvoice Report by Product per Month</value>
- </row>
- <row id="555" trl="Y">
-  <value column="Name" original="Performance Indicators">Индикатори производителност</value>
-  <value column="Description" original="View Performance Indicators">View Performance Indicators</value>
- </row>
- <row id="556" trl="Y">
-  <value column="Name" original="Performance Color Schema">Цветова схема на производителност</value>
-  <value column="Description" original="Maintain Performance Color Schema">Настройка на цветовата схема за ефективност</value>
- </row>
- <row id="557" trl="Y">
-  <value column="Name" original="Performance Benchmark">Еталон производителност</value>
-  <value column="Description" original="Performance Benchmark">Еталон на производителността</value>
- </row>
- <row id="558" trl="Y">
-  <value column="Name" original="Performance Ratio">Сътоношение на производителност</value>
-  <value column="Description" original="Maintain Performance Ratios">Настройка на коефициенти за ефективност</value>
- </row>
- <row id="559" trl="Y">
-  <value column="Name" original="Issue Recommendation">Препоръка по въпрос</value>
-  <value column="Description" original="Maintain Issue Recommendation">Поддържане на препоръки по въпрос</value>
- </row>
- <row id="560" trl="Y">
-  <value column="Name" original="Issue Status">Статус на въпрос</value>
-  <value column="Description" original="Maintain Issue Status">Maintain Issue Status</value>
- </row>
- <row id="561" trl="Y">
-  <value column="Name" original="Known Issue">Известен въпрос</value>
-  <value column="Description" original="Maintain Known Issue">Поддържане на известни въпроси</value>
- </row>
- <row id="562" trl="Y">
-  <value column="Name" original="Issue Project">Проект въпроси</value>
-  <value column="Description" original="Maintain Issue Management Project Links">Maintain Issue Projects</value>
- </row>
- <row id="563" trl="Y">
-  <value column="Name" original="Issue User">Потребител на въпроси</value>
-  <value column="Description" original="User who reported Issues">Потребител който рапортува въпроси</value>
- </row>
- <row id="564" trl="Y">
-  <value column="Name" original="Issue System">Система въпроси</value>
-  <value column="Description" original="Maintain Systems">Maintain Systems</value>
- </row>
- <row id="565" trl="Y">
-  <value column="Name" original="Product Attribute Grid">Мрежа продуктови атрибути</value>
-  <value column="Description" original="Maintain Products with Attributes in a Table Grid">Maintain Products with Attributes in a Table Grid</value>
  </row>
  <row id="566" trl="Y">
   <value column="Name" original="Collaboration">Взаимодействие</value>
   <value column="Description" original="Collaboration and Content Management">Collaboration and Content Management</value>
  </row>
- <row id="570" trl="Y">
-  <value column="Name" original="Template">Образец</value>
-  <value column="Description" original=""/>
- </row>
- <row id="573" trl="Y">
-  <value column="Name" original="Media Item">Медия съобщение</value>
-  <value column="Description" original="Maintain Web Media">Maintain Web Media</value>
- </row>
- <row id="574" trl="Y">
-  <value column="Name" original="News Channel">Канал за новини</value>
-  <value column="Description" original="Define News Channels, write and publish articles">Define News Channels, write and publish articles</value>
- </row>
- <row id="576" trl="Y">
-  <value column="Name" original="Web Ad Management">Web Ad Management</value>
-  <value column="Description" original="Content Management Ad Management defines the needed categories and items">Content Management Ad Management defines the needed categories and items</value>
- </row>
- <row id="578" trl="Y">
-  <value column="Name" original="View Chat">View Chat</value>
-  <value column="Description" original="View discussions / chats">View discussions / chats</value>
- </row>
- <row id="579" trl="Y">
-  <value column="Name" original="Web Project">Уеб проект</value>
-  <value column="Description" original="Maintain Web Project (Content Management)">Maintain Web Project (Content Management)</value>
- </row>
- <row id="583" trl="Y">
-  <value column="Name" original="Chat Type">Тип чат</value>
-  <value column="Description" original="Maintain Chat Types">Maintain Chat Types</value>
- </row>
- <row id="584" trl="Y">
-  <value column="Name" original="Deploy Web Project">Deploy Web Project</value>
-  <value column="Description" original="Deploy Web Project">Deploy Web Project</value>
- </row>
- <row id="585" trl="Y">
-  <value column="Name" original="Verify BOMs">Verify BOMs</value>
-  <value column="Description" original="Verify BOM Structures">Verify BOM Structures</value>
- </row>
- <row id="586" trl="Y">
-  <value column="Name" original="Entity Type">Вид цялост</value>
-  <value column="Description" original="Maintain System Entity Type">Maintain System Entity Type</value>
- </row>
- <row id="587" trl="Y">
-  <value column="Name" original="Web Access">Web Access</value>
-  <value column="Description" original="Maintain Web Access">Maintain Web Access</value>
- </row>
- <row id="588" trl="Y">
-  <value column="Name" original="Web Broadcast Server">Web Broadcast Server</value>
-  <value column="Description" original="Maintain Web Broadcast Server">Поддържане на сървър за медия предаване</value>
- </row>
- <row id="589" trl="Y">
-  <value column="Name" original="Info Window">Info Window</value>
-  <value column="Description" original="Define Info and search/select Window">Define Info and search/select Window</value>
- </row>
- <row id="590" trl="Y">
-  <value column="Name" original="Text Index">Text Index</value>
-  <value column="Description" original="Maintain Text Search Index">Maintain Text Search Index</value>
- </row>
- <row id="591" trl="Y">
-  <value column="Name" original="Text Index Stop">Text Index Stop</value>
-  <value column="Description" original="Maintain keywords not to be indexed">Maintain keywords not to be indexed</value>
- </row>
- <row id="592" trl="Y">
-  <value column="Name" original="Text Search Log">Text search log</value>
-  <value column="Description" original="View Text Search Log">View Text Search Log</value>
- </row>
- <row id="593" trl="Y">
-  <value column="Name" original="Rebuild Index">Rebuild Index</value>
-  <value column="Description" original=""/>
- </row>
- <row id="594" trl="Y">
-  <value column="Name" original="LDAP Server">LDAP сървър</value>
-  <value column="Description" original="LDAP Server to authenticate and authorize external systems based on Adempiere">LDAP сървър за автентициране и авторизиране на външни системи базирани на Адемпиере</value>
- </row>
  <row id="50001" trl="Y">
   <value column="Name" original="Application Packaging">Application Packaging</value>
   <value column="Description" original="Import and export packaging">Import and export packaging</value>
  </row>
- <row id="50002" trl="Y">
-  <value column="Name" original="Packages Installed">Инсталирани пакети</value>
-  <value column="Description" original="List of packages installed">List of packages installed</value>
- </row>
- <row id="50003" trl="Y">
-  <value column="Name" original="Package Maintenance">Package Maintenance</value>
-  <value column="Description" original="Package installation history and maintenance">Package installation history and maintenance</value>
- </row>
- <row id="50004" trl="Y">
-  <value column="Name" original="PackOut - Create a package">PackOut - Create a package</value>
-  <value column="Description" original="Package build Application">Package build Application</value>
- </row>
- <row id="50005" trl="Y">
-  <value column="Name" original="Common Package Details">Common Package Details</value>
-  <value column="Description" original="Maintain Common Package Details">Maintain Common Package Details</value>
- </row>
- <row id="50006" trl="Y">
-  <value column="Name" original="PackIn - Import a package">PackIn - Import a package</value>
-  <value column="Description" original="Imports a package">Imports a package</value>
- </row>
- <row id="50007" trl="Y">
-  <value column="Name" original="CopyRole">Копиране на роля</value>
-  <value column="Description" original="Copy Role">Копиране на роля</value>
- </row>
- <row id="50008" trl="Y">
-  <value column="Name" original="System Configurator">Системен конфигуратор</value>
+ <row id="52001" trl="N">
+  <value column="Name" original="Web POS">Web POS</value>
   <value column="Description" original=""/>
  </row>
- <row id="50009" trl="Y">
-  <value column="Name" original="Request EMail Processor">Request EMail Processor</value>
+ <row id="53014" trl="N">
+  <value column="Name" original="Manufacturing Management">Manufacturing Management</value>
+  <value column="Description" original="Manufacturing">Manufacturing</value>
+ </row>
+ <row id="53016" trl="N">
+  <value column="Name" original="Engineering Management">Engineering Management</value>
+  <value column="Description" original="Engineering management involves the overall management of organizations with an orientation to manufacturing, engineering, technology or production.">Engineering management involves the overall management of organizations with an orientation to manufacturing, engineering, technology or production.</value>
+ </row>
+ <row id="53017" trl="N">
+  <value column="Name" original="Resource Manufacturing">Resource Manufacturing</value>
+  <value column="Description" original="Resource Manufacturing">Resource Manufacturing</value>
+ </row>
+ <row id="53019" trl="N">
+  <value column="Name" original="Manufacturing Workflow">Manufacturing Workflow</value>
   <value column="Description" original=""/>
  </row>
- <row id="1000000" trl="Y">
-  <value column="Name" original="Движение на материалите за период">Движение на материалите за период</value>
-  <value column="Description" original="Движение на материалите в склада за даден период">Движение на материалите в склада за даден период</value>
+ <row id="53022" trl="N">
+  <value column="Name" original="Bill of Material &amp; Formulas"><![CDATA[Bill of Material & Formulas]]></value>
+  <value column="Description" original="Bill of Material &amp; Formulas"><![CDATA[Bill of Material & Formulas]]></value>
+ </row>
+ <row id="53029" trl="N">
+  <value column="Name" original="Planning Management">Planning Management</value>
+  <value column="Description" original="Using Planning Management you answer the question: When and How Many products we must get?">Using Planning Management you answer the question: When and How Many products we must get?</value>
+ </row>
+ <row id="53031" trl="N">
+  <value column="Name" original="Product Planning">Product Planning</value>
+  <value column="Description" original="Product Planning">Product Planning</value>
+ </row>
+ <row id="53034" trl="N">
+  <value column="Name" original="MRP">MRP</value>
+  <value column="Description" original="Materials Requirements Planning">Materials Requirements Planning</value>
+ </row>
+ <row id="53043" trl="N">
+  <value column="Name" original="CRP">CRP</value>
+  <value column="Description" original="Capacity Requirements Planning">Capacity Requirements Planning</value>
+ </row>
+ <row id="53048" trl="N">
+  <value column="Name" original="DRP">DRP</value>
+  <value column="Description" original="Distribution Resource Planning">Distribution Resource Planning</value>
+ </row>
+ <row id="53052" trl="N">
+  <value column="Name" original="Production Management">Production Management</value>
+  <value column="Description" original="Production Management">Production Management</value>
+ </row>
+ <row id="53053" trl="N">
+  <value column="Name" original="Discreet Manufacturing">Discreet Manufacturing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53061" trl="N">
+  <value column="Name" original="Management Maintenance">Management Maintenance</value>
+  <value column="Description" original="Management Maintenance">Management Maintenance</value>
+ </row>
+ <row id="53063" trl="N">
+  <value column="Name" original="Activity Control">Activity Control</value>
+  <value column="Description" original="Activity Control">Activity Control</value>
+ </row>
+ <row id="53066" trl="N">
+  <value column="Name" original="Distribution Management">Distribution Management</value>
+  <value column="Description" original="Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. ">Distribution Resource Planning (DRP) is a method used in business administration for planning orders within a supply chain. </value>
+ </row>
+ <row id="53071" trl="N">
+  <value column="Name" original="Quality Management">Quality Management</value>
+  <value column="Description" original="Quality Management">Quality Management</value>
+ </row>
+ <row id="53074" trl="N">
+  <value column="Name" original="Standard Costing Management">Standard Costing Management</value>
+  <value column="Description" original="Standard Costing Management">Standard Costing Management</value>
+ </row>
+ <row id="53091" trl="N">
+  <value column="Name" original="Global Tax Management">Global Tax Management</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53098" trl="N">
+  <value column="Name" original="Replication Data">Replication Data</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53108" trl="N">
+  <value column="Name" original="Human Resource &amp; Payroll"><![CDATA[Human Resource & Payroll]]></value>
+  <value column="Description" original="Human Resource &amp; Payroll"><![CDATA[Human Resource & Payroll]]></value>
+ </row>
+ <row id="53109" trl="N">
+  <value column="Name" original="Human Resource">Human Resource</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53114" trl="N">
+  <value column="Name" original="Payroll">Payroll</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53133" trl="N">
+  <value column="Name" original="Customer Service">Customer Service</value>
+  <value column="Description" original="Customer Related Assets">Customer Related Assets</value>
+ </row>
+ <row id="53134" trl="N">
+  <value column="Name" original="Fixed Assets">Fixed Assets</value>
+  <value column="Description" original="Applications to setup and maintain fixed assets">Applications to setup and maintain fixed assets</value>
+ </row>
+ <row id="53135" trl="N">
+  <value column="Name" original="Processing">Processing</value>
+  <value column="Description" original="Process Fixed Assets">Process Fixed Assets</value>
+ </row>
+ <row id="53136" trl="N">
+  <value column="Name" original="Asset Revaluation">Asset Revaluation</value>
+  <value column="Description" original="Process Asset Revaluations">Process Asset Revaluations</value>
+ </row>
+ <row id="53139" trl="N">
+  <value column="Name" original="Splits Transfers and Disposals">Splits Transfers and Disposals</value>
+  <value column="Description" original="Process Assets Splits Transfers and Disposals">Process Assets Splits Transfers and Disposals</value>
+ </row>
+ <row id="53149" trl="N">
+  <value column="Name" original="Depreciation Processing">Depreciation Processing</value>
+  <value column="Description" original="Applications to Process Fixed Assets to the GL">Applications to Process Fixed Assets to the GL</value>
+ </row>
+ <row id="53155" trl="N">
+  <value column="Name" original="Reporting">Reporting</value>
+  <value column="Description" original="Reporting for fixed assets">Reporting for fixed assets</value>
+ </row>
+ <row id="53163" trl="N">
+  <value column="Name" original="Setup and Maintain">Setup and Maintain</value>
+  <value column="Description" original="Setup and maintain assets">Setup and maintain assets</value>
+ </row>
+ <row id="53164" trl="N">
+  <value column="Name" original="Fixed Assets Setup">Fixed Assets Setup</value>
+  <value column="Description" original="Setup and Maintain Fixed Assets">Setup and Maintain Fixed Assets</value>
+ </row>
+ <row id="53171" trl="N">
+  <value column="Name" original="Depreciation Setup">Depreciation Setup</value>
+  <value column="Description" original="Applications to setup and maintain depreciation">Applications to setup and maintain depreciation</value>
+ </row>
+ <row id="53180" trl="N">
+  <value column="Name" original="Forecast Management">Forecast Management</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53242" trl="N">
+  <value column="Name" original="Returns">Returns</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="53247" trl="N">
+  <value column="Name" original="EDI">EDI</value>
+  <value column="Description" original=""/>
  </row>
 </adempiereTrl>

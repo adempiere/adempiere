@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Adempiere(r) Release 3.2.0_2007-05-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2007 Adempiere (r); Implementation: ADempiere - Supported by ADempiere community-->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
 <adempiereTrl language="bg_BG" table="C_Country">
  <row id="100" trl="Y">
@@ -10,7 +9,7 @@
  <row id="101" trl="Y">
   <value column="Name" original="Germany - Deutschland">Germany - Deutschland</value>
   <value column="Description" original=""/>
-  <value column="RegionName" original=""/>
+  <value column="RegionName" original="Bundesland"/>
  </row>
  <row id="102" trl="Y">
   <value column="Name" original="France">France</value>
@@ -185,7 +184,7 @@
  <row id="139" trl="Y">
   <value column="Name" original="Brazil">Brazil</value>
   <value column="Description" original="Brazil">Brazil</value>
-  <value column="RegionName" original=""/>
+  <value column="RegionName" original="Estado"/>
  </row>
  <row id="140" trl="Y">
   <value column="Name" original="British Indian Ocean Territory">British Indian Ocean Territory</value>
@@ -200,7 +199,7 @@
  <row id="142" trl="Y">
   <value column="Name" original="Bulgaria">България</value>
   <value column="Description" original="Bulgaria">България</value>
-  <value column="RegionName" original="Област"/>
+  <value column="RegionName" original=""/>
  </row>
  <row id="143" trl="Y">
   <value column="Name" original="Burkina Faso">Burkina Faso</value>
@@ -265,7 +264,7 @@
  <row id="156" trl="Y">
   <value column="Name" original="Colombia">Colombia</value>
   <value column="Description" original="Colombia">Colombia</value>
-  <value column="RegionName" original=""/>
+  <value column="RegionName" original="Department"/>
  </row>
  <row id="157" trl="Y">
   <value column="Name" original="Comoros">Comoros</value>
@@ -1206,5 +1205,35 @@
   <value column="Name" original="Montenegro">Montenegro</value>
   <value column="Description" original="Montenegro">Montenegro</value>
   <value column="RegionName" original=""/>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Åland Islands">Åland Islands</value>
+  <value column="Description" original="Åland Islands">Åland Islands</value>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Saint Barthélemy">Saint Barthélemy</value>
+  <value column="Description" original="Saint Barthélemy">Saint Barthélemy</value>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Guernsey">Guernsey</value>
+  <value column="Description" original=""/>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Isle of Man">Isle of Man</value>
+  <value column="Description" original="Isle of Man">Isle of Man</value>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Jersey">Jersey</value>
+  <value column="Description" original="Jersey">Jersey</value>
+  <value column="RegionName" original="State">State</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Saint Martin">Saint Martin</value>
+  <value column="Description" original="Saint Martin">Saint Martin</value>
+  <value column="RegionName" original="State">State</value>
  </row>
 </adempiereTrl>

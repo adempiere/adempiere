@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="bg_BG" table="PP_Product_BOM">
+ <row id="145" trl="N">
+  <value column="Name" original="Patio Furniture Set">Patio Furniture Set</value>
+  <value column="Description" original="1 table, 4 Chairs and 1 Sun Screen">1 table, 4 Chairs and 1 Sun Screen</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Patio Chair">Patio Chair</value>
+  <value column="Description" original="Nice Chair for outdoors">Nice Chair for outdoors</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Assembly Back Leg">Assembly Back Leg</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Assembly Front Leg">Assembly Front Leg</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Fertilizer #50">Fertilizer #50</value>
+  <value column="Description" original="50 # Bag of Lawn Fertilizer">50 # Bag of Lawn Fertilizer</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Fertilizer #70">Fertilizer #70</value>
+  <value column="Description" original="70 # Bag of Lawn Fertilizer">70 # Bag of Lawn Fertilizer</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Lawn Fertilizer">Lawn Fertilizer</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>
