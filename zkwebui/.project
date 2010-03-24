@@ -3,6 +3,11 @@
 	<name>zkwebui</name>
 	<comment></comment>
 	<projects>
+		<project>base</project>
+		<project>client</project>
+		<project>JasperReports</project>
+		<project>JasperReportsTools</project>
+		<project>tools</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

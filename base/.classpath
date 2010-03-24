@@ -3,27 +3,108 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/tools"/>
-	<classpathentry kind="lib" path="/tools/lib/commons-net-1.4.0.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ant.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jpedal.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jnlp.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/commons-net-1.4.0.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/ant.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/jpedal.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/jnlp.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
-	<classpathentry kind="lib" path="/tools/lib/junit.jar"/>
-	<classpathentry kind="lib" path="/jboss/client/jbossall-client.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/c3p0-0.9.1.2.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/script-api.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/barbecue-1.5-beta1.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/poi-3.0.1-FINAL-20070705.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/swingx-0.9.0.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/looks-2.0.4.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/commons-collections-3.1.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/activemq-core-5.0.0.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/cron4j-2.2.1.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/junit.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/jboss/client/jbossall-client.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/postgresql.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/c3p0-0.9.1.2.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/script-api.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/barbecue-1.5-beta1.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/poi-3.0.1-FINAL-20070705.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/swingx-0.9.0.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/looks-2.0.4.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/commons-collections-3.1.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/activemq-core-5.0.0.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/tools/lib/cron4j-2.2.1.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="/JasperReportsTools"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

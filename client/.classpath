@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/tools/lib/groovy-all-1.5.1.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
