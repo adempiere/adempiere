@@ -1271,6 +1271,16 @@
   <value column="PO_Name" original=""/>
   <value column="PO_PrintName" original=""/>
  </row>
+ <row id="279" trl="N">
+  <value column="Name" original="Discontinued by">Discontinued by</value>
+  <value column="PrintName" original="Discontinued by">Discontinued by</value>
+  <value column="Description" original="Discontinued By">Discontinued By</value>
+  <value column="Help" original="The Discontinued By indicates the individual who discontinued this product">The Discontinued By indicates the individual who discontinued this product</value>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
  <row id="280" trl="Y">
   <value column="Name" original="Discount %">Rabatt %</value>
   <value column="PrintName" original="Discount %">Rabatt %</value>
@@ -29098,6 +29108,16 @@ Credit Work in Process Account ]]></value>
   <value column="Name" original="Is Manufacturer">Hersteller</value>
   <value column="PrintName" original="Is Manufacturer">Hersteller</value>
   <value column="Description" original="Indicate role of this Business partner as Manufacturer">Wenn aktiviert, ist der GEschäftspartner als Hersteller markiert und verfügbar.</value>
+  <value column="Help" original=""/>
+  <value column="PO_Description" original=""/>
+  <value column="PO_Help" original=""/>
+  <value column="PO_Name" original=""/>
+  <value column="PO_PrintName" original=""/>
+ </row>
+ <row id="54079" trl="N">
+  <value column="Name" original="Manufacturer">Manufacturer</value>
+  <value column="PrintName" original="Manufacturer">Manufacturer</value>
+  <value column="Description" original=""/>
   <value column="Help" original=""/>
   <value column="PO_Description" original=""/>
   <value column="PO_Help" original=""/>
