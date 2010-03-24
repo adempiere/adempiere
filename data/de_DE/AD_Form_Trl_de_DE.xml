@@ -68,7 +68,7 @@
  </row>
  <row id="113" trl="Y">
   <value column="Name" original="POS">POS</value>
-  <value column="Description" original="Point Of Sales Terminal">Point-Of-Sales Terminal</value>
+  <value column="Description" original="Point Of Sales Terminal">Point-Of-Sales-Terminal</value>
   <value column="Help" original="Enter Transactions via a POS Terminal.  Automatically, scans or credit card swipes are recongized.">Vorgänge via POS-Terminal eingeben. Scanvorgänge oder das Durchziehen von Kreditkarten werden automtisch erkannt.</value>
  </row>
  <row id="114" trl="Y">

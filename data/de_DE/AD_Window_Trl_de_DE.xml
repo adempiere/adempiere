@@ -1731,7 +1731,7 @@ MRP - 110	 No exists Dem</value>
   <value column="Help" original="The Import Price List Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.">The Import Price List Window is an interim table which is used when importing external data into the system.  Selecting the 'Process' button will either add or modify the appropriate records.</value>
  </row>
  <row id="53073" trl="Y">
-  <value column="Name" original="Promotion Group">Aktions-Gruppe</value>
+  <value column="Name" original="Promotion Group">Aktions-Produktgruppen</value>
   <value column="Description" original="Grouping of product for promotion setup">Gruppieren von Produkten für eine Verkaufs-Aktion</value>
   <value column="Help" original=""/>
  </row>

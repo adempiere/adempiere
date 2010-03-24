@@ -503,7 +503,7 @@
   <value column="Help" original=""/>
  </row>
  <row id="209" trl="Y">
-  <value column="Name" original="Send Mail Text">EMail-Text senden</value>
+  <value column="Name" original="Send Mail Text">E-Mail-Text senden</value>
   <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Sende EMails an aktive Abonneneten eines Interessengebietes oder eine Geschäftspartnergruppe</value>
   <value column="Help" original="Select the Interest Area to which subscribers you send the Mail Text from the User selected.  Additionally, you can send mails to the Contacts of a Business Partner Group.&lt;br&gt;&#10;The User to send emails from needs to have valid EMail information. If you don't select a user, the Mail is sent from the Client's Request Mail User."><![CDATA[Wählen Sie das Interessengebiet an deren Abonnenten Sie den EMail-Text vom selektierten Nutzer aus senden. Zusätzlich können Sie EMails an die Kontakte einer Geschäftspartnergruppe senden.<br>Der Absender-Nutzer muss gültige EMail-Daten haben. Wenn Sie keinen Nutzer auswählen, wird die EMail vom Anfrage-Nutzer des Mandanten aus gesendet.]]></value>
  </row>
@@ -605,8 +605,8 @@ Das voreingestellte Datum für die Warenbewegung ist das heutige Datum.]]></valu
   <value column="Help" original=""/>
  </row>
  <row id="228" trl="Y">
-  <value column="Name" original="Project Lines not Issued">Nicht belieferte Projektzeilen</value>
-  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Listet Projektzeilen eines Arbeitsauftrages oder Asset-Projektest, die noch nicht an das Projekt ausgeliefert sind</value>
+  <value column="Name" original="Project Lines not Issued">Nicht belieferte Projektpositionen</value>
+  <value column="Description" original="Lists Project Lines of a Work Order or Asset Project, which are not issued to the Project">Listet Projektpositionen eines Arbeitsauftrages oder Asset-Projektest, die noch nicht an das Projekt ausgeliefert sind</value>
   <value column="Help" original=""/>
  </row>
  <row id="229" trl="Y">
@@ -661,14 +661,14 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
   <value column="Help" original="The aging report allows you to report on Open Items (Invoices). Select the aging buckets, you want to have in your report. If you select a currency, you get only invoices of that currency, otherwise the amounts are converted to your primary accounting currency. If you do not select a Statement Date, the system date is used to calculate the buckets. If you do not list the individual invoices, the Due Date is the earliest due date for the business partner and the Due Days are the average due days of all invoices.&lt;br&gt;&#10;&lt;br&gt;&#10;If you select an Account Date the report will generate the Aging as of that date. The report will exclude documents after the selected date.&lt;br&gt;&#10;&lt;br&gt;&#10;For example: A customer has one invoice for $100 with the Account Date of 03/31/08 and one payment for $100 with the Account Date of 05/01/08. The report will show the following balances based on the Account Date selected: 03/15/08= 0; 04/15/08=100; 05/15/08 = 0.&#10;">Der "Fälligkeits-Bericht" ermöglicht, über offene Posten (Rechnungen) zu berichten. Wählen Sie die Einschränkungen, die Sie in Ihrem Bericht berücksichtigt haben wollen. Wenn Sie eine Währung wählen, werden nur Rechnungen in dieser Währung berücksichtigt; andernfalls werden alle Beträge in Ihre primäre Buchführungswährung umgerechnet. Wenn Sie kein Auszugsdatum wählen, wird das Systemdatum verwendet, um denBericht zu erstellen. Wenn Sie nicht "Einzelne Rechnungen" auswählen, ist der Fälligkeitstermin der früheste Fälligkeitstermin für den Geschäftspartner und die Fälligkeitstage sind die durchschnittlichen Fälligkeitstage aller Rechnungen.</value>
  </row>
  <row id="239" trl="Y">
-  <value column="Name" original="Clicks Monthy">Clicks monatlich</value>
-  <value column="Description" original="Clicks per Month">Clicks pro Monat</value>
-  <value column="Help" original="The report shows active advertisement Click Count per Month.">Der Report zeigt die Anzahl der Banner-Clicks pro Monat</value>
+  <value column="Name" original="Clicks Monthy">Klicks monatlich</value>
+  <value column="Description" original="Clicks per Month">Klicks pro Monat</value>
+  <value column="Help" original="The report shows active advertisement Click Count per Month.">Der Report zeigt die Anzahl der Banner-Klicks pro Monat</value>
  </row>
  <row id="240" trl="Y">
-  <value column="Name" original="Clicks Unprocessed">Clicks unverarbeitet</value>
-  <value column="Description" original="Unprocessed Clicks">Unverarbeitete Clicks</value>
-  <value column="Help" original="The Report shows Clicks, which could not be processed (URL not matched to Click Count)">Der Report zeigt die Clicks, die nicht verarbeitet werden konnten (URL passt nicht zu Click-Anzahl)</value>
+  <value column="Name" original="Clicks Unprocessed">Klicks unverarbeitet</value>
+  <value column="Description" original="Unprocessed Clicks">Unverarbeitete Klicks</value>
+  <value column="Help" original="The Report shows Clicks, which could not be processed (URL not matched to Click Count)">Der Report zeigt die Klicks, die nicht verarbeitet werden konnten (URL passt nicht zu Click-Anzahl)</value>
  </row>
  <row id="241" trl="Y">
   <value column="Name" original="Delete Notices">Statusmeldungen löschen</value>
@@ -1022,7 +1022,7 @@ Erstellt fehlende Periodenkontrollen für Belegarten (Sie müssen diese eventuel
  </row>
  <row id="311" trl="Y">
   <value column="Name" original="Product UOM Convert">Mengeneinheit umwandeln</value>
-  <value column="Description" original="Brack-up or repackage same Products with different UOM">Aufteilen oder zusammenführen von gleichen Produkten mit verschiedener Mengeneinheit</value>
+  <value column="Description" original="Brack-up or repackage same Products with different UOM">Aufteilen oder Zusammenführen von gleichen Produkten mit verschiedenen Mengeneinheiten</value>
   <value column="Help" original="Example: &quot;Product EA&quot; has a defined UOM Conversion to &quot;Product 6Pack&quot; and vice versa.  &#10;This is a one-step replacement for defining BOM and creating/processes a Production.">Example: "Product EA" has a defined UOM Conversion to "Product 6Pack" and vice versa.  
 This is a one-step replacement for defining BOM and creating/processes a Production.</value>
  </row>
@@ -1264,7 +1264,7 @@ Note that support is restricted to setup and test, but not data recovery.]]></va
   <value column="Help" original=""/>
  </row>
  <row id="50012" trl="Y">
-  <value column="Name" original="Request EMail Processor">Prozessor Anfrage-EMail</value>
+  <value column="Name" original="Request EMail Processor">Prozessor Anfrage-E-Mail</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
@@ -1456,7 +1456,7 @@ You can also include Distibution orders who have outstanding confirmations (e.g.
   <value column="Help" original="This process only need run one time by client">This process only need run one time by client</value>
  </row>
  <row id="53052" trl="N">
-  <value column="Name" original="Create Element">Create Element</value>
+  <value column="Name" original="Create Element">Element erstellen</value>
   <value column="Description" original="Let create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type ,Product and Product Attribute Set Instance .">Let create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type ,Product and Product Attribute Set Instance .</value>
   <value column="Help" original="With this process is possible to create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type and Product.">With this process is possible to create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type and Product.</value>
  </row>
@@ -1466,7 +1466,7 @@ You can also include Distibution orders who have outstanding confirmations (e.g.
   <value column="Help" original="To watch the cost elements for every set of Product, Organization, Accounting Schema, Warehouse, Resource and Cost Type.&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;">To watch the cost elements for every set of Product, Organization, Accounting Schema, Warehouse, Resource and Cost Type.												</value>
  </row>
  <row id="53056" trl="N">
-  <value column="Name" original="Copy Price to Standard Cost">Copy Price to Standard Cost</value>
+  <value column="Name" original="Copy Price to Standard Cost">Preis in Standardkosten kopieren</value>
   <value column="Description" original="This process allow copy a Price from Price list Version to Element Cost">This process allow copy a Price from Price list Version to Element Cost</value>
   <value column="Help" original="This process allow copy a Price from Price list Version to Element Cost">This process allow copy a Price from Price list Version to Element Cost</value>
  </row>
@@ -1524,7 +1524,7 @@ Total BOM Cost = Sum every Element Cost]]></value>
   <value column="Help" original=""/>
  </row>
  <row id="53070" trl="Y">
-  <value column="Name" original="Prepare Migration Scripts">Migrations-Skripte vorbereiten</value>
+  <value column="Name" original="Prepare Migration Scripts">Migrationsskripte vorbereiten</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
  </row>
@@ -1734,7 +1734,7 @@ Consolidate to one Document let the distribution in current Documents with range
   <value column="Help" original=""/>
  </row>
  <row id="53153" trl="N">
-  <value column="Name" original="Bank Transfer">Bank Transfer</value>
+  <value column="Name" original="Bank Transfer">Bank-Überweisung</value>
   <value column="Description" original="Bank Transfer let money tranfer between Banks">Bank Transfer let money tranfer between Banks</value>
   <value column="Help" original=""/>
  </row>
