@@ -521,7 +521,7 @@ public class CLogMgt
 		sb.append("BaseLanguage = ").append(Env.isBaseLanguage(Env.getCtx(), "AD_Window"))
 			.append("/").append(Env.isBaseLanguage(Env.getCtx(), "C_UOM")).append(NL);
 		sb.append(Adempiere.getJavaInfo()).append(NL);
-		sb.append("java.io.tmpdir="+System.getProperty("java.io.tmpdir"));
+		sb.append("java.io.tmpdir="+System.getProperty("java.io.tmpdir")).append(NL);
 		sb.append(Adempiere.getOSInfo());
 		//
 		return sb;
