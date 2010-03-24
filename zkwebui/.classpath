@@ -11,11 +11,7 @@
 	<classpathentry kind="src" path="/client"/>
 	<classpathentry kind="src" path="/JasperReports"/>
 	<classpathentry kind="src" path="/JasperReportsTools"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v5.5.27">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.web;#system#"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v5.5.27"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/tools/lib/xercesImpl.jar"/>
