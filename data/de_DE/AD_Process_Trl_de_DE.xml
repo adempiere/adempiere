@@ -1455,7 +1455,7 @@ You can also include Distibution orders who have outstanding confirmations (e.g.
   <value column="Description" original="Let create the document type to manufacturing">Let create the document type to manufacturing</value>
   <value column="Help" original="This process only need run one time by client">This process only need run one time by client</value>
  </row>
- <row id="53052" trl="N">
+ <row id="53052" trl="Y">
   <value column="Name" original="Create Element">Element erstellen</value>
   <value column="Description" original="Let create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type ,Product and Product Attribute Set Instance .">Let create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type ,Product and Product Attribute Set Instance .</value>
   <value column="Help" original="With this process is possible to create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type and Product.">With this process is possible to create every cost elements defined for a Organization, Accounting Schema, Warehouse, Resource, Cost Type and Product.</value>
@@ -1465,7 +1465,7 @@ You can also include Distibution orders who have outstanding confirmations (e.g.
   <value column="Description" original="To watch the cost elements for every set of Product, Organization, Accounting Schema, Warehouse, Resource and Cost Type">To watch the cost elements for every set of Product, Organization, Accounting Schema, Warehouse, Resource and Cost Type</value>
   <value column="Help" original="To watch the cost elements for every set of Product, Organization, Accounting Schema, Warehouse, Resource and Cost Type.&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;&#9;">To watch the cost elements for every set of Product, Organization, Accounting Schema, Warehouse, Resource and Cost Type.												</value>
  </row>
- <row id="53056" trl="N">
+ <row id="53056" trl="Y">
   <value column="Name" original="Copy Price to Standard Cost">Preis in Standardkosten kopieren</value>
   <value column="Description" original="This process allow copy a Price from Price list Version to Element Cost">This process allow copy a Price from Price list Version to Element Cost</value>
   <value column="Help" original="This process allow copy a Price from Price list Version to Element Cost">This process allow copy a Price from Price list Version to Element Cost</value>

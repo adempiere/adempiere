@@ -401,8 +401,8 @@
   <value column="Help" original="This is a System only Window.  Customer Attributes allow the entry of additional information to an entity.">Dieses Fenster ist nur für die Systemebene. Spezifische Merkmale ermöglichen, einem Eintrag zusätzliche Information hinzuzufügen.</value>
  </row>
  <row id="197" trl="Y">
-  <value column="Name" original="Cashbook">Kassenbuch verwalten</value>
-  <value column="Description" original="Maintain Cashbook">Kassenbuch</value>
+  <value column="Name" original="Cashbook">Kassenbuch</value>
+  <value column="Description" original="Maintain Cashbook">Kassenbuch verwalten</value>
   <value column="Help" original="The Cashbook Window defines the bank and account against which cash transactions will be processed.">Das Kassenbuch verzeichnet alle Ein-/Auszahlungen über die Kasse. Es können mehrere Kassenbücher angelegt werden.</value>
  </row>
  <row id="198" trl="Y">
