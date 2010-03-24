@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="R_MailText">
+ <row id="100" trl="N">
+  <value column="MailText" original="Dear @Name@,&#10;&#10;Thank you for your order.&#10;&#10;Best regards,&#10;  The GardenWorld Team">Dear @Name@,
+
+Thank you for your order.
+
+Best regards,
+  The GardenWorld Team</value>
+  <value column="Name" original="Order Confirmation">Order Confirmation</value>
+  <value column="MailHeader" original="Order Confirmation">Order Confirmation</value>
+  <value column="MailText2" original=""/>
+  <value column="MailText3" original=""/>
+ </row>
+</adempiereTrl>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="C_TaxCategory">
+ <row id="107" trl="N">
+  <value column="Name" original="Standard">Standard</value>
+  <value column="Description" original=""/>
+ </row>
+</adempiereTrl>

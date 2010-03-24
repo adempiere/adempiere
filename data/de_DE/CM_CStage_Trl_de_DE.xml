@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="CM_CStage">
+ <row id="100" trl="N">
+  <value column="Meta_Description" original=""/>
+  <value column="Meta_Keywords" original=""/>
+  <value column="Name" original="Products">Products</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original=""/>
+ </row>
+ <row id="101" trl="N">
+  <value column="Meta_Description" original="This is the homesite of GardenWorld, it would be a good idea to place some real content in here">This is the homesite of GardenWorld, it would be a good idea to place some real content in here</value>
+  <value column="Meta_Keywords" original="GardenWorld, Adempiere">GardenWorld, Adempiere</value>
+  <value column="Name" original="Home of Gardenworld">Home of Gardenworld</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original="Home of Gardenworld">Home of Gardenworld</value>
+ </row>
+ <row id="102" trl="N">
+  <value column="Meta_Description" original="Our plum trees are the best in the world">Our plum trees are the best in the world</value>
+  <value column="Meta_Keywords" original="plum tree gardenworld">plum tree gardenworld</value>
+  <value column="Name" original="Plum Tree">Plum Tree</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original="Powerfull Plum Tree">Powerfull Plum Tree</value>
+ </row>
+ <row id="103" trl="N">
+  <value column="Meta_Description" original="This is  short summary of the advantages of our wonderfull oak tree">This is  short summary of the advantages of our wonderfull oak tree</value>
+  <value column="Meta_Keywords" original="oak tree gardenworld">oak tree gardenworld</value>
+  <value column="Name" original="Oak Tree">Oak Tree</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original=""/>
+ </row>
+ <row id="104" trl="N">
+  <value column="Meta_Description" original="Error 404">Error 404</value>
+  <value column="Meta_Keywords" original="Gardenadmin, Error 404">Gardenadmin, Error 404</value>
+  <value column="Name" original="Page not found">Page not found</value>
+  <value column="ContainerXML" original=""/>
+  <value column="StructureXML" original=""/>
+  <value column="Title" original=""/>
+ </row>
+</adempiereTrl>

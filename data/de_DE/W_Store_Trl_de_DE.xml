@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="W_Store">
+ <row id="11" trl="N">
+  <value column="EMailFooter" original=""/>
+  <value column="EMailHeader" original=""/>
+  <value column="WebInfo" original=""/>
+  <value column="WebParam1" original="ADempiere120x60.gif">ADempiere120x60.gif</value>
+  <value column="WebParam2" original="&lt;h1&gt;Web Store&lt;/h1&gt;"><![CDATA[<h1>Web Store</h1>]]></value>
+  <value column="WebParam3" original="Parameter3">Parameter3</value>
+  <value column="WebParam4" original="Parameter4">Parameter4</value>
+  <value column="WebParam5" original="Parameter5">Parameter5</value>
+  <value column="WebParam6" original="Parameter6">Parameter6</value>
+ </row>
+</adempiereTrl>

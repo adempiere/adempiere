@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="AD_Desktop">
+ <row id="100" trl="N">
+  <value column="Name" original="FrontOffice">FrontOffice</value>
+  <value column="Description" original="Front Office Desktop">Front Office Desktop</value>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

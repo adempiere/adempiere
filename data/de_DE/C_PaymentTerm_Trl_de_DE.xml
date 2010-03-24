@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="C_PaymentTerm">
+ <row id="100" trl="N">
+  <value column="Name" original="30 Net">30 Net</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="105" trl="N">
+  <value column="Name" original="Immediate">Immediate</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="106" trl="N">
+  <value column="Name" original="2%10 Net 30">2%10 Net 30</value>
+  <value column="Description" original="2% discount if paid in 10 days, net due in 30 days">2% discount if paid in 10 days, net due in 30 days</value>
+  <value column="DocumentNote" original="Payment Term Note: Long Term Contracts are eligible for payment discounts.">Payment Term Note: Long Term Contracts are eligible for payment discounts.</value>
+ </row>
+ <row id="107" trl="N">
+  <value column="Name" original="30 Days Net">30 Days Net</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+ <row id="108" trl="N">
+  <value column="Name" original="50% Immediate - 50% in 30 days">50% Immediate - 50% in 30 days</value>
+  <value column="Description" original=""/>
+  <value column="DocumentNote" original=""/>
+ </row>
+</adempiereTrl>

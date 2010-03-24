@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="AD_Process_Para">
+ <row id="227" trl="N">
+  <value column="Name" original="Delete existing Accounting Entries">Delete existing Accounting Entries</value>
+  <value column="Description" original="The selected accounting entries will be deleted!  DANGEROUS !!!">The selected accounting entries will be deleted!  DANGEROUS !!!</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="233" trl="N">
+  <value column="Name" original="Pricelist Version">Pricelist Version</value>
+  <value column="Description" original="Only used if Price List is used to set future/standard cost price">Only used if Price List is used to set future/standard cost price</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="302" trl="N">
+  <value column="Name" original="Overwrite Payment Rule">Overwrite Payment Rule</value>
+  <value column="Description" original="Overwrite how to pay the invoice">Overwrite how to pay the invoice</value>
+  <value column="Help" original="The Payment Rule indicates how the incoice will be settled - you can overwrite the value from the invoice.">The Payment Rule indicates how the incoice will be settled - you can overwrite the value from the invoice.</value>
+ </row>
+ <row id="315" trl="N">
+  <value column="Name" original="From User">From User</value>
+  <value column="Description" original="Send EMail from user">Send EMail from user</value>
+  <value column="Help" original="The email is sent from the user selected - otherwise it is sent from the request email address of the client">The email is sent from the user selected - otherwise it is sent from the request email address of the client</value>
+ </row>
+ <row id="452" trl="N">
+  <value column="Name" original="Maintenance Mode">Maintenance Mode</value>
+  <value column="Description" original="Language Maintenance Mode">Language Maintenance Mode</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="467" trl="N">
+  <value column="Name" original="Existing Organization">Existing Organization</value>
+  <value column="Description" original="Organizational entity within client - set to empty if you want to create a new organization">Organizational entity within client - set to empty if you want to create a new organization</value>
+  <value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</value>
+ </row>
+ <row id="469" trl="N">
+  <value column="Name" original="Limit Access to Role">Limit Access to Role</value>
+  <value column="Description" original="If no Role is selected, grant access to all (non-manual) roles of the Client">If no Role is selected, grant access to all (non-manual) roles of the Client</value>
+  <value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">The Role determines security and access a user who has this Role will have in the System.</value>
+ </row>
+ <row id="493" trl="N">
+  <value column="Name" original="New User/Contact">New User/Contact</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">User within the system - Internal or Business Partner Contact</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">The User identifies a unique user in the system. This could be an internal user or a business partner contact</value>
+ </row>
+ <row id="494" trl="N">
+  <value column="Name" original="New Workflow Responsible">New Workflow Responsible</value>
+  <value column="Description" original="Responsible for Workflow Execution">Responsible for Workflow Execution</value>
+  <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.</value>
+ </row>
+ <row id="496" trl="N">
+  <value column="Name" original="New User/Contact">New User/Contact</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">User within the system - Internal or Business Partner Contact</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">The User identifies a unique user in the system. This could be an internal user or a business partner contact</value>
+ </row>
+ <row id="497" trl="N">
+  <value column="Name" original="New Workflow Responsible">New Workflow Responsible</value>
+  <value column="Description" original="Responsible for Workflow Execution">Responsible for Workflow Execution</value>
+  <value column="Help" original="The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.">The ultimate responsibility for a workflow is with an actual user. The Workflow Responsible allows to define ways to find that actual User.</value>
+ </row>
+ <row id="523" trl="N">
+  <value column="Name" original="Default Sales Rep">Default Sales Rep</value>
+  <value column="Description" original="If not defined on Business Partner Level">If not defined on Business Partner Level</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="524" trl="N">
+  <value column="Name" original="Dunning Currency">Dunning Currency</value>
+  <value column="Description" original="Currency to create Dunning Letters">Currency to create Dunning Letters</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Role To">Role To</value>
+  <value column="Description" original="Responsibility Role">Responsibility Role</value>
+  <value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">The Role determines security and access a user who has this Role will have in the System.</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Role From">Role From</value>
+  <value column="Description" original="Responsibility Role">Responsibility Role</value>
+  <value column="Help" original="The Role determines security and access a user who has this Role will have in the System.">The Role determines security and access a user who has this Role will have in the System.</value>
+ </row>
+ <row id="50019" trl="N">
+  <value column="Name" original="Shipment Date">Shipment Date</value>
+  <value column="Description" original="Date printed on shipment">Date printed on shipment</value>
+  <value column="Help" original="The Shipment Date indicates the date printed on the shipment.">The Shipment Date indicates the date printed on the shipment.</value>
+ </row>
+ <row id="53011" trl="N">
+  <value column="Name" original="Print Unprocessed Entries Only">Print Unprocessed Entries Only</value>
+  <value column="Description" original="Print the unprocessed (unprinted) entries of the dunning run only.">Print the unprocessed (unprinted) entries of the dunning run only.</value>
+  <value column="Help" original="Print the unprocessed (unprinted) entries of the dunning run only. This allows you to reprint only certain dunning entries.">Print the unprocessed (unprinted) entries of the dunning run only. This allows you to reprint only certain dunning entries.</value>
+ </row>
+ <row id="53025" trl="N">
+  <value column="Name" original="Purchase Price List Version">Purchase Price List Version</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53030" trl="N">
+  <value column="Name" original="New Product">New Product</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53032" trl="N">
+  <value column="Name" original="Action">Action</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53066" trl="N">
+  <value column="Name" original="Is Print Pack &amp; Tools List"><![CDATA[Is Print Pack & Tools List]]></value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53068" trl="N">
+  <value column="Name" original="Is Print Pick List">Is Print Pick List</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53069" trl="N">
+  <value column="Name" original="Is Print Workflow">Is Print Workflow</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53127" trl="N">
+  <value column="Name" original="Generate Fields">Generate Fields</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53131" trl="N">
+  <value column="Name" original="Scripts Path">Scripts Path</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53142" trl="N">
+  <value column="Name" original="Includes only the Tabs that Insert records">Includes only the Tabs that Insert records</value>
+  <value column="Description" original="Generated Export Format for the Tabs with Insert Record is Yes">Generated Export Format for the Tabs with Insert Record is Yes</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53143" trl="N">
+  <value column="Name" original="Includes only the mandatory columns">Includes only the mandatory columns</value>
+  <value column="Description" original="Generated an Export Format Line  if the column is mandatory ">Generated an Export Format Line  if the column is mandatory </value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53219" trl="N">
+  <value column="Name" original="Based in DRP Demand">Based in DRP Demand</value>
+  <value column="Description" original="Based in DRP Demand">Based in DRP Demand</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53232" trl="N">
+  <value column="Name" original="Bank Account From">Bank Account From</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53233" trl="N">
+  <value column="Name" original="Bank Account To">Bank Account To</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53243" trl="N">
+  <value column="Name" original="Valid from">Valid from</value>
+  <value column="Description" original="Valid from including this date (first day)">Valid from including this date (first day)</value>
+  <value column="Help" original="The Valid From date indicates the first day of a date range">The Valid From date indicates the first day of a date range</value>
+ </row>
+ <row id="53246" trl="N">
+  <value column="Name" original="Bank Account From">Bank Account From</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53247" trl="N">
+  <value column="Name" original="Bank Account To">Bank Account To</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53263" trl="N">
+  <value column="Name" original="Account Date">Account Date</value>
+  <value column="Description" original="Optional account date range">Optional account date range</value>
+  <value column="Help" original="Only documents within this date range which are also in open periods will be reset.">Only documents within this date range which are also in open periods will be reset.</value>
+ </row>
+ <row id="53282" trl="N">
+  <value column="Name" original="Client Name">Client Name</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53284" trl="N">
+  <value column="Name" original="Administrative User Name">Administrative User Name</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53285" trl="N">
+  <value column="Name" original="Normal User Name">Normal User Name</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53289" trl="N">
+  <value column="Name" original="City Name">City Name</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53291" trl="N">
+  <value column="Name" original="BP Accounting">BP Accounting</value>
+  <value column="Description" original="Use BP accounting dimension">Use BP accounting dimension</value>
+  <value column="Help" original="Define if this client will use business partner accounting dimension.  This can be changed later in Accounting Schema window of the client.">Define if this client will use business partner accounting dimension.  This can be changed later in Accounting Schema window of the client.</value>
+ </row>
+ <row id="53292" trl="N">
+  <value column="Name" original="Product Accounting">Product Accounting</value>
+  <value column="Description" original="Use Product accounting dimension">Use Product accounting dimension</value>
+  <value column="Help" original="Define if this client will use product accounting dimension.  This can be changed later in Accounting Schema window of the client.">Define if this client will use product accounting dimension.  This can be changed later in Accounting Schema window of the client.</value>
+ </row>
+ <row id="53293" trl="N">
+  <value column="Name" original="Project Accounting">Project Accounting</value>
+  <value column="Description" original="Use Project accounting dimension">Use Project accounting dimension</value>
+  <value column="Help" original="Define if this client will use project accounting dimension.  This can be changed later in Accounting Schema window of the client.">Define if this client will use project accounting dimension.  This can be changed later in Accounting Schema window of the client.</value>
+ </row>
+ <row id="53294" trl="N">
+  <value column="Name" original="Campaign Accounting">Campaign Accounting</value>
+  <value column="Description" original="Use Campaign accounting dimension">Use Campaign accounting dimension</value>
+  <value column="Help" original="Define if this client will use campaign accounting dimension.  This can be changed later in Accounting Schema window of the client.">Define if this client will use campaign accounting dimension.  This can be changed later in Accounting Schema window of the client.</value>
+ </row>
+ <row id="53295" trl="N">
+  <value column="Name" original="Sales Region Accounting">Sales Region Accounting</value>
+  <value column="Description" original="Use Sales Region accounting dimension">Use Sales Region accounting dimension</value>
+  <value column="Help" original="Define if this client will use sales region accounting dimension.  This can be changed later in Accounting Schema window of the client.">Define if this client will use sales region accounting dimension.  This can be changed later in Accounting Schema window of the client.</value>
+ </row>
+ <row id="53296" trl="N">
+  <value column="Name" original="Chart of Accounts File">Chart of Accounts File</value>
+  <value column="Description" original="Location of the chart of accounts to be used with this client.  At this stage just the default accounts will be created.">Location of the chart of accounts to be used with this client.  At this stage just the default accounts will be created.</value>
+  <value column="Help" original=""/>
+ </row>
+ <row id="53314" trl="N">
+  <value column="Name" original="Full rebuild">Full rebuild</value>
+  <value column="Description" original="Delete all existing summary data and recalculate.">Delete all existing summary data and recalculate.</value>
+  <value column="Help" original="If not selected, only those periods with recently posted accounting facts will be recalculated.">If not selected, only those periods with recently posted accounting facts will be recalculated.</value>
+ </row>
+ <row id="53316" trl="N">
+  <value column="Name" original="Force">Force</value>
+  <value column="Description" original="Force rebuild of cube even if locked.">Force rebuild of cube even if locked.</value>
+  <value column="Help" original=""/>
+ </row>
+</adempiereTrl>

@@ -1,0 +1,1516 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="C_ElementValue">
+ <row id="419" trl="N">
+  <value column="Name" original="Tree Farm Payable">Tree Farm Payable</value>
+  <value column="Description" original="Tree Farm Payable">Tree Farm Payable</value>
+ </row>
+ <row id="421" trl="N">
+  <value column="Name" original="Sideline Revenue">Sideline Revenue</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="422" trl="N">
+  <value column="Name" original="Royalties Revenue">Royalties Revenue</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="423" trl="N">
+  <value column="Name" original="Unearned revenue">Unearned revenue</value>
+  <value column="Description" original="We have invoiced, but not delivered yet">We have invoiced, but not delivered yet</value>
+ </row>
+ <row id="424" trl="N">
+  <value column="Name" original="Not invoiced revenue">Not invoiced revenue</value>
+  <value column="Description" original="We delivered but have not invoiced yet">We delivered but have not invoiced yet</value>
+ </row>
+ <row id="425" trl="N">
+  <value column="Name" original="Other Revenue">Other Revenue</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="426" trl="N">
+  <value column="Name" original="Trade Discounts">Trade Discounts</value>
+  <value column="Description" original="Granted Trade discounts (corrects Product Revenue)">Granted Trade discounts (corrects Product Revenue)</value>
+ </row>
+ <row id="427" trl="N">
+  <value column="Name" original="Payment discount revenue">Payment discount revenue</value>
+  <value column="Description" original="Granted early payment discount to customers">Granted early payment discount to customers</value>
+ </row>
+ <row id="428" trl="N">
+  <value column="Name" original="Promotion Discounts">Promotion Discounts</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="429" trl="N">
+  <value column="Name" original="Cost of Goods Sold">Cost of Goods Sold</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="430" trl="N">
+  <value column="Name" original="Product CoGs">Product CoGs</value>
+  <value column="Description" original="Cost of Goods Sold">Cost of Goods Sold</value>
+ </row>
+ <row id="431" trl="N">
+  <value column="Name" original="Product Expense">Product Expense</value>
+  <value column="Description" original="Default Product or Service costs (I.e. not on inventory)">Default Product or Service costs (I.e. not on inventory)</value>
+ </row>
+ <row id="432" trl="N">
+  <value column="Name" original="Services Purchases">Services Purchases</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="433" trl="N">
+  <value column="Name" original="Sideline Purchases">Sideline Purchases</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="434" trl="N">
+  <value column="Name" original="Freight in">Freight in</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="435" trl="N">
+  <value column="Name" original="Returns">Returns</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="436" trl="N">
+  <value column="Name" original="Returns Expense">Returns Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="437" trl="N">
+  <value column="Name" original="Returns to Vendors">Returns to Vendors</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="438" trl="N">
+  <value column="Name" original="Inventory CoGs">Inventory CoGs</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="439" trl="N">
+  <value column="Name" original="Inventory Shrinkage">Inventory Shrinkage</value>
+  <value column="Description" original="Physical Inventory Gain/Loss">Physical Inventory Gain/Loss</value>
+ </row>
+ <row id="440" trl="N">
+  <value column="Name" original="Inventory Write Down Below Cost">Inventory Write Down Below Cost</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="441" trl="N">
+  <value column="Name" original="Inventory Adjustment">Inventory Adjustment</value>
+  <value column="Description" original="Inventory Actual Accounting Value Adjustment">Inventory Actual Accounting Value Adjustment</value>
+ </row>
+ <row id="442" trl="N">
+  <value column="Name" original="Inventory Revaluation">Inventory Revaluation</value>
+  <value column="Description" original="Difference to (lower cost) or market">Difference to (lower cost) or market</value>
+ </row>
+ <row id="443" trl="N">
+  <value column="Name" original="CoGS Variances">CoGS Variances</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="444" trl="N">
+  <value column="Name" original="Invoice price variance">Invoice price variance</value>
+  <value column="Description" original="Difference between product cost and invoice price (IPV)">Difference between product cost and invoice price (IPV)</value>
+ </row>
+ <row id="445" trl="N">
+  <value column="Name" original="Purchase price variance">Purchase price variance</value>
+  <value column="Description" original="Difference between purchase price and standard costs (PPV)">Difference between purchase price and standard costs (PPV)</value>
+ </row>
+ <row id="446" trl="N">
+  <value column="Name" original="CoGs/Sales Discounts">CoGs/Sales Discounts</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="447" trl="N">
+  <value column="Name" original="Trade discounts received">Trade discounts received</value>
+  <value column="Description" original="Received Trade Discounts (corrects Product expense)">Received Trade Discounts (corrects Product expense)</value>
+ </row>
+ <row id="448" trl="N">
+  <value column="Name" original="Payment discount revenue">Payment discount revenue</value>
+  <value column="Description" original="Granted early payment discount from vendors">Granted early payment discount from vendors</value>
+ </row>
+ <row id="449" trl="N">
+  <value column="Name" original="Expenses">Expenses</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="450" trl="N">
+  <value column="Name" original="Payroll Expenses">Payroll Expenses</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="451" trl="N">
+  <value column="Name" original="Salaries">Salaries</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="452" trl="N">
+  <value column="Name" original="Vacation Pay">Vacation Pay</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="453" trl="N">
+  <value column="Name" original="Vacation Pay Owners">Vacation Pay Owners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="454" trl="N">
+  <value column="Name" original="Sick Pay Owners">Sick Pay Owners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="455" trl="N">
+  <value column="Name" original="Retirement (Pension, Proft Sharing, 401k)">Retirement (Pension, Proft Sharing, 401k)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="456" trl="N">
+  <value column="Name" original="FICA Tax Owners">FICA Tax Owners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="457" trl="N">
+  <value column="Name" original="Federal/State Unemployment">Federal/State Unemployment</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="458" trl="N">
+  <value column="Name" original="Federal/State Unemployment Owners">Federal/State Unemployment Owners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="459" trl="N">
+  <value column="Name" original="Health Insurance Premium Owners">Health Insurance Premium Owners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="460" trl="N">
+  <value column="Name" original="Health Insurance Employee Contribution">Health Insurance Employee Contribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="461" trl="N">
+  <value column="Name" original="Health Insurance Cobra Payments">Health Insurance Cobra Payments</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="462" trl="N">
+  <value column="Name" original="Workers Compensation Insurance">Workers Compensation Insurance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="463" trl="N">
+  <value column="Name" original="Disability Insurance Premium">Disability Insurance Premium</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="464" trl="N">
+  <value column="Name" original="Disability Insurance Premium Owners">Disability Insurance Premium Owners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="465" trl="N">
+  <value column="Name" original="Disability Insurance Employee Contribution">Disability Insurance Employee Contribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="466" trl="N">
+  <value column="Name" original="Life Insurance Premium">Life Insurance Premium</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="467" trl="N">
+  <value column="Name" original="Life Insurance Premium Owners">Life Insurance Premium Owners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="468" trl="N">
+  <value column="Name" original="Life Insurance Employee Contribution">Life Insurance Employee Contribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="469" trl="N">
+  <value column="Name" original="Other Benefit Expense">Other Benefit Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="470" trl="N">
+  <value column="Name" original="Staff Gifts &amp; Perks"><![CDATA[Staff Gifts & Perks]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="471" trl="N">
+  <value column="Name" original="Staff Picnic (100% Deductible)">Staff Picnic (100% Deductible)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="472" trl="N">
+  <value column="Name" original="Payroll Processing Expense">Payroll Processing Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="473" trl="N">
+  <value column="Name" original="Occupancy Cost">Occupancy Cost</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="474" trl="N">
+  <value column="Name" original="Rent Expense">Rent Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="475" trl="N">
+  <value column="Name" original="Utilities">Utilities</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="476" trl="N">
+  <value column="Name" original="Other Occupancy Costs">Other Occupancy Costs</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="477" trl="N">
+  <value column="Name" original="Advertising">Advertising</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="478" trl="N">
+  <value column="Name" original="Media Advertising">Media Advertising</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="479" trl="N">
+  <value column="Name" original="Catalog, Newsletter">Catalog, Newsletter</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="480" trl="N">
+  <value column="Name" original="Events">Events</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="481" trl="N">
+  <value column="Name" original="Web Hosting">Web Hosting</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="482" trl="N">
+  <value column="Name" original="Other Advertising &amp; Promotion"><![CDATA[Other Advertising & Promotion]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="483" trl="N">
+  <value column="Name" original="Vendor Advertising Allowances">Vendor Advertising Allowances</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="484" trl="N">
+  <value column="Name" original="Telephone">Telephone</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="485" trl="N">
+  <value column="Name" original="Mobile Telephone">Mobile Telephone</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="486" trl="N">
+  <value column="Name" original="Network Charges">Network Charges</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="487" trl="N">
+  <value column="Name" original="Legal Fees">Legal Fees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="488" trl="N">
+  <value column="Name" original="Accounting Fees">Accounting Fees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="489" trl="N">
+  <value column="Name" original="Inventory Verification Fees">Inventory Verification Fees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="490" trl="N">
+  <value column="Name" original="Stationary &amp; Supplies"><![CDATA[Stationary & Supplies]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="491" trl="N">
+  <value column="Name" original="Stationary &amp; Supplies - Office Use"><![CDATA[Stationary & Supplies - Office Use]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="492" trl="N">
+  <value column="Name" original="Janitorial Supplies">Janitorial Supplies</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="493" trl="N">
+  <value column="Name" original="Data Processing Supplies">Data Processing Supplies</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="494" trl="N">
+  <value column="Name" original="Data Processing Rental">Data Processing Rental</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="495" trl="N">
+  <value column="Name" original="Outside Computer Services">Outside Computer Services</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="496" trl="N">
+  <value column="Name" original="Depreciation Expense">Depreciation Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="497" trl="N">
+  <value column="Name" original="Building Depreciation">Building Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="498" trl="N">
+  <value column="Name" original="Leasehold Improvement Depreciation">Leasehold Improvement Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="499" trl="N">
+  <value column="Name" original="Furniture Depreciation">Furniture Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="500" trl="N">
+  <value column="Name" original="Fixtures Depreciation">Fixtures Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="501" trl="N">
+  <value column="Name" original="Equipment Depreciation">Equipment Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="502" trl="N">
+  <value column="Name" original="Data Processing Equipment Depreciation">Data Processing Equipment Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="503" trl="N">
+  <value column="Name" original="Software Depreciation">Software Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="504" trl="N">
+  <value column="Name" original="Business Travel">Business Travel</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="505" trl="N">
+  <value column="Name" original="Business Travel - Auto Reimbursement">Business Travel - Auto Reimbursement</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="506" trl="N">
+  <value column="Name" original="Assets">Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="507" trl="N">
+  <value column="Name" original="Cash">Cash</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="508" trl="N">
+  <value column="Name" original="Checking Account">Checking Account</value>
+  <value column="Description" original="Bank Asset">Bank Asset</value>
+ </row>
+ <row id="509" trl="N">
+  <value column="Name" original="Checking In-Transfer">Checking In-Transfer</value>
+  <value column="Description" original="Bank transactions in transit">Bank transactions in transit</value>
+ </row>
+ <row id="510" trl="N">
+  <value column="Name" original="Checking Unidentified Receipts">Checking Unidentified Receipts</value>
+  <value column="Description" original="Receipts from unidentified customer">Receipts from unidentified customer</value>
+ </row>
+ <row id="511" trl="N">
+  <value column="Name" original="Checking Unallocated Receipts">Checking Unallocated Receipts</value>
+  <value column="Description" original="Received, unallocated payments">Received, unallocated payments</value>
+ </row>
+ <row id="512" trl="N">
+  <value column="Name" original="Checking Account 2">Checking Account 2</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="513" trl="N">
+  <value column="Name" original="Savings Account">Savings Account</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="514" trl="N">
+  <value column="Name" original="Cash in Registers">Cash in Registers</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="515" trl="N">
+  <value column="Name" original="Petty Cash">Petty Cash</value>
+  <value column="Description" original="Cash Book Asset">Cash Book Asset</value>
+ </row>
+ <row id="516" trl="N">
+  <value column="Name" original="Petty Cash In-Transfer">Petty Cash In-Transfer</value>
+  <value column="Description" original="Cash Book Transfer">Cash Book Transfer</value>
+ </row>
+ <row id="517" trl="N">
+  <value column="Name" original="Accounts Receivable">Accounts Receivable</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="518" trl="N">
+  <value column="Name" original="Accounts Receivable - Trade">Accounts Receivable - Trade</value>
+  <value column="Description" original="Accounts Receivables">Accounts Receivables</value>
+ </row>
+ <row id="519" trl="N">
+  <value column="Name" original="A/R Non Sufficient Funds Returned Checks">A/R Non Sufficient Funds Returned Checks</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="520" trl="N">
+  <value column="Name" original="A/R Trade Allowance for Bad Debit">A/R Trade Allowance for Bad Debit</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="521" trl="N">
+  <value column="Name" original="Not invoiced receivables">Not invoiced receivables</value>
+  <value column="Description" original="We delivered but have not invoiced yet">We delivered but have not invoiced yet</value>
+ </row>
+ <row id="522" trl="N">
+  <value column="Name" original="Credit Card in Transit">Credit Card in Transit</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="523" trl="N">
+  <value column="Name" original="In Transit A/R Amex">In Transit A/R Amex</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="524" trl="N">
+  <value column="Name" original="In Transit A/R Master Card">In Transit A/R Master Card</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="525" trl="N">
+  <value column="Name" original="In Transit A/R Visa">In Transit A/R Visa</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="526" trl="N">
+  <value column="Name" original="A/R Credit Cards Allowance for Bad Debit">A/R Credit Cards Allowance for Bad Debit</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="527" trl="N">
+  <value column="Name" original="Vendor Allowances Receivable">Vendor Allowances Receivable</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="528" trl="N">
+  <value column="Name" original="Loans Receivable">Loans Receivable</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="529" trl="N">
+  <value column="Name" original="Loans Receivable Employees">Loans Receivable Employees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="530" trl="N">
+  <value column="Name" original="Loans Receivable Others">Loans Receivable Others</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="531" trl="N">
+  <value column="Name" original="Prepayments">Prepayments</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="532" trl="N">
+  <value column="Name" original="Vendor prepayment">Vendor prepayment</value>
+  <value column="Description" original="Prepayments for future expense">Prepayments for future expense</value>
+ </row>
+ <row id="533" trl="N">
+  <value column="Name" original="Employee Expense Prepayment">Employee Expense Prepayment</value>
+  <value column="Description" original="Expense advances">Expense advances</value>
+ </row>
+ <row id="534" trl="N">
+  <value column="Name" original="Tax credit A/R">Tax credit A/R</value>
+  <value column="Description" original="Tax to be re-imbursed - before tax declaration">Tax to be re-imbursed - before tax declaration</value>
+ </row>
+ <row id="535" trl="N">
+  <value column="Name" original="Tax receivables">Tax receivables</value>
+  <value column="Description" original="Tax to receive based on tax declaration">Tax to receive based on tax declaration</value>
+ </row>
+ <row id="536" trl="N">
+  <value column="Name" original="A/R Miscellaneous">A/R Miscellaneous</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="537" trl="N">
+  <value column="Name" original="Investments">Investments</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="538" trl="N">
+  <value column="Name" original="US Government Obligations">US Government Obligations</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="539" trl="N">
+  <value column="Name" original="Tax-Exempt Securities">Tax-Exempt Securities</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="540" trl="N">
+  <value column="Name" original="Other Investments">Other Investments</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="541" trl="N">
+  <value column="Name" original="Inventory">Inventory</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="542" trl="N">
+  <value column="Name" original="Prepaid Expenses, Deposits &amp; Other Current Assets"><![CDATA[Prepaid Expenses, Deposits & Other Current Assets]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="543" trl="N">
+  <value column="Name" original="Prepaid Expenses">Prepaid Expenses</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="544" trl="N">
+  <value column="Name" original="Prepaid Insurance">Prepaid Insurance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="545" trl="N">
+  <value column="Name" original="Prepaid Rent">Prepaid Rent</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="546" trl="N">
+  <value column="Name" original="Prepaid Interest">Prepaid Interest</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="547" trl="N">
+  <value column="Name" original="Prepaid Others">Prepaid Others</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="548" trl="N">
+  <value column="Name" original="Deposits">Deposits</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="549" trl="N">
+  <value column="Name" original="Deposit Rent">Deposit Rent</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="550" trl="N">
+  <value column="Name" original="Deposit Utilities">Deposit Utilities</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="551" trl="N">
+  <value column="Name" original="Deposit Others">Deposit Others</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="552" trl="N">
+  <value column="Name" original="Other Current Assets">Other Current Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="553" trl="N">
+  <value column="Name" original="Other Current Assets">Other Current Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="554" trl="N">
+  <value column="Name" original="Land and Building">Land and Building</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="555" trl="N">
+  <value column="Name" original="Land">Land</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="556" trl="N">
+  <value column="Name" original="Building">Building</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="557" trl="N">
+  <value column="Name" original="Land Improvements">Land Improvements</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="558" trl="N">
+  <value column="Name" original="Building Improvements">Building Improvements</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="559" trl="N">
+  <value column="Name" original="Leasehold Improvements">Leasehold Improvements</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="560" trl="N">
+  <value column="Name" original="Furniture, Fixtures &amp; Equipment"><![CDATA[Furniture, Fixtures & Equipment]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="561" trl="N">
+  <value column="Name" original="Furniture">Furniture</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="562" trl="N">
+  <value column="Name" original="Fixtures">Fixtures</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="563" trl="N">
+  <value column="Name" original="Equipment">Equipment</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="564" trl="N">
+  <value column="Name" original="Vehicles">Vehicles</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="565" trl="N">
+  <value column="Name" original="Data Processing Equipment">Data Processing Equipment</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="566" trl="N">
+  <value column="Name" original="Software">Software</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="567" trl="N">
+  <value column="Name" original="Project asset">Project asset</value>
+  <value column="Description" original="Created Asset">Created Asset</value>
+ </row>
+ <row id="568" trl="N">
+  <value column="Name" original="Project WIP">Project WIP</value>
+  <value column="Description" original="Asset Work in Progress">Asset Work in Progress</value>
+ </row>
+ <row id="569" trl="N">
+  <value column="Name" original="Building Accumulated Depreciation">Building Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="570" trl="N">
+  <value column="Name" original="Land Improvement Accumulated Depreciation">Land Improvement Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="571" trl="N">
+  <value column="Name" original="Building Improvement Accumulated Depreciation">Building Improvement Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="572" trl="N">
+  <value column="Name" original="Furniture Accumulated Depreciation">Furniture Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="573" trl="N">
+  <value column="Name" original="Fixtures Accumulated Depreciation">Fixtures Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="574" trl="N">
+  <value column="Name" original="Equipment Accumulated Depreciation">Equipment Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="575" trl="N">
+  <value column="Name" original="Vehicles Accumulated Depreciation">Vehicles Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="576" trl="N">
+  <value column="Name" original="Data Processing Equipment Accumulated Depreciation">Data Processing Equipment Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="577" trl="N">
+  <value column="Name" original="Other Assets">Other Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="578" trl="N">
+  <value column="Name" original="Intangible Assets">Intangible Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="579" trl="N">
+  <value column="Name" original="Amortizable Assets">Amortizable Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="580" trl="N">
+  <value column="Name" original="Customer Lists">Customer Lists</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="581" trl="N">
+  <value column="Name" original="Other Intangible Assets">Other Intangible Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="582" trl="N">
+  <value column="Name" original="Accumulated Amorization">Accumulated Amorization</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="583" trl="N">
+  <value column="Name" original="Other Assets">Other Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="584" trl="N">
+  <value column="Name" original="Liabilities">Liabilities</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="585" trl="N">
+  <value column="Name" original="Accounts Payables">Accounts Payables</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="586" trl="N">
+  <value column="Name" original="Accounts Payables Trade">Accounts Payables Trade</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="587" trl="N">
+  <value column="Name" original="Not invoiced receipts">Not invoiced receipts</value>
+  <value column="Description" original="Received products/services from vendors, but not invoiced">Received products/services from vendors, but not invoiced</value>
+ </row>
+ <row id="588" trl="N">
+  <value column="Name" original="Accounts Payable Services">Accounts Payable Services</value>
+  <value column="Description" original="Accounts Payables for non-product revenue">Accounts Payables for non-product revenue</value>
+ </row>
+ <row id="589" trl="N">
+  <value column="Name" original="Payment selection">Payment selection</value>
+  <value column="Description" original="Selected A/P invoices for payment">Selected A/P invoices for payment</value>
+ </row>
+ <row id="590" trl="N">
+  <value column="Name" original="Customer Payables">Customer Payables</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="591" trl="N">
+  <value column="Name" original="Merchandise Credits Unredeemed">Merchandise Credits Unredeemed</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="592" trl="N">
+  <value column="Name" original="Gift Certificated Unredeemed">Gift Certificated Unredeemed</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="593" trl="N">
+  <value column="Name" original="Special Order Deposits">Special Order Deposits</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="594" trl="N">
+  <value column="Name" original="Mail Order Deposits">Mail Order Deposits</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="595" trl="N">
+  <value column="Name" original="Tax Payables">Tax Payables</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="596" trl="N">
+  <value column="Name" original="Tax due">Tax due</value>
+  <value column="Description" original="Tax to be paid - before tax declaration">Tax to be paid - before tax declaration</value>
+ </row>
+ <row id="597" trl="N">
+  <value column="Name" original="Tax liability">Tax liability</value>
+  <value column="Description" original="Tax to be paid based on tax declaration">Tax to be paid based on tax declaration</value>
+ </row>
+ <row id="598" trl="N">
+  <value column="Name" original="Withholding (Tax)">Withholding (Tax)</value>
+  <value column="Description" original="Withholding for 1099 or Quality Guarantee">Withholding for 1099 or Quality Guarantee</value>
+ </row>
+ <row id="599" trl="N">
+  <value column="Name" original="Withholding (Other)">Withholding (Other)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="600" trl="N">
+  <value column="Name" original="Intercompany Due To">Intercompany Due To</value>
+  <value column="Description" original="Default Payables account for intercompany trx">Default Payables account for intercompany trx</value>
+ </row>
+ <row id="601" trl="N">
+  <value column="Name" original="Accrued Expenses">Accrued Expenses</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="602" trl="N">
+  <value column="Name" original="Accrued Payroll">Accrued Payroll</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="603" trl="N">
+  <value column="Name" original="Payroll Withholdings">Payroll Withholdings</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="604" trl="N">
+  <value column="Name" original="Federal Tax Withholding">Federal Tax Withholding</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="605" trl="N">
+  <value column="Name" original="FICA Withholding">FICA Withholding</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="606" trl="N">
+  <value column="Name" original="Medicare Withholding">Medicare Withholding</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="607" trl="N">
+  <value column="Name" original="State Tax Withholding">State Tax Withholding</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="608" trl="N">
+  <value column="Name" original="Local Tax Withholding">Local Tax Withholding</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="609" trl="N">
+  <value column="Name" original="401k &amp; Pension Withholding"><![CDATA[401k & Pension Withholding]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="610" trl="N">
+  <value column="Name" original="Garnishment Withholding">Garnishment Withholding</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="611" trl="N">
+  <value column="Name" original="Miscellaneous Withholding">Miscellaneous Withholding</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="612" trl="N">
+  <value column="Name" original="Accrued Payroll Taxes">Accrued Payroll Taxes</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="613" trl="N">
+  <value column="Name" original="Federal Unemployment Empolyers Contribution">Federal Unemployment Empolyers Contribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="614" trl="N">
+  <value column="Name" original="State Unemployment Employers Contribution">State Unemployment Employers Contribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="615" trl="N">
+  <value column="Name" original="Sales Tax Collected">Sales Tax Collected</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="616" trl="N">
+  <value column="Name" original="Accrued Retirement Plan Expense">Accrued Retirement Plan Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="617" trl="N">
+  <value column="Name" original="Accrued Expenses Others">Accrued Expenses Others</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="618" trl="N">
+  <value column="Name" original="Short Term Obligation">Short Term Obligation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="619" trl="N">
+  <value column="Name" original="Current Portion of Long Term Debt">Current Portion of Long Term Debt</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="620" trl="N">
+  <value column="Name" original="Long Term Liabilities">Long Term Liabilities</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="621" trl="N">
+  <value column="Name" original="Mortgage">Mortgage</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="622" trl="N">
+  <value column="Name" original="Loan from Owner/Stockholder">Loan from Owner/Stockholder</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="623" trl="N">
+  <value column="Name" original="Other Long Term Obligation">Other Long Term Obligation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="624" trl="N">
+  <value column="Name" original="Owner's Equity/Net Worth">Owner's Equity/Net Worth</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="625" trl="N">
+  <value column="Name" original="Capital">Capital</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="626" trl="N">
+  <value column="Name" original="Capital/Common Stock">Capital/Common Stock</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="627" trl="N">
+  <value column="Name" original="Capital in excess of Par on Common Stock">Capital in excess of Par on Common Stock</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="628" trl="N">
+  <value column="Name" original="Capital in excess of Par on Preferred Stock">Capital in excess of Par on Preferred Stock</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="629" trl="N">
+  <value column="Name" original="Earnings">Earnings</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="630" trl="N">
+  <value column="Name" original="Drawings">Drawings</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="631" trl="N">
+  <value column="Name" original="Retained Earnings">Retained Earnings</value>
+  <value column="Description" original="Year end processing to balance account (Income Summary)">Year end processing to balance account (Income Summary)</value>
+ </row>
+ <row id="632" trl="N">
+  <value column="Name" original="Sales">Sales</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="633" trl="N">
+  <value column="Name" original="Services Revenue">Services Revenue</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="634" trl="N">
+  <value column="Name" original="Direct Labor">Direct Labor</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="635" trl="N">
+  <value column="Name" original="Purchase price variance Offset">Purchase price variance Offset</value>
+  <value column="Description" original="Offset Account for Purchase price variance (PPV)">Offset Account for Purchase price variance (PPV)</value>
+ </row>
+ <row id="636" trl="N">
+  <value column="Name" original="Wages Owners">Wages Owners</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="637" trl="N">
+  <value column="Name" original="Sick Pay">Sick Pay</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="638" trl="N">
+  <value column="Name" original="FICA Tax">FICA Tax</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="639" trl="N">
+  <value column="Name" original="Health Insurance Premium">Health Insurance Premium</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="640" trl="N">
+  <value column="Name" original="Joint Advertising">Joint Advertising</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="641" trl="N">
+  <value column="Name" original="Telephone and Communications">Telephone and Communications</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="642" trl="N">
+  <value column="Name" original="Professional Services">Professional Services</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="643" trl="N">
+  <value column="Name" original="Other Consulting Fees">Other Consulting Fees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="644" trl="N">
+  <value column="Name" original="Data Processing">Data Processing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="645" trl="N">
+  <value column="Name" original="Data Processung Other Expense">Data Processung Other Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="646" trl="N">
+  <value column="Name" original="Building Improvement Depreciation">Building Improvement Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="647" trl="N">
+  <value column="Name" original="Vehicles Depreciation">Vehicles Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="648" trl="N">
+  <value column="Name" original="Business Travel - Plane/Train/Taxi">Business Travel - Plane/Train/Taxi</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="649" trl="N">
+  <value column="Name" original="Business Travel - Hotel">Business Travel - Hotel</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="650" trl="N">
+  <value column="Name" original="Business Meals &amp; Entertainment (50%)"><![CDATA[Business Meals & Entertainment (50%)]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="651" trl="N">
+  <value column="Name" original="Staff Meeting Food (100%)">Staff Meeting Food (100%)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="652" trl="N">
+  <value column="Name" original="Employee expense">Employee expense</value>
+  <value column="Description" original="Default employee expenses">Default employee expenses</value>
+ </row>
+ <row id="653" trl="N">
+  <value column="Name" original="Business Travel Other Expense">Business Travel Other Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="654" trl="N">
+  <value column="Name" original="Insurance">Insurance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="655" trl="N">
+  <value column="Name" original="Business Insurance">Business Insurance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="656" trl="N">
+  <value column="Name" original="Real Estate Insurance">Real Estate Insurance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="657" trl="N">
+  <value column="Name" original="Vehicle Insurance">Vehicle Insurance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="658" trl="N">
+  <value column="Name" original="Other Insurance">Other Insurance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="659" trl="N">
+  <value column="Name" original="Payment Processor Costs">Payment Processor Costs</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="660" trl="N">
+  <value column="Name" original="Credit Card Service Charges">Credit Card Service Charges</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="661" trl="N">
+  <value column="Name" original="Bank Service Charges">Bank Service Charges</value>
+  <value column="Description" original="Bank expenses">Bank expenses</value>
+ </row>
+ <row id="662" trl="N">
+  <value column="Name" original="Other Payment Service Charges">Other Payment Service Charges</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="663" trl="N">
+  <value column="Name" original="Dues &amp; Subscription"><![CDATA[Dues & Subscription]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="664" trl="N">
+  <value column="Name" original="Association Membership Fees">Association Membership Fees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="665" trl="N">
+  <value column="Name" original="Subscription Fees">Subscription Fees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="666" trl="N">
+  <value column="Name" original="Office Expense">Office Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="667" trl="N">
+  <value column="Name" original="Office Expense">Office Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="668" trl="N">
+  <value column="Name" original="Posting &amp; Shipping"><![CDATA[Posting & Shipping]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="669" trl="N">
+  <value column="Name" original="Postage Expense">Postage Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="670" trl="N">
+  <value column="Name" original="Customer Postage Fees Received">Customer Postage Fees Received</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="671" trl="N">
+  <value column="Name" original="Shipping Expenses">Shipping Expenses</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="672" trl="N">
+  <value column="Name" original="Taxes and Licenses">Taxes and Licenses</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="673" trl="N">
+  <value column="Name" original="Inventory &amp; Use Taxes"><![CDATA[Inventory & Use Taxes]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="674" trl="N">
+  <value column="Name" original="Real Estate Taxes">Real Estate Taxes</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="675" trl="N">
+  <value column="Name" original="Business Licenses &amp; Fees"><![CDATA[Business Licenses & Fees]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="676" trl="N">
+  <value column="Name" original="Education">Education</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="677" trl="N">
+  <value column="Name" original="Education Travel">Education Travel</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="678" trl="N">
+  <value column="Name" original="Education Meals &amp; Entertainment (50%)"><![CDATA[Education Meals & Entertainment (50%)]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="679" trl="N">
+  <value column="Name" original="Education Other">Education Other</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="680" trl="N">
+  <value column="Name" original="Office Equipment Rent">Office Equipment Rent</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="681" trl="N">
+  <value column="Name" original="Store Equipment Rent">Store Equipment Rent</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="682" trl="N">
+  <value column="Name" original="Repairs &amp; Maintenance"><![CDATA[Repairs & Maintenance]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="683" trl="N">
+  <value column="Name" original="Building Repairs &amp; Maintenence"><![CDATA[Building Repairs & Maintenence]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="684" trl="N">
+  <value column="Name" original="Furniture, Equipment Repairs &amp; Maintenence"><![CDATA[Furniture, Equipment Repairs & Maintenence]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="685" trl="N">
+  <value column="Name" original="Software Maintenence">Software Maintenence</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="686" trl="N">
+  <value column="Name" original="Vehicle Repairs &amp; Maintenence"><![CDATA[Vehicle Repairs & Maintenence]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="687" trl="N">
+  <value column="Name" original="Repairs &amp; Maintenance Other"><![CDATA[Repairs & Maintenance Other]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="688" trl="N">
+  <value column="Name" original="Other Operating Expenses">Other Operating Expenses</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="689" trl="N">
+  <value column="Name" original="Collection Expense">Collection Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="690" trl="N">
+  <value column="Name" original="Petty Cash Over/Short">Petty Cash Over/Short</value>
+  <value column="Description" original="Petty Cash Differences">Petty Cash Differences</value>
+ </row>
+ <row id="691" trl="N">
+  <value column="Name" original="Recruitment Costs">Recruitment Costs</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="692" trl="N">
+  <value column="Name" original="Vehicle Expense">Vehicle Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="693" trl="N">
+  <value column="Name" original="Amortization Expense">Amortization Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="694" trl="N">
+  <value column="Name" original="Franchise Fee / Royalty Fees">Franchise Fee / Royalty Fees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="695" trl="N">
+  <value column="Name" original="Miscellaneous Expense">Miscellaneous Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="696" trl="N">
+  <value column="Name" original="Default/Suspense Accounts">Default/Suspense Accounts</value>
+  <value column="Description" original="Temporary accounts - balance should be zero">Temporary accounts - balance should be zero</value>
+ </row>
+ <row id="697" trl="N">
+  <value column="Name" original="Default account">Default account</value>
+  <value column="Description" original="Default Account (if no other account is defined) V1.1">Default Account (if no other account is defined) V1.1</value>
+ </row>
+ <row id="698" trl="N">
+  <value column="Name" original="Suspense balancing">Suspense balancing</value>
+  <value column="Description" original="Difference to make journal balance in source currency - needs to be solved">Difference to make journal balance in source currency - needs to be solved</value>
+ </row>
+ <row id="699" trl="N">
+  <value column="Name" original="Suspense error">Suspense error</value>
+  <value column="Description" original="Import did not find account - needs to be solved">Import did not find account - needs to be solved</value>
+ </row>
+ <row id="700" trl="N">
+  <value column="Name" original="Cash book expense">Cash book expense</value>
+  <value column="Description" original="Default other expense for petty cash transactions">Default other expense for petty cash transactions</value>
+ </row>
+ <row id="701" trl="N">
+  <value column="Name" original="Cash book receipts">Cash book receipts</value>
+  <value column="Description" original="Default other revenue for petty cash transactions">Default other revenue for petty cash transactions</value>
+ </row>
+ <row id="702" trl="N">
+  <value column="Name" original="Charge expense">Charge expense</value>
+  <value column="Description" original="Default other expense">Default other expense</value>
+ </row>
+ <row id="703" trl="N">
+  <value column="Name" original="Charge revenue">Charge revenue</value>
+  <value column="Description" original="Default other revenue">Default other revenue</value>
+ </row>
+ <row id="704" trl="N">
+  <value column="Name" original="Other Income">Other Income</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="705" trl="N">
+  <value column="Name" original="Interest Income">Interest Income</value>
+  <value column="Description" original="Bank interest revenue">Bank interest revenue</value>
+ </row>
+ <row id="706" trl="N">
+  <value column="Name" original="Divident Income">Divident Income</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="707" trl="N">
+  <value column="Name" original="Rental Income">Rental Income</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="708" trl="N">
+  <value column="Name" original="Sales Tax Commission">Sales Tax Commission</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="709" trl="N">
+  <value column="Name" original="Currency Gain">Currency Gain</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="710" trl="N">
+  <value column="Name" original="Bank revaluation gain">Bank revaluation gain</value>
+  <value column="Description" original="Foreign currency bank account gain">Foreign currency bank account gain</value>
+ </row>
+ <row id="711" trl="N">
+  <value column="Name" original="Bank settlement gain">Bank settlement gain</value>
+  <value column="Description" original="Difference between payment and bank account currency">Difference between payment and bank account currency</value>
+ </row>
+ <row id="712" trl="N">
+  <value column="Name" original="Unrealized gain">Unrealized gain</value>
+  <value column="Description" original="Difference between foreign currency receivables/payables and current rate">Difference between foreign currency receivables/payables and current rate</value>
+ </row>
+ <row id="713" trl="N">
+  <value column="Name" original="Capital Gains Income">Capital Gains Income</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="714" trl="N">
+  <value column="Name" original="Fixed Asset Sale Gain">Fixed Asset Sale Gain</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="715" trl="N">
+  <value column="Name" original="Other Income">Other Income</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="716" trl="N">
+  <value column="Name" original="Other Expense">Other Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="717" trl="N">
+  <value column="Name" original="Interest Expense">Interest Expense</value>
+  <value column="Description" original="Bank interest expense">Bank interest expense</value>
+ </row>
+ <row id="718" trl="N">
+  <value column="Name" original="Mortage Interest Expense">Mortage Interest Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="719" trl="N">
+  <value column="Name" original="Charitable Contributions">Charitable Contributions</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="720" trl="N">
+  <value column="Name" original="Currency Loss">Currency Loss</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="721" trl="N">
+  <value column="Name" original="Bank revaluation loss">Bank revaluation loss</value>
+  <value column="Description" original="Foreign currency bank account loss">Foreign currency bank account loss</value>
+ </row>
+ <row id="722" trl="N">
+  <value column="Name" original="Unrealized loss">Unrealized loss</value>
+  <value column="Description" original="Difference between foreign currency receivables/payables and current rate">Difference between foreign currency receivables/payables and current rate</value>
+ </row>
+ <row id="723" trl="N">
+  <value column="Name" original="Realized loss">Realized loss</value>
+  <value column="Description" original="Difference between invoice and payment currency">Difference between invoice and payment currency</value>
+ </row>
+ <row id="724" trl="N">
+  <value column="Name" original="Currency balancing">Currency balancing</value>
+  <value column="Description" original="Rounding difference to make journal balance in accounting currency">Rounding difference to make journal balance in accounting currency</value>
+ </row>
+ <row id="725" trl="N">
+  <value column="Name" original="Capital Gains Loss">Capital Gains Loss</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="726" trl="N">
+  <value column="Name" original="Fixed Asset Sale Loss">Fixed Asset Sale Loss</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="727" trl="N">
+  <value column="Name" original="Other Expense">Other Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="728" trl="N">
+  <value column="Name" original="Income Tax &amp; Summary"><![CDATA[Income Tax & Summary]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="729" trl="N">
+  <value column="Name" original="State Income Tax">State Income Tax</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="730" trl="N">
+  <value column="Name" original="Local Income Tax">Local Income Tax</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="731" trl="N">
+  <value column="Name" original="Costing">Costing</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="732" trl="N">
+  <value column="Name" original="Profit Center Costing Distribution">Profit Center Costing Distribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="733" trl="N">
+  <value column="Name" original="Project Costing Distribution">Project Costing Distribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="734" trl="N">
+  <value column="Name" original="Commitment Accounting">Commitment Accounting</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="735" trl="N">
+  <value column="Name" original="PO Encumbrance">PO Encumbrance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="736" trl="N">
+  <value column="Name" original="PO Commitment">PO Commitment</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="737" trl="N">
+  <value column="Name" original="SO Future Revenue">SO Future Revenue</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="738" trl="N">
+  <value column="Name" original="In Transit A/R ATM Cards">In Transit A/R ATM Cards</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="739" trl="N">
+  <value column="Name" original="Loans Receivable Owners/Shareholders">Loans Receivable Owners/Shareholders</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="740" trl="N">
+  <value column="Name" original="Tax receivables">Tax receivables</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="741" trl="N">
+  <value column="Name" original="Intercompany Due From">Intercompany Due From</value>
+  <value column="Description" original="Default Receivables account for intercompany trx">Default Receivables account for intercompany trx</value>
+ </row>
+ <row id="742" trl="N">
+  <value column="Name" original="Product asset">Product asset</value>
+  <value column="Description" original="Product Inventory Account">Product Inventory Account</value>
+ </row>
+ <row id="743" trl="N">
+  <value column="Name" original="Project Assets">Project Assets</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="744" trl="N">
+  <value column="Name" original="Accumulated Depreciation">Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="745" trl="N">
+  <value column="Name" original="Leasehold Improvement Accumulated Depreciation">Leasehold Improvement Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="746" trl="N">
+  <value column="Name" original="Software Accumulated Depreciation">Software Accumulated Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="747" trl="N">
+  <value column="Name" original="Goodwill">Goodwill</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="748" trl="N">
+  <value column="Name" original="Cash Surrender Value of Life Insurance">Cash Surrender Value of Life Insurance</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="749" trl="N">
+  <value column="Name" original="Accounts Payable Trade">Accounts Payable Trade</value>
+  <value column="Description" original="Accounts Payables">Accounts Payables</value>
+ </row>
+ <row id="750" trl="N">
+  <value column="Name" original="Customer Prepayments">Customer Prepayments</value>
+  <value column="Description" original="Prepayments for future revenue">Prepayments for future revenue</value>
+ </row>
+ <row id="751" trl="N">
+  <value column="Name" original="FICA Employers Contribution">FICA Employers Contribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="752" trl="N">
+  <value column="Name" original="Accrued Use Tax">Accrued Use Tax</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="753" trl="N">
+  <value column="Name" original="Current Note Payables">Current Note Payables</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="754" trl="N">
+  <value column="Name" original="Long Term Obligation">Long Term Obligation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="755" trl="N">
+  <value column="Name" original="Current Portion of Long Term Debt">Current Portion of Long Term Debt</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="756" trl="N">
+  <value column="Name" original="Preferred Stock">Preferred Stock</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="757" trl="N">
+  <value column="Name" original="Dividents">Dividents</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="758" trl="N">
+  <value column="Name" original="Trade Revenue">Trade Revenue</value>
+  <value column="Description" original="Default Product or Service revenue">Default Product or Service revenue</value>
+ </row>
+ <row id="759" trl="N">
+  <value column="Name" original="Customer Package Expense">Customer Package Expense</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="760" trl="N">
+  <value column="Name" original="Tax expense">Tax expense</value>
+  <value column="Description" original="Sales Tax paid to Vendors">Sales Tax paid to Vendors</value>
+ </row>
+ <row id="761" trl="N">
+  <value column="Name" original="Education Course Fees">Education Course Fees</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="762" trl="N">
+  <value column="Name" original="Equipment Rent">Equipment Rent</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="763" trl="N">
+  <value column="Name" original="Equipment Rent Other">Equipment Rent Other</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="764" trl="N">
+  <value column="Name" original="Data Processing Repairs &amp; Maintenence"><![CDATA[Data Processing Repairs & Maintenence]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="765" trl="N">
+  <value column="Name" original="Bad Debts Write-off">Bad Debts Write-off</value>
+  <value column="Description" original="Receivables write-off - bad debt">Receivables write-off - bad debt</value>
+ </row>
+ <row id="766" trl="N">
+  <value column="Name" original="Penalties">Penalties</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="767" trl="N">
+  <value column="Name" original="Realized gain">Realized gain</value>
+  <value column="Description" original="Difference between invoice and payment currency">Difference between invoice and payment currency</value>
+ </row>
+ <row id="768" trl="N">
+  <value column="Name" original="Uninsured Casualty Loss">Uninsured Casualty Loss</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="769" trl="N">
+  <value column="Name" original="Bank settlement loss">Bank settlement loss</value>
+  <value column="Description" original="Difference between payment and bank account currency">Difference between payment and bank account currency</value>
+ </row>
+ <row id="770" trl="N">
+  <value column="Name" original="Federal Income Tax">Federal Income Tax</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="771" trl="N">
+  <value column="Name" original="Income Summary">Income Summary</value>
+  <value column="Description" original="Year end processing to balance account (Retained Earnings)">Year end processing to balance account (Retained Earnings)</value>
+ </row>
+ <row id="772" trl="N">
+  <value column="Name" original="Wages">Wages</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="773" trl="N">
+  <value column="Name" original="Land Improvement Depreciation">Land Improvement Depreciation</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="774" trl="N">
+  <value column="Name" original="Accounts Receivable - Trade">Accounts Receivable - Trade</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="775" trl="N">
+  <value column="Name" original="Licenses &amp; Fees - Other"><![CDATA[Licenses & Fees - Other]]></value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="776" trl="N">
+  <value column="Name" original="General Trade Inventory">General Trade Inventory</value>
+  <value column="Description" original="Inventory Account">Inventory Account</value>
+ </row>
+ <row id="777" trl="N">
+  <value column="Name" original="Medicare Employers Contribution">Medicare Employers Contribution</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="778" trl="N">
+  <value column="Name" original="Commissions Paid">Commissions Paid</value>
+  <value column="Description" original="Commissions Paid">Commissions Paid</value>
+ </row>
+ <row id="780" trl="N">
+  <value column="Name" original="Inventory Clearing">Inventory Clearing</value>
+  <value column="Description" original="Default Product costs (I.e. on inventory)">Default Product costs (I.e. on inventory)</value>
+ </row>
+ <row id="781" trl="N">
+  <value column="Name" original="Cost Adjustments">Cost Adjustments</value>
+  <value column="Description" original="Product Cost Adjustments">Product Cost Adjustments</value>
+ </row>
+ <row id="782" trl="N">
+  <value column="Name" original="Accounts Receivable Services - Trade">Accounts Receivable Services - Trade</value>
+  <value column="Description" original="Accounts Receivables for Services">Accounts Receivables for Services</value>
+ </row>
+ <row id="783" trl="N">
+  <value column="Name" original="7-Expenses">7-Expenses</value>
+  <value column="Description" original="7-Expenses">7-Expenses</value>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="SO Commitment">SO Commitment</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Using Variance">Using Variance</value>
+  <value column="Description" original="Account for Using Variance">Account for Using Variance</value>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Method Change Variance">Method Change Variance</value>
+  <value column="Description" original="Account for Method Change Variance">Account for Method Change Variance</value>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Rate Variance">Rate Variance</value>
+  <value column="Description" original="Account for Rate Variance">Account for Rate Variance</value>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Mix Variance">Mix Variance</value>
+  <value column="Description" original="Account for Rate Variance">Account for Rate Variance</value>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Work In Process">Work In Process</value>
+  <value column="Description" original="Work In Process Account">Work In Process Account</value>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Floor Stock">Floor Stock</value>
+  <value column="Description" original="Floor Stock Account">Floor Stock Account</value>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="Labor (Absorbed)">Labor (Absorbed)</value>
+  <value column="Description" original="Labor Absorbed account">Labor Absorbed account</value>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Expense (Absorbed)">Expense (Absorbed)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Burden (Absorbed)">Burden (Absorbed)</value>
+  <value column="Description" original="Burden Absorbed account">Burden Absorbed account</value>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Cost Of Production">Cost Of Production</value>
+  <value column="Description" original="Cost Of Production Account">Cost Of Production Account</value>
+ </row>
+ <row id="50011" trl="N">
+  <value column="Name" original="Outside Processing (Subcontract)">Outside Processing (Subcontract)</value>
+  <value column="Description" original="Outside Processing Account">Outside Processing Account</value>
+ </row>
+ <row id="50014" trl="N">
+  <value column="Name" original="Overhead (Applied)">Overhead (Applied)</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="50016" trl="N">
+  <value column="Name" original="Scrap">Scrap</value>
+  <value column="Description" original="Scrap Account">Scrap Account</value>
+ </row>
+ <row id="50017" trl="N">
+  <value column="Name" original="Average Cost Variance">Average Cost Variance</value>
+  <value column="Description" original="Account for Average Cost Variance">Account for Average Cost Variance</value>
+ </row>
+</adempiereTrl>

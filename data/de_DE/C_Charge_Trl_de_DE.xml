@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.com/dtd/adempiereTrl.dtd">-->
+<adempiereTrl language="de_DE" table="C_Charge">
+ <row id="100" trl="N">
+  <value column="Name" original="Bank Charge">Bank Charge</value>
+  <value column="Description" original=""/>
+ </row>
+ <row id="101" trl="N">
+  <value column="Name" original="Commissions Paid">Commissions Paid</value>
+  <value column="Description" original=""/>
+ </row>
+</adempiereTrl>
