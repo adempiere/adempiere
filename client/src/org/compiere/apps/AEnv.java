@@ -145,9 +145,10 @@ public final class AEnv
 	public static void positionScreen (Window window, int position)
 	{
 		window.pack();
-		Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// take into account task bar and other adornments
 		GraphicsConfiguration config = window.getGraphicsConfiguration();
+		Rectangle bounds = config.getBounds();
+		Dimension sSize = bounds.getSize();
 		Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
 		sSize.width -= (insets.left + insets.right);
 		sSize.height -= (insets.top + insets.bottom);
@@ -201,7 +202,7 @@ public final class AEnv
 			y = (sSize.height - wSize.height);
 		}
 		//
-		window.setLocation(x + insets.left, y + insets.top);
+		window.setLocation(bounds.x + x + insets.left, bounds.y + y + insets.top);
 	}	//	positionScreen
 
 	/**

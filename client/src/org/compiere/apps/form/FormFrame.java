@@ -18,6 +18,7 @@ package org.compiere.apps.form;
 
 import java.awt.Cursor;
 import java.awt.Event;
+import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -65,12 +66,23 @@ public class FormFrame extends CFrame
 	private static final long serialVersionUID = 2559005548469735515L;
 
 	/**
+	 * @deprecated
 	 *	Create Form.
 	 *  Need to call openForm
 	 */
 	public FormFrame ()
 	{
-		super();
+		this(null);
+	}	//	FormFrame
+	
+	/**
+	 *	Create Form.
+	 *  Need to call openForm
+	 *	@param gc
+	 */
+	public FormFrame (GraphicsConfiguration gc)
+	{
+		super(gc);
 		addWindowListener(new java.awt.event.WindowAdapter() 
 		{
 			public void windowOpened(java.awt.event.WindowEvent evt) 

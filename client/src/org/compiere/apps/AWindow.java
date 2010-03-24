@@ -17,6 +17,7 @@
 package org.compiere.apps;
 
 import java.awt.BorderLayout;
+import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.event.WindowEvent;
 
@@ -44,11 +45,21 @@ public class AWindow extends CFrame
 	private static final long serialVersionUID = -1925388774073536474L;
 
 	/**
+	 *	@deprecated
 	 *	Standard Constructor - requires initWindow
 	 */
 	public AWindow ()
 	{
-		super();
+		this(null);
+	}	//	AWindow
+	
+	/**
+	 *	Standard Constructor - requires initWindow
+	 *  @param gc
+	 */
+	public AWindow (GraphicsConfiguration gc)
+	{
+		super(gc);
 		//	Set UI Components
 		this.setIconImage(Env.getImage("mWindow.gif"));
 		this.getContentPane().add(m_APanel, BorderLayout.CENTER);

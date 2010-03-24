@@ -23,6 +23,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.GraphicsConfiguration;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -130,14 +131,24 @@ public class Viewer extends CFrame
 	 */
 	private static final long serialVersionUID = 7306392362119021781L;
 
-
 	/**
+	 * 	@deprecated
 	 *	Viewer Constructor
 	 *	@param re report engine
 	 */
 	public Viewer (ReportEngine re)
 	{
-		super();
+		this(null, re);
+	}
+
+	/**
+	 *	Viewer Constructor
+	 *  @param gc
+	 *	@param re report engine
+	 */
+	public Viewer (GraphicsConfiguration gc, ReportEngine re)
+	{
+		super(gc);
 		log.info("");
 		m_WindowNo = Env.createWindowNo(this);
 		m_reportEngine = re;

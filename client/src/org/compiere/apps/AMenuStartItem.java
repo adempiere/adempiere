@@ -241,7 +241,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 			}
 			
 			SwingUtilities.invokeLater(m_updatePB);			//	1
-			frame = new AWindow();
+			frame = new AWindow(m_menu.getGraphicsConfiguration());
 			boolean OK = false;
 			if (AD_Workbench_ID != 0)
 				OK = frame.initWorkbench(AD_Workbench_ID);
@@ -284,7 +284,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 			if (IsSOTrx != null && IsSOTrx.equals("Y"))
 				isSO = true;
 			m_timer.stop();
-			ProcessDialog pd = new ProcessDialog (AD_Process_ID, isSO);
+			ProcessDialog pd = new ProcessDialog (m_menu.getGraphicsConfiguration(), AD_Process_ID, isSO);
 			if (!pd.init())
 				return;
 			m_timer.start();
@@ -333,7 +333,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 				return;
 			}
 		}
-		ff = new FormFrame();
+		ff = new FormFrame(m_menu.getGraphicsConfiguration());
 		SwingUtilities.invokeLater(m_updatePB);			//	1
 		boolean ok = ff.openForm(AD_Form_ID);
 		if (!ok) {

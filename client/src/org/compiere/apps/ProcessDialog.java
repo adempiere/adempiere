@@ -21,6 +21,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
@@ -74,6 +75,7 @@ public class ProcessDialog extends CFrame
 	private static final long serialVersionUID = 790447068287846414L;
 
 	/**
+	 * 	@deprecated
 	 *	Dialog to start Process
 	 *
 	 * @param AD_Process_ID process
@@ -81,7 +83,20 @@ public class ProcessDialog extends CFrame
 	 */
 	public ProcessDialog (int AD_Process_ID, boolean isSOTrx)
 	{
-		super();
+		this(null, AD_Process_ID, isSOTrx);
+
+	}	//	ProcessDialog
+	
+	/**
+	 *	Dialog to start Process
+	 *
+	 * @param gc
+	 * @param AD_Process_ID process
+	 * @param isSOTrx is sales trx
+	 */
+	public ProcessDialog (GraphicsConfiguration gc, int AD_Process_ID, boolean isSOTrx)
+	{
+		super(gc);
 		log.info("Process=" + AD_Process_ID + "; SOTrx=" + isSOTrx);
 		enableEvents(AWTEvent.WINDOW_EVENT_MASK);
 		m_AD_Process_ID = AD_Process_ID;
