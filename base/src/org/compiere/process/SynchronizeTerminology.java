@@ -579,8 +579,10 @@ public class SynchronizeTerminology extends SvrProcess
 			sql="UPDATE	AD_MENU m"
 				+" SET		Name = (SELECT Name FROM AD_WINDOW w WHERE m.AD_Window_ID=w.AD_Window_ID),"
 				+" Description = (SELECT Description FROM AD_WINDOW w WHERE m.AD_Window_ID=w.AD_Window_ID)"
-				+" WHERE	AD_Window_ID IS NOT NULL"
-				+" AND Action = 'W'";
+				+" WHERE	m.AD_Window_ID IS NOT NULL"
+				+"  AND m.Action = 'W'"
+				+"  AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				;
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -599,7 +601,9 @@ public class SynchronizeTerminology extends SvrProcess
 				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Window_ID=wt.AD_Window_ID "
 				+" AND mt.AD_LANGUAGE=wt.AD_LANGUAGE"
 				+" AND m.AD_Window_ID IS NOT NULL"
-				+" AND m.Action = 'W')";
+				+" AND m.Action = 'W'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				+")";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -609,8 +613,10 @@ public class SynchronizeTerminology extends SvrProcess
 			sql="UPDATE	AD_MENU m"
 				+" SET		Name = (SELECT p.Name FROM AD_PROCESS p WHERE m.AD_Process_ID=p.AD_Process_ID),"
 				+" Description = (SELECT p.Description FROM AD_PROCESS p WHERE m.AD_Process_ID=p.AD_Process_ID)"
-				+" WHERE	m.AD_Process_ID IS NOT NULL"
-				+" AND	m.Action IN ('R', 'P')";
+				+" WHERE m.AD_Process_ID IS NOT NULL"
+				+" AND m.Action IN ('R', 'P')"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				;
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -629,7 +635,9 @@ public class SynchronizeTerminology extends SvrProcess
 				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Process_ID=pt.AD_Process_ID"
 				+" AND mt.AD_LANGUAGE=pt.AD_LANGUAGE"
 				+" AND m.AD_Process_ID IS NOT NULL"
-				+" AND	Action IN ('R', 'P'))";
+				+" AND m.Action IN ('R', 'P')"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				+")";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -639,8 +647,10 @@ public class SynchronizeTerminology extends SvrProcess
 			sql="UPDATE	AD_MENU m"
 				+" SET		Name = (SELECT Name FROM AD_FORM f WHERE m.AD_Form_ID=f.AD_Form_ID),"
 				+" Description = (SELECT Description FROM AD_FORM f WHERE m.AD_Form_ID=f.AD_Form_ID)"
-				+" WHERE	AD_Form_ID IS NOT NULL"
-				+" AND	Action = 'X'";
+				+" WHERE m.AD_Form_ID IS NOT NULL"
+				+" AND m.Action = 'X'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				;
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -659,7 +669,9 @@ public class SynchronizeTerminology extends SvrProcess
 				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Form_ID=ft.AD_Form_ID"
 				+" AND mt.AD_LANGUAGE=ft.AD_LANGUAGE"
 				+" AND m.AD_Form_ID IS NOT NULL"
-				+" AND	Action = 'X')";
+				+" AND m.Action = 'X'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				+")";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -669,8 +681,10 @@ public class SynchronizeTerminology extends SvrProcess
 			sql="UPDATE	AD_MENU m"
 				+" SET		Name = (SELECT p.Name FROM AD_WORKFLOW p WHERE m.AD_Workflow_ID=p.AD_Workflow_ID),"
 				+" Description = (SELECT p.Description FROM AD_WORKFLOW p WHERE m.AD_Workflow_ID=p.AD_Workflow_ID)"
-				+" WHERE	m.AD_Workflow_ID IS NOT NULL"
-				+" AND	m.Action = 'F'";
+				+" WHERE m.AD_Workflow_ID IS NOT NULL"
+				+" AND m.Action = 'F'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				;
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -689,7 +703,9 @@ public class SynchronizeTerminology extends SvrProcess
 				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Workflow_ID=pt.AD_Workflow_ID"
 				+" AND mt.AD_LANGUAGE=pt.AD_LANGUAGE"
 				+" AND m.AD_Workflow_ID IS NOT NULL"
-				+" AND	Action = 'F')";
+				+" AND m.Action = 'F'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				+")";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -699,8 +715,10 @@ public class SynchronizeTerminology extends SvrProcess
 			sql="UPDATE	AD_MENU m"
 				+" SET		Name = (SELECT Name FROM AD_TASK f WHERE m.AD_Task_ID=f.AD_Task_ID),"
 				+" Description = (SELECT Description FROM AD_TASK f WHERE m.AD_Task_ID=f.AD_Task_ID)"
-				+" WHERE	AD_Task_ID IS NOT NULL"
-				+" AND	Action = 'T'";
+				+" WHERE m.AD_Task_ID IS NOT NULL"
+				+" AND m.Action = 'T'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				;
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
@@ -719,7 +737,9 @@ public class SynchronizeTerminology extends SvrProcess
 				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Task_ID=ft.AD_Task_ID"
 				+" AND mt.AD_LANGUAGE=ft.AD_LANGUAGE"
 				+" AND m.AD_Task_ID IS NOT NULL"
-				+" AND	Action = 'T')";
+				+" AND m.Action = 'T'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				+")";
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
