@@ -3388,7 +3388,7 @@ If a BOM is referenced  and enabled in Request Type, a BOM Change Request is aut
  <row id="710" trl="Y">
   <value column="Name" original="Web Store">Webshop</value>
   <value column="CommitWarning" original=""/>
-  <value column="Description" original="Define Web Store">Web-Shop definieren</value>
+  <value column="Description" original="Define Web Store">Webshop definieren</value>
   <value column="Help" original="Define the web store settings. The web server context must be unique and determines the settings used in the actual transaction. The selected warehouse determines the organization.  The email settings are tested with the client email settings. ">Define the web store settings. The web server context must be unique and determines the settings used in the actual transaction. The selected warehouse determines the organization.  The email settings are tested with the client email settings. </value>
  </row>
  <row id="711" trl="Y">

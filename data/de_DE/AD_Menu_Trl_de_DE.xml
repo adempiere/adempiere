@@ -1916,7 +1916,7 @@
  </row>
  <row id="53024" trl="N">
   <value column="Name" original="Bill of Materials &amp; Formula "><![CDATA[Bill of Materials & Formula]]></value>
-  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula "><![CDATA[Maintain Product Bill of Materials & Formula ]]></value>
+  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula "><![CDATA[Maintain Product Bill of Materials & Formula]]></value>
  </row>
  <row id="53025" trl="N">
   <value column="Name" original="BOM &amp; Formula Info"><![CDATA[BOM & Formula Info]]></value>
@@ -2538,11 +2538,11 @@
   <value column="Name" original="Material Receipt Distribution Order">Material Receipt Distribution Order</value>
   <value column="Description" original="Material Receipt Distribution Order">Material Receipt Distribution Order</value>
  </row>
- <row id="53189" trl="N">
-  <value column="Name" original="Charge Type">Charge Type</value>
+ <row id="53189" trl="Y">
+  <value column="Name" original="Charge Type">Gebühren-Art</value>
   <value column="Description" original=""/>
  </row>
- <row id="53190" trl="Y">
+ <row id="53190" trl="N">
   <value column="Name" original="Bank Transfer">Bank-Überweisung</value>
   <value column="Description" original="Bank Transfer let money tranfer between Banks">Bank Transfer let money tranfer between Banks</value>
  </row>
@@ -2580,7 +2580,7 @@
  </row>
  <row id="53206" trl="Y">
   <value column="Name" original="Import Price List">Preislisten importieren</value>
-  <value column="Description" original="Import Price Lists">Import Price Lists</value>
+  <value column="Description" original="Import Price Lists">Dieses Fenster fungiert als Interims-Tabelle, die genutzt wird, um externe Daten in das System zu importieren</value>
  </row>
  <row id="53210" trl="Y">
   <value column="Name" original="Promotion Group">Aktions-Produktgruppen</value>
@@ -2628,11 +2628,11 @@
  </row>
  <row id="53245" trl="Y">
   <value column="Name" original="Return to Vendor">Rücksendung an Lieferant</value>
-  <value column="Description" original="Vendor Returns">Rücksendungen an Lieferanten verwalten</value>
+  <value column="Description" original="Vendor Returns">In diesem Fenster werden Rücksendungen an Lieferanten verwaltet</value>
  </row>
- <row id="53246" trl="N">
-  <value column="Name" original="My Profile">My Profile</value>
-  <value column="Description" original="My user information">My user information</value>
+ <row id="53246" trl="Y">
+  <value column="Name" original="My Profile">Mein Profil</value>
+  <value column="Description" original="My user information">Meine Nutzerinformationen</value>
  </row>
  <row id="53247" trl="Y">
   <value column="Name" original="EDI">EDI</value>
@@ -2642,8 +2642,8 @@
   <value column="Name" original="Client Accounting Processor">Client Accounting Processor</value>
   <value column="Description" original="Client Accounting Processor">Client Accounting Processor</value>
  </row>
- <row id="53249" trl="N">
-  <value column="Name" original="Order Source">Order Source</value>
+ <row id="53249" trl="Y">
+  <value column="Name" original="Order Source">Auftrags-Quelle</value>
   <value column="Description" original=""/>
  </row>
  <row id="53251" trl="N">

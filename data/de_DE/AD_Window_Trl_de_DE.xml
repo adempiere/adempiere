@@ -1142,7 +1142,7 @@ Before(!) entering transactions, Start the Replication Run to set up the remote 
  </row>
  <row id="350" trl="Y">
   <value column="Name" original="Web Store">Webshop</value>
-  <value column="Description" original="Define Web Store">Web-Shop definieren</value>
+  <value column="Description" original="Define Web Store">Webshop definieren</value>
   <value column="Help" original="Define the web store setup.  ">Define the web store setup.  </value>
  </row>
  <row id="351" trl="Y">

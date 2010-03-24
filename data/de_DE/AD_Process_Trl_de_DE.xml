@@ -504,7 +504,7 @@
  </row>
  <row id="209" trl="Y">
   <value column="Name" original="Send Mail Text">E-Mail-Text senden</value>
-  <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Sende EMails an aktive Abonneneten eines Interessengebietes oder eine Geschäftspartnergruppe</value>
+  <value column="Description" original="Send EMails to active subscribers of an Interest Area OR a Business Partner Group from a selected User">Sende E-Mails an aktive Abonneneten eines Interessengebietes oder eine Geschäftspartnergruppe</value>
   <value column="Help" original="Select the Interest Area to which subscribers you send the Mail Text from the User selected.  Additionally, you can send mails to the Contacts of a Business Partner Group.&lt;br&gt;&#10;The User to send emails from needs to have valid EMail information. If you don't select a user, the Mail is sent from the Client's Request Mail User."><![CDATA[Wählen Sie das Interessengebiet an deren Abonnenten Sie den EMail-Text vom selektierten Nutzer aus senden. Zusätzlich können Sie EMails an die Kontakte einer Geschäftspartnergruppe senden.<br>Der Absender-Nutzer muss gültige EMail-Daten haben. Wenn Sie keinen Nutzer auswählen, wird die EMail vom Anfrage-Nutzer des Mandanten aus gesendet.]]></value>
  </row>
  <row id="210" trl="Y">
