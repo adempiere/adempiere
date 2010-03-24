@@ -58,7 +58,8 @@ public class SynchronizeTerminology extends SvrProcess
 			sql="SELECT DISTINCT ColumnName, Name, Description, Help, EntityType "
 				+"FROM	AD_COLUMN c WHERE NOT EXISTS "
 				+"(SELECT 1 FROM AD_ELEMENT e "
-				+" WHERE UPPER(c.ColumnName)=UPPER(e.ColumnName))"; 
+				+" WHERE UPPER(c.ColumnName)=UPPER(e.ColumnName))"
+				+" AND c.isActive = 'Y'";
 			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
 			ResultSet rs = pstmt.executeQuery ();
 			while (rs.next()){
@@ -76,12 +77,14 @@ public class SynchronizeTerminology extends SvrProcess
 			pstmt.close();
 			rs.close();
 			trx.commit(true);
-			// Create Elements from Process Parameters
+			// Create Elements for Process Parameters which are centrally maintained
 			sql="SELECT DISTINCT ColumnName, Name, Description, Help, EntityType "
 				+" FROM	AD_PROCESS_PARA p "
 				+" WHERE NOT EXISTS "
 				+" (SELECT 1 FROM AD_ELEMENT e "
-				+" WHERE UPPER(p.ColumnName)=UPPER(e.ColumnName))";
+				+" WHERE UPPER(p.ColumnName)=UPPER(e.ColumnName))"
+				+" AND p.isCentrallyMaintained = 'Y'"
+				+" AND p.isActive = 'Y'";
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			rs = pstmt.executeQuery ();
 			while (rs.next()){
