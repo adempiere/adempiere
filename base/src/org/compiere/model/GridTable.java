@@ -1373,6 +1373,26 @@ private Object[] getDataAtRow(int row)
 
 		//	get updated row data
 		Object[] rowData = getDataAtRow(m_rowChanged);
+		
+		// CarlosRuiz - globalqss - fix [1722226] - Usability - Record_ID = 0 on 9 tables can't be modified
+		boolean specialZeroUpdate = false;
+		if (!m_inserting // not inserting, updating a record 
+			&& manualCmd   // in a manual way (pushing the save button)
+			&& (Env.getAD_User_ID(m_ctx) == 0 || Env.getAD_User_ID(m_ctx) == 100)  // user must know what is doing -> just allowed to System or SuperUser (Hardcoded)
+			&& getKeyID(m_rowChanged) == 0) { // the record being changed has ID = 0
+			String tablename = getTableName(); // just the allowed tables (HardCoded)
+			if (tablename.equals("AD_Org") ||
+				tablename.equals("AD_ReportView") ||
+				tablename.equals("AD_Role") ||
+				tablename.equals("AD_System") ||
+				tablename.equals("AD_User") ||
+				tablename.equals("C_DocType") ||
+				tablename.equals("GL_Category") ||
+				tablename.equals("M_AttributeSet") ||
+				tablename.equals("M_AttributeSetInstance")) {
+				specialZeroUpdate = true;
+			}
+		}
 
 		//	Check Mandatory
 		String missingColumns = getMandatory(rowData);
@@ -1391,7 +1411,7 @@ private Object[] getDataAtRow(int row)
 			Record_ID = getKeyID(m_rowChanged);
 		try
 		{
-			if (!m_tableName.endsWith("_Trl"))	//	translation tables have no model
+			if (!m_tableName.endsWith("_Trl") && !specialZeroUpdate)	//	translation tables have no model
 				return dataSavePO (Record_ID);
 		}
 		catch (Throwable e)
