@@ -21,6 +21,12 @@
         <dependent-module archiveName="tools.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/tools/tools">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="packages.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/packages/packages">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="extend.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/extend/extend">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path"/>
         <property name="context-root" value="webui"/>
     </wb-module>

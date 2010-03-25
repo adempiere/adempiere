@@ -8,6 +8,8 @@
 		<project>JasperReports</project>
 		<project>JasperReportsTools</project>
 		<project>tools</project>
+		<project>packages</project>
+		<project>extend</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
