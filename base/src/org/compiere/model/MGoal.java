@@ -108,7 +108,7 @@ public class MGoal extends X_PA_Goal
 	{
 		List<MGoal> list = new Query(ctx,I_PA_Goal.Table_Name,null,null)
 		.setOrderBy("SeqNo")
-		.setApplyAccessFilter(true)
+		.setApplyAccessFilter(false,true)
 		.setOnlyActiveRecords(true)
 		.list();
 		for(MGoal goal:list)
