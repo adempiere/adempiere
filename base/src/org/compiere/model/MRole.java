@@ -1007,7 +1007,7 @@ public final class MRole extends X_AD_Role
 			set.add(String.valueOf(m_orgAccess[i].AD_Client_ID));
 		//
 		StringBuffer sb = new StringBuffer();
-		Iterator it = set.iterator();
+		Iterator<String> it = set.iterator();
 		boolean oneOnly = true;
 		while (it.hasNext())
 		{
@@ -1087,7 +1087,7 @@ public final class MRole extends X_AD_Role
 		}
 		//
 		StringBuffer sb = new StringBuffer();
-		Iterator it = set.iterator();
+		Iterator<String> it = set.iterator();
 		boolean oneOnly = true;
 		while (it.hasNext())
 		{
