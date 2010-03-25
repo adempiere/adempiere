@@ -49,7 +49,7 @@ public class MMovement extends X_M_Movement implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3634169801280239573L;
+	private static final long serialVersionUID = -1628932946440487727L;
 
 	/**
 	 * 	Standard Constructor
@@ -88,6 +88,8 @@ public class MMovement extends X_M_Movement implements DocAction
 	private MMovementLine[]		m_lines = null;
 	/** Confirmations				*/
 	private MMovementConfirm[]	m_confirms = null;
+	/** Reversal Indicator			*/
+	public static String	REVERSE_INDICATOR = "^";
 	
 	/**
 	 * 	Get Lines
@@ -700,6 +702,7 @@ public class MMovement extends X_M_Movement implements DocAction
 		reversal.setIsInTransit (false);
 		reversal.setPosted(false);
 		reversal.setProcessed(false);
+		reversal.setDocumentNo(getDocumentNo() + REVERSE_INDICATOR);	//	indicate reversals
 		reversal.addDescription("{->" + getDocumentNo() + ")");
 		//FR [ 1948157  ]
 		reversal.setReversal_ID(getM_Movement_ID());
