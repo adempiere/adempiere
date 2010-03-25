@@ -88,7 +88,7 @@
     <!-- pathelement path="/root/RmiJdbc/dist/lib/RmiJdbc.jar" / -->
   </path>
 
-<target name="functionaltest" depends="dist">
+  <target name="functionaltest" depends="dist">
     <junit>
       <classpath refid="class.path.test" />
       <formatter type="brief" usefile="false" />
@@ -106,13 +106,11 @@
     </junit>
   </target>
 
-<target name="run" depends="dist">
+  <target name="run" depends="dist">
       <java fork="true" classname="test.functional.XMLImportStructureTest">
         <classpath refid="class.path.test" />
       </java>
   </target>
-
-
 
 
   <target name="clean">
