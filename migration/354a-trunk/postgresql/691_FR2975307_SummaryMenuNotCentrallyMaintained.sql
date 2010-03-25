@@ -4,12 +4,11 @@
 
 UPDATE AD_Menu 
 SET IsCentrallyMaintained = 'N' 
-WHERE AD_Menu_ID IN 
- (SELECT AD_Menu_ID FROM AD_Menu 
-  WHERE (AD_Window_ID  IS NULL 
+WHERE   AD_Window_ID  IS NULL 
     AND AD_Process_ID  IS NULL 
     AND AD_Form_ID     IS NULL 
     AND AD_Workflow_ID IS NULL 
-    AND AD_Task_ID     IS NULL)
- )
+    AND AD_Workbench_ID IS NULL 
+    AND AD_Task_ID     IS NULL
+    AND IsSummary = 'Y'
 ;
