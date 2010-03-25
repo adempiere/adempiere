@@ -326,7 +326,7 @@ public class MCost extends X_M_Cost
 			MCost cost = get(product, M_ASI_ID, as, Org_ID, ce.getM_CostElement_ID());
 			if (cost != null && cost.getCurrentCostPrice().signum() != 0)
 			{
-				s_log.fine(product.getName() + ", Standard - " + retValue);
+				s_log.fine(product.getName() + ", Standard - " + cost);
 				return cost.getCurrentCostPrice();
 			}
 		}
