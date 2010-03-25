@@ -45,7 +45,9 @@ public class MProductTest extends AdempiereTestCase {
 	private int C_TaxCategory_ID = 0;
 	private int C_UOM_ID = 0;
 	private String ProductType = null;
-	
+	private	int startIndex = 43000;
+	private int runCount = 500;
+	private boolean singleCommit = false;
 	
 	protected void setUp() throws Exception
 	{
@@ -61,8 +63,12 @@ public class MProductTest extends AdempiereTestCase {
 		C_TaxCategory_ID = Integer.parseInt( testProperties.getProperty("C_TaxCategory_ID", "107") ); // 107 in GardenWorld
 		// C_UOM
 		C_UOM_ID = Integer.parseInt( testProperties.getProperty("C_UOM_ID", "100") ); // 100 in GardenWorld
-		// C_UOM
+		// ProductType
 		ProductType = testProperties.getProperty("ProductType", "I"); // 'I' in GardenWorld
+		
+		startIndex = Integer.parseInt( testProperties.getProperty("startIndex", "43000") );
+		runCount = Integer.parseInt( testProperties.getProperty("runCount", "500") );
+		singleCommit = Boolean.parseBoolean( testProperties.getProperty("singleCommit", "false") );
 		
 		// How to setup Log Level. Not necessary as AdempiereTestCase is taking care of it!
 //		CLogMgt.setLevel(Level.OFF);
@@ -76,20 +82,17 @@ public class MProductTest extends AdempiereTestCase {
 	}
 	
 	public void testMProductCreation() {
-		boolean singleCommit = true;
-		
 		// Start time - 20:16
 		long startTime = System.currentTimeMillis();
 		System.out.println("Start Time(ms) = " + startTime);
 		System.out.println("Start Time     = " + new java.util.Date(startTime));
-		int startCount = 43000;
-		int count = 500;
+
 		// The 0 symbol shows a digit or 0 if no digit present 
 		// The # symbol shows a digit or nothing if no digit present 
 		NumberFormat formatter = new DecimalFormat("00000");  // -001235
 		
-		for (int idx= startCount; idx < (startCount + count); idx++) {
-			System.out.println("idx = " + idx);
+		for (int idx= startIndex; idx < (startIndex + runCount); idx++) {
+			//System.out.println("idx = " + idx);
 			product = new MProduct(getCtx(), 0, getTrxName());
 			
 			String formattedIdx = formatter.format( idx );
@@ -134,8 +137,8 @@ public class MProductTest extends AdempiereTestCase {
 		}
 		
 		System.out.println(  
-			  "Count = " + count 
-			+ "; Time(seconds) = " + time + "; Produsts/Second = " + ((float)count/time) + "; ");
+			  "Count = " + runCount 
+			+ "; Time(seconds) = " + time + "; Produsts/Second = " + ((float)runCount/time) + "; ");
 		
 		assertTrue(this.getClass().getName(), true);
 	}

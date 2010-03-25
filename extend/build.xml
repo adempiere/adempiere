@@ -106,6 +106,14 @@
     </junit>
   </target>
 
+  <target name="performance.test" depends="dist">
+    <junit>
+      <classpath refid="class.path.test" />
+      <formatter type="brief" usefile="false" />
+      <test name="test.performance.MProductTest" />
+    </junit>
+  </target>
+	
   <target name="run" depends="dist">
       <java fork="true" classname="test.functional.XMLImportStructureTest">
         <classpath refid="class.path.test" />

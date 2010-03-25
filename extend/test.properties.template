@@ -12,7 +12,10 @@ M_Product_Category_ID=105
 C_TaxCategory_ID=107
 C_UOM_ID=100
 ProductType=I
-
+startIndex=43000
+runCount=500
+singleCommit=false
+	
 # MProductTest - Tenant: Test6
 #AD_Org_ID=0
 #M_Product_Category_ID=1000006
