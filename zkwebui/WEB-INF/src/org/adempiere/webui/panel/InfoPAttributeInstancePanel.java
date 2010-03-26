@@ -161,9 +161,9 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "s.QtyReserved", Double.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOrdered"), "s.QtyOrdered", Double.class),
 		//	See RV_Storage
-		new ColumnInfo(Msg.translate(Env.getCtx(), "GoodForDays"), "(TRUNC(asi.GuaranteeDate)-TRUNC(SysDate))-p.GuaranteeDaysMin", Integer.class, true, true, null),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "ShelfLifeDays"), "TRUNC(asi.GuaranteeDate)-TRUNC(SysDate)", Integer.class),
-		new ColumnInfo(Msg.translate(Env.getCtx(), "ShelfLifeRemainingPct"), "CASE WHEN p.GuaranteeDays > 0 THEN TRUNC(((TRUNC(asi.GuaranteeDate)-TRUNC(SysDate))/p.GuaranteeDays)*100) ELSE 0 END", Integer.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "GoodForDays"), "(daysbetween(asi.GuaranteeDate, SYSDATE))-p.GuaranteeDaysMin", Integer.class, true, true, null),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "ShelfLifeDays"), "daysbetween(asi.GuaranteeDate, SYSDATE)", Integer.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "ShelfLifeRemainingPct"), "CASE WHEN p.GuaranteeDays > 0 THEN TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100) ELSE 0 END", Integer.class),
 	};
 	/**	From Clause							*/
 	private static String s_sqlFrom = "M_Storage s"
@@ -220,12 +220,12 @@ public class InfoPAttributeInstancePanel extends Window implements EventListener
 			}
 			if (ShelfLifeMinPct > 0)
 			{
-				m_sqlMinLife = " AND COALESCE(TRUNC(((TRUNC(asi.GuaranteeDate)-TRUNC(SysDate))/p.GuaranteeDays)*100),0)>=" + ShelfLifeMinPct;
+				m_sqlMinLife = " AND COALESCE(TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100),0)>=" + ShelfLifeMinPct;
 				log.config( "PAttributeInstance.dynInit - ShelfLifeMinPct=" + ShelfLifeMinPct);
 			}
 			if (ShelfLifeMinDays > 0)
 			{
-				m_sqlMinLife += " AND COALESCE((TRUNC(asi.GuaranteeDate)-TRUNC(SysDate)),0)>=" + ShelfLifeMinDays;
+				m_sqlMinLife += " AND COALESCE((daysbetween(asi.GuaranteeDate, SYSDATE)),0)>=" + ShelfLifeMinDays;
 				log.config( "PAttributeInstance.dynInit - ShelfLifeMinDays=" + ShelfLifeMinDays);
 			}
 		}	//	BPartner != 0

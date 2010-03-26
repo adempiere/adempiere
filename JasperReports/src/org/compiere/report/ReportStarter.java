@@ -67,6 +67,7 @@ import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.MD5;
@@ -873,8 +874,12 @@ public class ReportStarter implements ProcessCall, ClientProcess
 				log.info(" report on server is different that local one, download and replace");
 				File downloadedFile = new File(downloadedLocalFile);
 				entry.getFile(downloadedFile);
-				reportFile.delete();
-				downloadedFile.renameTo(reportFile);
+				if (! reportFile.delete()) {
+					throw new AdempiereException("Cannot delete temporary file " + reportFile.toString());
+				}
+				if (! downloadedFile.renameTo(reportFile)) {
+					throw new AdempiereException("Cannot rename temporary file " + downloadedFile.toString() + " to " + reportFile.toString());
+				}
 			}
 		} else {
 			entry.getFile(reportFile);

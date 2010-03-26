@@ -109,6 +109,7 @@ public class CalloutInventory extends CalloutEngine
 			if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt(3, M_AttributeSetInstance_ID);
 			rs = pstmt.executeQuery();
+			mTab.setValue("QtyBook", Env.ZERO);
 			if (rs.next())
 			{
 				bd = rs.getBigDecimal(1);

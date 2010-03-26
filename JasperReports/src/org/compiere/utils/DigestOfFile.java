@@ -62,7 +62,7 @@ public class DigestOfFile
     {
         byte[] digest = digestAsByteArray(file);
         Base64 encoder = new Base64();
-        String digestAsBase64 = encoder.encode(digest).toString();
+        String digestAsBase64 = new String(encoder.encode(digest),"ASCII");
         return digestAsBase64;
     }
     
@@ -75,7 +75,7 @@ public class DigestOfFile
     {
     	byte[] digest = digestAsByteArray(input);
     	Base64 encoder = new Base64();
-    	String digestAsBase64 = encoder.encode(digest).toString();
+    	String digestAsBase64 = new String(encoder.encode(digest),"ASCII");
         return digestAsBase64;
     }
     

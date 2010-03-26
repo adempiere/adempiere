@@ -24,6 +24,6 @@ export PGPASSWORD
 echo -------------------------------------
 echo Add missing translations
 echo -------------------------------------
-psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -f 01_add_missing_translations.sql
+psql -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT -d $ADEMPIERE_DB_NAME -U $2 -f $ADEMPIERE_HOME/utils/$ADEMPIERE_DB_PATH/01_add_missing_translations.sql
 PGPASSWORD=
 export PGPASSWORD

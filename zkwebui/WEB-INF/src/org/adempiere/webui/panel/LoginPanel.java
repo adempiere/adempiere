@@ -424,6 +424,16 @@ public class LoginPanel extends Window implements EventListener
             Clients.response("zkLocaleJavaScript", new AuScript(null, ZkFns.outLocaleJavaScript()));
         }
 
+		// This temporary validation code is added to check the reported bug
+		// [ adempiere-ZK Web Client-2832968 ] User context lost?
+		// https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2832968&group_id=176962
+		// it's harmless, if there is no bug then this must never fail
+        Session currSess = Executions.getCurrent().getDesktop().getSession();
+        currSess.setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
+		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
+        
+        Env.setContext(ctx, BrowserToken.REMEMBER_ME, chkRememberMe.isChecked());
+
         /* Check DB version */
         String version = DB.getSQLValueString(null, "SELECT Version FROM AD_System");
         //  Identical DB version
@@ -435,15 +445,6 @@ public class LoginPanel extends Window implements EventListener
             throw new ApplicationException(msg);
         }
 
-		// This temporary validation code is added to check the reported bug
-		// [ adempiere-ZK Web Client-2832968 ] User context lost?
-		// https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2832968&group_id=176962
-		// it's harmless, if there is no bug then this must never fail
-        Session currSess = Executions.getCurrent().getDesktop().getSession();
-        currSess.setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
-		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
-        
-        Env.setContext(ctx, BrowserToken.REMEMBER_ME, chkRememberMe.isChecked());
     }
 
 }

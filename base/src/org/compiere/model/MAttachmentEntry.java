@@ -250,6 +250,7 @@ public class MAttachmentEntry
 		catch (IOException ioe)
 		{
 			log.log(Level.SEVERE, "getFile", ioe);
+			throw new RuntimeException(ioe);
 		}
 		return file;
 	}	//	getFile
