@@ -107,7 +107,8 @@
   </target>
 
   <target name="performance.test" depends="dist">
-    <junit>
+    <junit printsummary="no" fork="no" maxmemory="1024m" haltonfailure="yes">
+      <!--jvmarg value="-Djava.compiler=NONE"/-->
       <classpath refid="class.path.test" />
       <formatter type="brief" usefile="false" />
       <test name="test.performance.MProductTest" />
