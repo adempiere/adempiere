@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -48,12 +49,10 @@ import org.compiere.util.Msg;
  */
 public class MInvoiceLine extends X_C_InvoiceLine
 {
-
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = 4264055057724565805L;
-
+	private static final long serialVersionUID = -5113860437274708398L;
 
 	/**
 	 * 	Get Invoice Line referencing InOut Line
@@ -65,9 +64,16 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		if (sLine == null)
 			return null;
 		final String whereClause = I_M_InOutLine.COLUMNNAME_M_InOutLine_ID+"=?";
-		MInvoiceLine retValue = new Query(sLine.getCtx(),I_C_InvoiceLine.Table_Name,whereClause,sLine.get_TrxName())
+		List<MInvoiceLine> list = new Query(sLine.getCtx(),I_C_InvoiceLine.Table_Name,whereClause,sLine.get_TrxName())
 		.setParameters(sLine.getM_InOutLine_ID())
-		.firstOnly();
+		.list();
+		
+		MInvoiceLine retValue = null;
+		if (list.size() > 0) {
+			retValue = list.get(0);
+			if (list.size() > 1)
+				s_log.warning("More than one C_InvoiceLine of " + sLine);
+		}
 
 		return retValue;
 	}	//	getOfInOutLine
