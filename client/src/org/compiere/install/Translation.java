@@ -37,6 +37,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.compiere.Adempiere;
 import org.compiere.model.MLanguage;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -168,9 +169,7 @@ public class Translation
 			//	<!DOCTYPE adempiereTrl SYSTEM "http://www.adempiere.org/dtd/adempiereTrl.dtd">
 			//	<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.org/dtd/adempiereTrl.dtd">
 			Document document = builder.newDocument();
-			// @Trifon. Do not need below line anymore as it is different in each version and that's makes it more difficult to see differences in translations.
-			// FR [2973225] - Remove XML comments from Translation xml files. https://sourceforge.net/tracker/?func=detail&aid=2973225&group_id=176962&atid=883808
-			//document.appendChild(document.createComment(Adempiere.getSummaryAscii()));
+			document.appendChild(document.createComment(Adempiere.getSummaryAscii()));
 			document.appendChild(document.createComment(DTD));
 
 			//	Root
