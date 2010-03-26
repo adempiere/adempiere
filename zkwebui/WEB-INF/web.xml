@@ -158,6 +158,11 @@
 	</mime-mapping>
 	<welcome-file-list>
 		<welcome-file>index.zul</welcome-file>
-		
 	</welcome-file-list>
+	
+	<!--env-entry>
+		<env-entry-name>ADEMPIERE_HOME</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/opt/adempiere/</env-entry-value>
+	</env-entry-->
 </web-app>

@@ -41,6 +41,8 @@ import javax.jnlp.FileContents;
 import javax.jnlp.PersistenceService;
 import javax.jnlp.ServiceManager;
 import javax.jnlp.UnavailableServiceException;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import org.adempiere.plaf.AdempiereLookAndFeel;
 import org.adempiere.plaf.AdempiereThemeInnova;
@@ -748,7 +750,17 @@ public final class Ini implements Serializable
 		String env = System.getProperty (ENV_PREFIX + ADEMPIERE_HOME);
 		if (env == null)
 			env = System.getProperty (ADEMPIERE_HOME);
-		if (env == null)	//	Fallback
+		if (env == null) {
+			InitialContext context;
+			try {
+				context = new InitialContext();
+				env = (String) context.lookup("java:comp/env/"+ADEMPIERE_HOME);
+			} catch (NamingException e) {
+				log.fine( "Not found 'java:comp/env/"+ADEMPIERE_HOME+"' in Initial Context. " +e.getMessage());
+			}
+			
+		}
+		if (env == null || "".equals(env) )	//	Fallback
 			env = File.separator + "Adempiere";
 		return env;
 	}   //  getAdempiereHome
