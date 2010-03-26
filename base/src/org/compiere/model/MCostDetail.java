@@ -48,8 +48,7 @@ public class MCostDetail extends X_M_CostDetail
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5452006110417178583L;
-
+	private static final long serialVersionUID = -7882724307127281675L;
 
 	/**
 	 * 	Create New Order Cost Detail for Purchase Orders.
@@ -524,13 +523,13 @@ public class MCostDetail extends X_M_CostDetail
 	 *	@param trxName trx
 	 *	@return cost detail
 	 */
-	public static MCostDetail get (Properties ctx, String passedClause, 
+	public static MCostDetail get (Properties ctx, String whereClause, 
 		int ID, int M_AttributeSetInstance_ID, int C_AcctSchema_ID, String trxName)
 	{
-		final String whereClause = passedClause
+		final String localWhereClause = whereClause
 			+ " AND M_AttributeSetInstance_ID=?"
 			+ " AND C_AcctSchema_ID=?";
-		MCostDetail retValue = new Query(ctx,I_M_CostDetail.Table_Name,whereClause,trxName)
+		MCostDetail retValue = new Query(ctx,I_M_CostDetail.Table_Name,localWhereClause,trxName)
 		.setParameters(ID,M_AttributeSetInstance_ID,C_AcctSchema_ID)
 		.first();
 		return retValue;
@@ -552,12 +551,12 @@ public class MCostDetail extends X_M_CostDetail
 		.setParameters(product.getM_Product_ID(),false)
 		.setOrderBy("C_AcctSchema_ID, M_CostElement_ID, AD_Org_ID, M_AttributeSetInstance_ID, Created")
 		.list();
-		for (MCostDetail cd:list){
+		for (MCostDetail cd : list) {
 			if (cd.process())	//	saves
-					counterOK++;
-				else
-					counterError++;
-			}
+				counterOK++;
+			else
+				counterError++;
+		}
 		s_log.config("OK=" + counterOK + ", Errors=" + counterError);
 		return counterError == 0;
 	}	//	processProduct
