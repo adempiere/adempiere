@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v2004 rel. 3 U (http://www.xmlspy.com) by Jorg Janke (ComPiere, Inc.) -->
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
@@ -7,15 +6,15 @@
 	<icon>
 		<large-icon>/C32.gif</large-icon>
 	</icon>
-	<display-name>Adempiere Web Store</display-name>
-	<description>$Id: web.xml,v 1.3 2006/05/22 22:48:32 mdeaelfweald Exp $</description>
+	<display-name>ADempiere Web Store</display-name>
+	<description></description>
 	<!--Standard Parameters - if 0 use web store context -->
 	<context-param>
 		<param-name>#W_Store_ID</param-name>
 		<param-value>0</param-value>
 	</context-param>
 	<filter>
-		<description>Adempiere Web Store Filter</description>
+		<description>ADempiere Web Store Filter</description>
 		<display-name>Web Store Filter </display-name>
 		<filter-name>WebStoreFilter</filter-name>
 		<filter-class>org.compiere.wstore.StoreFilter</filter-class>
@@ -24,9 +23,9 @@
 		<filter-name>WebStoreFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	<!-- Force SSL for login and checkout -->
+	
+	<!-- Force SSL connection for login and checkout -->
 	<security-constraint>
-
 		<web-resource-collection>
 			<web-resource-name>SSL pages</web-resource-name>
 			<url-pattern>/login.jsp</url-pattern>
@@ -38,7 +37,6 @@
 		<user-data-constraint>
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
-
 	</security-constraint>
 	
 	<servlet>
@@ -66,7 +64,7 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere Click</display-name>
+		<display-name>ADempiere Click</display-name>
 		<servlet-name>Click</servlet-name>
 		<servlet-class>org.compiere.wstore.Click</servlet-class>
 		<load-on-startup>1</load-on-startup>
@@ -333,5 +331,11 @@
   	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>	
+	</welcome-file-list>
+	
+	<!--env-entry>
+		<env-entry-name>ADEMPIERE_HOME</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/opt/adempiere/</env-entry-value>
+	</env-entry-->
 </web-app>
