@@ -41,7 +41,6 @@ public class MDistribution extends X_GL_Distribution
 	 */
 	private static final long serialVersionUID = -906547096682610205L;
 
-
 	/**
 	 * 	Get Distribution for combination
 	 *	@param acct account (ValidCombination)
@@ -157,7 +156,7 @@ public class MDistribution extends X_GL_Distribution
 		MDistribution[] retValue = (MDistribution[])s_accounts.get(key);
 		if (retValue != null)
 			return retValue;
-		final String whereClause = I_GL_Distribution.COLUMNNAME_Account_ID;
+		final String whereClause = "Account_ID=?";
 
 		List<MDistribution> list = new Query(ctx,I_GL_Distribution.Table_Name,whereClause+"=?",null)
 		.setParameters(Account_ID)
@@ -243,22 +242,22 @@ public class MDistribution extends X_GL_Distribution
 		.list();
 		//red1 Query  -end-
 		boolean hasNullRemainder = false;
-		for (MDistributionLine dl:list){
+		for (MDistributionLine dl : list) {
 			if (dl.isActive())
-				{
-					PercentTotal = PercentTotal.add(dl.getPercent());
-					hasNullRemainder = Env.ZERO.compareTo(dl.getPercent()) == 0;
-				}
-				dl.setParent(this);
-				//	Update Ratio when saved and difference
-				if (hasNullRemainder)
-					PercentTotal = Env.ONEHUNDRED;
-				if (get_ID() != 0 && PercentTotal.compareTo(getPercentTotal()) != 0)
-					{
-						setPercentTotal(PercentTotal);
-						save();
-					}
+			{
+				PercentTotal = PercentTotal.add(dl.getPercent());
+				hasNullRemainder = Env.ZERO.compareTo(dl.getPercent()) == 0;
 			}
+			dl.setParent(this);
+		}
+		//	Update Ratio when saved and difference
+		if (hasNullRemainder)
+			PercentTotal = Env.ONEHUNDRED;
+		if (get_ID() != 0 && PercentTotal.compareTo(getPercentTotal()) != 0)
+		{
+			setPercentTotal(PercentTotal);
+			save();
+		}
 		//	return
 		m_lines = new MDistributionLine[list.size ()];
 		list.toArray (m_lines);

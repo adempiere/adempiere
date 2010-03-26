@@ -22,7 +22,7 @@ import test.AdempiereTestCase;
 /**
  * @author Teo Sarca, www.arhipac.ro //red1 borrows from MInvoiceTest
  */
-public class MDistributionListTest extends AdempiereTestCase
+public class MDistributionTest extends AdempiereTestCase
 {
 	@Override
 	protected void setUp() throws Exception
