@@ -750,7 +750,7 @@ public final class Ini implements Serializable
 		String env = System.getProperty (ENV_PREFIX + ADEMPIERE_HOME);
 		if (env == null)
 			env = System.getProperty (ADEMPIERE_HOME);
-		if (env == null) {
+		if (env == null && ! isClient()) {
 			InitialContext context;
 			try {
 				context = new InitialContext();
