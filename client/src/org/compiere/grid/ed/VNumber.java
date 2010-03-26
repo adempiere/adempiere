@@ -604,11 +604,11 @@ public final class VNumber extends JComponent
 				fireVetoableChange (m_columnName, m_oldText, getValue());
 				fireActionPerformed();
 			}
-			else	
-			{				
+			// else	
+			// {				
 				//	indicate change
-				fireVetoableChange (m_columnName, m_oldText, null);
-			}
+				// fireVetoableChange (m_columnName, m_oldText, null);
+			// }
 		}
 		catch (PropertyVetoException pve)	{}
 		m_setting = false;

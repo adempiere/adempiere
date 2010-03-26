@@ -22,6 +22,8 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -51,12 +53,12 @@ import org.compiere.util.Msg;
  *  @author 	Teo Sarca
  */
 public class VFile extends JComponent
-	implements VEditor, ActionListener, KeyListener
+	implements VEditor, ActionListener, KeyListener, FocusListener
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7246339063197204992L;
+	private static final long serialVersionUID = -4665930745414194731L;
 
 	/******************************************************************************
 	 *	Mouse Listener for Popup Menu
@@ -129,6 +131,7 @@ public class VFile extends JComponent
 		m_text.setForeground(AdempierePLAF.getTextColor_Normal());
 		m_text.addMouseListener(new VFile_mouseAdapter(this));
 		m_text.addKeyListener(this);
+		m_text.addFocusListener(this);
 		this.add(m_text, BorderLayout.CENTER);
 
 		//	Editable
@@ -394,6 +397,22 @@ public class VFile extends JComponent
 		//	Ignore keys that do not alter the text
 		else if (e.getKeyChar() == KeyEvent.CHAR_UNDEFINED)
 			return;
+	}
+
+	/**
+	 *	Focus Gained	- Save for Escape
+	 *  @param e event
+	 */
+	public void focusGained (FocusEvent e)
+	{
+	}	//	focusGained
+
+	/**
+	 *	Data Binding to to GridController.
+	 *  @param e event
+	 */
+	public void focusLost (FocusEvent e)
+	{
 		m_setting = true;
 		try
 		{
@@ -406,6 +425,6 @@ public class VFile extends JComponent
 		{
 		}
 		m_setting = false;
-	}
+	}	//	focusLost
 
 }	//	VFile

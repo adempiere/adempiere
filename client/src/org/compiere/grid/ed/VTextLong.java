@@ -21,6 +21,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -49,12 +51,12 @@ import org.compiere.util.Msg;
  *  @version $Id: VTextLong.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
 public class VTextLong extends CTextPane
-	implements VEditor, KeyListener, ActionListener
+	implements VEditor, KeyListener, ActionListener, FocusListener
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 4776186117962407679L;
+	private static final long serialVersionUID = 2293022820407789036L;
 
 	/*****************************************************************************/
 
@@ -133,6 +135,7 @@ public class VTextLong extends CTextPane
 		if (isReadOnly || !isUpdateable)
 			setReadWrite(false);
 		addKeyListener(this);
+		addFocusListener(this);
 
 		//	Popup
 		addMouseListener(new VTextLong_mouseAdapter(this));
@@ -239,13 +242,6 @@ public class VTextLong extends CTextPane
 		//  ESC
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			setText(m_initialText);
-		m_setting = true;
-		try
-		{
-			fireVetoableChange(m_columnName, m_oldText, getText());
-		}
-		catch (PropertyVetoException pve)	{}
-		m_setting = false;
 	}	//	keyReleased
 
 	/**
@@ -258,6 +254,21 @@ public class VTextLong extends CTextPane
 		if (m_mField != null)
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
+
+	@Override
+	public void focusGained(FocusEvent e) {
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		m_setting = true;
+		try
+		{
+			fireVetoableChange(m_columnName, m_oldText, getText());
+		}
+		catch (PropertyVetoException pve)	{}
+		m_setting = false;
+	}
 
 
 }	//	VTextLong

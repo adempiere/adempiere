@@ -133,7 +133,6 @@ public final class VString extends CTextField
 			m_obscure = new Obscure ("", ObscureType);
 			m_stdFont = getFont();
 			m_obscureFont = new Font("SansSerif", Font.ITALIC, m_stdFont.getSize());
-			addFocusListener(this);
 		}
 
 		//	Editable
@@ -145,6 +144,7 @@ public final class VString extends CTextField
 
 		this.addKeyListener(this);
 		this.addActionListener(this);
+		this.addFocusListener(this);
 		addMouseListener(new VString_mouseAdapter(this));
 		//	Popup for Editor
 		if (fieldLength > displayLength)
@@ -252,18 +252,6 @@ public final class VString extends CTextField
 		//  ESC
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			setText(m_initialText);
-		m_setting = true;
-		try
-		{
-			String clear = getText();
-			if (clear.length() > m_fieldLength)
-				clear = clear.substring(0, m_fieldLength);
-			fireVetoableChange (m_columnName, m_oldText, clear);
-		}
-		catch (PropertyVetoException pve)	
-		{
-		}
-		m_setting = false;
 	}	//	keyReleased
 
 	/**
@@ -408,6 +396,19 @@ public final class VString extends CTextField
 	 */
 	public void focusLost (FocusEvent e)
 	{
+		m_setting = true;
+		try
+		{
+			String clear = getText();
+			if (clear.length() > m_fieldLength)
+				clear = clear.substring(0, m_fieldLength);
+			fireVetoableChange (m_columnName, m_oldText, clear);
+		}
+		catch (PropertyVetoException pve)	
+		{
+		}
+		m_setting = false;
+
 		m_infocus = false;
 		setText(getText());		//	obscure
 	}	//	focus Lost

@@ -18,6 +18,8 @@ package org.compiere.grid.ed;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
@@ -38,12 +40,12 @@ import org.compiere.swing.CPassword;
  *  @version 	$Id: VPassword.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
 public final class VPassword extends CPassword
-	implements VEditor, KeyListener, ActionListener
+	implements VEditor, KeyListener, ActionListener, FocusListener
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7727795751575110982L;
+	private static final long serialVersionUID = -1251556129161613098L;
 
 	/**
 	 *	IDE Bean Constructor for 30 character updateable field
@@ -88,6 +90,7 @@ public final class VPassword extends CPassword
 		}
 
 		this.addKeyListener(this);
+		this.addFocusListener(this);
 		this.addActionListener(this);
 
 		setForeground(AdempierePLAF.getTextColor_Normal());
@@ -165,14 +168,6 @@ public final class VPassword extends CPassword
 	 */
 	public void keyReleased(KeyEvent e)
 	{
-		String newText = String.valueOf(getPassword());
-		m_setting = true;
-		try
-		{
-			fireVetoableChange(m_columnName, m_oldText, newText);
-		}
-		catch (PropertyVetoException pve)	{}
-		m_setting = false;
 	}	//	keyReleased
 
 	/**
@@ -198,6 +193,22 @@ public final class VPassword extends CPassword
 	{
 		m_mField = mField;
 	}   //  setField
+
+	@Override
+	public void focusGained(FocusEvent e) {
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		String newText = String.valueOf(getPassword());
+		m_setting = true;
+		try
+		{
+			fireVetoableChange(m_columnName, m_oldText, newText);
+		}
+		catch (PropertyVetoException pve)	{}
+		m_setting = false;
+	}
 
 }	//	VPassword
 

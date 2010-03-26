@@ -24,6 +24,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -57,12 +58,12 @@ import org.compiere.util.Msg;
  *  @version $Id: VURL.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
 public class VURL extends JComponent
-	implements VEditor, ActionListener, KeyListener
+	implements VEditor, ActionListener, KeyListener, FocusListener
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5090157084793992376L;
+	private static final long serialVersionUID = -350536181025487190L;
 
 	/******************************************************************************
 	 *	Mouse Listener
@@ -151,6 +152,7 @@ public class VURL extends JComponent
 			setReadWrite(true);
 
 		m_text.addKeyListener(this);
+		m_text.addFocusListener(this);
 		m_text.addActionListener(this);
 		m_text.addMouseListener(new VURL_mouseAdapter(this));
 		//	Popup for Editor
@@ -336,18 +338,6 @@ public class VURL extends JComponent
 		//  ESC
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			setText(m_initialText);
-		m_setting = true;
-		try
-		{
-			String clear = getText();
-			if (clear.length() > m_fieldLength)
-				clear = clear.substring(0, m_fieldLength);
-			fireVetoableChange (m_columnName, m_oldText, clear);
-		}
-		catch (PropertyVetoException pve)	
-		{
-		}
-		m_setting = false;
 	}	//	keyReleased
 
 	/**
@@ -491,6 +481,19 @@ public class VURL extends JComponent
 	 */
 	public void focusLost (FocusEvent e)
 	{
+		m_setting = true;
+		try
+		{
+			String clear = getText();
+			if (clear.length() > m_fieldLength)
+				clear = clear.substring(0, m_fieldLength);
+			fireVetoableChange (m_columnName, m_oldText, clear);
+		}
+		catch (PropertyVetoException pve)	
+		{
+		}
+		m_setting = false;
+
 		m_infocus = false;
 		setText(getText());		//	obscure
 	}	//	focus Lost

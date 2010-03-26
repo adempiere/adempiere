@@ -20,6 +20,8 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -47,12 +49,12 @@ import org.compiere.util.Msg;
  *  @version 	$Id: VText.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
 public class VText extends CTextArea
-	implements VEditor, KeyListener, ActionListener
+	implements VEditor, KeyListener, ActionListener, FocusListener
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2479847373606754733L;
+	private static final long serialVersionUID = -2873467246871800195L;
 
 	/*****************************************************************************/
 
@@ -115,6 +117,7 @@ public class VText extends CTextArea
 		if (isReadOnly || !isUpdateable)
 			setReadWrite(false);
 		addKeyListener(this);
+		addFocusListener(this);
 
 		//	Popup
 		addMouseListener(new VText_mouseAdapter(this));
@@ -233,13 +236,6 @@ public class VText extends CTextArea
 		//  ESC
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			setText(m_initialText);
-		m_setting = true;
-		try
-		{
-			fireVetoableChange(m_columnName, m_oldText, getText());
-		}
-		catch (PropertyVetoException pve)	{}
-		m_setting = false;
 	}	//	keyReleased
 
 	/**
@@ -252,5 +248,20 @@ public class VText extends CTextArea
 		if (m_mField != null)
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
+
+	@Override
+	public void focusGained(FocusEvent e) {
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		m_setting = true;
+		try
+		{
+			fireVetoableChange(m_columnName, m_oldText, getText());
+		}
+		catch (PropertyVetoException pve)	{}
+		m_setting = false;
+	}
 
 }	//	VText

@@ -245,18 +245,6 @@ public class VMemo extends CTextArea
 			setText(m_oldText);
 			return;
 		}
-		//  Indicate Change
-		if (m_firstChange && !m_oldText.equals(getText()))
-		{
-			log.fine( "VMemo.keyReleased - firstChange");
-			m_firstChange = false;
-			try
-			{
-				String text = getText();
-				fireVetoableChange(m_columnName, text, null);   //  No data committed - done when focus lost !!!
-			}
-			catch (PropertyVetoException pve)	{}
-		}	//	firstChange
 	}	//	keyReleased
 
 	/**
@@ -278,10 +266,14 @@ public class VMemo extends CTextArea
 	 */
 	public void focusLost (FocusEvent e)
 	{
-		//log.config( "VMemo.focusLost " + e.getSource(), e.paramString());
-		//	something changed?
-		return;
-
+		//  Indicate Change
+		log.fine( "focusLost");
+		try
+		{
+			String text = getText();
+			fireVetoableChange(m_columnName, text, null);   //  No data committed - done when focus lost !!!
+		}
+		catch (PropertyVetoException pve)	{}
 	}	//	focusLost
 
 	/*************************************************************************/
