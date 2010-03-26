@@ -621,7 +621,7 @@ public class CalloutOrder extends CalloutEngine
 	 */
 	public String priceList (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
-		Integer M_PriceList_ID = (Integer)value;
+		Integer M_PriceList_ID = (Integer) mTab.getValue("M_PriceList_ID");
 		if (M_PriceList_ID == null || M_PriceList_ID.intValue()== 0)
 			return "";
 		if (steps) log.warning("init");
@@ -640,7 +640,11 @@ public class CalloutOrder extends CalloutEngine
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_PriceList_ID.intValue());
-			Timestamp date = Env.getContextAsDate(ctx, WindowNo, "DateOrdered");
+			Timestamp date = new Timestamp(System.currentTimeMillis());
+			if (mTab.getAD_Table_ID() == I_C_Order.Table_ID)
+				date = Env.getContextAsDate(ctx, WindowNo, "DateOrdered");
+			else if (mTab.getAD_Table_ID() == I_C_Invoice.Table_ID)
+				date = Env.getContextAsDate(ctx, WindowNo, "DateInvoiced");
 			pstmt.setTimestamp(2, date);
 			
 			rs = pstmt.executeQuery();
@@ -715,8 +719,6 @@ public class CalloutOrder extends CalloutEngine
 		int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
 		if ( M_PriceList_Version_ID == 0 && M_PriceList_ID > 0)
 		{
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
 			String sql = "SELECT plv.M_PriceList_Version_ID "
 				+ "FROM M_PriceList_Version plv "
 				+ "WHERE plv.M_PriceList_ID=? "						//	1

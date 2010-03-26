@@ -321,7 +321,24 @@ public class CalloutInvoice extends CalloutEngine
 		//
 		int M_PriceList_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_ID");
 		pp.setM_PriceList_ID(M_PriceList_ID);
+
+		Timestamp invoiceDate = Env.getContextAsDate(ctx, WindowNo, "DateInvoiced");
+		/** PLV is only accurate if PL selected in header */
 		int M_PriceList_Version_ID = Env.getContextAsInt(ctx, WindowNo, "M_PriceList_Version_ID");
+		if ( M_PriceList_Version_ID == 0 && M_PriceList_ID > 0)
+		{
+			String sql = "SELECT plv.M_PriceList_Version_ID "
+				+ "FROM M_PriceList_Version plv "
+				+ "WHERE plv.M_PriceList_ID=? "						//	1
+				+ " AND plv.ValidFrom <= ? "
+				+ "ORDER BY plv.ValidFrom DESC";
+			//	Use newest price list - may not be future
+			
+			M_PriceList_Version_ID = DB.getSQLValueEx(null, sql, M_PriceList_ID, invoiceDate);
+			if ( M_PriceList_Version_ID > 0 )
+				Env.setContext(ctx, WindowNo, "M_PriceList_Version_ID", M_PriceList_Version_ID );
+		}
+		
 		pp.setM_PriceList_Version_ID(M_PriceList_Version_ID);
 		Timestamp date = Env.getContextAsDate(ctx, WindowNo, "DateInvoiced");
 		pp.setPriceDate(date);
