@@ -55,6 +55,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
+import org.zkoss.lang.Strings;
 import org.zkoss.util.Locales;
 import org.zkoss.zhtml.Div;
 import org.zkoss.zhtml.Table;
@@ -422,6 +423,9 @@ public class LoginPanel extends Window implements EventListener
             Locales.setThreadLocal(language.getLocale());
 
             Clients.response("zkLocaleJavaScript", new AuScript(null, ZkFns.outLocaleJavaScript()));
+            String timeoutText = getUpdateTimeoutTextScript();
+            if (!Strings.isEmpty(timeoutText))
+            	Clients.response("zkLocaleJavaScript2", new AuScript(null, timeoutText));
         }
 
 		// This temporary validation code is added to check the reported bug
@@ -446,5 +450,15 @@ public class LoginPanel extends Window implements EventListener
         }
 
     }
+
+	private String getUpdateTimeoutTextScript() {
+		String msg = Msg.getMsg(Env.getCtx(), "SessionTimeoutText");
+		if (msg == null || msg.equals("SessionTimeoutText")) {
+			return null;
+		}
+		msg = Strings.escape(msg, "\"");
+		String s = "adempiere.store.set(\"zkTimeoutText\", \"" + msg + "\")";
+		return s;
+	}
 
 }

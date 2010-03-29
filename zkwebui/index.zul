@@ -10,5 +10,9 @@ Copyright (C) 2007 Ashley G Ramdass.
 <?link rel="stylesheet" type="text/css" href="${themeStyleSheetByBrowser}"?>
 <?link rel="stylesheet" type="text/css" href="css/PAPanel.css"?>
 <zk>
+	<script>
+		var zkTimeoutText = "The page or component you request is no longer available. This is normally caused by timeout or rebooting the server.";
+		adempiere.store.set("zkTimeoutText", zkTimeoutText);
+	</script>
 	<window use="org.adempiere.webui.AdempiereWebUI"/>
 </zk>

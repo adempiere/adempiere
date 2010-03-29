@@ -80,7 +80,7 @@
 	<!-- /////////// -->
 	<!-- Miscellaneous -->
 	<session-config>
-		<session-timeout>120</session-timeout>
+		<session-timeout>60</session-timeout>
 	</session-config>
 
 	<!-- MIME mapping -->
@@ -159,7 +159,7 @@
 	<welcome-file-list>
 		<welcome-file>index.zul</welcome-file>
 	</welcome-file-list>
-	
+		
 	<!--env-entry>
 		<env-entry-name>ADEMPIERE_HOME</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
