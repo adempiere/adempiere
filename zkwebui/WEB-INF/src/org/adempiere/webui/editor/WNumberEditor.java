@@ -50,8 +50,6 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 
     private BigDecimal oldValue;
 
-    private boolean mandatory = false;
-
 	private int displayType;
 
 	private WEditorPopupMenu popupMenu;
@@ -169,18 +167,6 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
     public Object getValue()
     {
         return getComponent().getValue();
-    }
-
-    @Override
-    public boolean isMandatory()
-    {
-        return mandatory;
-    }
-
-    @Override
-    public void setMandatory(boolean mandatory)
-    {
-        this.mandatory = mandatory;
     }
 
     @Override
