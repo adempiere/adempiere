@@ -3,8 +3,8 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
    version="2.4">
-	<display-name>Adempiere Web CM</display-name>
-	<description>$Id$</description>
+	<display-name>ADempiere Web CM</display-name>
+	<description></description>
 	<context-param>
 		<param-name>AD_Client_ID</param-name>
 		<param-value>0</param-value>
@@ -24,42 +24,42 @@
 		</listener-class>
 	</listener>
 	<servlet>
-		<display-name>Adempiere WebCM Ad Redirector</display-name>
+		<display-name>ADempiere WebCM Ad Redirector</display-name>
 		<servlet-name>AdRedirector</servlet-name>
 		<servlet-class>org.compiere.cm.AdRedirector</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere WebCM Broadcaster</display-name>
+		<display-name>ADempiere WebCM Broadcaster</display-name>
 		<servlet-name>Broadcast</servlet-name>
 		<servlet-class>org.compiere.cm.Broadcast</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere WebCM CacheService</display-name>
+		<display-name>ADempiere WebCM CacheService</display-name>
 		<servlet-name>CacheService</servlet-name>
 		<servlet-class>org.compiere.cm.cache.Service</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere WebCM Community Handler</display-name>
+		<display-name>ADempiere WebCM Community Handler</display-name>
 		<servlet-name>Community</servlet-name>
 		<servlet-class>org.compiere.cm.Community</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere WebCM Request Handler</display-name>
+		<display-name>ADempiere WebCM Request Handler</display-name>
 		<servlet-name>RequestServlet</servlet-name>
 		<servlet-class>org.compiere.cm.RequestServlet</servlet-class>
 	</servlet>	
 	<servlet>
-		<display-name>Adempiere WebCM XML Broadcaster</display-name>
+		<display-name>ADempiere WebCM XML Broadcaster</display-name>
 		<servlet-name>XMLBroadcast</servlet-name>
 		<servlet-class>org.compiere.cm.XMLBroadcast</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere WebCM Stage Broadcaster</display-name>
+		<display-name>ADempiere WebCM Stage Broadcaster</display-name>
 		<servlet-name>StageBroadcast</servlet-name>
 		<servlet-class>org.compiere.cm.StageBroadcast</servlet-class>
 	</servlet>
 	<servlet>
-		<display-name>Adempiere WebCM Media Broadcaster</display-name>
+		<display-name>ADempiere WebCM Media Broadcaster</display-name>
 		<servlet-name>MediaBroadcast</servlet-name>
 		<servlet-class>org.compiere.cm.MediaBroadcast</servlet-class>
 	</servlet>
