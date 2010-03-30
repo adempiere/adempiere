@@ -4,14 +4,14 @@
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
    version="2.4">
-	<display-name>Adempiere Root</display-name>
-	<description>$Id: web.xml,v 1.1 2006/04/21 18:04:14 jjanke Exp $</description>
+	<display-name>ADempiere Root</display-name>
+	<description></description>
 	<context-param>
 		<param-name>ServerRoot</param-name>
 		<param-value>1</param-value>
 	</context-param>
 	<filter>
-		<display-name>Adempiere Monitor Filter</display-name>
+		<display-name>ADempiere Monitor Filter</display-name>
 		<filter-name>AdempiereMonitorFilter</filter-name>
 		<filter-class>org.compiere.web.AdempiereMonitorFilter</filter-class>
 	</filter>
@@ -30,14 +30,14 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
-		<description>Adempiere Server Status Info</description>
+		<description>ADempiere Server Status Info</description>
 		<display-name>Server Status</display-name>
 		<servlet-name>StatusInfo</servlet-name>
 		<servlet-class>org.compiere.web.StatusInfo</servlet-class>
 	</servlet>
 	<servlet>
-		<description>Adempiere Server Monitor</description>
-		<display-name>Adempiere Monitor</display-name>
+		<description>ADempiere Server Monitor</description>
+		<display-name>ADempiere Monitor</display-name>
 		<servlet-name>AdempiereMonitor</servlet-name>
 		<servlet-class>org.compiere.web.AdempiereMonitor</servlet-class>
 		<load-on-startup>1</load-on-startup>
