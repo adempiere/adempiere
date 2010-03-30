@@ -92,7 +92,7 @@
 					%>
 									
 				   <td class=<%=styleClass%>>
-				   		<html:link href="<%="CashLineReportAction.do?action=getCashLineDetails&cashId=" + element.getCashId() %>">
+				   		<html:link href="CashLineReportAction.do?action=getCashLineDetails&cashId=<%= element.getCashId() %>">
 				   			<bean:write name="element" property="name"/>
 				   		</html:link>
 				   </td>

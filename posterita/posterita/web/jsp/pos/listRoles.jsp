@@ -97,19 +97,19 @@
 			<bean:define id="name" name="element" property="name"/>	
 		</td>
 		<td class="<%=styleClass%>" width="120px">
-			<html:link href="<%= "POSRoleAction.do?action=initEditRole&roleId=" + roleID %>">
+			<html:link href="POSRoleAction.do?action=initEditRole&roleId=<%= roleID %>">
 				<img src="images/tango/accessories-text-editor.png" title="Edit Role" alt="Edit Role" border="0">
 			</html:link>
 
-			<html:link href="<%= "POSRoleAction.do?action=viewRole&roleId=" + roleID %>">
+			<html:link href="POSRoleAction.do?action=viewRole&roleId=<%= roleID %>">
 				<img src="images/tango/edit-find.png" title="View Role" alt="View Role" border="0">
 			</html:link>
 			
-			<html:link href="<%= "RoleOrgAccessAction.do?action=initEditRoleOrgAccess&roleId=" + roleID + "&name=" + name %>">
+			<html:link href="RoleOrgAccessAction.do?action=initEditRoleOrgAccess&roleId=<%= roleID %>&name=<%= name %>">
 				<img src="images/tango/edit-find.png" title="Edit Organisation Access" alt="Edit Organisation Access" border="0">
 			</html:link>			
 			
-			<%--<html:link href="<%= "POSRoleAction.do?action=deleteRole&roleId=" + roleID %>">Delete</html:link>--%>								
+			<%--<html:link href="POSRoleAction.do?action=deleteRole&roleId=<%= roleID %>">Delete</html:link>--%>								
 		</td>
 	</tr>
 </logic:iterate>					

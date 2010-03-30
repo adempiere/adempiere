@@ -47,7 +47,7 @@
 <!-- 
 <table width="100%">
 	<td align="right">
-		<html:link href="<%="CreateNewOrderAction.do?action=removeSessionForNewOrder&orderType=" + UDIOrderTypes.POS_ORDER.getOrderType() %>">
+		<html:link href="CreateNewOrderAction.do?action=removeSessionForNewOrder&orderType=<%= UDIOrderTypes.POS_ORDER.getOrderType() %>">
 			Create New
 		</html:link>			
 	</td>

@@ -50,7 +50,7 @@
 <table class="main">
 <tr>
 					<td>
-						<html:link href="<%="ViewCommissionAction.do?action=viewCommission" %>">
+						<html:link href="ViewCommissionAction.do?action=viewCommission">
 							<pos:message key="back"/>
 						</html:link>	
 							
@@ -79,7 +79,7 @@
 									
 										<logic:notEqual name="element" property="orderLineId" value="0">
 									   		<td class=<%=styleClass%> >
-									   			<html:link href="<%="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getOrderId() %>">
+									   			<html:link href="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getOrderId() %>">
 													<bean:write name="element" property="reference"/>
 												</html:link>	
 									   		</td>
@@ -87,7 +87,7 @@
 									   	
 									   	<logic:notEqual name="element" property="invoiceLineId" value="0">
 									   		<td class=<%=styleClass%> >
-									   			<html:link href="<%="ViewInvoiceAction.do?action=viewOrder&documentId=" + element.getInvoiceId() %>">
+									   			<html:link href="ViewInvoiceAction.do?action=viewOrder&documentId=<%= element.getInvoiceId() %>">
 													<bean:write name="element" property="reference"/>
 												</html:link>
 									   		</td>

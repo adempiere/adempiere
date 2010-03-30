@@ -191,7 +191,7 @@
 		<html:hidden name="productBean" property="productId" value="<%=productBean.getProductId().toString()%>" indexed="true"/>
 		<html:hidden name="productBean" property="priceListVersionId" value="<%=productBean.getPriceListVersionId().toString()%>" indexed="true"/>
 		
-		<tr id="<%= "row" + (index.intValue()+1)%>">
+		<tr id="row<%= (index.intValue()+1) %>">
 			<td><bean:write name="productBean" property="priceListName"/>
 				<logic:equal name="productBean" property="isMandatory" value="true">
 					<mandatory>*</mandatory>

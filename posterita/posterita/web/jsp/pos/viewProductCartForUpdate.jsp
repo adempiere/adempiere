@@ -111,7 +111,7 @@
 				<fmt:formatNumber value='${salesPriceStandard}' type="currency" currencySymbol=" "/>
 			</td>
 			<td class=<%=styleClass%> align="center">			
-			   	<html:link action="<%="/ViewAllPOSProductsForUpdateAction.do?action=remove&productId=" + element.getProductId() %>">
+			   	<html:link action="/ViewAllPOSProductsForUpdateAction.do?action=remove&productId=<%= element.getProductId() %>">
 			   		<pos:message key="Remove"/>
 			   	</html:link>			   	
 			</td>				

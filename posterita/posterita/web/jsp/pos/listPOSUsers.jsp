@@ -108,23 +108,23 @@
 			</td>
 			
 			<td class="<%=styleClass%>" width="110px">
-				<html:link href="<%="POSUserAction.do?action=initEditUser&userId=" + element.getUserId()%>">
+				<html:link href="POSUserAction.do?action=initEditUser&userId=<%= element.getUserId() %>">
 					<img src="images/tango/accessories-text-editor.png" title="Edit Customer" alt="Edit Customer" border="0">
 				</html:link>
 
 
-				<html:link href="<%="POSUserAction.do?action=viewUser&userId=" + element.getUserId()%>">
+				<html:link href="POSUserAction.do?action=viewUser&userId=<%= element.getUserId() %>">
 					<img src="images/tango/edit-find.png" title="View Customer" alt="View Customer" border="0">
 				</html:link>
 
 				<logic:equal name="element" property="isActive" value="true">
-				<html:link href="<%="POSUserAction.do?action=deleteUser&userId=" + element.getUserId()%>">
+				<html:link href="POSUserAction.do?action=deleteUser&userId=<%= element.getUserId() %>">
 					<img src="images/tango/edit-redo.png" title="Deactivate User" alt="User Customer" border="0">
 				</html:link>
 				</logic:equal>
 
 				<logic:notEqual name="element" property="isActive" value="true">
-				<html:link href="<%="POSUserAction.do?action=activateUser&userId=" + element.getUserId()%>">
+				<html:link href="POSUserAction.do?action=activateUser&userId=<%= element.getUserId()%>">
 					<img src="images/tango/edit-undo.png" title="Activate User" alt="Activate User" border="0">
 				</html:link>
 				</logic:notEqual>

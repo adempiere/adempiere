@@ -127,7 +127,7 @@
 				<html:text name="stock" property="qtyToMove" indexed="true" value="<%=stock.getQtyToMove().toString()%>"></html:text>
 			 </td>
 			<td  align="right" class="<%=styleClass%>">					    
-				<html:link action="<%= "StockMovementAction.do?action=remove&index=" + index.intValue() %>">Remove</html:link>
+				<html:link action="StockMovementAction.do?action=remove&index=<%= index.intValue() %>">Remove</html:link>
 		 	</td>	 	 
 		</tr>		
 	</logic:iterate>

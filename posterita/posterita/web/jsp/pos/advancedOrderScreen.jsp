@@ -187,7 +187,7 @@
 					trStyleClass = "oddRow";
 				}
 				%>	
-				<tr class="<%=trStyleClass%> productId="<%=element.getProductId()%>" qty="<%=element.getQty()%>" id="<%= "row" + (count.intValue()+1)%>">
+				<tr class="<%=trStyleClass%> productId="<%=element.getProductId()%>" qty="<%=element.getQty()%>" id="row<%= (count.intValue()+1)%>">
 				  <td>
 				  	<bean:write name="element" property="description"/>
 				  </td>
@@ -232,7 +232,7 @@
 				</logic:present>
 				</tbody>
 				<bean:size id="size" name="<%= Constants.SHOPPING_ORDER_CART_ITEMS %>"/>
-				<tr class="itemsTotal" id="<%= "row" + (size.intValue() + 1) %>">
+				<tr class="itemsTotal" id="row<%= (size.intValue() + 1) %>">
 					<td>&nbsp;</td>
 					<td><fmt:formatNumber value='${qtyTotal}'/></td>
 					<td colspan="4">&nbsp;</td>

@@ -222,7 +222,7 @@
 			<html:hidden property="cardNo" value=""/>
 			<html:hidden property="chequeNo" value=""/>
 			<html:hidden property="discountOnTotal" styleId="discountOnTotal" value=""/>	
-			<html:hidden property="roundOffFactor" value = "<%=roundOffFactor + ""%>" styleId="roundOffFactor"/>
+			<html:hidden property="roundOffFactor" value = "<%= roundOffFactor.toString() %>" styleId="roundOffFactor"/>
 			<html:hidden property="isDiscountApplied" value="" styleId="isDiscountApplied"/>
 			<logic:equal name="<%= Constants.DISCOUNT_ON_ORDER_TOTAL_PERCENT%>" value="true">
 				<html:hidden property="discountOnTotalPercent" styleId="discountOnTotalPercent" value="true"/>
@@ -237,7 +237,7 @@
 				<html:hidden property="discountOnTotal" styleId="discountOnTotal" value="false"/>
 			</logic:equal>
 			<input type="hidden" name="searchProductBy" value="<%=searchProductBy%>" id="searchProductBy"/>
-			<input type="hidden" name="isCustomerCompulsory" value="<%=isCustomerCompulsory + ""%>" id="isCustomerCompulsory"/>
+			<input type="hidden" name="isCustomerCompulsory" value="<%= isCustomerCompulsory %>" id="isCustomerCompulsory"/>
 			<input type="hidden" id="bpartnerId" name="bpartnerId" value="<%=bPartnerId%>"/>
     		<td width="75%" valign="top" height="100%">
 	    		<div id="contentContainer">
@@ -704,7 +704,7 @@
 	<script>
 	function printOrder(orderId)
 	{
-		var url = '<%=basePath + "ReprintOrderAction.do?action=getPrintOrderData&openDrawer=false&orderId="%>';
+		var url = "<%=basePath %>ReprintOrderAction.do?action=getPrintOrderData&openDrawer=false&orderId=";
 		document.applets[0].printURL(url + orderId);
 	}
 	

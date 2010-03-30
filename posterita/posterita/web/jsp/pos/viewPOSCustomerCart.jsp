@@ -119,7 +119,7 @@
 			</logic:equal>
 		</td>
 		<td class="<%=styleClass%>">
-			<a href="<%= "POSCustomerAction.do?action=remove&bpartnerId=" + element.getBpartnerId()%>"><pos:message key="cart.remove"/></a>
+			<a href="POSCustomerAction.do?action=remove&bpartnerId=<%= element.getBpartnerId() %>"><pos:message key="cart.remove"/></a>
 		</td>				
 	</tr>
 </logic:iterate>
