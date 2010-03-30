@@ -1,14 +1,7 @@
-<%--
-  - Author:  Jorg Janke
-  - Version: $Id: header.jspf,v 1.2 2006/05/06 00:41:33 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2005 Jorg Janke
-  - - -
-  - Web Store Header
-  --%>
 <div id="header">
 	<div id="headerIcon">
 	  <a href="http://<c:out value='${pageContext.request.serverName}'/>/">
-	  <img src="<c:out value='${ctx.webParam1}' default='AdempiereERP.gif'/>" alt="Adempiere - 1999-2007" /></a>
+	  <img src="<c:out value='${ctx.webParam1}' default='AdempiereERP.gif'/>" alt="ADempiere - 2005-2010" /></a>
 	</div>
 	<div id="headerMenu">
 	  <a class="menuMain" href="help.jsp">

@@ -3,13 +3,6 @@
   <c:redirect url='loginServlet?ForwardTo=requests.jsp'/>
 </c:if>
 <html>
-<!--
-  - Author:  Jorg Janke
-  - Version: $Id: requestDetails.jsp,v 1.3 2006/05/06 03:58:37 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
-  - - -
-  - Request Details
-  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - Request Details</title>

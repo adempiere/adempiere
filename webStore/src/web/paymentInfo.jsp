@@ -6,14 +6,6 @@
   <c:redirect url='index.jsp'/>
 </c:if>
 <html>
-<!--
-  - Author:  Jorg Janke
-  - Version: $Id: paymentInfo.jsp,v 1.3 2006/05/06 02:13:56 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
-  - - -
-  - Web Payment Info
-  - Variables: webOrder, webUser, payment
-  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - My Payment Info</title>

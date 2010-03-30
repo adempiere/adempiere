@@ -14,13 +14,6 @@
   <c:redirect url='requestTypes.jsp'/>
 </c:if>
 <html>
-<!--
-  - Author:  Jorg Janke
-  - Version: $Id: requestsAll.jsp,v 1.2 2006/05/06 00:41:33 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
-  - - -
-  - Type all Requests (Summary)
-  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title>- Requests: <c:out value='${requestType.name}'/></title>

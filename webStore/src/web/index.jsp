@@ -1,13 +1,6 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 <cws:priceList priceList_ID="0"/>
 <html>
-<!--
-  - Author:  Jorg Janke
-  - Version: $Id: index.jsp,v 1.3 2006/05/19 22:17:32 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
-  - - -
-  - Web Store Index
-  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - Welcome</title>

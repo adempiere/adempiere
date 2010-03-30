@@ -3,13 +3,6 @@
   <c:redirect url='loginServlet?ForwardTo=expenses.jsp'/>
 </c:if>
 <html>
-<!--
-  - Author:  Jorg Janke
-  - Version: $Id: expenses.jsp,v 1.9 2006/05/26 20:06:25 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2004 Jorg Janke
-  - - -
-  - Web Store Expenses
-  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - My Expenses</title>

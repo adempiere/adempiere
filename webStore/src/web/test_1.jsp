@@ -1,12 +1,5 @@
 <%@ include file="/WEB-INF/jspf/page.jspf" %>
 <html>
-<!--
-  - Author:  Jorg Janke
-  - Version: $Id: test_1.jsp,v 1.2 2006/05/06 00:41:33 mdeaelfweald Exp $
-  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
-  - - -
-  - Web Store Interest Area
-  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/>- My Test Area</title>
