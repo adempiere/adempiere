@@ -63,6 +63,7 @@
 				</fileset>
 			</classpath>
 		</javac>
+		<copy file="${src.main.dir}/MessageResources.properties" todir="${src.web.dir}/WEB-INF/classes" />
 		<jar destfile="${dist.dir}/lib/posterita.jar" basedir="${build.dir}">
 			<include name="org/**"/>
 		</jar>
