@@ -72,10 +72,10 @@
 							
 							
 							<td><%--
-								<html:link href="RoleAction.do?action=viewRole&roleId=<%= roleID %>">Edit</html:link>
+								<html:link href="<%= "RoleAction.do?action=viewRole&roleId=" + roleID %>">Edit</html:link>
 								--%>
-								<html:link href="RoleAction.do?action=viewRole&roleId=<%= roleID %>">View</html:link>
-								<%--<html:link href="RoleAction.do?action=deleteRole&roleId=<%= roleID %>">Delete</html:link>--%>								
+								<html:link href="<%= "RoleAction.do?action=viewRole&roleId=" + roleID %>">View</html:link>
+								<%--<html:link href="<%= "RoleAction.do?action=deleteRole&roleId=" + roleID %>">Delete</html:link>--%>								
 							</td>
 						</tr>
 					</logic:iterate>					

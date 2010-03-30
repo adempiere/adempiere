@@ -79,15 +79,15 @@
 							</td>
 							
 							<td class="<%=styleClass%>">
-								<html:link href="UserAction.do?action=initEditUser&userId=<%= element.getUserId()%>">Edit</html:link>
+								<html:link href="<%="UserAction.do?action=initEditUser&userId=" + element.getUserId()%>">Edit</html:link>
 								&nbsp;
-								<html:link href="UserAction.do?action=viewUser&userId=<%= element.getUserId()%>">View</html:link>
+								<html:link href="<%="UserAction.do?action=viewUser&userId=" + element.getUserId()%>">View</html:link>
 								&nbsp;
 								<logic:equal name="element" property="isActive" value="true">
-								<html:link href="UserAction.do?action=deleteUser&userId=<%= element.getUserId()%>">Deactivate</html:link>
+								<html:link href="<%="UserAction.do?action=deleteUser&userId=" + element.getUserId()%>">Deactivate</html:link>
 								</logic:equal>
 								<logic:notEqual name="element" property="isActive" value="true">
-								<html:link href="UserAction.do?action=activateUser&userId=<%= element.getUserId()%>">Activate</html:link>
+								<html:link href="<%="UserAction.do?action=activateUser&userId=" + element.getUserId()%>">Activate</html:link>
 								</logic:notEqual>
 							</td>
 						</tr>

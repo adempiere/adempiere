@@ -90,14 +90,14 @@
 								%>
 								   
 									<logic:equal name="element" property="isCustomer" value="true">
-										<html:link href="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId=<%= partnerId %>">
+										<html:link href="<%="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId=" + partnerId %>">
 								   			<bean:write name="element" property="partnerName"/>
 								   		</html:link>			
 									</logic:equal>
 									
 									
 									<logic:equal name="element" property="isCustomer" value="false">
-										<html:link href="POSVendorAction.do?action=viewVendorDetails1&bpartnerId=<%= partnerId %>">
+										<html:link href="<%="POSVendorAction.do?action=viewVendorDetails1&bpartnerId=" + partnerId %>">
 								   			<bean:write name="element" property="partnerName"/>
 								   		</html:link>			
 									</logic:equal>
@@ -112,19 +112,19 @@
 	
 								<td class="<%=styleClass%>"> 
 								
-									<html:link href="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getOrderId() %>">
+									<html:link href="<%="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getOrderId() %>">
 					     				<bean:write name="element" property="documentNo"/>
 					     			</html:link>					
 								</td>	
 
 								<td align="left" class="<%=styleClass%>">
-									<html:link href="ViewWebstorePaymentAction.do?action=viewOrder&documentId=<%= element.getPaymentId() %>">
+									<html:link href="<%="ViewWebstorePaymentAction.do?action=viewOrder&documentId=" + element.getPaymentId() %>">
 										<bean:write name="element" property="paymentId"/>
 									</html:link>
 								</td>
 						
 								<td align="left" class="<%=styleClass%>">
-									<html:link href="ViewInvoiceAction.do?action=viewOrder&documentId=<%= element.getInvoiceId() %>">
+									<html:link href="<%="ViewInvoiceAction.do?action=viewOrder&documentId=" + element.getInvoiceId() %>">
 										<bean:write name="element" property="invoiceNo"/>
 									</html:link>
 								</td>
@@ -132,7 +132,7 @@
 								<logic:notPresent name="element" property="shipmentNo">	
 								 	<logic:present name="element" property="invoiceNo">	
 										<td align="left" class="<%=styleClass%>">		
-										<html:link href="CreateShipmentForCreditOrderAction.do?action=createShipmentForCreditOrder&invoiceId=<%= element.getInvoiceId() %>">
+										<html:link href="<%="CreateShipmentForCreditOrderAction.do?action=createShipmentForCreditOrder&invoiceId=" + element.getInvoiceId() %>">
 											Create Shipment
 										</html:link>
 										</td>	
@@ -140,7 +140,7 @@
 								</logic:notPresent>	
 						
 							<td align="left" class="<%=styleClass%>">
-									<html:link href="ViewMinOutAction.do?action=viewOrder&documentId=<%= element.getMinOutId() %>">
+									<html:link href="<%="ViewMinOutAction.do?action=viewOrder&documentId=" + element.getMinOutId() %>">
 										<bean:write name="element" property="shipmentNo"/>
 									</html:link>
 								</td>	

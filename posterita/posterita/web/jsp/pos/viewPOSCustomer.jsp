@@ -196,7 +196,7 @@
 									<bean:define id="bpartnerId" name="<%=Constants.CUSTOMER_DETAILS%>" property="bpartnerId"/>
 									<bean:define id="partnerName" name="<%=Constants.CUSTOMER_DETAILS%>" property="partnerName"/>
 								
-									<html:link href="GetBpartnerPaymentStatus.do?action=getBpartnerPaymentStatus&forward=/ViewPOSCustomer.do&bpartnerId=<%= bpartnerId %>&partnerName=<%= partnerName%>">
+									<html:link href="<%="GetBpartnerPaymentStatus.do?action=getBpartnerPaymentStatus&forward=/ViewPOSCustomer.do&bpartnerId=" + bpartnerId+"&partnerName="+partnerName%>">
 										<pos:message key="settle.payment"/>
 									</html:link>
 								
@@ -204,7 +204,7 @@
 								</tr>
 								<tr>
 								<td>	
-									<html:link href="ViewBPartnerTrxDetailsAction.do?action=getBpartnerTrxDetails&forward=/ViewPOSCustomer.do&isCustomer=true&bpartnerId=<%= bpartnerId %>">
+									<html:link href="<%="ViewBPartnerTrxDetailsAction.do?action=getBpartnerTrxDetails&forward=/ViewPOSCustomer.do&isCustomer=true"+"&bpartnerId=" + bpartnerId %>">
 											<pos:message key="view.info"/>
 									</html:link>
 								</td>
@@ -218,7 +218,7 @@
 </table>
 <div align="right">
 
-	<html:button property="button" styleClass="blank smallbutton" onclick="get('POSCustomerAction.do?action=initEditPOSCustomer&bpartnerId=<%= bpartnerId %>">Edit</html:button>
+	<html:button property="button" styleClass="blank smallbutton" onclick="<%= "get('POSCustomerAction.do?action=initEditPOSCustomer&bpartnerId=" + bpartnerId + "')" %>">Edit</html:button>
 	<html:button property="button" styleClass="blank smallbutton" onclick="get('InitCreatePOSCustomer.do?action=initCreatePOSCustomer')">Add New</html:button>	
 	<html:button property="button" styleClass="blank smallbutton" onclick="get('ViewAllCustomers.do')">Back</html:button>
 </div>

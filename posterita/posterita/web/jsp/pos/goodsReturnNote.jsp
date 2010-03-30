@@ -45,7 +45,7 @@
 <bean:define id="title"><pos:message textOnly="true" key="goods.returned.note"/></bean:define>
 <table width="100%">
 	<td align="right">
-		<html:link href="CreateNewOrderAction.do?action=removeSessionForNewOrder&orderType=<%= UDIOrderTypes.POS_GOODS_RETURN_NOTE.getOrderType() %>">
+		<html:link href="<%="CreateNewOrderAction.do?action=removeSessionForNewOrder&orderType=" + UDIOrderTypes.POS_GOODS_RETURN_NOTE.getOrderType() %>">
 			Create New
 		</html:link>			
 	</td>

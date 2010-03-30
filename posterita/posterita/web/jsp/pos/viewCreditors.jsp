@@ -76,7 +76,7 @@
 				styleClass = "contentname";
 		%>						
 	   <td class=<%=styleClass%>>	   			
-	   		<html:link href="CreditorDebtorAction.do?action=getCreditorHistory&bpartnerId=<%= element.getBpartnerId() %>">
+	   		<html:link href="<%="CreditorDebtorAction.do?action=getCreditorHistory&bpartnerId=" + element.getBpartnerId() %>">
 				<bean:write name="element" property="partnerName"/>
 			</html:link>		
 	   </td>

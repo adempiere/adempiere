@@ -152,23 +152,23 @@
 		</td>
 		
 		<td class="<%=styleClass%>">
-			<html:link href="EditBPartnerAction.do?action=viewBpartnerDetails&bpartnerId=<%= element.getBpartnerId()%>">
+			<html:link href="<%="EditBPartnerAction.do?action=viewBpartnerDetails&bpartnerId=" + element.getBpartnerId()%>">
  					<img src="images/tango/edit-find.png" title="View Business Partner" alt="View Business Partner" border="0">
  				</html:link>
  				&nbsp;
- 				<html:link href="InitEditBPartnerAction.do?action=initEditBpartnerDetails&bpartnerId=<%= element.getBpartnerId() %>">
+ 				<html:link href="<%="InitEditBPartnerAction.do?action=initEditBpartnerDetails&bpartnerId=" + element.getBpartnerId()%>">
  					<img src="images/tango/accessories-text-editor.png" title="Edit Business Partner" alt="Edit Business Partner" border="0">
  				</html:link>
  				&nbsp;
  			
  				<logic:equal name="element" property="isActive" value="true">
-					<html:link href="ActivateBPartnerAction.do?action=activateBPartner&isActive=true&bpartnerId=<%= element.getBpartnerId() %>">
+					<html:link href="<%="ActivateBPartnerAction.do?action=activateBPartner&bpartnerId=" + element.getBpartnerId()+"&isActive=true" %>">
 						<img src="images/tango/edit-redo.png" title="Deactivate" alt="Deactivate" border="0">
 					</html:link>
 				</logic:equal>
 
 				<logic:notEqual name="element" property="isActive" value="true">
-					<html:link href="ActivateBPartnerAction.do?action=activateBPartner&isActive=false&bpartnerId=<%= element.getBpartnerId() %>">
+					<html:link href="<%="ActivateBPartnerAction.do?action=activateBPartner&bpartnerId=" + element.getBpartnerId()+ "&isActive=false" %>">
 						<img src="images/tango/edit-undo.png" title="Activate" alt="Activate" border="0">
 					</html:link>
 				</logic:notEqual>

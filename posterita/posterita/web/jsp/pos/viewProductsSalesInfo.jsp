@@ -93,7 +93,7 @@
 	
 	<tr>
 		<td class=<%=styleClass%> width="400px">
-			<html:link action="POSProductSalesAnalysisAction.do?action=viewProductSalesDetails&productId=<%= element.getProductId() %>">
+			<html:link action="<%= "POSProductSalesAnalysisAction.do?action=viewProductSalesDetails&productId=" + element.getProductId() %>">
 				<bean:write name="element" property="productName"/>
 			</html:link>
 		</td>

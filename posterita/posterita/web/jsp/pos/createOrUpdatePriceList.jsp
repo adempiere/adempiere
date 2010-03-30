@@ -41,13 +41,13 @@
 			<table align="left" cellpadding="5" width="100%">	
 				<tr>
 			<td colspan="3" align="right">
-				<html:link href='PriceListAction.do?action=viewPriceList&isNext=false&priceListId=<%= priceListId %>'>
+				<html:link href='<%="PriceListAction.do?action=viewPriceList&isNext=false&priceListId=" + priceListId%>'>
 					<img src="images/tango/go-previous.png" title="Previous" alt="Previous" border="0">
 				</html:link>
-				<html:link href="PriceListAction.do?action=viewPriceList&isNext=true&priceListId=<%= priceListId %>">
+				<html:link href="<%="PriceListAction.do?action=viewPriceList&isNext=true&priceListId=" + priceListId%>">
 					<img src="images/tango/go-next.png" title="Next" alt="Next" border="0">
 				</html:link>			
-				<html:link href="PriceListAction.do?action=viewPriceList&priceListId=0">
+				<html:link href="<%="PriceListAction.do?action=viewPriceList&priceListId=0"%>">
 					<img src="images/tango/document-new.png" title="Create PriceList" alt="Create PriceList" border="0">
 				</html:link>
 			</td>

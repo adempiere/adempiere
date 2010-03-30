@@ -119,7 +119,7 @@
 			</logic:equal>
 		</td>
 		<td class="<%=styleClass%>">
-			<a href="POSCustomerAction.do?action=remove&bpartnerId=<%= element.getBpartnerId() %>"><pos:message key="cart.remove"/></a>
+			<a href="<%= "POSCustomerAction.do?action=remove&bpartnerId=" + element.getBpartnerId()%>"><pos:message key="cart.remove"/></a>
 		</td>				
 	</tr>
 </logic:iterate>
@@ -132,7 +132,7 @@
 </logic:notEmpty>
 </logic:present>
 <div>
-	<applet archive="<%= basePath %>applets/printOrderApplet.jar" code="org.posterita.core.PrintOrderApplet.class" width="0" height="0"></applet>
+	<applet archive="<%= basePath + "applets/printOrderApplet.jar"%>" code="org.posterita.core.PrintOrderApplet.class" width="0" height="0"></applet>
 </div>
 
 <logic:present cookie="preference.printing">
@@ -146,8 +146,8 @@
 			try
 			{				
 				
-				document.applets[0].setPrinterName('<%= cookie.getValue()%>');
-				var url = '<%=basePath %>POSCustomerAction.do?action=generateCustomerBarcode';
+				document.applets[0].setPrinterName(<%="'" + cookie.getValue() + "'"%>);
+				var url = '<%=basePath + "POSCustomerAction.do?action=generateCustomerBarcode"%>';
 				document.applets[0].printURL(url);
 			}
 			catch(e)
@@ -168,8 +168,8 @@
 		try
 		{
 			
-			document.applets[0].setPrinterName('<%= cookie.getValue() %>');
-			var url = '<%=basePath %>POSCustomerAction.do?action=generateCustomerBarcode';
+			document.applets[0].setPrinterName(<%="'" + cookie.getValue() + "'"%>);
+			var url = '<%=basePath + "POSCustomerAction.do?action=generateCustomerBarcode"%>';
 			document.applets[0].printURL(url);
 		}
 		catch(e)

@@ -79,7 +79,7 @@
 		
 							
 		   <td class=<%=styleClass%>>
-		   		<html:link href="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getOrderId() %>">
+		   		<html:link href="<%="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getOrderId() %>">
 					<bean:write name="element" property="documentNo"/>
 				</html:link>		
 		   </td>						

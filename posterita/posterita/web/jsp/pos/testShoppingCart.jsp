@@ -106,15 +106,15 @@
 		</td>		
 		
 		<td class="<%=styleClass%>" align="right">
-			<img src="images/pos/buttons/button_plus.gif" class="button" onclick="incrementCart(<%= element.getProductId() %>)">
+			<img src="images/pos/buttons/button_plus.gif" class="button" onclick="<%="incrementCart("+element.getProductId()+")"%>">
 		</td>
 		
 		<td class="<%=styleClass%>" align="right">
-	  		<img src="images/pos/buttons/button_minus.gif" class="button" onclick="decrementCart(<%= element.getProductId() %>)">
+	  		<img src="images/pos/buttons/button_minus.gif" class="button" onclick="<%="decrementCart("+element.getProductId()+")"%>">
 		</td>
 		
 		<td class="<%=styleClass%>" align="right">
-	  		<img src="images/pos/cross.gif" class="button" onclick="deleteItemFromCart(<%= element.getProductId() %>)">
+	  		<img src="images/pos/cross.gif" class="button" onclick="<%="deleteItemFromCart("+element.getProductId()+")"%>">
 		</td>
 		
 					

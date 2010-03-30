@@ -267,7 +267,7 @@ td.yellow
 
 #messagebox div, .errormsg 
 {
-	background-image: url("<%= path %> + "images/newUI/icon-err.gif");
+	background-image: url("<%= path + "images/newUI/icon-err.gif" %>");
 	background-repeat: no-repeat;
 	background-position: left center;
 	font-family: arial,sans-serif;
@@ -280,7 +280,7 @@ td.yellow
 
 .successmsg
 {
-	background-image: url("<%= path %> + "images/pos/success.gif");
+	background-image: url("<%= path + "images/pos/success.gif" %>");
 	background-repeat: no-repeat;
 	background-position: left top;
 	font-family: arial,sans-serif;
@@ -373,7 +373,7 @@ font
 
 li.submenu
 {
-	list-style-image: url("<%= path %> + "images/pos/buttons/bullet_red.gif");
+	list-style-image: url("<%= path + "images/pos/buttons/bullet_red.gif" %>");
 	font-family: arial,sans-serif;	
 	font-size: 10pt;
 	/*font-weight: bold;*/
@@ -868,142 +868,142 @@ caption
 /* buttons styles */
 .advanced
 {
-	background-image: url("<%= path %> +  "images/pos/buttons/button_advanced.gif");	
+	background-image: url("<%= path + "images/pos/buttons/button_advanced.gif" %>");	
 }
 
 .continue
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_continue.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_continue.gif" %>");
 }
 
 .create
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_create.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_create.gif" %>");
 }
 
 .complete
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_complete.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_complete.gif" %>");
 }
 
 .addtocart
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_addtocart.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_addtocart.gif" %>");
 }
 
 .newcustomer
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_newcustomer.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_newcustomer.gif" %>");
 }
 
 .checkout
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_checkout.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_checkout.gif" %>");
 }
 
 .delete
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_delete.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_delete.gif" %>");
 }
 
 .neworder
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_neworder.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_neworder.gif" %>");
 }
 .newnote
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_newnote.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_newnote.gif" %>");
 }
 
 .cash
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_cash.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_cash.gif" %>");
 }
 
 .card
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_card.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_card.gif" %>");
 }
 
 .cheque
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_cheque.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_cheque.gif" %>");
 }
 
 .mixed
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_mixed.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_mixed.gif" %>");
 }
 
 .save
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_save.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_save.gif" %>");
 }
 
 .search
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_search.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_search.gif" %>");
 }
 
 .edit
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_edit.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_edit.gif" %>");
 }
 
 .tangoSearch
 {
-	background-image: url("<%= path %> + "images/tango/system-search.png");
+	background-image: url("<%= path + "images/tango/system-search.png" %>");
 	margin-top: -3px;
 }
 
 .selectall
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_selectall.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_selectall.gif" %>");
 }
 
 .submit
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_submit.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_submit.gif" %>");
 }
 
 .refresh
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_refresh.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_refresh.gif" %>");
 }
 
 .piechart
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_piechart.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_piechart.gif" %>");
 }
 
 .barchart
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_barchart.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_barchart.gif" %>");
 }
 
 .timeseries
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_timeseries.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_timeseries.gif" %>");
 }
 
 .tabular
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_tabular.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_tabular.gif" %>");
 }
 
 .saveascsv
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_saveascsv.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_saveascsv.gif" %>");
 }
 
 .saveaspdf
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_saveaspdf.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_saveaspdf.gif" %>");
 }
 
 .blank
 {
-	background-image: url("<%= path %> + "images/pos/buttons/button_blank.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_blank.gif" %>");
 }
 
 .bigbutton
@@ -1276,7 +1276,7 @@ div#PINPanel
 
 div#divBack
 {
-	background-image: url("<%= path %> + "images/pos/maskBG.png");
+	background-image: url("<%= path + "images/pos/maskBG.png" %>");
     filter: alpha(opacity=40);
 }
 
@@ -1440,7 +1440,7 @@ fieldset.submenu{
 	color: #666666;	
 	height: 42px;
 	/*min-width:87px;*/
-	background-image: url("<%= path %> + "images/pos/buttons/button_middle.gif");
+	background-image: url("<%= path + "images/pos/buttons/button_middle.gif" %>");
 	border-left: solid 1px #9b9b9b;
 	border-right: solid 1px #9b9b9b;
 	border-top-width: 0px;
@@ -1455,7 +1455,7 @@ fieldset#createcustomer{
 
 /*
 .searchBox{
-  background-image:url("<%= path %> + "images/pos/magnifying-glass.gif");
+  background-image:url("<%= path + "images/pos/magnifying-glass.gif" %>");
   background-repeat:no-repeat;
   padding-left:20px;
 }
@@ -1541,7 +1541,7 @@ div#customerInfoPanel{
 
 div.disableMask
 {
-	background-image: url("<%= path %> + "images/pos/maskBG.png");
+	background-image: url("<%= path + "images/pos/maskBG.png" %>");
     filter: alpha(opacity=40);
 }
 
@@ -1551,7 +1551,7 @@ div.ajaxindicator
 	padding:10px;
 	border:solid 1px #000000;
 	background-color:#FFFFFF;
-	/*background-image: url("<%= path %> + "images/ajax-indicators/indicator.gif");*/
+	/*background-image: url("<%= path + "images/ajax-indicators/indicator.gif" %>");*/
 	background-repeat:no-repeat;
 	background-position:left center;
 	padding-left:20px;
@@ -1567,14 +1567,14 @@ td.loginHeader
 {
 	height: 210px;
 	width: 800px;	
-    background-image: url("<%= path %> + "images/pos/logo.jpg");
+    background-image: url("<%= path + "images/pos/logo.jpg" %>");
 	background-position:center center;
 	background-repeat:no-repeat;	
 }
 
 td.headerLogo
 {
-	background-image: url("<%= path %> + "images/pos/logo.gif");
+	background-image: url("<%= path + "images/pos/logo.gif" %>");
 	background-position:top left;
 	background-repeat:no-repeat;
 	height: 40px;
@@ -1596,7 +1596,7 @@ input.calendar-icon
 {
 	width: 28px;
 	height: 22px;
-	background-image: url("<%= path %> + "images/pos/calendar.gif");
+	background-image: url("<%= path + "images/pos/calendar.gif" %>");
 }
 
 .floatleft

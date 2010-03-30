@@ -94,7 +94,7 @@
 							<table border="0">								
 								<tr>
 									<td  align="center">
-									<html:link action="/ViewReportAction.do?action=viewReport&<%= requestParams %>" target="_blank">
+									<html:link action="<%= "/ViewReportAction.do?action=viewReport&" + requestParams %>" target="_blank">
 										<img src="<%= imgSrc %>" name="image" width="210" height="140">	
 									</html:link>																	
 									</td>

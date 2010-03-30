@@ -47,7 +47,7 @@
 <%@ include file="/jsp/include/errors.jsp" %> 
 
 <div>
-	<html:link href="ViewAllPOSProduct.do">
+	<html:link href="<%="ViewAllPOSProduct.do"%>">
 	 <pos:message key="back" textOnly="true"/>
 	</html:link>
 </div>	
@@ -126,7 +126,7 @@
 				styleClass1 = "contentname";
 		%>							
 		   <td class=<%=styleClass1%>>
-		   		<html:link href="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getOrderId() %>">
+		   		<html:link href="<%="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getOrderId() %>">
 					<bean:write name="element" property="documentNo"/>
 				</html:link>		
 		   </td>						

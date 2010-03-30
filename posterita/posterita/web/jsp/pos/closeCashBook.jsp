@@ -90,13 +90,13 @@
 	<td class="<%=styleClass%>">
 		<bean:define id="beginingBalance" name="element" property="beginingBalance"/>
 		<fmt:formatNumber value='${beginingBalance}'type="currency" currencySymbol='${currSymbole}'/>
-		<html:hidden property="beginingBalanceAsString" value="<%= beginingBalance.toString() %>"/>
+		<html:hidden property="beginingBalanceAsString" value="<%=""+beginingBalance%>"/>
 	</td>
 	
 	<td class="<%=styleClass%>">						     
 		 <bean:define id="endingBalance" name="element" property="endingBalance"/>
 		<fmt:formatNumber value='${endingBalance}' type="currency" currencySymbol='${currSymbole}'/>
-		<html:hidden property="endingBalanceAsString" value="<%= endingBalance.toString() %>"/>							
+		<html:hidden property="endingBalanceAsString" value="<%=""+endingBalance%>"/>							
 	 </td>
 	
 	<td class="<%=styleClass%>">

@@ -88,7 +88,7 @@
 						</td>
 						
 						<td class="<%=styleClass%>">
-							<html:link href="ViewUserDetailsAction.do?action=viewUserDetails&userID=<%= element.getUserId() %>">
+							<html:link href="<%="ViewUserDetailsAction.do?action=viewUserDetails&userID=" + element.getUserId() %>">
 		     					<bean:message key="admin.viewUsers.editDelete"/>
 		     				</html:link>
 						</td>

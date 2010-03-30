@@ -99,18 +99,18 @@
 			%>
 
 			<logic:equal name="row" property="isActive" value="true">
-				<html:link href='SearchTerminalAction.do?action=deactivateTerminal&terminalId=<%= ((TerminalBean)row).getTerminalId().intValue() %>' paramName="TerminalForm" paramId="searchText" paramProperty="searchText">
+				<html:link href='<%="SearchTerminalAction.do?action=deactivateTerminal&terminalId=" + ((TerminalBean)row).getTerminalId().intValue()%>' paramName="TerminalForm" paramId="searchText" paramProperty="searchText">
 					<img src="images/tango/edit-redo.png" title="Deactivate Terminal" alt="Deactivate" border="0">
 				</html:link>
 			</logic:equal>
 			
 			<logic:notEqual name="row" property="isActive" value="true">
-				<html:link href='SearchTerminalAction.do?action=activateTerminal&terminalId=<%= ((TerminalBean)row).getTerminalId().intValue() %>' paramName="TerminalForm" paramId="searchText" paramProperty="searchText">
+				<html:link href='<%="SearchTerminalAction.do?action=activateTerminal&terminalId=" + ((TerminalBean)row).getTerminalId().intValue()%>' paramName="TerminalForm" paramId="searchText" paramProperty="searchText">
 					<img src="images/tango/edit-undo.png" title="Activate Terminal" alt="Activate" border="0">
 				</html:link>
 			</logic:notEqual>
 			<logic:notEqual name="row" property="isCurrentTerminal" value="true">
-				<html:link href='SearchTerminalAction.do?action=updateCurrentTerminal&terminalId=<%= ((TerminalBean)row).getTerminalId().intValue() %>' paramName="TerminalForm" paramId="searchText" paramProperty="searchText">
+				<html:link href='<%="SearchTerminalAction.do?action=updateCurrentTerminal&terminalId=" + ((TerminalBean)row).getTerminalId().intValue()%>' paramName="TerminalForm" paramId="searchText" paramProperty="searchText">
 					<img src="images/tango/go-jump.png" title='<pos:message textOnly="true" key="UpdateCurrentPOSTerminal"/>' alt='<pos:message textOnly="true" key="UpdateCurrentPOSTerminal"/>' border="0">
 				</html:link>
 			</logic:notEqual>

@@ -210,7 +210,7 @@
 										
 										<tr id="row<%=count%>" class="<%=styleClass%>" itemId="<%=element.getProductId()%>">
 											<td style="color: #669ACF;">
-												<html:link action="POSProductSalesAnalysisAction.do?action=viewProductSalesDetails&productId=<%= element.getProductId() %>">
+												<html:link action="<%= "POSProductSalesAnalysisAction.do?action=viewProductSalesDetails&productId=" + element.getProductId() %>">
 													<bean:write name="element" property="productName" filter="false"/>
 												</html:link>
 											</td>

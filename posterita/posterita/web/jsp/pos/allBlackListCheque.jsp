@@ -99,9 +99,9 @@
 		
 		<td class="<%=styleClass%>">
 		<bean:define id="blackListedId" name="element" property="blackListedId"/>
-			<html:link href="BlackListChequeAction.do?action=initEditCheque&blackListedId=<%= blackListedId %>">Edit</html:link>
+			<html:link href="<%="BlackListChequeAction.do?action=initEditCheque&blackListedId="+ blackListedId%>">Edit</html:link>
 			&nbsp;
-			<html:link href="BlackListChequeAction.do?action=deactivateCheque&blackListedId=<%= blackListedId %>">Delete</html:link>
+			<html:link href="<%="BlackListChequeAction.do?action=deactivateCheque&blackListedId=" + blackListedId%>">Delete</html:link>
 						
 		</td>						
 	</tr>

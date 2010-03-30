@@ -56,11 +56,11 @@
 		<bean:define id="productId" name="POSProductForm" property="productId" ></bean:define>
 		<script>
 		$('previousItem').onclick = function(e){
-			get('POSProductAction.do?action=viewProduct&isNext=false&productId=<%= productId %>');
+			get('<%="POSProductAction.do?action=viewProduct&isNext=false&productId=" + productId%>');
 			};
 			
 		$('nextItem').onclick = function(e){
-			get('POSProductAction.do?action=viewProduct&isNext=true&productId=<%= productId %>');
+			get('<%="POSProductAction.do?action=viewProduct&isNext=true&productId=" + productId%>');
 		}
 			
 		</script>
@@ -337,7 +337,7 @@
 									
 								%>
 								
-								<tr id="row<%= (index.intValue()+1) %>" class="<%=styleClass%>" onMouseOver="this.className='highlight'" onMouseOut="this.className='oddRow'"">
+								<tr id="<%= "row" + (index.intValue()+1)%>" class="<%=styleClass%>" onMouseOver="this.className='highlight'" onMouseOut="this.className='oddRow'"">
 									<td class="bold11" width="100">
 										<bean:write name="productBean" property="priceListName"/>
 										<logic:equal name="productBean" property="isMandatory" value="true">

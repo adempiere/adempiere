@@ -207,7 +207,10 @@
 							<logic:notEqual name="element" property="allocationStatus" value="<%=Constants.PAID%>">
 				
 								<logic:greaterThan name="element" property="openAmt" value="0">
-								  	<html:link href="InitCreatePaymentAction.do?action=initCreatePayment&invoiceId=<%= element.getInvoiceId() %>&invoiceNo=<%= element.getInvoiceNo() %>&invoiceGrandTotal=<%= element.getInvoiceGrandTotal() %>&paidAmt=<%= element.getPaidAmt() %>&openAmt=<%= element.getOpenAmt() %>&discountAmt=<%= element.getDiscountAmt()%>">
+								  	<html:link href="<%="InitCreatePaymentAction.do?action=initCreatePayment&invoiceId=" + element.getInvoiceId()+
+								  						"&invoiceNo="+element.getInvoiceNo()+"&invoiceGrandTotal="+element.getInvoiceGrandTotal()+
+								  						"&paidAmt="+element.getPaidAmt()+"&openAmt="+element.getOpenAmt()+
+								  						"&discountAmt="+element.getDiscountAmt()%>">
 									 	Pay
 									
 									 </html:link>	
@@ -216,13 +219,13 @@
 							</td>
 						
 							<td class=<%=styleClass%> >
-									<html:link href="ViewInvoiceAction.do?action=viewOrder&documentId=<%= element.getInvoiceId() %>">
+									<html:link href="<%="ViewInvoiceAction.do?action=viewOrder&documentId=" + element.getInvoiceId() %>">
 										<bean:write name="element" property="invoiceNo"/>
 									</html:link>
 							</td>
 							
 							<td class=<%=styleClass%> >
-								<html:link href="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getOrderId() %>">
+								<html:link href="<%="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getOrderId() %>">
 									<bean:write name="element" property="documentNo"/>
 								</html:link>
 							</td>
@@ -254,7 +257,7 @@
 							</td>
 							<td class=<%=styleClass%> >
 							
-								<html:link href="ViewPaymentAllocationAction.do?action=getAllocationDetailsForPartner&invoiceNo=<%= element.getInvoiceNo()%>">
+								<html:link href="<%="ViewPaymentAllocationAction.do?action=getAllocationDetailsForPartner&invoiceNo=" + element.getInvoiceNo()%>">
 								 	<bean:write name="element" property="paidAmt"/>
 								 </html:link>	
 							</td>
@@ -334,7 +337,7 @@
 					<logic:iterate indexId="count" id="element" name="<%=Constants.UNALLOCATED_PAYMENTS%>" type="org.posterita.beans.OpenItemBean">		
 						<tr>
 							<td>
-						   		<html:link href="ViewWebstorePaymentAction.do?action=viewOrder&documentId=<%= element.getPaymentId() %>">
+						   		<html:link href="<%="ViewWebstorePaymentAction.do?action=viewOrder&documentId=" + element.getPaymentId() %>">
 									<bean:write name="element" property="paymentId"/>
 								</html:link>
 	  					 	</td>

@@ -114,7 +114,7 @@
 		</td>	
 		</td>		
 		<td  align="right" class=<%=styleClass%>>					    
-			<html:link action="ViewPOSProductCartAction.do?action=remove&productId=<%= element.getProductId() %>">Remove</html:link>
+			<html:link action="<%= "ViewPOSProductCartAction.do?action=remove&productId=" + element.getProductId() %>">Remove</html:link>
 	 	</td>	 	 
 	</tr>		
 </logic:iterate>

@@ -41,7 +41,7 @@
 	<table>
 		<tr>			
 			<td colspan="3" align="right">
-				<html:link href="POSProductAction3.do?action=getCreateProductForm&productId=0">
+				<html:link href="<%="POSProductAction3.do?action=getCreateProductForm&productId=0"%>">
 					<img src="images/tango/document-new.png" title="Create Product" alt="Create Product" border="0">
 				</html:link>
 			</td>
@@ -191,7 +191,7 @@
 		<html:hidden name="productBean" property="productId" value="<%=productBean.getProductId().toString()%>" indexed="true"/>
 		<html:hidden name="productBean" property="priceListVersionId" value="<%=productBean.getPriceListVersionId().toString()%>" indexed="true"/>
 		
-		<tr id="row<%= (index.intValue()+1) %>">
+		<tr id="<%= "row" + (index.intValue()+1)%>">
 			<td><bean:write name="productBean" property="priceListName"/>
 				<logic:equal name="productBean" property="isMandatory" value="true">
 					<mandatory>*</mandatory>

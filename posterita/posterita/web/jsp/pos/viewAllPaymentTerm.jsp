@@ -95,19 +95,19 @@
 			</td>
 			
 			<td class="<%=styleClass%>" align="center">
-				<html:link href="InitEditPaymentTermAction.do?action=initEditPaymentTerm&paymentTermId=<%= element.getPaymentTermId() %>">
+				<html:link href="<%="InitEditPaymentTermAction.do?action=initEditPaymentTerm&paymentTermId=" + element.getPaymentTermId()%>">
 					<img src="images/tango/accessories-text-editor.png" title="Edit" alt="Edit" border="0">
 				</html:link>
 				&nbsp;
 				
 				<logic:equal name="element" property="isActive" value="true">
-					<html:link href="ActivateDeactivatePaymentTermAction.do?action=deActivatePaymentTerm&paymentTermId=<%= element.getPaymentTermId() %>">
+					<html:link href="<%="ActivateDeactivatePaymentTermAction.do?action=deActivatePaymentTerm&paymentTermId=" + element.getPaymentTermId()%>">
 						<img src="images/tango/edit-redo.png" title="Deactivate" alt="Deactivate" border="0">
 					</html:link>
 				</logic:equal>
 
 				<logic:notEqual name="element" property="isActive" value="true">
-					<html:link href="ActivateDeactivatePaymentTermAction.do?action=activatePaymentTerm&paymentTermId=<%= element.getPaymentTermId() %>">
+					<html:link href="<%="ActivateDeactivatePaymentTermAction.do?action=activatePaymentTerm&paymentTermId=" + element.getPaymentTermId()%>">
 						<img src="images/tango/edit-undo.png" title="Activate" alt="Activate" border="0">
 					</html:link>
 				</logic:notEqual>

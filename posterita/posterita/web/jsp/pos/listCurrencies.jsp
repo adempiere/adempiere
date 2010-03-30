@@ -79,7 +79,7 @@
 				<bean:write name="currencyList" property="isActive"/>
 			</td>
 			<td  align="center" class = "label">
-				<html:link href="CurrencyAction.do?action=viewCurrency&currencyId=<%= currencyList.getCurrencyId() %>">
+				<html:link href="<%="CurrencyAction.do?action=viewCurrency&currencyId=" + currencyList.getCurrencyId()%>">
 					<img src="images/tango/accessories-text-editor.png"  border="0"> 
 				</html:link>
 		 	</td>	 	

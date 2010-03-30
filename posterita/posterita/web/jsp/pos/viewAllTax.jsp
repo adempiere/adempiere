@@ -81,19 +81,19 @@
 			</td>
 			
 			<td class="<%=styleClass%>" width="10%" align="center">
-				<html:link href="EditTaxAction.do?action=initEditTax&taxId=<%= element.getTaxId() %>">
+				<html:link href="<%="EditTaxAction.do?action=initEditTax&taxId=" + element.getTaxId()%>">
 					<img src="images/tango/accessories-text-editor.png" title="Edit" alt="Edit" border="0">
 				</html:link>
 				&nbsp;
 				
 				<logic:equal name="element" property="isActive" value="true">
-					<html:link href="ActivateDeactivateTaxAction.do?action=deActivateTax&taxId=<%= element.getTaxId() %>">
+					<html:link href="<%="ActivateDeactivateTaxAction.do?action=deActivateTax&taxId=" + element.getTaxId()%>">
 						<img src="images/tango/edit-redo.png" title="Deactivate" alt="Deactivate" border="0">
 					</html:link>
 				</logic:equal>
 
 				<logic:notEqual name="element" property="isActive" value="true">
-					<html:link href="ActivateDeactivateTaxAction.do?action=activateTax&taxId=<%= element.getTaxId() %>">
+					<html:link href="<%="ActivateDeactivateTaxAction.do?action=activateTax&taxId=" + element.getTaxId()%>">
 						<img src="images/tango/edit-undo.png" title="Activate" alt="Activate" border="0">
 					</html:link>
 				</logic:notEqual>

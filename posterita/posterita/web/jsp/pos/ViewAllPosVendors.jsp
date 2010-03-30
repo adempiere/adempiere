@@ -138,22 +138,22 @@
 	</td>
 	
 	<td nowrap="nowrap" class="<%=styleClass%>">
-		<html:link href="POSVendorAction.do?action=initEditVendor&bpartnerId=<%= element.getBpartnerId() %>">
+		<html:link href="<%="POSVendorAction.do?action=initEditVendor&bpartnerId=" + element.getBpartnerId()%>">
 			<img src="images/tango/accessories-text-editor.png" title='<%= editmsg %>' alt='<%=editmsg%>' border="0">
 		</html:link>
 		
-		<html:link href="POSVendorAction.do?action=viewVendorDetails1&bpartnerId=<%= element.getBpartnerId() %>">
+		<html:link href="<%="POSVendorAction.do?action=viewVendorDetails1&bpartnerId=" + element.getBpartnerId()%>">
 			<img src="images/tango/edit-find.png" title='<%=viewmsg%>' alt='<%=viewmsg%>' border="0">
 		</html:link>
 		
 		<logic:equal name="element" property="isActive" value="true">
-		<html:link href="POSVendorAction.do?action=deactivateVendor&bpartnerId=<%= element.getBpartnerId() %>">
+		<html:link href="<%="POSVendorAction.do?action=deactivateVendor&bpartnerId=" + element.getBpartnerId()%>">
 			<img src="images/tango/edit-redo.png" title='<%=deactivatemsg%>' alt='<%=deactivatemsg%>' border="0">
 		</html:link>
 		</logic:equal>
 
 		<logic:notEqual name="element" property="isActive" value="true">
-		<html:link href="POSVendorAction.do?action=activateVendor&bpartnerId=<%= element.getBpartnerId() %>">
+		<html:link href="<%="POSVendorAction.do?action=activateVendor&bpartnerId=" + element.getBpartnerId()%>">
 			<img src="images/tango/edit-undo.png" title='<%=activatemsg%>' alt='<%=activatemsg%>' border="0">
 		</html:link>
 		</logic:notEqual>

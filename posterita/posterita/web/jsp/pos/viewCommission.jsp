@@ -86,7 +86,7 @@
 											<bean:write name="element" property="periodAndCurrencyDesc"/>
 									   </td>
 									   <td class="<%=styleClass%>">
-									   <html:link href="ViewCommissionAction.do?action=viewCommissionDetails&commissionAmtId=<%= element.getCommissionAmtId() %>">
+									   <html:link href="<%="ViewCommissionAction.do?action=viewCommissionDetails&commissionAmtId="+element.getCommissionAmtId() %>">
 											<bean:define id="convertedAmt" name="element" property="convertedAmt"/>
 											<fmt:formatNumber value='${convertedAmt}' maxFractionDigits="2" type="currency" currencySymbol='${symbol}'/>	
 										</html:link>

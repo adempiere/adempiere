@@ -79,7 +79,7 @@
 						
 	   <td class=<%=styleClass%>>
 	   			
-	   		<html:link href="ViewBPartnerTrxDetailsAction.do?action=getBpartnerTrxDetails&isCustomer=<%= element.getIsCustomer() %>&bpartnerId=<%= element.getBpartnerId() %>">
+	   		<html:link href="<%="ViewBPartnerTrxDetailsAction.do?action=getBpartnerTrxDetails&isCustomer="+element.getIsCustomer()+"&bpartnerId=" + element.getBpartnerId() %>">
 				<bean:write name="element" property="partnerName"/>
 			</html:link>		
 	   </td>						

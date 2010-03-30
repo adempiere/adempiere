@@ -42,14 +42,14 @@
 <%@ include file="/jsp/include/errors.jsp" %> 
 <div class="spacingSubmenu"/>
 	<pos:message key="select"/>:<br>
-	<html:link action="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod=<%= ReportDateManager.TODAY %>" styleClass="submenu"><pos:message key="today"/></html:link><br>					
-	<html:link action="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod=<%= ReportDateManager.CURRENT_WEEK %>" styleClass="submenu"><pos:message key="current.week"/></html:link><br>							
-	<html:link action="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod=<%= ReportDateManager.LAST_2WEEKS %>" styleClass="submenu"><pos:message key="last.2.weeks"/></html:link><br>						
-	<html:link action="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod=<%= ReportDateManager.LAST_3WEEKS %>" styleClass="submenu"><pos:message key="last.3.weeks"/></html:link><br>
-	<html:link action="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod=<%= ReportDateManager.CURRENT_MONTH %>" styleClass="submenu"><pos:message key="current.month"/></html:link><br>
-	<html:link action="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod=<%= ReportDateManager.LAST_3MONTHS %>" styleClass="submenu"><pos:message key="last.3.months"/></html:link><br>
-	<html:link action="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod=<%= ReportDateManager.LAST_6MONTHS %>" styleClass="submenu"><pos:message key="last.6.month"/></html:link><br>
-	<html:link action="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod=<%= ReportDateManager.CURRENT_YEAR %>" styleClass="submenu"><pos:message key="current.year"/></html:link><br>
+	<html:link action="<%="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod="+ReportDateManager.TODAY%>" styleClass="submenu"><pos:message key="today"/></html:link><br>					
+	<html:link action="<%="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod="+ReportDateManager.CURRENT_WEEK%>" styleClass="submenu"><pos:message key="current.week"/></html:link><br>							
+	<html:link action="<%="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod="+ReportDateManager.LAST_2WEEKS%>" styleClass="submenu"><pos:message key="last.2.weeks"/></html:link><br>						
+	<html:link action="<%="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod="+ReportDateManager.LAST_3WEEKS%>" styleClass="submenu"><pos:message key="last.3.weeks"/></html:link><br>
+	<html:link action="<%="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod="+ReportDateManager.CURRENT_MONTH%>" styleClass="submenu"><pos:message key="current.month"/></html:link><br>
+	<html:link action="<%="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod="+ReportDateManager.LAST_3MONTHS%>" styleClass="submenu"><pos:message key="last.3.months"/></html:link><br>
+	<html:link action="<%="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod="+ReportDateManager.LAST_6MONTHS%>" styleClass="submenu"><pos:message key="last.6.month"/></html:link><br>
+	<html:link action="<%="/CustomSalesReportAction.do?action=initCustomSalesReport&timePeriod="+ReportDateManager.CURRENT_YEAR%>" styleClass="submenu"><pos:message key="current.year"/></html:link><br>
 	<html:link action="/CustomSalesReport.do" styleClass="submenu"><pos:message key="custom"/></html:link><br>
 		    									 					 
 <%@ include file="/jsp/include/posFooter.jsp" %>

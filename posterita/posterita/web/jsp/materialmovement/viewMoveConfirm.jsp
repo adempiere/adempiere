@@ -58,7 +58,7 @@
 				<bean:write name="stock" property="moveConfirmId" />
 			</td>
 			<td class = "label">
-				<html:link action="StockMovementAction.do?action=viewMoveConfirmLines&movementId=<%= stock.getMovementId().toString() %>&moveConfirmId=<%= stock.getMoveConfirmId().toString() %>"><bean:write name="stock" property="documentNo"/></html:link>
+				<html:link action="<%="StockMovementAction.do?action=viewMoveConfirmLines&movementId=" + stock.getMovementId().toString() + "&moveConfirmId=" + stock.getMoveConfirmId().toString() %>"><bean:write name="stock" property="documentNo"/></html:link>
 			</td>
 			<td class = "label">
 				<bean:write name="stock" property="orgFromName"/>
@@ -77,7 +77,7 @@
 			<% if (!stock.getDocStatus().equals("CO"))
 				{
 			%>
-				<html:link action="StockMovementAction.do?action=completeMoveConfirm&moveConfirmId=<%= stock.getMoveConfirmId().toString() %>">Complete</html:link>
+				<html:link action="<%= "StockMovementAction.do?action=completeMoveConfirm&moveConfirmId=" + stock.getMoveConfirmId().toString()%>">Complete</html:link>
 			<%
 				}
 			%>		

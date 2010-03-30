@@ -90,37 +90,37 @@
 						
 	   <td class=<%=styleClass%>>
 	   		
-	   		<html:link href="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId=<%= element.getBpartnerId() %>">
+	   		<html:link href="<%="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId="+ element.getBpartnerId() %>">
    						<bean:write name="element" property="partnerName"/>
    			</html:link>	
 	   				
 	   </td>						
 	   						   
 	   <td class=<%=styleClass%>>
-			<html:link href="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getOrderId() %>">
+			<html:link href="<%="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getOrderId() %>">
 				<bean:write name="element" property="documentNo"/>
 			</html:link>
 	   </td>	
 	   <td class=<%=styleClass%>>
-	   		<html:link href="ViewInvoiceAction.do?action=viewOrder&documentId=<%= element.getInvoiceId() %>">
+	   		<html:link href="<%="ViewInvoiceAction.do?action=viewOrder&documentId=" + element.getInvoiceId() %>">
 				<bean:write name="element" property="invoiceNo"/>
 			</html:link>
 			
 	   </td>					   
 	   <td class=<%=styleClass%>>
-	   		<html:link href="ViewWebstorePaymentAction.do?action=viewOrder&documentId=<%= element.getPaymentId() %>">
+	   		<html:link href="<%="ViewWebstorePaymentAction.do?action=viewOrder&documentId=" + element.getPaymentId() %>">
 				<bean:write name="element" property="paymentId"/>
 			</html:link>
 			
 	   </td>
 	   <td class=<%=styleClass%>>
-		   <html:link href="ViewWebstoreCashPaymentAction.do?action=viewOrder&documentId=<%= element.getCashLineId() %>">
+		   <html:link href="<%="ViewWebstoreCashPaymentAction.do?action=viewOrder&documentId=" + element.getCashLineId() %>">
 				<bean:write name="element" property="cashLineId"/>
 			</html:link>
 	   </td>
 	   
 	   <td class=<%=styleClass%>>
-	   		<html:link href="ViewInvoiceAction.do?action=viewOrder&documentId=<%= element.getCreditMemoId() %>">
+	   		<html:link href="<%="ViewInvoiceAction.do?action=viewOrder&documentId=" + element.getCreditMemoId() %>">
 				<bean:write name="element" property="creditMemoNumber"/>
 			</html:link>
 	   </td>	

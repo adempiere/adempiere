@@ -149,7 +149,7 @@ if (isTerminalLocked)
 							<html:link href="PostingAction.do?action=resubmitPosting">
 								<image src="images/newUI/butn-system.gif" border="0"/>
 							</html:link>
-							<html:link href="POSLogoutAction.do?action=logout">
+							<html:link href="<%="POSLogoutAction.do?action=logout"%>">
 									<image src="images/newUI/butn-exit.gif" border="0"/>
 							</html:link>
 						</div>

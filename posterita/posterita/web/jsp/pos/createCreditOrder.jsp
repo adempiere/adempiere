@@ -44,7 +44,7 @@
 <bean:define id="title"><pos:message textOnly="true" key="smenu.credit.sales"/></bean:define>
 <table width="100%">
 	<td align="right">
-		<html:link href="CreateNewOrderAction.do?action=removeSessionForNewOrder&orderType=<%= UDIOrderTypes.CREDIT_ORDER.getOrderType() %>">
+		<html:link href="<%="CreateNewOrderAction.do?action=removeSessionForNewOrder&orderType=" + UDIOrderTypes.CREDIT_ORDER.getOrderType() %>">
 			Create New
 		</html:link>			
 	</td>

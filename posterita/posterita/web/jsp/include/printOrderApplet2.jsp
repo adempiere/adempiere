@@ -30,26 +30,26 @@
 	<script>
 		try
 		{
-			document.applets[0].setPrinterName('<%= cookie.getValue() %>');
+			document.applets[0].setPrinterName(<%="'" + cookie.getValue() + "'"%>);
 		}
 		catch (e)
 		{}
 			
 		function print()
 		{
-			var url = '<%= basePath %>ReprintOrderAction.do?action=getPrintOrderData&orderId=';
+			var url = '<%=basePath + "ReprintOrderAction.do?action=getPrintOrderData&orderId="%>';
 			document.applets[0].printURL(url + '<c:out value='${morder._ID}'/>');
 		}
 		
 		function print(orderId)
 		{
-			var url = '<%= basePath %>ReprintOrderAction.do?action=getPrintOrderData&orderId=';
+			var url = '<%=basePath + "ReprintOrderAction.do?action=getPrintOrderData&orderId="%>';
 			document.applets[0].printURL(url + orderId);
 		}
 		
 		function printOrder(orderId)
 		{
-			var url = '<%= basePath %>ReprintOrderAction.do?action=getPrintOrderData&openDrawer=false&orderId=';
+			var url = '<%=basePath + "ReprintOrderAction.do?action=getPrintOrderData&openDrawer=false&orderId="%>';
 			document.applets[0].printURL(url + orderId);
 		}
 	</script>
