@@ -333,10 +333,18 @@ public class WFileImport extends ADForm implements EventListener
 		if (media == null)
 			return;
 		
-		if (media.isBinary())
+		if (media.isBinary()) {
 			m_file_istream = media.getStreamData();
-		else
-			m_file_istream = new ReaderInputStream(media.getReaderData());
+		}
+		else {
+			ListItem listitem = fCharset.getSelectedItem();
+			if (listitem == null) {
+				m_file_istream = new ReaderInputStream(media.getReaderData());
+			} else {
+				Charset charset = (Charset)listitem.getValue();
+				m_file_istream = new ReaderInputStream(media.getReaderData(), charset.name());
+			}
+		}
 		
 		log.config(media.getName());
 		bFile.setLabel(media.getName());
