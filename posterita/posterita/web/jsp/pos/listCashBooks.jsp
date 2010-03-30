@@ -82,13 +82,13 @@
 			</html:link>
 			
 			<logic:equal name="row" property="isActive" value="true">
-				<html:link href='<%="SearchCashBookAction.do?action=deactivateCashBook&cashBookId=" + ((CashBookBean)row).getCashBookId().intValue()%>' paramName="CashBookForm" paramId="searchText" paramProperty="searchText">
+				<html:link href='SearchCashBookAction.do?action=deactivateCashBook&cashBookId=<%= ((CashBookBean)row).getCashBookId().intValue() %>' paramName="CashBookForm" paramId="searchText" paramProperty="searchText">
 					<img src="images/tango/edit-redo.png" title="Deactivate CashBook" alt="Deactivate" border="0">
 				</html:link>
 			</logic:equal>
 			
 			<logic:notEqual name="row" property="isActive" value="true">
-				<html:link href='<%="SearchCashBookAction.do?action=activateCashBook&cashBookId=" + ((CashBookBean)row).getCashBookId().intValue()%>' paramName="CashBookForm" paramId="searchText" paramProperty="searchText">
+				<html:link href='SearchCashBookAction.do?action=activateCashBook&cashBookId=<%= ((CashBookBean)row).getCashBookId().intValue() %>' paramName="CashBookForm" paramId="searchText" paramProperty="searchText">
 					<img src="images/tango/edit-undo.png" title="Activate CashBook" alt="Activate" border="0">
 				</html:link>
 			</logic:notEqual>

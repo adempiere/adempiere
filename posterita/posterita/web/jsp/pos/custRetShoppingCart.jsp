@@ -85,17 +85,16 @@
 		<bean:define id="grandTotal" name="element" property="grandTotal"/>
 	</td>			
 	<td class="<%=styleClass%>" align="right">
-		<img src="images/pos/buttons/button_plus.gif" class="cartBtn" onclick="<%="incrementCart("+element.getProductId()+")"%>">
+		<img src="images/pos/buttons/button_plus.gif" class="cartBtn" onclick="incrementCart(<%= element.getProductId() %>)">
 	</td>
 
 	<td class="<%=styleClass%>" align="right">
-  		<img src="images/pos/buttons/button_minus.gif" class="cartBtn" onclick="<%="decrementCart("+element.getProductId()+")"%>">
+  		<img src="images/pos/buttons/button_minus.gif" class="cartBtn" onclick="decrementCart(<%= element.getProductId() %>)">
 	</td>
 	
 	
 	<td class="<%=styleClass%>" align="center">
-						<html:link href="<%="DeleteFromShoppingCartAction.do?action=deleteFromCustRetCart&productId="
-						+ element.getProductId()%>">X</html:link>
+						<html:link href="DeleteFromShoppingCartAction.do?action=deleteFromCustRetCart&productId=<%= element.getProductId()%>">X</html:link>
    </td>						
 </tr>
 </logic:iterate>

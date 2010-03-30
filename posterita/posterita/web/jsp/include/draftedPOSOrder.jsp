@@ -83,7 +83,7 @@
 					 <logic:notPresent name="<%= Constants.PARTIAL_POS_OREDR %>">			
 					 <logic:present name="<%= Constants.CURRENT_POS_ORDER_ID  %>">
 							<bean:define id="posOrderId" name="<%= Constants.CURRENT_POS_ORDER_ID  %>"/>								
-							<html:link href="<%="GetShoppingCartForOrder.do?action=getOrderShoppingCart&orderId="+posOrderId + "&orderType=" + orderType%>">
+							<html:link href="GetShoppingCartForOrder.do?action=getOrderShoppingCart&orderId=<%= posOrderId %>&orderType=<%= orderType%>">
 						   		<html:button property="btn" styleClass="edit smallbutton" accesskey="c">&nbsp;</html:button>				
 						   	</html:link>
 					 </logic:present>	

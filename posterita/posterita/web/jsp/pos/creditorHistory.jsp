@@ -66,15 +66,15 @@ if(partner.getName2() != null)
 		<td><bean:write name="element" property="date" format="dd/MM/yyyy"/></td>
 		<td>
 			<logic:equal value="Order" name="element" property="docType">
-			<html:link action="<%="/ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getDocId()%>"><bean:write name="element" property="reference"/></html:link>
+			<html:link action="/ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getDocId()%>"><bean:write name="element" property="reference"/></html:link>
 			</logic:equal>
 			
 			<logic:equal value="Payment" name="element" property="docType">
-			<html:link action="<%="/ViewWebstorePaymentAction.do?action=viewOrder&documentId=" + element.getDocId()%>"><bean:write name="element" property="reference"/></html:link>
+			<html:link action="/ViewWebstorePaymentAction.do?action=viewOrder&documentId=<%= element.getDocId()%>"><bean:write name="element" property="reference"/></html:link>
 			</logic:equal>
 			
 			<logic:equal value="CashLine" name="element" property="docType">
-			<html:link action="<%="/ViewWebstoreCashPaymentAction.do?action=viewOrder&documentId=" + element.getDocId()%>"><bean:write name="element" property="reference"/></html:link>
+			<html:link action="/ViewWebstoreCashPaymentAction.do?action=viewOrder&documentId=<%= element.getDocId()%>"><bean:write name="element" property="reference"/></html:link>
 			</logic:equal>
 		</td>
 		<td><bean:write name="element" property="details"/></td>

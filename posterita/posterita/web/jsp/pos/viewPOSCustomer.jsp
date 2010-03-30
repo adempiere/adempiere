@@ -196,7 +196,7 @@
 									<bean:define id="bpartnerId" name="<%=Constants.CUSTOMER_DETAILS%>" property="bpartnerId"/>
 									<bean:define id="partnerName" name="<%=Constants.CUSTOMER_DETAILS%>" property="partnerName"/>
 								
-									<html:link href="<%="GetBpartnerPaymentStatus.do?action=getBpartnerPaymentStatus&forward=/ViewPOSCustomer.do&bpartnerId=" + bpartnerId+"&partnerName="+partnerName%>">
+									<html:link href="GetBpartnerPaymentStatus.do?action=getBpartnerPaymentStatus&forward=/ViewPOSCustomer.do&bpartnerId=<%= bpartnerId %>&partnerName=<%= partnerName%>">
 										<pos:message key="settle.payment"/>
 									</html:link>
 								

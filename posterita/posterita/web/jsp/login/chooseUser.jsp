@@ -67,7 +67,7 @@
 						<!--<ul>-->
 							<logic:iterate id="user" collection="<%=element.getOrgUsers()%>" type="org.compiere.model.MUser">
 							<!--<li>-->
-								&nbsp;&nbsp;&nbsp;&nbsp;<html:link href="<%="LoginUserAction.do?action=loginUser&userId=" + user.get_ID()%>" styleClass="submenu">
+								&nbsp;&nbsp;&nbsp;&nbsp;<html:link href="LoginUserAction.do?action=loginUser&userId=<%= user.get_ID() %>" styleClass="submenu">
 									<bean:write name="user" property="name"/>
 								</html:link>	
 								<br/>				

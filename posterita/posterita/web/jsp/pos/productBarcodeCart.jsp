@@ -329,7 +329,7 @@
 			try
 			{				
 				
-				document.applets[0].setPrinterName(<%="'" + cookie.getValue() + "'"%>);
+				document.applets[0].setPrinterName(<%= cookie.getValue() %>');
 				var url = '<%=basePath + "BarcodeAction.do?action=printProductBarcode"%>' + '&isPrintPrices=' + isPrintPrices + '&isPrintProductName=' + isPrintProductName + '&isPrintProductDescription=' + isPrintProductDescription;
 				document.applets[0].printURL(url);
 			}
@@ -361,8 +361,8 @@
 		try
 		{
 			
-			document.applets[0].setPrinterName(<%="'" + cookie.getValue() + "'"%>);
-			var url = '<%=basePath + "BarcodeAction.do?action=printProductBarcode"%>' + '&isPrintPrices=' + isPrintPrices + '&isPrintProductName=' + isPrintProductName + '&isPrintProductDescription=' + isPrintProductDescription;
+			document.applets[0].setPrinterName('<%= cookie.getValue() %>');
+			var url = '<%=basePath %>BarcodeAction.do?action=printProductBarcode' + '&isPrintPrices=' + isPrintPrices + '&isPrintProductName=' + isPrintProductName + '&isPrintProductDescription=' + isPrintProductDescription;
 			document.applets[0].printURL(url);
 		}
 		catch(e)

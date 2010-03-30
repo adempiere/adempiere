@@ -41,7 +41,7 @@
 	<table>
 		<tr>			
 			<td colspan="3" align="right">
-				<html:link href="<%="POSProductAction3.do?action=getCreateProductForm&productId=0"%>">
+				<html:link href="POSProductAction3.do?action=getCreateProductForm&productId=0">
 					<img src="images/tango/document-new.png" title="Create Product" alt="Create Product" border="0">
 				</html:link>
 			</td>

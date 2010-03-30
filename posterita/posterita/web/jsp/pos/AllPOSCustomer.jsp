@@ -78,7 +78,7 @@
 				</html:link>
 			</td>
 			<td>
-				<html:link href="<%="ImportPOSCustomers.do"%>">
+				<html:link href="ImportPOSCustomers.do">
 					<img src="images/tango/applications-system.png" title="Import POS Customers" alt="Import POS Customers" border="0">
 				</html:link>			
 			</td>
@@ -190,25 +190,25 @@
 		<bean:define id="bpartnerId" name="element" property="bpartnerId"/>
 
 			<logic:equal name="element" property="isEditable" value="true">		
-				<html:link href="<%="POSCustomerAction.do?action=initEditPOSCustomer&bpartnerId=" + bpartnerId%>">
+				<html:link href="POSCustomerAction.do?action=initEditPOSCustomer&bpartnerId=<%= bpartnerId %>">
 					<img src="images/tango/accessories-text-editor.png" title='<pos:message textOnly="true" key="edit.customer"/>' alt='<pos:message textOnly="true" key="edit.customer"/>' border="0">
 				</html:link>
 			</logic:equal>
 			
 			&nbsp;
-			<html:link href="<%="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId=" + bpartnerId%>">
+			<html:link href="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId=<%= bpartnerId %>">
 				<img src="images/tango/edit-find.png" title='<pos:message textOnly="true" key="view"/>' alt='<pos:message textOnly="true" key="view"/>' border="0">
 			</html:link>
 
 			<logic:equal name="element" property="isEditable" value="true">
 				&nbsp;
 				<logic:equal name="element" property="isActive" value="true">
-					<html:link href="<%="POSCustomerAction.do?action=deactivatePOSCustomer&bpartnerId=" + bpartnerId%>">	
+					<html:link href="POSCustomerAction.do?action=deactivatePOSCustomer&bpartnerId=<%= bpartnerId %>">	
 						<img src="images/tango/edit-redo.png" title='<pos:message textOnly="true" key="deactivate"/>' alt='<pos:message textOnly="true" key="deactivate"/>' border="0">
 					</html:link>
 				</logic:equal>
 				<logic:notEqual name="element" property="isActive" value="true">
-					<html:link href="<%="POSCustomerAction.do?action=activatePOSCustomer&bpartnerId=" + bpartnerId%>">
+					<html:link href="POSCustomerAction.do?action=activatePOSCustomer&bpartnerId=<%= bpartnerId %>">
 						<img src="images/tango/edit-undo.png" title='<pos:message textOnly="true" key="activate"/>' alt='<pos:message textOnly="true" key="activate"/>' border="0">
 					</html:link>
 				</logic:notEqual> 

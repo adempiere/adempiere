@@ -108,7 +108,7 @@
 			<html:hidden property="orderType" value="<%=UDIOrderTypes.CREDIT_MEMO.getOrderType() %>"/>				
 		</logic:equal>
 		   <td class=<%=styleClass%> >
-		   		<html:link href="<%="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getOrderId() + "&isFullDetails=" + isFullDetails %>">
+		   		<html:link href="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getOrderId() %>&isFullDetails=<%= isFullDetails %>">
 					<bean:write name="element" property="documentNo"/>
 				</html:link>		
 		   </td>
@@ -155,14 +155,14 @@
 		   %>
 		   
 			<logic:equal name="element" property="isCustomer" value="Yes">
-				<html:link href="<%="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId=" + partnerId %>">
+				<html:link href="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId=<%= partnerId %>">
 		   			<bean:write name="element" property="partnerName"/>
 		   		</html:link>			
 			</logic:equal>
 			
 			
 			<logic:equal name="element" property="isCustomer" value="No">
-				<html:link href="<%="POSVendorAction.do?action=viewVendorDetails1&bpartnerId=" + partnerId %>">
+				<html:link href="POSVendorAction.do?action=viewVendorDetails1&bpartnerId=<%= partnerId %>">
 		   			<bean:write name="element" property="partnerName"/>
 		   		</html:link>			
 			</logic:equal>
@@ -209,14 +209,14 @@
 				</a>
 		   </logic:equal>
 		   <logic:notEqual cookie="preference.printing" property="value" value="true">
-		   		<html:link href="<%="ReprintOrderAction.do?action=reprintOrder&orderId=" + element.getOrderId() %>">
+		   		<html:link href="ReprintOrderAction.do?action=reprintOrder&orderId=<%= element.getOrderId() %>">
 					<pos:message key="reprint"/>
 				</html:link>
 		   </logic:notEqual>
 		   </logic:present>
 		   
 		   <logic:notPresent cookie="preference.printing">
-		   		<html:link href="<%="ReprintOrderAction.do?action=reprintOrder&orderId=" + element.getOrderId() %>">
+		   		<html:link href="ReprintOrderAction.do?action=reprintOrder&orderId=<%= element.getOrderId() %>">
 					<pos:message key="reprint"/>
 				</html:link>
 		   </logic:notPresent>	

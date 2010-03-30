@@ -107,7 +107,7 @@
 		<html:hidden property="action" value="addToShoppingCart"/>
 		<html:hidden property="ifAdd" value="true"/> 
 		<html:hidden property="isSales" value="false"/>
-   		<html:hidden property="productId" value="<%=element.getProductId()+""%>"/> 
+   		<html:hidden property="productId" value="<%= element.getProductId().toString() %>"/> 
    		<html:hidden property="bpartnerId" value=""/>
 		<html:image property="btn" src="images/pos/buttons/button_plus.gif" onclick="this.form.submit();" style="width:28px;height:28px;border:0px"/>
 	</html:form>
@@ -118,15 +118,14 @@
 		<html:hidden property="action" value="addToShoppingCart"/>
 		<html:hidden property="ifAdd" value="false"/> 
 		<html:hidden property="isSales" value="false"/>
-   		<html:hidden property="productId" value="<%=element.getProductId()+""%>"/> 
+   		<html:hidden property="productId" value="<%= element.getProductId().toString() %>"/> 
    		<html:hidden property="bpartnerId" value=""/>
 	 	<html:image property="btn" src="images/pos/buttons/button_minus.gif" onclick="this.form.submit();" style="width:28px;height:28px;border:0px"/>
 	</html:form>
 	</td>
 	
 		<td class="<%=styleClass%>" align="center">
-							<html:link href="<%="DeleteFromShoppingCartAction.do?action=deleteFromPOSRetCart&productId="
-							+ element.getProductId()%>">X</html:link>
+							<html:link href="DeleteFromShoppingCartAction.do?action=deleteFromPOSRetCart&productId=<%= element.getProductId() %>">X</html:link>
 		</td>
 </tr>
 </logic:iterate>

@@ -264,7 +264,7 @@
 	<tr><td>&nbsp;</td></tr>  
 	<tr>	
 		<td align="right">
-			<html:link href="<%="CreatePOSOrder.do"%>">
+			<html:link href="CreatePOSOrder.do">
 		   		<img src="images/pos/buttons/button_edit.gif" styleClass="continue smallbutton"/>
 		   	</html:link>   	 	  	
 		</td>

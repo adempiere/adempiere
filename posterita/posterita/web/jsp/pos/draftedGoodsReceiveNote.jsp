@@ -96,7 +96,7 @@
 
 $FElement('edit').onclick = function(e)
 { 
-	window.location = "<%="GetShoppingCartForOrder.do?action=getOrderShoppingCart&orderId="+posOrderId%>"; 
+	window.location = "GetShoppingCartForOrder.do?action=getOrderShoppingCart&orderId=<%= posOrderId %>"; 
 };
 </logic:present>
 

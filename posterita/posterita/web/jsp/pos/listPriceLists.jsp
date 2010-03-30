@@ -50,7 +50,7 @@
 			</html:form>
 		</td>
 		<logic:notPresent name = "<%= Constants.IS_FROM_DELETE_PRODUCT_PRICE %>" >
-			<td align = "right"><html:link href="<%="PriceListAction.do?action=viewPriceList&priceListId=0"%>">
+			<td align = "right"><html:link href="PriceListAction.do?action=viewPriceList&priceListId=0">
 					<img src="images/tango/document-new.png" border="0">
 				</html:link>
 			</td>
@@ -100,13 +100,13 @@
 			</td>
 			<td  align="center" class = "label">
 				<logic:present name = "<%= Constants.IS_FROM_DELETE_PRODUCT_PRICE %>">
-					<html:link href="<%="POSProductAction2.do?action=viewAllPOSProducts&isFromDeletePriceOnPriceList=true&priceListId=" + priceList.getPriceListId()%>">
+					<html:link href="POSProductAction2.do?action=viewAllPOSProducts&isFromDeletePriceOnPriceList=true&priceListId=<%= priceList.getPriceListId() %>">
 						<img src="images/tango/edit-delete.png"  border="0"> 
 					</html:link>
 				</logic:present>
 				
 				<logic:notPresent name = "<%= Constants.IS_FROM_DELETE_PRODUCT_PRICE %>">
-					<html:link href="<%="PriceListAction.do?action=viewPriceList&priceListId=" + priceList.getPriceListId().toString()%>">
+					<html:link href="PriceListAction.do?action=viewPriceList&priceListId=<%= priceList.getPriceListId().toString() %>">
 						<img src="images/tango/accessories-text-editor.png"  border="0"> 
 					</html:link>
 					
@@ -115,7 +115,7 @@
 					</logic:equal>
 					
 					<logic:equal name="priceList" property="isDefault" value="false">
-						<html:link href="<%="PriceListAction.do?action=setDefaultPriceList&priceListId=" + priceList.getPriceListId().toString()%>">
+						<html:link href="PriceListAction.do?action=setDefaultPriceList&priceListId=<%= priceList.getPriceListId().toString() %>">
 							<img src="images/tango/edit-redo.png"  border="0" title="Set Default Price List">
 						</html:link> 
 					</logic:equal>

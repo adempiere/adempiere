@@ -45,10 +45,10 @@
 			<table align="left" cellpadding="5" width="100%">	
 				<tr>
 			<td colspan="3" align="right">
-				<html:link href='<%="CurrencyAction.do?action=viewCurrency&isNext=false&currencyId=" + currencyId%>'>
+				<html:link href='CurrencyAction.do?action=viewCurrency&isNext=false&currencyId=<%= currencyId %>'>
 					<img src="images/tango/go-previous.png" title="Previous" alt="Previous" border="0">
 				</html:link>
-				<html:link href="<%="CurrencyAction.do?action=viewCurrency&isNext=true&currencyId=" + currencyId%>">
+				<html:link href="CurrencyAction.do?action=viewCurrency&isNext=true&currencyId=<%= currencyId %>">
 					<img src="images/tango/go-next.png" title="Next" alt="Next" border="0">
 				</html:link>			
 			</td>

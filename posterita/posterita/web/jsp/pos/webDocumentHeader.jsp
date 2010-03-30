@@ -57,7 +57,7 @@
 										<bean:write name="<%=Constants.WEB_DOCUMENT_HEADER_BEAN%>" property="from"/>
 									</td>								
 									<td width="200px">
-										<html:link href="<%="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId="+ partnerId %>">
+										<html:link href="POSCustomerAction.do?action=viewPOSCustomer&bpartnerId=<%= partnerId %>">
 										<c:out value='${you.name}'/>
 										<c:out value='${you.name2}'/>
 										</html:link>

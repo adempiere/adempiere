@@ -81,7 +81,7 @@
 						%>
 						
 						<td class="<%=styleClass%>">	
-							<html:link href="<%="ViewPaymentAction.do?documentId="+element.getPaymentId()%>">	
+							<html:link href="ViewPaymentAction.do?documentId=<%= element.getPaymentId() %>">	
 								<bean:write name="element" property="paymentId"/>
 							</html:link>
 						</td>

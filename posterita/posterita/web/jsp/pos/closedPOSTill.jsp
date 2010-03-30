@@ -172,8 +172,8 @@
 		<script>
 		function printTillData()
 		{
-			document.applets[0].setPrinterName(<%="'" + cookie.getValue() + "'"%>);
-			var url = '<%=basePath + "ClosePOSTillAction.do?action=getClosedTillData"%>';
+			document.applets[0].setPrinterName('<%= cookie.getValue() %>');
+			var url = '<%=basePath %>ClosePOSTillAction.do?action=getClosedTillData';
 			document.applets[0].printURL(url);
 		}
 	

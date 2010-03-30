@@ -228,12 +228,12 @@
     <tr height="100%">
 	 	<html:form action="/InventoryCartAction" styleId="inventoryForm" onsubmit="return false;">
 			<html:hidden property="action" value="completeInventoryAdjustment"/>
-			<html:hidden property="priceListId" value="<%=m_pricelist_id + ""%>" styleId="priceListId"/>
-			<html:hidden property="description" value="<%=description + ""%>" styleId="invdescription"/>
-			<html:hidden property="inventoryId" value="<%=inventoryId + ""%>" styleId="inventoryId"/>
-			<html:hidden property = "roundOffFactor" value = "<%= roundOffFactor + ""%>" styleId = "roundOffFactor" />
-			<input type="hidden" name="searchProductBy" value="<%=searchProductBy%>" id="searchProductBy"/>
-			<input type="hidden" name="isCustomerCompulsory" value="<%=isCustomerCompulsory + ""%>" id="isCustomerCompulsory"/>
+			<html:hidden property="priceListId" value="<%= m_pricelist_id %>" styleId="priceListId"/>
+			<html:hidden property="description" value="<%= description %>" styleId="invdescription"/>
+			<html:hidden property="inventoryId" value="<%= inventoryId %>" styleId="inventoryId"/>
+			<html:hidden property = "roundOffFactor" value = "<%= roundOffFactor %>" styleId = "roundOffFactor" />
+			<input type="hidden" name="searchProductBy" value="<%= searchProductBy %>" id="searchProductBy"/>
+			<input type="hidden" name="isCustomerCompulsory" value="<%= isCustomerCompulsory %>" id="isCustomerCompulsory"/>
 			<td width="75%" valign="top" height="100%">
 	    		<div id="contentContainer">
 	    			<div id="content">
@@ -431,8 +431,8 @@
 		{
 			try
 			{
-				document.applets[0].setPrinterName(<%="'" + cookie.getValue() + "'"%>);
-				var url = '<%=basePath + "InventoryCartAction.do?action=printInventory"%>';
+				document.applets[0].setPrinterName('<%= cookie.getValue() %>');
+				var url = '<%=basePath %>InventoryCartAction.do?action=printInventory';
 				document.applets[0].printURL(url);
 			}
 			catch(e)
@@ -452,8 +452,8 @@
 	{
 		try
 		{
-			document.applets[0].setPrinterName(<%="'" + cookie.getValue() + "'"%>);
-			var url = '<%=basePath + "InventoryCartAction.do?action=printInventory"%>';
+			document.applets[0].setPrinterName('<%= cookie.getValue() %>');
+			var url = '<%=basePath %>InventoryCartAction.do?action=printInventory';
 			document.applets[0].printURL(url);
 		}
 		catch(e)

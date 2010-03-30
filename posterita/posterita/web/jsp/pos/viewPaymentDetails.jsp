@@ -95,7 +95,7 @@
 							</td>
 							
 							<td>
-								<html:link href="<%="ViewWebstorePaymentAction.do?action=viewOrder&documentId="+ element.getPaymentId() %>">
+								<html:link href="ViewWebstorePaymentAction.do?action=viewOrder&documentId=<%= element.getPaymentId() %>">
 					     				<bean:write name="element" property="paymentId"/>
 					     		</html:link>
 								
@@ -137,7 +137,7 @@
 							</td>
 							
 							<td>
-								<html:link href="<%="ViewWebstoreCashPaymentAction.do?action=viewOrder&documentId=" + element.getCashLineId() %>">
+								<html:link href="ViewWebstoreCashPaymentAction.do?action=viewOrder&documentId=<%= element.getCashLineId() %>">
 					     				<bean:write name="element" property="cashLineId"/>
 					     		</html:link>
 							</td>

@@ -41,7 +41,7 @@
 			</html:form>
 		</td>
 	
-		<td align = "right"><html:link href="<%="UpdateOrCreateOrg.do"%>">
+		<td align = "right"><html:link href="UpdateOrCreateOrg.do">
 					<img src="images/tango/document-new.png" title="Create Organisation" alt="Create Organisation" border="0">
 				</html:link>
 		</td>
@@ -72,11 +72,11 @@
 				<bean:write name="org" property="isActive"/>
 			</td>
 			<td  align="center" class = "label">
-				<html:link href="<%="OrganisationAction.do?action=viewOrg&orgId=" + org.getOrgId()%>">
+				<html:link href="OrganisationAction.do?action=viewOrg&orgId=<%= org.getOrgId()%>">
 					<img src="images/tango/accessories-text-editor.png"  border="0" 
 					title = "update organisation" alt = "update organisation"> 
 				</html:link>
-				<html:link href="<%="OrganisationAction.do?action=activateOrg&orgId=" + org.getOrgId()%>">
+				<html:link href="OrganisationAction.do?action=activateOrg&orgId=<%= org.getOrgId()%>">
 					<img src="images/tango/edit-redo.png"  border="0"
 					title = "activate/deactivate organisation" alt = "activate/deactivate organisation"> 
 				</html:link>

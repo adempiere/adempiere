@@ -48,13 +48,13 @@
 
 <div>
 	<logic:present name="<%=Constants.BUSINESSPARTNER%>">
-		<html:link href="<%="ViewPOSBPartnerInfo.do"%>">
+		<html:link href="ViewPOSBPartnerInfo.do">
 		 <pos:message key="back"/>
 		</html:link>
 	</logic:present>
 	
 	<logic:present name="<%=Constants.DEBTORS%>">
-		<html:link href="<%="InitPrintDunningAction.do?action=initPrintDunning"%>">
+		<html:link href="InitPrintDunningAction.do?action=initPrintDunning">
 		 <pos:message key="back"/>
 	</html:link>
 	</logic:present>
@@ -157,7 +157,7 @@
 				styleClass1 = "contentname";
 		%>							
 		   <td class=<%=styleClass1%>>
-		   		<html:link href="<%="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=" + element.getOrderId() %>">
+		   		<html:link href="ViewPOSOrderAction.do?action=viewPOSOrders&orderId=<%= element.getOrderId() %>">
 					<bean:write name="element" property="documentNo"/>
 				</html:link>		
 		   </td>						

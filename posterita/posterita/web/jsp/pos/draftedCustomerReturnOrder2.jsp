@@ -94,7 +94,7 @@ $FElement('edit').onclick = function(e)
 	<bean:define id="posOrderId">
 		<bean:write name="<%= Constants.CUSTOMER_RETURN_ORDER_ID  %>"/>
 	</bean:define>
-	window.location = '<%="GetShoppingCartForOrder.do?action=getCustomerReturnOrderShoppingCart&orderId="+posOrderId%>';				   		
+	window.location = 'GetShoppingCartForOrder.do?action=getCustomerReturnOrderShoppingCart&orderId=<%= posOrderId %>';				   		
 	</logic:present>	
 };
 
