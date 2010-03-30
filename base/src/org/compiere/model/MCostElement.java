@@ -92,9 +92,9 @@ public class MCostElement extends X_M_CostElement
 	 */
 	public static MCostElement getMaterialCostElement(Properties ctx, String CostingMethod)
 	{
-		final String whereClause = "CostingMethod=? AND CostElementType=? ";
+		final String whereClause = COLUMNNAME_CostingMethod + " = ? AND " + COLUMNNAME_CostElementType + " = ? ";
 		List<MCostElement> list = new Query(ctx, I_M_CostElement.Table_Name, whereClause, null)
-		.setParameters(CostingMethod,"M")
+		.setParameters(CostingMethod,COSTELEMENTTYPE_Material)
 		.setClient_ID()
 		.setOrderBy(I_M_CostElement.COLUMNNAME_AD_Org_ID)
 		.list();
