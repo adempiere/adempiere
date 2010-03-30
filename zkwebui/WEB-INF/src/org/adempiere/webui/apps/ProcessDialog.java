@@ -13,7 +13,6 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.VerticalBox;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.process.WProcessInfo;
@@ -30,12 +29,14 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.DesktopUnavailableException;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Html;
@@ -76,9 +77,13 @@ import com.lowagie.text.pdf.PdfWriter;
 public class ProcessDialog extends Window implements EventListener//, ASyncProcess
 {
 	/**
-	 * 
+	 * generate serial version ID
 	 */
-	private static final long serialVersionUID = 4940020114091318176L;
+	private static final long serialVersionUID = 5545731871518761455L;
+	private static final String MESSAGE_DIV_STYLE = "max-height: 150pt; overflow: auto";	
+	private Div messageDiv;
+	private Center center;
+	private North north;
 
 
 	/**
@@ -114,16 +119,29 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	}	//	ProcessDialog
 
 	private void initComponents() {
-		VerticalBox vbox = new VerticalBox();
-		vbox.setWidth("100%");
-		vbox.setSpacing("10px");
-		Div div = new Div();
+		this.setStyle("position: absolute; width: 100%; height: 100%");
+		Borderlayout layout = new Borderlayout();
+		layout.setStyle("position: absolute; width: 100%; height: 100%; border: none;");
+		messageDiv = new Div();
 		message = new Html();
-		div.appendChild(message);
-		vbox.appendChild(div);
+		messageDiv.appendChild(message);
+		messageDiv.setStyle(MESSAGE_DIV_STYLE);
+		
+		north = new North();
+		north.appendChild(messageDiv);
+		layout.appendChild(north);
+		north.setAutoscroll(true);
+		north.setStyle("border: none;");
+		
 		centerPanel = new Panel();
-		vbox.appendChild(centerPanel);
-		div = new Div();
+		center = new Center();
+		layout.appendChild(center);
+		center.appendChild(centerPanel);
+		center.setFlex(true);
+		center.setAutoscroll(true);
+		center.setStyle("border: none");
+		
+		Div div = new Div();
 		div.setAlign("center");
 		Hbox hbox = new Hbox();
 		String label = Msg.getMsg(Env.getCtx(), "Start");
@@ -131,6 +149,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		bOK.setImage("/images/Ok16.png");
 		bOK.setId("Ok");
 		bOK.addEventListener(Events.ON_CLICK, this);
+		bOK.setSclass("action-button");
 		hbox.appendChild(bOK);
 		
 		label = Msg.getMsg(Env.getCtx(), "Cancel");
@@ -138,11 +157,15 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		btn.setImage("/images/Cancel16.png");
 		btn.setId("Cancel");
 		btn.addEventListener(Events.ON_CLICK, this);
-		
-		hbox.appendChild(btn);
+		btn.setSclass("action-button");
+		hbox.appendChild(btn);		
 		div.appendChild(hbox);
-		vbox.appendChild(div);		
-		this.appendChild(vbox);		
+		div.setStyle("padding: 10px");
+		
+		South south = new South();
+		layout.appendChild(south);
+		south.appendChild(div);		
+		this.appendChild(layout);
 	}
 
 	private int m_WindowNo;
@@ -168,8 +191,8 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	
 	private ProcessInfo m_pi = null;
 	private boolean m_isLocked = false;
-	private boolean isResult;
 	private String initialMessage;
+	private BusyDialog progressWindow;
 
 	
 	/**
@@ -208,13 +231,16 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 				+ "FROM AD_Process p, AD_Process_Trl t "
 				+ "WHERE p.AD_Process_ID=t.AD_Process_ID"
 				+ " AND p.AD_Process_ID=? AND t.AD_Language=?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_AD_Process_ID);
 			if (trl)
 				pstmt.setString(2, Env.getAD_Language(m_ctx));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_Name = rs.getString(1);
@@ -233,14 +259,15 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 				if (!rs.wasNull())
 					m_messageText.append("<p>").append(s).append("</p>");
 			}
-
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 
 		if (m_Name == null)
@@ -277,33 +304,18 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 	{
 		m_pi.setPrintPreview(true);
 
-		if (!getDesktop().isServerPushEnabled())
-			getDesktop().enableServerPush(true);
-
 		this.lockUI(m_pi);
-		Runnable runnable = new Runnable() {
-			public void run() {
-				//get full control of desktop
-				org.zkoss.zk.ui.Desktop desktop = ProcessDialog.this.getDesktop();
-				try {
-					Executions.activate(desktop);
-					try {                    
-						ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
-					} finally{
-						unlockUI(m_pi);
-						//release full control of desktop
-						Executions.deactivate(desktop);
-					}
-				} catch (DesktopUnavailableException e) {
-					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-				} catch (InterruptedException e) {
-					log.log(Level.WARNING, e.getLocalizedMessage(), e);
-				}												
-			}			
-		};
-		new Thread(runnable).start();	
+		Clients.response(new AuEcho(this, "runProcess", null));
 	}
 
+	public void runProcess() {
+		try {
+			ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);
+		} finally {
+			unlockUI(m_pi);
+		}
+	}
+	
 	public void onEvent(Event event) {
 		Component component = event.getTarget(); 
 		if (component instanceof Button) {
@@ -325,54 +337,28 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		
 		m_isLocked = true;
 		
-		if (Executions.getCurrent() != null)
-			Clients.showBusy("Processing...", true);
-		else
-		{
-			try {
-				//get full control of desktop
-				Executions.activate(this.getDesktop());
-				try {                    
-					Clients.showBusy("Processing...", true);
-                } catch(Error ex){                    
-                	throw ex;                    
-                } finally{
-                	//release full control of desktop
-                	Executions.deactivate(this.getDesktop());                                                            
-                }
-			} catch (Exception e) {
-				log.log(Level.WARNING, "Failed to lock UI.", e);
-			}
-		}
+		showBusyDialog();
+	}
+
+	private void showBusyDialog() {
+		progressWindow = new BusyDialog();
+		progressWindow.setPage(this.getPage());
+		progressWindow.doHighlighted();
 	}
 
 	public void unlockUI(ProcessInfo pi) {
 		if (!m_isLocked) return;
 		
 		m_isLocked = false;
-		if (Executions.getCurrent() != null)
-		{
-			Clients.showBusy(null, false);
-			updateUI(pi);			
+		hideBusyDialog();
+		updateUI(pi);
+	}
+
+	private void hideBusyDialog() {
+		if (progressWindow != null) {
+			progressWindow.dispose();
+			progressWindow = null;
 		}
-		else
-		{
-			try {
-				//get full control of desktop
-				Executions.activate(this.getDesktop());
-				try {                    
-                	updateUI(pi);                  
-                	Clients.showBusy(null, false);
-                } catch(Error ex){                    
-                	throw ex;                    
-                } finally{
-                	//release full control of desktop
-                	Executions.deactivate(this.getDesktop());                                                            
-                }
-			} catch (Exception e) {
-				log.log(Level.WARNING, "Failed to update UI upon unloc.", e);
-			} 		                                                
-		}				
 	}
 
 	private void updateUI(ProcessInfo pi) {
@@ -383,12 +369,15 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		m_messageText.append(pi.getLogInfo(true));
 		message.setContent(m_messageText.toString());
 		
-		bOK.setLabel("");
-		
+		bOK.setLabel("");		
 		m_ids = pi.getIDs();
 		
-		//no longer needed, hide to give more space to display log
+		//move message div to center to give more space to display potentially very long log info
 		centerPanel.detach();
+		messageDiv.detach();
+		messageDiv.setStyle("");
+		north.setVisible(false);
+		center.appendChild(messageDiv);
 		invalidate();
 		
 		Clients.response(new AuEcho(this, "onAfterProcess", null));
@@ -399,7 +388,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 		//
 		afterProcessTask();
 
-		//      Close automatically
+		// Close automatically
 		if (m_IsReport && !m_pi.isError())
 			this.dispose();
 
@@ -438,7 +427,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 				
 		m_messageText.append("<p>").append(Msg.getMsg(Env.getCtx(), "PrintShipments")).append("</p>");
 		message.setContent(m_messageText.toString());
-		Clients.showBusy("Processing...", true);
+		showBusyDialog();
 		Clients.response(new AuEcho(this, "onPrintShipments", null));
 	}	//	printInvoices
 	
@@ -479,14 +468,14 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 				}
 				document.close();
 
-				Clients.showBusy(null, false);
+				hideBusyDialog();
 				Window win = new SimplePDFViewer(this.getTitle(), new FileInputStream(outFile));
 				SessionManager.getAppDesktop().showWindow(win, "center");
 			} catch (Exception e) {
 				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			}
 		} else if (pdfList.size() > 0) {
-			Clients.showBusy(null, false);
+			hideBusyDialog();
 			try {
 				Window win = new SimplePDFViewer(this.getTitle(), new FileInputStream(pdfList.get(0)));
 				SessionManager.getAppDesktop().showWindow(win, "center");
@@ -508,7 +497,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 			return;
 		m_messageText.append("<p>").append(Msg.getMsg(Env.getCtx(), "PrintInvoices")).append("</p>");
 		message.setContent(m_messageText.toString());
-		Clients.showBusy("Processing...", true);
+		showBusyDialog();
 		Clients.response(new AuEcho(this, "onPrintInvoices", null));				
 	}	//	printInvoices
 	
@@ -547,7 +536,7 @@ public class ProcessDialog extends Window implements EventListener//, ASyncProce
 				}
 				document.close();
 
-				Clients.showBusy(null, false);
+				hideBusyDialog();
 				Window win = new SimplePDFViewer(this.getTitle(), new FileInputStream(outFile));
 				SessionManager.getAppDesktop().showWindow(win, "center");
 			} catch (Exception e) {

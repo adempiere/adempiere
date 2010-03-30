@@ -37,8 +37,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.DesktopUnavailableException;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -61,9 +59,9 @@ import org.zkoss.zul.Html;
 public class ProcessModalDialog extends Window implements EventListener
 {
 	/**
-	 * 
+	 * generated serial version ID
 	 */
-	private static final long serialVersionUID = 8828804363347622789L;
+	private static final long serialVersionUID = -7109707014309321369L;
 	private boolean m_autoStart;
 
 	/**
@@ -133,7 +131,8 @@ public class ProcessModalDialog extends Window implements EventListener
 		Div div = new Div();
 		message = new Html();
 		div.appendChild(message);
-		vbox.appendChild(message);
+		div.setStyle("max-height: 150pt; overflow: auto;");
+		vbox.appendChild(div);
 		centerPanel = new Panel();
 		vbox.appendChild(centerPanel);
 		div = new Div();
@@ -174,8 +173,7 @@ public class ProcessModalDialog extends Window implements EventListener
 	private ProcessParameterPanel parameterPanel = null;
 	
 	private ProcessInfo m_pi = null;
-	private ProcessRunnable m_processRunnable;
-
+	private BusyDialog progressWindow;
 	
 	/**
 	 * 	Set Visible 
@@ -223,13 +221,16 @@ public class ProcessModalDialog extends Window implements EventListener
 				+ "FROM AD_Process p, AD_Process_Trl t "
 				+ "WHERE p.AD_Process_ID=t.AD_Process_ID"
 				+ " AND p.AD_Process_ID=? AND t.AD_Language=?";
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_pi.getAD_Process_ID());
 			if (trl)
 				pstmt.setString(2, Env.getAD_Language(m_ctx));
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				m_Name = rs.getString(1);
@@ -247,14 +248,15 @@ public class ProcessModalDialog extends Window implements EventListener
 				if (!rs.wasNull())
 					m_messageText.append("<p>").append(s).append("</p>");
 			}
-
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
 			return false;
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
 		}
 
 		if (m_Name == null)
@@ -263,7 +265,6 @@ public class ProcessModalDialog extends Window implements EventListener
 		this.setTitle(m_Name);
 		message.setContent(m_messageText.toString());
 		
-
 		//	Move from APanel.actionButton
 		m_pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		m_pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
@@ -301,51 +302,43 @@ public class ProcessModalDialog extends Window implements EventListener
 		
 		if (m_ASyncProcess != null) {
 			m_ASyncProcess.lockUI(m_pi);
-		} else {
-			Clients.showBusy(null, true);
+			Clients.showBusy(null, false);
 		}
 		
-		m_processRunnable = new ProcessRunnable(Executions.getCurrent().getDesktop());
+		showBusyDialog();
+		
 		//use echo, otherwise lock ui wouldn't work
-		Clients.response(new AuEcho(this, "runASyncProcess", null));
+		Clients.response(new AuEcho(this, "runProcess", null));
+	}
+
+	private void showBusyDialog() {
+		progressWindow = new BusyDialog();
+		progressWindow.setPage(this.getPage());
+		progressWindow.doHighlighted();
 	}
 	
 	/**
 	 * internal use, don't call this directly
 	 */
-	public void runASyncProcess() {
-		new Thread(m_processRunnable).start();
-	}
-	
-	private class ProcessRunnable implements Runnable {
-		private org.zkoss.zk.ui.Desktop desktop;
-		ProcessRunnable(org.zkoss.zk.ui.Desktop desktop) {
-			this.desktop = desktop;
-		}
-		public void run() {
-			//get full control of desktop
-			try {
-				Executions.activate(desktop);
-				try {
-					ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);					
-				} finally {
-					dispose();
-					if (m_ASyncProcess != null) {
-						m_ASyncProcess.unlockUI(m_pi);
-					} else {
-						Clients.showBusy(null, false);
-					}
-					//release full control of desktop
-                	Executions.deactivate(desktop);                	
-				}
-			} catch (DesktopUnavailableException e) {
-				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-			} catch (InterruptedException e) {
-				log.log(Level.WARNING, e.getLocalizedMessage(), e);
-			}
+	public void runProcess() {
+		try {
+			ProcessCtl.process(null, m_WindowNo, parameterPanel, m_pi, null);					
+		} finally {
+			dispose();
+			if (m_ASyncProcess != null) {
+				m_ASyncProcess.unlockUI(m_pi);
+			} 
+			hideBusyDialog();
 		}
 	}
 
+	private void hideBusyDialog() {
+		if (progressWindow != null) {
+			progressWindow.dispose();
+			progressWindow = null;
+		}
+	}
+	
 	/**
 	 * handle events
 	 */
