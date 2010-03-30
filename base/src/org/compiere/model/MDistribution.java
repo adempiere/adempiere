@@ -158,7 +158,7 @@ public class MDistribution extends X_GL_Distribution
 			return retValue;
 		final String whereClause = "Account_ID=?";
 
-		List<MDistribution> list = new Query(ctx,I_GL_Distribution.Table_Name,whereClause+"=?",null)
+		List<MDistribution> list = new Query(ctx,I_GL_Distribution.Table_Name,whereClause,null)
 		.setParameters(Account_ID)
 		.list();
 		//
