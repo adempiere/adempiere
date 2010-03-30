@@ -42,13 +42,13 @@ import org.zkoss.zul.Separator;
 public class Messagebox extends Window implements EventListener
 {	
 	/**
-	 * 
+	 * generated serial version ID
 	 */
 	private static final long serialVersionUID = -4957498533838144942L;
+	private static final String MESSAGE_PANEL_STYLE = "text-align:left; word-break: break-all; overflow: auto; max-height: 350pt; min-width: 230pt; max-width: 450pt;";	
 	private String msg = new String("");
 	private String imgSrc = new String("");
 
-//	private Label lblMsg = new Label();
 	private Text lblMsg = new Text();
 
 	private Button btnOk = new Button();
@@ -130,12 +130,10 @@ public class Messagebox extends Window implements EventListener
 		LayoutUtils.addSclass("action-text-button", btnNo);
 
 		btnAbort.setLabel("Abort");
-		//btnAbort.setImage("/images/");
 		btnAbort.addEventListener(Events.ON_CLICK, this);
 		LayoutUtils.addSclass("action-text-button", btnAbort);
 
 		btnRetry.setLabel("Retry");
-		//btnRetry.setImage("/images/");
 		btnRetry.addEventListener(Events.ON_CLICK, this);
 		LayoutUtils.addSclass("action-text-button", btnRetry);
 
@@ -145,28 +143,29 @@ public class Messagebox extends Window implements EventListener
 		LayoutUtils.addSclass("action-text-button", btnIgnore);
 
 		Panel pnlMessage = new Panel();
-		pnlMessage.setWidth("100%");
-		pnlMessage.setStyle("text-align:left");
+		pnlMessage.setStyle(MESSAGE_PANEL_STYLE);
 		pnlMessage.appendChild(lblMsg);
-
-		Panel pnlImage = new Panel();
+		
+		Hbox pnlImage = new Hbox();
 
 		img.setSrc(imgSrc);
 
-		pnlImage.setWidth("100%");
-		pnlImage.setStyle("text-align:center");
+		pnlImage.setWidth("72px");
+		pnlImage.setAlign("center");
+		pnlImage.setPack("center");
 		pnlImage.appendChild(img);
-
-		Hbox hbox = new Hbox();
-		hbox.setWidth("100%");
-		hbox.setWidths("10%, 90%");
-
-		hbox.appendChild(pnlImage);
-		hbox.appendChild(pnlMessage);
+				
+		Hbox north = new Hbox();
+		north.setAlign("center");
+		north.setStyle("margin: 20pt 10pt 20pt 10pt;"); //trbl
+		this.appendChild(north);		
+		north.appendChild(pnlImage);
+		north.appendChild(pnlMessage);
 
 		Hbox pnlButtons = new Hbox();
-		pnlButtons.setWidth("100%");
-		pnlButtons.setStyle("text-align:center");
+		pnlButtons.setHeight("52px");
+		pnlButtons.setAlign("center");
+		pnlButtons.setPack("end");
 		pnlButtons.appendChild(btnOk);
 		pnlButtons.appendChild(btnCancel);
 		pnlButtons.appendChild(btnYes);
@@ -175,19 +174,20 @@ public class Messagebox extends Window implements EventListener
 		pnlButtons.appendChild(btnRetry);
 		pnlButtons.appendChild(btnIgnore);
 
-		this.setWidth("100%");
+		Separator separator = new Separator();
+		separator.setWidth("100%");
+		separator.setBar(true);
+		this.appendChild(separator);
+		
+		Hbox south = new Hbox();
+		south.setPack("end");
+		south.setWidth("100%");
+		this.appendChild(south);		
+		south.appendChild(pnlButtons);
+		
 		this.setBorder("normal");
-		this.setContentStyle("background-color:#ffffff");
+		this.setContentStyle("background-color:#ffffff;");
 		this.setPosition("left, top");
-
-		Separator blank = new Separator();
-		blank.setOrient("vertical");
-		blank.setHeight("5px");
-
-		hbox.appendChild(blank);
-		hbox.appendChild(pnlButtons);
-
-		this.appendChild(hbox);
 	}
 
 	public int show(String message, String title, int buttons, String icon)
@@ -227,7 +227,6 @@ public class Messagebox extends Window implements EventListener
 		init();
 
 		this.setTitle(title);
-		this.setWidth("500px");
 		this.setPosition("center");
 		this.setClosable(true);
 		if (Events.inEventListener())

@@ -38,12 +38,12 @@ import javax.servlet.ServletRequest;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ThemeManager;
 import org.compiere.acct.Doc;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.Lookup;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MQuery;
-import org.compiere.process.DocumentEngine;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.CacheMgt;
@@ -698,5 +698,34 @@ public final class AEnv
         }
 
         return locale;
+	}
+	
+	/**
+	 * Get title for dialog window
+	 * @param ctx
+	 * @param windowNo
+	 * @return dialog header
+	 */
+	public static String getDialogHeader(Properties ctx, int windowNo) {
+		StringBuffer sb = new StringBuffer();
+		if (windowNo > 0){
+			sb.append(Env.getContext(ctx, windowNo, "WindowName", false)).append("  ");
+			final String documentNo = Env.getContext(ctx, windowNo, "DocumentNo", false);
+			final String value = Env.getContext(ctx, windowNo, "Value", false);
+			final String name = Env.getContext(ctx, windowNo, "Name", false);
+			if(!"".equals(documentNo)) {
+				sb.append(documentNo).append("  ");
+			}
+			if(!"".equals(value)) {
+				sb.append(value).append("  ");
+			}
+			if(!"".equals(name)) {
+				sb.append(name).append("  ");
+			}
+		}
+		String header = sb.toString().trim();
+		if (header.length() == 0)
+			header = ThemeManager.getBrowserTitle();
+		return header;
 	}
 }	//	AEnv
