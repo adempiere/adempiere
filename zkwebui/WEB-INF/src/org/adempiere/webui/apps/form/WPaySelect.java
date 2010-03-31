@@ -109,6 +109,7 @@ public class WPaySelect extends PaySelect
 	private Label labelDtype = new Label();
 	private Listbox fieldDtype = ListboxFactory.newDropdownListbox();
 	private Panel southPanel;
+	@SuppressWarnings("unused")
 	private ProcessInfo m_pi;
 	private boolean m_isLock;
 	
