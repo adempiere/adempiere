@@ -13,10 +13,9 @@
  *****************************************************************************/
 package org.adempiere.webui.util;
 
-import java.util.logging.Level;
-
-import org.compiere.util.CLogger;
+import org.adempiere.exceptions.AdempiereException;
 import org.zkoss.zk.ui.Desktop;
+import org.zkoss.zk.ui.DesktopUnavailableException;
 import org.zkoss.zk.ui.Executions;
 
 /**
@@ -28,8 +27,6 @@ import org.zkoss.zk.ui.Executions;
 public class ServerPushTemplate {
 
 	private Desktop desktop;
-
-	private final static CLogger logger = CLogger.getCLogger(ServerPushTemplate.class);
 
 	/**
 	 *
@@ -49,16 +46,18 @@ public class ServerPushTemplate {
 
 		try {
 	    	if (!inUIThread) {
-	    		//1 second timeout
-	    		if (Executions.activate(desktop, 1000)) {
+	    		//half second timeout
+	    		if (Executions.activate(desktop, 500)) {
 	    			desktopActivated = true;
 	    		} else {
-	    			return;
+	    			throw new DesktopUnavailableException("Timeout activating desktop.");
 	    		}
 	    	}
 			callback.updateUI();
+		} catch (DesktopUnavailableException de) {
+			throw de;
     	} catch (Exception e) {
-    		logger.log(Level.INFO, "Server push error="+e.getLocalizedMessage(), e);
+    		throw new AdempiereException("Failed to update client in server push worker thread.", e);
     	} finally {
     		if (!inUIThread && desktopActivated) {
     			Executions.deactivate(desktop);

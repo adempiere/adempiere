@@ -419,6 +419,16 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 			layout.setPage(page);
 			this.page = page;
 		}
+		if (dashboardThread != null && dashboardThread.isAlive()) {
+			dashboardRunnable.stop();
+			dashboardThread.interrupt();
+
+			DashboardRunnable tmp = dashboardRunnable;
+			dashboardRunnable = new DashboardRunnable(tmp, layout.getDesktop(), this);
+			dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
+	        dashboardThread.setDaemon(true);
+	        dashboardThread.start();
+		}
 	}
 
 	/**
