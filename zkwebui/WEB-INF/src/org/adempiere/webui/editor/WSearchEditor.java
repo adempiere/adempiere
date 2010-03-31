@@ -684,7 +684,8 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 		
 			if (AD_Reference_ID != 0)
 			{
-				String query = "SELECT kc.ColumnName, dc.ColumnName, t.TableName "
+				boolean isValueDisplayed = false;
+				String query = "SELECT kc.ColumnName, dc.ColumnName, t.TableName, rt.IsValueDisplayed "
 					+ "FROM AD_Ref_Table rt"
 					+ " INNER JOIN AD_Column kc ON (rt.AD_Key=kc.AD_Column_ID)"
 					+ " INNER JOIN AD_Column dc ON (rt.AD_Display=dc.AD_Column_ID)"
@@ -693,48 +694,47 @@ public class WSearchEditor extends WEditor implements ContextMenuListener, Value
 				
 				String displayColumnName = null;
 				PreparedStatement pstmt = null;
+				ResultSet rs = null;
 				
 				try
 				{
 					pstmt = DB.prepareStatement(query, null);
 					pstmt.setInt(1, AD_Reference_ID);
-					ResultSet rs = pstmt.executeQuery();
+					rs = pstmt.executeQuery();
 				
 					if (rs.next())
 					{
 						m_keyColumnName = rs.getString(1);
 						displayColumnName = rs.getString(2);
 						m_tableName = rs.getString(3);
+						String t = rs.getString(4);
+						isValueDisplayed = "Y".equalsIgnoreCase(t);
 					}
-					rs.close();
-					pstmt.close();
-					pstmt = null;
 				}
 				catch (Exception e)
 				{
 					log.log(Level.SEVERE, query, e);
 				}
-				
-				try
+				finally
 				{
-					if (pstmt != null)
-						pstmt.close();
+					DB.close(rs, pstmt);
+				}
 				
-					pstmt = null;
-				}
-				catch (Exception e)
-				{
-					pstmt = null;
-				}
 				
 				if (displayColumnName != null)
 				{
 					sql = new StringBuffer();
 					sql.append("SELECT ").append(m_keyColumnName)
 						.append(" FROM ").append(m_tableName)
-						.append(" WHERE UPPER(").append(displayColumnName)
-						.append(") LIKE ").append(DB.TO_STRING(text))
-						.append(" AND IsActive='Y'");
+						.append(" WHERE (UPPER(").append(displayColumnName)
+						.append(") LIKE ").append(DB.TO_STRING(text));
+					if (isValueDisplayed)
+					{
+						sql.append(" OR UPPER(").append("Value")
+						   .append(") LIKE ").append(DB.TO_STRING(text));
+					}
+					sql.append(")");
+					sql.append(" AND IsActive='Y'");
 				
 					String wc = getWhereClause();
 					
