@@ -795,7 +795,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (gridWindow.isTransaction())
 		{
-			if (curTab.needSave(true, true) && !onSave(true))
+			if (curTab.needSave(true, true) && !onSave(false))
 				return;
 
 			WOnlyCurrentDays ocd = new WOnlyCurrentDays();
@@ -1308,7 +1308,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{   //  do we have real change
 			if (curTab.needSave(true, true))
 			{
-				if (!onSave(true))
+				if (!onSave(false))
 				{
 					return false;
 				}
@@ -1360,7 +1360,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (curTab == null)
             return;
         
-        if (!onSave(true))
+        if (!onSave(false))
         	return;
 
         //  Gets Fields from AD_Field_v
@@ -1442,6 +1442,9 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	        {
 	        	showLastError();
 	            return false;
+	        } else if (!onSaveEvent) //need manual refresh
+	        {
+	        	curTab.setCurrentRow(curTab.getCurrentRow());
 	        }
 	        curTabpanel.dynamicDisplay(0);
 	        curTabpanel.afterSave(onSaveEvent);
@@ -1641,7 +1644,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 
-		if (!onSave(true))
+		if (!onSave(false))
 			return;
 		//
 		int table_ID = curTab.getAD_Table_ID();
@@ -1670,7 +1673,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 
-		if (!onSave(true))
+		if (!onSave(false))
 			return;
 
 		//	Query
@@ -1835,7 +1838,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (curTab.needSave(true, false))
 		{
-			if (!onSave(true))
+			if (!onSave(false))
 				return;
 		}
 
@@ -2011,7 +2014,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (curTab.needSave(true, false))
 		{
-			if (!onSave(true))
+			if (!onSave(false))
 				return;
 		}
 
