@@ -795,7 +795,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (gridWindow.isTransaction())
 		{
-			if (curTab.needSave(true, true) && !onSave(false))
+			if (curTab.needSave(true, true) && !onSave(true))
 				return;
 
 			WOnlyCurrentDays ocd = new WOnlyCurrentDays();
@@ -1308,7 +1308,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{   //  do we have real change
 			if (curTab.needSave(true, true))
 			{
-				if (!onSave(false))
+				if (!onSave(true))
 				{
 					return false;
 				}
@@ -1360,7 +1360,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (curTab == null)
             return;
         
-        onSave(false);
+        if (!onSave(true))
+        	return;
 
         //  Gets Fields from AD_Field_v
         GridField[] findFields = GridField.createFields(ctx, curTab.getWindowNo(), 0,curTab.getAD_Tab_ID());
@@ -1640,7 +1641,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 
-		if (!onSave(false))
+		if (!onSave(true))
 			return;
 		//
 		int table_ID = curTab.getAD_Table_ID();
@@ -1669,7 +1670,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			return;
 		}
 
-		if (!onSave(false))
+		if (!onSave(true))
 			return;
 
 		//	Query
