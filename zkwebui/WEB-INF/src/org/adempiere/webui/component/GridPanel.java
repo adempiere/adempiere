@@ -465,6 +465,13 @@ public class GridPanel extends Borderlayout implements EventListener
 		}
 	}
 
+	/**
+	 * scroll grid to the current focus row
+	 */
+	public void scrollToCurrentRow() {
+		onPostSelectedRowChanged();
+	}
+	
 	private void focusToRow(org.zkoss.zul.Row row) {
 		if (renderer.isEditing()) {
 			if (columnOnClick != null && columnOnClick.trim().length() > 0) {
