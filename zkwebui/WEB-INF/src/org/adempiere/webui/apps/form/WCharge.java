@@ -25,7 +25,6 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
-import org.adempiere.webui.component.Column;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -46,6 +45,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.zkoss.zk.ui.WrongValueException;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -80,13 +80,9 @@ public class WCharge extends Charge implements IFormController, EventListener
     /** Logger.          */
     private static CLogger log = CLogger.getCLogger(WCharge.class);
 
-    private ListModelTable model;
-
     // new panel
     /** Grid for components for creating a new charge account. */
     private Grid m_grdNew = GridFactory.newGridLayout();
-    /** Title of new charge account grid. */
-    private Column m_clmNewTitle = new Column();
     /** Value (key) field label. */
     private Label m_lblValue = new Label();
     /** Field for specifying value (key) of new account. */
@@ -103,8 +99,6 @@ public class WCharge extends Charge implements IFormController, EventListener
     // account panel
     /** Grid for components for creating a charge form a selected account. **/
     private Panel m_pnlAccount = new Panel();
-    /** Title of account grid. */
-    private Column m_clmAccountTitle = new Column();
     /** Button to create charge from selected account. */
     private Button m_btnAccount = new Button();
     /** Table to hold data of accounts. */
@@ -386,7 +380,6 @@ public class WCharge extends Charge implements IFormController, EventListener
      */
     private void createNew()
     {
-        final String backgroundColorStyle = "background-color:";
         String value;
         String name;
 
@@ -395,17 +388,13 @@ public class WCharge extends Charge implements IFormController, EventListener
         value = m_txbValueField.getValue();
         if (value.length() == 0)
         {
-/*            m_txbValueField.setStyle(backgroundColorStyle
-                    + ZkCssHelper.createHexColorString(AdempierePLAF.getFieldBackground_Error()));*/
-            return;
+        	throw new WrongValueException(m_txbValueField, Msg.getMsg(Env.getCtx(), "FillMandatory") + m_lblValue.getValue());
         }
 
         name = m_txbNameField.getText();
         if (name.length() == 0)
         {
-/*            m_txbNameField.setStyle(backgroundColorStyle
-                    + ZkCssHelper.createHexColorString(AdempierePLAF.getFieldBackground_Error()));*/
-            return;
+        	throw new WrongValueException(m_txbNameField, Msg.getMsg(Env.getCtx(), "FillMandatory") + m_lblName.getValue());
         }
 
         //  Create Element

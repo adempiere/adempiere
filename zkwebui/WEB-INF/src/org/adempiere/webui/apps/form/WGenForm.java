@@ -21,6 +21,7 @@ import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.DesktopTabpanel;
 import org.adempiere.webui.component.Grid;
@@ -52,8 +53,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuEcho;
-import org.zkoss.zk.ui.DesktopUnavailableException;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -84,14 +83,13 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 	private Tabbox tabbedPane = new Tabbox();
 	private Borderlayout selPanel = new Borderlayout();
 	private Grid selNorthPanel = GridFactory.newGridLayout();
-//	private FlowLayout northPanelLayout = new FlowLayout();
 	private ConfirmPanel confirmPanelSel = new ConfirmPanel(true);
 	private ConfirmPanel confirmPanelGen = new ConfirmPanel(false, true, false, false, false, false, false);
 	private StatusBarPanel statusBar = new StatusBarPanel();
 	private Borderlayout genPanel = new Borderlayout();
 	private Html info = new Html();
-//	private JScrollPane scrollPane = new JScrollPane();
 	private WListbox miniTable = ListboxFactory.newDataTable();
+	private BusyDialog progressWindow;
 	
 	private int[] m_ids;
 	
@@ -284,36 +282,23 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 	{
 		info.setContent(genForm.generate());		
 
-		//	Execute Process
-		if (!getDesktop().isServerPushEnabled())
-			getDesktop().enableServerPush(true);
-
 		this.lockUI();
-		final ProcessCtl worker = new ProcessCtl(null, getWindowNo(), genForm.getProcessInfo(), genForm.getTrx());
-		Runnable runnable = new Runnable() {
-			public void run() {
-				//get full control of desktop
-				org.zkoss.zk.ui.Desktop desktop = WGenForm.this.getDesktop();
-				try {
-					Executions.activate(desktop);
-					try {                    						
-						worker.run();     //  complete tasks in unlockUI / generateShipments_complete						
-					} finally{						
-						unlockUI();
-						//release full control of desktop
-						Executions.deactivate(desktop);
-					}
-				} catch (DesktopUnavailableException e) {
-					log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-				} catch (InterruptedException e) {
-					log.log(Level.WARNING, e.getLocalizedMessage(), e);
-				}												
-			}			
-		};
-		new Thread(runnable).start();				
-		//
+		Clients.response(new AuEcho(this, "runProcess", null));		
 	}	//	generate
 
+	/**
+	 * Internal use, don't call this directly
+	 */
+	public void runProcess() 
+	{
+		final ProcessCtl worker = new ProcessCtl(null, getWindowNo(), genForm.getProcessInfo(), genForm.getTrx());
+		try {                    						
+			worker.run();     //  complete tasks in unlockUI / generateShipments_complete						
+		} finally{						
+			unlockUI();
+		}
+	}
+	
 	/**
 	 *  Complete generating shipments.
 	 *  Called from Unlock UI
@@ -321,7 +306,10 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 	 */
 	private void generateComplete ()
 	{
-		Clients.showBusy(null, false);
+		if (progressWindow != null) {
+			progressWindow.dispose();
+			progressWindow = null;
+		}
 		
 		//  Switch Tabs
 		tabbedPane.setSelectedIndex(1);
@@ -415,7 +403,9 @@ public class WGenForm extends ADForm implements EventListener, WTableModelListen
 	 */
 	public void lockUI ()
 	{
-		Clients.showBusy("Processing...", true);
+		progressWindow = new BusyDialog();
+		progressWindow.setPage(this.getPage());
+		progressWindow.doHighlighted();
 	}   //  lockUI
 
 	/**

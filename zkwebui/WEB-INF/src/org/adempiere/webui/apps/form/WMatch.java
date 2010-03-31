@@ -17,9 +17,6 @@
 package org.adempiere.webui.apps.form;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
@@ -51,9 +48,7 @@ import org.compiere.apps.form.Match;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MMatchPO;
-import org.compiere.model.MRole;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -105,15 +100,7 @@ public class WMatch extends Match
 			LayoutUtils.addSclass("status-border", statusBar);
 			//
 			
-			new Thread()
-			{
-				public void run()
-				{
-					log.info("Starting ...");
-					MMatchPO.consolidate(Env.getCtx());
-					log.info("... Done");
-				}
-			}.start();
+			MMatchPO.consolidate(Env.getCtx());
 			cmd_matchTo();
 		}
 		catch(Exception e)
@@ -149,8 +136,6 @@ public class WMatch extends Match
 	private static final int		I_MATCHED = 7;
 
 
-	private StringBuffer    m_sql = null;
-	private String          m_groupBy = "";
 	private BigDecimal      m_xMatched = Env.ZERO;
 	private BigDecimal      m_xMatchedTo = Env.ZERO;
 
@@ -186,17 +171,14 @@ public class WMatch extends Match
 	private Button bProcess = new Button();
 	private Panel centerPanel = new Panel();
 	private Borderlayout centerLayout = new Borderlayout();
-//	private JScrollPane xMatchedScrollPane = new JScrollPane();
 	private Label xMatchedBorder = new Label("xMatched");
 	private WListbox xMatchedTable = ListboxFactory.newDataTable();
-//	private JScrollPane xMatchedToScrollPane = new JScrollPane();
 	private Label xMatchedToBorder = new Label("xMatchedTo");
 	private WListbox xMatchedToTable = ListboxFactory.newDataTable();
 	private Panel xPanel = new Panel();
 	private Checkbox sameProduct = new Checkbox();
 	private Checkbox sameBPartner = new Checkbox();
 	private Checkbox sameQty = new Checkbox();
-//	private FlowLayout xLayout = new FlowLayout(FlowLayout.CENTER, 10, 0);
 
 	/**
 	 *  Static Init.
@@ -233,17 +215,12 @@ public class WMatch extends Match
 		differenceLabel.setText(Msg.translate(Env.getCtx(), "Difference"));
 		bProcess.setLabel(Msg.translate(Env.getCtx(), "Process"));
 		centerPanel.appendChild(centerLayout);
-//		xMatchedScrollPane.setBorder(xMatchedBorder);
-//		xMatchedScrollPane.setPreferredSize(new Dimension(450, 200));
-//		xMatchedToScrollPane.setBorder(xMatchedToBorder);
-//		xMatchedToScrollPane.setPreferredSize(new Dimension(450, 200));
 		sameProduct.setSelected(true);
 		sameProduct.setText(Msg.translate(Env.getCtx(), "SameProduct"));
 		sameBPartner.setSelected(true);
 		sameBPartner.setText(Msg.translate(Env.getCtx(), "SameBPartner"));
 		sameQty.setSelected(false);
 		sameQty.setText(Msg.translate(Env.getCtx(), "SameQty"));
-//		xPanel.setLayout(xLayout);
 		
 		North north = new North();
 		mainLayout.appendChild(north);
@@ -556,31 +533,6 @@ public class WMatch extends Match
 		//  Status
 		statusBar.setStatusDB(noRows + "");
 	}   //  tableChanged
-
-
-	/**
-	 *  Fill the table using m_sql
-	 *  @param table table
-	 */
-	private void tableLoad (WListbox table)
-	{
-	//	log.finest(m_sql + " - " +  m_groupBy);
-		String sql = MRole.getDefault().addAccessSQL(
-			m_sql.toString(), "hdr", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO)
-			+ m_groupBy;
-		log.finest(sql);
-		try
-		{
-			Statement stmt = DB.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
-			table.loadTable(rs);
-			stmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-	}   //  tableLoad
 
 
 	public ADForm getForm() {

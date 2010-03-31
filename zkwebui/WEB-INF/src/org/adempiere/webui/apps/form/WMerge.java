@@ -18,6 +18,7 @@ package org.adempiere.webui.apps.form;
 
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
@@ -29,7 +30,6 @@ import org.adempiere.webui.editor.WEditor;
 import org.adempiere.webui.editor.WSearchEditor;
 import org.adempiere.webui.editor.WTableDirEditor;
 import org.adempiere.webui.panel.ADForm;
-import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
@@ -40,9 +40,6 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.au.out.AuEcho;
-import org.zkoss.zk.ui.Desktop;
-import org.zkoss.zk.ui.DesktopUnavailableException;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.util.Clients;
@@ -64,7 +61,7 @@ public class WMerge extends Merge implements IFormController, EventListener
 	 */
 	private static final long serialVersionUID = 5797395051958101596L;
 	
-	private CustomForm form = new CustomForm();
+	private WMergeUI form;
 
 	private Label[]	m_label = null;
 	private WEditor[]	m_from = null;
@@ -78,6 +75,9 @@ public class WMerge extends Merge implements IFormController, EventListener
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private String m_msg;
 	private boolean m_success;
+	private BusyDialog progressWindow;
+
+	private MergeRunnable runnable;
 
 	/**
 	 *	Initialize Panel
@@ -88,7 +88,7 @@ public class WMerge extends Merge implements IFormController, EventListener
 		try
 		{
 			preInit();
-			jbInit ();
+			zkInit ();
 		}
 		catch (Exception ex)
 		{
@@ -144,8 +144,9 @@ public class WMerge extends Merge implements IFormController, EventListener
 	 * 	Static init
 	 * 	@throws java.lang.Exception
 	 */
-	void jbInit () throws Exception
+	void zkInit () throws Exception
 	{
+		form = new WMergeUI(this);		
 		form.appendChild (mainLayout);
 		mainLayout.setHeight("100%");
 		mainLayout.setWidth("100%");
@@ -242,48 +243,39 @@ public class WMerge extends Merge implements IFormController, EventListener
 		
 		updateDeleteTable(columnName);
 
-		Clients.showBusy("Processing...", true);
+		progressWindow = new BusyDialog();
+		progressWindow.setPage(form.getPage());
+		progressWindow.doHighlighted();
 		
-		if (!form.getDesktop().isServerPushEnabled())
-			form.getDesktop().enableServerPush(true);
-				
-		MergeRunnable runnable = new MergeRunnable(columnName, from_ID, to_ID, form.getDesktop());		
-		new Thread(runnable).start();
-				
+		runnable = new MergeRunnable(columnName, from_ID, to_ID);
+		Clients.response(new AuEcho(form, "runProcess", null));
 	}   //  actionPerformed
 	
 	class MergeRunnable implements Runnable {
 		private int to_ID;
 		private int from_ID;
 		private String columnName;
-		private Desktop desktop;
-		private MergeRunnable(String columnName, int from_ID, int to_ID, Desktop desktop) {
+		private MergeRunnable(String columnName, int from_ID, int to_ID) {
 			this.columnName = columnName;
 			this.from_ID = from_ID;
 			this.to_ID = to_ID;
-			this.desktop = desktop;
 		}
 		public void run() {
-			//get full control of desktop
-			try {
-				Executions.activate(desktop);
-				try {                    
-					m_success = merge (columnName, from_ID, to_ID);
-					postMerge(columnName, to_ID);
-				} finally{
-					Clients.showBusy(null, false);
-					Clients.response(new AuEcho(form, "onAfterProcess", null));
-					//release full control of desktop
-					Executions.deactivate(desktop);
-				}
-			} catch (DesktopUnavailableException e) {
-				log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-			} catch (InterruptedException e) {
-				log.log(Level.WARNING, e.getLocalizedMessage(), e);
-			}			
+			try {                    
+				m_success = merge (columnName, from_ID, to_ID);
+				postMerge(columnName, to_ID);
+			} finally{
+				Clients.showBusy(null, false);
+				Clients.response(new AuEcho(form, "onAfterProcess", null));
+			}
 		}		
 	}
 
+	public void runProcess() 
+	{
+		runnable.run();
+	}
+	
 	public void onAfterProcess() 
 	{
 		if (m_success)
