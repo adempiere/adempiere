@@ -32,6 +32,7 @@ import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabs;
+import org.adempiere.webui.part.ITabOnSelectHandler;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.GridWindow;
@@ -182,6 +183,21 @@ public class ADWindowPanel extends AbstractADWindowPanel
         	keyListener.setAutoBlur(false);
         }
 
+        layout.setAttribute(ITabOnSelectHandler.ATTRIBUTE_KEY, new ITabOnSelectHandler() {
+			public void onSelect() {
+				IADTab adTab = getADTab();
+				if (adTab != null) {
+					IADTabpanel iadTabpanel = adTab.getSelectedTabpanel();
+					if (iadTabpanel != null && iadTabpanel instanceof ADTabpanel) {
+						ADTabpanel adTabpanel = (ADTabpanel) iadTabpanel;
+						if (adTabpanel.isGridView()) {
+							adTabpanel.getGridView().scrollToCurrentRow();
+						}
+					}
+				}
+			}
+		});
+        
         return layout;
     }
 

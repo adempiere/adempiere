@@ -18,7 +18,13 @@ import org.adempiere.webui.component.Tabbox;
 import org.adempiere.webui.component.Tabpanel;
 import org.adempiere.webui.component.Tabpanels;
 import org.adempiere.webui.component.Tabs;
+import org.adempiere.webui.panel.ADTabpanel;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
 
 /**
  * 
@@ -114,6 +120,20 @@ public class WindowContainer extends AbstractUIPart
         	tab.setLabel(title);
         }
         tab.setClosable(closeable);
+        
+        // fix scroll position lost coming back into a grid view tab
+        tab.addEventListener(Events.ON_SELECT, new EventListener() {
+			public void onEvent(Event event) throws Exception {
+				Tab tab = (Tab)event.getTarget();
+				org.zkoss.zul.Tabpanel panel = tab.getLinkedPanel();
+				Component component = panel.getFirstChild();
+				if (component != null && component.getAttribute(ITabOnSelectHandler.ATTRIBUTE_KEY) instanceof ITabOnSelectHandler)
+				{
+					ITabOnSelectHandler handler = (ITabOnSelectHandler) component.getAttribute(ITabOnSelectHandler.ATTRIBUTE_KEY);
+					handler.onSelect();
+				}
+			}
+		});
 
         Tabpanel tabpanel = null;
         if (comp instanceof Tabpanel) {
