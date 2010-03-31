@@ -63,6 +63,7 @@ public class ProcessModalDialog extends Window implements EventListener
 	 */
 	private static final long serialVersionUID = -7109707014309321369L;
 	private boolean m_autoStart;
+	private VerticalBox dialogBody;
 
 	/**
 	 * @param aProcess
@@ -127,14 +128,14 @@ public class ProcessModalDialog extends Window implements EventListener
 
 	private void initComponents() {
 		this.setBorder("normal");
-		VerticalBox vbox = new VerticalBox();
+		dialogBody = new VerticalBox();
 		Div div = new Div();
 		message = new Html();
 		div.appendChild(message);
 		div.setStyle("max-height: 150pt; overflow: auto;");
-		vbox.appendChild(div);
+		dialogBody.appendChild(div);
 		centerPanel = new Panel();
-		vbox.appendChild(centerPanel);
+		dialogBody.appendChild(centerPanel);
 		div = new Div();
 		div.setAlign("right");
 		Hbox hbox = new Hbox();
@@ -151,8 +152,8 @@ public class ProcessModalDialog extends Window implements EventListener
 		
 		hbox.appendChild(btn);
 		div.appendChild(hbox);
-		vbox.appendChild(div);		
-		this.appendChild(vbox);
+		dialogBody.appendChild(div);
+		this.appendChild(dialogBody);
 		
 	}
 
@@ -312,9 +313,12 @@ public class ProcessModalDialog extends Window implements EventListener
 	}
 
 	private void showBusyDialog() {
+		this.setBorder("none");
+		this.setTitle(null);
+		dialogBody.setVisible(false);
+
 		progressWindow = new BusyDialog();
-		progressWindow.setPage(this.getPage());
-		progressWindow.doHighlighted();
+		this.appendChild(progressWindow);
 	}
 	
 	/**
