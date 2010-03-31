@@ -205,7 +205,10 @@ public class MRelationType extends X_AD_RelationType implements IZoomProvider {
 		ResultSet rs = null;
 		try {
 			pstmt.setInt(1, windowId);
+			if(!baseLanguage)
+			{    
 			pstmt.setString(2, Env.getAD_Language(Env.getCtx()));
+			}
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getString(1);
