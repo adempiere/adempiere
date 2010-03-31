@@ -19,6 +19,7 @@ package org.adempiere.webui.panel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -258,13 +259,15 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			checkad_user_id = (Integer)currSess.getAttribute("Check_AD_User_ID");
 		if (checkad_user_id!=Env.getAD_User_ID(ctx))
 		{
-			String msg = "Bug 2832968 SessionUser="
+			String msg = "Timestamp=" + new Date() 
+					+ ", Bug 2832968 SessionUser="
 					+ checkad_user_id
 					+ ", ContextUser="
 					+ Env.getAD_User_ID(ctx)
 					+ ".  Please report conditions to your system administrator or in sf tracker 2832968";
-			logger.warning(msg);
-			throw new ApplicationException(msg);
+			ApplicationException ex = new ApplicationException(msg);
+			logger.log(Level.SEVERE, msg, ex);
+			throw ex;
 		}
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
 
@@ -792,7 +795,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (gridWindow.isTransaction())
 		{
-			if (curTab.needSave(true, true)/* && !onSave(false)*/)
+			if (curTab.needSave(true, true) && !onSave(false))
 				return;
 
 			WOnlyCurrentDays ocd = new WOnlyCurrentDays();
@@ -1249,6 +1252,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
      */
     public void onRefresh()
     {
+    	onSave(false);
         curTab.dataRefreshAll();
         curTabpanel.dynamicDisplay(0);
         focusToActivePanel();
@@ -1355,6 +1359,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     {
         if (curTab == null)
             return;
+        
+        onSave(false);
 
         //  Gets Fields from AD_Field_v
         GridField[] findFields = GridField.createFields(ctx, curTab.getWindowNo(), 0,curTab.getAD_Tab_ID());
@@ -1640,9 +1646,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		int table_ID = curTab.getAD_Table_ID();
 		int record_ID = curTab.getRecord_ID();
 
-		if (!getComponent().getDesktop().isServerPushEnabled())
-			getComponent().getDesktop().enableServerPush(true);
-
 		ProcessModalDialog dialog = new ProcessModalDialog(this,getWindowNo(),
 				AD_Process_ID,table_ID, record_ID, true);
 		if (dialog.isValid()) {
@@ -1831,7 +1834,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		if (curTab.needSave(true, false))
 		{
-			if (!onSave(false))
+			if (!onSave(true))
 				return;
 		}
 
@@ -1881,7 +1884,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 			if (vp.needSave())
 			{
-				onSave();
+				onSave(false);
 				onRefresh();
 			}
 		} // PaymentRule
@@ -2006,10 +2009,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		//	Save item changed
 
 		if (curTab.needSave(true, false))
-			this.onSave();
-
-		if (!getComponent().getDesktop().isServerPushEnabled())
-			getComponent().getDesktop().enableServerPush(true);
+		{
+			if (!onSave(true))
+				return;
+		}
 
 		// call form
 		MProcess pr = new MProcess(ctx, wButton.getProcess_ID(), null);
@@ -2115,7 +2118,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			try {
 				//get full control of desktop
-				Executions.activate(getComponent().getDesktop());
+				Executions.activate(getComponent().getDesktop(), 500);
 				try {
 					Clients.showBusy(null, true);
                 } catch(Error ex){
@@ -2155,7 +2158,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		{
 			try {
 				//get full control of desktop
-				Executions.activate(getComponent().getDesktop());
+				Executions.activate(getComponent().getDesktop(), 500);
 				try {
 					if (notPrint)		//	refresh if not print
 					{
@@ -2189,7 +2192,6 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		//	Get Log Info
 		ProcessInfoUtil.setLogFromDB(pi);
 		String logInfo = pi.getLogInfo();
-		//TODO: use better dialog for this
 		if (logInfo.length() > 0)
 			FDialog.info(curWindowNo, this.getComponent(), Env.getHeader(ctx, curWindowNo),
 				pi.getTitle() + "<br>" + logInfo);
