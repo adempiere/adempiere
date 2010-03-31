@@ -251,7 +251,7 @@ public class CLogMgt
 		if (level == null)
 			return;
 		LogManager mgr = LogManager.getLogManager();
-		Enumeration en = mgr.getLoggerNames();
+		Enumeration<?> en = mgr.getLoggerNames();
 		while (en.hasMoreElements())
 		{
 			String name = en.nextElement().toString();
@@ -498,7 +498,7 @@ public class CLogMgt
 			Attributes atts = mf.getMainAttributes();
 			if (atts != null)
 			{
-				Iterator it = atts.keySet().iterator();
+				Iterator<?> it = atts.keySet().iterator();
 				while (it.hasNext())
 				{
 					Object key = it.next();
@@ -522,11 +522,39 @@ public class CLogMgt
 			.append("/").append(Env.isBaseLanguage(Env.getCtx(), "C_UOM")).append(NL);
 		sb.append(Adempiere.getJavaInfo()).append(NL);
 		sb.append("java.io.tmpdir="+System.getProperty("java.io.tmpdir")).append(NL);
-		sb.append(Adempiere.getOSInfo());
+		sb.append(Adempiere.getOSInfo()).append(NL);
+		
+		//report memory info
+		Runtime runtime = Runtime.getRuntime();		
+		//max heap size
+		sb.append("Max Heap = "+formatMemoryInfo(runtime.maxMemory())).append(NL);		
+		//allocated heap size
+		sb.append("Allocated Heap = "+formatMemoryInfo(runtime.totalMemory())).append(NL);		
+		//free heap size
+		sb.append("Free Heap = "+formatMemoryInfo(runtime.freeMemory())).append(NL);
+		//
+		//thread info
+		sb.append("Active Threads = " + Thread.activeCount());
 		//
 		return sb;
 	}   //  getInfo
 
+	private static String formatMemoryInfo(long amount)
+	{
+		String unit = "";
+		long size = amount / 1024 ;
+		if (size > 1024)
+		{
+			size = size / 1024;
+			unit = "M";
+		}
+		else
+		{
+			unit = "K";
+		}
+		return size + unit;
+	}
+	
 	/**
 	 *  Create System Info
 	 *  @param sb Optional string buffer
