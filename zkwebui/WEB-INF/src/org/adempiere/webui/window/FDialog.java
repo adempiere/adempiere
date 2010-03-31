@@ -40,14 +40,7 @@ public class FDialog
 {
 	/**	Logger			*/
     private static final CLogger logger = CLogger.getCLogger(FDialog.class);
-
     
-	// TODO info
-
-	// TODO ask
-
-	// TODO clear
-
     /**
      * Construct a message from the AD_Message and the additional message
      *
@@ -133,7 +126,7 @@ public class FDialog
 
     	if (title == null)
     	{
-    		newTitle = windowNo > 0 ? AEnv.getWindowHeader(ctx, windowNo) : null;
+    		newTitle = AEnv.getDialogHeader(ctx, windowNo);
     	}
     	else
     	{
@@ -242,7 +235,7 @@ public class FDialog
 		try
 		{
 			String s = out.toString().replace("\n", "<br>");
-			Messagebox.showDialog(s, (windowNo > 0 ? AEnv.getWindowHeader(ctx, windowNo) : null), Messagebox.OK, Messagebox.ERROR);
+			Messagebox.showDialog(s, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.ERROR);
 		}
 		catch (InterruptedException exception)
 		{
@@ -289,7 +282,7 @@ public class FDialog
         try
         {
         	String s = Msg.getMsg(Env.getCtx(), adMessage).replace("\n", "<br>");
-            int response = Messagebox.showDialog(s, Env.getHeader(Env.getCtx(), windowNo), Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION);
+            int response = Messagebox.showDialog(s, AEnv.getDialogHeader(Env.getCtx(), windowNo), Messagebox.OK | Messagebox.CANCEL, Messagebox.QUESTION);
 
             return (response == Messagebox.OK);
         }
@@ -349,7 +342,7 @@ public class FDialog
         try
         {
         	String s = out.toString().replace("\n", "<br>");
-        	Messagebox.showDialog(s, AEnv.getWindowHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
+        	Messagebox.showDialog(s, AEnv.getDialogHeader(ctx, windowNo), Messagebox.OK, Messagebox.INFORMATION);
         }
         catch (InterruptedException exception)
         {
