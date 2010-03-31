@@ -4,6 +4,3 @@
 UPDATE AD_Field SET IsActive='N', IsDisplayed='N',Updated=TO_DATE('2009-10-06 23:54:00','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Field_ID=54055
 ;
 
-UPDATE AD_Ref_List SET IsActive='N',Updated=TO_DATE('2009-10-07 00:29:32','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=723
-;
-
