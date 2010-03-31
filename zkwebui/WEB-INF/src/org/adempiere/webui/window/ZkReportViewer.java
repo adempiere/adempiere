@@ -56,6 +56,7 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.util.media.AMedia;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -302,7 +303,7 @@ public class ZkReportViewer extends Window implements EventListener {
 						if (item != null && item.getValue() != null && item.toString().trim().length() > 0)
 						{
 							query.setTableName(item.getValue().toString());
-							executeDrill(query);
+							executeDrill(query, event.getTarget());
 						}
 					}
 				}
@@ -317,7 +318,7 @@ public class ZkReportViewer extends Window implements EventListener {
 					DrillEvent de = (DrillEvent) event;
 					if (de.getData() != null && de.getData() instanceof MQuery) {
 						MQuery query = (MQuery) de.getData();
-						executeDrill(query);
+						executeDrill(query, event.getTarget());
 					}
 				}
 				
@@ -574,8 +575,9 @@ public class ZkReportViewer extends Window implements EventListener {
 	/**
 	 * 	Execute Drill to Query
 	 * 	@param query query
+	 *  @param component
 	 */
-	private void executeDrill (MQuery query)
+	private void executeDrill (MQuery query, Component component)
 	{
 		int AD_Table_ID = AReport.getAD_Table_ID(query.getTableName());
 		if (!MRole.getDefault().isCanReport(AD_Table_ID))
@@ -584,7 +586,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			return;
 		}
 		if (AD_Table_ID != 0)
-			new WReport (AD_Table_ID, query);
+			new WReport (AD_Table_ID, query, component, 0);
 		else
 			log.warning("No Table found for " + query.getWhereClause(true));
 	}	//	executeDrill
