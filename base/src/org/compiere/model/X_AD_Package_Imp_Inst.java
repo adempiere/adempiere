@@ -30,7 +30,7 @@ public class X_AD_Package_Imp_Inst extends PO implements I_AD_Package_Imp_Inst, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100330L;
 
     /** Standard Constructor */
     public X_AD_Package_Imp_Inst (Properties ctx, int AD_Package_Imp_Inst_ID, String trxName)
@@ -38,7 +38,7 @@ public class X_AD_Package_Imp_Inst extends PO implements I_AD_Package_Imp_Inst, 
       super (ctx, AD_Package_Imp_Inst_ID, trxName);
       /** if (AD_Package_Imp_Inst_ID == 0)
         {
-			setAD_PACKAGE_IMP_INST_ID (0);
+			setAD_Package_Imp_Inst_ID (0);
         } */
     }
 
@@ -70,21 +70,21 @@ public class X_AD_Package_Imp_Inst extends PO implements I_AD_Package_Imp_Inst, 
       return sb.toString();
     }
 
-	/** Set AD_PACKAGE_IMP_INST_ID.
-		@param AD_PACKAGE_IMP_INST_ID AD_PACKAGE_IMP_INST_ID	  */
-	public void setAD_PACKAGE_IMP_INST_ID (int AD_PACKAGE_IMP_INST_ID)
+	/** Set Package Imp. Inst..
+		@param AD_Package_Imp_Inst_ID Package Imp. Inst.	  */
+	public void setAD_Package_Imp_Inst_ID (int AD_Package_Imp_Inst_ID)
 	{
-		if (AD_PACKAGE_IMP_INST_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PACKAGE_IMP_INST_ID, null);
+		if (AD_Package_Imp_Inst_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Inst_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PACKAGE_IMP_INST_ID, Integer.valueOf(AD_PACKAGE_IMP_INST_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Inst_ID, Integer.valueOf(AD_Package_Imp_Inst_ID));
 	}
 
-	/** Get AD_PACKAGE_IMP_INST_ID.
-		@return AD_PACKAGE_IMP_INST_ID	  */
-	public int getAD_PACKAGE_IMP_INST_ID () 
+	/** Get Package Imp. Inst..
+		@return Package Imp. Inst.	  */
+	public int getAD_Package_Imp_Inst_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PACKAGE_IMP_INST_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Inst_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

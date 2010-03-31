@@ -62,14 +62,14 @@ public interface I_AD_Package_Imp_Inst
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_PACKAGE_IMP_INST_ID */
-    public static final String COLUMNNAME_AD_PACKAGE_IMP_INST_ID = "AD_PACKAGE_IMP_INST_ID";
+    /** Column name AD_Package_Imp_Inst_ID */
+    public static final String COLUMNNAME_AD_Package_Imp_Inst_ID = "AD_Package_Imp_Inst_ID";
 
-	/** Set AD_PACKAGE_IMP_INST_ID	  */
-	public void setAD_PACKAGE_IMP_INST_ID (int AD_PACKAGE_IMP_INST_ID);
+	/** Set Package Imp. Inst.	  */
+	public void setAD_Package_Imp_Inst_ID (int AD_Package_Imp_Inst_ID);
 
-	/** Get AD_PACKAGE_IMP_INST_ID	  */
-	public int getAD_PACKAGE_IMP_INST_ID();
+	/** Get Package Imp. Inst.	  */
+	public int getAD_Package_Imp_Inst_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

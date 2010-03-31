@@ -54,14 +54,14 @@ public interface I_AD_Package_Imp_Detail
 	  */
 	public String getAction();
 
-    /** Column name Ad_Backup_ID */
-    public static final String COLUMNNAME_Ad_Backup_ID = "Ad_Backup_ID";
+    /** Column name AD_Backup_ID */
+    public static final String COLUMNNAME_AD_Backup_ID = "AD_Backup_ID";
 
-	/** Set Ad_Backup_ID	  */
-	public void setAd_Backup_ID (int Ad_Backup_ID);
+	/** Set Backup	  */
+	public void setAD_Backup_ID (int AD_Backup_ID);
 
-	/** Get Ad_Backup_ID	  */
-	public int getAd_Backup_ID();
+	/** Get Backup	  */
+	public int getAD_Backup_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -87,28 +87,28 @@ public interface I_AD_Package_Imp_Detail
     /** Column name AD_Original_ID */
     public static final String COLUMNNAME_AD_Original_ID = "AD_Original_ID";
 
-	/** Set AD_Original_ID	  */
+	/** Set Original	  */
 	public void setAD_Original_ID (int AD_Original_ID);
 
-	/** Get AD_Original_ID	  */
+	/** Get Original	  */
 	public int getAD_Original_ID();
 
     /** Column name AD_Package_Imp_Detail_ID */
     public static final String COLUMNNAME_AD_Package_Imp_Detail_ID = "AD_Package_Imp_Detail_ID";
 
-	/** Set AD_Package_Imp_Detail_ID	  */
+	/** Set Imp. Package Detail	  */
 	public void setAD_Package_Imp_Detail_ID (int AD_Package_Imp_Detail_ID);
 
-	/** Get AD_Package_Imp_Detail_ID	  */
+	/** Get Imp. Package Detail	  */
 	public int getAD_Package_Imp_Detail_ID();
 
     /** Column name AD_Package_Imp_ID */
     public static final String COLUMNNAME_AD_Package_Imp_ID = "AD_Package_Imp_ID";
 
-	/** Set AD_Package_Imp_ID	  */
+	/** Set Package Imp.	  */
 	public void setAD_Package_Imp_ID (int AD_Package_Imp_ID);
 
-	/** Get AD_Package_Imp_ID	  */
+	/** Get Package Imp.	  */
 	public int getAD_Package_Imp_ID();
 
     /** Column name AD_Table_ID */

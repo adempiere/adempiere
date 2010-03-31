@@ -29,7 +29,7 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100330L;
 
     /** Standard Constructor */
     public X_AD_Package_Imp_Detail (Properties ctx, int AD_Package_Imp_Detail_ID, String trxName)
@@ -88,28 +88,28 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		return (String)get_Value(COLUMNNAME_Action);
 	}
 
-	/** Set Ad_Backup_ID.
-		@param Ad_Backup_ID Ad_Backup_ID	  */
-	public void setAd_Backup_ID (int Ad_Backup_ID)
+	/** Set Backup.
+		@param AD_Backup_ID Backup	  */
+	public void setAD_Backup_ID (int AD_Backup_ID)
 	{
-		if (Ad_Backup_ID < 1) 
-			set_Value (COLUMNNAME_Ad_Backup_ID, null);
+		if (AD_Backup_ID < 1) 
+			set_Value (COLUMNNAME_AD_Backup_ID, null);
 		else 
-			set_Value (COLUMNNAME_Ad_Backup_ID, Integer.valueOf(Ad_Backup_ID));
+			set_Value (COLUMNNAME_AD_Backup_ID, Integer.valueOf(AD_Backup_ID));
 	}
 
-	/** Get Ad_Backup_ID.
-		@return Ad_Backup_ID	  */
-	public int getAd_Backup_ID () 
+	/** Get Backup.
+		@return Backup	  */
+	public int getAD_Backup_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Ad_Backup_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Backup_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	/** Set AD_Original_ID.
-		@param AD_Original_ID AD_Original_ID	  */
+	/** Set Original.
+		@param AD_Original_ID Original	  */
 	public void setAD_Original_ID (int AD_Original_ID)
 	{
 		if (AD_Original_ID < 1) 
@@ -118,8 +118,8 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 			set_Value (COLUMNNAME_AD_Original_ID, Integer.valueOf(AD_Original_ID));
 	}
 
-	/** Get AD_Original_ID.
-		@return AD_Original_ID	  */
+	/** Get Original.
+		@return Original	  */
 	public int getAD_Original_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Original_ID);
@@ -128,8 +128,8 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		return ii.intValue();
 	}
 
-	/** Set AD_Package_Imp_Detail_ID.
-		@param AD_Package_Imp_Detail_ID AD_Package_Imp_Detail_ID	  */
+	/** Set Imp. Package Detail.
+		@param AD_Package_Imp_Detail_ID Imp. Package Detail	  */
 	public void setAD_Package_Imp_Detail_ID (int AD_Package_Imp_Detail_ID)
 	{
 		if (AD_Package_Imp_Detail_ID < 1) 
@@ -138,8 +138,8 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Detail_ID, Integer.valueOf(AD_Package_Imp_Detail_ID));
 	}
 
-	/** Get AD_Package_Imp_Detail_ID.
-		@return AD_Package_Imp_Detail_ID	  */
+	/** Get Imp. Package Detail.
+		@return Imp. Package Detail	  */
 	public int getAD_Package_Imp_Detail_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Detail_ID);
@@ -148,8 +148,8 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 		return ii.intValue();
 	}
 
-	/** Set AD_Package_Imp_ID.
-		@param AD_Package_Imp_ID AD_Package_Imp_ID	  */
+	/** Set Package Imp..
+		@param AD_Package_Imp_ID Package Imp.	  */
 	public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
 	{
 		if (AD_Package_Imp_ID < 1) 
@@ -158,8 +158,8 @@ public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Deta
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, Integer.valueOf(AD_Package_Imp_ID));
 	}
 
-	/** Get AD_Package_Imp_ID.
-		@return AD_Package_Imp_ID	  */
+	/** Get Package Imp..
+		@return Package Imp.	  */
 	public int getAD_Package_Imp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_ID);
