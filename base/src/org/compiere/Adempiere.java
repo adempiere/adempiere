@@ -473,11 +473,10 @@ public final class Adempiere
 			return true;
 
 		//	Check Version
-		if (!Login.isJavaOK(isClient) && isClient)
+		if (isClient && !Login.isJavaOK(isClient))
 			System.exit(1);
 
-		CLogMgt.initialize(isClient);
-		Ini.setClient (isClient);		//	Ini requires Logging
+		Ini.setClient (isClient);		//	init logging in Ini
 		//	Init Log
 		log = CLogger.getCLogger(Adempiere.class);
 		//	Greeting
