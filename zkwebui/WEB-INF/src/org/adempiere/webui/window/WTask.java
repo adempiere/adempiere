@@ -114,7 +114,7 @@ public class WTask extends Window implements EventListener
 				while (true) {
 					try {
 						Thread.sleep(500);
-						Executions.activate(desktop);
+						Executions.activate(desktop, 500);
 						try {
 							StringBuffer sb = new StringBuffer();
 							sb.append(osTask.getOut())
