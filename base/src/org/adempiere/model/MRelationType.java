@@ -92,7 +92,7 @@ public class MRelationType extends X_AD_RelationType implements IZoomProvider {
 
 	final static String SQL_WINDOW_NAME = "SELECT Name FROM AD_Window WHERE AD_WINDOW_ID=?";
 
-	final static String SQL_WINDOW_NAME_TRL = "SELECT Name FROM AD_Window_Trl WHERE AD_WINDOW_ID=?";
+	final static String SQL_WINDOW_NAME_TRL = "SELECT Name FROM AD_Window_Trl WHERE AD_WINDOW_ID=? AND AD_LANGUAGE=?";
 
 	/**
 	 * 
@@ -205,6 +205,7 @@ public class MRelationType extends X_AD_RelationType implements IZoomProvider {
 		ResultSet rs = null;
 		try {
 			pstmt.setInt(1, windowId);
+			pstmt.setString(2, Env.getAD_Language(Env.getCtx()));
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				return rs.getString(1);
