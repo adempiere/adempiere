@@ -394,16 +394,6 @@ public class Translation
 	 */
 	private void process (String directory, String AD_Language, String mode)
 	{
-		File dir = new File(directory);
-		if (!dir.exists())
-			dir.mkdir();
-		dir = new File(directory);
-		if (!dir.exists())
-		{
-			System.out.println("Cannot create directory " + directory);
-			System.exit(1);
-		}
-
 		String 	sql = "SELECT Name, TableName "
 			+ "FROM AD_Table "
 			+ "WHERE TableName LIKE '%_Trl' "
@@ -426,10 +416,27 @@ public class Translation
 		for (int i = 0; i < trlTables.size(); i++)
 		{
 			String table = (String)trlTables.get(i);
-			if (mode.startsWith("i"))
+			File dir = new File(directory);
+			if (mode.equals("import")) {
+				if (!dir.exists() || !dir.isDirectory())
+				{
+					System.out.println("The language cannot be imported from " + directory +" as this directory does not exist.");
+					System.exit(1);
+				}
 				importTrl(directory, -1, AD_Language, table);
-			else
+			}
+			else if (mode.equals("export")) {
+				if (!dir.exists())
+					dir.mkdir();
+				dir = new File(directory);
+				if (!dir.exists())
+				{
+					System.out.println("Cannot create directory " + directory + " to export the language to it.");
+					System.exit(1);
+				}
 				exportTrl(directory, -1, AD_Language, table);
+			} else
+				System.out.println("Just import and export are supported as modes.");
 		}
 	}	//	process
 
