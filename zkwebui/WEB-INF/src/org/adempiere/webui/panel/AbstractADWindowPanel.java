@@ -312,6 +312,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	    			detailQuery = query;
 	    			query = new MQuery();
 	    			query.addRestriction("1=2");
+	    			query.setRecordCount(0);
 	    		}
 	    	}
 
