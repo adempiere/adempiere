@@ -46,8 +46,8 @@ public class ServerPushTemplate {
 
 		try {
 	    	if (!inUIThread) {
-	    		//half second timeout
-	    		if (Executions.activate(desktop, 500)) {
+	    		//10 minutes timeout
+	    		if (Executions.activate(desktop, 10 * 60 * 1000)) {
 	    			desktopActivated = true;
 	    		} else {
 	    			throw new DesktopUnavailableException("Timeout activating desktop.");

@@ -75,6 +75,7 @@ public class DashboardRunnable implements Runnable, Serializable
 	{
 		// default Update every one minutes
 		int interval = MSysConfig.getIntValue(ZK_DASHBOARD_REFRESH_INTERVAL, 60000);
+		int cumulativeFailure = 0;
 		while(!stop) {
 			try {
 				Thread.sleep(interval);
@@ -86,14 +87,17 @@ public class DashboardRunnable implements Runnable, Serializable
 				Locales.setThreadLocal(locale);
 				try {
 					refreshDashboard();
+					cumulativeFailure = 0;
 				} catch (DesktopUnavailableException de) {
-					killSession();
-					break;
+					cumulativeFailure++;
 				} catch (Exception e) {
 					logger.log(Level.INFO, e.getLocalizedMessage(), (e.getCause() != null ? e.getCause() : e));
-					break;
+					cumulativeFailure++;
 				}
+				if (cumulativeFailure > 3)
+					break;
 			} else {
+				logger.log(Level.INFO, "Desktop destroy, will kill session.");
 				killSession();
 				break;
 			}
