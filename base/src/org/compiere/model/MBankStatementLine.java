@@ -127,8 +127,14 @@ import org.compiere.util.Msg;
 		setC_Currency_ID (payment.getC_Currency_ID());
 		//
 		BigDecimal amt = payment.getPayAmt(true); 
+		BigDecimal chargeAmt = getChargeAmt();
+		if (chargeAmt == null)
+			chargeAmt = Env.ZERO;
+		BigDecimal interestAmt = getInterestAmt();
+		if (interestAmt == null)
+			interestAmt = Env.ZERO;
 		setTrxAmt(amt);
-		setStmtAmt(amt);
+		setStmtAmt(amt.add(chargeAmt).add(interestAmt));
 		//
 		setDescription(payment.getDescription());
 	}	//	setPayment

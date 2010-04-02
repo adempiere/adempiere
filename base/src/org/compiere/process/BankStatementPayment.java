@@ -98,7 +98,7 @@ public class BankStatementPayment extends SvrProcess
 		
 		ibs.setC_Payment_ID(payment.getC_Payment_ID());
 		ibs.setC_Currency_ID (payment.getC_Currency_ID());
-		ibs.setTrxAmt(payment.getPayAmt());
+		ibs.setTrxAmt(payment.getPayAmt(true));
 		ibs.save();
 		//
 		String retString = "@C_Payment_ID@ = " + payment.getDocumentNo();
