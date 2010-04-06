@@ -14,6 +14,7 @@
 
 package org.compiere.pos;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -23,11 +24,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.border.TitledBorder;
 
+import net.miginfocom.swing.MigLayout;
+
+import org.compiere.apps.ADialog;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.MPOSKeyLayout;
 import org.compiere.print.MPrintColor;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CScrollPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -41,7 +46,7 @@ import org.compiere.util.Msg;
  *         *Copyright (c) Jorg Janke
  *  @version $Id: SubFunctionKeys.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
-public class SubFunctionKeys extends PosSubPanel implements ActionListener
+public class SubFunctionKeys extends PosSubPanel implements PosKeyListener
 {
 	/**
 	 * 
@@ -52,7 +57,7 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public SubFunctionKeys (PosPanel posPanel)
+	public SubFunctionKeys (PosBasePanel posPanel)
 	{
 		super (posPanel);
 	}	//	PosSubFunctionKeys
@@ -67,77 +72,15 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 	 */
 	public void init()
 	{
-		//	Title
-		TitledBorder border = new TitledBorder(Msg.translate(Env.getCtx(), "C_POSKeyLayout_ID"));
-		setBorder(border);
-		
 		int C_POSKeyLayout_ID = p_pos.getC_POSKeyLayout_ID();
 		if (C_POSKeyLayout_ID == 0)
 			return;
-		MPOSKeyLayout fKeys = MPOSKeyLayout.get(Env.getCtx(), C_POSKeyLayout_ID);
-		if (fKeys.get_ID() == 0)
-			return;
 		
-		int COLUMNS = 3;	//	Min Columns
-		int ROWS = 6;		//	Min Rows
-		m_keys = fKeys.getKeys(false);
-		int noKeys = m_keys.length;
-		int rows = Math.max (((noKeys-1) / COLUMNS) + 1, ROWS);
-		int cols = ((noKeys-1) % COLUMNS) + 1;
-		log.fine( "PosSubFunctionKeys.init - NoKeys=" + noKeys 
-			+ " - Rows=" + rows + ", Cols=" + cols);
-		//	Content
-		CPanel content = new CPanel (new GridLayout(Math.max(rows, 3), Math.max(cols, 3)));
-		for (int i = 0; i < m_keys.length; i++)
-		{
-			Color keyColor = Color.lightGray;
-			MPOSKey key = m_keys[i];
-			StringBuffer buttonHTML = new StringBuffer("<html><p>");
-			if (key.getAD_PrintColor_ID() != 0)
-			{
-				MPrintColor color = MPrintColor.get(Env.getCtx(), key.getAD_PrintColor_ID());
-				keyColor = color.getColor();
-				buttonHTML
-					.append("<table")
-					.append(">")
-					.append(key.getName())
-					.append("</table>");
-			}
-			else
-				buttonHTML.append(key.getName());
-			buttonHTML.append("</p></html>");
-			log.fine( "#" + i + " - " + keyColor); 
-			CButton button = new CButton(buttonHTML.toString());
-			button.setMargin(INSETS1);
-			button.setBackground(keyColor);
-			button.setFocusable(false);
-			button.setActionCommand(String.valueOf(key.getC_POSKey_ID()));
-			button.addActionListener(this);
-			content.add (button);
-		}
-		for (int i = m_keys.length; i < rows*COLUMNS; i++)
-		{
-			CButton button = new CButton("");
-			button.setFocusable(false);
-			button.setBackground(Color.cyan);
-			content.add (button);
-		}
-		content.setPreferredSize(new Dimension(cols*80, rows*50));
-		add (content);
-	}	//	init
+		PosKeyPanel panel = new PosKeyPanel(C_POSKeyLayout_ID, this);
+		this.setLayout(new MigLayout("fill, ins 0"));
+		add(panel, "growx, growy");
 
-	/**
-	 * 	Get Panel Position
-	 */
-	public GridBagConstraints getGridBagConstraints()
-	{
-		GridBagConstraints gbc = super.getGridBagConstraints();
-		gbc.gridx = 1;
-		gbc.gridy = 2;
-		gbc.gridheight = 3;  //added by ConSerTi so that the panel takes up more space
-//		gbc.fill = GridBagConstraints.HORIZONTAL;
-		return gbc;
-	}	//	getGridBagConstraints
+	}	//	init
 	
 	/**
 	 * 	Dispose - Free Resources
@@ -148,35 +91,23 @@ public class SubFunctionKeys extends PosSubPanel implements ActionListener
 	}	//	dispose
 
 	/**
-	 * 	Action Listener
-	 *	@param e event
+	 * Call back from key panel
 	 */
-	public void actionPerformed (ActionEvent e)
-	{
-		String action = e.getActionCommand();
-		if (action == null || action.length() == 0 || m_keys == null)
+	public void keyReturned(MPOSKey key) {
+		// processed order
+		if ( p_posPanel.m_order != null && p_posPanel.m_order.isProcessed() )
 			return;
-		log.info( "PosSubFunctionKeys - actionPerformed: " + action);
-		try
+		
+		// new line
+		p_posPanel.f_curLine.setM_Product_ID(key.getM_Product_ID());
+		p_posPanel.f_curLine.setPrice();
+		p_posPanel.f_curLine.setQty(key.getQty());
+		if ( !p_posPanel.f_curLine.saveLine() )
 		{
-			int C_POSKey_ID = Integer.parseInt(action);
-			for (int i = 0; i < m_keys.length; i++)
-			{
-				MPOSKey key = m_keys[i];
-				if (key.getC_POSKey_ID() == C_POSKey_ID)
-				{
-					p_posPanel.f_product.setM_Product_ID(key.getM_Product_ID());
-					p_posPanel.f_product.setPrice();
-					p_posPanel.f_curLine.setQty(key.getQty());
-					p_posPanel.f_curLine.saveLine();
-					p_posPanel.updateInfo();
-					return;
-				}
-			}
+			ADialog.error(0, this, "Could not save order line");
 		}
-		catch (Exception ex)
-		{
-		}
-	}	//	actinPerformed
+		p_posPanel.updateInfo();
+		return;
+	}
 	
 }	//	PosSubFunctionKeys

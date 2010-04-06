@@ -62,6 +62,19 @@ public interface I_C_POS
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AutoLogoutDelay */
+    public static final String COLUMNNAME_AutoLogoutDelay = "AutoLogoutDelay";
+
+	/** Set Auto Logout Delay.
+	  * Automatically logout if terminal inactive for this period
+	  */
+	public void setAutoLogoutDelay (int AutoLogoutDelay);
+
+	/** Get Auto Logout Delay.
+	  * Automatically logout if terminal inactive for this period
+	  */
+	public int getAutoLogoutDelay();
+
     /** Column name CashDrawer */
     public static final String COLUMNNAME_CashDrawer = "CashDrawer";
 
@@ -269,6 +282,36 @@ public interface I_C_POS
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name OSK_KeyLayout_ID */
+    public static final String COLUMNNAME_OSK_KeyLayout_ID = "OSK_KeyLayout_ID";
+
+	/** Set On Screen Keyboard layout.
+	  * The key layout to use for on screen keyboard for text fields.
+	  */
+	public void setOSK_KeyLayout_ID (int OSK_KeyLayout_ID);
+
+	/** Get On Screen Keyboard layout.
+	  * The key layout to use for on screen keyboard for text fields.
+	  */
+	public int getOSK_KeyLayout_ID();
+
+	public I_C_POSKeyLayout getOSK_KeyLayout() throws RuntimeException;
+
+    /** Column name OSNP_KeyLayout_ID */
+    public static final String COLUMNNAME_OSNP_KeyLayout_ID = "OSNP_KeyLayout_ID";
+
+	/** Set On Screen Number Pad layout.
+	  * The key layout to use for on screen number pad for numeric fields.
+	  */
+	public void setOSNP_KeyLayout_ID (int OSNP_KeyLayout_ID);
+
+	/** Get On Screen Number Pad layout.
+	  * The key layout to use for on screen number pad for numeric fields.
+	  */
+	public int getOSNP_KeyLayout_ID();
+
+	public I_C_POSKeyLayout getOSNP_KeyLayout() throws RuntimeException;
 
     /** Column name PrinterName */
     public static final String COLUMNNAME_PrinterName = "PrinterName";

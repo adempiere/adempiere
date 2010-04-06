@@ -42,7 +42,13 @@ public class MPaymentProcessor extends X_C_PaymentProcessor
 	 */
 	private static final long serialVersionUID = 1825454310856682804L;
 
-
+	public static MPaymentProcessor[] find (Properties ctx,
+			String tender, String CCType,
+			int AD_Client_ID, int AD_Org_ID, int C_Currency_ID, BigDecimal Amt, String trxName)
+		{
+			return find(ctx, tender, CCType, AD_Client_ID, C_Currency_ID, Amt, trxName);
+		}
+	
 	/**
 	 * 	Get BankAccount & PaymentProcessor
 	 * 	@param ctx context

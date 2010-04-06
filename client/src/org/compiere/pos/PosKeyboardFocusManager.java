@@ -47,6 +47,10 @@ public class PosKeyboardFocusManager extends DefaultKeyboardFocusManager
 	/** Last Key Type */
 	private long m_lastWhen = 0;
 
+	public long getLastWhen() {
+		return m_lastWhen;
+	}
+
 	/** Timer */
 	private javax.swing.Timer m_timer = null;
 	/**	Logger			*/

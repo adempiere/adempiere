@@ -30,7 +30,7 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100321L;
 
     /** Standard Constructor */
     public X_C_POS (Properties ctx, int C_POS_ID, String trxName)
@@ -76,6 +76,26 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Auto Logout Delay.
+		@param AutoLogoutDelay 
+		Automatically logout if terminal inactive for this period
+	  */
+	public void setAutoLogoutDelay (int AutoLogoutDelay)
+	{
+		set_Value (COLUMNNAME_AutoLogoutDelay, Integer.valueOf(AutoLogoutDelay));
+	}
+
+	/** Get Auto Logout Delay.
+		@return Automatically logout if terminal inactive for this period
+	  */
+	public int getAutoLogoutDelay () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AutoLogoutDelay);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set CashDrawer.
 		@param CashDrawer CashDrawer	  */
@@ -392,6 +412,62 @@ public class X_C_POS extends PO implements I_C_POS, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	public I_C_POSKeyLayout getOSK_KeyLayout() throws RuntimeException
+    {
+		return (I_C_POSKeyLayout)MTable.get(getCtx(), I_C_POSKeyLayout.Table_Name)
+			.getPO(getOSK_KeyLayout_ID(), get_TrxName());	}
+
+	/** Set On Screen Keyboard layout.
+		@param OSK_KeyLayout_ID 
+		The key layout to use for on screen keyboard for text fields.
+	  */
+	public void setOSK_KeyLayout_ID (int OSK_KeyLayout_ID)
+	{
+		if (OSK_KeyLayout_ID < 1) 
+			set_Value (COLUMNNAME_OSK_KeyLayout_ID, null);
+		else 
+			set_Value (COLUMNNAME_OSK_KeyLayout_ID, Integer.valueOf(OSK_KeyLayout_ID));
+	}
+
+	/** Get On Screen Keyboard layout.
+		@return The key layout to use for on screen keyboard for text fields.
+	  */
+	public int getOSK_KeyLayout_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_OSK_KeyLayout_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_POSKeyLayout getOSNP_KeyLayout() throws RuntimeException
+    {
+		return (I_C_POSKeyLayout)MTable.get(getCtx(), I_C_POSKeyLayout.Table_Name)
+			.getPO(getOSNP_KeyLayout_ID(), get_TrxName());	}
+
+	/** Set On Screen Number Pad layout.
+		@param OSNP_KeyLayout_ID 
+		The key layout to use for on screen number pad for numeric fields.
+	  */
+	public void setOSNP_KeyLayout_ID (int OSNP_KeyLayout_ID)
+	{
+		if (OSNP_KeyLayout_ID < 1) 
+			set_Value (COLUMNNAME_OSNP_KeyLayout_ID, null);
+		else 
+			set_Value (COLUMNNAME_OSNP_KeyLayout_ID, Integer.valueOf(OSNP_KeyLayout_ID));
+	}
+
+	/** Get On Screen Number Pad layout.
+		@return The key layout to use for on screen number pad for numeric fields.
+	  */
+	public int getOSNP_KeyLayout_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_OSNP_KeyLayout_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Printer Name.
 		@param PrinterName 

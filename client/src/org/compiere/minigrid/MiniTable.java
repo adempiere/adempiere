@@ -78,7 +78,7 @@ public class MiniTable extends CTable implements IMiniTable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2853772547464132496L;
+	private static final long serialVersionUID = 2853772547464132497L;
 
 	/**
 	 *  Default Constructor
@@ -112,6 +112,15 @@ public class MiniTable extends CTable implements IMiniTable
 	private static CLogger log = CLogger.getCLogger(MiniTable.class);
 	/** Is Total Show */
 	private boolean showTotals = false;
+	private boolean autoResize = true;
+
+	public boolean isAutoResize() {
+		return autoResize;
+	}
+
+	public void setAutoResize(boolean autoResize) {
+		this.autoResize = autoResize;
+	}
 
 	/**
 	 * Gets the swing column of given index. No index checking 
@@ -137,6 +146,9 @@ public class MiniTable extends CTable implements IMiniTable
 	 */
 	public void autoSize()
 	{
+		if ( !autoResize  )
+			return;
+		
 		long start = System.currentTimeMillis();
 		//
 		final int SLACK = 8;		//	making sure it fits in a column

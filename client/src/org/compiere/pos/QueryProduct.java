@@ -14,22 +14,17 @@
 
 package org.compiere.pos;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.math.BigDecimal;
 
 import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
-import org.compiere.apps.ConfirmPanel;
+import net.miginfocom.swing.MigLayout;
+
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
@@ -51,8 +46,7 @@ import org.compiere.util.Msg;
  *         *Copyright (c) Jorg Janke
  *  @version $Id: QueryProduct.java,v 1.1 2004/07/12 04:10:04 jjanke Exp $
  */
-public class QueryProduct extends PosSubPanel
-	implements ActionListener, MouseListener, ListSelectionListener
+public class QueryProduct extends PosQuery
 {
 	/**
 	 * 
@@ -62,25 +56,15 @@ public class QueryProduct extends PosSubPanel
 	/**
 	 * 	Constructor
 	 */
-	public QueryProduct (PosPanel posPanel)
+	public QueryProduct (PosBasePanel posPanel)
 	{
 		super(posPanel);
 	}	//	PosQueryProduct
-
-	/** The Table					*/
-	private MiniTable		m_table;
 	
-	private CPanel 			northPanel;
-	private CScrollPane 	centerScroll;
-	private ConfirmPanel	confirm;
-	
-	private CTextField		f_value;
-	private CTextField		f_name;
-	private CTextField		f_upc;
-	private CTextField		f_sku;
-
-	private CButton			f_up;
-	private CButton			f_down;
+	private PosTextField		f_value;
+	private PosTextField		f_name;
+	private PosTextField		f_upc;
+	private PosTextField		f_sku;
 
 	private int				m_M_Product_ID;
 	private String			m_ProductName;
@@ -88,6 +72,9 @@ public class QueryProduct extends PosSubPanel
 	//
 	private int 			m_M_PriceList_Version_ID;
 	private int 			m_M_Warehouse_ID;
+	private CButton f_refresh;
+	private CButton f_ok;
+	private CButton f_cancel;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(QueryProduct.class);
 	
@@ -114,124 +101,74 @@ public class QueryProduct extends PosSubPanel
 	 */
 	protected void init()
 	{
-		setLayout(new BorderLayout(5,5));
-		setVisible(false);
+		CPanel panel = new CPanel();
+		
+		panel.setLayout(new MigLayout("fill"));
+		getContentPane().add(panel);
 		//	North
-		northPanel = new CPanel(new GridBagLayout());
-		add (northPanel, BorderLayout.NORTH);
+		northPanel = new CPanel(new MigLayout("fill", "", "[50][50][]"));
+		panel.add (northPanel, "north");
 		northPanel.setBorder(new TitledBorder(Msg.getMsg(p_ctx, "Query")));
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = PosSubPanel.INSETS2;
+		
 		//
-		gbc.gridy = 0;
-		gbc.gridx = GridBagConstraints.RELATIVE;
 		CLabel lvalue = new CLabel(Msg.translate(p_ctx, "Value"));
-		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lvalue, gbc);
-		f_value = new CTextField(20);
+		northPanel.add (lvalue, "growy");
+		f_value = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		lvalue.setLabelFor(f_value);
-		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_value, gbc);
+		northPanel.add(f_value,  "h 30, w 200");
 		f_value.addActionListener(this);
 		//
 		CLabel lupc = new CLabel(Msg.translate(p_ctx, "UPC"));
-		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lupc, gbc);
-		f_upc = new CTextField(15);
+		northPanel.add (lupc, "growy");
+		f_upc = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		lupc.setLabelFor(f_upc);
-		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_upc, gbc);
+		northPanel.add(f_upc,  "h 30, w 200, wrap");
 		f_upc.addActionListener(this);
 		//
-		gbc.gridy = 1;
 		CLabel lname = new CLabel(Msg.translate(p_ctx, "Name"));
-		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lname, gbc);
-		f_name = new CTextField(20);
+		northPanel.add (lname, "growy");
+		f_name = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		lname.setLabelFor(f_name);
-		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_name, gbc);
+		northPanel.add(f_name,  "h 30, w 200");
 		f_name.addActionListener(this);
 		//
 		CLabel lsku = new CLabel(Msg.translate(p_ctx, "SKU"));
-		gbc.anchor = GridBagConstraints.EAST;
-		northPanel.add (lsku, gbc);
-		f_sku = new CTextField(15);
+		northPanel.add (lsku, "growy");
+		f_sku = new PosTextField("", p_posPanel, p_pos.getOSK_KeyLayout_ID());
 		lsku.setLabelFor(f_sku);
-		gbc.anchor = GridBagConstraints.WEST;
-		northPanel.add(f_sku, gbc);
+		northPanel.add(f_sku,  "h 30, w 200");
 		f_sku.addActionListener(this);
 		//
-		gbc.gridy = 0;
-		gbc.gridheight = 2;
-		gbc.anchor = GridBagConstraints.EAST;
-		gbc.weightx = .1;
-		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
-		northPanel.add(f_up, gbc);
-		gbc.weightx = 0;
-		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
-		northPanel.add(f_down, gbc);
 		
-		//	Confirm
-		confirm = new ConfirmPanel (true, true, true, false, false, false, false);
-		add (confirm, BorderLayout.SOUTH);
-		confirm.addActionListener(this);
+
+		f_refresh = createButtonAction("Refresh", KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
+		northPanel.add(f_refresh, "w 50!, h 50!, wrap, alignx trailing");
+		
+		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+		northPanel.add(f_up, "w 50!, h 50!, span, split 4");
+		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+		northPanel.add(f_down, "w 50!, h 50!");
+		
+		f_ok = createButtonAction("Ok", KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0));
+		northPanel.add(f_ok, "w 50!, h 50!");
+		
+		f_cancel = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0));
+		northPanel.add(f_cancel, "w 50!, h 50!");
 
 		//	Center
-		m_table = new MiniTable();
+		m_table = new PosTable();
 		String sql = m_table.prepareTable (s_layout, s_sqlFrom, 
 			s_sqlWhere, false, "RV_WarehousePrice")
 			+ " ORDER BY Margin, QtyAvailable";
-		m_table.setRowSelectionAllowed(true);
-		m_table.setColumnSelectionAllowed(false);
-		m_table.setMultiSelection(false);
 		m_table.addMouseListener(this);
 		m_table.getSelectionModel().addListSelectionListener(this);
 		enableButtons();
 		centerScroll = new CScrollPane(m_table);
-		add (centerScroll, BorderLayout.CENTER);
+		panel.add (centerScroll, "growx, growy,south");
+		m_table.growScrollbars();
+		panel.setPreferredSize(new Dimension(800,600));
+		f_value.requestFocus();
 	}	//	init
-
-	
-	/**
-	 * 	Get GridBagConstraints
-	 *	@return constraints
-	 */
-	protected GridBagConstraints getGridBagConstraints ()
-	{
-		GridBagConstraints gbc = super.getGridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = GridBagConstraints.RELATIVE;
-		gbc.gridwidth = 2; //	GridBagConstraints.REMAINDER;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 0.1;
-		gbc.weighty = 0.5;
-		return gbc;
-	}	//	getGridBagConstraints
-	
-	/**
-	 * 	Dispose
-	 */
-	public void dispose()
-	{
-		removeAll();
-		northPanel = null;
-		centerScroll = null;
-		confirm = null;
-		m_table = null;
-	}	//	dispose
-	
-	/**
-	 * 	Set Visible
-	 *	@param aFlag visible
-	 */
-	public void setVisible (boolean aFlag)
-	{
-		super.setVisible (aFlag);
-		if (aFlag)
-			f_value.requestFocus();
-	}	//	setVisible
-
 	
 	/**
 	 * 	Set Query Data
@@ -262,11 +199,7 @@ public class QueryProduct extends PosSubPanel
 		}
 		else if ("Reset".equals(e.getActionCommand()))
 		{
-			f_value.setText(null);
-			f_name.setText(null);
-			f_sku.setText(null);
-			f_upc.setText(null);
-			setResults(new MWarehousePrice[0]);
+			reset();
 			return;
 		}
 		else if ("Previous".equalsIgnoreCase(e.getActionCommand()))
@@ -305,24 +238,15 @@ public class QueryProduct extends PosSubPanel
 	public void setResults (MWarehousePrice[] results)
 	{
 		m_table.loadTable(results);
+		if (m_table.getRowCount() >0 )
+			m_table.setRowSelectionInterval(0, 0);
 		enableButtons();
 	}	//	setResults
-	
-	/**
-	 * 	Table selection changed
-	 *	@param e event
-	 */
-	public void valueChanged (ListSelectionEvent e)
-	{
-		if (e.getValueIsAdjusting())
-			return;
-		enableButtons();
-	}	//	valueChanged
 
 	/**
 	 * 	Enable/Set Buttons and set ID
 	 */
-	private void enableButtons()
+	protected void enableButtons()
 	{
 		m_M_Product_ID = -1;
 		m_ProductName = null;
@@ -339,48 +263,42 @@ public class QueryProduct extends PosSubPanel
 				m_Price = (BigDecimal)m_table.getValueAt(row, 7);
 			}
 		}
-		confirm.getOKButton().setEnabled(enabled);
+		f_ok.setEnabled(enabled);
 		log.fine("M_Product_ID=" + m_M_Product_ID + " - " + m_ProductName + " - " + m_Price); 
 	}	//	enableButtons
 
-	/**
-	 *  Mouse Clicked
-	 *  @param e event
-	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		//  Double click with selected row => exit
-		if (e.getClickCount() > 1 && m_table.getSelectedRow() != -1)
-		{
-			enableButtons();
-			close();
-		}
-	}   //  mouseClicked
 
-	public void mouseEntered (MouseEvent e) {}
-	public void mouseExited (MouseEvent e) {}
-	public void mousePressed (MouseEvent e) {}
-	public void mouseReleased (MouseEvent e) {}
 
 	/**
 	 * 	Close.
 	 * 	Set Values on other panels and close
 	 */
-	private void close()
+	protected void close()
 	{
 		log.fine("M_Product_ID=" + m_M_Product_ID); 
 		
 		if (m_M_Product_ID > 0)
 		{
-			p_posPanel.f_product.setM_Product_ID(m_M_Product_ID);
+			p_posPanel.f_curLine.setM_Product_ID(m_M_Product_ID);
 			p_posPanel.f_curLine.setPrice(m_Price);
 		}
 		else
 		{
-			p_posPanel.f_product.setM_Product_ID(0);
+			p_posPanel.f_curLine.setM_Product_ID(0);
 			p_posPanel.f_curLine.setPrice(Env.ZERO);
 		}
-		p_posPanel.closeQuery(this);
+		dispose();
 	}	//	close
+
+
+	@Override
+	public void reset() {
+
+		f_value.setText(null);
+		f_name.setText(null);
+		f_sku.setText(null);
+		f_upc.setText(null);
+		setResults(new MWarehousePrice[0]);
+	}
 	
 }	//	PosQueryProduct

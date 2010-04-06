@@ -14,27 +14,48 @@
 
 package org.compiere.pos;
 
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Event;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.math.BigDecimal;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JViewport;
 import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
+import net.miginfocom.swing.MigLayout;
+
+import org.compiere.apps.ADialog;
 import org.compiere.grid.ed.VNumber;
-import org.compiere.model.MBPartner;
+import org.compiere.minigrid.ColumnInfo;
+import org.compiere.minigrid.IDColumn;
+import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
-import org.compiere.model.MOrderTax;
 import org.compiere.model.MProduct;
+import org.compiere.model.MUOM;
+import org.compiere.model.MWarehousePrice;
+import org.compiere.model.PO;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
+import org.compiere.swing.CScrollPane;
+import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -48,7 +69,7 @@ import org.compiere.util.Msg;
  * @version $Id: SubCurrentLine.java,v 1.3 2004/07/24 04:31:52 jjanke Exp $
  * red1 - [2093355 ] Small bugs in OpenXpertya POS
  */
-public class SubCurrentLine extends PosSubPanel implements ActionListener {
+public class SubCurrentLine extends PosSubPanel implements ActionListener, FocusListener, ListSelectionListener {
 	/**
 	 * 
 	 */
@@ -60,102 +81,146 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	 * @param posPanel
 	 *            POS Panel
 	 */
-	public SubCurrentLine(PosPanel posPanel) {
+	public SubCurrentLine(PosBasePanel posPanel) {
 		super(posPanel);
 	} //	PosSubCurrentLine
 
-	private CButton f_new;
-
-	private CButton f_reset;
-
+	private CButton f_up;
+	private CButton f_delete;
+	private CButton f_down;
+	//
 	private CButton f_plus;
-
 	private CButton f_minus;
+	private PosTextField f_price;
+	private PosTextField f_quantity;
+	protected PosTextField	f_name;
+	private CButton			f_bSearch;
+	private int orderLineId = 0;
+	
 
-	private CLabel f_currency;
+	/**	The Product					*/
+	private MProduct		m_product = null; 
 
-	private VNumber f_price;
-
-	private CLabel f_uom;
-
-	private VNumber f_quantity;
-
-	private MOrder m_order = null;
+	/** Warehouse					*/
+	private int 			m_M_Warehouse_ID;
+	/** PLV							*/
+	private int 			m_M_PriceList_Version_ID;
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(SubCurrentLine.class);
+	
+
+	/** The Table					*/
+	PosTable		m_table;
+	/** The Query SQL				*/
+	private String			m_sql;
+	/**	Logger			*/
+	
+	/**	Table Column Layout Info			*/
+	private static ColumnInfo[] s_layout = new ColumnInfo[] 
+	{
+		new ColumnInfo(" ", "C_OrderLine_ID", IDColumn.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Name"), "Name", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"), "QtyOrdered", Double.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"), "UOMSymbol", String.class),
+		new ColumnInfo(Msg.translate(Env.getCtx(), "PriceActual"), "PriceActual", BigDecimal.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "LineNetAmt"), "LineNetAmt", BigDecimal.class), 
+		new ColumnInfo(Msg.translate(Env.getCtx(), "C_Tax_ID"), "TaxIndicator", String.class), 
+	};
+	/**	From Clause							*/
+	private static String s_sqlFrom = "C_Order_LineTax_v";
+	/** Where Clause						*/
+	private static String s_sqlWhere = "C_Order_ID=? AND LineNetAmt <> 0"; 
 	
 	/**
 	 * Initialize
 	 */ 
 	public void init() {
-		//	Title
-		TitledBorder border = new TitledBorder(Msg.getMsg(Env.getCtx(),
-				"CurrentLine"));
-		setBorder(border);
-
+	
 		//	Content
-		setLayout(new GridBagLayout());
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = INSETS2;
-		gbc.gridy = 0;
-		//	--
-		f_new = createButtonAction("Save", KeyStroke.getKeyStroke(
-				KeyEvent.VK_INSERT, Event.SHIFT_MASK));
-		gbc.gridx = 0;
-		add(f_new, gbc);
+		setLayout(new MigLayout("fill, ins 0 0"));
+		
+		String buttonSize = "w 50!, h 50!,";
 		//
-		f_reset = createButtonAction("Reset", null);
-		gbc.gridx = GridBagConstraints.RELATIVE;
-		add(f_reset, gbc);
-		//
-		f_currency = new CLabel("---");
-		gbc.anchor = GridBagConstraints.EAST;
-		gbc.weightx = .1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		add(f_currency, gbc);
-		//
-		f_price = new VNumber("PriceActual", false, false, true,
-				DisplayType.Amount, Msg.translate(Env.getCtx(), "PriceActual"));
-		f_price.addActionListener(this);
-		f_price.setColumns(10, 25);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.weightx = 0;
-		gbc.fill = GridBagConstraints.NONE;
-		add(f_price, gbc);
-		setPrice(Env.ZERO);
-		//	--
-		f_uom = new CLabel("--");
-		gbc.anchor = GridBagConstraints.EAST;
-		gbc.weightx = .1;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
-		add(f_uom, gbc);
+		f_bSearch = createButtonAction ("Product", KeyStroke.getKeyStroke(KeyEvent.VK_I, Event.CTRL_MASK));
+		add (f_bSearch, buttonSize );
+		
+		CLabel productLabel = new CLabel(Msg.translate(Env.getCtx(), "M_Product_ID"));
+		add(productLabel, "split 2, spanx 4, flowy, h 15");
+		
+		f_name = new PosTextField(Msg.translate(Env.getCtx(), "M_Product_ID"), p_posPanel, p_pos.getOSK_KeyLayout_ID());
+		f_name.setName("Name");
+		f_name.addActionListener(this);
+		f_name.addFocusListener(this);
+		f_name.requestFocusInWindow();
+		
+		add (f_name, " growx, h 30:30:, wrap");
+
+		m_table = new PosTable();
+		CScrollPane scroll = new CScrollPane(m_table);
+		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, 
+				s_sqlWhere, false, "C_Order_LineTax_v")
+				+ " ORDER BY Line";
+		//	m_table.addMouseListener(this);
+		m_table.getSelectionModel().addListSelectionListener(this);
+		m_table.setColumnVisibility(m_table.getColumn(0), false);
+		m_table.getColumn(1).setPreferredWidth(175);
+		m_table.getColumn(2).setPreferredWidth(75);
+		m_table.getColumn(3).setPreferredWidth(30);
+		m_table.getColumn(4).setPreferredWidth(75);
+		m_table.getColumn(5).setPreferredWidth(75);
+		m_table.getColumn(6).setPreferredWidth(30);
+		m_table.setFocusable(false);
+		m_table.growScrollbars();
+
+		add (scroll, "growx, spanx, growy, pushy, h 200:300:");
+		
+		f_up = createButtonAction("Previous", KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0));
+		add (f_up, buttonSize);
+		f_down = createButtonAction("Next", KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0));
+		add (f_down, buttonSize);
+
+		
+		f_delete = createButtonAction("Cancel", KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, Event.SHIFT_MASK));
+		add (f_delete, buttonSize);
+		
 		//
 		f_minus = createButtonAction("Minus", null);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.weightx = 0;
-		gbc.fill = GridBagConstraints.NONE;
-		add(f_minus, gbc);
+		add(f_minus, buttonSize);
+
+
+		
+		CLabel qtyLabel = new CLabel(Msg.translate(Env.getCtx(), "QtyOrdered"));
+		add(qtyLabel, "split 2, flowy, h 15");
+
 		//
-		f_quantity = new VNumber("QtyOrdered", false, false, true,
-				DisplayType.Quantity, Msg.translate(Env.getCtx(), "QtyOrdered"));
+		f_quantity = new PosTextField(Msg.translate(Env.getCtx(), "QtyOrdered"),
+				p_posPanel,p_pos.getOSNP_KeyLayout_ID(), DisplayType.getNumberFormat(DisplayType.Quantity));
+		f_quantity.setHorizontalAlignment(JTextField.TRAILING);
 		f_quantity.addActionListener(this);
-		f_quantity.setColumns(5, 25);
-		add(f_quantity, gbc);
+		add(f_quantity, "h 30:30:, w 100");
 		setQty(Env.ONE);
 		//
 		f_plus = createButtonAction("Plus", null);
-		add(f_plus, gbc);
+		add(f_plus, buttonSize);
+		
+		
+		CLabel priceLabel = new CLabel(Msg.translate(Env.getCtx(), "PriceActual"));
+		add(priceLabel, "split 2, flowy, h 15");
+		
+		//
+		f_price = new PosTextField(Msg.translate(Env.getCtx(), "PriceActual"),
+				p_posPanel,p_pos.getOSNP_KeyLayout_ID(), DisplayType.getNumberFormat(DisplayType.Amount));
+		f_price.addActionListener(this);
+		f_price.setHorizontalAlignment(JTextField.TRAILING);
+		add(f_price, "h 30, w 100, wrap");
+		setPrice(Env.ZERO);
+		
+		enableButtons();
+
+		
 	} //	init
 
-	/**
-	 * Get Panel Position
-	 */
-	public GridBagConstraints getGridBagConstraints() {
-		GridBagConstraints gbc = super.getGridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 1;
-		return gbc;
-	} //	getGridBagConstraints
 
 	/**
 	 * Dispose - Free Resources
@@ -174,49 +239,189 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 		if (action == null || action.length() == 0)
 			return;
 		log.info( "SubCurrentLine - actionPerformed: " + action);
-		//	New / Reset
-		if (action.equals("Save"))
-			saveLine();
-		else if (action.equals("Reset"))
-			newLine();
+		
 		//	Plus
-		else if (action.equals("Plus"))
-			f_quantity.plus();
+		if (action.equals("Plus"))
+		{
+			if ( orderLineId > 0 )
+			{
+				MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+				if ( line != null )
+				{
+					line.setQty(line.getQtyOrdered().add(Env.ONE));
+					line.saveEx();
+					p_posPanel.updateInfo();
+				}
+			}
+
+		}
 		//	Minus
 		else if (action.equals("Minus"))
-			f_quantity.minus(1);
+		{
+			if ( orderLineId > 0 )
+			{
+				MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+				if ( line != null )
+				{
+					line.setQty(line.getQtyOrdered().subtract(Env.ONE));
+					line.saveEx();
+					p_posPanel.updateInfo();
+				}
+			}
+
+		}
 		//	VNumber
-		else if (e.getSource() == f_price)
-			f_price.setValue(f_price.getValue());
-		else if (e.getSource() == f_quantity)
-			f_quantity.setValue(f_quantity.getValue());
+		else if (e.getSource() == f_price)		{
+			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+			if ( line != null )
+			{
+				line.setQty(new BigDecimal(f_price.getValue().toString()));
+				line.saveEx();
+				p_posPanel.updateInfo();
+			}
+		}
+		else if (e.getSource() == f_quantity && orderLineId > 0 )
+		{
+			MOrderLine line = new MOrderLine(p_ctx, orderLineId, null);
+			if ( line != null )
+			{
+				line.setQty(new BigDecimal(f_quantity.getValue().toString()));
+				line.saveEx();
+				p_posPanel.updateInfo();
+			}
+		}
+		//	Product
+		if (action.equals("Product"))
+		{
+			setParameter();
+			QueryProduct qt = new QueryProduct(p_posPanel);
+			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
+			qt.setVisible(true);
+			findProduct();
+		}
+		//	Name
+		else if (e.getSource() == f_name)
+			findProduct();
+		if ("Previous".equalsIgnoreCase(e.getActionCommand()))
+		{
+			int rows = m_table.getRowCount();
+			if (rows == 0)
+				return;
+			int row = m_table.getSelectedRow();
+			row--;
+			if (row < 0)
+				row = 0;
+			m_table.getSelectionModel().setSelectionInterval(row, row);
+			return;
+		}
+		else if ("Next".equalsIgnoreCase(e.getActionCommand()))
+		{
+			int rows = m_table.getRowCount();
+			if (rows == 0)
+				return;
+			int row = m_table.getSelectedRow();
+			row++;
+			if (row >= rows)
+				row = rows - 1;
+			m_table.getSelectionModel().setSelectionInterval(row, row);
+			return;
+		}
+		//	Delete
+		else if (action.equals("Cancel"))
+		{
+			int rows = m_table.getRowCount();
+			if (rows != 0)
+			{
+				int row = m_table.getSelectedRow();
+				if (row != -1)
+				{
+					if ( p_posPanel.m_order != null )
+						p_posPanel.m_order.deleteLine(m_table.getSelectedRowKey());
+					setQty(null);
+					setPrice(null);
+					
+					orderLineId = 0;
+				}
+			}
+		}
 		p_posPanel.updateInfo();
 	} //	actionPerformed
-
-	/***************************************************************************
-	 * Set Currency
-	 * 
-	 * @param currency
-	 *            currency
-	 */
-	public void setCurrency(String currency) {
-		if (currency == null)
-			f_currency.setText("---");
-		else
-			f_currency.setText(currency);
-	} //	setCurrency
-
+	
 	/**
-	 * Set UOM
-	 * 
-	 * @param UOM
+	 * 	Update Table
+	 *	@param order order
 	 */
-	public void setUOM(String UOM) {
-		if (UOM == null)
-			f_uom.setText("--");
-		else
-			f_uom.setText(UOM);
-	} //	setUOM
+	public void updateTable (PosOrderModel order)
+	{
+		int C_Order_ID = 0;
+		if (order != null)
+			C_Order_ID = order.getC_Order_ID();
+		if (C_Order_ID == 0)
+		{
+			p_posPanel.f_curLine.m_table.loadTable(new PO[0]);
+			p_posPanel.f_order.setSums(null);
+		}
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement (m_sql, null);
+			pstmt.setInt (1, C_Order_ID);
+			rs = pstmt.executeQuery ();
+			m_table.loadTable(rs);
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, m_sql, e);
+		}
+		finally
+		{
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		
+		for ( int i = 0; i < m_table.getRowCount(); i ++ )
+		{
+			IDColumn key = (IDColumn) m_table.getModel().getValueAt(i, 0);
+			if ( key != null && orderLineId > 0 && key.getRecord_ID() == orderLineId )
+			{
+				m_table.getSelectionModel().setSelectionInterval(i, i);
+				break;
+			}
+		}
+		
+		enableButtons();
+
+		p_posPanel.f_order.setSums(order);
+		
+	}	//	updateTable
+	
+	private void enableButtons()
+	{
+		boolean enabled = true;
+		if ( m_table == null || m_table.getRowCount() == 0 || m_table.getSelectedRowKey() == null )
+		{
+			enabled = false;
+		}
+		f_down.setEnabled(enabled);
+		f_up.setEnabled(enabled);
+		f_delete.setEnabled(enabled);
+		f_minus.setEnabled(enabled);
+		f_plus.setEnabled(enabled);
+		f_quantity.setEnabled(enabled);
+		f_price.setEnabled(enabled);
+	}
+	
+	/**
+	 * 	Set Query Parameter
+	 */
+	private void setParameter()
+	{
+		//	What PriceList ?
+		m_M_Warehouse_ID = p_pos.getM_Warehouse_ID();
+		m_M_PriceList_Version_ID = p_posPanel.f_order.getM_PriceList_Version_ID();
+	}	//	setParameter
 
 	/**
 	 * Set Price
@@ -228,7 +433,7 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 			price = Env.ZERO;
 		f_price.setValue(price);
 		boolean rw = Env.ZERO.compareTo(price) == 0 || p_pos.isModifyPrice();
-		f_price.setReadWrite(rw);
+		f_price.setEditable(rw);
 	} //	setPrice
 
 	/**
@@ -262,9 +467,11 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	 * New Line
 	 */
 	public void newLine() {
-		p_posPanel.f_product.setM_Product_ID(0);
+		setM_Product_ID(0);
 		setQty(Env.ONE);
 		setPrice(Env.ZERO);
+		orderLineId = 0;
+		f_name.requestFocusInWindow();
 	} //	newLine
 
 	/**
@@ -273,243 +480,208 @@ public class SubCurrentLine extends PosSubPanel implements ActionListener {
 	 * @return true if saved
 	 */
 	public boolean saveLine() {
-		MProduct product = p_posPanel.f_product.getProduct();
+		MProduct product = getProduct();
 		if (product == null)
 			return false;
 		BigDecimal QtyOrdered = (BigDecimal) f_quantity.getValue();
 		BigDecimal PriceActual = (BigDecimal) f_price.getValue();
-		MOrderLine line = createLine(product, QtyOrdered, PriceActual);
-		if (line == null)
-			return false;
-		if (!line.save())
-			return false;
+		
+		if ( p_posPanel.m_order == null )
+		{
+			p_posPanel.m_order = PosOrderModel.createOrder(p_posPanel.p_pos, p_posPanel.f_order.getBPartner());
+		}
+		
+		MOrderLine line = null;
+		
+		if ( p_posPanel.m_order != null )
+		{
+			line = p_posPanel.m_order.createLine(product, QtyOrdered, PriceActual);
+
+			if (line == null)
+				return false;
+			if (!line.save())
+				return false;
+		}
+		
+		orderLineId = line.getC_OrderLine_ID();
+		setM_Product_ID(0);
 		//
-		newLine();
 		return true;
 	} //	saveLine
 
-	/** 
-	 * to erase the lines from order
-	 * @return true if deleted
+
+	/**
+	 * 	Get Product
+	 *	@return product
 	 */
-	public void deleteLine (int row) {
-		if (m_order != null && row != -1 )
-		{
-			MOrderLine[] lineas = m_order.getLines(true, null);
-			int numLineas = lineas.length;
-			if (numLineas > row)
-			{
-				//delete line from order - true only when DRAFT is not PREPARE-IT()
-				lineas[row].delete(true);
-				for (int i = row; i < (numLineas - 1); i++)
-					lineas[i] = lineas[i + 1];
-				lineas[numLineas - 1] = null;				
-			}
-		}
-	} //	deleteLine
+	public MProduct getProduct()
+	{
+		return m_product;
+	}	//	getProduct
 	
 	/**
-	 * Delete order from database
-	 * 
-	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
-	 */		
-	public void deleteOrder () {
-		if (m_order != null)
-		{
-			if (m_order.getDocStatus().equals("DR"))
-			{
-				MOrderLine[] lineas = m_order.getLines();
-				if (lineas != null)
-				{
-					int numLineas = lineas.length;
-					if (numLineas > 0)
-						for (int i = numLineas - 1; i >= 0; i--)
-						{
-							if (lineas[i] != null)
-								deleteLine(i);
-						}
-				}
-				
-				MOrderTax[] taxs = m_order.getTaxes(true);
-				if (taxs != null)
-				{
-					int numTax = taxs.length;
-					if (numTax > 0)
-						for (int i = taxs.length - 1; i >= 0; i--)
-						{
-							if (taxs[i] != null)
-								taxs[i].delete(true);
-							taxs[i] = null;
-						}
-				}
-				
-				m_order.delete(true);
-				m_order = null;
-			}
-		}
-	} //	deleteOrder
+	 * 	Set Price for defined product 
+	 */
+	public void setPrice()
+	{
+		if (m_product == null)
+			return;
+		//
+		setParameter();
+		MWarehousePrice result = MWarehousePrice.get (m_product,
+			m_M_PriceList_Version_ID, m_M_Warehouse_ID, null);
+		if (result != null)
+			p_posPanel.f_curLine.setPrice(result.getPriceStd());
+		else
+			p_posPanel.f_curLine.setPrice(Env.ZERO);
+	}	//	setPrice
 	
-	/**
-	 * Create new order
-	 * 
-	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
+
+
+	/**************************************************************************
+	 * 	Find/Set Product & Price
 	 */
-	public void newOrder()
+	private void findProduct()
 	{
-		m_order = null;
-		m_order = getOrder();	
-	}
-
-	/**
-	 * Get/create Header
-	 * 
-	 * @return header or null
-	 */
-	public MOrder getOrder() {
-		if (m_order == null) {
-			m_order = new MOrder(Env.getCtx(), 0, null);
-			m_order.setAD_Org_ID(p_pos.getAD_Org_ID());
-			m_order.setIsSOTrx(true);
-			if (p_pos.getC_DocType_ID() != 0)
-				m_order.setC_DocTypeTarget_ID(p_pos.getC_DocType_ID());
-			else
-				m_order.setC_DocTypeTarget_ID(MOrder.DocSubTypeSO_POS);
-			MBPartner partner = p_posPanel.f_bpartner.getBPartner();
-			if (partner == null || partner.get_ID() == 0)
-				partner = p_pos.getBPartner();
-			if (partner == null || partner.get_ID() == 0) {
-				log.log(Level.SEVERE, "SubCurrentLine.getOrder - no BPartner");
-
-				return null;
-			}
-			log.info( "SubCurrentLine.getOrder -" + partner);
-			m_order.setBPartner(partner);
-			p_posPanel.f_bpartner.setC_BPartner_ID(partner.getC_BPartner_ID());
-			int id = p_posPanel.f_bpartner.getC_BPartner_Location_ID();
-			if (id != 0)
-				m_order.setC_BPartner_Location_ID(id);
-			id = p_posPanel.f_bpartner.getAD_User_ID();
-			if (id != 0)
-				m_order.setAD_User_ID(id);
-			//
-			m_order.setM_PriceList_ID(p_pos.getM_PriceList_ID());
-			m_order.setM_Warehouse_ID(p_pos.getM_Warehouse_ID());
-			m_order.setSalesRep_ID(p_pos.getSalesRep_ID());
-			m_order.setPaymentRule(MOrder.PAYMENTRULE_Cash);
-			if (!m_order.save())
-			{
-				m_order = null;
-				log.severe("Unable create Order.");
-			}
-		}
-		return m_order;
-	} //	getHeader
-
-	/**
-	 * @author Comunidad de Desarrollo OpenXpertya 
-	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *         *Copyright � ConSerTi
-	 */
-	public void setBPartner()
-	{
-		if (m_order != null)
-			if (m_order.getDocStatus().equals("DR"))
-			{
-				MBPartner partner = p_posPanel.f_bpartner.getBPartner();
-				//get default from mpos if no selection make
-				if (partner == null || partner.get_ID() == 0)
-					partner = p_pos.getBPartner();
-				if (partner == null || partner.get_ID() == 0) {
-					log.warning("SubCurrentLine.getOrder - no BPartner");
-				}
-				else
-				{
-					log.info("SubCurrentLine.getOrder -" + partner);
-					m_order.setBPartner(partner);
-					MOrderLine[] lineas = m_order.getLines();
-					for (int i = 0; i < lineas.length; i++)
-					{
-						lineas[i].setC_BPartner_ID(partner.getC_BPartner_ID());
-						lineas[i].setTax();
-						lineas[i].save();
-					}
-					m_order.save();
-				}
-			}
-	}
-
-	/**
-	 * Create new Line
-	 * 
-	 * @return line or null
-	 */
-	public MOrderLine createLine(MProduct product, BigDecimal QtyOrdered,
-			BigDecimal PriceActual) {
-		MOrder order = getOrder();
-		if (order == null)
-			return null;
-		if (!order.getDocStatus().equals("DR"))
-			return null;
-		//add new line or increase qty
-		
-		// catch Exceptions at order.getLines()
-		int numLineas = 0;
-		MOrderLine[] lineas = null;
+		String query = f_name.getText();
+		if (query == null || query.length() == 0)
+			return;
+		query = query.toUpperCase();
+		//	Test Number
+		boolean allNumber = true;
 		try
 		{
-			lineas = order.getLines("","");
-			numLineas = lineas.length;
-			for (int i = 0; i < numLineas; i++)
-			{
-				if (lineas[i].getM_Product_ID() == product.getM_Product_ID())
-				{
-					//increase qty
-					double current = lineas[i].getQtyEntered().doubleValue();
-					double toadd = QtyOrdered.doubleValue();
-					double total = current + toadd;
-					lineas[i].setQty(new BigDecimal(total));
-					lineas[i].setPrice(); //	sets List/limit
-					lineas[i].save();
-					return lineas[i];
-				}
-			}
+			Integer.getInteger(query);
 		}
 		catch (Exception e)
 		{
-			log.severe("Order lines cannot be created - " + e.getMessage());
+			allNumber = false;
 		}
+		String Value = query;
+		String Name = query;
+		String UPC = (allNumber ? query : null);
+		String SKU = (allNumber ? query : null);
+		
+		MWarehousePrice[] results = null;
+		setParameter();
+		//
+		results = MWarehousePrice.find (p_ctx,
+			m_M_PriceList_Version_ID, m_M_Warehouse_ID,
+			Value, Name, UPC, SKU, null);
+		
+		//	Set Result
+		if (results.length == 0)
+		{
+			String message = Msg.translate(p_ctx,  "search.product.notfound");
+			ADialog.warn(0, p_posPanel, message + query);
+			setM_Product_ID(0);
+			p_posPanel.f_curLine.setPrice(Env.ZERO);
+		}
+		else if (results.length == 1)
+		{
+			setM_Product_ID(results[0].getM_Product_ID());
+			setQty(Env.ONE);
+			f_name.setText(results[0].getName());
+			p_posPanel.f_curLine.setPrice(results[0].getPriceStd());
+			saveLine();
+		}
+		else	//	more than one
+		{
+			QueryProduct qt = new QueryProduct(p_posPanel);
+			qt.setResults(results);
+			qt.setQueryData(m_M_PriceList_Version_ID, m_M_Warehouse_ID);
+			qt.setVisible(true);
+		}
+	}	//	findProduct
 
-        //create new line
-		MOrderLine line = new MOrderLine(order);
-		line.setProduct(product);
-		line.setQty(QtyOrdered);
-			
-		line.setPrice(); //	sets List/limit
-		line.setPrice(PriceActual);
-		line.save();
-		return line;
-			
-	} //	createLine
 
-	/**
-	 * @param m_c_order_id
+	/**************************************************************************
+	 * 	Set Product
+	 *	@param M_Product_ID id
 	 */
-	public void setOldOrder(int m_c_order_id) 
+	public void setM_Product_ID (int M_Product_ID)
 	{
-		deleteOrder();
-		m_order = new MOrder(p_ctx , m_c_order_id, null);
-		p_posPanel.updateInfo();
-	}
+		log.fine( "PosSubProduct.setM_Product_ID=" + M_Product_ID);
+		if (M_Product_ID <= 0)
+			m_product = null;
+		else
+		{
+			m_product = MProduct.get(p_ctx, M_Product_ID);
+			if (m_product.get_ID() == 0)
+				m_product = null;
+		}
+		//	Set String Info
+		if (m_product != null)
+		{
+			f_name.setText(m_product.getName());
+			f_name.setToolTipText(m_product.getDescription());
+		}
+		else
+		{
+			f_name.setText(null);
+			f_name.setToolTipText(null);
+		}
+	}	//	setM_Product_ID
 	
 	/**
-	 * @param m_c_order_id
+	 * 	Focus Gained
+	 *	@param e
 	 */
-	public void setOrder(int m_c_order_id) 
+	public void focusGained (FocusEvent e)
 	{
-		m_order = new MOrder(p_ctx , m_c_order_id, null);
+
+		
+	}	//	focusGained
+		
+
+	/**
+	 * 	Focus Lost
+	 *	@param e
+	 */
+	public void focusLost (FocusEvent e)
+	{
+		if (e.isTemporary())
+			return;
+		log.info( "PosSubProduct - focusLost");
+		findProduct();
+		
+		p_posPanel.updateInfo();
+	}	//	focusLost
+
+
+	public void valueChanged(ListSelectionEvent e) {
+		if ( e.getValueIsAdjusting() )
+			return;
+
+		int row = m_table.getSelectedRow();
+		if (row != -1 )
+		{
+			Object data = m_table.getModel().getValueAt(row, 0);
+			if ( data != null )
+			{
+				Integer id = (Integer) ((IDColumn)data).getRecord_ID();
+				orderLineId = id;
+				loadLine(id);
+			}
+		}
+		enableButtons();
+		
 	}
+
+
+	private void loadLine(int lineId) {
+		
+		if ( lineId <= 0 )
+			return;
+	
+		log.fine("SubCurrentLine - loading line " + lineId);
+		MOrderLine ol = new MOrderLine(p_ctx, lineId, null);
+		if ( ol != null )
+		{
+			setPrice(ol.getPriceActual());
+			setQty(ol.getQtyOrdered());
+		}
+		
+	}
+
 } //	PosSubCurrentLine

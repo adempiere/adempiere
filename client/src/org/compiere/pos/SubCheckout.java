@@ -57,15 +57,12 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public SubCheckout (PosPanel posPanel)
+	public SubCheckout (PosBasePanel posPanel)
 	{
 		super (posPanel);
 	}	//	PosSubCheckout
 	
-	private CButton f_register = null;
 	private CButton f_summary = null;
-	private CButton f_process = null;
-	private CButton f_print = null;
 	
 	//TODO: credit card
 /*	private CLabel f_lcreditCardNumber = null;
@@ -76,13 +73,10 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	private CTextField f_creditCardVV = null;
 	private CButton f_creditPayment = null;
 */
-	private CLabel f_lDocumentNo = null;
-	private CTextField f_DocumentNo;
 	private CLabel f_lcashGiven = null;
 	private VNumber f_cashGiven;
 	private CLabel f_lcashReturn = null;
 	private VNumber f_cashReturn;
-	private CButton f_cashPayment = null;
 	
 	private CButton f_cashRegisterFunctions;
 	/**	Logger			*/
@@ -96,7 +90,6 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		//	Content
 		setLayout(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.insets = INSETS2;
 		
 		//	BOX	1 - CASH 
 		gbc.gridx = 0;
@@ -109,14 +102,8 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		gbc.gridy = 0;
 		add (cash, gbc);
 		GridBagConstraints gbc0 = new GridBagConstraints();
-		gbc0.insets = INSETS2;
 //		gbc0.anchor = GridBagConstraints.EAST;
 		//
-		f_lDocumentNo = new CLabel(Msg.getMsg(Env.getCtx(),"DocumentNo"));
-		cash.add (f_lDocumentNo, gbc0);
-		f_DocumentNo = new CTextField("");
-		f_DocumentNo.setName("DocumentNo");
-		cash.add (f_DocumentNo, gbc0);
 		f_lcashGiven = new CLabel(Msg.getMsg(Env.getCtx(),"CashGiven"));
 		cash.add (f_lcashGiven, gbc0);
 		f_cashGiven = new VNumber("CashGiven", false, false, true, DisplayType.Amount, Msg.translate(Env.getCtx(), "CashGiven"));
@@ -131,10 +118,6 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		f_cashReturn.setColumns(8, 25);
 		cash.add (f_cashReturn, gbc0);
 		f_cashReturn.setValue(Env.ZERO);
-		f_cashPayment = createButtonAction("Payment", null);
-		f_cashPayment.setActionCommand("Cash");
-		gbc0.weightx = 0.1;		
-		cash.add (f_cashPayment, gbc0);  
 		
 		//	BOX 2 - UTILS
 		CPanel utils = new CPanel(new GridBagLayout());
@@ -144,7 +127,6 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		gbc.weightx = .1;
 		add (utils, gbc);
 		GridBagConstraints gbcU = new GridBagConstraints();
-		gbcU.insets = INSETS2;
 		gbcU.anchor = GridBagConstraints.EAST;
 		//CASH FUNCTIONS
 		f_cashRegisterFunctions = createButtonAction("CashRegisterFunction", null);
@@ -153,19 +135,9 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	    f_cashRegisterFunctions.setMaximumSize(new Dimension(130,37));
 		f_cashRegisterFunctions.setMinimumSize(new Dimension(130,37));
 		utils.add(f_cashRegisterFunctions, gbcU);
-		//REGISTER
-		f_register = createButtonAction("Register", null);
- 		utils.add (f_register, gbcU);
-		//SUMMARY
+			//SUMMARY
 		f_summary = createButtonAction("Summary", null);
  		utils.add (f_summary, gbcU);
-		//PROCESS
-		f_process = createButtonAction("Process", null);
- 		utils.add (f_process, gbcU);
-		//PRINT
-		f_print = createButtonAction("Print", null);
- 		utils.add (f_print, gbcU);
-
 
 		
 	
@@ -217,17 +189,6 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 	}	//	init
 
 	/**
-	 * 	Get Panel Position
-	 */
-	public GridBagConstraints getGridBagConstraints()
-	{
-		GridBagConstraints gbc = super.getGridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 3;
-		return gbc;
-	}	//	getGridBagConstraints
-	
-	/**
 	 * 	Dispose - Free Resources
 	 */
 	public void dispose()
@@ -247,63 +208,19 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 			return;
 		log.info( "PosSubCheckout - actionPerformed: " + action);
 		
-		//	Register
-		if (action.equals("Register"))
-		{
-			p_posPanel.f_queryTicket.reset();
-			p_posPanel.openQuery(p_posPanel.f_queryTicket);
-		}
-		//	Summary
-		else 
+
 		if (action.equals("Summary"))
 		{
-			displaySummary();			
+			//displaySummary();			
 		}
-		else if (action.equals("Process"))
-		{
-			if (isOrderFullyPay())
-			{
-				displaySummary();
-				//Check if order is completed, if so, print and open drawer, create an empty order and set cashGiven to zero
-				if(processOrder())
-				{
-					printTicket();
-					openCashDrawer();
-					p_posPanel.newOrder();
-					f_cashGiven.setValue(Env.ZERO);
-				}			
-			}
-			else
-			{
-				p_posPanel.f_status.setStatusLine("PAYMENT NOT FULL.");
-			}
-		}
-		//	Print
-		else if (action.equals("Print"))
-		{
-			if (isOrderFullyPay())
-			{
-				displaySummary();
-				printTicket();
-				openCashDrawer();
-			}
-			else
-			{
-				p_posPanel.f_status.setStatusLine("Order not fully paid.");
-			}
-		}
-		//	Cash (Payment)
-		else if (action.equals("Cash"))
-		{
-			displayReturn();			
-			openCashDrawer();
-		}
+		
 		else if (action.equals("CashRegisterFunction"))
 		{
-			p_posPanel.openQuery(p_posPanel.f_cashfunctions);
+			CashSubFunctions csf = new CashSubFunctions(p_posPanel);
+			csf.setVisible(true);
 		}
 		else if (e.getSource() == f_cashGiven)
-			displayReturn();
+			//displayReturn();
 		
 /*		//	CreditCard (Payment)
 		else if (action.equals("CreditCard"))
@@ -314,197 +231,11 @@ public class SubCheckout extends PosSubPanel implements ActionListener
 		p_posPanel.updateInfo();
 	}	//	actionPerformed
 
-	private void displaySummary() {
-		p_posPanel.f_status.setStatusLine(p_posPanel.f_curLine.getOrder().getSummary());
-		displayReturn();
-	}
 
-	/**
-	 * 	Process Order
-	 *  @author Comunidad de Desarrollo OpenXpertya 
-	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *         *Copyright � ConSerTi
-	 */
-	public boolean processOrder()
-	{		
-		//Returning orderCompleted to check for order completness
-		boolean orderCompleted = false;
-		p_posPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		MOrder order = p_posPanel.f_curLine.getOrder();
-		if (order != null)
-			// check if order completed OK
-			if (order.getDocStatus().equals("DR") )
-			{ 
-				order.setDocAction(DocAction.ACTION_Complete);
-				try
-				{
-					if (order.processIt(DocAction.ACTION_Complete) )
-					{
-						order.save();
-					}
-					else
-					{
-						log.info( "SubCheckout - processOrder FAILED");	
-						p_posPanel.f_status.setStatusLine("Order can not be completed.");				
-					}
-				}
-				catch (Exception e)
-				{
-					log.severe("Order can not be completed - " + e.getMessage());
-					p_posPanel.f_status.setStatusLine("Error when processing order.");
-				}
-				finally
-				{ // When order failed convert it back to draft so it can be processed
-				  if( order.getDocStatus().equals("IN") )
-				  {
-					order.setDocStatus("DR");
-				  }
-				  else if( order.getDocStatus().equals("CO") )
-				  {
-					order = null;
-					orderCompleted = true;
-					//p_posPanel.newOrder();
-					//f_cashGiven.setValue(Env.ZERO);
-					log.info( "SubCheckout - processOrder OK");
-					p_posPanel.f_status.setStatusLine("Order completed.");	 
-				  }			
-				  else
-				  {
-					log.info( "SubCheckout - processOrder - unrecognized DocStatus");
-					p_posPanel.f_status.setStatusLine("Orden was not completed correctly.");	 
-				  }					
-				} // try-finally
-			}
-		p_posPanel.setCursor(Cursor.getDefaultCursor());
-		return orderCompleted;
-	}	// processOrder
-	
-	/**
-	 * 	Print Ticket
-	 *  @author Comunidad de Desarrollo OpenXpertya 
-	 *  *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *  *Copyright � ConSerTi
-	 */
-	public void printTicket()
-	{
-		MOrder order = p_posPanel.f_curLine.getOrder();
-		//int windowNo = p_posPanel.getWindowNo();
-		//Properties m_ctx = p_posPanel.getPropiedades();
-		
-		if (order != null)
-		{
-			try 
-			{
-				//TODO: to incorporate work from Posterita
-				/*
-				if (p_pos.getAD_PrintLabel_ID() != 0)
-					PrintLabel.printLabelTicket(order.getC_Order_ID(), p_pos.getAD_PrintLabel_ID());
-				*/ 
-				//print standard document
-				ReportCtl.startDocumentPrint(ReportEngine.ORDER, order.getC_Order_ID(), null, Env.getWindowNo(this), true);
-				
-			}
-			catch (Exception e) 
-			{
-				log.severe("PrintTicket - Error Printing Ticket");
-			}
-		}	  
-	}	
 
-	/**
-	 * 	Display cash return
-	 *  Display the difference between tender amount and bill amount
-	 *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
-	 */
-	public void displayReturn()
-	{
-		BigDecimal given = new BigDecimal(f_cashGiven.getValue().toString());
- 		if (p_posPanel != null && p_posPanel.f_curLine != null)
-		{
-			MOrder order = p_posPanel.f_curLine.getOrder();
-			BigDecimal total = new BigDecimal(0);
-			if (order != null)
-				{
-  				f_DocumentNo.setText(order.getDocumentNo());
-				total = order.getGrandTotal();
-				}				
-			double cashReturn = given.doubleValue() - total.doubleValue();
-			f_cashReturn.setValue(new BigDecimal(cashReturn));
-		}
-	}	
+	
 
-	/**
-	 * Is order fully pay ?
-	 * Calculates if the given money is sufficient to pay the order
-	 * 
-	 * @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
-	 */
-	public boolean isOrderFullyPay()
-	{
-		BigDecimal given = new BigDecimal(f_cashGiven.getValue().toString());
-		boolean paid = false;
-		if (p_posPanel != null && p_posPanel.f_curLine != null)
-		{
-			MOrder order = p_posPanel.f_curLine.getOrder();
-			BigDecimal total = new BigDecimal(0);
-			if (order != null)
-				total = order.getGrandTotal();
-			paid = given.doubleValue() >= total.doubleValue();
-		}
-		return paid;
-	}
+
 	
-	
-	/**
-	 * 	Abrir caja
-	 *  Abre la caja registradora
-	 *  @author Comunidad de Desarrollo OpenXpertya 
- *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
- *         *Copyright � ConSerTi
-	 */
-	public void openCashDrawer()
-	{
-		String puerto = null;
-		//TODO - to incorporate work from Posterita
-		/*
-		try
-		{
-			String sql = "SELECT p.Port"
-					+ " FROM AD_PrintLabel l"
-					+ " INNER JOIN AD_LabelPrinter p ON (l.AD_LabelPrinter_ID=p.AD_LabelPrinter_ID)"
-					+ " WHERE l.AD_PrintLabel_ID=?";
-			puerto = DB.getSQLValueString(null, sql, p_pos.getAD_PrintLabel_ID());
-		}
-		catch(Exception e)
-		{
-			log.severe("AbrirCaja - Puerto no encontrado");
-		}*/
-		
-		/*
-		if (puerto == null)
-			log.severe("Port is mandatory for cash drawner");
-		
-		try
-		{
-			byte data[] = new byte[5];
-			data[0] = 27;
-			data[1] = 112;
-			data[2] = 0;
-			data[3] = 50;
-			data[4] = 50;
-			FileOutputStream fos = new FileOutputStream(puerto);
-			BufferedOutputStream bos = new BufferedOutputStream(fos);
-			bos.write(data, 0, data.length);
-			bos.close();
-			fos.close();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}*/
-	}	
+
 }	//	PosSubCheckout

@@ -30,7 +30,7 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100321L;
 
     /** Standard Constructor */
     public X_C_POSKeyLayout (Properties ctx, int C_POSKeyLayout_ID, String trxName)
@@ -70,6 +70,82 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
+    {
+		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
+
+	/** Set Print Color.
+		@param AD_PrintColor_ID 
+		Color used for printing and display
+	  */
+	public void setAD_PrintColor_ID (int AD_PrintColor_ID)
+	{
+		if (AD_PrintColor_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintColor_ID, Integer.valueOf(AD_PrintColor_ID));
+	}
+
+	/** Get Print Color.
+		@return Color used for printing and display
+	  */
+	public int getAD_PrintColor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintColor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException
+    {
+		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+			.getPO(getAD_PrintFont_ID(), get_TrxName());	}
+
+	/** Set Print Font.
+		@param AD_PrintFont_ID 
+		Maintain Print Font
+	  */
+	public void setAD_PrintFont_ID (int AD_PrintFont_ID)
+	{
+		if (AD_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFont_ID, Integer.valueOf(AD_PrintFont_ID));
+	}
+
+	/** Get Print Font.
+		@return Maintain Print Font
+	  */
+	public int getAD_PrintFont_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFont_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Columns.
+		@param Columns 
+		Number of columns
+	  */
+	public void setColumns (int Columns)
+	{
+		set_Value (COLUMNNAME_Columns, Integer.valueOf(Columns));
+	}
+
+	/** Get Columns.
+		@return Number of columns
+	  */
+	public int getColumns () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Columns);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set POS Key Layout.
 		@param C_POSKeyLayout_ID 
@@ -152,4 +228,30 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** POSKeyLayoutType AD_Reference_ID=53351 */
+	public static final int POSKEYLAYOUTTYPE_AD_Reference_ID=53351;
+	/** Keyboard = K */
+	public static final String POSKEYLAYOUTTYPE_Keyboard = "K";
+	/** Numberpad = N */
+	public static final String POSKEYLAYOUTTYPE_Numberpad = "N";
+	/** Product = P */
+	public static final String POSKEYLAYOUTTYPE_Product = "P";
+	/** Set POS Key Layout Type.
+		@param POSKeyLayoutType 
+		The type of Key Layout
+	  */
+	public void setPOSKeyLayoutType (String POSKeyLayoutType)
+	{
+
+		set_Value (COLUMNNAME_POSKeyLayoutType, POSKeyLayoutType);
+	}
+
+	/** Get POS Key Layout Type.
+		@return The type of Key Layout
+	  */
+	public String getPOSKeyLayoutType () 
+	{
+		return (String)get_Value(COLUMNNAME_POSKeyLayoutType);
+	}
 }

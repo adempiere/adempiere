@@ -95,7 +95,7 @@ public class MPOSKeyLayout extends X_C_POSKeyLayout
 			return m_keys;
 		
 		ArrayList<MPOSKey> list = new ArrayList<MPOSKey>();
-		String sql = "SELECT * FROM C_POSKey WHERE C_POSKeyLayout_ID=? ORDER BY SeqNo";
+		String sql = "SELECT * FROM C_POSKey WHERE C_POSKeyLayout_ID=? AND IsActive = 'Y' ORDER BY SeqNo";
 		PreparedStatement pstmt = null;
 		try
 		{

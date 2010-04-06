@@ -31,12 +31,10 @@ import org.compiere.util.Env;
 
 /**
  *	POS Sub Panel Base Class.
- *	The Panel knows where to position itself in the POS Panel
- *	
  *  @author Comunidad de Desarrollo OpenXpertya 
  *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
  *         *Copyright (c) Jorg Janke
- *  @version $Id: PosSubPanel.java,v 1.3 2004/07/12 04:10:04 jjanke Exp $
+ *  
  */
 public abstract class PosSubPanel extends CPanel 
 	implements ActionListener
@@ -50,7 +48,7 @@ public abstract class PosSubPanel extends CPanel
 	 * 	Constructor
 	 *	@param posPanel POS Panel
 	 */
-	public PosSubPanel (PosPanel posPanel)
+	public PosSubPanel (PosBasePanel posPanel)
 	{
 		super();
 		p_posPanel = posPanel;
@@ -59,45 +57,22 @@ public abstract class PosSubPanel extends CPanel
 	}	//	PosSubPanel
 	
 	/** POS Panel							*/
-	protected PosPanel 				p_posPanel = null;
+	protected PosBasePanel 				p_posPanel;
 	/**	Underlying POS Model				*/
-	protected MPOS					p_pos = null;
-	/**	Position of SubPanel in Main		*/
-	protected GridBagConstraints	p_position = null;
+	protected MPOS					p_pos;
 	/** Context								*/
 	protected Properties			p_ctx = Env.getCtx();
 	
 
-	/** Button Width = 40			*/
-	private static final int	WIDTH = 45;	
-	/** Button Height = 40			*/
-	private static final int	HEIGHT = 35;	
-	/** Inset 1all					*/
-	public static Insets 		INSETS1 = new Insets(1,1,1,1);	
-	/** Inset 2all					*/
-	public static Insets 		INSETS2 = new Insets(2,2,2,2);	
+	/** Button Width = 50			*/
+	private static final int	WIDTH = 50;	
+	/** Button Height = 50			*/
+	private static final int	HEIGHT = 50;
 	
 	/**
 	 * 	Initialize
 	 */
 	protected abstract void init();
-	
-	
-	/**
-	 * 	Get Panel Position
-	 */
-	protected GridBagConstraints getGridBagConstraints()
-	{
-		if (p_position == null)
-		{
-			p_position = new GridBagConstraints();
-			p_position.anchor = GridBagConstraints.NORTHWEST;
-			p_position.fill = GridBagConstraints.BOTH;
-			p_position.weightx = 0.1;
-			p_position.weighty = 0.1;
-		}
-		return p_position;
-	}	//	getGridBagConstraints
 	
 	/**
 	 * 	Dispose - Free Resources
@@ -149,6 +124,6 @@ public abstract class PosSubPanel extends CPanel
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
-	}	//	actinPerformed
+	}	//	actionPerformed
 
 }	//	PosSubPanel

@@ -62,6 +62,49 @@ public interface I_C_POSKeyLayout
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_PrintColor_ID */
+    public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
+
+	/** Set Print Color.
+	  * Color used for printing and display
+	  */
+	public void setAD_PrintColor_ID (int AD_PrintColor_ID);
+
+	/** Get Print Color.
+	  * Color used for printing and display
+	  */
+	public int getAD_PrintColor_ID();
+
+	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
+
+    /** Column name AD_PrintFont_ID */
+    public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
+
+	/** Set Print Font.
+	  * Maintain Print Font
+	  */
+	public void setAD_PrintFont_ID (int AD_PrintFont_ID);
+
+	/** Get Print Font.
+	  * Maintain Print Font
+	  */
+	public int getAD_PrintFont_ID();
+
+	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
+
+    /** Column name Columns */
+    public static final String COLUMNNAME_Columns = "Columns";
+
+	/** Set Columns.
+	  * Number of columns
+	  */
+	public void setColumns (int Columns);
+
+	/** Get Columns.
+	  * Number of columns
+	  */
+	public int getColumns();
+
     /** Column name C_POSKeyLayout_ID */
     public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
 
@@ -142,6 +185,19 @@ public interface I_C_POSKeyLayout
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name POSKeyLayoutType */
+    public static final String COLUMNNAME_POSKeyLayoutType = "POSKeyLayoutType";
+
+	/** Set POS Key Layout Type.
+	  * The type of Key Layout
+	  */
+	public void setPOSKeyLayoutType (String POSKeyLayoutType);
+
+	/** Get POS Key Layout Type.
+	  * The type of Key Layout
+	  */
+	public String getPOSKeyLayoutType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

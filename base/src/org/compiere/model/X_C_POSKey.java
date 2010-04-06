@@ -32,7 +32,7 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100321L;
 
     /** Standard Constructor */
     public X_C_POSKey (Properties ctx, int C_POSKey_ID, String trxName)
@@ -42,10 +42,9 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
         {
 			setC_POSKey_ID (0);
 			setC_POSKeyLayout_ID (0);
-			setM_Product_ID (0);
 			setName (null);
-			setQty (Env.ZERO);
 			setSeqNo (0);
+// @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM C_POSKey WHERE C_POSKeyLayout_ID=@C_POSKeyLayout_ID@
         } */
     }
 
@@ -77,6 +76,34 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
       return sb.toString();
     }
 
+	public I_AD_Image getAD_Image() throws RuntimeException
+    {
+		return (I_AD_Image)MTable.get(getCtx(), I_AD_Image.Table_Name)
+			.getPO(getAD_Image_ID(), get_TrxName());	}
+
+	/** Set Image.
+		@param AD_Image_ID 
+		Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID)
+	{
+		if (AD_Image_ID < 1) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+	}
+
+	/** Get Image.
+		@return Image or Icon
+	  */
+	public int getAD_Image_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
 		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
@@ -100,6 +127,34 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 	public int getAD_PrintColor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintColor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException
+    {
+		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+			.getPO(getAD_PrintFont_ID(), get_TrxName());	}
+
+	/** Set Print Font.
+		@param AD_PrintFont_ID 
+		Maintain Print Font
+	  */
+	public void setAD_PrintFont_ID (int AD_PrintFont_ID)
+	{
+		if (AD_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_AD_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_PrintFont_ID, Integer.valueOf(AD_PrintFont_ID));
+	}
+
+	/** Get Print Font.
+		@return Maintain Print Font
+	  */
+	public int getAD_PrintFont_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFont_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -264,5 +319,87 @@ public class X_C_POSKey extends PO implements I_C_POSKey, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Column span.
+		@param SpanX 
+		Number of columns spanned
+	  */
+	public void setSpanX (int SpanX)
+	{
+		set_Value (COLUMNNAME_SpanX, Integer.valueOf(SpanX));
+	}
+
+	/** Get Column span.
+		@return Number of columns spanned
+	  */
+	public int getSpanX () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SpanX);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Row Span.
+		@param SpanY 
+		Number of rows spanned
+	  */
+	public void setSpanY (int SpanY)
+	{
+		set_Value (COLUMNNAME_SpanY, Integer.valueOf(SpanY));
+	}
+
+	/** Get Row Span.
+		@return Number of rows spanned
+	  */
+	public int getSpanY () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SpanY);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_POSKeyLayout getSubKeyLayout() throws RuntimeException
+    {
+		return (I_C_POSKeyLayout)MTable.get(getCtx(), I_C_POSKeyLayout.Table_Name)
+			.getPO(getSubKeyLayout_ID(), get_TrxName());	}
+
+	/** Set Key Layout.
+		@param SubKeyLayout_ID 
+		Key Layout to be displayed when this key is pressed
+	  */
+	public void setSubKeyLayout_ID (int SubKeyLayout_ID)
+	{
+		if (SubKeyLayout_ID < 1) 
+			set_Value (COLUMNNAME_SubKeyLayout_ID, null);
+		else 
+			set_Value (COLUMNNAME_SubKeyLayout_ID, Integer.valueOf(SubKeyLayout_ID));
+	}
+
+	/** Get Key Layout.
+		@return Key Layout to be displayed when this key is pressed
+	  */
+	public int getSubKeyLayout_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SubKeyLayout_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Text.
+		@param Text Text	  */
+	public void setText (String Text)
+	{
+		set_Value (COLUMNNAME_Text, Text);
+	}
+
+	/** Get Text.
+		@return Text	  */
+	public String getText () 
+	{
+		return (String)get_Value(COLUMNNAME_Text);
 	}
 }
