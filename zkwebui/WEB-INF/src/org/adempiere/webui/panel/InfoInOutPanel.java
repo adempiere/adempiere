@@ -46,8 +46,14 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
 * Based on InfoInOut written by Jorg Janke
@@ -86,6 +92,10 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	private Label lDateFrom = new Label(Msg.translate(Env.getCtx(), "MovementDate"));
 	private Label lDateTo = new Label("-");
 
+	private Vbox southBody;
+
+	private Borderlayout layout;
+
 	/**  Array of Column Info    */
 	private static final ColumnInfo[] s_invoiceLayout = {
 		new ColumnInfo(" ", "i.M_InOut_ID", IDColumn.class),
@@ -105,11 +115,24 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	
 	protected InfoInOutPanel(	int WindowNo, String value,
 								boolean multiSelection, String whereClause)
 	{
-		super (WindowNo, "i", "M_InOut_ID", multiSelection, whereClause);
+		this(WindowNo, value, multiSelection, whereClause, true);
+	}
+	
+	/**
+	 *  Detail Protected Constructor
+	 *
+	 *  @param WindowNo window no
+	 *  @param value query value
+	 *  @param multiSelection multiple selections
+	 *  @param whereClause where clause
+	 */
+	protected InfoInOutPanel(	int WindowNo, String value,
+								boolean multiSelection, String whereClause, boolean lookup)
+	{
+		super (WindowNo, "i", "M_InOut_ID", multiSelection, whereClause, lookup);
 		log.info( "InfoInOut");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoInOut"));
 
@@ -192,20 +215,40 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 		row.appendChild(fPOReference);		
 		row.appendChild(new Label());
 		
-		contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
-        contentPanel.setVflex(true);
+		layout = new Borderlayout();
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        if (!isLookup())
+        {
+        	layout.setStyle("position: absolute");
+        }
+        this.appendChild(layout);
         
-		this.setWidth("850px");
-		this.setClosable(true);
-		this.setBorder("normal");
-		this.appendChild(grid);
-		this.appendChild(new Separator());
-		this.appendChild(contentPanel);
-		this.appendChild(new Separator());
-		this.appendChild(confirmPanel);
-		this.appendChild(new Separator());
-		this.appendChild(statusBar);
+        North north = new North();
+        layout.appendChild(north);
+		north.appendChild(grid);
+        
+        Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		Div div = new Div();
+		div.appendChild(contentPanel);
+		if (isLookup())
+        	contentPanel.setWidth("99%");
+        else
+        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
+        contentPanel.setVflex(true);
+		div.setStyle("width :100%; height: 100%");
+		center.appendChild(div);
+        
+		South south = new South();
+		layout.appendChild(south);
+		southBody = new Vbox();
+		southBody.setWidth("100%");
+		south.appendChild(southBody);
+		southBody.appendChild(confirmPanel);
+		southBody.appendChild(new Separator());
+		southBody.appendChild(statusBar);
 	}
 	
 	/**
@@ -385,5 +428,11 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 	public void tableChanged(WTableModelEvent event) 
 	{
 		
+	}
+
+	@Override
+	protected void insertPagingComponent() {
+		southBody.insertBefore(paging, southBody.getFirstChild());
+		layout.invalidate();
 	}
 }

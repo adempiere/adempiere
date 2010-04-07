@@ -30,7 +30,6 @@ import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.NumberBox;
-import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
@@ -49,8 +48,14 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
  * Search Invoice and return selection
@@ -80,7 +85,21 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
     protected InfoInvoicePanel(int WindowNo, String value,
             boolean multiSelection, String whereClause)
     {
-        super ( WindowNo, "i", "C_Invoice_ID", multiSelection, whereClause);
+    	this(WindowNo, value, multiSelection, whereClause, true);
+    }
+    
+	/**
+     * Detail protected constructor
+     * @param WindowNo window no
+     * @param value query value
+     * @param multiSelection multiple selection
+     * @param whereClause where clause
+    *
+     */
+    protected InfoInvoicePanel(int WindowNo, String value,
+            boolean multiSelection, String whereClause, boolean lookup)
+    {
+        super ( WindowNo, "i", "C_Invoice_ID", multiSelection, whereClause, lookup);
         
         setTitle(Msg.getMsg(Env.getCtx(), "InfoInvoice"));
         //
@@ -119,6 +138,8 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
     
     private Checkbox isSoTrx;
     private Checkbox isPaid;
+	private Borderlayout layout;
+	private Vbox southBody;
     
     /**  Array of Column Info    */
     private static final ColumnInfo[] s_invoiceLayout = {
@@ -172,10 +193,6 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         editorOrder = new WSearchEditor(lookupOrder, Msg.translate(
                 Env.getCtx(), "C_Order_ID"), "", false, false, true);
         editorOrder.addValueChangeListener(this);
-        
-        contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
-        contentPanel.setVflex(true);
     }
     
     private void init()
@@ -225,20 +242,40 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 		hbox.appendChild(amountTo);
 		row.appendChild(hbox);
 		
-        Panel mainPanel = new Panel();
-        mainPanel.setWidth("100%");
-        mainPanel.appendChild(grid);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(contentPanel);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(confirmPanel);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(statusBar);
+		layout = new Borderlayout();
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        if (!isLookup())
+        {
+        	layout.setStyle("position: absolute");
+        }
+        this.appendChild(layout);
+
+        North north = new North();
+        layout.appendChild(north);
+		north.appendChild(grid);
+
+        Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		Div div = new Div();
+		div.appendChild(contentPanel);
+		if (isLookup())
+			contentPanel.setWidth("99%");
+        else
+        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
+        contentPanel.setVflex(true);
+		div.setStyle("width :100%; height: 100%");
+		center.appendChild(div);
         
-        this.appendChild(mainPanel);
-        this.setClosable(true);
-		this.setBorder("normal");
-        this.setWidth("850px");         
+		South south = new South();
+		layout.appendChild(south);
+		southBody = new Vbox();
+		southBody.setWidth("100%");
+		south.appendChild(southBody);
+		southBody.appendChild(confirmPanel);
+		southBody.appendChild(new Separator());
+		southBody.appendChild(statusBar);
     }
     
     /**
@@ -526,7 +563,8 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
     }
 
 	@Override
-	protected void saveSelectionDetail() {
+	protected void saveSelectionDetail()
+	{
 		//  publish for Callout to read
 		Integer ID = getSelectedRowKey();
 		Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_Invoice_ID", ID == null ? "0" : ID.toString());
@@ -543,5 +581,12 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", "0");
 		else
 			Env.setContext(Env.getCtx(), p_WindowNo, Env.TAB_INFO, "C_InvoicePaySchedule_ID", String.valueOf(C_InvoicePaySchedule_ID));
+	}
+
+	@Override
+	protected void insertPagingComponent()
+	{
+		southBody.insertBefore(paging, southBody.getFirstChild());
+		layout.invalidate();
 	}
 }

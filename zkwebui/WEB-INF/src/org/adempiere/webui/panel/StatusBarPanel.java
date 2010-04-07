@@ -316,5 +316,11 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 			popup.detach();
 	}
 
+	/**
+	 * @param visible
+	 */
+	public void setEastVisibility(boolean visible) {
+		east.setVisible(visible);
+	}
 
 }

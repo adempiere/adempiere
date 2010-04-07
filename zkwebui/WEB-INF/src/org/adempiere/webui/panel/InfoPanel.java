@@ -31,6 +31,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.ListModelTable;
 import org.adempiere.webui.component.WListItemRenderer;
@@ -40,6 +41,8 @@ import org.adempiere.webui.event.ValueChangeEvent;
 import org.adempiere.webui.event.ValueChangeListener;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
+import org.adempiere.webui.part.ITabOnSelectHandler;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.minigrid.ColumnInfo;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MRole;
@@ -49,10 +52,13 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.ListModelExt;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Paging;
 import org.zkoss.zul.event.ZulEvents;
 
@@ -68,10 +74,11 @@ import org.zkoss.zul.event.ZulEvents;
  */
 public abstract class InfoPanel extends Window implements EventListener, WTableModelListener, ListModelExt
 {
+	
 	/**
-	 * 
+	 * generated serial version ID
 	 */
-	private static final long serialVersionUID = 2961293943433626554L;
+	private static final long serialVersionUID = 325050327514511004L;
 	private final static int PAGE_SIZE = 100;
 	
     public static InfoPanel create (int WindowNo,
@@ -121,9 +128,9 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	public static void showBPartner (int WindowNo)
 	{
-		InfoBPartnerPanel infoBPanel = new InfoBPartnerPanel ( "", WindowNo,  
-			!Env.getContext(Env.getCtx(),"IsSOTrx").equals("N"),false, "");
-		AEnv.showWindow(infoBPanel);
+		InfoBPartnerPanel info = new InfoBPartnerPanel ( "", WindowNo,
+			!Env.getContext(Env.getCtx(),"IsSOTrx").equals("N"),false, "", false);
+		AEnv.showWindow(info);
 	}   //  showBPartner
 
 	/**
@@ -133,7 +140,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	public static void showAsset (int WindowNo)
 	{
-		InfoPanel info = new InfoAssetPanel (WindowNo, 0, "", false, "");
+		InfoPanel info = new InfoAssetPanel (WindowNo, 0, "", false, "", false);
 		AEnv.showWindow(info);
 	}   //  showBPartner
 
@@ -147,7 +154,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		InfoPanel info = new InfoProductPanel(WindowNo, 
 				Env.getContextAsInt(Env.getCtx(), WindowNo, "M_Warehouse_ID"),
 				Env.getContextAsInt(Env.getCtx(), WindowNo, "M_PriceList_ID"),
-				false, "", "");
+				false, "", "", false);
 		AEnv.showWindow(info);
 	}   //  showProduct
 	
@@ -159,7 +166,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	public static void showOrder (int WindowNo, String value)
 	{
-		InfoPanel info = new InfoOrderPanel(WindowNo, "", false, "");
+		InfoPanel info = new InfoOrderPanel(WindowNo, "", false, "", false);
 		AEnv.showWindow(info);
 	}   //  showOrder
 
@@ -171,7 +178,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	public static void showInvoice (int WindowNo, String value)
 	{
-		InfoPanel info = new InfoInvoicePanel(WindowNo, "", false, "");
+		InfoPanel info = new InfoInvoicePanel(WindowNo, "", false, "", false);
 		AEnv.showWindow(info);
 	}   //  showInvoice
 
@@ -184,7 +191,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	public static void showInOut (int WindowNo, String value)
 	{
 		InfoPanel info = new InfoInOutPanel (WindowNo, value,
-			false, "");
+			false, "", false);
 		AEnv.showWindow(info);
 	}   //  showInOut
 
@@ -197,7 +204,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	public static void showPayment (int WindowNo, String value)
 	{
 		InfoPanel info = new InfoPaymentPanel (WindowNo, value,
-			false, "");
+			false, "", false);
 		AEnv.showWindow(info);
 	}   //  showPayment
 
@@ -210,7 +217,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	public static void showCashLine (int WindowNo, String value)
 	{
 		InfoPanel info = new InfoCashLinePanel (WindowNo, value,
-			false, "");
+			false, "", false);
 		AEnv.showWindow(info);
 	}   //  showCashLine
 
@@ -223,12 +230,13 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	public static void showAssignment (int WindowNo, String value)
 	{
 		InfoPanel info = new InfoAssignmentPanel (WindowNo, value,
-			false, "");
+			false, "", false);
 		AEnv.showWindow(info);
 	}   //  showAssignment
 
 	/** Window Width                */
 	static final int        INFO_WIDTH = 800;
+	private boolean m_lookup;
 
 	/**************************************************
      *  Detail Constructor 
@@ -241,12 +249,27 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		String tableName, String keyColumn,boolean multipleSelection,
 		 String whereClause)
 	{
+		this(WindowNo, tableName, keyColumn, multipleSelection, whereClause, true);
+	}
 		
+	/**************************************************
+     *  Detail Constructor
+     * @param WindowNo  WindowNo
+     * @param tableName tableName
+     * @param keyColumn keyColumn
+     * @param whereClause   whereClause
+	 */
+	protected InfoPanel (int WindowNo,
+		String tableName, String keyColumn,boolean multipleSelection,
+		 String whereClause, boolean lookup)
+	{
+
 		log.info("WinNo=" + p_WindowNo + " " + whereClause);
 		p_WindowNo = WindowNo;
 		p_tableName = tableName;
 		p_keyColumn = keyColumn;
         p_multipleSelection = multipleSelection;
+        m_lookup = lookup;
 		
 		if (whereClause == null || whereClause.indexOf('@') == -1)
 			p_whereClause = whereClause;
@@ -258,10 +281,35 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		}
 		init();
 		
+		this.setAttribute(ITabOnSelectHandler.ATTRIBUTE_KEY, new ITabOnSelectHandler() {
+			public void onSelect() {
+				scrollToSelectedRow();
+			}
+		});
 	}	//	InfoPanel
 	
 	private void init()
 	{
+		if (isLookup())
+		{
+			setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+			setBorder("normal");
+			setClosable(true);
+			int height = SessionManager.getAppDesktop().getClientInfo().desktopHeight * 85 / 100;
+    		int width = SessionManager.getAppDesktop().getClientInfo().desktopWidth * 80 / 100;
+    		setWidth(width + "px");
+    		setHeight(height + "px");
+    		this.setContentStyle("overflow: auto");
+		}
+		else
+		{
+			setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
+			setBorder("none");
+			setWidth("100%");
+			setHeight("100%");
+			setStyle("position: absolute");
+		}
+		
         confirmPanel = new ConfirmPanel(true, true, false, true, true, true);  // Elaine 2008/12/16
         confirmPanel.addActionListener(Events.ON_CLICK, this);
         confirmPanel.setStyle("border-top: 2px groove #444; padding-top: 4px");
@@ -269,8 +317,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         // Elaine 2008/12/16
 		confirmPanel.getButton(ConfirmPanel.A_CUSTOMIZE).setVisible(hasCustomize());
 		confirmPanel.getButton(ConfirmPanel.A_HISTORY).setVisible(hasHistory());
-		confirmPanel.getButton(ConfirmPanel.A_ZOOM).setVisible(hasZoom());
+		confirmPanel.getButton(ConfirmPanel.A_ZOOM).setVisible(hasZoom());		
 		//
+		if (!isLookup()) 
+		{
+			confirmPanel.getButton(ConfirmPanel.A_OK).setVisible(false);
+		}
 		
         this.setSizable(true);      
         this.setMaximizable(true);
@@ -329,6 +381,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	private int cacheStart;
 	private int cacheEnd;
 	private boolean m_useDatabasePaging = false;
+	private BusyDialog progressWindow;
 	
 	private static final String[] lISTENER_EVENTS = {};
 
@@ -349,7 +402,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	public void setStatusLine (String text, boolean error)
 	{
 		statusBar.setStatusLine(text, error);
-		Thread.yield();
 	}	//	setStatusLine
 
 	/**
@@ -367,7 +419,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             String orderBy)
 	{
         String sql =contentPanel.prepareTable(layout, from,
-                where,p_multipleSelection,
+                where,p_multipleSelection && !m_lookup,
                 getTableName(),false);
         p_layout = contentPanel.getLayout();
 		m_sqlMain = sql;
@@ -376,15 +428,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		m_sqlOrder = "";
 		m_sqlUserOrder = "";
 		if (orderBy != null && orderBy.length() > 0)
-			m_sqlOrder = " ORDER BY " + orderBy;
-			
-		int p = from.indexOf(" ");
-		String tableName = p > 0 ? from.substring(0, p) : from;
-		MTable table = MTable.get(Env.getCtx(), tableName);
-		if (table != null)
-		{
-			m_useDatabasePaging = table.isHighVolume();
-		}
+			m_sqlOrder = " ORDER BY " + orderBy;			
 	}   //  prepareTable
 
 	
@@ -397,9 +441,10 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		cacheStart = -1;
 		cacheEnd = -1;
 
+		testCount();
+		m_useDatabasePaging = (m_count > 1000);
 		if (m_useDatabasePaging)
-		{
-			testCount();
+		{			
 			return ;
 		}
 		else
@@ -507,12 +552,6 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     		}
     	}
 
-    	if (!testCount())
-		{
-    		line = new ArrayList<Object>();
-			return line;
-		}
-
     	cacheStart = start + 1 - (PAGE_SIZE * 4);
     	if (cacheStart <= 0)
     		cacheStart = 1;
@@ -557,6 +596,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 			m_pstmt = DB.prepareStatement(dataSql, null);
 			setParameters (m_pstmt, false);	//	no count
 			log.fine("Start query - " + (System.currentTimeMillis()-startTime) + "ms");
+			m_pstmt.setFetchSize(100);
 			m_rs = m_pstmt.executeQuery();
 			log.fine("End query - " + (System.currentTimeMillis()-startTime) + "ms");
 			//skips the row that we dont need if we can't use native db paging
@@ -710,7 +750,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	 */
 	protected Integer getSelectedRowKey()
 	{
-		int key = contentPanel.getSelectedRowKey();
+		Integer key = contentPanel.getSelectedRowKey();
 		
 		return key;        
 	}   //  getSelectedRowKey
@@ -988,12 +1028,12 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             }
             else if (event.getTarget() == contentPanel && event.getName().equals(Events.ON_DOUBLE_CLICK))
             {
-            	onOk();
+            	onDoubleClick();
             }
             else if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_REFRESH)))
             {
-                executeQuery();
-                renderItems();
+            	showBusyDialog();
+            	Clients.response(new AuEcho(this, "onQueryCallback", null));
             }
             else if (event.getTarget().equals(confirmPanel.getButton(ConfirmPanel.A_CANCEL)))
             {
@@ -1021,7 +1061,8 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
                 if (!contentPanel.getChildren().isEmpty() && contentPanel.getSelectedRowKey()!=null)
                 {
                     zoom();
-                    this.detach();
+                    if (isLookup())
+                    	this.detach();
                 }
             }
             else if (event.getTarget() == paging)
@@ -1047,11 +1088,35 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             //default
             else
             {
-            	executeQuery();
-                renderItems();
+            	showBusyDialog();
+            	Clients.response(new AuEcho(this, "onQueryCallback", null));
             }
         }
     }  //  onEvent
+
+	private void showBusyDialog() {
+		progressWindow = new BusyDialog();
+		progressWindow.setPage(this.getPage());
+		progressWindow.doHighlighted();
+	}
+
+	private void hideBusyDialog() {
+		progressWindow.dispose();
+		progressWindow = null;
+	}
+
+    public void onQueryCallback()
+    {
+    	try
+    	{
+            	executeQuery();
+                renderItems();
+            }
+    	finally
+    	{
+    		hideBusyDialog();
+    	}
+    }
     
     private void onOk() 
     {
@@ -1061,6 +1126,19 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		}
 	}
     
+    private void onDoubleClick()
+	{
+		if (isLookup())
+		{
+			dispose(true);
+		}
+		else
+		{
+			zoom();
+		}
+
+	}
+
     public void tableChanged(WTableModelEvent event)
     {
     	enableButtons();
@@ -1076,7 +1154,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
     	}
     	else
     	{
-    		int recordId = contentPanel.getSelectedRowKey();
+    		Integer recordId = contentPanel.getSelectedRowKey();
     		int AD_Table_ID = MTable.getTable_ID(p_tableName);
     		if (AD_Table_ID <= 0)
     		{
@@ -1117,8 +1195,14 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
         m_ok = ok;
 
         //  End Worker
-        saveSelection();
-        this.detach();
+        if (isLookup())
+        {
+        	saveSelection();
+        }
+        if (Window.MODE_EMBEDDED.equals(getAttribute(Window.MODE_KEY)))
+        	SessionManager.getAppDesktop().closeActiveWindow();
+        else
+	        this.detach();
     }   //  dispose
         
 	public void sort(Comparator cmpr, boolean ascending) {
@@ -1179,5 +1263,18 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 		}
 	}
 
+    public boolean isLookup()
+    {
+    	return m_lookup;
+    }
 
+    public void scrollToSelectedRow()
+    {
+    	if (contentPanel != null && contentPanel.getSelectedIndex() >= 0) {
+    		Listitem selected = contentPanel.getItemAtIndex(contentPanel.getSelectedIndex());
+    		if (selected != null) {
+    			selected.focus();
+    		}
+    	}
+    }
 }	//	Info

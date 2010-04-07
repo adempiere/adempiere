@@ -30,7 +30,6 @@ import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.NumberBox;
-import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
@@ -48,8 +47,14 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
  * Search Order info and return selection
@@ -87,6 +92,8 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     private WSearchEditor editorBPartner;
     
     private Checkbox isSoTrx;
+	private Borderlayout layout;
+	private Vbox southBody;
    
     /**  Array of Column Info    */
     private static final ColumnInfo[] s_invoiceLayout = {
@@ -105,7 +112,13 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
     protected InfoOrderPanel(int WindowNo, String value,
             boolean multiSelection, String whereClause)
     {
-        super ( WindowNo, "o", "C_Order_ID", multiSelection, whereClause);
+    	this(WindowNo, value, multiSelection, whereClause, true);
+    }
+
+    protected InfoOrderPanel(int WindowNo, String value,
+            boolean multiSelection, String whereClause, boolean lookup)
+    {
+        super ( WindowNo, "o", "C_Order_ID", multiSelection, whereClause, lookup);
         log.info( "InfoOrder");
         setTitle(Msg.getMsg(Env.getCtx(), "InfoOrder"));
         //
@@ -160,9 +173,6 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
                 Env.getCtx(), "C_BPartner_ID"), "", true, false, true);
         editorBPartner.addValueChangeListener(this);
         
-        contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
-        contentPanel.setVflex(true);
     }
     
     public void init()
@@ -212,20 +222,40 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
 		hbox.appendChild(amountTo);
 		row.appendChild(hbox);
         
-        Panel mainPanel = new Panel();
-        mainPanel.setWidth("100%");
-        mainPanel.appendChild(grid);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(contentPanel);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(confirmPanel);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(statusBar);
+		layout = new Borderlayout();
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        if (!isLookup())
+        {
+        	layout.setStyle("position: absolute");
+        }
+        this.appendChild(layout);
+
+        North north = new North();
+        layout.appendChild(north);
+		north.appendChild(grid);
+
+        Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		Div div = new Div();
+		div.appendChild(contentPanel);
+		if (isLookup())
+			contentPanel.setWidth("99%");
+        else
+        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
+        contentPanel.setVflex(true);
+		div.setStyle("width :100%; height: 100%");
+		center.appendChild(div);
         
-        this.appendChild(mainPanel);
-        this.setClosable(true);
-		this.setBorder("normal");
-        this.setWidth("850px");         
+		South south = new South();
+		layout.appendChild(south);
+		southBody = new Vbox();
+		southBody.setWidth("100%");
+		south.appendChild(southBody);
+		southBody.appendChild(confirmPanel);
+		southBody.appendChild(new Separator());
+		southBody.appendChild(statusBar);
     }
 
     /**
@@ -504,4 +534,10 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         
     }
 
+    @Override
+	protected void insertPagingComponent()
+    {
+		southBody.insertBefore(paging, southBody.getFirstChild());
+		layout.invalidate();
+	}
 }

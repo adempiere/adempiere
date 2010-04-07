@@ -42,8 +42,13 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Intbox;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
 *	Search Business Partner and return selection
@@ -71,9 +76,9 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	private Label lblEMail ;
 	private Textbox fieldEMail;
 	private Label lblPostal;
-	private Intbox fieldPostal;
+	private Textbox fieldPostal;
 	private Label lblPhone;
-	private Intbox fieldPhone;
+	private Textbox fieldPhone;
 	private Checkbox checkAND ;
 	private Checkbox checkCustomer;
 
@@ -85,6 +90,8 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		
 	/**	Logger			*/
 	protected CLogger log = CLogger.getCLogger(getClass());
+	private Borderlayout layout;
+	private Vbox southBody;
 	
 	/** From Clause             */
 	private static String s_partnerFROM = "C_BPartner"
@@ -118,7 +125,19 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 	 */
 	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause)
 	{		
-		super (windowNo, "C_BPartner", "C_BPartner_ID",multipleSelection, whereClause);
+		this(queryValue, windowNo, isSOTrx, multipleSelection, whereClause, true);
+	}
+
+	/**
+	 *	Standard Constructor
+	 *  @param  queryvalue   Query value Name or Value if contains numbers
+	 *  @param isSOTrx  if false, query vendors only
+	 *  @param whereClause where clause
+	 */
+	public InfoBPartnerPanel(String queryValue,int windowNo, boolean isSOTrx,boolean multipleSelection, String whereClause, boolean lookup)
+	{
+
+		super (windowNo, "C_BPartner", "C_BPartner_ID",multipleSelection, whereClause, lookup);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
 		m_isSOTrx = isSOTrx;
         initComponents();
@@ -161,9 +180,9 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		fieldContact.setMaxlength(40);
 		fieldEMail = new Textbox();
 		fieldEMail.setMaxlength(40);
-		fieldPostal = new Intbox();
+		fieldPostal = new Textbox();
 		fieldPostal.setMaxlength(40);
-		fieldPhone = new Intbox();
+		fieldPhone = new Textbox();
 		fieldPhone.setMaxlength(40);
 		
 		checkAND = new Checkbox();
@@ -177,10 +196,6 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 			checkCustomer.setLabel(Msg.getMsg(Env.getCtx(), "OnlyCustomers"));
 		else
 			checkCustomer.setLabel(Msg.getMsg(Env.getCtx(), "OnlyVendors"));
-
-        contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
-        contentPanel.setVflex(true);       
 	}
 	
 	private void init()
@@ -218,18 +233,41 @@ public class InfoBPartnerPanel extends InfoPanel implements EventListener, WTabl
 		row.appendChild(fieldPostal);
 		row.appendChild(checkAND);
         
-		this.appendChild(grid);
-        this.appendChild(new Separator());
-        this.appendChild(contentPanel);
-        this.appendChild(new Separator());
-        this.appendChild(confirmPanel);
-        this.appendChild(new Separator());
-        this.appendChild(statusBar);
-        
-        this.setClosable(true);
-		this.setBorder("normal");
-		this.setWidth("1000px");
-		
+		layout = new Borderlayout();
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        if (!isLookup())
+        {
+        	layout.setStyle("position: absolute");
+        }
+        this.appendChild(layout);
+
+        North north = new North();
+        layout.appendChild(north);
+		north.appendChild(grid);
+
+        Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		Div div = new Div();
+		div.appendChild(contentPanel);
+		if (isLookup())
+			contentPanel.setWidth("99%");
+        else
+        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
+        contentPanel.setVflex(true);
+		div.setStyle("width :100%; height: 100%");
+		center.appendChild(div);
+
+		South south = new South();
+		layout.appendChild(south);
+		southBody = new Vbox();
+		southBody.setWidth("100%");
+		south.appendChild(southBody);
+		southBody.appendChild(confirmPanel);
+		southBody.appendChild(new Separator());
+		southBody.appendChild(statusBar);
+        		
 	}	
 	
 	/**

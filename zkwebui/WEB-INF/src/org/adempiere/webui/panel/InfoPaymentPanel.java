@@ -47,8 +47,14 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
 * Based on InfoPayment written by Jorg Janke
@@ -83,6 +89,8 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	private Label lDateTo = new Label("-");
 	private Label lAmtFrom = new Label(Msg.translate(Env.getCtx(), "PayAmt"));
 	private Label lAmtTo = new Label("-");
+	private Borderlayout layout;
+	private Vbox southBody;
 
 	/**  Array of Column Info    */
 	private static final ColumnInfo[] s_paymentLayout = {
@@ -120,11 +128,25 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 	 *  @param multiSelection multiple selections
 	 *  @param whereClause where clause
 	 */
-	
 	protected InfoPaymentPanel(int WindowNo, String value,
 			boolean multiSelection, String whereClause)
 	{
-		super(WindowNo, "p", "C_Payment_ID", multiSelection, whereClause);
+		this(WindowNo, value, multiSelection, whereClause, true);
+	}
+	
+	/**
+	 *  Detail Protected Constructor
+	 *
+	 *  @param modal modal
+	 *  @param WindowNo window no
+	 *  @param value query value
+	 *  @param multiSelection multiple selections
+	 *  @param whereClause where clause
+	 */
+	protected InfoPaymentPanel(int WindowNo, String value,
+			boolean multiSelection, String whereClause, boolean lookup)
+	{
+		super(WindowNo, "p", "C_Payment_ID", multiSelection, whereClause, lookup);
 		
 		log.info( "InfoPaymentPanel");
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoPayment"));
@@ -208,20 +230,40 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		hbox.appendChild(fAmtTo);
 		row.appendChild(hbox);
 		
-		contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
+		layout = new Borderlayout();
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        if (!isLookup())
+        {
+        	layout.setStyle("position: absolute");
+        }
+        this.appendChild(layout);
+
+        North north = new North();
+        layout.appendChild(north);
+		north.appendChild(grid);
+
+        Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		Div div = new Div();
+		div.appendChild(contentPanel);
+		if (isLookup())
+			contentPanel.setWidth("99%");
+        else
+        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
         contentPanel.setVflex(true);
+		div.setStyle("width :100%; height: 100%");
+		center.appendChild(div);
         
-		this.setWidth("850px");
-		this.setClosable(true);
-		this.setBorder("normal");
-		this.appendChild(grid);
-		this.appendChild(new Separator());
-		this.appendChild(contentPanel);
-		this.appendChild(new Separator());
-		this.appendChild(confirmPanel);
-		this.appendChild(new Separator());
-		this.appendChild(statusBar);
+		South south = new South();
+		layout.appendChild(south);
+		southBody = new Vbox();
+		southBody.setWidth("100%");
+		south.appendChild(southBody);
+		southBody.appendChild(confirmPanel);
+		southBody.appendChild(new Separator());
+		southBody.appendChild(statusBar);
 	}
 	
 	/**
@@ -418,8 +460,15 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 		}
 	}
 
-	public void tableChanged(WTableModelEvent event) {
+	public void tableChanged(WTableModelEvent event)
+	{
+	}
 		
+	@Override
+	protected void insertPagingComponent()
+	{
+		southBody.insertBefore(paging, southBody.getFirstChild());
+		layout.invalidate();
 	}
 
 }

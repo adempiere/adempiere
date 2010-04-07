@@ -173,7 +173,22 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection,String value,
 		 String whereClause)
 	{
-		super (windowNo, "p", "M_Product_ID",multipleSelection, whereClause);
+		this(windowNo, M_Warehouse_ID, M_PriceList_ID, multipleSelection, value, whereClause, true);
+	}
+
+	/**
+	 *	Standard Constructor
+	 * 	@param WindowNo window no
+	 * 	@param M_Warehouse_ID warehouse
+	 * 	@param M_PriceList_ID price list
+	 * 	@param value    Query Value or Name if enclosed in @
+	 * 	@param whereClause where clause
+	 */
+	public InfoProductPanel(int windowNo,
+		int M_Warehouse_ID, int M_PriceList_ID, boolean multipleSelection,String value,
+		 String whereClause, boolean lookup)
+	{
+		super (windowNo, "p", "M_Product_ID",multipleSelection, whereClause, lookup);
 		log.info(value + ", Wh=" + M_Warehouse_ID + ", PL=" + M_PriceList_ID + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoProduct"));
 		//
@@ -272,7 +287,6 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		fieldVendor = new Textbox();
 		fieldVendor.setMaxlength(40);
 
-        contentPanel.setWidth("99%");
         contentPanel.setVflex(true);
 	}	//	initComponents
 
@@ -313,6 +327,12 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		row.appendChild(lblAS.rightAlign());
 		row.appendChild(pickAS);
 		
+		row = new Row();
+		rows.appendChild(row);
+		row.appendChild(statusBar);
+		row.setSpans("6");
+		statusBar.setEastVisibility(false);
+
 		// Product Attribute Instance
 		m_PAttributeButton = confirmPanel.createButton(ConfirmPanel.A_PATTRIBUTE);
 		confirmPanel.addComponentsLeft(m_PAttributeButton);
@@ -426,7 +446,10 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 
         borderlayout.setWidth("100%");
         borderlayout.setHeight("100%");
-        borderlayout.setStyle("border: none; position: relative");
+        if (isLookup())
+        	borderlayout.setStyle("border: none; position: relative");
+        else
+        	borderlayout.setStyle("border: none; position: absolute");
         Center center = new Center();
         center.setAutoscroll(true);
         center.setFlex(true);
@@ -455,13 +478,17 @@ public class InfoProductPanel extends InfoPanel implements EventListener
         south = new South();
         mainPanel.appendChild(south);
         south.appendChild(confirmPanel);
+        if (!isLookup())
+        {
+        	mainPanel.setStyle("position: absolute");
+        }
 
 		this.appendChild(mainPanel);
-		this.setClosable(true);
-		this.setBorder("normal");
-
-		this.setWidth(width + "px");
-		this.setHeight(height + "px");
+		if (isLookup())
+		{
+			this.setWidth(width + "px");
+			this.setHeight(height + "px");
+		}
 
 		contentPanel.addActionListener(new EventListener() {
 			public void onEvent(Event event) throws Exception {

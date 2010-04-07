@@ -28,7 +28,6 @@ import java.util.logging.Level;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.GridFactory;
 import org.adempiere.webui.component.Label;
-import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.Textbox;
@@ -42,7 +41,13 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
  * Zk Port
@@ -73,6 +78,8 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 	
 	/** list of query columns (SQL) */
 	private ArrayList<String> m_queryColumnsSql = new ArrayList<String>();
+	private Borderlayout layout;
+	private Vbox southBody;
 	
 	public InfoGeneralPanel(String queryValue, int windowNo,String tableName,String keyColumn, boolean isSOTrx, String whereClause) 
 	{
@@ -85,6 +92,11 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 			init();
 			initComponents();
 			
+			if (queryValue != null && queryValue.length() > 0)
+			{
+				txt1.setValue(queryValue);
+			}
+
 			p_loadedOK = initInfo ();
 		}
 		catch (Exception e)
@@ -124,23 +136,40 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		row.appendChild(lbl4.rightAlign());
 		row.appendChild(txt4);
 		
-		Panel mainPanel = new Panel();
-		mainPanel.setWidth("100%");
-        mainPanel.appendChild(grid);
+		layout = new Borderlayout();
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        if (!isLookup())
+        {
+        	layout.setStyle("position: absolute");
+        }
+        this.appendChild(layout);
+
+        North north = new North();
+        layout.appendChild(north);
+		north.appendChild(grid);
         
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(contentPanel);
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(confirmPanel);
-        // Elaine 2008/12/15
-        mainPanel.appendChild(new Separator());
-        mainPanel.appendChild(statusBar);
-        //
+        Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		Div div = new Div();
+		div.appendChild(contentPanel);
+		if (isLookup())
+			contentPanel.setWidth("99%");
+        else
+        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
+        contentPanel.setVflex(true);
+		div.setStyle("width :100%; height: 100%");
+		center.appendChild(div);
 		
-		this.appendChild(mainPanel);
-		this.setClosable(true);
-		this.setBorder("normal");
-		this.setWidth("900px");
+		South south = new South();
+		layout.appendChild(south);
+		southBody = new Vbox();
+		southBody.setWidth("100%");
+		south.appendChild(southBody);
+		southBody.appendChild(confirmPanel);
+		southBody.appendChild(new Separator());
+		southBody.appendChild(statusBar);
 	}
 
 	private void init()
@@ -154,10 +183,6 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 		lbl2 = new Label();
 		lbl3 = new Label();
 		lbl4 = new Label();
-		
-		contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
-        contentPanel.setVflex(true);
 	}
 	
 	private boolean initInfo ()
@@ -437,7 +462,12 @@ public class InfoGeneralPanel extends InfoPanel implements EventListener
 
     public void tableChanged(WTableModelEvent event)
     {
-        // TODO Auto-generated method stub
+    }
         
+    @Override
+	protected void insertPagingComponent()
+    {
+		southBody.insertBefore(paging, southBody.getFirstChild());
+		layout.invalidate();
     }
 }

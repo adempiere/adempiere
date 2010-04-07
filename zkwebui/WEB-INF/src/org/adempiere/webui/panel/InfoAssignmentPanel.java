@@ -47,8 +47,13 @@ import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
 * Based on InfoAssignment written by Jorg Janke
@@ -77,6 +82,8 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 
 	private Label labelFrom = new Label(Msg.translate(Env.getCtx(), "DateFrom"));
 	private Label labelTo = new Label(Msg.translate(Env.getCtx(), "DateTo"));
+	private Borderlayout layout;
+	private Vbox southBody;
 
 	/** From Clause             */
 	private static String s_assignmentFROM =
@@ -106,12 +113,25 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 	 *  @param multiSelection multiple selection
 	 *  @param whereClause where clause
 	 */
-	
 	public InfoAssignmentPanel (int WindowNo,
 		String value, boolean multiSelection, String whereClause)
 	{
+		this(WindowNo, value, multiSelection, whereClause, true);
+	}
+	
+	/**
+	 *  Constructor
+	 *
+	 *  @param WindowNo WindowNo
+	 *  @param  value   Query value Name or Value if contains numbers
+	 *  @param multiSelection multiple selection
+	 *  @param whereClause where clause
+	 */
+	public InfoAssignmentPanel (int WindowNo,
+		String value, boolean multiSelection, String whereClause, boolean lookup)
+	{
 		super (WindowNo, "ra", "S_ResourceAssignment_ID",
-			multiSelection, whereClause);
+			multiSelection, whereClause, lookup);
 		log.info(value);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAssignment"));
 
@@ -201,20 +221,40 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		row.appendChild(div);
 		row.appendChild(bNew);
 		
-		contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
+		layout = new Borderlayout();
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        if (!isLookup())
+        {
+        	layout.setStyle("position: absolute");
+        }
+        this.appendChild(layout);
+
+        North north = new North();
+        layout.appendChild(north);
+		north.appendChild(grid);
+
+        Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		div = new Div();
+		div.appendChild(contentPanel);
+		if (isLookup())
+			contentPanel.setWidth("99%");
+        else
+        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
         contentPanel.setVflex(true);
+		div.setStyle("width :100%; height: 100%");
+		center.appendChild(div);
         
-		this.setWidth("850px");
-		this.setClosable(true);
-		this.setBorder("normal");
-		this.appendChild(grid);
-		this.appendChild(new Separator());
-		this.appendChild(contentPanel);
-		this.appendChild(new Separator());
-		this.appendChild(confirmPanel);
-		this.appendChild(new Separator());
-		this.appendChild(statusBar);
+		South south = new South();
+		layout.appendChild(south);
+		southBody = new Vbox();
+		southBody.setWidth("100%");
+		south.appendChild(southBody);
+		southBody.appendChild(confirmPanel);
+		southBody.appendChild(new Separator());
+		southBody.appendChild(statusBar);
 	}
 	
 	/**
@@ -391,7 +431,13 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 
 	public void tableChanged(WTableModelEvent event) 
 	{
+	}
 		
+	@Override
+	protected void insertPagingComponent()
+    {
+		southBody.insertBefore(paging, southBody.getFirstChild());
+		layout.invalidate();
 	}
 
 }

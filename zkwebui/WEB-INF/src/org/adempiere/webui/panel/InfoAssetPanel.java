@@ -42,7 +42,13 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zkex.zul.Borderlayout;
+import org.zkoss.zkex.zul.Center;
+import org.zkoss.zkex.zul.North;
+import org.zkoss.zkex.zul.South;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Separator;
+import org.zkoss.zul.Vbox;
 
 /**
 * Based on InfoPayment written by Jorg Janke
@@ -90,9 +96,26 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	private Label labelValue = new Label();
 	private Label labelName = new Label();
 	
+	private Borderlayout layout;
+
+	private Vbox southBody;
+
 	/**
 	 *	Standard Constructor
+	 * @param WindowNo window no
+	 * @param A_Asset_ID asset
+	 * @param value    Query Value or Name if enclosed in @
+	 * @param multiSelection multiple selections
+	 * @param whereClause where clause
+	 */
+	public InfoAssetPanel(	int WindowNo, int A_Asset_ID, String value,
+							boolean multiSelection, String whereClause)
+	{
+		this(WindowNo, A_Asset_ID, value, multiSelection, whereClause, true);
+	}
 
+	/**
+	 *	Standard Constructor
 	 * @param WindowNo window no
 	 * @param A_Asset_ID asset
 	 * @param value    Query Value or Name if enclosed in @
@@ -101,9 +124,9 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 	 */
 	
 	public InfoAssetPanel(	int WindowNo, int A_Asset_ID, String value,
-							boolean multiSelection, String whereClause)
+							boolean multiSelection, String whereClause, boolean lookup)
 	{
-		super (WindowNo, "a", "A_Asset_ID", multiSelection, whereClause);
+		super (WindowNo, "a", "A_Asset_ID", multiSelection, whereClause, lookup);
 		
 		log.info(value + ", ID=" + A_Asset_ID + ", WHERE=" + whereClause);
 		setTitle(Msg.getMsg(Env.getCtx(), "InfoAsset"));
@@ -166,20 +189,40 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		row.appendChild(fProduct_ID.getLabel().rightAlign());
 		row.appendChild(fProduct_ID.getComponent());
 		
-		contentPanel.setWidth("99%");
-        contentPanel.setHeight("400px");
+		layout = new Borderlayout();
+        layout.setWidth("100%");
+        layout.setHeight("100%");
+        if (!isLookup())
+        {
+        	layout.setStyle("position: absolute");
+        }
+        this.appendChild(layout);
+
+        North north = new North();
+        layout.appendChild(north);
+		north.appendChild(grid);
+
+        Center center = new Center();
+		layout.appendChild(center);
+		center.setFlex(true);
+		Div div = new Div();
+		div.appendChild(contentPanel);
+		if (isLookup())
+			contentPanel.setWidth("99%");
+        else
+        	contentPanel.setStyle("width: 99%; margin: 0px auto;");
         contentPanel.setVflex(true);
+		div.setStyle("width :100%; height: 100%");
+		center.appendChild(div);
         
-		this.setWidth("850px");
-		this.setClosable(true);
-		this.setBorder("normal");
-		this.appendChild(grid);
-		this.appendChild(new Separator());
-		this.appendChild(contentPanel);
-		this.appendChild(new Separator());
-		this.appendChild(confirmPanel);
-		this.appendChild(new Separator());
-		this.appendChild(statusBar);
+		South south = new South();
+		layout.appendChild(south);
+		southBody = new Vbox();
+		southBody.setWidth("100%");
+		south.appendChild(southBody);
+		southBody.appendChild(confirmPanel);
+		southBody.appendChild(new Separator());
+		southBody.appendChild(statusBar);
 	}
 	
 	/**
@@ -402,4 +445,10 @@ public class InfoAssetPanel extends InfoPanel implements ValueChangeListener, Ev
 		}
 	}
 
+	@Override
+	protected void insertPagingComponent()
+    {
+		southBody.insertBefore(paging, southBody.getFirstChild());
+		layout.invalidate();
+	}
 }
