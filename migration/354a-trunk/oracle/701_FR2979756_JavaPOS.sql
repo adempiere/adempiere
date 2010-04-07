@@ -1118,11 +1118,6 @@ UPDATE C_POS SET OSNP_KeyLayout_ID=50002,Updated=TO_DATE('2010-03-21 21:40:12','
 
 -- Mar 21, 2010 9:40:21 PM EST
 -- Java POS enhancements
-DELETE FROM PP_MRP WHERE C_OrderLine_ID=? AND AD_Client_ID=?
-;
-
--- Mar 21, 2010 9:40:21 PM EST
--- Java POS enhancements
 DELETE FROM C_OrderLine WHERE C_OrderLine_ID=1000001
 ;
 
@@ -1141,30 +1136,6 @@ UPDATE C_Order i SET TotalLines=(SELECT COALESCE(SUM(LineNetAmt),0) FROM C_Order
 UPDATE C_Order i  SET GrandTotal=TotalLines+(SELECT COALESCE(SUM(TaxAmt),0) FROM C_OrderTax it WHERE i.C_Order_ID=it.C_Order_ID) WHERE C_Order_ID=1000001
 ;
 
--- Mar 21, 2010 9:40:21 PM EST
--- Java POS enhancements
-DELETE FROM PP_MRP WHERE C_Order_ID=? AND AD_Client_ID=?
-;
-
--- Mar 21, 2010 9:40:21 PM EST
--- Java POS enhancements
-DELETE FROM AD_Attachment WHERE AD_Table_ID=? AND Record_ID IN (SELECT C_OrderLine_ID FROM C_OrderLine WHERE C_Order_ID=?)
-;
-
--- Mar 21, 2010 9:40:21 PM EST
--- Java POS enhancements
-DELETE FROM AD_Archive WHERE AD_Table_ID=? AND Record_ID IN (SELECT C_OrderLine_ID FROM C_OrderLine WHERE C_Order_ID=?)
-;
-
--- Mar 21, 2010 9:40:21 PM EST
--- Java POS enhancements
-DELETE FROM K_Index WHERE AD_Table_ID=? AND Record_ID IN (SELECT C_OrderLine_ID FROM C_OrderLine WHERE C_Order_ID=?)
-;
-
--- Mar 21, 2010 9:40:21 PM EST
--- Java POS enhancements
-DELETE FROM AD_Note WHERE AD_Table_ID=? AND Record_ID IN (SELECT C_OrderLine_ID FROM C_OrderLine WHERE C_Order_ID=?)
-;
 
 -- Mar 21, 2010 9:40:21 PM EST
 -- Java POS enhancements
