@@ -63,7 +63,7 @@
 	      <pathelement path="../extend/Extend.jar"/>
 	      <pathelement path="../lib/CSTools.jar"/>
 	      <pathelement path="../lib/oracle.jar"/>
-		  <pathelement path="../JasperReportsTools/lib/jasperreports-3.5.3.jar"/>
+		  <pathelement path="../JasperReportsTools/lib/jasperreports-3.7.1.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/>
 	      <pathelement path="../tools/lib/commons-logging.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>      	
@@ -129,7 +129,7 @@
 	  index="yes"
   	  duplicate="preserve">
       <fileset dir="${needed.dir}"/>
-  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-3.5.3.jar" >
+  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-3.7.1.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" >

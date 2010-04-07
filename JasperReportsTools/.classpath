@@ -16,7 +16,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="lib/jasperreports-3.5.3.jar">
+	<classpathentry exported="true" kind="lib" path="lib/jasperreports-3.7.1.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
