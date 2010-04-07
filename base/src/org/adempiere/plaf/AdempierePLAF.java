@@ -115,6 +115,30 @@ public final class AdempierePLAF
 	}   //  getFieldBackground_Inactive
 
 	/**
+	 *  Return Selected field background color
+	 *  @return Color
+	 */
+	public static Color getFieldBackground_Selected()
+	{
+		Color c = UIManager.getColor(ExtendedTheme.SELECTED_BG_KEY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_SELECTED_BG;
+		return ColorBlind.getDichromatColor(c);
+	}   //  getFieldBackground_Selected
+
+	/**
+	 *  Return ReadOnly field background color
+	 *  @return Color
+	 */
+	public static Color getFieldBackground_ReadOnly()
+	{
+		Color c = UIManager.getColor(ExtendedTheme.READONLY_BG_KEY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_READONLY_BG;
+		return ColorBlind.getDichromatColor(c);
+	}   //  getFieldBackground_ReadOnly
+
+	/**
 	 *  Return form background color "control".
 	 *  Windows = lightGray
 	 *  @return Color
@@ -306,7 +330,7 @@ public final class AdempierePLAF
 			s_vp_adempiereTheme = new ValueNamePair("org.adempiere.plaf.AdempiereTheme", AdempiereThemeInnova.NAME);
 			plasticThemes.add (s_vp_adempiereTheme);
 			
-			List installedThemes = AdempiereLookAndFeel.getInstalledThemes();
+			List<?> installedThemes = AdempiereLookAndFeel.getInstalledThemes();
 			for(Object t : installedThemes) {
 				MetalTheme theme = (MetalTheme)t;
 				vp = new ValueNamePair(theme.getClass().getName(), theme.getName());
@@ -337,7 +361,7 @@ public final class AdempierePLAF
 		//  Install discovered PLAFs
 		for (int i = 0; i < plafList.size(); i++)
 		{
-			vp = (ValueNamePair)plafList.get(i);
+			vp = plafList.get(i);
 			UIManager.installLookAndFeel(vp.getName(), vp.getValue());
 		}
 
@@ -451,7 +475,7 @@ public final class AdempierePLAF
 		log.config(plaf	+ (theme == null ? "" : (" - " + theme)));
 
 		//	  Look & Feel
-		Class lafClass = null;
+		Class<?> lafClass = null;
 		try {
 			lafClass = Class.forName(plaf.getValue());
 		}
@@ -484,7 +508,7 @@ public final class AdempierePLAF
 		{
 			try
 			{
-				Class c = Class.forName(theme.getValue());
+				Class<?> c = Class.forName(theme.getValue());
 				MetalTheme t = (MetalTheme)c.newInstance();
 				if (compiere)
 					CompiereLookAndFeel.setCurrentTheme(t);
@@ -661,7 +685,7 @@ public final class AdempierePLAF
 
 		String className = args[0];
 		//  find class
-		Class startClass = null;
+		Class<?> startClass = null;
 		try
 		{
 			startClass = Class.forName(className);
