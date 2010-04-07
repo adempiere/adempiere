@@ -1165,6 +1165,10 @@ public class MCostDetail extends X_M_CostDetail
 			log.warning("Unknown Type: " + toString());
 			return false;
 		}
+		setCurrentCostPrice(cost.getCurrentCostPrice());
+		setCurrentQty(cost.getCurrentQty());
+		setCumulatedAmt(cost.getCumulatedAmt());
+		setCumulatedQty(cost.getCumulatedQty());
 		return cost.save();
 	}	//	process
 	

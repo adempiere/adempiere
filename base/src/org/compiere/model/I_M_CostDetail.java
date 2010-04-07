@@ -151,6 +151,58 @@ public interface I_M_CostDetail
 	  */
 	public int getCreatedBy();
 
+    /** Column name CumulatedAmt */
+    public static final String COLUMNNAME_CumulatedAmt = "CumulatedAmt";
+
+	/** Set Accumulated Amt.
+	  * Total Amount
+	  */
+	public void setCumulatedAmt (BigDecimal CumulatedAmt);
+
+	/** Get Accumulated Amt.
+	  * Total Amount
+	  */
+	public BigDecimal getCumulatedAmt();
+
+    /** Column name CumulatedQty */
+    public static final String COLUMNNAME_CumulatedQty = "CumulatedQty";
+
+	/** Set Accumulated Qty.
+	  * Total Quantity
+	  */
+	public void setCumulatedQty (BigDecimal CumulatedQty);
+
+	/** Get Accumulated Qty.
+	  * Total Quantity
+	  */
+	public BigDecimal getCumulatedQty();
+
+    /** Column name CurrentCostPrice */
+    public static final String COLUMNNAME_CurrentCostPrice = "CurrentCostPrice";
+
+	/** Set Current Cost Price.
+	  * The currently used cost price
+	  */
+	public void setCurrentCostPrice (BigDecimal CurrentCostPrice);
+
+	/** Get Current Cost Price.
+	  * The currently used cost price
+	  */
+	public BigDecimal getCurrentCostPrice();
+
+    /** Column name CurrentQty */
+    public static final String COLUMNNAME_CurrentQty = "CurrentQty";
+
+	/** Set Current Quantity.
+	  * Current Quantity
+	  */
+	public void setCurrentQty (BigDecimal CurrentQty);
+
+	/** Get Current Quantity.
+	  * Current Quantity
+	  */
+	public BigDecimal getCurrentQty();
+
     /** Column name DeltaAmt */
     public static final String COLUMNNAME_DeltaAmt = "DeltaAmt";
 
