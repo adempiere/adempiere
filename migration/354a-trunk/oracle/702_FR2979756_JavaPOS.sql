@@ -150,8 +150,9 @@ UPDATE AD_Process SET Classname='org.compiere.process.PosKeyGenerate',Updated=TO
 
 -- Mar 24, 2010 11:02:09 AM EST
 -- Java POS improvements
-INSERT INTO AD_Message (AD_Client_ID,AD_Message_ID,AD_Org_ID,Created,CreatedBy,EntityType,IsActive,MsgText,MsgTip,MsgType,Updated,UpdatedBy,Value) VALUES (0,52072,0,TO_DATE('2008-03-26 13:20:02','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Subtotal',NULL,'I',TO_DATE('2008-03-26 13:20:02','YYYY-MM-DD HH24:MI:SS'),100,'SubTotal')
-;
+-- NOT USED ANYWHERE AND CAUSING SQL Errors
+--INSERT INTO AD_Message (AD_Client_ID,AD_Message_ID,AD_Org_ID,Created,CreatedBy,EntityType,IsActive,MsgText,MsgTip,MsgType,Updated,UpdatedBy,Value) VALUES (0,52072,0,TO_DATE('2008-03-26 13:20:02','YYYY-MM-DD HH24:MI:SS'),100,'D','Y','Subtotal',NULL,'I',TO_DATE('2008-03-26 13:20:02','YYYY-MM-DD HH24:MI:SS'),100,'SubTotal')
+--;
 
 -- Mar 24, 2010 11:03:05 AM EST
 -- Java POS improvements

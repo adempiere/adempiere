@@ -340,8 +340,9 @@ ALTER TABLE C_POSKeyLayout ADD COLUMN AD_PrintFont_ID NUMERIC(10) DEFAULT NULL
 
 -- Mar 21, 2010 7:40:14 PM EST
 -- Java POS enhancements
-INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,2210,0,'AutoLogoutTime',TO_TIMESTAMP('2003-10-07 15:10:01','YYYY-MM-DD HH24:MI:SS'),0,'Automatic logout if inactive for this many seconds.','D','Automatic logout disabled if zero.','Y','Auto Logout time','Auto Logout time',TO_TIMESTAMP('2000-01-02 00:00:00','YYYY-MM-DD HH24:MI:SS'),0)
-;
+-- NOT USED ANYWHERE AND CAUSING SQL Errors
+--INSERT INTO AD_Element (AD_Client_ID,AD_Element_ID,AD_Org_ID,ColumnName,Created,CreatedBy,Description,EntityType,Help,IsActive,Name,PrintName,Updated,UpdatedBy) VALUES (0,2210,0,'AutoLogoutTime',TO_TIMESTAMP('2003-10-07 15:10:01','YYYY-MM-DD HH24:MI:SS'),0,'Automatic logout if inactive for this many seconds.','D','Automatic logout disabled if zero.','Y','Auto Logout time','Auto Logout time',TO_TIMESTAMP('2000-01-02 00:00:00','YYYY-MM-DD HH24:MI:SS'),0)
+--;
 
 -- Mar 21, 2010 7:42:33 PM EST
 -- Java POS enhancements
