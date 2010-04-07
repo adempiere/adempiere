@@ -649,7 +649,7 @@ public class MMatchPO extends X_M_MatchPO
 		{
 			MOrderLine orderLine = getOrderLine();
 			//
-			if (m_isInOutLineChange)
+			if (m_isInOutLineChange && (newRecord || getM_InOutLine_ID() != get_ValueOldAsInt("M_InOutLine_ID")))
 			{
 				if (getM_InOutLine_ID() != 0)							//	new delivery
 					orderLine.setQtyDelivered(orderLine.getQtyDelivered().add(getQty()));
@@ -657,7 +657,7 @@ public class MMatchPO extends X_M_MatchPO
 					orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(getQty()));
 				orderLine.setDateDelivered(getDateTrx());	//	overwrite=last
 			}
-			if (m_isInvoiceLineChange)
+			if (m_isInvoiceLineChange && (newRecord || getC_InvoiceLine_ID() != get_ValueOldAsInt("C_InvoiceLine_ID")))
 			{
 				if (getC_InvoiceLine_ID() != 0)						//	first time
 					orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(getQty()));
