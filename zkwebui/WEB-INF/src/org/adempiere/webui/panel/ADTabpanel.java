@@ -228,6 +228,7 @@ DataStatusListener, IADTabpanel, VetoableChangeListener
         this.appendChild(listPanel);
         listPanel.setVisible(false);
         listPanel.setWindowNo(windowNo);
+        listPanel.setADWindowPanel(winPanel);
 
         gridTab.getTableModel().addVetoableChangeListener(this);
     }

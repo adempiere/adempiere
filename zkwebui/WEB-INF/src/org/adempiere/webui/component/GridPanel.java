@@ -20,6 +20,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.editor.WEditor;
+import org.adempiere.webui.panel.AbstractADWindowPanel;
 import org.adempiere.webui.util.SortComparator;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
@@ -52,9 +53,9 @@ import org.zkoss.zul.event.ZulEvents;
 public class GridPanel extends Borderlayout implements EventListener
 {
 	/**
-	 * 
+	 * generated serial version ID
 	 */
-	private static final long serialVersionUID = -8735897196875342427L;
+	private static final long serialVersionUID = -7151423393713654553L;
 
 	private static final int MIN_COLUMN_WIDTH = 100;
 
@@ -90,6 +91,8 @@ public class GridPanel extends Borderlayout implements EventListener
 	private boolean modeless;
 
 	private String columnOnClick;
+
+	private AbstractADWindowPanel windowPanel;
 
 	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
 
@@ -328,6 +331,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			renderer.stopEditing(false);
 		renderer = new GridTabRowRenderer(gridTab, windowNo);
 		renderer.setGridPanel(this);
+		renderer.setADWindowPanel(windowPanel);
 
 		listbox.setRowRenderer(renderer);
 		listbox.setModel(listModel);
@@ -608,6 +612,9 @@ public class GridPanel extends Borderlayout implements EventListener
 		return false;
 	}
 
+	/**
+	 * @param columnName
+	 */
 	public void setFocusToField(String columnName) {
 		boolean found = false;
 		for (WEditor editor : renderer.getEditors()) {
@@ -619,5 +626,14 @@ public class GridPanel extends Borderlayout implements EventListener
 				found = true;
 			}
 		}
+	}
+
+	/**
+	 * @param winPanel
+	 */
+	public void setADWindowPanel(AbstractADWindowPanel winPanel) {
+		windowPanel = winPanel;
+		if (renderer != null)
+			renderer.setADWindowPanel(windowPanel);
 	}
 }

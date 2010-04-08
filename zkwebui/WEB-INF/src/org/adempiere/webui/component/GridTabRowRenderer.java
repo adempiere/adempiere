@@ -79,6 +79,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 	private Object[] currentValues;
 	private boolean editing = false;
 	private int currentRowIndex = -1;
+	private AbstractADWindowPanel m_windowPanel;
 
 	/**
 	 *
@@ -96,12 +97,19 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		if (editor != null)  {
 			if (editor instanceof WButtonEditor)
             {
-				Object window = SessionManager.getAppDesktop().findWindow(windowNo);
-            	if (window != null && window instanceof ADWindow)
-            	{
-            		AbstractADWindowPanel windowPanel = ((ADWindow)window).getADWindowPanel();
-            		((WButtonEditor)editor).addActionListener(windowPanel);
-            	}
+				if (m_windowPanel != null)
+				{
+					((WButtonEditor)editor).addActionListener(m_windowPanel);	
+				}
+				else
+				{
+					Object window = SessionManager.getAppDesktop().findWindow(windowNo);
+	            	if (window != null && window instanceof ADWindow)
+	            	{
+	            		AbstractADWindowPanel windowPanel = ((ADWindow)window).getADWindowPanel();
+	            		((WButtonEditor)editor).addActionListener(windowPanel);
+	            	}
+				}
             }
 			else
 			{
@@ -150,8 +158,6 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		}
 		else if (gridField.isLookup())
     	{
-			if (value == null) return "";
-
 			if (lookupCache != null)
 			{
 				Map<Object, String> cache = lookupCache.get(gridField.getColumnName());
@@ -583,7 +589,17 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		}
 	}
 
+	/**
+	 * @return boolean
+	 */
 	public boolean isEditing() {
 		return editing;
+	}
+
+	/**
+	 * @param windowPanel
+	 */
+	public void setADWindowPanel(AbstractADWindowPanel windowPanel) {
+		this.m_windowPanel = windowPanel;
 	}
 }
