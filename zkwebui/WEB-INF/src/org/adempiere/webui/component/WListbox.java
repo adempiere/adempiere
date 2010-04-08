@@ -118,6 +118,14 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	    {
 	    	getModel().setNoColumns(columnNames.size());
 	    	this.setItemRenderer(rowRenderer);
+
+	    	//recreate listhead if needed
+		    ListHead head = super.getListHead();
+		    if (head != null)
+		    {
+		    	head.getChildren().clear();
+		    	rowRenderer.renderListHead(head);
+	    	}
 	    }
 
 	    // re-render
@@ -157,8 +165,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 
 	    head = new ListHead();
 
-	    // recreate the list head
-	    // TODO use reflection to check whether ItemRenderer is able to render ListHead
+	    // render list head
 	    if (this.getItemRenderer() instanceof WListItemRenderer)
 	    {
 	    	((WListItemRenderer)this.getItemRenderer()).renderListHead(head);
