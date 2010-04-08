@@ -23,7 +23,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Vector;
 import java.util.logging.Level;
 
 import org.compiere.acct.Doc;
@@ -43,6 +42,7 @@ import org.compiere.model.MJournalBatch;
 import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
+import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.util.CLogger;
@@ -320,6 +320,7 @@ public class DocumentEngine implements DocAction
 					
 					if (m_document instanceof PO && docsPostProcess.size() > 0) {
 						for (PO docafter : docsPostProcess) {
+							@SuppressWarnings("unused")
 							String ignoreError = DocumentEngine.postImmediate(docafter.getCtx(), docafter.getAD_Client_ID(), docafter.get_Table_ID(), docafter.get_ID(), true, docafter.get_TrxName());
 						}
 					}
@@ -1195,51 +1196,9 @@ public class DocumentEngine implements DocAction
 	 * @return number of valid actions in the String[] options
 	 */
 	public static int checkActionAccess(int clientId, int roleId, int docTypeId, String[] options, int maxIndex) {
-		if (maxIndex <= 0)
-			return maxIndex;
-		//
-		final Vector<String> validOptions = new Vector<String>();
-		StringBuffer sql_values = new StringBuffer();
-		for (int i = 0; i < maxIndex; i++) {
-			if (sql_values.length() > 0)
-				sql_values.append(",");
-			sql_values.append("?");
-		}
-		String sql = "SELECT rl.Value FROM AD_Document_Action_Access a"
-				+ " INNER JOIN AD_Ref_List rl ON (rl.AD_Reference_ID=135 and rl.AD_Ref_List_ID=a.AD_Ref_List_ID)"
-				+ " WHERE a.IsActive='Y' AND a.AD_Client_ID=? AND a.C_DocType_ID=? AND a.AD_Role_ID=?" // #1,2,3
-					+ " AND rl.Value IN ("+sql_values.toString()+")"; // #4...
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			int para_idx = 1; 
-			pstmt.setInt(para_idx++, clientId);
-			pstmt.setInt(para_idx++, docTypeId);
-			pstmt.setInt(para_idx++, roleId);
-			for (int i = 0; i < maxIndex; i++) {
-				pstmt.setString(para_idx++, options[i]);
-			}
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				String op = rs.getString(1);
-				validOptions.add(op);
-			}
-			validOptions.toArray(options);
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		return validOptions.size();
+		return MRole.get(Env.getCtx(), roleId).checkActionAccess(clientId, docTypeId, options, maxIndex);
 	}
-
+	
 	/**
 	 *  Post Immediate
 	 *

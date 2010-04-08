@@ -34,7 +34,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -45,6 +44,7 @@ import org.compiere.db.CConnection;
 import org.compiere.db.CConnectionEditor;
 import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MSystem;
 import org.compiere.model.MUser;
 import org.compiere.print.CPrinter;
@@ -76,8 +76,7 @@ public final class ALogin extends CDialog
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7789299589024390163L;
-
+	private static final long serialVersionUID = -3057525535969948097L;
 
 	/**
 	 *	Construct the dialog.
@@ -150,8 +149,8 @@ public final class ALogin extends CDialog
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true, false, false, false, false, false, false);
 	//private OnlineHelp onlineHelp = new OnlineHelp(true);
 	//private CPanel helpPanel = new CPanel();
-	private JScrollPane helpScollPane = new JScrollPane();
-	private BorderLayout helpLayout = new BorderLayout();
+	// private JScrollPane helpScrollPane = new JScrollPane();
+	// private BorderLayout helpLayout = new BorderLayout();
 
 	/** Server Connection       */
 	private CConnection 	m_cc;
@@ -693,6 +692,19 @@ public final class ALogin extends CDialog
 		}
 		if (iniValue != null)
 			roleCombo.setSelectedItem(iniValue);
+		
+		// If we have only one role, we can hide the combobox - metas-2009_0021_AP1_G94
+		if (roleCombo.getItemCount() == 1 && ! MSysConfig.getBooleanValue("ALogin_ShowOneRole", true))
+		{
+			roleCombo.setSelectedIndex(0);
+			roleLabel.setVisible(false);
+			roleCombo.setVisible(false);
+		}
+		else
+		{
+			roleLabel.setVisible(true);
+			roleCombo.setVisible(true);
+		}
 
 		userTextField.setBackground(AdempierePLAF.getFieldBackground_Normal());
 		passwordField.setBackground(AdempierePLAF.getFieldBackground_Normal());

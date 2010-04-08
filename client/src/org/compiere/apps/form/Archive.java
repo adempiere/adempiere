@@ -43,7 +43,8 @@ public class Archive {
 	public KeyNamePair[] getProcessData()
 	{
 		// Processes
-		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
+		final MRole role = MRole.getDefault(); // metas
+//		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
 		
 		boolean trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Process");
 		String lang = Env.getAD_Language(Env.getCtx());
@@ -52,7 +53,7 @@ public class Archive {
 				+ (trl ? "trl.Name" : "p.Name ")
 			+ " FROM AD_Process p INNER JOIN AD_Process_Access pa ON (p.AD_Process_ID=pa.AD_Process_ID) "
 			+ (trl ? "LEFT JOIN AD_Process_Trl trl on (trl.AD_Process_ID=p.AD_Process_ID and trl.AD_Language=" + DB.TO_STRING(lang) + ")" : "") 
-			+ " WHERE pa.AD_Role_ID=" + AD_Role_ID
+			+ " WHERE "+role.getIncludedRolesWhereClause("pa.AD_Role_ID", null) // metas: use included roles
 			+ " AND p.IsReport='Y' AND p.IsActive='Y' AND pa.IsActive='Y' "
 			+ "ORDER BY 2"; 
 		return DB.getKeyNamePairs(sql, true);
@@ -61,7 +62,8 @@ public class Archive {
 	public KeyNamePair[] getTableData()
 	{
 		//	Tables
-		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
+		final MRole role = MRole.getDefault(); // metas
+//		int AD_Role_ID = Env.getAD_Role_ID(Env.getCtx());
 		boolean trl = !Env.isBaseLanguage(Env.getCtx(), "AD_Table");
 		String lang = Env.getAD_Language(Env.getCtx());
 		String sql = "SELECT DISTINCT t.AD_Table_ID,"
@@ -69,7 +71,7 @@ public class Archive {
 			+ " FROM AD_Table t INNER JOIN AD_Tab tab ON (tab.AD_Table_ID=t.AD_Table_ID)"
 			+ " INNER JOIN AD_Window_Access wa ON (tab.AD_Window_ID=wa.AD_Window_ID) "
 			+ (trl ? "LEFT JOIN AD_Table_Trl trl on (trl.AD_Table_ID=t.AD_Table_ID and trl.AD_Language=" + DB.TO_STRING(lang) + ")" : "") 
-			+ " WHERE wa.AD_Role_ID=" + AD_Role_ID
+			+ " WHERE "+role.getIncludedRolesWhereClause("wa.AD_Role_ID", null) // metas
 			+ " AND t.IsActive='Y' AND tab.IsActive='Y' "
 			+ "ORDER BY 2";
 		return DB.getKeyNamePairs(sql, true);
@@ -192,18 +194,24 @@ public class Archive {
 		
 		log.fine(sql.toString());
 		
+		//metas: Bugfix zu included_Role
 		//	Process Access
 		sql.append(" AND (AD_Process_ID IS NULL OR AD_Process_ID IN "
 			+ "(SELECT AD_Process_ID FROM AD_Process_Access WHERE AD_Role_ID=")
-			.append(role.getAD_Role_ID()).append("))");
+			.append(role.getAD_Role_ID())
+			.append(" OR ").append(role.getIncludedRolesWhereClause("AD_Role_ID", null))
+			.append("))");
 		//	Table Access
 		sql.append(" AND (AD_Table_ID IS NULL "
 			+ "OR (AD_Table_ID IS NOT NULL AND AD_Process_ID IS NOT NULL) "	//	Menu Reports 
 			+ "OR AD_Table_ID IN "
 			+ "(SELECT t.AD_Table_ID FROM AD_Tab t"
 			+ " INNER JOIN AD_Window_Access wa ON (t.AD_Window_ID=wa.AD_Window_ID) "
-			+ "WHERE wa.AD_Role_ID=").append(role.getAD_Role_ID()).append("))");
+			+ "WHERE wa.AD_Role_ID=").append(role.getAD_Role_ID())
+			.append(" OR ").append(role.getIncludedRolesWhereClause("wa.AD_Role_ID", null))
+			.append("))");
 		log.finest(sql.toString());
+		//metas: Bugfix zu included_Role ende
 		//
 		m_archives = MArchive.get(Env.getCtx(), sql.toString());
 		log.info("Length=" + m_archives.length);

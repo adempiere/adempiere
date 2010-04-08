@@ -37,6 +37,11 @@ import org.compiere.util.Env;
 public class GridWindowVO implements Serializable
 {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6884332743173214735L;
+
+	/**
 	 *  Create Window Value Object
 	 *  @param ctx context
 	 *  @param WindowNo window no for ctx
@@ -105,23 +110,16 @@ public class GridWindowVO implements Serializable
 		//  --  Get Window
 
 		StringBuffer sql = new StringBuffer("SELECT Name,Description,Help,WindowType, "
-			+ "AD_Color_ID,AD_Image_ID, a.IsReadWrite, WinHeight,WinWidth, "
+			+ "AD_Color_ID,AD_Image_ID,WinHeight,WinWidth, "
 			+ "IsSOTrx ");
 
 		if (Env.isBaseLanguage(vo.ctx, "AD_Window"))
-			sql.append("FROM AD_Window w, AD_Window_Access a "
-				+ "WHERE w.AD_Window_ID=?"
-				+ " AND w.AD_Window_ID=a.AD_Window_ID AND a.AD_Role_ID=?"
-				+ " AND w.IsActive='Y' AND a.IsActive='Y'");
+			sql.append("FROM AD_Window w WHERE w.AD_Window_ID=? AND w.IsActive='Y'");
 		else
-			sql.append("FROM AD_Window_vt w, AD_Window_Access a "
-				+ "WHERE w.AD_Window_ID=?"
-				+ " AND w.AD_Window_ID=a.AD_Window_ID AND a.AD_Role_ID=?"
-				+ " AND a.IsActive='Y'")
+			sql.append("FROM AD_Window_vt w WHERE w.AD_Window_ID=?")
 				.append(" AND AD_Language='")
 				.append(Env.getAD_Language(vo.ctx)).append("'");
 
-		int AD_Role_ID = Env.getContextAsInt(vo.ctx, "#AD_Role_ID");
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -129,7 +127,6 @@ public class GridWindowVO implements Serializable
 			//	create statement
 			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, vo.AD_Window_ID);
-			pstmt.setInt(2, AD_Role_ID);
 			// 	get data
 			rs = pstmt.executeQuery();
 			if (rs.next())
@@ -145,12 +142,12 @@ public class GridWindowVO implements Serializable
 				//
 				vo.AD_Color_ID = rs.getInt(5);
 				vo.AD_Image_ID = rs.getInt(6);
-				vo.IsReadWrite = rs.getString(7);
+				//vo.IsReadWrite = rs.getString(7);
 				//
-				vo.WinHeight = rs.getInt(8);
-				vo.WinWidth = rs.getInt(9);
+				vo.WinHeight = rs.getInt(7);
+				vo.WinWidth = rs.getInt(8);
 				//
-				vo.IsSOTrx = "Y".equals(rs.getString(10));
+				vo.IsSOTrx = "Y".equals(rs.getString(9));
 			}
 			else
 				vo = null;
@@ -167,12 +164,15 @@ public class GridWindowVO implements Serializable
 		}
 		// Ensure ASP exceptions
 		MRole role = MRole.getDefault(ctx, false);
-		if (vo != null && role.getWindowAccess(vo.AD_Window_ID) == null)
+		final Boolean windowAccess = role.getWindowAccess(vo.AD_Window_ID);
+		if (vo != null && windowAccess == null)
 			vo = null;		//	Not found
+		if (vo != null && windowAccess != null)
+			vo.IsReadWrite = (windowAccess.booleanValue() ? "Y" : "N");
 		if (vo == null)
 		{
 			CLogger.get().log(Level.SEVERE, "No Window - AD_Window_ID=" + AD_Window_ID
-				+ ", AD_Role_ID=" + AD_Role_ID + " - " + sql);
+				+ ", AD_Role_ID=" + role + " - " + sql);
 			CLogger.get().saveError("AccessTableNoView", "(Not found)");
 			return null;
 		}
@@ -266,8 +266,6 @@ public class GridWindowVO implements Serializable
 		ctx = Ctx;
 		WindowNo = windowNo;
 	}   //  MWindowVO
-
-	static final long serialVersionUID = 3802628212531678981L;
 
 	/** Properties      */
 	public Properties   ctx;

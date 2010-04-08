@@ -38,8 +38,8 @@ import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
-import org.compiere.db.CConnection;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -70,10 +70,10 @@ import org.zkoss.zul.Image;
  */
 public class RolePanel extends Window implements EventListener, Deferrable
 {
-    /**
-	 *
+	/**
+	 * 
 	 */
-	private static final long serialVersionUID = 2808473294679524383L;
+	private static final long serialVersionUID = -2210467236654772389L;
 
 	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
 
@@ -261,6 +261,20 @@ public class RolePanel extends Window implements EventListener, Deferrable
         if (lstRole.getSelectedIndex() == -1 && lstRole.getItemCount() > 0)
         	lstRole.setSelectedIndex(0);
         //
+        
+		// If we have only one role, we can hide the combobox - metas-2009_0021_AP1_G94
+		if (lstRole.getItemCount() == 1 && ! MSysConfig.getBooleanValue("ALogin_ShowOneRole", true))
+		{
+			lstRole.setSelectedIndex(0);
+			lblRole.setVisible(false);
+			lstRole.setVisible(false);
+		}
+		else
+		{
+			lblRole.setVisible(true);
+			lstRole.setVisible(true);
+		}
+        
         updateClientList();
     }
 
