@@ -13,16 +13,11 @@
  *****************************************************************************/
 package org.compiere.pos;
 
-import java.awt.Cursor;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.model.MBPartner;
-import org.compiere.model.MCash;
-import org.compiere.model.MCashBook;
-import org.compiere.model.MCashLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrderTax;
@@ -31,7 +26,6 @@ import org.compiere.model.MPayment;
 import org.compiere.model.MPaymentProcessor;
 import org.compiere.model.MProduct;
 import org.compiere.process.DocAction;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.ValueNamePair;
@@ -90,7 +84,7 @@ public class PosOrderModel extends MOrder {
 	/**
 	 * @author Comunidad de Desarrollo OpenXpertya 
 	 *         *Basado en Codigo Original Modificado, Revisado y Optimizado de:
-	 *         *Copyright � ConSerTi
+	 *         *Copyright ConSerTi
 	 */
 	public void setBPartner(MBPartner partner)
 	{
