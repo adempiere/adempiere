@@ -17,7 +17,9 @@
 package org.compiere.print.layout;
 
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.Properties;
 
 import net.sourceforge.barbecue.Barcode;
@@ -64,6 +66,7 @@ public class BarcodeElement extends PrintElement
 	private Barcode		m_barcode = null;
 	/**  Allow this field to overflow over next fields */// teo_sarca, [ 1673590 ]
 	private boolean m_allowOverflow = true;
+	private float m_scaleFactor = 1;
 
 	/**
 	 * 	Create Barcode
@@ -147,15 +150,6 @@ public class BarcodeElement extends PrintElement
 				if (mFont != null)
 					m_barcode.setFont(mFont.getFont());
 			}
-			if (item.getMaxWidth() > 0)
-				m_barcode.setBarWidth(item.getMaxWidth());
-			if (item.getMaxHeight() > 0)
-				m_barcode.setBarHeight(item.getMaxHeight());
-		//	m_barcode.setResolution(72);
-			//
-			p_width = m_barcode.getWidth();
-			p_height = m_barcode.getHeight();
-			log.fine(type + " height=" + p_height + ", width=" + p_width);
 		}
 	}	//	createBarcode
 	
@@ -184,8 +178,34 @@ public class BarcodeElement extends PrintElement
 	 */
 	protected boolean calculateSize ()
 	{
+		p_width = 0;
+		p_height = 0;
+		if (m_barcode == null)
+			return true;
+
+		p_width = m_barcode.getWidth();
+		p_height = m_barcode.getHeight();
+
+		if (p_width * p_height == 0)
+			return true;	//	don't bother scaling and prevent div by 0
+
+		m_scaleFactor = 1f;
+		if (p_maxWidth != 0 && p_width > p_maxWidth)
+			m_scaleFactor = p_maxWidth / p_width;
+		if (p_maxHeight != 0 && p_height > p_maxHeight && p_maxHeight/p_height < m_scaleFactor)
+			m_scaleFactor = p_maxHeight / p_height;
+
+		p_width = (float) m_scaleFactor * p_width;
+		p_height = (float) m_scaleFactor * p_height;
+
 		return true;
 	}	//	calculateSize
+
+	public float getScaleFactor() {
+		if (!p_sizeCalculated)
+			p_sizeCalculated = calculateSize();
+		return m_scaleFactor;
+	}
 
 	/**
 	 * @author teo_sarca - [ 1673590 ] report table - barcode overflows over next fields
@@ -219,9 +239,23 @@ public class BarcodeElement extends PrintElement
 		int y = (int)location.y;
 
 		try {
-			m_barcode.draw(g2D, x, y);
+			
+			int w = m_barcode.getWidth();
+			int h = m_barcode.getHeight();
+			
+			// draw barcode to buffer
+			BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+			Graphics2D temp = (Graphics2D) image.getGraphics();
+			m_barcode.draw(temp, 0, 0);
+			
+			// scale barcode and paint
+			AffineTransform transform = new AffineTransform();
+			transform.translate(x,y);
+			transform.scale(m_scaleFactor, m_scaleFactor);
+			g2D.drawImage(image, transform, this);
+
 		} catch (OutputException e) {
-		}
+		} 
 	}	//	paint
 	
 	/**

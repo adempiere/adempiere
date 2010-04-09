@@ -1729,10 +1729,14 @@ public class LayoutEngine implements Pageable, Printable, Doc
 							else
 								value = o.toString();
 							BarcodeElement element = new BarcodeElement (value, item);
-							
+
 							if (element.isValid())
 								data[row][col] = element;
 						}
+						
+						if (data[row][col] != null)
+							((BarcodeElement)data[row][col]).layout(item.getMaxWidth(), item.getMaxHeight(), false, item.getFieldAlignmentType());
+					
 					}
 					else if (item.isTypeText() )
 					{
