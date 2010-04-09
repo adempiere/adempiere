@@ -111,7 +111,7 @@ public class MProcess extends X_AD_Process
 	}	//	MProcess
 
 	/**
-	 * 	Load Contsructor
+	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param rs result set
 	 *	@param trxName transaction name
