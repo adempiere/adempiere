@@ -36,6 +36,8 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
+ * 	@author red1
+ * 			<li>BF [ 2982994 ]  Internal Use Inventory does not reverse Accts
  *  @version  $Id: Doc_Inventory.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
  */
 public class Doc_Inventory extends Doc
@@ -175,7 +177,16 @@ public class Doc_Inventory extends Doc
 			
 			//  InventoryDiff   DR      CR
 			//	or Charge
-			MAccount invDiff = line.getChargeAccount(as, costs.negate());
+			MAccount invDiff = null;
+			if (m_DocStatus.equals(MInventory.DOCSTATUS_Reversed)
+					&& m_Reversal_ID != 0
+					&& line.getReversalLine_ID() != 0
+					&& line.getC_Charge_ID() != 0) {
+				invDiff = line.getChargeAccount(as, costs);
+			} else {
+				invDiff = line.getChargeAccount(as, costs.negate());
+			}
+
 			if (invDiff == null)
 				invDiff = getAccount(Doc.ACCTTYPE_InvDifferences, as);
 			cr = fact.createLine(line, invDiff,
@@ -186,6 +197,7 @@ public class Doc_Inventory extends Doc
 			cr.setQty(line.getQty().negate());
 			if (line.getC_Charge_ID() != 0)	//	explicit overwrite for charge
 				cr.setAD_Org_ID(line.getAD_Org_ID());
+
 			if (m_DocStatus.equals(MInventory.DOCSTATUS_Reversed) && m_Reversal_ID !=0 && line.getReversalLine_ID() != 0)
 			{
 				//	Set AmtAcctCr from Original Phys.Inventory

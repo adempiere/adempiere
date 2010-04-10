@@ -51,6 +51,7 @@ public class CalloutBankStatement extends CalloutEngine
 			return "";
 		int C_BankAccount_ID = ((Integer)value).intValue();
 		MBankAccount ba = MBankAccount.get(ctx, C_BankAccount_ID);
+		ba.load(ba.get_TrxName());
 		mTab.setValue("BeginningBalance", ba.getCurrentBalance());
 		return "";
 	}	//	bankAccount

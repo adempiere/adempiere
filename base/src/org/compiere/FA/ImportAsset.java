@@ -174,7 +174,7 @@ public class ImportAsset extends SvrProcess
 
 			//	Update Assets from Import
 				StringBuffer sqlB = new StringBuffer ("UPDATE A_Asset "
-				+ "SET( A_Asset_ID,"
+				+ "SET (A_Asset_ID,"
 				+ "AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,"
 				+ "Value,Name,Description,Help,"
 				+ "A_Asset_Group_ID,M_Product_ID,SerNo,LOT,VersionNo,GuaranteeDate,"

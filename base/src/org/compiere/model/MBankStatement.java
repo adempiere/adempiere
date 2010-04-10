@@ -236,9 +236,10 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if (getBeginningBalance().compareTo(Env.ZERO) == 0)
+		if (! isProcessed() && getBeginningBalance().compareTo(Env.ZERO) == 0)
 		{
 			MBankAccount ba = getBankAccount();
+			ba.load(get_TrxName());
 			setBeginningBalance(ba.getCurrentBalance());
 		}
 		setEndingBalance(getBeginningBalance().add(getStatementDifference()));
@@ -391,6 +392,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		}
 		//	Update Bank Account
 		MBankAccount ba = getBankAccount();
+		ba.load(get_TrxName());
 		//BF 1933645
 		ba.setCurrentBalance(ba.getCurrentBalance().add(getStatementDifference()));
 		ba.save(get_TrxName());
@@ -446,6 +448,7 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		//Added Lines by AZ Goodwill
 		//Restore Bank Account Balance
 		MBankAccount ba = getBankAccount();
+		ba.load(get_TrxName());
 		ba.setCurrentBalance(ba.getCurrentBalance().subtract(getStatementDifference()));
 		ba.saveEx();
 		//End of Added Lines
