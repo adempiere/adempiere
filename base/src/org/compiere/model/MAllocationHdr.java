@@ -735,6 +735,8 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 
 		//	Set Inactive
 		setIsActive (false);
+		if ( !isPosted() )
+			setPosted(true);
 		setDocumentNo(getDocumentNo()+"^");
 		setDocStatus(DOCSTATUS_Reversed);	//	for direct calls
 		if (!save() || isActive())
