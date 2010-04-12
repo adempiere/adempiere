@@ -855,6 +855,9 @@ public class GridTable extends AbstractTableModel
 	public void sort (int col, boolean ascending)
 	{
 		log.info("#" + col + " " + ascending);
+		if (col < 0) {
+			return;
+		}
 		if (getRowCount() == 0)
 			return;
 
