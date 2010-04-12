@@ -50,9 +50,6 @@ import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Copies;
 import javax.print.attribute.standard.JobName;
-import javax.print.attribute.standard.MediaPrintableArea;
-import javax.print.attribute.standard.MediaSize;
-import javax.print.attribute.standard.MediaSizeName;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -61,7 +58,6 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperPrintManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
 import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
@@ -73,15 +69,12 @@ import org.compiere.db.CConnection;
 import org.compiere.interfaces.MD5;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MAttachmentEntry;
-import org.compiere.model.MBPartner;
 import org.compiere.model.MProcess;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_AD_PInstance_Para;
 import org.compiere.print.MPrintFormat;
-import org.compiere.print.MPrintPaper;
 import org.compiere.print.PrintUtil;
 import org.compiere.print.ReportCtl;
-import org.compiere.print.layout.LayoutEngine;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
@@ -97,7 +90,7 @@ import org.compiere.utils.DigestOfFile;
 
 /**
  * @author rlemeill
- * originaly coming from an application note from compiere.co.uk
+ * Originally coming from an application note from compiere.co.uk
  * ---
  * Modifications: Allow Jasper Reports to be able to be run on VPN profile (i.e: no direct connection to DB).
  *                Implemented ClientProcess for it to run on client.
