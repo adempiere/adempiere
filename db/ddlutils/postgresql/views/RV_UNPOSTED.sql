@@ -52,13 +52,13 @@ as
     WHERE Posted <> 'Y' AND DocStatus <> 'VO'
    UNION
    SELECT AD_Client_ID, AD_Org_ID, Created, CreatedBy, Updated, UpdatedBy,
-          IsActive, DocumentNo, DateTrx, DateTrx, 335, C_Payment_ID, 'N',
+          IsActive, DocumentNo, DateTrx, DateAcct, 335, C_Payment_ID, 'N',
           posted, processing, processed, docstatus, processedon
      from C_PAYMENT
     WHERE Posted <> 'Y' AND DocStatus <> 'VO'
    UNION
    SELECT AD_Client_ID, AD_Org_ID, Created, CreatedBy, Updated, UpdatedBy,
-          IsActive, DocumentNo, DateTrx, DateTrx, 735, C_AllocationHdr_ID,
+          IsActive, DocumentNo, DateTrx, DateAcct, 735, C_AllocationHdr_ID,
           'N', posted, processing, processed, docstatus, processedon
      from C_ALLOCATIONHDR
     WHERE Posted <> 'Y' AND DocStatus <> 'VO'
@@ -70,13 +70,13 @@ as
     WHERE Posted <> 'Y' AND DocStatus <> 'VO'
    UNION
    SELECT AD_Client_ID, AD_Org_ID, Created, CreatedBy, Updated, UpdatedBy,
-          IsActive, DocumentNo, DateTrx, DateTrx, 472, M_MatchInv_ID, 'N',
+          IsActive, DocumentNo, DateTrx, DateAcct, 472, M_MatchInv_ID, 'N',
           posted, processing, processed, 'CO' as docstatus, processedon
      from M_MATCHINV
     WHERE Posted <> 'Y'                                  --AND DocStatus<>'VO'
    UNION
    SELECT AD_Client_ID, AD_Org_ID, Created, CreatedBy, Updated, UpdatedBy,
-          IsActive, DocumentNo, DateTrx, DateTrx, 473, M_MatchPO_ID, 'N',
+          IsActive, DocumentNo, DateTrx, DateAcct, 473, M_MatchPO_ID, 'N',
           posted, processing, processed, 'CO' as docstatus, processedon
      from M_MATCHPO
     WHERE Posted <> 'Y'                                  --AND DocStatus<>'VO'
