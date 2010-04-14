@@ -33,7 +33,7 @@ import org.compiere.util.TimeUtil;
  *	@version $Id: MTax.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
  * 	red1 - FR: [ 2214883 ] Remove SQL code and Replace for Query
  *  trifonnt - BF [2913276] - Allow only one Default Tax Rate per Tax Category
- *  mjmckay - BF [2948632] - Allow edits to the Defautl Tax Rate 
+ *  mjmckay - BF [2948632] - Allow edits to the Default Tax Rate 
  */
 public class MTax extends X_C_Tax
 {

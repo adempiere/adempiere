@@ -3271,7 +3271,7 @@ public abstract class PO
 	 * 	Insert Accounting Records
 	 *	@param acctTable accounting sub table
 	 *	@param acctBaseTable acct table to get data from
-	 *	@param whereClause optional where clause with alisa "p" for acctBaseTable
+	 *	@param whereClause optional where clause with alias "p" for acctBaseTable
 	 *	@return true if records inserted
 	 */
 	protected boolean insert_Accounting (String acctTable,
