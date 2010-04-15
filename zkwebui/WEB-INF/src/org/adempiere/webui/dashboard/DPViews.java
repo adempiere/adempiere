@@ -54,6 +54,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoProduct");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoProduct"));
+			btnViewItem.setImage("/images/InfoProduct16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -61,6 +62,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoBPartner");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoBPartner"));
+			btnViewItem.setImage("/images/InfoBPartner16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -68,6 +70,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoAccount");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAccount"));
+			btnViewItem.setImage("/images/InfoAccount16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -75,6 +78,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoSchedule");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoSchedule"));
+			btnViewItem.setImage("/images/InfoSchedule16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -83,6 +87,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoOrder");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoOrder"));
+			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -90,6 +95,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoInvoice");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoInvoice"));
+			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -97,6 +103,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoInOut");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoInOut"));
+			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -104,6 +111,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoPayment");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoPayment"));
+			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -111,6 +119,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoCashLine");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoCashLine"));
+			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -118,6 +127,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoAssignment");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAssignment"));
+			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
@@ -125,6 +135,7 @@ public class DPViews extends DashboardPanel implements EventListener {
 		{
 			ToolBarButton btnViewItem = new ToolBarButton("InfoAsset");
 			btnViewItem.setLabel(Msg.getMsg(Env.getCtx(), "InfoAsset"));
+			btnViewItem.setImage("/images/Info16.png");
 			btnViewItem.addEventListener(Events.ON_CLICK, this);
 			vbox.appendChild(btnViewItem);
 		}
