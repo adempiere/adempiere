@@ -74,7 +74,7 @@ public class PAttributeInstance extends CDialog
 		super (parent, Msg.getMsg(Env.getCtx(), "PAttributeInstance") + title, true);
 		init (M_Warehouse_ID, M_Locator_ID, M_Product_ID, C_BPartner_ID);
 		AEnv.showCenterWindow(parent, this);
-	}	//	PAttributeInstance
+	}
 	
 	/**
 	 * 	Constructor
@@ -91,7 +91,7 @@ public class PAttributeInstance extends CDialog
 		super (parent, Msg.getMsg(Env.getCtx(), "PAttributeInstance") + title, true);
 		init (M_Warehouse_ID, M_Locator_ID, M_Product_ID, C_BPartner_ID);
 		AEnv.showCenterWindow(parent, this);
-	}	//	PAttributeInstance
+	}
 
 	/**
 	 * 	Initialization
@@ -117,7 +117,7 @@ public class PAttributeInstance extends CDialog
 		{
 			log.log(Level.SEVERE, "", e);
 		}
-	}	// init	
+	}
 
 	private CPanel mainPanel = new CPanel();
 	private BorderLayout mainLayout = new BorderLayout();
@@ -158,17 +158,19 @@ public class PAttributeInstance extends CDialog
 		//	South
 		mainPanel.add(confirmPanel, BorderLayout.SOUTH);
 		confirmPanel.addActionListener(this);
-	}	//	jbInit
+	}
 
 	/**	Table Column Layout Info			*/
 	private static ColumnInfo[] s_layout = new ColumnInfo[] 
 	{
-		new ColumnInfo(" ", "s.M_AttributeSetInstance_ID", IDColumn.class),
+		new ColumnInfo(" ", "asi.M_AttributeSetInstance_ID", IDColumn.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Description"), "asi.Description", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "Lot"), "asi.Lot", String.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "SerNo"), "asi.SerNo", String.class), 
 		new ColumnInfo(Msg.translate(Env.getCtx(), "GuaranteeDate"), "asi.GuaranteeDate", Timestamp.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "M_Locator_ID"), "l.Value", KeyNamePair.class, "s.M_Locator_ID"),
+//		new ColumnInfo(Msg.translate(Env.getCtx(), "M_Product_ID"), "p.Value", KeyNamePair.class, "p.M_Product_ID"), // @Trifon - Not sure if this need to be shown
+//		new ColumnInfo(Msg.translate(Env.getCtx(), "M_AttributeSet_ID"), "st.Name", KeyNamePair.class, "st.M_AttributeSet_ID"), // @Trifon - Not sure if this need to be shown
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"), "s.QtyOnHand", Double.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"), "s.QtyReserved", Double.class),
 		new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOrdered"), "s.QtyOrdered", Double.class),
@@ -178,13 +180,16 @@ public class PAttributeInstance extends CDialog
 		new ColumnInfo(Msg.translate(Env.getCtx(), "ShelfLifeRemainingPct"), "CASE WHEN p.GuaranteeDays > 0 THEN TRUNC(((daysbetween(asi.GuaranteeDate, SYSDATE))/p.GuaranteeDays)*100) ELSE 0 END", Integer.class),
 	};
 	/**	From Clause							*/
-	private static String s_sqlFrom = "M_Storage s"
-		+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
-		+ " INNER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)"
-		+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)";
-	/** Where Clause						*/
-	private static String s_sqlWhere = "s.M_Product_ID=? AND l.M_Warehouse_ID=?"; 
-	private static String s_sqlWhereWithoutWarehouse = " s.M_Product_ID=?"; 
+	private static String s_sqlFrom = "M_AttributeSetInstance asi"
+		+ " INNER JOIN M_AttributeSet st ON (st.M_AttributeSet_ID=asi.M_AttributeSet_ID )"
+		+ " LEFT OUTER JOIN M_Storage s ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID)"
+		+ " LEFT OUTER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
+		+ " LEFT OUTER JOIN M_Product p ON (s.M_Product_ID=p.M_Product_ID)"
+		+ " LEFT OUTER JOIN M_Product pr ON (asi.M_AttributeSet_ID = pr.M_AttributeSet_ID)"
+	;
+	/** Where Clause						*/ 
+	private static String s_sqlWhereWithoutWarehouse = " (pr.M_Product_ID=? OR p.M_Product_ID=?)";
+	private static String s_sqlWhereSameWarehouse = " AND (l.M_Warehouse_ID=? OR 0=?)";
 
 	private String	m_sqlNonZero = " AND (s.QtyOnHand<>0 OR s.QtyReserved<>0 OR s.QtyOrdered<>0)";
 	private String	m_sqlMinLife = "";
@@ -242,8 +247,7 @@ public class PAttributeInstance extends CDialog
 			}
 		}	//	BPartner != 0
 
-		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, 
-					m_M_Warehouse_ID == 0 ? s_sqlWhereWithoutWarehouse : s_sqlWhere, false, "s")
+		m_sql = m_table.prepareTable (s_layout, s_sqlFrom, s_sqlWhereWithoutWarehouse, false, "asi")
 				+ " ORDER BY asi.GuaranteeDate, s.QtyOnHand";	//	oldest, smallest first
 		//
 		m_table.setRowSelectionAllowed(true);
@@ -252,7 +256,7 @@ public class PAttributeInstance extends CDialog
 		m_table.getSelectionModel().addListSelectionListener(this);
 		//
 		refresh();
-	}	//	dynInit
+	}
 
 	/**
 	 * 	Refresh Query
@@ -264,7 +268,7 @@ public class PAttributeInstance extends CDialog
 		if (!showAll.isSelected())
 		{
 			sql = m_sql.substring(0, pos) 
-				+ m_sqlNonZero;
+				+ m_sqlNonZero + s_sqlWhereSameWarehouse;
 			if (m_sqlMinLife.length() > 0)
 				sql += m_sqlMinLife;
 			sql += m_sql.substring(pos);
@@ -277,8 +281,12 @@ public class PAttributeInstance extends CDialog
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, m_M_Product_ID);
-			if (m_M_Warehouse_ID != 0)
-				pstmt.setInt(2, m_M_Warehouse_ID);
+			pstmt.setInt(2, m_M_Product_ID);
+			if ( !showAll.isSelected() ) {
+				pstmt.setInt(3, m_M_Warehouse_ID);
+				pstmt.setInt(4, m_M_Warehouse_ID);
+			}
+
 			rs = pstmt.executeQuery();
 			m_table.loadTable(rs);
 		}
@@ -291,7 +299,7 @@ public class PAttributeInstance extends CDialog
 			rs = null; pstmt = null;
 		}
 		enableButtons();
-	}	//	refresh
+	}
 
 	/**
 	 * 	Action Listener
@@ -311,7 +319,7 @@ public class PAttributeInstance extends CDialog
 		{
 			refresh();
 		}
-	}	//	actionPerformed
+	}
  
 	/**
 	 * 	Table selection changed
@@ -322,7 +330,7 @@ public class PAttributeInstance extends CDialog
 		if (e.getValueIsAdjusting())
 			return;
 		enableButtons();
-	}	//	valueChanged
+	}
 
 	/**
 	 * 	Enable/Set Buttons and set ID
@@ -354,7 +362,7 @@ public class PAttributeInstance extends CDialog
 		log.fine("M_AttributeSetInstance_ID=" + m_M_AttributeSetInstance_ID 
 			+ " - " + m_M_AttributeSetInstanceName
 			+ "; M_Locator_ID=" + m_M_Locator_ID);
-	}	//	enableButtons
+	}
 
 	/**
 	 *  Mouse Clicked
@@ -368,7 +376,7 @@ public class PAttributeInstance extends CDialog
 			enableButtons();
 			dispose();
 		}
-	}   //  mouseClicked
+	}
 
 
 	/**
@@ -378,7 +386,7 @@ public class PAttributeInstance extends CDialog
 	public int getM_AttributeSetInstance_ID()
 	{
 		return m_M_AttributeSetInstance_ID;
-	}	//	getM_AttributeSetInstance_ID
+	}
 
 	/**
 	 * 	Get Instance Name
@@ -387,7 +395,7 @@ public class PAttributeInstance extends CDialog
 	public String getM_AttributeSetInstanceName()
 	{
 		return m_M_AttributeSetInstanceName;
-	}	//	getM_AttributeSetInstanceName
+	}
 
 	/**
 	 * 	Get Locator
@@ -396,6 +404,6 @@ public class PAttributeInstance extends CDialog
 	public int getM_Locator_ID()
 	{
 		return m_M_Locator_ID;
-	}	//	getM_Locator_ID
+	}
 
-}	//	PAttributeInstance
+}

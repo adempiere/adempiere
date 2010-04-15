@@ -400,7 +400,7 @@ public class VPAttributeDialog extends CDialog
 			cmd_newEdit();
 		}
 
-		//	Attrribute Set Instance Description
+		//	Attribute Set Instance Description
 		CLabel label = new CLabel (Msg.translate(Env.getCtx(), "Description"));
 		label.setLabelFor(fieldDescription);
 		fieldDescription.setText(m_masi.getDescription());
@@ -599,10 +599,9 @@ public class VPAttributeDialog extends CDialog
 		}
 		
 		// teo_sarca [ 1564520 ] Inventory Move: can't select existing attributes
+		// Trifon - Always read Locator from Context. There are too many windows to read explicitly one by one.
 		int M_Locator_ID = 0;
-		if (m_AD_Column_ID == 8551) { // TODO: hardcoded: M_MovementLine[324].M_AttributeSetInstance_ID[8551]
-			M_Locator_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, X_M_MovementLine.COLUMNNAME_M_Locator_ID, true); // only window
-		}
+		M_Locator_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNoParent, X_M_MovementLine.COLUMNNAME_M_Locator_ID, true); // only window
 		
 		String title = "";
 		//	Get Text
@@ -618,7 +617,7 @@ public class VPAttributeDialog extends CDialog
 			pstmt.setInt(2, M_Locator_ID <= 0 ? M_Warehouse_ID : M_Locator_ID);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				title = rs.getString(1) + " - " + rs.getString(2);
+				title = ": " + rs.getString(1) + " - " + rs.getString(2);
 				M_Warehouse_ID = rs.getInt(3); // fetch the actual warehouse - teo_sarca [ 1564520 ]
 			}
 		}
