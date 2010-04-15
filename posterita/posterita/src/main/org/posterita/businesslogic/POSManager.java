@@ -715,7 +715,7 @@ public class POSManager
             }
             
             orderLineBean.setLineTotalAmt(lineTotalAmount);
-            orderLineBean.setUnitPrice(line.getPriceList().setScale(2));
+            orderLineBean.setUnitPrice(line.getPriceList().setScale(2, BigDecimal.ROUND_HALF_UP));
             orderLineBean.setPriceActual(line.getPriceActual());
             orderLineBean.setProductId(Integer.valueOf(line.getM_Product_ID()));
             orderLineBean.setUom(product.getUOMSymbol());
@@ -843,7 +843,7 @@ public class POSManager
                 {
                     totalGrossProfitPercentage = Env.ZERO;
                 }
-                orderLineBean.setTotalGrossProfitPercentage(totalGrossProfitPercentage.setScale(2));
+                orderLineBean.setTotalGrossProfitPercentage(totalGrossProfitPercentage.setScale(2, BigDecimal.ROUND_HALF_UP));
             }
             
             orderLineBean.setDiscountAmt(discountAmt);
@@ -2686,14 +2686,14 @@ public class POSManager
                         throw new OperationException("DISCOUNT ERROR!! CANNOT PROCESS YOUR REQUEST!!!");
                     }
                     
-                    bean.setInclPrice(price.setScale(2));
+                    bean.setInclPrice(price.setScale(2, BigDecimal.ROUND_HALF_UP));
                     
                     BigDecimal incPriceExcVat = ((price.multiply(qty)).subtract(newTaxAmt)).divide(qty, 2, BigDecimal.ROUND_HALF_UP);
-                    bean.setDiscountedLinePrice(incPriceExcVat.setScale(2));
+                    bean.setDiscountedLinePrice(incPriceExcVat.setScale(2, BigDecimal.ROUND_HALF_UP));
                     bean.setDiscountedInclUnitPrice(incPriceExcVat);
-                    bean.setUnitPrice(incPriceExcVat.setScale(2));
+                    bean.setUnitPrice(incPriceExcVat.setScale(2, BigDecimal.ROUND_HALF_UP));
                     
-                    bean.setTaxAmt(newTaxAmt.setScale(2));
+                    bean.setTaxAmt(newTaxAmt.setScale(2, BigDecimal.ROUND_HALF_UP));
                     bean.setIsDiscountOnInclUnitPrice(isDiscOnInclUnitPrices[0]);
                     bean.setIsDiscountOnPercentage(isDiscountsOnPerc[0]);
                     bean.setIsDiscountOnTotal(isDiscountsOnTotal[0]);

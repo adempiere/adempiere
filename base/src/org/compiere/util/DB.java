@@ -1281,7 +1281,7 @@ public final class DB
      * @return first value or -1
      * @throws DBException if there is any SQLException
      */
-    public static int getSQLValueEx (String trxName, String sql, Collection<Object> params)
+    public static int getSQLValueEx (String trxName, String sql, List<Object> params)
     {
 		return getSQLValueEx(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1314,7 +1314,7 @@ public final class DB
      * @param params collection of parameters
      * @return first value or null
      */
-    public static int getSQLValue (String trxName, String sql, Collection<Object> params)
+    public static int getSQLValue (String trxName, String sql, List<Object> params)
     {
 		return getSQLValue(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1362,7 +1362,7 @@ public final class DB
      * @return first value or null
      * @throws DBException if there is any SQLException
      */
-    public static String getSQLValueStringEx (String trxName, String sql, Collection<Object> params)
+    public static String getSQLValueStringEx (String trxName, String sql, List<Object> params)
     {
 		return getSQLValueStringEx(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1395,7 +1395,7 @@ public final class DB
      * @param params collection of parameters
      * @return first value or null
      */
-    public static String getSQLValueString (String trxName, String sql, Collection<Object> params)
+    public static String getSQLValueString (String trxName, String sql, List<Object> params)
     {
 		return getSQLValueString(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1444,7 +1444,7 @@ public final class DB
      * @return first value or null if not found
      * @throws DBException if there is any SQLException
      */
-    public static BigDecimal getSQLValueBDEx (String trxName, String sql, Collection<Object> params) throws DBException
+    public static BigDecimal getSQLValueBDEx (String trxName, String sql, List<Object> params) throws DBException
     {
 		return getSQLValueBDEx(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1478,7 +1478,7 @@ public final class DB
      * @param params collection of parameters
      * @return first value or null
      */
-    public static BigDecimal getSQLValueBD (String trxName, String sql, Collection<Object> params)
+    public static BigDecimal getSQLValueBD (String trxName, String sql, List<Object> params)
     {
 		return getSQLValueBD(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1526,7 +1526,7 @@ public final class DB
      * @return first value or null if not found
      * @throws DBException if there is any SQLException
      */
-    public static Timestamp getSQLValueTSEx (String trxName, String sql, Collection<Object> params) throws DBException
+    public static Timestamp getSQLValueTSEx (String trxName, String sql, List<Object> params) throws DBException
     {
 		return getSQLValueTSEx(trxName, sql, params.toArray(new Object[params.size()]));
     }
@@ -1558,7 +1558,7 @@ public final class DB
      * @param params collection of parameters
      * @return first value or null
      */
-    public static Timestamp getSQLValueTS (String trxName, String sql, Collection<Object> params)
+    public static Timestamp getSQLValueTS (String trxName, String sql, List<Object> params)
     {
 		Object[] arr = new Object[params.size()];
 		params.toArray(arr);
@@ -1575,19 +1575,6 @@ public final class DB
 	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional)
 	{
 		return getKeyNamePairs(sql, optional, (Object[])null);
-	}
-
-	/**
-	 * Get Array of Key Name Pairs
-	 * @param sql select with id / name as first / second column
-	 * @param optional if true (-1,"") is added
-	 * @param params query parameters
-	 * @return array of {@link KeyNamePair}
-	 * @see #getKeyNamePairs(String, boolean, Object...)
-	 */
-	public static KeyNamePair[] getKeyNamePairs(String sql, boolean optional, Collection<Object> params)
-	{
-		return getKeyNamePairs(sql, optional, params.toArray(new Object[params.size()]));
 	}
 
 	/**

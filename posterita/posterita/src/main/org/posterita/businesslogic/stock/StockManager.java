@@ -453,7 +453,7 @@ public class StockManager
         itemBean.setBarCode(barcode);
         itemBean.setPriceListId(orderLineBean.getPriceListId());
         itemBean.setDescription(description);
-        itemBean.setQty(orderLineBean.getQuantity().setScale(uomPrecision));
+        itemBean.setQty(orderLineBean.getQuantity().setScale(uomPrecision, BigDecimal.ROUND_HALF_UP));
         itemBean.setIsDiscountOnInclUnitPrice(false);
         itemBean.setIsDiscountOnPercentage(false);
         itemBean.setIsDiscountOnTotal(false);
@@ -1058,7 +1058,7 @@ public class StockManager
         itemBean.setBarCode(barcode);
         itemBean.setPriceListId(bean.getPriceListId());
         itemBean.setDescription(description);
-        itemBean.setQtyCount((bean.getQtyCount().setScale(uomPrecision)));
+        itemBean.setQtyCount((bean.getQtyCount().setScale(uomPrecision, BigDecimal.ROUND_HALF_UP)));
         itemBean.setQtyBook(pBean.getQtyOnHand());
         itemBean.setQtyCsv(bean.getQtyCsv());
 

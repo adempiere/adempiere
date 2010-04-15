@@ -794,7 +794,7 @@ public class WPAttributeDialog extends Window implements EventListener
 					mandatory += " - " + attributes[i].getName();
 				//setMAttributeInstance doesn't work without decimal point
 				if (value != null && value.scale() == 0)
-					value = value.setScale(1);
+					value = value.setScale(1, BigDecimal.ROUND_HALF_UP);
 				attributes[i].setMAttributeInstance(m_M_AttributeSetInstance_ID, value);
 			}
 			else

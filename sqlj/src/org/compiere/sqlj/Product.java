@@ -602,7 +602,7 @@ public class Product
 				//	Get Rounding Precision
 				int StdPrecision = getUOMPrecision(M_ProductBOM_ID);
 				//	How much can we make with this product
-				productQuantity = productQuantity.setScale(StdPrecision)
+				productQuantity = productQuantity.setScale(StdPrecision, BigDecimal.ROUND_HALF_UP)
 					.divide(bomQty, BigDecimal.ROUND_HALF_UP);
 				//	How much can we make overall
 				if (productQuantity.compareTo(quantity) < 0)

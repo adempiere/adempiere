@@ -25,7 +25,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -138,7 +137,7 @@ public class Query
 	 * Set query parameters
 	 * @param parameters collection of parameters
 	 */
-	public Query setParameters(Collection<Object> parameters)
+	public Query setParameters(List<Object> parameters)
 	{
 		if (parameters == null) {
 			this.parameters = null;

@@ -132,8 +132,8 @@
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/poi-3.0-FINAL.jar"/>
 	<classpathentry exported="true" kind="lib" path="posterita/posterita/web/WEB-INF/lib/servlet.jar"/>
-	<classpathentry exported="true" kind="lib" path="packages/liberoHR.jar"/>
-	<classpathentry exported="true" kind="lib" path="packages/liberoMFG.jar"/>
+	<classpathentry exported="true" kind="lib" path="packages/liberoHR.jar" sourcepath="/adempiereLiberoHR"/>
+	<classpathentry exported="true" kind="lib" path="packages/liberoMFG.jar" sourcepath="/adempiereLibero"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/iText-2.1.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/miglayout-3.7.1-swing.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/payflow.jar"/>

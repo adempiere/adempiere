@@ -512,7 +512,7 @@ public class POSStockManager
             	String uom = product.getUOMSymbol();
                 bean= new AttributeBean();
                 bean.setProductName(rs.getString(1));
-                bean.setQuantity(quantity.setScale(uomPrecision));
+                bean.setQuantity(quantity.setScale(uomPrecision, BigDecimal.ROUND_HALF_UP));
                 bean.setBarCode(rs.getString(3));
                 
                 totalCost = quantity.multiply(price);

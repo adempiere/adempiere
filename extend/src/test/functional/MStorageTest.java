@@ -43,12 +43,12 @@ public class MStorageTest extends AdempiereTestCase
 		loc.setXYZ("X"+locatorValue, "Y"+locatorValue, "Z"+locatorValue);
 		loc.saveEx();
 		//
-		BigDecimal targetQty = BigDecimal.valueOf(qtyOnHand).setScale(12);
+		BigDecimal targetQty = BigDecimal.valueOf(qtyOnHand).setScale(12, BigDecimal.ROUND_HALF_UP);
 		MStorage s1 = MStorage.getCreate(getCtx(), loc.get_ID(), product_id, 0, getTrxName());
 		s1.setQtyOnHand(targetQty);
 		s1.saveEx();
 		//
-		BigDecimal qty = MStorage.getQtyAvailable(wh.get_ID(), loc.get_ID(), product_id, 0, getTrxName()).setScale(12);
+		BigDecimal qty = MStorage.getQtyAvailable(wh.get_ID(), loc.get_ID(), product_id, 0, getTrxName()).setScale(12, BigDecimal.ROUND_HALF_UP);
 		assertEquals("Error on locator "+locatorValue, targetQty, qty);
 		//
 		return loc;
@@ -56,8 +56,8 @@ public class MStorageTest extends AdempiereTestCase
 	private void assertWarehouseQty(MWarehouse wh, BigDecimal targetQty)
 	{
 		BigDecimal qty = MStorage.getQtyAvailable(wh.get_ID(), 0, product_id, 0, getTrxName());
-		qty = qty.setScale(12);
-		targetQty = targetQty.setScale(12);
+		qty = qty.setScale(12, BigDecimal.ROUND_HALF_UP);
+		targetQty = targetQty.setScale(12, BigDecimal.ROUND_HALF_UP);
 		assertEquals(targetQty, qty);
 	}
 	

@@ -141,7 +141,7 @@ public class ImageElement extends PrintElement
 		URL imageURL = getURL(imageURLstring);
 		if (imageURL != null)
 		{
-			m_image = Toolkit.getDefaultToolkit().getImage(imageURL);
+			m_image = Toolkit.getDefaultToolkit().createImage(imageURL);
 			if (m_image != null)
 				log.fine("URL=" + imageURL);
 			else
@@ -159,7 +159,7 @@ public class ImageElement extends PrintElement
 	{
 		if (imageURL != null)
 		{
-			m_image = Toolkit.getDefaultToolkit().getImage(imageURL);
+			m_image = Toolkit.getDefaultToolkit().createImage(imageURL);
 			if (m_image != null)
 				log.fine("URL=" + imageURL);
 			else

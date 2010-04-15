@@ -65,6 +65,7 @@ public class MQuery implements Serializable
 			isTemporaryTable = true;
 			table = MTable.get(ctx, TableName);
 		}
+		boolean isFinancialReport = ("T_Report".equals(TableName) || "T_ReportStatement".equals(TableName));
 		query.m_AD_PInstance_ID = AD_PInstance_ID;
 
 		//	How many rows do we have?
@@ -144,7 +145,7 @@ public class MQuery implements Serializable
 				//
 				// Check if the parameter exists as column in our table.
 				// This condition applies only to temporary tables - teo_sarca [ 2860022 ]
-				if(isTemporaryTable && table != null && table.getColumn(ParameterName) == null)
+				if (isTemporaryTable && !isFinancialReport && table != null && table.getColumn(ParameterName) == null)
 				{
 					s_log.info("Skip parameter "+ParameterName+" because there is no column in table "+TableName);
 					continue;
