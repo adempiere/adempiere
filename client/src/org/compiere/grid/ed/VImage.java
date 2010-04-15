@@ -17,11 +17,13 @@
 package org.compiere.grid.ed;
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import org.compiere.model.MImage;
@@ -80,6 +82,8 @@ public class VImage extends JButton
 	 */
 	public void setValue(Object value)
 	{
+		final int COLUMNSIZE = 220;
+		
 		int newValue = 0;
 		if (value instanceof Integer)
 			newValue = ((Integer)value).intValue();
@@ -97,7 +101,21 @@ public class VImage extends JButton
 		//
 		log.fine(m_mImage.toString());
 		super.setText(null);
-		super.setIcon(m_mImage.getIcon());
+		
+		if (m_mImage.getImage()==null)
+			return;
+		
+		ImageIcon image = new ImageIcon(m_mImage.getImage());
+		if (image.getIconHeight() > COLUMNSIZE || image.getIconWidth() > COLUMNSIZE) {
+			if (image.getIconHeight() > image.getIconWidth()) {
+				super.setIcon(new ImageIcon(m_mImage.getImage().getScaledInstance(-1, COLUMNSIZE, Image.SCALE_DEFAULT)));
+			} else {
+				super.setIcon(new ImageIcon(m_mImage.getImage().getScaledInstance(COLUMNSIZE, -1, Image.SCALE_DEFAULT)));
+			}
+		} else {
+			// the image is smaller than the COLUMNSIZE
+			super.setIcon(m_mImage.getIcon());
+		}
 		super.setToolTipText(m_mImage.getName());
 		invalidate();
 	}   //  setValue

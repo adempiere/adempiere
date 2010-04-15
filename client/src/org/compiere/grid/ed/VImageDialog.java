@@ -20,8 +20,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +33,7 @@ import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import org.compiere.apps.AEnv;
@@ -80,6 +84,46 @@ public class VImageDialog extends CDialog
 			m_mImage = MImage.get (Env.getCtx(), 0);
 		fileButton.setText(m_mImage.getName());
 		imageLabel.setIcon(m_mImage.getIcon());
+		imageLabel.addComponentListener(new ComponentListener() {
+
+			@Override
+			public void componentHidden(ComponentEvent e) {}
+
+			@Override
+			public void componentMoved(ComponentEvent e) {}
+
+			@Override
+			public void componentResized(ComponentEvent e) {
+				Image image = m_mImage.getImage();
+				JLabel label = (JLabel) e.getComponent();
+				
+				System.err.println("iamge:" + image + " M_mImage: " + m_mImage);
+				
+				if (image == null) 
+					return;
+				
+				int imageheight = image.getWidth(null);
+				int imagewidth = image.getWidth(null);
+				int labelheight = label.getHeight();
+				int labelwidth = label.getWidth();
+				
+				if (labelheight == 0 || imageheight == 0)
+					return;
+				
+				// check which dimension we have to scale
+				if ((double) labelwidth / labelheight <  (double) imagewidth / imageheight) {
+					// do not upscale images
+					if (imagewidth > labelwidth)
+						label.setIcon(new ImageIcon(m_mImage.getImage().getScaledInstance(label.getWidth(), -1, Image.SCALE_DEFAULT)));
+				} else {
+					if (imageheight > labelheight)
+						label.setIcon(new ImageIcon(m_mImage.getImage().getScaledInstance(-1, label.getHeight(), Image.SCALE_DEFAULT)));
+				}
+			}
+
+			@Override
+			public void componentShown(ComponentEvent e) {}
+		});
 		AEnv.positionCenterWindow(owner, this);
 	}   //  VImageDialog
 
