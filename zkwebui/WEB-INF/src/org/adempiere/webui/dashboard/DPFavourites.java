@@ -227,7 +227,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 	}
 
     /**
-     * Add menu treeitem into the user favourite panel
+     * Add menu treeitem into the user favorite panel
      * @param treeitem
      */
 	public void addItem(Treeitem treeitem) {
@@ -240,6 +240,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 				String label = treeitem.getLabel().trim();
 				ToolBarButton btnFavItem = new ToolBarButton(String.valueOf(Node_ID));
 				btnFavItem.setLabel(label);
+				btnFavItem.setImage(treeitem.getImage());
 				btnFavItem.setDraggable(DELETE_FAV_DROPPABLE);
 				btnFavItem.addEventListener(Events.ON_CLICK, this);
 				btnFavItem.addEventListener(Events.ON_DROP, this);
