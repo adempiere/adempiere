@@ -119,8 +119,10 @@ public class HtmlDashboard extends JPanel implements MouseListener,
 			ins = new InputStreamReader(url.openStream());
 			BufferedReader bufferedReader = new BufferedReader( ins );
 			String cssLine;
+			result += "<style type=\"text/css\">";
 			while ((cssLine = bufferedReader.readLine()) != null) 
 				result += cssLine + "\n";
+			result += "</style>";
 		} catch (IOException e1) {
 			log.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
 		}
