@@ -23,16 +23,3 @@ WHERE ProcessedOn <= (SELECT ProcessedOn
 						WHERE C_InvoiceLine.C_InvoiceLine_ID=M_MatchPO.C_InvoiceLine_ID AND
 							C_Invoice.C_Invoice_ID=C_InvoiceLine.C_Invoice_ID
 	);
-
--- set M_MatchPO.ProcessedOn after C_Invoice.ProcessedOn for a better recalculation of Standard
-UPDATE M_MatchPO
-SET ProcessedOn = (SELECT ProcessedOn+0.000000000001
-						FROM C_Order, C_OrderLine 
-						WHERE C_OrderLine.C_OrderLine_ID=M_MatchPO.C_OrderLine_ID AND
-							C_Order.C_Order_ID=C_OrderLine.C_Order_ID
-)
-WHERE ProcessedOn <= (SELECT ProcessedOn
-						FROM C_Order, C_OrderLine 
-						WHERE C_OrderLine.C_OrderLine_ID=M_MatchPO.C_OrderLine_ID AND
-							C_Order.C_Order_ID=C_OrderLine.C_Order_ID
-	);
