@@ -18,7 +18,7 @@ fi
 echo ===================================
 echo Starting Setup ...
 echo ===================================
-CP=lib/CInstall.jar:lib/Adempiere.jar:lib/CCTools.jar:lib/oracle.jar:lib/derby.jar:lib/fyracle.jar:lib/jboss.jar:lib/postgresql.jar:
+CP=lib/CInstall.jar:lib/Adempiere.jar:lib/CCTools.jar:lib/oracle.jar:lib/jboss.jar:lib/postgresql.jar:
 
 # Trace Level Parameter, e.g. ARGS=ALL
 ARGS=CONFIG

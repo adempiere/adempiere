@@ -20,7 +20,7 @@ goto START
 @Echo =======================================
 @Echo Starting Setup Dialog ...
 @Echo =======================================
-@SET CP=lib\CInstall.jar;lib\Adempiere.jar;lib\CCTools.jar;lib\oracle.jar;lib\fyracle.jar;lib\derby.jar;lib\jboss.jar;lib\postgresql.jar;
+@SET CP=lib\CInstall.jar;lib\Adempiere.jar;lib\CCTools.jar;lib\oracle.jar;lib\jboss.jar;lib\postgresql.jar;
 
 @Rem Trace Level Parameter, e.g. SET ARGS=ALL
 @SET ARGS=CONFIG

@@ -211,7 +211,7 @@
                 <package-root>webCM/src</package-root>
                 <package-root>webStore/src</package-root>
                 <package-root>migration</package-root>
-                <classpath mode="compile">lib/Adempiere.jar:lib/CCTools.jar:lib/CompiereJasperReqs.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/derby.jar:lib/jboss.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar</classpath>
+                <classpath mode="compile">lib/Adempiere.jar:lib/CCTools.jar:lib/CompiereJasperReqs.jar:lib/CSTools.jar:lib/customization.jar:lib/db2.jar:lib/jboss.jar:lib/oracle.jar:lib/patches.jar:lib/postgresql.jar</classpath>
                 <source-level>1.5</source-level>
             </compilation-unit>
         </java-data>
