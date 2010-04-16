@@ -1,3 +1,5 @@
+drop view rv_unposted;
+
 create or replace view rv_unposted
 as
    SELECT AD_Client_ID, AD_Org_ID, Created, CreatedBy, Updated, UpdatedBy,
