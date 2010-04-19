@@ -50,9 +50,35 @@ public class CalloutInventory extends CalloutEngine
 		if (isCalloutActive())
 			return "";
 		Integer InventoryLine = (Integer)mTab.getValue("M_InventoryLine_ID");
-		if (InventoryLine != null && InventoryLine.intValue() != 0)
-			return "";
+		BigDecimal bd = null;
+		
+		if (InventoryLine != null && InventoryLine.intValue() != 0) {
+			MInventoryLine _ILine = new MInventoryLine(ctx, InventoryLine, null);
+			Integer M_Product_ID = (Integer)mTab.getValue("M_Product_ID");
+			Integer M_Locator_ID = (Integer)mTab.getValue("M_Locator_ID");		
+			Integer M_AttributeSetInstance_ID = 0;
+			// if product or locator has changed recalculate Book Qty
+			if ((M_Product_ID != null && M_Product_ID != _ILine.getM_Product_ID()) || 
+					(M_Locator_ID !=null && M_Locator_ID != _ILine.getM_Locator_ID())) {
 
+				// Check ASI - if product has been changed remove old ASI
+				if (M_Product_ID == _ILine.getM_Product_ID()) {
+					M_AttributeSetInstance_ID = (Integer)mTab.getValue("M_AttributeSetInstance_ID");
+					if( M_AttributeSetInstance_ID == null )
+						M_AttributeSetInstance_ID = 0;
+				} else {
+					mTab.setValue("M_AttributeSetInstance_ID", null);
+				}
+				try {
+					bd = setQtyBook(M_AttributeSetInstance_ID, M_Product_ID, M_Locator_ID);
+					mTab.setValue("QtyBook", bd);
+				} catch (Exception e) {
+					return mTab.setValue("QtyBook", bd);
+				}
+			}
+			return "";
+		}
+			
 		//	New Line - Get Book Value
 		int M_Product_ID = 0;
 		Integer Product = (Integer)mTab.getValue("M_Product_ID");
@@ -90,6 +116,36 @@ public class CalloutInventory extends CalloutEngine
 		}
 			
 		// Set QtyBook from first storage location
+		// kviiksaar: Call's now the extracted function
+		try {
+			bd = setQtyBook(M_AttributeSetInstance_ID, M_Product_ID, M_Locator_ID);
+			mTab.setValue("QtyBook", bd);
+		} catch (Exception e) {
+			return mTab.setValue("QtyBook", bd);
+		}
+		
+		//
+		log.info("M_Product_ID=" + M_Product_ID 
+			+ ", M_Locator_ID=" + M_Locator_ID
+			+ ", M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID
+			+ " - QtyBook=" + bd);
+		return "";
+	}   //  product
+	
+	
+	/**
+	 * kviiksaar
+	 * 
+	 * Returns the current Book Qty for given parameters or 0
+	 * 
+	 * @param M_AttributeSetInstance_ID
+	 * @param M_Product_ID
+	 * @param M_Locator_ID
+	 * @return
+	 * @throws Exception
+	 */
+	private BigDecimal setQtyBook (int M_AttributeSetInstance_ID, int M_Product_ID, int M_Locator_ID) throws Exception {
+		// Set QtyBook from first storage location
 		BigDecimal bd = null;
 		String sql = "SELECT QtyOnHand FROM M_Storage "
 			+ "WHERE M_Product_ID=?"	//	1
@@ -99,40 +155,35 @@ public class CalloutInventory extends CalloutEngine
 			sql = "SELECT SUM(QtyOnHand) FROM M_Storage "
 			+ "WHERE M_Product_ID=?"	//	1
 			+ " AND M_Locator_ID=?";	//	2
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		
 		try
 		{
-			pstmt = DB.prepareStatement(sql, null);
+			PreparedStatement pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, M_Product_ID);
 			pstmt.setInt(2, M_Locator_ID);
 			if (M_AttributeSetInstance_ID != 0)
 				pstmt.setInt(3, M_AttributeSetInstance_ID);
-			rs = pstmt.executeQuery();
-			mTab.setValue("QtyBook", Env.ZERO);
+			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				bd = rs.getBigDecimal(1);
 				if (bd != null)
-					mTab.setValue("QtyBook", bd);
+					return bd;
+			} else {
+				// gwu: 1719401: clear Booked Quantity to zero first in case the query returns no rows, 
+				// for example when the locator has never stored a particular product.
+				return new BigDecimal(0);
 			}
+			rs.close();
+			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
-			return e.getLocalizedMessage();
+			throw new Exception(e.getLocalizedMessage());
 		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//
-		log.info("M_Product_ID=" + M_Product_ID 
-			+ ", M_Locator_ID=" + M_Locator_ID
-			+ ", M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID
-			+ " - QtyBook=" + bd);
-		return "";
-	}   //  product
+		return new BigDecimal(0);
+	}
+	
 
 }	//	CalloutInventory
