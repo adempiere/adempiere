@@ -131,7 +131,7 @@ public class WLocationDialog extends Window implements EventListener
 		MCountry.setDisplayLanguage(Env.getAD_Language(Env.getCtx()));
 		for (MCountry country:MCountry.getCountries(Env.getCtx()))
 		{
-			lstCountry.appendItem(country.getName(), country);
+			lstCountry.appendItem(country.toString(), country);
 		}
 		setCountry();
 		lstCountry.addEventListener(Events.ON_SELECT,this);
