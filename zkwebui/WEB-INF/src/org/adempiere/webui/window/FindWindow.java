@@ -514,6 +514,29 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				mField = ynfield;
 			}
 
+			// Make Buttons searchable
+			if  ( mField.getVO().displayType == DisplayType.Button )
+			{
+				GridFieldVO vo = mField.getVO();
+				if ( vo.AD_Reference_Value_ID > 0 )
+				{
+					GridFieldVO postedvo = vo.clone(vo.ctx, vo.WindowNo, vo.TabNo, vo.AD_Window_ID, vo.AD_Tab_ID, vo.tabReadOnly);
+					postedvo.IsDisplayed = true;
+					postedvo.displayType = DisplayType.List;
+
+					postedvo.lookupInfo = MLookupFactory.getLookupInfo (postedvo.ctx, postedvo.WindowNo, postedvo.AD_Column_ID, postedvo.displayType,
+							Env.getLanguage(postedvo.ctx), postedvo.ColumnName, postedvo.AD_Reference_Value_ID,
+							postedvo.IsParent, postedvo.ValidationCode);
+					postedvo.lookupInfo.InfoFactoryClass = postedvo.InfoFactoryClass;
+
+					GridField postedfield = new GridField(postedvo);
+
+					// replace the original field by the Posted List field
+					m_findFields[i] = postedfield;
+					mField = postedfield;
+				}
+			}
+
             if (columnName.equals("Value"))
                 hasValue = true;
             else if (columnName.equals("Name"))
