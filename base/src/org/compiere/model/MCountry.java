@@ -219,7 +219,7 @@ public final class MCountry extends X_C_Country
 	 */
 	public String getTrlName()
 	{
-		if (m_trlName != null && s_AD_Language != null)
+		if (m_trlName == null && s_AD_Language != null)
 		{
 			m_trlName = get_Translation(COLUMNNAME_Name, s_AD_Language);
 			if (m_trlName == null)

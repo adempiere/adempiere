@@ -17,7 +17,6 @@
 package org.compiere.grid.ed;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -33,9 +32,7 @@ import java.util.logging.Level;
 import javax.swing.Box;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 
 import org.compiere.apps.ADialog;
@@ -83,8 +80,6 @@ public class VLocationDialog extends CDialog
 
 	private int m_WindowNo = 0;
 
-	private JLabel m_label = new JLabel();
-	
 	/**
 	 *	Constructor
 	 *
@@ -120,16 +115,6 @@ public class VLocationDialog extends CDialog
 		//	Current Country
 		MCountry.setDisplayLanguage(Env.getAD_Language(Env.getCtx()));
 		fCountry = new CComboBox(MCountry.getCountries(Env.getCtx()));
-		ListCellRenderer renderer = new ListCellRenderer()
-		{
-			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus)
-			{
-				String text = ((MCountry)value).get_Translation(MCountry.COLUMNNAME_Name, Env.getAD_Language(Env.getCtx()));
-				m_label.setText(text);
-				return m_label;
-			}
-		};
-		fCountry.setRenderer(renderer);
 		fCountry.setSelectedItem(m_location.getCountry());
 		m_origCountry_ID = m_location.getC_Country_ID();
 		//	Current Region
