@@ -29,7 +29,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100419L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -201,6 +201,40 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
+	/** Set EMail Address.
+		@param EMail 
+		Electronic Mail Address
+	  */
+	public void setEMail (String EMail)
+	{
+		set_Value (COLUMNNAME_EMail, EMail);
+	}
+
+	/** Get EMail Address.
+		@return Electronic Mail Address
+	  */
+	public String getEMail () 
+	{
+		return (String)get_Value(COLUMNNAME_EMail);
+	}
+
+	/** Set Fax.
+		@param Fax 
+		Facsimile number
+	  */
+	public void setFax (String Fax)
+	{
+		set_Value (COLUMNNAME_Fax, Fax);
+	}
+
+	/** Get Fax.
+		@return Facsimile number
+	  */
+	public String getFax () 
+	{
+		return (String)get_Value(COLUMNNAME_Fax);
+	}
+
 	/** Set Logo.
 		@param Logo_ID Logo	  */
 	public void setLogo_ID (int Logo_ID)
@@ -270,6 +304,40 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Phone.
+		@param Phone 
+		Identifies a telephone number
+	  */
+	public void setPhone (String Phone)
+	{
+		set_Value (COLUMNNAME_Phone, Phone);
+	}
+
+	/** Get Phone.
+		@return Identifies a telephone number
+	  */
+	public String getPhone () 
+	{
+		return (String)get_Value(COLUMNNAME_Phone);
+	}
+
+	/** Set 2nd Phone.
+		@param Phone2 
+		Identifies an alternate telephone number.
+	  */
+	public void setPhone2 (String Phone2)
+	{
+		set_Value (COLUMNNAME_Phone2, Phone2);
+	}
+
+	/** Get 2nd Phone.
+		@return Identifies an alternate telephone number.
+	  */
+	public String getPhone2 () 
+	{
+		return (String)get_Value(COLUMNNAME_Phone2);
 	}
 
 	/** Set Receipt Footer Msg.
