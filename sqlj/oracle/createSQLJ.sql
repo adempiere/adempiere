@@ -20,6 +20,11 @@ CREATE OR REPLACE FUNCTION adempiereProperty(p_key VARCHAR2)
  	AS LANGUAGE JAVA 
 	NAME 'org.compiere.sqlj.Adempiere.getProperty(java.lang.String) return java.lang.String';
 /
+CREATE OR REPLACE FUNCTION get_Sysconfig(Name VARCHAR2, defaultValue VARCHAR2, AD_Client_ID NUMBER, AD_Org_ID NUMBER)
+ 	RETURN VARCHAR2
+ 	AS LANGUAGE JAVA 
+	NAME 'org.compiere.sqlj.Adempiere.get_Sysconfig(java.lang.String,java.lang.String,int,int) return java.lang.String';
+/
 
 /** Product	**/
 CREATE OR REPLACE FUNCTION productAttribute (M_AttributeSetInstance_ID NUMBER)

@@ -28,9 +28,6 @@ import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 
-import org.compiere.model.MSysConfig;
-
-
 /**
  *	SQLJ Adempiere Control and Utility Class
  *	
@@ -576,10 +573,26 @@ public class Adempiere implements Serializable
 	 * @param Client ID
 	 * @param Organization ID
 	 * @return String
+	 * @throws SQLException 
 	 */
-	public static String getValue(String Name, String defaultValue, int AD_Client_ID, int AD_Org_ID)
+	public static String get_Sysconfig(String Name, String defaultValue, int AD_Client_ID, int AD_Org_ID) throws SQLException
 	{
-		return MSysConfig.getValue(Name, defaultValue, AD_Client_ID, AD_Org_ID);
+		String value = null;
+		String sql = "SELECT Value FROM AD_SysConfig WHERE Name=? AND AD_Client_ID IN (0, ?) AND AD_Org_ID IN (0, ?) AND IsActive='Y' ORDER BY AD_Client_ID DESC, AD_Org_ID DESC";
+		PreparedStatement pstmt = Adempiere.prepareStatement(sql);
+		pstmt.setString(1, Name);
+		pstmt.setInt(2, AD_Client_ID);
+		pstmt.setInt(3, AD_Org_ID);
+		ResultSet rs = pstmt.executeQuery();
+		if (rs.next()) {
+			value = rs.getString(1);
+		} else {
+			value = defaultValue;
+		}
+		rs.close();
+		pstmt.close();
+		
+		return value;
 	}
 	
 }	//	Adempiere

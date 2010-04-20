@@ -27,6 +27,11 @@ SQLActions[ ] = {
  	AS 'org.compiere.sqlj.Adempiere.nextIDfunc(int,java.lang.String)'
 	LANGUAGE java VOLATILE;
 		
+	CREATE OR REPLACE FUNCTION get_Sysconfig(Name VARCHAR, defaultValue VARCHAR, AD_Client_ID INTEGER, AD_Client_ID INTEGER)
+ 	RETURNS VARCHAR
+ 	AS 'org.compiere.sqlj.Adempiere.get_Sysconfig(java.lang.String,java.lang.String,int,int)'
+	LANGUAGE java VOLATILE;
+		
 	/** Product	**/
 	CREATE OR REPLACE FUNCTION productAttribute (M_AttributeSetInstance_ID NUMERIC)
  	RETURNS VARCHAR
