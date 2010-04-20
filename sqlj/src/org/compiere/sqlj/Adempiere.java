@@ -60,7 +60,7 @@ public class Adempiere implements Serializable
 	public static String getProperties()
 	{
 		StringBuffer sb = new StringBuffer();
-		Enumeration en = System.getProperties().keys();
+		Enumeration en = System.getProperties().keys(); // don't fix warning, for sqlj we need to keep compatibility with java 1.4
 		while (en.hasMoreElements())
 		{
 			if (sb.length() != 0)
