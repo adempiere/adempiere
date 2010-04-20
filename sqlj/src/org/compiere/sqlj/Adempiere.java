@@ -60,7 +60,7 @@ public class Adempiere implements Serializable
 	public static String getProperties()
 	{
 		StringBuffer sb = new StringBuffer();
-		Enumeration<?> en = System.getProperties().keys();
+		Enumeration en = System.getProperties().keys();
 		while (en.hasMoreElements())
 		{
 			if (sb.length() != 0)
