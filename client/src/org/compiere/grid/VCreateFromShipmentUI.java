@@ -523,7 +523,7 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 			try {
 				// Lookup locator using value
 				loc = new Query(Env.getCtx(), MLocator.Table_Name, "value=?", null)
-									.setParameters(new Object[]{locatorValue})
+									.setParameters(locatorValue)
 									.setClient_ID()
 									.first();
 				// Set new keyNamePair for minitable
