@@ -28,6 +28,8 @@ import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.GregorianCalendar;
 
+import org.compiere.model.MSysConfig;
+
 
 /**
  *	SQLJ Adempiere Control and Utility Class
@@ -40,7 +42,7 @@ public class Adempiere implements Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1680194048326434057L;
+	private static final long serialVersionUID = -2525829222361926922L;
 
 	/**
 	 * 	Get Version
@@ -58,7 +60,7 @@ public class Adempiere implements Serializable
 	public static String getProperties()
 	{
 		StringBuffer sb = new StringBuffer();
-		Enumeration en = System.getProperties().keys();
+		Enumeration<?> en = System.getProperties().keys();
 		while (en.hasMoreElements())
 		{
 			if (sb.length() != 0)
@@ -566,5 +568,18 @@ public class Adempiere implements Serializable
 	{
 		return d.toString();
 	}	//	getChars
+	
+	/**
+	 * Get client configuration property of type string
+	 * @param Name
+	 * @param defaultValue
+	 * @param Client ID
+	 * @param Organization ID
+	 * @return String
+	 */
+	public static String getValue(String Name, String defaultValue, int AD_Client_ID, int AD_Org_ID)
+	{
+		return MSysConfig.getValue(Name, defaultValue, AD_Client_ID, AD_Org_ID);
+	}
 	
 }	//	Adempiere
