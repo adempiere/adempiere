@@ -2633,7 +2633,7 @@ public final class APanel extends CPanel
 				if (!cmd_save(true))
 					return;
 
-			FormFrame ff = new FormFrame();
+			FormFrame ff = new FormFrame(getGraphicsConfiguration());
 			String title = vButton.getDescription();
 			if (title == null || title.length() == 0)
 				title = vButton.getName();

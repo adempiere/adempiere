@@ -303,7 +303,7 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 						PrintInfo info = new PrintInfo(table.getTableName(),table.get_Table_ID(), Record_ID);               
 						ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
 						re.print();
-						new Viewer(re);
+						new Viewer(m_frame.getGraphicsConfiguration(), re);
 					}
 					else
 					ReportCtl.startDocumentPrint(genForm.getReportEngineType(), Record_ID, this, Env.getWindowNo(this), true);

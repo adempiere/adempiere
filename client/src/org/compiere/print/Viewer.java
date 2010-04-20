@@ -1184,7 +1184,7 @@ public class Viewer extends CFrame
 	 */
 	private void cmd_customize()
 	{
-		AWindow win = new AWindow ();
+		AWindow win = new AWindow (getGraphicsConfiguration());
 		new AWindowListener (win, this);	//	forwards Window Events
 		int AD_Window_ID = 240;		//	hardcoded
 		int AD_PrintFormat_ID = m_reportEngine.getPrintFormat().get_ID();

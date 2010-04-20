@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.apps;
 
+import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
@@ -89,8 +90,10 @@ public class ARequest implements ActionListener
 	private CMenuItem 	m_new = null;
 	private CMenuItem 	m_active = null;
 	private CMenuItem 	m_all = null;
+	private GraphicsConfiguration m_graphicsconfig = null;
 	/** Where Clause					*/
 	StringBuffer 		m_where = null;
+	
 	
 	/**	Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (ARequest.class);
@@ -104,6 +107,7 @@ public class ARequest implements ActionListener
 		m_new = new CMenuItem(Msg.getMsg(Env.getCtx(), "RequestNew"));
 		m_new.setIcon(Env.getImageIcon("New16.gif"));
 		m_popup.add(m_new).addActionListener(this);
+		m_graphicsconfig = invoker.getGraphicsConfiguration();
 		//
 		int activeCount = 0;
 		int inactiveCount = 0;
@@ -198,7 +202,7 @@ public class ARequest implements ActionListener
 		}
 		//
 		int AD_Window_ID = 232;		//	232=all - 201=my
-		AWindow frame = new AWindow();
+		AWindow frame = new AWindow(m_graphicsconfig);
 		if (!frame.initWindow(AD_Window_ID, query))
 			return;
 		AEnv.addToWindowManager(frame);

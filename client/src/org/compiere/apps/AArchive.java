@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.apps;
 
+import java.awt.GraphicsConfiguration;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.PreparedStatement;
@@ -71,6 +72,7 @@ public class AArchive implements ActionListener
 	private CMenuItem 	m_documents = null;
 	/** Where Clause					*/
 	StringBuffer 		m_where = null;
+	private GraphicsConfiguration m_graphicsconfig = null;
 	
 	/**	Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (AArchive.class);
@@ -150,6 +152,8 @@ public class AArchive implements ActionListener
 		
 		if (documentCount == 0 && reportCount == 0 && allReports == 0)
 			m_popup.add(Msg.getMsg(Env.getCtx(), "ArchivedNone"));
+		
+		m_graphicsconfig  = invoker.getGraphicsConfiguration();
 		//
 		if (invoker.isShowing())
 			m_popup.show(invoker, 0, invoker.getHeight());	//	below button
@@ -162,7 +166,7 @@ public class AArchive implements ActionListener
 	public void actionPerformed (ActionEvent e)
 	{
 		int AD_Form_ID = 118;	//	ArchiveViewer
-		FormFrame ff = new FormFrame();
+		FormFrame ff = new FormFrame(m_graphicsconfig);
 		ff.openForm(AD_Form_ID);
 		ArchiveViewer av = (ArchiveViewer)ff.getFormPanel();
 		//
