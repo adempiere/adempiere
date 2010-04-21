@@ -135,6 +135,8 @@ public class Calendar extends CDialog
 	private boolean             m_abort = true;
 	/** Cancel = set null			*/
 	private boolean				m_cancel = false;
+	/** Clear = set new Timestamp(-1)			*/
+	private boolean				m_clear = false;
 	//
 	private long				m_lastClick = System.currentTimeMillis();
 	private int					m_lastDay = -1;
@@ -330,6 +332,10 @@ public class Calendar extends CDialog
 		m_days[m_days.length-2].setBackground(Color.red);
 		m_days[m_days.length-2].setText("x");
 		m_days[m_days.length-2].setToolTipText(Msg.getMsg(Env.getCtx(), "Cancel"));
+		//	Clear
+		m_days[m_days.length-3].setBackground(Color.yellow);
+		m_days[m_days.length-3].setText("c");
+		m_days[m_days.length-3].setToolTipText(Msg.getMsg(Env.getCtx(), "Clear"));
 
 		//	Date/Time
 		m_current24Hour = m_calendar.get(java.util.Calendar.HOUR_OF_DAY);
@@ -443,7 +449,7 @@ public class Calendar extends CDialog
 
 		//	for all buttons but the last
 		int curDay = 1;
-		for (int i = 0; i < m_days.length-2; i++)
+		for (int i = 0; i < m_days.length-3; i++)
 		{
 			if (i >= dayOne && i <= lastDate)
 			{
@@ -537,8 +543,14 @@ public class Calendar extends CDialog
 		m_calendar.set(java.util.Calendar.MILLISECOND, 0);
 
 		//	Return value
-		if (m_abort || m_cancel)
-			return null;
+    	if (m_abort || m_cancel)
+    	{
+    		if (m_clear)
+    			// 1970-01-01 04:59:59.999
+    			return new Timestamp(-1);
+    		else
+    			return null;
+    	}
 		long time = m_calendar.getTimeInMillis();
 		if (m_displayType == DisplayType.Date)
 			time = new java.sql.Date(time).getTime();
@@ -556,6 +568,15 @@ public class Calendar extends CDialog
 		return m_cancel;
 	}	//	isCancel
 	
+	/**
+	 * 	Clear button pressed
+	 *	@return true if canceled
+	 */
+	public boolean isClear()
+	{
+		return m_clear;
+	}	//	isCancel
+
 	/**************************************************************************
 	 *	Action Listener for Month/Year combo & date buttons.
 	 *	- Double clicking on a date closes it
@@ -611,6 +632,13 @@ public class Calendar extends CDialog
 			else if (text.equals("x"))
 			{
 				m_cancel = true;
+				dispose();
+				return;
+			}
+			//	Clear
+			else if (text.equals("c"))
+			{
+				m_clear = true;
 				dispose();
 				return;
 			}

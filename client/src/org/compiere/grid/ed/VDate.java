@@ -547,8 +547,10 @@ public class VDate extends JComponent
 		AEnv.showCenterWindow(frame, cal);
 		Timestamp result = cal.getTimestamp();
 		log.config( "Result=" + result);
-		if (result == null && !cal.isCancel()) // F3P: added check for 'isCancel',
+		if (result == null)
 			result = value;		//	original
+		else if (result.compareTo(new Timestamp(-1))==0)
+			result = null;
 		cal = null;
 		return result;
 	}	//	startCalendar
