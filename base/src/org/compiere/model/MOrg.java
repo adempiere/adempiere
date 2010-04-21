@@ -111,11 +111,11 @@ public class MOrg extends X_AD_Org
 	 *	@param client client
 	 *	@param name name
 	 */
-	public MOrg (MClient client, String name)
+	public MOrg (MClient client, String value, String name)
 	{
 		this (client.getCtx(), 0, client.get_TrxName());
 		setAD_Client_ID (client.getAD_Client_ID());
-		setValue (name);
+		setValue (value);
 		setName (name);
 	}	//	MOrg
 
@@ -128,7 +128,7 @@ public class MOrg extends X_AD_Org
 	 */
 	public MOrgInfo getInfo()
 	{
-		return MOrgInfo.get(getCtx(), getAD_Org_ID());
+		return MOrgInfo.get(getCtx(), getAD_Org_ID(), get_TrxName());
 	}	//	getMOrgInfo
 
 

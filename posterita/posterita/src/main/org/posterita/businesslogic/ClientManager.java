@@ -75,8 +75,8 @@ public class ClientManager
 		MSetup setup = new MSetup(ctx, 0);
 
 		// Step 1
-		boolean ok = setup.createClient(clientName, orgName, clientName
-				+ " Client User", clientName + " Org User");
+		boolean ok = setup.createClient(clientName, orgName, orgName, clientName
+				+ " Client User", clientName + " Org User", null, null, null, null, null);
 
 		if (ok) 
 		{
@@ -90,7 +90,7 @@ public class ClientManager
 			}
 
 			// Generate Entities
-			if (!setup.createEntities(countryId, city, 0, currency.getKey()))
+			if (!setup.createEntities(countryId, city, 0, currency.getKey(), null, null))
 			{
 				throw new OperationException(
 						"Could not create setup entities");

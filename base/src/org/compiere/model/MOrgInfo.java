@@ -44,14 +44,14 @@ public class MOrgInfo extends X_AD_OrgInfo
 	 *	@param AD_Org_ID id
 	 *	@return Org Info
 	 */
-	public static MOrgInfo get (Properties ctx, int AD_Org_ID)
+	public static MOrgInfo get (Properties ctx, int AD_Org_ID, String trxName)
 	{
 		MOrgInfo retValue = s_cache.get(AD_Org_ID);
 		if (retValue != null)
 		{
 			return retValue;
 		}
-		retValue = new Query(ctx, Table_Name, "AD_Org_ID=?", null)
+		retValue = new Query(ctx, Table_Name, "AD_Org_ID=?", trxName)
 						.setParameters(AD_Org_ID)
 						.firstOnly();
 		if (retValue != null)
@@ -62,7 +62,7 @@ public class MOrgInfo extends X_AD_OrgInfo
 	}	//	get
 
 	/**	Cache						*/
-	private static CCache<Integer,MOrgInfo>	s_cache	= new CCache<Integer,MOrgInfo>(Table_Name, 50);
+	private static CCache<Integer,MOrgInfo>	s_cache	= new CCache<Integer, MOrgInfo>(Table_Name, 50);
 
 	
 	/**************************************************************************
@@ -74,7 +74,7 @@ public class MOrgInfo extends X_AD_OrgInfo
 	public MOrgInfo (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-	}	//	MOrgInfo
+	}
 
 	/**
 	 * 	Organization constructor
@@ -86,6 +86,6 @@ public class MOrgInfo extends X_AD_OrgInfo
 		setClientOrg(org);
 		setDUNS ("?");
 		setTaxID ("?");
-	}	//	MOrgInfo
+	}
 	
-}	//	MOrgInfo
+}

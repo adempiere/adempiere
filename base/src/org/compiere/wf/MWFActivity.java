@@ -1567,7 +1567,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			}
 			else if (resp.isOrganization())
 			{
-				MOrgInfo org = MOrgInfo.get(getCtx(), m_po.getAD_Org_ID());
+				MOrgInfo org = MOrgInfo.get(getCtx(), m_po.getAD_Org_ID(), get_TrxName());
 				if (org.getSupervisor_ID() == 0)
 					log.fine("No Supervisor for AD_Org_ID=" + m_po.getAD_Org_ID());
 				else

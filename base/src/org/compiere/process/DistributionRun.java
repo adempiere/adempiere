@@ -513,7 +513,7 @@ public class DistributionRun extends SvrProcess
 						log.fine("Counter - From_BPOrg=" + bp.getAD_OrgBP_ID_Int() 
 							+ "-" + bp + ", To_BP=" + runBPartner);
 						order.setAD_Org_ID(bp.getAD_OrgBP_ID_Int());
-						MOrgInfo oi = MOrgInfo.get(getCtx(), bp.getAD_OrgBP_ID_Int());
+						MOrgInfo oi = MOrgInfo.get(getCtx(), bp.getAD_OrgBP_ID_Int(), get_TrxName());
 						if (oi.getM_Warehouse_ID() > 0)
 							order.setM_Warehouse_ID(oi.getM_Warehouse_ID());
 						order.setBPartner(runBPartner);
@@ -758,7 +758,7 @@ public class DistributionRun extends SvrProcess
 			int M_Warehouse_ID = 0;
 			if (p_M_Warehouse_ID <= 0)
 			{
-				MOrgInfo oi_source = MOrgInfo.get(getCtx(), m_run.getAD_Org_ID());
+				MOrgInfo oi_source = MOrgInfo.get(getCtx(), m_run.getAD_Org_ID(), get_TrxName());
 				MWarehouse m_source = MWarehouse.get(getCtx(), oi_source.getM_Warehouse_ID());
 				if(m_source == null)
 					throw new AdempiereException("Do not exist Defautl Warehouse Source");
@@ -850,7 +850,7 @@ public class DistributionRun extends SvrProcess
 		MLocator m_locator_to= null;
 		MWarehouse[] ws = null;
 		
-		MOrgInfo oi_source = MOrgInfo.get(getCtx(), m_run.getAD_Org_ID());
+		MOrgInfo oi_source = MOrgInfo.get(getCtx(), m_run.getAD_Org_ID(), get_TrxName());
 		m_source = MWarehouse.get(getCtx(), oi_source.getM_Warehouse_ID());
 		if(m_source == null)
 			throw new AdempiereException("Do not exist Defautl Warehouse Source");
@@ -915,7 +915,7 @@ public class DistributionRun extends SvrProcess
 			lastC_BPartner_Location_ID = detail.getC_BPartner_Location_ID();
 			
 			bp = new MBPartner (getCtx(), detail.getC_BPartner_ID(), get_TrxName());
-			MOrgInfo oi_target = MOrgInfo.get(getCtx(), bp.getAD_OrgBP_ID_Int());
+			MOrgInfo oi_target = MOrgInfo.get(getCtx(), bp.getAD_OrgBP_ID_Int(), get_TrxName());
 			m_target = MWarehouse.get(getCtx(), oi_target.getM_Warehouse_ID());
 			if(m_target==null)
 				throw new AdempiereException("Do not exist Default Warehouse Target");

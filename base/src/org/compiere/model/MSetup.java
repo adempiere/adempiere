@@ -101,8 +101,8 @@ public final class MSetup
 	 *  @param userOrg user id org
 	 *  @return true if created
 	 */
-	public boolean createClient (String clientName, String orgName,
-		String userClient, String userOrg)
+	public boolean createClient (String clientName, String orgValue, String orgName,
+		String userClient, String userOrg, String phone, String phone2, String fax, String eMail, String taxID)
 	{
 		log.info(clientName);
 		m_trx.start();
@@ -171,7 +171,9 @@ public final class MSetup
 		name = orgName;
 		if (name == null || name.length() == 0)
 			name = "newOrg";
-		m_org = new MOrg (m_client, name);
+		if (orgValue == null || orgValue.length() == 0)
+			orgValue = name;
+		m_org = new MOrg (m_client, orgValue, name);
 		if (!m_org.save())
 		{
 			String err = "Organization NOT created";
@@ -186,7 +188,26 @@ public final class MSetup
 		m_stdValuesOrg = AD_Client_ID + "," + getAD_Org_ID() + ",'Y',SysDate,0,SysDate,0";
 		//  Info
 		m_info.append(Msg.translate(m_lang, "AD_Org_ID")).append("=").append(name).append("\n");
-
+		
+		// Set Organization Phone, Phone2, Fax, EMail
+		MOrgInfo orgInfo = MOrgInfo.get(m_ctx, getAD_Org_ID(), m_trx.getTrxName());
+		orgInfo.setPhone(phone);
+		orgInfo.setPhone2(phone2);
+		orgInfo.setFax(fax);
+		orgInfo.setEMail(eMail);
+		if (taxID != null && taxID.length() > 0) {
+			orgInfo.setTaxID(taxID);
+		}
+		if (!orgInfo.save())
+		{
+			String err = "Organization Info NOT Updated";
+			log.log(Level.SEVERE, err);
+			m_info.append(err);
+			m_trx.rollback();
+			m_trx.close();
+			return false;
+		}
+		
 		/**
 		 *  Create Roles
 		 *  - Admin
@@ -887,7 +908,7 @@ public final class MSetup
 	 *  @param C_Currency_ID currency
 	 *  @return true if created
 	 */
-	public boolean createEntities (int C_Country_ID, String City, int C_Region_ID, int C_Currency_ID)
+	public boolean createEntities (int C_Country_ID, String City, int C_Region_ID, int C_Currency_ID, String postal, String address1)
 	{
 		if (m_as == null)
 		{
@@ -1073,6 +1094,8 @@ public final class MSetup
 		 */
 		//  Location (Company)
 		MLocation loc = new MLocation(m_ctx, C_Country_ID, C_Region_ID, City, m_trx.getTrxName());
+		loc.setAddress1(address1);
+		loc.setPostal(postal);
 		loc.save();
 		sqlCmd = new StringBuffer ("UPDATE AD_OrgInfo SET C_Location_ID=");
 		sqlCmd.append(loc.getC_Location_ID()).append(" WHERE AD_Org_ID=").append(getAD_Org_ID());

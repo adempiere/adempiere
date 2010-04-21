@@ -539,7 +539,7 @@ public class OrganisationManager
             return bankAccountId;
         }
         
-        MOrgInfo orgInfo = MOrgInfo.get(ctx, adOrgId);
+        MOrgInfo orgInfo = MOrgInfo.get(ctx, adOrgId, trxName);
         int bankId = orgInfo.getTransferBank_ID();
         
         if (bankId <= 0)
@@ -574,7 +574,7 @@ public class OrganisationManager
     
     public static int getCreateTransferCashBook(Properties ctx, int adOrgId, int currencyId, String trxName) throws OperationException
     {
-        MOrgInfo orgInfo = MOrgInfo.get(ctx, adOrgId);
+        MOrgInfo orgInfo = MOrgInfo.get(ctx, adOrgId, trxName);
         
         if (orgInfo.getTransferCashBook_ID() > 0)
         {

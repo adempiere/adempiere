@@ -293,7 +293,7 @@ public class OrderPOCreate extends SvrProcess
 				po.setDropShip_User_ID(so.getAD_User_ID());
 			}
 			// get default drop ship warehouse
-			MOrgInfo orginfo = MOrgInfo.get(getCtx(), po.getAD_Org_ID());
+			MOrgInfo orginfo = MOrgInfo.get(getCtx(), po.getAD_Org_ID(), get_TrxName());
 			if (orginfo.getDropShip_Warehouse_ID() != 0 )
 				po.setM_Warehouse_ID(orginfo.getDropShip_Warehouse_ID());
 			else

@@ -446,7 +446,7 @@ public class WorkflowProcessor extends AdempiereServer
 			PO document = process.getPO();
 			if (document != null)
 			{
-				MOrgInfo org = MOrgInfo.get (getCtx(), document.getAD_Org_ID());
+				MOrgInfo org = MOrgInfo.get (getCtx(), document.getAD_Org_ID(), null);
 				if (org.getSupervisor_ID() != 0
 					&& !list.contains(new Integer(org.getSupervisor_ID())))
 				{

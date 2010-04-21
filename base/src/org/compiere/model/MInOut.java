@@ -1808,7 +1808,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			return null;
 
 		MBPartner counterBP = new MBPartner (getCtx(), counterC_BPartner_ID, null);
-		MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID);
+		MOrgInfo counterOrgInfo = MOrgInfo.get(getCtx(), counterAD_Org_ID, get_TrxName());
 		log.info("Counter BP=" + counterBP.getName());
 
 		//	Document Type

@@ -54,6 +54,7 @@ public class InitialClientSetup extends SvrProcess
 	
 	// Process Parameters
 	private String p_ClientName = null;
+	private String p_OrgValue = null;
 	private String p_OrgName = null;
 	private String p_AdminUserName = null;
 	private String p_NormalUserName = null;
@@ -61,6 +62,13 @@ public class InitialClientSetup extends SvrProcess
 	private int p_C_Country_ID = 0;
 	private int p_C_Region_ID = 0;
 	private String p_CityName = null;
+	private String p_Postal = null;
+	private String p_Address1 = null;
+	private String p_Phone = null;
+	private String p_Phone2 = null;
+	private String p_Fax = null;
+	private String p_EMail = null;
+	private String p_TaxID = null;
 	private int p_C_City_ID = 0;
 	private boolean p_IsUseBPDimension = true;
 	private boolean p_IsUseProductDimension = true;
@@ -85,6 +93,8 @@ public class InitialClientSetup extends SvrProcess
 				;
 			else if (name.equals("ClientName"))
 				p_ClientName = (String) para[i].getParameter();
+			else if (name.equals("OrgValue"))
+				p_OrgValue = (String) para[i].getParameter();
 			else if (name.equals("OrgName"))
 				p_OrgName = (String) para[i].getParameter();
 			else if (name.equals("AdminUserName"))
@@ -101,6 +111,10 @@ public class InitialClientSetup extends SvrProcess
 				p_CityName = (String) para[i].getParameter();
 			else if (name.equals("C_City_ID"))
 				p_C_City_ID = para[i].getParameterAsInt();
+			else if (name.equals("Postal"))
+				p_Postal = (String) para[i].getParameter();
+			else if (name.equals("Address1"))
+				p_Address1 = (String) para[i].getParameter();
 			else if (name.equals("IsUseBPDimension"))
 				p_IsUseBPDimension = para[i].getParameter().equals("Y");
 			else if (name.equals("IsUseProductDimension"))
@@ -113,10 +127,20 @@ public class InitialClientSetup extends SvrProcess
 				p_IsUseSalesRegionDimension = para[i].getParameter().equals("Y");
 			else if (name.equals("CoAFile"))
 				p_CoAFile = (String) para[i].getParameter();
+			else if (name.equals("Phone"))
+				p_Phone = (String) para[i].getParameter();
+			else if (name.equals("Phone2"))
+				p_Phone2 = (String) para[i].getParameter();
+			else if (name.equals("Fax"))
+				p_Fax = (String) para[i].getParameter();
+			else if (name.equals("EMail"))
+				p_EMail = (String) para[i].getParameter();
+			else if (name.equals("TaxID"))
+				p_TaxID = (String) para[i].getParameter();
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
-	}	//	prepare
+	}
 
 	/**
 	 * 	Process
@@ -127,6 +151,7 @@ public class InitialClientSetup extends SvrProcess
 	{
 		log.info("InitialClientSetup"
 				+ ": ClientName=" + p_ClientName
+				+ ", OrgValue=" + p_OrgValue
 				+ ", OrgName=" + p_OrgName
 				+ ", AdminUserName=" + p_AdminUserName
 				+ ", NormalUserName=" + p_NormalUserName
@@ -158,7 +183,7 @@ public class InitialClientSetup extends SvrProcess
 
 		// Validate Uniqueness of client and users name
 		//	Unique Client Name
-		if (DB.executeUpdate("UPDATE AD_CLient SET CreatedBy=0 WHERE Name=?", new Object[] {p_ClientName}, false, null) != 0)
+		if (DB.executeUpdate("UPDATE AD_Client SET CreatedBy=0 WHERE Name=?", new Object[] {p_ClientName}, false, null) != 0)
 			throw new AdempiereException("@NotUnique@ " + p_ClientName);
 
 		//	Unique User Names
@@ -190,7 +215,8 @@ public class InitialClientSetup extends SvrProcess
 		// Process
 		MSetup ms = new MSetup(Env.getCtx(), WINDOW_THIS_PROCESS);
 
-		if (! ms.createClient(p_ClientName, p_OrgName, p_AdminUserName, p_NormalUserName)) {
+		if (! ms.createClient(p_ClientName, p_OrgValue, p_OrgName, p_AdminUserName, p_NormalUserName
+				, p_Phone, p_Phone2, p_Fax, p_EMail, p_TaxID)) {
 			ms.rollback();
 			throw new AdempiereException("Create client failed");
 		}
@@ -208,7 +234,7 @@ public class InitialClientSetup extends SvrProcess
 		}
 
 		//  Generate Entities
-		if (!ms.createEntities(p_C_Country_ID, p_CityName, p_C_Region_ID, p_C_Currency_ID)) {
+		if (!ms.createEntities(p_C_Country_ID, p_CityName, p_C_Region_ID, p_C_Currency_ID, p_Postal, p_Address1)) {
 			ms.rollback();
 			throw new AdempiereException("@AccountSetupError@");
 		}
@@ -218,6 +244,6 @@ public class InitialClientSetup extends SvrProcess
 		PrintUtil.setupPrintForm(ms.getAD_Client_ID());
 
 		return "@OK@";
-	}	//	doIt
+	}
 
-}	//	InitialClientSetup
+}

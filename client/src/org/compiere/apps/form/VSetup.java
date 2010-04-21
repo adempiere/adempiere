@@ -109,6 +109,7 @@ public class VSetup extends CPanel
 	private JTextField fClientName = new JTextField();
 	private JLabel lOrgName = new JLabel();
 	private JTextField fOrgName = new JTextField();
+	private JTextField fOrgValue = new JTextField();
 	private JLabel lCurrency = new JLabel();
 	private JComboBox fCurrency = new JComboBox();
 	private JLabel lUserClient = new JLabel();
@@ -472,8 +473,8 @@ public class VSetup extends CPanel
 		MSetup ms = new MSetup(Env.getCtx(), m_WindowNo);
 		m_frame.setBusyTimer(45);
 		//  Step 1
-		boolean ok = ms.createClient(fClientName.getText(), fOrgName.getText(),
-			fUserClient.getText(), fUserOrg.getText());
+		boolean ok = ms.createClient(fClientName.getText(), fOrgValue.getText(), fOrgName.getText(),
+			fUserClient.getText(), fUserOrg.getText(), null, null, null, null, null);
 		String info = ms.getInfo();
 
 		if (ok)
@@ -493,7 +494,7 @@ public class VSetup extends CPanel
 				int C_Country_ID = p.getKey();
 				p = (KeyNamePair)fRegion.getSelectedItem();
 				int C_Region_ID = p.getKey();
-				ms.createEntities(C_Country_ID, fCity.getText(), C_Region_ID, currency.getKey());
+				ms.createEntities(C_Country_ID, fCity.getText(), C_Region_ID, currency.getKey(), null, null);
 				info += ms.getInfo();
 				//	Create Print Documents
 				PrintUtil.setupPrintForm(ms.getAD_Client_ID());

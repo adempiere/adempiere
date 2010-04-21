@@ -83,9 +83,9 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 	 */    
 	public static MPPProductPlanning get(Properties ctx, int ad_client_id, int ad_org_id,
 											int m_product_id,
-											String trxname)               
+											String trxName)               
 	{
-		int M_Warehouse_ID = MOrgInfo.get(ctx, ad_org_id).getM_Warehouse_ID();
+		int M_Warehouse_ID = MOrgInfo.get(ctx, ad_org_id, trxName).getM_Warehouse_ID();
 		if(M_Warehouse_ID <= 0)
 		{
 			return null;
@@ -95,7 +95,7 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 		if (S_Resource_ID <= 0)
 			return null;
 
-		return get(ctx, ad_client_id,ad_org_id, M_Warehouse_ID, S_Resource_ID, m_product_id, trxname);
+		return get(ctx, ad_client_id,ad_org_id, M_Warehouse_ID, S_Resource_ID, m_product_id, trxName);
 	}
 
 	/**

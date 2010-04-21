@@ -94,7 +94,7 @@ public class Scheduler extends AdempiereServer
 		Env.setContext(m_schedulerctx, "#AD_Language", schedclient.getAD_Language());
 		Env.setContext(m_schedulerctx, "#AD_Org_ID", m_model.getAD_Org_ID());
 		if (m_model.getAD_Org_ID() != 0) {
-			MOrgInfo schedorg = MOrgInfo.get(getCtx(), m_model.getAD_Org_ID());
+			MOrgInfo schedorg = MOrgInfo.get(getCtx(), m_model.getAD_Org_ID(), null);
 			if (schedorg.getM_Warehouse_ID() > 0)
 				Env.setContext(m_schedulerctx, "#M_Warehouse_ID", schedorg.getM_Warehouse_ID());
 		}
