@@ -194,11 +194,19 @@ public class ARequest implements ActionListener
 			query = new MQuery("");
 			String where = "(" + m_where + ") AND Processed='N'";
 			query.addRestriction(where);
+			query.setRecordCount(0);
 		}
 		else if (e.getSource() == m_all)
 		{
 			query = new MQuery("");
 			query.addRestriction(m_where.toString());
+			query.setRecordCount(0);
+		}
+		else if (e.getSource() == m_new)
+		{
+			query = new MQuery("");
+			query.addRestriction("1=2");
+			query.setRecordCount(0);
 		}
 		//
 		int AD_Window_ID = 232;		//	232=all - 201=my
