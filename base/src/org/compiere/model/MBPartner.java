@@ -294,7 +294,7 @@ public class MBPartner extends X_C_BPartner
 	private Integer					m_primaryC_BPartner_Location_ID = null;
 	/** Prim User						*/
 	private Integer					m_primaryAD_User_ID = null;
-	/** Credit Limit recently calcualted		*/
+	/** Credit Limit recently calculated		*/
 	private boolean 				m_TotalOpenBalanceSet = false;
 	/** BP Group						*/
 	private MBPGroup				m_group = null;
