@@ -182,7 +182,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/** List of Key Parents     */
 	private ArrayList<String>	m_parents = new ArrayList<String>(2);
 
-	/** Map of ColumnName of source field (key) and the dependant field (value) */
+	/** Map of ColumnName of source field (key) and the dependent field (value) */
 	private MultiMap<String,GridField>	m_depOnField = new MultiMap<String,GridField>();
 
 	/** Async Loader            */
@@ -341,7 +341,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	/**
 	 *	Get Field data and add to MTable, if it's required or displayed.
-	 *  Reqiored fields are keys, parents, or standard Columns
+	 *  Required fields are keys, parents, or standard Columns
 	 *  @return true if fields loaded
 	 */
 	private boolean loadFields()
@@ -495,8 +495,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (m_vo.AD_Image_ID == 0)
 			return null;
 		//
-		/** @todo Load Image */
-		return null;
+		MImage mImage = MImage.get(m_vo.ctx, m_vo.AD_Image_ID);
+		return mImage.getIcon();
 	}   //  getIcon
 
 
@@ -602,7 +602,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  </pre>
 	 *  @param onlyCurrentRows only current rows
 	 *  @param onlyCurrentDays if only current row, how many days back
-	 *  @param maxRows maximim rows or 0 for all
+	 *  @param maxRows maximum rows or 0 for all
 	 */
 	public void query (boolean onlyCurrentRows, int onlyCurrentDays, int maxRows)
 	{
@@ -1084,7 +1084,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			log.finest("Processed=" + processed);
 		}
 		
-		//hengsin, dont create new when parent is empty
+		//hengsin, don't create new when parent is empty
 		if (isDetail() && m_parentNeedSave)
 			return false;
 		
@@ -1297,7 +1297,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 
 	/**
-	 *  Is Tab Incluced in other Tab
+	 *  Is Tab Included in other Tab
 	 *  @return true if included
 	 */
 	public boolean isIncluded()
@@ -1306,7 +1306,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	}   //  isIncluded
 
 	/**
-	 *  Is Tab Incluced in other Tab
+	 *  Is Tab Included in other Tab
 	 *  @param isIncluded true if included
 	 */
 	public void setIncluded(boolean isIncluded)
@@ -1389,7 +1389,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	/**
 	 *	Is High Volume?
-	 *  @return true if high volumen table
+	 *  @return true if high volume table
 	 */
 	public boolean isHighVolume()
 	{
@@ -1661,7 +1661,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			 *	{0} Line(s) {1,number,#,##0.00}  - Total: {2,number,#,##0.00}
 			 *
 			 *	{0} - Number of lines
-			 *	{1} - Toral
+			 *	{1} - Total
 			 *	{2} - Currency
 			 */
 			Object[] arguments = new Object[3];
@@ -1741,10 +1741,10 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				return " ";
 			/**********************************************************************
 			 *	** Message: OrderSummary **
-			 *	{0} Line(s) - {1,number,#,##0.00} - Toral: {2,number,#,##0.00} {3} = {4,number,#,##0.00}
+			 *	{0} Line(s) - {1,number,#,##0.00} - Total: {2,number,#,##0.00} {3} = {4,number,#,##0.00}
 			 *
 			 *	{0} - Number of lines
-			 *	{1} - Line toral
+			 *	{1} - Line total
 			 *	{2} - Grand total (including tax, etc.)
 			 *	{3} - Currency
 			 *	(4) - Grand total converted to local currency
@@ -1815,7 +1815,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			 *	{0} Line(s) - Total: {1,number,#,##0.00} {2}
 			 *
 			 *	{0} - Number of lines
-			 *	{1} - Toral
+			 *	{1} - Total
 			 *	{2} - Currency
 			 */
 			Object[] arguments = new Object[3];
@@ -1838,7 +1838,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 					//	{0} - Number of lines
 					Integer lines = new Integer(rs.getInt(1));
 					arguments[0] = lines;
-					//	{1} - Line toral
+					//	{1} - Line total
 					Double total = new Double(rs.getDouble(2));
 					arguments[1] = total;
 					//	{3} - Currency
@@ -1867,7 +1867,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	}	//	getTrxInfo
 
 	/**
-	 *  Load Dependant Information
+	 *  Load Dependent Information
 	 */
 	private void loadDependentInfo()
 	{
@@ -1989,7 +1989,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 
 	/**
 	 *	Returns true, if current row has an Attachment
-	 *  @return true if record has attchment
+	 *  @return true if record has attachment
 	 */
 	public boolean hasAttachment()
 	{
@@ -2937,7 +2937,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 * Feature Request [1707462]
 	 * Enable runtime change of VFormat
-	 * @param Identifier field ident
+	 * @param Identifier field indent
 	 * @param strNewFormat new mask
 	 * @author fer_luck
 	 */
