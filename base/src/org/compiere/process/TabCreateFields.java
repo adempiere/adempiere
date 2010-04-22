@@ -37,6 +37,10 @@ import org.compiere.util.DB;
  * @author Teo Sarca
  * 			<li>BF [ 2827782 ] TabCreateFields process not setting entity type well
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2827782&group_id=176962
+ * 
+ * @author Silvano Trinchero
+ *      <li>BF [ 2891218] Wrong behavior in entity type settings for customization entity types
+ *        https://sourceforge.net/tracker/?func=detail&aid=2891218&group_id=176962&atid=879332 
  */
 public class TabCreateFields extends SvrProcess
 {
@@ -88,7 +92,20 @@ public class TabCreateFields extends SvrProcess
 				//
 				MField field = new MField (tab);
 				field.setColumn(column);
-				field.setEntityType(tab.getEntityType()); // Use Tab's Entity Type - teo_sarca, BF [ 2827782 ]
+								
+				// F3P: changed to obey to the following rule:
+				//	if field entitytype == D, then get tab's entity type
+				//  if not, keep field entity type (ie: entitytype is D if and only if both are D)
+				
+				if(column.getEntityType().equals("D"))				
+					field.setEntityType(tab.getEntityType());
+				else
+					field.setEntityType(column.getEntityType());
+				
+				// end F3P
+				
+				// field.setEntityType(tab.getEntityType()); // Use Tab's Entity Type - teo_sarca, BF [ 2827782 ]
+
 				if (column.isKey())
 					field.setIsDisplayed(false);
 				if (field.save())
