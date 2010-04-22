@@ -134,7 +134,7 @@ public class AmtInWords_IT implements AmtInWords
 	 *	@param number
 	 *	@return amt
 	 */
-	private String convert (int number)
+	private String convert (long number)
 	{
 		/* special case */
 		if (number == 0)
@@ -153,7 +153,7 @@ public class AmtInWords_IT implements AmtInWords
 			if (n != 0)
 			{
 				String s = convertLessThanOneThousand ((int)n);
-				if (n == 1)
+				if (n == 1 && place > 0)
 					soFar = majorNames[place] + soFar;
 				else
 					soFar = s + majorNamesPlural[place] + soFar;
@@ -177,7 +177,8 @@ public class AmtInWords_IT implements AmtInWords
 	{
 		if (amount == null)
 			return amount;
-		//
+		
+		// assume rightmost point or comma as decimal separator
 		StringBuffer sb = new StringBuffer ();
 		int pos = amount.lastIndexOf (',');  		
 		int pos2 = amount.lastIndexOf ('.');
@@ -185,33 +186,55 @@ public class AmtInWords_IT implements AmtInWords
 			pos = pos2;
 		String oldamt = amount;
 
+		// strips decimals from the amount
+		if(pos >= 0)
+			amount = amount.substring (0, pos);
+		
+		// remove points and commas
 		amount = amount.replaceAll( "\\.","");
+		amount = amount.replaceAll( ",","");
 
-		int newpos = amount.lastIndexOf (',');
-		int amt = Integer.parseInt (amount.substring (0, newpos));
+		long amt = amount.length() > 0 ? Long.parseLong(amount) : 0;
+
 		sb.append (convert (amt));
-		for (int i = 0; i < oldamt.length (); i++)
+		if(pos >= 0)
 		{
-			if (pos == i) //	we are done
-			{
-				String cents = oldamt.substring (i + 1);
-				sb.append ("/").append (cents);
-				break;
-			}
+			String cents = oldamt.substring (pos + 1);
+			sb.append ("/").append (cents);
 		}
 		return sb.toString ();
 	}	//	getAmtInWords
 
+	/**
+	 * 	Test Print
+	 *	@param amt amount
+	 */
+	private void print (String amt)
+	{
+		try
+		{
+			System.out.println(amt + " = " + getAmtInWords(amt));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+	}	//	print
+
 	public static void main(String[] args) throws Exception {
 		AmtInWords_IT aiw = new AmtInWords_IT();
-		System.out.println(aiw.getAmtInWords("0,00"));
-		System.out.println(aiw.getAmtInWords("1000,00"));
-		System.out.println(aiw.getAmtInWords("14000,99"));
-		System.out.println(aiw.getAmtInWords("28000000,99"));
-		System.out.println(aiw.getAmtInWords("301000000,00"));
-		System.out.println(aiw.getAmtInWords("200000,99"));
-		System.out.println(aiw.getAmtInWords("-1234567890,99"));
-		System.out.println(aiw.getAmtInWords("2147483647,99"));
+		aiw.print(",00");	// no error, assume zero (same as next)
+		aiw.print("0,00");
+		aiw.print("1000,00");
+		aiw.print("1200");
+		aiw.print("1.200");	// no error but ambiguous for currencies with no decimals
+		aiw.print("14000.99");
+		aiw.print("28.000.000,99");	// points as thousands separators, comma for decimals
+		aiw.print("301,000,000.00"); // commas as thousands separators, point for decimals
+		aiw.print("200000,99");
+		aiw.print("-1234567890,99"); // negative amount
+		aiw.print("2147483647,99");
+		aiw.print("9223372036854775807.99"); // very big amount
 	}
 	
 }	//	AmtInWords_IT
