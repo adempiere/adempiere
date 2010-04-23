@@ -372,7 +372,8 @@ public final class Attachment extends CDialog
 			if (newText.length() > 0 || m_attachment.getEntryCount() > 0)
 			{
 				if (m_change)
-				{
+				{	
+					m_attachment.setBinaryData(new byte[0]); // ATTENTION! HEAVY HACK HERE... Else it will not save :(
 					m_attachment.setTextMsg(text.getText());
 					m_attachment.save();
 				}
