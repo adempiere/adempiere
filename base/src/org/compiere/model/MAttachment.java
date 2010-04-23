@@ -895,7 +895,7 @@ public class MAttachment extends X_AD_Attachment
 			log.warning("No File");
 			return false;
 		}
-		if (!file.exists() || file.isDirectory())
+		if (!file.exists() || file.isDirectory() || !file.canRead())
 		{
 			log.warning("not added - " + file
 				+ ", Exists=" + file.exists() + ", Directory=" + file.isDirectory());
