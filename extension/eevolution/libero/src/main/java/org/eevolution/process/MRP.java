@@ -189,10 +189,7 @@ public class MRP extends SvrProcess
 		dd_order_id_cache.clear();
 		partner_cache.clear(); 
 		
-		// Set Default Document Type To Requisition
-		docTypeReq_ID = getDocType(MDocType.DOCBASETYPE_PurchaseRequisition);
-		docTypeMO_ID = getDocType(MDocType.DOCBASETYPE_ManufacturingOrder);
-		docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_DistributionOrder);
+		
 		
 		ArrayList <Object> parameters = new ArrayList<Object>();
 		StringBuffer whereClause = new StringBuffer(MResource.COLUMNNAME_ManufacturingResourceType+"=? AND AD_Client_ID=?");
@@ -227,6 +224,11 @@ public class MRP extends SvrProcess
 
 			for (MOrg org : orgList)
 			{
+				// Set Default Document Type To Requisition
+				docTypeReq_ID = getDocType(MDocType.DOCBASETYPE_PurchaseRequisition, org.getAD_Org_ID());
+				docTypeMO_ID = getDocType(MDocType.DOCBASETYPE_ManufacturingOrder, org.getAD_Org_ID());
+				docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_DistributionOrder, org.getAD_Org_ID());
+				
 				log.info("Run MRP to Organization: " + org.getName());
 				MWarehouse[] ws;
 				if(getM_Warehouse_ID() <= 0)
@@ -885,9 +887,8 @@ public class MRP extends SvrProcess
 			//get the warehouse in transit
 			MWarehouse[] wsts = MWarehouse.getInTransitForOrg(getCtx(), source.getAD_Org_ID());
 
-			if (wsts == null)
-			{	
-				
+			if (wsts == null || wsts.length == 0)
+			{					
 				String comment = Msg.translate(getCtx(), MOrg.COLUMNNAME_Name)
 				 + ":" + MOrg.get(getCtx(), AD_Org_ID).getName();
 				createMRPNote("DRP-010", AD_Org_ID, PP_MRP_ID, product , null , null , comment);
@@ -980,8 +981,9 @@ public class MRP extends SvrProcess
 				mrp.setDateFinishSchedule(DemandDateStartSchedule);
 				mrp.saveEx();
 			}
+			count_DO += 1;
 		}
-		count_DO += 1;
+		
 		commitEx();
 	}
 	
@@ -1374,11 +1376,11 @@ public class MRP extends SvrProcess
 		return QtyNetReqs;
 	}
 	
-	protected int getDocType(String docBaseType)
+	protected int getDocType(String docBaseType, int AD_Org_ID)
 	{
-		MDocType[] doc = MDocType.getOfDocBaseType(getCtx(), docBaseType);
+		MDocType[] docs = MDocType.getOfDocBaseType(getCtx(), docBaseType);
 
-		if (doc == null || doc.length == 0) 
+		if (docs == null || docs.length == 0) 
 		{
 			String reference = Msg.getMsg(getCtx(), "SequenceDocNotFound");
 			String textMsg = "Not found default document type for docbasetype "+ docBaseType;
@@ -1392,9 +1394,17 @@ public class MRP extends SvrProcess
 		} 
 		else
 		{
-			log.info("Doc Type for "+docBaseType+": "+ doc[0].getC_DocType_ID());
-			return doc[0].getC_DocType_ID();
+			for(MDocType doc:docs)
+			{
+				if(doc.getAD_Org_ID()==AD_Org_ID)
+				{
+					return doc.getC_DocType_ID();
+				}
+			}
+			log.info("Doc Type for "+docBaseType+": "+ docs[0].getC_DocType_ID());
+			return docs[0].getC_DocType_ID();
 		}
 	}
+
 }
 
