@@ -35,13 +35,25 @@ public class MOrgInfo extends X_AD_OrgInfo
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2079223595471129816L;
-
+	private static final long serialVersionUID = 2496591466841600079L;
 
 	/**
 	 * 	Load Constructor
 	 *	@param ctx context
 	 *	@param AD_Org_ID id
+	 *	@return Org Info
+	 *  @deprecated
+	 */
+	public static MOrgInfo get (Properties ctx, int AD_Org_ID)
+	{
+		return get(ctx, AD_Org_ID, null);
+	}	//	get
+
+	/**
+	 * 	Load Constructor
+	 *	@param ctx context
+	 *	@param AD_Org_ID id
+	 *  @param trxName
 	 *	@return Org Info
 	 */
 	public static MOrgInfo get (Properties ctx, int AD_Org_ID, String trxName)
@@ -74,7 +86,7 @@ public class MOrgInfo extends X_AD_OrgInfo
 	public MOrgInfo (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-	}
+	}	//	MOrgInfo
 
 	/**
 	 * 	Organization constructor
@@ -86,6 +98,6 @@ public class MOrgInfo extends X_AD_OrgInfo
 		setClientOrg(org);
 		setDUNS ("?");
 		setTaxID ("?");
-	}
+	}	//	MOrgInfo
 	
 }
