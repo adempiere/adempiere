@@ -117,6 +117,25 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 	}
 
 	/**
+	 *
+	 * @param windowId
+     * @param query
+	 * @return ADWindow
+	 */
+	public ADWindow openWindow(int windowId, MQuery query) {
+    	ADWindow adWindow = new ADWindow(Env.getCtx(), windowId, query);
+
+		DesktopTabpanel tabPanel = new DesktopTabpanel();
+		if (adWindow.createPart(tabPanel) != null) {
+			windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
+			return adWindow;
+		} else {
+			//user cancel
+			return null;
+		}
+	}
+
+	/**
      *
      * @param taskId
      */

@@ -82,8 +82,10 @@ import org.zkoss.zul.Toolbarbutton;
  */
 public class DefaultDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener, IServerPushCallback
 {
-
-	private static final long serialVersionUID = 6320678631023300467L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2899600212295462854L;
 
 	private static final CLogger logger = CLogger.getCLogger(DefaultDesktop.class);
 
@@ -453,6 +455,12 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	public ADWindow openWindow(int windowId) {
 		autoHideMenu();
 		return super.openWindow(windowId);
+	}
+
+	@Override
+	public ADWindow openWindow(int windowId, MQuery query) {
+		autoHideMenu();
+		return super.openWindow(windowId, query);
 	}
 
 	@Override
