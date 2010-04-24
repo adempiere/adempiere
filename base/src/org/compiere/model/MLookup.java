@@ -199,7 +199,6 @@ public final class MLookup extends Lookup implements Serializable
 		}
 
 		//  Always check for parents - not if we SQL was validated and completely loaded
-		/*
 		if (!m_info.IsParent && m_info.IsValidated && m_allLoaded)
 		{
 			log.finer(m_info.KeyColumn + ": <NULL> - " + key // + "(" + key.getClass()
@@ -207,25 +206,24 @@ public final class MLookup extends Lookup implements Serializable
 		//	log.finest( m_lookup.keySet().toString(), "ContainsKey = " + m_lookup.containsKey(key));
 			//  also for new values and inactive ones
 			return getDirect(key, false, true);		//	cache locally    
-		}*/
+		}
 
 		log.finest (m_info.KeyColumn + ": " + key
 				+ "; Size=" + m_lookup.size() + "; Validated=" + m_info.IsValidated
 				+ "; All Loaded=" + m_allLoaded + "; HasInactive=" + m_hasInactive);
 		//	never loaded
-		/*
 		if (!m_allLoaded 
 			&& m_lookup.size() == 0 
 			&& !m_info.IsCreadedUpdatedBy
 			&& !m_info.IsParent
-			&& m_info.DisplayType != DisplayType.Search)
+			&& getDisplayType() != DisplayType.Search)
 		{
-			fillComboBox(isMandatory(), true, true, false);
-			loadComplete();
+			m_loader = new MLoader();
+			m_loader.run();		//	sync!
 			retValue = (NamePair)m_lookup.get(key);
 			if (retValue != null)
 				return retValue;
-		}*/
+		}
 		//	Try to get it directly
 		boolean cacheLocal = m_info.IsValidated ; 
 		return getDirect(key, false, cacheLocal);	//	do NOT cache	
