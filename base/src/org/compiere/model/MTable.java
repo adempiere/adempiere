@@ -188,8 +188,11 @@ public class MTable extends X_AD_Table
 		if (tableName == null || tableName.endsWith("_Trl"))
 			return null;
 		
+		MTable table = MTable.get(Env.getCtx(), tableName);
+		String entityType = table.getEntityType();
+		
 		//	Import Tables (Name conflict)
-		if (tableName.startsWith("I_"))
+		if (tableName.startsWith("I_") && MEntityType.ENTITYTYPE_Dictionary.equals(entityType))
 		{
 			Class<?> clazz = getPOclass("org.compiere.model.X_" + tableName);
 			if (clazz != null)
@@ -227,8 +230,6 @@ public class MTable extends X_AD_Table
 		}
 		
 		//begin [ 1784588 ] Use ModelPackage of EntityType to Find Model Class - vpj-cd 
-		MTable table = MTable.get(Env.getCtx(), tableName);
-		String entityType = table.getEntityType();
 		if (!MEntityType.ENTITYTYPE_Dictionary.equals(entityType))
 		{	
 			for (int i = 0; i < entityTypes.length; i++)
