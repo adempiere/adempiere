@@ -93,19 +93,17 @@ public class TabCreateFields extends SvrProcess
 				MField field = new MField (tab);
 				field.setColumn(column);
 								
-				// F3P: changed to obey to the following rule:
-				//	if field entitytype == D, then get tab's entity type
+				// F3P: assign field entity type -> changed to obey to the following rule:
+				//	if column entitytype == D, then get tab's entity type
 				//  if not, keep field entity type (ie: entitytype is D if and only if both are D)
 				
-				if(column.getEntityType().equals("D"))				
+				if ("D".equals(column.getEntityType()))
 					field.setEntityType(tab.getEntityType());
 				else
 					field.setEntityType(column.getEntityType());
 				
 				// end F3P
 				
-				// field.setEntityType(tab.getEntityType()); // Use Tab's Entity Type - teo_sarca, BF [ 2827782 ]
-
 				if (column.isKey())
 					field.setIsDisplayed(false);
 				if (field.save())
