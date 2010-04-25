@@ -37,8 +37,6 @@ import org.compiere.util.Util;
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>BF [ 2784194 ] Check Warehouse-Locator conflict
  *  			https://sourceforge.net/tracker/?func=detail&aid=2784194&group_id=176962&atid=879332
- *  		<li>BF [ 2797938 ] Receipt should not allow lines with Qty=0
- *  			https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2797938&group_id=176962
  */
 public class MInOutLine extends X_M_InOutLine
 {
@@ -522,15 +520,6 @@ public class MInOutLine extends X_M_InOutLine
 			}
 		}
 
-		// Receipt should not allow lines with Qty=0 - teo_sarca [ 2797938 ]
-		if (!isDescription()
-				&& getMovementQty().signum() == 0
-				&& getPickedQty().signum() == 0
-				&& getScrappedQty().signum() == 0)
-		{
-			throw new FillMandatoryException(COLUMNNAME_MovementQty);
-		}
-		
 		//	Get Line No
 		if (getLine() == 0)
 		{
