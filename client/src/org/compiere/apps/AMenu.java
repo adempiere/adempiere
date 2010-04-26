@@ -82,7 +82,10 @@ import org.compiere.util.Splash;
  *
  *  @author Colin Rooney (croo) RFE#1670185  restrict access to info queries
  *  @author victor.perez@e-evolution.com 
- *  @see FR [ 1966328 ] New Window Info to MRP and CRP into View http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ *  <li> FR [ 1966328 ] New Window Info to MRP and CRP into View 
+ * 	<li> http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
+ * 	<li> BF[2992649] Issue in Workflow Activities when the records are ordered
+ * 	<li> https://sourceforge.net/tracker/?func=detail&aid=2992649&group_id=176962&atid=879332
  * 
  */
 public final class AMenu extends CFrame
@@ -751,7 +754,6 @@ public final class AMenu extends CFrame
 		if (centerPane.getSelectedIndex() == m_tabActivities)
 		{
 			wfActivity.loadActivities();
-			wfActivity.display(-1);
 		}
 	}	//	stateChanged
 

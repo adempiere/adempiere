@@ -25,14 +25,19 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.compiere.apps.ADialog;
@@ -44,6 +49,7 @@ import org.compiere.apps.StatusBar;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.grid.ed.VLookup;
+import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MColumn;
 import org.compiere.model.MQuery;
@@ -74,6 +80,9 @@ import org.compiere.wf.MWFNode;
  * 	@version 	$Id: WFActivity.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  *
  * 	@author 	Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1748449 ]
+ * 	@author 	victor.perez@e-evolution.com
+ * 			<li> BF[2992649] Issue in Workflow Activities when the records are ordered
+ * 			<li> https://sourceforge.net/tracker/?func=detail&aid=2992649&group_id=176962&atid=879332
  *  @author     Compiere - CarlosRuiz integrate code for table selection on workflow present at GPL version of Compiere 3.2.0
  */
 public class WFActivity extends CPanel 
@@ -122,17 +131,20 @@ public class WFActivity extends CPanel
 	private FormFrame 			m_frame = null;
 	/**	Menu						*/
 	private AMenu 				m_menu = null;
-	/**	Open Activities				*/
-	private MWFActivity[] 		m_activities = null;
 	/**	Current Activity			*/
 	private MWFActivity 		m_activity = null;
 	/**	Set Column					*/
 	private	MColumn 			m_column = null; 
+	
+	private int columnValue = -1;   
+	private int columnNewValue = -1;
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WFActivity.class);
 	
 	DefaultTableModel 	selTableModel = new DefaultTableModel(
-			new String[]{Msg.translate(Env.getCtx(), "Priority"),
+			new String[]{Msg.translate(Env.getCtx(),"ID"),
+				Msg.translate(Env.getCtx(), "Priority"),
 				Msg.translate(Env.getCtx(), "AD_WF_Node_ID"),
 				Msg.translate(Env.getCtx(), "Summary")}, 0); 
 	private MiniTable	selTable = new MiniTable();
@@ -197,10 +209,54 @@ public class WFActivity extends CPanel
 		// bPrevious.addActionListener(this);
 		// bNext.addActionListener(this);
 		selTable.setModel(selTableModel);
-		selTable.setColumnClass(0, Integer.class, true);      //  0-Priority
-		selTable.setColumnClass(1, String.class, true);        //  1-AD_WF_Node_ID
-		selTable.setColumnClass(2, String.class, true);        //  2-Summary
+		selTable.setColumnClass(0,IDColumn.class,false, " ");  //  0-ID
+		selTable.setColumnClass(1, Integer.class, true);       //  1-Priority
+		selTable.setColumnClass(2, String.class, true);        //  2-AD_WF_Node_ID
+		selTable.setColumnClass(3, String.class, true);        //  3-Summary
 		selTable.getSelectionModel().addListSelectionListener(this);
+		
+		// Listen the Column Move Event
+		selTable.getColumnModel().addColumnModelListener(new TableColumnModelListener()   
+		{ 
+		  
+		    public void columnMoved(TableColumnModelEvent e)   
+		    {   
+		        if (columnValue == -1)   
+		            columnValue = e.getFromIndex();   
+		  
+		        columnNewValue = e.getToIndex();   
+		    }
+
+		    @Override
+		    public void columnAdded(TableColumnModelEvent e) {
+		    }
+
+		    @Override
+		    public void columnMarginChanged(ChangeEvent e) {
+		    }
+
+		    @Override
+		    public void columnRemoved(TableColumnModelEvent e) {	
+		    }
+		    @Override
+		    public void columnSelectionChanged(ListSelectionEvent e) {
+		    }   
+		}); 
+		
+		//Listen the mouse released Moved
+		selTable.getTableHeader().addMouseListener(new MouseAdapter()   
+		{   
+		    @Override   
+		    public void mouseReleased(MouseEvent e)   
+		    {   
+		        if (columnValue != -1 && (columnValue == 0 || columnNewValue == 0))   
+		        selTable.moveColumn(columnNewValue, columnValue);   
+		  
+		        columnValue = -1;   
+		        columnNewValue = -1;   
+		    }   
+		});
+
 		bZoom.addActionListener(this);
 		bOK.addActionListener(this);
 		//
@@ -299,7 +355,6 @@ public class WFActivity extends CPanel
 			//
 		//	this.setPreferredSize(new Dimension (400,400));
 			frame.getContentPane().add(this, BorderLayout.CENTER);
-			display(-1);
 		}
 		catch(Exception e)
 		{
@@ -409,11 +464,13 @@ public class WFActivity extends CPanel
 			while (rs.next ())
 			{
 				MWFActivity activity = new MWFActivity(Env.getCtx(), rs, null);
-				list.add (activity);
-				Object[] rowData = new Object[3];
-				rowData[0] = activity.getPriority();
-				rowData[1] = activity.getNodeName();
-				rowData[2] = activity.getSummary();
+
+				Object[] rowData = new Object[4];
+				rowData[0] = new IDColumn(activity.get_ID());
+				rowData[1] = activity.getPriority();
+				rowData[2] = activity.getNodeName();
+				rowData[3] = activity.getSummary();
+				
 				selTableModel.addRow(rowData);
 				if (list.size() > MAX_ACTIVITIES_IN_LIST)
 				{
@@ -432,12 +489,11 @@ public class WFActivity extends CPanel
 			rs = null; pstmt = null;
 		}
 		selTable.autoSize(false);
-		m_activities = new MWFActivity[list.size ()];
-		list.toArray (m_activities);
-		//
-		log.fine("#" + m_activities.length 
+	
+
+		log.fine("#" + selTable.getModel().getRowCount() 
 			+ "(" + (System.currentTimeMillis()-start) + "ms)");
-		return m_activities.length;
+		return selTable.getModel().getRowCount(); 
 	}	//	loadActivities
 	
 	/**
@@ -445,14 +501,14 @@ public class WFActivity extends CPanel
 	 * 	@param index index of table
 	 * 	Fill Editors
 	 */
-	public void display(int index)
+	public void display(IDColumn id)
 	{
-		log.fine("Index=" + index);
-		m_activity = resetDisplay(index);
+		log.fine("ID=" + id);
+		m_activity = resetDisplay(id);
 		//
 		if (m_menu != null)
 		{
-		 	m_menu.updateActivities(m_activities.length);
+		 	m_menu.updateActivities(selTable.getModel().getRowCount());
 		}
 		if (m_activity == null)
 			return;
@@ -506,7 +562,7 @@ public class WFActivity extends CPanel
 		else
 			log.log(Level.SEVERE, "Unknown Node Action: " + node.getAction());
 
-		statusBar.setStatusDB((index+1) + "/" + m_activities.length);
+		statusBar.setStatusDB(String.valueOf(selTable.getSelectedRow()+1) + "/" + selTable.getRowCount());
 		statusBar.setStatusLine(Msg.getMsg(Env.getCtx(), "WFActivities"));
 	}	//	display
 
@@ -515,26 +571,23 @@ public class WFActivity extends CPanel
 	 *	@param selIndex select index
 	 *	@return selected activity
 	 */
-	private MWFActivity resetDisplay(int selIndex)
+	private MWFActivity resetDisplay(IDColumn id)
 	{
 		fAnswerText.setVisible(false);
 		fAnswerList.setVisible(false);
 		fAnswerButton.setVisible(false);
-		fTextMsg.setReadWrite(selIndex >= 0);
-		bZoom.setEnabled(selIndex >= 0);
-		bOK.setEnabled(selIndex >= 0);
+		fTextMsg.setReadWrite(id != null);
+		bZoom.setEnabled(id != null);
+		bOK.setEnabled(id != null);
 		fForward.setValue(null);
-		fForward.setEnabled(selIndex >= 0);
+		fForward.setEnabled(id != null);
 		//
-		statusBar.setStatusDB(String.valueOf(selIndex+1) + "/" + m_activities.length);
+		statusBar.setStatusDB(String.valueOf(selTable.getSelectedRow()+1) + "/" + selTable.getRowCount());
 		m_activity = null;
 		m_column = null;
-		if (m_activities.length > 0)
-		{
-			if (selIndex >= 0 && selIndex < m_activities.length)
-				m_activity = m_activities[selIndex];
-		}
-		//	Nothing to show
+
+		m_activity = new MWFActivity(Env.getCtx(),id.getRecord_ID(),null);
+
 		if (m_activity == null)
 		{
 			fNode.setText ("");
@@ -554,9 +607,12 @@ public class WFActivity extends CPanel
 	 */
     public void valueChanged(ListSelectionEvent e)
     {
-		int index = selTable.getSelectedRow();
-		if (index >= 0)
-			display(index);
+    	if(selTable.getSelectedRow()>=0)
+    	{
+    		IDColumn id = (IDColumn)selTable.getValueAt(selTable.getSelectedRow(),0);
+    		if (id != null)
+    			display(id);
+    	}
     }	//	valueChanged
 
 	
@@ -735,7 +791,6 @@ public class WFActivity extends CPanel
 
 		//	Next
 		loadActivities();
-		display(-1);
 	}	//	cmd_OK
 	
 	
