@@ -760,7 +760,8 @@ public final class Ini implements Serializable
 				context = new InitialContext();
 				env = (String) context.lookup("java:comp/env/"+ADEMPIERE_HOME);
 			} catch (NamingException e) {
-				log.fine( "Not found 'java:comp/env/"+ADEMPIERE_HOME+"' in Initial Context. " +e.getMessage());
+				// teo_sarca: if you uncomment the line below you will get an NPE when generating models
+				//log.fine( "Not found 'java:comp/env/"+ADEMPIERE_HOME+"' in Initial Context. " +e.getMessage());
 			}
 			
 		}
