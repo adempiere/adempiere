@@ -59,6 +59,11 @@ import org.xml.sax.SAXException;
  *	One Attachment can have multiple entries
  *	
  *  @author Jorg Janke
+ *  
+  * @author Silvano Trinchero
+ *      <li>BF [ 2992291] MAttachment.addEntry not closing streams if an exception occur
+ *        http://sourceforge.net/tracker/?func=detail&aid=2992291&group_id=176962&atid=879332
+ *
  *  @version $Id: MAttachment.java,v 1.4 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MAttachment extends X_AD_Attachment
@@ -254,22 +259,40 @@ public class MAttachment extends X_AD_Attachment
 		//
 		String name = file.getName();
 		byte[] data = null;
+		
+		// F3P: BF [2992291] modified to be able to close streams in "finally" block 		
+		
+		FileInputStream fis = null;
+		ByteArrayOutputStream os = null;
+		
 		try
 		{
-			FileInputStream fis = new FileInputStream (file);
-			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			fis = new FileInputStream (file);
+			os = new ByteArrayOutputStream();
 			byte[] buffer = new byte[1024*8];   //  8kB
 			int length = -1;
 			while ((length = fis.read(buffer)) != -1)
 				os.write(buffer, 0, length);
-			fis.close();
-			data = os.toByteArray();
-			os.close();
+			
+			data = os.toByteArray();			
 		}
 		catch (IOException ioe)
 		{
 			log.log(Level.SEVERE, "(file)", ioe);
 		}
+		finally
+		{
+			if(fis != null)
+			{
+				try { fis.close(); } catch (IOException ex) { log.log(Level.SEVERE, "(file)", ex); }; 
+			}
+							
+			if(os != null)
+			{
+				try { os.close(); } catch (IOException ex) { log.log(Level.SEVERE, "(file)", ex); };
+			}
+		}
+		
 		return addEntry (name, data);
 	}	//	addEntry
 
