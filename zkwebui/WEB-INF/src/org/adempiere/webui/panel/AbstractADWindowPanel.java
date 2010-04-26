@@ -106,6 +106,10 @@ import org.zkoss.zul.Menupopup;
  * @author hengsin, hengsin.low@idalica.com
  * @see FR [2887701] https://sourceforge.net/tracker/?func=detail&atid=879335&aid=2887701&group_id=176962
  * @sponsor www.metas.de
+ *
+ * @author Teo Sarca, teo.sarca@gmail.com
+ *  	<li>BF [ 2992540 ] Grid/Panel not refreshed after process run
+ *  		https://sourceforge.net/tracker/?func=detail&aid=2992540&group_id=176962&atid=955896
  */
 public abstract class AbstractADWindowPanel extends AbstractUIPart implements ToolbarListener,
         EventListener, DataStatusListener, ActionListener, ASyncProcess
@@ -2035,6 +2039,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			form.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			SessionManager.getAppDesktop().showWindow(form);
+			onRefresh();
 		}
 		else
 		{
@@ -2047,6 +2052,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				dialog.setVisible(true);
 				dialog.setPosition("center");
 				AEnv.showWindow(dialog);
+				onRefresh();
 			}
 		}
 	} // actionButton
