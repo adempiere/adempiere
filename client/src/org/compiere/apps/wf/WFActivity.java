@@ -143,7 +143,7 @@ public class WFActivity extends CPanel
 	private static CLogger log = CLogger.getCLogger(WFActivity.class);
 	
 	DefaultTableModel 	selTableModel = new DefaultTableModel(
-			new String[]{Msg.translate(Env.getCtx(),"ID"),
+			new String[]{"ID",
 				Msg.translate(Env.getCtx(), "Priority"),
 				Msg.translate(Env.getCtx(), "AD_WF_Node_ID"),
 				Msg.translate(Env.getCtx(), "Summary")}, 0); 
