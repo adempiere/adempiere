@@ -644,7 +644,7 @@ public class GridController extends CPanel
 				else if (keyColumnName.equals("CM_Media_ID"))
 					treeName = "AD_TreeCMM_ID";
 			}
-			int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), m_WindowNo, treeName);
+			int AD_Tree_ID = Env.getContextAsInt (Env.getCtx(), m_WindowNo, treeName, true);
 			log.config(keyColumnName + " -> " + treeName + " = " + AD_Tree_ID);
 			if (AD_Tree_ID == 0)
 				AD_Tree_ID = MTree.getDefaultAD_Tree_ID (

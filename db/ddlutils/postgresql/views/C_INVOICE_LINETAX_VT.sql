@@ -99,7 +99,7 @@ UNION   --  empty line
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created, i.CreatedBy, i.Updated, i.UpdatedBy,
 	AD_Language, i.C_Invoice_ID, null,
     null, null, null, null,
-	9998, null,
+	999998, null,
 	null, null, null,
 	null,
 	null, null, null, null, null, null,
@@ -112,7 +112,7 @@ UNION   --  tax lines
 SELECT it.AD_Client_ID, it.AD_Org_ID, it.IsActive, it.Created, it.CreatedBy, it.Updated, it.UpdatedBy,
 	t.AD_Language, it.C_Invoice_ID, null,
     it.C_Tax_ID, null, null, t.TaxIndicator,
-	9999, null,
+	999999, null,
 	null, null, null,
 	t.Name,
 	null, null, null, null, null, null,
@@ -124,6 +124,4 @@ SELECT it.AD_Client_ID, it.AD_Org_ID, it.IsActive, it.Created, it.CreatedBy, it.
     null,null,null,null,null
 FROM C_InvoiceTax it
 	INNER JOIN C_Tax_Trl t ON (it.C_Tax_ID=t.C_Tax_ID);
-
-
 
