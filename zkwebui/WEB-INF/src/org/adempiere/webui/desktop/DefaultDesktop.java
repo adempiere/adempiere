@@ -26,7 +26,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
-import org.adempiere.webui.apps.ProcessDialog;
 import org.adempiere.webui.apps.graph.WGraph;
 import org.adempiere.webui.apps.graph.WPerformanceDetail;
 import org.adempiere.webui.component.Tabpanel;
@@ -35,17 +34,14 @@ import org.adempiere.webui.dashboard.DPActivities;
 import org.adempiere.webui.dashboard.DashboardPanel;
 import org.adempiere.webui.dashboard.DashboardRunnable;
 import org.adempiere.webui.event.MenuListener;
-import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.HeaderPanel;
 import org.adempiere.webui.panel.SidePanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.util.IServerPushCallback;
 import org.adempiere.webui.util.ServerPushTemplate;
 import org.adempiere.webui.util.UserPreference;
-import org.adempiere.webui.window.ADWindow;
 import org.compiere.model.MGoal;
 import org.compiere.model.MMenu;
-import org.compiere.model.MQuery;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
@@ -83,9 +79,9 @@ import org.zkoss.zul.Toolbarbutton;
 public class DefaultDesktop extends TabbedDesktop implements MenuListener, Serializable, EventListener, IServerPushCallback
 {
 	/**
-	 * 
+	 * generated serial version ID 
 	 */
-	private static final long serialVersionUID = 2899600212295462854L;
+	private static final long serialVersionUID = -8203958978173990301L;
 
 	private static final CLogger logger = CLogger.getCLogger(DefaultDesktop.class);
 
@@ -452,44 +448,8 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 	}
 
 	@Override
-	public ADWindow openWindow(int windowId) {
+	protected void preOpenNewTab() 
+	{
 		autoHideMenu();
-		return super.openWindow(windowId);
-	}
-
-	@Override
-	public ADWindow openWindow(int windowId, MQuery query) {
-		autoHideMenu();
-		return super.openWindow(windowId, query);
-	}
-
-	@Override
-	public ADForm openForm(int formId) {
-		autoHideMenu();
-		return super.openForm(formId);
-	}
-
-	@Override
-	public ProcessDialog openProcessDialog(int processId, boolean soTrx) {
-		autoHideMenu();
-		return super.openProcessDialog(processId, soTrx);
-	}
-
-	@Override
-	public void openTask(int taskId) {
-		autoHideMenu();
-		super.openTask(taskId);
-	}
-
-	@Override
-	public void openWorkflow(int workflowID) {
-		autoHideMenu();
-		super.openWorkflow(workflowID);
-	}
-
-	@Override
-	public void showWindow(int AD_Window_ID, MQuery query) {
-		autoHideMenu();
-		super.showWindow(AD_Window_ID, query);
-	}
+	}	
 }

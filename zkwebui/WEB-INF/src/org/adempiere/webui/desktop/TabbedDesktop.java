@@ -63,6 +63,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 			pd.setParent(tabPanel);
 			String title = pd.getTitle();
 			pd.setTitle(null);
+			preOpenNewTab();
 			windowContainer.addWindow(tabPanel, title, true);
 		}
 		return pd;
@@ -80,6 +81,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 		form.setParent(tabPanel);
 		//do not show window title when open as tab
 		form.setTitle(null);
+		preOpenNewTab();
 		windowContainer.addWindow(tabPanel, form.getFormName(), true);
 
 		return form;
@@ -95,6 +97,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
 		p.setParent(tabPanel);
+		preOpenNewTab();
 		windowContainer.addWindow(tabPanel, p.getWorkflow().get_Translation(MWorkflow.COLUMNNAME_Name), true);
 	}
 
@@ -108,6 +111,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
 		if (adWindow.createPart(tabPanel) != null) {
+			preOpenNewTab();
 			windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
 			return adWindow;
 		} else {
@@ -127,6 +131,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 
 		DesktopTabpanel tabPanel = new DesktopTabpanel();
 		if (adWindow.createPart(tabPanel) != null) {
+			preOpenNewTab();
 			windowContainer.addWindow(tabPanel, adWindow.getTitle(), true);
 			return adWindow;
 		} else {
@@ -199,6 +204,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 
         Tabpanel tabPanel = new Tabpanel();
     	window.setParent(tabPanel);
+    	preOpenNewTab();
     	windowContainer.addWindow(tabPanel, title, closeable);
     }
 
@@ -213,6 +219,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     	DesktopTabpanel tabPanel = new DesktopTabpanel();
     	if (wnd.createPart(tabPanel) != null)
     	{
+    		preOpenNewTab();
     		windowContainer.insertAfter(windowContainer.getSelectedTab(), tabPanel, wnd.getTitle(), true, true);
     	}
 	}
@@ -220,16 +227,11 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     /**
      * @param AD_Window_ID
      * @param query
+     * @deprecated
      */
     public void showWindow(int AD_Window_ID, MQuery query)
     {
-    	ADWindow wnd = new ADWindow(Env.getCtx(), AD_Window_ID, query);
-
-    	DesktopTabpanel tabPanel = new DesktopTabpanel();
-    	if (wnd.createPart(tabPanel) != null)
-    	{
-    		windowContainer.addWindow(tabPanel, wnd.getTitle(), true);
-    	}
+    	openWindow(AD_Window_ID, query);
 	}
 
 	/**
@@ -242,6 +244,7 @@ public abstract class TabbedDesktop extends AbstractDesktop {
     	window.setParent(tabPanel);
     	String title = window.getTitle();
     	window.setTitle(null);
+    	preOpenNewTab();
     	if (Window.INSERT_NEXT.equals(window.getAttribute(Window.INSERT_POSITION_KEY)))
     		windowContainer.insertAfter(windowContainer.getSelectedTab(), tabPanel, title, true, true);
     	else
@@ -318,5 +321,12 @@ public abstract class TabbedDesktop extends AbstractDesktop {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * invoke before a new tab is added to the desktop
+	 */
+	protected void preOpenNewTab()
+	{
 	}
 }
