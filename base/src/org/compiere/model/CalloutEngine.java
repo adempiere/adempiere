@@ -201,6 +201,29 @@ public class CalloutEngine implements Callout
 	}	//	isCalloutActive
 
 	/**
+	 * 	Is the current callout being called in the middle of 
+     *  another callout doing her works.
+     *  Callout can use GridTab.getActiveCalloutInstance() method
+     *  to find out callout for which field is running.
+	 *	@return true if active
+	 */
+	protected boolean isThisCalloutActive()
+	{
+		if (m_mTab == null)
+			return false;
+		//greater than 1 instead of 0 to discount this callout instance
+		String className = this.getClass().getName();
+		String methodName = Thread.currentThread().getStackTrace()[2].getMethodName();
+		String calloutName = className + "." + methodName;
+		int cnt = 0;
+		for (String activeCallouts : m_mTab.getActiveCallouts()) {
+			if (activeCallouts.equals(calloutName))
+				cnt++;
+		}
+		return cnt > 1;
+	}	//	isCalloutActive
+
+	/**
 	 * 	Set Callout (in)active.
      *  Depreciated as the implementation is not thread safe and
      *  fragile - break other callout if developer forget to call
