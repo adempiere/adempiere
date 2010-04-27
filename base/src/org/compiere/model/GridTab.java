@@ -2570,7 +2570,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		int col = m_mTable.findColumn(field.getColumnName());
 		m_mTable.setValueAt(value, m_currentRow, col, false);
 		//
-		return processFieldChange (field);
+		return ""; // processFieldChange (field); // here we don't need to call processFieldChange, it was called on GridController.dataStatusChanged
 	}   //  setValue
 
 	/**
