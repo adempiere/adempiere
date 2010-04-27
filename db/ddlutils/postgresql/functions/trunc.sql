@@ -20,14 +20,14 @@
 *Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.of
 */
 CREATE OR REPLACE FUNCTION trunc(datetime TIMESTAMP WITH TIME ZONE)
-RETURNS DATE AS $$
+RETURNS TIMESTAMP WITH TIME ZONE AS $$
 BEGIN
 	RETURN CAST(datetime AS DATE);
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION trunc(datetime TIMESTAMP WITH TIME ZONE, format varchar)
-RETURNS TIMESTAMP WITH TIME ZONE AS $$
+RETURNS DATE AS $$
 BEGIN
 	IF format = 'Q' THEN
 		RETURN CAST(DATE_Trunc('quarter',datetime) as DATE);
