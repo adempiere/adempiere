@@ -40,6 +40,10 @@
 		</system-config>
 	-->
 
+	<system-config>
+		<id-generator-class>org.adempiere.webui.AdempiereIdGenerator</id-generator-class>
+	</system-config>
+
 	<!--
 		polling - org.zkoss.zkex.ui.impl.PollingServerPush
 		comet - org.zkoss.zkmax.ui.comet.CometServerPush ( enterprise edition only )  
