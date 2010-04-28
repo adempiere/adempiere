@@ -487,7 +487,6 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			String tableName = table.getTableName();
 			final String sql = "SELECT IsPrinted FROM "+tableName+" WHERE "+tableName+"_ID=?";
 			boolean isPrinted = "Y".equals(DB.getSQLValueStringEx(m_TrxName, sql, getPrintInfo().getRecord_ID()));
-			isPrinted =true;
 			if(isPrinted)
 			{
 				image = tf.getImageWaterMark();
