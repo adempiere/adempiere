@@ -419,7 +419,7 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
             String orderBy)
 	{
         String sql =contentPanel.prepareTable(layout, from,
-                where,p_multipleSelection && !m_lookup,
+                where,p_multipleSelection && m_lookup,
                 getTableName(),false);
         p_layout = contentPanel.getLayout();
 		m_sqlMain = sql;
