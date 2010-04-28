@@ -14,7 +14,6 @@ public class ADClassNameMap {
 		map.put("org.compiere.process.InvoicePrint", "org.adempiere.webui.process.InvoicePrint");
 		map.put("org.compiere.process.CacheReset", "org.adempiere.webui.process.CacheReset");
 		map.put("org.adempiere.apps.graph.ViewPI", "org.adempiere.webui.apps.graph.WViewPI");
-		map.put("org.eevolution.form.VOrderReceiptIssue", "org.adempiere.webui.window.WOrderReceiptIssue");
 	}
 	
 	/**
