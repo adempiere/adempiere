@@ -13,7 +13,7 @@
  *****************************************************************************/
 package org.adempiere.webui.process;
 
-import org.adempiere.webui.util.ADClassNameMap;
+import org.adempiere.common.ADClassNameMap;
 import org.compiere.process.ProcessInfo;
 
 /**

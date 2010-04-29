@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.util.ADClassNameMap;
+import org.adempiere.common.ADClassNameMap;
 import org.compiere.model.MForm;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
