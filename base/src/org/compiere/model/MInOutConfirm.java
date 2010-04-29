@@ -43,6 +43,8 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, teo.sarca@gmail.com
  * 			<li>BF [ 2993853 ] Voiding/Reversing Receipt should void confirmations
  * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2993853&group_id=176962
+ * 			<li>FR [ 2994115 ] Add C_DocType.IsPrepareSplitDoc flag
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2994115&group_id=176962&atid=879335
  */
 public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 {
@@ -528,6 +530,12 @@ public class MInOutConfirm extends X_M_InOutConfirm implements DocAction
 
 		m_processMsg = "Split @M_InOut_ID@=" + split.getDocumentNo()
 			+ " - @M_InOutConfirm_ID@=";
+		
+		MDocType dt = MDocType.get(getCtx(), original.getC_DocType_ID());
+		if (!dt.isPrepareSplitDocument())
+		{
+			return ;
+		}
 		
 		//	Create Dispute Confirmation
 		if (!split.processIt(DocAction.ACTION_Prepare))

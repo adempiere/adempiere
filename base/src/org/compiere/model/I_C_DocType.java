@@ -77,6 +77,19 @@ public interface I_C_DocType
 
 	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
     /** Column name C_DocTypeDifference_ID */
     public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
 
@@ -91,19 +104,6 @@ public interface I_C_DocType
 	public int getC_DocTypeDifference_ID();
 
 	public I_C_DocType getC_DocTypeDifference() throws RuntimeException;
-
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
 
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
@@ -419,6 +419,19 @@ public interface I_C_DocType
 	  * Require Pick or QA Confirmation before processing
 	  */
 	public boolean isPickQAConfirm();
+
+    /** Column name IsPrepareSplitDocument */
+    public static final String COLUMNNAME_IsPrepareSplitDocument = "IsPrepareSplitDocument";
+
+	/** Set Prepare Split Document.
+	  * Prepare generated split shipment/receipt document
+	  */
+	public void setIsPrepareSplitDocument (boolean IsPrepareSplitDocument);
+
+	/** Get Prepare Split Document.
+	  * Prepare generated split shipment/receipt document
+	  */
+	public boolean isPrepareSplitDocument();
 
     /** Column name IsShipConfirm */
     public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
