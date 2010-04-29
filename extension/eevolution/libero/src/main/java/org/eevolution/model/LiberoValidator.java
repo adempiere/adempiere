@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.webui.util.ADClassNameMap;
+import org.adempiere.common.ADClassNameMap;
 import org.compiere.model.MClient;
 import org.compiere.model.MForecastLine;
 import org.compiere.model.MInOut;
