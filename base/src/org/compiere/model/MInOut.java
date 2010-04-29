@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -49,6 +50,9 @@ import org.compiere.util.Msg;
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  *  @see http://sourceforge.net/tracker/?func=detail&atid=879335&aid=1948157&group_id=176962
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ * 			<li>BF [ 2993853 ] Voiding/Reversing Receipt should void confirmations
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2993853&group_id=176962
  */
 public class MInOut extends X_M_InOut implements DocAction
 {
@@ -919,6 +923,19 @@ public class MInOut extends X_M_InOut implements DocAction
 		else if (ship)
 			MInOutConfirm.create (this, MInOutConfirm.CONFIRMTYPE_ShipReceiptConfirm, true);
 	}	//	createConfirmation
+	
+	private void voidConfirmations()
+	{
+		for(MInOutConfirm confirm : getConfirmations(true))
+		{
+			if (!confirm.isProcessed())
+			{
+				if (!confirm.processIt(MInOutConfirm.DOCACTION_Void))
+					throw new AdempiereException(confirm.getProcessMsg());
+				confirm.saveEx();
+			}
+		}
+	}
 
 
 	/**
@@ -1922,6 +1939,11 @@ public class MInOut extends X_M_InOut implements DocAction
 					line.save(get_TrxName());
 				}
 			}
+			//
+			// Void Confirmations
+			setDocStatus(DOCSTATUS_Voided); // need to set & save docstatus to be able to check it in MInOutConfirm.voidIt()
+			saveEx();
+			voidConfirmations();
 		}
 		else
 		{
@@ -2068,6 +2090,12 @@ public class MInOut extends X_M_InOut implements DocAction
 		reversal.saveEx(get_TrxName());
 		//
 		addDescription("(" + reversal.getDocumentNo() + "<-)");
+		
+		//
+		// Void Confirmations
+		setDocStatus(DOCSTATUS_Reversed); // need to set & save docstatus to be able to check it in MInOutConfirm.voidIt()
+		saveEx();
+		voidConfirmations();
 
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
