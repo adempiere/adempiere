@@ -16,7 +16,7 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="/tools/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zkmax.jar" sourcepath="WEB-INF/lib/zkmax-sources.jar"/>
-	<classpathentry kind="lib" path="WEB-INF/lib/zkex.jar" sourcepath="WEB-INF/lib/zkex-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="WEB-INF/lib/zkex.jar" sourcepath="WEB-INF/lib/zkex-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zkplus.jar" sourcepath="WEB-INF/lib/zkplus-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/zhtml.jar" sourcepath="WEB-INF/lib/zhtml-sources.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/timelinez.jar" sourcepath="WEB-INF/lib/timelinez-sources.jar"/>
