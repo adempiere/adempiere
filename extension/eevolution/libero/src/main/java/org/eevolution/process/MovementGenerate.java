@@ -21,24 +21,33 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MClient;
+import org.compiere.model.MDocType;
 import org.compiere.model.MLocator;
+import org.compiere.model.MMessage;
 import org.compiere.model.MMovement;
 import org.compiere.model.MMovementLine;
+import org.compiere.model.MNote;
+import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductCategory;
 import org.compiere.model.MStorage;
+import org.compiere.model.Query;
 import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
+import org.eevolution.model.MPPMRP;
 
 
 
@@ -463,6 +472,12 @@ public class MovementGenerate extends SvrProcess
 				m_movement.setC_BPartner_ID(order.getC_BPartner_ID());
 			if (order.getC_BPartner_Location_ID() != order.getC_BPartner_Location_ID())
 				m_movement.setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
+			
+			//Look the document type based on organization
+				int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_DistributionOrder, order.getAD_Org_ID());
+				
+				if(docTypeDO_ID>0)
+					m_movement.setC_DocType_ID(docTypeDO_ID);			
 			if (!m_movement.save())
 				throw new IllegalStateException("Could not create Movement");
 		}
@@ -559,22 +574,11 @@ public class MovementGenerate extends SvrProcess
 		move.setC_BPartner_ID (order.getC_BPartner_ID());
 		move.setC_BPartner_Location_ID (order.getC_BPartner_Location_ID());	//	shipment address
 		move.setAD_User_ID(order.getAD_User_ID());
-		//
-		//setM_Warehouse_ID (order.getM_Warehouse_ID());
-		//setIsSOTrx (order.isSOTrx());
-		//setMovementType (order.isSOTrx() ? MOVEMENTTYPE_CustomerShipment : MOVEMENTTYPE_VendorReceipts);
-		//if (C_DocType_ID == 0)
-		//	C_DocType_ID = DB.getSQLValue(null,
-		//		"SELECT C_DocType_ID FROM C_DocType WHERE C_DocType_ID=?", 
-		//		order.getC_DocType_ID());
-		//setC_DocType_ID (C_DocType_ID);
 		
 		//	Default - Today
 		if (movementDate != null)
 			move.setMovementDate (movementDate);
-
-		//setDateAcct (getMovementDate());
-		
+			
 		//	Copy from Order
 		move.setDD_Order_ID(order.getC_Order_ID());
 		move.setDeliveryRule (order.getDeliveryRule());
@@ -597,11 +601,38 @@ public class MovementGenerate extends SvrProcess
 		move.setAD_OrgTrx_ID(order.getAD_OrgTrx_ID());
 		move.setUser1_ID(order.getUser1_ID());
 		move.setUser2_ID(order.getUser2_ID());
-		move.setPriorityRule(order.getPriorityRule());
-		//
+		move.setPriorityRule(order.getPriorityRule());		
 		return move;
 	}
 
+	/**
+	 * Get C_DocType_ID based on organization
+	 * @param docBaseType Document Base Type
+	 * @param AD_Org_ID Organization ID
+	 * @return
+	 */
+	private int getDocType(String docBaseType, int AD_Org_ID)
+	{
+		MDocType[] docs = MDocType.getOfDocBaseType(getCtx(), docBaseType);
+
+		if (docs == null || docs.length == 0) 
+		{
+			String textMsg = "Not found default document type for docbasetype "+ docBaseType;
+			throw new AdempiereException(textMsg);
+		} 
+		else
+		{
+			for(MDocType doc:docs)
+			{
+				if(doc.getAD_Org_ID()==AD_Org_ID)
+				{
+					return doc.getC_DocType_ID();
+				}
+			}
+			log.info("Doc Type for "+docBaseType+": "+ docs[0].getC_DocType_ID());
+			return docs[0].getC_DocType_ID();
+		}
+	}
 	
 	/**
 	 * 	Get Storages

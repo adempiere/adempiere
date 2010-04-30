@@ -51,6 +51,7 @@ import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.MColumn;
+import org.compiere.model.MDocType;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MMovement;
@@ -440,7 +441,6 @@ public class VOrderDistributionReceipt extends CPanel
 		Timestamp MovementDate = (Timestamp) m_MovementDate;
 		MDDOrder order = new MDDOrder(m_ctx , Integer.parseInt(m_DD_Order_ID.toString()), trxName);
 		MMovement movement = new MMovement(m_ctx , 0 , trxName);
-		
 		movement.setDD_Order_ID(order.getDD_Order_ID());
 		movement.setAD_User_ID(order.getAD_User_ID());
 		movement.setPOReference(order.getPOReference());
@@ -460,6 +460,11 @@ public class VOrderDistributionReceipt extends CPanel
 		movement.setDeliveryViaRule(order.getDeliveryViaRule());
 		movement.setDocAction(MMovement.ACTION_Prepare);
 		movement.setDocStatus(MMovement.DOCSTATUS_Drafted);
+		
+		//Look the document type for the organization
+		int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_DistributionOrder, order.getAD_Org_ID());		
+		if(docTypeDO_ID>0)
+			movement.setC_DocType_ID(docTypeDO_ID);
 		movement.saveEx();
 	
 		for (int i = 0 ; i < selection.size() ; i++ )
@@ -486,7 +491,34 @@ public class VOrderDistributionReceipt extends CPanel
 		//
 	}	//	generateMovements
 
-	
+	/**
+	 * Get document type based on organization
+	 * @param docBaseType Document Type Base
+	 * @param AD_Org_ID  Oeganization ID
+	 * @return C_DocType_ID
+	 */
+	private int getDocType(String docBaseType, int AD_Org_ID)
+	{
+		MDocType[] docs = MDocType.getOfDocBaseType(Env.getCtx(), docBaseType);
+ 
+		if (docs == null || docs.length == 0) 
+		{
+			String textMsg = "Not found default document type for docbasetype "+ docBaseType;
+			throw new AdempiereException(textMsg);
+		} 
+		else
+		{
+			for(MDocType doc:docs)
+			{
+				if(doc.getAD_Org_ID()==AD_Org_ID)
+				{
+					return doc.getC_DocType_ID();
+				}
+			}
+			log.info("Doc Type for "+docBaseType+": "+ docs[0].getC_DocType_ID());
+			return docs[0].getC_DocType_ID();
+		}
+	}
 
 	/**
 	 *  Complete generating movements.
