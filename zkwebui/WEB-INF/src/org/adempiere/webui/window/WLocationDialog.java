@@ -53,6 +53,9 @@ import org.zkoss.zk.ui.event.Events;
  * This class is based upon VLocationDialog, written by Jorg Janke
  * @author Cristina Ghita, www.arhipac.ro
  * 			<li>FR [ 2794312 ] Location AutoComplete
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 			<li>BF [ 2995212 ] NPE on Location dialog
+ * 				https://sourceforge.net/tracker/?func=detail&aid=2995212&group_id=176962&atid=955896
  * 
  * @TODO: Implement fOnline button present in swing client
  * 
@@ -570,7 +573,7 @@ public class WLocationDialog extends Window implements EventListener
 		//  Country/Region
 		MCountry country = (MCountry)lstCountry.getSelectedItem().getValue();
 		m_location.setCountry(country);
-		if (country.isHasRegion())
+		if (country.isHasRegion() && lstRegion.getSelectedItem() != null)
 		{
 			MRegion r = (MRegion)lstRegion.getSelectedItem().getValue();
 			m_location.setRegion(r);
