@@ -1053,6 +1053,12 @@ public abstract class Doc
 			log.fine("(none) - " + toString());
 			return true;
 		}
+		// Journal from a different acct schema
+		if (this instanceof Doc_GLJournal) {
+			int glj_as = ((Integer) p_po.get_Value("C_AcctSchema_ID")).intValue();
+			if (acctSchema.getC_AcctSchema_ID() != glj_as)
+				return true;
+		}
 		//  Get All Currencies
 		HashSet<Integer> set = new HashSet<Integer>();
 		set.add(new Integer(getC_Currency_ID()));
