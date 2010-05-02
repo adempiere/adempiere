@@ -551,6 +551,8 @@ public class TableElement extends PrintElement
 		m_headerHeight += (4*m_tFormat.getLineStroke().floatValue()) + (2*V_GAP);	//	Thick lines
 		p_height += m_headerHeight;
 
+		//	Last row Lines
+		p_height += m_tFormat.getLineStroke().floatValue();			//	last fat line
 
 		//	Page Layout	*******************************************************
 
@@ -575,6 +577,13 @@ public class TableElement extends PrintElement
 				float rowHeight = ((Float)m_rowHeights.get(dataRow)).floatValue();
 				//	Y page break before
 				boolean pageBreak = isPageBreak(dataRow);
+
+				//adjust for lastrow
+				if (dataRow + 1 == m_rowHeights.size())
+				{
+					availableHeight -= m_tFormat.getLineStroke().floatValue();
+				}
+
 				if (!pageBreak && availableHeight < rowHeight)
 				{
 					if (availableHeight > 40 && rowHeight > 40)
@@ -662,9 +671,6 @@ public class TableElement extends PrintElement
 				availableWidth -= columnWidth;
 			}	//	for acc columns
 		}	//	multiple - X pages
-
-		//	Last row Lines
-		p_height += m_tFormat.getLineStroke().floatValue();			//	last fat line
 
 		log.fine("Pages=" + getPageCount() 
 			+ " X=" + m_firstColumnOnPage.size() + "/Y=" + m_firstRowOnPage.size()

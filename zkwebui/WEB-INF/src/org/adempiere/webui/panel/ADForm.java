@@ -18,17 +18,16 @@
 package org.adempiere.webui.panel;
 
 import java.util.logging.Level;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.exception.ApplicationException;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.common.ADClassNameMap;
+import org.adempiere.webui.util.ADClassNameMap;
 import org.compiere.model.MForm;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 
@@ -130,46 +129,153 @@ public abstract class ADForm extends Window implements EventListener
 	 */
 	private static String translateFormClassName(String originalName)
 	{
-		String modifiedName;
-		/* match any field containing the string ".compiere."
-		 * Usually of the form "org.compiere.apps.form.<classname>".
-		 * Although there are special cases which also need handling
-		 */
-		final String regex = "(.*)\\.compiere\\.(.*\\.)V(\\w*)$";
-		//final String regex = "(.*)\\.compiere\\.(.*\\.)V(\\w*)$";
+		String zkName = null;
 		/*
 		 * replacement string to translate class paths to the form
 		 * "org.adempiere.webui.apps.form.<classname>"
 		 */
-		final String replacementPackage = ".adempiere.webui.";
+		final String zkPackage = "org.adempiere.webui.";
 		/*
 		 * replacement string to translate custom form class name from
 		 * "V<name>" to "W<name>"
 		 */
-		final String replacementPrefix = "W";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(originalName);
-        int group = 1;
+		final String zkPrefix = "W";
+		final String swingPrefix = "V";
 
-		/*
-		 *  If no match is found throw an exception stating that the form
-		 *  has not been implemented in the webUI
-		 */
-		if (matcher.find()== false)
+        String tail = null;
+        //first, try replace package
+		if (originalName.startsWith("org.compiere."))
 		{
-			return originalName;
+			tail = originalName.substring("org.compiere.".length());
+		}
+		else if(originalName.startsWith("org.adempiere."))
+		{
+			tail = originalName.substring("org.adempiere.".length());
+		}
+		if (tail != null)
+		{
+			zkName = zkPackage + tail;
+			
+    		try {
+				Class<?> clazz = ADForm.class.getClassLoader().loadClass(zkName);
+				if (!isZkFormClass(clazz))
+				{
+					zkName = null;
+				}
+			} catch (ClassNotFoundException e) {
+				zkName = null;
+			}
+			
+			//try replace package and add W prefix to class name
+			if (zkName == null)
+			{
+				String packageName = zkPackage;
+				int lastdot = tail.lastIndexOf(".");
+				String className = null;
+				if (lastdot >= 0)
+				{
+					if (lastdot > 0)
+						packageName = packageName + tail.substring(0, lastdot+1);
+					className = tail.substring(lastdot+1);
+				}
+				else
+				{
+					className = tail;
+				}
+				
+				//try convert V* to W*
+				if (className.startsWith(swingPrefix))
+				{
+					zkName = packageName + zkPrefix + className.substring(1);
+					try {
+						Class<?> clazz = ADForm.class.getClassLoader().loadClass(zkName);
+						if (!isZkFormClass(clazz))
+						{
+							zkName = null;
+						}
+					} catch (ClassNotFoundException e) {
+						zkName = null;
+					}
+				}
+				
+				//try append W prefix to original class name
+				if (zkName == null)
+				{
+					zkName = packageName + zkPrefix + className;
+					try {
+						Class<?> clazz = ADForm.class.getClassLoader().loadClass(zkName);
+						if (!isZkFormClass(clazz))
+						{
+							zkName = null;
+						}
+					} catch (ClassNotFoundException e) {
+						zkName = null;
+					}
+				}
+			}
+        }
+        
+		/*
+		 *  not found, try changing only the class name 
+		 */
+		if (zkName == null)
+		{
+			int lastdot = originalName.lastIndexOf(".");
+			String packageName = originalName.substring(0, lastdot);
+			String className = originalName.substring(lastdot+1);
+			//try convert V* to W*
+			if (className.startsWith(swingPrefix))
+			{
+				String zkClassName = zkPrefix + className.substring(1);
+				zkName = packageName + "." + zkClassName;
+				try {
+					Class<?> clazz = ADForm.class.getClassLoader().loadClass(zkName);
+					if (!isZkFormClass(clazz))
+					{
+						zkName = null;
+					}
+				} catch (ClassNotFoundException e) {
+					zkName = null;
+				}
+			}
+			
+			//try just append W to the original class name
+			if (zkName == null)
+			{				
+				String zkClassName = zkPrefix + className;
+				zkName = packageName + "." + zkClassName;
+				try {
+					Class<?> clazz = ADForm.class.getClassLoader().loadClass(zkName);
+					if (!isZkFormClass(clazz))
+					{
+						zkName = null;
+					}
+				} catch (ClassNotFoundException e) {
+					zkName = null;
+				}
+			}
+			
+			if (zkName == null)
+			{
+				//finally try whether same name is used for zk
+				zkName = originalName;
+				try {
+					Class<?> clazz = ADForm.class.getClassLoader().loadClass(zkName);
+					if (!isZkFormClass(clazz))
+					{
+						zkName = null;
+					}
+				} catch (ClassNotFoundException e) {
+					zkName = null;
+				}
+			}
 		}
 
-		/*
-		 * reconstruct the name using the captured groups and the replacement strings
-		 */
-		modifiedName = matcher.group(group++)
-						+ replacementPackage
-						+ matcher.group(group++)
-						+ replacementPrefix
-						+ matcher.group(group++);
+		return zkName;
+	}
 
-		return modifiedName;
+	private static boolean isZkFormClass(Class<?> clazz) {
+		return IFormController.class.isAssignableFrom(clazz) || Component.class.isAssignableFrom(clazz);
 	}
 
 	/**
@@ -200,12 +306,20 @@ public abstract class ADForm extends Window implements EventListener
     		webClassName = ADClassNameMap.get(richClassName);
     		//fallback to dynamic translation
     		if (webClassName == null || webClassName.trim().length() == 0)
+    		{
     			webClassName = translateFormClassName(richClassName);
+    		}
+    		
+    		if (webClassName == null)
+    		{
+    			throw new ApplicationException("Web UI form not implemented for the swing form " +
+ 					   richClassName);
+    		}
 
     		try
     		{
     			//	Create instance w/o parameters
-        		obj = Class.forName(webClassName).newInstance();
+        		obj = ADForm.class.getClassLoader().loadClass(webClassName).newInstance();
     		}
     		catch (Exception e)
     		{

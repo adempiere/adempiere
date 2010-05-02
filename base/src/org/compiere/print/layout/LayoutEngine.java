@@ -888,7 +888,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 */
 	public boolean isXspaceFor (float width)
 	{
-		return (getXspace()-width) > 0f;
+		return (getXspace()-width) >= 0f;
 	}	//	isXspaceFor
 
 	/**
@@ -913,7 +913,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 */
 	public boolean isYspaceFor (float height)
 	{
-		return (getYspace()-height) > 0f;
+		return (getYspace()-height) >= 0f;
 	}	//	isYspaceFor
 	
 	/**************************************************************************

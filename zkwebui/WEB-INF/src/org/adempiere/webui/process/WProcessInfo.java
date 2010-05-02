@@ -13,7 +13,7 @@
  *****************************************************************************/
 package org.adempiere.webui.process;
 
-import org.adempiere.common.ADClassNameMap;
+import org.adempiere.webui.util.ADClassNameMap;
 import org.compiere.process.ProcessInfo;
 
 /**
@@ -47,14 +47,83 @@ public class WProcessInfo extends ProcessInfo {
 	}
 
 	@Override
-	public void setClassName(String ClassName) {
-		String name = ClassName;
-		if (name != null && name.trim().length() > 0) {
-			name = ADClassNameMap.get(ClassName);
-			if (name == null || name.trim().length() == 0) {
-				name = ClassName;
+	public void setClassName(String className) {
+		String zkName = null;
+		if (className != null && className.trim().length() > 0) {
+			zkName = ADClassNameMap.get(className);
+			if (zkName == null)
+			{
+				zkName = dynamicTranslate(className);
 			}
 		}
-		super.setClassName(name);
+		if (zkName == null)
+			zkName = className;
+		super.setClassName(zkName);
+	}
+
+	private String dynamicTranslate(String className) {
+		String zkName = null;
+		String tail = null;
+		
+		//null check
+		if (className == null || className.trim().length() == 0)
+			return null;
+		
+		String zkPackage = "org.adempiere.webui.";
+		String zkPrefix = "W";
+		
+		//first, try replace package
+		if (className.startsWith("org.compiere."))
+		{
+			tail = className.substring("org.compiere.".length());
+		}
+		else if(className.startsWith("org.adempiere."))
+		{
+			tail = className.substring("org.adempiere.".length());
+		}
+		if (tail != null)
+		{
+			zkName = zkPackage + tail;
+			try {
+				this.getClass().getClassLoader().loadClass(zkName);
+			} catch (ClassNotFoundException e) {
+				zkName = null;
+			}
+			
+			//try replace package and add W prefix to class name
+			if (zkName == null)
+			{
+				zkName = zkPackage;
+				int lastdot = tail.lastIndexOf(".");						
+				if (lastdot >= 0)
+				{
+					if (lastdot > 0)
+						zkName = zkName + tail.substring(0, lastdot+1);
+					zkName = zkName + zkPrefix + tail.substring(lastdot+1);
+				}
+				else
+				{
+					zkName = zkName + zkPrefix + tail;
+				}
+				try { 
+					this.getClass().getClassLoader().loadClass(zkName);
+				} catch (ClassNotFoundException e) {
+					zkName = null;
+				}
+			}
+		}
+		
+		//try append W prefix to class name
+		if (zkName == null)
+		{
+			int lastdot = className.lastIndexOf(".");
+			zkName = className.substring(0, lastdot) + ".W" +  className.substring(lastdot+1);
+			try {
+				this.getClass().getClassLoader().loadClass(zkName);
+			} catch (ClassNotFoundException e) {
+				zkName = null;
+			}
+		}
+		return zkName;
 	}
 }

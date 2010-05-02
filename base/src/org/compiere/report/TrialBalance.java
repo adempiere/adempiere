@@ -460,7 +460,7 @@ public class TrialBalance extends SvrProcess
 		//	Update AccountValue
 		String sql2 = "UPDATE T_TrialBalance tb SET AccountValue = "
 			+ "(SELECT Value FROM C_ElementValue ev WHERE ev.C_ElementValue_ID=tb.Account_ID) "
-			+ "WHERE tb.Account_ID IS NOT NULL";
+			+ "WHERE tb.Account_ID IS NOT NULL AND tb.AD_PInstance_ID = " + getAD_PInstance_ID();
 		no = DB.executeUpdate(sql2, get_TrxName());
 		if (no > 0)
 			log.fine("Set AccountValue #" + no);
