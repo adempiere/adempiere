@@ -158,7 +158,7 @@ public class MovementGenerate extends SvrProcess
 		if (p_M_Warehouse_ID == 0)
 			throw new AdempiereUserError("@NotFound@ @M_Warehouse_ID@");
 		
-		if (p_Selection)	//	VInOutGen
+		if (p_Selection)	
 		{
 			m_sql = "SELECT DD_Order.* FROM DD_Order, T_Selection "
 				+ "WHERE DD_Order.DocStatus='CO' AND DD_Order.AD_Client_ID=? "
@@ -269,8 +269,7 @@ public class MovementGenerate extends SvrProcess
 					log.fine("check: " + line);
 					BigDecimal onHand = Env.ZERO;
 					//BigDecimal toDeliver = line.getQtyOrdered()
-					BigDecimal toDeliver = line.getConfirmedQty()
-						.subtract(line.getQtyDelivered());
+					BigDecimal toDeliver = line.getConfirmedQty(); //.subtract(line.getQtyDelivered());
 					MProduct product = line.getProduct();
 					//	Nothing to Deliver
 					if (product != null && toDeliver.signum() == 0)
@@ -474,7 +473,7 @@ public class MovementGenerate extends SvrProcess
 				m_movement.setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
 			
 			//Look the document type based on organization
-				int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_DistributionOrder, order.getAD_Org_ID());
+				int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_MaterialMovement, order.getAD_Org_ID());
 				
 				if(docTypeDO_ID>0)
 					m_movement.setC_DocType_ID(docTypeDO_ID);			
