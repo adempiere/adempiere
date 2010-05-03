@@ -194,7 +194,7 @@ public class VOrderDistributionReceipt extends CPanel
 	private void fillPicks() throws Exception
 	{
 		Language language = Language.getLoginLanguage();
-		MLookup orderL = 	MLookupFactory.get(Env.getCtx(), m_WindowNo, MColumn.getColumn_ID(MDDOrder.Table_Name,MDDOrder.COLUMNNAME_DD_Order_ID) , DisplayType.Search , language , MDDOrder.COLUMNNAME_DD_Order_ID , 0 , false, "DocStatus='CO'");
+		MLookup orderL = 	MLookupFactory.get(Env.getCtx(), m_WindowNo, MColumn.getColumn_ID(MDDOrder.Table_Name,MDDOrder.COLUMNNAME_DD_Order_ID) , DisplayType.Search , language , MDDOrder.COLUMNNAME_DD_Order_ID , 0 , false, "DocStatus='CO' AND IsInTransit='Y'");
 		fOrder = new VLookup (MDDOrder.COLUMNNAME_DD_Order_ID, true, false, true, orderL);
 		lOrder.setText(Msg.translate(Env.getCtx(), MDDOrder.COLUMNNAME_DD_Order_ID));
 		fOrder.addVetoableChangeListener(this);
@@ -462,7 +462,7 @@ public class VOrderDistributionReceipt extends CPanel
 		movement.setDocStatus(MMovement.DOCSTATUS_Drafted);
 		
 		//Look the document type for the organization
-		int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_DistributionOrder, order.getAD_Org_ID());		
+		int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_MaterialMovement, order.getAD_Org_ID());		
 		if(docTypeDO_ID>0)
 			movement.setC_DocType_ID(docTypeDO_ID);
 		movement.saveEx();
