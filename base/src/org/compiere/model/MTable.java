@@ -174,11 +174,8 @@ public class MTable extends X_AD_Table
 	//	AD_Attribute_Value, AD_TreeNode
 	};
 	
-	/** EntityType */
-	private static final  MEntityType[] entityTypes = MEntityType.getEntityTypes(Env.getCtx());
-
 	/**
-	 * 	Get Persistency Class for Table
+	 * 	Get Persistence Class for Table
 	 *	@param tableName table name
 	 *	@return class or null
 	 */
@@ -187,21 +184,6 @@ public class MTable extends X_AD_Table
 		//	Not supported
 		if (tableName == null || tableName.endsWith("_Trl"))
 			return null;
-		
-		MTable table = MTable.get(Env.getCtx(), tableName);
-		String entityType = table.getEntityType();
-		
-		//	Import Tables (Name conflict)
-		if (tableName.startsWith("I_") && MEntityType.ENTITYTYPE_Dictionary.equals(entityType))
-		{
-			Class<?> clazz = getPOclass("org.compiere.model.X_" + tableName);
-			if (clazz != null)
-				return clazz;
-			s_log.warning("No class for table: " + tableName);
-			return null;
-		}
-			
-
 		
 		//check cache
 		Class<?> cache = s_classCache.get(tableName);
@@ -214,6 +196,27 @@ public class MTable extends X_AD_Table
 				return cache;
 		}
 
+		MTable table = MTable.get(Env.getCtx(), tableName);
+		String entityType = table.getEntityType();
+		
+		//	Import Tables (Name conflict)
+		//  Import Tables doesn't manage model M classes, just X_
+		if (tableName.startsWith("I_"))
+		{
+			MEntityType et = MEntityType.get(Env.getCtx(), entityType);
+			String etmodelpackage = et.getModelPackage();
+			if (etmodelpackage == null || MEntityType.ENTITYTYPE_Dictionary.equals(entityType))
+				etmodelpackage = "org.compiere.model"; // fallback for dictionary or empty model package on entity type
+			Class<?> clazz = getPOclass(etmodelpackage + ".X_" + tableName);
+			if (clazz != null)
+			{
+				s_classCache.put(tableName, clazz);
+				return clazz;
+			}
+			s_log.warning("No class for table: " + tableName);
+			return null;
+		}
+		
 		//	Special Naming
 		for (int i = 0; i < s_special.length; i++)
 		{
@@ -229,33 +232,25 @@ public class MTable extends X_AD_Table
 			}
 		}
 		
-		//begin [ 1784588 ] Use ModelPackage of EntityType to Find Model Class - vpj-cd 
+		//begin [ 1784588 ] Use ModelPackage of EntityType to Find Model Class - vpj-cd
 		if (!MEntityType.ENTITYTYPE_Dictionary.equals(entityType))
-		{	
-			for (int i = 0; i < entityTypes.length; i++)
-			{
-				if (entityTypes[i].getEntityType().equals(entityType))
-				{
-					String modelpackage = entityTypes[i].getModelPackage(); 
-					if (modelpackage != null)
-					{						
-						Class<?> clazz = null;
-						if (! tableName.startsWith("I_"))
-						{
-							clazz = getPOclass(entityTypes[i].getModelPackage() + ".M" + Util.replace(tableName, "_", ""));
-							if (clazz != null) {
-								s_classCache.put(tableName, clazz);
-								return clazz;
-							}
-						}
-						clazz = getPOclass(entityTypes[i].getModelPackage() + ".X_" + tableName);
-						if (clazz != null) {
-							s_classCache.put(tableName, clazz);
-							return clazz;
-						}
-						s_log.warning("No class for table with it entity: " + tableName);					
-					}
+		{
+			MEntityType et = MEntityType.get(Env.getCtx(), entityType);
+			String etmodelpackage = et.getModelPackage();
+			if (etmodelpackage != null)
+			{						
+				Class<?> clazz = null;
+				clazz = getPOclass(etmodelpackage + ".M" + Util.replace(tableName, "_", ""));
+				if (clazz != null) {
+					s_classCache.put(tableName, clazz);
+					return clazz;
 				}
+				clazz = getPOclass(etmodelpackage + ".X_" + tableName);
+				if (clazz != null) {
+					s_classCache.put(tableName, clazz);
+					return clazz;
+				}
+				s_log.warning("No class for table with it entity: " + tableName);					
 			}
 		}	
 		//end [ 1784588 ] 
