@@ -58,7 +58,10 @@ import org.zkoss.zhtml.Text;
 /**
  * Row renderer for GridTab grid.
  * @author hengsin
- *
+ * 
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 		<li>BF [ 2996608 ] GridPanel is not displaying time
+ * 			https://sourceforge.net/tracker/?func=detail&aid=2996608&group_id=176962&atid=955896
  */
 public class GridTabRowRenderer implements RowRenderer, RowRendererExt, RendererCtrl {
 
@@ -191,7 +194,10 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
     	}
     	else if (gridTab.getTableModel().getColumnClass(getColumnIndex(gridField)).equals(Timestamp.class))
     	{
-    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(DisplayType.Date, AEnv.getLanguage(Env.getCtx()));
+    		int displayType = DisplayType.Date;
+    		if (gridField != null && gridField.getDisplayType() == DisplayType.DateTime)
+    			displayType = DisplayType.DateTime;
+    		SimpleDateFormat dateFormat = DisplayType.getDateFormat(displayType, AEnv.getLanguage(Env.getCtx()));
     		return dateFormat.format((Timestamp)value);
     	}
     	else if (DisplayType.isNumeric(gridField.getDisplayType()))
