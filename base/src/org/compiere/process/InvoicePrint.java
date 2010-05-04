@@ -337,7 +337,8 @@ public class InvoicePrint extends SvrProcess
 				}
 				else
 				{
-					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, null, 0, true);					
+					re.print();
+					// ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, null, 0, true);					
 					count++;
 					printed = true;
 				}
