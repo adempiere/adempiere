@@ -49,7 +49,7 @@ public class CalloutGLJournal extends CalloutEngine
 	public String period (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
 		String colName = mField.getColumnName();
-		if (value == null || isThisCalloutActive())
+		if (value == null)
 			return "";
 
 		int AD_Client_ID = Env.getContextAsInt(ctx, WindowNo, "AD_Client_ID");
