@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.common.ADClassNameMap;
 import org.compiere.model.MClient;
 import org.compiere.model.MForecastLine;
 import org.compiere.model.MInOut;
@@ -82,7 +81,8 @@ public class LiberoValidator implements ModelValidator
 		engine.addDocValidate(MMovement.Table_Name, this);
 		
 		//
-		ADClassNameMap.add("org.eevolution.form.VOrderReceiptIssue", "org.eevolution.form.WOrderReceiptIssue");
+        // TODO : register this class in other way 
+//		ADClassNameMap.add("org.eevolution.form.VOrderReceiptIssue", "org.eevolution.form.WOrderReceiptIssue");
 		
 	}	//	initialize
 
