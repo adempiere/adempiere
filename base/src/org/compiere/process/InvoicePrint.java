@@ -31,6 +31,7 @@ import org.compiere.model.MUserMail;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.X_C_Invoice;
 import org.compiere.print.MPrintFormat;
+import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
@@ -336,7 +337,7 @@ public class InvoicePrint extends SvrProcess
 				}
 				else
 				{
-					re.print();
+					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, null, 0, true);					
 					count++;
 					printed = true;
 				}
