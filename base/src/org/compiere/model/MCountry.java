@@ -28,6 +28,7 @@ import java.util.logging.Level;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Language;
 
 /**
@@ -140,8 +141,20 @@ public final class MCountry extends X_C_Country
 	}	//	loadAllCountries
 
 	/**
+	 *	Return Language
+	 *  @return Name
+	 */
+	private String getEnvLanguage() {
+		String lang = Env.getAD_Language(Env.getCtx());
+		if (Language.isBaseLanguage(lang))
+			return null;
+		return lang;
+	}
+
+	/**
 	 * 	Set the Language for Display (toString)
 	 *	@param AD_Language language or null
+	 *  @deprecated - not used at all, you can delete references to this method
 	 */
 	public static void setDisplayLanguage (String AD_Language)
 	{
@@ -204,7 +217,7 @@ public final class MCountry extends X_C_Country
 	 */
 	public String toString()
 	{
-		if (s_AD_Language != null)
+		if (getEnvLanguage() != null)
 		{
 			String nn = getTrlName();
 			if (nn != null)
@@ -219,11 +232,11 @@ public final class MCountry extends X_C_Country
 	 */
 	public String getTrlName()
 	{
-		if (m_trlName == null && s_AD_Language != null)
+		if (m_trlName == null && getEnvLanguage() != null)
 		{
-			m_trlName = get_Translation(COLUMNNAME_Name, s_AD_Language);
+			m_trlName = get_Translation(COLUMNNAME_Name, getEnvLanguage());
 			if (m_trlName == null)
-				s_AD_Language = null;	//	assume that there is no translation
+				m_trlName = getName();
 		}
 		return m_trlName;
 	}	//	getTrlName

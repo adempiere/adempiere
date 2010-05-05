@@ -113,7 +113,6 @@ public class VLocationDialog extends CDialog
 		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "C_Country_ID", null);
 
 		//	Current Country
-		MCountry.setDisplayLanguage(Env.getAD_Language(Env.getCtx()));
 		fCountry = new CComboBox(MCountry.getCountries(Env.getCtx()));
 		fCountry.setSelectedItem(m_location.getCountry());
 		m_origCountry_ID = m_location.getC_Country_ID();
