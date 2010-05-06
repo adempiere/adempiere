@@ -274,13 +274,14 @@ public class LiberoValidator implements ModelValidator
 					   oline.setQtyDelivered(oline.getQtyDelivered().add(line.getMovementQty()));
 				   }   
 				   oline.saveEx();
+				   
 				}
 			}
 			
 			if(move.getDD_Order_ID() > 0)
 			{	
 				MDDOrder order = new MDDOrder(move.getCtx(), move.getDD_Order_ID(), move.get_TrxName());
-				order.setIsInTransit(true);
+				order.setIsInTransit(isInTransting(order));
 				order.reserveStock(order.getLines(true, null));
 				order.saveEx();
 			}	
@@ -288,6 +289,23 @@ public class LiberoValidator implements ModelValidator
 		}
 		return null;
 	}	//	docValidate
+	
+	/**
+	 * Define if a Distribution Order is in transit 
+	 * @param order
+	 * @return true or false
+	 */
+	private boolean isInTransting(MDDOrder order)
+	{
+		for (MDDOrderLine line : order.getLines(true, null))
+		{
+			if(line.getQtyInTransit().signum() != 0)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 *	User Login.
