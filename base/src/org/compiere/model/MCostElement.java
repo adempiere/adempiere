@@ -17,14 +17,12 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
-import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
@@ -111,7 +109,7 @@ public class MCostElement extends X_M_CostElement
 	 *	@param po parent
 	 *	@return cost element array
 	 */
-	public static Collection<MCostElement> getCostElementsWithCostingMethods (PO po)
+	public static List<MCostElement> getCostElementsWithCostingMethods (PO po)
 	{
 		final String whereClause = "CostingMethod IS NOT NULL";
 		return new Query(po.getCtx(),MCostElement.Table_Name,whereClause,po.get_TrxName())
@@ -204,7 +202,7 @@ public class MCostElement extends X_M_CostElement
 	 * @param trxName transaction
 	 * @return array cost elements
 	 **/
-	public static Collection<MCostElement> getByCostingMethod (Properties ctx, String CostingMethod)
+	public static List<MCostElement> getByCostingMethod (Properties ctx, String CostingMethod)
 	{		
 		final String whereClause = "CostingMethod=?";
 		return new Query(ctx, Table_Name, whereClause, null)
