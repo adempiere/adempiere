@@ -712,17 +712,15 @@ public class CTable extends JTable
 			int vColIndex) {
 		Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
 		if (c==null) return c;
-		if (!this.isCellEditable(rowIndex, vColIndex))
+		if (!this.isCellEditable(rowIndex, vColIndex) || isCellSelected(rowIndex, vColIndex))
 			return c; 
-		if (rowIndex % 2 == 0 && !isCellSelected(rowIndex, vColIndex)) {
+		if (rowIndex % 2 == 0) { 
 			c.setBackground(AdempierePLAF.getFieldBackground_Selected());
 		} else {
 			// If not shaded, match the table's background
 			c.setBackground(getBackground());
 		}
-		if (isCellSelected(rowIndex, vColIndex))
-			c.setBackground(AdempierePLAF.getFieldBackground_ReadOnly());
-		return c;
+		return c; 
 	}
 	
 	class ColumnAttributes {
