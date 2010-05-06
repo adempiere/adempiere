@@ -38,10 +38,13 @@ import org.compiere.util.Msg;
  */
 public class MCostElement extends X_M_CostElement
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 8676787942212800906L;
+
+
+
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 3196322266971717530L;
 
 
 	/**
