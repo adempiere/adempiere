@@ -711,6 +711,7 @@ public class CTable extends JTable
 	public Component prepareRenderer(TableCellRenderer renderer, int rowIndex,
 			int vColIndex) {
 		Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
+		if (c==null) return c;
 		if (!this.isCellEditable(rowIndex, vColIndex))
 			return c; 
 		if (rowIndex % 2 == 0 && !isCellSelected(rowIndex, vColIndex)) {
