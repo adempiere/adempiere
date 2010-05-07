@@ -860,7 +860,7 @@ public class DataEngine
 
 				/** Report Summary FR [ 2011569 ]**/ 
 				if(!m_summary)					
-				pd.addRow(false, levelNo);
+					pd.addRow(false, levelNo);
 				int counter = 1;
 				//	get columns
 				for (int i = 0; i < pd.getColumnInfo().length; i++)
@@ -987,7 +987,7 @@ public class DataEngine
 					{
 						/** Report Summary FR [ 2011569 ]**/ 
 						if(!m_summary)
-						pd.addNode(pde);
+							pd.addNode(pde);
 						m_group.addValue(pde.getColumnName(), pde.getFunctionValue());
 					}
 				}	//	for all columns
