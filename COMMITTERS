@@ -35,6 +35,8 @@ redchris        Cristina Ghita          committer since 2009-02-10
 vinhpt          vinhpt                  committer since 2009-05-13
 felixmoeller    Felix Möller            committer since 2009-09-28
 genied          Angelo Dabalà           still hasn't committed, contributing via patches
+mar_cal_westf   Mario Calderon          still hasn't committed, contributing via patches
+ogomezislas     Oscar Gomez Islas       committer since 2010-01-21
 
 BRANCH COMMITTERS (in order of appearance)
 =============== ======================= ====================================================================
@@ -57,7 +59,7 @@ jc-perez        Juan Carlos Perez       GWT / committer since 2008-06-15
 j2garcia        Jesus Garcia            LCO + libero_payroll_342 / committer since 2008-07-08
 banym           Banym                   libero / committer since 2009-02-11 inactive since 2009-02-11
 kai7            Kai Schaeffer           SetupWizard + WindowsInstaller / committer since 2009-02-17 inactive since 2009-03-24
-joergviola      Joerg Viola             osgi / committer since 2009-03-29 inactive since 2009-06-16
+joergviola      Joerg Viola             osgi / committer since 2009-03-29
 ljreyesd        Leonardo Reyes          UTB Nomina_RH / committer since 2009-04-03
 ancabradau                              fifo_costing / committer since 2009-05-04 inactive since 2009-06-10
 satyaakam       satyaakam goswami       satyag / committer since 2009-05-14 inactive since 2009-05-18
@@ -70,4 +72,13 @@ milos_t         Milos Tijanic           LSR / committer since 2009-08-25
 bzz_hu          Balogh Zsolt            ilogic / committer since 2009-10-14
 praneettiwari   Praneet Tiwari          mysql / committer since 2009-10-20
 kzoli3          Zoltan Kadlecsik        ilogic / committer since 2009-11-02
+sctrade         Sergio Trillo           branches/globalqss/adempiere355 / committer since 2010-01-21
+misoz           Michal Zilincar         contributions/localizations/Slovakia 
+nbe222          Norbert Bede            contributions/localizations/Slovakia
+interopen       Ivan Calderon           contributions/localizations and CI / for continuous integration / PMC QA Group
+eakkasit        Eakkasit W.             ISEC branch - Thailand Localization
+i-zuzigo        Atiz Boontawee          ISEC branch - Thailand Localization
+freepath        Silvano                 Localization Italia
+kimgumshek      Pasuwat Wang            Thailand Localization
 hormiga         Hormiga Dias            adempiere-xmi: https://sourceforge.net/tracker/index.php?func=detail&aid=2979407&group_id=176962&atid=883808
+fercho_comus    Fernando Saavedra       LEC (Localization Ecuador)
