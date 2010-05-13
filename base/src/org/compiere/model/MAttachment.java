@@ -119,7 +119,7 @@ public class MAttachment extends X_AD_Attachment
 		this (ctx
 				, MAttachment.get(ctx, AD_Table_ID, Record_ID) == null ? 0 : MAttachment.get(ctx, AD_Table_ID, Record_ID).get_ID()
 				, trxName);
-		if (MAttachment.get(ctx, AD_Table_ID, Record_ID) == null) {
+		if (get_ID() == 0) {
 			setAD_Table_ID (AD_Table_ID);
 			setRecord_ID (Record_ID);
 		}
