@@ -149,6 +149,10 @@
 	<mkdir dir="${build.dir}/Adempiere/packages/liberoMFG/lib"/>
   	<copy file="../packages/liberoMFG.jar" tofile="${build.dir}/Adempiere/packages/liberoMFG/lib/liberoMFG.jar"/>
   	
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG"/>
+	<mkdir dir="${build.dir}/Adempiere/zkpackages/liberoMFG/lib"/>
+  	<copy file="../zkpackages/liberozkMFG.jar" tofile="${build.dir}/Adempiere/zkpackages/liberoMFG/lib/liberozkMFG.jar"/>
+  	
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR"/>
   	<mkdir dir="${build.dir}/Adempiere/packages/liberoHR/lib"/>
   	<copy file="../packages/liberoHR.jar" tofile="${build.dir}/Adempiere/packages/liberoHR/lib/liberoHR.jar"/>
