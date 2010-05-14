@@ -12,6 +12,7 @@
  *****************************************************************************/
 package org.adempiere.webui.component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -562,7 +563,16 @@ public class GridPanel extends Borderlayout implements EventListener
 
         //  Selective
         if (col > 0)
-        	return;
+        {
+        	GridField changedField = gridTab.getField(col);
+            String columnName = changedField.getColumnName();
+            ArrayList<?> dependants = gridTab.getDependantFields(columnName);
+            if (dependants.size() == 0 && changedField.getCallout().length() > 0)
+            {
+                return;
+            }
+        }
+        	
 
         boolean noData = gridTab.getRowCount() == 0;
         List<WEditor> list =  renderer.getEditors();
@@ -581,6 +591,8 @@ public class GridPanel extends Borderlayout implements EventListener
                     boolean rw = mField.isEditable(true);   //  r/w - check Context
                     comp.setReadWrite(rw);
                 }
+                
+                comp.setVisible(mField.isDisplayed(true));
             }
         }   //  all components
 	}

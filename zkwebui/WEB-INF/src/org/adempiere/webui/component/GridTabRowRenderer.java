@@ -454,15 +454,11 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 					continue;
 				}
 				colIndex ++;
-
-				//check context
-				if (!gridField[i].isDisplayed(true)) {
-					continue;
-				}
+				
 				if (editors.get(gridField[i]) == null)
 					editors.put(gridField[i], WebEditorFactory.getEditor(gridField[i], true));
 				org.zkoss.zul.Column column = (org.zkoss.zul.Column) columns.getChildren().get(colIndex);
-				if (column.isVisible() && gridField[i].isEditable(true)) {
+				if (column.isVisible()) {
 					Div div = (Div) currentRow.getChildren().get(colIndex);
 					WEditor editor = getEditorCell(gridField[i], currentValues[i], i);
 					div.appendChild(editor.getComponent());
@@ -474,6 +470,12 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		            	div.appendChild(popupMenu);
 		            }
 		            div.getFirstChild().setVisible(false);
+		            //check context
+					if (!gridField[i].isDisplayed(true)) 
+					{
+						editor.setVisible(false);
+					}
+					editor.setReadWrite(gridField[i].isEditable(true));
 				}
 			}
 			editing = true;
