@@ -1,5 +1,13 @@
 SQLActions[ ] = {
 	"BEGIN INSTALL		
+	/** TODO: Functions in oracle/createSQLJ.sql not implemented here: **/
+	/** addDays       **/
+	/** charAt        **/
+	/** currencyRound **/
+	/** daysBetween   **/
+	/** firstOf       **/
+	/** getdate       **/
+
 	BEGIN PostgreSQL SET search_path TO adempiere END PostgreSQL;
 		
 	CREATE OR REPLACE FUNCTION adempiereVersion()
@@ -138,9 +146,19 @@ SQLActions[ ] = {
  	AS 'org.compiere.sqlj.Invoice.open(int,int)'
 	LANGUAGE java VOLATILE;
 	
+	CREATE OR REPLACE FUNCTION invoiceOpenToDate (p_C_Invoice_ID NUMERIC, p_C_InvoicePaySchedule_ID NUMERIC,p_AcctDate DATE)
+ 	RETURNS NUMERIC
+ 	AS 'org.compiere.sqlj.Invoice.openToDate(int,int,java.sql.Timestamp)'
+	LANGUAGE java VOLATILE;
+	
 	CREATE OR REPLACE FUNCTION invoicePaid (p_C_Invoice_ID NUMERIC, p_C_Currency_ID NUMERIC, p_MultiplierAP NUMERIC)
  	RETURNS NUMERIC
  	AS 'org.compiere.sqlj.Invoice.paid(int,int,int)'
+	LANGUAGE java VOLATILE;
+	
+	CREATE OR REPLACE FUNCTION invoicePaidToDate (p_C_Invoice_ID NUMERIC, p_C_Currency_ID NUMERIC, p_MultiplierAP NUMERIC,p_AcctDate DATE)
+ 	RETURNS NUMERIC
+ 	AS 'org.compiere.sqlj.Invoice.paidToDate(int,int,int,java.sql.Timestamp)'
 	LANGUAGE java VOLATILE;
 	
 	CREATE OR REPLACE FUNCTION invoiceDiscount (p_C_Invoice_ID NUMERIC, p_PayDate TIMESTAMP WITH TIME ZONE, p_C_InvoicePaySchedule_ID NUMERIC)
