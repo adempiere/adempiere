@@ -157,7 +157,7 @@ CREATE OR REPLACE FUNCTION invoiceOpenToDate (p_C_Invoice_ID NUMBER, p_C_Invoice
 CREATE OR REPLACE FUNCTION invoicePaidToDate (p_C_Invoice_ID NUMBER, p_C_Currency_ID NUMBER, p_MultiplierAP NUMBER,p_AcctDate DATE)
  	RETURN NUMBER
  	AS LANGUAGE JAVA 
-	NAME 'org.compiere.sqlj.Invoice.paid(int,int,int,java.sql.Timestamp) return java.math.BigDecimal';
+	NAME 'org.compiere.sqlj.Invoice.paidToDate(int,int,int,java.sql.Timestamp) return java.math.BigDecimal';
 /
 CREATE OR REPLACE FUNCTION invoiceDiscount (p_C_Invoice_ID NUMBER, p_PayDate Date, 
         p_C_InvoicePaySchedule_ID NUMBER)
