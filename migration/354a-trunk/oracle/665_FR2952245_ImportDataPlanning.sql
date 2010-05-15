@@ -1,3 +1,5 @@
+SET SQLBLANKLINES ON
+SET DEFINE OFF
 -- Feb 15, 2010 1:05:07 PM CST
 -- Create new importer for Planning Data and Forecast
 INSERT INTO AD_Window (AD_Client_ID,AD_Org_ID,AD_Window_ID,Created,CreatedBy,EntityType,IsActive,IsBetaFunctionality,IsDefault,IsSOTrx,Name,Processing,Updated,UpdatedBy,WindowType) VALUES (0,0,53109,TO_DATE('2010-02-15 13:05:05','YYYY-MM-DD HH24:MI:SS'),0,'EE01','Y','N','N','Y','Import Product Planning','N',TO_DATE('2010-02-15 13:05:05','YYYY-MM-DD HH24:MI:SS'),0,'M')
