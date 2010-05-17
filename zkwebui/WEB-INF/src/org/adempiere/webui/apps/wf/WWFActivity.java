@@ -43,6 +43,7 @@ import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRefList;
+import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -311,6 +312,8 @@ public class WWFActivity extends ADForm implements EventListener
 			//
 			//+ ") ORDER BY a.Priority DESC, Created";
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
+		MRole role = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+		sql = role.addAccessSQL(sql, "a", true, false);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -368,6 +371,8 @@ public class WWFActivity extends ADForm implements EventListener
 			//
 			+ ") ORDER BY a.Priority DESC, Created";
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
+		MRole role = MRole.get(Env.getCtx(), Env.getAD_Role_ID(Env.getCtx()));
+		sql = role.addAccessSQL(sql, "a", true, false);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
