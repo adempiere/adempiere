@@ -39,6 +39,10 @@ import org.compiere.util.Util;
  *  @author Michael Judd (Akuna Ltd)
  * 				<li>BF [ 2695078 ] Country is not translated on invoice
  * 				<li>FR [2794312 ] Location AutoComplete - check if allow cities out of list
+ * 
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 		<li>BF [ 3002736 ] MLocation.get cache all MLocations
+ * 			https://sourceforge.net/tracker/?func=detail&aid=3002736&group_id=176962&atid=879332
  */
 public class MLocation extends X_C_Location implements Comparator
 {
@@ -62,13 +66,16 @@ public class MLocation extends X_C_Location implements Comparator
 			return new MLocation(ctx, C_Location_ID, trxName);
 		//
 		Integer key = new Integer (C_Location_ID);
-		MLocation retValue = (MLocation) s_cache.get (key);
+		MLocation retValue = null;
+		if (trxName == null)
+			retValue = (MLocation) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
 		retValue = new MLocation (ctx, C_Location_ID, trxName);
 		if (retValue.get_ID () != 0)		//	found
 		{
-			s_cache.put (key, retValue);
+			if (trxName == null)
+				s_cache.put (key, retValue);
 			return retValue;
 		}
 		return null;					//	not found
