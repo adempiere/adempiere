@@ -882,7 +882,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		//	=> Vendor
 		String vendor = fieldVendor.getText().toUpperCase();
 		if (!(vendor.equals("") || vendor.equals("%")))
-			where.append(" AND UPPER(bp.Name) LIKE ? AND ppo.IsCurrentVendor='Y'"); // Elaine 2008/12/16
+			where.append(" AND UPPER(bp.Name) LIKE ? AND ppo.IsCurrentVendor='Y' AND ppo.IsActive='Y'"); // Elaine 2008/12/16
 
 		return where.toString();
 	}	//	getSQLWhere
