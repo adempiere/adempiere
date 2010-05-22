@@ -642,7 +642,7 @@ public class MInOutLine extends X_M_InOutLine
 				log.severe("No Invoice Line for: " + this.toString());
 				return Env.ZERO;
 			}
-			return m_il.getLineNetAmt();
+			return this.getMovementQty().multiply(m_il.getPriceActual());  // Actual delivery
 		}
 		else if (MLandedCost.LANDEDCOSTDISTRIBUTION_Line.equals(CostDistribution))
 			return Env.ONE;
