@@ -132,6 +132,7 @@ public class ExportModelValidator implements ModelValidator
 
 			for (X_AD_ReplicationTable rplTable : rplStrategy.getReplicationTables()) {
 				if (X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(rplTable.getReplicationType())
+					|| X_AD_ReplicationTable.REPLICATIONTYPE_Broadcast.equals(rplTable.getReplicationType())
 					|| X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(rplTable.getReplicationType())) 
 				{
 				    String tableName = MTable.getTableName(client.getCtx(), rplTable.getAD_Table_ID());

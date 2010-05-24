@@ -179,13 +179,13 @@ public class ImportHelper {
         			{
         				if(X_AD_ReplicationTable.REPLICATIONTYPE_Broadcast.equals(ReplicationType))
         				{
-        				    po.saveReplica(true);
-        					MReplicationStrategy rplStrategy = new MReplicationStrategy(client.getCtx(), client.getAD_ReplicationStrategy_ID(), null);
+        					MReplicationStrategy rplStrategy = new MReplicationStrategy(client.getCtx(), client.getAD_ReplicationStrategy_ID(), po.get_TrxName());
         					ExportHelper expHelper = new ExportHelper(client, rplStrategy);
         					expHelper.exportRecord(	po, 
         								MReplicationStrategy.REPLICATION_TABLE,
         								X_AD_ReplicationTable.REPLICATIONTYPE_Merge,
         								ModelValidator.TYPE_AFTER_CHANGE);
+        					po.saveReplica(true);
         					
         				}
         				else if(X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(ReplicationType)
