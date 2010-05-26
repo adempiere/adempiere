@@ -84,6 +84,8 @@ import org.compiere.util.ValueNamePair;
  *  				https://sourceforge.net/tracker/?func=detail&aid=2874109&group_id=176962&atid=879332
  *  			<li>BF [ 2905287 ] GridTab query is not build correctly
  *  				https://sourceforge.net/tracker/?func=detail&aid=2905287&group_id=176962&atid=879332
+ *  			<li>BF [ 3007342 ] Included tab context conflict issue
+ *  				https://sourceforge.net/tracker/?func=detail&aid=3007342&group_id=176962&atid=879332
  *  @author Victor Perez , e-Evolution.SC 
  *  		<li>FR [1877902] Implement JSR 223 Scripting APIs to Callout
  *  		<li>BF [ 2910358 ] Error in context when a field is found in different tabs.
@@ -1473,7 +1475,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public String get_ValueAsString (String variableName)
 	{
-		return Env.getContext (m_vo.ctx, m_vo.WindowNo, variableName, true);
+		return Env.getContext (m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, variableName, false, true);
 	}	//	get_ValueAsString
 
 	/**
@@ -3076,5 +3078,13 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				currentLevel = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, tabNo, GridTab.CTX_TabLevel);
 			}
 		return tabNo;
-	}	
+	}
+	
+	public GridTab getParentTab()
+	{
+		int parentTabNo = getParentTabNo();
+		if (parentTabNo < 0 || parentTabNo == m_vo.TabNo)
+			return null;
+		return m_window.getTab(parentTabNo);
+	}
 }	//	GridTab

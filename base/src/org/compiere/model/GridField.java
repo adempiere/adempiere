@@ -64,6 +64,8 @@ import org.compiere.util.Evaluator;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910358&group_id=176962&atid=879332
  *     		<li>BF [ 2910368 ] Error in context when IsActive field is found in different
  *  			https://sourceforge.net/tracker/?func=detail&aid=2910368&group_id=176962&atid=879332
+ *  		<li>BF [ 3007342 ] Included tab context conflict issue
+ *  			https://sourceforge.net/tracker/?func=detail&aid=3007342&group_id=176962&atid=879332
  *  @version $Id: GridField.java,v 1.5 2006/07/30 00:51:02 jjanke Exp $
  */
 public class GridField 
@@ -435,8 +437,7 @@ public class GridField
 
 		//  Record is Processed	***	
 		if (checkContext 
-			&& (Env.getContext(m_vo.ctx, m_vo.WindowNo, "Processed").equals("Y")
-				|| Env.getContext(m_vo.ctx, m_vo.WindowNo, "Processing").equals("Y")))
+			&& ("Y".equals(get_ValueAsString("Processed")) || "Y".equals(get_ValueAsString("Processing"))) )
 			return false;
 
 		//  IsActive field is editable, if record not processed
@@ -798,7 +799,7 @@ public class GridField
 	 */
 	public String get_ValueAsString (String variableName)
 	{
-		return Env.getContext (m_vo.ctx, m_vo.WindowNo, variableName, true);
+		return Env.getContext (m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, variableName, false, true);
 	}	//	get_ValueAsString
 
 
@@ -1305,23 +1306,32 @@ public class GridField
 		else if (m_value instanceof Boolean)
 		{
 			backupValue(); // teo_sarca [ 1699826 ]
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
-				((Boolean)m_value).booleanValue());
+			if (!isParentTabField())
+			{
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
+					((Boolean)m_value).booleanValue());
+			}
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
 					m_value==null ? null : (((Boolean)m_value) ? "Y" : "N"));
 		}
 		else if (m_value instanceof Timestamp)
 		{
 			backupValue(); // teo_sarca [ 1699826 ]
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (Timestamp)m_value);
+			if (!isParentTabField())
+			{
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (Timestamp)m_value);
+			}
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
 					m_value==null ? null : m_value.toString().substring(0, m_value.toString().indexOf(".")));
 		}
 		else
 		{
 			backupValue(); // teo_sarca [ 1699826 ]
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
-				m_value==null ? null : m_value.toString());
+			if (!isParentTabField())
+			{
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, 
+					m_value==null ? null : m_value.toString());
+			}
 			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
 				m_value==null ? null : m_value.toString());
 		}		
@@ -1531,6 +1541,7 @@ public class GridField
 			sb.append("(Key)");
 		if (isParentColumn())
 			sb.append("(Parent)");
+		sb.append(", IsDisplayed="+m_vo.IsDisplayed);
 		sb.append("]");
 		return sb.toString();
 	}   //  toString
@@ -1668,7 +1679,7 @@ public class GridField
 	 */
 	private final void backupValue() {
 		if (!m_isBackupValue) {
-			m_backupValue = Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName);
+			m_backupValue = get_ValueAsString(m_vo.ColumnName);
 			if (CLogMgt.isLevelFinest())
 				log.finest("Backup " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
 			m_isBackupValue = true;
@@ -1681,9 +1692,18 @@ public class GridField
 	 */
 	public void restoreValue() {
 		if (m_isBackupValue) {
-			if (CLogMgt.isLevelFinest())
-				log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, m_backupValue);
+			if (isParentTabField())
+			{
+				if (CLogMgt.isLevelFinest())
+					log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.TabNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, m_backupValue);
+			}
+			else
+			{
+				if (CLogMgt.isLevelFinest())
+					log.finest("Restore " + m_vo.WindowNo + "|" + m_vo.ColumnName + "=" + m_backupValue);
+				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, m_backupValue);
+			}
 		}
 	}
 	
@@ -1792,5 +1812,28 @@ public class GridField
 	public GridTab getGridTab()
 	{
 		return m_gridTab;
+	}
+	
+	/**
+	 * @param columnName
+	 * @return true if columnName also exist in parent tab
+	 */
+	private boolean isParentTabField(String columnName)
+	{
+		if (m_gridTab == null)
+			return false;
+		GridTab parentTab = m_gridTab.getParentTab();
+		if (parentTab == null)
+			return false;
+		return parentTab.getField(columnName) != null;
+	}
+	
+	/**
+	 * 
+	 * @return true if this field (m_vo.ColumnName) also exist in parent tab
+	 */
+	private boolean isParentTabField()
+	{
+		return isParentTabField(m_vo.ColumnName);
 	}
 }   //  MField

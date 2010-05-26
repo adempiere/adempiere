@@ -545,6 +545,24 @@ public final class Env
 	 */
 	public static String getContext (Properties ctx, int WindowNo, int TabNo, String context, boolean onlyTab)
 	{
+		final boolean onlyWindow = onlyTab ? true : false;
+		return getContext(ctx, WindowNo, TabNo, context, onlyTab, onlyWindow);
+	}
+	
+	/**
+	 * Get Value of Context for Window & Tab,
+	 * if not found global context if available.
+	 * If TabNo is TAB_INFO only tab's context will be checked.
+	 * @param ctx context
+	 * @param WindowNo window no
+	 * @param TabNo tab no
+	 * @param context context key
+	 * @param onlyTab if true, no window value is searched
+	 * @param onlyWindow if true, no global context will be searched
+	 * @return value or ""
+	 */
+	public static String getContext (Properties ctx, int WindowNo, int TabNo, String context, boolean onlyTab, boolean onlyWindow)
+	{
 		if (ctx == null || context == null)
 			throw new IllegalArgumentException ("Require Context");
 		String s = ctx.getProperty(WindowNo+"|"+TabNo+"|"+context);
@@ -553,7 +571,7 @@ public final class Env
 			return s != null ? s : "";
 		//
 		if (s == null && ! onlyTab)
-			return getContext(ctx, WindowNo, context, false);
+			return getContext(ctx, WindowNo, context, onlyWindow);
 		return s;
 	}	//	getContext
 
