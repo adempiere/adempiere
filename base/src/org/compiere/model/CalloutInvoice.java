@@ -520,8 +520,22 @@ public class CalloutInvoice extends CalloutEngine
 		log.fine("PriceList=" + PriceList + ", Limit=" + PriceLimit + ", Precision=" + StdPrecision);
 		log.fine("PriceEntered=" + PriceEntered + ", Actual=" + PriceActual);// + ", Discount=" + Discount);
 
-		//	Qty changed - recalc price
-		if ((mField.getColumnName().equals("QtyInvoiced") 
+		//		No Product
+		if ( M_Product_ID == 0 )
+		{
+			// if price change sync price actual and entered
+			// else ignore
+			if (mField.getColumnName().equals("PriceActual"))
+			{
+				mTab.setValue("PriceEntered", value);
+			}
+			else if (mField.getColumnName().equals("PriceEntered"))
+			{
+				mTab.setValue("PriceActual", value);
+			}
+		}
+		//	Product Qty changed - recalc price
+		else if ((mField.getColumnName().equals("QtyInvoiced") 
 			|| mField.getColumnName().equals("QtyEntered")
 			|| mField.getColumnName().equals("M_Product_ID")) 
 			&& !"N".equals(Env.getContext(ctx, WindowNo, "DiscountSchema")))
