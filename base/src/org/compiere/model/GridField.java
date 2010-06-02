@@ -799,6 +799,9 @@ public class GridField
 	 */
 	public String get_ValueAsString (String variableName)
 	{
+	   if( m_vo.TabNo == 0)
+	    	return Env.getContext (m_vo.ctx, m_vo.WindowNo, variableName, true);
+	    else
 		return Env.getContext (m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, variableName, false, true);
 	}	//	get_ValueAsString
 
