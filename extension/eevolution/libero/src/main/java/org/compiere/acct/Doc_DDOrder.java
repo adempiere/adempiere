@@ -17,10 +17,12 @@ package org.compiere.acct;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MDocType;
+import org.compiere.model.MOrder;
 import org.compiere.util.Env;
 import org.eevolution.model.MDDOrder;
 
@@ -51,7 +53,9 @@ public class Doc_DDOrder extends Doc
 	 */
 	protected String loadDocumentDetails()
 	{	
-		return null;
+		MDDOrder order = (MDDOrder)getPO();
+		setDateDoc(order.getDateOrdered());
+		return STATUS_Posted;
 	}   //  loadDocumentDetails
 
 	/**
@@ -63,7 +67,7 @@ public class Doc_DDOrder extends Doc
 		BigDecimal retValue = Env.ZERO;
 		return retValue;
 	}   //  getBalance
-
+	
 	/**
 	 *  Create Facts (the accounting logic) for
 	 *  @param as accounting schema

@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MDocType;
 import org.compiere.util.Env;
+import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MPPOrder;
 
 /**
@@ -51,7 +52,9 @@ public class Doc_PPOrder extends Doc
 	 */
 	protected String loadDocumentDetails()
 	{	
-		return null;
+		MPPOrder order = (MPPOrder)getPO();
+		setDateDoc(order.getDateOrdered());
+		return STATUS_Posted;
 	}   //  loadDocumentDetails
 
 	/**
