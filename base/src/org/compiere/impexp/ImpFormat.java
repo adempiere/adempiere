@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.model.I_AD_ImpFormat;
+import org.compiere.model.X_AD_ImpFormat;
 import org.compiere.model.X_I_GLJournal;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -32,6 +34,9 @@ import org.compiere.util.Env;
  *	Import Format a Row
  *
  *  @author Jorg Janke
+ *  @author Trifon Trifonov, Catura AG (www.catura.de)
+ *				<li>FR [ 3010957 ] Custom Separator Character, http://sourceforge.net/tracker/?func=detail&aid=3010957&group_id=176962&atid=879335 </li>
+
  *  @version $Id: ImpFormat.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
  */
 public final class ImpFormat
@@ -66,7 +71,9 @@ public final class ImpFormat
 	//
 	private String 		m_BPartner;
 	private ArrayList<ImpFormatRow>	m_rows	= new ArrayList<ImpFormatRow>();
-
+	//
+	private String separatorChar;
+	
 	/**
 	 *	Set Name
 	 *  @param newName new name
@@ -87,7 +94,17 @@ public final class ImpFormat
 	{
 		return m_name;
 	}   //  getName
-
+	
+	public void setSeparatorChar(String newChar) {
+		if (newChar == null || newChar.length() == 0) {
+			throw new IllegalArgumentException("Separator Character must be 1 char");
+		} else {
+			separatorChar = newChar;
+		}
+	}
+	public String getSeparatorChar() {
+		return separatorChar;
+	}
 	/**
 	 *	Import Table
 	 *  @param AD_Table_ID table
@@ -166,26 +183,19 @@ public final class ImpFormat
 		return m_AD_Table_ID;
 	}   //  getAD_Table_ID
 
-	/** Format Type - Fixed Length F		*/
-	public static final String	FORMATTYPE_FIXED = "F";
-	/** Format Type - Comma Separated C		*/
-	public static final String	FORMATTYPE_COMMA = "C";
-	/** Format Type - Tab Separated T		*/
-	public static final String	FORMATTYPE_TAB = "T";
-	/** Format Type - XML X		*/
-	public static final String	FORMATTYPE_XML = "X";
-
 	/**
 	 *  Set Format Type
 	 *  @param newFormatType - F/C/T/X
 	 */
 	public void setFormatType(String newFormatType)
 	{
-		if (newFormatType.equals(FORMATTYPE_FIXED) || newFormatType.equals(FORMATTYPE_COMMA)
-			|| newFormatType.equals(FORMATTYPE_TAB) || newFormatType.equals(FORMATTYPE_XML))
+		if (newFormatType.equals(X_AD_ImpFormat.FORMATTYPE_FixedPosition) || newFormatType.equals(X_AD_ImpFormat.FORMATTYPE_CommaSeparated)
+			|| newFormatType.equals(X_AD_ImpFormat.FORMATTYPE_TabSeparated) || newFormatType.equals(X_AD_ImpFormat.FORMATTYPE_XML)
+			|| newFormatType.equals(X_AD_ImpFormat.FORMATTYPE_CustomSeparatorChar)
+			)
 			m_formatType = newFormatType;
 		else
-			throw new IllegalArgumentException("FormatType must be F/C/T/X");
+			throw new IllegalArgumentException("FormatType must be F/C/T/X/U");
 	}   //  setFormatType
 
 	/**
@@ -200,6 +210,7 @@ public final class ImpFormat
 	/**
 	 *  Set Business Partner
 	 *  @param newBPartner (value)
+	 *  @deprecated
 	 */
 	public void setBPartner(String newBPartner)
 	{
@@ -209,6 +220,7 @@ public final class ImpFormat
 	/**
 	 *  Get Business Partner
 	 *  @return BPartner (value)
+	 *  @deprecated
 	 */
 	public String getBPartner()
 	{
@@ -265,6 +277,7 @@ public final class ImpFormat
 			{
 				retValue = new ImpFormat (name, rs.getInt("AD_Table_ID"), rs.getString("FormatType"));
 				ID = rs.getInt ("AD_ImpFormat_ID");
+				retValue.setSeparatorChar(rs.getString(I_AD_ImpFormat.COLUMNNAME_SeparatorChar));
 			}
 			rs.close();
 			pstmt.close();
@@ -350,7 +363,7 @@ public final class ImpFormat
 			String info = null;
 			if (row.isConstant())
 				info = "Constant";
-			else if (m_formatType.equals(FORMATTYPE_FIXED))
+			else if (m_formatType.equals(X_AD_ImpFormat.FORMATTYPE_FixedPosition))
 			{
 				//	check length
 				if (row.getStartNo() > 0 && row.getEndNo() <= line.length())
@@ -396,19 +409,22 @@ public final class ImpFormat
 	 *  @param formatType Comma or Tab
 	 *  @param fieldNo number of field to be returned
 	 *  @return field in lime or ""
-	@throws IllegalArgumentException if format unknows
+	@throws IllegalArgumentException if format unknowns
 	 *   */
 	private String parseFlexFormat (String line, String formatType, int fieldNo)
 	{
 		final char QUOTE = '"';
 		//  check input
 		char delimiter = ' ';
-		if (formatType.equals(FORMATTYPE_COMMA))
+		if (formatType.equals(X_AD_ImpFormat.FORMATTYPE_CommaSeparated)) {
 			delimiter = ',';
-		else if (formatType.equals(FORMATTYPE_TAB))
+		} else if (formatType.equals(X_AD_ImpFormat.FORMATTYPE_TabSeparated)) {
 			delimiter = '\t';
-		else
+		} else if (formatType.equals(X_AD_ImpFormat.FORMATTYPE_CustomSeparatorChar)) {
+			delimiter = getSeparatorChar().charAt(0);
+		} else {
 			throw new IllegalArgumentException ("ImpFormat.parseFlexFormat - unknown format: " + formatType);
+		}
 		if (line == null || line.length() == 0 || fieldNo < 0)
 			return "";
 

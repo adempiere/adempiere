@@ -25,22 +25,26 @@ import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 
 import org.compiere.model.Callout;
+import org.compiere.model.X_AD_ImpFormat_Row;
 import org.compiere.util.CLogger;
 
 /**
- *	Import Format Row with pasing capability
+ *	Import Format Row with parsing capability
  *
  *  @author Jorg Janke
+ *  @author Trifon Trifonov, Catura AG (www.catura.de)
+ *				<li>FR [ 3010957 ] Custom Separator Character, http://sourceforge.net/tracker/?func=detail&aid=3010957&group_id=176962&atid=879335 </li>
  *  @version $Id: ImpFormatRow.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  *  
  *  globalqss: integrate Teo Sarca bug fix [ 1623817 ] Minor bug on importing calendar date
+
  */
 public final class ImpFormatRow
 {
 	/**
 	 *	Constructor for fixed format
 	 *  @param seqNo sequence
-	 *  @param columnName db dolumn name
+	 *  @param columnName db column name
 	 *  @param startNo start no
 	 *  @param endNo and no
 	 *  @param dataType data type - see constants DATATYPE_
@@ -172,21 +176,13 @@ public final class ImpFormatRow
 	 */
 	public void setDataType (String dataType)
 	{
-		if (dataType.equals(DATATYPE_String) || dataType.equals(DATATYPE_Date)
-			|| dataType.equals(DATATYPE_Number) || dataType.equals(DATATYPE_Constant))
+		if (dataType.equals(X_AD_ImpFormat_Row.DATATYPE_String) || dataType.equals(X_AD_ImpFormat_Row.DATATYPE_Date)
+			|| dataType.equals(X_AD_ImpFormat_Row.DATATYPE_Number) || dataType.equals(X_AD_ImpFormat_Row.DATATYPE_Constant))
 			m_dataType = dataType;
 		else
 			throw new IllegalArgumentException("DataType must be S/D/N/C");
 	}   //  setDataType
 
-	/** String Data type    */
-	public static final String DATATYPE_String = "S";
-	/** Data Data type    */
-	public static final String DATATYPE_Date = "D";
-	/** Numeric Data type    */
-	public static final String DATATYPE_Number = "N";
-	/** Constant Data type    */
-	public static final String DATATYPE_Constant = "C";
 
 	/**
 	 *  Data Type
@@ -203,9 +199,9 @@ public final class ImpFormatRow
 	 */
 	public boolean isString()
 	{
-		if (m_dataType.equals(DATATYPE_Constant))
+		if (m_dataType.equals(X_AD_ImpFormat_Row.DATATYPE_Constant))
 			return m_constantIsString;
-		return m_dataType.equals(DATATYPE_String);
+		return m_dataType.equals(X_AD_ImpFormat_Row.DATATYPE_String);
 	}	//	isString
 
 	/**
@@ -214,7 +210,7 @@ public final class ImpFormatRow
 	 */
 	public boolean isNumber()
 	{
-		return m_dataType.equals(DATATYPE_Number);
+		return m_dataType.equals(X_AD_ImpFormat_Row.DATATYPE_Number);
 	}
 
 	/**
@@ -223,7 +219,7 @@ public final class ImpFormatRow
 	 */
 	public boolean isDate()
 	{
-		return m_dataType.equals(DATATYPE_Date);
+		return m_dataType.equals(X_AD_ImpFormat_Row.DATATYPE_Date);
 	}
 
 	/**
@@ -232,7 +228,7 @@ public final class ImpFormatRow
 	 */
 	public boolean isConstant()
 	{
-		return m_dataType.equals(DATATYPE_Constant);
+		return m_dataType.equals(X_AD_ImpFormat_Row.DATATYPE_Constant);
 	}
 
 	/**
@@ -258,7 +254,7 @@ public final class ImpFormatRow
 			m_decimalPoint = ",";
 		m_divideBy100 = divideBy100;
 		//	constant
-		if (constantValue == null || constantValue.length() == 0 || !m_dataType.equals(DATATYPE_Constant))
+		if (constantValue == null || constantValue.length() == 0 || !m_dataType.equals(X_AD_ImpFormat_Row.DATATYPE_Constant))
 		{
 			m_constantValue = "";
 			m_constantIsString = true;
@@ -353,7 +349,7 @@ public final class ImpFormatRow
 	 *	Parse value.
 	 * 	Field content in [] are treated as comments
 	 *  @param info data item
-	 *  @return pased info
+	 *  @return parsed info
 	 */
 	public String parse (String info)
 	{

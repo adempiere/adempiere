@@ -30,7 +30,7 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100603L;
 
     /** Standard Constructor */
     public X_AD_ImpFormat (Properties ctx, int AD_ImpFormat_ID, String trxName)
@@ -149,6 +149,8 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 	public static final String FORMATTYPE_TabSeparated = "T";
 	/** XML = X */
 	public static final String FORMATTYPE_XML = "X";
+	/** Custom Separator Char = U */
+	public static final String FORMATTYPE_CustomSeparatorChar = "U";
 	/** Set Format.
 		@param FormatType 
 		Format of the data
@@ -211,5 +213,19 @@ public class X_AD_ImpFormat extends PO implements I_AD_ImpFormat, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Separator Character.
+		@param SeparatorChar Separator Character	  */
+	public void setSeparatorChar (String SeparatorChar)
+	{
+		set_Value (COLUMNNAME_SeparatorChar, SeparatorChar);
+	}
+
+	/** Get Separator Character.
+		@return Separator Character	  */
+	public String getSeparatorChar () 
+	{
+		return (String)get_Value(COLUMNNAME_SeparatorChar);
 	}
 }
