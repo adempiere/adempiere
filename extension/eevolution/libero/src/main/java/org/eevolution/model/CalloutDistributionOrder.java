@@ -233,10 +233,6 @@ public class CalloutDistributionOrder extends CalloutEngine
 				m_movement.setC_BPartner_Location_ID(locations[0].getC_BPartner_Location_ID());
 			}
 		}
-		else
-		{
-			throw new NoBPartnerLinkedforOrgException (org);
-		}
 		return "";
 	}	
 }	//	Callout Distribution Order
