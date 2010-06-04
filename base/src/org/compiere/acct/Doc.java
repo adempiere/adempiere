@@ -918,9 +918,9 @@ public abstract class Doc
 	/**************************************************************************
 	 *  Load Document Type and GL Info.
 	 * 	Set p_DocumentType and p_GL_Category_ID
-	 * 	@return document type
+	 * 	@return document type (i.e. C_DocType.DocBaseType)
 	 */
-	protected String getDocumentType()
+	public String getDocumentType()
 	{
 		if (m_DocumentType == null)
 			setDocumentType(null);
