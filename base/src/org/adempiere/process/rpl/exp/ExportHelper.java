@@ -251,7 +251,7 @@ public class ExportHelper {
 				// process single XML Attribute
 				// Create new element
 				Element newElement = outDocument.createElement(formatLine.getValue());
-				log.info("Format Line Seach key"+ formatLine.getValue());
+				log.info("Format Line Seach key: "+ formatLine.getValue());
 				if (formatLine.getAD_Column_ID() == 0) {
 					throw new Exception(Msg.getMsg (masterPO.getCtx(), "EXPColumnMandatory"));
 				}
@@ -420,7 +420,18 @@ public class ExportHelper {
 				    whereClause.append(" AND ").append(embeddedFormat.getWhereClause());
 				}
 				
-				Object value = masterPO.get_Value(tableEmbedded.getTableName() + "_ID");
+				String columnName = "";
+				if(formatLine.getAD_Reference_ID()== DisplayType.Table | formatLine.getAD_Reference_ID()==DisplayType.Search)
+				{
+					MColumn column = MColumn.get(masterPO.getCtx(), formatLine.getAD_Column_ID());
+					columnName = column.getColumnName();
+				}
+				else
+				{
+					columnName = tableEmbedded.getTableName() + "_ID";
+				}
+
+				Object value = masterPO.get_Value(columnName);
 				if (value == null)
 				{	
 				    continue;
