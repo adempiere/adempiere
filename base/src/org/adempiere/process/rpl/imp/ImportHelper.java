@@ -163,6 +163,11 @@ public class ImportHelper {
 		log.info("expFormat = " + expFormat.toString());
 		
 		PO po = importElement(ctx, result, rootElement, expFormat, ReplicationType, trxName);
+		if(po.is_Changed())
+		{
+		    log.info("Object not changed = " + po.toString());
+		    return;
+		}
 		
 		if(po != null)
 		{
@@ -191,10 +196,8 @@ public class ImportHelper {
         				else if(X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(ReplicationType)
         					||  X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType))
         				{
-        					if(po.is_Changed())
-        					{	
+
         						po.saveReplica(true);
-        					}	
         				}
         				/*else if (X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(ReplicationType))
         				{
@@ -217,7 +220,12 @@ public class ImportHelper {
 		    	{
 		    		   Env.setContext(po.getCtx(), "#AD_Client_ID", po.getAD_Client_ID());
 				   DocAction document = (DocAction)po;
-				   document.processIt(document.getDocAction());		   
+				   po.set_CustomColumn("DocAction",DocAction.ACTION_Complete);
+				   po.set_CustomColumn("DocStatus", DocAction.STATUS_Drafted);
+				   if(!document.processIt(document.getDocAction()))
+				   {    
+				       log.info("PO.toString() = can not " + po.get_Value("DocAction"));
+				   }    
 				   po.saveEx();
 		    	}	
 		}	
@@ -599,7 +607,7 @@ public class ImportHelper {
 				log.info("referencedNode = " + referencedNode);
 				if (referencedNode == null) 
 				{					
-					throw new IllegalArgumentException("referencedNode can't be null!");
+					throw new IllegalArgumentException("referencedNode can't be found!");
 				}
 				record_ID = getID(ctx, referencedExpFormat, referencedNode, uniqueFormatLine.getValue(), trxName);
 

@@ -33,6 +33,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.util.CCache;
@@ -61,8 +62,8 @@ public class MEXPFormat extends X_EXP_Format {
 	private static CCache<String,MEXPFormat> s_cache = new CCache<String,MEXPFormat>(MEXPFormat.Table_Name, 50 );
 	private static CCache<Integer,MEXPFormat> exp_format_by_id_cache 	= new CCache<Integer,MEXPFormat>(MEXPFormat.Table_Name, 50);
 
-	private Collection<MEXPFormatLine> m_lines = null;
-	private Collection<MEXPFormatLine> m_lines_unique = null;
+	private List<MEXPFormatLine> m_lines = null;
+	private List<MEXPFormatLine> m_lines_unique = null;
 	
 	public MEXPFormat(Properties ctx, int EXP_Format_ID, String trxName) 
 	{	
@@ -73,11 +74,11 @@ public class MEXPFormat extends X_EXP_Format {
 		super (ctx, rs, trxName);
 	}
 	
-	public Collection<MEXPFormatLine> getFormatLines() {
+	public List<MEXPFormatLine> getFormatLines() {
 		return getFormatLinesOrderedBy(X_EXP_FormatLine.COLUMNNAME_Position);
 	}
 	
-	public Collection<MEXPFormatLine> getFormatLinesOrderedBy(String orderBy) 
+	public List<MEXPFormatLine> getFormatLinesOrderedBy(String orderBy) 
 	{
 		if(m_lines != null)
 		{
