@@ -207,7 +207,7 @@ public class TopicListener implements MessageListener {
 			}
 			catch (Exception e)
 			{
-				log.info("Connection with clientID '" + clientID +"' already exists" + e.toString());
+				//log.info("Connection with clientID '" + clientID +"' already exists" + e.toString());
 				conn.close();
 				return;
 			}
@@ -288,7 +288,7 @@ public class TopicListener implements MessageListener {
 
 				impHelper.importXMLDocument(result, documentToBeImported, trxName );
 				
-				log.finest("Replicated ...");
+				log.finest("Message processed ...");
 				
 				if(replicationProcessor != null)
 				{	
