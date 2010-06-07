@@ -326,6 +326,9 @@ public class ReportCtl
 		if(re.getPrintFormat()!=null)
 		{
 			MPrintFormat format = re.getPrintFormat();
+			
+			// We have a Jasper Print Format
+			// ==============================
 			if(format.getJasperProcess_ID() > 0)	
 			{
 				ProcessInfo pi = new ProcessInfo ("", format.getJasperProcess_ID());
@@ -348,7 +351,10 @@ public class ReportCtl
 				//	Execute Process
 				if (Ini.isClient())
 				{
-					ProcessCtl.process(parent, WindowNo, pi, null);
+					ProcessCtl.process(null,		// Parent set to null for synchronous processing, see bugtracker 3010932  
+									   WindowNo,
+									   pi,
+									   null); 
 				}
 				else
 				{
@@ -368,6 +374,8 @@ public class ReportCtl
 				}
 			}
 			else
+			// Standard Print Format (Non-Jasper)
+			// ==================================
 			{
 				createOutput(re, !IsDirectPrint, printerName);
 				if (IsDirectPrint)
