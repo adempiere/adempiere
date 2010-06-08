@@ -85,6 +85,8 @@ public class ImportHelper {
 	
 	/** Custom Date Format			*/
 	private SimpleDateFormat	m_customDateFormat = null;
+	/** Set change PO			*/
+	boolean isChanged= false;
 	
 	/** Context						*/
 	private Properties ctx = null;
@@ -161,9 +163,9 @@ public class ImportHelper {
 			throw new Exception(Msg.getMsg(ctx, "EXPFormatNotFound"));
 		}
 		log.info("expFormat = " + expFormat.toString());
-		
+		isChanged = false;
 		PO po = importElement(ctx, result, rootElement, expFormat, ReplicationType, trxName);
-		if(po.is_Changed())
+		if(!po.is_Changed() && !isChanged)
 		{
 		    log.info("Object not changed = " + po.toString());
 		    return;
@@ -220,12 +222,10 @@ public class ImportHelper {
 		    	{
 		    		   Env.setContext(po.getCtx(), "#AD_Client_ID", po.getAD_Client_ID());
 				   DocAction document = (DocAction)po;
-				   po.set_CustomColumn("DocAction",DocAction.ACTION_Complete);
-				   po.set_CustomColumn("DocStatus", DocAction.STATUS_Drafted);
 				   if(!document.processIt(document.getDocAction()))
 				   {    
 				       log.info("PO.toString() = can not " + po.get_Value("DocAction"));
-				   }    
+				   }
 				   po.saveEx();
 		    	}	
 		}	
@@ -343,6 +343,7 @@ public class ImportHelper {
 		{
 			if(po.is_Changed())
 			{	
+			   	isChanged = true;
 				po.saveReplica(true);
 			}
 			
