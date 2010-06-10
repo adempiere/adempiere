@@ -31,6 +31,7 @@ package org.adempiere.model;
 
 import org.adempiere.process.rpl.exp.ExportHelper;
 import org.compiere.model.MClient;
+import org.compiere.model.MOrg;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidationEngine;
@@ -53,6 +54,8 @@ import org.compiere.util.Env;
  * <li>https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2936561&group_id=176962
  * <li> BF2947615 The document recplicacion not working
  * <li> https://sourceforge.net/tracker/?func=detail&aid=2947615&group_id=176962&atid=879332
+ * <li> The Replication should can use the Strategy from the org
+ * <li> https://sourceforge.net/tracker/?func=detail&aid=3014094&group_id=176962&atid=879335
  *
  *	@version $Id$
  */
@@ -79,6 +82,9 @@ public class ExportModelValidator implements ModelValidator
 	/** Replication Strategy **/
 	private int m_AD_ReplicationStrategy_ID = -1;
 	
+	/** ModelValidationEngine engine **/
+	ModelValidationEngine m_engine = null;
+	
 	/** Export Helper				*/
 	ExportHelper expHelper = null;	
 	
@@ -98,61 +104,17 @@ public class ExportModelValidator implements ModelValidator
 	 */
 	public void initialize (ModelValidationEngine engine, MClient client)
 	{
-		if (client != null)
-		{
+	    m_engine = engine;	    
+	    if (client != null)
+	    {
 			m_AD_Client_ID = client.getAD_Client_ID();
 			log.info(client.toString());
-		}
-		else 
-		{
-			log.warning("Export Model Validator cannot be used as a global validator, it needs to be defined in a per-client (tenant) basis");
-			return;
-		}
-		
-		
-		MReplicationStrategy rplStrategy = null;
-		
-		m_AD_ReplicationStrategy_ID =  client.getAD_ReplicationStrategy_ID();
-		log.info("client.getAD_ReplicationStrategy_ID() = " + m_AD_ReplicationStrategy_ID);
-		
-		if (m_AD_ReplicationStrategy_ID > 0) {
-			rplStrategy = new MReplicationStrategy(client.getCtx(), m_AD_ReplicationStrategy_ID, null);
-			if(!rplStrategy.isActive())
-			{	
-				return;
-			}
-			expHelper = new ExportHelper(client, rplStrategy);
-		}
-		// Add Tables
-		// We want to be informed when records in Replication tables are created/updated/deleted!
-		//engine.addModelChange(MBPartner.Table_Name, this);
-		//engine.addModelChange(MOrder.Table_Name, this);
-		//engine.addModelChange(MOrderLine.Table_Name, this);
-		if (rplStrategy != null) {
-
-			for (X_AD_ReplicationTable rplTable : rplStrategy.getReplicationTables()) {
-				if (X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(rplTable.getReplicationType())
-					|| X_AD_ReplicationTable.REPLICATIONTYPE_Broadcast.equals(rplTable.getReplicationType())
-					|| X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(rplTable.getReplicationType())) 
-				{
-				    String tableName = MTable.getTableName(client.getCtx(), rplTable.getAD_Table_ID());
-				    engine.addModelChange(tableName, this);
-				}
-			}
-		}
-		// Add Documents
-		// We want to be informed when Replication documents are created/updated/deleted!
-		if (rplStrategy != null) {
-			for (X_AD_ReplicationDocument rplDocument : rplStrategy.getReplicationDocuments()) {				
-				if (X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(rplDocument.getReplicationType())
-					|| X_AD_ReplicationDocument.REPLICATIONTYPE_Reference.equals(rplDocument.getReplicationType())) 
-				{				    	
-				    String tableName = MTable.getTableName(client.getCtx(), rplDocument.getAD_Table_ID());
-				    engine.addDocValidate(tableName, this);
-				}
-			}
-		}
-		
+	    }
+	    else 
+	    {
+		log.warning("Export Model Validator cannot be used as a global validator, it needs to be defined in a per-client (tenant) basis");
+		return;
+	    }		
 	}
 
     /**
@@ -251,7 +213,7 @@ public class ExportModelValidator implements ModelValidator
 	 */
 	public String login (int AD_Org_ID, int AD_Role_ID, int AD_User_ID)
 	{
-	    Env.setContext(Env.getCtx(), CTX_IsReplicationEnabled, true);
+	    	Env.setContext(Env.getCtx(), CTX_IsReplicationEnabled, true);
 		m_AD_Org_ID = AD_Org_ID;
 		m_AD_Role_ID = AD_Role_ID;
 		m_AD_User_ID = AD_User_ID;
@@ -259,6 +221,7 @@ public class ExportModelValidator implements ModelValidator
 		log.info("AD_Org_ID  =" + m_AD_Org_ID);
 		log.info("AD_Role_ID =" + m_AD_Role_ID);
 		log.info("AD_User_ID =" + m_AD_User_ID);
+		loadReplicationStrategy();
 		return null;
 	}
 
@@ -270,6 +233,58 @@ public class ExportModelValidator implements ModelValidator
 	public int getAD_Client_ID()
 	{
 		return m_AD_Client_ID;
+	}
+	
+	public void loadReplicationStrategy()
+	{
+		MClient client = MClient.get(Env.getCtx(), m_AD_Client_ID);
+		MReplicationStrategy rplStrategy = null;
+		
+		m_AD_ReplicationStrategy_ID = MOrg.get(client.getCtx(),m_AD_Org_ID).getAD_ReplicationStrategy_ID();
+		
+		if(m_AD_ReplicationStrategy_ID  <= 0)
+		{    
+		    m_AD_ReplicationStrategy_ID =  client.getAD_ReplicationStrategy_ID();
+		    log.info("client.getAD_ReplicationStrategy_ID() = " + m_AD_ReplicationStrategy_ID);
+		}
+		
+		if (m_AD_ReplicationStrategy_ID > 0) {
+			rplStrategy = new MReplicationStrategy(client.getCtx(), m_AD_ReplicationStrategy_ID, null);
+			if(!rplStrategy.isActive())
+			{	
+				return;
+			}
+			expHelper = new ExportHelper(client, rplStrategy);
+		}
+		// Add Tables
+		// We want to be informed when records in Replication tables are created/updated/deleted!
+		//engine.addModelChange(MBPartner.Table_Name, this);
+		//engine.addModelChange(MOrder.Table_Name, this);
+		//engine.addModelChange(MOrderLine.Table_Name, this);
+		if (rplStrategy != null) {
+
+			for (X_AD_ReplicationTable rplTable : rplStrategy.getReplicationTables()) {
+				if (X_AD_ReplicationTable.REPLICATIONTYPE_Merge.equals(rplTable.getReplicationType())
+					|| X_AD_ReplicationTable.REPLICATIONTYPE_Broadcast.equals(rplTable.getReplicationType())
+					|| X_AD_ReplicationTable.REPLICATIONTYPE_Reference.equals(rplTable.getReplicationType())) 
+				{
+				    String tableName = MTable.getTableName(client.getCtx(), rplTable.getAD_Table_ID());
+				    m_engine.addModelChange(tableName, this);
+				}
+			}
+		}
+		// Add Documents
+		// We want to be informed when Replication documents are created/updated/deleted!
+		if (rplStrategy != null) {
+			for (X_AD_ReplicationDocument rplDocument : rplStrategy.getReplicationDocuments()) {				
+				if (X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(rplDocument.getReplicationType())
+					|| X_AD_ReplicationDocument.REPLICATIONTYPE_Reference.equals(rplDocument.getReplicationType())) 
+				{				    	
+				    String tableName = MTable.getTableName(client.getCtx(), rplDocument.getAD_Table_ID());
+				    m_engine.addDocValidate(tableName, this);
+				}
+			}
+		}
 	}
 	
 	/**
