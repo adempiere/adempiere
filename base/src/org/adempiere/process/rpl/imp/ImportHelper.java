@@ -88,6 +88,9 @@ public class ImportHelper {
 	/** Set change PO			*/
 	boolean isChanged= false;
 	
+	/** ReplicationEvent	**/
+	int ReplicationMode = -1;
+	
 	/** Context						*/
 	private Properties ctx = null;
 	
@@ -127,7 +130,7 @@ public class ImportHelper {
 			throw new Exception(Msg.getMsg(ctx, "XMLVersionAttributeMandatory"));
 		}
 		///Getting Attributes.
-		int ReplicationMode = new Integer(rootElement.getAttribute("ReplicationMode"));
+		ReplicationMode = new Integer(rootElement.getAttribute("ReplicationMode"));
 		String ReplicationType = rootElement.getAttribute("ReplicationType");
 		int ReplicationEvent = new Integer(rootElement.getAttribute("ReplicationEvent"));
 		
@@ -230,6 +233,7 @@ public class ImportHelper {
 		    	}	
 		}	
 		result.append("Save Successful ;");		
+		ReplicationMode = -1;
 	}
 
 	/**
@@ -341,10 +345,15 @@ public class ImportHelper {
 		} 
 		else if (MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(line.getType())) 
 		{
-			if(po.is_Changed())
+
+			if(po.is_Changed() &&  MReplicationStrategy.REPLICATION_DOCUMENT == ReplicationMode)
 			{	
 			   	isChanged = true;
 				po.saveReplica(true);
+			}
+			else
+			{
+				return value;
 			}
 			
 			// Embedded Export Format It is used for Parent-Son records like Order&OrderLine
@@ -363,7 +372,16 @@ public class ImportHelper {
 				log.info("=== BEGIN RECURSION CALL ===");
 				embeddedPo = importElement(ctx, result, referencedElement, referencedExpFormat,ReplicationType, po.get_TrxName());
 				log.info("embeddedPo = " + embeddedPo);
+				if(!embeddedPo.is_Changed())
+				{
+				    log.info("Object not changed = " + po.toString());
+				    continue;
+				}
+				else
+				{	
 				embeddedPo.saveReplica(true);
+				isChanged = true;
+				}	
 				result.append(" Embedded Save Successful ; ");
 				
 			}
