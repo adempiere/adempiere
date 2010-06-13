@@ -3,6 +3,14 @@
   <c:redirect url='loginServlet?ForwardTo=update.jsp'/>
 </c:if>
 <html>
+<!--
+- Author: Jorg Janke
+- Version: $Id: update.jsp,v 1.3 2006/05/07 18:11:51 jjanke Exp $
+- Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
+- - -
+- Web Update
+-->
+
 <head>
     <%@ include file="/WEB-INF/jspf/head.jspf" %>
     <title><c:out value='${ctx.name}'/> - Update</title>

@@ -6,6 +6,13 @@
   <c:redirect url='expenses.jsp'/>
 </c:if>
 <html>
+<!--
+  - Author:  Jorg Janke
+  - Version: $Id$
+  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2004 Jorg Janke
+  - - -
+  - Web Store Expenses
+  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - My Expense</title>

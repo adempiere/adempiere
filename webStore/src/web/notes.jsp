@@ -3,6 +3,13 @@
   <c:redirect url='loginServlet?ForwardTo=notes.jsp'/>
 </c:if>
 <html>
+<!--
+  - Author:  Jorg Janke
+  - Version: $Id: notes.jsp,v 1.3 2006/05/19 22:04:03 mdeaelfweald Exp $
+  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
+  - - -
+  - Web Store Notes / Workflow
+  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - My Notices</title>

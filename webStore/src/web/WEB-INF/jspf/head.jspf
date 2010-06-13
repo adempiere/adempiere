@@ -1,3 +1,10 @@
+<%--
+  - Author:  Jorg Janke
+  - Version: $Id: head.jspf,v 1.4 2006/05/09 01:04:19 mdeaelfweald Exp $
+  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2004 Jorg Janke
+  - - -
+  - Web Store Head
+  --%>
 <link href="<c:out value='${ctx.Stylesheet}.css'/>" rel="stylesheet" type="text/css"/>
 <!--[if IE 6]>
 <link href="<c:out value='${ctx.Stylesheet}-ie6.css'/>" rel="stylesheet" type="text/css"/>
@@ -10,4 +17,4 @@
 <script src="/adempiere/wstore.js" language="JavaScript" type="text/JavaScript"></script>
 <meta http-equiv="pragma" content="no-cache"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<meta name="description" content="ADempiere Web Store"/>
+<meta name="description" content="Adempiere Web Store"/>

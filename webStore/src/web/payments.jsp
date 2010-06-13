@@ -3,6 +3,13 @@
   <c:redirect url='loginServlet?ForwardTo=payments.jsp'/>
 </c:if>
 <html>
+<!--
+  - Author:  Jorg Janke
+  - Version: $Id: payments.jsp,v 1.3 2006/05/19 22:04:55 mdeaelfweald Exp $
+  - Adempiere ERP & CRM Smart Business Solution - Copyright (c) 1999-2003 Jorg Janke
+  - - -
+  - Web Store Payments
+  -->
 <head>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <title><c:out value='${ctx.name}'/> - My Payments</title>

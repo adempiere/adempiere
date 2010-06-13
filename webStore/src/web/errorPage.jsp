@@ -1,12 +1,12 @@
 <%@ page isErrorPage="true" %>
 <html>
 <head>
-<title>ADempiere Error</title>
+<title>Adempiere Error</title>
 <link href="standard.css" rel="stylesheet" type="text/css"/>
 </head>
 <body><div id="page">
-<h1>ADempiere System Error</h1>
-<p>Sorry, an error occurred. If the error persists, please inform us.</p>
+<h1>Adempiere System Error</h1>
+<p>Sorry, an error occured. If the error persists, please inform us.</p>
 <p>Error Message:</p>
 <pre><font color="red">
 <%= exception.getMessage() %>
