@@ -367,8 +367,7 @@
  <row id="189" trl="Y">
   <value column="Name" original="Import Loader Format">Import-Dateiformate</value>
   <value column="Description" original="Maintain Import Loader Formats">Verwaltung von Importformaten für das Ladeprogramm</value>
-  <value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported.">Das Fenster "Import-Dateiformate" ermöglicht, die Dateistruktur für zu importierende Informationen zu definieren.
-</value>
+  <value column="Help" original="The Import Loader Format Window is used for defining the file layout for product information which will be imported.">Das Fenster "Import-Dateiformate" ermöglicht, die Dateistruktur für zu importierende Informationen zu definieren.</value>
  </row>
  <row id="191" trl="Y">
   <value column="Name" original="Production">Produktion</value>

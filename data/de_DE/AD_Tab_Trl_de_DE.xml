@@ -1118,8 +1118,7 @@ Printing:
   <value column="CommitWarning" original=""/>
   <value column="Description" original="Processor for online payments">Processor for online payments</value>
   <value column="Help" original="The Electronic Payments Tab is used to define the parameters for the processing of electronic payments. If no currency is defined, all currencies are accepted. If a minumum amount is defined (or not zero), the payment processor is only used if the payment amount is equal or higher than the minumum amount. &lt;br&gt;&#10;The class needs to implement org.compiere.model.PaymentProcessor"><![CDATA[The Electronic Payments Tab is used to define the parameters for the processing of electronic payments. If no currency is defined, all currencies are accepted. If a minumum amount is defined (or not zero), the payment processor is only used if the payment amount is equal or higher than the minumum amount. <br>
-The class needs to implement org.compiere.model.PaymentProcessor
-]]></value>
+The class needs to implement org.compiere.model.PaymentProcessor]]></value>
  </row>
  <row id="327" trl="Y">
   <value column="Name" original="Accounting">Buchführung</value>

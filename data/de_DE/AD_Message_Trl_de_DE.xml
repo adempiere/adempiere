@@ -834,8 +834,7 @@
   <value column="MsgTip" original=""/>
  </row>
  <row id="309" trl="Y">
-  <value column="MsgText" original="Invoices are generated depending on the &quot;Invoicing Rule&quot; selection in the Order">Rechnungen werden generiert auf Basis der "Rechnung Regel" im Auftrag
-</value>
+  <value column="MsgText" original="Invoices are generated depending on the &quot;Invoicing Rule&quot; selection in the Order">Rechnungen werden generiert auf Basis der "Rechnung Regel" im Auftrag</value>
   <value column="MsgTip" original=""/>
  </row>
  <row id="310" trl="Y">
@@ -1264,8 +1263,7 @@
  </row>
  <row id="416" trl="Y">
   <value column="MsgText" original="Posting Error: Invalid Account">Buchungsfehler: Konto fehlerhaft</value>
-  <value column="MsgTip" original="Account is no longer Active; Reactivate account value or choose new">Konto ist nicht aktiv; Reaktivieren oder neues Konto auswählen
-</value>
+  <value column="MsgTip" original="Account is no longer Active; Reactivate account value or choose new">Konto ist nicht aktiv; Reaktivieren oder neues Konto auswählen</value>
  </row>
  <row id="417" trl="Y">
   <value column="MsgText" original="Posting Error: Period Closed">Buchungsfehler: Periode geschlossen</value>
