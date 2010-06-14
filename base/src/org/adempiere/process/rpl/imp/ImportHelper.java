@@ -88,9 +88,6 @@ public class ImportHelper {
 	/** Set change PO			*/
 	boolean isChanged= false;
 	
-	/** ReplicationEvent	**/
-	int ReplicationMode = -1;
-	
 	/** Context						*/
 	private Properties ctx = null;
 	
@@ -130,7 +127,7 @@ public class ImportHelper {
 			throw new Exception(Msg.getMsg(ctx, "XMLVersionAttributeMandatory"));
 		}
 		///Getting Attributes.
-		ReplicationMode = new Integer(rootElement.getAttribute("ReplicationMode"));
+		int ReplicationMode = new Integer(rootElement.getAttribute("ReplicationMode"));
 		String ReplicationType = rootElement.getAttribute("ReplicationType");
 		int ReplicationEvent = new Integer(rootElement.getAttribute("ReplicationEvent"));
 		
@@ -176,6 +173,8 @@ public class ImportHelper {
 		
 		if(po != null)
 		{
+			 Env.setContext(po.getCtx(), "#AD_Client_ID", po.getAD_Client_ID());
+			 
 		    	if(MReplicationStrategy.REPLICATION_TABLE==ReplicationMode)
 		    	{    
         			// Here must invoke other method else we get cycle...
@@ -220,20 +219,40 @@ public class ImportHelper {
         			}	
 		    	}
 		    	else if(MReplicationStrategy.REPLICATION_DOCUMENT == ReplicationMode  
-		    		&& X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(ReplicationType)
-		    		&& po instanceof DocAction)
+		    	&& X_AD_ReplicationDocument.REPLICATIONTYPE_Merge.equals(ReplicationType)
+		    	&& po instanceof DocAction)
 		    	{
-		    		   Env.setContext(po.getCtx(), "#AD_Client_ID", po.getAD_Client_ID());
 				   DocAction document = (DocAction)po;
-				   if(!document.processIt(document.getDocAction()))
-				   {    
-				       log.info("PO.toString() = can not " + po.get_Value("DocAction"));
+				   String action = document.getDocAction();
+				   String status = document.getDocStatus();
+				   log.info("Document:"+document.toString() + " DocStauts:" + status + " DocAction:"+action);
+				   
+				   if(ModelValidator.TIMING_AFTER_REVERSECORRECT==ReplicationEvent)
+				   {   
+					   if(status.equals(DocAction.STATUS_Reversed) && action.equals(DocAction.ACTION_None))
+					   {
+						   po.saveEx();
+						   return;
+					   }
+				   }	 
+				   
+				   if( (action.equals(DocAction.ACTION_Complete) && status.equals(DocAction.STATUS_InProgress))
+				   ||  (action.equals(DocAction.ACTION_Close) && status.equals(DocAction.STATUS_Completed)))
+				   {	
+					   if(!document.processIt(action))
+					   {    
+					       log.info("PO.toString() = can not " + po.get_Value("DocAction"));
+					   }
+					   po.saveEx();
 				   }
-				   po.saveEx();
-		    	}	
+				   else
+				   {
+						 po.saveEx();
+						   return;
+				   }
+		    }	
 		}	
 		result.append("Save Successful ;");		
-		ReplicationMode = -1;
 	}
 
 	/**
@@ -346,7 +365,7 @@ public class ImportHelper {
 		else if (MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(line.getType())) 
 		{
 
-			if(po.is_Changed() &&  MReplicationStrategy.REPLICATION_DOCUMENT == ReplicationMode)
+			if(po.is_Changed())
 			{	
 			   	isChanged = true;
 				po.saveReplica(true);
