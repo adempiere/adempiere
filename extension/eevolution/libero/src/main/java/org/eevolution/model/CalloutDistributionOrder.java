@@ -31,9 +31,9 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.MUOM;
 import org.compiere.model.MUOMConversion;
+import org.compiere.model.MWarehouse;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.eevolution.exceptions.NoBPartnerLinkedforOrgException;
 
 /**
  *	Distribution Order Callout
@@ -69,9 +69,7 @@ public class CalloutDistributionOrder extends CalloutEngine
 		//	No Product
 		if (M_Product_ID == 0)
 		{
-			QtyEntered = (BigDecimal)mTab.getValue("QtyEntered");
-			QtyOrdered = QtyEntered;
-			mTab.setValue("QtyOrdered", QtyOrdered);
+			return "";
 		}
 		//	UOM Changed - convert from Entered -> Product
 		else if (mField.getColumnName().equals("C_UOM_ID"))
@@ -209,14 +207,75 @@ public class CalloutDistributionOrder extends CalloutEngine
 	{
 		I_DD_OrderLine line = GridTabWrapper.create(mTab, I_DD_OrderLine.class);		
 		MDDOrderLine orderLine = new MDDOrderLine(ctx, line.getDD_OrderLine_ID(), null);
-		if (line.getConfirmedQty().compareTo(orderLine.getQtyToDeliver()) > 0 )
+		
+		if (line.getConfirmedQty().compareTo(orderLine.getQtyToDeliver()) > 0)
 		{
-			String info =Msg.parseTranslation(ctx, "@ConfirmedQty@ : "+line.getConfirmedQty()+" > @QtyToDeliver@ : " +  orderLine.getQtyToDeliver());
+			String info =Msg.parseTranslation(ctx, "@ConfirmedQty@ : "+line.getConfirmedQty()+" > @QtyInTransit@ "+line.getQtyInTransit()+" @QtyToDeliver@ : " +  orderLine.getQtyToDeliver());
 			mTab.fireDataStatusEEvent ("", info, false);
 			line.setConfirmedQty(orderLine.getQtyToDeliver());
-		}	
+		}
 		return "";		
 	}	
+	
+
+	/**
+	 * Set Default Locator To
+	 * @param ctx
+	 * @param WindowNo
+	 * @param mTab
+	 * @param mField
+	 * @param value
+	 * @return
+	 */
+	public String setLocatorTo (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+
+		I_DD_OrderLine line = GridTabWrapper.create(mTab, I_DD_OrderLine.class);
+		if(value != null)
+		{
+			MProduct product = MProduct.get(ctx, (Integer)value);
+			if(line.getC_UOM_ID() <= 0)
+			{
+				line.setC_UOM_ID(product.getC_UOM_ID());
+			}
+		}
+		
+		MWarehouse[] ws = MWarehouse.getForOrg(ctx, line.getAD_Org_ID());
+		if(ws == null && ws.length < 0)
+		{
+			return "";
+		}
+		MLocator locator_to = MLocator.getDefault(ws[0]);
+		if(locator_to != null)
+		{	
+			line.setM_LocatorTo_ID(locator_to.getM_Locator_ID());
+		}	
+		return "";		
+	}
+	
+	
+/**
+ * 
+ * 
+ * @param ctx
+ * @param WindowNo
+ * @param mTab
+ * @param mField
+ * @param value
+ * @return
+ */
+	public String UOM(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
+	{
+		
+		I_DD_OrderLine line = GridTabWrapper.create(mTab, I_DD_OrderLine.class);
+		
+		MProduct product = MProduct.get(ctx ,line.getM_Product_ID());
+		if(product !=null)
+		{
+			line.setC_UOM_ID(product.getC_UOM_ID());
+		}
+		return "";		
+	}
 	
 	public String bPartner (Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value)
 	{
