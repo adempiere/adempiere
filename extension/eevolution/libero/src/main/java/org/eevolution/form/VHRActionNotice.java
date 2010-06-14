@@ -447,6 +447,13 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 				}
 				movementOK.setIsRegistered(true);
 				movementOK.saveEx();
+ 				// check if user saved an empty record and delete it
+				if ( (movementOK.getAmount() == null || Env.ZERO.compareTo(movementOK.getAmount()) == 0)
+							&& (movementOK.getQty() == null || Env.ZERO.compareTo(movementOK.getQty()) == 0)
+							&& (movementOK.getServiceDate() == null)
+							&& (movementOK.getTextMsg() == null || movementOK.getTextMsg().trim().length() == 0)) {
+				movementOK.deleteEx(false);
+				}
 				executeQuery();			
 				fieldValidFrom.setValue(dateEnd);
 				fieldColumnType.setValue("");
