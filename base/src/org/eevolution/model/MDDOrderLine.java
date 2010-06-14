@@ -669,6 +669,6 @@ public class MDDOrderLine extends X_DD_OrderLine
 	 */
 	public BigDecimal getQtyToDeliver()
 	{
-		return getQtyOrdered().subtract(getQtyDelivered());
+		return getQtyOrdered().subtract(getQtyInTransit()).subtract(getQtyDelivered());
 	}
 }	//	MDDOrderLine
