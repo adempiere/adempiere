@@ -728,12 +728,12 @@ public class MInventory extends X_M_Inventory implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (m_processMsg != null)
 			return false;
+
+		setDocAction(DOCACTION_None);
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
-			return false;		
-
-		setDocAction(DOCACTION_None);
+			return false;
 		return true;
 	}	//	closeIt
 	

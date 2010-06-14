@@ -664,13 +664,13 @@ public class MMovement extends X_M_Movement implements DocAction
 		if (m_processMsg != null)
 			return false;
 
+		//	Close Not delivered Qty
+		setDocAction(DOCACTION_None);
+
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
 			return false;
-
-		//	Close Not delivered Qty
-		setDocAction(DOCACTION_None);
 		return true;
 	}	//	closeIt
 	

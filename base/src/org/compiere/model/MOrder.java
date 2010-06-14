@@ -2153,13 +2153,13 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "Cannot unreserve Stock (close)";
 			return false;
 		}
+		
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
 		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
 			return false;
-		
-		setProcessed(true);
-		setDocAction(DOCACTION_None);
 		return true;
 	}	//	closeIt
 	
