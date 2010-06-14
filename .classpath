@@ -26,14 +26,13 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/mail.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/standard.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/Verisign.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ocrs12.jar"/>
 	<classpathentry exported="true" kind="lib" path="jboss/lib/commons-httpclient.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant-commons-net.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant-launcher.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/ant.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jsp-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/servlet-api.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ojdbc14.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/ojdbc6.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jpayment.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jnlp.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.1.jar"/>

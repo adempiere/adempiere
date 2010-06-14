@@ -1059,7 +1059,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				if (isInvoker())
 				{
 					//	Set Approver
-					int startAD_User_ID = getAD_User_ID();
+					int startAD_User_ID = Env.getAD_User_ID(getCtx());
 					if (startAD_User_ID == 0)
 						startAD_User_ID = doc.getDoc_User_ID();
 					int nextAD_User_ID = getApprovalUser(startAD_User_ID, 
@@ -1078,7 +1078,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 					// [ 1742751 ] Workflow: User Choice is not working
 					if (resp.isHuman())
 					{
-						autoApproval = resp.getAD_User_ID() == m_process.getAD_User_ID();
+						autoApproval = resp.getAD_User_ID() == Env.getAD_User_ID(getCtx());
 						if (!autoApproval && resp.getAD_User_ID() != 0)
 							setAD_User_ID(resp.getAD_User_ID());
 					}
@@ -1087,7 +1087,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 						MUserRoles[] urs = MUserRoles.getOfRole(getCtx(), resp.getAD_Role_ID());
 						for (int i = 0; i < urs.length; i++)
 						{
-							if(urs[i].getAD_User_ID() == m_process.getAD_User_ID())
+							if(urs[i].getAD_User_ID() == Env.getAD_User_ID(getCtx()))
 							{
 								autoApproval = true;
 								break;
@@ -1241,7 +1241,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 				{
 					if (isInvoker())
 					{
-						int startAD_User_ID = getAD_User_ID();
+						int startAD_User_ID = Env.getAD_User_ID(getCtx());
 						if (startAD_User_ID == 0)
 							startAD_User_ID = doc.getDoc_User_ID();
 						int nextAD_User_ID = getApprovalUser(startAD_User_ID, 

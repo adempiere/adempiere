@@ -7,8 +7,7 @@
 	<classpathentry kind="src" path="/tools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JasperReportsTools"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/barbecue-1.5-beta1.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/serverApps"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>

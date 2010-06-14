@@ -12,7 +12,6 @@
 	<classpathentry kind="lib" path="/tools/lib/ant-commons-net.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/ant-launcher.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/commons-net-1.4.0.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ojdbc6.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

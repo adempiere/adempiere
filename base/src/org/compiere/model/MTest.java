@@ -129,7 +129,7 @@ public class MTest extends X_Test
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		log.info("New=" + newRecord + ", Seccess=" + success + " ***");
+		log.info("New=" + newRecord + ", Success=" + success + " ***");
 		return success;
 	}	//	afterSave
 

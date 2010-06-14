@@ -138,16 +138,13 @@
 
 		<!-- Create oracle.jar file 	-->
 		<jar jarfile="${dist.dir}/oracle.jar" duplicate="preserve">
-			<zipfileset src="lib/ojdbc14.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/ocrs12.jar">
+			<zipfileset src="lib/ojdbc6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 
 			<manifest>
 				<attribute name="Specification-Title" value="Oracle JDBC" />
-				<attribute name="Specification-Version" value="10g" />
+				<attribute name="Specification-Version" value="11g" />
 				<attribute name="Specification-Vendor" value="Oracle" />
 				<attribute name="Implementation-Title" value="oracle ${env.ADEMPIERE_VERSION}" />
 				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />

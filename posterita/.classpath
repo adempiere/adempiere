@@ -20,8 +20,7 @@
 	<classpathentry kind="lib" path="/tools/lib/jpedal.jar"/>
 	<classpathentry kind="src" path="/serverApps"/>
 	<classpathentry kind="lib" path="/jboss/client/jbossall-client.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ocrs12.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/ojdbc6.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/postgresql.jar"/>
 	<classpathentry kind="output" path="posterita/web/WEB-INF/classes"/>
 </classpath>
