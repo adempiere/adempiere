@@ -572,7 +572,7 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		String sql = "SELECT C_DocType_ID FROM C_DocType "
 			+ "WHERE AD_Client_ID=? AND AD_Org_ID in (0,?) AND DocBaseType=?"
 			+ " AND IsActive='Y' "
-			+ "ORDER BY IsDefault DESC, AD_Org_ID";
+			+ "ORDER BY IsDefault DESC, AD_Org_ID DESC";
 		int C_DocType_ID = DB.getSQLValueEx(null, sql, getAD_Client_ID(), getAD_Org_ID(), DocBaseType);
 		if (C_DocType_ID <= 0)
 			log.log(Level.SEVERE, "Not found for AD_Client_ID="
