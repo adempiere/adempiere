@@ -127,7 +127,9 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 			+" AND "+COLUMNNAME_S_Resource_ID+"=?";
 
 		return new Query(ctx, MPPProductPlanning.Table_Name, whereClause, trxname)
-			.setParameters(new Object[]{ad_client_id, ad_org_id, m_product_id, m_warehouse_id, s_resource_id})
+			.setParameters(ad_client_id, ad_org_id, m_product_id, m_warehouse_id, s_resource_id)
+			.setClient_ID()
+			.setOnlyActiveRecords(true)
 			.firstOnly();
 	}       
 
@@ -152,7 +154,9 @@ public class MPPProductPlanning extends X_PP_Product_Planning
 								+ " AND (M_Warehouse_ID IN (0,?) OR M_Warehouse_ID IS NULL)"
 								+ " AND (S_Resource_ID IN (0,?) OR S_Resource_ID IS NULL)";
 		return new Query(ctx, Table_Name, whereClause, trxName)
-				.setParameters(new Object[]{Env.getAD_Client_ID(ctx), M_Product_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID})
+				.setParameters(Env.getAD_Client_ID(ctx), M_Product_ID, AD_Org_ID, M_Warehouse_ID, S_Resource_ID)
+				.setOnlyActiveRecords(true)
+				.setClient_ID()
 				.setOrderBy("COALESCE(AD_Org_ID, 0) DESC"
 								+", COALESCE(M_Warehouse_ID, 0) DESC"
 								+", COALESCE(S_Resource_ID, 0) DESC")
