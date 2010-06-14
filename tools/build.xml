@@ -264,10 +264,10 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
-			<zipfileset src="lib/jfreechart-1.0.11.jar">
+			<zipfileset src="lib/jfreechart-1.0.13.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jcommon-1.0.14.jar">
+			<zipfileset src="lib/jcommon-1.0.16.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->
@@ -402,10 +402,10 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JFreeChart			-->
-			<zipfileset src="lib/jfreechart-1.0.11.jar">
+			<zipfileset src="lib/jfreechart-1.0.13.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/jcommon-1.0.14.jar">
+			<zipfileset src="lib/jcommon-1.0.16.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Graph				-->

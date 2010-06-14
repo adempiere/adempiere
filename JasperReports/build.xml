@@ -63,7 +63,7 @@
 	      <pathelement path="../extend/Extend.jar"/>
 	      <pathelement path="../lib/CSTools.jar"/>
 	      <pathelement path="../lib/oracle.jar"/>
-		  <pathelement path="../JasperReportsTools/lib/jasperreports-3.7.1.jar"/>
+		  <pathelement path="../JasperReportsTools/lib/jasperreports-3.7.3.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-digester-1.7.jar"/>
 	      <pathelement path="../tools/lib/commons-logging.jar"/>
 	      <pathelement path="../JasperReportsTools/lib/commons-beanutils-1.7.jar"/>      	
@@ -122,14 +122,14 @@
   	    </patternset>
 	</unjar>
   	<!-- futur dev jfree chart but it needs scriptlets
-  	<unjar src="../tools/lib/jfreechart-0.9.21.jar" dest="${needed.dir}" />
+  	<unjar src="../tools/lib/jfreechart-1.0.13.jar" dest="${needed.dir}" />
   	-->
   	<jar jarfile="${dist.dir}/${needed.jar.name}.jar"
 	  excludes="**/*.jbx"
 	  index="yes"
   	  duplicate="preserve">
       <fileset dir="${needed.dir}"/>
-  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-3.7.1.jar" >
+  	  <zipfileset src="../JasperReportsTools/lib/jasperreports-3.7.3.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
   	  <zipfileset src="../JasperReportsTools/lib/commons-digester-1.7.jar" >

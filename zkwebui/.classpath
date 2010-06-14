@@ -25,8 +25,8 @@
 	<classpathentry kind="lib" path="/tools/lib/javaee.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/fckez.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar"/>
-	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.16.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>
