@@ -21,6 +21,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -62,7 +63,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 	public static MHRPaySelectionCheck getOfPayment (Properties ctx, int C_Payment_ID, String trxName)
 	{
 		final String where = I_C_Payment.COLUMNNAME_C_Payment_ID + "=?";
-		Collection<MHRPaySelectionCheck> pscs = new Query(ctx, I_HR_PaySelectionCheck.Table_Name, where , trxName)
+		List<MHRPaySelectionCheck> pscs = new Query(ctx, I_HR_PaySelectionCheck.Table_Name, where , trxName)
 		.setParameters(new Object[]{C_Payment_ID})
 		.list();
 		
