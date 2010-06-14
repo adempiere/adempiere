@@ -37,7 +37,7 @@ public class MHRMovement extends X_HR_Movement
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6705848510397126140L;
+	private static final long serialVersionUID = 1587073469278066854L;
 
 	/**
 	 * 	Standard Constructor
@@ -151,10 +151,10 @@ public class MHRMovement extends X_HR_Movement
 		setC_BP_Group_ID(getC_BPartner().getC_BP_Group_ID());
 		// BankAccount
 		int C_BP_BankAccount_ID = new Query(getCtx(), I_C_BP_BankAccount.Table_Name, COLUMNNAME_C_BPartner_ID+"=?", get_TrxName())
-		.setOnlyActiveRecords(true)
-		.setParameters(new Object[]{getC_BPartner_ID()})
-		.setOrderBy(COLUMNNAME_C_BPartner_ID+" DESC") // just in case...
-		.firstId();
+			.setOnlyActiveRecords(true)
+			.setParameters(getC_BPartner_ID())
+			.setOrderBy(I_C_BP_BankAccount.COLUMNNAME_C_BP_BankAccount_ID+" DESC") // just in case...
+			.firstId();
 		
 		if(C_BP_BankAccount_ID > 0)
 			setC_BP_BankAccount_ID(C_BP_BankAccount_ID);
