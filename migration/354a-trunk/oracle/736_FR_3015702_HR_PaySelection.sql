@@ -3142,4 +3142,3 @@ UPDATE AD_Column SET Description='Payroll Payment Selection', Help='The Payroll 
 -- Payroll Payment Selection
 UPDATE AD_Field SET Name='Payroll Payment Selection ID', Description='Payroll Payment Selection', Help='The Payroll Payment Selection identifies a unique Payment' WHERE AD_Column_ID=58693 AND IsCentrallyMaintained='Y'
 ;
-
