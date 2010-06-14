@@ -36,6 +36,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Trx;
+import org.eevolution.model.MHRPaySelectionCheck;
 
 /**
  *	Report Controller.
@@ -396,7 +397,12 @@ public class ReportCtl
 	 */
 	public static boolean startCheckPrint (int C_Payment_ID, boolean IsDirectPrint)
 	{
-		
+		MHRPaySelectionCheck hpsc = MHRPaySelectionCheck.getOfPayment(Env.getCtx(), C_Payment_ID, null);
+		if (hpsc != null)
+		{	
+			return startDocumentPrint (ReportEngine.HR_CHECK, hpsc.getHR_PaySelectionCheck_ID(), null, -1, IsDirectPrint);			
+		}	
+		 		
 		// afalcone - [ 1871567 ] Wrong value in Payment document
 		boolean ok = MPaySelectionCheck.deleteGeneratedDraft(Env.getCtx(), C_Payment_ID, null);
 		//
