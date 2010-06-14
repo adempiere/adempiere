@@ -104,7 +104,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8762357519103152929L;
+	private static final long serialVersionUID = -8055500064230704903L;
 
 	public static final String DEFAULT_STATUS_MESSAGE = "NavigateOrUpdate";
 	

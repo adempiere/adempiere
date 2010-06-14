@@ -87,11 +87,12 @@ import org.compiere.util.ValueNamePair;
 public class GridTable extends AbstractTableModel
 	implements Serializable
 {
-	public static final String DATA_REFRESH_MESSAGE = "Refreshed";
 	/**
-	 * generated
+	 * 
 	 */
-	private static final long serialVersionUID = -4397161719594270579L;
+	private static final long serialVersionUID = 7799823493936826600L;
+	
+	public static final String DATA_REFRESH_MESSAGE = "Refreshed";
 
 	/**
 	 *	JDBC Based Buffered Table

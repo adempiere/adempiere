@@ -51,10 +51,10 @@ import org.zkoss.zul.Vbox;
 public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 {
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = 8401520243224743864L;
-
+	private static final long serialVersionUID = -3262889055635240201L;
+	
 	private static final String POPUP_INFO_BACKGROUND_STYLE = "background-color: #262626; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #262626; border-radius: 3px; ";
 	private static final String POPUP_ERROR_BACKGROUND_STYLE = "background-color: #8B0000; -moz-border-radius: 3px; -webkit-border-radius: 3px; border: 1px solid #8B0000; border-radius: 3px; ";
 	private static final String POPUP_POSITION_STYLE = "position: absolute; z-index: 99; display: block; visibility: visible;";
