@@ -3085,4 +3085,61 @@ UPDATE AD_Field SET IsSameLine='Y',Updated=TO_DATE('2009-12-02 18:38:30','YYYY-M
 
 -- 2/12/2009 06:43:09 PM CST
 -- Payroll Payment Selection
-UPDATE AD_Column SET Description='Payroll Payment Selection', Help='The Payroll Payment Selection identifies a unique Payment', IsUpdateable='N',Updated=TO_DATE('2009-12-02 18:43:09','YYYY-MM
+UPDATE AD_Column SET Description='Payroll Payment Selection', Help='The Payroll Payment Selection identifies a unique Payment', IsUpdateable='N',Updated=TO_DATE('2009-12-02 18:43:09','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=58719
+;
+
+-- 2/12/2009 06:43:09 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Field SET Name='Payroll Payment Selection ID', Description='Payroll Payment Selection', Help='The Payroll Payment Selection identifies a unique Payment' WHERE AD_Column_ID=58719 AND IsCentrallyMaintained='Y'
+;
+
+-- 2/12/2009 06:44:01 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Column SET Description='Payroll Payment Selection Check',Updated=TO_DATE('2009-12-02 18:44:01','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=58718
+;
+
+-- 2/12/2009 06:44:01 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Field SET Name='Payroll Pay Selection Check ID', Description='Payroll Payment Selection Check', Help=NULL WHERE AD_Column_ID=58718 AND IsCentrallyMaintained='Y'
+;
+
+-- 2/12/2009 06:44:27 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Column SET Description='Payroll Payment Selection Line', Help='The Payroll Payment Selection Line identifies a unique line in a payment', IsUpdateable='N',Updated=TO_DATE('2009-12-02 18:44:27','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=58710
+;
+
+-- 2/12/2009 06:44:27 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Field SET Name='Payroll Payment Selection Line ID', Description='Payroll Payment Selection Line', Help='The Payroll Payment Selection Line identifies a unique line in a payment' WHERE AD_Column_ID=58710 AND IsCentrallyMaintained='Y'
+;
+
+-- 2/12/2009 06:44:55 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Column SET Description='Payroll Payment Selection Check', IsUpdateable='N',Updated=TO_DATE('2009-12-02 18:44:55','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=58731
+;
+
+-- 2/12/2009 06:44:55 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Field SET Name='Payroll Pay Selection Check ID', Description='Payroll Payment Selection Check', Help=NULL WHERE AD_Column_ID=58731 AND IsCentrallyMaintained='Y'
+;
+
+-- 2/12/2009 06:46:19 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Column SET Description='Payroll Payment Selection', Help='The Payroll Payment Selection identifies a unique Payment', IsUpdateable='N',Updated=TO_DATE('2009-12-02 18:46:19','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=58741
+;
+
+-- 2/12/2009 06:46:19 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Field SET Name='Payroll Payment Selection ID', Description='Payroll Payment Selection', Help='The Payroll Payment Selection identifies a unique Payment' WHERE AD_Column_ID=58741 AND IsCentrallyMaintained='Y'
+;
+
+-- 2/12/2009 06:46:54 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Column SET Description='Payroll Payment Selection', Help='The Payroll Payment Selection identifies a unique Payment', IsUpdateable='N',Updated=TO_DATE('2009-12-02 18:46:54','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Column_ID=58693
+;
+
+-- 2/12/2009 06:46:54 PM CST
+-- Payroll Payment Selection
+UPDATE AD_Field SET Name='Payroll Payment Selection ID', Description='Payroll Payment Selection', Help='The Payroll Payment Selection identifies a unique Payment' WHERE AD_Column_ID=58693 AND IsCentrallyMaintained='Y'
+;
+
