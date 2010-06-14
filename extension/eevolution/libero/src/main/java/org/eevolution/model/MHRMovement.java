@@ -20,6 +20,9 @@ import java.sql.Timestamp;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_C_BP_BankAccount;
+import org.compiere.model.MCurrency;
+import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 
@@ -96,38 +99,67 @@ public class MHRMovement extends X_HR_Movement
 	 */
 	public void setColumnValue(Object value)
 	{
-		final String columnType = getColumnType();
-		if (MHRConcept.COLUMNTYPE_Quantity.equals(columnType))
+		try
 		{
-			BigDecimal qty = new BigDecimal(value.toString()); 
-			setQty(qty);
-			setAmount(Env.ZERO);
-		} 
-		else if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
-		{
-			BigDecimal amount = new BigDecimal(value.toString());	
-			setAmount(amount);
-			setQty(Env.ZERO);
-		} 
-		else if(MHRConcept.COLUMNTYPE_Text.equals(columnType))
-		{
-			setTextMsg(value.toString().trim());
-		}
-		else if(MHRConcept.COLUMNTYPE_Date.equals(columnType))
-		{
-			if (value instanceof Timestamp)
+			final String columnType = getColumnType();
+			if (MHRConcept.COLUMNTYPE_Quantity.equals(columnType))
 			{
-				setServiceDate((Timestamp)value);
+				BigDecimal qty = new BigDecimal(value.toString()); 
+				setQty(qty);
+				setAmount(Env.ZERO);
+			} 
+			else if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
+			{
+					int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));				
+					BigDecimal amount = new BigDecimal(value.toString()).setScale(precision, BigDecimal.ROUND_HALF_UP);
+				setAmount(amount);
+				setQty(Env.ZERO);
+			} 
+			else if(MHRConcept.COLUMNTYPE_Text.equals(columnType))
+			{
+				setTextMsg(value.toString().trim());
+			}
+			else if(MHRConcept.COLUMNTYPE_Date.equals(columnType))
+			{
+				if (value instanceof Timestamp)
+				{
+					setServiceDate((Timestamp)value);
+				}
+				else
+				{
+					setServiceDate(Timestamp.valueOf(value.toString().trim().substring(0, 10)+ " 00:00:00.0"));	
+				}
 			}
 			else
 			{
-				setServiceDate(Timestamp.valueOf(value.toString().trim().substring(0, 10)+ " 00:00:00.0"));	
+				throw new AdempiereException("@NotSupported@ @ColumnType@ - "+columnType);
 			}
 		}
-		else
+		catch (Exception e) 
 		{
-			throw new AdempiereException("@NotSupported@ @ColumnType@ - "+columnType);
+			throw new AdempiereException("@Script Error@");
 		}
-		
 	}
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord)
+	{
+		MHREmployee employee  = MHREmployee.getActiveEmployee(Env.getCtx(), getC_BPartner_ID(), get_TrxName());
+		if (employee != null) {
+			setAD_Org_ID(employee.getAD_Org_ID());
+		}
+		setC_BP_Group_ID(getC_BPartner().getC_BP_Group_ID());
+		// BankAccount
+		int C_BP_BankAccount_ID = new Query(getCtx(), I_C_BP_BankAccount.Table_Name, COLUMNNAME_C_BPartner_ID+"=?", get_TrxName())
+		.setOnlyActiveRecords(true)
+		.setParameters(new Object[]{getC_BPartner_ID()})
+		.setOrderBy(COLUMNNAME_C_BPartner_ID+" DESC") // just in case...
+		.firstId();
+		
+		if(C_BP_BankAccount_ID > 0)
+			setC_BP_BankAccount_ID(C_BP_BankAccount_ID);
+			
+		setAccountSign(getHR_Concept().getAccountSign());
+		return true;
+	}       
 }	//	HRMovement
