@@ -842,12 +842,12 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		orderStock(); // Clear Ordered Quantities
 		reserveStock(getLines()); //	Clear Reservations
 		
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-		if (m_processMsg != null)
-			return false;
 		setDocStatus(DOCSTATUS_Closed);
 		//setProcessed(true);
 		setDocAction(DOCACTION_None);
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;
 		return true;
 	} //	closeIt
 
