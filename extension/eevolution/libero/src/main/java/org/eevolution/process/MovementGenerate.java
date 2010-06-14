@@ -473,7 +473,7 @@ public class MovementGenerate extends SvrProcess
 				m_movement.setC_BPartner_Location_ID(order.getC_BPartner_Location_ID());
 			
 			//Look the document type based on organization
-				int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_MaterialMovement, locator.getAD_Org_ID());
+				int docTypeDO_ID = getDocType(MDocType.DOCBASETYPE_MaterialMovement, m_movement.getAD_Org_ID());
 				
 				if(docTypeDO_ID>0)
 					m_movement.setC_DocType_ID(docTypeDO_ID);			
