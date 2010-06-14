@@ -87,6 +87,7 @@ import org.compiere.util.ValueNamePair;
 public class GridTable extends AbstractTableModel
 	implements Serializable
 {
+	public static final String DATA_REFRESH_MESSAGE = "Refreshed";
 	/**
 	 * generated
 	 */
@@ -2739,6 +2740,16 @@ public class GridTable extends AbstractTableModel
 	 */
 	public void dataRefresh (int row)
 	{
+		dataRefresh(row, true);
+	}
+
+	/**
+	 *	Refresh Row - ignore changes
+	 *  @param row row
+	 *  @param fireStatusEvent
+	 */
+	public void dataRefresh (int row, boolean fireStatusEvent)
+	{
 		log.info("Row=" + row);
 
 		if (row < 0 || m_sort.size() == 0 || m_inserting)
@@ -2789,7 +2800,8 @@ public class GridTable extends AbstractTableModel
 		m_rowChanged = -1;
 		m_inserting = false;
 		fireTableRowsUpdated(row, row);
-		fireDataStatusIEvent("Refreshed", "");
+		if (fireStatusEvent)
+			fireDataStatusIEvent(DATA_REFRESH_MESSAGE, "");
 	}	//	dataRefresh
 
 
@@ -2797,6 +2809,15 @@ public class GridTable extends AbstractTableModel
 	 *	Refresh all Rows - ignore changes
 	 */
 	public void dataRefreshAll()
+	{
+		dataRefreshAll(true);
+	}
+
+	/**
+	 *	Refresh all Rows - ignore changes
+	 *  @param fireStatusEvent
+	 */
+	public void dataRefreshAll(boolean fireStatusEvent)
 	{
 		log.info("");
 		m_inserting = false;	//	should not happen
@@ -2809,7 +2830,8 @@ public class GridTable extends AbstractTableModel
 		m_rowChanged = -1;
 		m_inserting = false;
 		fireTableDataChanged();
-		fireDataStatusIEvent("Refreshed", "");
+		if (fireStatusEvent)
+			fireDataStatusIEvent(DATA_REFRESH_MESSAGE, "");
 	}	//	dataRefreshAll
 
 
@@ -2833,7 +2855,7 @@ public class GridTable extends AbstractTableModel
 		m_rowChanged = -1;
 		m_inserting = false;
 		fireTableDataChanged();
-		fireDataStatusIEvent("Refreshed", "");
+		fireDataStatusIEvent(DATA_REFRESH_MESSAGE, "");
 		return true;
 	}	//	dataRequery
 

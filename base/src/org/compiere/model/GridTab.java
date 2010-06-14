@@ -876,10 +876,19 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public void dataRefreshAll ()
 	{
+		dataRefreshAll(true);
+	}
+
+	/**************************************************************************
+	 *  Refresh all data
+	 *  @param fireEvent
+	 */
+	public void dataRefreshAll (boolean fireEvent)
+	{
 		log.fine("#" + m_vo.TabNo);
 		/** @todo does not work with alpha key */
 		int keyNo = m_mTable.getKeyID(m_currentRow);
-		m_mTable.dataRefreshAll();
+		m_mTable.dataRefreshAll(fireEvent);
 		//  Should use RowID - not working for tables with multiple keys
 		if (keyNo != -1)
 		{
@@ -896,8 +905,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				}
 			}
 		}
-		setCurrentRow(m_currentRow, true);
-		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_REFRESH_ALL));
+		setCurrentRow(m_currentRow, fireEvent);
+		if (fireEvent)
+			fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_REFRESH_ALL));
 	}   //  dataRefreshAll
 
 	/**
@@ -905,7 +915,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public void dataRefresh ()
 	{
-		dataRefresh (m_currentRow);
+		dataRefresh(true);
+	}
+
+	/**
+	 *  Refresh current row data
+	 *  @param fireEvent
+	 */
+	public void dataRefresh (boolean fireEvent)
+	{
+		dataRefresh (m_currentRow, fireEvent);
 	}   //  dataRefresh
 
 	/**
@@ -914,10 +933,21 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 */
 	public void dataRefresh (int row)
 	{
+		dataRefresh(row, true);
+	}
+
+	/**
+	 *  Refresh row data
+	 *  @param row index
+	 *  @param fireEvent
+	 */
+	public void dataRefresh (int row, boolean fireEvent)
+	{
 		log.fine("#" + m_vo.TabNo + " - row=" + row);
-		m_mTable.dataRefresh(row);
-		setCurrentRow(row, true);
-		fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_REFRESH));
+		m_mTable.dataRefresh(row, fireEvent);
+		setCurrentRow(row, fireEvent);
+		if (fireEvent)
+			fireStateChangeEvent(new StateChangeEvent(this, StateChangeEvent.DATA_REFRESH));
 	}   //  dataRefresh
 
 
@@ -1008,7 +1038,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			for (int i = m_window.getTabIndex(this) - 1; i >= 0; i--) {
 				GridTab parentTab = m_window.getTab(i);
 				if (parentTab.m_vo.TabLevel == level-1) {
-					parentTab.dataRefresh();
+					parentTab.dataRefresh(false);
 					// search for the next parent
 					if (parentTab.isDetail()) {
 						level = parentTab.m_vo.TabLevel;
@@ -1018,7 +1048,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 				}
 			}
 			// refresh this tab
-			dataRefresh();
+			dataRefresh(false);
 		}
 	}
 

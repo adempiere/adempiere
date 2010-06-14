@@ -18,6 +18,7 @@
 package org.adempiere.webui.panel;
 
 import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.session.SessionManager;
@@ -202,7 +203,7 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
     		statusLine.setStyle("color: black");
     	statusLine.setTooltiptext(text);
 
-    	if (!embedded && showPopup)
+    	if (showPopup && AEnv.isBrowserSupported())
     	{
 	    	Text t = new Text(text);
 	    	popupContent.getChildren().clear();
@@ -252,11 +253,13 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 
 		String script = "var d = $e('" + popup.getUuid() + "');";
 		script += "d.style.display='block';d.style.visibility='hidden';";
-		script += "var hs = document.defaultView.getComputedStyle(d, null).getPropertyValue('height');";
-		script += "var h = parseInt(hs, 10);";
-		script += "h = h - 18;if (h < 0) h = 0;";
-		script += "var p = Position.cumulativeOffset($e('" + this.getUuid() + "'));";
-		script += "d.style.top=(p[1]-h)+'px';";
+		script += "var dhs = document.defaultView.getComputedStyle(d, null).getPropertyValue('height');";
+		script += "var dh = parseInt(dhs, 10);";
+		script += "var r = $e('" + getRoot().getUuid() + "');";
+		script += "var rhs = document.defaultView.getComputedStyle(r, null).getPropertyValue('height');";
+		script += "var rh = parseInt(rhs, 10);";
+		script += "var p = Position.cumulativeOffset(r);";
+		script += "d.style.top=(rh-dh-5)+'px';";
 		script += "d.style.left=(p[0]+1)+'px';";
 		script += "d.style.visibility='visible';";
 

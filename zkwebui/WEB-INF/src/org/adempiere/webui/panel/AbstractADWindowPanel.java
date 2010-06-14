@@ -1009,7 +1009,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		newTabpanel.activate(true);
 
 		back = (newTabIndex < oldTabIndex);
-		if (back)
+		if (back && newTabpanel.getTabLevel() > 0)
 		{
 			if (newTabpanel.getTabLevel() >= oldTabpanel.getTabLevel())
 				back = false;
@@ -1129,7 +1129,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
                 {
                     sb.replace(pos, pos+1, " - ");
             	}
-                boolean showPopup = e.isError() || (!GridTab.DEFAULT_STATUS_MESSAGE.equals(e.getAD_Message()));
+                boolean showPopup = e.isError() 
+                	|| (!GridTab.DEFAULT_STATUS_MESSAGE.equals(e.getAD_Message()) && !GridTable.DATA_REFRESH_MESSAGE.equals(e.getAD_Message()));
                 statusBar.setStatusLine (sb.toString (), e.isError (), showPopup);
             }
         }
@@ -1257,14 +1258,23 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     }
 
     /**
+     * refresh all row
+     * @param fireEvent
+     */
+    public void onRefresh(boolean fireEvent)
+    {
+    	onSave(false);
+        curTab.dataRefreshAll(fireEvent);
+        curTabpanel.dynamicDisplay(0);
+        focusToActivePanel();
+    }
+
+    /**
      * @see ToolbarListener#onRefresh()
      */
     public void onRefresh()
     {
-    	onSave(false);
-        curTab.dataRefreshAll();
-        curTabpanel.dynamicDisplay(0);
-        focusToActivePanel();
+    	onRefresh(true);
     }
 
     /**
@@ -1390,7 +1400,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	            curTabpanel.query(m_onlyCurrentRows, m_onlyCurrentDays, MRole.getDefault().getMaxQueryRecords());   //  autoSize
 	        }
 
-	        curTab.dataRefresh(); // Elaine 2008/07/25
+	        curTab.dataRefresh(false); // Elaine 2008/07/25
         }
         focusToActivePanel();
     }
@@ -1408,7 +1418,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
     	else
     	{
 	        curTab.dataIgnore();
-	        curTab.dataRefresh();
+	        curTab.dataRefresh(false);
 	        curTabpanel.dynamicDisplay(0);
 	        toolbar.enableIgnore(false);
     	}
@@ -1898,7 +1908,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (vp.needSave())
 			{
 				onSave(false);
-				onRefresh();
+				onRefresh(false);
 			}
 		} // PaymentRule
 
@@ -1998,7 +2008,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 					if (error != null)
 						FDialog.error(curWindowNo, null, "PostingError-N", error);
 
-					onRefresh();
+					onRefresh(false);
 				}
 			}
 			return;
@@ -2043,7 +2053,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			form.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);
 			form.setAttribute(Window.INSERT_POSITION_KEY, Window.INSERT_NEXT);
 			SessionManager.getAppDesktop().showWindow(form);
-			onRefresh();
+			onRefresh(false);
 		}
 		else
 		{
@@ -2056,8 +2066,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 				dialog.setVisible(true);
 				dialog.setPosition("center");
 				AEnv.showWindow(dialog);
-				onRefresh();
 			}
+			onRefresh(false);
 		}
 	} // actionButton
 
@@ -2194,7 +2204,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 	private void updateUI(ProcessInfo pi) {
 		//	Refresh data
-		curTab.dataRefresh();
+		curTab.dataRefresh(false);
 		//	Timeout
 		if (pi.isTimeout())		//	set temporarily to R/O
 			Env.setContext(ctx, curWindowNo, "Processed", "Y");
