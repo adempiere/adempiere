@@ -169,6 +169,7 @@ public class ExportModelValidator implements ModelValidator
 					|| type == TIMING_AFTER_CLOSE 
 					|| type == TIMING_AFTER_REVERSECORRECT 
 					|| type == TIMING_AFTER_VOID
+					|| type == TIMING_AFTER_REACTIVATE
 					//|| type == TIMING_AFTER_PREPARE
 				)
 				{
