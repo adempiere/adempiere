@@ -343,7 +343,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         tablePanel.setPreferredSize(new Dimension(INFO_WIDTH, SCREEN_HEIGHT > 600 ? 255 : 110));
         tablePanel.add(jTab);        
 
-        warehouseStockPanel.setExpanded(false);
+        warehouseStockPanel.setCollapsed(true);
         warehouseStockPanel.add(tablePanel);
         this.addonPanel.add(warehouseStockPanel);
         
@@ -355,7 +355,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
         			new BigDecimal(pickWarehouse.getValue().toString()).intValue(),
         			new BigDecimal(pickPriceList.getValue().toString()).intValue()
         			);
-        		warehouseStockPanel.setExpanded(true);
+        		warehouseStockPanel.setCollapsed(false);
         	}
         });
         
@@ -367,7 +367,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
             		new BigDecimal(pickWarehouse.getValue().toString()).intValue(),
             		new BigDecimal(pickPriceList.getValue().toString()).intValue()
             		);
-            	warehouseStockPanel.setExpanded(true);
+            	warehouseStockPanel.setCollapsed(false);
             }
         });
 		//End - fer_luck @ centuryon

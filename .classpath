@@ -20,7 +20,6 @@
 	<classpathentry kind="src" path="migration/src"/>
 	<classpathentry kind="src" path="posterita/posterita/src/main"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/activation.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/log4j.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/mail.jar"/>
@@ -48,7 +47,7 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/xjavadoc-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/xml-apis.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jpedal.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/swingx-0.9.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/swingx-1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-2.0b5.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/bsh-engine.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-all-1.5.1.jar"/>

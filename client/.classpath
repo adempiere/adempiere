@@ -4,7 +4,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/base"/>
 	<classpathentry kind="src" path="/tools"/>
-	<classpathentry kind="lib" path="/tools/lib/swingx-0.9.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/swingx-1.6.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/groovy-all-1.5.1.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jcommon-1.0.14.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/jfreechart-1.0.11.jar"/>

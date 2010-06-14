@@ -342,9 +342,6 @@
 				<include name="it/**" />
 			</fileset>
 			<!-- Mail				-->
-			<zipfileset src="lib/activation.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<zipfileset src="lib/mail.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -433,7 +430,7 @@
 			<zipfileset src="lib/iText-2.1.7.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/swingx-0.9.0.jar">
+			<zipfileset src="lib/swingx-1.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- JMS -->

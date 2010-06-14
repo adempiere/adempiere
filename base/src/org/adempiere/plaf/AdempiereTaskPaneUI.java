@@ -33,8 +33,8 @@ public class AdempiereTaskPaneUI extends BasicTaskPaneUI {
 			g.setColor(new ColorUIResource(251, 248, 241));
 			g.fillRect(0, 0, c.getWidth(), c.getHeight());
 			g.setColor(new ColorUIResource(251, 248, 241));
-			g.fillRect(0, ROUND_HEIGHT, c.getWidth(), c.getHeight()
-					- ROUND_HEIGHT);
+			g.fillRect(0, getRoundHeight(), c.getWidth(), c.getHeight()
+					- getRoundHeight());
 		}
 		paint(g, c);
 	}
@@ -49,16 +49,16 @@ public class AdempiereTaskPaneUI extends BasicTaskPaneUI {
 		protected void paintTitleBackground(JXTaskPane group, Graphics g) {
 			if (group.isSpecial()) {
 				g.setColor(new ColorUIResource(251, 248, 241));
-				g.fillRoundRect(0, 0, group.getWidth(), ROUND_HEIGHT * 2,
-						ROUND_HEIGHT, ROUND_HEIGHT);
-				g.fillRect(0, ROUND_HEIGHT, group.getWidth(), TITLE_HEIGHT
-						- ROUND_HEIGHT);
+				g.fillRoundRect(0, 0, group.getWidth(), getRoundHeight() * 2,
+						getRoundHeight(), getRoundHeight());
+				g.fillRect(0, getRoundHeight(), group.getWidth(), getTitleHeight(group)
+						- getRoundHeight());
 			} else {
 				Paint oldPaint = ((Graphics2D) g).getPaint();
 				GradientPaint gradient = new GradientPaint(0f, 0f, // group.getWidth()
 						// / 2,
 						new ColorUIResource(241, 239, 222), 0f, // group.getWidth(),
-						TITLE_HEIGHT, new ColorUIResource(251, 248, 241));
+						getTitleHeight(group), new ColorUIResource(251, 248, 241));
 
 				((Graphics2D) g).setRenderingHint(
 						RenderingHints.KEY_COLOR_RENDERING,
@@ -70,19 +70,19 @@ public class AdempiereTaskPaneUI extends BasicTaskPaneUI {
 						RenderingHints.VALUE_RENDER_QUALITY);
 				((Graphics2D) g).setPaint(gradient);
 
-				g.fillRoundRect(0, 0, group.getWidth(), ROUND_HEIGHT * 2,
-						ROUND_HEIGHT, ROUND_HEIGHT);
-				g.fillRect(0, ROUND_HEIGHT, group.getWidth(), TITLE_HEIGHT
-						- ROUND_HEIGHT);
+				g.fillRoundRect(0, 0, group.getWidth(), getRoundHeight() * 2,
+						getRoundHeight(), getRoundHeight());
+				g.fillRect(0, getRoundHeight(), group.getWidth(), getTitleHeight(group)
+						- getRoundHeight());
 				((Graphics2D) g).setPaint(oldPaint);
 			}
 
 			Rectangle oldRect = g.getClipBounds();
-			g.setClip(0, 0, group.getWidth(), TITLE_HEIGHT);
+			g.setClip(0, 0, group.getWidth(), getTitleHeight(group));
 			g.setColor(borderColor);
-			g.drawRoundRect(0, 0, group.getWidth() - 1, TITLE_HEIGHT
-					+ ROUND_HEIGHT, ROUND_HEIGHT, ROUND_HEIGHT);
-			g.drawLine(0, TITLE_HEIGHT - 1, group.getWidth(), TITLE_HEIGHT - 1);
+			g.drawRoundRect(0, 0, group.getWidth() - 1, getTitleHeight(group)
+					+ getRoundHeight(), getRoundHeight(), getRoundHeight());
+			g.drawLine(0, getTitleHeight(group) - 1, group.getWidth(), getTitleHeight(group) - 1);
 			g.setClip(oldRect);
 		}
 
