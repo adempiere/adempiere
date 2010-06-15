@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_M_BOMProduct (Properties ctx, int M_BOMProduct_ID, String trxName)
@@ -191,7 +191,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 
 	/** Set Lead Time Offset.
 		@param LeadTimeOffset 
-		Optional Lead Time offest before starting production
+		Optional Lead Time offset before starting production
 	  */
 	public void setLeadTimeOffset (int LeadTimeOffset)
 	{
@@ -199,7 +199,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	}
 
 	/** Get Lead Time Offset.
-		@return Optional Lead Time offest before starting production
+		@return Optional Lead Time offset before starting production
 	  */
 	public int getLeadTimeOffset () 
 	{

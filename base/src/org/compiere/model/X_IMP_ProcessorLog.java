@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for IMP_ProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_IMP_ProcessorLog (Properties ctx, int IMP_ProcessorLog_ID, String trxName)
@@ -72,7 +72,7 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
       return sb.toString();
     }
 
-	/** Set BinaryData.
+	/** Set Binary Data.
 		@param BinaryData 
 		Binary Data
 	  */
@@ -81,7 +81,7 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 		set_Value (COLUMNNAME_BinaryData, BinaryData);
 	}
 
-	/** Get BinaryData.
+	/** Get Binary Data.
 		@return Binary Data
 	  */
 	public byte[] getBinaryData () 
@@ -170,7 +170,7 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 
 	/** Set Error.
 		@param IsError 
-		An Error occured in the execution
+		An Error occurred in the execution
 	  */
 	public void setIsError (boolean IsError)
 	{
@@ -178,7 +178,7 @@ public class X_IMP_ProcessorLog extends PO implements I_IMP_ProcessorLog, I_Pers
 	}
 
 	/** Get Error.
-		@return An Error occured in the execution
+		@return An Error occurred in the execution
 	  */
 	public boolean isError () 
 	{

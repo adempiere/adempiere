@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Synonym
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_K_Synonym (Properties ctx, int K_Synonym_ID, String trxName)
@@ -95,7 +95,7 @@ public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent
 
 	/** Set Knowledge Synonym.
 		@param K_Synonym_ID 
-		Knowlege Keyword Synonym
+		Knowledge Keyword Synonym
 	  */
 	public void setK_Synonym_ID (int K_Synonym_ID)
 	{
@@ -106,7 +106,7 @@ public class X_K_Synonym extends PO implements I_K_Synonym, I_Persistent
 	}
 
 	/** Get Knowledge Synonym.
-		@return Knowlege Keyword Synonym
+		@return Knowledge Keyword Synonym
 	  */
 	public int getK_Synonym_ID () 
 	{

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_I_Product extends PO implements I_I_Product, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_I_Product (Properties ctx, int I_Product_ID, String trxName)
@@ -292,15 +292,15 @@ public class X_I_Product extends PO implements I_I_Product, I_Persistent
 
 	/** Set Discontinued At.
 		@param DiscontinuedAt 
-		Discontinued At
+		Discontinued At indicates Date when product was discontinued
 	  */
 	public void setDiscontinuedAt (Timestamp DiscontinuedAt)
 	{
 		set_Value (COLUMNNAME_DiscontinuedAt, DiscontinuedAt);
 	}
 
-	/** Get Discontinued at.
-		@return Discontinued At
+	/** Get Discontinued At.
+		@return Discontinued At indicates Date when product was discontinued
 	  */
 	public Timestamp getDiscontinuedAt () 
 	{

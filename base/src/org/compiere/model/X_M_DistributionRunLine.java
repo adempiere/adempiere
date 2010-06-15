@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DistributionRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_M_DistributionRunLine (Properties ctx, int M_DistributionRunLine_ID, String trxName)
@@ -183,7 +183,7 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 
 	/** Set Distribution Run Line.
 		@param M_DistributionRunLine_ID 
-		Distribution Run Lines define Distribution List, the Product and Quantiries
+		Distribution Run Lines define Distribution List, the Product and Quantities
 	  */
 	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID)
 	{
@@ -194,7 +194,7 @@ public class X_M_DistributionRunLine extends PO implements I_M_DistributionRunLi
 	}
 
 	/** Get Distribution Run Line.
-		@return Distribution Run Lines define Distribution List, the Product and Quantiries
+		@return Distribution Run Lines define Distribution List, the Product and Quantities
 	  */
 	public int getM_DistributionRunLine_ID () 
 	{

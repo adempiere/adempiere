@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Hierarchy
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PA_Hierarchy (Properties ctx, int PA_Hierarchy_ID, String trxName)
@@ -114,7 +114,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 
 	/** Set Activity Tree.
 		@param AD_Tree_Activity_ID 
-		Tree to determine activity hierarchy
+		Trees are used for (financial) reporting
 	  */
 	public void setAD_Tree_Activity_ID (int AD_Tree_Activity_ID)
 	{
@@ -125,7 +125,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	}
 
 	/** Get Activity Tree.
-		@return Tree to determine activity hierarchy
+		@return Trees are used for (financial) reporting
 	  */
 	public int getAD_Tree_Activity_ID () 
 	{
@@ -142,7 +142,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 
 	/** Set BPartner Tree.
 		@param AD_Tree_BPartner_ID 
-		Tree to determine business partner hierarchy
+		Trees are used for (financial) reporting
 	  */
 	public void setAD_Tree_BPartner_ID (int AD_Tree_BPartner_ID)
 	{
@@ -153,7 +153,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	}
 
 	/** Get BPartner Tree.
-		@return Tree to determine business partner hierarchy
+		@return Trees are used for (financial) reporting
 	  */
 	public int getAD_Tree_BPartner_ID () 
 	{
@@ -170,7 +170,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 
 	/** Set Campaign Tree.
 		@param AD_Tree_Campaign_ID 
-		Tree to determine marketing campaign hierarchy
+		Trees are used for (financial) reporting
 	  */
 	public void setAD_Tree_Campaign_ID (int AD_Tree_Campaign_ID)
 	{
@@ -181,7 +181,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	}
 
 	/** Get Campaign Tree.
-		@return Tree to determine marketing campaign hierarchy
+		@return Trees are used for (financial) reporting
 	  */
 	public int getAD_Tree_Campaign_ID () 
 	{
@@ -198,7 +198,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 
 	/** Set Organization Tree.
 		@param AD_Tree_Org_ID 
-		Tree to determine organizational hierarchy
+		Trees are used for (financial) reporting and security access (via role)
 	  */
 	public void setAD_Tree_Org_ID (int AD_Tree_Org_ID)
 	{
@@ -209,7 +209,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	}
 
 	/** Get Organization Tree.
-		@return Tree to determine organizational hierarchy
+		@return Trees are used for (financial) reporting and security access (via role)
 	  */
 	public int getAD_Tree_Org_ID () 
 	{
@@ -226,7 +226,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 
 	/** Set Product Tree.
 		@param AD_Tree_Product_ID 
-		Tree to determine product hierarchy
+		Trees are used for (financial) reporting
 	  */
 	public void setAD_Tree_Product_ID (int AD_Tree_Product_ID)
 	{
@@ -237,7 +237,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	}
 
 	/** Get Product Tree.
-		@return Tree to determine product hierarchy
+		@return Trees are used for (financial) reporting
 	  */
 	public int getAD_Tree_Product_ID () 
 	{
@@ -254,7 +254,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 
 	/** Set Project Tree.
 		@param AD_Tree_Project_ID 
-		Tree to determine project hierarchy
+		Trees are used for (financial) reporting
 	  */
 	public void setAD_Tree_Project_ID (int AD_Tree_Project_ID)
 	{
@@ -265,7 +265,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	}
 
 	/** Get Project Tree.
-		@return Tree to determine project hierarchy
+		@return Trees are used for (financial) reporting
 	  */
 	public int getAD_Tree_Project_ID () 
 	{
@@ -282,7 +282,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 
 	/** Set Sales Region Tree.
 		@param AD_Tree_SalesRegion_ID 
-		Tree to determine sales regional hierarchy
+		Trees are used for (financial) reporting
 	  */
 	public void setAD_Tree_SalesRegion_ID (int AD_Tree_SalesRegion_ID)
 	{
@@ -293,7 +293,7 @@ public class X_PA_Hierarchy extends PO implements I_PA_Hierarchy, I_Persistent
 	}
 
 	/** Get Sales Region Tree.
-		@return Tree to determine sales regional hierarchy
+		@return Trees are used for (financial) reporting
 	  */
 	public int getAD_Tree_SalesRegion_ID () 
 	{

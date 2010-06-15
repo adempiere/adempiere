@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_M_Product extends PO implements I_M_Product, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091216L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_M_Product (Properties ctx, int M_Product_ID, String trxName)
@@ -373,7 +373,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 
 	/** Set Min Guarantee Days.
 		@param GuaranteeDaysMin 
-		Minumum number of guarantee days
+		Minimum number of guarantee days
 	  */
 	public void setGuaranteeDaysMin (int GuaranteeDaysMin)
 	{
@@ -381,7 +381,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	}
 
 	/** Get Min Guarantee Days.
-		@return Minumum number of guarantee days
+		@return Minimum number of guarantee days
 	  */
 	public int getGuaranteeDaysMin () 
 	{
@@ -691,7 +691,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 
 	/** Set Featured in Web Store.
 		@param IsWebStoreFeatured 
-		If selected, the product is displayed in the inital or any empy search
+		If selected, the product is displayed in the initial or any empty search
 	  */
 	public void setIsWebStoreFeatured (boolean IsWebStoreFeatured)
 	{
@@ -699,7 +699,7 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	}
 
 	/** Get Featured in Web Store.
-		@return If selected, the product is displayed in the inital or any empy search
+		@return If selected, the product is displayed in the initial or any empty search
 	  */
 	public boolean isWebStoreFeatured () 
 	{
@@ -714,14 +714,17 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	}
 
 	/** Set Low Level.
-		@param LowLevel Low Level	  */
+		@param LowLevel 
+		The Low Level is used to calculate the material plan and determines if a net requirement should be exploited
+	  */
 	public void setLowLevel (int LowLevel)
 	{
 		set_Value (COLUMNNAME_LowLevel, Integer.valueOf(LowLevel));
 	}
 
 	/** Get Low Level.
-		@return Low Level	  */
+		@return The Low Level is used to calculate the material plan and determines if a net requirement should be exploited
+	  */
 	public int getLowLevel () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_LowLevel);

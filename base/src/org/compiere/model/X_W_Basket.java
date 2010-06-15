@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for W_Basket
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_W_Basket extends PO implements I_W_Basket, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_W_Basket (Properties ctx, int W_Basket_ID, String trxName)
@@ -201,7 +201,7 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getSession_ID()));
     }
 
-	/** Set W_Basket_ID.
+	/** Set Basket.
 		@param W_Basket_ID 
 		Web Basket
 	  */
@@ -213,7 +213,7 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_W_Basket_ID, Integer.valueOf(W_Basket_ID));
 	}
 
-	/** Get W_Basket_ID.
+	/** Get Basket.
 		@return Web Basket
 	  */
 	public int getW_Basket_ID () 

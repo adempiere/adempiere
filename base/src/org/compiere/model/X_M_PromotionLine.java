@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_PromotionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_M_PromotionLine (Properties ctx, int M_PromotionLine_ID, String trxName)
@@ -100,7 +100,7 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 
 	/** Set Minimum Amt.
 		@param MinimumAmt 
-		Minumum Amout in Document Currency
+		Minimum Amount in Document Currency
 	  */
 	public void setMinimumAmt (BigDecimal MinimumAmt)
 	{
@@ -108,7 +108,7 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 	}
 
 	/** Get Minimum Amt.
-		@return Minumum Amout in Document Currency
+		@return Minimum Amount in Document Currency
 	  */
 	public BigDecimal getMinimumAmt () 
 	{

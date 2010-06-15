@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_Ratio
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PA_Ratio extends PO implements I_PA_Ratio, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PA_Ratio (Properties ctx, int PA_Ratio_ID, String trxName)
@@ -161,7 +161,7 @@ public class X_PA_Ratio extends PO implements I_PA_Ratio, I_Persistent
 
 	/** Set Ratio.
 		@param PA_Ratio_ID 
-		Performace Ratio
+		Performance Ratio
 	  */
 	public void setPA_Ratio_ID (int PA_Ratio_ID)
 	{
@@ -172,7 +172,7 @@ public class X_PA_Ratio extends PO implements I_PA_Ratio, I_Persistent
 	}
 
 	/** Get Ratio.
-		@return Performace Ratio
+		@return Performance Ratio
 	  */
 	public int getPA_Ratio_ID () 
 	{

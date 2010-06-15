@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_I_BPartner (Properties ctx, int I_BPartner_ID, String trxName)
@@ -584,7 +584,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_InterestAreaName);
 	}
-	
+
 	/** Set Customer.
 		@param IsCustomer 
 		Indicates if this Business Partner is a Customer
@@ -593,7 +593,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	{
 		set_Value (COLUMNNAME_IsCustomer, Boolean.valueOf(IsCustomer));
 	}
-	
+
 	/** Get Customer.
 		@return Indicates if this Business Partner is a Customer
 	  */
@@ -608,7 +608,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		}
 		return false;
 	}
-	
+
 	/** Set Employee.
 		@param IsEmployee 
 		Indicates if  this Business Partner is an employee
@@ -617,7 +617,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	{
 		set_Value (COLUMNNAME_IsEmployee, Boolean.valueOf(IsEmployee));
 	}
-	
+
 	/** Get Employee.
 		@return Indicates if  this Business Partner is an employee
 	  */
@@ -632,7 +632,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		}
 		return false;
 	}
-	
+
 	/** Set Vendor.
 		@param IsVendor 
 		Indicates if this Business Partner is a Vendor
@@ -641,7 +641,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 	{
 		set_Value (COLUMNNAME_IsVendor, Boolean.valueOf(IsVendor));
 	}
-	
+
 	/** Get Vendor.
 		@return Indicates if this Business Partner is a Vendor
 	  */
@@ -776,7 +776,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_Postal);
 	}
 
-	/** Set -.
+	/** Set Additional Zip.
 		@param Postal_Add 
 		Additional ZIP or Postal code
 	  */
@@ -785,7 +785,7 @@ public class X_I_BPartner extends PO implements I_I_BPartner, I_Persistent
 		set_Value (COLUMNNAME_Postal_Add, Postal_Add);
 	}
 
-	/** Get -.
+	/** Get Additional Zip.
 		@return Additional ZIP or Postal code
 	  */
 	public String getPostal_Add () 

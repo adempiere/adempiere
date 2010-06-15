@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for EXP_FormatLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_EXP_FormatLine (Properties ctx, int EXP_FormatLine_ID, String trxName)
@@ -128,7 +128,7 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 
 	/** Set Date Format.
 		@param DateFormat 
-		Date format used in the imput format
+		Date format used in the input format
 	  */
 	public void setDateFormat (String DateFormat)
 	{
@@ -136,7 +136,7 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	}
 
 	/** Get Date Format.
-		@return Date format used in the imput format
+		@return Date format used in the input format
 	  */
 	public String getDateFormat () 
 	{

@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for M_AttributeSetExclude
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_M_AttributeSetExclude extends PO implements I_M_AttributeSetExclude, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_M_AttributeSetExclude (Properties ctx, int M_AttributeSetExclude_ID, String trxName)

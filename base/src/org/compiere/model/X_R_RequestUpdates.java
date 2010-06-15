@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for R_RequestUpdates
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_R_RequestUpdates extends PO implements I_R_RequestUpdates, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_R_RequestUpdates (Properties ctx, int R_RequestUpdates_ID, String trxName)

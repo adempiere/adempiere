@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_RatioElement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PA_RatioElement (Properties ctx, int PA_RatioElement_ID, String trxName)
@@ -218,7 +218,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 
 	/** Set Ratio.
 		@param PA_Ratio_ID 
-		Performace Ratio
+		Performance Ratio
 	  */
 	public void setPA_Ratio_ID (int PA_Ratio_ID)
 	{
@@ -229,7 +229,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	}
 
 	/** Get Ratio.
-		@return Performace Ratio
+		@return Performance Ratio
 	  */
 	public int getPA_Ratio_ID () 
 	{
@@ -246,7 +246,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 
 	/** Set Ratio Used.
 		@param PA_RatioUsed_ID 
-		Performace Ratio Used
+		Performance Ratio Used
 	  */
 	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID)
 	{
@@ -257,7 +257,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	}
 
 	/** Get Ratio Used.
-		@return Performace Ratio Used
+		@return Performance Ratio Used
 	  */
 	public int getPA_RatioUsed_ID () 
 	{

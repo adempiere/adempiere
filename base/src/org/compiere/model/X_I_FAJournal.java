@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_FAJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_I_FAJournal (Properties ctx, int I_FAJournal_ID, String trxName)
@@ -1062,8 +1062,8 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_I_ErrorMsg);
 	}
 
-	/** Set I_FAJournal_ID.
-		@param I_FAJournal_ID I_FAJournal_ID	  */
+	/** Set FA Journal.
+		@param I_FAJournal_ID FA Journal	  */
 	public void setI_FAJournal_ID (int I_FAJournal_ID)
 	{
 		if (I_FAJournal_ID < 1) 
@@ -1072,8 +1072,8 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_I_FAJournal_ID, Integer.valueOf(I_FAJournal_ID));
 	}
 
-	/** Get I_FAJournal_ID.
-		@return I_FAJournal_ID	  */
+	/** Get FA Journal.
+		@return FA Journal	  */
 	public int getI_FAJournal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_I_FAJournal_ID);

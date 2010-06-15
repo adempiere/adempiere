@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_R_RequestProcessorLog (Properties ctx, int R_RequestProcessorLog_ID, String trxName)
@@ -71,7 +71,7 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
       return sb.toString();
     }
 
-	/** Set BinaryData.
+	/** Set Binary Data.
 		@param BinaryData 
 		Binary Data
 	  */
@@ -80,7 +80,7 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 		set_Value (COLUMNNAME_BinaryData, BinaryData);
 	}
 
-	/** Get BinaryData.
+	/** Get Binary Data.
 		@return Binary Data
 	  */
 	public byte[] getBinaryData () 
@@ -107,7 +107,7 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 
 	/** Set Error.
 		@param IsError 
-		An Error occured in the execution
+		An Error occurred in the execution
 	  */
 	public void setIsError (boolean IsError)
 	{
@@ -115,7 +115,7 @@ public class X_R_RequestProcessorLog extends PO implements I_R_RequestProcessorL
 	}
 
 	/** Get Error.
-		@return An Error occured in the execution
+		@return An Error occurred in the execution
 	  */
 	public boolean isError () 
 	{

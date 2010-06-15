@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_I_Invoice (Properties ctx, int I_Invoice_ID, String trxName)
@@ -73,15 +73,15 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
       return sb.toString();
     }
 
-	/** Set ActivityValue.
-		@param ActivityValue ActivityValue	  */
+	/** Set Activity Value.
+		@param ActivityValue Activity Value	  */
 	public void setActivityValue (String ActivityValue)
 	{
 		set_Value (COLUMNNAME_ActivityValue, ActivityValue);
 	}
 
-	/** Get ActivityValue.
-		@return ActivityValue	  */
+	/** Get Activity Value.
+		@return Activity Value	  */
 	public String getActivityValue () 
 	{
 		return (String)get_Value(COLUMNNAME_ActivityValue);

@@ -20,17 +20,18 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_ReportCube
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PA_ReportCube (Properties ctx, int PA_ReportCube_ID, String trxName)
@@ -560,6 +561,14 @@ public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_Name);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getName());
+    }
 
 	/** Set Report Cube.
 		@param PA_ReportCube_ID 

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for K_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_K_Type extends PO implements I_K_Type, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_K_Type (Properties ctx, int K_Type_ID, String trxName)
@@ -157,7 +157,7 @@ public class X_K_Type extends PO implements I_K_Type, I_Persistent
 		return false;
 	}
 
-	/** Set Knowldge Type.
+	/** Set Knowledge Type.
 		@param K_Type_ID 
 		Knowledge Type
 	  */
@@ -169,7 +169,7 @@ public class X_K_Type extends PO implements I_K_Type, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_K_Type_ID, Integer.valueOf(K_Type_ID));
 	}
 
-	/** Get Knowldge Type.
+	/** Get Knowledge Type.
 		@return Knowledge Type
 	  */
 	public int getK_Type_ID () 

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_I_Asset extends PO implements I_I_Asset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_I_Asset (Properties ctx, int I_Asset_ID, String trxName)
@@ -95,15 +95,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Accumulated_Depr.
-		@param A_Accumulated_Depr A_Accumulated_Depr	  */
+	/** Set Accumulated Depreciation.
+		@param A_Accumulated_Depr Accumulated Depreciation	  */
 	public void setA_Accumulated_Depr (BigDecimal A_Accumulated_Depr)
 	{
 		set_Value (COLUMNNAME_A_Accumulated_Depr, A_Accumulated_Depr);
 	}
 
-	/** Get A_Accumulated_Depr.
-		@return A_Accumulated_Depr	  */
+	/** Get Accumulated Depreciation.
+		@return Accumulated Depreciation	  */
 	public BigDecimal getA_Accumulated_Depr () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Accumulated_Depr);
@@ -134,15 +134,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Cost.
-		@param A_Asset_Cost A_Asset_Cost	  */
+	/** Set Asset Cost.
+		@param A_Asset_Cost Asset Cost	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost)
 	{
 		set_Value (COLUMNNAME_A_Asset_Cost, A_Asset_Cost);
 	}
 
-	/** Get A_Asset_Cost.
-		@return A_Asset_Cost	  */
+	/** Get Asset Cost.
+		@return Asset Cost	  */
 	public BigDecimal getA_Asset_Cost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Asset_Cost);
@@ -202,15 +202,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Life_Current_Year.
-		@param A_Asset_Life_Current_Year A_Asset_Life_Current_Year	  */
+	/** Set Asset Life Current Year.
+		@param A_Asset_Life_Current_Year Asset Life Current Year	  */
 	public void setA_Asset_Life_Current_Year (int A_Asset_Life_Current_Year)
 	{
 		set_Value (COLUMNNAME_A_Asset_Life_Current_Year, Integer.valueOf(A_Asset_Life_Current_Year));
 	}
 
-	/** Get A_Asset_Life_Current_Year.
-		@return A_Asset_Life_Current_Year	  */
+	/** Get Asset Life Current Year.
+		@return Asset Life Current Year	  */
 	public int getA_Asset_Life_Current_Year () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Life_Current_Year);
@@ -219,15 +219,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Life_Years.
-		@param A_Asset_Life_Years A_Asset_Life_Years	  */
+	/** Set Asset Life Years.
+		@param A_Asset_Life_Years Asset Life Years	  */
 	public void setA_Asset_Life_Years (int A_Asset_Life_Years)
 	{
 		set_Value (COLUMNNAME_A_Asset_Life_Years, Integer.valueOf(A_Asset_Life_Years));
 	}
 
-	/** Get A_Asset_Life_Years.
-		@return A_Asset_Life_Years	  */
+	/** Get Asset Life Years.
+		@return Asset Life Years	  */
 	public int getA_Asset_Life_Years () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Life_Years);
@@ -241,15 +241,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return (I_A_Asset_Spread)MTable.get(getCtx(), I_A_Asset_Spread.Table_Name)
 			.getPO(getA_Asset_Spread_Type(), get_TrxName());	}
 
-	/** Set A_Asset_Spread_Type.
-		@param A_Asset_Spread_Type A_Asset_Spread_Type	  */
+	/** Set Asset Spread Type.
+		@param A_Asset_Spread_Type Asset Spread Type	  */
 	public void setA_Asset_Spread_Type (int A_Asset_Spread_Type)
 	{
 		set_Value (COLUMNNAME_A_Asset_Spread_Type, Integer.valueOf(A_Asset_Spread_Type));
 	}
 
-	/** Get A_Asset_Spread_Type.
-		@return A_Asset_Spread_Type	  */
+	/** Get Asset Spread Type.
+		@return Asset Spread Type	  */
 	public int getA_Asset_Spread_Type () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Spread_Type);
@@ -258,15 +258,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Base_Amount.
-		@param A_Base_Amount A_Base_Amount	  */
+	/** Set Base Amount.
+		@param A_Base_Amount Base Amount	  */
 	public void setA_Base_Amount (BigDecimal A_Base_Amount)
 	{
 		set_Value (COLUMNNAME_A_Base_Amount, A_Base_Amount);
 	}
 
-	/** Get A_Base_Amount.
-		@return A_Base_Amount	  */
+	/** Get Base Amount.
+		@return Base Amount	  */
 	public BigDecimal getA_Base_Amount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Base_Amount);
@@ -275,15 +275,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return bd;
 	}
 
-	/** Set A_Calc_Accumulated_Depr.
-		@param A_Calc_Accumulated_Depr A_Calc_Accumulated_Depr	  */
+	/** Set Calc. Accumulated Depr..
+		@param A_Calc_Accumulated_Depr Calc. Accumulated Depr.	  */
 	public void setA_Calc_Accumulated_Depr (BigDecimal A_Calc_Accumulated_Depr)
 	{
 		set_Value (COLUMNNAME_A_Calc_Accumulated_Depr, A_Calc_Accumulated_Depr);
 	}
 
-	/** Get A_Calc_Accumulated_Depr.
-		@return A_Calc_Accumulated_Depr	  */
+	/** Get Calc. Accumulated Depr..
+		@return Calc. Accumulated Depr.	  */
 	public BigDecimal getA_Calc_Accumulated_Depr () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Calc_Accumulated_Depr);
@@ -292,15 +292,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return bd;
 	}
 
-	/** Set A_Curr_Dep_Exp.
-		@param A_Curr_Dep_Exp A_Curr_Dep_Exp	  */
+	/** Set Curr. Dep. Exp..
+		@param A_Curr_Dep_Exp Curr. Dep. Exp.	  */
 	public void setA_Curr_Dep_Exp (BigDecimal A_Curr_Dep_Exp)
 	{
 		set_Value (COLUMNNAME_A_Curr_Dep_Exp, A_Curr_Dep_Exp);
 	}
 
-	/** Get A_Curr_Dep_Exp.
-		@return A_Curr_Dep_Exp	  */
+	/** Get Curr. Dep. Exp..
+		@return Curr. Dep. Exp.	  */
 	public BigDecimal getA_Curr_Dep_Exp () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Curr_Dep_Exp);
@@ -309,15 +309,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return bd;
 	}
 
-	/** Set A_Current_Period.
-		@param A_Current_Period A_Current_Period	  */
+	/** Set Current Period.
+		@param A_Current_Period Current Period	  */
 	public void setA_Current_Period (int A_Current_Period)
 	{
 		set_Value (COLUMNNAME_A_Current_Period, Integer.valueOf(A_Current_Period));
 	}
 
-	/** Get A_Current_Period.
-		@return A_Current_Period	  */
+	/** Get Current Period.
+		@return Current Period	  */
 	public int getA_Current_Period () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Current_Period);
@@ -370,15 +370,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Manual_Amount.
-		@param A_Depreciation_Manual_Amount A_Depreciation_Manual_Amount	  */
+	/** Set Depreciation Manual Amount.
+		@param A_Depreciation_Manual_Amount Depreciation Manual Amount	  */
 	public void setA_Depreciation_Manual_Amount (BigDecimal A_Depreciation_Manual_Amount)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Manual_Amount, A_Depreciation_Manual_Amount);
 	}
 
-	/** Get A_Depreciation_Manual_Amount.
-		@return A_Depreciation_Manual_Amount	  */
+	/** Get Depreciation Manual Amount.
+		@return Depreciation Manual Amount	  */
 	public BigDecimal getA_Depreciation_Manual_Amount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Manual_Amount);
@@ -393,16 +393,16 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public static final String A_DEPRECIATION_MANUAL_PERIOD_Period = "PR";
 	/** Yearly = YR */
 	public static final String A_DEPRECIATION_MANUAL_PERIOD_Yearly = "YR";
-	/** Set A_Depreciation_Manual_Period.
-		@param A_Depreciation_Manual_Period A_Depreciation_Manual_Period	  */
+	/** Set Depreciation Manual Period.
+		@param A_Depreciation_Manual_Period Depreciation Manual Period	  */
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period)
 	{
 
 		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
 	}
 
-	/** Get A_Depreciation_Manual_Period.
-		@return A_Depreciation_Manual_Period	  */
+	/** Get Depreciation Manual Period.
+		@return Depreciation Manual Period	  */
 	public String getA_Depreciation_Manual_Period () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
@@ -413,8 +413,8 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return (I_A_Depreciation_Table_Header)MTable.get(getCtx(), I_A_Depreciation_Table_Header.Table_Name)
 			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
-	/** Set A_Depreciation_Table_Header_ID.
-		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */
+	/** Set Depreciation Table Header.
+		@param A_Depreciation_Table_Header_ID Depreciation Table Header	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID)
 	{
 		if (A_Depreciation_Table_Header_ID < 1) 
@@ -423,8 +423,8 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 			set_Value (COLUMNNAME_A_Depreciation_Table_Header_ID, Integer.valueOf(A_Depreciation_Table_Header_ID));
 	}
 
-	/** Get A_Depreciation_Table_Header_ID.
-		@return A_Depreciation_Table_Header_ID	  */
+	/** Get Depreciation Table Header.
+		@return Depreciation Table Header	  */
 	public int getA_Depreciation_Table_Header_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Table_Header_ID);
@@ -433,15 +433,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Variable_Perc.
-		@param A_Depreciation_Variable_Perc A_Depreciation_Variable_Perc	  */
+	/** Set Depreciation Variable Perc..
+		@param A_Depreciation_Variable_Perc Depreciation Variable Perc.	  */
 	public void setA_Depreciation_Variable_Perc (BigDecimal A_Depreciation_Variable_Perc)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Variable_Perc, A_Depreciation_Variable_Perc);
 	}
 
-	/** Get A_Depreciation_Variable_Perc.
-		@return A_Depreciation_Variable_Perc	  */
+	/** Get Depreciation Variable Perc..
+		@return Depreciation Variable Perc.	  */
 	public BigDecimal getA_Depreciation_Variable_Perc () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Variable_Perc);
@@ -571,15 +571,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Period_Posted.
-		@param A_Period_Posted A_Period_Posted	  */
+	/** Set Period Posted.
+		@param A_Period_Posted Period Posted	  */
 	public void setA_Period_Posted (int A_Period_Posted)
 	{
 		set_Value (COLUMNNAME_A_Period_Posted, Integer.valueOf(A_Period_Posted));
 	}
 
-	/** Get A_Period_Posted.
-		@return A_Period_Posted	  */
+	/** Get Period Posted.
+		@return Period Posted	  */
 	public int getA_Period_Posted () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Period_Posted);
@@ -605,15 +605,15 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Prior_Year_Accumulated_Depr.
-		@param A_Prior_Year_Accumulated_Depr A_Prior_Year_Accumulated_Depr	  */
+	/** Set Prior. Year Accumulated Depr..
+		@param A_Prior_Year_Accumulated_Depr Prior. Year Accumulated Depr.	  */
 	public void setA_Prior_Year_Accumulated_Depr (BigDecimal A_Prior_Year_Accumulated_Depr)
 	{
 		set_Value (COLUMNNAME_A_Prior_Year_Accumulated_Depr, A_Prior_Year_Accumulated_Depr);
 	}
 
-	/** Get A_Prior_Year_Accumulated_Depr.
-		@return A_Prior_Year_Accumulated_Depr	  */
+	/** Get Prior. Year Accumulated Depr..
+		@return Prior. Year Accumulated Depr.	  */
 	public BigDecimal getA_Prior_Year_Accumulated_Depr () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Prior_Year_Accumulated_Depr);
@@ -1101,8 +1101,8 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set I_Asset_ID.
-		@param I_Asset_ID I_Asset_ID	  */
+	/** Set Asset.
+		@param I_Asset_ID Asset	  */
 	public void setI_Asset_ID (int I_Asset_ID)
 	{
 		if (I_Asset_ID < 1) 
@@ -1111,8 +1111,8 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_I_Asset_ID, Integer.valueOf(I_Asset_ID));
 	}
 
-	/** Get I_Asset_ID.
-		@return I_Asset_ID	  */
+	/** Get Asset.
+		@return Asset	  */
 	public int getI_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_I_Asset_ID);

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_GL_JournalLine (Properties ctx, int GL_JournalLine_ID, String trxName)
@@ -247,15 +247,15 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return bd;
 	}
 
-	/** Set A_Processed.
-		@param A_Processed A_Processed	  */
+	/** Set Processed.
+		@param A_Processed Processed	  */
 	public void setA_Processed (boolean A_Processed)
 	{
 		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
 	}
 
-	/** Get A_Processed.
-		@return A_Processed	  */
+	/** Get Processed.
+		@return Processed	  */
 	public boolean isA_Processed () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_Processed);

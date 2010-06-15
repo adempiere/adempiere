@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_S_Resource extends PO implements I_S_Resource, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_S_Resource (Properties ctx, int S_Resource_ID, String trxName)
@@ -320,14 +320,17 @@ public class X_S_Resource extends PO implements I_S_Resource, I_Persistent
 	}
 
 	/** Set Queuing Time.
-		@param QueuingTime Queuing Time	  */
+		@param QueuingTime 
+		Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public void setQueuingTime (BigDecimal QueuingTime)
 	{
 		set_Value (COLUMNNAME_QueuingTime, QueuingTime);
 	}
 
 	/** Get Queuing Time.
-		@return Queuing Time	  */
+		@return Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public BigDecimal getQueuingTime () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QueuingTime);

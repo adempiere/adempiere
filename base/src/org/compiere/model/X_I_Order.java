@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_I_Order extends PO implements I_I_Order, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100315L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_I_Order (Properties ctx, int I_Order_ID, String trxName)
