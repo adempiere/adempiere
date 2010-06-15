@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_TreeNodeBP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_TreeNodeBP extends PO implements I_AD_TreeNodeBP, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_TreeNodeBP (Properties ctx, int AD_TreeNodeBP_ID, String trxName)
@@ -98,8 +98,8 @@ public class X_AD_TreeNodeBP extends PO implements I_AD_TreeNodeBP, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Node_ID.
-		@param Node_ID Node_ID	  */
+	/** Set Node.
+		@param Node_ID Node	  */
 	public void setNode_ID (int Node_ID)
 	{
 		if (Node_ID < 0) 
@@ -108,8 +108,8 @@ public class X_AD_TreeNodeBP extends PO implements I_AD_TreeNodeBP, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_Node_ID, Integer.valueOf(Node_ID));
 	}
 
-	/** Get Node_ID.
-		@return Node_ID	  */
+	/** Get Node.
+		@return Node	  */
 	public int getNode_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Node_ID);

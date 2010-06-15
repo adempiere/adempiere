@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankStatementLoader
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoader, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_BankStatementLoader (Properties ctx, int C_BankStatementLoader_ID, String trxName)
@@ -160,7 +160,7 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 
 	/** Set Date Format.
 		@param DateFormat 
-		Date format used in the imput format
+		Date format used in the input format
 	  */
 	public void setDateFormat (String DateFormat)
 	{
@@ -168,7 +168,7 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	}
 
 	/** Get Date Format.
-		@return Date format used in the imput format
+		@return Date format used in the input format
 	  */
 	public String getDateFormat () 
 	{

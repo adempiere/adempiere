@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_SearchDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_SearchDefinition (Properties ctx, int AD_SearchDefinition_ID, String trxName)
@@ -103,8 +103,8 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 		return ii.intValue();
 	}
 
-	/** Set AD_SearchDefinition_ID.
-		@param AD_SearchDefinition_ID AD_SearchDefinition_ID	  */
+	/** Set Search Definition.
+		@param AD_SearchDefinition_ID Search Definition	  */
 	public void setAD_SearchDefinition_ID (int AD_SearchDefinition_ID)
 	{
 		if (AD_SearchDefinition_ID < 1) 
@@ -113,8 +113,8 @@ public class X_AD_SearchDefinition extends PO implements I_AD_SearchDefinition, 
 			set_ValueNoCheck (COLUMNNAME_AD_SearchDefinition_ID, Integer.valueOf(AD_SearchDefinition_ID));
 	}
 
-	/** Get AD_SearchDefinition_ID.
-		@return AD_SearchDefinition_ID	  */
+	/** Get Search Definition.
+		@return Search Definition	  */
 	public int getAD_SearchDefinition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SearchDefinition_ID);

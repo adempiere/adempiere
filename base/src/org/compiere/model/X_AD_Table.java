@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Table extends PO implements I_AD_Table, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Table (Properties ctx, int AD_Table_ID, String trxName)
@@ -281,6 +281,30 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		return (String)get_Value(COLUMNNAME_ImportTable);
 	}
 
+	/** Set Centrally maintained.
+		@param IsCentrallyMaintained 
+		Information maintained in System Element table
+	  */
+	public void setIsCentrallyMaintained (boolean IsCentrallyMaintained)
+	{
+		set_Value (COLUMNNAME_IsCentrallyMaintained, Boolean.valueOf(IsCentrallyMaintained));
+	}
+
+	/** Get Centrally maintained.
+		@return Information maintained in System Element table
+	  */
+	public boolean isCentrallyMaintained () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCentrallyMaintained);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Maintain Change Log.
 		@param IsChangeLog 
 		Maintain a log of changes
@@ -305,7 +329,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		return false;
 	}
 
-	/** Set Records deleteable.
+	/** Set Records deletable.
 		@param IsDeleteable 
 		Indicates if records can be deleted from the database
 	  */
@@ -314,7 +338,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		set_Value (COLUMNNAME_IsDeleteable, Boolean.valueOf(IsDeleteable));
 	}
 
-	/** Get Records deleteable.
+	/** Get Records deletable.
 		@return Indicates if records can be deleted from the database
 	  */
 	public boolean isDeleteable () 
@@ -471,6 +495,8 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	public static final String REPLICATIONTYPE_Merge = "M";
 	/** Reference = R */
 	public static final String REPLICATIONTYPE_Reference = "R";
+	/** Broadcast = B */
+	public static final String REPLICATIONTYPE_Broadcast = "B";
 	/** Set Replication Type.
 		@param ReplicationType 
 		Type of Data Replication

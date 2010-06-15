@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_JobAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_JobAssignment (Properties ctx, int C_JobAssignment_ID, String trxName)
@@ -104,7 +104,7 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 
 	/** Set Position Assignment.
 		@param C_JobAssignment_ID 
-		Assignemt of Employee (User) to Job Position
+		Assignment of Employee (User) to Job Position
 	  */
 	public void setC_JobAssignment_ID (int C_JobAssignment_ID)
 	{
@@ -115,7 +115,7 @@ public class X_C_JobAssignment extends PO implements I_C_JobAssignment, I_Persis
 	}
 
 	/** Get Position Assignment.
-		@return Assignemt of Employee (User) to Job Position
+		@return Assignment of Employee (User) to Job Position
 	  */
 	public int getC_JobAssignment_ID () 
 	{

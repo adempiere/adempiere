@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_ChatEntry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_CM_ChatEntry extends PO implements I_CM_ChatEntry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_CM_ChatEntry (Properties ctx, int CM_ChatEntry_ID, String trxName)

@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for C_OrderSource
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_OrderSource extends PO implements I_C_OrderSource, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091216L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_OrderSource (Properties ctx, int C_OrderSource_ID, String trxName)

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_User extends PO implements I_AD_User, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -686,15 +686,15 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return (String)get_Value(COLUMNNAME_Title);
 	}
 
-	/** Set UserPIN.
-		@param UserPIN UserPIN	  */
+	/** Set User PIN.
+		@param UserPIN User PIN	  */
 	public void setUserPIN (String UserPIN)
 	{
 		set_Value (COLUMNNAME_UserPIN, UserPIN);
 	}
 
-	/** Get UserPIN.
-		@return UserPIN	  */
+	/** Get User PIN.
+		@return User PIN	  */
 	public String getUserPIN () 
 	{
 		return (String)get_Value(COLUMNNAME_UserPIN);

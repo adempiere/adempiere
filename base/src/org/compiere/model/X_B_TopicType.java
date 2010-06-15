@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for B_TopicType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_B_TopicType (Properties ctx, int B_TopicType_ID, String trxName)
@@ -209,7 +209,7 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 
 	/** Set Membership.
 		@param M_ProductMember_ID 
-		Product used to deternine the price of the membership for the topic type
+		Product used to determine the price of the membership for the topic type
 	  */
 	public void setM_ProductMember_ID (int M_ProductMember_ID)
 	{
@@ -220,7 +220,7 @@ public class X_B_TopicType extends PO implements I_B_TopicType, I_Persistent
 	}
 
 	/** Get Membership.
-		@return Product used to deternine the price of the membership for the topic type
+		@return Product used to determine the price of the membership for the topic type
 	  */
 	public int getM_ProductMember_ID () 
 	{

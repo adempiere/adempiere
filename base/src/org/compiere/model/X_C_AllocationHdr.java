@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AllocationHdr
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100302L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_AllocationHdr (Properties ctx, int C_AllocationHdr_ID, String trxName)

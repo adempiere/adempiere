@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_Location extends PO implements I_C_Location, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_Location (Properties ctx, int C_Location_ID, String trxName)
@@ -288,7 +288,7 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return (String)get_Value(COLUMNNAME_Postal);
 	}
 
-	/** Set -.
+	/** Set Additional Zip.
 		@param Postal_Add 
 		Additional ZIP or Postal code
 	  */
@@ -297,7 +297,7 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		set_Value (COLUMNNAME_Postal_Add, Postal_Add);
 	}
 
-	/** Get -.
+	/** Get Additional Zip.
 		@return Additional ZIP or Postal code
 	  */
 	public String getPostal_Add () 

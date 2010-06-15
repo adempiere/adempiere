@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for C_AcctProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_AcctProcessorLog (Properties ctx, int C_AcctProcessorLog_ID, String trxName)
@@ -71,7 +71,7 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
       return sb.toString();
     }
 
-	/** Set BinaryData.
+	/** Set Binary Data.
 		@param BinaryData 
 		Binary Data
 	  */
@@ -80,7 +80,7 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 		set_Value (COLUMNNAME_BinaryData, BinaryData);
 	}
 
-	/** Get BinaryData.
+	/** Get Binary Data.
 		@return Binary Data
 	  */
 	public byte[] getBinaryData () 
@@ -158,7 +158,7 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 
 	/** Set Error.
 		@param IsError 
-		An Error occured in the execution
+		An Error occurred in the execution
 	  */
 	public void setIsError (boolean IsError)
 	{
@@ -166,7 +166,7 @@ public class X_C_AcctProcessorLog extends PO implements I_C_AcctProcessorLog, I_
 	}
 
 	/** Get Error.
-		@return An Error occured in the execution
+		@return An Error occurred in the execution
 	  */
 	public boolean isError () 
 	{

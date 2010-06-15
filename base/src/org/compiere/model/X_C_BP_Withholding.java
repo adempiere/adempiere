@@ -19,17 +19,18 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Withholding
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_BP_Withholding (Properties ctx, int C_BP_Withholding_ID, String trxName)
@@ -99,6 +100,14 @@ public class X_C_BP_Withholding extends PO implements I_C_BP_Withholding, I_Pers
 			 return 0;
 		return ii.intValue();
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getC_BPartner_ID()));
+    }
 
 	public I_C_Withholding getC_Withholding() throws RuntimeException
     {

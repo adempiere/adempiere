@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_Template
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_CM_Template extends PO implements I_CM_Template, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_CM_Template (Properties ctx, int CM_Template_ID, String trxName)
@@ -147,7 +147,7 @@ public class X_CM_Template extends PO implements I_CM_Template, I_Persistent
 
 	/** Set Elements.
 		@param Elements 
-		Contains list of elements seperated by CR
+		Contains list of elements separated by CR
 	  */
 	public void setElements (String Elements)
 	{
@@ -155,7 +155,7 @@ public class X_CM_Template extends PO implements I_CM_Template, I_Persistent
 	}
 
 	/** Get Elements.
-		@return Contains list of elements seperated by CR
+		@return Contains list of elements separated by CR
 	  */
 	public String getElements () 
 	{

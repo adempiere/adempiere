@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_System
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_System extends PO implements I_AD_System, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_System (Properties ctx, int AD_System_ID, String trxName)
@@ -347,7 +347,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 
 	/** Set Just Migrated.
 		@param IsJustMigrated 
-		Value set by Migration for post-Migation tasks.
+		Value set by Migration for post-Migration tasks.
 	  */
 	public void setIsJustMigrated (boolean IsJustMigrated)
 	{
@@ -355,7 +355,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	}
 
 	/** Get Just Migrated.
-		@return Value set by Migration for post-Migation tasks.
+		@return Value set by Migration for post-Migration tasks.
 	  */
 	public boolean isJustMigrated () 
 	{
@@ -579,6 +579,8 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	public static final String REPLICATIONTYPE_Merge = "M";
 	/** Reference = R */
 	public static final String REPLICATIONTYPE_Reference = "R";
+	/** Broadcast = B */
+	public static final String REPLICATIONTYPE_Broadcast = "B";
 	/** Set Replication Type.
 		@param ReplicationType 
 		Type of Data Replication

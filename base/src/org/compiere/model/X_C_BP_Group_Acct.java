@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_Group_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_BP_Group_Acct (Properties ctx, int C_BP_Group_Acct_ID, String trxName)
@@ -426,7 +426,7 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 
 	/** Set Vendor Service Liability.
 		@param V_Liability_Services_Acct 
-		Account for Vender Service Liability
+		Account for Vendor Service Liability
 	  */
 	public void setV_Liability_Services_Acct (int V_Liability_Services_Acct)
 	{
@@ -434,7 +434,7 @@ public class X_C_BP_Group_Acct extends PO implements I_C_BP_Group_Acct, I_Persis
 	}
 
 	/** Get Vendor Service Liability.
-		@return Account for Vender Service Liability
+		@return Account for Vendor Service Liability
 	  */
 	public int getV_Liability_Services_Acct () 
 	{

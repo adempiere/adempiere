@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserDef_Win
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_UserDef_Win (Properties ctx, int AD_UserDef_Win_ID, String trxName)
@@ -282,7 +282,7 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 		return false;
 	}
 
-	/** Set User updateable.
+	/** Set User updatable.
 		@param IsUserUpdateable 
 		The field can be updated by the user
 	  */
@@ -291,7 +291,7 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 		set_Value (COLUMNNAME_IsUserUpdateable, Boolean.valueOf(IsUserUpdateable));
 	}
 
-	/** Get User updateable.
+	/** Get User updatable.
 		@return The field can be updated by the user
 	  */
 	public boolean isUserUpdateable () 

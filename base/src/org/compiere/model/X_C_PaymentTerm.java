@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentTerm
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_PaymentTerm extends PO implements I_C_PaymentTerm, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_PaymentTerm (Properties ctx, int C_PaymentTerm_ID, String trxName)

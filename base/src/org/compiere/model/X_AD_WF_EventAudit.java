@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_EventAudit
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_WF_EventAudit (Properties ctx, int AD_WF_EventAudit_ID, String trxName)
@@ -287,7 +287,7 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 
 	/** Set Elapsed Time ms.
 		@param ElapsedTimeMS 
-		Elapsed Time in mili seconds
+		Elapsed Time in milli seconds
 	  */
 	public void setElapsedTimeMS (BigDecimal ElapsedTimeMS)
 	{
@@ -295,7 +295,7 @@ public class X_AD_WF_EventAudit extends PO implements I_AD_WF_EventAudit, I_Pers
 	}
 
 	/** Get Elapsed Time ms.
-		@return Elapsed Time in mili seconds
+		@return Elapsed Time in milli seconds
 	  */
 	public BigDecimal getElapsedTimeMS () 
 	{

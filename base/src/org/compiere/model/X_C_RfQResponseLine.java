@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for C_RfQResponseLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_RfQResponseLine (Properties ctx, int C_RfQResponseLine_ID, String trxName)
@@ -243,7 +243,7 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 
 	/** Set Selected Winner.
 		@param IsSelectedWinner 
-		The resonse is the selected winner
+		The response is the selected winner
 	  */
 	public void setIsSelectedWinner (boolean IsSelectedWinner)
 	{
@@ -251,7 +251,7 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	}
 
 	/** Get Selected Winner.
-		@return The resonse is the selected winner
+		@return The response is the selected winner
 	  */
 	public boolean isSelectedWinner () 
 	{

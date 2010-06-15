@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for C_OrgAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_OrgAssignment (Properties ctx, int C_OrgAssignment_ID, String trxName)
@@ -102,7 +102,7 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 
 	/** Set Org Assignment.
 		@param C_OrgAssignment_ID 
-		Assigment to (transaction) Organization
+		Assignment to (transaction) Organization
 	  */
 	public void setC_OrgAssignment_ID (int C_OrgAssignment_ID)
 	{
@@ -113,7 +113,7 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 	}
 
 	/** Get Org Assignment.
-		@return Assigment to (transaction) Organization
+		@return Assignment to (transaction) Organization
 	  */
 	public int getC_OrgAssignment_ID () 
 	{

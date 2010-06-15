@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQResponse
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_RfQResponse (Properties ctx, int C_RfQResponse_ID, String trxName)
@@ -437,7 +437,7 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 
 	/** Set Selected Winner.
 		@param IsSelectedWinner 
-		The resonse is the selected winner
+		The response is the selected winner
 	  */
 	public void setIsSelectedWinner (boolean IsSelectedWinner)
 	{
@@ -445,7 +445,7 @@ public class X_C_RfQResponse extends PO implements I_C_RfQResponse, I_Persistent
 	}
 
 	/** Get Selected Winner.
-		@return The resonse is the selected winner
+		@return The response is the selected winner
 	  */
 	public boolean isSelectedWinner () 
 	{

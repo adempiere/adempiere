@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankStatementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_BankStatementLine (Properties ctx, int C_BankStatementLine_ID, String trxName)
@@ -442,7 +442,7 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 
 	/** Set EFT Payee Account.
 		@param EftPayeeAccount 
-		Electronic Funds Transfer Payyee Account Information
+		Electronic Funds Transfer Payee Account Information
 	  */
 	public void setEftPayeeAccount (String EftPayeeAccount)
 	{
@@ -450,7 +450,7 @@ public class X_C_BankStatementLine extends PO implements I_C_BankStatementLine, 
 	}
 
 	/** Get EFT Payee Account.
-		@return Electronic Funds Transfer Payyee Account Information
+		@return Electronic Funds Transfer Payee Account Information
 	  */
 	public String getEftPayeeAccount () 
 	{

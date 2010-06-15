@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RevenueRecognition_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_RevenueRecognition_Run extends PO implements I_C_RevenueRecognition_Run, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_RevenueRecognition_Run (Properties ctx, int C_RevenueRecognition_Run_ID, String trxName)

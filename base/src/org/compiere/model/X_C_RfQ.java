@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_RfQ
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_RfQ (Properties ctx, int C_RfQ_ID, String trxName)
@@ -506,7 +506,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 
 	/** Set Quote Total Amt.
 		@param IsQuoteTotalAmt 
-		The respnse can have just the total amount for the RfQ
+		The response can have just the total amount for the RfQ
 	  */
 	public void setIsQuoteTotalAmt (boolean IsQuoteTotalAmt)
 	{
@@ -514,7 +514,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	}
 
 	/** Get Quote Total Amt.
-		@return The respnse can have just the total amount for the RfQ
+		@return The response can have just the total amount for the RfQ
 	  */
 	public boolean isQuoteTotalAmt () 
 	{
@@ -530,7 +530,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 
 	/** Set Responses Accepted.
 		@param IsRfQResponseAccepted 
-		Are Resonses to the Request for Quotation accepted
+		Are Responses to the Request for Quotation accepted
 	  */
 	public void setIsRfQResponseAccepted (boolean IsRfQResponseAccepted)
 	{
@@ -538,7 +538,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	}
 
 	/** Get Responses Accepted.
-		@return Are Resonses to the Request for Quotation accepted
+		@return Are Responses to the Request for Quotation accepted
 	  */
 	public boolean isRfQResponseAccepted () 
 	{

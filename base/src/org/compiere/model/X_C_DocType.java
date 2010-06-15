@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_DocType extends PO implements I_C_DocType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100429L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
@@ -120,29 +120,6 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Document Type.
-		@param C_DocType_ID 
-		Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID)
-	{
-		if (C_DocType_ID < 0) 
-			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
-	}
-
-	/** Get Document Type.
-		@return Document type or rules
-	  */
-	public int getC_DocType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_DocType getC_DocTypeDifference() throws RuntimeException
     {
 		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
@@ -166,6 +143,29 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public int getC_DocTypeDifference_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeDifference_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID)
+	{
+		if (C_DocType_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+	}
+
+	/** Get Document Type.
+		@return Document type or rules
+	  */
+	public int getC_DocType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

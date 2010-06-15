@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for CM_CStageTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_CM_CStageTTable (Properties ctx, int CM_CStageTTable_ID, String trxName)
@@ -103,7 +103,7 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 
 	/** Set Stage T.Table.
 		@param CM_CStageTTable_ID 
-		Containet Stage Template Table
+		Container Stage Template Table
 	  */
 	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID)
 	{
@@ -114,7 +114,7 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	}
 
 	/** Get Stage T.Table.
-		@return Containet Stage Template Table
+		@return Container Stage Template Table
 	  */
 	public int getCM_CStageTTable_ID () 
 	{

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema_Default
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_AcctSchema_Default extends PO implements I_C_AcctSchema_Default, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100308L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_AcctSchema_Default (Properties ctx, int C_AcctSchema_Default_ID, String trxName)

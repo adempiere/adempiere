@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Country
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_Country extends PO implements I_C_Country, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_Country (Properties ctx, int C_Country_ID, String trxName)
@@ -98,17 +98,17 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return (String)get_Value(COLUMNNAME_AD_Language);
 	}
 
-	/** Set AllowCitiesOutOfList.
+	/** Set Allow Cities out of List.
 		@param AllowCitiesOutOfList 
-		A flag which tells if a country accept or not new cities
+		A flag to allow cities, currently not in the list, to be entered
 	  */
 	public void setAllowCitiesOutOfList (boolean AllowCitiesOutOfList)
 	{
 		set_Value (COLUMNNAME_AllowCitiesOutOfList, Boolean.valueOf(AllowCitiesOutOfList));
 	}
 
-	/** Get AllowCitiesOutOfList.
-		@return A flag which tells if a country accept or not new cities
+	/** Get Allow Cities out of List.
+		@return A flag to allow cities, currently not in the list, to be entered
 	  */
 	public boolean isAllowCitiesOutOfList () 
 	{
@@ -122,15 +122,15 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return false;
 	}
 
-	/** Set CaptureSequence.
-		@param CaptureSequence CaptureSequence	  */
+	/** Set Capture Sequence.
+		@param CaptureSequence Capture Sequence	  */
 	public void setCaptureSequence (String CaptureSequence)
 	{
 		set_Value (COLUMNNAME_CaptureSequence, CaptureSequence);
 	}
 
-	/** Get CaptureSequence.
-		@return CaptureSequence	  */
+	/** Get Capture Sequence.
+		@return Capture Sequence	  */
 	public String getCaptureSequence () 
 	{
 		return (String)get_Value(COLUMNNAME_CaptureSequence);
@@ -436,7 +436,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return false;
 	}
 
-	/** Set IsPostcodeLookup.
+	/** Set Use Postcode Lookup.
 		@param IsPostcodeLookup 
 		Does this country have a post code web service
 	  */
@@ -445,7 +445,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		set_Value (COLUMNNAME_IsPostcodeLookup, Boolean.valueOf(IsPostcodeLookup));
 	}
 
-	/** Get IsPostcodeLookup.
+	/** Get Use Postcode Lookup.
 		@return Does this country have a post code web service
 	  */
 	public boolean isPostcodeLookup () 
@@ -460,7 +460,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return false;
 	}
 
-	/** Set LookupClassName.
+	/** Set Lookup ClassName.
 		@param LookupClassName 
 		The class name of the postcode lookup plugin
 	  */
@@ -469,7 +469,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		set_Value (COLUMNNAME_LookupClassName, LookupClassName);
 	}
 
-	/** Get LookupClassName.
+	/** Get Lookup ClassName.
 		@return The class name of the postcode lookup plugin
 	  */
 	public String getLookupClassName () 
@@ -477,7 +477,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return (String)get_Value(COLUMNNAME_LookupClassName);
 	}
 
-	/** Set LookupClientID.
+	/** Set Lookup Client ID.
 		@param LookupClientID 
 		The ClientID or Login submitted to the Lookup URL
 	  */
@@ -486,7 +486,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		set_Value (COLUMNNAME_LookupClientID, LookupClientID);
 	}
 
-	/** Get LookupClientID.
+	/** Get Lookup Client ID.
 		@return The ClientID or Login submitted to the Lookup URL
 	  */
 	public String getLookupClientID () 
@@ -494,7 +494,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return (String)get_Value(COLUMNNAME_LookupClientID);
 	}
 
-	/** Set LookupPassword.
+	/** Set Lookup Password.
 		@param LookupPassword 
 		The password submitted to the Lookup URL
 	  */
@@ -503,7 +503,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		set_Value (COLUMNNAME_LookupPassword, LookupPassword);
 	}
 
-	/** Get LookupPassword.
+	/** Get Lookup Password.
 		@return The password submitted to the Lookup URL
 	  */
 	public String getLookupPassword () 
@@ -511,7 +511,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return (String)get_Value(COLUMNNAME_LookupPassword);
 	}
 
-	/** Set LookupUrl.
+	/** Set Lookup URL.
 		@param LookupUrl 
 		The URL of the web service that the plugin connects to in order to retrieve postcode data
 	  */
@@ -520,7 +520,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		set_Value (COLUMNNAME_LookupUrl, LookupUrl);
 	}
 
-	/** Get LookupUrl.
+	/** Get Lookup URL.
 		@return The URL of the web service that the plugin connects to in order to retrieve postcode data
 	  */
 	public String getLookupUrl () 

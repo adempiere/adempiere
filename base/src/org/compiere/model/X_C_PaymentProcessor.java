@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_PaymentProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_PaymentProcessor (Properties ctx, int C_PaymentProcessor_ID, String trxName)
@@ -534,7 +534,7 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 
 	/** Set Minimum Amt.
 		@param MinimumAmt 
-		Minumum Amout in Document Currency
+		Minimum Amount in Document Currency
 	  */
 	public void setMinimumAmt (BigDecimal MinimumAmt)
 	{
@@ -542,7 +542,7 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	}
 
 	/** Get Minimum Amt.
-		@return Minumum Amout in Document Currency
+		@return Minimum Amount in Document Currency
 	  */
 	public BigDecimal getMinimumAmt () 
 	{

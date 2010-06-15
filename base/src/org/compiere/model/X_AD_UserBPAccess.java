@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_UserBPAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_UserBPAccess (Properties ctx, int AD_UserBPAccess_ID, String trxName)
@@ -73,7 +73,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 
 	/** Set User BP Access.
 		@param AD_UserBPAccess_ID 
-		User/concat access to Business Partner information and resources
+		User/contact access to Business Partner information and resources
 	  */
 	public void setAD_UserBPAccess_ID (int AD_UserBPAccess_ID)
 	{
@@ -84,7 +84,7 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	}
 
 	/** Get User BP Access.
-		@return User/concat access to Business Partner information and resources
+		@return User/contact access to Business Partner information and resources
 	  */
 	public int getAD_UserBPAccess_ID () 
 	{

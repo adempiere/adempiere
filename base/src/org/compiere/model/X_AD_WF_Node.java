@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_WF_Node (Properties ctx, int AD_WF_Node_ID, String trxName)
@@ -921,14 +921,17 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	}
 
 	/** Set Queuing Time.
-		@param QueuingTime Queuing Time	  */
+		@param QueuingTime 
+		Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public void setQueuingTime (int QueuingTime)
 	{
 		set_Value (COLUMNNAME_QueuingTime, Integer.valueOf(QueuingTime));
 	}
 
 	/** Get Queuing Time.
-		@return Queuing Time	  */
+		@return Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public int getQueuingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QueuingTime);
