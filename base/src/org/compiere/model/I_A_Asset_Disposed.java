@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Disposed
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Disposed 
 {
@@ -44,10 +44,10 @@ public interface I_A_Asset_Disposed
     /** Column name A_Asset_Disposed_ID */
     public static final String COLUMNNAME_A_Asset_Disposed_ID = "A_Asset_Disposed_ID";
 
-	/** Set A_Asset_Disposed_ID	  */
+	/** Set Disposed Asset	  */
 	public void setA_Asset_Disposed_ID (int A_Asset_Disposed_ID);
 
-	/** Get A_Asset_Disposed_ID	  */
+	/** Get Disposed Asset	  */
 	public int getA_Asset_Disposed_ID();
 
     /** Column name A_Asset_ID */
@@ -66,10 +66,10 @@ public interface I_A_Asset_Disposed
     /** Column name A_Asset_Trade_ID */
     public static final String COLUMNNAME_A_Asset_Trade_ID = "A_Asset_Trade_ID";
 
-	/** Set A_Asset_Trade_ID	  */
+	/** Set Asset Trade	  */
 	public void setA_Asset_Trade_ID (int A_Asset_Trade_ID);
 
-	/** Get A_Asset_Trade_ID	  */
+	/** Get Asset Trade	  */
 	public int getA_Asset_Trade_ID();
 
 	public I_A_Asset getA_Asset_Trade() throws RuntimeException;
@@ -125,10 +125,10 @@ public interface I_A_Asset_Disposed
     /** Column name A_Proceeds */
     public static final String COLUMNNAME_A_Proceeds = "A_Proceeds";
 
-	/** Set A_Proceeds	  */
+	/** Set Proceeds	  */
 	public void setA_Proceeds (BigDecimal A_Proceeds);
 
-	/** Get A_Proceeds	  */
+	/** Get Proceeds	  */
 	public BigDecimal getA_Proceeds();
 
     /** Column name C_Period_ID */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_UserDef_Win
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_UserDef_Win 
 {
@@ -213,12 +213,12 @@ public interface I_AD_UserDef_Win
     /** Column name IsUserUpdateable */
     public static final String COLUMNNAME_IsUserUpdateable = "IsUserUpdateable";
 
-	/** Set User updateable.
+	/** Set User updatable.
 	  * The field can be updated by the user
 	  */
 	public void setIsUserUpdateable (boolean IsUserUpdateable);
 
-	/** Get User updateable.
+	/** Get User updatable.
 	  * The field can be updated by the user
 	  */
 	public boolean isUserUpdateable();

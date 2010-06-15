@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_WF_EventAudit
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_WF_EventAudit 
 {
@@ -196,12 +196,12 @@ public interface I_AD_WF_EventAudit
     public static final String COLUMNNAME_ElapsedTimeMS = "ElapsedTimeMS";
 
 	/** Set Elapsed Time ms.
-	  * Elapsed Time in mili seconds
+	  * Elapsed Time in milli seconds
 	  */
 	public void setElapsedTimeMS (BigDecimal ElapsedTimeMS);
 
 	/** Get Elapsed Time ms.
-	  * Elapsed Time in mili seconds
+	  * Elapsed Time in milli seconds
 	  */
 	public BigDecimal getElapsedTimeMS();
 

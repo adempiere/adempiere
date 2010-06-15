@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_LdapProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_LdapProcessorLog 
 {
@@ -93,12 +93,12 @@ public interface I_AD_LdapProcessorLog
     /** Column name BinaryData */
     public static final String COLUMNNAME_BinaryData = "BinaryData";
 
-	/** Set BinaryData.
+	/** Set Binary Data.
 	  * Binary Data
 	  */
 	public void setBinaryData (byte[] BinaryData);
 
-	/** Get BinaryData.
+	/** Get Binary Data.
 	  * Binary Data
 	  */
 	public byte[] getBinaryData();
@@ -149,12 +149,12 @@ public interface I_AD_LdapProcessorLog
     public static final String COLUMNNAME_IsError = "IsError";
 
 	/** Set Error.
-	  * An Error occured in the execution
+	  * An Error occurred in the execution
 	  */
 	public void setIsError (boolean IsError);
 
 	/** Get Error.
-	  * An Error occured in the execution
+	  * An Error occurred in the execution
 	  */
 	public boolean isError();
 

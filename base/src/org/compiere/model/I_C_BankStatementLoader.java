@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BankStatementLoader
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_BankStatementLoader 
 {
@@ -136,12 +136,12 @@ public interface I_C_BankStatementLoader
     public static final String COLUMNNAME_DateFormat = "DateFormat";
 
 	/** Set Date Format.
-	  * Date format used in the imput format
+	  * Date format used in the input format
 	  */
 	public void setDateFormat (String DateFormat);
 
 	/** Get Date Format.
-	  * Date format used in the imput format
+	  * Date format used in the input format
 	  */
 	public String getDateFormat();
 

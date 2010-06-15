@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Package_Exp 
 {
@@ -65,19 +65,19 @@ public interface I_AD_Package_Exp
     /** Column name AD_Package_Exp_ID */
     public static final String COLUMNNAME_AD_Package_Exp_ID = "AD_Package_Exp_ID";
 
-	/** Set AD_Package_Exp_ID	  */
+	/** Set Package Exp.	  */
 	public void setAD_Package_Exp_ID (int AD_Package_Exp_ID);
 
-	/** Get AD_Package_Exp_ID	  */
+	/** Get Package Exp.	  */
 	public int getAD_Package_Exp_ID();
 
     /** Column name AD_Package_Type */
     public static final String COLUMNNAME_AD_Package_Type = "AD_Package_Type";
 
-	/** Set AD_Package_Type	  */
+	/** Set Package Type	  */
 	public void setAD_Package_Type (String AD_Package_Type);
 
-	/** Get AD_Package_Type	  */
+	/** Get Package Type	  */
 	public String getAD_Package_Type();
 
     /** Column name Created */

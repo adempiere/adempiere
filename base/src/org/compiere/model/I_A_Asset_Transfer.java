@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Transfer
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Transfer 
 {
@@ -82,10 +82,10 @@ public interface I_A_Asset_Transfer
     /** Column name A_Asset_Acct_ID */
     public static final String COLUMNNAME_A_Asset_Acct_ID = "A_Asset_Acct_ID";
 
-	/** Set A_Asset_Acct_ID	  */
+	/** Set Asset Acct.	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID);
 
-	/** Get A_Asset_Acct_ID	  */
+	/** Get Asset Acct.	  */
 	public int getA_Asset_Acct_ID();
 
     /** Column name A_Asset_Acct_New */
@@ -124,10 +124,10 @@ public interface I_A_Asset_Transfer
     /** Column name A_Asset_Transfer_ID */
     public static final String COLUMNNAME_A_Asset_Transfer_ID = "A_Asset_Transfer_ID";
 
-	/** Set A_Asset_Transfer_ID	  */
+	/** Set Asset Transfer	  */
 	public void setA_Asset_Transfer_ID (int A_Asset_Transfer_ID);
 
-	/** Get A_Asset_Transfer_ID	  */
+	/** Get Asset Transfer	  */
 	public int getA_Asset_Transfer_ID();
 
     /** Column name AD_Client_ID */

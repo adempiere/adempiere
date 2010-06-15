@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Workflow 
 {
@@ -430,10 +430,14 @@ public interface I_AD_Workflow
     /** Column name QueuingTime */
     public static final String COLUMNNAME_QueuingTime = "QueuingTime";
 
-	/** Set Queuing Time	  */
+	/** Set Queuing Time.
+	  * Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public void setQueuingTime (int QueuingTime);
 
-	/** Get Queuing Time	  */
+	/** Get Queuing Time.
+	  * Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public int getQueuingTime();
 
     /** Column name SetupTime */
@@ -571,12 +575,12 @@ public interface I_AD_Workflow
     public static final String COLUMNNAME_WorkflowType = "WorkflowType";
 
 	/** Set Workflow Type.
-	  * Type of Worflow
+	  * Type of Workflow
 	  */
 	public void setWorkflowType (String WorkflowType);
 
 	/** Get Workflow Type.
-	  * Type of Worflow
+	  * Type of Workflow
 	  */
 	public String getWorkflowType();
 

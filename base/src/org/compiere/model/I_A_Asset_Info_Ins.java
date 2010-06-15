@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Info_Ins
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Info_Ins 
 {
@@ -57,10 +57,10 @@ public interface I_A_Asset_Info_Ins
     /** Column name A_Asset_Info_Ins_ID */
     public static final String COLUMNNAME_A_Asset_Info_Ins_ID = "A_Asset_Info_Ins_ID";
 
-	/** Set A_Asset_Info_Ins_ID	  */
+	/** Set Asset Info Ins.	  */
 	public void setA_Asset_Info_Ins_ID (int A_Asset_Info_Ins_ID);
 
-	/** Get A_Asset_Info_Ins_ID	  */
+	/** Get Asset Info Ins.	  */
 	public int getA_Asset_Info_Ins_ID();
 
     /** Column name AD_Client_ID */

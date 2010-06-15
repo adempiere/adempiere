@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_SearchDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_SearchDefinition 
 {
@@ -80,10 +80,10 @@ public interface I_AD_SearchDefinition
     /** Column name AD_SearchDefinition_ID */
     public static final String COLUMNNAME_AD_SearchDefinition_ID = "AD_SearchDefinition_ID";
 
-	/** Set AD_SearchDefinition_ID	  */
+	/** Set Search Definition	  */
 	public void setAD_SearchDefinition_ID (int AD_SearchDefinition_ID);
 
-	/** Get AD_SearchDefinition_ID	  */
+	/** Get Search Definition	  */
 	public int getAD_SearchDefinition_ID();
 
     /** Column name AD_Table_ID */

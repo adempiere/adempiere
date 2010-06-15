@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Package_Imp_Proc
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Package_Imp_Proc 
 {
@@ -87,10 +87,10 @@ public interface I_AD_Package_Imp_Proc
     /** Column name AD_Package_Imp_Proc_ID */
     public static final String COLUMNNAME_AD_Package_Imp_Proc_ID = "AD_Package_Imp_Proc_ID";
 
-	/** Set AD_Package_Imp_Proc_ID	  */
+	/** Set Package Imp. Proc.	  */
 	public void setAD_Package_Imp_Proc_ID (int AD_Package_Imp_Proc_ID);
 
-	/** Get AD_Package_Imp_Proc_ID	  */
+	/** Get Package Imp. Proc.	  */
 	public int getAD_Package_Imp_Proc_ID();
 
     /** Column name AD_Package_Source */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Package_Imp_Backup
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Package_Imp_Backup 
 {
@@ -80,46 +80,46 @@ public interface I_AD_Package_Imp_Backup
     /** Column name AD_Package_Imp_Backup_ID */
     public static final String COLUMNNAME_AD_Package_Imp_Backup_ID = "AD_Package_Imp_Backup_ID";
 
-	/** Set AD_Package_Imp_Backup_ID	  */
+	/** Set Imp. Package Backup	  */
 	public void setAD_Package_Imp_Backup_ID (int AD_Package_Imp_Backup_ID);
 
-	/** Get AD_Package_Imp_Backup_ID	  */
+	/** Get Imp. Package Backup	  */
 	public int getAD_Package_Imp_Backup_ID();
 
     /** Column name AD_Package_Imp_Bck_Dir */
     public static final String COLUMNNAME_AD_Package_Imp_Bck_Dir = "AD_Package_Imp_Bck_Dir";
 
-	/** Set AD_Package_Imp_Bck_Dir	  */
+	/** Set Package Imp. Bck. Directory	  */
 	public void setAD_Package_Imp_Bck_Dir (String AD_Package_Imp_Bck_Dir);
 
-	/** Get AD_Package_Imp_Bck_Dir	  */
+	/** Get Package Imp. Bck. Directory	  */
 	public String getAD_Package_Imp_Bck_Dir();
 
     /** Column name AD_Package_Imp_Detail_ID */
     public static final String COLUMNNAME_AD_Package_Imp_Detail_ID = "AD_Package_Imp_Detail_ID";
 
-	/** Set AD_Package_Imp_Detail_ID	  */
+	/** Set Imp. Package Detail	  */
 	public void setAD_Package_Imp_Detail_ID (int AD_Package_Imp_Detail_ID);
 
-	/** Get AD_Package_Imp_Detail_ID	  */
+	/** Get Imp. Package Detail	  */
 	public int getAD_Package_Imp_Detail_ID();
 
     /** Column name AD_Package_Imp_ID */
     public static final String COLUMNNAME_AD_Package_Imp_ID = "AD_Package_Imp_ID";
 
-	/** Set AD_Package_Imp_ID	  */
+	/** Set Package Imp.	  */
 	public void setAD_Package_Imp_ID (int AD_Package_Imp_ID);
 
-	/** Get AD_Package_Imp_ID	  */
+	/** Get Package Imp.	  */
 	public int getAD_Package_Imp_ID();
 
     /** Column name AD_Package_Imp_Org_Dir */
     public static final String COLUMNNAME_AD_Package_Imp_Org_Dir = "AD_Package_Imp_Org_Dir";
 
-	/** Set AD_Package_Imp_Org_Dir	  */
+	/** Set Package Imp. Org. Dir.	  */
 	public void setAD_Package_Imp_Org_Dir (String AD_Package_Imp_Org_Dir);
 
-	/** Get AD_Package_Imp_Org_Dir	  */
+	/** Get Package Imp. Org. Dir.	  */
 	public String getAD_Package_Imp_Org_Dir();
 
     /** Column name AD_Reference_ID */

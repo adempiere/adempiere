@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Table 
 {
@@ -210,6 +210,19 @@ public interface I_AD_Table
 	  */
 	public boolean isActive();
 
+    /** Column name IsCentrallyMaintained */
+    public static final String COLUMNNAME_IsCentrallyMaintained = "IsCentrallyMaintained";
+
+	/** Set Centrally maintained.
+	  * Information maintained in System Element table
+	  */
+	public void setIsCentrallyMaintained (boolean IsCentrallyMaintained);
+
+	/** Get Centrally maintained.
+	  * Information maintained in System Element table
+	  */
+	public boolean isCentrallyMaintained();
+
     /** Column name IsChangeLog */
     public static final String COLUMNNAME_IsChangeLog = "IsChangeLog";
 
@@ -226,12 +239,12 @@ public interface I_AD_Table
     /** Column name IsDeleteable */
     public static final String COLUMNNAME_IsDeleteable = "IsDeleteable";
 
-	/** Set Records deleteable.
+	/** Set Records deletable.
 	  * Indicates if records can be deleted from the database
 	  */
 	public void setIsDeleteable (boolean IsDeleteable);
 
-	/** Get Records deleteable.
+	/** Get Records deletable.
 	  * Indicates if records can be deleted from the database
 	  */
 	public boolean isDeleteable();

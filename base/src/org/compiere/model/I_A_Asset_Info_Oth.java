@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Info_Oth
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Info_Oth 
 {
@@ -57,10 +57,10 @@ public interface I_A_Asset_Info_Oth
     /** Column name A_Asset_Info_Oth_ID */
     public static final String COLUMNNAME_A_Asset_Info_Oth_ID = "A_Asset_Info_Oth_ID";
 
-	/** Set A_Asset_Info_Oth_ID	  */
+	/** Set Asset Info Oth.	  */
 	public void setA_Asset_Info_Oth_ID (int A_Asset_Info_Oth_ID);
 
-	/** Get A_Asset_Info_Oth_ID	  */
+	/** Get Asset Info Oth.	  */
 	public int getA_Asset_Info_Oth_ID();
 
     /** Column name AD_Client_ID */
@@ -87,136 +87,136 @@ public interface I_A_Asset_Info_Oth
     /** Column name A_User1 */
     public static final String COLUMNNAME_A_User1 = "A_User1";
 
-	/** Set A_User1	  */
+	/** Set User 1	  */
 	public void setA_User1 (String A_User1);
 
-	/** Get A_User1	  */
+	/** Get User 1	  */
 	public String getA_User1();
 
     /** Column name A_User10 */
     public static final String COLUMNNAME_A_User10 = "A_User10";
 
-	/** Set A_User10	  */
+	/** Set User 10	  */
 	public void setA_User10 (String A_User10);
 
-	/** Get A_User10	  */
+	/** Get User 10	  */
 	public String getA_User10();
 
     /** Column name A_User11 */
     public static final String COLUMNNAME_A_User11 = "A_User11";
 
-	/** Set A_User11	  */
+	/** Set User 11	  */
 	public void setA_User11 (String A_User11);
 
-	/** Get A_User11	  */
+	/** Get User 11	  */
 	public String getA_User11();
 
     /** Column name A_User12 */
     public static final String COLUMNNAME_A_User12 = "A_User12";
 
-	/** Set A_User12	  */
+	/** Set User 12	  */
 	public void setA_User12 (String A_User12);
 
-	/** Get A_User12	  */
+	/** Get User 12	  */
 	public String getA_User12();
 
     /** Column name A_User13 */
     public static final String COLUMNNAME_A_User13 = "A_User13";
 
-	/** Set A_User13	  */
+	/** Set User 13	  */
 	public void setA_User13 (String A_User13);
 
-	/** Get A_User13	  */
+	/** Get User 13	  */
 	public String getA_User13();
 
     /** Column name A_User14 */
     public static final String COLUMNNAME_A_User14 = "A_User14";
 
-	/** Set A_User14	  */
+	/** Set User 14	  */
 	public void setA_User14 (String A_User14);
 
-	/** Get A_User14	  */
+	/** Get User 14	  */
 	public String getA_User14();
 
     /** Column name A_User15 */
     public static final String COLUMNNAME_A_User15 = "A_User15";
 
-	/** Set A_User15	  */
+	/** Set User 15	  */
 	public void setA_User15 (String A_User15);
 
-	/** Get A_User15	  */
+	/** Get User 15	  */
 	public String getA_User15();
 
     /** Column name A_User2 */
     public static final String COLUMNNAME_A_User2 = "A_User2";
 
-	/** Set A_User2	  */
+	/** Set User 2	  */
 	public void setA_User2 (String A_User2);
 
-	/** Get A_User2	  */
+	/** Get User 2	  */
 	public String getA_User2();
 
     /** Column name A_User3 */
     public static final String COLUMNNAME_A_User3 = "A_User3";
 
-	/** Set A_User3	  */
+	/** Set User 3	  */
 	public void setA_User3 (String A_User3);
 
-	/** Get A_User3	  */
+	/** Get User 3	  */
 	public String getA_User3();
 
     /** Column name A_User4 */
     public static final String COLUMNNAME_A_User4 = "A_User4";
 
-	/** Set A_User4	  */
+	/** Set User 4	  */
 	public void setA_User4 (String A_User4);
 
-	/** Get A_User4	  */
+	/** Get User 4	  */
 	public String getA_User4();
 
     /** Column name A_User5 */
     public static final String COLUMNNAME_A_User5 = "A_User5";
 
-	/** Set A_User5	  */
+	/** Set User 5	  */
 	public void setA_User5 (String A_User5);
 
-	/** Get A_User5	  */
+	/** Get User 5	  */
 	public String getA_User5();
 
     /** Column name A_User6 */
     public static final String COLUMNNAME_A_User6 = "A_User6";
 
-	/** Set A_User6	  */
+	/** Set User 6	  */
 	public void setA_User6 (String A_User6);
 
-	/** Get A_User6	  */
+	/** Get User 6	  */
 	public String getA_User6();
 
     /** Column name A_User7 */
     public static final String COLUMNNAME_A_User7 = "A_User7";
 
-	/** Set A_User7	  */
+	/** Set User 7	  */
 	public void setA_User7 (String A_User7);
 
-	/** Get A_User7	  */
+	/** Get User 7	  */
 	public String getA_User7();
 
     /** Column name A_User8 */
     public static final String COLUMNNAME_A_User8 = "A_User8";
 
-	/** Set A_User8	  */
+	/** Set User 8	  */
 	public void setA_User8 (String A_User8);
 
-	/** Get A_User8	  */
+	/** Get User 8	  */
 	public String getA_User8();
 
     /** Column name A_User9 */
     public static final String COLUMNNAME_A_User9 = "A_User9";
 
-	/** Set A_User9	  */
+	/** Set User 9	  */
 	public void setA_User9 (String A_User9);
 
-	/** Get A_User9	  */
+	/** Get User 9	  */
 	public String getA_User9();
 
     /** Column name Created */

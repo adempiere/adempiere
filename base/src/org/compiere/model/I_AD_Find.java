@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Find
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Find 
 {
@@ -118,10 +118,10 @@ public interface I_AD_Find
     /** Column name Find_ID */
     public static final String COLUMNNAME_Find_ID = "Find_ID";
 
-	/** Set Find_ID	  */
+	/** Set Find	  */
 	public void setFind_ID (BigDecimal Find_ID);
 
-	/** Get Find_ID	  */
+	/** Get Find	  */
 	public BigDecimal getFind_ID();
 
     /** Column name IsActive */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Role
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Role 
 {
@@ -94,12 +94,12 @@ public interface I_AD_Role
     public static final String COLUMNNAME_AD_Tree_Org_ID = "AD_Tree_Org_ID";
 
 	/** Set Organization Tree.
-	  * Tree to determine organizational hierarchy
+	  * Trees are used for (financial) reporting and security access (via role)
 	  */
 	public void setAD_Tree_Org_ID (int AD_Tree_Org_ID);
 
 	/** Get Organization Tree.
-	  * Tree to determine organizational hierarchy
+	  * Trees are used for (financial) reporting and security access (via role)
 	  */
 	public int getAD_Tree_Org_ID();
 

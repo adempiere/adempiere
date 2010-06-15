@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Change
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Change 
 {
@@ -66,37 +66,37 @@ public interface I_A_Asset_Change
     /** Column name A_Asset_Acct_ID */
     public static final String COLUMNNAME_A_Asset_Acct_ID = "A_Asset_Acct_ID";
 
-	/** Set A_Asset_Acct_ID	  */
+	/** Set Asset Acct.	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID);
 
-	/** Get A_Asset_Acct_ID	  */
+	/** Get Asset Acct.	  */
 	public int getA_Asset_Acct_ID();
 
     /** Column name A_Asset_Addition_ID */
     public static final String COLUMNNAME_A_Asset_Addition_ID = "A_Asset_Addition_ID";
 
-	/** Set A_Asset_Addition_ID	  */
+	/** Set Asset Addition	  */
 	public void setA_Asset_Addition_ID (int A_Asset_Addition_ID);
 
-	/** Get A_Asset_Addition_ID	  */
+	/** Get Asset Addition	  */
 	public int getA_Asset_Addition_ID();
 
     /** Column name A_Asset_Change_ID */
     public static final String COLUMNNAME_A_Asset_Change_ID = "A_Asset_Change_ID";
 
-	/** Set A_Asset_Change_ID	  */
+	/** Set Asset Change	  */
 	public void setA_Asset_Change_ID (int A_Asset_Change_ID);
 
-	/** Get A_Asset_Change_ID	  */
+	/** Get Asset Change	  */
 	public int getA_Asset_Change_ID();
 
     /** Column name A_Asset_CreateDate */
     public static final String COLUMNNAME_A_Asset_CreateDate = "A_Asset_CreateDate";
 
-	/** Set A_Asset_CreateDate	  */
+	/** Set Asset Creation Date	  */
 	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate);
 
-	/** Get A_Asset_CreateDate	  */
+	/** Get Asset Creation Date	  */
 	public Timestamp getA_Asset_CreateDate();
 
     /** Column name A_Asset_ID */
@@ -130,19 +130,19 @@ public interface I_A_Asset_Change
     /** Column name A_Asset_RevalDate */
     public static final String COLUMNNAME_A_Asset_RevalDate = "A_Asset_RevalDate";
 
-	/** Set A_Asset_RevalDate	  */
+	/** Set Asset Reval. Date	  */
 	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate);
 
-	/** Get A_Asset_RevalDate	  */
+	/** Get Asset Reval. Date	  */
 	public Timestamp getA_Asset_RevalDate();
 
     /** Column name A_Asset_Spread_Type */
     public static final String COLUMNNAME_A_Asset_Spread_Type = "A_Asset_Spread_Type";
 
-	/** Set A_Asset_Spread_Type	  */
+	/** Set Asset Spread Type	  */
 	public void setA_Asset_Spread_Type (int A_Asset_Spread_Type);
 
-	/** Get A_Asset_Spread_Type	  */
+	/** Get Asset Spread Type	  */
 	public int getA_Asset_Spread_Type();
 
 	public I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException;
@@ -180,28 +180,28 @@ public interface I_A_Asset_Change
     /** Column name A_Depreciation_Manual_Amount */
     public static final String COLUMNNAME_A_Depreciation_Manual_Amount = "A_Depreciation_Manual_Amount";
 
-	/** Set A_Depreciation_Manual_Amount	  */
+	/** Set Depreciation Manual Amount	  */
 	public void setA_Depreciation_Manual_Amount (BigDecimal A_Depreciation_Manual_Amount);
 
-	/** Get A_Depreciation_Manual_Amount	  */
+	/** Get Depreciation Manual Amount	  */
 	public BigDecimal getA_Depreciation_Manual_Amount();
 
     /** Column name A_Depreciation_Manual_Period */
     public static final String COLUMNNAME_A_Depreciation_Manual_Period = "A_Depreciation_Manual_Period";
 
-	/** Set A_Depreciation_Manual_Period	  */
+	/** Set Depreciation Manual Period	  */
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period);
 
-	/** Get A_Depreciation_Manual_Period	  */
+	/** Get Depreciation Manual Period	  */
 	public String getA_Depreciation_Manual_Period();
 
     /** Column name A_Depreciation_Table_Header_ID */
     public static final String COLUMNNAME_A_Depreciation_Table_Header_ID = "A_Depreciation_Table_Header_ID";
 
-	/** Set A_Depreciation_Table_Header_ID	  */
+	/** Set Depreciation Table Header	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID);
 
-	/** Get A_Depreciation_Table_Header_ID	  */
+	/** Get Depreciation Table Header	  */
 	public int getA_Depreciation_Table_Header_ID();
 
 	public I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
@@ -209,10 +209,10 @@ public interface I_A_Asset_Change
     /** Column name A_Depreciation_Variable_Perc */
     public static final String COLUMNNAME_A_Depreciation_Variable_Perc = "A_Depreciation_Variable_Perc";
 
-	/** Set A_Depreciation_Variable_Perc	  */
+	/** Set Depreciation Variable Perc.	  */
 	public void setA_Depreciation_Variable_Perc (BigDecimal A_Depreciation_Variable_Perc);
 
-	/** Get A_Depreciation_Variable_Perc	  */
+	/** Get Depreciation Variable Perc.	  */
 	public BigDecimal getA_Depreciation_Variable_Perc();
 
     /** Column name A_Disposal_Loss */
@@ -387,19 +387,19 @@ public interface I_A_Asset_Change
     /** Column name AssetAccumDepreciationAmt */
     public static final String COLUMNNAME_AssetAccumDepreciationAmt = "AssetAccumDepreciationAmt";
 
-	/** Set AssetAccumDepreciationAmt	  */
+	/** Set Asset Accum. Depreciation Amt.	  */
 	public void setAssetAccumDepreciationAmt (BigDecimal AssetAccumDepreciationAmt);
 
-	/** Get AssetAccumDepreciationAmt	  */
+	/** Get Asset Accum. Depreciation Amt.	  */
 	public BigDecimal getAssetAccumDepreciationAmt();
 
     /** Column name AssetBookValueAmt */
     public static final String COLUMNNAME_AssetBookValueAmt = "AssetBookValueAmt";
 
-	/** Set AssetBookValueAmt	  */
+	/** Set Asset Book value amt.	  */
 	public void setAssetBookValueAmt (BigDecimal AssetBookValueAmt);
 
-	/** Get AssetBookValueAmt	  */
+	/** Get Asset Book value amt.	  */
 	public BigDecimal getAssetBookValueAmt();
 
     /** Column name AssetDepreciationDate */

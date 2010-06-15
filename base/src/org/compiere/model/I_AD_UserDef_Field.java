@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_UserDef_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_UserDef_Field 
 {
@@ -35,9 +35,9 @@ public interface I_AD_UserDef_Field
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -235,12 +235,12 @@ public interface I_AD_UserDef_Field
     /** Column name IsUpdateable */
     public static final String COLUMNNAME_IsUpdateable = "IsUpdateable";
 
-	/** Set Updateable.
+	/** Set Updatable.
 	  * Determines, if the field can be updated
 	  */
 	public void setIsUpdateable (boolean IsUpdateable);
 
-	/** Get Updateable.
+	/** Get Updatable.
 	  * Determines, if the field can be updated
 	  */
 	public boolean isUpdateable();

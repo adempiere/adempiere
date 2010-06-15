@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_LdapAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_LdapAccess 
 {
@@ -151,12 +151,12 @@ public interface I_AD_LdapAccess
     public static final String COLUMNNAME_IsError = "IsError";
 
 	/** Set Error.
-	  * An Error occured in the execution
+	  * An Error occurred in the execution
 	  */
 	public void setIsError (boolean IsError);
 
 	/** Get Error.
-	  * An Error occured in the execution
+	  * An Error occurred in the execution
 	  */
 	public boolean isError();
 

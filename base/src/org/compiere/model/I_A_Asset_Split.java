@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Split 
 {
@@ -44,28 +44,28 @@ public interface I_A_Asset_Split
     /** Column name A_Amount_Split */
     public static final String COLUMNNAME_A_Amount_Split = "A_Amount_Split";
 
-	/** Set A_Amount_Split	  */
+	/** Set Amount Split	  */
 	public void setA_Amount_Split (BigDecimal A_Amount_Split);
 
-	/** Get A_Amount_Split	  */
+	/** Get Amount Split	  */
 	public BigDecimal getA_Amount_Split();
 
     /** Column name A_Asset_Acct_ID */
     public static final String COLUMNNAME_A_Asset_Acct_ID = "A_Asset_Acct_ID";
 
-	/** Set A_Asset_Acct_ID	  */
+	/** Set Asset Acct.	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID);
 
-	/** Get A_Asset_Acct_ID	  */
+	/** Get Asset Acct.	  */
 	public int getA_Asset_Acct_ID();
 
     /** Column name A_Asset_Cost */
     public static final String COLUMNNAME_A_Asset_Cost = "A_Asset_Cost";
 
-	/** Set A_Asset_Cost	  */
+	/** Set Asset Cost	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost);
 
-	/** Get A_Asset_Cost	  */
+	/** Get Asset Cost	  */
 	public BigDecimal getA_Asset_Cost();
 
     /** Column name A_Asset_ID */
@@ -95,10 +95,10 @@ public interface I_A_Asset_Split
     /** Column name A_Asset_Split_ID */
     public static final String COLUMNNAME_A_Asset_Split_ID = "A_Asset_Split_ID";
 
-	/** Set A_Asset_Split_ID	  */
+	/** Set Asset Split	  */
 	public void setA_Asset_Split_ID (int A_Asset_Split_ID);
 
-	/** Get A_Asset_Split_ID	  */
+	/** Get Asset Split	  */
 	public int getA_Asset_Split_ID();
 
     /** Column name AD_Client_ID */
@@ -112,10 +112,10 @@ public interface I_A_Asset_Split
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
 
-	/** Set A_Depreciation_Workfile_ID	  */
+	/** Set Depreciation Workfile	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID);
 
-	/** Get A_Depreciation_Workfile_ID	  */
+	/** Get Depreciation Workfile	  */
 	public int getA_Depreciation_Workfile_ID();
 
     /** Column name AD_Org_ID */
@@ -134,10 +134,10 @@ public interface I_A_Asset_Split
     /** Column name A_Percent_Original */
     public static final String COLUMNNAME_A_Percent_Original = "A_Percent_Original";
 
-	/** Set A_Percent_Original	  */
+	/** Set Original Percent	  */
 	public void setA_Percent_Original (BigDecimal A_Percent_Original);
 
-	/** Get A_Percent_Original	  */
+	/** Get Original Percent	  */
 	public BigDecimal getA_Percent_Original();
 
     /** Column name A_Percent_Split */
@@ -161,10 +161,10 @@ public interface I_A_Asset_Split
     /** Column name A_QTY_Split */
     public static final String COLUMNNAME_A_QTY_Split = "A_QTY_Split";
 
-	/** Set A_QTY_Split	  */
+	/** Set Qty. Split	  */
 	public void setA_QTY_Split (BigDecimal A_QTY_Split);
 
-	/** Get A_QTY_Split	  */
+	/** Get Qty. Split	  */
 	public BigDecimal getA_QTY_Split();
 
     /** Column name A_Split_Type */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_TreeNode
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_TreeNode 
 {
@@ -109,10 +109,10 @@ public interface I_AD_TreeNode
     /** Column name Node_ID */
     public static final String COLUMNNAME_Node_ID = "Node_ID";
 
-	/** Set Node_ID	  */
+	/** Set Node	  */
 	public void setNode_ID (int Node_ID);
 
-	/** Get Node_ID	  */
+	/** Get Node	  */
 	public int getNode_ID();
 
     /** Column name Parent_ID */

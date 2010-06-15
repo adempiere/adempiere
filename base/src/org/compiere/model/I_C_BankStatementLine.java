@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BankStatementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_BankStatementLine 
 {
@@ -298,12 +298,12 @@ public interface I_C_BankStatementLine
     public static final String COLUMNNAME_EftPayeeAccount = "EftPayeeAccount";
 
 	/** Set EFT Payee Account.
-	  * Electronic Funds Transfer Payyee Account Information
+	  * Electronic Funds Transfer Payee Account Information
 	  */
 	public void setEftPayeeAccount (String EftPayeeAccount);
 
 	/** Get EFT Payee Account.
-	  * Electronic Funds Transfer Payyee Account Information
+	  * Electronic Funds Transfer Payee Account Information
 	  */
 	public String getEftPayeeAccount();
 

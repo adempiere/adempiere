@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_User 
 {
@@ -493,10 +493,10 @@ public interface I_AD_User
     /** Column name UserPIN */
     public static final String COLUMNNAME_UserPIN = "UserPIN";
 
-	/** Set UserPIN	  */
+	/** Set User PIN	  */
 	public void setUserPIN (String UserPIN);
 
-	/** Get UserPIN	  */
+	/** Get User PIN	  */
 	public String getUserPIN();
 
     /** Column name Value */

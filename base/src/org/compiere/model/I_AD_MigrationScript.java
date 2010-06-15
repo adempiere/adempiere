@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_MigrationScript
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_MigrationScript 
 {
@@ -52,10 +52,14 @@ public interface I_AD_MigrationScript
     /** Column name AD_MigrationScript_ID */
     public static final String COLUMNNAME_AD_MigrationScript_ID = "AD_MigrationScript_ID";
 
-	/** Set Migration Script	  */
+	/** Set Migration Script.
+	  * Table to check whether the migration script has been applied
+	  */
 	public void setAD_MigrationScript_ID (int AD_MigrationScript_ID);
 
-	/** Get Migration Script	  */
+	/** Get Migration Script.
+	  * Table to check whether the migration script has been applied
+	  */
 	public int getAD_MigrationScript_ID();
 
     /** Column name AD_Org_ID */

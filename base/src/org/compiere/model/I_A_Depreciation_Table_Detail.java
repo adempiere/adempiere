@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Table_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Depreciation_Table_Detail 
 {
@@ -70,10 +70,10 @@ public interface I_A_Depreciation_Table_Detail
     /** Column name A_Depreciation_Table_Detail_ID */
     public static final String COLUMNNAME_A_Depreciation_Table_Detail_ID = "A_Depreciation_Table_Detail_ID";
 
-	/** Set A_Depreciation_Table_Detail_ID	  */
+	/** Set Depreciation Table Detail	  */
 	public void setA_Depreciation_Table_Detail_ID (int A_Depreciation_Table_Detail_ID);
 
-	/** Get A_Depreciation_Table_Detail_ID	  */
+	/** Get Depreciation Table Detail	  */
 	public int getA_Depreciation_Table_Detail_ID();
 
     /** Column name AD_Org_ID */

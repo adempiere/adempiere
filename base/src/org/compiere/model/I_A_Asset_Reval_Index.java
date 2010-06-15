@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Reval_Index
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Reval_Index 
 {
@@ -44,10 +44,10 @@ public interface I_A_Asset_Reval_Index
     /** Column name A_Asset_Reval_Index_ID */
     public static final String COLUMNNAME_A_Asset_Reval_Index_ID = "A_Asset_Reval_Index_ID";
 
-	/** Set A_Asset_Reval_Index_ID	  */
+	/** Set Asset Reval Index	  */
 	public void setA_Asset_Reval_Index_ID (int A_Asset_Reval_Index_ID);
 
-	/** Get A_Asset_Reval_Index_ID	  */
+	/** Get Asset Reval Index	  */
 	public int getA_Asset_Reval_Index_ID();
 
     /** Column name AD_Client_ID */
@@ -74,37 +74,37 @@ public interface I_A_Asset_Reval_Index
     /** Column name A_Effective_Date */
     public static final String COLUMNNAME_A_Effective_Date = "A_Effective_Date";
 
-	/** Set A_Effective_Date	  */
+	/** Set Effective Date	  */
 	public void setA_Effective_Date (Timestamp A_Effective_Date);
 
-	/** Get A_Effective_Date	  */
+	/** Get Effective Date	  */
 	public Timestamp getA_Effective_Date();
 
     /** Column name A_Reval_Code */
     public static final String COLUMNNAME_A_Reval_Code = "A_Reval_Code";
 
-	/** Set A_Reval_Code	  */
+	/** Set Reval. Code	  */
 	public void setA_Reval_Code (String A_Reval_Code);
 
-	/** Get A_Reval_Code	  */
+	/** Get Reval. Code	  */
 	public String getA_Reval_Code();
 
     /** Column name A_Reval_Multiplier */
     public static final String COLUMNNAME_A_Reval_Multiplier = "A_Reval_Multiplier";
 
-	/** Set A_Reval_Multiplier	  */
+	/** Set Reval. Multiplier	  */
 	public void setA_Reval_Multiplier (String A_Reval_Multiplier);
 
-	/** Get A_Reval_Multiplier	  */
+	/** Get Reval. Multiplier	  */
 	public String getA_Reval_Multiplier();
 
     /** Column name A_Reval_Rate */
     public static final String COLUMNNAME_A_Reval_Rate = "A_Reval_Rate";
 
-	/** Set A_Reval_Rate	  */
+	/** Set Reval. Rate	  */
 	public void setA_Reval_Rate (BigDecimal A_Reval_Rate);
 
-	/** Get A_Reval_Rate	  */
+	/** Get Reval. Rate	  */
 	public BigDecimal getA_Reval_Rate();
 
     /** Column name Created */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_System
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_System 
 {
@@ -256,12 +256,12 @@ public interface I_AD_System
     public static final String COLUMNNAME_IsJustMigrated = "IsJustMigrated";
 
 	/** Set Just Migrated.
-	  * Value set by Migration for post-Migation tasks.
+	  * Value set by Migration for post-Migration tasks.
 	  */
 	public void setIsJustMigrated (boolean IsJustMigrated);
 
 	/** Get Just Migrated.
-	  * Value set by Migration for post-Migation tasks.
+	  * Value set by Migration for post-Migration tasks.
 	  */
 	public boolean isJustMigrated();
 

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Attachment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Attachment 
 {
@@ -93,12 +93,12 @@ public interface I_AD_Attachment
     /** Column name BinaryData */
     public static final String COLUMNNAME_BinaryData = "BinaryData";
 
-	/** Set BinaryData.
+	/** Set Binary Data.
 	  * Binary Data
 	  */
 	public void setBinaryData (byte[] BinaryData);
 
-	/** Get BinaryData.
+	/** Get Binary Data.
 	  * Binary Data
 	  */
 	public byte[] getBinaryData();

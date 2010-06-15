@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_Group_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_BP_Group_Acct 
 {
@@ -300,12 +300,12 @@ public interface I_C_BP_Group_Acct
     public static final String COLUMNNAME_V_Liability_Services_Acct = "V_Liability_Services_Acct";
 
 	/** Set Vendor Service Liability.
-	  * Account for Vender Service Liability
+	  * Account for Vendor Service Liability
 	  */
 	public void setV_Liability_Services_Acct (int V_Liability_Services_Acct);
 
 	/** Get Vendor Service Liability.
-	  * Account for Vender Service Liability
+	  * Account for Vendor Service Liability
 	  */
 	public int getV_Liability_Services_Acct();
 

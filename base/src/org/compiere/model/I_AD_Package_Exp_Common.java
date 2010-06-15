@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Package_Exp_Common 
 {
@@ -106,10 +106,10 @@ public interface I_AD_Package_Exp_Common
     /** Column name AD_Package_Exp_Common_ID */
     public static final String COLUMNNAME_AD_Package_Exp_Common_ID = "AD_Package_Exp_Common_ID";
 
-	/** Set AD_Package_Exp_Common_ID	  */
+	/** Set Common Package Exp.	  */
 	public void setAD_Package_Exp_Common_ID (int AD_Package_Exp_Common_ID);
 
-	/** Get AD_Package_Exp_Common_ID	  */
+	/** Get Common Package Exp.	  */
 	public int getAD_Package_Exp_Common_ID();
 
     /** Column name AD_Process_ID */

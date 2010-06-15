@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Image
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Image 
 {
@@ -35,9 +35,9 @@ public interface I_AD_Image
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -78,12 +78,12 @@ public interface I_AD_Image
     /** Column name BinaryData */
     public static final String COLUMNNAME_BinaryData = "BinaryData";
 
-	/** Set BinaryData.
+	/** Set Binary Data.
 	  * Binary Data
 	  */
 	public void setBinaryData (byte[] BinaryData);
 
-	/** Get BinaryData.
+	/** Get Binary Data.
 	  * Binary Data
 	  */
 	public byte[] getBinaryData();

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Client
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Client 
 {
@@ -200,13 +200,13 @@ public interface I_AD_Client
     /** Column name IsPostImmediate */
     public static final String COLUMNNAME_IsPostImmediate = "IsPostImmediate";
 
-	/** Set Post Immediately.
-	  * Post the accounting immediately for testing
+	/** Set Post Immediately (Deprecated).
+	  * Post the accounting immediately for testing (Deprecated)
 	  */
 	public void setIsPostImmediate (boolean IsPostImmediate);
 
-	/** Get Post Immediately.
-	  * Post the accounting immediately for testing
+	/** Get Post Immediately (Deprecated).
+	  * Post the accounting immediately for testing (Deprecated)
 	  */
 	public boolean isPostImmediate();
 

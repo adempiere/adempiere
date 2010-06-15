@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset 
 {
@@ -44,10 +44,10 @@ public interface I_A_Asset
     /** Column name A_Asset_CreateDate */
     public static final String COLUMNNAME_A_Asset_CreateDate = "A_Asset_CreateDate";
 
-	/** Set A_Asset_CreateDate	  */
+	/** Set Asset Creation Date	  */
 	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate);
 
-	/** Get A_Asset_CreateDate	  */
+	/** Get Asset Creation Date	  */
 	public Timestamp getA_Asset_CreateDate();
 
     /** Column name A_Asset_Group_ID */
@@ -81,10 +81,10 @@ public interface I_A_Asset
     /** Column name A_Asset_RevalDate */
     public static final String COLUMNNAME_A_Asset_RevalDate = "A_Asset_RevalDate";
 
-	/** Set A_Asset_RevalDate	  */
+	/** Set Asset Reval. Date	  */
 	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate);
 
-	/** Get A_Asset_RevalDate	  */
+	/** Get Asset Reval. Date	  */
 	public Timestamp getA_Asset_RevalDate();
 
     /** Column name AD_Client_ID */
@@ -581,13 +581,13 @@ public interface I_A_Asset
     /** Column name NextMaintenenceDate */
     public static final String COLUMNNAME_NextMaintenenceDate = "NextMaintenenceDate";
 
-	/** Set Next Maintenence.
-	  * Next Maintenence Date
+	/** Set Next Maintenance.
+	  * Next Maintenance Date
 	  */
 	public void setNextMaintenenceDate (Timestamp NextMaintenenceDate);
 
-	/** Get Next Maintenence.
-	  * Next Maintenence Date
+	/** Get Next Maintenance.
+	  * Next Maintenance Date
 	  */
 	public Timestamp getNextMaintenenceDate();
 
@@ -595,12 +595,12 @@ public interface I_A_Asset
     public static final String COLUMNNAME_NextMaintenenceUnit = "NextMaintenenceUnit";
 
 	/** Set Next Unit.
-	  * Next Maintenence Unit
+	  * Next Maintenance Unit
 	  */
 	public void setNextMaintenenceUnit (int NextMaintenenceUnit);
 
 	/** Get Next Unit.
-	  * Next Maintenence Unit
+	  * Next Maintenance Unit
 	  */
 	public int getNextMaintenenceUnit();
 

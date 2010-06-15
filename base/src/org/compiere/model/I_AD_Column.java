@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Column
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Column 
 {
@@ -474,12 +474,12 @@ public interface I_AD_Column
     /** Column name IsUpdateable */
     public static final String COLUMNNAME_IsUpdateable = "IsUpdateable";
 
-	/** Set Updateable.
+	/** Set Updatable.
 	  * Determines, if the field can be updated
 	  */
 	public void setIsUpdateable (boolean IsUpdateable);
 
-	/** Get Updateable.
+	/** Get Updatable.
 	  * Determines, if the field can be updated
 	  */
 	public boolean isUpdateable();

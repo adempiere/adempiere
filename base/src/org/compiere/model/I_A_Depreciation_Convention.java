@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Convention
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Depreciation_Convention 
 {
@@ -52,10 +52,10 @@ public interface I_A_Depreciation_Convention
     /** Column name A_Depreciation_Convention_ID */
     public static final String COLUMNNAME_A_Depreciation_Convention_ID = "A_Depreciation_Convention_ID";
 
-	/** Set A_Depreciation_Convention_ID	  */
+	/** Set Depreciation Convention	  */
 	public void setA_Depreciation_Convention_ID (int A_Depreciation_Convention_ID);
 
-	/** Get A_Depreciation_Convention_ID	  */
+	/** Get Depreciation Convention	  */
 	public int getA_Depreciation_Convention_ID();
 
     /** Column name AD_Org_ID */
@@ -147,6 +147,15 @@ public interface I_A_Depreciation_Convention
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
+
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
+
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name TextMsg */
     public static final String COLUMNNAME_TextMsg = "TextMsg";

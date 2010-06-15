@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Acct 
 {
@@ -66,10 +66,10 @@ public interface I_A_Asset_Acct
     /** Column name A_Asset_Acct_ID */
     public static final String COLUMNNAME_A_Asset_Acct_ID = "A_Asset_Acct_ID";
 
-	/** Set A_Asset_Acct_ID	  */
+	/** Set Asset Acct.	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID);
 
-	/** Get A_Asset_Acct_ID	  */
+	/** Get Asset Acct.	  */
 	public int getA_Asset_Acct_ID();
 
     /** Column name A_Asset_ID */
@@ -88,10 +88,10 @@ public interface I_A_Asset_Acct
     /** Column name A_Asset_Spread_ID */
     public static final String COLUMNNAME_A_Asset_Spread_ID = "A_Asset_Spread_ID";
 
-	/** Set A_Asset_Spread_ID	  */
+	/** Set Asset Spread	  */
 	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID);
 
-	/** Get A_Asset_Spread_ID	  */
+	/** Get Asset Spread	  */
 	public int getA_Asset_Spread_ID();
 
 	public I_A_Asset_Spread getA_Asset_Spread() throws RuntimeException;
@@ -140,19 +140,19 @@ public interface I_A_Asset_Acct
     /** Column name A_Depreciation_Manual_Amount */
     public static final String COLUMNNAME_A_Depreciation_Manual_Amount = "A_Depreciation_Manual_Amount";
 
-	/** Set A_Depreciation_Manual_Amount	  */
+	/** Set Depreciation Manual Amount	  */
 	public void setA_Depreciation_Manual_Amount (BigDecimal A_Depreciation_Manual_Amount);
 
-	/** Get A_Depreciation_Manual_Amount	  */
+	/** Get Depreciation Manual Amount	  */
 	public BigDecimal getA_Depreciation_Manual_Amount();
 
     /** Column name A_Depreciation_Manual_Period */
     public static final String COLUMNNAME_A_Depreciation_Manual_Period = "A_Depreciation_Manual_Period";
 
-	/** Set A_Depreciation_Manual_Period	  */
+	/** Set Depreciation Manual Period	  */
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period);
 
-	/** Get A_Depreciation_Manual_Period	  */
+	/** Get Depreciation Manual Period	  */
 	public String getA_Depreciation_Manual_Period();
 
     /** Column name A_Depreciation_Method_ID */
@@ -169,10 +169,10 @@ public interface I_A_Asset_Acct
     /** Column name A_Depreciation_Table_Header_ID */
     public static final String COLUMNNAME_A_Depreciation_Table_Header_ID = "A_Depreciation_Table_Header_ID";
 
-	/** Set A_Depreciation_Table_Header_ID	  */
+	/** Set Depreciation Table Header	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID);
 
-	/** Get A_Depreciation_Table_Header_ID	  */
+	/** Get Depreciation Table Header	  */
 	public int getA_Depreciation_Table_Header_ID();
 
 	public I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
@@ -180,19 +180,19 @@ public interface I_A_Asset_Acct
     /** Column name A_Depreciation_Variable_Perc */
     public static final String COLUMNNAME_A_Depreciation_Variable_Perc = "A_Depreciation_Variable_Perc";
 
-	/** Set A_Depreciation_Variable_Perc	  */
+	/** Set Depreciation Variable Perc.	  */
 	public void setA_Depreciation_Variable_Perc (BigDecimal A_Depreciation_Variable_Perc);
 
-	/** Get A_Depreciation_Variable_Perc	  */
+	/** Get Depreciation Variable Perc.	  */
 	public BigDecimal getA_Depreciation_Variable_Perc();
 
     /** Column name A_Disposal_Gain */
     public static final String COLUMNNAME_A_Disposal_Gain = "A_Disposal_Gain";
 
-	/** Set A_Disposal_Gain	  */
+	/** Set Disposal Gain	  */
 	public void setA_Disposal_Gain (int A_Disposal_Gain);
 
-	/** Get A_Disposal_Gain	  */
+	/** Get Disposal Gain	  */
 	public int getA_Disposal_Gain();
 
 	public I_C_ValidCombination getA_Disposal_G() throws RuntimeException;

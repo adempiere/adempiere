@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_PrintFormatItem 
 {
@@ -288,12 +288,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsAveraged */
     public static final String COLUMNNAME_IsAveraged = "IsAveraged";
 
-	/** Set Calculate Mean (?).
+	/** Set Calculate Mean (μ).
 	  * Calculate Average of numeric content or length
 	  */
 	public void setIsAveraged (boolean IsAveraged);
 
-	/** Get Calculate Mean (?).
+	/** Get Calculate Mean (μ).
 	  * Calculate Average of numeric content or length
 	  */
 	public boolean isAveraged();
@@ -314,12 +314,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsCounted */
     public static final String COLUMNNAME_IsCounted = "IsCounted";
 
-	/** Set Calculate Count (?).
+	/** Set Calculate Count (№).
 	  * Count number of not empty elements
 	  */
 	public void setIsCounted (boolean IsCounted);
 
-	/** Get Calculate Count (?).
+	/** Get Calculate Count (№).
 	  * Count number of not empty elements
 	  */
 	public boolean isCounted();
@@ -327,12 +327,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsDeviationCalc */
     public static final String COLUMNNAME_IsDeviationCalc = "IsDeviationCalc";
 
-	/** Set Calculate Deviation (?).
+	/** Set Calculate Deviation (σ).
 	  * Calculate Standard Deviation
 	  */
 	public void setIsDeviationCalc (boolean IsDeviationCalc);
 
-	/** Get Calculate Deviation (?).
+	/** Get Calculate Deviation (σ).
 	  * Calculate Standard Deviation
 	  */
 	public boolean isDeviationCalc();
@@ -405,25 +405,25 @@ public interface I_AD_PrintFormatItem
     /** Column name IsMaxCalc */
     public static final String COLUMNNAME_IsMaxCalc = "IsMaxCalc";
 
-	/** Set Calculate Maximim (?).
-	  * Calculate the maximim amount
+	/** Set Calculate Maximum (?).
+	  * Calculate the maximum amount
 	  */
 	public void setIsMaxCalc (boolean IsMaxCalc);
 
-	/** Get Calculate Maximim (?).
-	  * Calculate the maximim amount
+	/** Get Calculate Maximum (?).
+	  * Calculate the maximum amount
 	  */
 	public boolean isMaxCalc();
 
     /** Column name IsMinCalc */
     public static final String COLUMNNAME_IsMinCalc = "IsMinCalc";
 
-	/** Set Calculate Minimum (?).
+	/** Set Calculate Minimum (↓).
 	  * Calculate the minimum amount
 	  */
 	public void setIsMinCalc (boolean IsMinCalc);
 
-	/** Get Calculate Minimum (?).
+	/** Get Calculate Minimum (↓).
 	  * Calculate the minimum amount
 	  */
 	public boolean isMinCalc();
@@ -535,12 +535,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsSummarized */
     public static final String COLUMNNAME_IsSummarized = "IsSummarized";
 
-	/** Set Calculate Sum (?).
+	/** Set Calculate Sum (Σ).
 	  * Calculate the Sum of numeric content or length
 	  */
 	public void setIsSummarized (boolean IsSummarized);
 
-	/** Get Calculate Sum (?).
+	/** Get Calculate Sum (Σ).
 	  * Calculate the Sum of numeric content or length
 	  */
 	public boolean isSummarized();
@@ -574,12 +574,12 @@ public interface I_AD_PrintFormatItem
     /** Column name IsVarianceCalc */
     public static final String COLUMNNAME_IsVarianceCalc = "IsVarianceCalc";
 
-	/** Set Calculate Variance (?�).
+	/** Set Calculate Variance (σ²).
 	  * Calculate Variance
 	  */
 	public void setIsVarianceCalc (boolean IsVarianceCalc);
 
-	/** Get Calculate Variance (?�).
+	/** Get Calculate Variance (σ²).
 	  * Calculate Variance
 	  */
 	public boolean isVarianceCalc();

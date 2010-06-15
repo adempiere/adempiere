@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Tab 
 {
@@ -293,12 +293,12 @@ public interface I_AD_Tab
     public static final String COLUMNNAME_Included_Tab_ID = "Included_Tab_ID";
 
 	/** Set Included Tab.
-	  * Included Tab in this Tab (Master Dateail)
+	  * Included Tab in this Tab (Master Detail)
 	  */
 	public void setIncluded_Tab_ID (int Included_Tab_ID);
 
 	/** Get Included Tab.
-	  * Included Tab in this Tab (Master Dateail)
+	  * Included Tab in this Tab (Master Detail)
 	  */
 	public int getIncluded_Tab_ID();
 

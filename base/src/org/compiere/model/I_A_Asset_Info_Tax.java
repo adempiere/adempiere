@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Info_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Info_Tax 
 {
@@ -57,10 +57,10 @@ public interface I_A_Asset_Info_Tax
     /** Column name A_Asset_Info_Tax_ID */
     public static final String COLUMNNAME_A_Asset_Info_Tax_ID = "A_Asset_Info_Tax_ID";
 
-	/** Set A_Asset_Info_Tax_ID	  */
+	/** Set Asset Info Tax	  */
 	public void setA_Asset_Info_Tax_ID (int A_Asset_Info_Tax_ID);
 
-	/** Get A_Asset_Info_Tax_ID	  */
+	/** Get Asset Info Tax	  */
 	public int getA_Asset_Info_Tax_ID();
 
     /** Column name AD_Client_ID */

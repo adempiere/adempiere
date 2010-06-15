@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Depreciation_Exp 
 {
@@ -44,10 +44,10 @@ public interface I_A_Depreciation_Exp
     /** Column name A_Account_Number */
     public static final String COLUMNNAME_A_Account_Number = "A_Account_Number";
 
-	/** Set A_Account_Number	  */
+	/** Set Account Number	  */
 	public void setA_Account_Number (int A_Account_Number);
 
-	/** Get A_Account_Number	  */
+	/** Get Account Number	  */
 	public int getA_Account_Number();
 
 	public I_C_ValidCombination getA_Account_Num() throws RuntimeException;
@@ -76,10 +76,10 @@ public interface I_A_Depreciation_Exp
     /** Column name A_Depreciation_Exp_ID */
     public static final String COLUMNNAME_A_Depreciation_Exp_ID = "A_Depreciation_Exp_ID";
 
-	/** Set A_Depreciation_Exp_ID	  */
+	/** Set Depreciation Exp.	  */
 	public void setA_Depreciation_Exp_ID (int A_Depreciation_Exp_ID);
 
-	/** Get A_Depreciation_Exp_ID	  */
+	/** Get Depreciation Exp.	  */
 	public int getA_Depreciation_Exp_ID();
 
     /** Column name AD_Org_ID */

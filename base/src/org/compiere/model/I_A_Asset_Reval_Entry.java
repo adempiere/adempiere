@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Reval_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_A_Asset_Reval_Entry 
 {
@@ -44,10 +44,10 @@ public interface I_A_Asset_Reval_Entry
     /** Column name A_Asset_Reval_Entry_ID */
     public static final String COLUMNNAME_A_Asset_Reval_Entry_ID = "A_Asset_Reval_Entry_ID";
 
-	/** Set A_Asset_Reval_Entry_ID	  */
+	/** Set Asset Reval. Entry	  */
 	public void setA_Asset_Reval_Entry_ID (int A_Asset_Reval_Entry_ID);
 
-	/** Get A_Asset_Reval_Entry_ID	  */
+	/** Get Asset Reval. Entry	  */
 	public int getA_Asset_Reval_Entry_ID();
 
     /** Column name AD_Client_ID */
@@ -74,10 +74,10 @@ public interface I_A_Asset_Reval_Entry
     /** Column name A_Effective_Date */
     public static final String COLUMNNAME_A_Effective_Date = "A_Effective_Date";
 
-	/** Set A_Effective_Date	  */
+	/** Set Effective Date	  */
 	public void setA_Effective_Date (Timestamp A_Effective_Date);
 
-	/** Get A_Effective_Date	  */
+	/** Get Effective Date	  */
 	public Timestamp getA_Effective_Date();
 
     /** Column name A_Reval_Cal_Method */
@@ -92,28 +92,28 @@ public interface I_A_Asset_Reval_Entry
     /** Column name A_Reval_Effective_Date */
     public static final String COLUMNNAME_A_Reval_Effective_Date = "A_Reval_Effective_Date";
 
-	/** Set A_Reval_Effective_Date	  */
+	/** Set Reval. Effective Date	  */
 	public void setA_Reval_Effective_Date (String A_Reval_Effective_Date);
 
-	/** Get A_Reval_Effective_Date	  */
+	/** Get Reval. Effective Date	  */
 	public String getA_Reval_Effective_Date();
 
     /** Column name A_Reval_Multiplier */
     public static final String COLUMNNAME_A_Reval_Multiplier = "A_Reval_Multiplier";
 
-	/** Set A_Reval_Multiplier	  */
+	/** Set Reval. Multiplier	  */
 	public void setA_Reval_Multiplier (String A_Reval_Multiplier);
 
-	/** Get A_Reval_Multiplier	  */
+	/** Get Reval. Multiplier	  */
 	public String getA_Reval_Multiplier();
 
     /** Column name A_Rev_Code */
     public static final String COLUMNNAME_A_Rev_Code = "A_Rev_Code";
 
-	/** Set A_Rev_Code	  */
+	/** Set Rev. Code	  */
 	public void setA_Rev_Code (String A_Rev_Code);
 
-	/** Get A_Rev_Code	  */
+	/** Get Rev. Code	  */
 	public String getA_Rev_Code();
 
     /** Column name C_AcctSchema_ID */

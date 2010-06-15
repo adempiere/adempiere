@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Attribute_Value
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Attribute_Value 
 {
@@ -66,27 +66,27 @@ public interface I_AD_Attribute_Value
     /** Column name V_Date */
     public static final String COLUMNNAME_V_Date = "V_Date";
 
-	/** Set V_Date	  */
+	/** Set Date	  */
 	public void setV_Date (Timestamp V_Date);
 
-	/** Get V_Date	  */
+	/** Get Date	  */
 	public Timestamp getV_Date();
 
     /** Column name V_Number */
     public static final String COLUMNNAME_V_Number = "V_Number";
 
-	/** Set V_Number	  */
+	/** Set Number	  */
 	public void setV_Number (String V_Number);
 
-	/** Get V_Number	  */
+	/** Get Number	  */
 	public String getV_Number();
 
     /** Column name V_String */
     public static final String COLUMNNAME_V_String = "V_String";
 
-	/** Set V_String	  */
+	/** Set String	  */
 	public void setV_String (String V_String);
 
-	/** Get V_String	  */
+	/** Get String	  */
 	public String getV_String();
 }

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Package_Exp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Package_Exp_Detail 
 {
@@ -147,37 +147,37 @@ public interface I_AD_Package_Exp_Detail
     /** Column name AD_Package_Code_New */
     public static final String COLUMNNAME_AD_Package_Code_New = "AD_Package_Code_New";
 
-	/** Set AD_Package_Code_New	  */
+	/** Set New Package Code	  */
 	public void setAD_Package_Code_New (String AD_Package_Code_New);
 
-	/** Get AD_Package_Code_New	  */
+	/** Get New Package Code	  */
 	public String getAD_Package_Code_New();
 
     /** Column name AD_Package_Code_Old */
     public static final String COLUMNNAME_AD_Package_Code_Old = "AD_Package_Code_Old";
 
-	/** Set AD_Package_Code_Old	  */
+	/** Set Old Package Code	  */
 	public void setAD_Package_Code_Old (String AD_Package_Code_Old);
 
-	/** Get AD_Package_Code_Old	  */
+	/** Get Old Package Code	  */
 	public String getAD_Package_Code_Old();
 
     /** Column name AD_Package_Exp_Detail_ID */
     public static final String COLUMNNAME_AD_Package_Exp_Detail_ID = "AD_Package_Exp_Detail_ID";
 
-	/** Set AD_Package_Exp_Detail_ID	  */
+	/** Set Package Exp. Detail	  */
 	public void setAD_Package_Exp_Detail_ID (int AD_Package_Exp_Detail_ID);
 
-	/** Get AD_Package_Exp_Detail_ID	  */
+	/** Get Package Exp. Detail	  */
 	public int getAD_Package_Exp_Detail_ID();
 
     /** Column name AD_Package_Exp_ID */
     public static final String COLUMNNAME_AD_Package_Exp_ID = "AD_Package_Exp_ID";
 
-	/** Set AD_Package_Exp_ID	  */
+	/** Set Package Exp.	  */
 	public void setAD_Package_Exp_ID (int AD_Package_Exp_ID);
 
-	/** Get AD_Package_Exp_ID	  */
+	/** Get Package Exp.	  */
 	public int getAD_Package_Exp_ID();
 
     /** Column name AD_PrintFormat_ID */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for B_TopicType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_B_TopicType 
 {
@@ -173,12 +173,12 @@ public interface I_B_TopicType
     public static final String COLUMNNAME_M_ProductMember_ID = "M_ProductMember_ID";
 
 	/** Set Membership.
-	  * Product used to deternine the price of the membership for the topic type
+	  * Product used to determine the price of the membership for the topic type
 	  */
 	public void setM_ProductMember_ID (int M_ProductMember_ID);
 
 	/** Get Membership.
-	  * Product used to deternine the price of the membership for the topic type
+	  * Product used to determine the price of the membership for the topic type
 	  */
 	public int getM_ProductMember_ID();
 

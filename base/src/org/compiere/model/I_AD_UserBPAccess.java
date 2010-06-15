@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_UserBPAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_UserBPAccess 
 {
@@ -66,12 +66,12 @@ public interface I_AD_UserBPAccess
     public static final String COLUMNNAME_AD_UserBPAccess_ID = "AD_UserBPAccess_ID";
 
 	/** Set User BP Access.
-	  * User/concat access to Business Partner information and resources
+	  * User/contact access to Business Partner information and resources
 	  */
 	public void setAD_UserBPAccess_ID (int AD_UserBPAccess_ID);
 
 	/** Get User BP Access.
-	  * User/concat access to Business Partner information and resources
+	  * User/contact access to Business Partner information and resources
 	  */
 	public int getAD_UserBPAccess_ID();
 
