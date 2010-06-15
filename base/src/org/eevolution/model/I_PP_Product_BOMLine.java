@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Product_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_PP_Product_BOMLine 
 {
@@ -89,21 +89,6 @@ public interface I_PP_Product_BOMLine
 	  */
 	public String getBackflushGroup();
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
-
     /** Column name ComponentType */
     public static final String COLUMNNAME_ComponentType = "ComponentType";
 
@@ -145,6 +130,21 @@ public interface I_PP_Product_BOMLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -254,12 +254,12 @@ public interface I_PP_Product_BOMLine
     public static final String COLUMNNAME_LeadTimeOffset = "LeadTimeOffset";
 
 	/** Set Lead Time Offset.
-	  * Optional Lead Time offest before starting production
+	  * Optional Lead Time offset before starting production
 	  */
 	public void setLeadTimeOffset (int LeadTimeOffset);
 
 	/** Get Lead Time Offset.
-	  * Optional Lead Time offest before starting production
+	  * Optional Lead Time offset before starting production
 	  */
 	public int getLeadTimeOffset();
 
@@ -378,13 +378,13 @@ public interface I_PP_Product_BOMLine
     /** Column name Scrap */
     public static final String COLUMNNAME_Scrap = "Scrap";
 
-	/** Set % Scrap.
-	  * Indicate the % Scrap  for calculate the Scrap Quantity
+	/** Set Scrap %.
+	  * Indicate the Scrap %  for calculate the Scrap Quantity
 	  */
 	public void setScrap (BigDecimal Scrap);
 
-	/** Get % Scrap.
-	  * Indicate the % Scrap  for calculate the Scrap Quantity
+	/** Get Scrap %.
+	  * Indicate the Scrap %  for calculate the Scrap Quantity
 	  */
 	public BigDecimal getScrap();
 

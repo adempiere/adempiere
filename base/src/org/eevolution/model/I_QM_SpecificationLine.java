@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for QM_SpecificationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_QM_SpecificationLine 
 {
@@ -147,10 +147,10 @@ public interface I_QM_SpecificationLine
     /** Column name QM_SpecificationLine_ID */
     public static final String COLUMNNAME_QM_SpecificationLine_ID = "QM_SpecificationLine_ID";
 
-	/** Set QM_SpecificationLine_ID	  */
+	/** Set QM Specification Line	  */
 	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID);
 
-	/** Get QM_SpecificationLine_ID	  */
+	/** Get QM Specification Line	  */
 	public int getQM_SpecificationLine_ID();
 
     /** Column name SeqNo */

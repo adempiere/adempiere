@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PP_Order_Workflow (Properties ctx, int PP_Order_Workflow_ID, String trxName)
@@ -536,7 +536,9 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 			.getPO(getPP_Order_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order.
-		@param PP_Order_ID Manufacturing Order	  */
+		@param PP_Order_ID 
+		Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1) 
@@ -546,7 +548,8 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	}
 
 	/** Get Manufacturing Order.
-		@return Manufacturing Order	  */
+		@return Manufacturing Order
+	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -561,7 +564,9 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 			.getPO(getPP_Order_Node_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order Activity.
-		@param PP_Order_Node_ID Manufacturing Order Activity	  */
+		@param PP_Order_Node_ID 
+		Workflow Node (activity), step or process
+	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
 	{
 		if (PP_Order_Node_ID < 1) 
@@ -571,7 +576,8 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	}
 
 	/** Get Manufacturing Order Activity.
-		@return Manufacturing Order Activity	  */
+		@return Workflow Node (activity), step or process
+	  */
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
@@ -695,14 +701,17 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	}
 
 	/** Set Queuing Time.
-		@param QueuingTime Queuing Time	  */
+		@param QueuingTime 
+		Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public void setQueuingTime (int QueuingTime)
 	{
 		set_Value (COLUMNNAME_QueuingTime, Integer.valueOf(QueuingTime));
 	}
 
 	/** Get Queuing Time.
-		@return Queuing Time	  */
+		@return Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public int getQueuingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QueuingTime);
@@ -896,7 +905,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	public static final String WORKFLOWTYPE_QueryOnly = "Q";
 	/** Set Workflow Type.
 		@param WorkflowType 
-		Type of Worflow
+		Type of Workflow
 	  */
 	public void setWorkflowType (String WorkflowType)
 	{
@@ -905,7 +914,7 @@ public class X_PP_Order_Workflow extends PO implements I_PP_Order_Workflow, I_Pe
 	}
 
 	/** Get Workflow Type.
-		@return Type of Worflow
+		@return Type of Workflow
 	  */
 	public String getWorkflowType () 
 	{

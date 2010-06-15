@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_PP_Order 
 {
@@ -241,12 +241,12 @@ public interface I_PP_Order
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
 
-	/** Set DateConfirm.
+	/** Set Date Confirm.
 	  * Date Confirm of this Order
 	  */
 	public void setDateConfirm (Timestamp DateConfirm);
 
-	/** Get DateConfirm.
+	/** Get Date Confirm.
 	  * Date Confirm of this Order
 	  */
 	public Timestamp getDateConfirm();

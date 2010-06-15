@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_ProductPlanning
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_I_ProductPlanning 
 {
@@ -31,7 +31,7 @@ public interface I_I_ProductPlanning
     /** TableName=I_ProductPlanning */
     public static final String Table_Name = "I_ProductPlanning";
 
-    /** AD_Table_ID=1000017 */
+    /** AD_Table_ID=53260 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -279,6 +279,8 @@ public interface I_I_ProductPlanning
 	  */
 	public int getM_ForecastLine_ID();
 
+	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -448,6 +450,8 @@ public interface I_I_ProductPlanning
 
 	/** Get Product Planning	  */
 	public int getPP_Product_Planning_ID();
+
+	public org.eevolution.model.I_PP_Product_Planning getPP_Product_Planning() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

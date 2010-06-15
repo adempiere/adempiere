@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_ProductPlanning
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100213L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_I_ProductPlanning (Properties ctx, int I_ProductPlanning_ID, String trxName)
@@ -377,6 +377,11 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return ii.intValue();
 	}
 
+	public I_M_ForecastLine getM_ForecastLine() throws RuntimeException
+    {
+		return (I_M_ForecastLine)MTable.get(getCtx(), I_M_ForecastLine.Table_Name)
+			.getPO(getM_ForecastLine_ID(), get_TrxName());	}
+
 	/** Set Forecast Line.
 		@param M_ForecastLine_ID 
 		Forecast Line
@@ -384,9 +389,9 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
 	{
 		if (M_ForecastLine_ID < 1) 
-			set_Value (COLUMNNAME_M_ForecastLine_ID, null);
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
 	}
 
 	/** Get Forecast Line.
@@ -677,14 +682,19 @@ public class X_I_ProductPlanning extends PO implements I_I_ProductPlanning, I_Pe
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_PP_Product_Planning getPP_Product_Planning() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Product_Planning)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_Planning.Table_Name)
+			.getPO(getPP_Product_Planning_ID(), get_TrxName());	}
+
 	/** Set Product Planning.
 		@param PP_Product_Planning_ID Product Planning	  */
 	public void setPP_Product_Planning_ID (int PP_Product_Planning_ID)
 	{
 		if (PP_Product_Planning_ID < 1) 
-			set_Value (COLUMNNAME_PP_Product_Planning_ID, null);
+			set_ValueNoCheck (COLUMNNAME_PP_Product_Planning_ID, null);
 		else 
-			set_Value (COLUMNNAME_PP_Product_Planning_ID, Integer.valueOf(PP_Product_Planning_ID));
+			set_ValueNoCheck (COLUMNNAME_PP_Product_Planning_ID, Integer.valueOf(PP_Product_Planning_ID));
 	}
 
 	/** Get Product Planning.

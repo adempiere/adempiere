@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxBase
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_TaxBase extends PO implements I_C_TaxBase, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091201L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_TaxBase (Properties ctx, int C_TaxBase_ID, String trxName)

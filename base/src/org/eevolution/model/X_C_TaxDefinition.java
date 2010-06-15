@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_TaxDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091201L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_C_TaxDefinition (Properties ctx, int C_TaxDefinition_ID, String trxName)
@@ -81,7 +81,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 
 	/** Set Organization Type.
 		@param AD_OrgType_ID 
-		Organization Type allows you to categorize your organizations
+		Organization Type
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID)
 	{
@@ -92,7 +92,7 @@ public class X_C_TaxDefinition extends PO implements I_C_TaxDefinition, I_Persis
 	}
 
 	/** Get Organization Type.
-		@return Organization Type allows you to categorize your organizations
+		@return Organization Type
 	  */
 	public int getAD_OrgType_ID () 
 	{

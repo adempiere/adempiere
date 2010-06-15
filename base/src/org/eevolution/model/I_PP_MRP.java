@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_PP_MRP 
 {
@@ -127,19 +127,27 @@ public interface I_PP_MRP
     /** Column name DateConfirm */
     public static final String COLUMNNAME_DateConfirm = "DateConfirm";
 
-	/** Set DateConfirm	  */
+	/** Set Date Confirm.
+	  * Date Confirm of this Order
+	  */
 	public void setDateConfirm (Timestamp DateConfirm);
 
-	/** Get DateConfirm	  */
+	/** Get Date Confirm.
+	  * Date Confirm of this Order
+	  */
 	public Timestamp getDateConfirm();
 
     /** Column name DateFinishSchedule */
     public static final String COLUMNNAME_DateFinishSchedule = "DateFinishSchedule";
 
-	/** Set DateFinishSchedule	  */
+	/** Set Date Finish Schedule.
+	  * Scheduled Finish date for this Order
+	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule);
 
-	/** Get DateFinishSchedule	  */
+	/** Get Date Finish Schedule.
+	  * Scheduled Finish date for this Order
+	  */
 	public Timestamp getDateFinishSchedule();
 
     /** Column name DateOrdered */
@@ -171,28 +179,40 @@ public interface I_PP_MRP
     /** Column name DateSimulation */
     public static final String COLUMNNAME_DateSimulation = "DateSimulation";
 
-	/** Set DateSimulation	  */
+	/** Set Date Simulation.
+	  * Simulation date for this Material Plan
+	  */
 	public void setDateSimulation (Timestamp DateSimulation);
 
-	/** Get DateSimulation	  */
+	/** Get Date Simulation.
+	  * Simulation date for this Material Plan
+	  */
 	public Timestamp getDateSimulation();
 
     /** Column name DateStart */
     public static final String COLUMNNAME_DateStart = "DateStart";
 
-	/** Set DateStart	  */
+	/** Set Date Start.
+	  * Date Start for this Order
+	  */
 	public void setDateStart (Timestamp DateStart);
 
-	/** Get DateStart	  */
+	/** Get Date Start.
+	  * Date Start for this Order
+	  */
 	public Timestamp getDateStart();
 
     /** Column name DateStartSchedule */
     public static final String COLUMNNAME_DateStartSchedule = "DateStartSchedule";
 
-	/** Set DateStartSchedule	  */
+	/** Set Date Start Schedule.
+	  * Scheduled start date for this Order
+	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule);
 
-	/** Get DateStartSchedule	  */
+	/** Get Date Start Schedule.
+	  * Scheduled start date for this Order
+	  */
 	public Timestamp getDateStartSchedule();
 
     /** Column name DD_Order_ID */
@@ -375,10 +395,14 @@ public interface I_PP_MRP
     /** Column name OrderType */
     public static final String COLUMNNAME_OrderType = "OrderType";
 
-	/** Set OrderType	  */
+	/** Set Order Type.
+	  * Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public void setOrderType (String OrderType);
 
-	/** Get OrderType	  */
+	/** Get Order Type.
+	  * Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public String getOrderType();
 
     /** Column name Planner_ID */
@@ -395,10 +419,14 @@ public interface I_PP_MRP
     /** Column name PP_MRP_ID */
     public static final String COLUMNNAME_PP_MRP_ID = "PP_MRP_ID";
 
-	/** Set Material Requirement Planning	  */
+	/** Set Material Requirement Planning.
+	  * MRP ID
+	  */
 	public void setPP_MRP_ID (int PP_MRP_ID);
 
-	/** Get Material Requirement Planning	  */
+	/** Get Material Requirement Planning.
+	  * MRP ID
+	  */
 	public int getPP_MRP_ID();
 
     /** Column name PP_Order_BOMLine_ID */
@@ -415,10 +443,14 @@ public interface I_PP_MRP
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set Manufacturing Order	  */
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get Manufacturing Order	  */
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public int getPP_Order_ID();
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
@@ -467,10 +499,14 @@ public interface I_PP_MRP
     /** Column name TypeMRP */
     public static final String COLUMNNAME_TypeMRP = "TypeMRP";
 
-	/** Set TypeMRP	  */
+	/** Set MRP Type.
+	  * MRP Type determines whether a record is demand or supply
+	  */
 	public void setTypeMRP (String TypeMRP);
 
-	/** Get TypeMRP	  */
+	/** Get MRP Type.
+	  * MRP Type determines whether a record is demand or supply
+	  */
 	public String getTypeMRP();
 
     /** Column name Updated */

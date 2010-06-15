@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_BOM
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_PP_Order_BOM 
 {
@@ -255,10 +255,14 @@ public interface I_PP_Order_BOM
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set Manufacturing Order	  */
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get Manufacturing Order	  */
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public int getPP_Order_ID();
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;

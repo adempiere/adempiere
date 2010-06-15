@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PP_Order_Node (Properties ctx, int PP_Order_Node_ID, String trxName)
@@ -519,43 +519,52 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateFinish);
 	}
 
-	/** Set DateFinishSchedule.
-		@param DateFinishSchedule DateFinishSchedule	  */
+	/** Set Date Finish Schedule.
+		@param DateFinishSchedule 
+		Scheduled Finish date for this Order
+	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule)
 	{
 		set_Value (COLUMNNAME_DateFinishSchedule, DateFinishSchedule);
 	}
 
-	/** Get DateFinishSchedule.
-		@return DateFinishSchedule	  */
+	/** Get Date Finish Schedule.
+		@return Scheduled Finish date for this Order
+	  */
 	public Timestamp getDateFinishSchedule () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateFinishSchedule);
 	}
 
-	/** Set DateStart.
-		@param DateStart DateStart	  */
+	/** Set Date Start.
+		@param DateStart 
+		Date Start for this Order
+	  */
 	public void setDateStart (Timestamp DateStart)
 	{
 		set_Value (COLUMNNAME_DateStart, DateStart);
 	}
 
-	/** Get DateStart.
-		@return DateStart	  */
+	/** Get Date Start.
+		@return Date Start for this Order
+	  */
 	public Timestamp getDateStart () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateStart);
 	}
 
-	/** Set DateStartSchedule.
-		@param DateStartSchedule DateStartSchedule	  */
+	/** Set Date Start Schedule.
+		@param DateStartSchedule 
+		Scheduled start date for this Order
+	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule)
 	{
 		set_Value (COLUMNNAME_DateStartSchedule, DateStartSchedule);
 	}
 
-	/** Get DateStartSchedule.
-		@return DateStartSchedule	  */
+	/** Get Date Start Schedule.
+		@return Scheduled start date for this Order
+	  */
 	public Timestamp getDateStartSchedule () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateStartSchedule);
@@ -963,7 +972,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 			.getPO(getPP_Order_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order.
-		@param PP_Order_ID Manufacturing Order	  */
+		@param PP_Order_ID 
+		Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1) 
@@ -973,7 +984,8 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	}
 
 	/** Get Manufacturing Order.
-		@return Manufacturing Order	  */
+		@return Manufacturing Order
+	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -983,7 +995,9 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	}
 
 	/** Set Manufacturing Order Activity.
-		@param PP_Order_Node_ID Manufacturing Order Activity	  */
+		@param PP_Order_Node_ID 
+		Workflow Node (activity), step or process
+	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID)
 	{
 		if (PP_Order_Node_ID < 1) 
@@ -993,7 +1007,8 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	}
 
 	/** Get Manufacturing Order Activity.
-		@return Manufacturing Order Activity	  */
+		@return Workflow Node (activity), step or process
+	  */
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
@@ -1101,17 +1116,17 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 		return bd;
 	}
 
-	/** Set QtyScrap.
+	/** Set Scrap %.
 		@param QtyScrap 
-		Scrap Quantity for this componet
+		Scrap % Quantity for this componet
 	  */
 	public void setQtyScrap (BigDecimal QtyScrap)
 	{
 		set_Value (COLUMNNAME_QtyScrap, QtyScrap);
 	}
 
-	/** Get QtyScrap.
-		@return Scrap Quantity for this componet
+	/** Get Scrap %.
+		@return Scrap % Quantity for this componet
 	  */
 	public BigDecimal getQtyScrap () 
 	{
@@ -1122,14 +1137,17 @@ public class X_PP_Order_Node extends PO implements I_PP_Order_Node, I_Persistent
 	}
 
 	/** Set Queuing Time.
-		@param QueuingTime Queuing Time	  */
+		@param QueuingTime 
+		Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public void setQueuingTime (int QueuingTime)
 	{
 		set_Value (COLUMNNAME_QueuingTime, Integer.valueOf(QueuingTime));
 	}
 
 	/** Get Queuing Time.
-		@return Queuing Time	  */
+		@return Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public int getQueuingTime () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QueuingTime);

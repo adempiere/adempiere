@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091125L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PP_Order_BOMLine (Properties ctx, int PP_Order_BOMLine_ID, String trxName)
@@ -157,34 +157,6 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return (String)get_Value(COLUMNNAME_BackflushGroup);
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException
-    {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
-			.getPO(getC_UOM_ID(), get_TrxName());	}
-
-	/** Set UOM.
-		@param C_UOM_ID 
-		Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID)
-	{
-		if (C_UOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
-	}
-
-	/** Get UOM.
-		@return Unit of Measure
-	  */
-	public int getC_UOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** ComponentType AD_Reference_ID=53225 */
 	public static final int COMPONENTTYPE_AD_Reference_ID=53225;
 	/** By-Product = BY */
@@ -241,6 +213,34 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public I_C_UOM getC_UOM() throws RuntimeException
+    {
+		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Date Delivered.
@@ -407,7 +407,7 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 
 	/** Set Lead Time Offset.
 		@param LeadTimeOffset 
-		Optional Lead Time offest before starting production
+		Optional Lead Time offset before starting production
 	  */
 	public void setLeadTimeOffset (int LeadTimeOffset)
 	{
@@ -415,7 +415,7 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	}
 
 	/** Get Lead Time Offset.
-		@return Optional Lead Time offest before starting production
+		@return Optional Lead Time offset before starting production
 	  */
 	public int getLeadTimeOffset () 
 	{
@@ -644,7 +644,9 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 			.getPO(getPP_Order_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order.
-		@param PP_Order_ID Manufacturing Order	  */
+		@param PP_Order_ID 
+		Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1) 
@@ -654,7 +656,8 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 	}
 
 	/** Get Manufacturing Order.
-		@return Manufacturing Order	  */
+		@return Manufacturing Order
+	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -814,17 +817,17 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return bd;
 	}
 
-	/** Set QtyScrap.
+	/** Set Scrap %.
 		@param QtyScrap 
-		Scrap Quantity for this componet
+		Scrap % Quantity for this componet
 	  */
 	public void setQtyScrap (BigDecimal QtyScrap)
 	{
 		set_ValueNoCheck (COLUMNNAME_QtyScrap, QtyScrap);
 	}
 
-	/** Get QtyScrap.
-		@return Scrap Quantity for this componet
+	/** Get Scrap %.
+		@return Scrap % Quantity for this componet
 	  */
 	public BigDecimal getQtyScrap () 
 	{
@@ -834,17 +837,17 @@ public class X_PP_Order_BOMLine extends PO implements I_PP_Order_BOMLine, I_Pers
 		return bd;
 	}
 
-	/** Set % Scrap.
+	/** Set Scrap %.
 		@param Scrap 
-		Indicate the % Scrap  for calculate the Scrap Quantity
+		Indicate the Scrap %  for calculate the Scrap Quantity
 	  */
 	public void setScrap (BigDecimal Scrap)
 	{
 		set_ValueNoCheck (COLUMNNAME_Scrap, Scrap);
 	}
 
-	/** Get % Scrap.
-		@return Indicate the % Scrap  for calculate the Scrap Quantity
+	/** Get Scrap %.
+		@return Indicate the Scrap %  for calculate the Scrap Quantity
 	  */
 	public BigDecimal getScrap () 
 	{

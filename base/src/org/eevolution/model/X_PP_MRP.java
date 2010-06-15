@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PP_MRP (Properties ctx, int PP_MRP_ID, String trxName)
@@ -162,29 +162,35 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set DateConfirm.
-		@param DateConfirm DateConfirm	  */
+	/** Set Date Confirm.
+		@param DateConfirm 
+		Date Confirm of this Order
+	  */
 	public void setDateConfirm (Timestamp DateConfirm)
 	{
 		set_Value (COLUMNNAME_DateConfirm, DateConfirm);
 	}
 
-	/** Get DateConfirm.
-		@return DateConfirm	  */
+	/** Get Date Confirm.
+		@return Date Confirm of this Order
+	  */
 	public Timestamp getDateConfirm () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateConfirm);
 	}
 
-	/** Set DateFinishSchedule.
-		@param DateFinishSchedule DateFinishSchedule	  */
+	/** Set Date Finish Schedule.
+		@param DateFinishSchedule 
+		Scheduled Finish date for this Order
+	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule)
 	{
 		set_Value (COLUMNNAME_DateFinishSchedule, DateFinishSchedule);
 	}
 
-	/** Get DateFinishSchedule.
-		@return DateFinishSchedule	  */
+	/** Get Date Finish Schedule.
+		@return Scheduled Finish date for this Order
+	  */
 	public Timestamp getDateFinishSchedule () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateFinishSchedule);
@@ -224,43 +230,52 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
 
-	/** Set DateSimulation.
-		@param DateSimulation DateSimulation	  */
+	/** Set Date Simulation.
+		@param DateSimulation 
+		Simulation date for this Material Plan
+	  */
 	public void setDateSimulation (Timestamp DateSimulation)
 	{
 		set_Value (COLUMNNAME_DateSimulation, DateSimulation);
 	}
 
-	/** Get DateSimulation.
-		@return DateSimulation	  */
+	/** Get Date Simulation.
+		@return Simulation date for this Material Plan
+	  */
 	public Timestamp getDateSimulation () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateSimulation);
 	}
 
-	/** Set DateStart.
-		@param DateStart DateStart	  */
+	/** Set Date Start.
+		@param DateStart 
+		Date Start for this Order
+	  */
 	public void setDateStart (Timestamp DateStart)
 	{
 		set_Value (COLUMNNAME_DateStart, DateStart);
 	}
 
-	/** Get DateStart.
-		@return DateStart	  */
+	/** Get Date Start.
+		@return Date Start for this Order
+	  */
 	public Timestamp getDateStart () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateStart);
 	}
 
-	/** Set DateStartSchedule.
-		@param DateStartSchedule DateStartSchedule	  */
+	/** Set Date Start Schedule.
+		@param DateStartSchedule 
+		Scheduled start date for this Order
+	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule)
 	{
 		set_Value (COLUMNNAME_DateStartSchedule, DateStartSchedule);
 	}
 
-	/** Get DateStartSchedule.
-		@return DateStartSchedule	  */
+	/** Get Date Start Schedule.
+		@return Scheduled start date for this Order
+	  */
 	public Timestamp getDateStartSchedule () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateStartSchedule);
@@ -608,16 +623,21 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public static final String ORDERTYPE_SalesOrder = "SOO";
 	/** Distribution Order = DOO */
 	public static final String ORDERTYPE_DistributionOrder = "DOO";
-	/** Set OrderType.
-		@param OrderType OrderType	  */
+	/** Safety Stock = STK */
+	public static final String ORDERTYPE_SafetyStock = "STK";
+	/** Set Order Type.
+		@param OrderType 
+		Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public void setOrderType (String OrderType)
 	{
 
 		set_Value (COLUMNNAME_OrderType, OrderType);
 	}
 
-	/** Get OrderType.
-		@return OrderType	  */
+	/** Get Order Type.
+		@return Type of Order: MRP records grouped by source (Sales Order, Purchase Order, Distribution Order, Requisition)
+	  */
 	public String getOrderType () 
 	{
 		return (String)get_Value(COLUMNNAME_OrderType);
@@ -649,7 +669,9 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	}
 
 	/** Set Material Requirement Planning.
-		@param PP_MRP_ID Material Requirement Planning	  */
+		@param PP_MRP_ID 
+		MRP ID
+	  */
 	public void setPP_MRP_ID (int PP_MRP_ID)
 	{
 		if (PP_MRP_ID < 1) 
@@ -659,7 +681,8 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	}
 
 	/** Get Material Requirement Planning.
-		@return Material Requirement Planning	  */
+		@return MRP ID
+	  */
 	public int getPP_MRP_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_MRP_ID);
@@ -699,7 +722,9 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 			.getPO(getPP_Order_ID(), get_TrxName());	}
 
 	/** Set Manufacturing Order.
-		@param PP_Order_ID Manufacturing Order	  */
+		@param PP_Order_ID 
+		Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID)
 	{
 		if (PP_Order_ID < 1) 
@@ -709,7 +734,8 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	}
 
 	/** Get Manufacturing Order.
-		@return Manufacturing Order	  */
+		@return Manufacturing Order
+	  */
 	public int getPP_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_ID);
@@ -789,16 +815,19 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 	public static final String TYPEMRP_Demand = "D";
 	/** Supply = S */
 	public static final String TYPEMRP_Supply = "S";
-	/** Set TypeMRP.
-		@param TypeMRP TypeMRP	  */
+	/** Set MRP Type.
+		@param TypeMRP 
+		MRP Type determines whether a record is demand or supply
+	  */
 	public void setTypeMRP (String TypeMRP)
 	{
 
 		set_Value (COLUMNNAME_TypeMRP, TypeMRP);
 	}
 
-	/** Get TypeMRP.
-		@return TypeMRP	  */
+	/** Get MRP Type.
+		@return MRP Type determines whether a record is demand or supply
+	  */
 	public String getTypeMRP () 
 	{
 		return (String)get_Value(COLUMNNAME_TypeMRP);

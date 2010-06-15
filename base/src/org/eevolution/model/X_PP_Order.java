@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_PP_Order extends PO implements I_PP_Order, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100302L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_PP_Order (Properties ctx, int PP_Order_ID, String trxName)
@@ -399,7 +399,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set DateConfirm.
+	/** Set Date Confirm.
 		@param DateConfirm 
 		Date Confirm of this Order
 	  */
@@ -408,7 +408,7 @@ public class X_PP_Order extends PO implements I_PP_Order, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_DateConfirm, DateConfirm);
 	}
 
-	/** Get DateConfirm.
+	/** Get Date Confirm.
 		@return Date Confirm of this Order
 	  */
 	public Timestamp getDateConfirm () 

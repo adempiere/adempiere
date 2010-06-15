@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_Order_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_PP_Order_Node 
 {
@@ -312,28 +312,40 @@ public interface I_PP_Order_Node
     /** Column name DateFinishSchedule */
     public static final String COLUMNNAME_DateFinishSchedule = "DateFinishSchedule";
 
-	/** Set DateFinishSchedule	  */
+	/** Set Date Finish Schedule.
+	  * Scheduled Finish date for this Order
+	  */
 	public void setDateFinishSchedule (Timestamp DateFinishSchedule);
 
-	/** Get DateFinishSchedule	  */
+	/** Get Date Finish Schedule.
+	  * Scheduled Finish date for this Order
+	  */
 	public Timestamp getDateFinishSchedule();
 
     /** Column name DateStart */
     public static final String COLUMNNAME_DateStart = "DateStart";
 
-	/** Set DateStart	  */
+	/** Set Date Start.
+	  * Date Start for this Order
+	  */
 	public void setDateStart (Timestamp DateStart);
 
-	/** Get DateStart	  */
+	/** Get Date Start.
+	  * Date Start for this Order
+	  */
 	public Timestamp getDateStart();
 
     /** Column name DateStartSchedule */
     public static final String COLUMNNAME_DateStartSchedule = "DateStartSchedule";
 
-	/** Set DateStartSchedule	  */
+	/** Set Date Start Schedule.
+	  * Scheduled start date for this Order
+	  */
 	public void setDateStartSchedule (Timestamp DateStartSchedule);
 
-	/** Get DateStartSchedule	  */
+	/** Get Date Start Schedule.
+	  * Scheduled start date for this Order
+	  */
 	public Timestamp getDateStartSchedule();
 
     /** Column name Description */
@@ -555,10 +567,14 @@ public interface I_PP_Order_Node
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
-	/** Set Manufacturing Order	  */
+	/** Set Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public void setPP_Order_ID (int PP_Order_ID);
 
-	/** Get Manufacturing Order	  */
+	/** Get Manufacturing Order.
+	  * Manufacturing Order
+	  */
 	public int getPP_Order_ID();
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
@@ -566,10 +582,14 @@ public interface I_PP_Order_Node
     /** Column name PP_Order_Node_ID */
     public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
 
-	/** Set Manufacturing Order Activity	  */
+	/** Set Manufacturing Order Activity.
+	  * Workflow Node (activity), step or process
+	  */
 	public void setPP_Order_Node_ID (int PP_Order_Node_ID);
 
-	/** Get Manufacturing Order Activity	  */
+	/** Get Manufacturing Order Activity.
+	  * Workflow Node (activity), step or process
+	  */
 	public int getPP_Order_Node_ID();
 
     /** Column name PP_Order_Workflow_ID */
@@ -630,23 +650,27 @@ public interface I_PP_Order_Node
     /** Column name QtyScrap */
     public static final String COLUMNNAME_QtyScrap = "QtyScrap";
 
-	/** Set QtyScrap.
-	  * Scrap Quantity for this componet
+	/** Set Scrap %.
+	  * Scrap % Quantity for this componet
 	  */
 	public void setQtyScrap (BigDecimal QtyScrap);
 
-	/** Get QtyScrap.
-	  * Scrap Quantity for this componet
+	/** Get Scrap %.
+	  * Scrap % Quantity for this componet
 	  */
 	public BigDecimal getQtyScrap();
 
     /** Column name QueuingTime */
     public static final String COLUMNNAME_QueuingTime = "QueuingTime";
 
-	/** Set Queuing Time	  */
+	/** Set Queuing Time.
+	  * Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public void setQueuingTime (int QueuingTime);
 
-	/** Get Queuing Time	  */
+	/** Get Queuing Time.
+	  * Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public int getQueuingTime();
 
     /** Column name SetupTime */

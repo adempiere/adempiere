@@ -24,14 +24,14 @@ import org.compiere.model.*;
 
 /** Generated Model for QM_SpecificationLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_QM_SpecificationLine (Properties ctx, int QM_SpecificationLine_ID, String trxName)
@@ -189,8 +189,8 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 		return ii.intValue();
 	}
 
-	/** Set QM_SpecificationLine_ID.
-		@param QM_SpecificationLine_ID QM_SpecificationLine_ID	  */
+	/** Set QM Specification Line.
+		@param QM_SpecificationLine_ID QM Specification Line	  */
 	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
 	{
 		if (QM_SpecificationLine_ID < 1) 
@@ -199,8 +199,8 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
 	}
 
-	/** Get QM_SpecificationLine_ID.
-		@return QM_SpecificationLine_ID	  */
+	/** Get QM Specification Line.
+		@return QM Specification Line	  */
 	public int getQM_SpecificationLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);

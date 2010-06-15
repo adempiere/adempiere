@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_TaxDefinition 
 {
@@ -67,12 +67,12 @@ public interface I_C_TaxDefinition
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
 	/** Set Organization Type.
-	  * Organization Type allows you to categorize your organizations
+	  * Organization Type
 	  */
 	public void setAD_OrgType_ID (int AD_OrgType_ID);
 
 	/** Get Organization Type.
-	  * Organization Type allows you to categorize your organizations
+	  * Organization Type
 	  */
 	public int getAD_OrgType_ID();
 
