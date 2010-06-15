@@ -61,6 +61,7 @@ import org.adempiere.webui.part.MultiTabPart;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.GridTab;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
@@ -537,6 +538,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				}
 			}
 
+			/** metas: teo_sarca: Specify exactly which are the search fields - http://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3736214
             if (columnName.equals("Value"))
                 hasValue = true;
             else if (columnName.equals("Name"))
@@ -545,10 +547,14 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 hasDocNo = true;
             else if (columnName.equals("Description"))
                 hasDescription = true;
-            else if (mField.isSelectionColumn())
+            else
+            /**/
+            if (mField.isSelectionColumn())
                 addSelectionColumn (mField);
+			/** metas: teo_sarca: Specify exactly which are the search fields - http://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3736214
             else if (columnName.indexOf("Name") != -1)
                 addSelectionColumn (mField);
+            /**/
 
             //  TargetFields
             m_targetFields.put (new Integer(mField.getAD_Column_ID()), mField);
@@ -745,6 +751,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
         contentSimpleRows.appendChild(panel);
         m_sEditors.add(editor);
 
+        fieldLabel.addEventListener(Events.ON_OK,this);
     }   // addSelectionColumn
 
     public void onEvent(Event event) throws Exception
@@ -844,6 +851,15 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             {
                 cmd_ok_Advanced();
                 dispose();
+            }
+            // Check simple panel fields
+            for (WEditor editor : m_sEditors)
+            {
+            	if (editor.getComponent() == event.getTarget())
+            	{
+                    cmd_ok_Simple();
+                    dispose();
+            	}
             }
         }
 
@@ -1339,9 +1355,21 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
                 if (field.isEncryptedColumn()) {
                 	value = SecureEngine.encrypt(value);
                 }
-
+                
                 boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
                 String ColumnSQL = field.getColumnSQL(false);
+                //
+                // Be more permissive for String columns
+                if (isSearchLike(field))
+                {
+                    String valueStr = value.toString().toUpperCase();
+                    if (!valueStr.endsWith("%"))
+                        valueStr += "%";
+                    //
+                    ColumnSQL = "UPPER("+ColumnSQL+")";
+                    value = valueStr;
+                }
+                //
                 if (value.toString().indexOf('%') != -1)
                     m_query.addRestriction(ColumnSQL, MQuery.LIKE, value, ColumnName, wed.getDisplay());
                 else if (isProductCategoryField && value instanceof Integer)
@@ -1781,6 +1809,12 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			Events.echoEvent("OnPostVisible", this, null);
 		}
 		return ret;
+	}
+	
+	private boolean isSearchLike(GridField field)
+	{
+		return DisplayType.isText(field.getDisplayType())
+		&& MColumn.isSuggestSelectionColumn(field.getColumnName(), true);
 	}
 
 }   //  FindPanel

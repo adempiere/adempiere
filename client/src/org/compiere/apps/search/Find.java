@@ -77,6 +77,7 @@ import org.compiere.model.DataStatusListener;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.GridTab;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
 import org.compiere.model.MQuery;
@@ -512,6 +513,7 @@ public final class Find extends CDialog
 				}
 			}
 
+			/** metas: teo_sarca: Specify exactly which are the search fields - http://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3736214
 			if (columnName.equals("Value"))
 				hasValue = true;
 			else if (columnName.equals("Name"))
@@ -520,10 +522,14 @@ public final class Find extends CDialog
 				hasDocNo = true;
 			else if (columnName.equals("Description"))
 				hasDescription = true;
-			else if (mField.isSelectionColumn())
+			else
+			/**/
+			if (mField.isSelectionColumn())
 				addSelectionColumn (mField);
+			/** metas: teo_sarca: Specify exactly which are the search fields - http://sourceforge.net/projects/adempiere/forums/forum/610548/topic/3736214
 			else if (columnName.indexOf("Name") != -1)
 				addSelectionColumn (mField);
+			/**/
 
 			//  TargetFields
 			m_targetFields.put (new Integer(mField.getAD_Column_ID()), mField);
@@ -1041,6 +1047,18 @@ public final class Find extends CDialog
 				GridField field = getTargetMField(ColumnName);
 				boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
 				String ColumnSQL = field.getColumnSQL(false);
+                //
+                // Be more permissive for String columns
+                if (isSearchLike(field))
+                {
+                    String valueStr = value.toString().toUpperCase();
+                    if (!valueStr.endsWith("%"))
+                        valueStr += "%";
+                    //
+                    ColumnSQL = "UPPER("+ColumnSQL+")";
+                    value = valueStr;
+                }
+                //
 				if (value.toString().indexOf('%') != -1)
 					m_query.addRestriction(ColumnSQL, MQuery.LIKE, value, ColumnName, ved.getDisplay());
 				else if (isProductCategoryField && value instanceof Integer) 
@@ -1681,6 +1699,12 @@ public final class Find extends CDialog
 		}
 		return null;
 	}	//	getTargetMField
+	
+	private boolean isSearchLike(GridField field)
+	{
+		return DisplayType.isText(field.getDisplayType())
+		&& MColumn.isSuggestSelectionColumn(field.getColumnName(), true);
+	}
 	
 	private class ProxyRenderer implements TableCellRenderer
 	{
