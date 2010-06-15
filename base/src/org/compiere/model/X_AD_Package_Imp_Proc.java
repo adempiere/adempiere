@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Package_Imp_Proc
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Package_Imp_Proc (Properties ctx, int AD_Package_Imp_Proc_ID, String trxName)
@@ -37,6 +37,7 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
       super (ctx, AD_Package_Imp_Proc_ID, trxName);
       /** if (AD_Package_Imp_Proc_ID == 0)
         {
+			setAD_Package_Dir (null);
 			setAD_Package_Imp_Proc_ID (0);
 			setAD_Package_Source (null);
 			setAD_Package_Source_Type (null);
@@ -109,8 +110,8 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 		return (String)get_Value(COLUMNNAME_AD_Package_Dir);
 	}
 
-	/** Set AD_Package_Imp_Proc_ID.
-		@param AD_Package_Imp_Proc_ID AD_Package_Imp_Proc_ID	  */
+	/** Set Package Imp. Proc..
+		@param AD_Package_Imp_Proc_ID Package Imp. Proc.	  */
 	public void setAD_Package_Imp_Proc_ID (int AD_Package_Imp_Proc_ID)
 	{
 		if (AD_Package_Imp_Proc_ID < 1) 
@@ -119,8 +120,8 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Proc_ID, Integer.valueOf(AD_Package_Imp_Proc_ID));
 	}
 
-	/** Get AD_Package_Imp_Proc_ID.
-		@return AD_Package_Imp_Proc_ID	  */
+	/** Get Package Imp. Proc..
+		@return Package Imp. Proc.	  */
 	public int getAD_Package_Imp_Proc_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Proc_ID);

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Detail (Properties ctx, int AD_Package_Exp_Detail_ID, String trxName)
@@ -236,36 +236,36 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	/** Set AD_Package_Code_New.
-		@param AD_Package_Code_New AD_Package_Code_New	  */
+	/** Set New Package Code.
+		@param AD_Package_Code_New New Package Code	  */
 	public void setAD_Package_Code_New (String AD_Package_Code_New)
 	{
 		set_Value (COLUMNNAME_AD_Package_Code_New, AD_Package_Code_New);
 	}
 
-	/** Get AD_Package_Code_New.
-		@return AD_Package_Code_New	  */
+	/** Get New Package Code.
+		@return New Package Code	  */
 	public String getAD_Package_Code_New () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Code_New);
 	}
 
-	/** Set AD_Package_Code_Old.
-		@param AD_Package_Code_Old AD_Package_Code_Old	  */
+	/** Set Old Package Code.
+		@param AD_Package_Code_Old Old Package Code	  */
 	public void setAD_Package_Code_Old (String AD_Package_Code_Old)
 	{
 		set_Value (COLUMNNAME_AD_Package_Code_Old, AD_Package_Code_Old);
 	}
 
-	/** Get AD_Package_Code_Old.
-		@return AD_Package_Code_Old	  */
+	/** Get Old Package Code.
+		@return Old Package Code	  */
 	public String getAD_Package_Code_Old () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Code_Old);
 	}
 
-	/** Set AD_Package_Exp_Detail_ID.
-		@param AD_Package_Exp_Detail_ID AD_Package_Exp_Detail_ID	  */
+	/** Set Package Exp. Detail.
+		@param AD_Package_Exp_Detail_ID Package Exp. Detail	  */
 	public void setAD_Package_Exp_Detail_ID (int AD_Package_Exp_Detail_ID)
 	{
 		if (AD_Package_Exp_Detail_ID < 1) 
@@ -274,8 +274,8 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 			set_Value (COLUMNNAME_AD_Package_Exp_Detail_ID, Integer.valueOf(AD_Package_Exp_Detail_ID));
 	}
 
-	/** Get AD_Package_Exp_Detail_ID.
-		@return AD_Package_Exp_Detail_ID	  */
+	/** Get Package Exp. Detail.
+		@return Package Exp. Detail	  */
 	public int getAD_Package_Exp_Detail_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_Detail_ID);
@@ -292,8 +292,8 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_Detail_ID()));
     }
 
-	/** Set AD_Package_Exp_ID.
-		@param AD_Package_Exp_ID AD_Package_Exp_ID	  */
+	/** Set Package Exp..
+		@param AD_Package_Exp_ID Package Exp.	  */
 	public void setAD_Package_Exp_ID (int AD_Package_Exp_ID)
 	{
 		if (AD_Package_Exp_ID < 1) 
@@ -302,8 +302,8 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 			set_Value (COLUMNNAME_AD_Package_Exp_ID, Integer.valueOf(AD_Package_Exp_ID));
 	}
 
-	/** Get AD_Package_Exp_ID.
-		@return AD_Package_Exp_ID	  */
+	/** Get Package Exp..
+		@return Package Exp.	  */
 	public int getAD_Package_Exp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_ID);

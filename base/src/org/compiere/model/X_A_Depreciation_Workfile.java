@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Workfile
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Workfile, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Workfile (Properties ctx, int A_Depreciation_Workfile_ID, String trxName)
@@ -76,15 +76,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
       return sb.toString();
     }
 
-	/** Set A_Accumulated_Depr.
-		@param A_Accumulated_Depr A_Accumulated_Depr	  */
+	/** Set Accumulated Depreciation.
+		@param A_Accumulated_Depr Accumulated Depreciation	  */
 	public void setA_Accumulated_Depr (BigDecimal A_Accumulated_Depr)
 	{
 		set_Value (COLUMNNAME_A_Accumulated_Depr, A_Accumulated_Depr);
 	}
 
-	/** Get A_Accumulated_Depr.
-		@return A_Accumulated_Depr	  */
+	/** Get Accumulated Depreciation.
+		@return Accumulated Depreciation	  */
 	public BigDecimal getA_Accumulated_Depr () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Accumulated_Depr);
@@ -93,15 +93,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set A_Asset_Cost.
-		@param A_Asset_Cost A_Asset_Cost	  */
+	/** Set Asset Cost.
+		@param A_Asset_Cost Asset Cost	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost)
 	{
 		set_Value (COLUMNNAME_A_Asset_Cost, A_Asset_Cost);
 	}
 
-	/** Get A_Asset_Cost.
-		@return A_Asset_Cost	  */
+	/** Get Asset Cost.
+		@return Asset Cost	  */
 	public BigDecimal getA_Asset_Cost () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Asset_Cost);
@@ -133,15 +133,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Life_Current_Year.
-		@param A_Asset_Life_Current_Year A_Asset_Life_Current_Year	  */
+	/** Set Asset Life Current Year.
+		@param A_Asset_Life_Current_Year Asset Life Current Year	  */
 	public void setA_Asset_Life_Current_Year (BigDecimal A_Asset_Life_Current_Year)
 	{
 		set_Value (COLUMNNAME_A_Asset_Life_Current_Year, A_Asset_Life_Current_Year);
 	}
 
-	/** Get A_Asset_Life_Current_Year.
-		@return A_Asset_Life_Current_Year	  */
+	/** Get Asset Life Current Year.
+		@return Asset Life Current Year	  */
 	public BigDecimal getA_Asset_Life_Current_Year () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Asset_Life_Current_Year);
@@ -150,15 +150,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set A_Asset_Life_Years.
-		@param A_Asset_Life_Years A_Asset_Life_Years	  */
+	/** Set Asset Life Years.
+		@param A_Asset_Life_Years Asset Life Years	  */
 	public void setA_Asset_Life_Years (int A_Asset_Life_Years)
 	{
 		set_Value (COLUMNNAME_A_Asset_Life_Years, Integer.valueOf(A_Asset_Life_Years));
 	}
 
-	/** Get A_Asset_Life_Years.
-		@return A_Asset_Life_Years	  */
+	/** Get Asset Life Years.
+		@return Asset Life Years	  */
 	public int getA_Asset_Life_Years () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Life_Years);
@@ -167,15 +167,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return ii.intValue();
 	}
 
-	/** Set A_Base_Amount.
-		@param A_Base_Amount A_Base_Amount	  */
+	/** Set Base Amount.
+		@param A_Base_Amount Base Amount	  */
 	public void setA_Base_Amount (BigDecimal A_Base_Amount)
 	{
 		set_Value (COLUMNNAME_A_Base_Amount, A_Base_Amount);
 	}
 
-	/** Get A_Base_Amount.
-		@return A_Base_Amount	  */
+	/** Get Base Amount.
+		@return Base Amount	  */
 	public BigDecimal getA_Base_Amount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Base_Amount);
@@ -184,15 +184,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set A_Calc_Accumulated_Depr.
-		@param A_Calc_Accumulated_Depr A_Calc_Accumulated_Depr	  */
+	/** Set Calc. Accumulated Depr..
+		@param A_Calc_Accumulated_Depr Calc. Accumulated Depr.	  */
 	public void setA_Calc_Accumulated_Depr (BigDecimal A_Calc_Accumulated_Depr)
 	{
 		set_Value (COLUMNNAME_A_Calc_Accumulated_Depr, A_Calc_Accumulated_Depr);
 	}
 
-	/** Get A_Calc_Accumulated_Depr.
-		@return A_Calc_Accumulated_Depr	  */
+	/** Get Calc. Accumulated Depr..
+		@return Calc. Accumulated Depr.	  */
 	public BigDecimal getA_Calc_Accumulated_Depr () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Calc_Accumulated_Depr);
@@ -201,15 +201,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set A_Curr_Dep_Exp.
-		@param A_Curr_Dep_Exp A_Curr_Dep_Exp	  */
+	/** Set Curr. Dep. Exp..
+		@param A_Curr_Dep_Exp Curr. Dep. Exp.	  */
 	public void setA_Curr_Dep_Exp (BigDecimal A_Curr_Dep_Exp)
 	{
 		set_Value (COLUMNNAME_A_Curr_Dep_Exp, A_Curr_Dep_Exp);
 	}
 
-	/** Get A_Curr_Dep_Exp.
-		@return A_Curr_Dep_Exp	  */
+	/** Get Curr. Dep. Exp..
+		@return Curr. Dep. Exp.	  */
 	public BigDecimal getA_Curr_Dep_Exp () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Curr_Dep_Exp);
@@ -218,15 +218,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set A_Current_Period.
-		@param A_Current_Period A_Current_Period	  */
+	/** Set Current Period.
+		@param A_Current_Period Current Period	  */
 	public void setA_Current_Period (int A_Current_Period)
 	{
 		set_Value (COLUMNNAME_A_Current_Period, Integer.valueOf(A_Current_Period));
 	}
 
-	/** Get A_Current_Period.
-		@return A_Current_Period	  */
+	/** Get Current Period.
+		@return Current Period	  */
 	public int getA_Current_Period () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Current_Period);
@@ -235,8 +235,8 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Workfile_ID.
-		@param A_Depreciation_Workfile_ID A_Depreciation_Workfile_ID	  */
+	/** Set Depreciation Workfile.
+		@param A_Depreciation_Workfile_ID Depreciation Workfile	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID)
 	{
 		if (A_Depreciation_Workfile_ID < 1) 
@@ -245,8 +245,8 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Workfile_ID, Integer.valueOf(A_Depreciation_Workfile_ID));
 	}
 
-	/** Get A_Depreciation_Workfile_ID.
-		@return A_Depreciation_Workfile_ID	  */
+	/** Get Depreciation Workfile.
+		@return Depreciation Workfile	  */
 	public int getA_Depreciation_Workfile_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Workfile_ID);
@@ -280,15 +280,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return ii.intValue();
 	}
 
-	/** Set A_Period_Forecast.
-		@param A_Period_Forecast A_Period_Forecast	  */
+	/** Set Forecast Period.
+		@param A_Period_Forecast Forecast Period	  */
 	public void setA_Period_Forecast (BigDecimal A_Period_Forecast)
 	{
 		set_Value (COLUMNNAME_A_Period_Forecast, A_Period_Forecast);
 	}
 
-	/** Get A_Period_Forecast.
-		@return A_Period_Forecast	  */
+	/** Get Forecast Period.
+		@return Forecast Period	  */
 	public BigDecimal getA_Period_Forecast () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Period_Forecast);
@@ -297,15 +297,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set A_Period_Posted.
-		@param A_Period_Posted A_Period_Posted	  */
+	/** Set Period Posted.
+		@param A_Period_Posted Period Posted	  */
 	public void setA_Period_Posted (int A_Period_Posted)
 	{
 		set_Value (COLUMNNAME_A_Period_Posted, Integer.valueOf(A_Period_Posted));
 	}
 
-	/** Get A_Period_Posted.
-		@return A_Period_Posted	  */
+	/** Get Period Posted.
+		@return Period Posted	  */
 	public int getA_Period_Posted () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Period_Posted);
@@ -314,15 +314,15 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return ii.intValue();
 	}
 
-	/** Set A_Prior_Year_Accumulated_Depr.
-		@param A_Prior_Year_Accumulated_Depr A_Prior_Year_Accumulated_Depr	  */
+	/** Set Prior. Year Accumulated Depr..
+		@param A_Prior_Year_Accumulated_Depr Prior. Year Accumulated Depr.	  */
 	public void setA_Prior_Year_Accumulated_Depr (BigDecimal A_Prior_Year_Accumulated_Depr)
 	{
 		set_Value (COLUMNNAME_A_Prior_Year_Accumulated_Depr, A_Prior_Year_Accumulated_Depr);
 	}
 
-	/** Get A_Prior_Year_Accumulated_Depr.
-		@return A_Prior_Year_Accumulated_Depr	  */
+	/** Get Prior. Year Accumulated Depr..
+		@return Prior. Year Accumulated Depr.	  */
 	public BigDecimal getA_Prior_Year_Accumulated_Depr () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Prior_Year_Accumulated_Depr);

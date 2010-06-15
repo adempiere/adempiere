@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset extends PO implements I_A_Asset, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset (Properties ctx, int A_Asset_ID, String trxName)
@@ -83,15 +83,15 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
       return sb.toString();
     }
 
-	/** Set A_Asset_CreateDate.
-		@param A_Asset_CreateDate A_Asset_CreateDate	  */
+	/** Set Asset Creation Date.
+		@param A_Asset_CreateDate Asset Creation Date	  */
 	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate)
 	{
 		set_ValueNoCheck (COLUMNNAME_A_Asset_CreateDate, A_Asset_CreateDate);
 	}
 
-	/** Get A_Asset_CreateDate.
-		@return A_Asset_CreateDate	  */
+	/** Get Asset Creation Date.
+		@return Asset Creation Date	  */
 	public Timestamp getA_Asset_CreateDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_CreateDate);
@@ -148,15 +148,15 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_RevalDate.
-		@param A_Asset_RevalDate A_Asset_RevalDate	  */
+	/** Set Asset Reval. Date.
+		@param A_Asset_RevalDate Asset Reval. Date	  */
 	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate)
 	{
 		set_Value (COLUMNNAME_A_Asset_RevalDate, A_Asset_RevalDate);
 	}
 
-	/** Get A_Asset_RevalDate.
-		@return A_Asset_RevalDate	  */
+	/** Get Asset Reval. Date.
+		@return Asset Reval. Date	  */
 	public Timestamp getA_Asset_RevalDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
@@ -901,17 +901,17 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Next Maintenence.
+	/** Set Next Maintenance.
 		@param NextMaintenenceDate 
-		Next Maintenence Date
+		Next Maintenance Date
 	  */
 	public void setNextMaintenenceDate (Timestamp NextMaintenenceDate)
 	{
 		set_Value (COLUMNNAME_NextMaintenenceDate, NextMaintenenceDate);
 	}
 
-	/** Get Next Maintenence.
-		@return Next Maintenence Date
+	/** Get Next Maintenance.
+		@return Next Maintenance Date
 	  */
 	public Timestamp getNextMaintenenceDate () 
 	{
@@ -920,7 +920,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 
 	/** Set Next Unit.
 		@param NextMaintenenceUnit 
-		Next Maintenence Unit
+		Next Maintenance Unit
 	  */
 	public void setNextMaintenenceUnit (int NextMaintenenceUnit)
 	{
@@ -928,7 +928,7 @@ public class X_A_Asset extends PO implements I_A_Asset, I_Persistent
 	}
 
 	/** Get Next Unit.
-		@return Next Maintenence Unit
+		@return Next Maintenance Unit
 	  */
 	public int getNextMaintenenceUnit () 
 	{

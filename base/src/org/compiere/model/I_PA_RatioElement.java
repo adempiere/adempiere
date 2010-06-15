@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_RatioElement
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_PA_RatioElement 
 {
@@ -177,12 +177,12 @@ public interface I_PA_RatioElement
     public static final String COLUMNNAME_PA_Ratio_ID = "PA_Ratio_ID";
 
 	/** Set Ratio.
-	  * Performace Ratio
+	  * Performance Ratio
 	  */
 	public void setPA_Ratio_ID (int PA_Ratio_ID);
 
 	/** Get Ratio.
-	  * Performace Ratio
+	  * Performance Ratio
 	  */
 	public int getPA_Ratio_ID();
 
@@ -192,12 +192,12 @@ public interface I_PA_RatioElement
     public static final String COLUMNNAME_PA_RatioUsed_ID = "PA_RatioUsed_ID";
 
 	/** Set Ratio Used.
-	  * Performace Ratio Used
+	  * Performance Ratio Used
 	  */
 	public void setPA_RatioUsed_ID (int PA_RatioUsed_ID);
 
 	/** Get Ratio Used.
-	  * Performace Ratio Used
+	  * Performance Ratio Used
 	  */
 	public int getPA_RatioUsed_ID();
 

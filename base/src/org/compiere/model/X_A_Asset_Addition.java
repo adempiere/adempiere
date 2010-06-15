@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Addition
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Addition (Properties ctx, int A_Asset_Addition_ID, String trxName)
@@ -74,8 +74,8 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
       return sb.toString();
     }
 
-	/** Set A_Asset_Addition_ID.
-		@param A_Asset_Addition_ID A_Asset_Addition_ID	  */
+	/** Set Asset Addition.
+		@param A_Asset_Addition_ID Asset Addition	  */
 	public void setA_Asset_Addition_ID (int A_Asset_Addition_ID)
 	{
 		if (A_Asset_Addition_ID < 1) 
@@ -84,8 +84,8 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Addition_ID, Integer.valueOf(A_Asset_Addition_ID));
 	}
 
-	/** Get A_Asset_Addition_ID.
-		@return A_Asset_Addition_ID	  */
+	/** Get Asset Addition.
+		@return Asset Addition	  */
 	public int getA_Asset_Addition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Addition_ID);

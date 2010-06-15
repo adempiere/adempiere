@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -392,7 +392,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 
 	/** Set Included Tab.
 		@param Included_Tab_ID 
-		Included Tab in this Tab (Master Dateail)
+		Included Tab in this Tab (Master Detail)
 	  */
 	public void setIncluded_Tab_ID (int Included_Tab_ID)
 	{
@@ -403,7 +403,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	}
 
 	/** Get Included Tab.
-		@return Included Tab in this Tab (Master Dateail)
+		@return Included Tab in this Tab (Master Detail)
 	  */
 	public int getIncluded_Tab_ID () 
 	{

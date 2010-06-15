@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Basket
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_W_Basket 
 {
@@ -177,12 +177,12 @@ public interface I_W_Basket
     /** Column name W_Basket_ID */
     public static final String COLUMNNAME_W_Basket_ID = "W_Basket_ID";
 
-	/** Set W_Basket_ID.
+	/** Set Basket.
 	  * Web Basket
 	  */
 	public void setW_Basket_ID (int W_Basket_ID);
 
-	/** Get W_Basket_ID.
+	/** Get Basket.
 	  * Web Basket
 	  */
 	public int getW_Basket_ID();

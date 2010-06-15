@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Tax
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Info_Tax (Properties ctx, int A_Asset_Info_Tax_ID, String trxName)
@@ -94,8 +94,8 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Info_Tax_ID.
-		@param A_Asset_Info_Tax_ID A_Asset_Info_Tax_ID	  */
+	/** Set Asset Info Tax.
+		@param A_Asset_Info_Tax_ID Asset Info Tax	  */
 	public void setA_Asset_Info_Tax_ID (int A_Asset_Info_Tax_ID)
 	{
 		if (A_Asset_Info_Tax_ID < 1) 
@@ -104,8 +104,8 @@ public class X_A_Asset_Info_Tax extends PO implements I_A_Asset_Info_Tax, I_Pers
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Info_Tax_ID, Integer.valueOf(A_Asset_Info_Tax_ID));
 	}
 
-	/** Get A_Asset_Info_Tax_ID.
-		@return A_Asset_Info_Tax_ID	  */
+	/** Get Asset Info Tax.
+		@return Asset Info Tax	  */
 	public int getA_Asset_Info_Tax_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Info_Tax_ID);

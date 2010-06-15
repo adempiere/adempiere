@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Group_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Group_Acct (Properties ctx, int A_Asset_Group_Acct_ID, String trxName)
@@ -123,8 +123,8 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Group_Acct_ID.
-		@param A_Asset_Group_Acct_ID A_Asset_Group_Acct_ID	  */
+	/** Set Asset Group Acct..
+		@param A_Asset_Group_Acct_ID Asset Group Acct.	  */
 	public void setA_Asset_Group_Acct_ID (int A_Asset_Group_Acct_ID)
 	{
 		if (A_Asset_Group_Acct_ID < 1) 
@@ -133,8 +133,8 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Group_Acct_ID, Integer.valueOf(A_Asset_Group_Acct_ID));
 	}
 
-	/** Get A_Asset_Group_Acct_ID.
-		@return A_Asset_Group_Acct_ID	  */
+	/** Get Asset Group Acct..
+		@return Asset Group Acct.	  */
 	public int getA_Asset_Group_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Group_Acct_ID);
@@ -184,15 +184,15 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		return (I_A_Asset_Spread)MTable.get(getCtx(), I_A_Asset_Spread.Table_Name)
 			.getPO(getA_Asset_Spread_Type(), get_TrxName());	}
 
-	/** Set A_Asset_Spread_Type.
-		@param A_Asset_Spread_Type A_Asset_Spread_Type	  */
+	/** Set Asset Spread Type.
+		@param A_Asset_Spread_Type Asset Spread Type	  */
 	public void setA_Asset_Spread_Type (int A_Asset_Spread_Type)
 	{
 		set_Value (COLUMNNAME_A_Asset_Spread_Type, Integer.valueOf(A_Asset_Spread_Type));
 	}
 
-	/** Get A_Asset_Spread_Type.
-		@return A_Asset_Spread_Type	  */
+	/** Get Asset Spread Type.
+		@return Asset Spread Type	  */
 	public int getA_Asset_Spread_Type () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Spread_Type);
@@ -265,15 +265,15 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Manual_Amount.
-		@param A_Depreciation_Manual_Amount A_Depreciation_Manual_Amount	  */
+	/** Set Depreciation Manual Amount.
+		@param A_Depreciation_Manual_Amount Depreciation Manual Amount	  */
 	public void setA_Depreciation_Manual_Amount (BigDecimal A_Depreciation_Manual_Amount)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Manual_Amount, A_Depreciation_Manual_Amount);
 	}
 
-	/** Get A_Depreciation_Manual_Amount.
-		@return A_Depreciation_Manual_Amount	  */
+	/** Get Depreciation Manual Amount.
+		@return Depreciation Manual Amount	  */
 	public BigDecimal getA_Depreciation_Manual_Amount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Manual_Amount);
@@ -288,16 +288,16 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 	public static final String A_DEPRECIATION_MANUAL_PERIOD_Period = "PR";
 	/** Yearly = YR */
 	public static final String A_DEPRECIATION_MANUAL_PERIOD_Yearly = "YR";
-	/** Set A_Depreciation_Manual_Period.
-		@param A_Depreciation_Manual_Period A_Depreciation_Manual_Period	  */
+	/** Set Depreciation Manual Period.
+		@param A_Depreciation_Manual_Period Depreciation Manual Period	  */
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period)
 	{
 
 		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
 	}
 
-	/** Get A_Depreciation_Manual_Period.
-		@return A_Depreciation_Manual_Period	  */
+	/** Get Depreciation Manual Period.
+		@return Depreciation Manual Period	  */
 	public String getA_Depreciation_Manual_Period () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
@@ -308,8 +308,8 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		return (I_A_Depreciation_Table_Header)MTable.get(getCtx(), I_A_Depreciation_Table_Header.Table_Name)
 			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
-	/** Set A_Depreciation_Table_Header_ID.
-		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */
+	/** Set Depreciation Table Header.
+		@param A_Depreciation_Table_Header_ID Depreciation Table Header	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID)
 	{
 		if (A_Depreciation_Table_Header_ID < 1) 
@@ -318,8 +318,8 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 			set_Value (COLUMNNAME_A_Depreciation_Table_Header_ID, Integer.valueOf(A_Depreciation_Table_Header_ID));
 	}
 
-	/** Get A_Depreciation_Table_Header_ID.
-		@return A_Depreciation_Table_Header_ID	  */
+	/** Get Depreciation Table Header.
+		@return Depreciation Table Header	  */
 	public int getA_Depreciation_Table_Header_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Table_Header_ID);
@@ -328,15 +328,15 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Variable_Perc.
-		@param A_Depreciation_Variable_Perc A_Depreciation_Variable_Perc	  */
+	/** Set Depreciation Variable Perc..
+		@param A_Depreciation_Variable_Perc Depreciation Variable Perc.	  */
 	public void setA_Depreciation_Variable_Perc (BigDecimal A_Depreciation_Variable_Perc)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Variable_Perc, A_Depreciation_Variable_Perc);
 	}
 
-	/** Get A_Depreciation_Variable_Perc.
-		@return A_Depreciation_Variable_Perc	  */
+	/** Get Depreciation Variable Perc..
+		@return Depreciation Variable Perc.	  */
 	public BigDecimal getA_Depreciation_Variable_Perc () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Variable_Perc);
@@ -350,15 +350,15 @@ public class X_A_Asset_Group_Acct extends PO implements I_A_Asset_Group_Acct, I_
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
 			.getPO(getA_Disposal_Gain(), get_TrxName());	}
 
-	/** Set A_Disposal_Gain.
-		@param A_Disposal_Gain A_Disposal_Gain	  */
+	/** Set Disposal Gain.
+		@param A_Disposal_Gain Disposal Gain	  */
 	public void setA_Disposal_Gain (int A_Disposal_Gain)
 	{
 		set_Value (COLUMNNAME_A_Disposal_Gain, Integer.valueOf(A_Disposal_Gain));
 	}
 
-	/** Get A_Disposal_Gain.
-		@return A_Disposal_Gain	  */
+	/** Get Disposal Gain.
+		@return Disposal Gain	  */
 	public int getA_Disposal_Gain () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Gain);

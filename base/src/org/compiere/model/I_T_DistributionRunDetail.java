@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_DistributionRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_T_DistributionRunDetail 
 {
@@ -170,12 +170,12 @@ public interface I_T_DistributionRunDetail
     public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
 
 	/** Set Distribution Run Line.
-	  * Distribution Run Lines define Distribution List, the Product and Quantiries
+	  * Distribution Run Lines define Distribution List, the Product and Quantities
 	  */
 	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID);
 
 	/** Get Distribution Run Line.
-	  * Distribution Run Lines define Distribution List, the Product and Quantiries
+	  * Distribution Run Lines define Distribution List, the Product and Quantities
 	  */
 	public int getM_DistributionRunLine_ID();
 

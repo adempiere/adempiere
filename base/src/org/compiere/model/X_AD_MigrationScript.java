@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_MigrationScript
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_MigrationScript (Properties ctx, int AD_MigrationScript_ID, String trxName)
@@ -77,7 +77,9 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
     }
 
 	/** Set Migration Script.
-		@param AD_MigrationScript_ID Migration Script	  */
+		@param AD_MigrationScript_ID 
+		Table to check whether the migration script has been applied
+	  */
 	public void setAD_MigrationScript_ID (int AD_MigrationScript_ID)
 	{
 		if (AD_MigrationScript_ID < 1) 
@@ -87,7 +89,8 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	}
 
 	/** Get Migration Script.
-		@return Migration Script	  */
+		@return Table to check whether the migration script has been applied
+	  */
 	public int getAD_MigrationScript_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_MigrationScript_ID);

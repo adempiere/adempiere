@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for S_Resource
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_S_Resource 
 {
@@ -221,10 +221,14 @@ public interface I_S_Resource
     /** Column name QueuingTime */
     public static final String COLUMNNAME_QueuingTime = "QueuingTime";
 
-	/** Set Queuing Time	  */
+	/** Set Queuing Time.
+	  * Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public void setQueuingTime (BigDecimal QueuingTime);
 
-	/** Get Queuing Time	  */
+	/** Get Queuing Time.
+	  * Queue time is the time a job waits at a work center before begin handled.
+	  */
 	public BigDecimal getQueuingTime();
 
     /** Column name S_Resource_ID */

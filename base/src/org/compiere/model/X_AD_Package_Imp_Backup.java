@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Imp_Backup
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Backup, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Package_Imp_Backup (Properties ctx, int AD_Package_Imp_Backup_ID, String trxName)
@@ -100,8 +100,8 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 		return ii.intValue();
 	}
 
-	/** Set AD_Package_Imp_Backup_ID.
-		@param AD_Package_Imp_Backup_ID AD_Package_Imp_Backup_ID	  */
+	/** Set Imp. Package Backup.
+		@param AD_Package_Imp_Backup_ID Imp. Package Backup	  */
 	public void setAD_Package_Imp_Backup_ID (int AD_Package_Imp_Backup_ID)
 	{
 		if (AD_Package_Imp_Backup_ID < 1) 
@@ -110,8 +110,8 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Backup_ID, Integer.valueOf(AD_Package_Imp_Backup_ID));
 	}
 
-	/** Get AD_Package_Imp_Backup_ID.
-		@return AD_Package_Imp_Backup_ID	  */
+	/** Get Imp. Package Backup.
+		@return Imp. Package Backup	  */
 	public int getAD_Package_Imp_Backup_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Backup_ID);
@@ -128,22 +128,22 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Imp_Backup_ID()));
     }
 
-	/** Set AD_Package_Imp_Bck_Dir.
-		@param AD_Package_Imp_Bck_Dir AD_Package_Imp_Bck_Dir	  */
+	/** Set Package Imp. Bck. Directory.
+		@param AD_Package_Imp_Bck_Dir Package Imp. Bck. Directory	  */
 	public void setAD_Package_Imp_Bck_Dir (String AD_Package_Imp_Bck_Dir)
 	{
 		set_Value (COLUMNNAME_AD_Package_Imp_Bck_Dir, AD_Package_Imp_Bck_Dir);
 	}
 
-	/** Get AD_Package_Imp_Bck_Dir.
-		@return AD_Package_Imp_Bck_Dir	  */
+	/** Get Package Imp. Bck. Directory.
+		@return Package Imp. Bck. Directory	  */
 	public String getAD_Package_Imp_Bck_Dir () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Imp_Bck_Dir);
 	}
 
-	/** Set AD_Package_Imp_Detail_ID.
-		@param AD_Package_Imp_Detail_ID AD_Package_Imp_Detail_ID	  */
+	/** Set Imp. Package Detail.
+		@param AD_Package_Imp_Detail_ID Imp. Package Detail	  */
 	public void setAD_Package_Imp_Detail_ID (int AD_Package_Imp_Detail_ID)
 	{
 		if (AD_Package_Imp_Detail_ID < 1) 
@@ -152,8 +152,8 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_Detail_ID, Integer.valueOf(AD_Package_Imp_Detail_ID));
 	}
 
-	/** Get AD_Package_Imp_Detail_ID.
-		@return AD_Package_Imp_Detail_ID	  */
+	/** Get Imp. Package Detail.
+		@return Imp. Package Detail	  */
 	public int getAD_Package_Imp_Detail_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_Detail_ID);
@@ -162,8 +162,8 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 		return ii.intValue();
 	}
 
-	/** Set AD_Package_Imp_ID.
-		@param AD_Package_Imp_ID AD_Package_Imp_ID	  */
+	/** Set Package Imp..
+		@param AD_Package_Imp_ID Package Imp.	  */
 	public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
 	{
 		if (AD_Package_Imp_ID < 1) 
@@ -172,8 +172,8 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, Integer.valueOf(AD_Package_Imp_ID));
 	}
 
-	/** Get AD_Package_Imp_ID.
-		@return AD_Package_Imp_ID	  */
+	/** Get Package Imp..
+		@return Package Imp.	  */
 	public int getAD_Package_Imp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_ID);
@@ -182,15 +182,15 @@ public class X_AD_Package_Imp_Backup extends PO implements I_AD_Package_Imp_Back
 		return ii.intValue();
 	}
 
-	/** Set AD_Package_Imp_Org_Dir.
-		@param AD_Package_Imp_Org_Dir AD_Package_Imp_Org_Dir	  */
+	/** Set Package Imp. Org. Dir..
+		@param AD_Package_Imp_Org_Dir Package Imp. Org. Dir.	  */
 	public void setAD_Package_Imp_Org_Dir (String AD_Package_Imp_Org_Dir)
 	{
 		set_Value (COLUMNNAME_AD_Package_Imp_Org_Dir, AD_Package_Imp_Org_Dir);
 	}
 
-	/** Get AD_Package_Imp_Org_Dir.
-		@return AD_Package_Imp_Org_Dir	  */
+	/** Get Package Imp. Org. Dir..
+		@return Package Imp. Org. Dir.	  */
 	public String getAD_Package_Imp_Org_Dir () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Imp_Org_Dir);

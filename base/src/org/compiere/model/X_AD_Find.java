@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Find
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Find extends PO implements I_AD_Find, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Find (Properties ctx, int AD_Find_ID, String trxName)
@@ -159,15 +159,15 @@ public class X_AD_Find extends PO implements I_AD_Find, I_Persistent
 		return (String)get_Value(COLUMNNAME_AndOr);
 	}
 
-	/** Set Find_ID.
-		@param Find_ID Find_ID	  */
+	/** Set Find.
+		@param Find_ID Find	  */
 	public void setFind_ID (BigDecimal Find_ID)
 	{
 		set_Value (COLUMNNAME_Find_ID, Find_ID);
 	}
 
-	/** Get Find_ID.
-		@return Find_ID	  */
+	/** Get Find.
+		@return Find	  */
 	public BigDecimal getFind_ID () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Find_ID);

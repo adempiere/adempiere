@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_R_RequestProcessorLog 
 {
@@ -65,12 +65,12 @@ public interface I_R_RequestProcessorLog
     /** Column name BinaryData */
     public static final String COLUMNNAME_BinaryData = "BinaryData";
 
-	/** Set BinaryData.
+	/** Set Binary Data.
 	  * Binary Data
 	  */
 	public void setBinaryData (byte[] BinaryData);
 
-	/** Get BinaryData.
+	/** Get Binary Data.
 	  * Binary Data
 	  */
 	public byte[] getBinaryData();
@@ -121,12 +121,12 @@ public interface I_R_RequestProcessorLog
     public static final String COLUMNNAME_IsError = "IsError";
 
 	/** Set Error.
-	  * An Error occured in the execution
+	  * An Error occurred in the execution
 	  */
 	public void setIsError (boolean IsError);
 
 	/** Get Error.
-	  * An Error occured in the execution
+	  * An Error occurred in the execution
 	  */
 	public boolean isError();
 

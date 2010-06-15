@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Transfer
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Transfer (Properties ctx, int A_Asset_Transfer_ID, String trxName)
@@ -161,8 +161,8 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Acct_ID.
-		@param A_Asset_Acct_ID A_Asset_Acct_ID	  */
+	/** Set Asset Acct..
+		@param A_Asset_Acct_ID Asset Acct.	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID)
 	{
 		if (A_Asset_Acct_ID < 1) 
@@ -171,8 +171,8 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 			set_Value (COLUMNNAME_A_Asset_Acct_ID, Integer.valueOf(A_Asset_Acct_ID));
 	}
 
-	/** Get A_Asset_Acct_ID.
-		@return A_Asset_Acct_ID	  */
+	/** Get Asset Acct..
+		@return Asset Acct.	  */
 	public int getA_Asset_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Acct_ID);
@@ -240,8 +240,8 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Transfer_ID.
-		@param A_Asset_Transfer_ID A_Asset_Transfer_ID	  */
+	/** Set Asset Transfer.
+		@param A_Asset_Transfer_ID Asset Transfer	  */
 	public void setA_Asset_Transfer_ID (int A_Asset_Transfer_ID)
 	{
 		if (A_Asset_Transfer_ID < 1) 
@@ -250,8 +250,8 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Transfer_ID, Integer.valueOf(A_Asset_Transfer_ID));
 	}
 
-	/** Get A_Asset_Transfer_ID.
-		@return A_Asset_Transfer_ID	  */
+	/** Get Asset Transfer.
+		@return Asset Transfer	  */
 	public int getA_Asset_Transfer_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Transfer_ID);

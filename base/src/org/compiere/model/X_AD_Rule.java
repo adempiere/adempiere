@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091128L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Rule (Properties ctx, int AD_Rule_ID, String trxName)
@@ -55,7 +55,7 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
     }
 
     /** AccessLevel
-      * @return 6 - System - Client 
+      * @return 4 - System 
       */
     protected int get_AccessLevel()
     {
@@ -75,26 +75,6 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** Set Rule.
-		@param AD_Rule_ID Rule	  */
-	public void setAD_Rule_ID (int AD_Rule_ID)
-	{
-		if (AD_Rule_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
-	}
-
-	/** Get Rule.
-		@return Rule	  */
-	public int getAD_Rule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** AccessLevel AD_Reference_ID=5 */
 	public static final int ACCESSLEVEL_AD_Reference_ID=5;
@@ -126,6 +106,26 @@ public class X_AD_Rule extends PO implements I_AD_Rule, I_Persistent
 	public String getAccessLevel () 
 	{
 		return (String)get_Value(COLUMNNAME_AccessLevel);
+	}
+
+	/** Set Rule.
+		@param AD_Rule_ID Rule	  */
+	public void setAD_Rule_ID (int AD_Rule_ID)
+	{
+		if (AD_Rule_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
+	}
+
+	/** Get Rule.
+		@return Rule	  */
+	public int getAD_Rule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Description.

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Info_Lic
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Info_Lic (Properties ctx, int A_Asset_Info_Lic_ID, String trxName)
@@ -97,8 +97,8 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Info_Lic_ID.
-		@param A_Asset_Info_Lic_ID A_Asset_Info_Lic_ID	  */
+	/** Set Asset Info Lic..
+		@param A_Asset_Info_Lic_ID Asset Info Lic.	  */
 	public void setA_Asset_Info_Lic_ID (int A_Asset_Info_Lic_ID)
 	{
 		if (A_Asset_Info_Lic_ID < 1) 
@@ -107,8 +107,8 @@ public class X_A_Asset_Info_Lic extends PO implements I_A_Asset_Info_Lic, I_Pers
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Info_Lic_ID, Integer.valueOf(A_Asset_Info_Lic_ID));
 	}
 
-	/** Get A_Asset_Info_Lic_ID.
-		@return A_Asset_Info_Lic_ID	  */
+	/** Get Asset Info Lic..
+		@return Asset Info Lic.	  */
 	public int getA_Asset_Info_Lic_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Info_Lic_ID);

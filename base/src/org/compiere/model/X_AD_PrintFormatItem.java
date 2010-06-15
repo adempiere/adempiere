@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -508,7 +508,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return (String)get_Value(COLUMNNAME_ImageURL);
 	}
 
-	/** Set Calculate Mean (?).
+	/** Set Calculate Mean (μ).
 		@param IsAveraged 
 		Calculate Average of numeric content or length
 	  */
@@ -517,7 +517,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsAveraged, Boolean.valueOf(IsAveraged));
 	}
 
-	/** Get Calculate Mean (?).
+	/** Get Calculate Mean (μ).
 		@return Calculate Average of numeric content or length
 	  */
 	public boolean isAveraged () 
@@ -556,7 +556,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Count (?).
+	/** Set Calculate Count (№).
 		@param IsCounted 
 		Count number of not empty elements
 	  */
@@ -565,7 +565,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsCounted, Boolean.valueOf(IsCounted));
 	}
 
-	/** Get Calculate Count (?).
+	/** Get Calculate Count (№).
 		@return Count number of not empty elements
 	  */
 	public boolean isCounted () 
@@ -580,7 +580,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Deviation (?).
+	/** Set Calculate Deviation (σ).
 		@param IsDeviationCalc 
 		Calculate Standard Deviation
 	  */
@@ -589,7 +589,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsDeviationCalc, Boolean.valueOf(IsDeviationCalc));
 	}
 
-	/** Get Calculate Deviation (?).
+	/** Get Calculate Deviation (σ).
 		@return Calculate Standard Deviation
 	  */
 	public boolean isDeviationCalc () 
@@ -724,17 +724,17 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Maximim (?).
+	/** Set Calculate Maximum (?).
 		@param IsMaxCalc 
-		Calculate the maximim amount
+		Calculate the maximum amount
 	  */
 	public void setIsMaxCalc (boolean IsMaxCalc)
 	{
 		set_Value (COLUMNNAME_IsMaxCalc, Boolean.valueOf(IsMaxCalc));
 	}
 
-	/** Get Calculate Maximim (?).
-		@return Calculate the maximim amount
+	/** Get Calculate Maximum (?).
+		@return Calculate the maximum amount
 	  */
 	public boolean isMaxCalc () 
 	{
@@ -748,7 +748,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Minimum (?).
+	/** Set Calculate Minimum (↓).
 		@param IsMinCalc 
 		Calculate the minimum amount
 	  */
@@ -757,7 +757,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsMinCalc, Boolean.valueOf(IsMinCalc));
 	}
 
-	/** Get Calculate Minimum (?).
+	/** Get Calculate Minimum (↓).
 		@return Calculate the minimum amount
 	  */
 	public boolean isMinCalc () 
@@ -964,7 +964,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Sum (?).
+	/** Set Calculate Sum (Σ).
 		@param IsSummarized 
 		Calculate the Sum of numeric content or length
 	  */
@@ -973,7 +973,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsSummarized, Boolean.valueOf(IsSummarized));
 	}
 
-	/** Get Calculate Sum (?).
+	/** Get Calculate Sum (Σ).
 		@return Calculate the Sum of numeric content or length
 	  */
 	public boolean isSummarized () 
@@ -1036,7 +1036,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Calculate Variance (?�).
+	/** Set Calculate Variance (σ²).
 		@param IsVarianceCalc 
 		Calculate Variance
 	  */
@@ -1045,7 +1045,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		set_Value (COLUMNNAME_IsVarianceCalc, Boolean.valueOf(IsVarianceCalc));
 	}
 
-	/** Get Calculate Variance (?�).
+	/** Get Calculate Variance (σ²).
 		@return Calculate Variance
 	  */
 	public boolean isVarianceCalc () 

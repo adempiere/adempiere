@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Change
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Change (Properties ctx, int A_Asset_Change_ID, String trxName)
@@ -120,8 +120,8 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Acct_ID.
-		@param A_Asset_Acct_ID A_Asset_Acct_ID	  */
+	/** Set Asset Acct..
+		@param A_Asset_Acct_ID Asset Acct.	  */
 	public void setA_Asset_Acct_ID (int A_Asset_Acct_ID)
 	{
 		if (A_Asset_Acct_ID < 1) 
@@ -130,8 +130,8 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			set_Value (COLUMNNAME_A_Asset_Acct_ID, Integer.valueOf(A_Asset_Acct_ID));
 	}
 
-	/** Get A_Asset_Acct_ID.
-		@return A_Asset_Acct_ID	  */
+	/** Get Asset Acct..
+		@return Asset Acct.	  */
 	public int getA_Asset_Acct_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Acct_ID);
@@ -140,8 +140,8 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Addition_ID.
-		@param A_Asset_Addition_ID A_Asset_Addition_ID	  */
+	/** Set Asset Addition.
+		@param A_Asset_Addition_ID Asset Addition	  */
 	public void setA_Asset_Addition_ID (int A_Asset_Addition_ID)
 	{
 		if (A_Asset_Addition_ID < 1) 
@@ -150,8 +150,8 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Addition_ID, Integer.valueOf(A_Asset_Addition_ID));
 	}
 
-	/** Get A_Asset_Addition_ID.
-		@return A_Asset_Addition_ID	  */
+	/** Get Asset Addition.
+		@return Asset Addition	  */
 	public int getA_Asset_Addition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Addition_ID);
@@ -160,8 +160,8 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Change_ID.
-		@param A_Asset_Change_ID A_Asset_Change_ID	  */
+	/** Set Asset Change.
+		@param A_Asset_Change_ID Asset Change	  */
 	public void setA_Asset_Change_ID (int A_Asset_Change_ID)
 	{
 		if (A_Asset_Change_ID < 1) 
@@ -170,8 +170,8 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Change_ID, Integer.valueOf(A_Asset_Change_ID));
 	}
 
-	/** Get A_Asset_Change_ID.
-		@return A_Asset_Change_ID	  */
+	/** Get Asset Change.
+		@return Asset Change	  */
 	public int getA_Asset_Change_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Change_ID);
@@ -188,15 +188,15 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Change_ID()));
     }
 
-	/** Set A_Asset_CreateDate.
-		@param A_Asset_CreateDate A_Asset_CreateDate	  */
+	/** Set Asset Creation Date.
+		@param A_Asset_CreateDate Asset Creation Date	  */
 	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate)
 	{
 		set_Value (COLUMNNAME_A_Asset_CreateDate, A_Asset_CreateDate);
 	}
 
-	/** Get A_Asset_CreateDate.
-		@return A_Asset_CreateDate	  */
+	/** Get Asset Creation Date.
+		@return Asset Creation Date	  */
 	public Timestamp getA_Asset_CreateDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_CreateDate);
@@ -253,15 +253,15 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_RevalDate.
-		@param A_Asset_RevalDate A_Asset_RevalDate	  */
+	/** Set Asset Reval. Date.
+		@param A_Asset_RevalDate Asset Reval. Date	  */
 	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate)
 	{
 		set_Value (COLUMNNAME_A_Asset_RevalDate, A_Asset_RevalDate);
 	}
 
-	/** Get A_Asset_RevalDate.
-		@return A_Asset_RevalDate	  */
+	/** Get Asset Reval. Date.
+		@return Asset Reval. Date	  */
 	public Timestamp getA_Asset_RevalDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Asset_RevalDate);
@@ -272,15 +272,15 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (I_A_Asset_Spread)MTable.get(getCtx(), I_A_Asset_Spread.Table_Name)
 			.getPO(getA_Asset_Spread_Type(), get_TrxName());	}
 
-	/** Set A_Asset_Spread_Type.
-		@param A_Asset_Spread_Type A_Asset_Spread_Type	  */
+	/** Set Asset Spread Type.
+		@param A_Asset_Spread_Type Asset Spread Type	  */
 	public void setA_Asset_Spread_Type (int A_Asset_Spread_Type)
 	{
 		set_Value (COLUMNNAME_A_Asset_Spread_Type, Integer.valueOf(A_Asset_Spread_Type));
 	}
 
-	/** Get A_Asset_Spread_Type.
-		@return A_Asset_Spread_Type	  */
+	/** Get Asset Spread Type.
+		@return Asset Spread Type	  */
 	public int getA_Asset_Spread_Type () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Spread_Type);
@@ -333,15 +333,15 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Manual_Amount.
-		@param A_Depreciation_Manual_Amount A_Depreciation_Manual_Amount	  */
+	/** Set Depreciation Manual Amount.
+		@param A_Depreciation_Manual_Amount Depreciation Manual Amount	  */
 	public void setA_Depreciation_Manual_Amount (BigDecimal A_Depreciation_Manual_Amount)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Manual_Amount, A_Depreciation_Manual_Amount);
 	}
 
-	/** Get A_Depreciation_Manual_Amount.
-		@return A_Depreciation_Manual_Amount	  */
+	/** Get Depreciation Manual Amount.
+		@return Depreciation Manual Amount	  */
 	public BigDecimal getA_Depreciation_Manual_Amount () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Manual_Amount);
@@ -356,16 +356,16 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 	public static final String A_DEPRECIATION_MANUAL_PERIOD_Period = "PR";
 	/** Yearly = YR */
 	public static final String A_DEPRECIATION_MANUAL_PERIOD_Yearly = "YR";
-	/** Set A_Depreciation_Manual_Period.
-		@param A_Depreciation_Manual_Period A_Depreciation_Manual_Period	  */
+	/** Set Depreciation Manual Period.
+		@param A_Depreciation_Manual_Period Depreciation Manual Period	  */
 	public void setA_Depreciation_Manual_Period (String A_Depreciation_Manual_Period)
 	{
 
 		set_Value (COLUMNNAME_A_Depreciation_Manual_Period, A_Depreciation_Manual_Period);
 	}
 
-	/** Get A_Depreciation_Manual_Period.
-		@return A_Depreciation_Manual_Period	  */
+	/** Get Depreciation Manual Period.
+		@return Depreciation Manual Period	  */
 	public String getA_Depreciation_Manual_Period () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
@@ -376,8 +376,8 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return (I_A_Depreciation_Table_Header)MTable.get(getCtx(), I_A_Depreciation_Table_Header.Table_Name)
 			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
-	/** Set A_Depreciation_Table_Header_ID.
-		@param A_Depreciation_Table_Header_ID A_Depreciation_Table_Header_ID	  */
+	/** Set Depreciation Table Header.
+		@param A_Depreciation_Table_Header_ID Depreciation Table Header	  */
 	public void setA_Depreciation_Table_Header_ID (int A_Depreciation_Table_Header_ID)
 	{
 		if (A_Depreciation_Table_Header_ID < 1) 
@@ -386,8 +386,8 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 			set_Value (COLUMNNAME_A_Depreciation_Table_Header_ID, Integer.valueOf(A_Depreciation_Table_Header_ID));
 	}
 
-	/** Get A_Depreciation_Table_Header_ID.
-		@return A_Depreciation_Table_Header_ID	  */
+	/** Get Depreciation Table Header.
+		@return Depreciation Table Header	  */
 	public int getA_Depreciation_Table_Header_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Table_Header_ID);
@@ -396,15 +396,15 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Variable_Perc.
-		@param A_Depreciation_Variable_Perc A_Depreciation_Variable_Perc	  */
+	/** Set Depreciation Variable Perc..
+		@param A_Depreciation_Variable_Perc Depreciation Variable Perc.	  */
 	public void setA_Depreciation_Variable_Perc (BigDecimal A_Depreciation_Variable_Perc)
 	{
 		set_Value (COLUMNNAME_A_Depreciation_Variable_Perc, A_Depreciation_Variable_Perc);
 	}
 
-	/** Get A_Depreciation_Variable_Perc.
-		@return A_Depreciation_Variable_Perc	  */
+	/** Get Depreciation Variable Perc..
+		@return Depreciation Variable Perc.	  */
 	public BigDecimal getA_Depreciation_Variable_Perc () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Depreciation_Variable_Perc);
@@ -720,15 +720,15 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return bd;
 	}
 
-	/** Set AssetAccumDepreciationAmt.
-		@param AssetAccumDepreciationAmt AssetAccumDepreciationAmt	  */
+	/** Set Asset Accum. Depreciation Amt..
+		@param AssetAccumDepreciationAmt Asset Accum. Depreciation Amt.	  */
 	public void setAssetAccumDepreciationAmt (BigDecimal AssetAccumDepreciationAmt)
 	{
 		set_ValueNoCheck (COLUMNNAME_AssetAccumDepreciationAmt, AssetAccumDepreciationAmt);
 	}
 
-	/** Get AssetAccumDepreciationAmt.
-		@return AssetAccumDepreciationAmt	  */
+	/** Get Asset Accum. Depreciation Amt..
+		@return Asset Accum. Depreciation Amt.	  */
 	public BigDecimal getAssetAccumDepreciationAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AssetAccumDepreciationAmt);
@@ -737,15 +737,15 @@ public class X_A_Asset_Change extends PO implements I_A_Asset_Change, I_Persiste
 		return bd;
 	}
 
-	/** Set AssetBookValueAmt.
-		@param AssetBookValueAmt AssetBookValueAmt	  */
+	/** Set Asset Book value amt..
+		@param AssetBookValueAmt Asset Book value amt.	  */
 	public void setAssetBookValueAmt (BigDecimal AssetBookValueAmt)
 	{
 		set_ValueNoCheck (COLUMNNAME_AssetBookValueAmt, AssetBookValueAmt);
 	}
 
-	/** Get AssetBookValueAmt.
-		@return AssetBookValueAmt	  */
+	/** Get Asset Book value amt..
+		@return Asset Book value amt.	  */
 	public BigDecimal getAssetBookValueAmt () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_AssetBookValueAmt);

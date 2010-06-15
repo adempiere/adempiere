@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp (Properties ctx, int AD_Package_Exp_ID, String trxName)
@@ -80,8 +80,8 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
       return sb.toString();
     }
 
-	/** Set AD_Package_Exp_ID.
-		@param AD_Package_Exp_ID AD_Package_Exp_ID	  */
+	/** Set Package Exp..
+		@param AD_Package_Exp_ID Package Exp.	  */
 	public void setAD_Package_Exp_ID (int AD_Package_Exp_ID)
 	{
 		if (AD_Package_Exp_ID < 1) 
@@ -90,8 +90,8 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 			set_Value (COLUMNNAME_AD_Package_Exp_ID, Integer.valueOf(AD_Package_Exp_ID));
 	}
 
-	/** Get AD_Package_Exp_ID.
-		@return AD_Package_Exp_ID	  */
+	/** Get Package Exp..
+		@return Package Exp.	  */
 	public int getAD_Package_Exp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_ID);
@@ -116,16 +116,16 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	public static final String AD_PACKAGE_TYPE_RemoteTransfer = "R";
 	/** XML File = X */
 	public static final String AD_PACKAGE_TYPE_XMLFile = "X";
-	/** Set AD_Package_Type.
-		@param AD_Package_Type AD_Package_Type	  */
+	/** Set Package Type.
+		@param AD_Package_Type Package Type	  */
 	public void setAD_Package_Type (String AD_Package_Type)
 	{
 
 		set_Value (COLUMNNAME_AD_Package_Type, AD_Package_Type);
 	}
 
-	/** Get AD_Package_Type.
-		@return AD_Package_Type	  */
+	/** Get Package Type.
+		@return Package Type	  */
 	public String getAD_Package_Type () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Type);

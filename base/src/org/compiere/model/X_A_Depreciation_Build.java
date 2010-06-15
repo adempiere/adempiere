@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Build
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Build (Properties ctx, int A_Depreciation_Build_ID, String trxName)
@@ -71,8 +71,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
       return sb.toString();
     }
 
-	/** Set A_Depreciation_Build_ID.
-		@param A_Depreciation_Build_ID A_Depreciation_Build_ID	  */
+	/** Set Depreciation Build.
+		@param A_Depreciation_Build_ID Depreciation Build	  */
 	public void setA_Depreciation_Build_ID (int A_Depreciation_Build_ID)
 	{
 		if (A_Depreciation_Build_ID < 1) 
@@ -81,8 +81,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Build_ID, Integer.valueOf(A_Depreciation_Build_ID));
 	}
 
-	/** Get A_Depreciation_Build_ID.
-		@return A_Depreciation_Build_ID	  */
+	/** Get Depreciation Build.
+		@return Depreciation Build	  */
 	public int getA_Depreciation_Build_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Build_ID);
@@ -129,8 +129,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
 			.getPO(getA_Start_Asset_ID(), get_TrxName());	}
 
-	/** Set A_Start_Asset_ID.
-		@param A_Start_Asset_ID A_Start_Asset_ID	  */
+	/** Set Start Asset.
+		@param A_Start_Asset_ID Start Asset	  */
 	public void setA_Start_Asset_ID (int A_Start_Asset_ID)
 	{
 		if (A_Start_Asset_ID < 1) 
@@ -139,8 +139,8 @@ public class X_A_Depreciation_Build extends PO implements I_A_Depreciation_Build
 			set_Value (COLUMNNAME_A_Start_Asset_ID, Integer.valueOf(A_Start_Asset_ID));
 	}
 
-	/** Get A_Start_Asset_ID.
-		@return A_Start_Asset_ID	  */
+	/** Get Start Asset.
+		@return Start Asset	  */
 	public int getA_Start_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Start_Asset_ID);

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Imp
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Package_Imp (Properties ctx, int AD_Package_Imp_ID, String trxName)
@@ -73,8 +73,8 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
       return sb.toString();
     }
 
-	/** Set AD_Package_Imp_ID.
-		@param AD_Package_Imp_ID AD_Package_Imp_ID	  */
+	/** Set Package Imp..
+		@param AD_Package_Imp_ID Package Imp.	  */
 	public void setAD_Package_Imp_ID (int AD_Package_Imp_ID)
 	{
 		if (AD_Package_Imp_ID < 1) 
@@ -83,8 +83,8 @@ public class X_AD_Package_Imp extends PO implements I_AD_Package_Imp, I_Persiste
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Imp_ID, Integer.valueOf(AD_Package_Imp_ID));
 	}
 
-	/** Get AD_Package_Imp_ID.
-		@return AD_Package_Imp_ID	  */
+	/** Get Package Imp..
+		@return Package Imp.	  */
 	public int getAD_Package_Imp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Imp_ID);

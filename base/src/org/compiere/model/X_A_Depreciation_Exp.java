@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Exp
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Exp (Properties ctx, int A_Depreciation_Exp_ID, String trxName)
@@ -86,15 +86,15 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
 			.getPO(getA_Account_Number(), get_TrxName());	}
 
-	/** Set A_Account_Number.
-		@param A_Account_Number A_Account_Number	  */
+	/** Set Account Number.
+		@param A_Account_Number Account Number	  */
 	public void setA_Account_Number (int A_Account_Number)
 	{
 		set_Value (COLUMNNAME_A_Account_Number, Integer.valueOf(A_Account_Number));
 	}
 
-	/** Get A_Account_Number.
-		@return A_Account_Number	  */
+	/** Get Account Number.
+		@return Account Number	  */
 	public int getA_Account_Number () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Account_Number);
@@ -126,8 +126,8 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 		return ii.intValue();
 	}
 
-	/** Set A_Depreciation_Exp_ID.
-		@param A_Depreciation_Exp_ID A_Depreciation_Exp_ID	  */
+	/** Set Depreciation Exp..
+		@param A_Depreciation_Exp_ID Depreciation Exp.	  */
 	public void setA_Depreciation_Exp_ID (int A_Depreciation_Exp_ID)
 	{
 		if (A_Depreciation_Exp_ID < 1) 
@@ -136,8 +136,8 @@ public class X_A_Depreciation_Exp extends PO implements I_A_Depreciation_Exp, I_
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Exp_ID, Integer.valueOf(A_Depreciation_Exp_ID));
 	}
 
-	/** Get A_Depreciation_Exp_ID.
-		@return A_Depreciation_Exp_ID	  */
+	/** Get Depreciation Exp..
+		@return Depreciation Exp.	  */
 	public int getA_Depreciation_Exp_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Exp_ID);

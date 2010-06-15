@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Table_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciation_Table_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Table_Detail (Properties ctx, int A_Depreciation_Table_Detail_ID, String trxName)
@@ -107,8 +107,8 @@ public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciatio
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Table_Code);
 	}
 
-	/** Set A_Depreciation_Table_Detail_ID.
-		@param A_Depreciation_Table_Detail_ID A_Depreciation_Table_Detail_ID	  */
+	/** Set Depreciation Table Detail.
+		@param A_Depreciation_Table_Detail_ID Depreciation Table Detail	  */
 	public void setA_Depreciation_Table_Detail_ID (int A_Depreciation_Table_Detail_ID)
 	{
 		if (A_Depreciation_Table_Detail_ID < 1) 
@@ -117,8 +117,8 @@ public class X_A_Depreciation_Table_Detail extends PO implements I_A_Depreciatio
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Table_Detail_ID, Integer.valueOf(A_Depreciation_Table_Detail_ID));
 	}
 
-	/** Get A_Depreciation_Table_Detail_ID.
-		@return A_Depreciation_Table_Detail_ID	  */
+	/** Get Depreciation Table Detail.
+		@return Depreciation Table Detail	  */
 	public int getA_Depreciation_Table_Detail_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Table_Detail_ID);

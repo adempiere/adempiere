@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Attachment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Attachment extends PO implements I_AD_Attachment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Attachment (Properties ctx, int AD_Attachment_ID, String trxName)
@@ -124,7 +124,7 @@ public class X_AD_Attachment extends PO implements I_AD_Attachment, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set BinaryData.
+	/** Set Binary Data.
 		@param BinaryData 
 		Binary Data
 	  */
@@ -133,7 +133,7 @@ public class X_AD_Attachment extends PO implements I_AD_Attachment, I_Persistent
 		set_ValueNoCheck (COLUMNNAME_BinaryData, BinaryData);
 	}
 
-	/** Get BinaryData.
+	/** Get Binary Data.
 		@return Binary Data
 	  */
 	public byte[] getBinaryData () 

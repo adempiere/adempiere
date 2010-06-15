@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_LdapAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_LdapAccess (Properties ctx, int AD_LdapAccess_ID, String trxName)
@@ -178,7 +178,7 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 
 	/** Set Error.
 		@param IsError 
-		An Error occured in the execution
+		An Error occurred in the execution
 	  */
 	public void setIsError (boolean IsError)
 	{
@@ -186,7 +186,7 @@ public class X_AD_LdapAccess extends PO implements I_AD_LdapAccess, I_Persistent
 	}
 
 	/** Get Error.
-		@return An Error occured in the execution
+		@return An Error occurred in the execution
 	  */
 	public boolean isError () 
 	{

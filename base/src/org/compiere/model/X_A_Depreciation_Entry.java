@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Depreciation_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Entry (Properties ctx, int A_Depreciation_Entry_ID, String trxName)
@@ -56,6 +56,7 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 			setPostingType (null);
 // A
 			setProcessed (false);
+// N
 			setProcessing (false);
         } */
     }
@@ -88,8 +89,8 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
       return sb.toString();
     }
 
-	/** Set A_Depreciation_Entry_ID.
-		@param A_Depreciation_Entry_ID A_Depreciation_Entry_ID	  */
+	/** Set Depreciation Entry.
+		@param A_Depreciation_Entry_ID Depreciation Entry	  */
 	public void setA_Depreciation_Entry_ID (int A_Depreciation_Entry_ID)
 	{
 		if (A_Depreciation_Entry_ID < 1) 
@@ -98,8 +99,8 @@ public class X_A_Depreciation_Entry extends PO implements I_A_Depreciation_Entry
 			set_ValueNoCheck (COLUMNNAME_A_Depreciation_Entry_ID, Integer.valueOf(A_Depreciation_Entry_ID));
 	}
 
-	/** Get A_Depreciation_Entry_ID.
-		@return A_Depreciation_Entry_ID	  */
+	/** Get Depreciation Entry.
+		@return Depreciation Entry	  */
 	public int getA_Depreciation_Entry_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Entry_ID);

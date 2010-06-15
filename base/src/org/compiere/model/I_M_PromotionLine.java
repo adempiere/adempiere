@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PromotionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_M_PromotionLine 
 {
@@ -108,12 +108,12 @@ public interface I_M_PromotionLine
     public static final String COLUMNNAME_MinimumAmt = "MinimumAmt";
 
 	/** Set Minimum Amt.
-	  * Minumum Amout in Document Currency
+	  * Minimum Amount in Document Currency
 	  */
 	public void setMinimumAmt (BigDecimal MinimumAmt);
 
 	/** Get Minimum Amt.
-	  * Minumum Amout in Document Currency
+	  * Minimum Amount in Document Currency
 	  */
 	public BigDecimal getMinimumAmt();
 

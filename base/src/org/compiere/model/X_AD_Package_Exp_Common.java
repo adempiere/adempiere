@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Common, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Common (Properties ctx, int AD_Package_Exp_Common_ID, String trxName)
@@ -151,8 +151,8 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 		return ii.intValue();
 	}
 
-	/** Set AD_Package_Exp_Common_ID.
-		@param AD_Package_Exp_Common_ID AD_Package_Exp_Common_ID	  */
+	/** Set Common Package Exp..
+		@param AD_Package_Exp_Common_ID Common Package Exp.	  */
 	public void setAD_Package_Exp_Common_ID (int AD_Package_Exp_Common_ID)
 	{
 		if (AD_Package_Exp_Common_ID < 1) 
@@ -161,8 +161,8 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Exp_Common_ID, Integer.valueOf(AD_Package_Exp_Common_ID));
 	}
 
-	/** Get AD_Package_Exp_Common_ID.
-		@return AD_Package_Exp_Common_ID	  */
+	/** Get Common Package Exp..
+		@return Common Package Exp.	  */
 	public int getAD_Package_Exp_Common_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_Common_ID);

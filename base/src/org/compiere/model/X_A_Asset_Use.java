@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Use
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Use (Properties ctx, int A_Asset_Use_ID, String trxName)
@@ -97,8 +97,8 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set A_Asset_Use_ID.
-		@param A_Asset_Use_ID A_Asset_Use_ID	  */
+	/** Set Asset Use.
+		@param A_Asset_Use_ID Asset Use	  */
 	public void setA_Asset_Use_ID (int A_Asset_Use_ID)
 	{
 		if (A_Asset_Use_ID < 1) 
@@ -107,8 +107,8 @@ public class X_A_Asset_Use extends PO implements I_A_Asset_Use, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Use_ID, Integer.valueOf(A_Asset_Use_ID));
 	}
 
-	/** Get A_Asset_Use_ID.
-		@return A_Asset_Use_ID	  */
+	/** Get Asset Use.
+		@return Asset Use	  */
 	public int getA_Asset_Use_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Use_ID);

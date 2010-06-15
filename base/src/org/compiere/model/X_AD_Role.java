@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Role
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Role extends PO implements I_AD_Role, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091210L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Role (Properties ctx, int AD_Role_ID, String trxName)
@@ -187,7 +187,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 
 	/** Set Organization Tree.
 		@param AD_Tree_Org_ID 
-		Tree to determine organizational hierarchy
+		Trees are used for (financial) reporting and security access (via role)
 	  */
 	public void setAD_Tree_Org_ID (int AD_Tree_Org_ID)
 	{
@@ -198,7 +198,7 @@ public class X_AD_Role extends PO implements I_AD_Role, I_Persistent
 	}
 
 	/** Get Organization Tree.
-		@return Tree to determine organizational hierarchy
+		@return Trees are used for (financial) reporting and security access (via role)
 	  */
 	public int getAD_Tree_Org_ID () 
 	{

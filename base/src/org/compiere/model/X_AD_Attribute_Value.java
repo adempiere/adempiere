@@ -23,14 +23,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Attribute_Value
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_AD_Attribute_Value (Properties ctx, int AD_Attribute_Value_ID, String trxName)
@@ -114,43 +114,43 @@ public class X_AD_Attribute_Value extends PO implements I_AD_Attribute_Value, I_
 		return ii.intValue();
 	}
 
-	/** Set V_Date.
-		@param V_Date V_Date	  */
+	/** Set Date.
+		@param V_Date Date	  */
 	public void setV_Date (Timestamp V_Date)
 	{
 		set_Value (COLUMNNAME_V_Date, V_Date);
 	}
 
-	/** Get V_Date.
-		@return V_Date	  */
+	/** Get Date.
+		@return Date	  */
 	public Timestamp getV_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_V_Date);
 	}
 
-	/** Set V_Number.
-		@param V_Number V_Number	  */
+	/** Set Number.
+		@param V_Number Number	  */
 	public void setV_Number (String V_Number)
 	{
 		set_Value (COLUMNNAME_V_Number, V_Number);
 	}
 
-	/** Get V_Number.
-		@return V_Number	  */
+	/** Get Number.
+		@return Number	  */
 	public String getV_Number () 
 	{
 		return (String)get_Value(COLUMNNAME_V_Number);
 	}
 
-	/** Set V_String.
-		@param V_String V_String	  */
+	/** Set String.
+		@param V_String String	  */
 	public void setV_String (String V_String)
 	{
 		set_Value (COLUMNNAME_V_String, V_String);
 	}
 
-	/** Get V_String.
-		@return V_String	  */
+	/** Get String.
+		@return String	  */
 	public String getV_String () 
 	{
 		return (String)get_Value(COLUMNNAME_V_String);

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Disposed
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Disposed (Properties ctx, int A_Asset_Disposed_ID, String trxName)
@@ -84,8 +84,8 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
       return sb.toString();
     }
 
-	/** Set A_Asset_Disposed_ID.
-		@param A_Asset_Disposed_ID A_Asset_Disposed_ID	  */
+	/** Set Disposed Asset.
+		@param A_Asset_Disposed_ID Disposed Asset	  */
 	public void setA_Asset_Disposed_ID (int A_Asset_Disposed_ID)
 	{
 		if (A_Asset_Disposed_ID < 1) 
@@ -94,8 +94,8 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Disposed_ID, Integer.valueOf(A_Asset_Disposed_ID));
 	}
 
-	/** Get A_Asset_Disposed_ID.
-		@return A_Asset_Disposed_ID	  */
+	/** Get Disposed Asset.
+		@return Disposed Asset	  */
 	public int getA_Asset_Disposed_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Disposed_ID);
@@ -140,8 +140,8 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
 			.getPO(getA_Asset_Trade_ID(), get_TrxName());	}
 
-	/** Set A_Asset_Trade_ID.
-		@param A_Asset_Trade_ID A_Asset_Trade_ID	  */
+	/** Set Asset Trade.
+		@param A_Asset_Trade_ID Asset Trade	  */
 	public void setA_Asset_Trade_ID (int A_Asset_Trade_ID)
 	{
 		if (A_Asset_Trade_ID < 1) 
@@ -150,8 +150,8 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 			set_Value (COLUMNNAME_A_Asset_Trade_ID, Integer.valueOf(A_Asset_Trade_ID));
 	}
 
-	/** Get A_Asset_Trade_ID.
-		@return A_Asset_Trade_ID	  */
+	/** Get Asset Trade.
+		@return Asset Trade	  */
 	public int getA_Asset_Trade_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Trade_ID);
@@ -228,15 +228,15 @@ public class X_A_Asset_Disposed extends PO implements I_A_Asset_Disposed, I_Pers
 		return (String)get_Value(COLUMNNAME_A_Disposed_Reason);
 	}
 
-	/** Set A_Proceeds.
-		@param A_Proceeds A_Proceeds	  */
+	/** Set Proceeds.
+		@param A_Proceeds Proceeds	  */
 	public void setA_Proceeds (BigDecimal A_Proceeds)
 	{
 		set_Value (COLUMNNAME_A_Proceeds, A_Proceeds);
 	}
 
-	/** Get A_Proceeds.
-		@return A_Proceeds	  */
+	/** Get Proceeds.
+		@return Proceeds	  */
 	public BigDecimal getA_Proceeds () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_Proceeds);

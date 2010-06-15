@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_M_Product 
 {
@@ -251,12 +251,12 @@ public interface I_M_Product
     public static final String COLUMNNAME_GuaranteeDaysMin = "GuaranteeDaysMin";
 
 	/** Set Min Guarantee Days.
-	  * Minumum number of guarantee days
+	  * Minimum number of guarantee days
 	  */
 	public void setGuaranteeDaysMin (int GuaranteeDaysMin);
 
 	/** Get Min Guarantee Days.
-	  * Minumum number of guarantee days
+	  * Minimum number of guarantee days
 	  */
 	public int getGuaranteeDaysMin();
 
@@ -446,22 +446,26 @@ public interface I_M_Product
     public static final String COLUMNNAME_IsWebStoreFeatured = "IsWebStoreFeatured";
 
 	/** Set Featured in Web Store.
-	  * If selected, the product is displayed in the inital or any empy search
+	  * If selected, the product is displayed in the initial or any empty search
 	  */
 	public void setIsWebStoreFeatured (boolean IsWebStoreFeatured);
 
 	/** Get Featured in Web Store.
-	  * If selected, the product is displayed in the inital or any empy search
+	  * If selected, the product is displayed in the initial or any empty search
 	  */
 	public boolean isWebStoreFeatured();
 
     /** Column name LowLevel */
     public static final String COLUMNNAME_LowLevel = "LowLevel";
 
-	/** Set Low Level	  */
+	/** Set Low Level.
+	  * The Low Level is used to calculate the material plan and determines if a net requirement should be exploited
+	  */
 	public void setLowLevel (int LowLevel);
 
-	/** Get Low Level	  */
+	/** Get Low Level.
+	  * The Low Level is used to calculate the material plan and determines if a net requirement should be exploited
+	  */
 	public int getLowLevel();
 
     /** Column name M_AttributeSet_ID */

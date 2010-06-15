@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Reval_Entry
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20090915L;
+	private static final long serialVersionUID = 20100614L;
 
     /** Standard Constructor */
     public X_A_Asset_Reval_Entry (Properties ctx, int A_Asset_Reval_Entry_ID, String trxName)
@@ -82,8 +82,8 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
       return sb.toString();
     }
 
-	/** Set A_Asset_Reval_Entry_ID.
-		@param A_Asset_Reval_Entry_ID A_Asset_Reval_Entry_ID	  */
+	/** Set Asset Reval. Entry.
+		@param A_Asset_Reval_Entry_ID Asset Reval. Entry	  */
 	public void setA_Asset_Reval_Entry_ID (int A_Asset_Reval_Entry_ID)
 	{
 		if (A_Asset_Reval_Entry_ID < 1) 
@@ -92,8 +92,8 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 			set_ValueNoCheck (COLUMNNAME_A_Asset_Reval_Entry_ID, Integer.valueOf(A_Asset_Reval_Entry_ID));
 	}
 
-	/** Get A_Asset_Reval_Entry_ID.
-		@return A_Asset_Reval_Entry_ID	  */
+	/** Get Asset Reval. Entry.
+		@return Asset Reval. Entry	  */
 	public int getA_Asset_Reval_Entry_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_Reval_Entry_ID);
@@ -110,15 +110,15 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
         return new KeyNamePair(get_ID(), String.valueOf(getA_Asset_Reval_Entry_ID()));
     }
 
-	/** Set A_Effective_Date.
-		@param A_Effective_Date A_Effective_Date	  */
+	/** Set Effective Date.
+		@param A_Effective_Date Effective Date	  */
 	public void setA_Effective_Date (Timestamp A_Effective_Date)
 	{
 		set_Value (COLUMNNAME_A_Effective_Date, A_Effective_Date);
 	}
 
-	/** Get A_Effective_Date.
-		@return A_Effective_Date	  */
+	/** Get Effective Date.
+		@return Effective Date	  */
 	public Timestamp getA_Effective_Date () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_A_Effective_Date);
@@ -155,16 +155,16 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public static final String A_REVAL_EFFECTIVE_DATE_RevaluationDate = "RD";
 	/** Date Depreciation Started = SD */
 	public static final String A_REVAL_EFFECTIVE_DATE_DateDepreciationStarted = "SD";
-	/** Set A_Reval_Effective_Date.
-		@param A_Reval_Effective_Date A_Reval_Effective_Date	  */
+	/** Set Reval. Effective Date.
+		@param A_Reval_Effective_Date Reval. Effective Date	  */
 	public void setA_Reval_Effective_Date (String A_Reval_Effective_Date)
 	{
 
 		set_Value (COLUMNNAME_A_Reval_Effective_Date, A_Reval_Effective_Date);
 	}
 
-	/** Get A_Reval_Effective_Date.
-		@return A_Reval_Effective_Date	  */
+	/** Get Reval. Effective Date.
+		@return Reval. Effective Date	  */
 	public String getA_Reval_Effective_Date () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Reval_Effective_Date);
@@ -176,16 +176,16 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public static final String A_REVAL_MULTIPLIER_Factor = "FAC";
 	/** Index = IND */
 	public static final String A_REVAL_MULTIPLIER_Index = "IND";
-	/** Set A_Reval_Multiplier.
-		@param A_Reval_Multiplier A_Reval_Multiplier	  */
+	/** Set Reval. Multiplier.
+		@param A_Reval_Multiplier Reval. Multiplier	  */
 	public void setA_Reval_Multiplier (String A_Reval_Multiplier)
 	{
 
 		set_Value (COLUMNNAME_A_Reval_Multiplier, A_Reval_Multiplier);
 	}
 
-	/** Get A_Reval_Multiplier.
-		@return A_Reval_Multiplier	  */
+	/** Get Reval. Multiplier.
+		@return Reval. Multiplier	  */
 	public String getA_Reval_Multiplier () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Reval_Multiplier);
@@ -199,16 +199,16 @@ public class X_A_Asset_Reval_Entry extends PO implements I_A_Asset_Reval_Entry, 
 	public static final String A_REV_CODE_RevaluationCode2 = "R02";
 	/** Revaluation Code #3 = R03 */
 	public static final String A_REV_CODE_RevaluationCode3 = "R03";
-	/** Set A_Rev_Code.
-		@param A_Rev_Code A_Rev_Code	  */
+	/** Set Rev. Code.
+		@param A_Rev_Code Rev. Code	  */
 	public void setA_Rev_Code (String A_Rev_Code)
 	{
 
 		set_Value (COLUMNNAME_A_Rev_Code, A_Rev_Code);
 	}
 
-	/** Get A_Rev_Code.
-		@return A_Rev_Code	  */
+	/** Get Rev. Code.
+		@return Rev. Code	  */
 	public String getA_Rev_Code () 
 	{
 		return (String)get_Value(COLUMNNAME_A_Rev_Code);
