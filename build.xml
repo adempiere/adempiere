@@ -9,6 +9,7 @@
   <property file="build.properties"/>
   <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
   <property name="src" location="extension/eevolution/libero/src/main"/>
+  <property name="patchs" location="patches"/>
   <property name="build" location="build"/>
   <property name="dist"  location="dist"/>
 
@@ -37,8 +38,10 @@
       <exclude name="**/org/eevolution/plugin/*.java"/>
       <classpath refid="lib.class.path"/>
     </javac>
-
-  </target>
+    <javac srcdir="${patchs}" destdir="${build}">
+         <classpath refid="lib.class.path"/>
+     </javac>	
+  </target> 	
 
   <target name="dist" depends="compile"
         description="generate the distribution" >
