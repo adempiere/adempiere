@@ -23,19 +23,19 @@
   </classPath>
   <jre>
     <path></path>
-    <minVersion>1.5.0</minVersion>
+    <minVersion>1.6.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
     <initialHeapSize>48</initialHeapSize>
     <maxHeapSize>512</maxHeapSize>
   </jre>
   <versionInfo>
-    <fileVersion>3.5.4.0</fileVersion>
-    <txtFileVersion>Release 3.5.4a</txtFileVersion>
-    <fileDescription>Adempiere ERP &amp; CRM 3.5.4a</fileDescription>
+    <fileVersion>3.6.0.0</fileVersion>
+    <txtFileVersion>Release 3.6.0LTS</txtFileVersion>
+    <fileDescription>Adempiere ERP &amp; CRM 3.6.0LTS</fileDescription>
     <copyright>Adempiere</copyright>
-    <productVersion>3.5.4.0</productVersion>
-    <txtProductVersion>Release 3.5.4a</txtProductVersion>
+    <productVersion>3.6.0.0</productVersion>
+    <txtProductVersion>Release 3.6.0LTS</txtProductVersion>
     <productName>Adempier ERP &amp; CRM</productName>
     <companyName>Adempiere Bazaar</companyName>
     <internalName>Adempiere</internalName>

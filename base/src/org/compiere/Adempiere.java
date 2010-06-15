@@ -59,12 +59,12 @@ public final class Adempiere
 	static public final String	ID				= "$Id: Adempiere.java,v 1.8 2006/08/11 02:58:14 jjanke Exp $";
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
-	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - and (s) for stable
-	static public String	MAIN_VERSION	= "Release 3.5.4a";
+	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
+	static public String	MAIN_VERSION	= "Release 3.6.0LTS";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2009-09-15";
+	static public String	DATE_VERSION	= "2010-06-14";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2009-09-15";
+	static public String	DB_VERSION		= "2010-06-14";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";
@@ -86,7 +86,7 @@ public final class Adempiere
 	/** Subtitle                */
 	static public final String	SUB_TITLE		= "Smart Suite ERP,CRM and SCM";
 	static public final String	ADEMPIERE_R		= "ADempiere\u00AE";
-	static public final String	COPYRIGHT		= "\u00A9 1999-2009 ADempiere\u00AE";
+	static public final String	COPYRIGHT		= "\u00A9 1999-2010 ADempiere\u00AE";
 
 	static private String		s_ImplementationVersion = null;
 	static private String		s_ImplementationVendor = null;
