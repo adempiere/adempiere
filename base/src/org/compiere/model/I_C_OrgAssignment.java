@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_OrgAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_OrgAssignment 
 {
@@ -81,12 +81,12 @@ public interface I_C_OrgAssignment
     public static final String COLUMNNAME_C_OrgAssignment_ID = "C_OrgAssignment_ID";
 
 	/** Set Org Assignment.
-	  * Assigment to (transaction) Organization
+	  * Assignment to (transaction) Organization
 	  */
 	public void setC_OrgAssignment_ID (int C_OrgAssignment_ID);
 
 	/** Get Org Assignment.
-	  * Assigment to (transaction) Organization
+	  * Assignment to (transaction) Organization
 	  */
 	public int getC_OrgAssignment_ID();
 

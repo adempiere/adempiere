@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_BOMProduct
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_M_BOMProduct 
 {
@@ -160,12 +160,12 @@ public interface I_M_BOMProduct
     public static final String COLUMNNAME_LeadTimeOffset = "LeadTimeOffset";
 
 	/** Set Lead Time Offset.
-	  * Optional Lead Time offest before starting production
+	  * Optional Lead Time offset before starting production
 	  */
 	public void setLeadTimeOffset (int LeadTimeOffset);
 
 	/** Get Lead Time Offset.
-	  * Optional Lead Time offest before starting production
+	  * Optional Lead Time offset before starting production
 	  */
 	public int getLeadTimeOffset();
 

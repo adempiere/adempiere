@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_I_BPartner 
 {
@@ -426,7 +426,7 @@ public interface I_I_BPartner
 	  */
 	public boolean isActive();
 
-	 /** Column name IsCustomer */
+    /** Column name IsCustomer */
     public static final String COLUMNNAME_IsCustomer = "IsCustomer";
 
 	/** Set Customer.
@@ -439,7 +439,7 @@ public interface I_I_BPartner
 	  */
 	public boolean isCustomer();
 
-	/** Column name IsEmployee */
+    /** Column name IsEmployee */
     public static final String COLUMNNAME_IsEmployee = "IsEmployee";
 
 	/** Set Employee.
@@ -451,8 +451,8 @@ public interface I_I_BPartner
 	  * Indicates if  this Business Partner is an employee
 	  */
 	public boolean isEmployee();
-	
-	 /** Column name IsVendor */
+
+    /** Column name IsVendor */
     public static final String COLUMNNAME_IsVendor = "IsVendor";
 
 	/** Set Vendor.
@@ -464,7 +464,7 @@ public interface I_I_BPartner
 	  * Indicates if this Business Partner is a Vendor
 	  */
 	public boolean isVendor();
-	
+
     /** Column name NAICS */
     public static final String COLUMNNAME_NAICS = "NAICS";
 
@@ -559,12 +559,12 @@ public interface I_I_BPartner
     /** Column name Postal_Add */
     public static final String COLUMNNAME_Postal_Add = "Postal_Add";
 
-	/** Set -.
+	/** Set Additional Zip.
 	  * Additional ZIP or Postal code
 	  */
 	public void setPostal_Add (String Postal_Add);
 
-	/** Get -.
+	/** Get Additional Zip.
 	  * Additional ZIP or Postal code
 	  */
 	public String getPostal_Add();

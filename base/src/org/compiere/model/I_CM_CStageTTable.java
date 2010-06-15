@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_CStageTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_CM_CStageTTable 
 {
@@ -81,12 +81,12 @@ public interface I_CM_CStageTTable
     public static final String COLUMNNAME_CM_CStageTTable_ID = "CM_CStageTTable_ID";
 
 	/** Set Stage T.Table.
-	  * Containet Stage Template Table
+	  * Container Stage Template Table
 	  */
 	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID);
 
 	/** Get Stage T.Table.
-	  * Containet Stage Template Table
+	  * Container Stage Template Table
 	  */
 	public int getCM_CStageTTable_ID();
 

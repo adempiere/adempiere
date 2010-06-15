@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_Type
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_K_Type 
 {
@@ -146,12 +146,12 @@ public interface I_K_Type
     /** Column name K_Type_ID */
     public static final String COLUMNNAME_K_Type_ID = "K_Type_ID";
 
-	/** Set Knowldge Type.
+	/** Set Knowledge Type.
 	  * Knowledge Type
 	  */
 	public void setK_Type_ID (int K_Type_ID);
 
-	/** Get Knowldge Type.
+	/** Get Knowledge Type.
 	  * Knowledge Type
 	  */
 	public int getK_Type_ID();

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQ
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_RfQ 
 {
@@ -346,12 +346,12 @@ public interface I_C_RfQ
     public static final String COLUMNNAME_IsQuoteTotalAmt = "IsQuoteTotalAmt";
 
 	/** Set Quote Total Amt.
-	  * The respnse can have just the total amount for the RfQ
+	  * The response can have just the total amount for the RfQ
 	  */
 	public void setIsQuoteTotalAmt (boolean IsQuoteTotalAmt);
 
 	/** Get Quote Total Amt.
-	  * The respnse can have just the total amount for the RfQ
+	  * The response can have just the total amount for the RfQ
 	  */
 	public boolean isQuoteTotalAmt();
 
@@ -359,12 +359,12 @@ public interface I_C_RfQ
     public static final String COLUMNNAME_IsRfQResponseAccepted = "IsRfQResponseAccepted";
 
 	/** Set Responses Accepted.
-	  * Are Resonses to the Request for Quotation accepted
+	  * Are Responses to the Request for Quotation accepted
 	  */
 	public void setIsRfQResponseAccepted (boolean IsRfQResponseAccepted);
 
 	/** Get Responses Accepted.
-	  * Are Resonses to the Request for Quotation accepted
+	  * Are Responses to the Request for Quotation accepted
 	  */
 	public boolean isRfQResponseAccepted();
 

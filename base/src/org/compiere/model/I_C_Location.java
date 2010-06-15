@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Location
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_Location 
 {
@@ -230,12 +230,12 @@ public interface I_C_Location
     /** Column name Postal_Add */
     public static final String COLUMNNAME_Postal_Add = "Postal_Add";
 
-	/** Set -.
+	/** Set Additional Zip.
 	  * Additional ZIP or Postal code
 	  */
 	public void setPostal_Add (String Postal_Add);
 
-	/** Get -.
+	/** Get Additional Zip.
 	  * Additional ZIP or Postal code
 	  */
 	public String getPostal_Add();

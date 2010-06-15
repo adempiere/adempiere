@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_FAJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_I_FAJournal 
 {
@@ -666,10 +666,10 @@ public interface I_I_FAJournal
     /** Column name I_FAJournal_ID */
     public static final String COLUMNNAME_I_FAJournal_ID = "I_FAJournal_ID";
 
-	/** Set I_FAJournal_ID	  */
+	/** Set FA Journal	  */
 	public void setI_FAJournal_ID (int I_FAJournal_ID);
 
-	/** Get I_FAJournal_ID	  */
+	/** Get FA Journal	  */
 	public int getI_FAJournal_ID();
 
     /** Column name I_IsImported */

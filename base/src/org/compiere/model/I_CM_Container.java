@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_Container
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_CM_Container 
 {
@@ -124,12 +124,12 @@ public interface I_CM_Container
     public static final String COLUMNNAME_ContainerLinkURL = "ContainerLinkURL";
 
 	/** Set External Link (URL).
-	  * External Link (IRL) for the Container
+	  * External Link (URL) for the Container
 	  */
 	public void setContainerLinkURL (String ContainerLinkURL);
 
 	/** Get External Link (URL).
-	  * External Link (IRL) for the Container
+	  * External Link (URL) for the Container
 	  */
 	public String getContainerLinkURL();
 

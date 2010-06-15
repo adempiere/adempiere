@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_JobAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_JobAssignment 
 {
@@ -81,12 +81,12 @@ public interface I_C_JobAssignment
     public static final String COLUMNNAME_C_JobAssignment_ID = "C_JobAssignment_ID";
 
 	/** Set Position Assignment.
-	  * Assignemt of Employee (User) to Job Position
+	  * Assignment of Employee (User) to Job Position
 	  */
 	public void setC_JobAssignment_ID (int C_JobAssignment_ID);
 
 	/** Get Position Assignment.
-	  * Assignemt of Employee (User) to Job Position
+	  * Assignment of Employee (User) to Job Position
 	  */
 	public int getC_JobAssignment_ID();
 

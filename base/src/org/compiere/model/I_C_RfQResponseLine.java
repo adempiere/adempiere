@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_RfQResponseLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_RfQResponseLine 
 {
@@ -203,12 +203,12 @@ public interface I_C_RfQResponseLine
     public static final String COLUMNNAME_IsSelectedWinner = "IsSelectedWinner";
 
 	/** Set Selected Winner.
-	  * The resonse is the selected winner
+	  * The response is the selected winner
 	  */
 	public void setIsSelectedWinner (boolean IsSelectedWinner);
 
 	/** Get Selected Winner.
-	  * The resonse is the selected winner
+	  * The response is the selected winner
 	  */
 	public boolean isSelectedWinner();
 

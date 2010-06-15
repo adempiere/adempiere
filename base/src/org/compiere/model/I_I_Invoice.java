@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_I_Invoice 
 {
@@ -44,10 +44,10 @@ public interface I_I_Invoice
     /** Column name ActivityValue */
     public static final String COLUMNNAME_ActivityValue = "ActivityValue";
 
-	/** Set ActivityValue	  */
+	/** Set Activity Value	  */
 	public void setActivityValue (String ActivityValue);
 
-	/** Get ActivityValue	  */
+	/** Get Activity Value	  */
 	public String getActivityValue();
 
     /** Column name AD_Client_ID */

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_GL_JournalLine 
 {
@@ -156,10 +156,10 @@ public interface I_GL_JournalLine
     /** Column name A_Processed */
     public static final String COLUMNNAME_A_Processed = "A_Processed";
 
-	/** Set A_Processed	  */
+	/** Set Processed	  */
 	public void setA_Processed (boolean A_Processed);
 
-	/** Get A_Processed	  */
+	/** Get Processed	  */
 	public boolean isA_Processed();
 
     /** Column name C_ConversionType_ID */

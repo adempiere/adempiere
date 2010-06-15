@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Country
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_Country 
 {
@@ -78,23 +78,23 @@ public interface I_C_Country
     /** Column name AllowCitiesOutOfList */
     public static final String COLUMNNAME_AllowCitiesOutOfList = "AllowCitiesOutOfList";
 
-	/** Set AllowCitiesOutOfList.
-	  * A flag which tells if a country accept or not new cities
+	/** Set Allow Cities out of List.
+	  * A flag to allow cities, currently not in the list, to be entered
 	  */
 	public void setAllowCitiesOutOfList (boolean AllowCitiesOutOfList);
 
-	/** Get AllowCitiesOutOfList.
-	  * A flag which tells if a country accept or not new cities
+	/** Get Allow Cities out of List.
+	  * A flag to allow cities, currently not in the list, to be entered
 	  */
 	public boolean isAllowCitiesOutOfList();
 
     /** Column name CaptureSequence */
     public static final String COLUMNNAME_CaptureSequence = "CaptureSequence";
 
-	/** Set CaptureSequence	  */
+	/** Set Capture Sequence	  */
 	public void setCaptureSequence (String CaptureSequence);
 
-	/** Get CaptureSequence	  */
+	/** Get Capture Sequence	  */
 	public String getCaptureSequence();
 
     /** Column name C_Country_ID */
@@ -332,12 +332,12 @@ public interface I_C_Country
     /** Column name IsPostcodeLookup */
     public static final String COLUMNNAME_IsPostcodeLookup = "IsPostcodeLookup";
 
-	/** Set IsPostcodeLookup.
+	/** Set Use Postcode Lookup.
 	  * Does this country have a post code web service
 	  */
 	public void setIsPostcodeLookup (boolean IsPostcodeLookup);
 
-	/** Get IsPostcodeLookup.
+	/** Get Use Postcode Lookup.
 	  * Does this country have a post code web service
 	  */
 	public boolean isPostcodeLookup();
@@ -345,12 +345,12 @@ public interface I_C_Country
     /** Column name LookupClassName */
     public static final String COLUMNNAME_LookupClassName = "LookupClassName";
 
-	/** Set LookupClassName.
+	/** Set Lookup ClassName.
 	  * The class name of the postcode lookup plugin
 	  */
 	public void setLookupClassName (String LookupClassName);
 
-	/** Get LookupClassName.
+	/** Get Lookup ClassName.
 	  * The class name of the postcode lookup plugin
 	  */
 	public String getLookupClassName();
@@ -358,12 +358,12 @@ public interface I_C_Country
     /** Column name LookupClientID */
     public static final String COLUMNNAME_LookupClientID = "LookupClientID";
 
-	/** Set LookupClientID.
+	/** Set Lookup Client ID.
 	  * The ClientID or Login submitted to the Lookup URL
 	  */
 	public void setLookupClientID (String LookupClientID);
 
-	/** Get LookupClientID.
+	/** Get Lookup Client ID.
 	  * The ClientID or Login submitted to the Lookup URL
 	  */
 	public String getLookupClientID();
@@ -371,12 +371,12 @@ public interface I_C_Country
     /** Column name LookupPassword */
     public static final String COLUMNNAME_LookupPassword = "LookupPassword";
 
-	/** Set LookupPassword.
+	/** Set Lookup Password.
 	  * The password submitted to the Lookup URL
 	  */
 	public void setLookupPassword (String LookupPassword);
 
-	/** Get LookupPassword.
+	/** Get Lookup Password.
 	  * The password submitted to the Lookup URL
 	  */
 	public String getLookupPassword();
@@ -384,12 +384,12 @@ public interface I_C_Country
     /** Column name LookupUrl */
     public static final String COLUMNNAME_LookupUrl = "LookupUrl";
 
-	/** Set LookupUrl.
+	/** Set Lookup URL.
 	  * The URL of the web service that the plugin connects to in order to retrieve postcode data
 	  */
 	public void setLookupUrl (String LookupUrl);
 
-	/** Get LookupUrl.
+	/** Get Lookup URL.
 	  * The URL of the web service that the plugin connects to in order to retrieve postcode data
 	  */
 	public String getLookupUrl();

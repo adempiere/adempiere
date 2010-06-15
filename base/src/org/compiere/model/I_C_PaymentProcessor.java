@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaymentProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_PaymentProcessor 
 {
@@ -348,12 +348,12 @@ public interface I_C_PaymentProcessor
     public static final String COLUMNNAME_MinimumAmt = "MinimumAmt";
 
 	/** Set Minimum Amt.
-	  * Minumum Amout in Document Currency
+	  * Minimum Amount in Document Currency
 	  */
 	public void setMinimumAmt (BigDecimal MinimumAmt);
 
 	/** Get Minimum Amt.
-	  * Minumum Amout in Document Currency
+	  * Minimum Amount in Document Currency
 	  */
 	public BigDecimal getMinimumAmt();
 

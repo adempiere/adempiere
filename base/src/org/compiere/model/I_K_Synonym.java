@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_Synonym
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_K_Synonym 
 {
@@ -108,12 +108,12 @@ public interface I_K_Synonym
     public static final String COLUMNNAME_K_Synonym_ID = "K_Synonym_ID";
 
 	/** Set Knowledge Synonym.
-	  * Knowlege Keyword Synonym
+	  * Knowledge Keyword Synonym
 	  */
 	public void setK_Synonym_ID (int K_Synonym_ID);
 
 	/** Get Knowledge Synonym.
-	  * Knowlege Keyword Synonym
+	  * Knowledge Keyword Synonym
 	  */
 	public int getK_Synonym_ID();
 

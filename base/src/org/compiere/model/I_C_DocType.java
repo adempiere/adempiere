@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
 public interface I_C_DocType 
 {
@@ -77,19 +77,6 @@ public interface I_C_DocType
 
 	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
-
     /** Column name C_DocTypeDifference_ID */
     public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
 
@@ -104,6 +91,19 @@ public interface I_C_DocType
 	public int getC_DocTypeDifference_ID();
 
 	public I_C_DocType getC_DocTypeDifference() throws RuntimeException;
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
 
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
