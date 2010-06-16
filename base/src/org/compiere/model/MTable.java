@@ -43,10 +43,14 @@ import org.compiere.util.Util;
  * <li>2007-08-30 - vpj-cd - [ 1784588 ] Use ModelPackage of EntityType to Find Model Class
  * </ul>
  *  @author Jorg Janke
+ *  @author Teo Sarca, teo.sarca@gmail.com
+ *  		<li>BF [ 3017117 ] MTable.getClass returns bad class
+ *  			https://sourceforge.net/tracker/?func=detail&aid=3017117&group_id=176962&atid=879332
  *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class MTable extends X_AD_Table
 {
+
 	/**
 	 * 
 	 */
@@ -207,7 +211,7 @@ public class MTable extends X_AD_Table
 			String etmodelpackage = et.getModelPackage();
 			if (etmodelpackage == null || MEntityType.ENTITYTYPE_Dictionary.equals(entityType))
 				etmodelpackage = "org.compiere.model"; // fallback for dictionary or empty model package on entity type
-			Class<?> clazz = getPOclass(etmodelpackage + ".X_" + tableName);
+			Class<?> clazz = getPOclass(etmodelpackage + ".X_" + tableName, tableName);
 			if (clazz != null)
 			{
 				s_classCache.put(tableName, clazz);
@@ -222,7 +226,7 @@ public class MTable extends X_AD_Table
 		{
 			if (s_special[i++].equals(tableName))
 			{
-				Class<?> clazz = getPOclass(s_special[i]);
+				Class<?> clazz = getPOclass(s_special[i], tableName);
 				if (clazz != null)
 				{
 					s_classCache.put(tableName, clazz);
@@ -240,12 +244,12 @@ public class MTable extends X_AD_Table
 			if (etmodelpackage != null)
 			{						
 				Class<?> clazz = null;
-				clazz = getPOclass(etmodelpackage + ".M" + Util.replace(tableName, "_", ""));
+				clazz = getPOclass(etmodelpackage + ".M" + Util.replace(tableName, "_", ""), tableName);
 				if (clazz != null) {
 					s_classCache.put(tableName, clazz);
 					return clazz;
 				}
-				clazz = getPOclass(etmodelpackage + ".X_" + tableName);
+				clazz = getPOclass(etmodelpackage + ".X_" + tableName, tableName);
 				if (clazz != null) {
 					s_classCache.put(tableName, clazz);
 					return clazz;
@@ -278,7 +282,7 @@ public class MTable extends X_AD_Table
 		for (int i = 0; i < s_packages.length; i++)
 		{
 			StringBuffer name = new StringBuffer(s_packages[i]).append(".M").append(className);
-			Class<?> clazz = getPOclass(name.toString());
+			Class<?> clazz = getPOclass(name.toString(), tableName);
 			if (clazz != null)
 			{
 				s_classCache.put(tableName, clazz);
@@ -288,7 +292,7 @@ public class MTable extends X_AD_Table
 		
 		
 		//	Adempiere Extension
-		Class<?> clazz = getPOclass("adempiere.model.X_" + tableName);
+		Class<?> clazz = getPOclass("adempiere.model.X_" + tableName, tableName);
 		if (clazz != null)
 		{
 			s_classCache.put(tableName, clazz);
@@ -297,7 +301,7 @@ public class MTable extends X_AD_Table
 		
 		//hengsin - allow compatibility with compiere plugins
 		//Compiere Extension
-		clazz = getPOclass("compiere.model.X_" + tableName);
+		clazz = getPOclass("compiere.model.X_" + tableName, tableName);
 		if (clazz != null)
 		{
 			s_classCache.put(tableName, clazz);
@@ -305,7 +309,7 @@ public class MTable extends X_AD_Table
 		}
 
 		//	Default
-		clazz = getPOclass("org.compiere.model.X_" + tableName);
+		clazz = getPOclass("org.compiere.model.X_" + tableName, tableName);
 		if (clazz != null)
 		{
 			s_classCache.put(tableName, clazz);
@@ -318,15 +322,37 @@ public class MTable extends X_AD_Table
 	}	//	getClass
 	
 	/**
-	 * 	Get PO class
-	 *	@param className fully qualified class name
-	 *	@return class or null
+	 * Get PO class
+	 * @param className fully qualified class name
+	 * @return class or null
+	 * @deprecated Use {@link #getPOclass(String, String)}
 	 */
 	private static Class<?> getPOclass (String className)
+	{
+		return getPOclass(className, null);
+	}
+	
+	/**
+	 * Get PO class
+	 * @param className fully qualified class name
+	 * @param tableName Optional. If specified, the loaded class will be validated for that table name
+	 * @return class or null
+	 */
+	private static Class<?> getPOclass (String className, String tableName)
 	{
 		try
 		{
 			Class<?> clazz = Class.forName(className);
+			// Validate if the class is for specified tableName
+			if (tableName != null)
+			{
+				String classTableName = clazz.getField("Table_Name").get(null).toString();
+				if (!tableName.equals(classTableName))
+				{
+					s_log.finest("Invalid class for table: " + className+" (tableName="+tableName+", classTableName="+classTableName+")");
+					return null;
+				}
+			}
 			//	Make sure that it is a PO class
 			Class<?> superClazz = clazz.getSuperclass();
 			while (superClazz != null)
