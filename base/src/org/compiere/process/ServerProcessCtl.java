@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import org.adempiere.util.ProcessUtil;
-import org.compiere.apps.Waiting;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
 import org.compiere.model.MPInstance;
@@ -30,7 +29,6 @@ public class ServerProcessCtl implements Runnable {
 	/** Process Info */
 	ProcessInfo m_pi;
 	private Trx				m_trx;
-	private Waiting         m_waiting;
 	private boolean 		m_IsServerProcess = false;
 	
 	/**************************************************************************
@@ -177,8 +175,6 @@ public class ServerProcessCtl implements Runnable {
 			if (rs.next())
 			{
 				m_pi.setTitle (rs.getString(1));
-				if (m_waiting != null)
-					m_waiting.setTitle(m_pi.getTitle());
 				ProcedureName = rs.getString(2);
 				m_pi.setClassName (rs.getString(3));
 				m_pi.setAD_Process_ID (rs.getInt(4));
@@ -194,8 +190,6 @@ public class ServerProcessCtl implements Runnable {
 				if (estimate != 0)
 				{
 					m_pi.setEstSeconds (estimate + 1);     //  admin overhead
-					if (m_waiting != null)
-						m_waiting.setTimerEstimate(m_pi.getEstSeconds());
 				}
 				m_IsServerProcess = "Y".equals(rs.getString(10));
 				JasperReport = rs.getString(11);

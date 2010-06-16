@@ -1,13 +1,9 @@
 package org.compiere.print;
 
-import java.awt.Container;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
 
-import org.compiere.apps.ProcessCtl;
-import org.compiere.apps.ProcessParameter;
-import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
 import org.compiere.model.MQuery;
 import org.compiere.model.MTable;
@@ -18,9 +14,6 @@ import org.compiere.process.ServerProcessCtl;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
-import org.compiere.util.Msg;
-import org.compiere.util.Trx;
 
 
 
