@@ -38,10 +38,11 @@ import org.compiere.util.Util;
  */
 public class MColumn extends X_AD_Column
 {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2954312267794622096L;
+	private static final long serialVersionUID = 6543789555737635129L;
 
 	/**
 	 * 	Get MColumn from Cache
