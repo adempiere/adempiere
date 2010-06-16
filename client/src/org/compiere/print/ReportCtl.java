@@ -55,12 +55,6 @@ public class ReportCtl
 	{
 	}	//	ReportCtrl
 
-	/**
-	 * Constants used to pass process parameters to Jasper Process
-	 */
-	public static final String PARAM_PRINTER_NAME = "PRINTER_NAME";
-	public static final String PARAM_PRINT_FORMAT = "PRINT_FORMAT";
-	public static final String PARAM_PRINT_INFO = "PRINT_INFO";
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (ReportCtl.class);
@@ -331,47 +325,7 @@ public class ReportCtl
 			// ==============================
 			if(format.getJasperProcess_ID() > 0)	
 			{
-				ProcessInfo pi = new ProcessInfo ("", format.getJasperProcess_ID());
-				pi.setPrintPreview( !IsDirectPrint );
-				pi.setRecord_ID ( Record_ID );
-				Vector<ProcessInfoParameter> jasperPrintParams = new Vector<ProcessInfoParameter>();
-				ProcessInfoParameter pip;
-				if (printerName!=null && printerName.trim().length()>0) {
-					// Override printer name
-					pip = new ProcessInfoParameter(PARAM_PRINTER_NAME, printerName, null, null, null);
-					jasperPrintParams.add(pip);
-				}
-				pip = new ProcessInfoParameter(PARAM_PRINT_FORMAT, format, null, null, null);
-				jasperPrintParams.add(pip);
-				pip = new ProcessInfoParameter(PARAM_PRINT_INFO, re.getPrintInfo(), null, null, null);
-				jasperPrintParams.add(pip);
-				
-				pi.setParameter(jasperPrintParams.toArray(new ProcessInfoParameter[]{}));
-				
-				//	Execute Process
-				if (Ini.isClient())
-				{
-					ProcessCtl.process(null,		// Parent set to null for synchronous processing, see bugtracker 3010932  
-									   WindowNo,
-									   pi,
-									   null); 
-				}
-				else
-				{
-					try 
-					{
-						ClassLoader loader = Thread.currentThread().getContextClassLoader();
-						if (loader == null)
-							loader = ReportCtl.class.getClassLoader();
-						Class<?> clazz = loader.loadClass("org.adempiere.webui.apps.WProcessCtl");
-						Method method = clazz.getDeclaredMethod("process", ASyncProcess.class, Integer.TYPE, ProcessInfo.class, Trx.class);
-						method.invoke(null, parent, WindowNo, pi, null);
-					}
-					catch (Exception e)
-					{
-						throw new AdempiereException(e);
-					}
-				}
+				ServerReportCtl.runJasperProcess(Record_ID, re, IsDirectPrint, printerName);
 			}
 			else
 			// Standard Print Format (Non-Jasper)

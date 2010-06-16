@@ -75,6 +75,7 @@ import org.compiere.model.X_AD_PInstance_Para;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.PrintUtil;
 import org.compiere.print.ReportCtl;
+import org.compiere.print.ServerReportCtl;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessCall;
 import org.compiere.process.ProcessInfo;
@@ -493,13 +494,13 @@ public class ReportStarter implements ProcessCall, ClientProcess
         	// Get print format and print info parameters
         	if (pip!=null) {
         		for (int i=0; i<pip.length; i++) {
-        			if (ReportCtl.PARAM_PRINT_FORMAT.equalsIgnoreCase(pip[i].getParameterName())) {
+        			if (ServerReportCtl.PARAM_PRINT_FORMAT.equalsIgnoreCase(pip[i].getParameterName())) {
         				printFormat = (MPrintFormat)pip[i].getParameter();
         			}
-        			if (ReportCtl.PARAM_PRINT_INFO.equalsIgnoreCase(pip[i].getParameterName())) {
+        			if (ServerReportCtl.PARAM_PRINT_INFO.equalsIgnoreCase(pip[i].getParameterName())) {
         				printInfo = (PrintInfo)pip[i].getParameter();
         			}
-        			if (ReportCtl.PARAM_PRINTER_NAME.equalsIgnoreCase(pip[i].getParameterName())) {
+        			if (ServerReportCtl.PARAM_PRINTER_NAME.equalsIgnoreCase(pip[i].getParameterName())) {
         				printerName = (String)pip[i].getParameter();
         			}
         		}
@@ -552,7 +553,7 @@ public class ReportStarter implements ProcessCall, ClientProcess
             try {
             	conn = getConnection();
                 jasperPrint = JasperFillManager.fillReport( jasperReport, params, conn);
-                if (reportData.isDirectPrint())
+                if (reportData.isDirectPrint() || !processInfo.isPrintPreview())
                 {
                     log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
                     //RF 1906632
