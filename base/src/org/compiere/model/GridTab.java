@@ -962,7 +962,11 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		try
 		{
 			if (hasChangedCurrentTabAndParents())
-				return false;
+			{
+				// Fail only if it's a true change - teo_sarca [ 3017560 ]
+				if (manualCmd || m_mTable.hasChanged(m_currentRow))
+					return false;
+			}
 			
 			boolean retValue = (m_mTable.dataSave(manualCmd) == GridTable.SAVE_OK);
 			if (manualCmd)
