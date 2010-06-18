@@ -16,15 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
 import org.compiere.model.MRole;
+import org.compiere.model.Query;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -32,6 +32,10 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: RoleAccessUpdate.java,v 1.3 2006/07/30 00:51:02 jjanke Exp $
+ * 
+ * @author Teo Sarca, teo.sarca@gmail.com
+ * 		<li>BF [ 3018005 ] Role Access Update: updates all roles if I log in as System
+ * 			https://sourceforge.net/tracker/?func=detail&aid=3018005&group_id=176962&atid=879332
  */
 public class RoleAccessUpdate extends SvrProcess
 {
@@ -39,9 +43,9 @@ public class RoleAccessUpdate extends SvrProcess
 	private static CLogger	s_log	= CLogger.getCLogger (RoleAccessUpdate.class);
 	
 	/**	Update Role				*/
-	private int	p_AD_Role_ID = 0;
+	private int	p_AD_Role_ID = -1;
 	/**	Update Roles of Client	*/
-	private int	p_AD_Client_ID = 0;
+	private int	p_AD_Client_ID = -1;
 	
 	
 	/**
@@ -73,41 +77,32 @@ public class RoleAccessUpdate extends SvrProcess
 	{
 		log.info("AD_Client_ID=" + p_AD_Client_ID + ", AD_Role_ID=" + p_AD_Role_ID);
 		//
-		if (p_AD_Role_ID != 0)
+		if (p_AD_Role_ID > 0)
 			updateRole (new MRole (getCtx(), p_AD_Role_ID, get_TrxName()));
 		else
 		{
-			String sql = "SELECT * FROM AD_Role ";
-			if (p_AD_Client_ID != 0)
-				sql += "WHERE AD_Client_ID=? ";
-			sql += "ORDER BY AD_Client_ID, Name";
-
-			PreparedStatement pstmt = null;
-			try
+			List<Object> params = new ArrayList<Object>();
+			String whereClause = "1=1";
+			if (p_AD_Client_ID >= 0)
 			{
-				pstmt = DB.prepareStatement (sql, get_TrxName());
-				if (p_AD_Client_ID != 0)
-					pstmt.setInt (1, p_AD_Client_ID);
-				ResultSet rs = pstmt.executeQuery ();
-				while (rs.next ())
-					updateRole (new MRole (getCtx(), rs, get_TrxName()));
-				rs.close ();
-				pstmt.close ();
-				pstmt = null;
+				whereClause += " AND AD_Client_ID=? ";
+				params.add(p_AD_Client_ID);
 			}
-			catch (Exception e)
+			if (p_AD_Role_ID == 0) // System Role
 			{
-				log.log(Level.SEVERE, sql, e);
+				whereClause += " AND AD_Role_ID=?";
+				params.add(p_AD_Role_ID);
 			}
-			try
+			//sql += "ORDER BY AD_Client_ID, Name";
+			
+			List<MRole> roles = new Query(getCtx(), MRole.Table_Name, whereClause, get_TrxName())
+			.setParameters(params)
+			.setOrderBy("AD_Client_ID, Name")
+			.list();
+			
+			for (MRole role : roles)
 			{
-				if (pstmt != null)
-					pstmt.close ();
-				pstmt = null;
-			}
-			catch (Exception e)
-			{
-				pstmt = null;
+				updateRole (role);
 			}
 		}
 		
