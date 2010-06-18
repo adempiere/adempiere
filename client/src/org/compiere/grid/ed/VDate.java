@@ -626,4 +626,10 @@ public class VDate extends JComponent
 		}
 	}	//	fireActionPerformed
 	/**/
+	
+	@Override
+	public void setBackground(Color bg)
+	{
+		m_text.setBackground(bg);
+	}
 }	//	VDate
