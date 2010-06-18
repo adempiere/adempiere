@@ -277,7 +277,9 @@ public final class ImpFormat
 			{
 				retValue = new ImpFormat (name, rs.getInt("AD_Table_ID"), rs.getString("FormatType"));
 				ID = rs.getInt ("AD_ImpFormat_ID");
-				retValue.setSeparatorChar(rs.getString(I_AD_ImpFormat.COLUMNNAME_SeparatorChar));
+				if (X_AD_ImpFormat.FORMATTYPE_CustomSeparatorChar.equals(rs.getString(I_AD_ImpFormat.COLUMNNAME_FormatType))) {
+					retValue.setSeparatorChar(rs.getString(I_AD_ImpFormat.COLUMNNAME_SeparatorChar));
+				}
 			}
 			rs.close();
 			pstmt.close();
