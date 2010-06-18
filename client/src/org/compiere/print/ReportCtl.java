@@ -49,6 +49,19 @@ import org.compiere.util.Trx;
 public class ReportCtl
 {
 	/**
+	 * @deprecated Please use {@link ServerReportCtl#PARAM_PRINTER_NAME}
+	 */
+	public static final String PARAM_PRINTER_NAME = ServerReportCtl.PARAM_PRINTER_NAME;
+	/**
+	 * @deprecated Please use {@link ServerReportCtl#PARAM_PRINT_FORMAT}
+	 */
+	public static final String PARAM_PRINT_FORMAT = ServerReportCtl.PARAM_PRINT_FORMAT;
+	/**
+	 * @deprecated Please use {@link ServerReportCtl#PARAM_PRINT_INFO}
+	 */
+	public static final String PARAM_PRINT_INFO = ServerReportCtl.PARAM_PRINT_INFO;
+	
+	/**
 	 *	Constructor - prevent instance
 	 */
 	private ReportCtl()
