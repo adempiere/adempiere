@@ -432,7 +432,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 			return;
 	//	setLineNetAmt();
 		MTax tax = MTax.get (getCtx(), getC_Tax_ID());
-		if (tax.isDocumentLevel() && m_IsSOTrx)		//	AR Inv Tax
+		if (tax.isDocumentLevel() && m_IsSOTrx || getTaxAmt().signum() > 0)//	AR Inv Tax
 			return;
 		//
 		TaxAmt = tax.calculateTax(getLineNetAmt(), isTaxIncluded(), getPrecision());
