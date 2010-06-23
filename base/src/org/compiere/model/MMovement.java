@@ -403,7 +403,7 @@ public class MMovement extends X_M_Movement implements DocAction
 								line.getM_Locator_ID(),
 								line.getM_Product_ID(), 
 								ma.getM_AttributeSetInstance_ID(), 0, 
-								ma.getMovementQty().negate(), Env.ZERO ,  Env.ZERO , get_TrxName()))
+								ma.getMovementQty().negate(), Env.ZERO ,  Env.ZERO , Env.ZERO, get_TrxName()))
 						{
 							m_processMsg = "Cannot correct Inventory (MA)";
 							return DocAction.STATUS_Invalid;
@@ -420,7 +420,7 @@ public class MMovement extends X_M_Movement implements DocAction
 								line.getM_LocatorTo_ID(),
 								line.getM_Product_ID(), 
 								M_AttributeSetInstanceTo_ID, 0, 
-								ma.getMovementQty(), Env.ZERO ,  Env.ZERO , get_TrxName()))
+								ma.getMovementQty(), Env.ZERO ,  Env.ZERO , Env.ZERO, get_TrxName()))
 						{
 							m_processMsg = "Cannot correct Inventory (MA)";
 							return DocAction.STATUS_Invalid;
@@ -459,7 +459,7 @@ public class MMovement extends X_M_Movement implements DocAction
 							line.getM_Locator_ID(),
 							line.getM_Product_ID(), 
 							line.getM_AttributeSetInstance_ID(), 0, 
-							line.getMovementQty().negate(), Env.ZERO ,  Env.ZERO , get_TrxName()))
+							line.getMovementQty().negate(), Env.ZERO ,  Env.ZERO , Env.ZERO, get_TrxName()))
 					{
 						m_processMsg = "Cannot correct Inventory (MA)";
 						return DocAction.STATUS_Invalid;
@@ -470,7 +470,7 @@ public class MMovement extends X_M_Movement implements DocAction
 							line.getM_LocatorTo_ID(),
 							line.getM_Product_ID(), 
 							line.getM_AttributeSetInstanceTo_ID(), 0, 
-							line.getMovementQty(), Env.ZERO ,  Env.ZERO , get_TrxName()))
+							line.getMovementQty(), Env.ZERO ,  Env.ZERO , Env.ZERO, get_TrxName()))
 					{
 						m_processMsg = "Cannot correct Inventory (MA)";
 						return DocAction.STATUS_Invalid;

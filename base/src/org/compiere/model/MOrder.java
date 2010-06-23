@@ -1391,7 +1391,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 * 	@param lines order lines (ordered by M_Product_ID for deadlock prevention)
 	 * 	@return true if (un) reserved
 	 */
-	private boolean reserveStock (MDocType dt, MOrderLine[] lines)
+	public boolean reserveStock (MDocType dt, MOrderLine[] lines)
 	{
 		if (dt == null)
 			dt = MDocType.get(getCtx(), getC_DocType_ID());
@@ -1415,6 +1415,7 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		BigDecimal Volume = Env.ZERO;
 		BigDecimal Weight = Env.ZERO;
+		BigDecimal diffQtyAllocated = Env.ZERO;
 		
 		//	Always check and (un) Reserve Inventory		
 		for (int i = 0; i < lines.length; i++)
@@ -1480,15 +1481,28 @@ public class MOrder extends X_C_Order implements DocAction
 							M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
 						}
 					}
-					//	Update Storage
+					//	== Update Storage  
+					//  reserve but don't allocate if quantity is increased.
+					//  If quantity is decreased, release allocation.
+					if (reserved.signum()<0) {
+						// Decreasing reservation, check if allocation should be released
+						diffQtyAllocated = target.subtract(line.getQtyAllocated());
+						diffQtyAllocated = diffQtyAllocated.min(BigDecimal.ZERO);
+					} else {
+						diffQtyAllocated = BigDecimal.ZERO;
+					}
 					if (!MStorage.add(getCtx(), line.getM_Warehouse_ID(), M_Locator_ID, 
 						line.getM_Product_ID(), 
 						line.getM_AttributeSetInstance_ID(), line.getM_AttributeSetInstance_ID(),
-						Env.ZERO, reserved, ordered, get_TrxName()))
+						Env.ZERO, reserved, ordered, diffQtyAllocated, get_TrxName()))
 						return false;
+					// == End of update storage
 				}	//	stockec
 				//	update line
 				line.setQtyReserved(line.getQtyReserved().add(difference));
+				if (diffQtyAllocated.signum()!=0) {
+					line.setQtyAllocated(line.getQtyAllocated().add(diffQtyAllocated));
+				}
 				if (!line.save(get_TrxName()))
 					return false;
 				//

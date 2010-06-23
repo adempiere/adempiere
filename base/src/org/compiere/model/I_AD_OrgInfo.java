@@ -123,6 +123,19 @@ public interface I_AD_OrgInfo
 	  */
 	public int getCreatedBy();
 
+    /** Column name DeliveryPolicy */
+    public static final String COLUMNNAME_DeliveryPolicy = "DeliveryPolicy";
+
+	/** Set Delivery Policy.
+	  * Delivery Policy
+	  */
+	public void setDeliveryPolicy (String DeliveryPolicy);
+
+	/** Get Delivery Policy.
+	  * Delivery Policy
+	  */
+	public String getDeliveryPolicy();
+
     /** Column name DropShip_Warehouse_ID */
     public static final String COLUMNNAME_DropShip_Warehouse_ID = "DropShip_Warehouse_ID";
 

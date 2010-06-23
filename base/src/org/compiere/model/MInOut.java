@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.process.AllocateSalesOrders;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -64,6 +65,8 @@ public class MInOut extends X_M_InOut implements DocAction
 	/**
 	 * 	Create Shipment From Order
 	 *	@param order order
+	 *  @param oLines	order lines to use when creating the shipment. If null all lines 
+	 *  				from the order is used.
 	 *	@param movementDate optional movement date
 	 *	@param forceDelivery ignore order delivery rule
 	 *	@param allAttributeInstances if true, all attribute set instances
@@ -72,10 +75,10 @@ public class MInOut extends X_M_InOut implements DocAction
 	 *	@param trxName transaction
 	 *	@return Shipment or null
 	 */
-	public static MInOut createFrom (MOrder order, Timestamp movementDate,
-		boolean forceDelivery, boolean allAttributeInstances, Timestamp minGuaranteeDate,
-		boolean complete, String trxName)
-	{
+	public static MInOut createFrom (MOrder order, MOrderLine[] oLines, Timestamp movementDate,
+			boolean forceDelivery, boolean allAttributeInstances, Timestamp minGuaranteeDate,
+			boolean complete, String trxName) {
+		
 		if (order == null)
 			throw new IllegalArgumentException("No Order");
 		//
@@ -88,10 +91,16 @@ public class MInOut extends X_M_InOut implements DocAction
 		MInOut retValue = new MInOut (order, 0, movementDate);
 		retValue.setDocAction(complete ? DOCACTION_Complete : DOCACTION_Prepare);
 
-		//	Check if we can create the lines
-		MOrderLine[] oLines = order.getLines(true, "M_Product_ID");
+		if (oLines == null) {
+			oLines = order.getLines(true, "M_Product_ID");
+		}
 		for (int i = 0; i < oLines.length; i++)
 		{
+			if (oLines[i].getC_Order_ID()!=order.get_ID()) {
+				// If the orderline ID and order ID doesn't match, skip the line
+				continue;
+			}
+			// Calculate how much is left to deliver (ordered - delivered)
 			BigDecimal qty = oLines[i].getQtyOrdered().subtract(oLines[i].getQtyDelivered());
 			//	Nothing to deliver
 			if (qty.signum() == 0)
@@ -99,6 +108,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			//	Stock Info
 			MStorage[] storages = null;
 			MProduct product = oLines[i].getProduct();
+			// If the order line is a product (not a charge) and the product is stocked, find the locators
 			if (product != null && product.get_ID() != 0 && product.isStocked())
 			{
 				String MMPolicy = product.getMMPolicy();
@@ -106,9 +116,11 @@ public class MInOut extends X_M_InOut implements DocAction
 					oLines[i].getM_Product_ID(), oLines[i].getM_AttributeSetInstance_ID(),
 					minGuaranteeDate, MClient.MMPOLICY_FiFo.equals(MMPolicy), true, 0, trxName);
 			} else {
+				// If the order is a charge or the product is not stocked, don't try to deliver it.
 				continue;
 			}
 
+			// Unless the order is force delivery then check delivery rule
 			if (!forceDelivery)
 			{
 				BigDecimal maxQty = Env.ZERO;
@@ -119,9 +131,11 @@ public class MInOut extends X_M_InOut implements DocAction
 					if (maxQty.compareTo(qty) < 0)
 						qty = maxQty;
 				}
-				else if (DELIVERYRULE_CompleteLine.equals(order.getDeliveryRule()))
+				else if (DELIVERYRULE_CompleteLine.equals(order.getDeliveryRule()) 
+						|| DELIVERYRULE_CompleteOrder.equals(order.getDeliveryRule()))
 				{
 					if (maxQty.compareTo(qty) < 0)
+						// Not enough to deliver the complete line
 						continue;
 				}
 			}
@@ -129,9 +143,12 @@ public class MInOut extends X_M_InOut implements DocAction
 			if (retValue.get_ID() == 0)	//	not saved yet
 				retValue.save(trxName);
 			//	Create a line until qty is reached
+			// There will be one line per storage (if there items are stored in more than one storage)
 			for (int ll = 0; ll < storages.length; ll++)
 			{
+				// Set lineQty to what's available in the storage
 				BigDecimal lineQty = storages[ll].getQtyOnHand();
+				// If lineQty is more than enough, set lineQty to original qty to be delivered.
 				if (lineQty.compareTo(qty) > 0)
 					lineQty = qty;
 				MInOutLine line = new MInOutLine (retValue);
@@ -142,6 +159,7 @@ public class MInOut extends X_M_InOut implements DocAction
 					line.setQtyEntered(lineQty
 						.multiply(oLines[i].getQtyEntered())
 						.divide(oLines[i].getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
+				// Set project ID if any
 				line.setC_Project_ID(oLines[i].getC_Project_ID());
 				line.save(trxName);
 				//	Delivered everything ?
@@ -158,6 +176,27 @@ public class MInOut extends X_M_InOut implements DocAction
 			return null;
 
 		return retValue;
+		
+	}
+
+	/**
+	 * 	Create Shipment From Order (using all order lines)
+	 *	@param order order
+	 *	@param movementDate optional movement date
+	 *	@param forceDelivery ignore order delivery rule
+	 *	@param allAttributeInstances if true, all attribute set instances
+	 *	@param minGuaranteeDate optional minimum guarantee date if all attribute instances
+	 *	@param complete complete document (Process if false, Complete if true)
+	 *	@param trxName transaction
+	 *	@return Shipment or null
+	 */
+	public static MInOut createFrom (MOrder order, Timestamp movementDate,
+		boolean forceDelivery, boolean allAttributeInstances, Timestamp minGuaranteeDate,
+		boolean complete, String trxName)
+	{
+		// Select all lines of the order
+		MOrderLine[] oLines = order.getLines(true, "M_Product_ID");
+		return createFrom(order, oLines, movementDate, forceDelivery, allAttributeInstances, minGuaranteeDate,complete,trxName);		
 	}	//	createFrom
 
 	/**
@@ -1277,6 +1316,10 @@ public class MInOut extends X_M_InOut implements DocAction
             }
 
 			log.info("Line=" + sLine.getLine() + " - Qty=" + sLine.getMovementQty());
+			
+			// Check delivery policy
+			MOrgInfo orgInfo = MOrgInfo.get(getCtx(), sLine.getAD_Org_ID(), get_TrxName());
+			boolean isStrictOrder = MClientInfo.DELIVERY_POLICY_STRICT_ORDER.equalsIgnoreCase(orgInfo.getDeliveryPolicy());
 
 			//	Stock Movement - Counterpart MOrder.reserveStock
 			if (product != null
@@ -1311,10 +1354,13 @@ public class MInOut extends X_M_InOut implements DocAction
 							QtyMA = QtyMA.negate();
 						BigDecimal reservedDiff = Env.ZERO;
 						BigDecimal orderedDiff = Env.ZERO;
+						BigDecimal allocatedDiff = Env.ZERO;
 						if (sLine.getC_OrderLine_ID() != 0)
 						{
-							if (isSOTrx())
+							if (isSOTrx()) {
 								reservedDiff = ma.getMovementQty().negate();
+								allocatedDiff = ma.getMovementQty().negate();
+							}
 							else
 								orderedDiff = ma.getMovementQty().negate();
 						}
@@ -1328,6 +1374,7 @@ public class MInOut extends X_M_InOut implements DocAction
 							QtyMA,
 							sameWarehouse ? reservedDiff : Env.ZERO,
 							sameWarehouse ? orderedDiff : Env.ZERO,
+							sameWarehouse && isStrictOrder ? allocatedDiff : Env.ZERO,
 							get_TrxName()))
 						{
 							m_processMsg = "Cannot correct Inventory (MA)";
@@ -1340,7 +1387,7 @@ public class MInOut extends X_M_InOut implements DocAction
 									wh.getDefaultLocator().getM_Locator_ID(),
 									sLine.getM_Product_ID(),
 									ma.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID,
-									Env.ZERO, reservedDiff, orderedDiff, get_TrxName()))
+									Env.ZERO, reservedDiff, orderedDiff, allocatedDiff, get_TrxName()))
 								{
 									m_processMsg = "Cannot correct Inventory (MA) in order warehouse";
 									return DocAction.STATUS_Invalid;
@@ -1364,13 +1411,14 @@ public class MInOut extends X_M_InOut implements DocAction
 				{
 					BigDecimal reservedDiff = sameWarehouse ? QtySO.negate() : Env.ZERO;
 					BigDecimal orderedDiff = sameWarehouse ? QtyPO.negate(): Env.ZERO;
+					BigDecimal allocatedDiff = isStrictOrder ? reservedDiff : Env.ZERO;
 
 					//	Fallback: Update Storage - see also VMatch.createMatchRecord
 					if (!MStorage.add(getCtx(), getM_Warehouse_ID(),
 						sLine.getM_Locator_ID(),
 						sLine.getM_Product_ID(),
 						sLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID,
-						Qty, reservedDiff, orderedDiff, get_TrxName()))
+						Qty, reservedDiff, orderedDiff, allocatedDiff, get_TrxName()))
 					{
 						m_processMsg = "Cannot correct Inventory";
 						return DocAction.STATUS_Invalid;
@@ -1382,7 +1430,7 @@ public class MInOut extends X_M_InOut implements DocAction
 								wh.getDefaultLocator().getM_Locator_ID(),
 								sLine.getM_Product_ID(),
 								sLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID,
-								Env.ZERO, QtySO.negate(), QtyPO.negate(), get_TrxName()))
+								Env.ZERO, QtySO.negate(), QtyPO.negate(), allocatedDiff, get_TrxName()))
 							{
 								m_processMsg = "Cannot correct Inventory";
 								return DocAction.STATUS_Invalid;
@@ -1412,10 +1460,15 @@ public class MInOut extends X_M_InOut implements DocAction
 				if (isSOTrx()							//	PO is done by Matching
 					|| sLine.getM_Product_ID() == 0)	//	PO Charges, empty lines
 				{
-					if (isSOTrx())
+					if (isSOTrx()) {
 						oLine.setQtyDelivered(oLine.getQtyDelivered().subtract(Qty));
-					else
+						// Adjust allocated on order line
+						if (isStrictOrder && product.isStocked()) oLine.setQtyAllocated(oLine.getQtyAllocated().add(Qty));
+					} else {
 						oLine.setQtyDelivered(oLine.getQtyDelivered().add(Qty));
+						// Adjust allocated on order line
+						if (isStrictOrder && product.isStocked()) oLine.setQtyAllocated(oLine.getQtyAllocated().subtract(Qty));
+					}
 					oLine.setDateDelivered(getMovementDate());	//	overwrite=last
 				}
 				if (!oLine.save())

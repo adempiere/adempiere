@@ -24,13 +24,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
+import org.adempiere.process.AllocateSalesOrders;
 import org.compiere.model.MClient;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MOrgInfo;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
+import org.compiere.model.MWarehouse;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -75,6 +79,11 @@ public class InOutGenerate extends SvrProcess
 	/** The Query sql			*/
 	private String 		m_sql = null;
 
+	/** Strict order flag 		*/
+	private boolean		m_strictOrder = false;
+	
+	/** Warehouse */
+	private	MWarehouse	m_warehouse;
 	
 	/** Storages temp space				*/
 	private HashMap<SParameter,MStorage[]> m_map = new HashMap<SParameter,MStorage[]>();
@@ -89,6 +98,7 @@ public class InOutGenerate extends SvrProcess
 	 */
 	protected void prepare()
 	{
+		
 		ProcessInfoParameter[] para = getParameter();
 		for (int i = 0; i < para.length; i++)
 		{
@@ -125,6 +135,8 @@ public class InOutGenerate extends SvrProcess
 			if (!DocAction.ACTION_Complete.equals(p_docAction))
 				p_docAction = DocAction.ACTION_Prepare;
 		}
+
+		
 	}	//	prepare
 
 	/**
@@ -143,6 +155,11 @@ public class InOutGenerate extends SvrProcess
 		
 		if (p_M_Warehouse_ID == 0)
 			throw new AdempiereUserError("@NotFound@ @M_Warehouse_ID@");
+
+		// Get client info for warehouse
+		m_warehouse = new MWarehouse(this.getCtx(), p_M_Warehouse_ID, this.get_TrxName());
+		MOrgInfo orgInfo = MOrgInfo.get(getCtx(), m_warehouse.getAD_Org_ID(), get_TrxName());
+		m_strictOrder = MClientInfo.DELIVERY_POLICY_STRICT_ORDER.equalsIgnoreCase(orgInfo.getDeliveryPolicy());
 		
 		if (p_Selection)	//	VInOutGen
 		{
@@ -164,6 +181,10 @@ public class InOutGenerate extends SvrProcess
 				//	Open Order Lines with Warehouse
 				+ " AND EXISTS (SELECT * FROM C_OrderLine ol "
 					+ "WHERE ol.M_Warehouse_ID=?";					//	#1
+				//  And the lines have allocated stock
+			if (m_strictOrder) {
+				m_sql += " AND (ol.qtyAllocated>0 OR (SELECT IsShippable(ol.M_Product_ID))='N')";
+			}
 			if (p_DatePromised != null)
 				m_sql += " AND TRUNC(ol.DatePromised)<=?";		//	#2
 			m_sql += " AND o.C_Order_ID=ol.C_Order_ID AND ol.QtyOrdered<>ol.QtyDelivered)";
@@ -228,7 +249,11 @@ public class InOutGenerate extends SvrProcess
 				String where = " AND M_Warehouse_ID=" + p_M_Warehouse_ID;
 				if (p_DatePromised != null)
 					where += " AND (TRUNC(DatePromised)<=" + DB.TO_DATE(p_DatePromised, true)
-						+ " OR DatePromised IS NULL)";		
+						+ " OR DatePromised IS NULL)";
+				//  Strict order
+				if (m_strictOrder) {
+					where += " AND (QtyAllocated>0 OR (SELECT IsShippable(M_Product_ID))='N')";
+				}
 				//	Exclude Auto Delivery if not Force
 				if (!MOrder.DELIVERYRULE_Force.equals(order.getDeliveryRule()))
 					where += " AND (C_OrderLine.M_Product_ID IS NULL"
@@ -251,6 +276,9 @@ public class InOutGenerate extends SvrProcess
 					BigDecimal onHand = Env.ZERO;
 					BigDecimal toDeliver = line.getQtyOrdered()
 						.subtract(line.getQtyDelivered());
+					
+					BigDecimal qtyAllocated = (BigDecimal)line.getQtyAllocated();
+					
 					MProduct product = line.getProduct();
 					//	Nothing to Deliver
 					if (product != null && toDeliver.signum() == 0)
@@ -305,13 +333,14 @@ public class InOutGenerate extends SvrProcess
 						MStorage storage = storages[j];
 						onHand = onHand.add(storage.getQtyOnHand());
 					}
-					boolean fullLine = onHand.compareTo(toDeliver) >= 0
-						|| toDeliver.signum() < 0;
+					boolean fullLine = m_strictOrder ? (qtyAllocated.compareTo(toDeliver)>=0 || toDeliver.signum() < 0) 
+							: (onHand.compareTo(toDeliver) >= 0 || toDeliver.signum() < 0);
 					
 					//	Complete Order
 					if (completeOrder && !fullLine)
 					{
-						log.fine("Failed CompleteOrder - OnHand=" + onHand 
+						log.fine("Failed CompleteOrder - OnHand=" + onHand
+							+ " Allocated=" + qtyAllocated 
 							+ " (Unconfirmed=" + unconfirmedShippedQty
 							+ "), ToDeliver=" + toDeliver + " - " + line);
 						completeOrder = false;
@@ -323,15 +352,15 @@ public class InOutGenerate extends SvrProcess
 						log.fine("CompleteLine - OnHand=" + onHand 
 							+ " (Unconfirmed=" + unconfirmedShippedQty
 							+ ", ToDeliver=" + toDeliver + " - " + line);
-						//	
+						//
 						createLine (order, line, toDeliver, storages, false);
 					}
 					//	Availability
 					else if (MOrder.DELIVERYRULE_Availability.equals(order.getDeliveryRule())
-						&& (onHand.signum() > 0
+						&& (onHand.signum() > 0 && ((m_strictOrder && qtyAllocated.signum() > 0) || !m_strictOrder)
 							|| toDeliver.signum() < 0))
 					{
-						BigDecimal deliver = toDeliver;
+						BigDecimal deliver = m_strictOrder ? qtyAllocated : toDeliver;
 						if (deliver.compareTo(onHand) > 0)
 							deliver = onHand;
 						log.fine("Available - OnHand=" + onHand 
@@ -372,7 +401,11 @@ public class InOutGenerate extends SvrProcess
 						if (line.getM_Warehouse_ID() != p_M_Warehouse_ID)
 							continue;
 						MProduct product = line.getProduct();
-						BigDecimal toDeliver = line.getQtyOrdered().subtract(line.getQtyDelivered());
+						BigDecimal toDeliver;
+						if (m_strictOrder && product.isStocked())
+							toDeliver = (BigDecimal)line.getQtyAllocated();
+						else
+							toDeliver = line.getQtyOrdered().subtract(line.getQtyDelivered());
 						//
 						MStorage[] storages = null;
 						if (product != null && product.isStocked())

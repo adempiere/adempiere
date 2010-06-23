@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
 
 /**
  *	Organization Info Model
@@ -99,5 +100,20 @@ public class MOrgInfo extends X_AD_OrgInfo
 		setDUNS ("?");
 		setTaxID ("?");
 	}	//	MOrgInfo
+	
+	/**
+	 * Returns the delivery policy of this organization. If no specific organization is set 
+	 * the delivery policy of the client is returned
+	 */
+	@Override
+	public String getDeliveryPolicy() {
+		String orgDeliveryPolicy = super.getDeliveryPolicy();
+		if (orgDeliveryPolicy!=null && orgDeliveryPolicy.trim().length()>0) {
+			return(orgDeliveryPolicy);
+		}
+		// Get the client's delivery policy
+		MClientInfo info = MClientInfo.get(Env.getCtx(), getAD_Client_ID());
+		return(info.getDeliveryPolicy());
+	}
 	
 }

@@ -273,6 +273,21 @@ public interface I_AD_ClientInfo
 
 	public I_C_UOM getC_UOM_Time() throws RuntimeException;
 
+    /** Column name C_UOM_Weight_ID */
+    public static final String COLUMNNAME_C_UOM_Weight_ID = "C_UOM_Weight_ID";
+
+	/** Set UOM for Weight.
+	  * Standard Unit of Measure for Weight
+	  */
+	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID);
+
+	/** Get UOM for Weight.
+	  * Standard Unit of Measure for Weight
+	  */
+	public int getC_UOM_Weight_ID();
+
+	public I_C_UOM getC_UOM_Weight() throws RuntimeException;
+
     /** Column name C_UOM_Volume_ID */
     public static final String COLUMNNAME_C_UOM_Volume_ID = "C_UOM_Volume_ID";
 
@@ -288,20 +303,18 @@ public interface I_AD_ClientInfo
 
 	public I_C_UOM getC_UOM_Volume() throws RuntimeException;
 
-    /** Column name C_UOM_Weight_ID */
-    public static final String COLUMNNAME_C_UOM_Weight_ID = "C_UOM_Weight_ID";
+    /** Column name DeliveryPolicy */
+    public static final String COLUMNNAME_DeliveryPolicy = "DeliveryPolicy";
 
-	/** Set UOM for Weight.
-	  * Standard Unit of Measure for Weight
+	/** Set Delivery Policy.
+	  * Delivery Policy
 	  */
-	public void setC_UOM_Weight_ID (int C_UOM_Weight_ID);
+	public void setDeliveryPolicy (String DeliveryPolicy);
 
-	/** Get UOM for Weight.
-	  * Standard Unit of Measure for Weight
+	/** Get Delivery Policy.
+	  * Delivery Policy
 	  */
-	public int getC_UOM_Weight_ID();
-
-	public I_C_UOM getC_UOM_Weight() throws RuntimeException;
+	public String getDeliveryPolicy();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -29,7 +29,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20100622L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -154,6 +154,30 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** DeliveryPolicy AD_Reference_ID=53355 */
+	public static final int DELIVERYPOLICY_AD_Reference_ID=53355;
+	/** No Hold = N */
+	public static final String DELIVERYPOLICY_NoHold = "N";
+	/** Strict order = O */
+	public static final String DELIVERYPOLICY_StrictOrder = "O";
+	/** Set Delivery Policy.
+		@param DeliveryPolicy 
+		Delivery Policy
+	  */
+	public void setDeliveryPolicy (String DeliveryPolicy)
+	{
+
+		set_Value (COLUMNNAME_DeliveryPolicy, DeliveryPolicy);
+	}
+
+	/** Get Delivery Policy.
+		@return Delivery Policy
+	  */
+	public String getDeliveryPolicy () 
+	{
+		return (String)get_Value(COLUMNNAME_DeliveryPolicy);
 	}
 
 	public I_M_Warehouse getDropShip_Warehouse() throws RuntimeException

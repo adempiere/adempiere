@@ -267,7 +267,7 @@ public class MStorage extends X_M_Storage
 		//	Specific Attribute Set Instance
 		String sql = "SELECT s.M_Product_ID,s.M_Locator_ID,s.M_AttributeSetInstance_ID,"
 			+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
-			+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
+			+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.QtyAllocated,s.DateLastInventory "
 			+ "FROM M_Storage s"
 			+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID) ";
 		if (M_Locator_ID > 0)
@@ -292,7 +292,7 @@ public class MStorage extends X_M_Storage
 		{
 			sql = "SELECT s.M_Product_ID,s.M_Locator_ID,s.M_AttributeSetInstance_ID,"
 				+ "s.AD_Client_ID,s.AD_Org_ID,s.IsActive,s.Created,s.CreatedBy,s.Updated,s.UpdatedBy,"
-				+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.DateLastInventory "
+				+ "s.QtyOnHand,s.QtyReserved,s.QtyOrdered,s.QtyAllocated,s.DateLastInventory "
 				+ "FROM M_Storage s"
 				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID=s.M_Locator_ID)"
 				+ " LEFT OUTER JOIN M_AttributeSetInstance asi ON (s.M_AttributeSetInstance_ID=asi.M_AttributeSetInstance_ID) ";
@@ -413,7 +413,10 @@ public class MStorage extends X_M_Storage
 	public static boolean add (Properties ctx, int M_Warehouse_ID, int M_Locator_ID, 
 		int M_Product_ID, int M_AttributeSetInstance_ID, int reservationAttributeSetInstance_ID,
 		BigDecimal diffQtyOnHand, 
-		BigDecimal diffQtyReserved, BigDecimal diffQtyOrdered, String trxName)
+		BigDecimal diffQtyReserved, 
+		BigDecimal diffQtyOrdered,
+		BigDecimal diffQtyAllocated,
+		String trxName)
 	{
 		MStorage storage = null;
 		StringBuffer diffText = new StringBuffer("(");
@@ -476,6 +479,15 @@ public class MStorage extends X_M_Storage
 			else
 				storage0.setQtyOrdered (storage0.getQtyOrdered().add (diffQtyOrdered));
 			diffText.append(" Ordered=").append(diffQtyOrdered);
+			changed = true;
+		}
+		if (diffQtyAllocated !=null && diffQtyAllocated.signum() != 0) 
+		{
+			if (storage0 == null)
+				storage.setQtyAllocated(storage.getQtyAllocated().add(diffQtyAllocated));
+			else
+				storage0.setQtyAllocated(storage0.getQtyAllocated().add(diffQtyAllocated));
+			diffText.append(" Allocated=").append(diffQtyAllocated);
 			changed = true;
 		}
 		if (changed)
@@ -611,6 +623,47 @@ public class MStorage extends X_M_Storage
 		return retValue;
 	}	//	getQtyAvailable
 	
+	/**
+	 * Get Warehouse/Locator on hand Qty.
+	 * The call is accurate only if there is a storage record 
+	 * and assumes that the product is stocked 
+	 * @param M_Warehouse_ID wh (if the M_Locator_ID!=0 then M_Warehouse_ID is ignored)
+	 * @param M_Locator_ID locator (if 0, the whole warehouse will be evaluated)
+	 * @param M_Product_ID product
+	 * @param M_AttributeSetInstance_ID masi
+	 * @param trxName transaction
+	 * @return qty on hand (QtyOnHand) or null if error
+	 */
+	public static BigDecimal getQtyOnHand (int M_Warehouse_ID, int M_Locator_ID, 
+		int M_Product_ID, int M_AttributeSetInstance_ID, String trxName)
+	{
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer("SELECT COALESCE(SUM(s.QtyOnHand),0)")
+								.append(" FROM M_Storage s")
+								.append(" WHERE s.M_Product_ID=?");
+		params.add(M_Product_ID);
+		// Warehouse level
+		if (M_Locator_ID == 0) {
+			sql.append(" AND EXISTS (SELECT 1 FROM M_Locator l WHERE s.M_Locator_ID=l.M_Locator_ID AND l.M_Warehouse_ID=?)");
+			params.add(M_Warehouse_ID);
+		}
+		// Locator level
+		else {
+			sql.append(" AND s.M_Locator_ID=?");
+			params.add(M_Locator_ID);
+		}
+		// With ASI
+		if (M_AttributeSetInstance_ID != 0) {
+			sql.append(" AND s.M_AttributeSetInstance_ID=?");
+			params.add(M_AttributeSetInstance_ID);
+		}
+		//
+		BigDecimal retValue = DB.getSQLValueBD(trxName, sql.toString(), params);
+		if (CLogMgt.isLevelFine())
+			s_log.fine("M_Warehouse_ID=" + M_Warehouse_ID + ", M_Locator_ID=" + M_Locator_ID 
+				+ ",M_Product_ID=" + M_Product_ID + " = " + retValue);
+		return retValue;
+	}	//	getQtyAvailable
 	
 	/**************************************************************************
 	 * 	Persistency Constructor

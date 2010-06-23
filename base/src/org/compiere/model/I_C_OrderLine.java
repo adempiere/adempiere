@@ -602,6 +602,19 @@ public interface I_C_OrderLine
 	  */
 	public boolean isProcessed();
 
+    /** Column name QtyAllocated */
+    public static final String COLUMNNAME_QtyAllocated = "QtyAllocated";
+
+	/** Set Qty Allocated.
+	  * Allocated quantity
+	  */
+	public void setQtyAllocated (BigDecimal QtyAllocated);
+
+	/** Get Qty Allocated.
+	  * Allocated quantity
+	  */
+	public BigDecimal getQtyAllocated();
+
     /** Column name QtyDelivered */
     public static final String COLUMNNAME_QtyDelivered = "QtyDelivered";
 

@@ -33,7 +33,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20100622L;
 
     /** Standard Constructor */
     public X_C_OrderLine (Properties ctx, int C_OrderLine_ID, String trxName)
@@ -996,6 +996,26 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Qty Allocated.
+		@param QtyAllocated 
+		Allocated quantity
+	  */
+	public void setQtyAllocated (BigDecimal QtyAllocated)
+	{
+		set_Value (COLUMNNAME_QtyAllocated, QtyAllocated);
+	}
+
+	/** Get Qty Allocated.
+		@return Allocated quantity
+	  */
+	public BigDecimal getQtyAllocated () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyAllocated);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Delivered Quantity.
