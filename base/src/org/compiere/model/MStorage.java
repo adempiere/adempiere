@@ -394,6 +394,7 @@ public class MStorage extends X_M_Storage
 		return retValue;
 	}	//	getCreate
 
+
 	
 	/**
 	 * 	Update Storage Info add.
@@ -407,6 +408,36 @@ public class MStorage extends X_M_Storage
 	 *	@param diffQtyOnHand add on hand
 	 *	@param diffQtyReserved add reserved
 	 *	@param diffQtyOrdered add order
+	 *	@param trxName transaction
+	 *	@return true if updated
+	 *	@deprecated Please use {@link #add(Properties, int, int, int, int, int, BigDecimal, BigDecimal, BigDecimal, BigDecimal, String)} instead
+
+	 */
+	public static boolean add (Properties ctx, int M_Warehouse_ID, int M_Locator_ID, 
+		int M_Product_ID, int M_AttributeSetInstance_ID, int reservationAttributeSetInstance_ID,
+		BigDecimal diffQtyOnHand, 
+		BigDecimal diffQtyReserved, 
+		BigDecimal diffQtyOrdered,
+		String trxName) 
+	{
+		return add(ctx, M_Warehouse_ID, M_Locator_ID, M_Product_ID, M_AttributeSetInstance_ID, reservationAttributeSetInstance_ID,
+				diffQtyOnHand, diffQtyReserved, diffQtyOrdered, Env.ZERO, trxName);
+	}
+	
+	
+	/**
+	 * 	Update Storage Info add.
+	 * 	Called from MProjectIssue
+	 *	@param ctx context
+	 *	@param M_Warehouse_ID warehouse
+	 *	@param M_Locator_ID locator
+	 *	@param M_Product_ID product
+	 *	@param M_AttributeSetInstance_ID AS Instance
+	 *	@param reservationAttributeSetInstance_ID reservation AS Instance
+	 *	@param diffQtyOnHand add on hand
+	 *	@param diffQtyReserved add reserved
+	 *	@param diffQtyOrdered add order
+	 *	@param diffQtyAllocated add allocated
 	 *	@param trxName transaction
 	 *	@return true if updated
 	 */
