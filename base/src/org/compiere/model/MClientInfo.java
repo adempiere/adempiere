@@ -39,9 +39,6 @@ public class MClientInfo extends X_AD_ClientInfo
 	 * 
 	 */
 	private static final long serialVersionUID = 4861006368856890116L;
-	
-	public static final String	DELIVERY_POLICY_STRICT_ORDER = "O";
-	public static final String	DELIVERY_POLICY_NO_HOLD = "N";
 
 	/**
 	 * 	Get Client Info

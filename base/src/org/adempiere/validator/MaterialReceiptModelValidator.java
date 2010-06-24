@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import org.adempiere.process.AllocateSalesOrders;
@@ -88,7 +89,7 @@ public class MaterialReceiptModelValidator implements ModelValidator {
 		// Make sure we have a positive amount
 		if (qty.signum()>0) {
 
-			Vector<MOrderLine> lines = AllocateSalesOrders.getOrderLinesToAllocate(conn, iol.getProduct().get_ID(), trxName);
+			List<MOrderLine> lines = AllocateSalesOrders.getOrderLinesToAllocate(conn, iol.getProduct().get_ID(), trxName);
 			
 			MOrderLine line;
 			BigDecimal receivedQty = iol.getMovementQty();

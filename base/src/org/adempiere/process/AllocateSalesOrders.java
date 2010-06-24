@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -78,8 +79,8 @@ public class AllocateSalesOrders extends SvrProcess {
 	 * @return  Order lines to allocate products to.
 	 * @throws SQLException
 	 */
-	public static Vector<MOrderLine> getOrderLinesToAllocate(Connection conn, int productId, String trxName) throws SQLException {
-		Vector<MOrderLine> result = new Vector<MOrderLine>();
+	public static List<MOrderLine> getOrderLinesToAllocate(Connection conn, int productId, String trxName) throws SQLException {
+		List<MOrderLine> result = new Vector<MOrderLine>();
 		Properties ctx = Env.getCtx();
 		MOrderLine line;
 		PreparedStatement ps = conn.prepareStatement(query);
@@ -103,9 +104,9 @@ public class AllocateSalesOrders extends SvrProcess {
 	 * @return
 	 * @throws 	SQLException
 	 */
-	public static Vector<StockInfo> getProductsToAllocate(Connection conn, int WarehouseID) throws SQLException {
+	public static List<StockInfo> getProductsToAllocate(Connection conn, int WarehouseID) throws SQLException {
 		
-		Vector<StockInfo> result = new Vector<StockInfo>();
+		List<StockInfo> result = new Vector<StockInfo>();
 		StockInfo si;
 		String query1 = "select M_Product_ID, sum(qtyonhand), sum(qtyreserved), sum(m_Product_Stock_v.qtyallocated) " +
 						"from M_Product_Stock_v " + 
@@ -143,9 +144,9 @@ public class AllocateSalesOrders extends SvrProcess {
 	protected String doIt() throws Exception {
 
 		Connection conn = DB.getConnectionRO();		
-		Vector<StockInfo> products = AllocateSalesOrders.getProductsToAllocate(conn, m_warehouseId);
+		List<StockInfo> products = AllocateSalesOrders.getProductsToAllocate(conn, m_warehouseId);
 		conn.close();
-		Vector<MOrderLine> lines;
+		List<MOrderLine> lines;
 		MOrderLine line;
 		BigDecimal lineAllocate;
 		BigDecimal toAllocate;
@@ -158,7 +159,7 @@ public class AllocateSalesOrders extends SvrProcess {
 		// Make sure we have settings that needs allocation
 		MWarehouse warehouse = new MWarehouse(getCtx(), m_warehouseId, get_TrxName());
 		MOrgInfo orgInfo = MOrgInfo.get(getCtx(), warehouse.getAD_Org_ID(), get_TrxName());
-		if (!orgInfo.getDeliveryPolicy().equals(MClientInfo.DELIVERY_POLICY_STRICT_ORDER)) {
+		if (!orgInfo.getDeliveryPolicy().equals(MClientInfo.DELIVERYPOLICY_StrictOrder)) {
 			return "The current delivery policy of the warehouse doesn't use allocation.";
 		}
 		

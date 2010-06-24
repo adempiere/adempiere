@@ -159,7 +159,7 @@ public class InOutGenerate extends SvrProcess
 		// Get client info for warehouse
 		m_warehouse = new MWarehouse(this.getCtx(), p_M_Warehouse_ID, this.get_TrxName());
 		MOrgInfo orgInfo = MOrgInfo.get(getCtx(), m_warehouse.getAD_Org_ID(), get_TrxName());
-		m_strictOrder = MClientInfo.DELIVERY_POLICY_STRICT_ORDER.equalsIgnoreCase(orgInfo.getDeliveryPolicy());
+		m_strictOrder = MClientInfo.DELIVERYPOLICY_StrictOrder.equalsIgnoreCase(orgInfo.getDeliveryPolicy());
 		
 		if (p_Selection)	//	VInOutGen
 		{

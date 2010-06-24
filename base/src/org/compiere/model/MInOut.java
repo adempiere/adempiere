@@ -1319,7 +1319,7 @@ public class MInOut extends X_M_InOut implements DocAction
 			
 			// Check delivery policy
 			MOrgInfo orgInfo = MOrgInfo.get(getCtx(), sLine.getAD_Org_ID(), get_TrxName());
-			boolean isStrictOrder = MClientInfo.DELIVERY_POLICY_STRICT_ORDER.equalsIgnoreCase(orgInfo.getDeliveryPolicy());
+			boolean isStrictOrder = MClientInfo.DELIVERYPOLICY_StrictOrder.equalsIgnoreCase(orgInfo.getDeliveryPolicy());
 
 			//	Stock Movement - Counterpart MOrder.reserveStock
 			if (product != null
