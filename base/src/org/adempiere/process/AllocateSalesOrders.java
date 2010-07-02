@@ -18,6 +18,7 @@ import org.compiere.model.MClientInfo;
 import org.compiere.model.MWarehouse;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.CPreparedStatement;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -79,11 +80,11 @@ public class AllocateSalesOrders extends SvrProcess {
 	 * @return  Order lines to allocate products to.
 	 * @throws SQLException
 	 */
-	public static List<MOrderLine> getOrderLinesToAllocate(Connection conn, int productId, String trxName) throws SQLException {
+	public static List<MOrderLine> getOrderLinesToAllocate(int productId, String trxName) throws SQLException {
 		List<MOrderLine> result = new Vector<MOrderLine>();
 		Properties ctx = Env.getCtx();
 		MOrderLine line;
-		PreparedStatement ps = conn.prepareStatement(query);
+		CPreparedStatement ps = DB.prepareStatement(query, trxName);
 		ps.setInt(1, productId);
 		ResultSet rs = ps.executeQuery();
 		while(rs.next()) {
@@ -173,10 +174,8 @@ public class AllocateSalesOrders extends SvrProcess {
 			
 			MProduct product = null;
 			si = it.next();
-			conn = DB.getConnectionRO();
 			// Get all lines to allocate
-			lines = AllocateSalesOrders.getOrderLinesToAllocate(conn, si.productId, get_TrxName());
-			conn.close();
+			lines = AllocateSalesOrders.getOrderLinesToAllocate(si.productId, get_TrxName());
 			
 			// Check if there are any lines to allocate
 			// and create a log.
