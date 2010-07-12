@@ -202,12 +202,12 @@ public class CRPReasoner
 		Timestamp date = dateTime;
 		int direction = isScheduleBackward ? -1 : +1; 
 		int i = 0;
-		do {
-			date = TimeUtil.addDays(date, direction);
+		do {			
 			if (t.isDayAvailable(date))
 			{
 				return date;
 			}
+			date = TimeUtil.addDays(date, direction);
 			i++;		
 		} while (i < 7);
 		return date;
