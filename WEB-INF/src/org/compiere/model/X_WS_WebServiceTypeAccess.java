@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -17,21 +17,19 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for WS_WebServiceTypeAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.4.2s - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_WS_WebServiceTypeAccess extends PO implements I_WS_WebServiceTypeAccess, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20100713L;
 
     /** Standard Constructor */
     public X_WS_WebServiceTypeAccess (Properties ctx, int WS_WebServiceTypeAccess_ID, String trxName)
@@ -74,21 +72,10 @@ public class X_WS_WebServiceTypeAccess extends PO implements I_WS_WebServiceType
       return sb.toString();
     }
 
-	public I_AD_Role getAD_Role() throws Exception 
+	public I_AD_Role getAD_Role() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_AD_Role.Table_Name);
-        I_AD_Role result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_AD_Role)constructor.newInstance(new Object[] {getCtx(), new Integer(getAD_Role_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
+		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
 		@param AD_Role_ID 
@@ -96,9 +83,10 @@ public class X_WS_WebServiceTypeAccess extends PO implements I_WS_WebServiceType
 	  */
 	public void setAD_Role_ID (int AD_Role_ID)
 	{
-		if (AD_Role_ID < 0)
-			 throw new IllegalArgumentException ("AD_Role_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+		if (AD_Role_ID < 0) 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
 	}
 
 	/** Get Role.
@@ -136,29 +124,19 @@ public class X_WS_WebServiceTypeAccess extends PO implements I_WS_WebServiceType
 		return false;
 	}
 
-	public I_WS_WebServiceType getWS_WebServiceType() throws Exception 
+	public I_WS_WebServiceType getWS_WebServiceType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_WS_WebServiceType.Table_Name);
-        I_WS_WebServiceType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_WS_WebServiceType)constructor.newInstance(new Object[] {getCtx(), new Integer(getWS_WebServiceType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
+		return (I_WS_WebServiceType)MTable.get(getCtx(), I_WS_WebServiceType.Table_Name)
+			.getPO(getWS_WebServiceType_ID(), get_TrxName());	}
 
 	/** Set Web Service Type.
 		@param WS_WebServiceType_ID Web Service Type	  */
 	public void setWS_WebServiceType_ID (int WS_WebServiceType_ID)
 	{
-		if (WS_WebServiceType_ID < 1)
-			 throw new IllegalArgumentException ("WS_WebServiceType_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_WS_WebServiceType_ID, Integer.valueOf(WS_WebServiceType_ID));
+		if (WS_WebServiceType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_WS_WebServiceType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_WS_WebServiceType_ID, Integer.valueOf(WS_WebServiceType_ID));
 	}
 
 	/** Get Web Service Type.

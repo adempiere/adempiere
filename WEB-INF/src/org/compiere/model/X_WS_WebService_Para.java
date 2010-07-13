@@ -1,14 +1,14 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
  * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
@@ -17,21 +17,19 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
-import java.lang.reflect.Constructor;
 import java.sql.ResultSet;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /** Generated Model for WS_WebService_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.4.2s - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 20100713L;
 
     /** Standard Constructor */
     public X_WS_WebService_Para (Properties ctx, int WS_WebService_Para_ID, String trxName)
@@ -79,12 +77,6 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
 	  */
 	public void setConstantValue (String ConstantValue)
 	{
-
-		if (ConstantValue != null && ConstantValue.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ConstantValue = ConstantValue.substring(0, 60);
-		}
 		set_Value (COLUMNNAME_ConstantValue, ConstantValue);
 	}
 
@@ -100,12 +92,6 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
 		@param ParameterName Parameter Name	  */
 	public void setParameterName (String ParameterName)
 	{
-
-		if (ParameterName != null && ParameterName.length() > 60)
-		{
-			log.warning("Length > 60 - truncated");
-			ParameterName = ParameterName.substring(0, 60);
-		}
 		set_ValueNoCheck (COLUMNNAME_ParameterName, ParameterName);
 	}
 
@@ -126,13 +112,7 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
 		@param ParameterType Parameter Type	  */
 	public void setParameterType (String ParameterType)
 	{
-		if (ParameterType == null) throw new IllegalArgumentException ("ParameterType is mandatory");
-		if (ParameterType.equals("C") || ParameterType.equals("F")); else throw new IllegalArgumentException ("ParameterType Invalid value - " + ParameterType + " - Reference_ID=53288 - C - F");
-		if (ParameterType.length() > 1)
-		{
-			log.warning("Length > 1 - truncated");
-			ParameterType = ParameterType.substring(0, 1);
-		}
+
 		set_Value (COLUMNNAME_ParameterType, ParameterType);
 	}
 
@@ -147,9 +127,10 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
 		@param WS_WebService_Para_ID Web Service Parameters	  */
 	public void setWS_WebService_Para_ID (int WS_WebService_Para_ID)
 	{
-		if (WS_WebService_Para_ID < 1)
-			 throw new IllegalArgumentException ("WS_WebService_Para_ID is mandatory.");
-		set_ValueNoCheck (COLUMNNAME_WS_WebService_Para_ID, Integer.valueOf(WS_WebService_Para_ID));
+		if (WS_WebService_Para_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_WS_WebService_Para_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_WS_WebService_Para_ID, Integer.valueOf(WS_WebService_Para_ID));
 	}
 
 	/** Get Web Service Parameters.
@@ -162,29 +143,19 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
 		return ii.intValue();
 	}
 
-	public I_WS_WebServiceType getWS_WebServiceType() throws Exception 
+	public I_WS_WebServiceType getWS_WebServiceType() throws RuntimeException
     {
-        Class<?> clazz = MTable.getClass(I_WS_WebServiceType.Table_Name);
-        I_WS_WebServiceType result = null;
-        try	{
-	        Constructor<?> constructor = null;
-	    	constructor = clazz.getDeclaredConstructor(new Class[]{Properties.class, int.class, String.class});
-    	    result = (I_WS_WebServiceType)constructor.newInstance(new Object[] {getCtx(), new Integer(getWS_WebServiceType_ID()), get_TrxName()});
-        } catch (Exception e) {
-	        log.log(Level.SEVERE, "(id) - Table=" + Table_Name + ",Class=" + clazz, e);
-	        log.saveError("Error", "Table=" + Table_Name + ",Class=" + clazz);
-           throw e;
-        }
-        return result;
-    }
+		return (I_WS_WebServiceType)MTable.get(getCtx(), I_WS_WebServiceType.Table_Name)
+			.getPO(getWS_WebServiceType_ID(), get_TrxName());	}
 
 	/** Set Web Service Type.
 		@param WS_WebServiceType_ID Web Service Type	  */
 	public void setWS_WebServiceType_ID (int WS_WebServiceType_ID)
 	{
-		if (WS_WebServiceType_ID < 1)
-			 throw new IllegalArgumentException ("WS_WebServiceType_ID is mandatory.");
-		set_Value (COLUMNNAME_WS_WebServiceType_ID, Integer.valueOf(WS_WebServiceType_ID));
+		if (WS_WebServiceType_ID < 1) 
+			set_Value (COLUMNNAME_WS_WebServiceType_ID, null);
+		else 
+			set_Value (COLUMNNAME_WS_WebServiceType_ID, Integer.valueOf(WS_WebServiceType_ID));
 	}
 
 	/** Get Web Service Type.
