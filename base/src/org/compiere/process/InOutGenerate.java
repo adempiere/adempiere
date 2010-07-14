@@ -402,7 +402,7 @@ public class InOutGenerate extends SvrProcess
 							continue;
 						MProduct product = line.getProduct();
 						BigDecimal toDeliver;
-						if (m_strictOrder && product.isStocked())
+						if (m_strictOrder && product!=null && product.isStocked())
 							toDeliver = (BigDecimal)line.getQtyAllocated();
 						else
 							toDeliver = line.getQtyOrdered().subtract(line.getQtyDelivered());
