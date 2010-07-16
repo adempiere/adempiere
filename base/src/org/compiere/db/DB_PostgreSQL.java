@@ -37,6 +37,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
+import org.compiere.util.Language;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
@@ -398,20 +399,24 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 **/
 	public String TO_CHAR (String columnName, int displayType, String AD_Language)
 	{
-		StringBuffer retValue = new StringBuffer("CAST (");
-		retValue.append(columnName);
-		retValue.append(" AS Text)");
-
+		StringBuffer retValue = new StringBuffer("TRIM(TO_CHAR(");
+        retValue.append(columnName);
+        
+        char d = '.';
+        char g = ',';
+        if ( !Language.isDecimalPoint(AD_Language))
+        {
+        	d = ',';
+        	g = '.';
+        }
+        
 		//  Numbers
-		/*
 		if (DisplayType.isNumeric(displayType))
 		{
 			if (displayType == DisplayType.Amount)
-				retValue.append(" AS TEXT");
+				retValue.append(",'999" + g + "999" + g + "999" + g + "990" + d + "00'");
 			else
-				retValue.append(" AS TEXT");			
-			//if (!Language.isDecimalPoint(AD_Language))      //  reversed
-			//retValue.append(",'NLS_NUMERIC_CHARACTERS='',.'''");
+				retValue.append(",'999" + g + "999" + g + "999" + g + "990" + d + "9999999999'");
 		}
 		else if (DisplayType.isDate(displayType))
 		{
@@ -419,8 +424,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 				.append(Language.getLanguage(AD_Language).getDBdatePattern())
 				.append("'");
 		}
-		retValue.append(")");
-		//*/
+		retValue.append("))");
 		return retValue.toString();
 	}   //  TO_CHAR
 
