@@ -108,7 +108,13 @@ public class DefaultRoutingServiceImpl implements RoutingService
 			// Estimate total duration for 1 unit of final product as duration / units cycles
 			duration = estimateWorkingTime(node).doubleValue(); 
 		}
-		final double totalDuration = (setupTime / batchSize + duration);
+		
+		double totalDuration;
+		if(batchSize > 0)
+			totalDuration = ((setupTime / batchSize) + duration);
+		else
+			totalDuration = setupTime  + duration;
+		
 		return BigDecimal.valueOf(totalDuration);
 	}
 	
