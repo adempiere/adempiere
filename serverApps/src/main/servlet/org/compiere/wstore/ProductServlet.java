@@ -33,7 +33,7 @@ import org.compiere.util.WebSessionCtx;
 import org.compiere.util.WebUtil;
 
 /**
- *	Web Product Search
+ *	Web Product Serach
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ProductServlet.java,v 1.2 2006/07/30 00:53:21 jjanke Exp $
