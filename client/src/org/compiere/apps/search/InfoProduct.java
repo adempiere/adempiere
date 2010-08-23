@@ -1096,7 +1096,11 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 				
 				if(tab.getSelectedIndex() == 4 & warehouseTbl.getRowCount() > 0)
 				{	
-					String value = (String)warehouseTbl.getValueAt(warehouseTbl.getSelectedRow(),0);
+					// If no warehouse row is selected in the warehouse tab, use the first warehouse
+					// row to prevent array index out of bounds. BF 3051361
+					int selectedRow = warehouseTbl.getSelectedRow();
+					if (selectedRow<0) selectedRow = 0;
+					String value = (String)warehouseTbl.getValueAt(selectedRow,0);
 					int M_Warehouse_ID = DB.getSQLValue(null, "SELECT M_Warehouse_ID FROM M_Warehouse WHERE UPPER(Name) = UPPER(?) AND AD_Client_ID=?", new Object[] { value ,Env.getAD_Client_ID(Env.getCtx())});
 					initAtpTab(M_Warehouse_ID);
 				}	
