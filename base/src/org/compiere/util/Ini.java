@@ -258,7 +258,7 @@ public final class Ini implements Serializable
 			try
 			{
 				File f = new File(fileName);
-				f.getParentFile().mkdirs(); // Create all dirs if not exist - teo_sarca FR [ 2406123 ]
+				f.getAbsoluteFile().getParentFile().mkdirs(); // Create all dirs if not exist - teo_sarca FR [ 2406123 ]
 				fos = new FileOutputStream(f);
 				s_prop.store(fos, "Adempiere");
 				fos.flush();
