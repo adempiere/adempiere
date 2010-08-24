@@ -263,6 +263,19 @@ public interface I_AD_Field
 	  */
 	public String getHelp();
 
+    /** Column name HideInListView */
+    public static final String COLUMNNAME_HideInListView = "HideInListView";
+
+	/** Set Hide in list view.
+	  * When checked this field will be hidden by default in list view
+	  */
+	public void setHideInListView (boolean HideInListView);
+
+	/** Get Hide in list view.
+	  * When checked this field will be hidden by default in list view
+	  */
+	public boolean isHideInListView();
+
     /** Column name Included_Tab_ID */
     public static final String COLUMNNAME_Included_Tab_ID = "Included_Tab_ID";
 
@@ -433,6 +446,19 @@ public interface I_AD_Field
 	  * Type of obscuring the data (limiting the display)
 	  */
 	public String getObscureType();
+
+    /** Column name PreferredWidth */
+    public static final String COLUMNNAME_PreferredWidth = "PreferredWidth";
+
+	/** Set Preferred Width.
+	  * Preferred width in pixels
+	  */
+	public void setPreferredWidth (int PreferredWidth);
+
+	/** Get Preferred Width.
+	  * Preferred width in pixels
+	  */
+	public int getPreferredWidth();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

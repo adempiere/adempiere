@@ -792,6 +792,18 @@ public class GridField
 		return true;
 	}	//	isDisplayed
 
+	// Should the column be hidden by default in list view
+	public boolean isHideInListView() {
+		return(m_vo.HideInListView);
+	}
+	
+	/**
+	 * Preferred width in list view
+	 */
+	public int getPreferredWidthInListView() {
+		return(m_vo.PreferredWidth);
+	}
+	
 	/**
 	 * 	Get Variable Value (Evaluatee)
 	 *	@param variableName name

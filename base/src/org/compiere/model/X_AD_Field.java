@@ -32,7 +32,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20100823L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -385,6 +385,30 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Hide in list view.
+		@param HideInListView 
+		When checked this field will be hidden by default in list view
+	  */
+	public void setHideInListView (boolean HideInListView)
+	{
+		set_Value (COLUMNNAME_HideInListView, Boolean.valueOf(HideInListView));
+	}
+
+	/** Get Hide in list view.
+		@return When checked this field will be hidden by default in list view
+	  */
+	public boolean isHideInListView () 
+	{
+		Object oo = get_Value(COLUMNNAME_HideInListView);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	public I_AD_Tab getIncluded_Tab() throws RuntimeException
     {
 		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
@@ -673,6 +697,26 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public String getObscureType () 
 	{
 		return (String)get_Value(COLUMNNAME_ObscureType);
+	}
+
+	/** Set Preferred Width.
+		@param PreferredWidth 
+		Preferred width in pixels
+	  */
+	public void setPreferredWidth (int PreferredWidth)
+	{
+		set_Value (COLUMNNAME_PreferredWidth, Integer.valueOf(PreferredWidth));
+	}
+
+	/** Get Preferred Width.
+		@return Preferred width in pixels
+	  */
+	public int getPreferredWidth () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PreferredWidth);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Sequence.
