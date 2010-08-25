@@ -560,7 +560,7 @@ public class GridController extends CPanel
 
 			// FR 3051618 - Hide in list view
 			if (mField.isHideInListView()) {
-				vTable.setColumnVisibility(tcm.getColumn(i), false);
+				vTable.setColumnVisibility(tc, false);
 			}
 			
 			if (mField.getColumnName().equals(tc.getIdentifier().toString()))
@@ -594,8 +594,7 @@ public class GridController extends CPanel
 						//
 						tc.setHeaderValue (mField.getHeader ());
 						tc.setPreferredWidth (Math.max (mField.getDisplayLength (), 30));
-						tc.setHeaderRenderer (new VHeaderRenderer (mField.getDisplayType ()));
-
+						tc.setHeaderRenderer (new VHeaderRenderer(mField)); 
 						//  Enable Button actions in grid
 						if (mField.getDisplayType () == DisplayType.Button)
 						{
