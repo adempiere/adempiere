@@ -41,6 +41,9 @@ import org.zkoss.zk.ui.event.Events;
  * @version $Revision: 0.10 $
  *
  * @author Low Heng Sin
+ * @author Cristina Ghita, www.arhipac.ro
+ *  	   <li> BF [3058780] WNumberEditor allow only BigDecimal
+ *  	   @see https://sourceforge.net/tracker/?func=detail&aid=3058780&group_id=176962&atid=955896
  */
 public class WNumberEditor extends WEditor implements ContextMenuListener
 {
@@ -48,7 +51,7 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
 
     public static final int MAX_DISPLAY_LENGTH = 20;
 
-    private BigDecimal oldValue;
+    private Object oldValue;
 
 	private int displayType;
 
@@ -129,8 +132,15 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
     {
     	if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()) || Events.ON_OK.equalsIgnoreCase(event.getName()))
     	{
-	        BigDecimal newValue = getComponent().getValue();
-	        if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
+	        Object newValue = getComponent().getValue();
+	        
+			BigDecimal bd = new BigDecimal(newValue.toString());
+			if (displayType == DisplayType.Integer)
+				newValue =  new Integer(bd.intValue());
+			else
+				newValue = bd;
+	        if (oldValue != null && newValue != null && oldValue.equals(newValue)) 
+	        {
 	    	    return;
 	    	}
 	        if (oldValue == null && newValue == null) {
