@@ -620,6 +620,60 @@ public class MInvoice extends X_C_Invoice implements DocAction
 
 
 	/**
+	 * Rounds the order according to given rounding rule one the invoice's price list
+	 * @return	True if rounding succeeds.
+	 */
+	public String round() {
+		
+		I_M_PriceList priceList = this.getM_PriceList();
+		String roundingRule = priceList.getRoundingRule();
+		if (roundingRule!=null) {
+			BigDecimal grandTotal = this.getGrandTotal();
+			BigDecimal roundedTotal;
+			if (X_M_PriceList.ROUNDINGRULE_CurrencyPrecision.equals(roundingRule)) {
+				roundedTotal = BaseUtil.roundToPrecision(grandTotal, priceList.getPricePrecision());
+			} else {
+				roundedTotal = BaseUtil.round(grandTotal, roundingRule);
+			}
+			BigDecimal difference = grandTotal.subtract(roundedTotal);
+			BigDecimal existingRound = Env.ZERO;
+			BigDecimal roundTo = Env.ZERO;
+			if (difference.signum()!=0) {
+				// Check if an order line with the rounding charge already exists
+				MInvoiceLine roundLine = new Query(getCtx(), MInvoiceLine.Table_Name, "C_Invoice_ID=? AND C_Charge_ID=?", get_TrxName())
+											.setParameters(new Object[]{this.get_ID(), priceList.getRoundingCharge()})
+											.first();
+				if (roundLine!=null) {
+					existingRound = roundLine.getPriceActual();
+					roundTo = existingRound.add(difference.negate());
+					if (roundTo.signum()==0) {
+						// No rounding necessary
+						roundLine.deleteEx(false, get_TrxName());
+					}
+				} else {
+					// Create a new line with given charge
+					roundLine = new MInvoiceLine(getCtx(), 0, get_TrxName());
+					roundTo = difference.negate();
+				}
+				if (roundTo.signum()!=0) {
+					roundLine.setInvoice(this);
+					roundLine.setC_Invoice_ID(this.get_ID());
+					roundLine.setQty(Env.ONE);
+					roundLine.setC_Charge_ID(priceList.getRoundingCharge());
+					roundLine.setPrice(roundTo);
+					roundLine.setPriceList(roundTo);
+					roundLine.saveEx(get_TrxName());
+				}
+				setTotalLines(getTotalLines());
+				setGrandTotal(grandTotal.subtract(difference));
+			}
+		}
+		return("");
+		
+	}
+	
+	
+	/**
 	 * 	Get Invoice Lines of Invoice
 	 * 	@param whereClause starting with AND
 	 * 	@return lines
@@ -1331,6 +1385,13 @@ public class MInvoice extends X_C_Invoice implements DocAction
 		if (!calculateTaxTotal())	//	setTotals
 		{
 			m_processMsg = "Error calculating Tax";
+			return DocAction.STATUS_Invalid;
+		}
+		
+		// Check / do rounding
+		String roundMsg = round();
+		if (roundMsg.length()>0) {
+			m_processMsg = roundMsg;
 			return DocAction.STATUS_Invalid;
 		}
 
