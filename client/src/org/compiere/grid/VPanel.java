@@ -324,6 +324,8 @@ public final class VPanel extends CTabbedPane
 			}
 			if ( wrap )
 			{
+				//   Vertical Spacing in Swing Client
+				// - https://sourceforge.net/tracker/?func=detail&aid=3073406&group_id=176962&atid=883808
 				constraints += ", wrap";
 			}
 			
