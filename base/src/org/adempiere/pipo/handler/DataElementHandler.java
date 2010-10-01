@@ -106,7 +106,7 @@ public class DataElementHandler extends AbstractElementHandler {
 			String d_rowname = atts.getValue("name");
 				   	    
 			// name can be null if there are keyXname attributes.
-			if (!d_rowname.equals("")){
+			if (d_rowname != null && !d_rowname.equals("")){
 				int id = get_ID(ctx, d_tablename, d_rowname);
 				genericPO = table.getPO(id, getTrxName(ctx));
 				if (id > 0){
@@ -136,6 +136,7 @@ public class DataElementHandler extends AbstractElementHandler {
 				}
 				if (whereand.equals(" where"))
 					log.warning("no name or keyXname attribute defined.");
+				sql = sql+whereand+" AD_Client_ID="+getClientId(ctx);
 				// Load GenericPO from rs, in fact ID could not exist e.g. Attribute Value
 				try {
 					PreparedStatement pstmt = DB.prepareStatement(sql, getTrxName(ctx));
@@ -157,7 +158,7 @@ public class DataElementHandler extends AbstractElementHandler {
 						genericPO = table.getPO(0, getTrxName(ctx));
 						// set keyXname.
 						CURRENT_KEY = "key1name";
-						if (!atts.getValue(CURRENT_KEY).equals("")) {
+						if (atts.getValue(CURRENT_KEY) != null && !atts.getValue(CURRENT_KEY).equals("")) {
 							String colName = atts.getValue(CURRENT_KEY);
 							String valueObject = atts.getValue("lookup"+CURRENT_KEY);
 							if (colName.endsWith("_ID") && valueObject.contains("SELECT"))
@@ -165,7 +166,7 @@ public class DataElementHandler extends AbstractElementHandler {
 							genericPO.set_ValueOfColumn(colName, valueObject);
 						}
 						CURRENT_KEY = "key2name";
-						if (!atts.getValue(CURRENT_KEY).equals("")) {
+						if (atts.getValue(CURRENT_KEY) != null && !atts.getValue(CURRENT_KEY).equals("")) {
 							String colName = atts.getValue(CURRENT_KEY);
 							String valueObject = atts.getValue("lookup"+CURRENT_KEY);
 							if (colName.endsWith("_ID") && valueObject.contains("SELECT"))
@@ -194,7 +195,7 @@ public class DataElementHandler extends AbstractElementHandler {
 			if (getClientId(ctx) > 0 && genericPO.getAD_Client_ID() != getClientId(ctx))
 				genericPO.set_ValueOfColumn("AD_Client_ID", getClientId(ctx));
 			// if new. TODO: no defaults for keyXname.
-			if (!d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) {
+			if (d_rowname != null && !d_rowname.equals("") && ((Integer)(genericPO.get_Value(d_tablename+"_ID"))).intValue() == 0) {
 				log.info("new genericPO, table: "+d_tablename+" name:"+d_rowname);
 				genericPO.set_ValueOfColumn("Name", d_rowname);
 				// Set defaults.

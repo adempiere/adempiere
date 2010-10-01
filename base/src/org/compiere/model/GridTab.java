@@ -613,6 +613,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		
 		Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
 		
+		Env.clearTabContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo);
+		
 		log.fine("#" + m_vo.TabNo
 			+ " - Only Current Rows=" + onlyCurrentRows
 			+ ", Days=" + onlyCurrentDays + ", Detail=" + isDetail());
