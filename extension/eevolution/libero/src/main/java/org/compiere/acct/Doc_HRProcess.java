@@ -23,9 +23,11 @@ import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
+import org.compiere.model.MCharge;
 import org.compiere.model.MElementValue;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.eevolution.model.MHRConcept;
 import org.eevolution.model.MHRMovement;
 import org.eevolution.model.MHRProcess;
 import org.eevolution.model.X_HR_Concept_Acct;
@@ -38,6 +40,7 @@ import org.eevolution.model.X_HR_Concept_Acct;
  *  Document Types:     HR_Process
  *  </pre>
  *  @author Oscar Gomez Islas
+ *  @author victor.perez@e-evolution.com,www.e-evolution.com
  *  @version  $Id: Doc_Payroll.java,v 1.1 2007/01/20 00:40:02 ogomezi Exp $
  *  @author Cristina Ghita, www.arhipac.ro
  */
@@ -104,49 +107,91 @@ public class Doc_HRProcess extends Doc
 	public ArrayList<Fact> createFacts (MAcctSchema as)
 	{
 		Fact fact = new Fact(this, as, Fact.POST_Actual);		
-		String sql= "SELECT m.HR_Concept_id, MAX(c.Name), SUM(m.Amount), MAX(c.AccountSign), MAX(CA.IsBalancing), e.AD_Org_ID, d.C_Activity_ID" // 1,2,3,4,5,6,7
+		final String sql= "SELECT m.HR_Concept_id, MAX(c.Name) As Name, SUM(m.Amount) As Amount, MAX(c.AccountSign) As AccountSign, " + // 1,2,3,4
+					" MAX(CA.IsBalancing) As IsBalancing, e.AD_Org_ID As AD_Org_ID, d.C_Activity_ID As C_Activity_ID " // 5,6,7
 				  + " FROM HR_Movement m"
 				  + " INNER JOIN HR_Concept_Acct ca ON (ca.HR_Concept_ID=m.HR_Concept_ID AND ca.IsActive = 'Y')"
 				  + " INNER JOIN HR_Concept      c  ON (c.HR_Concept_ID=m.HR_Concept_ID AND c.IsActive = 'Y')"
 				  + " INNER JOIN C_BPartner      bp ON (bp.C_BPartner_ID = m.C_BPartner_ID)"
 				  + " INNER JOIN HR_Employee	 e  ON (bp.C_BPartner_ID=e.C_BPartner_ID)"
 				  + " INNER JOIN HR_Department   d  ON (d.HR_Department_ID=e.HR_Department_ID)"
-				  + " WHERE m.HR_Process_ID=? AND (m.Qty <> 0 OR m.Amount <> 0) AND c.AccountSign != 'N' AND ca.IsBalancing != 'Y'"
+				  + " WHERE m.HR_Process_ID=? AND (m.Qty <> 0 OR m.Amount <> 0) AND c.AccountSign != 'N'"
 				  + " GROUP BY m.HR_Concept_ID,e.AD_Org_ID,d.C_Activity_ID"
 				  + " ORDER BY e.AD_Org_ID,d.C_Activity_ID";
-
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, process.get_TrxName());
+			BigDecimal totalamt = Env.ZERO;
+			pstmt = DB.prepareStatement (sql, getTrxName());
 			pstmt.setInt (1, process.getHR_Process_ID());
 			rs = pstmt.executeQuery ();	
 			while (rs.next())
 			{
-				int HR_Concept_ID = rs.getInt(1);
-				BigDecimal sumAmount = rs.getBigDecimal(3);
+				int HR_Concept_ID = rs.getInt("HR_Concept_ID");
+				BigDecimal sumAmount = rs.getBigDecimal("Amount");
 				// round amount according to currency
 				sumAmount = sumAmount.setScale(as.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
-				String AccountSign = rs.getString(4);
-				int AD_OrgTrx_ID=rs.getInt(6);
-				int C_Activity_ID=rs.getInt(7);
+				String AccountSign = rs.getString("AccountSign");
+				boolean isBalancing = rs.getBoolean("IsBalancing");
+				int AD_OrgTrx_ID=rs.getInt("AD_Org_ID");
+				int C_Activity_ID=rs.getInt("C_Activity_ID");
 				//
-				if (AccountSign != null && AccountSign.length() > 0 && (AccountSign.equals("D") || AccountSign.equals("C"))) {
-	   				// HR_Expense_Acct    DR
-					// HR_Revenue_Acct    CR
-					MAccount accountBPD = MAccount.get (getCtx(), getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,"D"));
-					FactLine debit=fact.createLine(null, accountBPD,as.getC_Currency_ID(),sumAmount, null);
-					debit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-					debit.setC_Activity_ID(C_Activity_ID);
-					debit.saveEx();
-					MAccount accountBPC = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,"C"));
-					FactLine credit = fact.createLine(null,accountBPC ,as.getC_Currency_ID(),null,sumAmount);
-					credit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
-					credit.setC_Activity_ID(C_Activity_ID);
-					credit.saveEx();
+				if (AccountSign != null && AccountSign.length() > 0 
+				&& (MHRConcept.ACCOUNTSIGN_Debit.equals(AccountSign) 
+				|| MHRConcept.ACCOUNTSIGN_Credit.equals(AccountSign))) 
+				{
+					if(isBalancing)
+					{
+						MAccount accountBPD = MAccount.get (getCtx(), getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,MHRConcept.ACCOUNTSIGN_Debit));
+						FactLine debit=fact.createLine(null, accountBPD,as.getC_Currency_ID(),sumAmount, null);
+						debit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
+						debit.setC_Activity_ID(C_Activity_ID);
+						debit.saveEx();
+						MAccount accountBPC = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID, MHRConcept.ACCOUNTSIGN_Credit));
+						FactLine credit = fact.createLine(null,accountBPC ,as.getC_Currency_ID(),null,sumAmount);
+						credit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
+						credit.setC_Activity_ID(C_Activity_ID);
+						credit.saveEx();
+					}
+					else
+					{
+						if(MHRConcept.ACCOUNTSIGN_Debit.equals(AccountSign))
+						{
+							MAccount accountBPD = MAccount.get (getCtx(), getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,MHRConcept.ACCOUNTSIGN_Debit));
+							FactLine debit=fact.createLine(null, accountBPD,as.getC_Currency_ID(),sumAmount, null);
+							debit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
+							debit.setC_Activity_ID(C_Activity_ID);
+							debit.saveEx();
+							sumAmount = sumAmount.abs();
+						}
+						else if (MHRConcept.ACCOUNTSIGN_Credit.equals(AccountSign))
+						{
+							MAccount accountBPC = MAccount.get (getCtx(),this.getAccountBalancing(as.getC_AcctSchema_ID(),HR_Concept_ID,MHRConcept.ACCOUNTSIGN_Credit));
+							FactLine credit = fact.createLine(null,accountBPC ,as.getC_Currency_ID(),null,sumAmount);
+							credit.setAD_OrgTrx_ID(AD_OrgTrx_ID);
+							credit.setC_Activity_ID(C_Activity_ID);
+							credit.saveEx();
+							sumAmount = sumAmount.abs().negate();
+						}
+						totalamt = totalamt.add(sumAmount);
+					}
 				}
 			}
+			if(totalamt.signum() != 0)
+			{
+				int C_Charge_ID = process.getHR_Payroll().getC_Charge_ID();
+				MAccount acct = MCharge.getAccount(C_Charge_ID, as, totalamt);
+				FactLine regTotal = null;
+				if(totalamt.signum() > 0)
+				 	regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), null, totalamt);
+				else
+				 	regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), totalamt, null);
+			 	regTotal.setAD_Org_ID(getAD_Org_ID());
+				regTotal.saveEx();
+						
+			}
+
 		}
 		catch (Exception e)
 		{
@@ -170,8 +215,8 @@ public class Doc_HRProcess extends Doc
 	 * get account balancing
 	 * @param AcctSchema_ID
 	 * @param HR_Concept_ID
-	 * @param AccountSign D or C only
-	 * @return
+	 * @param AccountSign Debit or Credit only
+	 * @return Account ID 
 	 */
 	private int getAccountBalancing (int AcctSchema_ID, int HR_Concept_ID, String AccountSign)
 	{
