@@ -1,4 +1,4 @@
-﻿DROP VIEW PP_Order_Workflow_Header_v;
+DROP VIEW PP_Order_Workflow_Header_v;
 CREATE OR REPLACE VIEW PP_Order_Workflow_Header_v
 AS 
 SELECT o.AD_Client_ID, o.AD_Org_ID, o.IsActive, o.Created, o.CreatedBy, o.Updated, o.UpdatedBy,
