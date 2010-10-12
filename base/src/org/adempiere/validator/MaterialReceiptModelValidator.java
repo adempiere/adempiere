@@ -77,7 +77,7 @@ public class MaterialReceiptModelValidator implements ModelValidator {
 		// Make sure we have a positive amount
 		if (qty.signum()>0) {
 
-			List<MOrderLine> lines = AllocateSalesOrders.getOrderLinesToAllocate(iol.getProduct().get_ID(), trxName);
+			List<MOrderLine> lines = AllocateSalesOrders.getOrderLinesToAllocate(iol.getProduct().get_ID(), 0, trxName);
 			
 			MOrderLine line;
 			BigDecimal receivedQty = iol.getMovementQty();

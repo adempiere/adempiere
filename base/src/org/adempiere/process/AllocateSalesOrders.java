@@ -18,6 +18,7 @@ import org.compiere.model.MClientInfo;
 import org.compiere.model.MWarehouse;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
+import org.compiere.util.CLogger;
 import org.compiere.util.CPreparedStatement;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -45,13 +46,6 @@ public class AllocateSalesOrders extends SvrProcess {
 		
 	}
 	
-	private static final String 
-			query = "select C_OrderLine.* from C_OrderLine " + 
-				   "JOIN C_Order ON C_OrderLine.C_Order_ID=C_Order.C_Order_ID " + 
-				   "JOIN M_Product ON C_OrderLine.M_Product_ID=M_Product.M_Product_ID " + 
-				   "where C_Order.IsSOTrx='Y' AND C_Order.DocStatus='CO' AND QtyAllocated<(QtyOrdered-QtyDelivered) " + 
-				   "AND M_Product.M_Product_ID=? " + 
-				   "order by PriorityRule, C_OrderLine.Created ";
 	
 
 	@Override
@@ -75,17 +69,31 @@ public class AllocateSalesOrders extends SvrProcess {
 	/**
 	 * Finds all order lines that contains not yet delivered physical items of a specific product.
 	 * 
-	 * @param conn			An open connection.
-	 * @param productId		The product id being allocated
+	 * @param conn				An open connection.
+	 * @param productId			The product id being allocated
+	 * @param	orderID			If this is supplied (can be zero) this order is also considered
+	 * 							for allocation. This mechanism exists because the order might be transferring from
+	 * 							status drafted when this function is called.
 	 * @return  Order lines to allocate products to.
 	 * @throws SQLException
 	 */
-	public static List<MOrderLine> getOrderLinesToAllocate(int productId, String trxName) throws SQLException {
+	public static List<MOrderLine> getOrderLinesToAllocate(int productId, int orderID, String trxName) throws SQLException {
+
+		String 
+		query = "select C_OrderLine.* from C_OrderLine " + 
+			   "JOIN C_Order ON C_OrderLine.C_Order_ID=C_Order.C_Order_ID " + 
+			   "JOIN M_Product ON C_OrderLine.M_Product_ID=M_Product.M_Product_ID " + 
+			   "where C_Order.IsSOTrx='Y' AND (C_Order.DocStatus IN ('IP','CO') OR C_Order.C_Order_ID=?) " + 
+			   "AND QtyAllocated<(QtyOrdered-QtyDelivered) " + 
+			   "AND M_Product.M_Product_ID=? " + 
+			   "order by PriorityRule, C_OrderLine.Created ";
+		
 		List<MOrderLine> result = new Vector<MOrderLine>();
 		Properties ctx = Env.getCtx();
 		MOrderLine line;
 		CPreparedStatement ps = DB.prepareStatement(query, trxName);
-		ps.setInt(1, productId);
+		ps.setInt(1, orderID);
+		ps.setInt(2, productId);
 		ResultSet rs = ps.executeQuery();
 		while(rs.next()) {
 			line = new MOrderLine(ctx, rs, trxName);
@@ -101,11 +109,15 @@ public class AllocateSalesOrders extends SvrProcess {
 	 * on hand than what is already allocated. To be allocated the item must also be in demand
 	 * (reserved < allocated)
 	 * 
-	 * @param 	conn
+	 * @param 	warehouseID		Must be supplied
+	 * @param	orderID			If this is supplied (can be zero) this order is also considered
+	 * 							for allocation. This mechanism exists because the order might be transferring from
+	 * 							status drafted when this function is called.
+	 * @param	trxName			Transaction
 	 * @return
 	 * @throws 	SQLException
 	 */
-	public static List<StockInfo> getProductsToAllocate(Connection conn, int WarehouseID) throws SQLException {
+	public static List<StockInfo> getProductsToAllocate(int warehouseID, int orderID, String trxName) throws SQLException {
 		
 		List<StockInfo> result = new Vector<StockInfo>();
 		StockInfo si;
@@ -117,14 +129,15 @@ public class AllocateSalesOrders extends SvrProcess {
 					   "JOIN M_Product ON C_OrderLine.M_Product_ID=M_Product.M_Product_ID " +
 					   "JOIN M_Product_Stock_v ON C_OrderLine.M_Product_ID=M_Product_Stock_v.M_Product_ID " +
 					   "WHERE " +
-					   "C_Order.IsSOTrx='Y' AND C_Order.DocStatus='CO' AND C_OrderLine.M_Warehouse_ID=? AND " + 
+					   "C_Order.IsSOTrx='Y' AND (C_Order.DocStatus IN ('IP','CO') OR C_Order.C_Order_ID=?) AND C_OrderLine.M_Warehouse_ID=? AND " + 
 					   "(QtyOrdered-QtyDelivered)>0 AND (QtyOrdered-QtyDelivered)>C_OrderLine.QtyAllocated)" + 
 					   "group by M_Product_ID " + 
 					   "order by M_Product_ID";
 
-		PreparedStatement ps = conn.prepareStatement(query1);
-		ps.setInt(1, WarehouseID);
-		ps.setInt(2, WarehouseID);
+		CPreparedStatement ps = DB.prepareStatement(query1, trxName);
+		ps.setInt(1, warehouseID);
+		ps.setInt(2, orderID);
+		ps.setInt(3, warehouseID);
 		ResultSet rs = ps.executeQuery();
 		
 		while(rs.next()) {
@@ -140,13 +153,21 @@ public class AllocateSalesOrders extends SvrProcess {
 		ps.close();
 		return(result);
 	}
-	
-	@Override
-	protected String doIt() throws Exception {
 
-		Connection conn = DB.getConnectionRO();		
-		List<StockInfo> products = AllocateSalesOrders.getProductsToAllocate(conn, m_warehouseId);
-		conn.close();
+	/**
+	 * Runs sales order allocation. This runs on all open sales orders.
+	 * 
+	 * @param	log				Logger to use for logging
+	 * @param	ctx				Context
+	 * @param	warehouseID		Warehouse id
+	 * @param	orderID			If this is supplied (can be zero) this order is also considered
+	 * 							for allocation. This mechanism exists because the order might be transferring from
+	 * 							status drafted when this function is called.
+	 * @param 	trxName			Transaction.	
+	 * @return
+	 * @throws Exception
+	 */
+	public static String runSalesOrderAllocation(CLogger log, Properties ctx, int warehouseID, int orderID, String trxName) throws Exception {
 		List<MOrderLine> lines;
 		MOrderLine line;
 		BigDecimal lineAllocate;
@@ -158,11 +179,13 @@ public class AllocateSalesOrders extends SvrProcess {
 		StockInfo si;
 		
 		// Make sure we have settings that needs allocation
-		MWarehouse warehouse = new MWarehouse(getCtx(), m_warehouseId, get_TrxName());
-		MOrgInfo orgInfo = MOrgInfo.get(getCtx(), warehouse.getAD_Org_ID(), get_TrxName());
+		MWarehouse warehouse = new MWarehouse(ctx, warehouseID, trxName);
+		MOrgInfo orgInfo = MOrgInfo.get(ctx, warehouse.getAD_Org_ID(), trxName);
 		if (!orgInfo.getDeliveryPolicy().equals(MClientInfo.DELIVERYPOLICY_StrictOrder)) {
 			return "The current delivery policy of the warehouse doesn't use allocation.";
 		}
+
+		List<StockInfo> products = AllocateSalesOrders.getProductsToAllocate(warehouseID, orderID, trxName);
 		
 		if (products.size()==0) {
 			log.info("There are no products to allocate.");
@@ -175,7 +198,7 @@ public class AllocateSalesOrders extends SvrProcess {
 			MProduct product = null;
 			si = it.next();
 			// Get all lines to allocate
-			lines = AllocateSalesOrders.getOrderLinesToAllocate(si.productId, get_TrxName());
+			lines = AllocateSalesOrders.getOrderLinesToAllocate(si.productId, orderID, trxName);
 			
 			// Check if there are any lines to allocate
 			// and create a log.
@@ -207,7 +230,7 @@ public class AllocateSalesOrders extends SvrProcess {
 				lineAllocate = line.getQtyOrdered().subtract(line.getQtyDelivered()).subtract(line.getQtyAllocated());
 				willAllocate = lineAllocate.min(toAllocate);
 				if (willAllocate.signum()==1) {
-					willAllocate = line.allocateOnHand(willAllocate, get_TrxName());
+					willAllocate = line.allocateOnHand(willAllocate, trxName);
 					allocated = allocated.add(willAllocate);
 					toAllocate = toAllocate.subtract(willAllocate);
 					log.info("Allocated " + willAllocate + " to order " + line.getC_Order().getDocumentNo() + " " + toAllocate + " left to allocate.");
@@ -220,8 +243,12 @@ public class AllocateSalesOrders extends SvrProcess {
 			}
 			
 		}
-		
 		return("");
+	}
+	
+	@Override
+	protected String doIt() throws Exception {
+		return(runSalesOrderAllocation(log, Env.getCtx(), m_warehouseId, 0, get_TrxName()));
 	}
 
 }
