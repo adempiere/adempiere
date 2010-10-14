@@ -288,7 +288,7 @@ public class AssetDelivery extends SvrProcess
 		if (!EMail.SENT_OK.equals(msg))
 			return "** Not delivered: " + user.getEMail() + " - " + msg;
 
-		MAssetDelivery ad = asset.confirmDelivery(email, user.getAD_User_ID());
+		MAssetDelivery ad = confirmDelivery(asset, email, user.getAD_User_ID());
 		ad.save();
 		asset.save();
 		//
@@ -297,4 +297,17 @@ public class AssetDelivery extends SvrProcess
 		return user.getEMail() + " - " + asset.getProductVersionNo();
 	}	//	deliverIt
 
+	/*************************************************************************
+	 * 	Confirm Asset EMail Delivery
+	 *  @param MAsset asset
+	 *	@param email email sent
+	 * 	@param AD_User_ID recipient
+	 * 	@return asset delivery
+	 */
+	public MAssetDelivery confirmDelivery (MAsset asset, EMail email, int AD_User_ID)
+	{
+		asset.setVersionNo(asset.getProductVersionNo());
+		MAssetDelivery ad = new MAssetDelivery (asset, email, AD_User_ID);
+		return ad;
+	}	//	confirmDelivery
 }	//	AssetDelivery
