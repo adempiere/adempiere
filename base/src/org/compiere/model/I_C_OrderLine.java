@@ -336,6 +336,32 @@ public interface I_C_OrderLine
 	  */
 	public Timestamp getDatePromised();
 
+    /** Column name DatePromisedPrecision */
+    public static final String COLUMNNAME_DatePromisedPrecision = "DatePromisedPrecision";
+
+	/** Set Date Promised Precision.
+	  * Describes how exact the promised date is (date, week, part of month, month or unknown)
+	  */
+	public void setDatePromisedPrecision (String DatePromisedPrecision);
+
+	/** Get Date Promised Precision.
+	  * Describes how exact the promised date is (date, week, part of month, month or unknown)
+	  */
+	public String getDatePromisedPrecision();
+
+    /** Column name DatePromisedUpdated */
+    public static final String COLUMNNAME_DatePromisedUpdated = "DatePromisedUpdated";
+
+	/** Set Date Promised Updated.
+	  * The date/time when the date promised date and/or date promised precision was updated.
+	  */
+	public void setDatePromisedUpdated (Timestamp DatePromisedUpdated);
+
+	/** Get Date Promised Updated.
+	  * The date/time when the date promised date and/or date promised precision was updated.
+	  */
+	public Timestamp getDatePromisedUpdated();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 

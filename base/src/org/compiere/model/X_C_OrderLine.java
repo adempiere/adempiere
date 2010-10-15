@@ -33,7 +33,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100622L;
+	private static final long serialVersionUID = 20100820L;
 
     /** Standard Constructor */
     public X_C_OrderLine (Properties ctx, int C_OrderLine_ID, String trxName)
@@ -561,6 +561,53 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	public Timestamp getDatePromised () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
+	}
+
+	/** DatePromisedPrecision AD_Reference_ID=53369 */
+	public static final int DATEPROMISEDPRECISION_AD_Reference_ID=53369;
+	/** On date = D */
+	public static final String DATEPROMISEDPRECISION_OnDate = "D";
+	/** Same week = W */
+	public static final String DATEPROMISEDPRECISION_SameWeek = "W";
+	/** Part of month = P */
+	public static final String DATEPROMISEDPRECISION_PartOfMonth = "P";
+	/** Same month = M */
+	public static final String DATEPROMISEDPRECISION_SameMonth = "M";
+	/** Unknown = U */
+	public static final String DATEPROMISEDPRECISION_Unknown = "U";
+	/** Set Date Promised Precision.
+		@param DatePromisedPrecision 
+		Describes how exact the promised date is (date, week, part of month, month or unknown)
+	  */
+	public void setDatePromisedPrecision (String DatePromisedPrecision)
+	{
+
+		set_Value (COLUMNNAME_DatePromisedPrecision, DatePromisedPrecision);
+	}
+
+	/** Get Date Promised Precision.
+		@return Describes how exact the promised date is (date, week, part of month, month or unknown)
+	  */
+	public String getDatePromisedPrecision () 
+	{
+		return (String)get_Value(COLUMNNAME_DatePromisedPrecision);
+	}
+
+	/** Set Date Promised Updated.
+		@param DatePromisedUpdated 
+		The date/time when the date promised date and/or date promised precision was updated.
+	  */
+	public void setDatePromisedUpdated (Timestamp DatePromisedUpdated)
+	{
+		set_Value (COLUMNNAME_DatePromisedUpdated, DatePromisedUpdated);
+	}
+
+	/** Get Date Promised Updated.
+		@return The date/time when the date promised date and/or date promised precision was updated.
+	  */
+	public Timestamp getDatePromisedUpdated () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DatePromisedUpdated);
 	}
 
 	/** Set Description.
