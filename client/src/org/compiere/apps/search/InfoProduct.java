@@ -517,7 +517,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			SQL += " AND EXISTS (SELECT * FROM M_PriceList xp WHERE xp.M_PriceList_ID=" + M_PriceList_ID
 				+ " AND pl.C_Currency_ID=xp.C_Currency_ID)";
 		//	Add Access & Order
-		SQL = MRole.getDefault().addAccessSQL (SQL, "M_PriceList_Version", true, false)	// fully qualidfied - RO 
+		SQL = MRole.getDefault().addAccessSQL (SQL, "M_PriceList_Version", true, false)	// fully qualified - RO 
 			+ " ORDER BY M_PriceList_Version.Name";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
