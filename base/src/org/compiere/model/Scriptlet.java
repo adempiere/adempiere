@@ -155,15 +155,13 @@ public class Scriptlet
 			if (e instanceof NullPointerException)
 				e = new IllegalArgumentException("Result Variable not found - " + m_variable);
 			return e;
-		}	
+		}
 		try
 		{
 			m_description = i.get (DESCRIPTION_VARIABLE);
 		}
 		catch (Exception e)
 		{
-			log.warning("Description - " + e);
-			return e;	
 		}
 		return null;
 	}   //  execute
@@ -419,6 +417,15 @@ public class Scriptlet
 		if (runIt) 
 			execute();
 		return m_result;
+	}   //  getResult
+
+	/**************************************************************************
+	 *  Get Description
+	 *  @return description or null
+	 */
+	public Object getDescription()
+	{
+		return m_description;
 	}   //  getResult
 
 	/**
