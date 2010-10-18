@@ -37,7 +37,7 @@ public class MHRMovement extends X_HR_Movement
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1587073469278066854L;
+	private static final long serialVersionUID = -9074136731316014532L;
 
 	/**
 	 * 	Standard Constructor
@@ -61,6 +61,52 @@ public class MHRMovement extends X_HR_Movement
 		super(ctx, rs, trxName);
 	}
 	
+	/**
+	 * 	Import Constructor
+	 *	@param impHRm import
+	 */
+	public MHRMovement (X_I_HR_Movement impHRm)
+	{
+		this (impHRm.getCtx(), 0, impHRm.get_TrxName());
+
+		MHRConcept hrconcept = new MHRConcept(getCtx(), impHRm.getHR_Concept_ID(), get_TrxName());
+		MHREmployee employee  = MHREmployee.getActiveEmployee(getCtx(), impHRm.getC_BPartner_ID(), get_TrxName());
+		MHRProcess process = new MHRProcess(getCtx(), impHRm.getHR_Process_ID(), get_TrxName());
+
+		setAD_Org_ID(process.getAD_Org_ID());
+		setUpdatedBy(impHRm.getUpdatedBy());
+		//
+		setHR_Process_ID(impHRm.getHR_Process_ID());
+		setC_BPartner_ID(impHRm.getC_BPartner_ID());
+		setHR_Concept_ID(impHRm.getHR_Concept_ID());
+
+		setHR_Concept_Category_ID(hrconcept.getHR_Concept_Category_ID());
+		setDescription(impHRm.getDescription());
+		
+		setHR_Job_ID(employee.getHR_Job_ID());
+		setHR_Department_ID(employee.getHR_Department_ID());
+		setC_Activity_ID(employee.getC_Activity_ID());
+		setColumnType(hrconcept.getColumnType());
+		setValidFrom(impHRm.getValidFrom());
+		setIsRegistered(hrconcept.isRegistered());
+		setIsPrinted(hrconcept.isPrinted());
+
+		// set corresponding values
+		setAmount(null);
+		setQty(null);
+		setServiceDate(null);
+		setTextMsg(null);
+		if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
+			setQty(impHRm.getQty());
+		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
+			setAmount(impHRm.getAmount());
+		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
+			setServiceDate(impHRm.getServiceDate());
+		} else if (hrconcept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
+			setTextMsg(impHRm.getTextMsg());
+		}
+	}	//	MHRMovement
+
 	public MHRMovement (MHRProcess proc, I_HR_Concept concept)
 	{
 		this(proc.getCtx(), 0, proc.get_TrxName());
