@@ -42,6 +42,7 @@ import org.compiere.model.MJournalBatch;
 import org.compiere.model.MMovement;
 import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
+import org.compiere.model.MRequisition;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -957,6 +958,14 @@ public class DocumentEngine implements DocAction
 				options[index++] = DocumentEngine.ACTION_Close;
 			}
 		}
+		
+		else if (AD_Table_ID == MRequisition.Table_ID)
+		{
+			//	Complete                    ..  CO
+				options[index++] = DocumentEngine.ACTION_Prepare;
+
+		}
+		
 		/********************
 		 *  Shipment
 		 */
