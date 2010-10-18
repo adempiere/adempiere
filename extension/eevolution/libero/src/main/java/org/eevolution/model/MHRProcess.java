@@ -72,8 +72,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public MHRPayrollConcept[] linesConcept;
 
 	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MHREmployee.class);
+	private static CLogger	s_log	= CLogger.getCLogger (MHRProcess.class);
 	public static final String CONCEPT_PP_COST_COLLECTOR_LABOR = "PP_COST_COLLECTOR_LABOR"; // HARDCODED
+	Object m_description = null;
 
 
 	private static StringBuffer s_scriptImport = new StringBuffer(	 " import org.eevolution.model.*;" 
@@ -540,6 +541,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	{
 		MRule rulee = MRule.get(getCtx(), AD_Rule_ID);
 		Object result = null;
+		m_description = null;
 		try
 		{
 			String text = "";
@@ -551,6 +553,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			final String script =
 				s_scriptImport.toString()
 				+" double result = 0;"
+				+" String description = null;"
 				+ text;
 			Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, scriptCtx);	
 			Exception ex = engine.execute();
@@ -559,6 +562,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				throw ex;
 			}
 			result = engine.getResult(false);
+			m_description = engine.getDescription();
 		}
 		catch (Exception e)
 		{
@@ -788,6 +792,8 @@ public class MHRProcess extends X_HR_Process implements DocAction
 						continue;
 					}
 					movement.setColumnValue(result);
+					if (m_description != null)
+						movement.setDescription(m_description.toString());
 				}
 				else
 				{
