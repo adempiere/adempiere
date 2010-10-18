@@ -961,7 +961,7 @@ public class DocumentEngine implements DocAction
 		
 		else if (AD_Table_ID == MRequisition.Table_ID)
 		{
-			//	Complete                    ..  CO
+			//	Prepare
 				options[index++] = DocumentEngine.ACTION_Prepare;
 
 		}
