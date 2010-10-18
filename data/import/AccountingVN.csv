@@ -1,12 +1,11 @@
 [Account_Value],[Account_Name],[Account_Description],[Account_Type],[Account_Sign],[Account_Document],[Account_Summary],[Default_Account],[Account_Parent]
-1,TÀI SẢN NGẮN HẠN,,Asset,,,Yes,,
+1,Tài sản ngắn hạn,,Asset,,,Yes,,
 111,Tiền mặt,,Asset,,,Yes,,1
 11110000,Tiền mặt tại quỹ – VNĐ,,Asset,,Yes,No,CB_ASSET_ACCT,111
 11120000,Tiền mặt tại quỹ – USD,,Asset,,,No,,111
 11130000,Vàng- bạc- kim khí quý- đá quý,,Asset,,,No,,111
 112,Tiền gửi Ngân hàng,,Asset,,,Yes,,1
 11211000,Tiền gửi ngân hàng – VNĐ,,Asset,,Yes,No,B_ASSET_ACCT,112
-11211100,Tiền nhận được chưa phân bổ,,Asset,,Yes,No,B_UNALLOCATEDCASH_ACCT,112
 11211200,Tiền gửi ko rõ nguồn gốc,,Asset,,Yes,No,B_UNIDENTIFIED_ACCT,112
 11220000,Tiền gửi ngân hàng – USD,,Asset,,,No,,112
 11230000,Vàng- bạc- kim khí quý- đá quý,,Asset,,,No,,112
@@ -68,7 +67,7 @@
 15810000,Hàng hoá kho bảo thuế,,Asset,,,No,,158
 159,Dự phòng giảm giá hàng tồn kho,,Asset,,,Yes,,1
 15910000,Dự phòng giảm giá hàng tồn kho,,Asset,,,No,,159
-2,TÀI SẢN DÀI HẠN,,Asset,,,Yes,,
+2,Tài sản dài hạn,,Asset,,,Yes,,
 211,Tài sản cố định hữu hình,,Asset,,,Yes,,2
 21110000,Nhà cửa- vật kiến trúc,,Asset,,,No,,211
 21120000,Máy móc- thiết bị,,Asset,,,No,,211
@@ -115,7 +114,7 @@
 24310000,Tài sản thuế thu nhập hoãn lại,,Asset,,,No,,243
 244,Ký quỹ- ký cược dài hạn,,Asset,,,Yes,,2
 24410000,Ký quỹ- ký cược dài hạn,,Asset,,,No,,244
-3,NỢ PHẢI TRẢ,,Liability,,,Yes,,
+3,Nợ phải trả,,Liability,,,Yes,,
 311,Vay ngắn hạn,,Liability,,,Yes,,3
 315,Nợ dài hạn đến hạn trả,,Liability,,,Yes,,3
 31510000,Nợ dài hạn đến hạn trả,,Liability,,,No,,315
@@ -123,6 +122,7 @@
 33110000,Phải trả thương mại,,Liability,,Yes,No,V_LIABILITY_ACCT,331
 33120000,Phải trả dịch vụ,,Liability,,Yes,No,V_LIABILITY_SERVICES_ACCT,331
 33150000,Trả trước của khách hàng,,Liability,,Yes,No,C_PREPAYMENT_ACCT,331
+33160000,Khách hàng chuyển khoản,,Liability,,Yes,No,B_UNALLOCATEDCASH_ACCT,331
 33170000,Phải trả chờ xử lý,,Liability,,Yes,No,B_PAYMENTSELECT_ACCT,331
 33180000,Phải trả khác,,Liability,,,No,,331
 333,Thuế và các khoản phải nộp Nhà nước,,Liability,,,Yes,,3
@@ -173,7 +173,7 @@
 35110000,Quỹ dự phòng trợ cấp mất việc làm,,Liability,,,No,,351
 352,Dự phòng phải trả,,Liability,,,Yes,,3
 35210000,Dự phòng phải trả,,Liability,,,No,,352
-4,VỐN CHỦ SỞ HỮU,,Owner's Equity,,,Yes,,
+4,Vốn chủ sở hữu,,Owner's Equity,,,Yes,,
 411,Nguồn vốn kinh doanh,,Owner's Equity,,,Yes,,4
 41110000,Vốn đầu tư của chủ sở hữu,,Owner's Equity,,,No,,411
 41120000,Thặng dư vốn cổ phần,,Owner's Equity,,,No,,411
@@ -205,10 +205,10 @@
 46110000,Nguồn kinh phí sự nghiệp năm trước,,Owner's Equity,,,No,,461
 46120000,Nguồn kinh phí sự nghiệp năm nay,,Owner's Equity,,,No,,461
 466,Nguồn kinh phí đã hình thành TSCĐ,,Owner's Equity,,,Yes,,4
-5,DOANH THU,,Revenue,,,Yes,,
+5,Doanh thu,,Revenue,,,Yes,,
 511,Doanh thu bán hàng và cung cấp dịch vụ,,Revenue,,,Yes,,5
 51110000,Doanh thu bán hàng hóa,,Revenue,,Yes,No,P_REVENUE_ACCT,511
-51120000,Doanh thu bán các thành phẩm,,Revenue,,,No,,511
+51120000,Doanh thu bán thành phẩm,,Revenue,,,No,,511
 51130000,Doanh thu cung cấp dịch vụ,,Revenue,,,No,,511
 51140000,Doanh thu trợ cấp- trợ giá,,Revenue,,,No,,511
 51150000,Doanh thu chưa phát hành hóa đơn,,Revenue,,Yes,No,NOTINVOICEDREVENUE_ACCT,511
@@ -229,7 +229,7 @@
 53110000,Hàng bán bị trả lại,,Revenue,,,No,,531
 532,Giảm giá hàng bán,,Revenue,,,Yes,,5
 53210000,Giảm giá hàng bán,,Revenue,,,No,,532
-6,CHI PHÍ SẢN XUẤT- KINH DOANH,,Expense,,,Yes,,
+6,Chi phí sản xuất kinh doanh,,Expense,,,Yes,,
 611,Mua hàng,,Expense,,,Yes,,6
 61110000,Mua nguyên liệu- vật liệu,,Expense,,,No,,611
 61120000,Mua hàng hóa,,Expense,,,No,,611
@@ -261,6 +261,7 @@
 63110000,Giá thành dịch vụ,,Expense,,Yes,No,P_EXPENSE_ACCT,631
 63120000,Bù trừ giá thành sản phẩm,,Expense,,Yes,No,P_INVENTORYCLEARING_ACCT,631
 63130000,Điều chỉnh giá thành sản phẩm,,Expense,,Yes,No,P_COSTADJUSTMENT_ACCT,631
+63140000,Chênh lệch giá thành bình quân,,Expense,,Yes,No,P_AVERAGECOSTVARIANCE_ACCT,631
 632,Giá vốn hàng bán,,Expense,,,Yes,,6
 63210000,Giá vốn hàng bán,,Expense,,Yes,No,P_COGS_ACCT,632
 63220000,Chênh lệch hàng tồn kho do kiểm kê,,Expense,,Yes,No,W_DIFFERENCES_ACCT,632
@@ -296,12 +297,12 @@
 64270000,Chi phí dịch vụ mua ngoài,,Expense,,,No,CH_EXPENSE_ACCT,642
 64281000,Chênh lệch quỹ tiền mặt,,Expense,,,No,CB_DIFFERENCES_ACCT,642
 64288000,Chi phí bằng tiền khác,,Expense,,Yes,No,CB_EXPENSE_ACCT,642
-7,THU NHẬP KHÁC,,Revenue,,,Yes,,
+7,Thu nhập khác,,Revenue,,,Yes,,
 711,Thu nhập khác,,Revenue,,,Yes,,7
 71100000,Tiền nhận được khác,,Revenue,,Yes,No,CB_RECEIPT_ACCT,711
 71120000,Thu nhập khác,,Revenue,,Yes,No,CH_REVENUE_ACCT,711
 71130000,Lãi do thanh toán ngân hàng,,Revenue,,Yes,No,B_SETTLEMENTGAIN_ACCT,711
-8,CHI PHÍ KHÁC,,Expense,,,Yes,,
+8,Chi phí khác,,Expense,,,Yes,,
 811,Chi phí khác,,Expense,,,Yes,,8
 81100000,Chi phí khác,,Expense,,Yes,No,,811
 821,Chi phí thuế thu nhập doanh nghiệp,,Expense,,,Yes,,8
@@ -317,5 +318,5 @@
 99130000,Suspense error,,Expense,,Yes,No,SUSPENSEERROR_ACCT,991
 99140000,Chênh lệch do làm tròn,,Expense,,Yes,No,CURRENCYBALANCING_ACCT,991
 999,Tài khoản kế toán cam kết,,Memo,,,Yes,,9
-99950000,Cam kết mua hàng,,Memo,,Yes,No,COMMITMENTOFFSET_ACCT,999
-99960000,Cam kết bán hàng,,Memo,,Yes,No,COMMITMENTOFFSETSALES_ACCT,999
+99950000,Cam kết mua hàng,,Memo,,,No,COMMITMENTOFFSET_ACCT,999
+99960000,Cam kết bán hàng,,Memo,,,No,COMMITMENTOFFSETSALES_ACCT,999
