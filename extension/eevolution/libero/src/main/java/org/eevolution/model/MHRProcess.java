@@ -29,8 +29,12 @@ import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MClient;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
+import org.compiere.model.MFactAcct;
 import org.compiere.model.MPeriod;
+import org.compiere.model.MPeriodControl;
 import org.compiere.model.MRule;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
@@ -59,7 +63,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7354028906265712808L;
+	private static final long serialVersionUID = 3296780900597800046L;
 	
 	public int m_C_BPartner_ID = 0;
 	public int m_AD_User_ID = 0;
@@ -152,8 +156,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		return true;
 	}       
-
-
+	
 	/**
 	 * 	Process document
 	 *	@param processAction document action
@@ -307,8 +310,18 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public boolean voidIt() {
 		log.info("voidIt - " + toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
+				
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;
 		return true;
 	}	//	voidIt
 
@@ -323,9 +336,22 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		if (isProcessed())
 		{
 			log.info(toString());
+			
+			// Before Close
+			m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+			if (m_processMsg != null)
+				return false;
+			
 			setProcessed(true);
 			setDocAction(DOCACTION_None);
-			return true;
+			
+			// After Close
+			m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+			if (m_processMsg != null)
+				return false;
+				
+			return true;	
+
 		}     	
 		return false;
 	}	//	closeIt
@@ -337,7 +363,19 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public boolean reverseCorrectIt() {
 		log.info("reverseCorrectIt - " + toString());
-		return voidIt();
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		
+		if (voidIt())
+			return true;
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		
+		return false;
 	}	//	reverseCorrectionIt
 
 
@@ -347,6 +385,16 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public boolean reverseAccrualIt() {
 		log.info("reverseAccrualIt - " + toString());
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		
 		return false;
 	}	//	reverseAccrualIt
 
@@ -358,27 +406,31 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public boolean reActivateIt() {
 		log.info("reActivateIt - " + toString());
 
-		org.compiere.model.MDocType dt = org.compiere.model.MDocType.get(getCtx(), getC_DocType_ID());
-		String DocSubTypeSO = dt.getDocSubTypeSO();
-
-		//	Reverse Direct Documents
-		if (   MDocType.DOCSUBTYPESO_OnCreditOrder.equals(DocSubTypeSO)		//	(W)illCall(I)nvoice
-				|| MDocType.DOCSUBTYPESO_WarehouseOrder.equals(DocSubTypeSO)	//	(W)illCall(P)ickup
-				|| MDocType.DOCSUBTYPESO_POSOrder.equals(DocSubTypeSO))			//	(W)alkIn(R)eceipt
-		{
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
 			return false;
-		}
-		else {
-			log.fine("reActivateIt - Existing documents not modified - SubType=" + DocSubTypeSO);
-		}
+		
+		//	Can we delete posting
+		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), MPeriodControl.DOCBASETYPE_Payroll, getAD_Org_ID());
 
 		//	Delete 
 		String sql = "DELETE FROM HR_Movement WHERE HR_Process_ID =" + this.getHR_Process_ID() + " AND IsRegistered = 'N'" ;
-		int no = DB.executeUpdate(sql, get_TrxName());
+		int no = DB.executeUpdateEx(sql, get_TrxName());
 		log.fine("HR_Process deleted #" + no);
+
+		//	Delete Posting
+		no = MFactAcct.deleteEx(MHRProcess.Table_ID, getHR_Process_ID(), get_TrxName());
+		log.fine("Fact_Acct deleted #" + no);
 
 		setDocAction(DOCACTION_Complete);
 		setProcessed(false);
+				
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+
 		return true;
 	}	//	reActivateIt
 
@@ -791,7 +843,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 						log.warning("Variable (result) is null");
 						continue;
 					}
-					movement.setColumnValue(result);
+					if (result instanceof Double) {
+					    BigDecimal resultBD = ( getRoundDoubleToBD( (Double) result ) );
+					    movement.setColumnValue(resultBD);
+					} else {
+						movement.setColumnValue(result);
+					}
 					if (m_description != null)
 						movement.setDescription(m_description.toString());
 				}
@@ -950,6 +1007,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				return; // TODO throw exception
 			}
 			MHRMovement m = new MHRMovement(getCtx(), 0, get_TrxName());
+			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
 			m.setColumnType(c.getColumnType());
 			m.setColumnValue(BigDecimal.valueOf(value));
 
@@ -959,6 +1017,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m.setDescription("Added From Rule"); // TODO: translate
 			m.setValidFrom(m_dateTo);
 			m.setValidTo(m_dateTo);
+
+			m.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
+			m.setHR_Department_ID(employee.getHR_Department_ID());
+			m.setHR_Job_ID(employee.getHR_Job_ID());
+			m.setIsRegistered(c.isRegistered());
+			m.setC_Activity_ID(employee.getC_Activity_ID() > 0 ?  employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());		
+			
 			m.saveEx();
 		} 
 		catch(Exception e)
@@ -982,6 +1047,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				return; // TODO throw exception
 			}
 			MHRMovement m = new MHRMovement(Env.getCtx(),0,get_TrxName());
+			MHREmployee employee = MHREmployee.getActiveEmployee(getCtx(), m_C_BPartner_ID, get_TrxName());
 			m.setColumnType(c.getColumnType());
 			if (c.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
 				m.setAmount(BigDecimal.valueOf(value));
@@ -996,6 +1062,13 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m.setValidFrom(m_dateTo);
 			m.setValidTo(m_dateTo);
 			m.setIsRegistered(isRegistered);
+			
+			m.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
+			m.setHR_Department_ID(employee.getHR_Department_ID());
+			m.setHR_Job_ID(employee.getHR_Job_ID());
+			m.setIsRegistered(c.isRegistered());
+			m.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());	
+			
 			m.saveEx();
 		} 
 		catch(Exception e)
@@ -1452,7 +1525,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			String pFrom,String pTo)
 	{
 		// TODO ???
-		log.warning("not implemented yet -> getAttribute (Properties, String, int, int)");
+		log.warning("not implemented yet -> getAttribute (Properties, String, int, int, String, String)");
 		return 0;
 	} // getAttribute
 	
@@ -1549,7 +1622,21 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	 */
 	public double getDays (int period)
 	{
+		/* TODO: This getter could have an error as it's not using the parameter, and it doesn't what is specified in help */
+		log.warning("instead of using getDays in the formula it's recommended to use _DaysPeriod+1");
 		return Env.getContextAsInt(getCtx(), "_DaysPeriod") + 1;
 	} // getDays
-
+	
+	/**
+	 * Helper Method : get round result
+	 * @param result
+	 * @return bdresult
+	 */
+	public BigDecimal getRoundDoubleToBD (double result)
+	{
+		int currency_id = MClient.get(Env.getCtx()).getC_Currency_ID();
+		int precision = MCurrency.getStdPrecision(Env.getCtx(), currency_id);
+		BigDecimal bdresult = BigDecimal.valueOf(result).setScale(precision, BigDecimal.ROUND_HALF_UP);
+		return bdresult;
+	} // getRoundDoubleToBD
 }	//	MHRProcess
