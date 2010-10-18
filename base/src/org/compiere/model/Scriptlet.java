@@ -162,6 +162,8 @@ public class Scriptlet
 		}
 		catch (Exception e)
 		{
+			  log.warning("Description - " + e);
+			  return e;
 		}
 		return null;
 	}   //  execute
