@@ -63,7 +63,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3296780900597800046L;
+	private static final long serialVersionUID = 7490028317687511988L;
 	
 	public int m_C_BPartner_ID = 0;
 	public int m_AD_User_ID = 0;
@@ -1244,6 +1244,43 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 		return attribute.getServiceDate();
 	} // getAttributeDate
+
+	/**
+	 * 	Helper Method : Get Attribute [get Attribute to search key concept ]
+	 *  @param conceptValue
+	 *  @return TextMsg
+	 */ 
+	public String getAttributeString (String conceptValue)
+	{
+		MHRConcept concept = MHRConcept.forValue(getCtx(), conceptValue);
+		if (concept == null)
+			return null;
+
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer whereClause = new StringBuffer();
+		//check client
+		whereClause.append("AD_Client_ID = ?");
+		params.add(getAD_Client_ID());
+		//check concept
+		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
+				+ " AND c.Value = ?)");
+		params.add(conceptValue);
+		//
+		if (!concept.getType().equals(MHRConcept.TYPE_Information))
+		{
+			whereClause.append(" AND " + MHRAttribute.COLUMNNAME_C_BPartner_ID + " = ?");
+			params.add(m_C_BPartner_ID);
+		}
+
+		MHRAttribute attribute = new Query(getCtx(), MHRAttribute.Table_Name, whereClause.toString(), get_TrxName())
+		.setParameters(params)
+		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
+		.first();
+		if (attribute == null)
+			return null;
+
+		return attribute.getTextMsg();
+	} // getAttributeString
 
 	/**
 	 * 	Helper Method : Get the number of days between start and end, in Timestamp format
