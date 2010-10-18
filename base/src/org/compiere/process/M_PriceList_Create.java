@@ -19,6 +19,7 @@
 
 package org.compiere.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -64,10 +65,14 @@ public class M_PriceList_Create extends SvrProcess {
 				;
 			else if (name.equals("DeleteOld"))
 				p_DeleteOld = (String) para[i].getParameter();
+			else if (name.equals("PriceList_Version_ID"))
+				p_PriceList_Version_ID = ((BigDecimal) para[i].getParameter()).intValue();			
 			else
 				log.log(Level.SEVERE, "Unknown Parameter: " + name);
 		}
-		p_PriceList_Version_ID = getRecord_ID();
+		if (p_PriceList_Version_ID==0) {
+			p_PriceList_Version_ID = getRecord_ID();
+		}
 		m_AD_PInstance_ID = getAD_PInstance_ID();
 	} //*prepare*/
 
