@@ -59,7 +59,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 570699817555475782L;
+	private static final long serialVersionUID = 7354028906265712808L;
 	
 	public int m_C_BPartner_ID = 0;
 	public int m_AD_User_ID = 0;
@@ -870,6 +870,70 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			return 0;
 		}
 	} // getConcept
+
+	/**
+	 * Helper Method : get the value of the concept string type
+	 * @param pconcept
+	 * @return String value of concept
+	 */
+	public String getConceptString (String pconcept)
+	{
+		MHRConcept concept = MHRConcept.forValue(getCtx(), pconcept.trim());
+
+		if (concept == null)
+		{
+			return null; // TODO throw exception ?
+		}
+
+		MHRMovement m = m_movement.get(concept.get_ID());
+		if (m == null)
+		{
+			return null; // TODO throw exception ?
+		}
+
+		String type = m.getColumnType();
+		if (MHRMovement.COLUMNTYPE_Text.equals(type))
+		{
+			return m.getTextMsg();
+		}
+		else
+		{
+			// TODO: throw exception ?
+			return null;
+		}
+	} // getConceptString
+
+	/**
+	 * Helper Method : get the value of the concept date type
+	 * @param pconcept
+	 * @return Timestamp value of concept
+	 */
+	public Timestamp getConceptDate (String pconcept)
+	{
+		MHRConcept concept = MHRConcept.forValue(getCtx(), pconcept.trim());
+
+		if (concept == null)
+		{
+			return null; // TODO throw exception ?
+		}
+
+		MHRMovement m = m_movement.get(concept.get_ID());
+		if (m == null)
+		{
+			return null; // TODO throw exception ?
+		}
+
+		String type = m.getColumnType();
+		if (MHRMovement.COLUMNTYPE_Text.equals(type))
+		{
+			return m.getServiceDate();
+		}
+		else
+		{
+			// TODO: throw exception ?
+			return null;
+		}
+	} // getConceptDate
 
 	/**
 	 * Helper Method : sets the value of a concept
