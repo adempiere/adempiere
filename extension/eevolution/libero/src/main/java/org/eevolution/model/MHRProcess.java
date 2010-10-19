@@ -872,13 +872,16 @@ public class MHRProcess extends X_HR_Process implements DocAction
 					continue;
 				}
 				MHRConcept c = MHRConcept.get(getCtx(), pc.getHR_Concept_ID());
-				if(c.isRegistered() || m.isEmpty())
+				if (c.isRegistered() || m.isEmpty())
 				{	
 					log.fine("Skip saving "+m);
 				}
 				else
 				{
-					m.saveEx();
+					boolean saveThisRecord =
+						pc.isPrinted() || pc.isDisplayed() || c.isPaid() || c.isPrinted();
+					if (saveThisRecord)
+						m.saveEx();
 				}
 			}
 		} // for each employee
