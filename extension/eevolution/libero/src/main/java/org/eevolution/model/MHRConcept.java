@@ -39,7 +39,7 @@ public class MHRConcept extends X_HR_Concept
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -8622431756473429275L;
+	private static final long serialVersionUID = 7859469065116713767L;
 	
 	/** Cache */
 	private static CCache<Integer, MHRConcept> s_cache = new CCache<Integer, MHRConcept>(Table_Name, 100);
@@ -110,7 +110,7 @@ public class MHRConcept extends X_HR_Concept
 	 * 	@param sqlwhere Clause SQLWhere
 	 * 	@return lines
 	 */
-	public static MHRConcept[] getConcepts (int payroll_id, int department_id, int employee_id, String sqlWhere)
+	public static MHRConcept[] getConcepts (int payroll_id, int department_id, String sqlWhere)
 	{
 		Properties ctx = Env.getCtx();
 		List<Object> params = new ArrayList<Object>();
@@ -199,7 +199,7 @@ public class MHRConcept extends X_HR_Concept
 	}
 	
 	/**
-	 *	Return Value+ + Name
+	 *	Return Value + Name
 	 *  @return Value
 	 */
 	public String toString()

@@ -47,13 +47,15 @@ public class HRCreateConcept extends SvrProcess
 	protected String doIt () throws Exception
 	{
 		int count = 0;
-		for(MHRConcept concept : MHRConcept.getConcepts(p_HR_Payroll_ID, 0, 0, null))
+		for(MHRConcept concept : MHRConcept.getConcepts(p_HR_Payroll_ID, 0, null))
 		{
-			if(!existsPayrollConcept(concept.get_ID())) 
-			{
-				MHRPayrollConcept payrollConcept = new MHRPayrollConcept (concept, p_HR_Payroll_ID, get_TrxName());
-				payrollConcept.saveEx();
-				count++;
+			if (concept.isPaid()) {
+				if(!existsPayrollConcept(concept.get_ID())) 
+				{
+					MHRPayrollConcept payrollConcept = new MHRPayrollConcept (concept, p_HR_Payroll_ID, get_TrxName());
+					payrollConcept.saveEx();
+					count++;
+				}
 			}
 		}
 		return "@Created@/@Updated@ #" + count;
