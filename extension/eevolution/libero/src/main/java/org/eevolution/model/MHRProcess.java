@@ -793,11 +793,15 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			loadMovements(m_movement, m_C_BPartner_ID);
 			//
 			for(MHRPayrollConcept pc : linesConcept) // ==================================================== Concept
-			{	
+			{
 				m_HR_Concept_ID      = pc.getHR_Concept_ID();
 				MHRConcept concept = MHRConcept.get(getCtx(), m_HR_Concept_ID);
 				boolean printed = pc.isPrinted() || concept.isPrinted();
-				MHRMovement movement = createMovementFromConcept(concept, printed);
+				MHRMovement movement = m_movement.get(concept.get_ID()); // as it's now recursive, it can happen that the concept is already generated
+				if (movement == null) {
+					movement = createMovementFromConcept(concept, printed);
+					movement = m_movement.get(concept.get_ID());
+				}
 				if (movement == null)
 				{
 					throw new AdempiereException("Concept " + concept.getValue() + " not created");
