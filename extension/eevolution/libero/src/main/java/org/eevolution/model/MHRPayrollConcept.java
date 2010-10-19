@@ -68,8 +68,12 @@ public class MHRPayrollConcept extends X_HR_PayrollConcept
 		setHR_Concept_ID(concept.get_ID());
 		setName(concept.getName());
 		setSeqNo(concept.getSeqNo());
-		//setAD_Rule_Engine_ID(concept.getAD_Rule_Engine_ID());
-		//setIsIncluded(true); 
+		setIsPrinted(concept.isPrinted());
+		if (concept.isRegistered() || MHRConcept.TYPE_Information.equals(concept.getType()))
+			setIsDisplayed(false);
+		else
+			setIsDisplayed(true);
+		
 		setIsActive(true);
 	}
 
