@@ -39,7 +39,7 @@ public class MHRConcept extends X_HR_Concept
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8736925494645172953L;
+	private static final long serialVersionUID = -8622431756473429275L;
 	
 	/** Cache */
 	private static CCache<Integer, MHRConcept> s_cache = new CCache<Integer, MHRConcept>(Table_Name, 100);
@@ -197,5 +197,14 @@ public class MHRConcept extends X_HR_Concept
 			return result;
 		return 0;
 	}
+	
+	/**
+	 *	Return Value+ + Name
+	 *  @return Value
+	 */
+	public String toString()
+	{
+		return getValue() + " - " + getName();
+	}   //  toString
 
 }	//	HRConcept
