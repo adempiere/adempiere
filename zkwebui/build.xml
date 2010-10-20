@@ -78,7 +78,7 @@
 											      	WEB-INF/src/**,
 		      										**/web.xml,
 		      										**/test/**,
-		      										lib/*-sources.jar,
+		      										WEB-INF/lib/*-sources.jar,
 		      										**/test.zul"
 		      									>
 
