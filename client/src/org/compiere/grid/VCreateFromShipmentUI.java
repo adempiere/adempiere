@@ -26,6 +26,8 @@ import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -420,13 +422,78 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 	{
 		loadTableOIS(getInvoiceData(C_Invoice_ID, M_Locator_ID));
 	}
+
+	/**
+	 * Creates a string representation of a Vector<Object>. Used for
+	 * comparison. The first object is skipped (it's the selected column
+	 * and quantity)
+	 * FR 3092302 - Create from shipment improvement
+	 * 
+	 * @param row
+	 * @return
+	 */
+	private String rowToStringRepresentation(Vector<Object> row) {
+		if (row.size()<2) return "";
+		StringBuffer buf = new StringBuffer();
+		Object obj;
+		for (int i=2; i<row.size(); i++) {
+			obj = row.get(i);
+			buf.append(obj!=null ? obj.toString() : "");
+		}
+		return(buf.toString());
+	}
 	
 	/**
-	 *  Load Order/Invoice/Shipment data into Table
+	 *  Load Order/Invoice/Shipment data into Table.
+	 *  Lines that are selected previously are kept.
+	 *  The selected/not selected value must be the first object
+	 *  in a row.
+	 *  
+	 *  FR 3092302 - Create from shipment improvement
+	 *  
 	 *  @param data data
 	 */
-	protected void loadTableOIS (Vector<?> data)
+	@SuppressWarnings("unchecked")
+	protected void loadTableOIS (Vector<Vector<Object>> data)
 	{
+		// Save previously selected rows
+		DefaultTableModel oldModel = (DefaultTableModel)dialog.getMiniTable().getModel();
+		Vector<Vector<Object>> rows = oldModel.getDataVector();
+		Vector<Vector<Object>> savedRows = new Vector<Vector<Object>>();
+		Boolean selected;
+		for (Vector<Object> rowData : rows) {
+			if (rowData.get(0) instanceof Boolean) {
+				selected = (Boolean)rowData.get(0);
+				if (selected.booleanValue()) {
+					// Save this row
+					savedRows.add(rowData);
+				}
+			}
+		}
+		
+		// Put new data in a set for fast comparison
+		Set<String> savedRowsSet = new TreeSet<String>();
+		for (Vector<Object> rowData : savedRows) {
+			savedRowsSet.add(rowToStringRepresentation(rowData));
+		}
+		// Iterate through new data to find duplicates
+		Vector<Vector<Object>> duplicates = new Vector<Vector<Object>>();
+		Vector<Object> rowRecord; 
+		for (int i=0; i<data.size(); i++) {
+			rowRecord = data.get(i);
+			if (savedRowsSet.contains(rowToStringRepresentation(rowRecord))) {
+				duplicates.add(rowRecord);
+			}
+		}
+		// Remove duplicates from new data
+		for (Vector<Object> rowData : duplicates) {
+			data.remove(rowData);
+		}
+		// Prepend saved rows to new data
+		for (int i=savedRows.size()-1; i>=0; i--) {
+			data.insertElementAt(savedRows.get(i), 0);
+		}
+
 		//  Remove previous listeners
 		dialog.getMiniTable().getModel().removeTableModelListener(dialog);
 		//  Set Model
