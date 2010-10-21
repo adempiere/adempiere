@@ -77,7 +77,8 @@ public class OrderLineValidator implements ModelValidator {
 			java.sql.Timestamp ts1 = (java.sql.Timestamp)po.get_Value("DatePromisedUpdated");
 			java.sql.Timestamp ts2 = (java.sql.Timestamp)po.get_ValueOld("DatePromisedUpdated");
 
-			if (ts2==null || !ts2.equals(ts1)) {
+			// DatePromisedUpdated must not be null. If null no checks are performed.
+			if (ts1!=null && (ts2==null || !ts2.equals(ts1))) {
 				
 				MOrder order = (MOrder)orderLine.getC_Order();
 				
