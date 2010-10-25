@@ -593,9 +593,10 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	/**
 	 * Execute the script
 	 * @param AD_Rule_ID
-	 * @return
+	 * @param string Column Type
+	 * @return Object
 	 */
-	private Object executeScript(int AD_Rule_ID)
+	private Object executeScript(int AD_Rule_ID, String columnType)
 	{
 		MRule rulee = MRule.get(getCtx(), AD_Rule_ID);
 		Object result = null;
@@ -608,9 +609,14 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				text = rulee.getScript().trim().replaceAll("\\bget", "process.get")
 				.replace(".process.get", ".get");
 			}
+			String resultType = "double";
+			if  (MHRAttribute.COLUMNTYPE_Date.equals(columnType))
+				resultType = "Timestamp";
+			else if  (MHRAttribute.COLUMNTYPE_Text.equals(columnType))
+				resultType = "String";
 			final String script =
 				s_scriptImport.toString()
-				+" double result = 0;"
+				+" " + resultType + " result = 0;"
 				+" String description = null;"
 				+ text;
 			Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, m_scriptCtx);	
@@ -699,7 +705,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m_scriptCtx.put("_CostCollector", cc);
 			try
 			{
-				result = executeScript(att.getAD_Rule_ID());
+				result = executeScript(att.getAD_Rule_ID(), att.getColumnType());
 			}
 			finally
 			{
@@ -889,7 +895,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				throw new AdempiereException("Recursion loop detected in concept " + concept.getValue());
 			}
 			activeConceptRule.add(concept);
-			Object result = executeScript(att.getAD_Rule_ID());
+			Object result = executeScript(att.getAD_Rule_ID(), att.getColumnType());
 			activeConceptRule.remove(concept);
 			if (result == null)
 			{
@@ -897,12 +903,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 				log.warning("Variable (result) is null");
 				return movement;
 			}
-			if (result instanceof Double) {
-			    BigDecimal resultBD = ( getRoundDoubleToBD( (Double) result ) );
-			    movement.setColumnValue(resultBD);
-			} else {
-				movement.setColumnValue(result);
-			}
+			movement.setColumnValue(result); // double rounded in MHRMovement.setColumnValue
 			if (m_description != null)
 				movement.setDescription(m_description.toString());
 		}
