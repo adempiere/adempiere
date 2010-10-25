@@ -85,8 +85,11 @@ public class MHREmployee extends X_HR_Employee
 		}
 		else
 		{
+			MHRPeriod period = new MHRPeriod(p.getCtx(), p.getHR_Period_ID(), p.get_TrxName());
 			whereClause.append(" AND e.StartDate <=? ");
-			params.add(new X_HR_Period(p.getCtx(), p.getHR_Period_ID(), null).getEndDate());
+			params.add(period.getEndDate());
+			whereClause.append(" AND (e.EndDate IS NULL OR e.EndDate >=?) ");
+			params.add(period.getStartDate());
 		}
 		
 		// Selected Department
