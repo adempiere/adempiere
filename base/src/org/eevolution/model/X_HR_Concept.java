@@ -32,7 +32,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20101025L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -75,6 +75,34 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
+
+	/** Set Reference.
+		@param AD_Reference_ID 
+		System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID)
+	{
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+	}
+
+	/** Get Reference.
+		@return System Reference and Validation
+	  */
+	public int getAD_Reference_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** AccountSign AD_Reference_ID=118 */
 	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
 	/** Natural = N */
@@ -99,34 +127,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public String getAccountSign () 
 	{
 		return (String)get_Value(COLUMNNAME_AccountSign);
-	}
-
-	public I_AD_Reference getAD_Reference() throws RuntimeException
-    {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
-			.getPO(getAD_Reference_ID(), get_TrxName());	}
-
-	/** Set Reference.
-		@param AD_Reference_ID 
-		System Reference and Validation
-	  */
-	public void setAD_Reference_ID (int AD_Reference_ID)
-	{
-		if (AD_Reference_ID < 1) 
-			set_Value (COLUMNNAME_AD_Reference_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
-	}
-
-	/** Get Reference.
-		@return System Reference and Validation
-	  */
-	public int getAD_Reference_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** ColumnType AD_Reference_ID=53243 */
@@ -181,9 +181,9 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public void setHR_Concept_Category_ID (int HR_Concept_Category_ID)
 	{
 		if (HR_Concept_Category_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Concept_Category_ID, null);
+			set_Value (COLUMNNAME_HR_Concept_Category_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
+			set_Value (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
 	}
 
 	/** Get Payroll Concept Category.
@@ -339,6 +339,30 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return false;
 	}
 
+	/** Set Manual.
+		@param IsManual 
+		This is a manual process
+	  */
+	public void setIsManual (boolean IsManual)
+	{
+		set_Value (COLUMNNAME_IsManual, Boolean.valueOf(IsManual));
+	}
+
+	/** Get Manual.
+		@return This is a manual process
+	  */
+	public boolean isManual () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsManual);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Paid.
 		@param IsPaid 
 		The document is paid
@@ -387,30 +411,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return false;
 	}
 
-	/** Set Read Write.
-		@param IsReadWrite 
-		Field is read / write
-	  */
-	public void setIsReadWrite (boolean IsReadWrite)
-	{
-		set_Value (COLUMNNAME_IsReadWrite, Boolean.valueOf(IsReadWrite));
-	}
-
-	/** Get Read Write.
-		@return Field is read / write
-	  */
-	public boolean isReadWrite () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsReadWrite);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Receipt.
 		@param IsReceipt 
 		This is a sales transaction (receipt)
@@ -435,21 +435,18 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return false;
 	}
 
-	/** Set Registered.
-		@param IsRegistered 
-		The application is registered.
-	  */
-	public void setIsRegistered (boolean IsRegistered)
+	/** Set Save In Historic.
+		@param IsSaveInHistoric Save In Historic	  */
+	public void setIsSaveInHistoric (boolean IsSaveInHistoric)
 	{
-		set_Value (COLUMNNAME_IsRegistered, Boolean.valueOf(IsRegistered));
+		set_Value (COLUMNNAME_IsSaveInHistoric, Boolean.valueOf(IsSaveInHistoric));
 	}
 
-	/** Get Registered.
-		@return The application is registered.
-	  */
-	public boolean isRegistered () 
+	/** Get Save In Historic.
+		@return Save In Historic	  */
+	public boolean isSaveInHistoric () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsRegistered);
+		Object oo = get_Value(COLUMNNAME_IsSaveInHistoric);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
