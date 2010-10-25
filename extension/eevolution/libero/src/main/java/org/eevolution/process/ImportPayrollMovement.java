@@ -153,7 +153,7 @@ public class ImportPayrollMovement extends SvrProcess
 		//	Concept
 		sql = new StringBuffer ("UPDATE I_HR_Movement "
 			  + "SET HR_Concept_ID=(SELECT HR_Concept_ID FROM HR_Concept c"
-			  + " WHERE I_HR_Movement.ConceptValue=c.Value AND c.IsRegistered='Y' AND c.IsActive='Y' AND c.Type!='E' AND I_HR_Movement.AD_Client_ID=c.AD_Client_ID) "
+			  + " WHERE I_HR_Movement.ConceptValue=c.Value AND c.IsManual='Y' AND c.IsActive='Y' AND c.Type!='E' AND I_HR_Movement.AD_Client_ID=c.AD_Client_ID) "
 			  + "WHERE HR_Concept_ID IS NULL AND ConceptValue IS NOT NULL"
 			  + " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate(sql.toString(), get_TrxName());

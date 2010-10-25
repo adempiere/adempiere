@@ -445,7 +445,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 					movementOK.setHR_Job_ID(employee.getHR_Job_ID());
 					movementOK.setC_Activity_ID(employee.getC_Activity_ID());
 				}
-				movementOK.setIsRegistered(true);
+				movementOK.setIsManual(true);
 				movementOK.saveEx();
  				// check if user saved an empty record and delete it
 				if ( (movementOK.getAmount() == null || Env.ZERO.compareTo(movementOK.getAmount()) == 0)
@@ -623,7 +623,7 @@ public class VHRActionNotice extends CPanel implements FormPanel,VetoableChangeL
 			+ " FROM HR_Concept hrpc "
 			+ " INNER JOIN HR_Attribute hrpa ON (hrpa.HR_Concept_ID=hrpc.HR_Concept_ID)"
 			+ " WHERE hrpc.AD_Client_ID = " +Env.getAD_Client_ID(Env.getCtx())
-			+ " AND hrpc.IsActive = 'Y' AND hrpc.IsRegistered = 'Y' AND hrpc.Type != 'E'"
+			+ " AND hrpc.IsActive = 'Y' AND hrpc.IsManual = 'Y' AND hrpc.Type != 'E'"
 			+ " AND (hrpa.HR_Payroll_ID = " +HR_Payroll_ID+ " OR hrpa.HR_Payroll_ID IS NULL)";
 		if (fieldProcess != null)
 		{ // Process

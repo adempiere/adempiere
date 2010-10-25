@@ -27,17 +27,18 @@ import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
- *	Payroll Concept for HRayroll Module
+ *	Payroll Concept for HRPayroll Module
  *	
  *  @author Oscar Gómez Islas
  *  @author Teo Sarca, www.arhipac.ro
  */
 public class MHRMovement extends X_HR_Movement
 {
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -9074136731316014532L;
+	private static final long serialVersionUID = -4907356874255618381L;
 
 	/**
 	 * 	Standard Constructor
@@ -88,7 +89,7 @@ public class MHRMovement extends X_HR_Movement
 		setC_Activity_ID(employee.getC_Activity_ID());
 		setColumnType(hrconcept.getColumnType());
 		setValidFrom(impHRm.getValidFrom());
-		setIsRegistered(hrconcept.isRegistered());
+		setIsManual(hrconcept.isManual());
 		setIsPrinted(hrconcept.isPrinted());
 
 		// set corresponding values

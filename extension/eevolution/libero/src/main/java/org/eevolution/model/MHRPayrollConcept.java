@@ -32,10 +32,12 @@ import org.compiere.util.DB;
  */
 public class MHRPayrollConcept extends X_HR_PayrollConcept
 {
+
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4335196239535511224L;
+	private static final long serialVersionUID = 7657163678402925513L;
 
 	/**
 	 * 	Standard Constructor
@@ -69,7 +71,7 @@ public class MHRPayrollConcept extends X_HR_PayrollConcept
 		setName(concept.getName());
 		setSeqNo(concept.getSeqNo());
 		setIsPrinted(concept.isPrinted());
-		if (concept.isRegistered() || MHRConcept.TYPE_Information.equals(concept.getType()))
+		if (concept.isManual() || MHRConcept.TYPE_Information.equals(concept.getType()))
 			setIsDisplayed(false);
 		else
 			setIsDisplayed(true);

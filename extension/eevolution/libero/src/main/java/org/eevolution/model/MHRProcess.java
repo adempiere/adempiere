@@ -60,11 +60,11 @@ import org.compiere.util.TimeUtil;
  */
 public class MHRProcess extends X_HR_Process implements DocAction
 {
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -56731675141833232L;
-	
 	public int m_C_BPartner_ID = 0;
 	public int m_AD_User_ID = 0;
 	public int m_HR_Concept_ID = 0;
@@ -422,7 +422,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), MPeriodControl.DOCBASETYPE_Payroll, getAD_Org_ID());
 
 		//	Delete 
-		String sql = "DELETE FROM HR_Movement WHERE HR_Process_ID =" + this.getHR_Process_ID() + " AND IsRegistered = 'N'" ;
+		String sql = "DELETE FROM HR_Movement WHERE HR_Process_ID =" + this.getHR_Process_ID() + " AND IsManual = 'N'" ;
 		int no = DB.executeUpdateEx(sql, get_TrxName());
 		log.fine("HR_Process deleted #" + no);
 
@@ -724,7 +724,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			mv.setValidFrom(m_dateFrom);
 			mv.setValidTo(m_dateTo); 
 			mv.setPP_Cost_Collector_ID(cc.getPP_Cost_Collector_ID());	
-			mv.setIsRegistered(true);
+			mv.setIsManual(true);
 			mv.setColumnValue(result);
 			mv.setProcessed(true);
 			mv.saveEx();
@@ -762,7 +762,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 
 		// RE-Process, delete movement except concept type Incidence 
-		int no = DB.executeUpdateEx("DELETE FROM HR_Movement m WHERE HR_Process_ID=? AND IsRegistered<>?",
+		int no = DB.executeUpdateEx("DELETE FROM HR_Movement m WHERE HR_Process_ID=? AND IsManual<>?",
 				new Object[]{getHR_Process_ID(), true},
 				get_TrxName());
 		log.info("HR_Movement deleted #"+ no);
@@ -812,7 +812,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			for (MHRMovement m: m_movement.values())
 			{
 				MHRConcept c = (MHRConcept) m.getHR_Concept();
-				if (c.isRegistered() || m.isEmpty())
+				if (c.isManual() || m.isEmpty())
 				{	
 					log.fine("Skip saving "+m);
 				}
@@ -858,11 +858,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		.setOnlyActiveRecords(true)
 		.setOrderBy(MHRAttribute.COLUMNNAME_ValidFrom + " DESC")
 		.first();
-		if (att == null || concept.isRegistered())
+		if (att == null || concept.isManual())
 		{
 			log.info("Skip concept "+concept+" - attribute not found");
 			MHRMovement dummymov = new MHRMovement (getCtx(), 0, get_TrxName());
-			dummymov.setIsRegistered(true); // to avoid landing on movement table
+			dummymov.setIsManual(true); // to avoid landing on movement table
 			m_movement.put(concept.getHR_Concept_ID(), dummymov);
 			return dummymov;
 		}
@@ -880,7 +880,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		movement.setValidFrom(m_dateFrom);
 		movement.setValidTo(m_dateTo);
 		movement.setIsPrinted(printed);
-		movement.setIsRegistered(concept.isRegistered());
+		movement.setIsManual(concept.isManual());
 		movement.setC_Activity_ID(m_employee.getC_Activity_ID());
 		if (MHRConcept.TYPE_RuleEngine.equals(concept.getType()))
 		{
@@ -1055,7 +1055,7 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
 			m.setHR_Department_ID(employee.getHR_Department_ID());
 			m.setHR_Job_ID(employee.getHR_Job_ID());
-			m.setIsRegistered(c.isRegistered());
+			m.setIsManual(c.isManual());
 			m.setC_Activity_ID(employee.getC_Activity_ID() > 0 ?  employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());		
 			
 			m.saveEx();
@@ -1066,12 +1066,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		}
 	} // setConcept
 	
-	/* Helper Method : sets the value of a concept and set if isRegistered 
+	/* Helper Method : sets the value of a concept and set if isManual
 	* @param conceptValue
 	* @param value
-	* @param isRegistered
+	* @param isManual
 	*/
-	public void setConcept (String conceptValue,double value,boolean isRegistered)
+	public void setConcept (String conceptValue,double value,boolean isManual)
 	{
 		try
 		{
@@ -1095,12 +1095,12 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m.setDescription("Added From Rule"); // TODO: translate
 			m.setValidFrom(m_dateTo);
 			m.setValidTo(m_dateTo);
-			m.setIsRegistered(isRegistered);
+			m.setIsManual(isManual);
 			
 			m.setHR_Concept_Category_ID(c.getHR_Concept_Category_ID());
 			m.setHR_Department_ID(employee.getHR_Department_ID());
 			m.setHR_Job_ID(employee.getHR_Job_ID());
-			m.setIsRegistered(c.isRegistered());
+			m.setIsManual(c.isManual());
 			m.setC_Activity_ID(employee.getC_Activity_ID() > 0 ? employee.getC_Activity_ID() : employee.getHR_Department().getC_Activity_ID());	
 			
 			m.saveEx();
