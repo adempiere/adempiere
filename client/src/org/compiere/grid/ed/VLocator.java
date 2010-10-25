@@ -340,6 +340,16 @@ public class VLocator extends JComponent
 			return null;
 		return m_value;
 	}	//	getValue
+
+	/**
+	 * Returns Editor value in the form of the selected locator
+	 * @return
+	 */
+	public MLocator getLocator() {
+		if (getM_Locator_ID()==0)
+			return null;
+		return m_mLocator.getMLocator(getValue(), null);
+	}
 	
 	/**
 	 * 	Get M_Locator_ID

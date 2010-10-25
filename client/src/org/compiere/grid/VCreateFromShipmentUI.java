@@ -52,6 +52,7 @@ import org.compiere.model.MLocator;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.swing.CPanel;
@@ -425,8 +426,8 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 
 	/**
 	 * Creates a string representation of a Vector<Object>. Used for
-	 * comparison. The first object is skipped (it's the selected column
-	 * and quantity)
+	 * comparison. The first objects are skipped (it's the selected column
+	 * and quantity). The locator is also skipped for comparison.
 	 * FR 3092302 - Create from shipment improvement
 	 * 
 	 * @param row
@@ -437,9 +438,12 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 		StringBuffer buf = new StringBuffer();
 		Object obj;
 		for (int i=2; i<row.size(); i++) {
+			// Skip locator and vendor prod no
+			if (i==3 || i==5) continue;
 			obj = row.get(i);
 			buf.append(obj!=null ? obj.toString() : "");
 		}
+		System.out.println(buf.toString());
 		return(buf.toString());
 	}
 	
@@ -530,16 +534,73 @@ public class VCreateFromShipmentUI extends CreateFromShipment implements ActionL
 			int row = findProductRow(product.get_ID());
 			if (row >= 0)
 			{
+				// The product was found among the existing lines
 				BigDecimal qty = (BigDecimal)model.getValueAt(row, 1);
 				model.setValueAt(qty, row, 1);
 				model.setValueAt(Boolean.TRUE, row, 0);
 				model.fireTableRowsUpdated(row, row);
+			} else {
+				// The product wasn't found amount existing lines
+				// Search for other possible order/invoice lines
+				int bPartnerId = ((Integer)bPartnerField.getValue()).intValue();
+				List<MOrderLine> oLines = MOrderLine.findNotDelivered(bPartnerId, product.get_ID(), false, null);
+				if (oLines.size()>0) {
+					// Add first available line
+					addRow(product, oLines.get(0));
+				}
+				
 			}
 		}
 		upcField.setText("");
 		upcField.requestFocusInWindow();
 	}
 
+	/**
+	 * Adds a line in the mini table using an order line as in data.
+	 * The line is initially selected.
+	 * 
+	 * @param line
+	 */
+	private void addRow(MProduct product, MOrderLine line) {
+		
+		Vector<Object> row = new Vector<Object>();
+		Boolean selected = Boolean.TRUE;
+		row.add(selected);
+		BigDecimal qty = line.getQtyOrdered().subtract(line.getQtyDelivered());
+		row.add(qty);
+		row.add(new KeyNamePair(product.getC_UOM_ID(), product.getUOMSymbol().trim()));
+		// Check locator
+		MLocator productLocator = (MLocator) product.getM_Locator();
+		MLocator defaultWarehouseLocator = locatorField.getLocator();
+		if (productLocator.getM_Warehouse_ID()!=defaultWarehouseLocator.getM_Warehouse_ID() &&
+				sameWarehouseCb.isSelected()
+			) {
+			productLocator = defaultWarehouseLocator;
+		}
+		row.add(new KeyNamePair(productLocator.getM_Locator_ID(), productLocator.getValue()));
+		row.add(new KeyNamePair(product.get_ID(), product.getName()));
+		row.add(""); // TODO: Vendor product NO
+		row.add(new KeyNamePair(line.getC_Order_ID(), new Integer(line.getLine()).toString()));
+		row.add(null); // M_RMA_ID
+		row.add(null); // C_Invoice_ID
+		
+		// Add the row to the minitable
+		DefaultTableModel model = (DefaultTableModel)dialog.getMiniTable().getModel();
+		if (model.getRowCount()==0) {
+			model = new DefaultTableModel(new Vector<Vector<Object>>(), getOISColumnNames());
+			//  Remove previous listeners
+			dialog.getMiniTable().getModel().removeTableModelListener(dialog);
+			//  Set Model
+			model.addTableModelListener(dialog);
+			dialog.getMiniTable().setModel(model);
+			
+		}
+		model.addRow(row);
+		model.fireTableDataChanged();
+		configureMiniTable(dialog.getMiniTable());
+		
+	}
+	
 	/**
 	 * Finds the row where a given product is. If the product is not found
 	 * in the table -1 is returned.
