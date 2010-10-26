@@ -38,6 +38,7 @@ import org.compiere.model.MPeriodControl;
 import org.compiere.model.MRule;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.Scriptlet;
 import org.compiere.print.ReportEngine;
@@ -61,10 +62,12 @@ import org.compiere.util.TimeUtil;
 public class MHRProcess extends X_HR_Process implements DocAction
 {
 	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -56731675141833232L;
+	private static final long serialVersionUID = -8553627333715790110L;
+	
 	public int m_C_BPartner_ID = 0;
 	public int m_AD_User_ID = 0;
 	public int m_HR_Concept_ID = 0;
@@ -311,25 +314,66 @@ public class MHRProcess extends X_HR_Process implements DocAction
 
 
 	/**
-	 * 	Void Document.
-	 * 	Set Qtys to 0 - Sales: reverse all documents
-	 * 	@return true if success
-	 */
-	public boolean voidIt() {
-		log.info("voidIt - " + toString());
-		// Before Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-		if (m_processMsg != null)
-			return false;
+	* Void Document.
+	* Set Movement Line Amount to 0
+	* @return true if success
+	*/
+	public boolean voidIt() 
+	{
 
+	log.info("voidIt - " + toString());
+	// Before Void
+	m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+	if (m_processMsg != null)
+		return false;
+
+
+
+	if (DOCSTATUS_Closed.equals(getDocStatus())
+	|| DOCSTATUS_Reversed.equals(getDocStatus())
+	|| DOCSTATUS_Voided.equals(getDocStatus()))
+	{
+		m_processMsg = "Document Closed: " + getDocStatus();
+		return false;
+	}
+
+	//		Not Processed
+	if (DOCSTATUS_Drafted.equals(getDocStatus())
+	|| DOCSTATUS_Invalid.equals(getDocStatus())
+	|| DOCSTATUS_InProgress.equals(getDocStatus())
+	|| DOCSTATUS_Approved.equals(getDocStatus())
+	|| DOCSTATUS_NotApproved.equals(getDocStatus()) )
+	{
+		//Set lines to 0
+		List<MHRMovement> lines = MHRMovement.getLinesForProcess(this);
+		for (MHRMovement movement : lines)
+		{
+	
+			BigDecimal oldAmount = movement.getAmount();
+	
+			if (oldAmount.signum() != 0)
+		
+			{	
+				movement.setAmount(Env.ZERO);
+				movement.setDescription("Void (" + oldAmount + ")");
+				movement.save(get_TrxName());
+			}
+		}
+		//
 		setProcessed(true);
-		setDocAction(DOCACTION_None);
-				
-		// After Void
-		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-		if (m_processMsg != null)
-			return false;
-		return true;
+		setDocStatus(DOCSTATUS_Voided); // need to set & save docstatus to be able to check it in MHRProcess.voidIt()
+		saveEx();
+	}
+	else
+	{
+		return reverseCorrectIt();
+	}
+	// After Void
+	m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+	if (m_processMsg != null)
+		return false;
+
+	return true;
 	}	//	voidIt
 
 
@@ -374,16 +418,41 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
+
+		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), MPeriodControl.DOCBASETYPE_Payroll, getAD_Org_ID());
 		
-		if (voidIt())
-			return true;
+		MHRProcess reversal = copyFrom (this, getDateAcct(), getC_DocType_ID(), false, get_TrxName(), true);
+		if (reversal == null)
+		{
+			m_processMsg = "Could not create Payroll Process Reversal";
+			return false;
+		}
+		reversal.setReversal_ID(getHR_Process_ID());
+		reversal.setProcessing (false);
+		reversal.setDocStatus(DOCSTATUS_Reversed);
+		reversal.setDocAction(DOCACTION_None);
+		reversal.setProcessed(true);
+		reversal.setName("("+reversal.getDocumentNo()+" -> "+getDocumentNo()+")");
+		reversal.saveEx(get_TrxName());
+		
+		m_processMsg = reversal.getDocumentNo();
+		setProcessed(true);
+		setReversal_ID(reversal.getHR_Process_ID());
+		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
+		setDocAction(DOCACTION_None);
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+		setName("(" + getName() + " <- "+reversal.getDocumentNo() + ")");
+		saveEx();
+
 		// After reverseCorrect
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
 		if (m_processMsg != null)
 			return false;
 		
-		return false;
-	}	//	reverseCorrectionIt
+				return true;
+	}			
+	//	reverseCorrectionIt
 
 
 	/**
@@ -1711,4 +1780,86 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		BigDecimal bdresult = BigDecimal.valueOf(result).setScale(precision, BigDecimal.ROUND_HALF_UP);
 		return bdresult;
 	} // getRoundDoubleToBD
+	
+	public static MHRProcess copyFrom (MHRProcess from, Timestamp dateAcct,
+			int C_DocTypeTarget_ID, boolean counter, String trxName, boolean setOrder)
+	{
+		MHRProcess to = new MHRProcess (from.getCtx(), 0, trxName);		
+		PO.copyValues (from, to, from.getAD_Client_ID(), from.getAD_Org_ID());
+		to.set_ValueNoCheck ("DocumentNo", null);
+		//
+		to.setDocStatus (DOCSTATUS_Drafted);		//	Draft
+		to.setDocAction(DOCACTION_Complete);
+		//
+		to.setName(from.getDocumentNo());
+		to.setC_DocType_ID(C_DocTypeTarget_ID);
+		to.setC_DocTypeTarget_ID (C_DocTypeTarget_ID);
+		to.setDateAcct (dateAcct);
+		//
+		to.setHR_Job_ID(from.getHR_Job_ID());
+		to.setHR_Department_ID(from.getHR_Department_ID());
+		to.setHR_Payroll_ID(from.getHR_Payroll_ID());
+		to.setHR_Period_ID(from.getHR_Period_ID());
+		to.setC_BPartner_ID(from.getC_BPartner_ID());
+		to.setHR_Employee_ID(from.getHR_Employee_ID());
+		to.setC_Charge_ID(from.getC_Charge_ID());
+		//
+		to.setPosted (false);
+		to.setProcessed (false);
+		to.setProcessing(false);
+		to.saveEx(trxName);
+		//	Lines
+		if (to.copyLinesFrom(from) == 0)
+			throw new IllegalStateException("Could not create Payroll Lines");
+
+		return to;
+	}
+	
+	
+	
+	/**
+	 * Copy Line from Movement
+	 * @param HRProcess Human Resource Process
+	 * @return return copy lines
+	 */
+	public int copyLinesFrom (MHRProcess from)
+	{
+		if (isProcessed() || isPosted() || from == null)
+			return 0;
+		
+		List<MHRMovement> fromLines = MHRMovement.getLinesForProcess(from);
+		for (MHRMovement fromMovement: fromLines)
+		{
+			MHRMovement toMovement = new MHRMovement (getCtx(), 0, get_TrxName());
+			PO.copyValues (fromMovement, toMovement, fromMovement.getAD_Client_ID(), fromMovement.getAD_Org_ID());
+			toMovement.setIsManual(fromMovement.isManual());
+			toMovement.setHR_Concept_Category_ID(fromMovement.getHR_Concept_Category_ID());
+			toMovement.setHR_Process_ID(getHR_Process_ID());
+			toMovement.setC_BPartner_ID(fromMovement.getC_BPartner_ID());
+			toMovement.setHR_Concept_ID(fromMovement.getHR_Concept_ID());
+			toMovement.setColumnType(fromMovement.getColumnType());
+			toMovement.setDescription(fromMovement.getDescription());
+			toMovement.setHR_Department_ID(fromMovement.getHR_Department_ID());
+			toMovement.setHR_Job_ID(fromMovement.getHR_Job_ID());
+			toMovement.setIsPrinted(fromMovement.isPrinted());
+			toMovement.setQty(fromMovement.getQty().negate());
+			toMovement.setServiceDate(fromMovement.getServiceDate());
+			toMovement.setTextMsg(fromMovement.getTextMsg());
+			toMovement.setValidFrom(fromMovement.getValidFrom());
+			toMovement.setValidTo(fromMovement.getValidTo());
+			toMovement.setAD_Rule_ID(fromMovement.getAD_Rule_ID());
+			toMovement.setAmount(fromMovement.getAmount().negate());
+			toMovement.setC_Activity_ID(fromMovement.getC_Activity_ID());
+			toMovement.setC_Campaign_ID(fromMovement.getC_Campaign_ID());
+			toMovement.setAD_OrgTrx_ID(fromMovement.getAD_OrgTrx_ID());
+			toMovement.setC_ProjectPhase_ID(fromMovement.getC_ProjectPhase_ID());
+			toMovement.setC_ProjectPhase_ID(fromMovement.getC_ProjectPhase_ID());
+			toMovement.setC_Project_ID(fromMovement.getC_Project_ID());
+			toMovement.setUser1_ID(fromMovement.getUser1_ID());
+			toMovement.setUser2_ID(fromMovement.getUser2_ID());
+			toMovement.setProcessed(false);
+			toMovement.saveEx();		
+		}		
+		return fromLines.size();
+	}	//	copyLinesFrom
 }	//	MHRProcess

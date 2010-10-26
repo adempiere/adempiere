@@ -17,6 +17,8 @@ package org.eevolution.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -38,7 +40,8 @@ public class MHRMovement extends X_HR_Movement
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4907356874255618381L;
+	private static final long serialVersionUID = 9100478676337821603L;
+
 
 	/**
 	 * 	Standard Constructor
@@ -208,5 +211,21 @@ public class MHRMovement extends X_HR_Movement
 			
 		setAccountSign(getHR_Concept().getAccountSign());
 		return true;
-	}       
+	}
+
+	
+	/**
+	 * 	Get Lines
+	 *	@param MHRProcess process
+	 *	@return List with MHRMovement
+	 */
+	public static List<MHRMovement> getLinesForProcess (MHRProcess process)
+	{
+		final String whereClause = MHRMovement.COLUMNNAME_HR_Process_ID+"=?";
+		//
+		return new Query (process.getCtx(), I_HR_Movement.Table_Name, whereClause , process.get_TrxName())
+		.setClient_ID()
+		.setParameters(process.getHR_Process_ID())
+		.list();
+	}
 }	//	HRMovement
