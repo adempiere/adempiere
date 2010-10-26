@@ -1135,6 +1135,7 @@ public class DocumentEngine implements DocAction
 				//	Complete                    ..  CO
 				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
 				{
+					options[index++] = DocumentEngine.ACTION_Reverse_Correct;
 					options[index++] = DocumentEngine.ACTION_Void;
 					options[index++] = DocumentEngine.ACTION_ReActivate;
 				}
