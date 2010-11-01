@@ -74,7 +74,6 @@ import org.compiere.model.PrintInfo;
 import org.compiere.model.X_AD_PInstance_Para;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.PrintUtil;
-import org.compiere.print.ReportCtl;
 import org.compiere.print.ServerReportCtl;
 import org.compiere.process.ClientProcess;
 import org.compiere.process.ProcessCall;
@@ -473,10 +472,16 @@ public class ReportStarter implements ProcessCall, ClientProcess
 			}
 
             for( int i=0; i<subreports.length; i++) {
-                JasperData subData = processReport( subreports[i]);
-                if (subData.getJasperReport()!=null) {
-                    params.put( subData.getJasperName(), subData.getJasperFile().getAbsolutePath());
-                }
+            	// @Trifon - begin
+            	if (subreports[i].getName().toLowerCase().endsWith(".jasper")
+            			|| subreports[i].getName().toLowerCase().endsWith(".jrxml")
+            		)
+            	{
+                    JasperData subData = processReport( subreports[i] );
+                    if (subData.getJasperReport()!=null) {
+                        params.put( subData.getJasperName(), subData.getJasperFile().getAbsolutePath());
+                    }
+            	} // @Trifon - end
             }
 
             if (Record_ID > 0)
@@ -567,13 +572,16 @@ public class ReportStarter implements ProcessCall, ClientProcess
                 		PrintRequestAttributeSet prats = new HashPrintRequestAttributeSet();
  
                 		//	add:				copies, job-name, priority
-                		if (printInfo.isDocumentCopy() || printInfo.getCopies() < 1)
+                		if (printInfo == null || printInfo.isDocumentCopy() || printInfo.getCopies() < 1) // @Trifon
                 			prats.add (new Copies(1));
                 		else
                 			prats.add (new Copies(printInfo.getCopies()));
                 		Locale locale = Language.getLoginLanguage().getLocale();
-                		prats.add(new JobName(printFormat.getName() + "_" + pi.getRecord_ID(), locale));
-                		prats.add(PrintUtil.getJobPriority(jasperPrint.getPages().size() , printInfo.getCopies(), true));
+                		// @Trifon
+                		String printFormat_name = printFormat == null ? "" : printFormat.getName();
+                		int numCopies = printInfo == null ? 0 : printInfo.getCopies();
+                		prats.add(new JobName(printFormat_name + "_" + pi.getRecord_ID(), locale));
+                		prats.add(PrintUtil.getJobPriority(jasperPrint.getPages().size(), numCopies, true));
 
                 		// Create print service exporter
                     	JRPrintServiceExporter exporter = new JRPrintServiceExporter();;
@@ -686,8 +694,15 @@ public class ReportStarter implements ProcessCall, ClientProcess
 		ArrayList<File> subreports = new ArrayList<File>();
 		MAttachmentEntry[] entries = attachment.getEntries();
 		for(int i = 0; i < entries.length; i++) {
-			if (!entries[i].getName().equals(name) &&
-				(entries[i].getName().toLowerCase().endsWith(".jrxml") || entries[i].getName().toLowerCase().endsWith(".jasper"))) {
+			// @Trifon
+			if (!entries[i].getName().equals(name) 
+					&& (entries[i].getName().toLowerCase().endsWith(".jrxml") 
+							|| entries[i].getName().toLowerCase().endsWith(".jasper")
+							|| entries[i].getName().toLowerCase().endsWith(".jpg")
+							|| entries[i].getName().toLowerCase().endsWith(".png")
+						)
+			   ) 
+			{
 				File reportFile = getAttachmentEntryFile(entries[i]);
 				if (reportFile != null)
 					subreports.add(reportFile);
