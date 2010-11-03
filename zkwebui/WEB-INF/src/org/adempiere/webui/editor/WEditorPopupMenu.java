@@ -18,9 +18,13 @@
 package org.adempiere.webui.editor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.adempiere.webui.event.ContextMenuEvent;
 import org.adempiere.webui.event.ContextMenuListener;
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -48,12 +52,25 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
     public static final String NEW_EVENT = "NEW_RECORD";
     public static final String UPDATE_EVENT = "UPDATE_RECORD"; // Elaine 2009/02/16 - update record
     public static final String CHANGE_LOG_EVENT = "CHANGE_LOG";
-   
+    
     private boolean newEnabled = true;
     private boolean updateEnabled = true; // Elaine 2009/02/16 - update record
     private boolean zoomEnabled  = true;
     private boolean requeryEnabled = true;
     private boolean preferencesEnabled = true;
+    
+    /** Map that holds which popup items we dynamically disabled */
+    private final Map<String, Boolean> mapDisabledItems = new HashMap<String, Boolean>();
+    public static final String ACTION_ZOOM = "ZOOM";
+    public static final String ACTION_REQUERY = "REQUERY";
+    public static final String ACTION_PREFERENCE = "VALUE_PREFERENCE";
+    public static final String ACTION_NEW = "NEW_RECORD";
+    public static final String ACTION_UPDATE = "UPDATE_RECORD";
+    public static final String ACTION_CHANGE_LOG = "CHANGE_LOG";
+    public static final String[] ACTIONS = {
+    	ACTION_ZOOM, ACTION_REQUERY, ACTION_PREFERENCE, ACTION_NEW, ACTION_UPDATE, ACTION_CHANGE_LOG,
+    };
+    public static final String CTX_PopupMenuitemDisable = "_TabInfo_PopupMenuDisable";
     
     private Menuitem zoomItem;
     private Menuitem requeryItem;
@@ -88,6 +105,28 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
     	return zoomEnabled;
     }
     
+    /**
+     * Dynamically disable popup items
+     * @param name item name (see ACTION_* constants)
+     * @param disabled
+     */
+    public void setDisableItemDynamic(String name, boolean disabled)
+    {
+    	mapDisabledItems.put(name, disabled);
+    	updateItemsDyn();
+    }
+    
+    /**
+     * @param name item name (see ACTION_* constants)
+     * @return true if the menu item is dynamically disabled.
+     * 				Please note that this method is not checking the values used when you constructed the object.
+     */
+    public boolean isDisabledDynamical(String name)
+    {
+    	Boolean disabled = mapDisabledItems.get(name);
+    	return disabled == null ? false : disabled.booleanValue();
+    }
+    
     private void init()
     {
         if (zoomEnabled)
@@ -97,7 +136,6 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
             zoomItem.setLabel(Msg.getMsg(Env.getCtx(), "Zoom"));
             zoomItem.setImage("/images/Zoom16.png");
             zoomItem.addEventListener(Events.ON_CLICK, this);
-            
             this.appendChild(zoomItem);
         }
         
@@ -142,13 +180,107 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         	this.appendChild(updateItem);
         }
         //
-        
+    	updateItemsDyn();
+    }
+    
+    private void updateItemsDyn()
+    {
+    	if (zoomItem != null)
+    		zoomItem.setDisabled(isDisabledDynamical(ACTION_ZOOM));
+    	if (requeryItem != null)
+    		requeryItem.setDisabled(isDisabledDynamical(ACTION_REQUERY));
+    	if (prefItem != null)
+    		prefItem.setDisabled(isDisabledDynamical(ACTION_PREFERENCE));
+    	if (newItem != null)
+    		newItem.setDisabled(isDisabledDynamical(ACTION_NEW));
+    	if (updateItem != null)
+    		updateItem.setDisabled(isDisabledDynamical(ACTION_UPDATE));
+    }
+
+    /**
+     * Update popup menu items from editor
+     * @param editor
+     */
+    private void updateItemsFromEditor(WEditor editor)
+    {
+		GridField gridField = editor.getGridField();
+		if (gridField == null)
+			return;
+		final int windowNo = gridField.getWindowNo();
+		
+		GridTab gridTab = gridField.getGridTab();
+		if (gridTab == null)
+			return;
+		final int tabNo = gridTab.getTabNo();
+		
+		final String columnName = gridField.getColumnName();
+		
+		for (String action : ACTIONS)
+		{
+			String context = buildDisableItemContext(action, columnName);
+			String value = Env.getContext(Env.getCtx(), windowNo, tabNo, context);
+			if ("Y".equals(value))
+			{
+				mapDisabledItems.put(action, true);
+				continue;
+			}
+			else if ("N".equals(value))
+			{
+				mapDisabledItems.put(action, false);
+				continue;
+			}
+			
+			// Check settings for all columns:
+			context = buildDisableItemContext(action, "*");
+			if ("Y".equals(value))
+			{
+				mapDisabledItems.put(action, true);
+				continue;
+			}
+			else if ("N".equals(value))
+			{
+				mapDisabledItems.put(action, false);
+				continue;
+			}
+		}
+		
+		updateItemsDyn();
+    }
+    
+    private static final String buildDisableItemContext(String action, String columnName)
+    {
+		return CTX_PopupMenuitemDisable+"|"+action+"|"+columnName;
+    }
+    
+    /**
+     * Specify which popup menu items should be disabled
+     * @param windowNo
+     * @param tabNo
+     * @param columnName
+     * @param action
+     * @param value
+     */
+    public static void setDisableItemInContext(int windowNo, int tabNo, String columnName, String action, Boolean value)
+    {
+		String context = buildDisableItemContext(action, columnName);
+		String valueStr;
+		if (value == null)
+			valueStr = null;
+		else
+			valueStr = value.booleanValue() ? "Y" : "N";
+		Env.setContext(Env.getCtx(), windowNo, tabNo, context, valueStr);
     }
     
     public void addMenuListener(ContextMenuListener listener)
     {
     	if (!menuListeners.contains(listener))
     		menuListeners.add(listener);
+    	
+    	if (listener instanceof WEditor)
+    	{
+    		WEditor editor = (WEditor)listener;
+    		updateItemsFromEditor(editor);
+    	}
     }
 
     public void onEvent(Event event)
