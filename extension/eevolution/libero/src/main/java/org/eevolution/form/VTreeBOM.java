@@ -1,5 +1,5 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -10,7 +10,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2007 e-Evolution,SC. All Rights Reserved.               *
+ * Copyright (C) 2003-20010 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): Victor Perez www.e-evolution.com                           *
  *****************************************************************************/
 
@@ -26,7 +26,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -53,14 +52,11 @@ import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
-import org.compiere.model.MUOM;
-import org.compiere.model.Query;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
@@ -79,12 +75,13 @@ import org.eevolution.model.MPPProductBOMLine;
  *
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  */
-public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
+public class VTreeBOM extends TreeBOM implements FormPanel, ActionListener,
 		ListSelectionListener, PropertyChangeListener, VetoableChangeListener,
 		TreeSelectionListener, TableModelListener
 {
 	private static final long serialVersionUID = 1L;
 
+	CPanel panel = new CPanel();
 	/**
 	 *	Tree Maintenance 
 	 */
@@ -99,8 +96,8 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	/**	Active Tree				*/
 	private JTree		 	m_tree;
 
-	private static CLogger log = CLogger.getCLogger(VTreeBOM.class);
 
+	private static CLogger log = CLogger.getCLogger(VTreeBOM.class);
 	private BorderLayout	mainLayout	= new BorderLayout ();
 	private CPanel 			northPanel	= new CPanel ();
 
@@ -137,14 +134,9 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	private MiniTable tableBOM = new MiniTable();
 	private Vector<Vector<Object>> dataBOM = new Vector<Vector<Object>>();
 	private Vector<String> columnNames;
-	//private VDate fieldGuaranteeDate = 
-	//4Layers - Set divider location variable
-	private final int DIVIDER_LOCATION = 240;
-	// 4Layers - end
 
-	public Properties getCtx() {
-		return Env.getCtx();
-	}
+	private final int DIVIDER_LOCATION = 240;
+
 	
 	/**
 	 *	Initialize Panel
@@ -160,10 +152,8 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		{
 			preInit();
 			jbInit ();
-
-			frame.getContentPane().add(this, BorderLayout.CENTER);
-			//	frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-			//action_loadBOM();
+			frame.getContentPane().add(panel, BorderLayout.CENTER);
+			
 		}
 		catch (Exception ex)
 		{
@@ -259,12 +249,6 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		tableBOM.setColumnClass( 16, BigDecimal.class,false);   // 16 Forecast
 		tableBOM.autoSize();
 
-		//tableBOM.prepareTable(layout, "", "", false, "");
-
-		//  Visual
-		//CompiereColor.setBackground (this);
-
-		//tableBOM.getSelectionModel().addListSelectionListener(this);
 	}   //  dynInit
 
 
@@ -274,10 +258,10 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	 */
 	private void jbInit () 
 	{
-		this.setLayout (mainLayout);
 
-		// 4Layers - Set initial window dimension 
-		this.setPreferredSize(new Dimension(640, 480));
+		panel.setLayout (mainLayout);
+		panel.setPreferredSize(new Dimension(640, 480));
+
 
 		//labelUOM.setText (Msg.getElement(getCtx(), "C_UOM_ID"));
 		//fieldUOM.setEditable(false);
@@ -300,8 +284,10 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		northPanel.setLayout (northLayout);
 		northLayout.setAlignment (FlowLayout.LEFT);
 		//
-		this.add (northPanel, BorderLayout.NORTH);
-
+		//BEGIN AJC E-EVOLUTION 26 OCT 2010
+		//this.add (northPanel, BorderLayout.NORTH);
+		panel.add (northPanel, BorderLayout.NORTH);
+		//END AJC
 		northPanel.add (labelProduct, null);
 		northPanel.add (fieldProduct, null);
 		northPanel.add (implosion, null);
@@ -322,19 +308,15 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		//northPanel.add (bDeleteAll, null);
 		//
 
-		this.add(southPanel, BorderLayout.SOUTH);
+
+		panel.add(southPanel, BorderLayout.SOUTH);
+
 		southPanel.setLayout(southLayout);
 		confirmPanel.addActionListener(this);
 		southPanel.add(confirmPanel, BorderLayout.SOUTH);
-		//southPanel.add(statusBar, BorderLayout.SOUTH);
-		this.add (splitPane, BorderLayout.CENTER);
 
-		// 4Layers - Set divider location
+		panel.add (splitPane, BorderLayout.CENTER);
 		splitPane.setDividerLocation(DIVIDER_LOCATION);
-
-		//centerList.setSelectionMode (ListSelectionModel.SINGLE_SELECTION);
-		//centerList.addListSelectionListener(this);
-
 	}	//	jbInit
 
 	/**
@@ -404,14 +386,14 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		int M_Product_ID = getM_Product_ID(); 
 		if (M_Product_ID == 0)
 			return;
-		MProduct M_Product = MProduct.get(getCtx(), M_Product_ID);
-		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(M_Product, false));
+		MProduct product = MProduct.get(getCtx(), M_Product_ID);
+		DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(product, false));
 
 		dataBOM.clear();
 
 		if (isImplosion())
 		{
-			for (MPPProductBOMLine bomline : getBOMLines(M_Product_ID))
+			for (MPPProductBOMLine bomline : MPPProductBOMLine.getByProduct(product))
 			{
 				parent.add(parent(bomline));
 			}     
@@ -419,7 +401,7 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		}
 		else
 		{
-			for (MPPProductBOM bom : getBOMs(M_Product_ID, true))
+			for (MPPProductBOM bom : MPPProductBOM.getProductBOMs(product))
 			{
 				parent.add(parent(bom));                    
 			}      
@@ -468,7 +450,7 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		line.add( (BigDecimal) bomline.getForecast()); // 16 Forecast
 		dataBOM.add(line);
 
-		for (MPPProductBOM bom : getBOMs(bomproduct.getM_Product_ID(), false))
+		for (MPPProductBOM bom : MPPProductBOM.getProductBOMs((MProduct) bomproduct.getM_Product()))
 		{
 			MProduct component = MProduct.get(getCtx(), bom.getM_Product_ID());
 			return component(component);
@@ -518,13 +500,13 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		return parent;
 	}
 
-	public DefaultMutableTreeNode component(MProduct M_Product) 
+	public DefaultMutableTreeNode component(MProduct product) 
 	{   
 
 		if (isImplosion())
 		{
-			DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(M_Product, false));
-			for (MPPProductBOMLine bomline : getBOMLines(M_Product.getM_Product_ID()))
+			DefaultMutableTreeNode parent = new DefaultMutableTreeNode(productSummary(product, false));
+			for (MPPProductBOMLine bomline : MPPProductBOMLine.getByProduct(product))
 			{
 				parent.add(parent(bomline));
 			}  
@@ -532,11 +514,11 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		}
 		else
 		{
-			for (MPPProductBOM bom : getBOMs(M_Product.getValue()))
+			for (MPPProductBOM bom : MPPProductBOM.getProductBOMs(product))
 			{
 				return parent(bom);
 			}  
-			return new DefaultMutableTreeNode(productSummary(M_Product, true));
+			return new DefaultMutableTreeNode(productSummary(product, true));
 		}
 	}
 
@@ -562,20 +544,6 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	 */
 	public void propertyChange (PropertyChangeEvent e)
 	{
-		//MTreeNode tn = (MTreeNode)e.getNewValue();
-		//log.info( "VTreeMaintenance.propertyChanged", tn);
-		//if (tn == null)
-		//	return;
-		/*ListModel model = centerList.getModel();
-		int size = model.getSize();
-		int index = -1;
-		for (index = 0; index < size; index++)
-		{
-			ListItem item = (ListItem)model.getElementAt(index);
-			if (item.id == tn.getNode_ID())
-				break;
-		}
-		centerList.setSelectedIndex(index);*/
 	}	//	propertyChange
 
 	/**
@@ -586,28 +554,6 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		log.info( "VTreeMaintenance.action_treeAdd " + item);
 		if (item != null)
 		{
-			//centerTree.nodeChanged(true, item.id, item.name, 
-			//	item.description, item.isSummary, item.imageIndicator);
-			/*			if (m_tree.isProduct())
-			{
-				MTree_NodePR node = new MTree_NodePR (m_tree, item.id);
-				node.save();
-			}
-			else if (m_tree.isBPartner())
-			{
-				MTree_NodeBP node = new MTree_NodeBP (m_tree, item.id);
-				node.save();
-			}
-			else if (m_tree.isMenu())
-			{
-				MTree_NodeMM node = new MTree_NodeMM (m_tree, item.id);
-				node.save();
-			}
-			else
-			{
-				MTree_Node node = new MTree_Node (m_tree, item.id);
-				node.save();
-			}*/
 		}
 	}	//	action_treeAdd
 
@@ -619,32 +565,6 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 		log.info( "VTreeMaintenance.action_treeDelete" + item);
 		if (item != null)
 		{
-			//centerTree.nodeChanged(false, item.id, item.name, 
-			//	item.description, item.isSummary, item.imageIndicator);
-			/*if (m_tree.isProduct())
-			{
-				MTree_NodePR node = MTree_NodePR.get (m_tree, item.id);
-				if (node != null)
-					node.delete();
-			}
-			else if (m_tree.isBPartner())
-			{
-				MTree_NodeBP node = MTree_NodeBP.get (m_tree, item.id);
-				if (node != null)
-					node.delete();
-			}
-			else if (m_tree.isMenu())
-			{
-				MTree_NodeMM node = MTree_NodeMM.get (m_tree, item.id);
-				if (node != null)
-					node.delete();
-			}
-			else
-			{
-				MTree_Node node = MTree_Node.get (m_tree, item.id);
-				if (node != null)
-					node.delete();
-			}*/
 		}
 	}	//	action_treeDelete
 
@@ -655,14 +575,6 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	private void action_treeAddAll()
 	{
 		log.info( "VTreeMaintenance.action_treeAddAll");
-		/*ListModel model = centerList.getModel();
-		int size = model.getSize();
-		int index = -1;
-		for (index = 0; index < size; index++)
-		{
-			ListItem item = (ListItem)model.getElementAt(index);
-			action_treeAdd(item);
-		}*/
 	}	//	action_treeAddAll
 
 	/**
@@ -671,14 +583,6 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 	private void action_treeDeleteAll()
 	{
 		log.info( "VTreeMaintenance.action_treeDeleteAll");
-		/*ListModel model = centerList.getModel();
-		int size = model.getSize();
-		int index = -1;
-		for (index = 0; index < size; index++)
-		{
-			ListItem item = (ListItem)model.getElementAt(index);
-			action_treeDelete(item);
-		}*/
 	}
 
 	public void tableChanged(TableModelEvent e) {
@@ -721,29 +625,7 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 
 	}	//	ListItem
 	
-	private String productSummary(MProduct product, boolean isLeaf) {
-		MUOM uom = MUOM.get(getCtx(), product.getC_UOM_ID());
-		String value = product.getValue();
-		String name = product.get_Translation(MProduct.COLUMNNAME_Name);
-		//
-		StringBuffer sb = new StringBuffer(value);
-		if (name != null && !value.equals(name))
-			sb.append("_").append(product.getName());
-		sb.append(" [").append(uom.get_Translation(MUOM.COLUMNNAME_UOMSymbol)).append("]");
-		//
-		return sb.toString();
-	}
-	
-	private String productSummary(MPPProductBOM bom) {
-		String value = bom.getValue();
-		String name = bom.get_Translation(MPPProductBOM.COLUMNNAME_Name);
-		//
-		StringBuffer sb = new StringBuffer(value);
-		if (name != null && !name.equals(value))
-			sb.append("_").append(name);
-		//
-		return sb.toString();
-	}
+
 	
 	private boolean isImplosion() {
 		return implosion.isSelected();
@@ -755,30 +637,5 @@ public class VTreeBOM extends CPanel implements FormPanel, ActionListener,
 			return 0;
 		return Product.intValue(); 
 	}
-	
-	private List<MPPProductBOM> getBOMs(String productValue)
-	{
-		int ad_client_id = Env.getAD_Client_ID(getCtx()); 
-		String filter = MPPProductBOM.COLUMNNAME_Value+"=? AND AD_Client_ID=?";
-		return new Query (getCtx(), MPPProductBOM.Table_Name, filter, null)
-					.setParameters(new Object[]{productValue, ad_client_id})
-					.list();
-		
-	}
-	private List<MPPProductBOM> getBOMs(int M_Product_ID, boolean onlyActiveRecords)
-	{
-		String filter = MPPProductBOM.COLUMNNAME_M_Product_ID+"=?"
-						+(onlyActiveRecords ? " AND IsActive='Y'" : "");
-		return new Query(getCtx(), MPPProductBOM.Table_Name, filter, null)
-					.setParameters(new Object[]{M_Product_ID})
-					.list();
-	}
-	
-	private List<MPPProductBOMLine> getBOMLines(int M_Product_ID) 
-	{
-		String filter = MPPProductBOMLine.COLUMNNAME_M_Product_ID+"=?";
-		return new Query(getCtx(), MPPProductBOMLine.Table_Name, filter, null)
-						.setParameters(new Object[]{M_Product_ID})
-						.list();
-	}
+
 }	//	VTreeMaintenance
