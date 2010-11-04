@@ -455,8 +455,8 @@ public class MRP extends SvrProcess
 						else
 						{ // if not then create new range for next period
 							BeforeDateStartSchedule =  POQDateStartSchedule; 
-							calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product ,BeforeDateStartSchedule);										
-							QtyGrossReqs = Qty; 
+							QtyGrossReqs = QtyGrossReqs.add(Qty); 
+							calculatePlan(AD_Client_ID,AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product ,BeforeDateStartSchedule);																	
 							DatePromisedFrom = DatePromised;
 							DatePromisedTo = TimeUtil.addDays(DatePromised, m_product_planning.getOrder_Period().intValueExact());         
 							POQDateStartSchedule = (level == 0 ? DatePromised : DateStartSchedule);
@@ -466,7 +466,7 @@ public class MRP extends SvrProcess
 					// If  Order_Policy = LoteForLote then always create new range for next period and put QtyGrossReqs          
 					else if (X_PP_Product_Planning.ORDER_POLICY_Lot_For_Lot.equals(m_product_planning.getOrder_Policy()))
 					{                                                                                                                                           
-						QtyGrossReqs = Qty;
+						QtyGrossReqs = QtyGrossReqs.add(Qty);
 						BeforeDateStartSchedule = DatePromised; 		
 						calculatePlan(AD_Client_ID, AD_Org_ID,M_Warehouse_ID,PP_MRP_ID,product,BeforeDateStartSchedule); 		
 						continue;
@@ -555,7 +555,7 @@ public class MRP extends SvrProcess
 		// Quantity Project On hand 100 
 		// Safety Stock 150
 		// 150 > 100 The Quantity Project On hand is now 50
-		/*if(m_product_planning.getSafetyStock().signum() > 0
+		if(m_product_planning.getSafetyStock().signum() > 0
 				&& m_product_planning.getSafetyStock().compareTo(QtyProjectOnHand) > 0)
 		{
 			String comment = Msg.translate(getCtx(), MStorage.COLUMNNAME_QtyOnHand) 
@@ -563,9 +563,8 @@ public class MRP extends SvrProcess
 							+ " "  +  Msg.translate(getCtx(), I_PP_Product_Planning.COLUMNNAME_SafetyStock)
 							+ ": " + m_product_planning.getSafetyStock();
 			createMRPNote("MRP-001", AD_Org_ID, 0, product , null , QtyProjectOnHand , comment);
-			QtyProjectOnHand =  QtyProjectOnHand.subtract(m_product_planning.getSafetyStock());
 		}
-		log.info("QtyOnHand :" + QtyProjectOnHand);*/
+		log.info("QtyOnHand :" + QtyProjectOnHand);
 	}
 	
 	protected MPPProductPlanning getProductPlanning(int AD_Client_ID , int AD_Org_ID, int S_Resource_ID , int M_Warehouse_ID, MProduct product) throws SQLException
