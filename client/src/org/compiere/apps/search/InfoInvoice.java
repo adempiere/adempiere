@@ -244,7 +244,7 @@ public class InfoInvoice extends Info
 		prepareTable(s_invoiceLayout,
 			" C_Invoice_v i",   //  corrected for CM
 			where.toString(),
-			"2,3,4");
+			"2,3,4,5");
 		//
 	//	MAllocationLine.setIsPaid(Env.getCtx(), 0, null);
 		return true;

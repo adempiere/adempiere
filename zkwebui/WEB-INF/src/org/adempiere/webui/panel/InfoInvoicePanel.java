@@ -146,6 +146,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         new ColumnInfo(" ", "i.C_Invoice_ID", IDColumn.class),
         new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"), "(SELECT Name FROM C_BPartner bp WHERE bp.C_BPartner_ID=i.C_BPartner_ID)", String.class),
         new ColumnInfo(Msg.translate(Env.getCtx(), "DateInvoiced"), "i.DateInvoiced", Timestamp.class),
+        new ColumnInfo(Msg.translate(Env.getCtx(), "DueDate"), "i.DueDate", Timestamp.class),
         new ColumnInfo(Msg.translate(Env.getCtx(), "DocumentNo"), "i.DocumentNo", String.class),
         new ColumnInfo(Msg.translate(Env.getCtx(), "C_Currency_ID"), "(SELECT ISO_Code FROM C_Currency c WHERE c.C_Currency_ID=i.C_Currency_ID)", String.class),
         new ColumnInfo(Msg.translate(Env.getCtx(), "GrandTotal"), "i.GrandTotal",  BigDecimal.class),
@@ -296,7 +297,7 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         prepareTable(s_invoiceLayout,
             " C_Invoice_v i",   //  corrected for CM
             where.toString(),
-            "2,3,4");
+            "2,3,4,5");
         //
         return true;
            
