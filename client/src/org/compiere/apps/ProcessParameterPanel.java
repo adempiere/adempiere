@@ -57,8 +57,12 @@ import org.compiere.util.Env;
  * 			<li>BF [ 2548216 ] Process Param Panel is not showing any parameter if error 
  * @version 	2006-12-01
  */
-@SuppressWarnings("serial")
 public class ProcessParameterPanel extends CPanel implements VetoableChangeListener, IProcessParameter {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4042260793108029845L;
+
 		/**
 		 *	Dynamic generated Parameter panel.
 		 *  @param WindowNo window

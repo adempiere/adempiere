@@ -64,8 +64,12 @@ import sun.awt.AppContext;
  * @author Low Heng Sin
  * @version 2006-11-27
  */
-@SuppressWarnings("serial")
 public class PLAFEditorPanel extends CPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3991197818429424319L;
+
 	/**	Logger			*/
 	private static Logger log = Logger.getLogger(PLAFEditor.class.getName());
 	
