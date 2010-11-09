@@ -188,7 +188,7 @@ ContextMenuListener, IZoomableEditor
             getComponent().setValue(value);            
             if (!getComponent().isSelected(value))
             {
-            	if (isReadWrite() && lookup != null)
+            	if (lookup != null)
             		lookup.refresh();
             	Object curValue = oldValue;
                 oldValue = value;
@@ -197,7 +197,7 @@ ContextMenuListener, IZoomableEditor
                 //still not in list, reset to zero
                 if (!getComponent().isSelected(value))
                 {
-                	if (value instanceof Integer && (Integer)value == 0)
+                	if (value instanceof Integer)
                 	{
                 		getComponent().setValue(null);
                 		if (curValue == null)

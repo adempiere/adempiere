@@ -47,6 +47,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 import org.zkoss.zul.Label;
 
@@ -58,10 +59,13 @@ import org.zkoss.zul.Label;
  * 	@author 	Low Heng Sin
  * 	@version 	2006-12-01
  */
-@SuppressWarnings("serial")
 public class ProcessParameterPanel extends Panel 
 implements ValueChangeListener, IProcessParameter 
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3372945363384709062L;
 		private String width;
 
 		/**
@@ -290,7 +294,14 @@ implements ValueChangeListener, IProcessParameter
 			//
 			m_wEditors.add (editor);                   //  add to Editors
 			
-			row.appendChild(editor.getLabel().rightAlign());
+        	Div div = new Div();
+            div.setAlign("right");
+            org.adempiere.webui.component.Label label = editor.getLabel();
+            div.appendChild(label);
+            if (label.getDecorator() != null)
+            	div.appendChild(label.getDecorator());
+            row.appendChild(div);
+
 			//
 			if (voF.isRange)
 			{
@@ -337,10 +348,10 @@ implements ValueChangeListener, IProcessParameter
 		
 
 		/**
-		 *	Save Parameter values
+		 *	Validate Parameter values
 		 *  @return true if parameters saved
 		 */
-		public boolean saveParameters()
+		public boolean validateParameters()
 		{
 			log.config("");
 
@@ -393,6 +404,20 @@ implements ValueChangeListener, IProcessParameter
 				FDialog.error(m_WindowNo, this, "FillMandatory", sb.toString());
 				return false;
 			}
+			
+			return true;
+		}	//	validateParameters
+
+		/**
+		 *	Save Parameter values
+		 *  @return true if parameters saved
+		 */
+		public boolean saveParameters()
+		{
+			log.config("");
+
+			if (!validateParameters())
+				return false;
 
 			/**********************************************************************
 			 *	Save Now
