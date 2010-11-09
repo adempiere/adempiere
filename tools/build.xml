@@ -282,7 +282,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.0.1-FINAL-20070705.jar">
+			<zipfileset src="lib/poi-3.5-FINAL-20090928.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- CGLib -->
@@ -445,7 +445,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
-			<zipfileset src="lib/poi-3.0.1-FINAL-20070705.jar">
+			<zipfileset src="lib/poi-3.5-FINAL-20090928.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
