@@ -2072,6 +2072,7 @@ public final class MPayment extends X_C_Payment
 			getDateTrx(), getC_Currency_ID(),
 			Msg.translate(getCtx(), "C_Payment_ID") + ": " + getDocumentNo() + " [1]", get_TrxName());
 		alloc.setAD_Org_ID(getAD_Org_ID());
+		alloc.setDateAcct(getDateAcct()); // in case date acct is different from datetrx in payment
 		alloc.saveEx();
 		MAllocationLine aLine = null;
 		if (isReceipt())
@@ -2109,7 +2110,8 @@ public final class MPayment extends X_C_Payment
 			getDateTrx(), getC_Currency_ID(),
 			Msg.translate(getCtx(), "C_Payment_ID")	+ ": " + getDocumentNo() + " [n]", get_TrxName());
 		alloc.setAD_Org_ID(getAD_Org_ID());
-
+		alloc.setDateAcct(getDateAcct()); // in case date acct is different from datetrx in payment
+		
 		String sql = "SELECT psc.C_BPartner_ID, psl.C_Invoice_ID, psl.IsSOTrx, "	//	1..3
 			+ " psl.PayAmt, psl.DiscountAmt, psl.DifferenceAmt, psl.OpenAmt "
 			+ "FROM C_PaySelectionLine psl"
