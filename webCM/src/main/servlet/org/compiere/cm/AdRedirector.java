@@ -29,9 +29,13 @@ import org.compiere.model.MAd;
  * @author Yves Sandfort
  * @version  $Id$
  */
-@SuppressWarnings("serial")
 public class AdRedirector extends HttpServletCM
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1775300708433494656L;
+
 	/**
 	 * Process the HTTP Get request
 	 * @param request 
