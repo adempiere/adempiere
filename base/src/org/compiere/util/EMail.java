@@ -44,6 +44,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
 import org.compiere.model.MClient;
+import org.compiere.model.MSysConfig;
 
 import com.sun.mail.smtp.SMTPMessage;
 
@@ -69,7 +70,8 @@ public final class EMail implements Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2526338392563042117L;
+	private static final long serialVersionUID = -1408649015285763245L;
+	
 	//use in server bean
 	public final static String HTML_MAIL_MARKER = "ContentType=text/html;";
 	/**
@@ -406,7 +408,7 @@ public final class EMail implements Serializable
 			return;
 		try
 		{
-			Enumeration e = m_msg.getAllHeaderLines ();
+			Enumeration<?> e = m_msg.getAllHeaderLines ();
 			while (e.hasMoreElements ())
 				log.fine("- " + e.nextElement ());
 		}
@@ -490,6 +492,8 @@ public final class EMail implements Serializable
 		try
 		{
 			m_from = new InternetAddress (newFrom, true);
+			if (MSysConfig.getBooleanValue("MAIL_SEND_BCC_TO_FROM", false, Env.getAD_Client_ID(Env.getCtx())));
+				addBcc(newFrom);
 		}
 		catch (Exception e)
 		{

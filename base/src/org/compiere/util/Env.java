@@ -836,7 +836,7 @@ public final class Env
 	public static int getAD_Org_ID (Properties ctx)
 	{
 		return Env.getContextAsInt(ctx, "#AD_Org_ID");
-	}	//	getAD_Client_ID
+	}	//	getAD_Org_ID
 
 	/**
 	 * 	Get Login AD_User_ID
