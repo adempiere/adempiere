@@ -202,7 +202,8 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
             		panel.setTooltiptext(description);
 
             	panel.setCollapsible(dp.isCollapsible());
-
+            	panel.setOpen( dp.isOpenByDefault() );
+            	
 	        	panel.setBorder("normal");
 	        	portalchildren.appendChild(panel);
 	            Panelchildren content = new Panelchildren();
