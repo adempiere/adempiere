@@ -788,7 +788,6 @@ public class MProduct extends X_M_Product
 			.setParameters( get_ID() )
 			.setOnlyActiveRecords( false )
 			.list();
-		
 		for(MProductDownload download : downloads)
 		{	
 			download.deleteEx(true);
