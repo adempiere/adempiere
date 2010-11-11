@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -769,6 +770,29 @@ public class MProduct extends X_M_Product
 			MCost mcost = MCost.get(this, 0, mass[i], 0, ce.getM_CostElement_ID());
 			mcost.delete(true, get_TrxName());
 		}*/
+		
+		// @Trifon Delete Product UOM Conversion
+		String whereClause = "M_Product_ID=?";
+		List<MUOMConversion> conversions = new Query(getCtx(), MUOMConversion.Table_Name, whereClause, get_TrxName())
+			.setParameters( get_ID() )
+			.setOnlyActiveRecords( false )
+			.list();
+		Iterator<MUOMConversion> iterator = conversions.iterator();
+		while ( iterator.hasNext() ) {
+			MUOMConversion conv = iterator.next();
+			conv.deleteEx(true, get_TrxName());
+		}
+		// @Trifon Delete Product Downloads
+		whereClause = "M_Product_ID=?";
+		List<MProductDownload> downloads = new Query(getCtx(), MProductDownload.Table_Name, whereClause, get_TrxName())
+			.setParameters( get_ID() )
+			.setOnlyActiveRecords( false )
+			.list();
+		Iterator<MProductDownload> downloadIterator = downloads.iterator();
+		while ( downloadIterator.hasNext() ) {
+			MProductDownload download = downloadIterator.next();
+			download.deleteEx(true, get_TrxName());
+		}
 		
 		//
 		return delete_Accounting("M_Product_Acct"); 
