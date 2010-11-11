@@ -1984,15 +1984,7 @@ public final class MRole extends X_AD_Role
 				includes.add(m_recordDependentAccess[i].getRecord_ID());
 				log.fine("Include " + columnName + " - " + m_recordDependentAccess[i]);
 			}
-			
-			if (fullyQualified)
-			{
-				whereColumnName = ti[i].getSynonym();	//	table synonym
-				if (whereColumnName.length() == 0)
-					whereColumnName = TableNameIn;
-				whereColumnName += ".";
-			}
-			whereColumnName += getDependentRecordWhereColumn (mainSql, columnName);
+			whereColumnName = getDependentRecordWhereColumn (mainSql, columnName);
 		}	//	for all dependent records
 		retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
 		//
