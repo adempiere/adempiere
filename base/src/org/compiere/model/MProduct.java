@@ -18,7 +18,6 @@ package org.compiere.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -47,6 +46,7 @@ import org.compiere.util.Msg;
  */
 public class MProduct extends X_M_Product
 {
+
 	/**
 	 * 
 	 */
@@ -772,26 +772,26 @@ public class MProduct extends X_M_Product
 		}*/
 		
 		// @Trifon Delete Product UOM Conversion
-		String whereClause = "M_Product_ID=?";
-		List<MUOMConversion> conversions = new Query(getCtx(), MUOMConversion.Table_Name, whereClause, get_TrxName())
+		final String whereClause = MProduct.COLUMNNAME_M_Product_ID +"=?";
+		List<MUOMConversion> conversions = new Query(getCtx(), I_C_UOM_Conversion.Table_Name, whereClause, get_TrxName())
+			.setClient_ID()
 			.setParameters( get_ID() )
 			.setOnlyActiveRecords( false )
 			.list();
-		Iterator<MUOMConversion> iterator = conversions.iterator();
-		while ( iterator.hasNext() ) {
-			MUOMConversion conv = iterator.next();
-			conv.deleteEx(true, get_TrxName());
+		for(MUOMConversion conversion: conversions)
+		{	
+			conversion.deleteEx(true);
 		}
 		// @Trifon Delete Product Downloads
-		whereClause = "M_Product_ID=?";
-		List<MProductDownload> downloads = new Query(getCtx(), MProductDownload.Table_Name, whereClause, get_TrxName())
+		List<MProductDownload> downloads = new Query(getCtx(), I_M_ProductDownload.Table_Name, whereClause, get_TrxName())
+			.setClient_ID()
 			.setParameters( get_ID() )
 			.setOnlyActiveRecords( false )
 			.list();
-		Iterator<MProductDownload> downloadIterator = downloads.iterator();
-		while ( downloadIterator.hasNext() ) {
-			MProductDownload download = downloadIterator.next();
-			download.deleteEx(true, get_TrxName());
+		
+		for(MProductDownload download : downloads)
+		{	
+			download.deleteEx(true);
 		}
 		
 		//
