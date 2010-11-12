@@ -1184,11 +1184,7 @@ public class GridTable extends AbstractTableModel
 
 		//	Has anything changed?
 		Object oldValue = getValueAt(row, col);
-		if (!force && (
-			(oldValue == null && value == null)
-			||	(oldValue != null && oldValue.equals(value))
-			||	(oldValue != null && value != null && oldValue.toString().equals(value.toString()))
-			))
+		if (!force && !isValueChanged(oldValue, value) )
 		{
 			log.finest("r=" + row + " c=" + col + " - New=" + value + "==Old=" + oldValue + " - Ignored");
 			return;
@@ -2072,10 +2068,7 @@ public class GridTable extends AbstractTableModel
 				;	//	ignore
 			
 			//	***	Data changed ***
-			else if (m_inserting
-			  || (oldValue == null && value != null)
-			  || (oldValue != null && value == null)
-			  || !oldValue.equals (value)) 			//	changed
+			else if (m_inserting || isValueChanged(oldValue, value) )
 			{
 				//	Check existence
 				int poIndex = po.get_ColumnIndex(columnName);
@@ -3616,5 +3609,53 @@ public class GridTable extends AbstractTableModel
 				currentLevel = Env.getContextAsInt(m_ctx, m_WindowNo, tabNo, GridTab.CTX_TabLevel);
 			}
 		return tabNo;
-	}	
+	}
+	
+	private boolean isNotNullAndIsEmpty (Object value) {
+		if (value != null 
+				&& (value instanceof String) 
+				&& value.toString().equals("")
+			) 
+		{
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+	
+	private boolean	isValueChanged(Object oldValue, Object value)
+	{
+		if ( isNotNullAndIsEmpty(oldValue) ) {
+			oldValue = null;
+		}
+
+		if ( isNotNullAndIsEmpty(value) ) {
+			value = null;
+		}
+
+		boolean bChanged = (oldValue == null && value != null) 
+							|| (oldValue != null && value == null);
+
+		if (!bChanged && oldValue != null)
+		{
+			if (oldValue.getClass().equals(value.getClass()))
+			{
+				if (oldValue instanceof Comparable<?>)
+				{
+					bChanged = (((Comparable<Object>)oldValue).compareTo(value) != 0);
+				}
+				else
+				{
+					bChanged = !oldValue.equals(value);
+				}
+			}
+			else if(value != null)
+			{
+				bChanged = !(oldValue.toString().equals(value.toString()));
+			}
+		}
+		return bChanged;	
+	}
+	
 }
