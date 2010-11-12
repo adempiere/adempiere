@@ -27,6 +27,7 @@ package org.compiere.swing;
 
 import java.awt.Color;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.Action;
 import javax.swing.Icon;
@@ -315,6 +316,11 @@ public class CButton extends JButton implements CEditor {
 	public void setMnemonic(int mnemonic) {
 		super.setMnemonic(mnemonic);
 
+		// Angelo Dabala' (genied) avoid to register Ctrl+Alt modifier mask without mnemonic
+		if (mnemonic==KeyEvent.VK_UNDEFINED) {
+			return;
+		}
+		
 		InputMap map = SwingUtilities.getUIInputMap(this,
 				JComponent.WHEN_IN_FOCUSED_WINDOW);
 
