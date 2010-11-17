@@ -604,7 +604,7 @@ public class Allocation
 		if (AD_Org_ID == 0)
 		{
 			//ADialog.error(m_WindowNo, this, "Org0NotAllowed", null);
-			new AdempiereException("@Org0NotAllowed@");
+			throw new AdempiereException("@Org0NotAllowed@");
 		}
 		//
 		log.config("Client=" + AD_Client_ID + ", Org=" + AD_Org_ID

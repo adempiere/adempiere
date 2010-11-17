@@ -424,6 +424,10 @@ public class VAllocation extends Allocation
 	 */
 	public void saveData()
 	{
+		if (m_AD_Org_ID > 0)
+			Env.setContext(Env.getCtx(), m_WindowNo, "AD_Org_ID", m_AD_Org_ID);
+		else
+			Env.setContext(Env.getCtx(), m_WindowNo, "AD_Org_ID", "");
 		try
 		{
 			Trx.run(new TrxRunnable() 
