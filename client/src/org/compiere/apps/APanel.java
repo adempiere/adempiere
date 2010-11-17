@@ -1876,6 +1876,8 @@ public final class APanel extends CPanel
 			else    //  Don't save
 				m_curTab.dataIgnore();
 		}
+		if (copy && m_curTab.getCurrentRow() < 0)
+			copy = false;
 		m_curTab.dataNew (copy);
 		m_curGC.dynamicDisplay(0);
 	//	m_curTab.getTableModel().setChanged(false);
