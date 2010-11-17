@@ -757,8 +757,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 	{
 		if (!toolbar.isPersonalLock)
 			return;
-		final int record_ID = curTab.getRecord_ID();
-		if (record_ID == -1)	//	No Key
+		if (curTab.getRecord_ID() == -1)	//	No Key
 			return;
 
 		if(m_popup == null)
@@ -771,7 +770,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				public void onEvent(Event event) throws Exception
 				{
-					curTab.lock(Env.getCtx(), record_ID, !toolbar.getButton("Lock").isPressed());
+					curTab.lock(Env.getCtx(), curTab.getRecord_ID(), !toolbar.getButton("Lock").isPressed());
 					curTab.loadAttachments();			//	reload
 
 					toolbar.lock(curTab.isLocked());
@@ -784,7 +783,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			{
 				public void onEvent(Event event) throws Exception
 				{
-					new WRecordAccessDialog(null, curTab.getAD_Table_ID(), record_ID);
+					new WRecordAccessDialog(null, curTab.getAD_Table_ID(), curTab.getRecord_ID());
 
 					toolbar.lock(curTab.isLocked());
 				}
