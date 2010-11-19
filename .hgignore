@@ -43,6 +43,7 @@ syntax: regexp
 ^posterita/posterita/dist$
 ^posterita/posterita/web/WEB-INF/classes$
 ^sqlj/sqlj\.jar$
+^utils_dev/mybuild\.properties$
 ^webCM/deploy$
 ^zkwebui/dist$
 ^zkwebui/WEB-INF/classes$
