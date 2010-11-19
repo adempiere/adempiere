@@ -96,7 +96,7 @@ public class WInOutGen extends InOutGen implements IFormController, EventListene
 	 */
 	void zkInit() throws Exception
 	{
-		lBPartner.setText("BPartner");
+		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		
 		Row row = form.getParameterPanel().newRows().newRow();
 		row.appendChild(lWarehouse.rightAlign());

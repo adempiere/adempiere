@@ -50,7 +50,7 @@ public class WInvoiceGen extends InvoiceGen implements IFormController, EventLis
 	private static WGenForm form;
 	
 	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(WInOutGen.class);
+	private static CLogger log = CLogger.getCLogger(WInvoiceGen.class);
 	//
 	private Label lOrg = new Label();
 	private WTableDirEditor fOrg;
@@ -96,7 +96,7 @@ public class WInvoiceGen extends InvoiceGen implements IFormController, EventLis
 	void zkInit() throws Exception
 	{
 		lOrg.setText(Msg.translate(Env.getCtx(), "AD_Org_ID"));
-		lBPartner.setText("BPartner");
+		lBPartner.setText(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
 		
 		Row row = form.getParameterPanel().newRows().newRow();
 		row.appendChild(lOrg.rightAlign());
