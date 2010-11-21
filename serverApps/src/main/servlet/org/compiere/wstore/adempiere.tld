@@ -10,7 +10,7 @@
 	<tag>
 		<name>basket</name>
 		<tagclass>org.compiere.wstore.BasketTag</tagclass>
-		<info>Web Store Basket</info>
 		<bodycontent>EMPTY</bodycontent>
+		<info>Web Store Basket</info>
 	</tag>
 </taglib>
