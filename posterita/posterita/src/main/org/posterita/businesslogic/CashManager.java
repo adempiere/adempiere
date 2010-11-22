@@ -561,7 +561,7 @@ public class CashManager
 		
 			sql = "SELECT * FROM C_Cash c "
 				+ "WHERE c.C_CashBook_ID=?"					//	#1
-				//+ " AND TRUNC(c.StatementDate)=?"			//	#2
+				//+ " AND TRUNC(c.StatementDate, 'DD')=?"			//	#2
 				+ " AND c.Processed='N'"
                 + " AND c.docstatus='DR'";
 		
@@ -688,7 +688,7 @@ public class CashManager
             + "WHERE c.C_CashBook_ID=?"
             + " AND c.Processed='N'"
             + " AND c.docstatus='DR'"
-            + " AND TRUNC(c.StatementDate)<?" 
+            + " AND TRUNC(c.StatementDate, 'DD')<?" 
             + " order by c.StatementDate asc";
         PreparedStatement pstmt = null;
         

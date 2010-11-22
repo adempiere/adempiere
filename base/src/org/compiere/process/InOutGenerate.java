@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import org.adempiere.process.AllocateSalesOrders;
 import org.compiere.model.MClient;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MInOut;
@@ -135,8 +134,6 @@ public class InOutGenerate extends SvrProcess
 			if (!DocAction.ACTION_Complete.equals(p_docAction))
 				p_docAction = DocAction.ACTION_Prepare;
 		}
-
-		
 	}	//	prepare
 
 	/**
@@ -186,7 +183,7 @@ public class InOutGenerate extends SvrProcess
 				m_sql += " AND (ol.qtyAllocated>0 OR (SELECT IsShippable(ol.M_Product_ID))='N')";
 			}
 			if (p_DatePromised != null)
-				m_sql += " AND TRUNC(ol.DatePromised)<=?";		//	#2
+				m_sql += " AND TRUNC(ol.DatePromised, 'DD')<=?";		//	#2
 			m_sql += " AND o.C_Order_ID=ol.C_Order_ID AND ol.QtyOrdered<>ol.QtyDelivered)";
 			//
 			if (p_C_BPartner_ID != 0)
@@ -248,7 +245,7 @@ public class InOutGenerate extends SvrProcess
 				//	OrderLine WHERE
 				String where = " AND M_Warehouse_ID=" + p_M_Warehouse_ID;
 				if (p_DatePromised != null)
-					where += " AND (TRUNC(DatePromised)<=" + DB.TO_DATE(p_DatePromised, true)
+					where += " AND (TRUNC(DatePromised, 'DD')<=" + DB.TO_DATE(p_DatePromised, true)
 						+ " OR DatePromised IS NULL)";
 				//  Strict order
 				if (m_strictOrder) {

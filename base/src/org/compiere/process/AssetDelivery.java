@@ -128,7 +128,7 @@ public class AssetDelivery extends SvrProcess
 		//	No mail to expired
 		if (m_NoGuarantee_MailText_ID == 0)
 		{
-			sql.append("TRUNC(GuaranteeDate) >= ").append(DB.TO_DATE(m_GuaranteeDate, true));
+			sql.append("TRUNC(GuaranteeDate, 'DD') >= ").append(DB.TO_DATE(m_GuaranteeDate, true));
 			s = sql.toString();
 		}
 		//	Clean up

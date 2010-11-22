@@ -236,11 +236,11 @@ public class InfoInOut extends Info
 			Timestamp from = (Timestamp)fDateFrom.getValue();
 			Timestamp to = (Timestamp)fDateTo.getValue();
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(i.MovementDate) <= ?");
+				sql.append(" AND TRUNC(i.MovementDate, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(i.MovementDate) >= ?");
+				sql.append(" AND TRUNC(i.MovementDate, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(i.MovementDate) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(i.MovementDate, 'DD') BETWEEN ? AND ?");
 		}
 		sql.append(" AND i.IsSOTrx=?");
 

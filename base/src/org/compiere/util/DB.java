@@ -523,6 +523,14 @@ public final class DB
 	}	//	isPostgreSQL
     //begin vpj-cd e-evolution 02/07/2005 PostgreSQL
 
+	public static boolean isMySQL()
+	{
+		if (s_cc != null)
+			return s_cc.isMySQL();
+		log.severe("No Database Connection");
+		return false;
+	}
+
 	/**
 	 * 	Get Database Info
 	 *	@return info
@@ -1231,7 +1239,13 @@ public final class DB
 	public static RowSet getRowSet (String sql)
 	{
 		// Bugfix Gunther Hoppe, 02.09.2005, vpj-cd e-evolution
-		CStatementVO info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, DB.getDatabase().convertStatement(sql));
+		// praneet - giving issues with mysql, doing a quick fix for now
+		CStatementVO info ;
+		if (DB.isOracle() || DB.isPostgreSQL())
+			info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, DB.getDatabase().convertStatement(sql));
+		else
+			info = new CStatementVO (RowSet.TYPE_SCROLL_INSENSITIVE, RowSet.CONCUR_READ_ONLY, sql);
+		//dete fix convert statement
 		CPreparedStatement stmt = ProxyFactory.newCPreparedStatement(info);
 		RowSet retValue = stmt.getRowSet();
 		close(stmt);

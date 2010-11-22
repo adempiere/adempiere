@@ -1307,18 +1307,11 @@ public abstract class PO
 	{
 		m_trxName = trxName;
 		boolean success = true;
-		StringBuffer sql = new StringBuffer("SELECT ");
+		StringBuffer sql = p_info.buildSelect();
+		sql.append(" WHERE ")
+			.append(get_WhereClause(false))
+		;
 		int size = get_ColumnCount();
-		for (int i = 0; i < size; i++)
-		{
-			if (i != 0)
-				sql.append(",");
-			sql.append(p_info.getColumnSQL(i));	//	Normal and Virtual Column
-		}
-		sql.append(" FROM ").append(p_info.getTableName())
-			.append(" WHERE ")
-			.append(get_WhereClause(false));
-
 		//
 	//	int index = -1;
 		if (CLogMgt.isLevelFinest())
@@ -1420,6 +1413,7 @@ public abstract class PO
 			}
 			catch (SQLException e)
 			{
+				e.printStackTrace(); // @Trifon - MySQL Port
 				if (p_info.isVirtualColumn(index))	//	if rs constructor used
 					log.log(Level.FINER, "Virtual Column not loaded: " + columnName);
 				else

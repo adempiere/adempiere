@@ -96,7 +96,7 @@ public class TaxDeclarationCreate extends SvrProcess
 
 		//	Get Invoices
 		String sql = "SELECT * FROM C_Invoice i "
-			+ "WHERE TRUNC(i.DateInvoiced) >= ? AND TRUNC(i.DateInvoiced) <= ? "
+			+ "WHERE TRUNC(i.DateInvoiced, 'DD') >= ? AND TRUNC(i.DateInvoiced, 'DD') <= ? "
 			+ " AND Processed='Y'"
 			+ " AND NOT EXISTS (SELECT * FROM C_TaxDeclarationLine tdl "
 				+ "WHERE i.C_Invoice_ID=tdl.C_Invoice_ID)";

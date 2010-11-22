@@ -99,9 +99,9 @@ SELECT ot.AD_Client_ID, ot.AD_Org_ID, ot.IsActive, ot.Created, ot.CreatedBy, ot.
 	t.Name,
 	null, null, null, null, null, null,
 	null, null, null,
-    CASE WHEN ot.IsTaxIncluded='Y' THEN ot.TaxAmt ELSE ot.TaxBaseAmt END,
-    CASE WHEN ot.IsTaxIncluded='Y' THEN ot.TaxAmt ELSE ot.TaxBaseAmt END,
-    CASE WHEN ot.IsTaxIncluded='Y' THEN NULL ELSE ot.TaxAmt END,
+    CASE WHEN ot.IsTaxIncluded='Y' THEN ot.TaxAmt ELSE ot.TaxBaseAmt END AS PriceActual,
+    CASE WHEN ot.IsTaxIncluded='Y' THEN ot.TaxAmt ELSE ot.TaxBaseAmt END AS PriceEntered,
+    CASE WHEN ot.IsTaxIncluded='Y' THEN NULL ELSE ot.TaxAmt END AS LineNetAmt,
     null, null,
     null,null,null,null,null
 FROM C_OrderTax ot

@@ -17,5 +17,5 @@ fi
 #echo ===================================
 #echo Update Adempiere Server Environment
 #echo ===================================
-CP=lib/CInstall.jar:lib/Adempiere.jar:lib/CCTools.jar:lib/oracle.jar:lib/jboss.jar:lib/postgresql.jar:
+CP=lib/CInstall.jar:lib/Adempiere.jar:lib/CCTools.jar:lib/oracle.jar:lib/jboss.jar:lib/postgresql.jar:lib/mysql-connector-java-5.1.13-bin.jar:
 $JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME -Dant.home="." org.apache.tools.ant.launch.Launcher update

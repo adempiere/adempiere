@@ -170,6 +170,24 @@
 			</manifest>
 		</jar>
 
+		<!-- @Trifon - CREATE MYSQL JAR FILE --> 
+		<jar jarfile="${dist.dir}/mysql-connector-java-5.1.13-bin.jar">
+			<zipfileset src="lib/mysql-connector-java-5.1.13-bin.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+
+			<manifest>
+				<attribute name="Specification-Title" value="MySQL JDBC" />
+				<attribute name="Specification-Version" value="MYSQL" />
+				<attribute name="Specification-Vendor" value="MYSQL" />
+				<attribute name="Implementation-Title" value="MYSQL ${env.ADEMPIERE_VERSION}" />
+				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
+				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.org" />
+			</manifest>
+		</jar>
+        <!-- -->
+
 	</target>
 
 

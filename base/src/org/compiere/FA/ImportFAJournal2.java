@@ -712,7 +712,7 @@ public class ImportFAJournal2 extends SvrProcess
 		//	Go through Journal Records
 		sql = new StringBuffer ("SELECT * FROM I_FAJournal "
 			+ "WHERE I_IsImported='N'").append (clientCheck)
-			.append(" ORDER BY BatchDocumentNo, JournalDocumentNo, C_AcctSchema_ID, PostingType, C_DocType_ID, GL_Category_ID, C_Currency_ID, TRUNC(DateAcct), Line, I_FAJournal_ID");
+			.append(" ORDER BY BatchDocumentNo, JournalDocumentNo, C_AcctSchema_ID, PostingType, C_DocType_ID, GL_Category_ID, C_Currency_ID, TRUNC(DateAcct, 'DD'), Line, I_FAJournal_ID");
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString (),get_TrxName());

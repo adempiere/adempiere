@@ -66,13 +66,13 @@ public class ConfigurationData
 	{
 		super ();
 		p_panel = panel;
-	}	//	ConfigurationData
+	}
 
 	/** UI Panel				*/
 	protected ConfigurationPanel	p_panel = null;
 	/** Environment Properties	*/
 	protected Properties		p_properties = new Properties();
-	/**	Adempiere Home			*/
+	/**	ADempiere Home			*/
 	private File				m_adempiereHome;
 
 	
@@ -847,6 +847,8 @@ public class ConfigurationData
 		String ccType = Database.DB_ORACLE;
 		if (getDatabaseType().equals(DBTYPE_POSTGRESQL))
 			ccType = Database.DB_POSTGRESQL;
+		else if(getDatabaseType().equals(DBTYPE_MYSQL))
+			ccType = Database.DB_MYSQL;
 		CConnection cc = null;
 		try
 		{
@@ -1319,23 +1321,26 @@ public class ConfigurationData
 	/** PostgreSQL          */
 	private static String	DBTYPE_POSTGRESQL = "postgresql";
 	
+    /** MySQL          */
+	private static String	DBTYPE_MYSQL = "mysql";
+	
 	/** Database Types		*/
 	static String[]	DBTYPE = new String[]
 	{	DBTYPE_ORACLEXE,
 		DBTYPE_ORACLE, 
         //begin e-evolution vpj-cd 02/07/2005 PostgreSQL
-        DBTYPE_POSTGRESQL 
+        DBTYPE_POSTGRESQL,
+		DBTYPE_MYSQL
     };
 	    //end e-evolution vpj-cd 02/07/2005 PostgreSQL
 		
 	/** Database Configs	*/
 	private Config[] m_databaseConfig = new Config[]
 	    {
-		new ConfigOracle(this,true), 
-		new ConfigOracle(this,false), 
-		//begin e-evolution vpj-cd 02/07/2005 PostgreSQL
-		new ConfigPostgreSQL(this)  
-		//		end e-evolution vpj-cd 02/07/2005 PostgreSQL
+		new ConfigOracle(this,true),
+		new ConfigOracle(this,false),
+		new ConfigPostgreSQL(this),
+        new ConfigMySQL(this)
 		};
 
 	/**

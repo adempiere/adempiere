@@ -195,19 +195,19 @@ public class MQuery implements Serializable
 					if (P_Date_To == null)
 					{
 						if (isRange)
-							query.addRestriction("TRUNC("+ParameterName+")", MQuery.GREATER_EQUAL, 
+							query.addRestriction("TRUNC("+ParameterName+", 'DD')", MQuery.GREATER_EQUAL, 
 								P_Date, Name, Info);
 						else
-							query.addRestriction("TRUNC("+ParameterName+")", MQuery.EQUAL, 
+							query.addRestriction("TRUNC("+ParameterName+", 'DD')", MQuery.EQUAL, 
 								P_Date, Name, Info);
 					}
 					else	//	P_Date_To != null
 					{
 						if (P_Date == null)
-							query.addRestriction("TRUNC("+ParameterName+")", MQuery.LESS_EQUAL, 
+							query.addRestriction("TRUNC("+ParameterName+", 'DD')", MQuery.LESS_EQUAL, 
 								P_Date_To, Name, Info);
 						else
-							query.addRangeRestriction("TRUNC("+ParameterName+")", 
+							query.addRangeRestriction("TRUNC("+ParameterName+", 'DD')", 
 								P_Date, P_Date_To, Name, Info, Info_To);
 					}
 				}

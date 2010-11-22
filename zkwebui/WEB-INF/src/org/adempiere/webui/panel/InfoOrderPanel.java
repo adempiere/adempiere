@@ -313,15 +313,15 @@ public class InfoOrderPanel extends InfoPanel implements ValueChangeListener
         }
         if (fromDate == null && toDate != null)
         {
-            sql.append(" AND TRUNC(o.DateOrdered) <= ?");
+            sql.append(" AND TRUNC(o.DateOrdered, 'DD') <= ?");
         }
         else if (fromDate != null && toDate == null)
         {
-            sql.append(" AND TRUNC(o.DateOrdered) >= ?");
+            sql.append(" AND TRUNC(o.DateOrdered, 'DD') >= ?");
         }
         else if (fromDate != null && toDate != null)
         {    
-                sql.append(" AND TRUNC(o.DateOrdered) BETWEEN ? AND ?");
+                sql.append(" AND TRUNC(o.DateOrdered, 'DD') BETWEEN ? AND ?");
         }
         //
         Double fromAmount = null;

@@ -310,11 +310,11 @@ public class InfoInOutPanel extends InfoPanel implements ValueChangeListener, Ev
 			Timestamp to = new Timestamp(t.getTime());
 
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(i.MovementDate) <= ?");
+				sql.append(" AND TRUNC(i.MovementDate, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(i.MovementDate) >= ?");
+				sql.append(" AND TRUNC(i.MovementDate, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(i.MovementDate) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(i.MovementDate, 'DD') BETWEEN ? AND ?");
 		}
 		sql.append(" AND i.IsSOTrx=?");
 

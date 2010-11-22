@@ -298,7 +298,7 @@ public class FinStatement extends SvrProcess
 			+ "COALESCE(SUM(AmtAcctDr),0), COALESCE(SUM(AmtAcctCr),0), COALESCE(SUM(AmtAcctDr-AmtAcctCr),0), COALESCE(SUM(Qty),0) "
 			+ "FROM Fact_Acct "
 			+ "WHERE ").append(m_parameterWhere)
-			.append(" AND TRUNC(DateAcct) < ").append(DB.TO_DATE(p_DateAcct_From));
+			.append(" AND TRUNC(DateAcct, 'DD') < ").append(DB.TO_DATE(p_DateAcct_From));
 			
 		//	Start Beginning of Year
 		if (p_Account_ID > 0)
@@ -308,7 +308,7 @@ public class FinStatement extends SvrProcess
 			{
 				MPeriod first = MPeriod.getFirstInYear (getCtx(), p_DateAcct_From, p_AD_Org_ID);
 				if (first != null)
-					sb.append(" AND TRUNC(DateAcct) >= ").append(DB.TO_DATE(first.getStartDate()));
+					sb.append(" AND TRUNC(DateAcct, 'DD') >= ").append(DB.TO_DATE(first.getStartDate()));
 				else
 					log.log(Level.SEVERE, "First period not found");
 			}
@@ -329,11 +329,11 @@ public class FinStatement extends SvrProcess
 			+ "DateAcct, Name, Description,"
 			+ "AmtAcctDr, AmtAcctCr, Balance, Qty) ");
 		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",Fact_Acct_ID,1,")
-			.append("TRUNC(DateAcct),NULL,NULL,"
+			.append("TRUNC(DateAcct, 'DD'),NULL,NULL,"
 			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty "
 			+ "FROM Fact_Acct "
 			+ "WHERE ").append(m_parameterWhere)
-			.append(" AND TRUNC(DateAcct) BETWEEN ").append(DB.TO_DATE(p_DateAcct_From))
+			.append(" AND TRUNC(DateAcct, 'DD') BETWEEN ").append(DB.TO_DATE(p_DateAcct_From))
 			.append(" AND ").append(DB.TO_DATE(p_DateAcct_To));
 		//
 		int no = DB.executeUpdate(sb.toString(), get_TrxName());

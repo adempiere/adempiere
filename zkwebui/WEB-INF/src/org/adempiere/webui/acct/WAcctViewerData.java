@@ -387,13 +387,13 @@ public class WAcctViewerData
 					whereClause.append(" AND ");
 			
 				if (DateFrom != null && DateTo != null)
-					whereClause.append("TRUNC(").append(RModel.TABLE_ALIAS).append(".DateAcct) BETWEEN ")
+					whereClause.append("TRUNC(").append(RModel.TABLE_ALIAS).append(".DateAcct, 'DD') BETWEEN ")
 						.append(DB.TO_DATE(DateFrom)).append(" AND ").append(DB.TO_DATE(DateTo));
 				else if (DateFrom != null)
-					whereClause.append("TRUNC(").append(RModel.TABLE_ALIAS).append(".DateAcct) >= ")
+					whereClause.append("TRUNC(").append(RModel.TABLE_ALIAS).append(".DateAcct, 'DD') >= ")
 						.append(DB.TO_DATE(DateFrom));
 				else    //  DateTo != null
-					whereClause.append("TRUNC(").append(RModel.TABLE_ALIAS).append(".DateAcct) <= ")
+					whereClause.append("TRUNC(").append(RModel.TABLE_ALIAS).append(".DateAcct, 'DD') <= ")
 						.append(DB.TO_DATE(DateTo));
 			}
 			

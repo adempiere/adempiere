@@ -552,7 +552,7 @@ public class Invoice
 			sql = "SELECT DiscountAmt "
 				+ "FROM C_InvoicePaySchedule "
 				+ "WHERE C_InvoicePaySchedule_ID=?"
-				+ " AND TRUNC(DiscountDate) <= ?";
+				+ " AND TRUNC(DiscountDate, 'DD') <= ?";
 			pstmt = Adempiere.prepareStatement(sql);
 			pstmt.setInt(1, p_C_InvoicePaySchedule_ID);
 			pstmt.setTimestamp(2, PayDate);

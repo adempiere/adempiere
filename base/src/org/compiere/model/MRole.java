@@ -2029,7 +2029,9 @@ public final class MRole extends X_AD_Role
 		}
 		else if (excludes.size() > 1)
 		{
-			where.append("(" + whereColumnName + " IS NULL OR ");
+			//@Trifon - MySQL
+			// (C_PaymentTerm_ID IS NULL OR 
+			where.append("(").append(whereColumnName).append(" IS NULL OR "); // @Trifon
 			where.append(whereColumnName).append(" NOT IN (");
 			for (int ii = 0; ii < excludes.size(); ii++)
 			{
@@ -2037,7 +2039,8 @@ public final class MRole extends X_AD_Role
 					where.append(",");
 				where.append(excludes.get(ii));
 			}
-			where.append("))");
+			where.append(")");
+			where.append(")"); // @Trifon
 		}
 		log.finest(where.toString());
 		return where.toString();
@@ -2328,8 +2331,10 @@ public final class MRole extends X_AD_Role
 			{
 				if (sb.length() > 0)
 					sb.append(" AND ");
-				sb.append(" (" + keyColumnName + " IS NULL OR ");
-				sb.append(keyColumnName).append(lockedIDs).append(") ");
+				// @Trifon - MySQL // (C_PaymentTerm_ID IS NULL OR 
+				sb.append("(").append(keyColumnName).append(" IS NULL OR "); // @Trifon
+				sb.append(keyColumnName).append(lockedIDs);
+				sb.append(")"); // @Trifon
 			}
 		}
 		//

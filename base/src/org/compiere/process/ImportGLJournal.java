@@ -609,7 +609,7 @@ public class ImportGLJournal extends SvrProcess
 			+ "WHERE I_IsImported='N'").append (clientCheck)
 			.append(" ORDER BY COALESCE(BatchDocumentNo, TO_NCHAR(I_GLJournal_ID)||' '), COALESCE(JournalDocumentNo, " +
 					"TO_NCHAR(I_GLJournal_ID)||' '), C_AcctSchema_ID, PostingType, C_DocType_ID, GL_Category_ID, " +
-					"C_Currency_ID, TRUNC(DateAcct), Line, I_GLJournal_ID");
+					"C_Currency_ID, TRUNC(DateAcct, 'DD'), Line, I_GLJournal_ID");
 		try
 		{
 			pstmt = DB.prepareStatement (sql.toString (), get_TrxName());

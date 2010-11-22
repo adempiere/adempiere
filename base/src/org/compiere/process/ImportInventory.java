@@ -263,7 +263,7 @@ public class ImportInventory extends SvrProcess
 		//	Go through Inventory Records
 		sql = new StringBuffer ("SELECT * FROM I_Inventory "
 			+ "WHERE I_IsImported='N'").append (clientCheck)
-			.append(" ORDER BY M_Warehouse_ID, TRUNC(MovementDate), I_Inventory_ID");
+			.append(" ORDER BY M_Warehouse_ID, TRUNC(MovementDate, 'DD'), I_Inventory_ID");
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement (sql.toString (), get_TrxName());

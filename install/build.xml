@@ -34,6 +34,7 @@
 	<pathelement path="${lib.dir}/Adempiere.jar"/>
 	<pathelement path="${lib.dir}/oracle.jar"/>
 	<pathelement path="${lib.dir}/postgresql.jar"/>
+	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/>
 	<pathelement path="../tools/lib/ant.jar"/>
 	<pathelement path="../tools/lib/ant-launcher.jar"/>
   </path>
@@ -210,6 +211,7 @@
 	<mkdir dir="${build.dir}/Adempiere/data"/>
 	<unjar src="${data.dir}/seed/Adempiere.jar" dest="${build.dir}/Adempiere/data"/>
 	<unjar src="${data.dir}/seed/Adempiere_pg.jar" dest="${build.dir}/Adempiere/data"/>
+  	<unjar src="${data.dir}/seed/Adempiere_mysql.jar" dest="${build.dir}/Adempiere/data"/>
 	<mkdir dir="${build.dir}/Adempiere/data/import"/>
 	<copy todir="${build.dir}/Adempiere/data/import">
 	  <fileset dir="${data.dir}/import">

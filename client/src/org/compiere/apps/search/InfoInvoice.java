@@ -278,11 +278,11 @@ public class InfoInvoice extends Info
 			Timestamp from = (Timestamp)fDateFrom.getValue();
 			Timestamp to = (Timestamp)fDateTo.getValue();
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(i.DateInvoiced) <= ?");
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(i.DateInvoiced) >= ?");
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(i.DateInvoiced) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(i.DateInvoiced, 'DD') BETWEEN ? AND ?");
 		}
 		//
 		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)

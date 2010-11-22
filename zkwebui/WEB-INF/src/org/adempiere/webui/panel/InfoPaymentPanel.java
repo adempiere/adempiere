@@ -317,11 +317,11 @@ public class InfoPaymentPanel extends InfoPanel implements ValueChangeListener, 
 			Timestamp to = new Timestamp(t.getTime());
 
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(p.DateTrx) <= ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(p.DateTrx) >= ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(p.DateTrx) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(p.DateTrx, 'DD') BETWEEN ? AND ?");
 		}
 
 		if (fAmtFrom.getText() != "" || fAmtTo.getText() != "")

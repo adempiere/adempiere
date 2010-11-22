@@ -270,11 +270,11 @@ public class InfoOrder extends Info
 			Timestamp from = (Timestamp)fDateFrom.getValue();
 			Timestamp to = (Timestamp)fDateTo.getValue();
 			if (from == null && to != null)
-				sql.append(" AND TRUNC(o.DateOrdered) <= ?");
+				sql.append(" AND TRUNC(o.DateOrdered, 'DD') <= ?");
 			else if (from != null && to == null)
-				sql.append(" AND TRUNC(o.DateOrdered) >= ?");
+				sql.append(" AND TRUNC(o.DateOrdered, 'DD') >= ?");
 			else if (from != null && to != null)
-				sql.append(" AND TRUNC(o.DateOrdered) BETWEEN ? AND ?");
+				sql.append(" AND TRUNC(o.DateOrdered, 'DD') BETWEEN ? AND ?");
 		}
 		//
 		if (fAmtFrom.getValue() != null || fAmtTo.getValue() != null)

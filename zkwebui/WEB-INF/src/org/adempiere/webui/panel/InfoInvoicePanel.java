@@ -336,15 +336,15 @@ public class InfoInvoicePanel extends InfoPanel implements ValueChangeListener
         }
         if (fromDate == null && toDate != null)
         {
-            sql.append(" AND TRUNC(i.DateInvoiced) <= ?");
+            sql.append(" AND TRUNC(i.DateInvoiced, 'DD') <= ?");
         }
         else if (fromDate != null && toDate == null)
         {
-            sql.append(" AND TRUNC(i.DateInvoiced) >= ?");
+            sql.append(" AND TRUNC(i.DateInvoiced, 'DD') >= ?");
         }
         else if (fromDate != null && toDate != null)
         {
-                sql.append(" AND TRUNC(i.DateInvoiced) BETWEEN ? AND ?");
+                sql.append(" AND TRUNC(i.DateInvoiced, 'DD') BETWEEN ? AND ?");
         }
         //
         Double fromAmount = null;
