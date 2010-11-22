@@ -1,6 +1,3 @@
-SET SQLBLANKLINES ON
-SET DEFINE OFF
-
 -- Nov 19, 2010 7:20:13 PM CST
 -- Recurrence Manufaturing & Maintenance Order
 UPDATE AD_Ref_List SET IsActive='Y',Updated=TO_DATE('2010-11-19 19:20:13','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Ref_List_ID=747
