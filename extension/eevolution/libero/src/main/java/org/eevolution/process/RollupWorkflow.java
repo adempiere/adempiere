@@ -152,10 +152,13 @@ public class RollupWorkflow extends SvrProcess
 		StringBuffer whereClause = new StringBuffer("AD_Client_ID=?");
 		params.add(getAD_Client_ID());
 
-		whereClause.append(" AND ").append(MProduct.COLUMNNAME_ProductType).append("=?");
+		whereClause.append(" AND (").append(MProduct.COLUMNNAME_ProductType).append("=?");
 		params.add(MProduct.PRODUCTTYPE_Item);
+		
+		whereClause.append(" OR ").append(MProduct.COLUMNNAME_ProductType).append("=?");
+		params.add(MProduct.PRODUCTTYPE_Resource);
 
-		whereClause.append(" AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
+		whereClause.append(") AND ").append(MProduct.COLUMNNAME_IsBOM).append("=?");
 		params.add(true);
 
 		if (p_M_Product_ID > 0)
