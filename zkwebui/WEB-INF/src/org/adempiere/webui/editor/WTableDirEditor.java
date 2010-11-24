@@ -188,7 +188,7 @@ ContextMenuListener, IZoomableEditor
             getComponent().setValue(value);            
             if (!getComponent().isSelected(value))
             {
-            	if (lookup != null)
+            	if (isReadWrite() && lookup != null)
             		lookup.refresh();
             	Object curValue = oldValue;
                 oldValue = value;
@@ -197,7 +197,7 @@ ContextMenuListener, IZoomableEditor
                 //still not in list, reset to zero
                 if (!getComponent().isSelected(value))
                 {
-                	if (value instanceof Integer)
+                	if (value instanceof Integer && gridField.getDisplayType() != DisplayType.ID) // for IDs is ok to be out of the list
                 	{
                 		getComponent().setValue(null);
                 		if (curValue == null)
