@@ -30,7 +30,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20101124L;
 
     /** Standard Constructor */
     public X_M_AttributeSet (Properties ctx, int M_AttributeSet_ID, String trxName)
@@ -320,8 +320,8 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 
 	/** MandatoryType AD_Reference_ID=324 */
 	public static final int MANDATORYTYPE_AD_Reference_ID=324;
-	/** Not Mandatary = N */
-	public static final String MANDATORYTYPE_NotMandatary = "N";
+	/** Not Mandatory = N */
+	public static final String MANDATORYTYPE_NotMandatory = "N";
 	/** Always Mandatory = Y */
 	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
 	/** When Shipping = S */
