@@ -1,4 +1,4 @@
-@Echo	Adempiere Database Export 	$Revision: 1.8 $
+@Echo	ADempiere Database Export
 
 @Rem $Id: DBExport.bat,v 1.8 2005/04/27 17:45:01 jjanke Exp $
 @Rem 
