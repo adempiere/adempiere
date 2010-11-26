@@ -39,7 +39,6 @@ syntax: regexp
 ^lib/posteritaPatches\.jar$
 ^lib/postgresql\.jar$
 ^lib/webui\.war$
-^packages/liberoMFG\.jar$
 ^posterita/posterita/dist$
 ^posterita/posterita/web/WEB-INF/classes$
 ^sqlj/sqlj\.jar$
