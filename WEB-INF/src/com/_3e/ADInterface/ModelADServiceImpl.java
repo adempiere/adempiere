@@ -940,7 +940,10 @@ public class ModelADServiceImpl implements ModelADService {
 			if (m_webservicetype.isOutputColumnNameAllowed(columnName)) {
 				DataField dfid = dr.addNewField();
 				dfid.setColumn(columnName);
-				dfid.setVal(po.get_Value(i).toString());
+				if (po.get_Value(i) != null)
+					dfid.setVal(po.get_Value(i).toString());
+				else
+					dfid.setVal(null);
 			}
     	}
     	
