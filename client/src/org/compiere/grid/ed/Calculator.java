@@ -366,7 +366,7 @@ public final class Calculator extends CDialog
 			case '/':		case '*':
 			case '-':       case '+':
 			case '%':
-				if (m_display.length() > 1)
+				if (m_display.length() > 0)
 				{
 					char last = m_display.charAt(m_display.length()-1);
 					if (OPERANDS.indexOf(last) == -1)
