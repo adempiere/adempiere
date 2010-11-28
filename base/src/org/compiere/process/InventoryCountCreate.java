@@ -287,7 +287,7 @@ public class InventoryCountCreate extends SvrProcess
 		{
 			MInventoryLine line = new MInventoryLine (m_inventory, M_Locator_ID, 
 				M_Product_ID, M_AttributeSetInstance_ID, 
-				QtyOnHand, QtyOnHand.signum()<0 ? Env.ZERO: QtyOnHand);		//	book/count
+				QtyOnHand, QtyOnHand);		//	book/count
 			if (line.save())
 				return 1;
 			return 0;
@@ -332,7 +332,7 @@ public class InventoryCountCreate extends SvrProcess
 		//	new line
 		m_line = new MInventoryLine (m_inventory, M_Locator_ID, 
 			M_Product_ID, M_AttributeSetInstance_ID, 
-			QtyOnHand, QtyOnHand.signum()<0 ? Env.ZERO: QtyOnHand);		//	book/count
+			QtyOnHand, QtyOnHand);		//	book/count
 		if (m_line.save())
 			return 1;
 		return 0;
