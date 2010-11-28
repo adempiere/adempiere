@@ -735,7 +735,7 @@ public final class VNumber extends JComponent
 		//	Actual Call
 		Calculator calc = new Calculator(frame, title,
 			displayType, format, startValue);
-		if ( "*+-/".indexOf(operator) > -1 )
+		if ( "*+-/%".indexOf(operator) > -1 )
 			calc.handleInput(operator);
 		AEnv.showCenterWindow(frame, calc);
 		BigDecimal result = calc.getNumber();
