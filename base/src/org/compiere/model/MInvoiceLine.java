@@ -244,7 +244,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		setDescription(sLine.getDescription());
 		//
 		setM_Product_ID(sLine.getM_Product_ID());
-		if (sLine.sameOrderLineUOM())
+		if (sLine.sameOrderLineUOM() || getProduct() == null)
 			setC_UOM_ID(sLine.getC_UOM_ID());
 		else
 			// use product UOM if the shipment hasn't the same uom than the order
