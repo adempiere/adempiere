@@ -1023,9 +1023,10 @@ public class ModelADServiceImpl implements ModelADService {
 	        		pstmtquery.setString(p++, field.getVal());
 			}
 			rsquery = pstmtquery.executeQuery ();
+			// Angelo Dabala' (genied) must create just one DataSet, moved outside of the while loop
+			DataSet ds = resp.addNewDataSet();
 			while (rsquery.next ()) {
 				cnt++;
-		    	DataSet ds = resp.addNewDataSet();
 				DataRow dr = ds.addNewDataRow();
 				for (int i = 0; i < poinfo.getColumnCount(); i++) {
 		    		String columnName = poinfo.getColumnName(i);
