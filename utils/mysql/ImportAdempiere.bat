@@ -15,7 +15,7 @@
 @echo Re-Create user and database
 @echo -------------------------------------
 @SET      MYSQL="mysql -h %ADEMPIERE_DB_SERVER% -P %ADEMPIERE_DB_PORT% -u %2 --password=%3 %ADEMPIERE_DB_NAME%"
-@SET MYSQL_ROOT="mysql -h %ADEMPIERE_DB_SERVER% -P %ADEMPIERE_DB_PORT% -u %1 mysql"
+@SET MYSQL_ROOT="mysql -h %ADEMPIERE_DB_SERVER% -P %ADEMPIERE_DB_PORT% -u root mysql"
 
 @REM drop database
 @echo Drop database %ADEMPIERE_DB_NAME%

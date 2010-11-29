@@ -25,7 +25,7 @@ echo Recreate user and database
 echo ADEMPIERE_DB_SERVER = $ADEMPIERE_DB_SERVER
 echo -------------------------------------
      MYSQL="mysql -h $ADEMPIERE_DB_SERVER -P $ADEMPIERE_DB_PORT -u $2 --password=$3 $ADEMPIERE_DB_NAME"
-MYSQL_ROOT="mysql -h $ADEMPIERE_DB_SERVER -P $ADEMPIERE_DB_PORT -u $1 mysql"
+MYSQL_ROOT="mysql -h $ADEMPIERE_DB_SERVER -P $ADEMPIERE_DB_PORT -u root mysql"
 
 # drop database
 echo Drop database $ADEMPIERE_DB_NAME
