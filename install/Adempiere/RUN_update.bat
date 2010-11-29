@@ -1,5 +1,4 @@
-@Title Install Adempiere Server
-@Rem  $Header: /cvsroot/adempiere/install/Adempiere/RUN_setup.bat,v 1.19 2005/09/08 21:54:12 jjanke Exp $
+@Title Install ADempiere Server
 @Echo off
 
 
