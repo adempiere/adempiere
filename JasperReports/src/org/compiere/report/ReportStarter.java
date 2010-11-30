@@ -487,9 +487,14 @@ public class ReportStarter implements ProcessCall, ClientProcess
             if (Record_ID > 0)
             	params.put("RECORD_ID", new Integer( Record_ID));
 
-            // contribution from Ricardo (ralexsander)
+        	// contribution from Ricardo (ralexsander)
             // in iReports you can 'SELECT' AD_Client_ID, AD_Org_ID and AD_User_ID using only AD_PINSTANCE_ID
             params.put("AD_PINSTANCE_ID", new Integer( AD_PInstance_ID));
+
+            // FR [3123850] - Add continuosly needed parameters to Jasper Starter - Carlos Ruiz - GlobalQSS
+        	params.put("AD_CLIENT_ID", new Integer( Env.getAD_Client_ID(Env.getCtx())));
+        	params.put("AD_ROLE_ID", new Integer( Env.getAD_Role_ID(Env.getCtx())));
+        	params.put("AD_USER_ID", new Integer( Env.getAD_User_ID(Env.getCtx())));
 
         	Language currLang = Env.getLanguage(Env.getCtx());
         	String printerName = null;
