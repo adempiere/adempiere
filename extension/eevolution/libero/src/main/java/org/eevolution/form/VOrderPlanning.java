@@ -614,7 +614,7 @@ implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, Li
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));                      
 			StringBuffer sql = new StringBuffer (m_sqlMain);                    
 			String dynWhere = find ();
-			if (dynWhere.length() > 0 && !dynWhere.equals("()"))
+			if (dynWhere.length() > 0)
 				sql.append(" AND " + dynWhere);   //  includes first AND
 			sql.append(m_sqlAdd);
 			String xSql = Msg.parseTranslation(Env.getCtx(), sql.toString());	//	Variables
