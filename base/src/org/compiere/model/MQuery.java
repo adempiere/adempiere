@@ -1,4 +1,5 @@
 /******************************************************************************
+
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
@@ -624,6 +625,9 @@ public class MQuery implements Serializable
 			qualified = false;
 		//
 		StringBuffer sb = new StringBuffer();
+		if (! isActive())
+		    return sb.toString();
+		
 		sb.append('(');
 		for (int i = 0; i < m_list.size(); i++)
 		{
