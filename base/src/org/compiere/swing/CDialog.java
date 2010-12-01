@@ -35,12 +35,11 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 /**
- *	Conveniance Dialog Class.
+ *	Convenience Dialog Class.
  *	Adempiere Background + Dispose on Close  
  *  Implementing empty Action and Mouse Listener
  *	
  *  @author Jorg Janke
- *  @version $Id: CDialog.java,v 1.3 2006/07/30 00:52:24 jjanke Exp $
  */
 public class CDialog extends JDialog 
 	implements ActionListener, MouseListener
