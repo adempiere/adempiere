@@ -30,10 +30,10 @@ import org.compiere.util.ValueNamePair;
  */
 public class ListItem extends org.zkoss.zul.Listitem
 {
-    /**
+	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -3445426943414051896L;
+	private static final long serialVersionUID = -8052056834118074979L;
 	private PropertyChangeSupport m_propertyChangeListeners = new PropertyChangeSupport(this);
     
     public ListItem(String label, Object value)
@@ -59,4 +59,10 @@ public class ListItem extends org.zkoss.zul.Listitem
     public ValueNamePair toValueNamePair() {
     	return new ValueNamePair((String)getValue(), getLabel());
     }
+    
+    @Override
+    public String toString() {
+    	return getValue().toString();
+    }
+    
 }
