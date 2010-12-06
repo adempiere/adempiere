@@ -46,3 +46,4 @@ syntax: regexp
 ^webCM/deploy$
 ^zkwebui/dist$
 ^zkwebui/WEB-INF/classes$
+^migration/my_processes_post_migration$
