@@ -141,7 +141,7 @@ public final class MPayment extends X_C_Payment
 			setDiscountAmt(Env.ZERO);
 			setTaxAmt(Env.ZERO);
 			setWriteOffAmt(Env.ZERO);
-			setIsOverUnderPayment (false);
+			setIsOverUnderPayment (true);
 			setOverUnderAmt(Env.ZERO);
 			//
 			setDateTrx (new Timestamp(System.currentTimeMillis()));

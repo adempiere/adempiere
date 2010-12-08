@@ -63,7 +63,7 @@ public class CalloutPayment extends CalloutEngine
 		//
 		mTab.setValue ("DiscountAmt", Env.ZERO);
 		mTab.setValue ("WriteOffAmt", Env.ZERO);
-		mTab.setValue ("IsOverUnderPayment", Boolean.FALSE);
+		// mTab.setValue ("IsOverUnderPayment", Boolean.FALSE);
 		mTab.setValue ("OverUnderAmt", Env.ZERO);
 		int C_InvoicePaySchedule_ID = 0;
 		if (Env.getContextAsInt (ctx, WindowNo, Env.TAB_INFO, "C_Invoice_ID") == C_Invoice_ID.intValue ()
