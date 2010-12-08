@@ -35,6 +35,8 @@ import org.compiere.util.Env;
  *         <li>BF [ 1803316 ] CalloutPayment: use C_Order.Bill_BPartner_ID
  * @author j2garcia - GlobalQSS
  *         <li>BF [ 2021745 ] Cannot assign project to payment with charge
+ * @author Carlos Ruiz - GlobalQSS
+ *         <li>BF [ 1933948 ] CalloutPayment working just with Draft Status
  */
 public class CalloutPayment extends CalloutEngine
 {
@@ -429,59 +431,54 @@ public class CalloutPayment extends CalloutEngine
 				mTab.setValue ("WriteOffAmt", Env.ZERO);
 			if (Env.ZERO.compareTo (OverUnderAmt) != 0)
 				mTab.setValue ("OverUnderAmt", Env.ZERO);
-		}
-		// PayAmt - calculate write off
-		// Added Lines By Goodwill (02-03-2006)
-		// Reason: we must make the callout is called just when docstatus is
-		// draft
-		// Old Code : else if (colName.equals("PayAmt"))
-		// New Code :
-		else if (colName.equals ("PayAmt")
-			&& mTab.get_ValueAsString ("DocStatus").equals ("DR")
-			&& "Y"
-				.equals (Env.getContext (ctx, WindowNo, "IsOverUnderPayment")))
-		{
-			OverUnderAmt = InvoiceOpenAmt.subtract (PayAmt).subtract (
-				DiscountAmt).subtract (WriteOffAmt);
-			mTab.setValue ("OverUnderAmt", OverUnderAmt);
-		}
-		else if (colName.equals ("PayAmt")
-			&& mTab.get_ValueAsString ("DocStatus").equals ("DR"))
-		{
-			WriteOffAmt = InvoiceOpenAmt.subtract (PayAmt).subtract (
-				DiscountAmt).subtract (OverUnderAmt);
-			mTab.setValue ("WriteOffAmt", WriteOffAmt);
-		}
-		else if (colName.equals ("IsOverUnderPayment")
-			&& mTab.get_ValueAsString ("DocStatus").equals ("DR"))
-		{
-			boolean overUnderPaymentActive = "Y".equals (Env.getContext (ctx,
-				WindowNo, "IsOverUnderPayment"));
-			if (overUnderPaymentActive)
+		} else {
+			boolean processed = mTab.getValueAsBoolean(MPayment.COLUMNNAME_Processed);
+			if (colName.equals ("PayAmt")
+				&& (!processed)
+				&& "Y".equals (Env.getContext (ctx, WindowNo, "IsOverUnderPayment")))
 			{
 				OverUnderAmt = InvoiceOpenAmt.subtract (PayAmt).subtract (
-					DiscountAmt);
-				mTab.setValue ("WriteOffAmt", Env.ZERO);
+					DiscountAmt).subtract (WriteOffAmt);
 				mTab.setValue ("OverUnderAmt", OverUnderAmt);
-			}else{
-				WriteOffAmt = InvoiceOpenAmt.subtract (PayAmt).subtract (
-					DiscountAmt);
-				mTab.setValue ("WriteOffAmt", WriteOffAmt);
-				mTab.setValue ("OverUnderAmt", Env.ZERO);
 			}
-		}
-		// Added Lines By Goodwill (02-03-2006)
-		// Reason: we must make the callout is called just when docstatus is
-		// draft
-		// Old Code : else // calculate PayAmt
-		// New Code :
-		else if (mTab.get_ValueAsString ("DocStatus").equals ("DR")) // calculate
-		// PayAmt
-		// End By Goodwill
-		{
-			PayAmt = InvoiceOpenAmt.subtract (DiscountAmt).subtract (
-				WriteOffAmt).subtract (OverUnderAmt);
-			mTab.setValue ("PayAmt", PayAmt);
+			else if (colName.equals ("PayAmt")
+				&& (!processed))
+			{
+				WriteOffAmt = InvoiceOpenAmt.subtract (PayAmt).subtract (
+					DiscountAmt).subtract (OverUnderAmt);
+				mTab.setValue ("WriteOffAmt", WriteOffAmt);
+			}
+			else if (colName.equals ("IsOverUnderPayment")
+				&& (!processed))
+			{
+				boolean overUnderPaymentActive = "Y".equals (Env.getContext (ctx,
+					WindowNo, "IsOverUnderPayment"));
+				if (overUnderPaymentActive)
+				{
+					OverUnderAmt = InvoiceOpenAmt.subtract (PayAmt).subtract (
+						DiscountAmt);
+					mTab.setValue ("WriteOffAmt", Env.ZERO);
+					mTab.setValue ("OverUnderAmt", OverUnderAmt);
+				}else{
+					WriteOffAmt = InvoiceOpenAmt.subtract (PayAmt).subtract (
+						DiscountAmt);
+					mTab.setValue ("WriteOffAmt", WriteOffAmt);
+					mTab.setValue ("OverUnderAmt", Env.ZERO);
+				}
+			}
+			// Added Lines By Goodwill (02-03-2006)
+			// Reason: we must make the callout is called just when docstatus is
+			// draft
+			// Old Code : else // calculate PayAmt
+			// New Code :
+			else if ((!processed)) // calculate
+			// PayAmt
+			// End By Goodwill
+			{
+				PayAmt = InvoiceOpenAmt.subtract (DiscountAmt).subtract (
+					WriteOffAmt).subtract (OverUnderAmt);
+				mTab.setValue ("PayAmt", PayAmt);
+			}
 		}
 		return "";
 	} // amounts
