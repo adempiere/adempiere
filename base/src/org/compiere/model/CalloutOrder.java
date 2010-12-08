@@ -991,12 +991,13 @@ public class CalloutOrder extends CalloutEngine
 		//	Product Qty changed - recalc price
 		else if ((mField.getColumnName().equals("QtyOrdered") 
 			|| mField.getColumnName().equals("QtyEntered")
+			|| mField.getColumnName().equals("C_UOM_ID")
 			|| mField.getColumnName().equals("M_Product_ID")) 
 			&& !"N".equals(Env.getContext(ctx, WindowNo, "DiscountSchema")))
 		{
 			int C_BPartner_ID = Env.getContextAsInt(ctx, WindowNo, "C_BPartner_ID");
 			if (mField.getColumnName().equals("QtyEntered"))
-				QtyOrdered = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
+				QtyOrdered = MUOMConversion.convertProductFrom (ctx, M_Product_ID, 
 					C_UOM_To_ID, QtyEntered);
 			if (QtyOrdered == null)
 				QtyOrdered = QtyEntered;
