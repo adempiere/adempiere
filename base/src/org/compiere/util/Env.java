@@ -30,8 +30,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -163,7 +165,7 @@ public final class Env
 			Object[] keys = getCtx().keySet().toArray();
 			for (int i = 0; i < keys.length; i++)
 			{
-				String tag = keys[i].toString();
+				String tag = keys[i].toString(); 
 				if (Character.isDigit(tag.charAt(0)))
 					getCtx().remove(keys[i]);
 			}
@@ -258,9 +260,15 @@ public final class Env
 		}
 		else
 		{	//	JDBC Format	2005-05-09 00:00:00.0
-			String stringValue = value.toString();
+			// BUG:3075946 KTU, Fix Thai Date
+			//String stringValue = value.toString();
+			String stringValue = "";
+			Calendar c1 = Calendar.getInstance();
+			c1.setTime(value);
+			stringValue = DisplayType.getTimestampFormat_Default().format(c1.getTime());
 			//	Chop off .0 (nanos)
-			stringValue = stringValue.substring(0, stringValue.indexOf("."));		
+			//stringValue = stringValue.substring(0, stringValue.indexOf("."));
+			// KTU
 			ctx.setProperty(context, stringValue);
 			s_log.finer("Context " + context + "==" + stringValue);
 		}
@@ -330,9 +338,15 @@ public final class Env
 		}
 		else
 		{	//	JDBC Format	2005-05-09 00:00:00.0
-			String stringValue = value.toString();
+			// BUG:3075946 KTU, Fix Thai year 
+			//String stringValue = value.toString();
+			String stringValue = "";
+			Calendar c1 = Calendar.getInstance();
+			c1.setTime(value);
+			stringValue = DisplayType.getTimestampFormat_Default().format(c1.getTime());
 			//	Chop off .0 (nanos)
-			stringValue = stringValue.substring(0, stringValue.indexOf("."));		
+			//stringValue = stringValue.substring(0, stringValue.indexOf("."));
+			// KTU
 			ctx.setProperty(WindowNo+"|"+context, stringValue);
 			s_log.finer("Context("+WindowNo+") " + context + "==" + stringValue);
 		}
@@ -809,13 +823,28 @@ public final class Env
 			return new Timestamp(System.currentTimeMillis());
 		}
 
+		// BUG:3075946 KTU - Fix Thai Date
+		/*
 		//  timestamp requires time
 		if (s.trim().length() == 10)
 			s = s.trim() + " 00:00:00.0";
 		else if (s.indexOf('.') == -1)
 			s = s.trim() + ".0";
+			
+		return Timestamp.valueOf(s);*/
+		
+		Date date = null;
+		try {
+			date = DisplayType.getTimestampFormat_Default().parse(s);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		}
 
-		return Timestamp.valueOf(s);
+		Timestamp timeStampDate = new Timestamp(date.getTime());
+		
+		return timeStampDate;
+		// KTU
 	}	//	getContextAsDate
 
 	/**

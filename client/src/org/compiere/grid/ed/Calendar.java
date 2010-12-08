@@ -34,7 +34,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.logging.Level;
@@ -75,7 +74,7 @@ public class Calendar extends CDialog
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1547404617639717922L;
+	private static final long serialVersionUID = 6482995795697809468L;
 
 	/**
 	 *  Mimimum Constructor for Date editor
@@ -115,7 +114,10 @@ public class Calendar extends CDialog
 	/** Display Type				*/
 	private int					m_displayType;
 	/**	The Date					*/
-	private GregorianCalendar	m_calendar;
+	// BUG:3075946KTU - fix Thai Date
+	//private GregorianCalendar	m_calendar;
+	private java.util.Calendar	m_calendar;
+	// KTU
 	/** Is there a PM format		*/
 	private boolean 			m_hasAM_PM = false;
 	//
@@ -148,7 +150,10 @@ public class Calendar extends CDialog
 	private CPanel mainPanel = new CPanel();
 	private CPanel monthPanel = new CPanel();
 	private CComboBox cMonth = new CComboBox();
-	private JSpinner cYear = new JSpinner(new SpinnerNumberModel(2000, 1900,2100,1));
+	// BUG:3075946 KTU - Fix Thai Date
+	//private JSpinner cYear = new JSpinner(new SpinnerNumberModel(2000, 1900,2100,1));
+	private JSpinner cYear = new JSpinner(new SpinnerNumberModel(2000, 1900, 3000, 1));
+	// KTU
 	private BorderLayout mainLayout = new BorderLayout();
 	private CPanel dayPanel = new CPanel();
 	private GridLayout dayLayout = new GridLayout();
@@ -269,7 +274,10 @@ public class Calendar extends CDialog
 	 */
 	private void loadData (Timestamp startTS)
 	{
-		m_calendar = new GregorianCalendar(Language.getLoginLanguage().getLocale());
+		// BUG:3075946 KTU - Fix Thai Date
+		//m_calendar = new GregorianCalendar(Language.getLoginLanguage().getLocale());
+		m_calendar = java.util.Calendar.getInstance(Language.getLoginLanguage().getLocale());
+		// KTU
 		if (startTS == null)
 			m_calendar.setTimeInMillis(System.currentTimeMillis());
 		else

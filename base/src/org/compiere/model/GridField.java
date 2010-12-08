@@ -25,7 +25,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -74,7 +77,7 @@ public class GridField
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1124123543602986028L;
+	private static final long serialVersionUID = -6007475135643071025L;
 
 	/**
 	 *  Field Constructor.
@@ -1336,8 +1339,18 @@ public class GridField
 			{
 				Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.ColumnName, (Timestamp)m_value);
 			}
-			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
-					m_value==null ? null : m_value.toString().substring(0, m_value.toString().indexOf(".")));
+			// BUG:3075946 KTU - Fix Thai Date
+			//Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, 
+			//		m_value==null ? null : m_value.toString().substring(0, m_value.toString().indexOf(".")));
+			String stringValue = null;
+			if (m_value != null && !m_value.toString().equals("")) {
+				Calendar c1 = Calendar.getInstance();
+				c1.setTime((Date) m_value);
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				stringValue = sdf.format(c1.getTime());
+			}
+			Env.setContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, m_vo.ColumnName, stringValue);
+			// KTU - Fix Thai Date		
 		}
 		else
 		{
