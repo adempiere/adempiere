@@ -271,6 +271,7 @@ public final class MPayment extends X_C_Payment
 		MBPBankAccount ba = new MBPBankAccount (preparedPayment.getCtx(), C_BP_BankAccount_ID, null);
 		setRoutingNo(ba.getRoutingNo());
 		setAccountNo(ba.getAccountNo());
+		setDescription(preparedPayment.getC_PaySelection().getName());
 		setIsReceipt (X_C_Order.PAYMENTRULE_DirectDebit.equals	//	AR only
 				(preparedPayment.getPaymentRule()));
 		if ( MPaySelectionCheck.PAYMENTRULE_DirectDebit.equals(preparedPayment.getPaymentRule()) )
@@ -1014,7 +1015,8 @@ public final class MPayment extends X_C_Payment
 	 */
 	public void setRoutingNo(String RoutingNo)
 	{
-		super.setRoutingNo (MPaymentValidate.checkNumeric(RoutingNo));
+		// super.setRoutingNo (MPaymentValidate.checkNumeric(RoutingNo));
+		super.setRoutingNo (RoutingNo);
 	}	//	setBankRoutingNo
 
 

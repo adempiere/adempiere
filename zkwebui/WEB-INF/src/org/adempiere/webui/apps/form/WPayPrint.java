@@ -49,6 +49,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.PaymentExport;
 import org.compiere.util.ValueNamePair;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -62,14 +63,12 @@ import org.zkoss.zul.Filedownload;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VPayPrint.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ * 
+ *  Contributors:
+ *    Carlos Ruiz - GlobalQSS - FR 3132033 - Make payment export class configurable per bank
  */
 public class WPayPrint extends PayPrint implements IFormController, EventListener
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3005095685182033400L;
-	
 	private CustomForm form = new CustomForm();
 
 	/**
@@ -344,14 +343,44 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 			File tempFile = File.createTempFile("paymentExport", ".txt");
 	
 			//  Create File
-			MPaySelectionCheck.exportToFile(m_checks, tempFile);
-			Filedownload.save(new FileInputStream(tempFile), "plain/text", "paymentExport.txt");
-			
-			if (FDialog.ask(m_WindowNo, form, "VPayPrintSuccess?"))
+			int no = 0;
+			StringBuffer err = new StringBuffer("");
+			if (m_PaymentExportClass == null || m_PaymentExportClass.trim().length() == 0) {
+				m_PaymentExportClass = "org.compiere.util.GenericPaymentExport";
+			}
+			//	Get Payment Export Class
+			PaymentExport custom = null;
+			try
 			{
-			//	int lastDocumentNo = 
-				MPaySelectionCheck.confirmPrint (m_checks, m_batch);
-				//	document No not updated
+				Class<?> clazz = Class.forName(m_PaymentExportClass);
+				custom = (PaymentExport)clazz.newInstance();
+				no = custom.exportToFile(m_checks, tempFile, err);
+			}
+			catch (ClassNotFoundException e)
+			{
+				no = -1;
+				err.append("No custom PaymentExport class " + m_PaymentExportClass + " - " + e.toString());
+				log.log(Level.SEVERE, err.toString(), e);
+			}
+			catch (Exception e)
+			{
+				no = -1;
+				err.append("Error in " + m_PaymentExportClass + " check log, " + e.toString());
+				log.log(Level.SEVERE, err.toString(), e);
+			}
+			if (no >= 0) {
+				Filedownload.save(new FileInputStream(tempFile), "plain/text", "paymentExport.txt");
+				FDialog.info(m_WindowNo, form, "Saved",
+						Msg.getMsg(Env.getCtx(), "NoOfLines") + "=" + no);
+
+				if (FDialog.ask(m_WindowNo, form, "VPayPrintSuccess?"))
+				{
+					//	int lastDocumentNo = 
+					MPaySelectionCheck.confirmPrint (m_checks, m_batch);
+					//	document No not updated
+				}
+			} else {
+				FDialog.error(m_WindowNo, form, "Error", err.toString());
 			}
 			dispose();
 		}

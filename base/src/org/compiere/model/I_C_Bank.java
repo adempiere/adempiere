@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Bank
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version 3.6.0LTS+P20101124
  */
 public interface I_C_Bank 
 {
@@ -157,6 +157,15 @@ public interface I_C_Bank
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name PaymentExportClass */
+    public static final String COLUMNNAME_PaymentExportClass = "PaymentExportClass";
+
+	/** Set Payment Export Class	  */
+	public void setPaymentExportClass (String PaymentExportClass);
+
+	/** Get Payment Export Class	  */
+	public String getPaymentExportClass();
 
     /** Column name RoutingNo */
     public static final String COLUMNNAME_RoutingNo = "RoutingNo";

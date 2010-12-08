@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Bank
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS - $Id$ */
+ *  @version 3.6.0LTS+P20101124 - $Id$ */
 public class X_C_Bank extends PO implements I_C_Bank, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20101207L;
 
     /** Standard Constructor */
     public X_C_Bank (Properties ctx, int C_Bank_ID, String trxName)
@@ -190,6 +190,20 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** Set Payment Export Class.
+		@param PaymentExportClass Payment Export Class	  */
+	public void setPaymentExportClass (String PaymentExportClass)
+	{
+		set_Value (COLUMNNAME_PaymentExportClass, PaymentExportClass);
+	}
+
+	/** Get Payment Export Class.
+		@return Payment Export Class	  */
+	public String getPaymentExportClass () 
+	{
+		return (String)get_Value(COLUMNNAME_PaymentExportClass);
+	}
 
 	/** Set Routing No.
 		@param RoutingNo 
