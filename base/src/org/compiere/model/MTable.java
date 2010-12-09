@@ -46,6 +46,8 @@ import org.compiere.util.Util;
  *  @author Teo Sarca, teo.sarca@gmail.com
  *  		<li>BF [ 3017117 ] MTable.getClass returns bad class
  *  			https://sourceforge.net/tracker/?func=detail&aid=3017117&group_id=176962&atid=879332
+ *  		<li>BF [ 3133032 ] Adempiere is not loading classes from org.compiere.report
+ *  			https://sourceforge.net/tracker/?func=detail&aid=3133032&group_id=176962&atid=879332
  *  @version $Id: MTable.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
 public class MTable extends X_AD_Table
@@ -158,6 +160,7 @@ public class MTable extends X_AD_Table
 	private static final String[]	s_packages = new String[] {
 
 		"org.compiere.model", "org.compiere.wf", 
+		"org.compiere.report", // teo_sarca BF[3133032]
 		"org.compiere.print", "org.compiere.impexp",
 		"compiere.model",			//	globalqss allow compatibility with other plugins 	
 		"adempiere.model",			//	Extensions
