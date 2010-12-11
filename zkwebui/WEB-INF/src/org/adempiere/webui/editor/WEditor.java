@@ -46,7 +46,7 @@ import org.zkoss.zul.Image;
  */
 public abstract class WEditor implements EventListener, PropertyChangeListener
 {
-    private static final String[] lISTENER_EVENTS = {};
+	private static final String[] lISTENER_EVENTS = {};
 
     public static final int MAX_DISPLAY_LENGTH = 35;
 
@@ -483,4 +483,22 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 	public void setHasFocus(boolean b) {
 		hasFocus = b;
 	}
+	
+	public void setMandatoryLabels() {
+		Object value = getValue();
+		if (this instanceof WAccountEditor && value != null && ((Integer) value).intValue() == 0) // special case
+			value = null;
+		if (mandatory && !readOnly && getLabel() != null && getGridField().isEditable(true)) {
+			markMandatory(value == null || value.toString().trim().length() == 0);
+		}
+	}
+
+    private static final String STYLE_ZOOMABLE_LABEL = "cursor: pointer; text-decoration: underline;";
+	private static final String STYLE_NORMAL_LABEL = "color:black;";
+	private static final String STYLE_EMPTY_MANDATORY_LABEL = "color: red;";
+
+	private void markMandatory(boolean mandatory) {
+		getLabel().setStyle( (getLabel().isZoomable() ? STYLE_ZOOMABLE_LABEL : "") + (mandatory ? STYLE_EMPTY_MANDATORY_LABEL : STYLE_NORMAL_LABEL));
+	}
+	
 }
