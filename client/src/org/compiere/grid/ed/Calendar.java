@@ -342,7 +342,10 @@ public class Calendar extends CDialog
 		m_days[m_days.length-2].setToolTipText(Msg.getMsg(Env.getCtx(), "Cancel"));
 		//	Clear
 		m_days[m_days.length-3].setBackground(Color.yellow);
-		m_days[m_days.length-3].setText("c");
+		String keyClear = Msg.getMsg(Env.getCtx(), "Key_Clear");
+		if ("Key_Clear".equals(keyClear))
+			keyClear = "c";
+		m_days[m_days.length-3].setText(keyClear);
 		m_days[m_days.length-3].setToolTipText(Msg.getMsg(Env.getCtx(), "Clear"));
 
 		//	Date/Time
