@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Scheduler
  *  @author Adempiere (generated) 
- *  @version Release 3.6.0LTS
+ *  @version 3.6.0LTS+P20101124
  */
 public interface I_AD_Scheduler 
 {
@@ -89,6 +89,21 @@ public interface I_AD_Scheduler
 	  * Schedule Processes
 	  */
 	public int getAD_Scheduler_ID();
+
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
+
+	/** Set Table.
+	  * Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID);
+
+	/** Get Table.
+	  * Database Table information
+	  */
+	public int getAD_Table_ID();
+
+	public I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -257,6 +272,19 @@ public interface I_AD_Scheduler
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
+
+	/** Set Record ID.
+	  * Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID);
+
+	/** Get Record ID.
+	  * Direct internal record ID
+	  */
+	public int getRecord_ID();
 
     /** Column name ScheduleType */
     public static final String COLUMNNAME_ScheduleType = "ScheduleType";
