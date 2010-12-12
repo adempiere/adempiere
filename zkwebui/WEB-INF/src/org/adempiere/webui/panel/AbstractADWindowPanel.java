@@ -75,6 +75,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.util.WebDoc;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -1642,7 +1643,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		div.appendChild(hbox);
 
 		Button btnOk = new Button();
-		btnOk.setLabel("OK");
+		btnOk.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "OK")));
 		btnOk.setImage("/images/Ok16.png");
 		btnOk.addEventListener(Events.ON_CLICK, new EventListener()
 		{
@@ -1685,7 +1686,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		hbox.appendChild(btnOk);
 
 		Button btnCancel = new Button();
-		btnCancel.setLabel("Cancel");
+		btnCancel.setLabel(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Cancel")));
 		btnCancel.setImage("/images/Cancel16.png");
 		btnCancel.addEventListener(Events.ON_CLICK, new EventListener()
 		{

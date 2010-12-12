@@ -201,48 +201,48 @@ public class ZkReportViewer extends Window implements EventListener {
 			previewType.setSelectedIndex(0); //fallback to PDF
 			
 		
-		labelDrill.setValue(Msg.getMsg(m_ctx, "Drill") + ": ");
+		labelDrill.setValue(Msg.getMsg(Env.getCtx(), "Drill") + ": ");
 		toolBar.appendChild(labelDrill);
 		
 		comboDrill.setMold("select");
-		comboDrill.setTooltiptext(Msg.getMsg(m_ctx, "Drill"));
+		comboDrill.setTooltiptext(Msg.getMsg(Env.getCtx(), "Drill"));
 		toolBar.appendChild(comboDrill);
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
 		comboReport.setMold("select");
-		comboReport.setTooltiptext(Msg.translate(m_ctx, "AD_PrintFormat_ID"));
+		comboReport.setTooltiptext(Msg.translate(Env.getCtx(), "AD_PrintFormat_ID"));
 		toolBar.appendChild(comboReport);
 		
-		summary.setText(Msg.getMsg(m_ctx, "Summary"));
+		summary.setText(Msg.getMsg(Env.getCtx(), "Summary"));
 		toolBar.appendChild(summary);
 		
 		bCustomize.setImage("/images/Preference24.png");
-		bCustomize.setTooltiptext("Customize Report");
+		bCustomize.setTooltiptext(Msg.getMsg(Env.getCtx(), "PrintCustomize"));
 		toolBar.appendChild(bCustomize);
 		bCustomize.addEventListener(Events.ON_CLICK, this);
 		
 		bFind.setImage("/images/Find24.png");
-		bFind.setTooltiptext("Lookup Record");
+		bFind.setTooltiptext(Msg.getMsg(Env.getCtx(), "Find"));
 		toolBar.appendChild(bFind);
 		bFind.addEventListener(Events.ON_CLICK, this);
 		
 		toolBar.appendChild(new Separator("vertical"));
 		
 		bSendMail.setImage("/images/SendMail24.png");
-		bSendMail.setTooltiptext("Send Mail");
+		bSendMail.setTooltiptext(Msg.getMsg(Env.getCtx(), "SendMail"));
 		toolBar.appendChild(bSendMail);
 		bSendMail.addEventListener(Events.ON_CLICK, this);
 		
 		bArchive.setImage("/images/Archive24.png");
-		bArchive.setTooltiptext("Archived Documents/Reports");
+		bArchive.setTooltiptext(Msg.getMsg(Env.getCtx(), "Archive"));
 		toolBar.appendChild(bArchive);
 		bArchive.addEventListener(Events.ON_CLICK, this);
 		
 		if (m_isCanExport)
 		{
 			bExport.setImage("/images/ExportX24.png");
-			bExport.setTooltiptext("Export");
+			bExport.setTooltiptext(Msg.getMsg(Env.getCtx(), "Export"));
 			toolBar.appendChild(bExport);
 			bExport.addEventListener(Events.ON_CLICK, this);
 		}
@@ -250,7 +250,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		toolBar.appendChild(new Separator("vertical"));
 		
 		bRefresh.setImage("/images/Refresh24.png");
-		bRefresh.setTooltiptext("Refresh");
+		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		toolBar.appendChild(bRefresh);
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 
@@ -485,7 +485,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		StringBuffer sb = new StringBuffer("** ").append(Msg.getMsg(m_ctx, "NewReport")).append(" **");
+		StringBuffer sb = new StringBuffer("** ").append(Msg.getMsg(Env.getCtx(), "NewReport")).append(" **");
 		KeyNamePair pp = new KeyNamePair(-1, sb.toString());
 		comboReport.appendItem(pp.getName(), pp.getKey());
 		comboReport.addEventListener(Events.ON_SELECT, this);
@@ -497,11 +497,11 @@ public class ZkReportViewer extends Window implements EventListener {
 	private void revalidate()
 	{
 		//	Report Info
-		setTitle(Msg.getMsg(m_ctx, "Report") + ": " + m_reportEngine.getName() + "  " + Env.getHeader(m_ctx, 0));
+		setTitle(Msg.getMsg(Env.getCtx(), "Report") + ": " + m_reportEngine.getName() + "  " + Env.getHeader(Env.getCtx(), 0));
 		StringBuffer sb = new StringBuffer ();
-		sb.append(Msg.getMsg(m_ctx, "DataCols")).append("=")
+		sb.append(Msg.getMsg(Env.getCtx(), "DataCols")).append("=")
 			.append(m_reportEngine.getColumnCount())
-			.append(", ").append(Msg.getMsg(m_ctx, "DataRows")).append("=")
+			.append(", ").append(Msg.getMsg(Env.getCtx(), "DataRows")).append("=")
 			.append(m_reportEngine.getRowCount());
 		statusBar.setStatusLine(sb.toString());
 		//
@@ -662,7 +662,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		if(winExportFile == null)
 		{
 			winExportFile = new Window();
-			winExportFile.setTitle(Msg.getMsg(m_ctx, "Export") + ": " + getTitle());
+			winExportFile.setTitle(Msg.getMsg(Env.getCtx(), "Export") + ": " + getTitle());
 			winExportFile.setWidth("450px");
 			winExportFile.setClosable(true);
 			winExportFile.setBorder("normal");
@@ -671,20 +671,20 @@ public class ZkReportViewer extends Window implements EventListener {
 			cboType.setMold("select");
 			
 			cboType.getItems().clear();			
-			cboType.appendItem("ps" + " - " + Msg.getMsg(m_ctx, "FilePS"), "ps");
-			cboType.appendItem("xml" + " - " + Msg.getMsg(m_ctx, "FileXML"), "xml");
-			ListItem li = cboType.appendItem("pdf" + " - " + Msg.getMsg(m_ctx, "FilePDF"), "pdf");
-			cboType.appendItem("html" + " - " + Msg.getMsg(m_ctx, "FileHTML"), "html");
-			cboType.appendItem("txt" + " - " + Msg.getMsg(m_ctx, "FileTXT"), "txt");
-			cboType.appendItem("ssv" + " - " + Msg.getMsg(m_ctx, "FileSSV"), "ssv");
-			cboType.appendItem("csv" + " - " + Msg.getMsg(m_ctx, "FileCSV"), "csv");
-			cboType.appendItem("xls" + " - " + Msg.getMsg(m_ctx, "FileXLS"), "xls");
+			cboType.appendItem("ps" + " - " + Msg.getMsg(Env.getCtx(), "FilePS"), "ps");
+			cboType.appendItem("xml" + " - " + Msg.getMsg(Env.getCtx(), "FileXML"), "xml");
+			ListItem li = cboType.appendItem("pdf" + " - " + Msg.getMsg(Env.getCtx(), "FilePDF"), "pdf");
+			cboType.appendItem("html" + " - " + Msg.getMsg(Env.getCtx(), "FileHTML"), "html");
+			cboType.appendItem("txt" + " - " + Msg.getMsg(Env.getCtx(), "FileTXT"), "txt");
+			cboType.appendItem("ssv" + " - " + Msg.getMsg(Env.getCtx(), "FileSSV"), "ssv");
+			cboType.appendItem("csv" + " - " + Msg.getMsg(Env.getCtx(), "FileCSV"), "csv");
+			cboType.appendItem("xls" + " - " + Msg.getMsg(Env.getCtx(), "FileXLS"), "xls");
 			cboType.setSelectedItem(li);
 			
 			Hbox hb = new Hbox();
 			Div div = new Div();
 			div.setAlign("right");
-			div.appendChild(new Label("Files of Type: "));
+			div.appendChild(new Label(Msg.getMsg(Env.getCtx(), "FilesOfType")));
 			hb.appendChild(div);
 			hb.appendChild(cboType);
 			cboType.setWidth("100%");

@@ -30,6 +30,7 @@ import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Checkbox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Datebox;
+import org.adempiere.webui.component.DatetimeBox;
 import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.ListItem;
@@ -72,11 +73,6 @@ import org.zkoss.zul.Iframe;
 
 public class WArchiveViewer extends Archive implements IFormController, EventListener
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1861963456140146011L;
-	
 	private CustomForm form = new CustomForm();	
 	
 //	private Vbox queryPanel = new Vbox();
@@ -105,7 +101,7 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 	private Label positionInfo = new Label(".");
 	private Label createdByLabel = new Label(Msg.translate(Env.getCtx(), "CreatedBy"));
 	private Textbox createdByField = new Textbox();
-	private Datebox createdField = new Datebox();
+	private DatetimeBox createdField = new DatetimeBox();
 	
 	private Label nameLabel = new Label(Msg.translate(Env.getCtx(), "Name"));
 	private Textbox nameField = new Textbox();
@@ -195,19 +191,19 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 		createdByQField.setRows(1);
 		
 		updateArchive.setImage("/images/Ok24.png");
-		updateArchive.setTooltiptext("Save Archive");
+		updateArchive.setTooltiptext(Msg.getMsg(Env.getCtx(), "Update"));
 		updateArchive.addEventListener(Events.ON_CLICK, this);
 		
 		bRefresh.setImage("/images/Refresh24.png");
-		bRefresh.setTooltiptext("Refresh");
+		bRefresh.setTooltiptext(Msg.getMsg(Env.getCtx(), "Refresh"));
 		bRefresh.addEventListener(Events.ON_CLICK, this);
 		
 		bBack.setImage("/images/Parent24.png");
-		bBack.setTooltiptext("Back");
+		bBack.setTooltiptext(Msg.getMsg(Env.getCtx(), "Previous"));
 		bBack.addEventListener(Events.ON_CLICK, this);
 		
 		bNext.setImage("/images/Detail24.png");
-		bNext.setTooltiptext("Next");
+		bNext.setTooltiptext(Msg.getMsg(Env.getCtx(), "Next"));
 		bNext.addEventListener(Events.ON_CLICK, this);
 		
 		nameField.addEventListener(Events.ON_CHANGE, this);
@@ -319,7 +315,7 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 		Tabpanel tabQueryPanel = new Tabpanel();
 		tabQueryPanel.appendChild(div);
 
-		Tab tabQuery = new Tab("Query");
+		Tab tabQuery = new Tab(Msg.getMsg(Env.getCtx(), "ViewerQuery"));
 
 		tabpanels.appendChild(tabQueryPanel);
 		tabs.appendChild(tabQuery);
@@ -415,10 +411,11 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 		div.appendChild(updateArchive);
 		row.appendChild(div);
 				
-		createdByField.setEnabled(false);
-		createdField.setEnabled(false);
+		createdByField.setReadonly(true);
+		createdField.getDatebox().setReadonly(true);
+		createdField.getTimebox().setReadonly(true);
 		
-		Tab tabView = new Tab("View");
+		Tab tabView = new Tab(Msg.getMsg(Env.getCtx(), "ViewerResult"));
 		
 		Tabpanel tabViewPanel = new Tabpanel();
 		Hbox boxViewSeparator = new Hbox();
@@ -547,7 +544,7 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 			return;
 		}
 		
-		positionInfo.setValue(m_index+1 + " of " + m_archives.length);
+		positionInfo.setValue(m_index+1 + " " + Msg.getMsg(Env.getCtx(), "of") + " " + m_archives.length);
 		MArchive ar = m_archives[m_index];
 		createdByField.setText(ar.getCreatedByName());
 		createdField.setValue(ar.getCreated());

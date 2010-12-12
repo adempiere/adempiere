@@ -143,7 +143,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         {
             requeryItem = new Menuitem();
             requeryItem.setAttribute(EVENT_ATTRIBUTE, REQUERY_EVENT);
-            requeryItem.setLabel("ReQuery");
+            requeryItem.setLabel(Msg.getMsg(Env.getCtx(), "Refresh"));
             requeryItem.setImage("/images/Refresh16.png");
             requeryItem.addEventListener(Events.ON_CLICK, this);
             this.appendChild(requeryItem);
@@ -163,7 +163,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         {
         	newItem = new Menuitem();
         	newItem.setAttribute(EVENT_ATTRIBUTE, NEW_EVENT);
-        	newItem.setLabel(Msg.getMsg(Env.getCtx(), "NewRecord"));
+        	newItem.setLabel(Msg.getMsg(Env.getCtx(), "New"));
         	newItem.setImage("/images/New16.png");
         	newItem.addEventListener(Events.ON_CLICK, this);
         	this.appendChild(newItem);
@@ -174,7 +174,7 @@ public class WEditorPopupMenu extends Menupopup implements EventListener
         {
         	updateItem = new Menuitem();
         	updateItem.setAttribute(EVENT_ATTRIBUTE, UPDATE_EVENT);
-        	updateItem.setLabel("Update Record");
+        	updateItem.setLabel(Msg.getMsg(Env.getCtx(), "Update"));
         	updateItem.setImage("/images/InfoBPartner16.png");
         	updateItem.addEventListener(Events.ON_CLICK, this);
         	this.appendChild(updateItem);
