@@ -310,7 +310,9 @@ public abstract class Convert
 			i++;
 		}
 		m.appendTail(retValue);
-		return retValue.toString();
+		return retValue.toString()
+			.replace(quoteMarker, "''") // Put back quotes, if any
+		;
 	}
 
 	/**

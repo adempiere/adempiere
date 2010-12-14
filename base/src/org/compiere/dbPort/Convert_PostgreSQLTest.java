@@ -483,5 +483,11 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		sqe = "INSERT INTO MyTable (a, b, c, d, xml) VALUES ('val1', 'val2', E'this ''is'' a string with ''quotes'' and backslashes ''\\\\''', 'val4')";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
+		
+		sql = "SELECT AD_Tab.AD_Tab_ID,NULL,COALESCE(AD_Tab.Name,'-1') ||'_'|| COALESCE((SELECT COALESCE(AD_Window.Name,'') FROM AD_Window WHERE AD_Tab.AD_Window_ID=AD_Window.AD_Window_ID),'-1'),AD_Tab.IsActive"
+			+" FROM AD_Tab WHERE AD_Tab.AD_Tab_ID=?";
+		sqe = sql;
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
 	}
 }
