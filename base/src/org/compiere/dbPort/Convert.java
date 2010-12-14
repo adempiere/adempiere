@@ -50,6 +50,9 @@ import org.compiere.util.Ini;
  *  			https://sourceforge.net/tracker/?func=detail&aid=2782095&group_id=176962&atid=879332
  *  		<li>TODO: BF [ 2782611 ] Migration scripts are not UTF8
  *  			https://sourceforge.net/tracker/?func=detail&aid=2782611&group_id=176962&atid=879332
+ *  @author Teo Sarca
+ *  		<li>BF [ 3137355 ] PG query not valid when contains quotes and backslashes
+ *  			https://sourceforge.net/tracker/?func=detail&aid=3137355&group_id=176962&atid=879332	
  */
 public abstract class Convert
 {
@@ -291,12 +294,18 @@ public abstract class Convert
 		// save every value  
 		// Carlos Ruiz - globalqss - better matching regexp
 		retVars.clear();
+		
+		// First we need to replace double quotes to not be matched by regexp - Teo Sarca BF [3137355 ]
+		final String quoteMarker = "<--QUOTE"+System.currentTimeMillis()+"-->";
+		inputValue = inputValue.replace("''", quoteMarker);
+		
 		Pattern p = Pattern.compile("'[[^']*]*'");
 		Matcher m = p.matcher(inputValue);
 		int i = 0;
 		StringBuffer retValue = new StringBuffer(inputValue.length());
 		while (m.find()) {
-			retVars.addElement(new String(inputValue.substring(m.start(), m.end())));
+			String var = inputValue.substring(m.start(), m.end()).replace(quoteMarker, "''"); // Put back quotes, if any
+			retVars.addElement(var);
 			m.appendReplacement(retValue, "<--" + i + "-->");
 			i++;
 		}
