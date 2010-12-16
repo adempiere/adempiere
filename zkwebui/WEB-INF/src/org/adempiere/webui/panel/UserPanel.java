@@ -153,7 +153,7 @@ public class UserPanel extends Vbox  implements EventListener
 		{
 			String roleInfo = MRole.getDefault().toStringX(Env.getCtx());
 			roleInfo = roleInfo.replace(Env.NL, "<br>");
-			Messagebox.showDialog(roleInfo, "Role Info", Messagebox.OK, Messagebox.INFORMATION);
+			Messagebox.showDialog(roleInfo, Msg.getMsg(ctx, "RoleInfo"), Messagebox.OK, Messagebox.INFORMATION);
 		}
 		else if (preference == event.getTarget())
 		{

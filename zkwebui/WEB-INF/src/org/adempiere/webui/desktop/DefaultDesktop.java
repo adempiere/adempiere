@@ -45,6 +45,7 @@ import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
@@ -131,7 +132,7 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         w.setWidth("300px");
         w.setCollapsible(true);
         w.setSplittable(true);
-        w.setTitle("Menu");
+        w.setTitle(Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Menu")));
         w.setFlex(true);
         w.addEventListener(Events.ON_OPEN, new EventListener() {			
 			@Override

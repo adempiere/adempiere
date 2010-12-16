@@ -907,7 +907,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
      */
     public boolean onExit()
     {
-    	String message = "Please save changes before closing";
+    	String message = Msg.getMsg(ctx, "SaveBeforeClose");
 
     	if (!boolChanges)
     	{
