@@ -83,7 +83,7 @@ public class RoleAccessUpdate extends SvrProcess
 		{
 			List<Object> params = new ArrayList<Object>();
 			String whereClause = "1=1";
-			if (p_AD_Client_ID >= 0)
+			if (p_AD_Client_ID > 0)
 			{
 				whereClause += " AND AD_Client_ID=? ";
 				params.add(p_AD_Client_ID);
@@ -96,6 +96,7 @@ public class RoleAccessUpdate extends SvrProcess
 			//sql += "ORDER BY AD_Client_ID, Name";
 			
 			List<MRole> roles = new Query(getCtx(), MRole.Table_Name, whereClause, get_TrxName())
+			.setOnlyActiveRecords(true)
 			.setParameters(params)
 			.setOrderBy("AD_Client_ID, Name")
 			.list();
