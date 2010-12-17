@@ -552,21 +552,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 			rs = null; pstmt = null;
 		}
 
-		try {
-			sql = "SELECT M_Product_ID FROM M_Product WHERE Value = ?";
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setString(1, (String)obj);
-			rs = pstmt.executeQuery();
-			if(rs.next())
-				m_M_Product_ID = rs.getInt(1);
-		} catch (Exception e) {
-			log.log(Level.WARNING, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		m_M_Product_ID = getSelectedRowKey();
 
 		sql = m_sqlSubstitute;
 		log.finest(sql);
