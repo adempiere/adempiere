@@ -162,8 +162,8 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		Integer oldValue = (Integer)getValue ();
 		int oldValueInt = oldValue == null ? 0 : oldValue.intValue ();
 		int M_AttributeSetInstance_ID = oldValueInt;
-		int M_Product_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_Product_ID");
-		int M_ProductBOM_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_ProductBOM_ID");
+		int M_Product_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, m_GridTab.getTabNo(), "M_Product_ID");
+		int M_ProductBOM_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, m_GridTab.getTabNo(), "M_ProductBOM_ID");
 
 		log.config("M_Product_ID=" + M_Product_ID + "/" + M_ProductBOM_ID
 			+ ",M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID
