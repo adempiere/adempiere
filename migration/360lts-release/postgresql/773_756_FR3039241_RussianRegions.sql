@@ -1,3 +1,5 @@
+SET CLIENT_ENCODING TO 'UTF8';
+
 -- Aug 4, 2010 9:24:33 AM CEST
 -- Russian Country regions
 UPDATE C_Country SET CaptureSequence='@A1@ @A2@ @A3@ @A4@ @C@,  @R@ @P@ @CO@', HasRegion='Y',Updated=TO_TIMESTAMP('2010-08-04 09:24:33','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE C_Country_ID=286
