@@ -1850,6 +1850,11 @@ public class GridField
 	{
 		if (m_gridTab == null)
 			return false;
+		// this functionality must preserve the value of the parent tab JUST when is an included tab
+		// not included tabs can have Processed fields and is valid to add records in details on these cases
+		// like the Payment Schedule tab on Invoice (Customer) window
+		if (!m_gridTab.isIncluded())
+			return false;
 		GridTab parentTab = m_gridTab.getParentTab();
 		if (parentTab == null)
 			return false;
