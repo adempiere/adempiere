@@ -276,7 +276,8 @@ public class CButton extends JButton implements CEditor {
 	 */
 	public void setToolTipText(String text) {
 		if (text == null) {
-			super.setText(text);
+			//super.setText(text); Angelo Dabala' (genied) fixed, was calling the wrong method
+			super.setToolTipText(text);
 			return;
 		}
 		int pos = text.indexOf('&');
