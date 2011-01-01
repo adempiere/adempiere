@@ -662,7 +662,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	{
 		log.info("approveIt - " + toString());
 		MDocType doc = MDocType.get(getCtx(), getC_DocType_ID());
-		if (doc.getDocBaseType().equals(MDocType.DOCBASETYPE_QualityOrder))
+		if (MDocType.DOCBASETYPE_QualityOrder.equals(doc.getDocBaseType()))
 		{
 			String whereClause = COLUMNNAME_PP_Product_BOM_ID+"=? AND "+COLUMNNAME_AD_Workflow_ID+"=?";
 			MQMSpecification qms = new Query(getCtx(), MQMSpecification.Table_Name, whereClause, get_TrxName())
@@ -711,7 +711,33 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		//	Implicit Approval
 		if (!isApproved())
 		{
-			approveIt();
+			setIsApproved(approveIt());
+			MDocType doc = MDocType.get(getCtx(), getC_DocType_ID());
+			if(isApproved() && MDocType.DOCBASETYPE_QualityOrder.equals(doc.getDocBaseType()))
+			{				setProcessed(true);
+				setDocAction(DOCACTION_Complete);
+				String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
+				if (valid != null)
+				{
+					m_processMsg = valid;
+					return DocAction.STATUS_Invalid;
+				}
+				return DocAction.STATUS_Completed;
+				
+			}
+			else if(MDocType.DOCBASETYPE_QualityOrder.equals(doc.getDocBaseType()))
+			{
+				setProcessed(true);
+				setDocAction(DOCACTION_Complete);
+
+				String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
+				if (valid != null)
+				{
+					m_processMsg = valid;
+					return DocAction.STATUS_Invalid;
+				}
+				return DocAction.STATUS_Completed;
+			}
 		}
 		
 		createStandardCosts();

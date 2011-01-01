@@ -16,17 +16,15 @@
 package org.eevolution.model;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeInstance;
 import org.compiere.model.MAttributeSet;
 import org.compiere.model.MAttributeSetInstance;
-import org.compiere.util.DB;
+import org.compiere.model.Query;
 
 /**
  *	Forcast Line Model
@@ -61,47 +59,26 @@ public class MQMSpecification extends  X_QM_Specification
 	}	//	MQMSpecification	
 		
 	/** Lines						*/
-	private MQMSpecificationLine[]		m_lines = null;
+	private List<MQMSpecificationLine>		m_lines = null;
 	
 	/**
 	 * 	Get Lines
 	 *	@return array of lines
 	 */
-	public MQMSpecificationLine[] getLines(String where)
+	public List<MQMSpecificationLine> getLines(String where)
 	{
 		if (m_lines != null)
 			return m_lines;
 		
-		ArrayList<MQMSpecificationLine> list = new ArrayList<MQMSpecificationLine>();
-		String sql = "SELECT * FROM QM_SpecificationLine WHERE QM_SpecificationLine_ID=? AND "+ where +" ORDER BY Line";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, getQM_Specification_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-				list.add (new MQMSpecificationLine(getCtx(), rs, get_TrxName()));
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, "getLines", e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		m_lines = new MQMSpecificationLine[list.size ()];
-		list.toArray (m_lines);
+		String whereClause = MQMSpecification.COLUMNNAME_QM_Specification_ID + "=? ";
+		if (where != null && where.length() > 0)
+			whereClause = whereClause + "AND " + where;
+		
+		m_lines = new Query(getCtx(), I_QM_SpecificationLine.Table_Name, whereClause, get_TrxName())
+		.setClient_ID()
+		.setParameters( getQM_Specification_ID())
+		.setOrderBy("SeqNo")
+		.list();		
 		return m_lines;
 	}	//	getLines
 	
@@ -110,19 +87,21 @@ public class MQMSpecification extends  X_QM_Specification
 		//MAttributeSet mas = MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
 		
 //		Save Instance Attributes
-		  
+		if(M_AttributeSetInstance_ID==0)
+			return false;
 		MAttributeSetInstance asi = new MAttributeSetInstance(getCtx(),M_AttributeSetInstance_ID, get_TrxName());
 		MAttributeSet 		  as = MAttributeSet.get(getCtx(),asi.getM_AttributeSet_ID());
-		MAttribute[] attributes = as.getMAttributes(false);
+		MAttribute[] attributes = as.getMAttributes(true);
 		for (int i = 0; i < attributes.length; i++)
 		{
 		
-			//MAttribute attribute = new MAttribute(getCtx(),0,null);
 			MAttributeInstance instance = attributes[i].getMAttributeInstance (M_AttributeSetInstance_ID);			
-			MQMSpecificationLine[] lines = getLines(" M_Attribute_ID="+attributes[i].getM_Attribute_ID());
-			for (int s = 0; s < lines.length; i++)
+			List<MQMSpecificationLine> lines = getLines(" M_Attribute_ID="+attributes[i].getM_Attribute_ID());
+			if(lines == null)
+				return false;
+			
+			for (MQMSpecificationLine line : lines)
 			{
-				MQMSpecificationLine line = lines[s];
 				if (MAttribute.ATTRIBUTEVALUETYPE_Number.equals(attributes[i].getAttributeValueType()))
 				{
 				BigDecimal objValue = instance.getValueNumber();

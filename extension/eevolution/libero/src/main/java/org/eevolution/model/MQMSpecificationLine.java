@@ -59,29 +59,6 @@ public class MQMSpecificationLine extends  X_QM_SpecificationLine
 	 */
 	public boolean evaluate (Object valueObj,String value1)
 	{
-		/*if (getAD_Column_ID() == 0)
-			throw new IllegalStateException("No Column defined - " + this);
-			
-		PO po = activity.getPO();
-		if (po == null || po.get_ID() == 0)
-			throw new IllegalStateException("Could not evaluate " + po + " - " + this);
-		//
-		Object valueObj = po.get_ValueOfColumn(getAD_Column_ID());
-		if (valueObj == null)
-			valueObj = "";
-		String value1 = getValue();
-		if (value1 == null)
-			value1 = "";
-		String value2 = getValue2();
-		if (value2 == null)
-			value2 = "";
-		
-		String resultStr = "PO:{" + valueObj + "} " + getOperation() + " Condition:{" + value1 + "}";
-		if (getOperation().equals(OPERATION_Sql))
-			throw new IllegalArgumentException("SQL Operator not implemented yet: " + resultStr);
-		if (getOperation().equals(OPERATION_X))
-			resultStr += "{" + value2 + "}";*/
-
 		boolean result = false;
 		if (valueObj instanceof Number)
 			result = compareNumber ((Number)valueObj, value1, getValue());
@@ -120,6 +97,7 @@ public class MQMSpecificationLine extends  X_QM_SpecificationLine
 		try
 		{
 			value1B = new BigDecimal (value1);
+			value2B = new BigDecimal (value2);
 		}
 		catch (Exception e)
 		{
@@ -128,33 +106,34 @@ public class MQMSpecificationLine extends  X_QM_SpecificationLine
 		}
 		
 		String op = getOperation();
+
 		if (OPERATION_Eq.equals(op))
-			return valueObjB.compareTo(value1B) == 0;
+			return value1B.compareTo(value2B) == 0;
 		else if (OPERATION_Gt.equals(op))
-			return valueObjB.compareTo(value1B) > 0;
+			return value1B.compareTo(value2B) > 0;
 		else if (OPERATION_GtEq.equals(op))
-			return valueObjB.compareTo(value1B) >= 0;
+			return value1B.compareTo(value2B) >= 0;
 		else if (OPERATION_Le.equals(op))
-			return valueObjB.compareTo(value1B) < 0;
+			return value1B.compareTo(value2B) < 0;
 		else if (OPERATION_LeEq.equals(op))
-			return valueObjB.compareTo(value1B) <= 0;
+			return value1B.compareTo(value2B) <= 0;			
 		else if (OPERATION_Like.equals(op))
-			return valueObjB.compareTo(value1B) == 0;
+			return value1B.compareTo(value2B) == 0;
 		else if (OPERATION_NotEq.equals(op))
-			return valueObjB.compareTo(value1B) != 0;
+			return value1B.compareTo(value2B) != 0;
 		//
 		else if (OPERATION_Sql.equals(op))
 			throw new IllegalArgumentException("SQL not Implemented");
 		//
 		else if (OPERATION_X.equals(op))
 		{
-			if (valueObjB.compareTo(value1B) < 0)
+			if (value1B.compareTo(value2B) < 0)
 				return false;
 			//	To
 			try
 			{
 				value2B = new BigDecimal (String.valueOf(value2));
-				return valueObjB.compareTo(value2B) <= 0;
+				return value1B.compareTo(value2B) <= 0;
 			}
 			catch (Exception e)
 			{
@@ -175,22 +154,22 @@ public class MQMSpecificationLine extends  X_QM_SpecificationLine
 	{
 		//m_numeric = false;
 		String valueObjS = String.valueOf(valueObj);
-		//
+		//		
 		String op = getOperation();
 		if (OPERATION_Eq.equals(op))
-			return valueObjS.compareTo(value1S) == 0;
+			return valueObjS.compareTo(value2S) == 0;
 		else if (OPERATION_Gt.equals(op))
-			return valueObjS.compareTo(value1S) > 0;
+			return valueObjS.compareTo(value2S) > 0;
 		else if (OPERATION_GtEq.equals(op))
-			return valueObjS.compareTo(value1S) >= 0;
+			return valueObjS.compareTo(value2S) >= 0;
 		else if (OPERATION_Le.equals(op))
-			return valueObjS.compareTo(value1S) < 0;
+			return valueObjS.compareTo(value2S) < 0;
 		else if (OPERATION_LeEq.equals(op))
-			return valueObjS.compareTo(value1S) <= 0;
+			return valueObjS.compareTo(value2S) <= 0;
 		else if (OPERATION_Like.equals(op))
-			return valueObjS.compareTo(value1S) == 0;
+			return valueObjS.compareTo(value2S) == 0;
 		else if (OPERATION_NotEq.equals(op))
-			return valueObjS.compareTo(value1S) != 0;
+			return valueObjS.compareTo(value2S) != 0;
 		//
 		else if (OPERATION_Sql.equals(op))
 			throw new IllegalArgumentException("SQL not Implemented");
