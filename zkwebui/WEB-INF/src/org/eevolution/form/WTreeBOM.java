@@ -221,6 +221,7 @@ public class WTreeBOM extends TreeBOM implements IFormController, EventListener,
 		treePane.appendChild(m_tree);
 		m_tree.setStyle("border: none");
 		west.setWidth("25%");
+		west.setAutoscroll(true);
 		
 		Center center = new Center();
 		mainLayout.appendChild(center);

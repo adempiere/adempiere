@@ -383,7 +383,7 @@ implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, Li
 				AD_Tab_ID, AD_Table_ID, getTableName(), 
 				"", findFields, 1); 
 		MQuery query = find.getQuery();
-		if (query != null )
+		if (query != null && query.isActive())
 			return  query.getWhereClause();
 		else return "";
 	}
