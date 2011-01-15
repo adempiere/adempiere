@@ -488,8 +488,8 @@ public abstract class WEditor implements EventListener, PropertyChangeListener
 		Object value = getValue();
 		if (this instanceof WAccountEditor && value != null && ((Integer) value).intValue() == 0) // special case
 			value = null;
-		if (getLabel() != null && getGridField().isEditable(true)) {
-			markMandatory(mandatory && !readOnly && (value == null || value.toString().trim().length() == 0));
+		if (getLabel() != null) {
+			markMandatory(mandatory && !readOnly && getGridField().isEditable(true) && (value == null || value.toString().trim().length() == 0));
 		}
 	}
 
