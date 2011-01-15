@@ -1352,37 +1352,44 @@ public class VLookup extends JComponent
 			if (m_lookup != null && m_lookup instanceof MLookup)
 			{
 				int AD_Reference_ID = ((MLookup)m_lookup).getAD_Reference_Value_ID();
-				if (AD_Reference_ID != 0)
-				{
-					String query = "SELECT kc.ColumnName, kt.TableName"
-						+ " FROM AD_Ref_Table rt"
-						+ " INNER JOIN AD_Column kc ON (rt.AD_Key=kc.AD_Column_ID)"
-						+ " INNER JOIN AD_Table kt ON (rt.AD_Table_ID=kt.AD_Table_ID)"
-						+ " WHERE rt.AD_Reference_ID=?";
+				if (DisplayType.List == m_lookup.getDisplayType()) {
+					keyColumnName = "AD_Ref_List_ID";
+					keyTableName = "AD_Ref_List";
+					value = DB.getSQLValue(null, "SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value=?", AD_Reference_ID, value);
+				} else {
+					if (AD_Reference_ID != 0)
+					{
+						String query = "SELECT kc.ColumnName, kt.TableName"
+							+ " FROM AD_Ref_Table rt"
+							+ " INNER JOIN AD_Column kc ON (rt.AD_Key=kc.AD_Column_ID)"
+							+ " INNER JOIN AD_Table kt ON (rt.AD_Table_ID=kt.AD_Table_ID)"
+							+ " WHERE rt.AD_Reference_ID=?";
 
-					PreparedStatement pstmt = null;
-					ResultSet rs = null;
-					try
-					{
-						pstmt = DB.prepareStatement(query, null);
-						pstmt.setInt(1, AD_Reference_ID);
-						rs = pstmt.executeQuery();
-						if (rs.next())
+						PreparedStatement pstmt = null;
+						ResultSet rs = null;
+						try
 						{
-							keyColumnName = rs.getString(1);
-							keyTableName = rs.getString(2);
+							pstmt = DB.prepareStatement(query, null);
+							pstmt.setInt(1, AD_Reference_ID);
+							rs = pstmt.executeQuery();
+							if (rs.next())
+							{
+								keyColumnName = rs.getString(1);
+								keyTableName = rs.getString(2);
+							}
 						}
-					}
-					catch (Exception e)
-					{
-						log.log(Level.SEVERE, query, e);
-					}
-					finally
-					{
-						DB.close(rs, pstmt);
-						rs = null; pstmt = null;
-					}
-				}	//	Table Reference
+						catch (Exception e)
+						{
+							log.log(Level.SEVERE, query, e);
+						}
+						finally
+						{
+							DB.close(rs, pstmt);
+							rs = null; pstmt = null;
+						}
+					}	//	Table Reference
+					
+				}
 			}	//	MLookup
 
 			if(keyColumnName != null && keyColumnName.length() !=0)

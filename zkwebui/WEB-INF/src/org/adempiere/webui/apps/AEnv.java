@@ -43,11 +43,13 @@ import org.compiere.acct.Doc;
 import org.compiere.model.GridWindowVO;
 import org.compiere.model.Lookup;
 import org.compiere.model.MAcctSchema;
+import org.compiere.model.MLookup;
 import org.compiere.model.MQuery;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.CacheMgt;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
@@ -415,24 +417,31 @@ public final class AEnv
         {
             zoomQuery = new MQuery();   //  ColumnName might be changed in MTab.validateQuery
             String column = lookup.getColumnName();
-            //strip off table name, fully qualify name doesn't work when zoom into detail tab
-            if (column.indexOf(".") > 0)
-            {
-            	int p = column.indexOf(".");
-            	String tableName = column.substring(0, p);
-            	column = column.substring(column.indexOf(".")+1);
-            	zoomQuery.setZoomTableName(tableName);
-            	zoomQuery.setZoomColumnName(column);            	
-            }
-            else
-            {
-            	zoomQuery.setZoomColumnName(column);
-            	//remove _ID to get table name
-            	zoomQuery.setZoomTableName(column.substring(0, column.length() - 3));
-            }
-            zoomQuery.setZoomValue(value);
-            zoomQuery.addRestriction(column, MQuery.EQUAL, value);
-            zoomQuery.setRecordCount(1);    //  guess
+			//	Check if it is a Table Reference
+			if (lookup instanceof MLookup && DisplayType.List == lookup.getDisplayType())
+			{
+				int AD_Reference_ID = ((MLookup)lookup).getAD_Reference_Value_ID();
+				column = "AD_Ref_List_ID";
+				value = DB.getSQLValue(null, "SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value=?", AD_Reference_ID, value);
+			}
+			//strip off table name, fully qualify name doesn't work when zoom into detail tab
+			if (column.indexOf(".") > 0)
+			{
+				int p = column.indexOf(".");
+				String tableName = column.substring(0, p);
+				column = column.substring(column.indexOf(".")+1);
+				zoomQuery.setZoomTableName(tableName);
+				zoomQuery.setZoomColumnName(column);            	
+			}
+			else
+			{
+				zoomQuery.setZoomColumnName(column);
+				//remove _ID to get table name
+				zoomQuery.setZoomTableName(column.substring(0, column.length() - 3));
+			}
+			zoomQuery.setZoomValue(value);
+			zoomQuery.addRestriction(column, MQuery.EQUAL, value);
+			zoomQuery.setRecordCount(1);    //  guess
         }
         int windowId = lookup.getZoom(zoomQuery);
         zoom(windowId, zoomQuery);
