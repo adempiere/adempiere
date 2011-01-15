@@ -404,7 +404,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener
 		Tabs tabs = new Tabs();
 		tabbedPane.appendChild(tabs);
 
-		Tab tab = new Tab(Msg.translate(Env.getCtx(), "Warehouse"));
+		Tab tab = new Tab(Util.cleanAmp(Msg.translate(Env.getCtx(), "Warehouse")));
 		tabs.appendChild(tab);
 		Tabpanel desktopTabPanel = new Tabpanel();
 		desktopTabPanel.setHeight("100%");
