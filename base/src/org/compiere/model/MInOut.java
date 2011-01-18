@@ -304,7 +304,7 @@ public class MInOut extends X_M_InOut implements DocAction
 		if (counter)
 			from.setRef_InOut_ID(to.getM_InOut_ID());
 
-		if (to.copyLinesFrom(from, counter, setOrder) == 0)
+		if (to.copyLinesFrom(from, counter, setOrder) <= 0)
 			throw new IllegalStateException("Could not create Shipment Lines");
 
 		return to;
@@ -787,8 +787,10 @@ public class MInOut extends X_M_InOut implements DocAction
 				fromLine.save(get_TrxName());
 			}
 		}
-		if (fromLines.length != count)
+		if (fromLines.length != count) {
 			log.log(Level.SEVERE, "Line difference - From=" + fromLines.length + " <> Saved=" + count);
+			count = -1; // caller must validate error in count and rollback accordingly - BF [3160928]
+		}
 		return count;
 	}	//	copyLinesFrom
 
