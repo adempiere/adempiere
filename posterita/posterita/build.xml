@@ -46,6 +46,7 @@
 	<!-- Creating new posterita.jar -->
 	<target name="compile" depends="init">
 		<!-- compile the java code from ${src} into ${build.dir} -->
+		<mkdir dir="${src.web.dir}/WEB-INF/classes"/>
 		<javac srcdir="${src.main.dir}" destdir="${src.web.dir}/WEB-INF/classes" deprecation="on" source="1.6" target="1.6" debug="on">
 			<classpath>
 				<fileset dir="${src.web.dir}/WEB-INF/lib/">
