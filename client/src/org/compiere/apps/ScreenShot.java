@@ -10,24 +10,23 @@
  * You should have received a copy of the GNU General Public License along    *
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
  *****************************************************************************/
 package org.compiere.apps;
 
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
+import javax.swing.JFileChooser;
+
+import java.awt.AWTException;
 import java.awt.Component;
+import java.awt.Robot;
 import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Level;
-
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
-import javax.swing.JFileChooser;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -39,6 +38,10 @@ import org.compiere.util.Msg;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ScreenShot.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
+ * 
+ *	@author		jmpiloq, evenos GmbH
+ *	@version	$Id
+ *	@see		BF [ 3073316 ]
  */
 public class ScreenShot
 {
@@ -50,6 +53,8 @@ public class ScreenShot
 	 */
 	public static boolean createJPEG (Window window, String fileName)
 	{
+		BufferedImage bi = null;
+		
 		if (window == null || fileName == null)
 			new IllegalArgumentException("ScreenShot.createJPEG Window os NULL");
 
@@ -71,7 +76,12 @@ public class ScreenShot
 		}
 
 		//	Get Image
-		BufferedImage bi = getImage(window);
+		try {
+			Thread.sleep(1000);
+			bi = getImage(window);
+		} catch (InterruptedException ex) {
+			log.log(Level.SEVERE, "ex", ex);
+		}
 
 		//	Write Image
 		try
@@ -87,7 +97,7 @@ public class ScreenShot
 		{
 			log.log(Level.SEVERE, "ex", ex);
 			return false;
-		}
+		} 
 		return true;
 	}	//	createJPEG
 
@@ -109,9 +119,10 @@ public class ScreenShot
 		String fileName = file.getAbsolutePath();
 		if (!(fileName.toUpperCase().equals(".JPG") || fileName.toUpperCase().equals(".JPEG")))
 			fileName += ".jpg";
+		fc.setVisible(false);
 		return new File (fileName);
 	}	//	getFile
-
+	
 	/**
 	 * 	Get Image of Window
 	 * 	@param window window
@@ -119,9 +130,13 @@ public class ScreenShot
 	 */
 	protected static BufferedImage getImage (Window window)
 	{
-		BufferedImage bi = new BufferedImage (window.getWidth(), window.getHeight(),
-			BufferedImage.TYPE_INT_RGB);	//	TYPE_INT_ARGB is tinted red
-		window.paintAll(bi.createGraphics());
+		BufferedImage bi = null;
+		try {
+			bi = new Robot().createScreenCapture(window.getBounds());
+			window.paintAll(bi.createGraphics());
+		} catch (AWTException ex) {
+			log.log(Level.SEVERE, "ex", ex);
+		}
 		return bi;
 	}	//	getImage
 
