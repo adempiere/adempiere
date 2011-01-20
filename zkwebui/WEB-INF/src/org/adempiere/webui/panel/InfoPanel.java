@@ -535,6 +535,14 @@ public abstract class InfoPanel extends Window implements EventListener, WTableM
 	            contentPanel.setData(model, null);
         	}
         }
+       // metas c.ghita@metas.ro : start  
+        else
+        {
+        	model = new ListModelTable();
+            contentPanel.setData(model, null);
+            
+        }
+        // metas c.ghita@metas.ro : start
         int no = m_count;
         setStatusLine(Integer.toString(no) + " " + Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"), false);
         setStatusDB(Integer.toString(no));
