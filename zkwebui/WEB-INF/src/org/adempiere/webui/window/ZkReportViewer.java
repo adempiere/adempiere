@@ -556,7 +556,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		else if (e.getTarget() == bCustomize)
 			cmd_customize();
 		else if (e.getTarget() == bRefresh)
-			iframe.invalidate();
+			cmd_report();
 		//
 		else if (e.getTarget() == m_ddM)
 			cmd_window(m_ddQ);
