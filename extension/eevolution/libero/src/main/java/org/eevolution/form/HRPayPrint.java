@@ -25,7 +25,6 @@ import java.util.logging.Level;
 
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
-import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;

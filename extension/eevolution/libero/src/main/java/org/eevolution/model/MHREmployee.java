@@ -97,6 +97,12 @@ public class MHREmployee extends X_HR_Employee
 		{
 			whereClause.append(" AND e.HR_Department_ID =? ");
 			params.add(p.getHR_Department_ID());
+		}		
+		// Selected Job add
+		if (p.getHR_Job_ID() != 0) 
+		{
+			whereClause.append(" AND e.HR_Job_ID =? ");
+			params.add(p.getHR_Job_ID());
 		}
 		
 		whereClause.append(" ) "); // end select from HR_Employee

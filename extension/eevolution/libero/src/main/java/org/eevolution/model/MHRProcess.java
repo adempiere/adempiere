@@ -71,6 +71,9 @@ public class MHRProcess extends X_HR_Process implements DocAction
 	public int m_C_BPartner_ID = 0;
 	public int m_AD_User_ID = 0;
 	public int m_HR_Concept_ID = 0;
+	public int m_HR_Payroll_ID = 0;
+	public int m_HR_Department_ID = 0;
+	public int m_HR_Job_ID = 0;
 	public String m_columnType   = "";
 	public Timestamp m_dateFrom;
 	public Timestamp m_dateTo;	
@@ -754,6 +757,19 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		whereClause.append("? >= ValidFrom AND ( ? <= ValidTo OR ValidTo IS NULL)");
 		params.add(m_dateFrom);
 		params.add(m_dateTo);
+		
+		if(m_HR_Payroll_ID > 0){
+			whereClause.append(" AND (HR_Payroll_ID=? OR HR_Payroll_ID IS NULL)");
+			params.add(m_HR_Payroll_ID);
+		}
+		if(m_HR_Department_ID > 0){
+			whereClause.append(" AND (HR_Department_ID=? OR HR_Payroll_ID IS NULL)");
+			params.add(m_HR_Department_ID);	}
+		if(m_HR_Job_ID > 0){
+			whereClause.append(" AND (HR_Job_ID=? OR HR_Job_ID IS NULL)");
+			params.add(m_HR_Job_ID);
+		}					
+		
 		whereClause.append(" AND HR_Concept_ID = ? ");
 		params.add(concept.get_ID());
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept conc WHERE conc.HR_Concept_ID = HR_Attribute.HR_Concept_ID )");
@@ -827,13 +843,46 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		m_scriptCtx.put("_Department", getHR_Department_ID());
 
 		log.info("info data - " + " Process: " +getHR_Process_ID()+ ", Period: " +getHR_Period_ID()+ ", Payroll: " +getHR_Payroll_ID()+ ", Department: " +getHR_Department_ID());
-		MHRPeriod period = new MHRPeriod(getCtx(), getHR_Period_ID(), get_TrxName());
-		if (period != null)
+		
+		MHRPeriod hrPeriod = null;
+		
+		if (getHR_Period_ID() > 0)
 		{
-			m_dateFrom = period.getStartDate();
-			m_dateTo   = period.getEndDate();
-			m_scriptCtx.put("_From", period.getStartDate());
-			m_scriptCtx.put("_To", period.getEndDate());
+			hrPeriod = MHRPeriod.get(getCtx(),  getHR_Period_ID());
+		}
+		else
+		{
+			hrPeriod = new MHRPeriod(getCtx() , 0 , get_TrxName());
+			
+			MPeriod period = MPeriod.get(getCtx(),  getDateAcct() , getAD_Org_ID());	
+			if(period != null)
+			{
+				hrPeriod.setStartDate(period.getStartDate());
+				hrPeriod.setEndDate(period.getEndDate());
+			}
+			else
+			{
+				hrPeriod.setStartDate(getDateAcct());
+				hrPeriod.setEndDate(getDateAcct());			
+			}
+		}
+
+		m_dateFrom = hrPeriod.getStartDate();
+		m_dateTo   = hrPeriod.getEndDate();
+		m_scriptCtx.put("_From", m_dateFrom);
+		m_scriptCtx.put("_To", m_dateTo);
+				
+		if(getHR_Payroll_ID() > 0)
+		{
+			m_HR_Payroll_ID=getHR_Payroll_ID();
+		}
+		if(getHR_Department_ID() > 0)
+		{
+			m_HR_Department_ID=getHR_Department_ID();
+		}
+		if(getHR_Job_ID() > 0)
+		{
+			m_HR_Job_ID=getHR_Job_ID();	
 		}
 
 		// RE-Process, delete movement except concept type Incidence 
@@ -859,10 +908,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 			m_scriptCtx.remove("_C_BPartner_ID");
 			m_scriptCtx.put("_DateStart", m_employee.getStartDate());
 			m_scriptCtx.put("_DateEnd", m_employee.getEndDate() == null ? TimeUtil.getDay(2999, 12, 31) : m_employee.getEndDate());
-			m_scriptCtx.put("_Days", org.compiere.util.TimeUtil.getDaysBetween(period.getStartDate(),period.getEndDate())+1);
+			m_scriptCtx.put("_Days", TimeUtil.getDaysBetween(hrPeriod.getStartDate(),hrPeriod.getEndDate()) + 1);
 			m_scriptCtx.put("_C_BPartner_ID", bp.getC_BPartner_ID());
 
-			createCostCollectorMovements(bp.get_ID(), period);
+			if(getHR_Period_ID() > 0)
+				createCostCollectorMovements(bp.get_ID(), hrPeriod);
 
 			m_movement.clear();
 			loadMovements(m_movement, m_C_BPartner_ID);
@@ -902,8 +952,11 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		} // for each employee
 		//
 		// Save period & finish
-		period.setProcessed(true);
-		period.saveEx();
+		if(getHR_Period_ID()>0)
+		{
+			hrPeriod.setProcessed(true);
+			hrPeriod.saveEx();
+		}
 	} // createMovements
 
 	private MHRMovement createMovementFromConcept(MHRConcept concept,
@@ -1281,6 +1334,23 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		//check client
 		whereClause.append(" AND AD_Client_ID = ?");
 		params.add(getAD_Client_ID());
+		
+		if(m_HR_Payroll_ID > 0)
+		{
+			whereClause.append(" AND (HR_Payroll_ID=? OR HR_Payroll_ID IS NULL)");
+			params.add(m_HR_Payroll_ID);
+		}
+		if(m_HR_Department_ID > 0)
+		{
+			whereClause.append(" AND (HR_Department_ID=? OR HR_Department_ID IS NULL)");
+			params.add(m_HR_Department_ID);	
+		}
+		if(m_HR_Job_ID > 0)
+		{
+			whereClause.append(" AND (HR_Job_ID=? OR HR_Job_ID IS NULL)");
+			params.add(m_HR_Job_ID);
+		}
+
 		//check concept
 		whereClause.append(" AND EXISTS (SELECT 1 FROM HR_Concept c WHERE c.HR_Concept_ID=HR_Attribute.HR_Concept_ID" 
 				+ " AND c.Value = ?)");
@@ -1768,18 +1838,6 @@ public class MHRProcess extends X_HR_Process implements DocAction
 		return Env.getContextAsInt(getCtx(), "_DaysPeriod") + 1;
 	} // getDays
 	
-	/**
-	 * Helper Method : get round result
-	 * @param result
-	 * @return bdresult
-	 */
-	public BigDecimal getRoundDoubleToBD (double result)
-	{
-		int currency_id = MClient.get(Env.getCtx()).getC_Currency_ID();
-		int precision = MCurrency.getStdPrecision(Env.getCtx(), currency_id);
-		BigDecimal bdresult = BigDecimal.valueOf(result).setScale(precision, BigDecimal.ROUND_HALF_UP);
-		return bdresult;
-	} // getRoundDoubleToBD
 	
 	public static MHRProcess copyFrom (MHRProcess from, Timestamp dateAcct,
 			int C_DocTypeTarget_ID, boolean counter, String trxName, boolean setOrder)
