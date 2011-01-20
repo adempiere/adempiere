@@ -62,6 +62,7 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.swing.tree.DefaultTreeSelectionModel;
 import javax.swing.tree.TreePath;
 
+import org.adempiere.exceptions.DBException;
 import org.adempiere.plaf.AdempierePLAF;
 import org.adempiere.plaf.AdempiereTaskPaneUI;
 import org.compiere.apps.ADialog;
@@ -812,7 +813,7 @@ public final class VTreePanel extends CPanel
 		MTreeNode nd = (MTreeNode)tree.getSelectionPath().getLastPathComponent();
 		if (barDBupdate(true, nd.getNode_ID()))
 			addToBar(nd,getParentToolBar(nd), false);
-		else if (CLogger.retrieveException().getMessage().indexOf("ORA-00001")!=-1)
+		else if (DBException.isUniqueContraintError(CLogger.retrieveException()))
 			ADialog.error(0, this, "BookmarkExist", null);
 	}   //  barAdd
 	
