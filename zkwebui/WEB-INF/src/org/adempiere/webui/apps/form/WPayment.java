@@ -720,9 +720,11 @@ public class WPayment extends Window
 		/**
 		 * 	Load Accounts
 		 */
-		SQL = "SELECT a.C_BP_BankAccount_ID, NVL(b.Name, ' ')||a.AccountNo AS Acct "
-			+ "FROM C_BP_BankAccount a,C_Bank b "
-			+ "WHERE C_BPartner_ID=? AND a.IsActive='Y'";
+		SQL = "SELECT a.C_BP_BankAccount_ID, NVL(b.Name, ' ')||'_'||NVL(a.AccountNo, ' ') AS Acct "
+			+ "FROM C_BP_BankAccount a"
+			+ " LEFT OUTER JOIN C_Bank b ON (a.C_Bank_ID=b.C_Bank_ID) "
+			+ "WHERE C_BPartner_ID=?"
+			+ "AND a.IsActive='Y' AND a.IsACH='Y'";
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
