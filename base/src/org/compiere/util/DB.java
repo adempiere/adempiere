@@ -1667,7 +1667,7 @@ public final class DB
         //
         boolean isSOTrx = true;
     	boolean noIsSOTrxColumn = false;
-        if (MTable.get(Env.getCtx(), TableName).get_ColumnIndex("IsSOTrx") < 0) {
+        if (MTable.get(Env.getCtx(), TableName).getColumn("IsSOTrx") == null) {
         	noIsSOTrxColumn = true;
         } else {
         	String sql = "SELECT IsSOTrx FROM " + TableName
@@ -1695,7 +1695,7 @@ public final class DB
         if (noIsSOTrxColumn && TableName.endsWith("Line")) {
         	noIsSOTrxColumn = false;
         	String hdr = TableName.substring(0, TableName.indexOf("Line"));
-        	if (MTable.get(Env.getCtx(), hdr).get_ColumnIndex("IsSOTrx") < 0) {
+        	if (MTable.get(Env.getCtx(), hdr).getColumn("IsSOTrx") == null) {
         		noIsSOTrxColumn = true;
         	} else {
         		// use IN instead of EXISTS as the subquery should be highly selective
