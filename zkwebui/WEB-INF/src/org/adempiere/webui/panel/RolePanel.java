@@ -40,6 +40,7 @@ import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MUser;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
@@ -73,7 +74,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2210467236654772389L;
+	private static final long serialVersionUID = 4485820129703005679L;
 
 	private static final String RESOURCE = "org.compiere.apps.ALoginRes";
 
@@ -85,9 +86,19 @@ public class RolePanel extends Window implements EventListener, Deferrable
     private Label lblRole, lblClient, lblOrganisation, lblWarehouse;
     private Button btnOk, btnCancel;
 
-    public RolePanel(Properties ctx, LoginWindow loginWindow, String userName, String password)
+	/** Context					*/
+	private Properties      m_ctx;
+	/** Username					*/
+	private String			m_userName;
+	/** Password					*/
+	private String			m_password;
+	
+	public RolePanel(Properties ctx, LoginWindow loginWindow, String userName, String password)
     {
         this.wndLogin = loginWindow;
+        m_ctx = ctx;
+        m_userName = userName;
+        m_password = password;
         login = new Login(ctx);
         rolesKNPairs = login.getRoles(userName, password);
         if(rolesKNPairs == null)
@@ -190,7 +201,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
     private void initComponents()
     {
-    	Language language = Env.getLanguage(Env.getCtx());
+    	Language language = Env.getLanguage(m_ctx);
 
     	ResourceBundle res = ResourceBundle.getBundle(RESOURCE, language.getLocale());
 
@@ -304,8 +315,9 @@ public class RolePanel extends Window implements EventListener, Deferrable
             //
 
             //force reload of default role
-            MRole.getDefault(Env.getCtx(), true);
+            MRole.getDefault(m_ctx, true);
         }
+        setUserID();
         updateOrganisationList();
     }
 
@@ -375,8 +387,10 @@ public class RolePanel extends Window implements EventListener, Deferrable
         {
             if(eventCompId.equals(lstRole.getId()))
                 updateClientList();
-            else if(eventCompId.equals(lstClient.getId()))
+            else if(eventCompId.equals(lstClient.getId())) {
+        		setUserID();
                 updateOrganisationList();
+            }
             else if(eventCompId.equals(lstOrganisation.getId()))
                 updateWarehouseList();
         }
@@ -389,6 +403,17 @@ public class RolePanel extends Window implements EventListener, Deferrable
             wndLogin.loginCancelled();
         }
     }
+
+	private void setUserID() {
+		// Carlos Ruiz - globalqss - Wrong #AD_User_ID when user with the same name from two Ten.  
+		// https://sourceforge.net/tracker/index.php?func=detail&aid=2984836&group_id=176962&atid=955896
+		Env.setContext(m_ctx, "#AD_Client_ID", (String) lstClient.getSelectedItem().getValue());
+		MUser user = MUser.get (m_ctx, m_userName, m_password);
+		if (user != null) {
+			Env.setContext(m_ctx, "#AD_User_ID", user.getAD_User_ID() );
+			Env.setContext(m_ctx, "#SalesRep_ID", user.getAD_User_ID() );
+		}
+	}
     /**
      *  validate Roles
      *
@@ -402,15 +427,15 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
         if(lstItemRole == null || lstItemRole.getValue() == null)
         {
-            throw new WrongValueException(lstRole, Msg.getMsg(Env.getCtx(), "FillMandatory") + lblRole.getValue());
+            throw new WrongValueException(lstRole, Msg.getMsg(m_ctx, "FillMandatory") + lblRole.getValue());
         }
         else if(lstItemClient == null || lstItemClient.getValue() == null)
         {
-        	throw new WrongValueException(lstClient, Msg.getMsg(Env.getCtx(), "FillMandatory") + lblClient.getValue());
+        	throw new WrongValueException(lstClient, Msg.getMsg(m_ctx, "FillMandatory") + lblClient.getValue());
         }
         else if(lstItemOrg == null || lstItemOrg.getValue() == null)
         {
-        	throw new WrongValueException(lstOrganisation, Msg.getMsg(Env.getCtx(), "FillMandatory") + lblOrganisation.getValue());
+        	throw new WrongValueException(lstOrganisation, Msg.getMsg(m_ctx, "FillMandatory") + lblOrganisation.getValue());
         }
         int orgId = 0, warehouseId = 0;
         orgId = Integer.parseInt((String)lstItemOrg.getValue());
@@ -437,7 +462,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
 
         // Elaine 2009/02/06 save preference to AD_Preference
         UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
-        userPreference.setProperty(UserPreference.P_LANGUAGE, Env.getContext(Env.getCtx(), UserPreference.LANGUAGE_NAME));
+        userPreference.setProperty(UserPreference.P_LANGUAGE, Env.getContext(m_ctx, UserPreference.LANGUAGE_NAME));
         userPreference.setProperty(UserPreference.P_ROLE, lstItemRole != null ? (String) lstItemRole.getValue() : "0");
         userPreference.setProperty(UserPreference.P_CLIENT, lstItemClient != null ? (String) lstItemClient.getValue() : "0");
         userPreference.setProperty(UserPreference.P_ORG, lstItemOrg != null ? (String) lstItemOrg.getValue() : "0");
