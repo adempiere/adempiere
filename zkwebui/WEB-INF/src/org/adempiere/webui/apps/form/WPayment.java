@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
+import org.adempiere.webui.apps.BusyDialog;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Grid;
@@ -67,8 +68,10 @@ import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.compiere.util.ValueNamePair;
+import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -112,7 +115,8 @@ public class WPayment extends Window
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 5886626149128018585L;
+	private static final long serialVersionUID = 3550713503274155601L;
+
 
 	/**
 	 *	Constructor
@@ -258,6 +262,10 @@ public class WPayment extends Window
 	private Label tRoutingText = new Label();
 	private Label tNumberText = new Label();
 	private Label sStatus = new Label();
+
+	private boolean m_isLocked = false;
+	private BusyDialog progressWindow;
+	
 
 	/**
 	 *	Static Init
@@ -925,9 +933,53 @@ public class WPayment extends Window
 		}
 
 		//  Online
-		else if (e.getTarget() == kOnline || e.getTarget() == sOnline)
-			processOnline();
+		else if (e.getTarget() == kOnline || e.getTarget() == sOnline) {
+			this.lockUI();
+			Clients.response(new AuEcho(this, "runProcessOnline", null));
+		}
 	}	//	actionPerformed
+
+	public void lockUI() {
+		if (m_isLocked) return;
+		
+		m_isLocked = true;
+		
+		showBusyDialog();
+	}
+
+	private void showBusyDialog() {
+		progressWindow = new BusyDialog();
+		progressWindow.setPage(this.getPage());
+		progressWindow.doHighlighted();
+	}
+	
+	public void runProcessOnline() {
+		try {
+			processOnline();
+		} finally {
+			unlockUI();
+		}
+	}
+	
+	public void unlockUI() {
+		if (!m_isLocked) return;
+		
+		m_isLocked = false;
+		hideBusyDialog();
+		updateUI();
+	}
+
+	private void hideBusyDialog() {
+		if (progressWindow != null) {
+			progressWindow.dispose();
+			progressWindow = null;
+		}
+	}
+
+	private void updateUI() {
+		if (m_mPayment.isApproved())
+			dispose();
+	}
 
 
 	private void onPaymentComboSelection() {
@@ -1550,7 +1602,7 @@ public class WPayment extends Window
 					else
 						FDialog.error(m_WindowNo, this, "PaymentError", "PaymentNotCreated");
 					saveChanges();
-					dispose();
+					// dispose();
 				}
 				else
 				{
