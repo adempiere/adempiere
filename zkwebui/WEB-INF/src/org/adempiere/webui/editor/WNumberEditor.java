@@ -133,19 +133,24 @@ public class WNumberEditor extends WEditor implements ContextMenuListener
     	if (Events.ON_CHANGE.equalsIgnoreCase(event.getName()) || Events.ON_OK.equalsIgnoreCase(event.getName()))
     	{
 	        Object newValue = getComponent().getValue();
+	        if (oldValue == null && newValue == null) {
+	        	return;
+	        }
 	        
-			BigDecimal bd = new BigDecimal(newValue.toString());
-			if (displayType == DisplayType.Integer)
-				newValue =  new Integer(bd.intValue());
-			else
-				newValue = bd;
+	        if (displayType == DisplayType.Integer) {
+		        if (newValue != null && newValue instanceof BigDecimal) {
+		        	newValue = new Integer(((BigDecimal)newValue).intValue());
+		        }
+		        if (oldValue != null && oldValue instanceof BigDecimal) {
+		        	oldValue = new Integer(((BigDecimal)oldValue).intValue());
+		        }
+	        }
+	        
 	        if (oldValue != null && newValue != null && oldValue.equals(newValue)) 
 	        {
 	    	    return;
 	    	}
-	        if (oldValue == null && newValue == null) {
-	        	return;
-	        }
+	        
 	        ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldValue, newValue);
 	        super.fireValueChange(changeEvent);
 	        oldValue = newValue;
