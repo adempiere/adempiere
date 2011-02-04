@@ -2507,10 +2507,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		}
 		
 		//  inform APanel/..    -> dataStatus with row updated
-		if (m_DataStatusEvent == null)
+		if (m_DataStatusEvent == null) {
 			m_DataStatusEvent = new DataStatusEvent(this, getRowCount(),
 				m_mTable.isInserting(),		//	changed
 				Env.isAutoCommit(Env.getCtx(), m_vo.WindowNo), m_mTable.isInserting());
+			m_DataStatusEvent.AD_Table_ID = m_vo.AD_Table_ID;
+		}
 		//
 		m_DataStatusEvent.setCurrentRow(m_currentRow);
 		String status = m_DataStatusEvent.getAD_Message();
