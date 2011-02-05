@@ -135,7 +135,7 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/payflow.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/cron4j-2.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-3.7.3.jar"/>
-	<classpathentry kind="lib" path="tools/lib/poi-3.5-FINAL-20090928.jar"/>
-	<classpathentry kind="lib" path="tools/lib/mysql-connector-java-5.1.13-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.5-FINAL-20090928.jar"/>
+	<classpathentry exported="true" kind="lib" path="tools/lib/mysql-connector-java-5.1.13-bin.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
