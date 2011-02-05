@@ -70,14 +70,14 @@ INSERT INTO AD_Message_Trl (AD_Language,AD_Message_ID, MsgText,MsgTip, IsTransla
 ;
 
 -- Dec 11, 2010 5:55:22 PM COT
-UPDATE AD_Message_Trl SET IsTranslated='Y',MsgText='La tabla no tiene asociado un botón para el proceso',MsgTip='Escoja una tabla con una columna asociada al proceso',Updated=TO_TIMESTAMP('2010-12-11 17:55:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53122 AND AD_Language='es_CO'
+UPDATE AD_Message_Trl SET IsTranslated='Y',MsgText='La tabla no tiene asociado un botón para el proceso',MsgTip='Escoja una tabla con una columna asociada al proceso',Updated=TO_TIMESTAMP('2010-12-11 17:55:22','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53122 AND AD_Language LIKE 'es_%'
 ;
 
 -- Dec 11, 2010 5:55:48 PM COT
-UPDATE AD_Message_Trl SET IsTranslated='Y',MsgText='Debe seleccionar una tabla para utilizar el ID de Registro',MsgTip='Llene primero el campo tabla',Updated=TO_TIMESTAMP('2010-12-11 17:55:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53123 AND AD_Language='es_CO'
+UPDATE AD_Message_Trl SET IsTranslated='Y',MsgText='Debe seleccionar una tabla para utilizar el ID de Registro',MsgTip='Llene primero el campo tabla',Updated=TO_TIMESTAMP('2010-12-11 17:55:48','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53123 AND AD_Language LIKE 'es_%'
 ;
 
 -- Dec 11, 2010 5:56:17 PM COT
-UPDATE AD_Message_Trl SET IsTranslated='Y',MsgText='ID de Registro no existe en la tabla',MsgTip='Llene correctamente el campo ID de Registro con un ID válido en la tabla seleccionada',Updated=TO_TIMESTAMP('2010-12-11 17:56:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53124 AND AD_Language='es_CO'
+UPDATE AD_Message_Trl SET IsTranslated='Y',MsgText='ID de Registro no existe en la tabla',MsgTip='Llene correctamente el campo ID de Registro con un ID válido en la tabla seleccionada',Updated=TO_TIMESTAMP('2010-12-11 17:56:17','YYYY-MM-DD HH24:MI:SS'),UpdatedBy=100 WHERE AD_Message_ID=53124 AND AD_Language LIKE 'es_%'
 ;
 
