@@ -2,6 +2,8 @@ syntax: glob
 build
 
 syntax: regexp
+^.DS_Store$
+^tools/.DS_Store$
 ^bin
 ^adempiere$
 ^base/Base\.jar$
