@@ -196,9 +196,9 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
 	        	Panel panel = new Panel();
 	        	panel.setStyle("margin-bottom:10px");
-	        	panel.setTitle(dp.getName());
+	        	panel.setTitle(dp.get_Translation(MDashboardContent.COLUMNNAME_Name));
 
-	        	String description = dp.getDescription();
+	        	String description = dp.get_Translation(MDashboardContent.COLUMNNAME_Description);
             	if(description != null)
             		panel.setTooltiptext(description);
 
