@@ -1,2 +1,0 @@
--- FR 1782412 - Add Document Action Access Functionality - wrong column type
--- Just for postgresql
