@@ -689,13 +689,17 @@ public class MDDOrder extends X_DD_Order implements DocAction
 	{
 		if (is_ValueChanged(columnName))
 		{
-			String sql = "UPDATE DD_OrderLine ol"
-				+ " SET " + columnName + " ="
-					+ "(SELECT " + columnName
-					+ " FROM DD_Order o WHERE ol.DD_Order_ID=o.DD_Order_ID) "
-				+ "WHERE DD_Order_ID=" + getDD_Order_ID();
-			int no = DB.executeUpdate(sql, get_TrxName());
-			log.fine(columnName + " Lines -> #" + no);
+		    	final String whereClause = I_DD_Order.COLUMNNAME_DD_Order_ID + "=?";
+		    	List<MDDOrderLine> lines = new Query (getCtx(), I_DD_OrderLine.Table_Name, whereClause, get_TrxName())
+		    	.setParameters(getDD_Order_ID())
+		    	.list();
+		    	
+		    	for (MDDOrderLine line : lines)
+		    	{
+		    	    line.set_ValueOfColumn(columnName, get_Value(columnName));
+		    	    line.saveEx();
+		    	    log.fine(columnName + " Lines -> #" + get_Value(columnName));
+		    	}		    	
 		}		
 	}	//	afterSaveSync
 	

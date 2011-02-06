@@ -72,7 +72,7 @@ public class InOutCreateInvoice extends SvrProcess
 		if (p_M_InOut_ID == 0)
 			throw new IllegalArgumentException("No Shipment");
 		//
-		MInOut ship = new MInOut (getCtx(), p_M_InOut_ID, null);
+		MInOut ship = new MInOut (getCtx(), p_M_InOut_ID, get_TrxName());
 		if (ship.get_ID() == 0)
 			throw new IllegalArgumentException("Shipment not found");
 		if (!MInOut.DOCSTATUS_Completed.equals(ship.getDocStatus()))
