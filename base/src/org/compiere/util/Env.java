@@ -1228,30 +1228,6 @@ public final class Env
 	}
 	
 	/**
-	 * Clean up context for Window Tab (i.e. delete it).
-	 * Please note that this method is not clearing the tab info context (i.e. _TabInfo).
-	 * @param ctx context
-	 * @param WindowNo window
-	 * @param TabNo tab
-	 */
-	public static void clearTabContext(Properties ctx, int WindowNo, int TabNo)
-	{
-		if (ctx == null)
-			throw new IllegalArgumentException ("Require Context");
-		//
-		Object[] keys = ctx.keySet().toArray();
-		for (int i = 0; i < keys.length; i++)
-		{
-			String tag = keys[i].toString();
-			if (tag.startsWith(WindowNo+"|"+TabNo+"|")
-					&& !tag.startsWith(WindowNo+"|"+TabNo+"|_TabInfo"))
-			{
-				ctx.remove(keys[i]);
-			}
-		}
-	}
-	
-	/**
 	 *	Clean up all context (i.e. delete it)
 	 *  @param ctx context
 	 */
