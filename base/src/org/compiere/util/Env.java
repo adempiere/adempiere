@@ -1054,6 +1054,33 @@ public final class Env
 		return Language.getLoginLanguage();
 	}	//	getLanguage
 
+	public static ArrayList<String> getSupportedLanguages()
+	{
+		ArrayList<String> AD_Languages = new ArrayList<String>();
+		String sql = "SELECT DISTINCT AD_Language FROM AD_Message_Trl";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try
+		{
+			pstmt = DB.prepareStatement(sql, null);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+			{
+				String AD_Language = rs.getString(1);
+				AD_Languages.add(AD_Language);
+			}
+		}
+		catch (SQLException e)
+		{
+			s_log.log(Level.SEVERE, "", e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		return AD_Languages;
+	}
+
 	/**
 	 *  Verify Language.
 	 *  Check that language is supported by the system
