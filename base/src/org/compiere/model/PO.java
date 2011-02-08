@@ -90,12 +90,12 @@ import org.w3c.dom.Element;
  *			<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
  */
 public abstract class PO
-	implements Serializable, Comparator, Evaluatee
+	implements Serializable, Comparator, Evaluatee, Cloneable
 {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 6604764467216189092L;
+	private static final long serialVersionUID = -4708137979682082002L;
 
 	private static final String USE_TIMEOUT_FOR_UPDATE = "org.adempiere.po.useTimeoutForUpdate";
 
@@ -3991,5 +3991,47 @@ public abstract class PO
 		}
 		return false;
 	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		PO clone = (PO) super.clone();
+		clone.m_trxName = null;
+		if (m_custom != null)
+		{
+			clone.m_custom = new HashMap<String, String>();
+			clone.m_custom.putAll(m_custom);
+		}
+		if (m_newValues != null)
+		{
+			clone.m_newValues = new Object[m_newValues.length];
+			for(int i = 0; i < m_newValues.length; i++)
+			{
+				clone.m_newValues[i] = m_newValues[i];
+			}
+		}
+		if (m_oldValues != null)
+		{
+			clone.m_oldValues = new Object[m_oldValues.length];
+			for(int i = 0; i < m_oldValues.length; i++)
+			{
+				clone.m_oldValues[i] = m_oldValues[i];
+			}
+		}
+		if (m_IDs != null)
+		{
+			clone.m_IDs = new Object[m_IDs.length];
+			for(int i = 0; i < m_IDs.length; i++)
+			{
+				clone.m_IDs[i] = m_IDs[i];
+			}
+		}
+		clone.p_ctx = Env.getCtx();
+		clone.m_doc = null;
+		clone.m_lobInfo = null;
+		clone.m_attachment = null;
+		clone.m_isReplication = false;
+		return clone;
+	}
+
 
 }   //  PO

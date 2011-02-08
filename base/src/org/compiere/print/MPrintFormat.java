@@ -29,6 +29,7 @@ import javax.sql.RowSet;
 
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
+import org.compiere.model.PO;
 import org.compiere.model.X_AD_PrintFormat;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -51,7 +52,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3626220385155526700L;
+	private static final long serialVersionUID = -5475500787921763987L;
 
 	/**
 	 *	Public Constructor.
@@ -64,7 +65,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	{
 		super (ctx, AD_PrintFormat_ID, trxName);
 		//	Language=[Deutsch,Locale=de_DE,AD_Language=en_US,DatePattern=DD.MM.YYYY,DecimalPoint=false]
-		m_language = Language.getLoginLanguage();
+		m_language = Env.getLanguage(ctx);
 		if (AD_PrintFormat_ID == 0)
 		{
 			setStandardHeaderFooter(true);
@@ -84,7 +85,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	public MPrintFormat (Properties ctx, ResultSet rs, String trxName)
 	{
 		super(ctx, rs, trxName);
-		m_language = Language.getLoginLanguage();
+		m_language = Env.getLanguage(ctx);
 		m_items = getItems();
 	}	//	MPrintFormat
 
@@ -823,6 +824,15 @@ public class MPrintFormat extends X_AD_PrintFormat
 			else
 				s_formats.put(key, pf);
 		}
+
+		if (pf != null)
+		{
+			try {
+				pf = pf.clone();
+			} catch (CloneNotSupportedException e) {
+				throw new RuntimeException(e);
+			}
+		}
 		return pf;
 	}	//	get
 
@@ -925,11 +935,23 @@ public class MPrintFormat extends X_AD_PrintFormat
 			DB.close(pstmt);
 			pstmt = null;
 		}
-		
+
 		return rowSet;
 	}
 
-	
+	@Override
+	public MPrintFormat clone() throws CloneNotSupportedException {
+		MPrintFormat clone = (MPrintFormat) super.clone();
+		clone.m_items = m_items == null ? null : new MPrintFormatItem[m_items.length];
+		for(int i = 0; i < m_items.length; i++) {
+			clone.m_items[i] = m_items[i];
+		}
+		clone.m_tFormat = m_tFormat;
+		clone.m_language = Env.getLanguage(Env.getCtx());
+		clone.m_translationViewLanguage = null;
+		return clone;
+	}
+
 	/**************************************************************************
 	 * 	Test
 	 * 	@param args arga

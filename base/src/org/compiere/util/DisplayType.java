@@ -368,7 +368,7 @@ public final class DisplayType
 	{
 		Language myLanguage = language;
 		if (myLanguage == null)
-			myLanguage = Language.getLoginLanguage();
+			myLanguage = Env.getLanguage(Env.getCtx());
 		//
 		if ( pattern != null && pattern.length() > 0)
 		{
