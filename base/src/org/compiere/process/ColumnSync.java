@@ -75,86 +75,9 @@ public class ColumnSync extends SvrProcess
 		if (column.get_ID() == 0)
 			throw new AdempiereUserError("@NotFound@ @AD_Column_ID@ " + p_AD_Column_ID);
 		
-		MTable table = new MTable(getCtx(), column.getAD_Table_ID(), get_TrxName());
-		if (table.get_ID() == 0)
-			throw new AdempiereUserError("@NotFound@ @AD_Table_ID@ " + column.getAD_Table_ID());
-		
-		//	Find Column in Database
-		Connection conn = null;
-		try {
-			conn = DB.getConnectionRO();
-			DatabaseMetaData md = conn.getMetaData();
-			String catalog = DB.getDatabase().getCatalog();
-			String schema = DB.getDatabase().getSchema();
-			String tableName = table.getTableName();
-			if (md.storesUpperCaseIdentifiers())
-			{
-				tableName = tableName.toUpperCase();
-			}
-			else if (md.storesLowerCaseIdentifiers())
-			{
-				tableName = tableName.toLowerCase();
-			}
-			int noColumns = 0;
-			String sql = null;
-			//
-			ResultSet rs = md.getColumns(catalog, schema, tableName, null);
-			while (rs.next())
-			{
-				noColumns++;
-				String columnName = rs.getString ("COLUMN_NAME");
-				if (!columnName.equalsIgnoreCase(column.getColumnName()))
-					continue;
-				
-				//	update existing column
-				boolean notNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
-				sql = column.getSQLModify(table, column.isMandatory() != notNull);
-				break;
-			}
-			rs.close();
-			rs = null;
-		
-			//	No Table
-			if (noColumns == 0)
-				sql = table.getSQLCreate ();
-			//	No existing column
-			else if (sql == null)
-				sql = column.getSQLAdd(table);
-			
-			int no = 0;
-			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
-			{
-				no = DB.executeUpdate(sql, false, get_TrxName());
-				addLog (0, null, new BigDecimal(no), sql);
-			}
-			else
-			{
-				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
-				for (int i = 0; i < statements.length; i++)
-				{
-					int count = DB.executeUpdate(statements[i], false, get_TrxName());
-					addLog (0, null, new BigDecimal(count), statements[i]);
-					no += count;
-				}
-			}
-	
-			if (no == -1)
-			{
-				String msg = "@Error@ ";
-				ValueNamePair pp = CLogger.retrieveError();
-				if (pp != null)
-					msg = pp.getName() + " - ";
-				msg += sql;
-				throw new AdempiereUserError (msg);
-			}
-			return sql;
-		} finally {
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (Exception e) {}
-			}
-		}
+		String sql = column.syncDatabase();
+		addLog(sql);
+		return sql;
 	}	//	doIt
 
 }	//	ColumnSync

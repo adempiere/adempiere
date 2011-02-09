@@ -51,6 +51,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
+import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
 import org.compiere.util.Trace;
@@ -243,6 +244,17 @@ public abstract class PO
 
 	/** Trifon - Indicates that this record is created by replication functionality.*/
 	private boolean m_isReplication = false;
+	
+	/** Do not overwrite assigned ID with generated one */
+	private boolean isAssignedID = false;
+
+	public boolean isAssignedID() {
+		return isAssignedID;
+	}
+
+	public void setIsAssignedID(boolean assignedID) {
+		isAssignedID = assignedID;
+	}
 
 	/** Access Level S__ 100	4	System info			*/
 	public static final int ACCESSLEVEL_SYSTEM = 4;
@@ -2341,6 +2353,9 @@ public abstract class PO
 		MSession session = MSession.get (p_ctx, false);
 		if (session == null)
 			log.fine("No Session found");
+		// log migration
+		else if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+			session.logMigration(this, p_info, MMigrationStep.ACTION_Update);
 		int AD_ChangeLog_ID = 0;
 
 		int size = get_ColumnCount();
@@ -2536,7 +2551,8 @@ public abstract class PO
 	{
 		//  Set ID for single key - Multi-Key values need explicitly be set previously
 		if (m_IDs.length == 1 && p_info.hasKeyColumn()
-			&& m_KeyColumns[0].endsWith("_ID"))	//	AD_Language, EntityType
+			&& m_KeyColumns[0].endsWith("_ID")
+			&& !isAssignedID )	//	AD_Language, EntityType
 		{
 			int no = saveNew_getID();
 			if (no <= 0)
@@ -2601,6 +2617,9 @@ public abstract class PO
 		MSession session = MSession.get (p_ctx, false);
 		if (session == null)
 			log.fine("No Session found");
+		// log migration
+		else if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+			session.logMigration(this, p_info, MMigrationStep.ACTION_Insert);
 		int AD_ChangeLog_ID = 0;
 
 		//	SQL
@@ -2948,13 +2967,17 @@ public abstract class PO
 		{
 			if (success)
 			{
+
+				MSession session = MSession.get (p_ctx, false);
+				if (session == null)
+					log.fine("No Session found");
+				else if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
+					session.logMigration(this, p_info, MMigrationStep.ACTION_Delete);
+				
 				if( p_info.isChangeLog())
 				{
 					//	Change Log
-					MSession session = MSession.get (p_ctx, false);
-					if (session == null)
-						log.fine("No Session found");
-					else if (m_IDs.length == 1)
+					if (session != null && m_IDs.length == 1)
 					{
 						int AD_ChangeLog_ID = 0;
 						int size = get_ColumnCount();
