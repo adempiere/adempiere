@@ -70,8 +70,11 @@ import org.eevolution.exceptions.RoutingExpiredException;
  */
 public class MPPOrder extends X_PP_Order implements DocAction
 {
-	private static final long serialVersionUID = 1L;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7341647141173120822L;
+
 	/**
 	 * get Manufacturing Order based in Sales Order ID
 	 * @param ctx Context
@@ -1499,8 +1502,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
 			{
-				MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
-				PP_Order_Cost.saveEx();
+				//Create or Update the Order Cost dimension
+				MPPOrderCost.createOrderCostDimensionint(get_ID(), cost);	
 			}
 		}
 		//
@@ -1522,8 +1525,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
 			{
-				MPPOrderCost PP_Order_Cost = new MPPOrderCost(cost, get_ID(), get_TrxName());
-				PP_Order_Cost.saveEx();
+				//Create or Update the Order Cost dimension
+				MPPOrderCost.createOrderCostDimensionint(get_ID(), cost);		
 			}
 		}
 		//
@@ -1550,8 +1553,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			Collection<MCost> costs = d.toQuery(MCost.class, get_TrxName()).list();
 			for (MCost cost : costs)
 			{
-				MPPOrderCost orderCost = new MPPOrderCost(cost, getPP_Order_ID(), get_TrxName());
-				orderCost.saveEx();
+				//Create or Update the Order Cost dimension
+				MPPOrderCost.createOrderCostDimensionint(get_ID(), cost);	
 			}
 		}
 	}

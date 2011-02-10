@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.util.Properties;
 
 import org.compiere.model.MCost;
+import org.compiere.model.Query;
 
 /**
  * PP Order Cost Model.
@@ -30,7 +31,63 @@ import org.compiere.model.MCost;
  */
 public class MPPOrderCost extends X_PP_Order_Cost
 {
-	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5350327491217294969L;
+
+	/**
+	 * Create Order Cost Dimension based on Cost Dimension
+	 * @param PP_Order_ID Manufacturing Order
+	 * @param cost Cost Dimension
+	 * @return Order Cost Dimension
+	 */
+	public static MPPOrderCost createOrderCostDimensionint (int PP_Order_ID ,MCost cost)
+	{
+		// Check if we already added this cost dimension
+		MPPOrderCost orderCostDimension = MPPOrderCost.getByCostDimension(PP_Order_ID,cost);
+		if(orderCostDimension == null)
+		{	
+		   orderCostDimension = new MPPOrderCost(cost, PP_Order_ID, cost.get_TrxName());
+		}
+		else 
+		{
+			orderCostDimension.setCostDimension(cost);
+		}
+		orderCostDimension.saveEx();
+		return orderCostDimension;
+	}
+	
+	/**
+	 * get Order Cost Dimension 
+	 * @param PP_Order_ID Manufacturing Order ID
+	 * @param cost Cost Dimension
+	 * @return MPPOrderCost Order Cost Dimension
+	 */
+	public static MPPOrderCost getByCostDimension(int PP_Order_ID , MCost cost)
+	{
+		final StringBuffer whereClause = new StringBuffer();
+		whereClause.append(MPPOrderCost.COLUMNNAME_PP_Order_ID + "=? AND ");
+		whereClause.append(MPPOrderCost.COLUMNNAME_AD_Org_ID+ "=? AND "); 
+		whereClause.append(MPPOrderCost.COLUMNNAME_C_AcctSchema_ID + "=? AND ");
+		whereClause.append(MPPOrderCost.COLUMNNAME_M_CostType_ID+ "=? AND "); 
+		whereClause.append(MPPOrderCost.COLUMNNAME_M_CostElement_ID+ "=? AND "); 
+		whereClause.append(MPPOrderCost.COLUMNNAME_M_Product_ID+ "=? AND "); 
+		whereClause.append(MPPOrderCost.COLUMNNAME_M_AttributeSetInstance_ID+ "=? ");
+		
+		return new Query(cost.getCtx(), I_PP_Order_Cost.Table_Name, whereClause.toString(), cost.get_TrxName())
+		.setClient_ID()
+		.setParameters(
+				PP_Order_ID,
+				cost.getAD_Org_ID(), 
+				cost.getC_AcctSchema_ID(), 
+				cost.getM_CostType_ID(), 
+				cost.getM_CostElement_ID(), 
+				cost.getM_Product_ID(), 
+				cost.getM_AttributeSetInstance_ID())
+		.firstOnly();
+	}
 
 	public MPPOrderCost(Properties ctx, int PP_Order_Cost_ID,String trxName)
 	{
@@ -50,8 +107,17 @@ public class MPPOrderCost extends X_PP_Order_Cost
 	public MPPOrderCost(MCost cost, int PP_Order_ID, String trxName)
 	{
 		this(cost.getCtx(), 0, trxName);
-		setClientOrg(cost);
 		setPP_Order_ID(PP_Order_ID);
+		setCostDimension(cost);
+	}
+	
+	/**
+	 * Set Values from Cost Dimension  
+	 * @param cost
+	 */
+	public void setCostDimension(MCost cost)
+	{
+		setClientOrg(cost);
 		setC_AcctSchema_ID(cost.getC_AcctSchema_ID());
 		setM_CostType_ID(cost.getM_CostType_ID());
 		setCumulatedAmt(cost.getCumulatedAmt());
