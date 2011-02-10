@@ -93,7 +93,10 @@ public class CostEngine
 				element.getM_CostElement_ID());
 		MCost cost = d.toQuery(MCost.class, trxName).firstOnly();
 		if(cost == null)
-			throw new AdempiereException("@NotFound@ @M_Cost_ID@ - "+as+", "+element); 
+		{	
+			return Env.ZERO;
+			//throw new AdempiereException("@NotFound@ @M_Cost_ID@ - "+as+", "+element); 
+		}	
 		BigDecimal price = cost.getCurrentCostPrice().add(cost.getCurrentCostPriceLL());
 		return roundCost(price, as.getC_AcctSchema_ID());
 	}

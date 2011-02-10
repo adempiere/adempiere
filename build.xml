@@ -1,4 +1,4 @@
-<project name="Libero" default="dist" basedir=".">
+<project name="Libero" default="zkdist" basedir=".">
     <description>
         Building Libero liberoMFG.jar
         by
@@ -8,14 +8,21 @@
   <!-- set global properties for this build -->
   <property file="build.properties"/>
   <import file="${adempiere.trunk}/utils_dev/properties.xml"/>
-  <property name="src" location="extension/eevolution/libero/src/main"/>
-  <property name="build" location="build"/>
-  <property name="dist"  location="dist"/>
+  <property name="src" location="${basedir}/extension/eevolution/libero/src/main"/>
+  <property name="build" location="${basedir}/build"/>
+  <property name="dist"  location="${basedir}/dist"/>
+  <property name="zksrc" value="${basedir}/zkwebui/WEB-INF/src"/>
+  <property name="zkclasses" value="${basedir}/WEB-INF/classes"/>
 
-  <path id="lib.class.path">
-     <fileset dir="${env.ADEMPIERE_HOME}/lib">
-        <include name="*.jar"/>
-     </fileset>
+  <path id="compile.classpath">
+    <pathelement location="${basedir}/build"/>
+    <pathelement location="${adempiere.trunk}/zkwebui/WEB-INF/classes"/>
+    <fileset dir="${adempiere.trunk}/lib">
+      <include name="*.jar"/>
+    </fileset>
+    <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
+      <include name="*.jar"/>
+    </fileset>
   </path>
 
   <target name="init" depends="clean">
@@ -25,6 +32,8 @@
     <tstamp/>
     <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
+    <!-- Create the classes directory structure used by compile -->
+    <mkdir dir="${zkclasses}"/>
   </target>
 
   <target name="compile" depends="init"
@@ -32,9 +41,8 @@
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${src}" destdir="${build}">
       <exclude name="**/org/eevolution/plugin/*.java"/>
-      <classpath refid="lib.class.path"/>
+      <classpath refid="compile.classpath"/>
     </javac>
-
   </target>
 
   <target name="dist" depends="compile"
@@ -51,13 +59,37 @@
     <!-- Transfer liberoMFG.jar -->
     <copy file="${dist}/lib/liberoMFG.jar" todir="${env.ADEMPIERE_HOME}/packages/liberoMFG/lib"/>
     <copy file="${dist}/lib/liberoMFG.jar" todir="${adempiere.trunk}/packages/"/>
+  </target>
 
+  <target name="zkcompile" depends="dist"
+        description="compile the source " >
+    <!-- Compile the zk java code from ${src} into ${zkclasses} -->
+    <javac srcdir="${zksrc}" destdir="${zkclasses}">
+      <classpath refid="compile.classpath"/>
+    </javac>
+  </target>
+
+  <target name="zkdist" depends="zkcompile"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${zkclasses} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/liberozkMFG.jar" basedir="${basedir}" includes="WEB-INF/"/>
+
+    <!-- Create target Liberozk deployment -->
+    <mkdir dir="${env.ADEMPIERE_HOME}/zkpackages/liberozkMFG/lib"/>
+
+    <!-- Transfer liberozkMFG.jar -->
+    <copy file="${dist}/lib/liberozkMFG.jar" todir="${env.ADEMPIERE_HOME}/zkpackages/liberozkMFG/lib"/>
+    <copy file="${dist}/lib/liberozkMFG.jar" todir="${adempiere.trunk}/zkpackages/"/>
   </target>
 
   <target name="clean"
         description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
+    <!-- Delete the ${build}, ${dist} and ${zkclasses} directory trees -->
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
+    <delete dir="${zkclasses}"/>
   </target>
 </project>
