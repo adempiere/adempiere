@@ -390,7 +390,7 @@ public class MPPMRP extends X_PP_MRP
 		//
 		// In case we query for PP_Order, we need to assure that no BOM Lines records are returned.
 		// The TypeMRP=D/S filter is not enough since a BOM Line can produce a supply (e.g. co-product)
-		if (po instanceof MPPOrder)
+		if (po instanceof MPPOrder && TYPEMRP_Supply.equals(typeMRP))
 		{
 			whereClause.append(" AND ").append(COLUMNNAME_PP_Order_BOMLine_ID).append(" IS NULL");
 		}
