@@ -47,7 +47,7 @@ import org.zkoss.zul.Space;
  */
 public class WInvoiceGen extends InvoiceGen implements IFormController, EventListener, ValueChangeListener
 {
-	private static WGenForm form;
+	private WGenForm form;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(WInvoiceGen.class);
