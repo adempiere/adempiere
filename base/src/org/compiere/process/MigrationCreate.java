@@ -71,7 +71,7 @@ public class MigrationCreate extends SvrProcess {
 		for (PO po : pos)
 		{
 			POInfo info =  POInfo.getPOInfo(getCtx(), tableId, get_TrxName());
-			MMigrationStep step = new MMigrationStep(migration, po, info, MMigrationStep.ACTION_Insert)
+			MMigrationStep step = new MMigrationStep(migration, po, info, MMigrationStep.ACTION_Insert);
 		}
 		
 		return "@OK@";
