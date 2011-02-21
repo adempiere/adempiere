@@ -19,15 +19,10 @@ package org.eevolution.form;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.exceptions.DBException;
 import org.adempiere.webui.component.Button;
 import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.Grid;
@@ -54,32 +49,25 @@ import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
 import org.adempiere.webui.session.SessionManager;
-import org.compiere.minigrid.ColumnInfo;
-import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
-import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLocator;
 import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
-import org.compiere.model.MStorage;
 import org.compiere.model.MTab;
 import org.compiere.model.MWindow;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPOrderBOMLine;
-import org.eevolution.model.MPPProductBOMLine;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
@@ -98,14 +86,17 @@ import org.zkoss.zul.Tabpanels;
 /**
  *  @author Cristina Ghita, www.arhipac.ro
  *  @author Adi Takacs, www.arhipac.ro
+ *  @author victor.perez@e-evolution.com, www.e-evolution.com
  */
 
-public class WOrderReceiptIssue  implements IFormController, EventListener,  
+public class WOrderReceiptIssue extends OrderReceiptIssue  implements IFormController, EventListener,  
 ValueChangeListener,Serializable,WTableModelListener  
 {
 
-	private static final long serialVersionUID = 1544662359277562456L;
-
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3451096834043054791L;
 	/**	Window No			*/
 	private int m_WindowNo = 0;
 	private String m_sql;
@@ -305,63 +296,63 @@ ValueChangeListener,Serializable,WTableModelListener
 		// 1st
 		Row tmpRow = tmpRows.newRow();
 		
-		tmpRow.appendChild(orderLabel);
+		tmpRow.appendChild(orderLabel.rightAlign());
 		tmpRow.appendChild(orderField.getComponent());		
 		resourceLabel.setText(Msg.translate(Env.getCtx(), "S_Resource_ID"));
-		tmpRow.appendChild(resourceLabel);
+		tmpRow.appendChild(resourceLabel.rightAlign());
 		tmpRow.appendChild(resourceField.getComponent());		
 		warehouseLabel.setText(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
-		tmpRow.appendChild(warehouseLabel);
+		tmpRow.appendChild(warehouseLabel.rightAlign());
 		tmpRow.appendChild(warehouseField.getComponent());
 		
 		// Product 2nd
 		tmpRow = tmpRows.newRow();
 		
-		tmpRow.appendChild(productLabel);
+		tmpRow.appendChild(productLabel.rightAlign());
 		tmpRow.appendChild(productField.getComponent());		
-		tmpRow.appendChild(uomLabel);
+		tmpRow.appendChild(uomLabel.rightAlign());
 		tmpRow.appendChild(uomField.getComponent());	
-		tmpRow.appendChild(uomorderLabel);
+		tmpRow.appendChild(uomorderLabel.rightAlign());
 		tmpRow.appendChild(uomorderField.getComponent());
 		
 		tmpRow = tmpRows.newRow();
 		
 		orderedQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOrdered"));
-		tmpRow.appendChild(orderedQtyLabel);
+		tmpRow.appendChild(orderedQtyLabel.rightAlign());
 		tmpRow.appendChild(orderedQtyField.getComponent());
 		deliveredQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyDelivered"));
-		tmpRow.appendChild(deliveredQtyLabel);
+		tmpRow.appendChild(deliveredQtyLabel.rightAlign());
 		tmpRow.appendChild(deliveredQtyField.getComponent());	
 		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOpen"));
-		tmpRow.appendChild(openQtyLabel);
+		tmpRow.appendChild(openQtyLabel.rightAlign());
 		tmpRow.appendChild(openQtyField.getComponent());
 		//3rd
 		tmpRow = tmpRows.newRow();
 		
-		tmpRow.appendChild(productLabel);
+		tmpRow.appendChild(productLabel.rightAlign());
 		tmpRow.appendChild(productField.getComponent());		
-		tmpRow.appendChild(uomLabel);
+		tmpRow.appendChild(uomLabel.rightAlign());
 		tmpRow.appendChild(uomField.getComponent());	
-		tmpRow.appendChild(uomorderLabel);
+		tmpRow.appendChild(uomorderLabel.rightAlign());
 		tmpRow.appendChild(uomorderField.getComponent());
 		//4th
 		tmpRow = tmpRows.newRow();
 		
 		QtyBatchsLabel.setText(Msg.translate(Env.getCtx(), "QtyBatchs"));
-		tmpRow.appendChild(QtyBatchsLabel);
+		tmpRow.appendChild(QtyBatchsLabel.rightAlign());
 		tmpRow.appendChild(qtyBatchsField.getComponent());
 		QtyBatchSizeLabel.setText(Msg.translate(Env.getCtx(), "QtyBatchSize"));
-		tmpRow.appendChild(QtyBatchSizeLabel);
+		tmpRow.appendChild(QtyBatchSizeLabel.rightAlign());
 		tmpRow.appendChild(qtyBatchSizeField.getComponent());	
 		openQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyOpen"));
-		tmpRow.appendChild(openQtyLabel);
+		tmpRow.appendChild(openQtyLabel.rightAlign());
 		tmpRow.appendChild(openQtyField.getComponent());
 		//5th
 		tmpRow = tmpRows.newRow();
 		
-		tmpRow.appendChild(labelcombo);
+		tmpRow.appendChild(labelcombo.rightAlign());
 		tmpRow.appendChild(pickcombo);
-		tmpRow.appendChild(backflushGroupLabel);
+		tmpRow.appendChild(backflushGroupLabel.rightAlign());
 		tmpRow.appendChild(backflushGroup);
 		tmpRow.appendChild(new Space());
 		tmpRow.appendChild(new Space());
@@ -369,25 +360,25 @@ ValueChangeListener,Serializable,WTableModelListener
 		tmpRow = tmpRows.newRow();
 		
 		toDeliverQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyToDeliver"));
-		tmpRow.appendChild(toDeliverQtyLabel);
+		tmpRow.appendChild(toDeliverQtyLabel.rightAlign());
 		tmpRow.appendChild(toDeliverQty.getComponent());
 		scrapQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyScrap"));
-		tmpRow.appendChild(scrapQtyLabel);
+		tmpRow.appendChild(scrapQtyLabel.rightAlign());
 		tmpRow.appendChild(scrapQtyField.getComponent());
 		rejectQtyLabel.setText(Msg.translate(Env.getCtx(), "QtyReject"));
-		tmpRow.appendChild(rejectQtyLabel);
+		tmpRow.appendChild(rejectQtyLabel.rightAlign());
 		tmpRow.appendChild(rejectQty.getComponent());
 		//7th
 		tmpRow = tmpRows.newRow();
 		
 		movementDateLabel.setText(Msg.translate(Env.getCtx(), "MovementDate"));
-		tmpRow.appendChild(movementDateLabel);
+		tmpRow.appendChild(movementDateLabel.rightAlign());
 		tmpRow.appendChild(movementDateField.getComponent());
 		locatorLabel.setText(Msg.translate(Env.getCtx(), "M_Locator_ID"));
-		tmpRow.appendChild(locatorLabel);
+		tmpRow.appendChild(locatorLabel.rightAlign());
 		tmpRow.appendChild(locatorField.getComponent());
 		attributeLabel.setText(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"));
-		tmpRow.appendChild(attributeLabel);
+		tmpRow.appendChild(attributeLabel.rightAlign());
 		tmpRow.appendChild(attribute.getComponent());
 		ReceiptIssueOrder.appendChild(center);
 		center.appendChild(issue);
@@ -443,32 +434,7 @@ ValueChangeListener,Serializable,WTableModelListener
 	
 	public void prepareTable(IMiniTable miniTable)
 	{
-		m_sql=issue.prepareTable(new ColumnInfo[] 
-                  {
-					new ColumnInfo(" ", "obl.PP_Order_BOMLine_ID as id", IDColumn.class, false, false, null),		
-					new ColumnInfo(Msg.translate(Env.getCtx(), "IsCritical"),"obl.IsCritical as isCritical",Boolean.class,true,true,null),		
-					new ColumnInfo(Msg.translate(Env.getCtx(), "Value"),"p.Value as Value",String.class, true,true,null),		
-					new ColumnInfo(Msg.translate(Env.getCtx(), "M_Product_ID"),"obl.M_Product_ID as id_p,p.Name as name_p",KeyNamePair.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "C_UOM_ID"),"p.C_UOM_ID as id_u ,u.Name as name_u",KeyNamePair.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"),"obl.ComponentType as componentType",String.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyRequired"),"obl.QtyRequiered as qtyRequired",BigDecimal.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyDelivered"),"obl.QtyDelivered as qtyDelivered",BigDecimal.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyToDeliver"),"obl.QtyRequiered - QtyDelivered AS qtyOpen",BigDecimal.class, false,false,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyScrap"),MPPOrderBOMLine.COLUMNNAME_QtyScrap,BigDecimal.class, false,false,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyOnHand"),"bomQtyOnHand(obl.M_Product_ID,obl.M_Warehouse_ID,0) AS qtyOnHand", BigDecimal.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyReserved"),"obl.QtyReserved as QtyReserved", BigDecimal.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyAvailable"),"bomQtyAvailable(obl.M_Product_ID,obl.M_Warehouse_ID,0 ) AS QtyAvailable", BigDecimal.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "M_Locator_ID"),"p.M_Locator_ID", String.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "M_Warehouse_ID"),"obl.M_Warehouse_ID as id_w,w.Name as name_w", KeyNamePair.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyBom"),"obl.QtyBom as qtyBom", BigDecimal.class, true,true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "IsQtyPercentage"),"obl.isQtyPercentage as isQtyPercentage", Boolean.class, true, true,null),
-					new ColumnInfo(Msg.translate(Env.getCtx(), "QtyBatch"),"obl.QtyBatch as qtyBatch", BigDecimal.class, true,true,null)
-                  }, 
-                  "PP_Order_BOMLine obl"
-				+ " INNER JOIN M_Product p ON (obl.M_Product_ID = p.M_Product_ID) "
-				+ " INNER JOIN C_UOM u ON (p.C_UOM_ID = u.C_UOM_ID) "
-				+ " INNER JOIN M_Warehouse w ON (w.M_Warehouse_ID = obl.M_Warehouse_ID) ", " obl.PP_Order_ID = ?", 
-				true, "obl");
+		configureMiniTable(miniTable);
 	}
 	
 	/**
@@ -528,7 +494,9 @@ ValueChangeListener,Serializable,WTableModelListener
 			{				
 				try 
 				{
-					if (cmd_process())
+					final boolean isCloseDocument = (Messagebox.show(Msg.parseTranslation(Env.getCtx(),"@IsCloseDocument@ : "+  getPP_Order().getDocumentNo()),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION) == Messagebox.OK);
+
+					if (cmd_process(isCloseDocument, issue))
 					{
 						dispose();
 						return;
@@ -611,301 +579,16 @@ ValueChangeListener,Serializable,WTableModelListener
 	 */
 	public void executeQuery()
 	{
-
-		final String sql = m_sql + " ORDER BY obl."+MPPOrderBOMLine.COLUMNNAME_Line;
-		
+		m_sql = m_sql + " ORDER BY obl."+MPPOrderBOMLine.COLUMNNAME_Line;
 		//  reset table
 		issue.clearTable();
-		int row = 0;
-		issue.setRowCount(row);
-		//  Execute
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, getPP_Order_ID());
-			
-			rs = pstmt.executeQuery();
-
-			while (rs.next())
-			{
-				//  extend table
-				issue.setRowCount(row + 1);
-				//  set values
-				//issue.
-				IDColumn   id                    = new IDColumn(rs.getInt("id"));
-				BigDecimal qtyBom                = rs.getBigDecimal("qtyBom");
-				Boolean    isQtyPercentage       = rs.getString("isQtyPercentage").equals("Y");
-				Boolean    isCritical	         = rs.getString("isCritical").equals("Y");
-				BigDecimal qtyBatch              = rs.getBigDecimal("qtyBatch");
-				BigDecimal qtyRequired           = rs.getBigDecimal("qtyRequired");
-				BigDecimal qtyOnHand             = rs.getBigDecimal("qtyOnHand");
-				BigDecimal qtyOpen               = rs.getBigDecimal("qtyOpen");
-				BigDecimal qtyDelivered          = rs.getBigDecimal("qtyDelivered");
-				String     componentType         = rs.getString("componentType");
-				BigDecimal toDeliverQty          = getToDeliverQty();
-				BigDecimal openQty               = getOpenQty();
-				BigDecimal scrapQty              = getScrapQty();
-				BigDecimal componentToDeliverQty = Env.ZERO;
-				BigDecimal componentScrapQty     = Env.ZERO;
-				BigDecimal componentQtyReq       = Env.ZERO;
-				BigDecimal componentQtyToDel     = Env.ZERO;
-
-				id.setSelected(isOnlyReceipt());
-
-				issue.setValueAt(id, row, 0);                                                // PP_OrderBOMLine_ID
-				issue.setValueAt(isCritical, row, 1);                       				 // IsCritical
-				issue.setValueAt(rs.getString("Value"), row, 2);                                   // Product's Search key
-				issue.setValueAt(new KeyNamePair(rs.getInt("id_p"), rs.getString("name_p")), row, 3);    // Product
-				issue.setValueAt(new KeyNamePair(rs.getInt("id_u"), rs.getString("name_u")), row, 4);    // UOM				
-				// ... 5 - ASI
-				issue.setValueAt(qtyRequired, row, 6);                                       // QtyRequiered
-				issue.setValueAt(qtyDelivered, row, 7);                              		 // QtyDelivered
-				
-				// ... 8, 9, 10 - QtyToDeliver, QtyScrap, QtyOnHand
-				issue.setValueAt(qtyOnHand, row, 10);                                        // OnHand
-				issue.setValueAt(rs.getBigDecimal("QtyReserved"), row, 11);                              // QtyReserved
-				issue.setValueAt(rs.getBigDecimal("QtyAvailable"), row, 12);                             // QtyAvailable
-				// ... 13 - M_Locator_ID
-				issue.setValueAt(new KeyNamePair(rs.getInt("id_w"), rs.getString("name_w")), row, 14); // Warehouse
-				issue.setValueAt(qtyBom, row, 15);                                           // QtyBom
-				issue.setValueAt(isQtyPercentage, row, 16);                                  // isQtyPercentage
-				issue.setValueAt(qtyBatch, row, 17);                                         // QtyBatch
-
-				if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Component)
-						|| componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Packing))
-				{
-					// If the there is product on hand and product is required the product should be selected
-					id.setSelected(qtyOnHand.signum() > 0 && qtyRequired.signum() > 0);
-
-					if (isQtyPercentage)
-					{
-						// If the quantity of product is calculated as a percentage
-						BigDecimal qtyBatchPerc = qtyBatch.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_HALF_UP); 
-
-						if (isBackflush())
-						{ // Is Backflush - Calculate Component from Qty To Deliver
-							if (qtyRequired.signum() == 0 || qtyOpen.signum() == 0)
-							{
-								componentToDeliverQty = Env.ZERO;
-							}
-							else
-							{
-								componentToDeliverQty = toDeliverQty.multiply(qtyBatchPerc);
-								
-								if(qtyRequired.subtract(qtyDelivered).signum() < 0 | componentToDeliverQty.signum() == 0)
-									componentToDeliverQty = qtyRequired.subtract(qtyDelivered);
-								
-							}
-
-							if (componentToDeliverQty.signum() != 0)
-							{
-								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
-								issue.setValueAt(componentToDeliverQty, row, 8); //  QtyToDelivery
-
-							}
-						}
-						else
-						{ 
-							// Only Issue - Calculate Component from Open Qty
-							componentToDeliverQty = qtyOpen;
-							if (componentToDeliverQty.signum() != 0)
-							{
-								componentQtyReq = openQty.multiply(qtyBatchPerc); // scale 4
-								componentQtyToDel = componentToDeliverQty.setScale(4, BigDecimal.ROUND_HALF_UP);
-								issue.setValueAt(componentToDeliverQty.setScale(8, BigDecimal.ROUND_HALF_UP), row, 8); //  QtyToDelivery
-								issue.setValueAt(openQty.multiply(qtyBatchPerc), row, 6); //  QtyRequiered
-							}
-						}
-						
-						if (scrapQty.signum() != 0)
-						{
-							componentScrapQty = scrapQty.multiply(qtyBatchPerc);
-							if (componentScrapQty.signum() != 0)
-							{
-								issue.setValueAt(componentScrapQty, row, 9); //  QtyScrap
-							}
-						}
-					}
-					else
-					{ 
-						// Absolute Qtys (not Percentage)
-						if (isBackflush())
-						{ //Is Backflush - Calculate Component from Qty To Deliver
-							componentToDeliverQty = toDeliverQty.multiply(qtyBom); // TODO: set Number scale
-							if (componentToDeliverQty.signum() != 0)
-							{
-								componentQtyReq = toDeliverQty.multiply(qtyBom);
-								componentQtyToDel = componentToDeliverQty;
-								issue.setValueAt(componentQtyReq, row, 6); //  QtyRequiered
-								issue.setValueAt(componentToDeliverQty, row, 8); //  QtyToDelivery
-							}
-						}
-						else
-						{ 
-							// Only Issue - Calculate Component from Open Qty
-							componentToDeliverQty = qtyOpen;
-							if (componentToDeliverQty.signum() != 0)
-							{
-								componentQtyReq = openQty.multiply(qtyBom);
-								componentQtyToDel = componentToDeliverQty;
-								issue.setValueAt(componentQtyReq, row, 6); //  QtyRequiered
-								issue.setValueAt(componentToDeliverQty, row, 8); //  QtyToDelivery
-							}
-						}
-
-						if (scrapQty.signum() != 0)
-						{
-							componentScrapQty = scrapQty.multiply(qtyBom); // TODO: set Number scale
-							if (componentScrapQty.signum() != 0) {
-								issue.setValueAt(componentScrapQty, row, 9); //  ScrapQty
-							}
-						}
-
-					}
-				}
-				else if (componentType.equals(MPPProductBOMLine.COMPONENTTYPE_Tools))
-				{
-					componentToDeliverQty = qtyBom; // TODO; set Number scale 
-					if (componentToDeliverQty.signum() != 0)
-					{
-						componentQtyReq = qtyBom;
-						componentQtyToDel = componentToDeliverQty;
-						issue.setValueAt(qtyBom, row, 6); //  QtyRequiered
-						issue.setValueAt(componentToDeliverQty, row, 8); //  QtyToDelivery
-					}
-				}
-				else
-				{
-					issue.setValueAt(Env.ZERO, row, 6); //  QtyRequiered
-					issue.setValueAt(Env.ZERO, row, 8); //  QtyToDelivery
-				}
-				if(issue.getValueAt(row, 9) == null  ){
-					issue.setValueAt(Env.ZERO, row, 9);
-				}
-				if(issue.getValueAt(row, 8) == null ){
-					issue.setValueAt(Env.ZERO, row, 8);
-				}
-				row++;
-
-				if (isOnlyIssue() || isBackflush())
-				{
-					int warehouse_id = rs.getInt("id_w");
-					int product_id = rs.getInt("id_p");
-					row += lotes(row, id, warehouse_id, product_id, componentQtyReq, componentQtyToDel);
-				}
-			} // while
-		}
-		catch (SQLException e)
-		{
-			throw new DBException(e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+		executeQuery(issue);
 		issue.repaint();
 	} //  executeQuery
 
-	/**
-	 * Adds Attribute Set Instances Quantities to table.
-	 * Extension to {@link #executeQuery()}
-	 * @return how many lines were added
-	 */
-	private int lotes (int row, IDColumn id, int Warehouse_ID, int M_Product_ID,
-			           BigDecimal qtyRequired, BigDecimal qtyToDelivery)
-	{
-		int linesNo = 0;
-		BigDecimal qtyRequiredActual = qtyRequired;
-		
-		final String sql = "SELECT "
-						 + "s.M_Product_ID , s.QtyOnHand, s.M_AttributeSetInstance_ID"
-						 + ", p.Name, masi.Description, l.Value, w.Value, w.M_warehouse_ID,p.Value"
-						 + "  FROM M_Storage s "
-						 + " INNER JOIN M_Product p ON (s.M_Product_ID = p.M_Product_ID) "
-						 + " INNER JOIN C_UOM u ON (u.C_UOM_ID = p.C_UOM_ID) "
-						 + " INNER JOIN M_AttributeSetInstance masi ON (masi.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) "
-						 + " INNER JOIN M_Warehouse w ON (w.M_Warehouse_ID = ?) "
-						 + " INNER JOIN M_Locator l ON(l.M_Warehouse_ID=w.M_Warehouse_ID and s.M_Locator_ID=l.M_Locator_ID) "
-						 + " WHERE s.M_Product_ID = ? and s.QtyOnHand > 0 "
-						 + " and s.M_AttributeSetInstance_ID <> 0 "
-						 + " ORDER BY s.Created ";
+	
 
-		//  Execute
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, Warehouse_ID);
-			pstmt.setInt(2, M_Product_ID);
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				issue.setRowCount(row + 1);
-
-				// Qty On Hand
-				final BigDecimal qtyOnHand = rs.getBigDecimal(2);
-
-				// ID/M_AttributeSetInstance_ID
-				IDColumn id1 = new IDColumn(rs.getInt(3));
-				id1.setSelected(false);
-				
-				issue.setValueAt(id1, row, 0);
-				// Product
-				KeyNamePair productkey = new KeyNamePair(rs.getInt(1), rs.getString(4));
-				issue.setValueAt(productkey, row, 3);
-				// QtyOnHand
-				issue.setValueAt(qtyOnHand, row, 10);
-				// ASI
-				issue.setValueAt(rs.getString(5), row, 5);
-				// Locator
-				issue.setValueAt(rs.getString(6), row, 13);
-				// Warehouse
-				KeyNamePair m_warehousekey = new KeyNamePair(rs.getInt(8), rs.getString(7));
-				issue.setValueAt(m_warehousekey, row, 14);
-				// Qty Required:
-				if (qtyRequiredActual.compareTo(qtyOnHand) < 0)
-				{
-					issue.setValueAt(qtyRequiredActual.signum() > 0 ? qtyRequiredActual : Env.ZERO, row, 6);
-				}
-				else
-				{
-					issue.setValueAt(qtyOnHand, row, 6);
-				}
-				
-				qtyRequiredActual = qtyRequiredActual.subtract(qtyOnHand);
-				
-				if(issue.getValueAt(row, 9) == null  )
-				{
-					issue.setValueAt(Env.ZERO, row, 9);
-				}
-				
-				if(issue.getValueAt(row, 8) == null )
-				{
-					issue.setValueAt(Env.ZERO, row, 8);
-				}
-
-				linesNo++;
-				row++;
-			}
-		}
-		catch (SQLException e)
-		{
-			throw new DBException(e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		
-		return linesNo;
-	}
-
+	
 	@Override
 	public void valueChange(ValueChangeEvent e)
 	{
@@ -948,282 +631,38 @@ ValueChangeListener,Serializable,WTableModelListener
 			}
 		} //  PP_Order_ID
 	}
-
-	/**
-	 * Performs what ever task is attached to the combo box
-	 * @return Whether the process was successful or not
-	 * @throws InterruptedException 
-	 */
-	private boolean cmd_process() throws InterruptedException
+	
+	@Override
+	public void showMessage(String message, boolean error)
 	{
-
-		if (isOnlyReceipt() || isBackflush())
-		{
-			if (getM_Locator_ID() <= 0)
-			{				
-					Messagebox.show( Msg.getMsg(Env.getCtx(), "NoLocator"), "Info",Messagebox.OK, Messagebox.INFORMATION);
-			}
-		}
-		if (getPP_Order() == null || getMovementDate() == null)
-		{
-			return false;
-		}
-		final boolean isCloseDocument = (Messagebox.show(Msg.parseTranslation(Env.getCtx(),"@IsCloseDocument@ : "+  getPP_Order().getDocumentNo()),"",Messagebox.OK|Messagebox.CANCEL,Messagebox.QUESTION) == Messagebox.OK);
-		
 		try
 		{
-			Trx.run(new TrxRunnable() 
-			{
-				public void run(String trxName)
-				{
-					MPPOrder order = new MPPOrder(Env.getCtx(), getPP_Order_ID(), trxName);
-					if (isBackflush() || isOnlyIssue()) 
-					{
-						createIssue(order);
-					}
-					if (isOnlyReceipt() || isBackflush()) 
-					{
-						MPPOrder.createReceipt(order,getMovementDate(),
-											   getDeliveredQty(),getToDeliverQty(), 
-											   getScrapQty(),getRejectQty(),
-											   getM_Locator_ID(),getM_AttributeSetInstance_ID());
-						if (isCloseDocument)
-						{
-							order.setDateFinish(getMovementDate());
-							order.closeIt();
-							order.saveEx();
-						}
-					}
-				}
-			});
+			if(!error)
+				Messagebox.show(message, "Info",Messagebox.OK, Messagebox.INFORMATION);
+			else
+				Messagebox.show(message,"",Messagebox.OK,Messagebox.ERROR);
 		}
-		catch (Exception e)
-		{			
-			Messagebox.show(e.getLocalizedMessage(),"",Messagebox.OK,Messagebox.ERROR);
-			return false;
-		}
-		finally
+		catch(Exception e)
 		{
-			m_PP_order = null;
+			
 		}
-
-		return true;
 	}
 
-	@SuppressWarnings("unchecked")
-	private void createIssue(MPPOrder order)
-	{
-		Timestamp movementDate = getMovementDate();
-		Timestamp minGuaranteeDate = movementDate;
-		boolean isCompleteQtyDeliver = false;
-		
-		ArrayList[][] m_issue = new ArrayList[issue.getRowCount()][1];
-		
-		int row = 0;
-		// Check Available On Hand Qty 
-		for (int i = 0; i < issue.getRowCount(); i++)
-		{
-			ArrayList<Object> data = new ArrayList<Object>();
-			IDColumn id = (IDColumn)issue.getValueAt  (i, 0);
-			KeyNamePair key = new KeyNamePair(id.getRecord_ID(),id.isSelected() ? "Y": "N");
-			data.add(key); //0 - ID
-			data.add(issue.getValueAt  (i, 1)); //1 - IsCritical
-			data.add(issue.getValueAt  (i, 2)); //2 - Value
-			data.add(issue.getValueAt  (i, 3)); //3 - KeyNamePair Product
-			data.add(getValueBigDecimal(i, 8)); //4 - QtyToDeliver			
-			data.add(getValueBigDecimal(i, 9)); //5 - QtyScrapComponent
-			m_issue[row][0] = data;
-			row ++ ;
-		}	
-		
-		isCompleteQtyDeliver = MPPOrder.isQtyAvailable(order, m_issue , minGuaranteeDate);
-
-		if (!isCompleteQtyDeliver)
-		{
-			try 
-			{
-				Messagebox.show(Msg.translate(Env.getCtx(), "NoQtyAvailable"),"",Messagebox.OK,Messagebox.ERROR);
-			}
-			catch (InterruptedException e) 
-			{
-				throw new AdempiereException(e);
-			}
-			throw new AdempiereException("@NoQtyAvailable@");
-		}
-
-		for(int i = 0; i < m_issue.length; i++ )
-		{
-			KeyNamePair key = (KeyNamePair) m_issue[i][0].get(0);
-			boolean isSelected = key.getName().equals("Y"); 
-			if (key == null || !isSelected)
-			{
-				continue;
-			}
-
-			String value = (String)m_issue[i][0].get(2);
-			KeyNamePair productkey = (KeyNamePair) m_issue[i][0].get(3);			
-			int M_Product_ID = productkey.getKey();
-
-			MPPOrderBOMLine  orderbomLine = null;
-			int PP_Order_BOMLine_ID = 0;
-			int M_AttributeSetInstance_ID = 0;
-
-			BigDecimal qtyToDeliver = (BigDecimal) m_issue[i][0].get(4);	
-			BigDecimal qtyScrapComponent = (BigDecimal) m_issue[i][0].get(5);	
-
-			MProduct product = MProduct.get(order.getCtx(), M_Product_ID);
-			if (product != null && product.get_ID() != 0 && product.isStocked()) 
-			{
-
-				if (value == null && isSelected) 
-				{
-					M_AttributeSetInstance_ID = (Integer) key.getKey();
-					orderbomLine = MPPOrderBOMLine.forM_Product_ID(Env.getCtx(), order.get_ID(), M_Product_ID, order.get_TrxName());
-				    if (orderbomLine != null)
-				    {	
-						PP_Order_BOMLine_ID =orderbomLine.get_ID();
-				    }	
-				}
-				else if (value != null && isSelected) 
-				{
-					PP_Order_BOMLine_ID =  (Integer)key.getKey();
-					if(PP_Order_BOMLine_ID > 0)
-					{
-						orderbomLine  = new MPPOrderBOMLine(order.getCtx(), PP_Order_BOMLine_ID, order.get_TrxName());
-						M_AttributeSetInstance_ID = orderbomLine.getM_AttributeSetInstance_ID();
-					}
-				}
-
-				MStorage[] storages = MPPOrder.getStorages(Env.getCtx(),
-						M_Product_ID,
-						order.getM_Warehouse_ID(),
-						M_AttributeSetInstance_ID , minGuaranteeDate, order.get_TrxName());
-
-				MPPOrder.createIssue(order, PP_Order_BOMLine_ID, movementDate,
-						qtyToDeliver, qtyScrapComponent,
-						Env.ZERO, storages,false);
-			}
-		}	
-	}
+	
 
 	/**
 	 *  Generate Summary of Issue/Receipt.
 	 */
 	private void generateSummaryTable() 
 	{
-		StringBuffer iText = new StringBuffer();
-		iText.append("<b>");
-		iText.append(Msg.translate(Env.getCtx(), "IsShipConfirm"));
-		iText.append("</b>");
-		iText.append("<br />");
-
-		if (isOnlyReceipt() || isBackflush()) 
-		{
-
-			String[][] table = {
-								{Msg.translate(Env.getCtx(), "Name"),
-								 Msg.translate(Env.getCtx(), "C_UOM_ID"),
-								 Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"),
-								 Msg.translate(Env.getCtx(), "QtyToDeliver"),
-								 Msg.translate(Env.getCtx(), "QtyDelivered"),
-								 Msg.translate(Env.getCtx(), "QtyScrap")
-								},
-								{productField.getDisplay(),
-							     uomField.getDisplay(),
-							     attribute.getDisplay(),
-							     toDeliverQty.getDisplay(),
-							     deliveredQtyField.getDisplay(),
-							     scrapQtyField.getDisplay()
-							     }
-								};
-			iText.append(createHTMLTable(table));
-		}
-
-		if (isBackflush() || isOnlyIssue()) 
-		{
-			iText.append("<br /><br />");
-			ArrayList<String[]> table = new ArrayList<String[]>();
-
-			table.add(new String[] {
-					Msg.translate(Env.getCtx(), "Value"),						// 0
-					Msg.translate(Env.getCtx(), "Name"),						// 1
-					Msg.translate(Env.getCtx(), "C_UOM_ID"),					// 2
-					Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"),	// 3
-					Msg.translate(Env.getCtx(), "QtyToDeliver"),				// 4
-					Msg.translate(Env.getCtx(), "QtyDelivered"),				// 5
-					Msg.translate(Env.getCtx(), "QtyScrap")						// 6
-			});
-
-			// check available on hand 
-			for (int i = 0; i < issue.getRowCount(); i++) 
-			{				
-				IDColumn id = (IDColumn) issue.getValueAt(i, 0);
-				if (id != null && id.isSelected())
-				{
-					KeyNamePair m_productkey = (KeyNamePair) issue.getValueAt(i, 3);
-					int m_M_Product_ID = m_productkey.getKey();
-					KeyNamePair m_uomkey = (KeyNamePair) issue.getValueAt(i, 4);
-
-					if (issue.getValueAt(i, 5) == null) // M_AttributeSetInstance_ID is null
-					{ 
-						Timestamp m_movementDate = getMovementDate();
-						Timestamp minGuaranteeDate = m_movementDate;
-						MStorage[] storages =  MPPOrder.getStorages(Env.getCtx(),
-								m_M_Product_ID,
-								getPP_Order().getM_Warehouse_ID(),
-								0, minGuaranteeDate, null);
-
-						BigDecimal todelivery = getValueBigDecimal(i, 8); //QtyOpen
-						BigDecimal scrap = getValueBigDecimal(i, 9); //QtyScrap
-						BigDecimal toIssue = todelivery.add(scrap);
-						for (MStorage storage : storages) {
-							//	TODO Selection of ASI
-
-							if (storage.getQtyOnHand().signum() == 0)
-								continue;
-
-							BigDecimal issueact = toIssue;
-							if (issueact.compareTo(storage.getQtyOnHand()) > 0)
-								issueact = storage.getQtyOnHand();
-							toIssue = toIssue.subtract(issueact);
-
-							String desc = new MAttributeSetInstance(Env.getCtx(), storage.getM_AttributeSetInstance_ID(), null).getDescription();
-
-							String[] row = {"","","","","0.00","0.00","0.00"};
-							row[0] = issue.getValueAt(i, 2) != null ? issue.getValueAt(i, 2).toString() : "";
-							row[1] = m_productkey.toString();
-							row[2] = m_uomkey != null ? m_uomkey.toString() : "";
-							row[3] = desc != null ? desc : "";
-							row[4] = issueact.setScale(2, BigDecimal.ROUND_HALF_UP).toString() ;
-							row[5] = getValueBigDecimal(i, 7).setScale(2, BigDecimal.ROUND_HALF_UP).toString();
-							row[6] = getValueBigDecimal(i, 9).toString();
-							table.add(row);
-
-							if (toIssue.signum() <= 0)
-								break;
-						}
-					}
-					else // if M_AttributeSetInstance_ID isn't null
-					{
-						String[] row = {"","","","","0.00","0.00","0.00"};
-						row[0] = issue.getValueAt(i, 2) != null ? issue.getValueAt(i, 2).toString() : "";
-						row[1] = m_productkey.toString();
-						row[2] = m_uomkey != null ? m_uomkey.toString() : "";
-						row[3] = issue.getValueAt(i, 5) != null ? issue.getValueAt(i, 5).toString() : "";
-						row[4] = getValueBigDecimal(i, 8).toString();
-						row[5] = getValueBigDecimal(i, 7).toString();
-						row[6] = getValueBigDecimal(i, 9).toString();
-						table.add(row);
-					}
-
-				}
-
-			}
-
-			String[][] tableArray = table.toArray(new String[table.size()][]);
-			iText.append(createHTMLTable(tableArray));
-		}
-		info.setContent(iText.toString());
+		info.setContent(generateSummaryTable(issue, productField.getDisplay(), 
+				uomField.getDisplay(), 
+				attribute.getDisplay(), 
+				toDeliverQty.getDisplay(), 
+				deliveredQtyField.getDisplay(),
+				scrapQtyField.getDisplay(),
+				isBackflush(), isOnlyIssue(), isOnlyReceipt()		
+		));
 		
 	} //  generateInvoices_complete
 
@@ -1437,38 +876,7 @@ ValueChangeListener,Serializable,WTableModelListener
 		uomorderField.setValue(C_UOM_ID);
 	}
 	
-	/**
-	 * Creates a HTML Table out of a two dimensional array.
-	 * @param table	A two dimensional array of strings that will be rendered into an html table
-	 * @return		The html for the table
-	 */
-	private String createHTMLTable(String[][] table)
-	{
-		StringBuffer html = new StringBuffer("<table width=\"100%\" border=\"1\" cellspacing=\"0\" cellpadding=\"0\">");
-
-		for(int i = 0; i < table.length; i++) {
-			if (table[i] != null) {
-				html.append("<tr>");
-				for(int j = 0; j < table[i].length; j++){
-					html.append("<td>");
-					if (table[i][j] != null) {
-						html.append(table[i][j]);
-					}
-					html.append("</td>");
-				}
-				html.append("</tr>");
-			}
-		}
-		html.append("</table>");
-
-		return html.toString();
-	}
-
-	private BigDecimal getValueBigDecimal(int row, int col) 
-	{
-		BigDecimal bd = (BigDecimal)issue.getValueAt(row, col);
-		return bd == null ? Env.ZERO: bd; 
-	}
+	
 
 	public void dispose()
 	{
@@ -1485,6 +893,63 @@ ValueChangeListener,Serializable,WTableModelListener
 	public void tableChanged(WTableModelEvent event) 
 	{
 		//nothing
+	}
+	public boolean cmd_process(final boolean isCloseDocument, final IMiniTable issue)
+	{
+
+		if (isOnlyReceipt() || isBackflush())
+		{
+			if (getM_Locator_ID() <= 0)
+			{
+				//JOptionPane.showMessageDialog(null, Msg.getMsg(Env.getCtx(),"NoLocator"), "Info", JOptionPane.INFORMATION_MESSAGE);
+				showMessage( Msg.getMsg(Env.getCtx(),"NoLocator"), false);
+			}
+		}
+		if (getPP_Order() == null || getMovementDate() == null)
+		{
+			return false;
+		}		
+		try
+		{
+			Trx.run(new TrxRunnable() {
+				public void run(String trxName)
+				{
+					MPPOrder order = new MPPOrder(Env.getCtx(), getPP_Order_ID(), trxName);
+					if (isBackflush() || isOnlyIssue()) 
+					{
+						createIssue(order, issue);
+					}
+					if (isOnlyReceipt() || isBackflush()) 
+					{
+						MPPOrder.createReceipt(order,
+								getMovementDate(),
+								getDeliveredQty(),
+								getToDeliverQty(), 
+								getScrapQty(),
+								getRejectQty(),
+								getM_Locator_ID(),
+								getM_AttributeSetInstance_ID()
+						);
+						if (isCloseDocument)
+						{
+							order.setDateFinish(getMovementDate());
+							order.closeIt();
+							order.saveEx();
+						}
+					}
+				}});
+		}
+		catch (Exception e)
+		{
+			showMessage(e.getLocalizedMessage(), true);
+			return false;
+		}
+		finally
+		{
+			m_PP_order = null;
+		}
+
+		return true;
 	}
 
 }
