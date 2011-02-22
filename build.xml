@@ -39,7 +39,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" destdir="${build}">
+    <javac debug="true" srcdir="${src}" destdir="${build}">
       <exclude name="**/org/eevolution/plugin/*.java"/>
       <classpath refid="compile.classpath"/>
     </javac>
@@ -64,7 +64,7 @@
   <target name="zkcompile" depends="dist"
         description="compile the source " >
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
-    <javac srcdir="${zksrc}" destdir="${zkclasses}">
+    <javac debug="true" srcdir="${zksrc}" destdir="${zkclasses}">
       <classpath refid="compile.classpath"/>
     </javac>
   </target>
