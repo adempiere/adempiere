@@ -1067,6 +1067,8 @@ public final class Env
 			while (rs.next())
 			{
 				String AD_Language = rs.getString(1);
+				// called to add the language to supported in case it's not added
+				Language.getLanguage(AD_Language);
 				AD_Languages.add(AD_Language);
 			}
 		}

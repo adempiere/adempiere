@@ -282,8 +282,8 @@ public class LoginPanel extends Window implements EventListener
 
         // Update Language List
         lstLanguage.getItems().clear();
-        String[] availableLanguages = Language.getNames();
         ArrayList<String> supported = Env.getSupportedLanguages();
+        String[] availableLanguages = Language.getNames();
         for (String langName : availableLanguages) {
     		Language language = Language.getLanguage(langName);
     		if (!language.isBaseLanguage()) {
