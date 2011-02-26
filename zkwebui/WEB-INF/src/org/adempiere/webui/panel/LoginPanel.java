@@ -46,6 +46,7 @@ import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.util.UserPreference;
 import org.adempiere.webui.window.LoginWindow;
 import org.compiere.Adempiere;
+import org.compiere.model.MClient;
 import org.compiere.model.MSession;
 import org.compiere.model.MSystem;
 import org.compiere.model.MUser;
@@ -295,12 +296,12 @@ public class LoginPanel extends Window implements EventListener
 
         chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
 
-        //set base language
-        String baseLanguage = Language.getBaseLanguage().getName();
+        // Make the default language the language of client System
+        String defaultLanguage = MClient.get(ctx, 0).getAD_Language();
         for(int i = 0; i < lstLanguage.getItemCount(); i++)
         {
         	Comboitem li = lstLanguage.getItemAtIndex(i);
-        	if(li.getLabel().equals(baseLanguage))
+        	if (li.getValue().equals(defaultLanguage))
         	{
         		lstLanguage.setSelectedIndex(i);
         		languageChanged(li.getLabel());
