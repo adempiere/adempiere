@@ -396,7 +396,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 		for (MHRPaySelectionCheck check : m_checks)
 		{
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
-			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.HR_CHECK, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
+			boolean ok = ReportCtl.startDocumentPrint(10, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
 			if (!somethingPrinted && ok)
 				somethingPrinted = true;
 		}

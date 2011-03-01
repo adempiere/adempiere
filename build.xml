@@ -21,16 +21,16 @@
   	 <fileset dir="${adempiere.manufacturing}/dist/lib">
   	           <include name="*.jar"/>
   	 </fileset>
+  	<fileset dir="${dist}/lib">
+  	  	      <include name="*.jar"/>
+  	</fileset>
   </path>
 	
   <path id="patches.class.path">	
   	<fileset dir="${adempiere.trunk}/lib">
   	      <include name="*.jar"/>
   	</fileset>
-  	<fileset dir="${dist}/lib">
-  	      <include name="*.jar"/>
-  	</fileset>
-  	<fileset dir="${adempiere.manufacturing}/dist/lib">
+   	<fileset dir="${adempiere.manufacturing}/dist/lib">
   	           <include name="*.jar"/>
   	</fileset>
   </path>	
@@ -47,6 +47,9 @@
     <fileset dir="${adempiere.trunk}/zkwebui/WEB-INF/lib">
       <include name="*.jar"/>
     </fileset>
+	<fileset dir="${dist}/lib">
+  	      <include name="*.jar"/>
+  	</fileset>
   </path>
 
   <target name="init" depends="clean">
@@ -85,7 +88,7 @@
 
   </target>
 
-  <target name="zkcompile" depends="dist, patchesDist"
+  <target name="zkcompile" depends="patchesDist , dist"
         description="compile the source " >
     <mkdir dir="${zkclasses}"/>
     <!-- Compile the zk java code from ${src} into ${zkclasses} -->
