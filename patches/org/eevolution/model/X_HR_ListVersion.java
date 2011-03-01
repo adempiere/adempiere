@@ -32,7 +32,7 @@ public class X_HR_ListVersion extends PO implements I_HR_ListVersion, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110223L;
+	private static final long serialVersionUID = 20110224L;
 
     /** Standard Constructor */
     public X_HR_ListVersion (Properties ctx, int HR_ListVersion_ID, String trxName)

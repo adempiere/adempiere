@@ -104,7 +104,7 @@ public class HRPayPrint
 			+ " INNER JOIN C_BankAccount ba ON (ps.C_BankAccount_ID=ba.C_BankAccount_ID)"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID)"
 			+ " INNER JOIN C_Currency c ON (ba.C_Currency_ID=c.C_Currency_ID) "
-			+ "WHERE ps.C_PaySelection_ID=? AND ps.Processed='Y' AND ba.IsActive='Y'";
+			+ "WHERE ps.HR_PaySelection_ID=? AND ps.Processed='Y' AND ba.IsActive='Y'";
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);

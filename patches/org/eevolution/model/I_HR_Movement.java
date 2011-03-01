@@ -348,6 +348,19 @@ public interface I_HR_Movement
 	  */
 	public boolean isActive();
 
+    /** Column name IsManual */
+    public static final String COLUMNNAME_IsManual = "IsManual";
+
+	/** Set Manual.
+	  * This is a manual process
+	  */
+	public void setIsManual (boolean IsManual);
+
+	/** Get Manual.
+	  * This is a manual process
+	  */
+	public boolean isManual();
+
     /** Column name IsPrinted */
     public static final String COLUMNNAME_IsPrinted = "IsPrinted";
 
@@ -360,19 +373,6 @@ public interface I_HR_Movement
 	  * Indicates if this document / line is printed
 	  */
 	public boolean isPrinted();
-
-    /** Column name IsRegistered */
-    public static final String COLUMNNAME_IsRegistered = "IsRegistered";
-
-	/** Set Registered.
-	  * The application is registered.
-	  */
-	public void setIsRegistered (boolean IsRegistered);
-
-	/** Get Registered.
-	  * The application is registered.
-	  */
-	public boolean isRegistered();
 
     /** Column name PP_Cost_Collector_ID */
     public static final String COLUMNNAME_PP_Cost_Collector_ID = "PP_Cost_Collector_ID";

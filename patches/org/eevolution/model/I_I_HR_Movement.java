@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for HR_Attribute
+/** Generated Interface for I_HR_Movement
  *  @author Adempiere (generated) 
  *  @version Release 3.6.0LTS
  */
-public interface I_HR_Attribute 
+public interface I_I_HR_Movement 
 {
 
-    /** TableName=HR_Attribute */
-    public static final String Table_Name = "HR_Attribute";
+    /** TableName=I_HR_Movement */
+    public static final String Table_Name = "I_HR_Movement";
 
-    /** AD_Table_ID=53087 */
+    /** AD_Table_ID=53259 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,17 +63,6 @@ public interface I_HR_Attribute
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Rule_ID */
-    public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
-
-	/** Set Rule	  */
-	public void setAD_Rule_ID (int AD_Rule_ID);
-
-	/** Get Rule	  */
-	public int getAD_Rule_ID();
-
-	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException;
-
     /** Column name Amount */
     public static final String COLUMNNAME_Amount = "Amount";
 
@@ -86,6 +75,19 @@ public interface I_HR_Attribute
 	  * Amount in a defined currency
 	  */
 	public BigDecimal getAmount();
+
+    /** Column name BPartner_Value */
+    public static final String COLUMNNAME_BPartner_Value = "BPartner_Value";
+
+	/** Set Business Partner Key.
+	  * The Key of the Business Partner
+	  */
+	public void setBPartner_Value (String BPartner_Value);
+
+	/** Get Business Partner Key.
+	  * The Key of the Business Partner
+	  */
+	public String getBPartner_Value();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -102,59 +104,18 @@ public interface I_HR_Attribute
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name C_Charge_ID */
-    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+    /** Column name ConceptValue */
+    public static final String COLUMNNAME_ConceptValue = "ConceptValue";
 
-	/** Set Charge.
-	  * Additional document charges
+	/** Set Concept Value.
+	  * Value of the Concept
 	  */
-	public void setC_Charge_ID (int C_Charge_ID);
+	public void setConceptValue (String ConceptValue);
 
-	/** Get Charge.
-	  * Additional document charges
+	/** Get Concept Value.
+	  * Value of the Concept
 	  */
-	public int getC_Charge_ID();
-
-	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
-
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
-
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
-
-    /** Column name C_Invoice_ID */
-    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
-
-	/** Set Invoice.
-	  * Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
-
-	/** Get Invoice.
-	  * Invoice Identifier
-	  */
-	public int getC_Invoice_ID();
-
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
-
-    /** Column name ColumnType */
-    public static final String COLUMNNAME_ColumnType = "ColumnType";
-
-	/** Set Column Type	  */
-	public void setColumnType (String ColumnType);
-
-	/** Get Column Type	  */
-	public String getColumnType();
+	public String getConceptValue();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -185,26 +146,6 @@ public interface I_HR_Attribute
 	  */
 	public String getDescription();
 
-    /** Column name HR_Attribute_Acct */
-    public static final String COLUMNNAME_HR_Attribute_Acct = "HR_Attribute_Acct";
-
-	/** Set Payroll Attribute Account	  */
-	public void setHR_Attribute_Acct (int HR_Attribute_Acct);
-
-	/** Get Payroll Attribute Account	  */
-	public int getHR_Attribute_Acct();
-
-	public I_C_ValidCombination getHR_Attribute_A() throws RuntimeException;
-
-    /** Column name HR_Attribute_ID */
-    public static final String COLUMNNAME_HR_Attribute_ID = "HR_Attribute_ID";
-
-	/** Set Payroll Employee Attribute	  */
-	public void setHR_Attribute_ID (int HR_Attribute_ID);
-
-	/** Get Payroll Employee Attribute	  */
-	public int getHR_Attribute_ID();
-
     /** Column name HR_Concept_ID */
     public static final String COLUMNNAME_HR_Concept_ID = "HR_Concept_ID";
 
@@ -216,49 +157,62 @@ public interface I_HR_Attribute
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
 
-    /** Column name HR_Department_ID */
-    public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
+    /** Column name HR_Movement_ID */
+    public static final String COLUMNNAME_HR_Movement_ID = "HR_Movement_ID";
 
-	/** Set Payroll Department	  */
-	public void setHR_Department_ID (int HR_Department_ID);
+	/** Set Payroll Movement	  */
+	public void setHR_Movement_ID (int HR_Movement_ID);
 
-	/** Get Payroll Department	  */
-	public int getHR_Department_ID();
+	/** Get Payroll Movement	  */
+	public int getHR_Movement_ID();
 
-	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
+	public org.eevolution.model.I_HR_Movement getHR_Movement() throws RuntimeException;
 
-    /** Column name HR_Employee_ID */
-    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+    /** Column name HR_Process_ID */
+    public static final String COLUMNNAME_HR_Process_ID = "HR_Process_ID";
 
-	/** Set Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID);
+	/** Set Payroll Process	  */
+	public void setHR_Process_ID (int HR_Process_ID);
 
-	/** Get Payroll Employee	  */
-	public int getHR_Employee_ID();
+	/** Get Payroll Process	  */
+	public int getHR_Process_ID();
 
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
+	public org.eevolution.model.I_HR_Process getHR_Process() throws RuntimeException;
 
-    /** Column name HR_Job_ID */
-    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
+    /** Column name I_ErrorMsg */
+    public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 
-	/** Set Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID);
+	/** Set Import Error Message.
+	  * Messages generated from import process
+	  */
+	public void setI_ErrorMsg (String I_ErrorMsg);
 
-	/** Get Payroll Job	  */
-	public int getHR_Job_ID();
+	/** Get Import Error Message.
+	  * Messages generated from import process
+	  */
+	public String getI_ErrorMsg();
 
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
+    /** Column name I_HR_Movement_ID */
+    public static final String COLUMNNAME_I_HR_Movement_ID = "I_HR_Movement_ID";
 
-    /** Column name HR_Payroll_ID */
-    public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
+	/** Set Payroll Movement Import	  */
+	public void setI_HR_Movement_ID (int I_HR_Movement_ID);
 
-	/** Set Payroll	  */
-	public void setHR_Payroll_ID (int HR_Payroll_ID);
+	/** Get Payroll Movement Import	  */
+	public int getI_HR_Movement_ID();
 
-	/** Get Payroll	  */
-	public int getHR_Payroll_ID();
+    /** Column name I_IsImported */
+    public static final String COLUMNNAME_I_IsImported = "I_IsImported";
 
-	public org.eevolution.model.I_HR_Payroll getHR_Payroll() throws RuntimeException;
+	/** Set Imported.
+	  * Has this import been processed
+	  */
+	public void setI_IsImported (String I_IsImported);
+
+	/** Get Imported.
+	  * Has this import been processed
+	  */
+	public String getI_IsImported();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -273,36 +227,40 @@ public interface I_HR_Attribute
 	  */
 	public boolean isActive();
 
-    /** Column name IsPrinted */
-    public static final String COLUMNNAME_IsPrinted = "IsPrinted";
+    /** Column name ProcessName */
+    public static final String COLUMNNAME_ProcessName = "ProcessName";
 
-	/** Set Printed.
-	  * Indicates if this document / line is printed
+	/** Set Process Name.
+	  * Name of the Process
 	  */
-	public void setIsPrinted (boolean IsPrinted);
+	public void setProcessName (String ProcessName);
 
-	/** Get Printed.
-	  * Indicates if this document / line is printed
+	/** Get Process Name.
+	  * Name of the Process
 	  */
-	public boolean isPrinted();
+	public String getProcessName();
 
-    /** Column name MaxValue */
-    public static final String COLUMNNAME_MaxValue = "MaxValue";
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
 
-	/** Set Max Value	  */
-	public void setMaxValue (int MaxValue);
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
 
-	/** Get Max Value	  */
-	public int getMaxValue();
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
 
-    /** Column name MinValue */
-    public static final String COLUMNNAME_MinValue = "MinValue";
+    /** Column name Processing */
+    public static final String COLUMNNAME_Processing = "Processing";
 
-	/** Set Min Value	  */
-	public void setMinValue (int MinValue);
+	/** Set Process Now	  */
+	public void setProcessing (boolean Processing);
 
-	/** Get Min Value	  */
-	public int getMinValue();
+	/** Get Process Now	  */
+	public boolean isProcessing();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
@@ -371,17 +329,4 @@ public interface I_HR_Attribute
 	  * Valid from including this date (first day)
 	  */
 	public Timestamp getValidFrom();
-
-    /** Column name ValidTo */
-    public static final String COLUMNNAME_ValidTo = "ValidTo";
-
-	/** Set Valid to.
-	  * Valid to including this date (last day)
-	  */
-	public void setValidTo (Timestamp ValidTo);
-
-	/** Get Valid to.
-	  * Valid to including this date (last day)
-	  */
-	public Timestamp getValidTo();
 }

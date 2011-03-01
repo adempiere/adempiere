@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for HR_PaySelectionLine
+/** Generated Interface for HR_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a
+ *  @version Release 3.6.0LTS
  */
-public interface I_HR_PaySelectionLine 
+public interface I_HR_PaySelectionCheck 
 {
 
-    /** TableName=HR_PaySelectionLine */
-    public static final String Table_Name = "HR_PaySelectionLine";
+    /** TableName=HR_PaySelectionCheck */
+    public static final String Table_Name = "HR_PaySelectionCheck";
 
-    /** AD_Table_ID=53249 */
+    /** AD_Table_ID=53250 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -63,6 +63,51 @@ public interface I_HR_PaySelectionLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_BP_BankAccount_ID */
+    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
+
+	/** Set Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
+
+	/** Get Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public int getC_BP_BankAccount_ID();
+
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_Payment_ID */
+    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
+
+	/** Set Payment.
+	  * Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID);
+
+	/** Get Payment.
+	  * Payment identifier
+	  */
+	public int getC_Payment_ID();
+
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -79,32 +124,6 @@ public interface I_HR_PaySelectionLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
-
-	/** Set Description.
-	  * Optional short description of the record
-	  */
-	public void setDescription (String Description);
-
-	/** Get Description.
-	  * Optional short description of the record
-	  */
-	public String getDescription();
-
-    /** Column name DifferenceAmt */
-    public static final String COLUMNNAME_DifferenceAmt = "DifferenceAmt";
-
-	/** Set Difference.
-	  * Difference Amount
-	  */
-	public void setDifferenceAmt (BigDecimal DifferenceAmt);
-
-	/** Get Difference.
-	  * Difference Amount
-	  */
-	public BigDecimal getDifferenceAmt();
-
     /** Column name DiscountAmt */
     public static final String COLUMNNAME_DiscountAmt = "DiscountAmt";
 
@@ -118,16 +137,18 @@ public interface I_HR_PaySelectionLine
 	  */
 	public BigDecimal getDiscountAmt();
 
-    /** Column name HR_Movement_ID */
-    public static final String COLUMNNAME_HR_Movement_ID = "HR_Movement_ID";
+    /** Column name DocumentNo */
+    public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
-	/** Set Payroll Movement	  */
-	public void setHR_Movement_ID (int HR_Movement_ID);
+	/** Set Document No.
+	  * Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo);
 
-	/** Get Payroll Movement	  */
-	public int getHR_Movement_ID();
-
-	public org.eevolution.model.I_HR_Movement getHR_Movement() throws RuntimeException;
+	/** Get Document No.
+	  * Document sequence number of the document
+	  */
+	public String getDocumentNo();
 
     /** Column name HR_PaySelectionCheck_ID */
     public static final String COLUMNNAME_HR_PaySelectionCheck_ID = "HR_PaySelectionCheck_ID";
@@ -141,21 +162,6 @@ public interface I_HR_PaySelectionLine
 	  * Payroll Payment Selection Check
 	  */
 	public int getHR_PaySelectionCheck_ID();
-
-	public org.eevolution.model.I_HR_PaySelectionCheck getHR_PaySelectionCheck() throws RuntimeException;
-
-    /** Column name HR_PaySelectionLine_ID */
-    public static final String COLUMNNAME_HR_PaySelectionLine_ID = "HR_PaySelectionLine_ID";
-
-	/** Set Payroll Payment Selection Line ID.
-	  * Payroll Payment Selection Line
-	  */
-	public void setHR_PaySelectionLine_ID (int HR_PaySelectionLine_ID);
-
-	/** Get Payroll Payment Selection Line ID.
-	  * Payroll Payment Selection Line
-	  */
-	public int getHR_PaySelectionLine_ID();
 
     /** Column name HR_PaySelection_ID */
     public static final String COLUMNNAME_HR_PaySelection_ID = "HR_PaySelection_ID";
@@ -185,57 +191,40 @@ public interface I_HR_PaySelectionLine
 	  */
 	public boolean isActive();
 
-    /** Column name IsManual */
-    public static final String COLUMNNAME_IsManual = "IsManual";
+    /** Column name IsGeneratedDraft */
+    public static final String COLUMNNAME_IsGeneratedDraft = "IsGeneratedDraft";
 
-	/** Set Manual.
-	  * This is a manual process
+	/** Set Generated Draft	  */
+	public void setIsGeneratedDraft (boolean IsGeneratedDraft);
+
+	/** Get Generated Draft	  */
+	public boolean isGeneratedDraft();
+
+    /** Column name IsPrinted */
+    public static final String COLUMNNAME_IsPrinted = "IsPrinted";
+
+	/** Set Printed.
+	  * Indicates if this document / line is printed
 	  */
-	public void setIsManual (boolean IsManual);
+	public void setIsPrinted (boolean IsPrinted);
 
-	/** Get Manual.
-	  * This is a manual process
+	/** Get Printed.
+	  * Indicates if this document / line is printed
 	  */
-	public boolean isManual();
+	public boolean isPrinted();
 
-    /** Column name IsSOTrx */
-    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
+    /** Column name IsReceipt */
+    public static final String COLUMNNAME_IsReceipt = "IsReceipt";
 
-	/** Set Sales Transaction.
-	  * This is a Sales Transaction
+	/** Set Receipt.
+	  * This is a sales transaction (receipt)
 	  */
-	public void setIsSOTrx (boolean IsSOTrx);
+	public void setIsReceipt (boolean IsReceipt);
 
-	/** Get Sales Transaction.
-	  * This is a Sales Transaction
+	/** Get Receipt.
+	  * This is a sales transaction (receipt)
 	  */
-	public boolean isSOTrx();
-
-    /** Column name Line */
-    public static final String COLUMNNAME_Line = "Line";
-
-	/** Set Line No.
-	  * Unique line for this document
-	  */
-	public void setLine (int Line);
-
-	/** Get Line No.
-	  * Unique line for this document
-	  */
-	public int getLine();
-
-    /** Column name OpenAmt */
-    public static final String COLUMNNAME_OpenAmt = "OpenAmt";
-
-	/** Set Open Amount.
-	  * Open item amount
-	  */
-	public void setOpenAmt (BigDecimal OpenAmt);
-
-	/** Get Open Amount.
-	  * Open item amount
-	  */
-	public BigDecimal getOpenAmt();
+	public boolean isReceipt();
 
     /** Column name PayAmt */
     public static final String COLUMNNAME_PayAmt = "PayAmt";
@@ -275,6 +264,19 @@ public interface I_HR_PaySelectionLine
 	  * The document has been processed
 	  */
 	public boolean isProcessed();
+
+    /** Column name Qty */
+    public static final String COLUMNNAME_Qty = "Qty";
+
+	/** Set Quantity.
+	  * Quantity
+	  */
+	public void setQty (int Qty);
+
+	/** Get Quantity.
+	  * Quantity
+	  */
+	public int getQty();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

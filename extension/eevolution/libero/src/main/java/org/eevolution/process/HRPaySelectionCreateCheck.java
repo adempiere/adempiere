@@ -102,9 +102,8 @@ public class HRPaySelectionCreateCheck extends SvrProcess
 	private void createCheck (MHRPaySelectionLine line) throws Exception
 	{
 		//	Try to find one
-		for (int i = 0; i < m_list.size(); i++)
+		for (MHRPaySelectionCheck check : m_list)
 		{
-			MHRPaySelectionCheck check = (MHRPaySelectionCheck)m_list.get(i);
 			//	Add to existing
 			if (check.getC_BPartner_ID() == line.getHR_Movement().getC_BPartner_ID())
 			{
@@ -118,6 +117,7 @@ public class HRPaySelectionCreateCheck extends SvrProcess
 				return;
 			}
 		}
+		
 		//	Create new
 		String PaymentRule = line.getPaymentRule();
 		if (p_PaymentRule != null)

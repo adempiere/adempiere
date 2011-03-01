@@ -221,6 +221,32 @@ public interface I_HR_Concept
 	  */
 	public boolean isEmployee();
 
+    /** Column name IsInvoiced */
+    public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
+
+	/** Set Invoiced.
+	  * Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced);
+
+	/** Get Invoiced.
+	  * Is this invoiced?
+	  */
+	public boolean isInvoiced();
+
+    /** Column name IsManual */
+    public static final String COLUMNNAME_IsManual = "IsManual";
+
+	/** Set Manual.
+	  * This is a manual process
+	  */
+	public void setIsManual (boolean IsManual);
+
+	/** Get Manual.
+	  * This is a manual process
+	  */
+	public boolean isManual();
+
     /** Column name IsPaid */
     public static final String COLUMNNAME_IsPaid = "IsPaid";
 
@@ -247,19 +273,6 @@ public interface I_HR_Concept
 	  */
 	public boolean isPrinted();
 
-    /** Column name IsReadWrite */
-    public static final String COLUMNNAME_IsReadWrite = "IsReadWrite";
-
-	/** Set Read Write.
-	  * Field is read / write
-	  */
-	public void setIsReadWrite (boolean IsReadWrite);
-
-	/** Get Read Write.
-	  * Field is read / write
-	  */
-	public boolean isReadWrite();
-
     /** Column name IsReceipt */
     public static final String COLUMNNAME_IsReceipt = "IsReceipt";
 
@@ -273,18 +286,14 @@ public interface I_HR_Concept
 	  */
 	public boolean isReceipt();
 
-    /** Column name IsRegistered */
-    public static final String COLUMNNAME_IsRegistered = "IsRegistered";
+    /** Column name IsSaveInHistoric */
+    public static final String COLUMNNAME_IsSaveInHistoric = "IsSaveInHistoric";
 
-	/** Set Registered.
-	  * The application is registered.
-	  */
-	public void setIsRegistered (boolean IsRegistered);
+	/** Set Save In Historic	  */
+	public void setIsSaveInHistoric (boolean IsSaveInHistoric);
 
-	/** Get Registered.
-	  * The application is registered.
-	  */
-	public boolean isRegistered();
+	/** Get Save In Historic	  */
+	public boolean isSaveInHistoric();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

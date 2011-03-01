@@ -32,7 +32,7 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110223L;
+	private static final long serialVersionUID = 20110224L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -181,9 +181,9 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 	public void setHR_Concept_Category_ID (int HR_Concept_Category_ID)
 	{
 		if (HR_Concept_Category_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Concept_Category_ID, null);
+			set_Value (COLUMNNAME_HR_Concept_Category_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
+			set_Value (COLUMNNAME_HR_Concept_Category_ID, Integer.valueOf(HR_Concept_Category_ID));
 	}
 
 	/** Get Payroll Concept Category.
@@ -339,6 +339,54 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return false;
 	}
 
+	/** Set Invoiced.
+		@param IsInvoiced 
+		Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced)
+	{
+		set_Value (COLUMNNAME_IsInvoiced, Boolean.valueOf(IsInvoiced));
+	}
+
+	/** Get Invoiced.
+		@return Is this invoiced?
+	  */
+	public boolean isInvoiced () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInvoiced);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Manual.
+		@param IsManual 
+		This is a manual process
+	  */
+	public void setIsManual (boolean IsManual)
+	{
+		set_Value (COLUMNNAME_IsManual, Boolean.valueOf(IsManual));
+	}
+
+	/** Get Manual.
+		@return This is a manual process
+	  */
+	public boolean isManual () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsManual);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Paid.
 		@param IsPaid 
 		The document is paid
@@ -387,30 +435,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return false;
 	}
 
-	/** Set Read Write.
-		@param IsReadWrite 
-		Field is read / write
-	  */
-	public void setIsReadWrite (boolean IsReadWrite)
-	{
-		set_Value (COLUMNNAME_IsReadWrite, Boolean.valueOf(IsReadWrite));
-	}
-
-	/** Get Read Write.
-		@return Field is read / write
-	  */
-	public boolean isReadWrite () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsReadWrite);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Receipt.
 		@param IsReceipt 
 		This is a sales transaction (receipt)
@@ -435,21 +459,18 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return false;
 	}
 
-	/** Set Registered.
-		@param IsRegistered 
-		The application is registered.
-	  */
-	public void setIsRegistered (boolean IsRegistered)
+	/** Set Save In Historic.
+		@param IsSaveInHistoric Save In Historic	  */
+	public void setIsSaveInHistoric (boolean IsSaveInHistoric)
 	{
-		set_Value (COLUMNNAME_IsRegistered, Boolean.valueOf(IsRegistered));
+		set_Value (COLUMNNAME_IsSaveInHistoric, Boolean.valueOf(IsSaveInHistoric));
 	}
 
-	/** Get Registered.
-		@return The application is registered.
-	  */
-	public boolean isRegistered () 
+	/** Get Save In Historic.
+		@return Save In Historic	  */
+	public boolean isSaveInHistoric () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsRegistered);
+		Object oo = get_Value(COLUMNNAME_IsSaveInHistoric);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

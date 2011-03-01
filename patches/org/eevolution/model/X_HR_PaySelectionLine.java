@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for HR_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091211L;
+	private static final long serialVersionUID = 20110224L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionLine (Properties ctx, int HR_PaySelectionLine_ID, String trxName)

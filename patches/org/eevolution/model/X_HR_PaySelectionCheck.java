@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091211L;
+	private static final long serialVersionUID = 20110224L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionCheck (Properties ctx, int HR_PaySelectionCheck_ID, String trxName)
@@ -85,9 +85,9 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
       return sb.toString();
     }
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException
     {
-		return (I_C_BP_BankAccount)MTable.get(getCtx(), I_C_BP_BankAccount.Table_Name)
+		return (org.compiere.model.I_C_BP_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BP_BankAccount.Table_Name)
 			.getPO(getC_BP_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Partner Bank Account.
@@ -113,9 +113,9 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -141,9 +141,9 @@ public class X_HR_PaySelectionCheck extends PO implements I_HR_PaySelectionCheck
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws RuntimeException
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
     {
-		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
 			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.

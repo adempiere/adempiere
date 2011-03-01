@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_PaySelection
  *  @author Adempiere (generated) 
- *  @version Release 3.5.4a - $Id$ */
+ *  @version Release 3.6.0LTS - $Id$ */
 public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20091211L;
+	private static final long serialVersionUID = 20110224L;
 
     /** Standard Constructor */
     public X_HR_PaySelection (Properties ctx, int HR_PaySelection_ID, String trxName)
@@ -83,9 +83,9 @@ public class X_HR_PaySelection extends PO implements I_HR_PaySelection, I_Persis
       return sb.toString();
     }
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
-		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
 			.getPO(getC_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Bank Account.

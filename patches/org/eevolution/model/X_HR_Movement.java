@@ -34,7 +34,7 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110223L;
+	private static final long serialVersionUID = 20110224L;
 
     /** Standard Constructor */
     public X_HR_Movement (Properties ctx, int HR_Movement_ID, String trxName)
@@ -590,6 +590,30 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getHR_Process_ID()));
     }
 
+	/** Set Manual.
+		@param IsManual 
+		This is a manual process
+	  */
+	public void setIsManual (boolean IsManual)
+	{
+		set_Value (COLUMNNAME_IsManual, Boolean.valueOf(IsManual));
+	}
+
+	/** Get Manual.
+		@return This is a manual process
+	  */
+	public boolean isManual () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsManual);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Printed.
 		@param IsPrinted 
 		Indicates if this document / line is printed
@@ -605,30 +629,6 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	public boolean isPrinted () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPrinted);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Registered.
-		@param IsRegistered 
-		The application is registered.
-	  */
-	public void setIsRegistered (boolean IsRegistered)
-	{
-		set_Value (COLUMNNAME_IsRegistered, Boolean.valueOf(IsRegistered));
-	}
-
-	/** Get Registered.
-		@return The application is registered.
-	  */
-	public boolean isRegistered () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsRegistered);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

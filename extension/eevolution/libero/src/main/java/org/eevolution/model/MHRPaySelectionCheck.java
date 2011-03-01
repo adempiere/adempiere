@@ -332,10 +332,6 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 			else	//	New Payment
 			{
 				payment = new MPayment(check.getCtx(), 0, null);
-				// BEGIN e-Evolution ECISA
-				//payment.setAD_Org_ID(check.getAD_Org_ID());
-				// END e-Evolution ECISA
-				//
 				if (check.getPaymentRule().equals(PAYMENTRULE_Check))
 					payment.setBankCheck (check.getParent().getC_BankAccount_ID(), false, check.getDocumentNo());
 				else if (check.getPaymentRule().equals(PAYMENTRULE_CreditCard))
@@ -387,11 +383,9 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 					payment.processIt(DocAction.ACTION_Complete);
 					if (!payment.save())
 						s_log.log(Level.SEVERE, "Payment not saved: " + payment);
-					// BEGIN e-Evolution ECISA 25May2010
 						payment.setAD_Org_ID(check.getAD_Org_ID());
 						payment.setAD_OrgTrx_ID(check.getAD_Org_ID());
 						payment.saveEx();
-					// END e-Evolution 25May2010
 				}
 			}	//	new Payment
 
@@ -479,7 +473,7 @@ public final class MHRPaySelectionCheck extends X_HR_PaySelectionCheck
 		this (line.getCtx(), 0, line.get_TrxName());
 		setClientOrg(line);
 		setHR_PaySelection_ID (line.getHR_PaySelection_ID());
-		setAD_Org_ID(line.getHR_Movement().getAD_Org_ID()); // add e-Evolution ECISA 24May2010
+		setAD_Org_ID(line.getHR_Movement().getAD_Org_ID());
 		int C_BPartner_ID = line.getHR_Movement().getC_BPartner_ID();
 		setC_BPartner_ID (C_BPartner_ID);
 		//
