@@ -1791,7 +1791,7 @@ public final class MPayment extends X_C_Payment
 		//	MProject project = new MProject(getCtx(), getC_Project_ID());
 		}
 		//	Update BP for Prepayments
-		if (getC_BPartner_ID() != 0 && getC_Invoice_ID() == 0 && getC_Charge_ID() == 0)
+		if (getC_BPartner_ID() != 0 && getC_Invoice_ID() == 0 && getC_Charge_ID() == 0 && MPaymentAllocate.get(this).length == 0)
 		{
 			MBPartner bp = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 			//	Update total balance to include this payment 
