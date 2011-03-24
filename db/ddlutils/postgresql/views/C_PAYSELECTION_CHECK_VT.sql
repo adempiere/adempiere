@@ -3,7 +3,7 @@ CREATE OR REPLACE VIEW C_PAYSELECTION_CHECK_VT
  ORG_LOCATION_ID, TAXID, C_DOCTYPE_ID, C_BPARTNER_ID, BPVALUE, 
  BPTAXID, NAICS, DUNS, BPGREETING, NAME, 
  NAME2, C_LOCATION_ID, REFERENCENO, POREFERENCE, PAYDATE, 
- PAYAMT, AMTINWORDS, QTY, PAYMENTRULE, DOCUMENTNO)
+ PAYAMT, AMTINWORDS, QTY, PAYMENTRULE, DOCUMENTNO, LOGO_ID)
 AS 
 SELECT psc.AD_Client_ID, psc.AD_Org_ID, 
 	l.AD_Language,
@@ -16,13 +16,12 @@ SELECT psc.AD_Client_ID, psc.AD_Org_ID,
 	bp.ReferenceNo, bp.POReference,
 	ps.PayDate,
 	psc.PayAmt, psc.PayAmt AS AmtInWords,
-	psc.Qty, psc.PaymentRule, psc.DocumentNo
+	psc.Qty, psc.PaymentRule, psc.DocumentNo, COALESCE(oi.Logo_ID, ci.Logo_ID) AS Logo_ID
 FROM C_PaySelectionCheck psc
 	INNER JOIN C_PaySelection ps ON (psc.C_PaySelection_ID=ps.C_PaySelection_ID)
 	INNER JOIN C_BPartner bp ON (psc.C_BPartner_ID=bp.C_BPartner_ID)
 	INNER JOIN AD_OrgInfo oi ON (psc.AD_Org_ID=oi.AD_Org_ID)
-    LEFT OUTER JOIN AD_Language l ON (l.IsSystemLanguage='Y')
+	INNER JOIN AD_ClientInfo ci ON (psc.AD_Client_ID=ci.AD_Client_ID)
+	LEFT OUTER JOIN AD_Language l ON (l.IsSystemLanguage='Y')
 	LEFT OUTER JOIN C_Greeting_Trl bpg on (bp.C_Greeting_ID=bpg.C_Greeting_ID AND bpg.AD_Language=l.AD_Language);
-
-
 
