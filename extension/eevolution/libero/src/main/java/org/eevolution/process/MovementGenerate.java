@@ -176,8 +176,8 @@ public class MovementGenerate extends SvrProcess
 				//	No Manual
 				+ " AND o.DeliveryRule<>'M'"
 				//	Open Order Lines with Warehouse
-				+ " AND EXISTS (SELECT * FROM DD_OrderLine ol "
-					+ "WHERE ol.M_Warehouse_ID=?";					//	#1
+				+ " AND EXISTS (SELECT 1 FROM DD_OrderLine ol "
+				+ " WHERE ? IN (SELECT l.M_Warehouse_ID FROM M_Locator l WHERE l.M_Locator_ID=ol.M_Locator_ID) ";
 			if (p_DatePromised != null)
 				m_sql += " AND TRUNC(ol.DatePromised)<=?";		//	#2
 			m_sql += " AND o.DD_Order_ID=ol.DD_Order_ID AND ol.QtyOrdered<>ol.QtyIntransit)";
