@@ -34,7 +34,7 @@ datetime TIMESTAMP WITH TIME ZONE;
 offsetdays INTEGER;
 BEGIN
 	datepart = $2;
-	offset = 0;
+	offsetdays = 0;
 	IF $2 IN ('') THEN
 		datepart = 'millennium';
 	ELSEIF $2 IN ('') THEN
@@ -58,7 +58,7 @@ BEGIN
 	ELSEIF $2 IN ('DAY','DY','D') THEN
 		datepart = 'week';
 		-- move to sunday to make it compatible with oracle and SQLJ
-		offset = -1;
+		offsetdays = -1;
 	ELSEIF $2 IN ('HH','HH12','HH24') THEN
 		datepart = 'hour';
 	ELSEIF $2 IN ('MI') THEN
