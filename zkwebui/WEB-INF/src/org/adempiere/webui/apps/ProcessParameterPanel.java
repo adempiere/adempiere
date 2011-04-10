@@ -42,6 +42,7 @@ import org.compiere.apps.IProcessParameter;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.MClient;
+import org.compiere.model.MLookup;
 import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
@@ -502,7 +503,52 @@ implements ValueChangeListener, IProcessParameter
 		
 		public void valueChange(ValueChangeEvent evt) 
 		{
+			if (evt.getSource() instanceof WEditor) {
+				GridField changedField = ((WEditor) evt.getSource()).getGridField();
+				if (changedField != null) {
+					processDependencies (changedField);
+					// future processCallout (changedField);
+				}
+			}
 			processNewValue(evt.getNewValue(), evt.getPropertyName());
+		}
+		
+		/**
+		 *  Evaluate Dependencies
+		 *  @param changedField changed field
+		 */
+		private void processDependencies (GridField changedField)
+		{
+			String columnName = changedField.getColumnName();
+
+			for (GridField field : m_mFields) {
+				if (field == null || field == changedField)
+					continue;
+				verifyChangedField(field, columnName);
+			}
+			for (GridField field : m_mFields2) {
+				if (field == null || field == changedField)
+					continue;
+				verifyChangedField(field, columnName);
+			}
+		}   //  processDependencies
+
+		private void verifyChangedField(GridField field, String columnName) {
+			ArrayList<String> list = field.getDependentOn();
+			if (list.contains(columnName)) {
+				if (field.getLookup() instanceof MLookup)
+				{
+					MLookup mLookup = (MLookup)field.getLookup();
+					//  if the lookup is dynamic (i.e. contains this columnName as variable)
+					if (mLookup.getValidation().indexOf("@"+columnName+"@") != -1)
+					{
+						log.fine(columnName + " changed - "
+							+ field.getColumnName() + " set to null");
+						//  invalidate current selection
+						field.setValue(null, true);
+					}
+				}
+			}
 		}
 		
 		private void processNewValue(Object value, String name) {
