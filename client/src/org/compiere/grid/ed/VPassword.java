@@ -45,7 +45,7 @@ public final class VPassword extends CPassword
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1251556129161613098L;
+	private static final long serialVersionUID = 1659042515884579907L;
 
 	/**
 	 *	IDE Bean Constructor for 30 character updateable field
@@ -193,6 +193,11 @@ public final class VPassword extends CPassword
 	{
 		m_mField = mField;
 	}   //  setField
+
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
 
 	@Override
 	public void focusGained(FocusEvent e) {

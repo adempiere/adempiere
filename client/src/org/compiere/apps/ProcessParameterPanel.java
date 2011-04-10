@@ -38,8 +38,10 @@ import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
 import org.compiere.model.GridFieldVO;
 import org.compiere.model.MClient;
+import org.compiere.model.MLookup;
 import org.compiere.model.MPInstancePara;
 import org.compiere.process.ProcessInfo;
+import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -362,9 +364,54 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 		public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException
 		{
 		//	log.fine( "ProcessParameterPanel.vetoableChange");
+			if (evt.getSource() instanceof VEditor) {
+				GridField changedField = ((VEditor) evt.getSource()).getField();
+				if (changedField != null) {
+					processDependencies (changedField);
+					// future processCallout (changedField);
+				}
+			}
 			processNewValue(evt.getNewValue(), evt.getPropertyName());
 		}	//	vetoableChange
 
+		/**
+		 *  Evaluate Dependencies
+		 *  @param changedField changed field
+		 */
+		private void processDependencies (GridField changedField)
+		{
+			String columnName = changedField.getColumnName();
+
+			for (GridField field : m_mFields) {
+				if (field == null || field == changedField)
+					continue;
+				verifyChangedField(field, columnName);
+			}
+			for (GridField field : m_mFields2) {
+				if (field == null || field == changedField)
+					continue;
+				verifyChangedField(field, columnName);
+			}
+		}   //  processDependencies
+
+		private void verifyChangedField(GridField field, String columnName) {
+			ArrayList<String> list = field.getDependentOn();
+			if (list.contains(columnName)) {
+				if (field.getLookup() instanceof MLookup)
+				{
+					MLookup mLookup = (MLookup)field.getLookup();
+					//  if the lookup is dynamic (i.e. contains this columnName as variable)
+					if (mLookup.getValidation().indexOf("@"+columnName+"@") != -1)
+					{
+						log.fine(columnName + " changed - "
+							+ field.getColumnName() + " set to null");
+						//  invalidate current selection
+						field.setValue(null, true);
+					}
+				}
+			}
+		}
+		
 		private void processNewValue(Object value, String name) {
 			if (value == null)
 				value = new String("");
@@ -393,6 +440,8 @@ public class ProcessParameterPanel extends CPanel implements VetoableChangeListe
 			Component[] comps = centerPanel.getComponents();
 			for (int i = 0; i < comps.length; i++) {
 				Component comp = comps[i];
+				if (comp instanceof CLabel)
+					continue;
 				String columnName = comp.getName();
 
 				if (columnName != null && columnName.length() > 0) {

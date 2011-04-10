@@ -75,7 +75,8 @@ public final class VNumber extends JComponent
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -516704171367798447L;
+	private static final long serialVersionUID = -1473227631807352033L;
+
 	/**	Number of Columns (12)		*/
 	public final static int SIZE = 12;
 	/** Automatically pop up calculator */
@@ -764,6 +765,10 @@ public final class VNumber extends JComponent
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 	
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
 	/*
 	 * BF [ 1834393 ] VNumber.setFocusable not working
 	 */

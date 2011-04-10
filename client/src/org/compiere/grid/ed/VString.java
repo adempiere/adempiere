@@ -60,7 +60,8 @@ public final class VString extends CTextField
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3142768153171970900L;
+	private static final long serialVersionUID = 8487860095322876086L;
+	
 	/** Max Display Length - 60 */
 	public static final int MAXDISPLAY_LENGTH = org.compiere.model.GridField.MAXDISPLAY_LENGTH;
 
@@ -303,6 +304,11 @@ public final class VString extends CTextField
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 	/**
 	 *  Feature Request [1707462]
 	 *  Set VFormat

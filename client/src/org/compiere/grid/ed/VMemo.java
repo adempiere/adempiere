@@ -37,6 +37,7 @@ import javax.swing.SwingUtilities;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.ScriptEditor;
+import org.compiere.model.GridField;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CTextArea;
 import org.compiere.util.CLogger;
@@ -55,9 +56,7 @@ public class VMemo extends CTextArea
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9218826231484540367L;
-
-	/*****************************************************************************/
+	private static final long serialVersionUID = -1589654941310687511L;
 
 	/**
 	 *	Mouse Listener
@@ -278,14 +277,21 @@ public class VMemo extends CTextArea
 
 	/*************************************************************************/
 
+	//	Field for Value Preference
+	private GridField          m_mField = null;
 	/**
 	 *  Set Field/WindowNo for ValuePreference (NOP)
 	 *  @param mField
 	 */
 	public void setField (org.compiere.model.GridField mField)
 	{
+		m_mField = mField;
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
 
 
 private class CInputVerifier extends InputVerifier {

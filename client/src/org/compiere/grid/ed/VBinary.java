@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
+import org.compiere.model.GridField;
 import org.compiere.util.CLogger;
 
 /**
@@ -45,7 +46,7 @@ public class VBinary extends JButton
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2651582926471195345L;
+	private static final long serialVersionUID = 298576564679201761L;
 
 	/**
 	 *  Binary Editor
@@ -256,12 +257,20 @@ public class VBinary extends JButton
 		catch (PropertyVetoException pve)	{}
 	}   //  actionPerformed
 
+	//	Field for Value Preference
+	private GridField          m_mField = null;
 	/**
 	 *  Set Field/WindowNo for ValuePreference (NOP)
 	 *  @param mField
 	 */
-	public void setField (org.compiere.model.GridField mField)
+	public void setField (GridField mField)
 	{
+		m_mField = mField;
 	}   //  setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 }	//	VBinary

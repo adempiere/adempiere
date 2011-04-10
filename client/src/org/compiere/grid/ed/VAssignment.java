@@ -64,7 +64,7 @@ public class VAssignment extends JComponent
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 796127013756416974L;
+	private static final long serialVersionUID = 1362298262975012883L;
 
 	/**
 	 *	Mouse Listener
@@ -361,6 +361,11 @@ public class VAssignment extends JComponent
 			FieldRecordInfo.addMenu(this, popupMenu);
 	}	//	setField
 
+	@Override
+	public GridField getField() {
+		return m_mField;
+	}
+	
 	/**
 	 *  Action Listener Interface
 	 *  @param listener listener
