@@ -33,7 +33,7 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110412L;
 
     /** Standard Constructor */
     public X_HR_Attribute (Properties ctx, int HR_Attribute_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Rule getAD_Rule() throws RuntimeException
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException
     {
-		return (I_AD_Rule)MTable.get(getCtx(), I_AD_Rule.Table_Name)
+		return (org.compiere.model.I_AD_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Rule.Table_Name)
 			.getPO(getAD_Rule_ID(), get_TrxName());	}
 
 	/** Set Rule.
@@ -120,9 +120,9 @@ public class X_HR_Attribute extends PO implements I_HR_Attribute, I_Persistent
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
