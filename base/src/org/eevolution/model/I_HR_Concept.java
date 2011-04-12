@@ -221,6 +221,19 @@ public interface I_HR_Concept
 	  */
 	public boolean isEmployee();
 
+    /** Column name IsInvoiced */
+    public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
+
+	/** Set Invoiced.
+	  * Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced);
+
+	/** Get Invoiced.
+	  * Is this invoiced?
+	  */
+	public boolean isInvoiced();
+
     /** Column name IsManual */
     public static final String COLUMNNAME_IsManual = "IsManual";
 

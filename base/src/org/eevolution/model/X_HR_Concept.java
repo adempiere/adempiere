@@ -339,6 +339,30 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		return false;
 	}
 
+	/** Set Invoiced.
+		@param IsInvoiced 
+		Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced)
+	{
+		set_Value (COLUMNNAME_IsInvoiced, Boolean.valueOf(IsInvoiced));
+	}
+
+	/** Get Invoiced.
+		@return Is this invoiced?
+	  */
+	public boolean isInvoiced () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInvoiced);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Manual.
 		@param IsManual 
 		This is a manual process

@@ -218,20 +218,22 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** PaymentRule AD_Reference_ID=214 */
-	public static final int PAYMENTRULE_AD_Reference_ID=214;
-	/** Credit Card = C */
-	public static final String PAYMENTRULE_CreditCard = "C";
-	/** Check = K */
-	public static final String PAYMENTRULE_Check = "K";
-	/** Direct Deposit = A */
-	public static final String PAYMENTRULE_DirectDeposit = "A";
+	/** PaymentRule AD_Reference_ID=195 */
+	public static final int PAYMENTRULE_AD_Reference_ID=195;
+	/** Cash = B */
+	public static final String PAYMENTRULE_Cash = "B";
+	/** Credit Card = K */
+	public static final String PAYMENTRULE_CreditCard = "K";
+	/** Direct Deposit = T */
+	public static final String PAYMENTRULE_DirectDeposit = "T";
+	/** Check = S */
+	public static final String PAYMENTRULE_Check = "S";
+	/** On Credit = P */
+	public static final String PAYMENTRULE_OnCredit = "P";
 	/** Direct Debit = D */
 	public static final String PAYMENTRULE_DirectDebit = "D";
-	/** Account = T */
-	public static final String PAYMENTRULE_Account = "T";
-	/** Cash = X */
-	public static final String PAYMENTRULE_Cash = "X";
+	/** Mixed = M */
+	public static final String PAYMENTRULE_Mixed = "M";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice
