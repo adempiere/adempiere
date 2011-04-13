@@ -82,16 +82,16 @@ public class Doc_MatchInv extends Doc
 		setQty (matchInv.getQty());
 		//	Invoice Info
 		int C_InvoiceLine_ID = matchInv.getC_InvoiceLine_ID();
-		m_invoiceLine = new MInvoiceLine (getCtx(), C_InvoiceLine_ID, null);
+		m_invoiceLine = new MInvoiceLine (getCtx(), C_InvoiceLine_ID, getTrxName());
 		//		BP for NotInvoicedReceipts
 		int C_BPartner_ID = m_invoiceLine.getParent().getC_BPartner_ID(); 
 		setC_BPartner_ID(C_BPartner_ID);
 		//
 		int M_InOutLine_ID = matchInv.getM_InOutLine_ID();
-		m_receiptLine = new MInOutLine (getCtx(), M_InOutLine_ID, null);		
+		m_receiptLine = new MInOutLine (getCtx(), M_InOutLine_ID, getTrxName());		
 		//
 		m_pc = new ProductCost (Env.getCtx(), 
-			getM_Product_ID(), matchInv.getM_AttributeSetInstance_ID(), null);
+			getM_Product_ID(), matchInv.getM_AttributeSetInstance_ID(), getTrxName());
 		m_pc.setQty(getQty());
 		
 		return null;
