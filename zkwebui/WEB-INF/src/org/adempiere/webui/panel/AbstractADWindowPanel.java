@@ -37,6 +37,7 @@ import org.adempiere.webui.apps.ProcessModalDialog;
 import org.adempiere.webui.apps.WReport;
 import org.adempiere.webui.apps.form.WCreateFromFactory;
 import org.adempiere.webui.apps.form.WPayment;
+import org.adempiere.webui.component.AbstractADTab;
 import org.adempiere.webui.component.CWindowToolbar;
 import org.adempiere.webui.component.IADTab;
 import org.adempiere.webui.component.IADTabList;
@@ -210,6 +211,10 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 
 		adTab = createADTab();
 		adTab.addSelectionEventListener(this);
+		if (adTab instanceof AbstractADTab)
+		{
+			((AbstractADTab)adTab).setADWindowPanel(this);
+		}
 
         return super.createPart(parent);
     }
