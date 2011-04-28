@@ -463,11 +463,19 @@ class AcctViewerData
 			else if (column != null && column.endsWith("_ID"))
 				rm.addColumn(new RColumn(ctx, column, DisplayType.TableDir));
 		}
+
+		// adaxa-pb: always show product and bp
+		if (!keys.contains("M_Product_ID"))
+			rm.addColumn(new RColumn(ctx, "M_Product_ID", DisplayType.TableDir));
+		if (!keys.contains("C_BPartner_ID"))
+			rm.addColumn(new RColumn(ctx, "C_BPartner_ID", DisplayType.TableDir));
+		
 		//	Info
 		if (!keys.contains("DateAcct"))
 			rm.addColumn(new RColumn(ctx, "DateAcct", DisplayType.Date));
 		if (!keys.contains("C_Period_ID"))
 			rm.addColumn(new RColumn(ctx, "C_Period_ID", DisplayType.TableDir));
+
 		if (displayQty)
 		{
 			rm.addColumn(new RColumn(ctx, "C_UOM_ID", DisplayType.TableDir));
