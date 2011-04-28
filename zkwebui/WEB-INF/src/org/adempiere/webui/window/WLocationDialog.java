@@ -40,11 +40,13 @@ import org.compiere.model.MCountry;
 import org.compiere.model.MLocation;
 import org.compiere.model.MRegion;
 import org.compiere.util.CLogger;
+import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zul.Hbox;
 
 /**
  * @author Sendy Yagambrum
@@ -56,6 +58,9 @@ import org.zkoss.zk.ui.event.Events;
  * @author Teo Sarca, teo.sarca@gmail.com
  * 			<li>BF [ 2995212 ] NPE on Location dialog
  * 				https://sourceforge.net/tracker/?func=detail&aid=2995212&group_id=176962&atid=955896
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * 			<li>BF [ 3294610] The location should allow open a google map
+ * 				https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
  * 
  * @TODO: Implement fOnline button present in swing client
  * 
@@ -89,6 +94,7 @@ public class WLocationDialog extends Window implements EventListener
 	private Textbox txtPostalAdd;
 	private Listbox lstRegion;
 	private Listbox lstCountry;
+	private Button btnUrl;
 
 	private Button btnOk;
 	private Button btnCancel;
@@ -216,7 +222,11 @@ public class WLocationDialog extends Window implements EventListener
 		lstCountry.setMold("select");
 		lstCountry.setWidth("154px");
 		lstCountry.setRows(0);
-
+		
+		btnUrl =  new Button();
+		btnUrl.setImage("/images/Online10.png");
+		btnUrl.addEventListener(Events.ON_CLICK,this);
+		
 		btnOk = new Button();
 		btnOk.setImage("/images/Ok16.png");
 		btnOk.addEventListener(Events.ON_CLICK,this);
@@ -266,14 +276,24 @@ public class WLocationDialog extends Window implements EventListener
 		pnlCountry.appendChild(lblCountry.rightAlign());
 		pnlCountry.appendChild(lstCountry);
 
-		Panel pnlButton   = new Panel();
-		pnlButton.appendChild(btnOk);
-		pnlButton.appendChild(btnCancel);
-		pnlButton.setWidth("100%");
-		pnlButton.setStyle("text-align:right");
+		Panel pnlButtonLeft = new Panel();
+	    pnlButtonLeft.appendChild(btnUrl);
+	    pnlButtonLeft.setAlign("left");
+	        
+		Panel pnlButtonRight   = new Panel();
+		pnlButtonRight.appendChild(btnOk);
+		pnlButtonRight.appendChild(btnCancel);
+		pnlButtonRight.setWidth("100%");
+		pnlButtonRight.setStyle("text-align:right");
 
+		Hbox hboxButton = new Hbox();
+	    hboxButton.appendChild(pnlButtonLeft);
+	    hboxButton.appendChild(pnlButtonRight);
+	    hboxButton.setWidth("100%");
+	        
 		this.appendChild(mainPanel);
-		this.appendChild(pnlButton);
+		this.appendChild(hboxButton);
+
 	}
 	/**
 	 * Dynamically add fields to the Location dialog box
@@ -520,6 +540,12 @@ public class WLocationDialog extends Window implements EventListener
 			//  refresh
 			initLocation();
 		}
+		else if (btnUrl.equals(event.getTarget()))
+		{
+			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation());
+			m_change = false;
+			this.dispose();
+		}
 	}
 
 	
@@ -600,5 +626,31 @@ public class WLocationDialog extends Window implements EventListener
 			m_location = new MLocation(m_location.getCtx(), m_location.get_ID(), null);
 		}	
 		super.dispose();
+	}
+	
+	/**
+	 * 	Get edited Value (MLocation)
+	 *	@return location
+	 */
+	private String getCurrentLocation() {
+		m_location.setAddress1(txtAddress1.getText());
+		m_location.setAddress2(txtAddress2.getText());
+		m_location.setAddress3(txtAddress3.getText());
+		m_location.setAddress4(txtAddress4.getText());
+		m_location.setCity(txtCity.getText());
+		m_location.setPostal(txtPostal.getText());
+		m_location.setPostal_Add(txtPostalAdd.getText());
+		//  Country/Region
+		MCountry c = (MCountry)lstCountry.getSelectedItem().getValue();
+		m_location.setCountry(c);
+		if (m_location.getCountry().isHasRegion())
+		{
+			MRegion r = (MRegion)lstRegion.getSelectedItem().getValue();
+			m_location.setRegion(r);
+		}
+		else
+			m_location.setC_Region_ID(0);
+		
+		return m_location.toString().replace(" ", "%");
 	}
 }

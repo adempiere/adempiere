@@ -21,6 +21,9 @@ import java.util.Properties;
 /**
  * 
  * @author Low Heng Sin
+ * @author victor.perez@e-evolution.com, www.e-evolution.com
+ * <li>BF [ 3294610] The location should allow open a google map
+ *        https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
  *
  */
 public class DefaultContextProvider implements ContextProvider {
@@ -33,6 +36,9 @@ public class DefaultContextProvider implements ContextProvider {
 	private static String	UNIX_BROWSER = "netscape";
 	
 	private static String   MAC_BROWSER = "open";
+	
+	public static String GOOGLE_MAPS_URL_PREFIX =
+		"http://local.google.com/maps?q=";
 	
 	
 	public Properties getContext() {

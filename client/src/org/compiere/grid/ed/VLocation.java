@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +30,7 @@ import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
 import javax.swing.LookAndFeel;
@@ -43,6 +45,7 @@ import org.compiere.model.MLocationLookup;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.CLogger;
+import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -50,7 +53,9 @@ import org.compiere.util.Msg;
  *	Location Control (Address)
  *
  *  @author 	Jorg Janke
- *  @version 	$Id: VLocation.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author victor.perez@e-evolution.com, www.e-evolution.com
+ *  		<li>BF [ 3294610] The location should allow open a google map
+ *  			https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
  */
 public class VLocation extends JComponent
 	implements VEditor, ActionListener
@@ -125,16 +130,35 @@ public class VLocation extends JComponent
 		//
 		LookAndFeel.installBorder(this, "TextField.border");
 		this.setLayout(new BorderLayout());
+		
+	    //  Size
+		Dimension size = m_text.getPreferredSize();
+		this.setPreferredSize(size);		//	causes r/o to be the same length
+		
+		// normalize for buttons
+		size.width = size.height;
+		
+		//  Edit Button
+		JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
+		this.add(buttonPanel, BorderLayout.EAST);
+		
+		//  to Internet Edit Button
+		m_toMapButton.setIcon(Env.getImageIcon("Online10.gif"));
+		m_toMapButton.setMargin(new Insets(0,0,0,0));
+		m_toMapButton.setPreferredSize(size);
+		m_toMapButton.addActionListener(this);
+		buttonPanel.add(m_toMapButton);
+		
 		//  Size
-		this.setPreferredSize(m_text.getPreferredSize());		//	causes r/o to be the same length
 		int height = m_text.getPreferredSize().height;
-
+		
 		//  Button
 		m_button.setIcon(Env.getImageIcon("Location10.gif"));
 		m_button.setMargin(new Insets(0,0,0,0));
 		m_button.setPreferredSize(new Dimension(height, height));
 		m_button.addActionListener(this);
-		this.add(m_button, BorderLayout.EAST);
+		buttonPanel.add(m_button);
+		
 		//	***	Button & Text	***
 		m_text.setBorder(null);
 		m_text.setEditable(false);
@@ -173,6 +197,9 @@ public class VLocation extends JComponent
 	private JTextField			m_text = new JTextField(VLookup.DISPLAY_LENGTH);
 	/** The Button                      */
 	private CButton				m_button = new CButton();
+	
+	/** The "to map" Button                      */
+	private CButton				m_toMapButton = new CButton();
 
 	private MLocationLookup		m_mLocation;
 	private MLocation			m_value;
@@ -284,6 +311,9 @@ public class VLocation extends JComponent
 			else
 				m_text.setText(m_value.toString());
 		}
+		
+		m_toMapButton.setEnabled(value != null);
+		m_text.setToolTipText(m_text.getText());
 	}	//	setValue
 
 	/**
@@ -349,6 +379,12 @@ public class VLocation extends JComponent
 		
 		if (e.getSource() == mDelete)
 			m_value = null;        //  create new
+		
+		if (e.getSource() == m_toMapButton)
+		{
+			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + m_value.toString().replace(" ", "%"));
+			return;
+		}
 		//
 		log.config( "actionPerformed - " + m_value);
 		VLocationDialog ld = new VLocationDialog(Env.getFrame(this),
