@@ -28,7 +28,7 @@ import org.compiere.util.Env;
  * @version $Id: PrintDataFunction.java,v 1.3 2006/07/30 00:53:02 jjanke Exp $
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
- * 				<li>BF [ 1789279 ] DisplayType for group columns are incorect
+ * 				<li>BF [ 1789279 ] DisplayType for group columns are incorrect
  */
 public class PrintDataFunction
 {
