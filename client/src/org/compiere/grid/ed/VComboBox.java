@@ -39,7 +39,7 @@ public class VComboBox extends CComboBox
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2024662772161020317L;
+	private static final long serialVersionUID = 7632613004262943867L;
 
 	/**
 	 *  Constructor
@@ -156,7 +156,7 @@ public class VComboBox extends CComboBox
 	 */
 	public String getDisplay()
 	{
-		if (getSelectedIndex() == -1)
+		if (getSelectedItem() == null)
 			return "";
 		//
 		NamePair p = (NamePair)getSelectedItem();
@@ -164,5 +164,13 @@ public class VComboBox extends CComboBox
 			return "";
 		return p.getName();
 	}   //  getDisplay
-	
+
+	@Override
+	protected boolean isMatchingFilter(Object element) 
+	{
+		if (element instanceof NamePair)
+			element = ((NamePair)element).getName();
+		return super.isMatchingFilter(element);
+	}	
+
 }	//	VComboBox
