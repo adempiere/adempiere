@@ -281,7 +281,7 @@ public class VLookup extends JComponent
 				m_lookup.fillComboBox (isMandatory(), true, true, false);
 			m_combo.setModel(m_lookup);
 			//
-			AutoCompletion.enable(m_combo);
+			// AutoCompletion.enable(m_combo);
 			m_combo.addActionListener(this);							//	Selection
 			m_combo.getEditor().getEditorComponent().addMouseListener(mouseAdapter);	                        //	popup
 			//	FocusListener to refresh selection before opening
