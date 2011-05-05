@@ -111,6 +111,7 @@ public class M_Production_Run extends SvrProcess {
 						MProduct product = MProduct.get(getCtx(), pp.getM_Product_ID());
 			
 						X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+						pl.setAD_Org_ID(pp.getAD_Org_ID());
 						pl.setLine(line);
 						pl.setDescription(pp.getDescription());
 						pl.setM_Product_ID(pp.getM_Product_ID());
@@ -238,6 +239,7 @@ public class M_Production_Run extends SvrProcess {
 			{	
 				line += 1;
 				X_M_ProductionLine pl = new X_M_ProductionLine(getCtx(), 0 , get_TrxName());
+				pl.setAD_Org_ID(pp.getAD_Org_ID());
 				pl.setLine(line);
 				pl.setDescription(bomline.getDescription());
 				pl.setM_Product_ID(bomline.getM_Product_ID());
