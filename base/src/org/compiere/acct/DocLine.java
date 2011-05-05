@@ -728,7 +728,7 @@ public class DocLine
 	 */
 	public BigDecimal getProductCosts (MAcctSchema as, int AD_Org_ID, boolean zeroCostsOK, String whereClause)
 	{
-		if (whereClause != null)
+		if (whereClause != null && !as.getCostingMethod().equals(MAcctSchema.COSTINGMETHOD_StandardCosting))
 		{
 			MCostDetail cd = MCostDetail.get (Env.getCtx(), whereClause, 
 					get_ID(), getM_AttributeSetInstance_ID(), as.getC_AcctSchema_ID(), p_po.get_TrxName());
