@@ -99,19 +99,6 @@ public class CalloutBOM extends CalloutEngine
 			Env.setContext(ctx, WindowNo, "UOMConversion", conversion);
 			bomLine.setQtyRequired(QtyRequired);
 		}
-		//	QtyOrdered changed - calculate QtyEntered
-		/*else if (I_PP_Order_BOMLine.COLUMNNAME_QtyRequired.equals(columnName))
-		{
-			final BigDecimal QtyRequired = bomLine.getQtyRequired();
-			BigDecimal QtyEntered = MUOMConversion.convertProductTo (ctx, M_Product_ID, 
-					bomLine.getC_UOM_ID(), QtyRequired);
-			if (QtyEntered == null) // No Conversion Found
-				QtyEntered = QtyRequired;
-			boolean conversion = QtyRequired.compareTo(QtyEntered) != 0;
-			Env.setContext(ctx, WindowNo, "UOMConversion", conversion);
-			bomLine.setQtyEntered(QtyEntered);
-		}*/
-		//
 		return "";
 	}	//	qty
     
