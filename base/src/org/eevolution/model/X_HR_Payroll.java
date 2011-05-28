@@ -31,7 +31,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20110412L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_HR_Payroll (Properties ctx, int HR_Payroll_ID, String trxName)
@@ -218,22 +218,20 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** PaymentRule AD_Reference_ID=195 */
-	public static final int PAYMENTRULE_AD_Reference_ID=195;
-	/** Cash = B */
-	public static final String PAYMENTRULE_Cash = "B";
-	/** Credit Card = K */
-	public static final String PAYMENTRULE_CreditCard = "K";
-	/** Direct Deposit = T */
-	public static final String PAYMENTRULE_DirectDeposit = "T";
-	/** Check = S */
-	public static final String PAYMENTRULE_Check = "S";
-	/** On Credit = P */
-	public static final String PAYMENTRULE_OnCredit = "P";
+	/** PaymentRule AD_Reference_ID=214 */
+	public static final int PAYMENTRULE_AD_Reference_ID=214;
+	/** Credit Card = C */
+	public static final String PAYMENTRULE_CreditCard = "C";
+	/** Check = K */
+	public static final String PAYMENTRULE_Check = "K";
+	/** Direct Deposit = A */
+	public static final String PAYMENTRULE_DirectDeposit = "A";
 	/** Direct Debit = D */
 	public static final String PAYMENTRULE_DirectDebit = "D";
-	/** Mixed = M */
-	public static final String PAYMENTRULE_Mixed = "M";
+	/** Account = T */
+	public static final String PAYMENTRULE_Account = "T";
+	/** Cash = X */
+	public static final String PAYMENTRULE_Cash = "X";
 	/** Set Payment Rule.
 		@param PaymentRule 
 		How you pay the invoice

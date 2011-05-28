@@ -33,7 +33,7 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20101025L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_I_Product_BOM (Properties ctx, int I_Product_BOM_ID, String trxName)
@@ -42,6 +42,7 @@ public class X_I_Product_BOM extends PO implements I_I_Product_BOM, I_Persistent
       /** if (I_Product_BOM_ID == 0)
         {
 			setI_IsImported (false);
+// N
 			setI_Product_BOM_ID (0);
         } */
     }

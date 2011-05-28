@@ -42,19 +42,6 @@ public interface I_PP_Order_Workflow
 
     /** Load Meta Data */
 
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -89,7 +76,7 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
@@ -104,7 +91,7 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getAD_WF_Node_ID();
 
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
 
     /** Column name AD_WF_Responsible_ID */
     public static final String COLUMNNAME_AD_WF_Responsible_ID = "AD_WF_Responsible_ID";
@@ -119,22 +106,7 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
-
-    /** Column name AD_Workflow_ID */
-    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
-
-	/** Set Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public void setAD_Workflow_ID (int AD_Workflow_ID);
-
-	/** Get Workflow.
-	  * Workflow or combination of tasks
-	  */
-	public int getAD_Workflow_ID();
-
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
     /** Column name AD_WorkflowProcessor_ID */
     public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
@@ -149,7 +121,35 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getAD_WorkflowProcessor_ID();
 
-	public I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
+	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
+
+    /** Column name AD_Workflow_ID */
+    public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
+
+	/** Set Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public void setAD_Workflow_ID (int AD_Workflow_ID);
+
+	/** Get Workflow.
+	  * Workflow or combination of tasks
+	  */
+	public int getAD_Workflow_ID();
+
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name Author */
     public static final String COLUMNNAME_Author = "Author";
@@ -443,19 +443,6 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getQueuingTime();
 
-    /** Column name SetupTime */
-    public static final String COLUMNNAME_SetupTime = "SetupTime";
-
-	/** Set Setup Time.
-	  * Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime);
-
-	/** Get Setup Time.
-	  * Setup time before starting Production
-	  */
-	public int getSetupTime();
-
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -469,7 +456,20 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getS_Resource_ID();
 
-	public I_S_Resource getS_Resource() throws RuntimeException;
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
+
+    /** Column name SetupTime */
+    public static final String COLUMNNAME_SetupTime = "SetupTime";
+
+	/** Set Setup Time.
+	  * Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime);
+
+	/** Get Setup Time.
+	  * Setup time before starting Production
+	  */
+	public int getSetupTime();
 
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
@@ -500,15 +500,6 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getUpdatedBy();
 
-    /** Column name ValidateWorkflow */
-    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
-
-	/** Set Validate Workflow	  */
-	public void setValidateWorkflow (String ValidateWorkflow);
-
-	/** Get Validate Workflow	  */
-	public String getValidateWorkflow();
-
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 
@@ -534,6 +525,15 @@ public interface I_PP_Order_Workflow
 	  * Valid to including this date (last day)
 	  */
 	public Timestamp getValidTo();
+
+    /** Column name ValidateWorkflow */
+    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
+
+	/** Set Validate Workflow	  */
+	public void setValidateWorkflow (String ValidateWorkflow);
+
+	/** Get Validate Workflow	  */
+	public String getValidateWorkflow();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";
