@@ -427,18 +427,18 @@ public class DistributionRunOrders extends SvrProcess
     {
     	num +=1;
  	    int M_Product_ID = line.getM_Product_ID();
- 	    BigDecimal  QtyRequiered = line.getQtyBOM().multiply(Qty);
+ 	    BigDecimal  QtyRequired = line.getQtyBOM().multiply(Qty);
  	    BigDecimal  QtyAvailable = MStorage.getQtyAvailable(P_M_Warehouse_ID, M_Product_ID, 0 ,0, A_TrxName);
  	    BigDecimal  QtyOnHand = MPPMRP.getQtyOnHand(A_Ctx, P_M_Warehouse_ID,M_Product_ID, A_TrxName);
- 	    BigDecimal  QtyToDeliver = QtyRequiered;
- 	    if(QtyRequiered.compareTo(QtyAvailable) > 0)
+ 	    BigDecimal  QtyToDeliver = QtyRequired;
+ 	    if(QtyRequired.compareTo(QtyAvailable) > 0)
  	    	QtyToDeliver = QtyAvailable;
  	    MDistributionRunLine drl = new  MDistributionRunLine(A_Ctx,0,A_TrxName);
  		drl.setM_DistributionRun_ID(main.getM_DistributionRun_ID());
  		drl.setLine(seq);
  		drl.setM_Product_ID(M_Product_ID);
  		drl.setM_DistributionList_ID(main.getM_DistributionList_ID());
-      		drl.setDescription(Msg.translate(A_Ctx, "QtyRequiered") +" = " + QtyRequiered.intValue()+ " | "
+      		drl.setDescription(Msg.translate(A_Ctx, "QtyRequired") +" = " + QtyRequired.intValue()+ " | "
       						  +Msg.translate(A_Ctx, "QtyAvailable") +" = " + QtyAvailable + " | " 
       						  +Msg.translate(A_Ctx, "QtyOnHand") + " = " + QtyOnHand);
  		drl.setTotalQty(QtyToDeliver);

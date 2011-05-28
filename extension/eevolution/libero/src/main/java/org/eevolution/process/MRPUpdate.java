@@ -334,11 +334,11 @@ public class MRPUpdate extends SvrProcess
 			+" null, null, "
 			+"t.m_product_id, t.m_warehouse_id," 
 			+ "nextidfunc(53040,'N'), null ,"
-			+"t.QtyRequiered-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
+			+"t.QtyRequired-t.QtyDelivered,  'D', 'MOP', t.updated, t.updatedby, o.DocumentNo," 
 			+"t.ad_client_id, o.S_Resource_ID, null as C_BPartner_ID "
 			+" FROM PP_Order_BOMLine t "
 			+" INNER JOIN PP_Order o ON (o.pp_order_id=t.pp_order_id)"
-			+" WHERE  (t.QtyRequiered-t.QtyDelivered) <> 0 AND o.DocStatus IN ('DR','IP','CO') AND "
+			+" WHERE  (t.QtyRequired-t.QtyDelivered) <> 0 AND o.DocStatus IN ('DR','IP','CO') AND "
 			+"t.AD_Client_ID=? AND t.AD_Org_ID=? AND o.S_Resource_ID=? AND t.M_Warehouse_ID= ?";
 		executeUpdate(sql + sql_insert , params);
 	}

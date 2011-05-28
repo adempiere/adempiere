@@ -158,7 +158,7 @@ public class OrderReceiptIssue extends GenForm {
 				+ "p.Value," // 3
 				+ "obl.M_Product_ID,p.Name," // 4,5
 				+ "p.C_UOM_ID,u.Name," // 6,7
-				+ "obl.QtyRequiered," // 8
+				+ "obl.QtyRequired," // 8
 				+ "obl.QtyReserved," // 9
 				+ "bomQtyAvailable(obl.M_Product_ID,obl.M_Warehouse_ID,0 ) AS QtyAvailable," // 10
 				+ "bomQtyOnHand(obl.M_Product_ID,obl.M_Warehouse_ID,0) AS QtyOnHand," // 11
@@ -168,7 +168,7 @@ public class OrderReceiptIssue extends GenForm {
 				+ "obl.isQtyPercentage," // 16
 				+ "obl.QtyBatch," // 17
 				+ "obl.ComponentType," // 18
-				+ "obl.QtyRequiered - QtyDelivered AS QtyOpen," // 19
+				+ "obl.QtyRequired - QtyDelivered AS QtyOpen," // 19
 				+ "obl.QtyDelivered" // 20
 				+ " FROM PP_Order_BOMLine obl"
 				+ " INNER JOIN M_Product p ON (obl.M_Product_ID = p.M_Product_ID) "
@@ -318,7 +318,7 @@ public class OrderReceiptIssue extends GenForm {
 				+ "p.Value," // 3
 				+ "obl.M_Product_ID,p.Name," // 4,5
 				+ "p.C_UOM_ID,u.Name," // 6,7
-				+ "obl.QtyRequiered," // 8
+				+ "obl.QtyRequired," // 8
 				+ "obl.QtyReserved," // 9
 				+ "bomQtyAvailable(obl.M_Product_ID,obl.M_Warehouse_ID,0 ) AS QtyAvailable," // 10
 				+ "bomQtyOnHand(obl.M_Product_ID,obl.M_Warehouse_ID,0) AS QtyOnHand," // 11
@@ -328,7 +328,7 @@ public class OrderReceiptIssue extends GenForm {
 				+ "obl.isQtyPercentage," // 16
 				+ "obl.QtyBatch," // 17
 				+ "obl.ComponentType," // 18
-				+ "obl.QtyRequiered - QtyDelivered AS QtyOpen," // 19
+				+ "obl.QtyRequired - QtyDelivered AS QtyOpen," // 19
 				+ "obl.QtyDelivered" // 20
 				+ " FROM PP_Order_BOMLine obl"
 				+ " INNER JOIN M_Product p ON (obl.M_Product_ID = p.M_Product_ID) "
@@ -380,7 +380,7 @@ public class OrderReceiptIssue extends GenForm {
 				issue.setValueAt(
 						new KeyNamePair(rs.getInt(6), rs.getString(7)), row, 4); // UOM
 				// ... 5 - ASI
-				issue.setValueAt(qtyRequired, row, 6); // QtyRequiered
+				issue.setValueAt(qtyRequired, row, 6); // QtyRequired
 				issue.setValueAt(qtyDelivered, row, 7); // QtyDelivered
 
 				// ... 8, 9, 10 - QtyToDeliver, QtyScrap, QtyOnHand
@@ -436,7 +436,7 @@ public class OrderReceiptIssue extends GenForm {
 								componentQtyToDel = componentToDeliverQty
 										.setScale(4, BigDecimal.ROUND_HALF_UP);
 								// issue.setValueAt(toDeliverQty.multiply(qtyBatchPerc),
-								// row, 6); // QtyRequiered
+								// row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
 
 							}
@@ -452,7 +452,7 @@ public class OrderReceiptIssue extends GenForm {
 										.setScale(8, BigDecimal.ROUND_HALF_UP),
 										row, 8); // QtyToDelivery
 								issue.setValueAt(
-										openQty.multiply(qtyBatchPerc), row, 6); // QtyRequiered
+										openQty.multiply(qtyBatchPerc), row, 6); // QtyRequired
 							}
 						}
 
@@ -470,7 +470,7 @@ public class OrderReceiptIssue extends GenForm {
 							if (componentToDeliverQty.signum() != 0) {
 								componentQtyReq = toDeliverQty.multiply(qtyBom);
 								componentQtyToDel = componentToDeliverQty;
-								issue.setValueAt(componentQtyReq, row, 6); // QtyRequiered
+								issue.setValueAt(componentQtyReq, row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
 							}
 						} else { // Only Issue - Calculate Component from Open
@@ -479,7 +479,7 @@ public class OrderReceiptIssue extends GenForm {
 							if (componentToDeliverQty.signum() != 0) {
 								componentQtyReq = openQty.multiply(qtyBom);
 								componentQtyToDel = componentToDeliverQty;
-								issue.setValueAt(componentQtyReq, row, 6); // QtyRequiered
+								issue.setValueAt(componentQtyReq, row, 6); // QtyRequired
 								issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
 							}
 						}
@@ -501,11 +501,11 @@ public class OrderReceiptIssue extends GenForm {
 					if (componentToDeliverQty.signum() != 0) {
 						componentQtyReq = qtyBom;
 						componentQtyToDel = componentToDeliverQty;
-						issue.setValueAt(qtyBom, row, 6); // QtyRequiered
+						issue.setValueAt(qtyBom, row, 6); // QtyRequired
 						issue.setValueAt(componentToDeliverQty, row, 8); // QtyToDelivery
 					}
 				} else {
-					issue.setValueAt(Env.ZERO, row, 6); // QtyRequiered
+					issue.setValueAt(Env.ZERO, row, 6); // QtyRequired
 					issue.setValueAt(Env.ZERO, row, 8); // QtyToDelivery
 				}
 

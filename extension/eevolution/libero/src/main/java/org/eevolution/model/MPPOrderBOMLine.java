@@ -344,7 +344,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 			QtyRequired = QtyRequired.setScale(precision, RoundingMode.HALF_UP);
 		}
 		super.setQtyRequired (QtyRequired);
-	}	//	setQtyRequiered
+	}	//	setQtyRequired
 	
 	@Override
 	public void setQtyReserved (BigDecimal QtyReserved)
@@ -358,11 +358,11 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	}	//	setQtyReserved
 	
 	/**
-	 * @return Qty Open (Requiered - Delivered)
+	 * @return Qty Open (Entered - Delivered)
 	 */
 	public BigDecimal getQtyOpen()
 	{
-		return getQtyRequired().subtract(getQtyDelivered()); 
+		return getQtyEntered().subtract(getQtyDelivered()); 
 	}
 	
 	/** Storage Qty On Hand */
@@ -442,6 +442,28 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		return qtyUsageVariance;
 	}
 
+	/**
+	 * @return recorded Qty Method Change Variance so far
+	 */
+	public BigDecimal getQtyMethodChangeVariance()
+	{
+		final String whereClause = I_PP_Cost_Collector.COLUMNNAME_PP_Order_BOMLine_ID+"=?"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_PP_Order_ID+"=?"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_DocStatus+" IN (?,?)"
+		+" AND "+I_PP_Cost_Collector.COLUMNNAME_CostCollectorType+"=?"
+		;
+		BigDecimal qtyMethodChangeVariance = new Query(getCtx(), I_PP_Cost_Collector.Table_Name, whereClause, get_TrxName())
+		.setParameters(new Object[]{
+				getPP_Order_BOMLine_ID(),
+				getPP_Order_ID(),
+				X_PP_Cost_Collector.DOCSTATUS_Completed,
+				X_PP_Cost_Collector.DOCSTATUS_Closed,
+				X_PP_Cost_Collector.COSTCOLLECTORTYPE_MethodChangeVariance
+		})
+		.sum(I_PP_Cost_Collector.COLUMNNAME_MovementQty);
+		//
+		return qtyMethodChangeVariance;
+	}
 	/**
 	 * @return storage Qty On Hand
 	 */
@@ -592,7 +614,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 				+", Product="+getM_Product_ID()
 				+", ComponentType="+getComponentType()
 				+",QtyBatch="+getQtyBatch()
-				+",QtyRequiered="+getQtyRequired()
+				+",QtyRequired="+getQtyRequired()
 				+",QtyScrap="+getQtyScrap()
 				+"]";
 	}

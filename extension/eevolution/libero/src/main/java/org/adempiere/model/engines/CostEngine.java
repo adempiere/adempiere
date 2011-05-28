@@ -37,7 +37,6 @@ import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.wf.MWFNode;
 import org.eevolution.model.I_PP_Order_BOMLine;
 import org.eevolution.model.MPPCostCollector;
 import org.eevolution.model.MPPOrderCost;
@@ -520,6 +519,25 @@ public class CostEngine
 
 	public void createMethodVariances(MPPCostCollector cc)
 	{
+		if(cc.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance))
+		{		
+			for (MAcctSchema as : getAcctSchema(cc))
+			{
+			
+				for (MCostElement element : getCostElements(cc.getCtx()))
+				{
+					final MProduct product = cc.getM_Product(); 
+					final BigDecimal qty = cc.getMovementQty();
+					final BigDecimal priceStd = getProductActualCostPrice(cc, product, as, element, cc.get_TrxName());
+					final BigDecimal amtStd = priceStd.multiply(qty);
+					createVarianceCostDetail(cc,
+							amtStd,qty,
+							null, product, as, element);
+				}
+			}
+			return;
+		}
+		//create the variance for routing	
 		if (!cc.isCostCollectorType(MPPCostCollector.COSTCOLLECTORTYPE_ActivityControl))
 			return;
 		//

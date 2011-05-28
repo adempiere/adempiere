@@ -385,7 +385,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		int old = getDurationRequired();
 		if (old != getDurationReal())
 		{	
-			addDescription(Msg.parseTranslation(getCtx(), "@closed@ ( @Duration@ :" + old + ") ( @QtyRequiered@ :"+getQtyRequired()+")"));
+			addDescription(Msg.parseTranslation(getCtx(), "@closed@ ( @Duration@ :" + old + ") ( @QtyRequired@ :"+getQtyRequired()+")"));
 			setDurationRequired(getDurationReal());
 			setQtyRequired(getQtyDelivered());			
 		}	

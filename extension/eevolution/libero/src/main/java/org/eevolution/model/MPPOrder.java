@@ -30,6 +30,7 @@ import java.util.TreeSet;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.adempiere.model.engines.CostDimension;
+import org.adempiere.model.engines.CostEngineFactory;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MClient;
 import org.compiere.model.MCost;
@@ -766,7 +767,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 	 */
 	public boolean isAvailable()
 	{
-		String whereClause = "QtyOnHand >= QtyRequiered AND PP_Order_ID=?";
+		String whereClause = "QtyOnHand >= QtyRequired AND PP_Order_ID=?";
 		boolean available = new Query(getCtx(), "RV_PP_Order_Storage", whereClause, get_TrxName())
 										.setParameters(new Object[]{get_ID()})
 										.match();
@@ -791,7 +792,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			BigDecimal old = line.getQtyRequired();
 			if (old.signum() != 0)
 			{
-				line.addDescription(Msg.parseTranslation(getCtx(), "@Voided@ @QtyRequiered@ : (" + old + ")"));
+				line.addDescription(Msg.parseTranslation(getCtx(), "@Voided@ @QtyRequired@ : (" + old + ")"));
 				line.setQtyRequired(Env.ZERO);
 				line.saveEx();
 			}
@@ -851,7 +852,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			if (old.compareTo(line.getQtyDelivered()) != 0)
 			{	
 				line.setQtyRequired(line.getQtyDelivered());
-				line.addDescription(Msg.parseTranslation(getCtx(), "@closed@ @QtyRequiered@ (" + old + ")"));
+				line.addDescription(Msg.parseTranslation(getCtx(), "@closed@ @QtyRequired@ (" + old + ")"));
 				line.saveEx();
 			}	
 		}
@@ -1260,13 +1261,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			if (qtyIssue.signum() != 0 || qtyScrap.signum() != 0 || qtyReject.signum() != 0)
 			{
 				String CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_ComponentIssue;
-				// Method Variance
-				if (PP_orderbomLine.getQtyBatch().signum() == 0
-						&& PP_orderbomLine.getQtyBOM().signum() == 0)
-				{
-					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance;
-				}
-				else if (PP_orderbomLine.isComponentType(MPPOrderBOMLine.COMPONENTTYPE_Co_Product))
+				
+				if (PP_orderbomLine.isComponentType(MPPOrderBOMLine.COMPONENTTYPE_Co_Product))
 				{
 					CostCollectorType = MPPCostCollector.COSTCOLLECTORTYPE_MixVariance;
 				}
@@ -1285,6 +1281,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 						qtyIssue, qtyScrap, qtyReject,									//qty,scrap,reject
 						0,Env.ZERO															//durationSetup,duration
 				);
+				PP_orderbomLine.load(order.get_TrxName());
+				// Method Variance
+				if (PP_orderbomLine.getQtyBatch().signum() == 0
+						&& PP_orderbomLine.getQtyBOM().signum() == 0)
+				{
+					order.createMethodChangeVariance(PP_orderbomLine);
+				}
 
 			}			
 			toIssue = toIssue.subtract(qtyIssue);
@@ -1584,7 +1587,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		Timestamp movementDate = order.getUpdated();
 		MPPOrderBOMLine line = (MPPOrderBOMLine)bomLine;
 
-		// If QtyBatch and QtyBOM is zero, than this is a method variance
+		// If QtyBatch and QtyBOM is zero, than this is a use variance
 		// (a product that "was not" in BOM was used)
 		if (line.getQtyBatch().signum() == 0 && line.getQtyBOM().signum() == 0)
 		{
@@ -1630,6 +1633,55 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		);
 	}
 	
+	private void createMethodChangeVariance(MPPOrderBOMLine line)
+	{
+		MPPOrder order = this;
+		Timestamp movementDate = order.getUpdated();
+		// If QtyBatch and QtyBOM is zero, than this is a method variance
+		// (a product that "was not" in BOM was used)
+		if (line.getQtyBatch().signum() != 0 && line.getQtyBOM().signum() != 0)
+		{
+			return;
+		}
+		
+		final BigDecimal qtyMethodChangeVariancePrev = line.getQtyMethodChangeVariance();	// Previous booked method Change  variance
+		final BigDecimal qtyOpen = line.getQtyOpen();
+		// Current usage variance = QtyOpen - Previous Method Change Variance 
+		final BigDecimal qtyMethodChangeVariance = qtyOpen.subtract(qtyMethodChangeVariancePrev);
+		//
+		if (qtyMethodChangeVariance.signum() == 0)
+		{
+			return;
+		}
+		// Get Locator
+		int M_Locator_ID = line.getM_Locator_ID();
+		if (M_Locator_ID <= 0)
+		{
+			MLocator locator = MLocator.getDefault(MWarehouse.get(order.getCtx(), order.getM_Warehouse_ID()));
+			if (locator != null)
+			{
+				M_Locator_ID = locator.getM_Locator_ID();
+			}
+		}
+		//
+		MPPCostCollector cc = MPPCostCollector.createCollector(
+				order,
+				line.getM_Product_ID(),
+				M_Locator_ID,
+				line.getM_AttributeSetInstance_ID(),
+				order.getS_Resource_ID(),
+				line.getPP_Order_BOMLine_ID(),
+				0, //PP_Order_Node_ID,
+				MDocType.getDocType(MDocType.DOCBASETYPE_ManufacturingCostCollector), // C_DocType_ID,
+				MPPCostCollector.COSTCOLLECTORTYPE_MethodChangeVariance,
+				movementDate,
+				qtyMethodChangeVariance, // Qty
+				Env.ZERO, // scrap,
+				Env.ZERO, // reject,
+				0, //durationSetup,
+				Env.ZERO // duration
+		);
+	}
 	private void createUsageVariance(I_PP_Order_Node orderNode)
 	{
 		MPPOrder order = this;
