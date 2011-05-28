@@ -42,8 +42,13 @@ import org.compiere.util.Env;
  */
 public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 {
-	private static final long serialVersionUID = 1L;
+
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -201479481618586562L;
+
 	public static MPPOrderBOMLine forM_Product_ID(Properties ctx, int PP_Order_ID, int M_Product_ID, String trxName)
 	{
 		//TODO: vpj-cd What happen when a product it more the time in Order
@@ -308,10 +313,12 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 							,COMPONENTTYPE_Co_Product))
 		{
 			setQtyRequired(qty);
+			setQtyEntered(qty);
 		}
 		else if (isComponentType(COMPONENTTYPE_Packing,COMPONENTTYPE_Tools))
 		{
 			setQtyRequired(multiplier);
+			setQtyEntered(multiplier);
 		}
 		else
 		{
@@ -324,6 +331,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		{
 			qtyScrap = qtyScrap.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP);
 			setQtyRequired(getQtyRequired().divide(Env.ONE.subtract(qtyScrap), 8, BigDecimal.ROUND_HALF_UP));
+			setQtyEntered(getQtyEntered().divide(Env.ONE.subtract(qtyScrap), 8, BigDecimal.ROUND_HALF_UP));
 		}
 	}
 	
