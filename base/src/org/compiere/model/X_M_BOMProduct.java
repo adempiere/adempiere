@@ -32,7 +32,7 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_BOMProduct (Properties ctx, int M_BOMProduct_ID, String trxName)
@@ -48,8 +48,8 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 			setLeadTimeOffset (0);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_BOMProduct WHERE M_BOM_ID=@M_BOM_ID@
-			setM_BOM_ID (0);
 			setM_BOMProduct_ID (0);
+			setM_BOM_ID (0);
         } */
     }
 
@@ -265,9 +265,9 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException
+	public org.compiere.model.I_M_BOMAlternative getM_BOMAlternative() throws RuntimeException
     {
-		return (I_M_BOMAlternative)MTable.get(getCtx(), I_M_BOMAlternative.Table_Name)
+		return (org.compiere.model.I_M_BOMAlternative)MTable.get(getCtx(), org.compiere.model.I_M_BOMAlternative.Table_Name)
 			.getPO(getM_BOMAlternative_ID(), get_TrxName());	}
 
 	/** Set Alternative Group.
@@ -288,34 +288,6 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 	public int getM_BOMAlternative_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOMAlternative_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_BOM getM_BOM() throws RuntimeException
-    {
-		return (I_M_BOM)MTable.get(getCtx(), I_M_BOM.Table_Name)
-			.getPO(getM_BOM_ID(), get_TrxName());	}
-
-	/** Set BOM.
-		@param M_BOM_ID 
-		Bill of Material
-	  */
-	public void setM_BOM_ID (int M_BOM_ID)
-	{
-		if (M_BOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
-	}
-
-	/** Get BOM.
-		@return Bill of Material
-	  */
-	public int getM_BOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOM_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -344,9 +316,37 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException
+	public org.compiere.model.I_M_BOM getM_BOM() throws RuntimeException
     {
-		return (I_M_ChangeNotice)MTable.get(getCtx(), I_M_ChangeNotice.Table_Name)
+		return (org.compiere.model.I_M_BOM)MTable.get(getCtx(), org.compiere.model.I_M_BOM.Table_Name)
+			.getPO(getM_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM.
+		@param M_BOM_ID 
+		Bill of Material
+	  */
+	public void setM_BOM_ID (int M_BOM_ID)
+	{
+		if (M_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_BOM_ID, Integer.valueOf(M_BOM_ID));
+	}
+
+	/** Get BOM.
+		@return Bill of Material
+	  */
+	public int getM_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_ChangeNotice)MTable.get(getCtx(), org.compiere.model.I_M_ChangeNotice.Table_Name)
 			.getPO(getM_ChangeNotice_ID(), get_TrxName());	}
 
 	/** Set Change Notice.
@@ -372,9 +372,9 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_ProductBOM() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_ProductBOM() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_ProductBOM_ID(), get_TrxName());	}
 
 	/** Set BOM Product.
@@ -400,9 +400,9 @@ public class X_M_BOMProduct extends PO implements I_M_BOMProduct, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_ProductOperation getM_ProductOperation() throws RuntimeException
+	public org.compiere.model.I_M_ProductOperation getM_ProductOperation() throws RuntimeException
     {
-		return (I_M_ProductOperation)MTable.get(getCtx(), I_M_ProductOperation.Table_Name)
+		return (org.compiere.model.I_M_ProductOperation)MTable.get(getCtx(), org.compiere.model.I_M_ProductOperation.Table_Name)
 			.getPO(getM_ProductOperation_ID(), get_TrxName());	}
 
 	/** Set Product Operation.

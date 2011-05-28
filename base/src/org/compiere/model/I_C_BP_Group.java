@@ -75,7 +75,7 @@ public interface I_C_BP_Group
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -103,7 +103,7 @@ public interface I_C_BP_Group
 	  */
 	public int getC_Dunning_ID();
 
-	public I_C_Dunning getC_Dunning() throws RuntimeException;
+	public org.compiere.model.I_C_Dunning getC_Dunning() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -199,7 +199,7 @@ public interface I_C_BP_Group
 	  */
 	public int getM_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
+	public org.compiere.model.I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException;
 
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
@@ -214,7 +214,7 @@ public interface I_C_BP_Group
 	  */
 	public int getM_PriceList_ID();
 
-	public I_M_PriceList getM_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -242,7 +242,7 @@ public interface I_C_BP_Group
 	  */
 	public int getPO_DiscountSchema_ID();
 
-	public I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
+	public org.compiere.model.I_M_DiscountSchema getPO_DiscountSchema() throws RuntimeException;
 
     /** Column name PO_PriceList_ID */
     public static final String COLUMNNAME_PO_PriceList_ID = "PO_PriceList_ID";
@@ -257,7 +257,7 @@ public interface I_C_BP_Group
 	  */
 	public int getPO_PriceList_ID();
 
-	public I_M_PriceList getPO_PriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getPO_PriceList() throws RuntimeException;
 
     /** Column name PriceMatchTolerance */
     public static final String COLUMNNAME_PriceMatchTolerance = "PriceMatchTolerance";

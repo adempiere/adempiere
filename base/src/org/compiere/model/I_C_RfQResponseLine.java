@@ -62,6 +62,49 @@ public interface I_C_RfQResponseLine
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_RfQLine_ID */
+    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
+
+	/** Set RfQ Line.
+	  * Request for Quotation Line
+	  */
+	public void setC_RfQLine_ID (int C_RfQLine_ID);
+
+	/** Get RfQ Line.
+	  * Request for Quotation Line
+	  */
+	public int getC_RfQLine_ID();
+
+	public org.compiere.model.I_C_RfQLine getC_RfQLine() throws RuntimeException;
+
+    /** Column name C_RfQResponseLine_ID */
+    public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
+
+	/** Set RfQ Response Line.
+	  * Request for Quotation Response Line
+	  */
+	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID);
+
+	/** Get RfQ Response Line.
+	  * Request for Quotation Response Line
+	  */
+	public int getC_RfQResponseLine_ID();
+
+    /** Column name C_RfQResponse_ID */
+    public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
+
+	/** Set RfQ Response.
+	  * Request for Quotation Response from a potential Vendor
+	  */
+	public void setC_RfQResponse_ID (int C_RfQResponse_ID);
+
+	/** Get RfQ Response.
+	  * Request for Quotation Response from a potential Vendor
+	  */
+	public int getC_RfQResponse_ID();
+
+	public org.compiere.model.I_C_RfQResponse getC_RfQResponse() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,49 +120,6 @@ public interface I_C_RfQResponseLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RfQLine_ID */
-    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
-
-	/** Set RfQ Line.
-	  * Request for Quotation Line
-	  */
-	public void setC_RfQLine_ID (int C_RfQLine_ID);
-
-	/** Get RfQ Line.
-	  * Request for Quotation Line
-	  */
-	public int getC_RfQLine_ID();
-
-	public I_C_RfQLine getC_RfQLine() throws RuntimeException;
-
-    /** Column name C_RfQResponse_ID */
-    public static final String COLUMNNAME_C_RfQResponse_ID = "C_RfQResponse_ID";
-
-	/** Set RfQ Response.
-	  * Request for Quotation Response from a potential Vendor
-	  */
-	public void setC_RfQResponse_ID (int C_RfQResponse_ID);
-
-	/** Get RfQ Response.
-	  * Request for Quotation Response from a potential Vendor
-	  */
-	public int getC_RfQResponse_ID();
-
-	public I_C_RfQResponse getC_RfQResponse() throws RuntimeException;
-
-    /** Column name C_RfQResponseLine_ID */
-    public static final String COLUMNNAME_C_RfQResponseLine_ID = "C_RfQResponseLine_ID";
-
-	/** Set RfQ Response Line.
-	  * Request for Quotation Response Line
-	  */
-	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID);
-
-	/** Get RfQ Response Line.
-	  * Request for Quotation Response Line
-	  */
-	public int getC_RfQResponseLine_ID();
 
     /** Column name DateWorkComplete */
     public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";

@@ -32,7 +32,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_GL_DistributionLine (Properties ctx, int GL_DistributionLine_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
       super (ctx, GL_DistributionLine_ID, trxName);
       /** if (GL_DistributionLine_ID == 0)
         {
-			setGL_Distribution_ID (0);
 			setGL_DistributionLine_ID (0);
+			setGL_Distribution_ID (0);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM GL_DistributionLine WHERE GL_Distribution_ID=@GL_Distribution_ID@
 			setOverwriteAcct (false);
@@ -89,29 +89,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
       return sb.toString();
     }
 
-	/** Set Account.
-		@param Account_ID 
-		Account used
-	  */
-	public void setAccount_ID (int Account_ID)
-	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
-	}
-
-	/** Get Account.
-		@return Account used
-	  */
-	public int getAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -135,9 +112,32 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws RuntimeException
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -163,9 +163,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -191,9 +191,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -219,9 +219,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_Location getC_LocFrom() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_LocFrom() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_LocFrom_ID(), get_TrxName());	}
 
 	/** Set Location From.
@@ -247,9 +247,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_Location getC_LocTo() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_LocTo() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_LocTo_ID(), get_TrxName());	}
 
 	/** Set Location To.
@@ -275,9 +275,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -303,9 +303,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
     {
-		return (I_C_SalesRegion)MTable.get(getCtx(), I_C_SalesRegion.Table_Name)
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
 			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region.
@@ -348,9 +348,32 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_GL_Distribution getGL_Distribution() throws RuntimeException
+	/** Set GL Distribution Line.
+		@param GL_DistributionLine_ID 
+		General Ledger Distribution Line
+	  */
+	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID)
+	{
+		if (GL_DistributionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, Integer.valueOf(GL_DistributionLine_ID));
+	}
+
+	/** Get GL Distribution Line.
+		@return General Ledger Distribution Line
+	  */
+	public int getGL_DistributionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_DistributionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_GL_Distribution getGL_Distribution() throws RuntimeException
     {
-		return (I_GL_Distribution)MTable.get(getCtx(), I_GL_Distribution.Table_Name)
+		return (org.compiere.model.I_GL_Distribution)MTable.get(getCtx(), org.compiere.model.I_GL_Distribution.Table_Name)
 			.getPO(getGL_Distribution_ID(), get_TrxName());	}
 
 	/** Set GL Distribution.
@@ -371,29 +394,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	public int getGL_Distribution_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Distribution_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set GL Distribution Line.
-		@param GL_DistributionLine_ID 
-		General Ledger Distribution Line
-	  */
-	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID)
-	{
-		if (GL_DistributionLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, Integer.valueOf(GL_DistributionLine_ID));
-	}
-
-	/** Get GL Distribution Line.
-		@return General Ledger Distribution Line
-	  */
-	public int getGL_DistributionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_DistributionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -427,9 +427,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
         return new KeyNamePair(get_ID(), String.valueOf(getLine()));
     }
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -810,9 +810,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return bd;
 	}
 
-	public I_C_ElementValue getUser1() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.
@@ -838,9 +838,9 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getUser2() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.

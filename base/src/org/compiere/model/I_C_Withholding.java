@@ -75,7 +75,7 @@ public interface I_C_Withholding
 	  */
 	public int getBeneficiary();
 
-	public I_C_BPartner getBenefici() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getBenefici() throws RuntimeException;
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -90,7 +90,20 @@ public interface I_C_Withholding
 	  */
 	public int getC_PaymentTerm_ID();
 
-	public I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+	public org.compiere.model.I_C_PaymentTerm getC_PaymentTerm() throws RuntimeException;
+
+    /** Column name C_Withholding_ID */
+    public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
+
+	/** Set Withholding.
+	  * Withholding type defined
+	  */
+	public void setC_Withholding_ID (int C_Withholding_ID);
+
+	/** Get Withholding.
+	  * Withholding type defined
+	  */
+	public int getC_Withholding_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -107,19 +120,6 @@ public interface I_C_Withholding
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Withholding_ID */
-    public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
-
-	/** Set Withholding.
-	  * Withholding type defined
-	  */
-	public void setC_Withholding_ID (int C_Withholding_ID);
-
-	/** Get Withholding.
-	  * Withholding type defined
-	  */
-	public int getC_Withholding_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

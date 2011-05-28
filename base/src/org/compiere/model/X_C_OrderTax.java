@@ -31,7 +31,7 @@ public class X_C_OrderTax extends PO implements I_C_OrderTax, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_OrderTax (Properties ctx, int C_OrderTax_ID, String trxName)
@@ -76,9 +76,9 @@ public class X_C_OrderTax extends PO implements I_C_OrderTax, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -104,9 +104,9 @@ public class X_C_OrderTax extends PO implements I_C_OrderTax, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Tax getC_Tax() throws RuntimeException
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException
     {
-		return (I_C_Tax)MTable.get(getCtx(), I_C_Tax.Table_Name)
+		return (org.compiere.model.I_C_Tax)MTable.get(getCtx(), org.compiere.model.I_C_Tax.Table_Name)
 			.getPO(getC_Tax_ID(), get_TrxName());	}
 
 	/** Set Tax.

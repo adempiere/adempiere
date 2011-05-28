@@ -30,7 +30,7 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_NewsItem (Properties ctx, int CM_NewsItem_ID, String trxName)
@@ -88,9 +88,9 @@ public class X_CM_NewsItem extends PO implements I_CM_NewsItem, I_Persistent
 		return (String)get_Value(COLUMNNAME_Author);
 	}
 
-	public I_CM_NewsChannel getCM_NewsChannel() throws RuntimeException
+	public org.compiere.model.I_CM_NewsChannel getCM_NewsChannel() throws RuntimeException
     {
-		return (I_CM_NewsChannel)MTable.get(getCtx(), I_CM_NewsChannel.Table_Name)
+		return (org.compiere.model.I_CM_NewsChannel)MTable.get(getCtx(), org.compiere.model.I_CM_NewsChannel.Table_Name)
 			.getPO(getCM_NewsChannel_ID(), get_TrxName());	}
 
 	/** Set News Channel.

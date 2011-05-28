@@ -75,7 +75,7 @@ public interface I_AD_UserQuery
 	  */
 	public int getAD_Tab_ID();
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException;
+	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -90,7 +90,20 @@ public interface I_AD_UserQuery
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+
+    /** Column name AD_UserQuery_ID */
+    public static final String COLUMNNAME_AD_UserQuery_ID = "AD_UserQuery_ID";
+
+	/** Set User Query.
+	  * Saved User Query
+	  */
+	public void setAD_UserQuery_ID (int AD_UserQuery_ID);
+
+	/** Get User Query.
+	  * Saved User Query
+	  */
+	public int getAD_UserQuery_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -105,20 +118,7 @@ public interface I_AD_UserQuery
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name AD_UserQuery_ID */
-    public static final String COLUMNNAME_AD_UserQuery_ID = "AD_UserQuery_ID";
-
-	/** Set User Query.
-	  * Saved User Query
-	  */
-	public void setAD_UserQuery_ID (int AD_UserQuery_ID);
-
-	/** Get User Query.
-	  * Saved User Query
-	  */
-	public int getAD_UserQuery_ID();
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Code */
     public static final String COLUMNNAME_Code = "Code";

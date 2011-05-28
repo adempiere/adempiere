@@ -32,7 +32,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_T_Report (Properties ctx, int T_Report_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-		return (I_AD_PInstance)MTable.get(getCtx(), I_AD_PInstance.Table_Name)
+		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
 			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
 	/** Set Process Instance.
@@ -539,9 +539,9 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_ReportLine getPA_ReportLine() throws RuntimeException
+	public org.compiere.model.I_PA_ReportLine getPA_ReportLine() throws RuntimeException
     {
-		return (I_PA_ReportLine)MTable.get(getCtx(), I_PA_ReportLine.Table_Name)
+		return (org.compiere.model.I_PA_ReportLine)MTable.get(getCtx(), org.compiere.model.I_PA_ReportLine.Table_Name)
 			.getPO(getPA_ReportLine_ID(), get_TrxName());	}
 
 	/** Set Report Line.

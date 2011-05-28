@@ -75,7 +75,7 @@ public interface I_R_RequestUpdates
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -132,7 +132,7 @@ public interface I_R_RequestUpdates
 	  */
 	public int getR_Request_ID();
 
-	public I_R_Request getR_Request() throws RuntimeException;
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

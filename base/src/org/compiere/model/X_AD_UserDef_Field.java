@@ -30,7 +30,7 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_UserDef_Field (Properties ctx, int AD_UserDef_Field_ID, String trxName)
@@ -78,9 +78,9 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
       return sb.toString();
     }
 
-	public I_AD_Field getAD_Field() throws RuntimeException
+	public org.compiere.model.I_AD_Field getAD_Field() throws RuntimeException
     {
-		return (I_AD_Field)MTable.get(getCtx(), I_AD_Field.Table_Name)
+		return (org.compiere.model.I_AD_Field)MTable.get(getCtx(), org.compiere.model.I_AD_Field.Table_Name)
 			.getPO(getAD_Field_ID(), get_TrxName());	}
 
 	/** Set Field.
@@ -126,9 +126,9 @@ public class X_AD_UserDef_Field extends PO implements I_AD_UserDef_Field, I_Pers
 		return ii.intValue();
 	}
 
-	public I_AD_UserDef_Tab getAD_UserDef_Tab() throws RuntimeException
+	public org.compiere.model.I_AD_UserDef_Tab getAD_UserDef_Tab() throws RuntimeException
     {
-		return (I_AD_UserDef_Tab)MTable.get(getCtx(), I_AD_UserDef_Tab.Table_Name)
+		return (org.compiere.model.I_AD_UserDef_Tab)MTable.get(getCtx(), org.compiere.model.I_AD_UserDef_Tab.Table_Name)
 			.getPO(getAD_UserDef_Tab_ID(), get_TrxName());	}
 
 	/** Set User defined Tab.

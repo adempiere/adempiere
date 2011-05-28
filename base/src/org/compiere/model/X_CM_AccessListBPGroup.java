@@ -29,7 +29,7 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_AccessListBPGroup (Properties ctx, int CM_AccessListBPGroup_ID, String trxName)
@@ -37,8 +37,8 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
       super (ctx, CM_AccessListBPGroup_ID, trxName);
       /** if (CM_AccessListBPGroup_ID == 0)
         {
-			setC_BP_Group_ID (0);
 			setCM_AccessProfile_ID (0);
+			setC_BP_Group_ID (0);
         } */
     }
 
@@ -70,37 +70,9 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
       return sb.toString();
     }
 
-	public I_C_BP_Group getC_BP_Group() throws RuntimeException
+	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
     {
-		return (I_C_BP_Group)MTable.get(getCtx(), I_C_BP_Group.Table_Name)
-			.getPO(getC_BP_Group_ID(), get_TrxName());	}
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException
-    {
-		return (I_CM_AccessProfile)MTable.get(getCtx(), I_CM_AccessProfile.Table_Name)
+		return (org.compiere.model.I_CM_AccessProfile)MTable.get(getCtx(), org.compiere.model.I_CM_AccessProfile.Table_Name)
 			.getPO(getCM_AccessProfile_ID(), get_TrxName());	}
 
 	/** Set Web Access Profile.
@@ -121,6 +93,34 @@ public class X_CM_AccessListBPGroup extends PO implements I_CM_AccessListBPGroup
 	public int getCM_AccessProfile_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_AccessProfile_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -31,7 +31,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_W_Advertisement (Properties ctx, int W_Advertisement_ID, String trxName)
@@ -79,26 +79,9 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
       return sb.toString();
     }
 
-	/** Set Advertisement Text.
-		@param AdText 
-		Text of the Advertisement
-	  */
-	public void setAdText (String AdText)
-	{
-		set_Value (COLUMNNAME_AdText, AdText);
-	}
-
-	/** Get Advertisement Text.
-		@return Text of the Advertisement
-	  */
-	public String getAdText () 
-	{
-		return (String)get_Value(COLUMNNAME_AdText);
-	}
-
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -124,9 +107,26 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	/** Set Advertisement Text.
+		@param AdText 
+		Text of the Advertisement
+	  */
+	public void setAdText (String AdText)
+	{
+		set_Value (COLUMNNAME_AdText, AdText);
+	}
+
+	/** Get Advertisement Text.
+		@return Text of the Advertisement
+	  */
+	public String getAdText () 
+	{
+		return (String)get_Value(COLUMNNAME_AdText);
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -378,9 +378,9 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_W_ClickCount getW_ClickCount() throws RuntimeException
+	public org.compiere.model.I_W_ClickCount getW_ClickCount() throws RuntimeException
     {
-		return (I_W_ClickCount)MTable.get(getCtx(), I_W_ClickCount.Table_Name)
+		return (org.compiere.model.I_W_ClickCount)MTable.get(getCtx(), org.compiere.model.I_W_ClickCount.Table_Name)
 			.getPO(getW_ClickCount_ID(), get_TrxName());	}
 
 	/** Set Click Count.
@@ -406,9 +406,9 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		return ii.intValue();
 	}
 
-	public I_W_CounterCount getW_CounterCount() throws RuntimeException
+	public org.compiere.model.I_W_CounterCount getW_CounterCount() throws RuntimeException
     {
-		return (I_W_CounterCount)MTable.get(getCtx(), I_W_CounterCount.Table_Name)
+		return (org.compiere.model.I_W_CounterCount)MTable.get(getCtx(), org.compiere.model.I_W_CounterCount.Table_Name)
 			.getPO(getW_CounterCount_ID(), get_TrxName());	}
 
 	/** Set Counter Count.

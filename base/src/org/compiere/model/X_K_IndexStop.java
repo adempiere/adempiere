@@ -30,7 +30,7 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_K_IndexStop (Properties ctx, int K_IndexStop_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
         {
 			setIsManual (true);
 // Y
-			setKeyword (null);
 			setK_IndexStop_ID (0);
+			setKeyword (null);
         } */
     }
 
@@ -73,37 +73,9 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
       return sb.toString();
     }
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
-			.getPO(getC_DocType_ID(), get_TrxName());	}
-
-	/** Set Document Type.
-		@param C_DocType_ID 
-		Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID)
-	{
-		if (C_DocType_ID < 0) 
-			set_Value (COLUMNNAME_C_DocType_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
-	}
-
-	/** Get Document Type.
-		@return Document type or rules
-	  */
-	public int getC_DocType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException
-    {
-		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+		return (org.compiere.model.I_CM_WebProject)MTable.get(getCtx(), org.compiere.model.I_CM_WebProject.Table_Name)
 			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.
@@ -124,6 +96,34 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 	public int getCM_WebProject_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_WebProject_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocType_ID(), get_TrxName());	}
+
+	/** Set Document Type.
+		@param C_DocType_ID 
+		Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID)
+	{
+		if (C_DocType_ID < 0) 
+			set_Value (COLUMNNAME_C_DocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocType_ID, Integer.valueOf(C_DocType_ID));
+	}
+
+	/** Get Document Type.
+		@return Document type or rules
+	  */
+	public int getC_DocType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -153,6 +153,29 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
 		return false;
 	}
 
+	/** Set Index Stop.
+		@param K_IndexStop_ID 
+		Keyword not to be indexed
+	  */
+	public void setK_IndexStop_ID (int K_IndexStop_ID)
+	{
+		if (K_IndexStop_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, Integer.valueOf(K_IndexStop_ID));
+	}
+
+	/** Get Index Stop.
+		@return Keyword not to be indexed
+	  */
+	public int getK_IndexStop_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_IndexStop_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Keyword.
 		@param Keyword 
 		Case insensitive keyword
@@ -178,32 +201,9 @@ public class X_K_IndexStop extends PO implements I_K_IndexStop, I_Persistent
         return new KeyNamePair(get_ID(), getKeyword());
     }
 
-	/** Set Index Stop.
-		@param K_IndexStop_ID 
-		Keyword not to be indexed
-	  */
-	public void setK_IndexStop_ID (int K_IndexStop_ID)
-	{
-		if (K_IndexStop_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_K_IndexStop_ID, Integer.valueOf(K_IndexStop_ID));
-	}
-
-	/** Get Index Stop.
-		@return Keyword not to be indexed
-	  */
-	public int getK_IndexStop_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_IndexStop_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_R_RequestType getR_RequestType() throws RuntimeException
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException
     {
-		return (I_R_RequestType)MTable.get(getCtx(), I_R_RequestType.Table_Name)
+		return (org.compiere.model.I_R_RequestType)MTable.get(getCtx(), org.compiere.model.I_R_RequestType.Table_Name)
 			.getPO(getR_RequestType_ID(), get_TrxName());	}
 
 	/** Set Request Type.

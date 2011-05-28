@@ -62,19 +62,6 @@ public interface I_C_Conversion_Rate
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Conversion_Rate_ID */
-    public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
-
-	/** Set Conversion Rate.
-	  * Rate used for converting currencies
-	  */
-	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID);
-
-	/** Get Conversion Rate.
-	  * Rate used for converting currencies
-	  */
-	public int getC_Conversion_Rate_ID();
-
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -88,7 +75,20 @@ public interface I_C_Conversion_Rate
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException;
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
+
+    /** Column name C_Conversion_Rate_ID */
+    public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
+
+	/** Set Conversion Rate.
+	  * Rate used for converting currencies
+	  */
+	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID);
+
+	/** Get Conversion Rate.
+	  * Rate used for converting currencies
+	  */
+	public int getC_Conversion_Rate_ID();
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -103,7 +103,7 @@ public interface I_C_Conversion_Rate
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_Currency_ID_To */
     public static final String COLUMNNAME_C_Currency_ID_To = "C_Currency_ID_To";
@@ -118,7 +118,7 @@ public interface I_C_Conversion_Rate
 	  */
 	public int getC_Currency_ID_To();
 
-	public I_C_Currency getC_Currency_To() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency_To() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

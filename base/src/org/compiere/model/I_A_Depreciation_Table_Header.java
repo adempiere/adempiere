@@ -49,6 +49,19 @@ public interface I_A_Depreciation_Table_Header
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Depreciation_Table_Code */
     public static final String COLUMNNAME_A_Depreciation_Table_Code = "A_Depreciation_Table_Code";
 
@@ -66,19 +79,6 @@ public interface I_A_Depreciation_Table_Header
 
 	/** Get Depreciation Table Header	  */
 	public int getA_Depreciation_Table_Header_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Table_Rate_Type */
     public static final String COLUMNNAME_A_Table_Rate_Type = "A_Table_Rate_Type";

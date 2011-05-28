@@ -75,7 +75,7 @@ public interface I_AD_TreeNode
 	  */
 	public int getAD_Tree_ID();
 
-	public I_AD_Tree getAD_Tree() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

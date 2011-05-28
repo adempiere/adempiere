@@ -75,7 +75,7 @@ public interface I_PA_Report
 	  */
 	public int getAD_PrintFormat_ID();
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -90,7 +90,7 @@ public interface I_PA_Report
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Calendar_ID */
     public static final String COLUMNNAME_C_Calendar_ID = "C_Calendar_ID";
@@ -105,7 +105,7 @@ public interface I_PA_Report
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException;
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -162,7 +162,7 @@ public interface I_PA_Report
 	  */
 	public int getJasperProcess_ID();
 
-	public I_AD_Process getJasperProcess() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getJasperProcess() throws RuntimeException;
 
     /** Column name JasperProcessing */
     public static final String COLUMNNAME_JasperProcessing = "JasperProcessing";
@@ -225,7 +225,7 @@ public interface I_PA_Report
 	  */
 	public int getPA_ReportColumnSet_ID();
 
-	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException;
+	public org.compiere.model.I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException;
 
     /** Column name PA_ReportCube_ID */
     public static final String COLUMNNAME_PA_ReportCube_ID = "PA_ReportCube_ID";
@@ -240,7 +240,18 @@ public interface I_PA_Report
 	  */
 	public int getPA_ReportCube_ID();
 
-	public I_PA_ReportCube getPA_ReportCube() throws RuntimeException;
+	public org.compiere.model.I_PA_ReportCube getPA_ReportCube() throws RuntimeException;
+
+    /** Column name PA_ReportLineSet_ID */
+    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
+
+	/** Set Report Line Set	  */
+	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
+
+	/** Get Report Line Set	  */
+	public int getPA_ReportLineSet_ID();
+
+	public org.compiere.model.I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
 
     /** Column name PA_Report_ID */
     public static final String COLUMNNAME_PA_Report_ID = "PA_Report_ID";
@@ -254,17 +265,6 @@ public interface I_PA_Report
 	  * Financial Report
 	  */
 	public int getPA_Report_ID();
-
-    /** Column name PA_ReportLineSet_ID */
-    public static final String COLUMNNAME_PA_ReportLineSet_ID = "PA_ReportLineSet_ID";
-
-	/** Set Report Line Set	  */
-	public void setPA_ReportLineSet_ID (int PA_ReportLineSet_ID);
-
-	/** Get Report Line Set	  */
-	public int getPA_ReportLineSet_ID();
-
-	public I_PA_ReportLineSet getPA_ReportLineSet() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

@@ -30,7 +30,7 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Replication_Run (Properties ctx, int AD_Replication_Run_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_AD_Replication_Run extends PO implements I_AD_Replication_Run, I_
       return sb.toString();
     }
 
-	public I_AD_Replication getAD_Replication() throws RuntimeException
+	public org.compiere.model.I_AD_Replication getAD_Replication() throws RuntimeException
     {
-		return (I_AD_Replication)MTable.get(getCtx(), I_AD_Replication.Table_Name)
+		return (org.compiere.model.I_AD_Replication)MTable.get(getCtx(), org.compiere.model.I_AD_Replication.Table_Name)
 			.getPO(getAD_Replication_ID(), get_TrxName());	}
 
 	/** Set Replication.

@@ -30,7 +30,7 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Table (Properties ctx, int AD_Table_ID, String trxName)
@@ -38,9 +38,9 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
       super (ctx, AD_Table_ID, trxName);
       /** if (AD_Table_ID == 0)
         {
+			setAD_Table_ID (0);
 			setAccessLevel (null);
 // 4
-			setAD_Table_ID (0);
 			setEntityType (null);
 // U
 			setIsChangeLog (false);
@@ -85,6 +85,85 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
       return sb.toString();
     }
 
+	/** Set Table.
+		@param AD_Table_ID 
+		Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID)
+	{
+		if (AD_Table_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+	}
+
+	/** Get Table.
+		@return Database Table information
+	  */
+	public int getAD_Table_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Val_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Val_Rule.Table_Name)
+			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
+
+	/** Set Dynamic Validation.
+		@param AD_Val_Rule_ID 
+		Dynamic Validation Rule
+	  */
+	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
+	{
+		if (AD_Val_Rule_ID < 1) 
+			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
+	}
+
+	/** Get Dynamic Validation.
+		@return Dynamic Validation Rule
+	  */
+	public int getAD_Val_Rule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Val_Rule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
+			.getPO(getAD_Window_ID(), get_TrxName());	}
+
+	/** Set Window.
+		@param AD_Window_ID 
+		Data entry or display window
+	  */
+	public void setAD_Window_ID (int AD_Window_ID)
+	{
+		if (AD_Window_ID < 1) 
+			set_Value (COLUMNNAME_AD_Window_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+	}
+
+	/** Get Window.
+		@return Data entry or display window
+	  */
+	public int getAD_Window_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** AccessLevel AD_Reference_ID=5 */
 	public static final int ACCESSLEVEL_AD_Reference_ID=5;
 	/** Organization = 1 */
@@ -115,85 +194,6 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 	public String getAccessLevel () 
 	{
 		return (String)get_Value(COLUMNNAME_AccessLevel);
-	}
-
-	/** Set Table.
-		@param AD_Table_ID 
-		Database Table information
-	  */
-	public void setAD_Table_ID (int AD_Table_ID)
-	{
-		if (AD_Table_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
-	}
-
-	/** Get Table.
-		@return Database Table information
-	  */
-	public int getAD_Table_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
-    {
-		return (I_AD_Val_Rule)MTable.get(getCtx(), I_AD_Val_Rule.Table_Name)
-			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
-
-	/** Set Dynamic Validation.
-		@param AD_Val_Rule_ID 
-		Dynamic Validation Rule
-	  */
-	public void setAD_Val_Rule_ID (int AD_Val_Rule_ID)
-	{
-		if (AD_Val_Rule_ID < 1) 
-			set_Value (COLUMNNAME_AD_Val_Rule_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Val_Rule_ID, Integer.valueOf(AD_Val_Rule_ID));
-	}
-
-	/** Get Dynamic Validation.
-		@return Dynamic Validation Rule
-	  */
-	public int getAD_Val_Rule_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Val_Rule_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Window getAD_Window() throws RuntimeException
-    {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
-			.getPO(getAD_Window_ID(), get_TrxName());	}
-
-	/** Set Window.
-		@param AD_Window_ID 
-		Data entry or display window
-	  */
-	public void setAD_Window_ID (int AD_Window_ID)
-	{
-		if (AD_Window_ID < 1) 
-			set_Value (COLUMNNAME_AD_Window_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
-	}
-
-	/** Get Window.
-		@return Data entry or display window
-	  */
-	public int getAD_Window_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Copy Columns From Table.
@@ -459,9 +459,9 @@ public class X_AD_Table extends PO implements I_AD_Table, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public I_AD_Window getPO_Window() throws RuntimeException
+	public org.compiere.model.I_AD_Window getPO_Window() throws RuntimeException
     {
-		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
+		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
 			.getPO(getPO_Window_ID(), get_TrxName());	}
 
 	/** Set PO Window.

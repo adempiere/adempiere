@@ -30,7 +30,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_ChangeRequest (Properties ctx, int M_ChangeRequest_ID, String trxName)
@@ -175,9 +175,9 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return false;
 	}
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException
+	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException
     {
-		return (I_M_ChangeNotice)MTable.get(getCtx(), I_M_ChangeNotice.Table_Name)
+		return (org.compiere.model.I_M_ChangeNotice)MTable.get(getCtx(), org.compiere.model.I_M_ChangeNotice.Table_Name)
 			.getPO(getM_ChangeNotice_ID(), get_TrxName());	}
 
 	/** Set Change Notice.
@@ -226,9 +226,9 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 		return ii.intValue();
 	}
 
-	public I_M_ChangeNotice getM_FixChangeNotice() throws RuntimeException
+	public org.compiere.model.I_M_ChangeNotice getM_FixChangeNotice() throws RuntimeException
     {
-		return (I_M_ChangeNotice)MTable.get(getCtx(), I_M_ChangeNotice.Table_Name)
+		return (org.compiere.model.I_M_ChangeNotice)MTable.get(getCtx(), org.compiere.model.I_M_ChangeNotice.Table_Name)
 			.getPO(getM_FixChangeNotice_ID(), get_TrxName());	}
 
 	/** Set Fixed in.

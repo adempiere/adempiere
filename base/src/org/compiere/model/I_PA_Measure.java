@@ -62,19 +62,6 @@ public interface I_PA_Measure
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CalculationClass */
-    public static final String COLUMNNAME_CalculationClass = "CalculationClass";
-
-	/** Set Calculation Class.
-	  * Java Class for calculation, implementing Interface Measure
-	  */
-	public void setCalculationClass (String CalculationClass);
-
-	/** Get Calculation Class.
-	  * Java Class for calculation, implementing Interface Measure
-	  */
-	public String getCalculationClass();
-
     /** Column name C_ProjectType_ID */
     public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
 
@@ -88,7 +75,20 @@ public interface I_PA_Measure
 	  */
 	public int getC_ProjectType_ID();
 
-	public I_C_ProjectType getC_ProjectType() throws RuntimeException;
+	public org.compiere.model.I_C_ProjectType getC_ProjectType() throws RuntimeException;
+
+    /** Column name CalculationClass */
+    public static final String COLUMNNAME_CalculationClass = "CalculationClass";
+
+	/** Set Calculation Class.
+	  * Java Class for calculation, implementing Interface Measure
+	  */
+	public void setCalculationClass (String CalculationClass);
+
+	/** Get Calculation Class.
+	  * Java Class for calculation, implementing Interface Measure
+	  */
+	public String getCalculationClass();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -210,7 +210,7 @@ public interface I_PA_Measure
 	  */
 	public int getPA_Benchmark_ID();
 
-	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException;
+	public org.compiere.model.I_PA_Benchmark getPA_Benchmark() throws RuntimeException;
 
     /** Column name PA_Hierarchy_ID */
     public static final String COLUMNNAME_PA_Hierarchy_ID = "PA_Hierarchy_ID";
@@ -225,7 +225,7 @@ public interface I_PA_Measure
 	  */
 	public int getPA_Hierarchy_ID();
 
-	public I_PA_Hierarchy getPA_Hierarchy() throws RuntimeException;
+	public org.compiere.model.I_PA_Hierarchy getPA_Hierarchy() throws RuntimeException;
 
     /** Column name PA_MeasureCalc_ID */
     public static final String COLUMNNAME_PA_MeasureCalc_ID = "PA_MeasureCalc_ID";
@@ -240,7 +240,7 @@ public interface I_PA_Measure
 	  */
 	public int getPA_MeasureCalc_ID();
 
-	public I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException;
+	public org.compiere.model.I_PA_MeasureCalc getPA_MeasureCalc() throws RuntimeException;
 
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
@@ -268,7 +268,7 @@ public interface I_PA_Measure
 	  */
 	public int getPA_Ratio_ID();
 
-	public I_PA_Ratio getPA_Ratio() throws RuntimeException;
+	public org.compiere.model.I_PA_Ratio getPA_Ratio() throws RuntimeException;
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -283,7 +283,7 @@ public interface I_PA_Measure
 	  */
 	public int getR_RequestType_ID();
 
-	public I_R_RequestType getR_RequestType() throws RuntimeException;
+	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

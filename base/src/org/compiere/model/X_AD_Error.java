@@ -30,7 +30,7 @@ public class X_AD_Error extends PO implements I_AD_Error, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Error (Properties ctx, int AD_Error_ID, String trxName)

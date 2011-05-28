@@ -41,19 +41,6 @@ public interface I_W_Click
 
     /** Load Meta Data */
 
-    /** Column name AcceptLanguage */
-    public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
-
-	/** Set Accept Language.
-	  * Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage);
-
-	/** Get Accept Language.
-	  * Language accepted based on browser information
-	  */
-	public String getAcceptLanguage();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -87,6 +74,19 @@ public interface I_W_Click
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
+
+    /** Column name AcceptLanguage */
+    public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
+
+	/** Set Accept Language.
+	  * Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage);
+
+	/** Get Accept Language.
+	  * Language accepted based on browser information
+	  */
+	public String getAcceptLanguage();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -237,7 +237,7 @@ public interface I_W_Click
 	  */
 	public int getW_ClickCount_ID();
 
-	public I_W_ClickCount getW_ClickCount() throws RuntimeException;
+	public org.compiere.model.I_W_ClickCount getW_ClickCount() throws RuntimeException;
 
     /** Column name W_Click_ID */
     public static final String COLUMNNAME_W_Click_ID = "W_Click_ID";

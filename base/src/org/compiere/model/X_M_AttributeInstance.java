@@ -32,7 +32,7 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_AttributeInstance (Properties ctx, int M_AttributeInstance_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
       super (ctx, M_AttributeInstance_ID, trxName);
       /** if (M_AttributeInstance_ID == 0)
         {
-			setM_Attribute_ID (0);
 			setM_AttributeSetInstance_ID (0);
+			setM_Attribute_ID (0);
         } */
     }
 
@@ -73,34 +73,6 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
       return sb.toString();
     }
 
-	public I_M_Attribute getM_Attribute() throws RuntimeException
-    {
-		return (I_M_Attribute)MTable.get(getCtx(), I_M_Attribute.Table_Name)
-			.getPO(getM_Attribute_ID(), get_TrxName());	}
-
-	/** Set Attribute.
-		@param M_Attribute_ID 
-		Product Attribute
-	  */
-	public void setM_Attribute_ID (int M_Attribute_ID)
-	{
-		if (M_Attribute_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
-	}
-
-	/** Get Attribute.
-		@return Product Attribute
-	  */
-	public int getM_Attribute_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
     {
 		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
@@ -129,9 +101,9 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
 		return ii.intValue();
 	}
 
-	public I_M_AttributeValue getM_AttributeValue() throws RuntimeException
+	public org.compiere.model.I_M_AttributeValue getM_AttributeValue() throws RuntimeException
     {
-		return (I_M_AttributeValue)MTable.get(getCtx(), I_M_AttributeValue.Table_Name)
+		return (org.compiere.model.I_M_AttributeValue)MTable.get(getCtx(), org.compiere.model.I_M_AttributeValue.Table_Name)
 			.getPO(getM_AttributeValue_ID(), get_TrxName());	}
 
 	/** Set Attribute Value.
@@ -164,6 +136,34 @@ public class X_M_AttributeInstance extends PO implements I_M_AttributeInstance, 
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_AttributeValue_ID()));
     }
+
+	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Attribute)MTable.get(getCtx(), org.compiere.model.I_M_Attribute.Table_Name)
+			.getPO(getM_Attribute_ID(), get_TrxName());	}
+
+	/** Set Attribute.
+		@param M_Attribute_ID 
+		Product Attribute
+	  */
+	public void setM_Attribute_ID (int M_Attribute_ID)
+	{
+		if (M_Attribute_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Attribute_ID, Integer.valueOf(M_Attribute_ID));
+	}
+
+	/** Get Attribute.
+		@return Product Attribute
+	  */
+	public int getM_Attribute_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Attribute_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Search Key.
 		@param Value 

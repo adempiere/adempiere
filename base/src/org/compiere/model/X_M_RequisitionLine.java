@@ -32,7 +32,7 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_RequisitionLine (Properties ctx, int M_RequisitionLine_ID, String trxName)
@@ -43,8 +43,8 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 			setLine (0);
 // @SQL=SELECT COALESCE(MAX(Line),0)+10 AS DefaultValue FROM M_RequisitionLine WHERE M_Requisition_ID=@M_Requisition_ID@
 			setLineNetAmt (Env.ZERO);
-			setM_Requisition_ID (0);
 			setM_RequisitionLine_ID (0);
+			setM_Requisition_ID (0);
 			setPriceActual (Env.ZERO);
 			setQty (Env.ZERO);
 // 1
@@ -79,9 +79,9 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -107,9 +107,9 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_Charge getC_Charge() throws RuntimeException
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {
-		return (I_C_Charge)MTable.get(getCtx(), I_C_Charge.Table_Name)
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
 			.getPO(getC_Charge_ID(), get_TrxName());	}
 
 	/** Set Charge.
@@ -135,9 +135,9 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_OrderLine getC_OrderLine() throws RuntimeException
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
     {
-		return (I_C_OrderLine)MTable.get(getCtx(), I_C_OrderLine.Table_Name)
+		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
 			.getPO(getC_OrderLine_ID(), get_TrxName());	}
 
 	/** Set Sales Order Line.
@@ -163,9 +163,9 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -284,9 +284,9 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -312,9 +312,32 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Requisition getM_Requisition() throws RuntimeException
+	/** Set Requisition Line.
+		@param M_RequisitionLine_ID 
+		Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
+	{
+		if (M_RequisitionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
+	}
+
+	/** Get Requisition Line.
+		@return Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Requisition getM_Requisition() throws RuntimeException
     {
-		return (I_M_Requisition)MTable.get(getCtx(), I_M_Requisition.Table_Name)
+		return (org.compiere.model.I_M_Requisition)MTable.get(getCtx(), org.compiere.model.I_M_Requisition.Table_Name)
 			.getPO(getM_Requisition_ID(), get_TrxName());	}
 
 	/** Set Requisition.
@@ -335,29 +358,6 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	public int getM_Requisition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Requisition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Requisition Line.
-		@param M_RequisitionLine_ID 
-		Material Requisition Line
-	  */
-	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
-	{
-		if (M_RequisitionLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
-	}
-
-	/** Get Requisition Line.
-		@return Material Requisition Line
-	  */
-	public int getM_RequisitionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

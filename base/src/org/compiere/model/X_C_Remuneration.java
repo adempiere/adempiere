@@ -32,7 +32,7 @@ public class X_C_Remuneration extends PO implements I_C_Remuneration, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Remuneration (Properties ctx, int C_Remuneration_ID, String trxName)

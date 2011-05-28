@@ -30,7 +30,7 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_PrintGraph (Properties ctx, int AD_PrintGraph_ID, String trxName)
@@ -76,9 +76,9 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
 			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
@@ -127,9 +127,9 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormatItem getData1_PrintFormatItem() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormatItem getData1_PrintFormatItem() throws RuntimeException
     {
-		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormatItem)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormatItem.Table_Name)
 			.getPO(getData1_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Data Column 2.
@@ -155,9 +155,9 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormatItem getData2_PrintFormatItem() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormatItem getData2_PrintFormatItem() throws RuntimeException
     {
-		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormatItem)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormatItem.Table_Name)
 			.getPO(getData2_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Data Column 3.
@@ -183,9 +183,9 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormatItem getData3_PrintFormatItem() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormatItem getData3_PrintFormatItem() throws RuntimeException
     {
-		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormatItem)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormatItem.Table_Name)
 			.getPO(getData3_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Data Column 4.
@@ -211,9 +211,9 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormatItem getData4_PrintFormatItem() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormatItem getData4_PrintFormatItem() throws RuntimeException
     {
-		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormatItem)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormatItem.Table_Name)
 			.getPO(getData4_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Data Column 5.
@@ -239,9 +239,9 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormatItem getData_PrintFormatItem() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormatItem getData_PrintFormatItem() throws RuntimeException
     {
-		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormatItem)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormatItem.Table_Name)
 			.getPO(getData_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Data Column.
@@ -284,9 +284,9 @@ public class X_AD_PrintGraph extends PO implements I_AD_PrintGraph, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_AD_PrintFormatItem getDescription_PrintFormatItem() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormatItem getDescription_PrintFormatItem() throws RuntimeException
     {
-		return (I_AD_PrintFormatItem)MTable.get(getCtx(), I_AD_PrintFormatItem.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormatItem)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormatItem.Table_Name)
 			.getPO(getDescription_PrintFormatItem_ID(), get_TrxName());	}
 
 	/** Set Description Column.

@@ -32,7 +32,7 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_RMA (Properties ctx, int M_RMA_ID, String trxName)
@@ -50,8 +50,8 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 			setIsApproved (false);
 			setIsSOTrx (false);
 // @IsSOTrx@
-			setM_RMA_ID (0);
 			setM_RMAType_ID (0);
+			setM_RMA_ID (0);
 			setName (null);
 			setProcessed (false);
 			setSalesRep_ID (0);
@@ -106,9 +106,9 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return bd;
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -134,9 +134,9 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -162,9 +162,9 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -190,9 +190,9 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -386,9 +386,9 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public I_M_InOut getInOut() throws RuntimeException
+	public org.compiere.model.I_M_InOut getInOut() throws RuntimeException
     {
-		return (I_M_InOut)MTable.get(getCtx(), I_M_InOut.Table_Name)
+		return (org.compiere.model.I_M_InOut)MTable.get(getCtx(), org.compiere.model.I_M_InOut.Table_Name)
 			.getPO(getInOut_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt.
@@ -462,32 +462,9 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return false;
 	}
 
-	/** Set RMA.
-		@param M_RMA_ID 
-		Return Material Authorization
-	  */
-	public void setM_RMA_ID (int M_RMA_ID)
-	{
-		if (M_RMA_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
-	}
-
-	/** Get RMA.
-		@return Return Material Authorization
-	  */
-	public int getM_RMA_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMA_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_RMAType getM_RMAType() throws RuntimeException
+	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException
     {
-		return (I_M_RMAType)MTable.get(getCtx(), I_M_RMAType.Table_Name)
+		return (org.compiere.model.I_M_RMAType)MTable.get(getCtx(), org.compiere.model.I_M_RMAType.Table_Name)
 			.getPO(getM_RMAType_ID(), get_TrxName());	}
 
 	/** Set RMA Type.
@@ -508,6 +485,29 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 	public int getM_RMAType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMAType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set RMA.
+		@param M_RMA_ID 
+		Return Material Authorization
+	  */
+	public void setM_RMA_ID (int M_RMA_ID)
+	{
+		if (M_RMA_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_RMA_ID, Integer.valueOf(M_RMA_ID));
+	}
+
+	/** Get RMA.
+		@return Return Material Authorization
+	  */
+	public int getM_RMA_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMA_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -575,9 +575,9 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return false;
 	}
 
-	public I_M_RMA getRef_RMA() throws RuntimeException
+	public org.compiere.model.I_M_RMA getRef_RMA() throws RuntimeException
     {
-		return (I_M_RMA)MTable.get(getCtx(), I_M_RMA.Table_Name)
+		return (org.compiere.model.I_M_RMA)MTable.get(getCtx(), org.compiere.model.I_M_RMA.Table_Name)
 			.getPO(getRef_RMA_ID(), get_TrxName());	}
 
 	/** Set Referenced RMA.
@@ -600,9 +600,9 @@ public class X_M_RMA extends PO implements I_M_RMA, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getSalesRep() throws RuntimeException
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.

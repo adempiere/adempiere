@@ -88,7 +88,7 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_DunningRunEntry_ID();
 
-	public I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException;
+	public org.compiere.model.I_C_DunningRunEntry getC_DunningRunEntry() throws RuntimeException;
 
     /** Column name C_DunningRunLine_ID */
     public static final String COLUMNNAME_C_DunningRunLine_ID = "C_DunningRunLine_ID";
@@ -103,21 +103,6 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_DunningRunLine_ID();
 
-    /** Column name C_Invoice_ID */
-    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
-
-	/** Set Invoice.
-	  * Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
-
-	/** Get Invoice.
-	  * Invoice Identifier
-	  */
-	public int getC_Invoice_ID();
-
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
-
     /** Column name C_InvoicePaySchedule_ID */
     public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
 
@@ -131,20 +116,22 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_InvoicePaySchedule_ID();
 
-	public I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
+	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
 
-    /** Column name ConvertedAmt */
-    public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
-	/** Set Converted Amount.
-	  * Converted Amount
+	/** Set Invoice.
+	  * Invoice Identifier
 	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt);
+	public void setC_Invoice_ID (int C_Invoice_ID);
 
-	/** Get Converted Amount.
-	  * Converted Amount
+	/** Get Invoice.
+	  * Invoice Identifier
 	  */
-	public BigDecimal getConvertedAmt();
+	public int getC_Invoice_ID();
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -159,7 +146,20 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
+
+    /** Column name ConvertedAmt */
+    public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
+
+	/** Set Converted Amount.
+	  * Converted Amount
+	  */
+	public void setConvertedAmt (BigDecimal ConvertedAmt);
+
+	/** Get Converted Amount.
+	  * Converted Amount
+	  */
+	public BigDecimal getConvertedAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

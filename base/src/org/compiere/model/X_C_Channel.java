@@ -30,7 +30,7 @@ public class X_C_Channel extends PO implements I_C_Channel, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Channel (Properties ctx, int C_Channel_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_C_Channel extends PO implements I_C_Channel, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Print Color.

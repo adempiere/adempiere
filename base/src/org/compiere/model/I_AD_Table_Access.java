@@ -41,19 +41,6 @@ public interface I_AD_Table_Access
 
     /** Load Meta Data */
 
-    /** Column name AccessTypeRule */
-    public static final String COLUMNNAME_AccessTypeRule = "AccessTypeRule";
-
-	/** Set Access Type.
-	  * The type of access for this rule
-	  */
-	public void setAccessTypeRule (String AccessTypeRule);
-
-	/** Get Access Type.
-	  * The type of access for this rule
-	  */
-	public String getAccessTypeRule();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -88,7 +75,7 @@ public interface I_AD_Table_Access
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -103,7 +90,20 @@ public interface I_AD_Table_Access
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+
+    /** Column name AccessTypeRule */
+    public static final String COLUMNNAME_AccessTypeRule = "AccessTypeRule";
+
+	/** Set Access Type.
+	  * The type of access for this rule
+	  */
+	public void setAccessTypeRule (String AccessTypeRule);
+
+	/** Get Access Type.
+	  * The type of access for this rule
+	  */
+	public String getAccessTypeRule();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

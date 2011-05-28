@@ -75,7 +75,7 @@ public interface I_AD_LdapAccess
 	  */
 	public int getAD_LdapProcessor_ID();
 
-	public I_AD_LdapProcessor getAD_LdapProcessor() throws RuntimeException;
+	public org.compiere.model.I_AD_LdapProcessor getAD_LdapProcessor() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -103,7 +103,7 @@ public interface I_AD_LdapAccess
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -173,7 +173,7 @@ public interface I_AD_LdapAccess
 	  */
 	public int getR_InterestArea_ID();
 
-	public I_R_InterestArea getR_InterestArea() throws RuntimeException;
+	public org.compiere.model.I_R_InterestArea getR_InterestArea() throws RuntimeException;
 
     /** Column name Summary */
     public static final String COLUMNNAME_Summary = "Summary";

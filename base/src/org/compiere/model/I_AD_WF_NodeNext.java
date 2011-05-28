@@ -75,7 +75,20 @@ public interface I_AD_WF_NodeNext
 	  */
 	public int getAD_WF_Next_ID();
 
-	public I_AD_WF_Node getAD_WF_Next() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Node getAD_WF_Next() throws RuntimeException;
+
+    /** Column name AD_WF_NodeNext_ID */
+    public static final String COLUMNNAME_AD_WF_NodeNext_ID = "AD_WF_NodeNext_ID";
+
+	/** Set Node Transition.
+	  * Workflow Node Transition
+	  */
+	public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID);
+
+	/** Get Node Transition.
+	  * Workflow Node Transition
+	  */
+	public int getAD_WF_NodeNext_ID();
 
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
@@ -90,20 +103,7 @@ public interface I_AD_WF_NodeNext
 	  */
 	public int getAD_WF_Node_ID();
 
-	public I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
-
-    /** Column name AD_WF_NodeNext_ID */
-    public static final String COLUMNNAME_AD_WF_NodeNext_ID = "AD_WF_NodeNext_ID";
-
-	/** Set Node Transition.
-	  * Workflow Node Transition
-	  */
-	public void setAD_WF_NodeNext_ID (int AD_WF_NodeNext_ID);
-
-	/** Get Node Transition.
-	  * Workflow Node Transition
-	  */
-	public int getAD_WF_NodeNext_ID();
+	public org.compiere.model.I_AD_WF_Node getAD_WF_Node() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

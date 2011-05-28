@@ -31,7 +31,7 @@ public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PA_ReportCube (Properties ctx, int PA_ReportCube_ID, String trxName)
@@ -75,9 +75,9 @@ public class X_PA_ReportCube extends PO implements I_PA_ReportCube, I_Persistent
       return sb.toString();
     }
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException
     {
-		return (I_C_Calendar)MTable.get(getCtx(), I_C_Calendar.Table_Name)
+		return (org.compiere.model.I_C_Calendar)MTable.get(getCtx(), org.compiere.model.I_C_Calendar.Table_Name)
 			.getPO(getC_Calendar_ID(), get_TrxName());	}
 
 	/** Set Calendar.

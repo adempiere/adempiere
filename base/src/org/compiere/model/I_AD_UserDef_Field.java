@@ -62,7 +62,7 @@ public interface I_AD_UserDef_Field
 	  */
 	public int getAD_Field_ID();
 
-	public I_AD_Field getAD_Field() throws RuntimeException;
+	public org.compiere.model.I_AD_Field getAD_Field() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -95,7 +95,7 @@ public interface I_AD_UserDef_Field
 	/** Get User defined Tab	  */
 	public int getAD_UserDef_Tab_ID();
 
-	public I_AD_UserDef_Tab getAD_UserDef_Tab() throws RuntimeException;
+	public org.compiere.model.I_AD_UserDef_Tab getAD_UserDef_Tab() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

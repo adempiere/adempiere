@@ -62,6 +62,21 @@ public interface I_AD_Replication_Log
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_ReplicationTable_ID */
+    public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
+
+	/** Set Replication Table.
+	  * Data Replication Strategy Table Info
+	  */
+	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID);
+
+	/** Get Replication Table.
+	  * Data Replication Strategy Table Info
+	  */
+	public int getAD_ReplicationTable_ID();
+
+	public org.compiere.model.I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException;
+
     /** Column name AD_Replication_Log_ID */
     public static final String COLUMNNAME_AD_Replication_Log_ID = "AD_Replication_Log_ID";
 
@@ -88,22 +103,7 @@ public interface I_AD_Replication_Log
 	  */
 	public int getAD_Replication_Run_ID();
 
-	public I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException;
-
-    /** Column name AD_ReplicationTable_ID */
-    public static final String COLUMNNAME_AD_ReplicationTable_ID = "AD_ReplicationTable_ID";
-
-	/** Set Replication Table.
-	  * Data Replication Strategy Table Info
-	  */
-	public void setAD_ReplicationTable_ID (int AD_ReplicationTable_ID);
-
-	/** Get Replication Table.
-	  * Data Replication Strategy Table Info
-	  */
-	public int getAD_ReplicationTable_ID();
-
-	public I_AD_ReplicationTable getAD_ReplicationTable() throws RuntimeException;
+	public org.compiere.model.I_AD_Replication_Run getAD_Replication_Run() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

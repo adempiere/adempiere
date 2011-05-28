@@ -33,7 +33,7 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_RfQ (Properties ctx, int C_RfQ_ID, String trxName)
@@ -90,9 +90,9 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -118,9 +118,9 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -146,9 +146,9 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -174,9 +174,9 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -202,23 +202,9 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Copy Lines.
-		@param CopyLines Copy Lines	  */
-	public void setCopyLines (String CopyLines)
-	{
-		set_Value (COLUMNNAME_CopyLines, CopyLines);
-	}
-
-	/** Get Copy Lines.
-		@return Copy Lines	  */
-	public String getCopyLines () 
-	{
-		return (String)get_Value(COLUMNNAME_CopyLines);
-	}
-
-	public I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -242,6 +228,71 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set RfQ.
+		@param C_RfQ_ID 
+		Request for Quotation
+	  */
+	public void setC_RfQ_ID (int C_RfQ_ID)
+	{
+		if (C_RfQ_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, Integer.valueOf(C_RfQ_ID));
+	}
+
+	/** Get RfQ.
+		@return Request for Quotation
+	  */
+	public int getC_RfQ_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_RfQ_Topic)MTable.get(getCtx(), org.compiere.model.I_C_RfQ_Topic.Table_Name)
+			.getPO(getC_RfQ_Topic_ID(), get_TrxName());	}
+
+	/** Set RfQ Topic.
+		@param C_RfQ_Topic_ID 
+		Topic for Request for Quotations
+	  */
+	public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
+	{
+		if (C_RfQ_Topic_ID < 1) 
+			set_Value (COLUMNNAME_C_RfQ_Topic_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_RfQ_Topic_ID, Integer.valueOf(C_RfQ_Topic_ID));
+	}
+
+	/** Get RfQ Topic.
+		@return Topic for Request for Quotations
+	  */
+	public int getC_RfQ_Topic_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_Topic_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Copy Lines.
+		@param CopyLines Copy Lines	  */
+	public void setCopyLines (String CopyLines)
+	{
+		set_Value (COLUMNNAME_CopyLines, CopyLines);
+	}
+
+	/** Get Copy Lines.
+		@return Copy Lines	  */
+	public String getCopyLines () 
+	{
+		return (String)get_Value(COLUMNNAME_CopyLines);
 	}
 
 	/** Set Create PO.
@@ -273,57 +324,6 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 	public String getCreateSO () 
 	{
 		return (String)get_Value(COLUMNNAME_CreateSO);
-	}
-
-	/** Set RfQ.
-		@param C_RfQ_ID 
-		Request for Quotation
-	  */
-	public void setC_RfQ_ID (int C_RfQ_ID)
-	{
-		if (C_RfQ_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_RfQ_ID, Integer.valueOf(C_RfQ_ID));
-	}
-
-	/** Get RfQ.
-		@return Request for Quotation
-	  */
-	public int getC_RfQ_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException
-    {
-		return (I_C_RfQ_Topic)MTable.get(getCtx(), I_C_RfQ_Topic.Table_Name)
-			.getPO(getC_RfQ_Topic_ID(), get_TrxName());	}
-
-	/** Set RfQ Topic.
-		@param C_RfQ_Topic_ID 
-		Topic for Request for Quotations
-	  */
-	public void setC_RfQ_Topic_ID (int C_RfQ_Topic_ID)
-	{
-		if (C_RfQ_Topic_ID < 1) 
-			set_Value (COLUMNNAME_C_RfQ_Topic_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_RfQ_Topic_ID, Integer.valueOf(C_RfQ_Topic_ID));
-	}
-
-	/** Get RfQ Topic.
-		@return Topic for Request for Quotations
-	  */
-	public int getC_RfQ_Topic_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_Topic_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Response Date.
@@ -712,9 +712,9 @@ public class X_C_RfQ extends PO implements I_C_RfQ, I_Persistent
 		return (String)get_Value(COLUMNNAME_RankRfQ);
 	}
 
-	public I_AD_User getSalesRep() throws RuntimeException
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.

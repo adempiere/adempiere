@@ -62,7 +62,7 @@ public interface I_AD_Field
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_FieldGroup_ID */
     public static final String COLUMNNAME_AD_FieldGroup_ID = "AD_FieldGroup_ID";
@@ -77,7 +77,7 @@ public interface I_AD_Field
 	  */
 	public int getAD_FieldGroup_ID();
 
-	public I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException;
+	public org.compiere.model.I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException;
 
     /** Column name AD_Field_ID */
     public static final String COLUMNNAME_AD_Field_ID = "AD_Field_ID";
@@ -118,7 +118,7 @@ public interface I_AD_Field
 	  */
 	public int getAD_Reference_ID();
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException;
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
 
     /** Column name AD_Reference_Value_ID */
     public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
@@ -133,7 +133,7 @@ public interface I_AD_Field
 	  */
 	public int getAD_Reference_Value_ID();
 
-	public I_AD_Reference getAD_Reference_Value() throws RuntimeException;
+	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException;
 
     /** Column name AD_Tab_ID */
     public static final String COLUMNNAME_AD_Tab_ID = "AD_Tab_ID";
@@ -148,7 +148,7 @@ public interface I_AD_Field
 	  */
 	public int getAD_Tab_ID();
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException;
+	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException;
 
     /** Column name AD_Val_Rule_ID */
     public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
@@ -163,7 +163,7 @@ public interface I_AD_Field
 	  */
 	public int getAD_Val_Rule_ID();
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException;
+	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -289,7 +289,7 @@ public interface I_AD_Field
 	  */
 	public int getIncluded_Tab_ID();
 
-	public I_AD_Tab getIncluded_Tab() throws RuntimeException;
+	public org.compiere.model.I_AD_Tab getIncluded_Tab() throws RuntimeException;
 
     /** Column name InfoFactoryClass */
     public static final String COLUMNNAME_InfoFactoryClass = "InfoFactoryClass";

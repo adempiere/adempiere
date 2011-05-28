@@ -33,7 +33,7 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_I_GLJournal (Properties ctx, int I_GLJournal_ID, String trxName)
@@ -73,68 +73,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public I_C_ElementValue getAccount() throws RuntimeException
-    {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
-			.getPO(getAccount_ID(), get_TrxName());	}
-
-	/** Set Account.
-		@param Account_ID 
-		Account used
-	  */
-	public void setAccount_ID (int Account_ID)
-	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
-	}
-
-	/** Get Account.
-		@return Account used
-	  */
-	public int getAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Account Key.
-		@param AccountValue 
-		Key of Account Element
-	  */
-	public void setAccountValue (String AccountValue)
-	{
-		set_Value (COLUMNNAME_AccountValue, AccountValue);
-	}
-
-	/** Get Account Key.
-		@return Key of Account Element
-	  */
-	public String getAccountValue () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountValue);
-	}
-
-	/** Set Account Schema Name.
-		@param AcctSchemaName 
-		Name of the Accounting Schema
-	  */
-	public void setAcctSchemaName (String AcctSchemaName)
-	{
-		set_Value (COLUMNNAME_AcctSchemaName, AcctSchemaName);
-	}
-
-	/** Get Account Schema Name.
-		@return Name of the Accounting Schema
-	  */
-	public String getAcctSchemaName () 
-	{
-		return (String)get_Value(COLUMNNAME_AcctSchemaName);
-	}
 
 	/** Set Document Org.
 		@param AD_OrgDoc_ID 
@@ -180,6 +118,68 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Account Key.
+		@param AccountValue 
+		Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue)
+	{
+		set_Value (COLUMNNAME_AccountValue, AccountValue);
+	}
+
+	/** Get Account Key.
+		@return Key of Account Element
+	  */
+	public String getAccountValue () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountValue);
+	}
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Account Schema Name.
+		@param AcctSchemaName 
+		Name of the Accounting Schema
+	  */
+	public void setAcctSchemaName (String AcctSchemaName)
+	{
+		set_Value (COLUMNNAME_AcctSchemaName, AcctSchemaName);
+	}
+
+	/** Get Account Schema Name.
+		@return Name of the Accounting Schema
+	  */
+	public String getAcctSchemaName () 
+	{
+		return (String)get_Value(COLUMNNAME_AcctSchemaName);
 	}
 
 	/** Set Accounted Credit.
@@ -262,6 +262,23 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return bd;
 	}
 
+	/** Set Business Partner Key.
+		@param BPartnerValue 
+		Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue)
+	{
+		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
+	}
+
+	/** Get Business Partner Key.
+		@return Key of the Business Partner
+	  */
+	public String getBPartnerValue () 
+	{
+		return (String)get_Value(COLUMNNAME_BPartnerValue);
+	}
+
 	/** Set Batch Description.
 		@param BatchDescription 
 		Description of the Batch
@@ -296,26 +313,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_BatchDocumentNo);
 	}
 
-	/** Set Business Partner Key.
-		@param BPartnerValue 
-		Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue)
-	{
-		set_Value (COLUMNNAME_BPartnerValue, BPartnerValue);
-	}
-
-	/** Get Business Partner Key.
-		@return Key of the Business Partner
-	  */
-	public String getBPartnerValue () 
-	{
-		return (String)get_Value(COLUMNNAME_BPartnerValue);
-	}
-
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -341,9 +341,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws RuntimeException
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -369,26 +369,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Category Name.
-		@param CategoryName 
-		Name of the Category
-	  */
-	public void setCategoryName (String CategoryName)
-	{
-		set_Value (COLUMNNAME_CategoryName, CategoryName);
-	}
-
-	/** Get Category Name.
-		@return Name of the Category
-	  */
-	public String getCategoryName () 
-	{
-		return (String)get_Value(COLUMNNAME_CategoryName);
-	}
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -414,9 +397,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -442,9 +425,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException
     {
-		return (I_C_ConversionType)MTable.get(getCtx(), I_C_ConversionType.Table_Name)
+		return (org.compiere.model.I_C_ConversionType)MTable.get(getCtx(), org.compiere.model.I_C_ConversionType.Table_Name)
 			.getPO(getC_ConversionType_ID(), get_TrxName());	}
 
 	/** Set Currency Type.
@@ -470,9 +453,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -498,9 +481,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.
@@ -526,26 +509,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Client Key.
-		@param ClientValue 
-		Key of the Client
-	  */
-	public void setClientValue (String ClientValue)
-	{
-		set_Value (COLUMNNAME_ClientValue, ClientValue);
-	}
-
-	/** Get Client Key.
-		@return Key of the Client
-	  */
-	public String getClientValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ClientValue);
-	}
-
-	public I_C_Location getC_LocFrom() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_LocFrom() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_LocFrom_ID(), get_TrxName());	}
 
 	/** Set Location From.
@@ -571,9 +537,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Location getC_LocTo() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_LocTo() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_LocTo_ID(), get_TrxName());	}
 
 	/** Set Location To.
@@ -599,26 +565,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Currency Type Key.
-		@param ConversionTypeValue 
-		Key value for the Currency Conversion Rate Type
-	  */
-	public void setConversionTypeValue (String ConversionTypeValue)
-	{
-		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
-	}
-
-	/** Get Currency Type Key.
-		@return Key value for the Currency Conversion Rate Type
-	  */
-	public String getConversionTypeValue () 
-	{
-		return (String)get_Value(COLUMNNAME_ConversionTypeValue);
-	}
-
-	public I_C_Period getC_Period() throws RuntimeException
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
     {
-		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.
@@ -644,9 +593,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -672,9 +621,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
     {
-		return (I_C_SalesRegion)MTable.get(getCtx(), I_C_SalesRegion.Table_Name)
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
 			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region.
@@ -700,9 +649,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_UOM getC_UOM() throws RuntimeException
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
-		return (I_C_UOM)MTable.get(getCtx(), I_C_UOM.Table_Name)
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
 			.getPO(getC_UOM_ID(), get_TrxName());	}
 
 	/** Set UOM.
@@ -728,29 +677,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Rate.
-		@param CurrencyRate 
-		Currency Conversion Rate
-	  */
-	public void setCurrencyRate (BigDecimal CurrencyRate)
-	{
-		set_Value (COLUMNNAME_CurrencyRate, CurrencyRate);
-	}
-
-	/** Get Rate.
-		@return Currency Conversion Rate
-	  */
-	public BigDecimal getCurrencyRate () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrencyRate);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException
+	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException
     {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+		return (org.compiere.model.I_C_ValidCombination)MTable.get(getCtx(), org.compiere.model.I_C_ValidCombination.Table_Name)
 			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
 
 	/** Set Combination.
@@ -774,6 +703,77 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Category Name.
+		@param CategoryName 
+		Name of the Category
+	  */
+	public void setCategoryName (String CategoryName)
+	{
+		set_Value (COLUMNNAME_CategoryName, CategoryName);
+	}
+
+	/** Get Category Name.
+		@return Name of the Category
+	  */
+	public String getCategoryName () 
+	{
+		return (String)get_Value(COLUMNNAME_CategoryName);
+	}
+
+	/** Set Client Key.
+		@param ClientValue 
+		Key of the Client
+	  */
+	public void setClientValue (String ClientValue)
+	{
+		set_Value (COLUMNNAME_ClientValue, ClientValue);
+	}
+
+	/** Get Client Key.
+		@return Key of the Client
+	  */
+	public String getClientValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ClientValue);
+	}
+
+	/** Set Currency Type Key.
+		@param ConversionTypeValue 
+		Key value for the Currency Conversion Rate Type
+	  */
+	public void setConversionTypeValue (String ConversionTypeValue)
+	{
+		set_Value (COLUMNNAME_ConversionTypeValue, ConversionTypeValue);
+	}
+
+	/** Get Currency Type Key.
+		@return Key value for the Currency Conversion Rate Type
+	  */
+	public String getConversionTypeValue () 
+	{
+		return (String)get_Value(COLUMNNAME_ConversionTypeValue);
+	}
+
+	/** Set Rate.
+		@param CurrencyRate 
+		Currency Conversion Rate
+	  */
+	public void setCurrencyRate (BigDecimal CurrencyRate)
+	{
+		set_Value (COLUMNNAME_CurrencyRate, CurrencyRate);
+	}
+
+	/** Get Rate.
+		@return Currency Conversion Rate
+	  */
+	public BigDecimal getCurrencyRate () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrencyRate);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Account Date.
@@ -827,9 +827,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocTypeName);
 	}
 
-	public I_GL_Budget getGL_Budget() throws RuntimeException
+	public org.compiere.model.I_GL_Budget getGL_Budget() throws RuntimeException
     {
-		return (I_GL_Budget)MTable.get(getCtx(), I_GL_Budget.Table_Name)
+		return (org.compiere.model.I_GL_Budget)MTable.get(getCtx(), org.compiere.model.I_GL_Budget.Table_Name)
 			.getPO(getGL_Budget_ID(), get_TrxName());	}
 
 	/** Set Budget.
@@ -855,9 +855,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_Category getGL_Category() throws RuntimeException
+	public org.compiere.model.I_GL_Category getGL_Category() throws RuntimeException
     {
-		return (I_GL_Category)MTable.get(getCtx(), I_GL_Category.Table_Name)
+		return (org.compiere.model.I_GL_Category)MTable.get(getCtx(), org.compiere.model.I_GL_Category.Table_Name)
 			.getPO(getGL_Category_ID(), get_TrxName());	}
 
 	/** Set GL Category.
@@ -883,9 +883,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
+	public org.compiere.model.I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
     {
-		return (I_GL_JournalBatch)MTable.get(getCtx(), I_GL_JournalBatch.Table_Name)
+		return (org.compiere.model.I_GL_JournalBatch)MTable.get(getCtx(), org.compiere.model.I_GL_JournalBatch.Table_Name)
 			.getPO(getGL_JournalBatch_ID(), get_TrxName());	}
 
 	/** Set Journal Batch.
@@ -911,9 +911,37 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_Journal getGL_Journal() throws RuntimeException
+	public org.compiere.model.I_GL_JournalLine getGL_JournalLine() throws RuntimeException
     {
-		return (I_GL_Journal)MTable.get(getCtx(), I_GL_Journal.Table_Name)
+		return (org.compiere.model.I_GL_JournalLine)MTable.get(getCtx(), org.compiere.model.I_GL_JournalLine.Table_Name)
+			.getPO(getGL_JournalLine_ID(), get_TrxName());	}
+
+	/** Set Journal Line.
+		@param GL_JournalLine_ID 
+		General Ledger Journal Line
+	  */
+	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
+	{
+		if (GL_JournalLine_ID < 1) 
+			set_Value (COLUMNNAME_GL_JournalLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
+	}
+
+	/** Get Journal Line.
+		@return General Ledger Journal Line
+	  */
+	public int getGL_JournalLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException
+    {
+		return (org.compiere.model.I_GL_Journal)MTable.get(getCtx(), org.compiere.model.I_GL_Journal.Table_Name)
 			.getPO(getGL_Journal_ID(), get_TrxName());	}
 
 	/** Set Journal.
@@ -939,32 +967,21 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_GL_JournalLine getGL_JournalLine() throws RuntimeException
-    {
-		return (I_GL_JournalLine)MTable.get(getCtx(), I_GL_JournalLine.Table_Name)
-			.getPO(getGL_JournalLine_ID(), get_TrxName());	}
-
-	/** Set Journal Line.
-		@param GL_JournalLine_ID 
-		General Ledger Journal Line
+	/** Set ISO Currency Code.
+		@param ISO_Code 
+		Three letter ISO 4217 Code of the Currency
 	  */
-	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
+	public void setISO_Code (String ISO_Code)
 	{
-		if (GL_JournalLine_ID < 1) 
-			set_Value (COLUMNNAME_GL_JournalLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
+		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
 	}
 
-	/** Get Journal Line.
-		@return General Ledger Journal Line
+	/** Get ISO Currency Code.
+		@return Three letter ISO 4217 Code of the Currency
 	  */
-	public int getGL_JournalLine_ID () 
+	public String getISO_Code () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_ISO_Code);
 	}
 
 	/** Set Import Error Message.
@@ -1087,23 +1104,6 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return false;
 	}
 
-	/** Set ISO Currency Code.
-		@param ISO_Code 
-		Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code)
-	{
-		set_Value (COLUMNNAME_ISO_Code, ISO_Code);
-	}
-
-	/** Get ISO Currency Code.
-		@return Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code () 
-	{
-		return (String)get_Value(COLUMNNAME_ISO_Code);
-	}
-
 	/** Set Journal Document No.
 		@param JournalDocumentNo 
 		Document number of the Journal
@@ -1141,9 +1141,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -1366,9 +1366,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return (String)get_Value(COLUMNNAME_UPC);
 	}
 
-	public I_C_ElementValue getUser1() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser1_ID(), get_TrxName());	}
 
 	/** Set User List 1.
@@ -1394,9 +1394,9 @@ public class X_I_GLJournal extends PO implements I_I_GLJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getUser2() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getUser2_ID(), get_TrxName());	}
 
 	/** Set User List 2.

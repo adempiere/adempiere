@@ -30,7 +30,7 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_AcctSchema (Properties ctx, int C_AcctSchema_ID, String trxName)
@@ -165,9 +165,9 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -188,6 +188,34 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public int getC_Currency_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
+			.getPO(getC_Period_ID(), get_TrxName());	}
+
+	/** Set Period.
+		@param C_Period_ID 
+		Period of the Calendar
+	  */
+	public void setC_Period_ID (int C_Period_ID)
+	{
+		if (C_Period_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
+	}
+
+	/** Get Period.
+		@return Period of the Calendar
+	  */
+	public int getC_Period_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Period_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -287,34 +315,6 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 	public String getCostingMethod () 
 	{
 		return (String)get_Value(COLUMNNAME_CostingMethod);
-	}
-
-	public I_C_Period getC_Period() throws RuntimeException
-    {
-		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
-			.getPO(getC_Period_ID(), get_TrxName());	}
-
-	/** Set Period.
-		@param C_Period_ID 
-		Period of the Calendar
-	  */
-	public void setC_Period_ID (int C_Period_ID)
-	{
-		if (C_Period_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Period_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Period_ID, Integer.valueOf(C_Period_ID));
-	}
-
-	/** Get Period.
-		@return Period of the Calendar
-	  */
-	public int getC_Period_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Period_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -604,9 +604,9 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
 		return false;
 	}
 
-	public I_M_CostType getM_CostType() throws RuntimeException
+	public org.compiere.model.I_M_CostType getM_CostType() throws RuntimeException
     {
-		return (I_M_CostType)MTable.get(getCtx(), I_M_CostType.Table_Name)
+		return (org.compiere.model.I_M_CostType)MTable.get(getCtx(), org.compiere.model.I_M_CostType.Table_Name)
 			.getPO(getM_CostType_ID(), get_TrxName());	}
 
 	/** Set Cost Type.

@@ -62,6 +62,34 @@ public interface I_C_ServiceLevel
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_RevenueRecognition_Plan_ID */
+    public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
+
+	/** Set Revenue Recognition Plan.
+	  * Plan for recognizing or recording revenue
+	  */
+	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID);
+
+	/** Get Revenue Recognition Plan.
+	  * Plan for recognizing or recording revenue
+	  */
+	public int getC_RevenueRecognition_Plan_ID();
+
+	public org.compiere.model.I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException;
+
+    /** Column name C_ServiceLevel_ID */
+    public static final String COLUMNNAME_C_ServiceLevel_ID = "C_ServiceLevel_ID";
+
+	/** Set Service Level.
+	  * Product Revenue Recognition Service Level 
+	  */
+	public void setC_ServiceLevel_ID (int C_ServiceLevel_ID);
+
+	/** Get Service Level.
+	  * Product Revenue Recognition Service Level 
+	  */
+	public int getC_ServiceLevel_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,34 +105,6 @@ public interface I_C_ServiceLevel
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RevenueRecognition_Plan_ID */
-    public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
-
-	/** Set Revenue Recognition Plan.
-	  * Plan for recognizing or recording revenue
-	  */
-	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID);
-
-	/** Get Revenue Recognition Plan.
-	  * Plan for recognizing or recording revenue
-	  */
-	public int getC_RevenueRecognition_Plan_ID();
-
-	public I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException;
-
-    /** Column name C_ServiceLevel_ID */
-    public static final String COLUMNNAME_C_ServiceLevel_ID = "C_ServiceLevel_ID";
-
-	/** Set Service Level.
-	  * Product Revenue Recognition Service Level 
-	  */
-	public void setC_ServiceLevel_ID (int C_ServiceLevel_ID);
-
-	/** Get Service Level.
-	  * Product Revenue Recognition Service Level 
-	  */
-	public int getC_ServiceLevel_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -145,7 +145,7 @@ public interface I_C_ServiceLevel
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";

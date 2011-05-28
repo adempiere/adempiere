@@ -30,7 +30,7 @@ public class X_ASP_Process extends PO implements I_ASP_Process, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_ASP_Process (Properties ctx, int ASP_Process_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_ASP_Process extends PO implements I_ASP_Process, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Process getAD_Process() throws RuntimeException
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException
     {
-		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
+		return (org.compiere.model.I_AD_Process)MTable.get(getCtx(), org.compiere.model.I_AD_Process.Table_Name)
 			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
@@ -101,9 +101,9 @@ public class X_ASP_Process extends PO implements I_ASP_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_ASP_Level getASP_Level() throws RuntimeException
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException
     {
-		return (I_ASP_Level)MTable.get(getCtx(), I_ASP_Level.Table_Name)
+		return (org.compiere.model.I_ASP_Level)MTable.get(getCtx(), org.compiere.model.I_ASP_Level.Table_Name)
 			.getPO(getASP_Level_ID(), get_TrxName());	}
 
 	/** Set ASP Level.

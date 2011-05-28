@@ -84,7 +84,7 @@ public interface I_C_PeriodControl
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws RuntimeException;
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

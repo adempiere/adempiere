@@ -30,7 +30,7 @@ public class X_AD_PrintLabel extends PO implements I_AD_PrintLabel, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_PrintLabel (Properties ctx, int AD_PrintLabel_ID, String trxName)
@@ -122,9 +122,9 @@ public class X_AD_PrintLabel extends PO implements I_AD_PrintLabel, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.

@@ -75,7 +75,7 @@ public interface I_CM_Template_Ad_Cat
 	  */
 	public int getCM_Ad_Cat_ID();
 
-	public I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException;
+	public org.compiere.model.I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException;
 
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
@@ -90,7 +90,7 @@ public interface I_CM_Template_Ad_Cat
 	  */
 	public int getCM_Template_ID();
 
-	public I_CM_Template getCM_Template() throws RuntimeException;
+	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

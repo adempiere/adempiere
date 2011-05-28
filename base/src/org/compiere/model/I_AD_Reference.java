@@ -187,19 +187,6 @@ public interface I_AD_Reference
 	  */
 	public int getUpdatedBy();
 
-    /** Column name ValidationType */
-    public static final String COLUMNNAME_ValidationType = "ValidationType";
-
-	/** Set Validation type.
-	  * Different method of validating data
-	  */
-	public void setValidationType (String ValidationType);
-
-	/** Get Validation type.
-	  * Different method of validating data
-	  */
-	public String getValidationType();
-
     /** Column name VFormat */
     public static final String COLUMNNAME_VFormat = "VFormat";
 
@@ -214,4 +201,17 @@ public interface I_AD_Reference
  Can contain fixed format elements, Variables: "_lLoOaAcCa09"
 	  */
 	public String getVFormat();
+
+    /** Column name ValidationType */
+    public static final String COLUMNNAME_ValidationType = "ValidationType";
+
+	/** Set Validation type.
+	  * Different method of validating data
+	  */
+	public void setValidationType (String ValidationType);
+
+	/** Get Validation type.
+	  * Different method of validating data
+	  */
+	public String getValidationType();
 }

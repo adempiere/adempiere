@@ -30,7 +30,7 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_ASP_Tab (Properties ctx, int ASP_Tab_ID, String trxName)
@@ -72,9 +72,9 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException
+	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException
     {
-		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+		return (org.compiere.model.I_AD_Tab)MTable.get(getCtx(), org.compiere.model.I_AD_Tab.Table_Name)
 			.getPO(getAD_Tab_ID(), get_TrxName());	}
 
 	/** Set Tab.
@@ -98,27 +98,6 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set AllFields.
-		@param AllFields AllFields	  */
-	public void setAllFields (boolean AllFields)
-	{
-		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
-	}
-
-	/** Get AllFields.
-		@return AllFields	  */
-	public boolean isAllFields () 
-	{
-		Object oo = get_Value(COLUMNNAME_AllFields);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** ASP_Status AD_Reference_ID=53234 */
@@ -164,9 +143,9 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_ASP_Window getASP_Window() throws RuntimeException
+	public org.compiere.model.I_ASP_Window getASP_Window() throws RuntimeException
     {
-		return (I_ASP_Window)MTable.get(getCtx(), I_ASP_Window.Table_Name)
+		return (org.compiere.model.I_ASP_Window)MTable.get(getCtx(), org.compiere.model.I_ASP_Window.Table_Name)
 			.getPO(getASP_Window_ID(), get_TrxName());	}
 
 	/** Set ASP Window.
@@ -196,6 +175,27 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getASP_Window_ID()));
     }
+
+	/** Set AllFields.
+		@param AllFields AllFields	  */
+	public void setAllFields (boolean AllFields)
+	{
+		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
+	}
+
+	/** Get AllFields.
+		@return AllFields	  */
+	public boolean isAllFields () 
+	{
+		Object oo = get_Value(COLUMNNAME_AllFields);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
 
 	/** Set Process Now.
 		@param Processing Process Now	  */

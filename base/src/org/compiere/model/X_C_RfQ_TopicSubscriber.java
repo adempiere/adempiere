@@ -31,7 +31,7 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_RfQ_TopicSubscriber (Properties ctx, int C_RfQ_TopicSubscriber_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
         {
 			setC_BPartner_ID (0);
 			setC_BPartner_Location_ID (0);
-			setC_RfQ_Topic_ID (0);
 			setC_RfQ_TopicSubscriber_ID (0);
+			setC_RfQ_Topic_ID (0);
         } */
     }
 
@@ -74,9 +74,9 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -102,9 +102,9 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -130,9 +130,9 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -158,9 +158,32 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
 		return ii.intValue();
 	}
 
-	public I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException
+	/** Set RfQ Subscriber.
+		@param C_RfQ_TopicSubscriber_ID 
+		Request for Quotation Topic Subscriber
+	  */
+	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID)
+	{
+		if (C_RfQ_TopicSubscriber_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, Integer.valueOf(C_RfQ_TopicSubscriber_ID));
+	}
+
+	/** Get RfQ Subscriber.
+		@return Request for Quotation Topic Subscriber
+	  */
+	public int getC_RfQ_TopicSubscriber_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_TopicSubscriber_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException
     {
-		return (I_C_RfQ_Topic)MTable.get(getCtx(), I_C_RfQ_Topic.Table_Name)
+		return (org.compiere.model.I_C_RfQ_Topic)MTable.get(getCtx(), org.compiere.model.I_C_RfQ_Topic.Table_Name)
 			.getPO(getC_RfQ_Topic_ID(), get_TrxName());	}
 
 	/** Set RfQ Topic.
@@ -193,29 +216,6 @@ public class X_C_RfQ_TopicSubscriber extends PO implements I_C_RfQ_TopicSubscrib
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_RfQ_Topic_ID()));
     }
-
-	/** Set RfQ Subscriber.
-		@param C_RfQ_TopicSubscriber_ID 
-		Request for Quotation Topic Subscriber
-	  */
-	public void setC_RfQ_TopicSubscriber_ID (int C_RfQ_TopicSubscriber_ID)
-	{
-		if (C_RfQ_TopicSubscriber_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_RfQ_TopicSubscriber_ID, Integer.valueOf(C_RfQ_TopicSubscriber_ID));
-	}
-
-	/** Get RfQ Subscriber.
-		@return Request for Quotation Topic Subscriber
-	  */
-	public int getC_RfQ_TopicSubscriber_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQ_TopicSubscriber_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Opt-out Date.
 		@param OptOutDate 

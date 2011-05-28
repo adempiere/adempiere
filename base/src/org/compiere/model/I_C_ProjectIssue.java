@@ -62,6 +62,19 @@ public interface I_C_ProjectIssue
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_ProjectIssue_ID */
+    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
+
+	/** Set Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
+
+	/** Get Project Issue.
+	  * Project Issues (Material, Labor)
+	  */
+	public int getC_ProjectIssue_ID();
+
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
@@ -75,20 +88,7 @@ public interface I_C_ProjectIssue
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name C_ProjectIssue_ID */
-    public static final String COLUMNNAME_C_ProjectIssue_ID = "C_ProjectIssue_ID";
-
-	/** Set Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID);
-
-	/** Get Project Issue.
-	  * Project Issues (Material, Labor)
-	  */
-	public int getC_ProjectIssue_ID();
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -173,7 +173,7 @@ public interface I_C_ProjectIssue
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -189,6 +189,21 @@ public interface I_C_ProjectIssue
 	public int getM_Locator_ID();
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
+
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name MovementDate */
     public static final String COLUMNNAME_MovementDate = "MovementDate";
@@ -215,21 +230,6 @@ public interface I_C_ProjectIssue
 	  * Quantity of a product moved.
 	  */
 	public BigDecimal getMovementQty();
-
-    /** Column name M_Product_ID */
-    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
-
-	/** Set Product.
-	  * Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID);
-
-	/** Get Product.
-	  * Product, Service, Item
-	  */
-	public int getM_Product_ID();
-
-	public I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Posted */
     public static final String COLUMNNAME_Posted = "Posted";
@@ -292,7 +292,7 @@ public interface I_C_ProjectIssue
 	  */
 	public int getS_TimeExpenseLine_ID();
 
-	public I_S_TimeExpenseLine getS_TimeExpenseLine() throws RuntimeException;
+	public org.compiere.model.I_S_TimeExpenseLine getS_TimeExpenseLine() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

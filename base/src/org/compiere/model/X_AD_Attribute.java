@@ -30,7 +30,7 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Attribute (Properties ctx, int AD_Attribute_ID, String trxName)
@@ -100,9 +100,9 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
     {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
@@ -128,9 +128,9 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference_Value() throws RuntimeException
+	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException
     {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
 
 	/** Set Reference Key.
@@ -156,9 +156,9 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -184,9 +184,9 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
+	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
     {
-		return (I_AD_Val_Rule)MTable.get(getCtx(), I_AD_Val_Rule.Table_Name)
+		return (org.compiere.model.I_AD_Val_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Val_Rule.Table_Name)
 			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
 
 	/** Set Dynamic Validation.
@@ -550,6 +550,23 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
+	}
+
 	/** Set Max. Value.
 		@param ValueMax 
 		Maximum Value for a field
@@ -582,22 +599,5 @@ public class X_AD_Attribute extends PO implements I_AD_Attribute, I_Persistent
 	public String getValueMin () 
 	{
 		return (String)get_Value(COLUMNNAME_ValueMin);
-	}
-
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

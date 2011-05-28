@@ -32,7 +32,7 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_T_Transaction (Properties ctx, int T_Transaction_ID, String trxName)
@@ -43,11 +43,11 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 			setAD_PInstance_ID (0);
 			setM_AttributeSetInstance_ID (0);
 			setM_Locator_ID (0);
+			setM_Product_ID (0);
+			setM_Transaction_ID (0);
 			setMovementDate (new Timestamp( System.currentTimeMillis() ));
 			setMovementQty (Env.ZERO);
 			setMovementType (null);
-			setM_Product_ID (0);
-			setM_Transaction_ID (0);
         } */
     }
 
@@ -79,9 +79,9 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-		return (I_AD_PInstance)MTable.get(getCtx(), I_AD_PInstance.Table_Name)
+		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
 			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
 	/** Set Process Instance.
@@ -107,37 +107,9 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException
-    {
-		return (I_C_ProjectIssue)MTable.get(getCtx(), I_C_ProjectIssue.Table_Name)
+		return (org.compiere.model.I_C_ProjectIssue)MTable.get(getCtx(), org.compiere.model.I_C_ProjectIssue.Table_Name)
 			.getPO(getC_ProjectIssue_ID(), get_TrxName());	}
 
 	/** Set Project Issue.
@@ -158,6 +130,34 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	public int getC_ProjectIssue_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectIssue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -191,37 +191,9 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_InOut getM_InOut() throws RuntimeException
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (I_M_InOut)MTable.get(getCtx(), I_M_InOut.Table_Name)
-			.getPO(getM_InOut_ID(), get_TrxName());	}
-
-	/** Set Shipment/Receipt.
-		@param M_InOut_ID 
-		Material Shipment Document
-	  */
-	public void setM_InOut_ID (int M_InOut_ID)
-	{
-		if (M_InOut_ID < 1) 
-			set_Value (COLUMNNAME_M_InOut_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
-	}
-
-	/** Get Shipment/Receipt.
-		@return Material Shipment Document
-	  */
-	public int getM_InOut_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOut_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException
-    {
-		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -247,37 +219,37 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Inventory getM_Inventory() throws RuntimeException
+	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException
     {
-		return (I_M_Inventory)MTable.get(getCtx(), I_M_Inventory.Table_Name)
-			.getPO(getM_Inventory_ID(), get_TrxName());	}
+		return (org.compiere.model.I_M_InOut)MTable.get(getCtx(), org.compiere.model.I_M_InOut.Table_Name)
+			.getPO(getM_InOut_ID(), get_TrxName());	}
 
-	/** Set Phys.Inventory.
-		@param M_Inventory_ID 
-		Parameters for a Physical Inventory
+	/** Set Shipment/Receipt.
+		@param M_InOut_ID 
+		Material Shipment Document
 	  */
-	public void setM_Inventory_ID (int M_Inventory_ID)
+	public void setM_InOut_ID (int M_InOut_ID)
 	{
-		if (M_Inventory_ID < 1) 
-			set_Value (COLUMNNAME_M_Inventory_ID, null);
+		if (M_InOut_ID < 1) 
+			set_Value (COLUMNNAME_M_InOut_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
+			set_Value (COLUMNNAME_M_InOut_ID, Integer.valueOf(M_InOut_ID));
 	}
 
-	/** Get Phys.Inventory.
-		@return Parameters for a Physical Inventory
+	/** Get Shipment/Receipt.
+		@return Material Shipment Document
 	  */
-	public int getM_Inventory_ID () 
+	public int getM_InOut_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Inventory_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOut_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException
     {
-		return (I_M_InventoryLine)MTable.get(getCtx(), I_M_InventoryLine.Table_Name)
+		return (org.compiere.model.I_M_InventoryLine)MTable.get(getCtx(), org.compiere.model.I_M_InventoryLine.Table_Name)
 			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
 
 	/** Set Phys.Inventory Line.
@@ -298,6 +270,34 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 	public int getM_InventoryLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InventoryLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Inventory)MTable.get(getCtx(), org.compiere.model.I_M_Inventory.Table_Name)
+			.getPO(getM_Inventory_ID(), get_TrxName());	}
+
+	/** Set Phys.Inventory.
+		@param M_Inventory_ID 
+		Parameters for a Physical Inventory
+	  */
+	public void setM_Inventory_ID (int M_Inventory_ID)
+	{
+		if (M_Inventory_ID < 1) 
+			set_Value (COLUMNNAME_M_Inventory_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Inventory_ID, Integer.valueOf(M_Inventory_ID));
+	}
+
+	/** Get Phys.Inventory.
+		@return Parameters for a Physical Inventory
+	  */
+	public int getM_Inventory_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Inventory_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -331,9 +331,37 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Movement getM_Movement() throws RuntimeException
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException
     {
-		return (I_M_Movement)MTable.get(getCtx(), I_M_Movement.Table_Name)
+		return (org.compiere.model.I_M_MovementLine)MTable.get(getCtx(), org.compiere.model.I_M_MovementLine.Table_Name)
+			.getPO(getM_MovementLine_ID(), get_TrxName());	}
+
+	/** Set Move Line.
+		@param M_MovementLine_ID 
+		Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID)
+	{
+		if (M_MovementLine_ID < 1) 
+			set_Value (COLUMNNAME_M_MovementLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
+	}
+
+	/** Get Move Line.
+		@return Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Movement)MTable.get(getCtx(), org.compiere.model.I_M_Movement.Table_Name)
 			.getPO(getM_Movement_ID(), get_TrxName());	}
 
 	/** Set Inventory Move.
@@ -359,29 +387,110 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_MovementLine getM_MovementLine() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_MovementLine)MTable.get(getCtx(), I_M_MovementLine.Table_Name)
-			.getPO(getM_MovementLine_ID(), get_TrxName());	}
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
 
-	/** Set Move Line.
-		@param M_MovementLine_ID 
-		Inventory Move document Line
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
 	  */
-	public void setM_MovementLine_ID (int M_MovementLine_ID)
+	public void setM_Product_ID (int M_Product_ID)
 	{
-		if (M_MovementLine_ID < 1) 
-			set_Value (COLUMNNAME_M_MovementLine_ID, null);
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
 	}
 
-	/** Get Move Line.
-		@return Inventory Move document Line
+	/** Get Product.
+		@return Product, Service, Item
 	  */
-	public int getM_MovementLine_ID () 
+	public int getM_Product_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_ProductionLine getM_ProductionLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_ProductionLine)MTable.get(getCtx(), org.compiere.model.I_M_ProductionLine.Table_Name)
+			.getPO(getM_ProductionLine_ID(), get_TrxName());	}
+
+	/** Set Production Line.
+		@param M_ProductionLine_ID 
+		Document Line representing a production
+	  */
+	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
+	{
+		if (M_ProductionLine_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
+	}
+
+	/** Get Production Line.
+		@return Document Line representing a production
+	  */
+	public int getM_ProductionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Production)MTable.get(getCtx(), org.compiere.model.I_M_Production.Table_Name)
+			.getPO(getM_Production_ID(), get_TrxName());	}
+
+	/** Set Production.
+		@param M_Production_ID 
+		Plan for producing a product
+	  */
+	public void setM_Production_ID (int M_Production_ID)
+	{
+		if (M_Production_ID < 1) 
+			set_Value (COLUMNNAME_M_Production_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
+	}
+
+	/** Get Production.
+		@return Plan for producing a product
+	  */
+	public int getM_Production_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Production_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Transaction getM_Transaction() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Transaction)MTable.get(getCtx(), org.compiere.model.I_M_Transaction.Table_Name)
+			.getPO(getM_Transaction_ID(), get_TrxName());	}
+
+	/** Set Inventory Transaction.
+		@param M_Transaction_ID Inventory Transaction	  */
+	public void setM_Transaction_ID (int M_Transaction_ID)
+	{
+		if (M_Transaction_ID < 1) 
+			set_Value (COLUMNNAME_M_Transaction_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
+	}
+
+	/** Get Inventory Transaction.
+		@return Inventory Transaction	  */
+	public int getM_Transaction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Transaction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -468,118 +577,9 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return (String)get_Value(COLUMNNAME_MovementType);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_InOutLine getSearch_InOut() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
-			.getPO(getM_Product_ID(), get_TrxName());	}
-
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID)
-	{
-		if (M_Product_ID < 1) 
-			set_Value (COLUMNNAME_M_Product_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
-	}
-
-	/** Get Product.
-		@return Product, Service, Item
-	  */
-	public int getM_Product_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_Production getM_Production() throws RuntimeException
-    {
-		return (I_M_Production)MTable.get(getCtx(), I_M_Production.Table_Name)
-			.getPO(getM_Production_ID(), get_TrxName());	}
-
-	/** Set Production.
-		@param M_Production_ID 
-		Plan for producing a product
-	  */
-	public void setM_Production_ID (int M_Production_ID)
-	{
-		if (M_Production_ID < 1) 
-			set_Value (COLUMNNAME_M_Production_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Production_ID, Integer.valueOf(M_Production_ID));
-	}
-
-	/** Get Production.
-		@return Plan for producing a product
-	  */
-	public int getM_Production_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Production_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_ProductionLine getM_ProductionLine() throws RuntimeException
-    {
-		return (I_M_ProductionLine)MTable.get(getCtx(), I_M_ProductionLine.Table_Name)
-			.getPO(getM_ProductionLine_ID(), get_TrxName());	}
-
-	/** Set Production Line.
-		@param M_ProductionLine_ID 
-		Document Line representing a production
-	  */
-	public void setM_ProductionLine_ID (int M_ProductionLine_ID)
-	{
-		if (M_ProductionLine_ID < 1) 
-			set_Value (COLUMNNAME_M_ProductionLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_ProductionLine_ID, Integer.valueOf(M_ProductionLine_ID));
-	}
-
-	/** Get Production Line.
-		@return Document Line representing a production
-	  */
-	public int getM_ProductionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_Transaction getM_Transaction() throws RuntimeException
-    {
-		return (I_M_Transaction)MTable.get(getCtx(), I_M_Transaction.Table_Name)
-			.getPO(getM_Transaction_ID(), get_TrxName());	}
-
-	/** Set Inventory Transaction.
-		@param M_Transaction_ID Inventory Transaction	  */
-	public void setM_Transaction_ID (int M_Transaction_ID)
-	{
-		if (M_Transaction_ID < 1) 
-			set_Value (COLUMNNAME_M_Transaction_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Transaction_ID, Integer.valueOf(M_Transaction_ID));
-	}
-
-	/** Get Inventory Transaction.
-		@return Inventory Transaction	  */
-	public int getM_Transaction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Transaction_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_InOutLine getSearch_InOut() throws RuntimeException
-    {
-		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
 			.getPO(getSearch_InOut_ID(), get_TrxName());	}
 
 	/** Set Search Shipment/Receipt.
@@ -605,9 +605,9 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Invoice getSearch_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_Invoice getSearch_Invoice() throws RuntimeException
     {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
 			.getPO(getSearch_Invoice_ID(), get_TrxName());	}
 
 	/** Set Search Invoice.
@@ -633,9 +633,9 @@ public class X_T_Transaction extends PO implements I_T_Transaction, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Order getSearch_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getSearch_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getSearch_Order_ID(), get_TrxName());	}
 
 	/** Set Search Order.

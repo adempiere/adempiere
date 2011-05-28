@@ -32,7 +32,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100823L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -86,9 +86,9 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
 			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
@@ -114,9 +114,9 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException
+	public org.compiere.model.I_AD_FieldGroup getAD_FieldGroup() throws RuntimeException
     {
-		return (I_AD_FieldGroup)MTable.get(getCtx(), I_AD_FieldGroup.Table_Name)
+		return (org.compiere.model.I_AD_FieldGroup)MTable.get(getCtx(), org.compiere.model.I_AD_FieldGroup.Table_Name)
 			.getPO(getAD_FieldGroup_ID(), get_TrxName());	}
 
 	/** Set Field Group.
@@ -165,9 +165,9 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
     {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
@@ -193,9 +193,9 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Reference getAD_Reference_Value() throws RuntimeException
+	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException
     {
-		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
 
 	/** Set Reference Key.
@@ -221,9 +221,9 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException
+	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException
     {
-		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+		return (org.compiere.model.I_AD_Tab)MTable.get(getCtx(), org.compiere.model.I_AD_Tab.Table_Name)
 			.getPO(getAD_Tab_ID(), get_TrxName());	}
 
 	/** Set Tab.
@@ -249,9 +249,9 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
+	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
     {
-		return (I_AD_Val_Rule)MTable.get(getCtx(), I_AD_Val_Rule.Table_Name)
+		return (org.compiere.model.I_AD_Val_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Val_Rule.Table_Name)
 			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
 
 	/** Set Dynamic Validation.
@@ -409,9 +409,9 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return false;
 	}
 
-	public I_AD_Tab getIncluded_Tab() throws RuntimeException
+	public org.compiere.model.I_AD_Tab getIncluded_Tab() throws RuntimeException
     {
-		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+		return (org.compiere.model.I_AD_Tab)MTable.get(getCtx(), org.compiere.model.I_AD_Tab.Table_Name)
 			.getPO(getIncluded_Tab_ID(), get_TrxName());	}
 
 	/** Set Included Tab.

@@ -104,7 +104,7 @@ public interface I_M_ProductPrice
 	  */
 	public int getM_PriceList_Version_ID();
 
-	public I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -119,7 +119,7 @@ public interface I_M_ProductPrice
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name PriceLimit */
     public static final String COLUMNNAME_PriceLimit = "PriceLimit";

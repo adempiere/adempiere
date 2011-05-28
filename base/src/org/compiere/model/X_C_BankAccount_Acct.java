@@ -29,7 +29,7 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_BankAccount_Acct (Properties ctx, int C_BankAccount_Acct_ID, String trxName)
@@ -39,9 +39,9 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
         {
 			setB_Asset_Acct (0);
 			setB_Expense_Acct (0);
+			setB_InTransit_Acct (0);
 			setB_InterestExp_Acct (0);
 			setB_InterestRev_Acct (0);
-			setB_InTransit_Acct (0);
 			setB_PaymentSelect_Acct (0);
 			setB_RevaluationGain_Acct (0);
 			setB_RevaluationLoss_Acct (0);
@@ -132,6 +132,31 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
 		return ii.intValue();
 	}
 
+	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getB_InTransit_Acct(), get_TrxName());	}
+
+	/** Set Bank In Transit.
+		@param B_InTransit_Acct 
+		Bank In Transit Account
+	  */
+	public void setB_InTransit_Acct (int B_InTransit_Acct)
+	{
+		set_Value (COLUMNNAME_B_InTransit_Acct, Integer.valueOf(B_InTransit_Acct));
+	}
+
+	/** Get Bank In Transit.
+		@return Bank In Transit Account
+	  */
+	public int getB_InTransit_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_B_InTransit_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_C_ValidCombination getB_InterestExp_A() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -177,31 +202,6 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
 	public int getB_InterestRev_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_B_InterestRev_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_ValidCombination getB_InTransit_A() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getB_InTransit_Acct(), get_TrxName());	}
-
-	/** Set Bank In Transit.
-		@param B_InTransit_Acct 
-		Bank In Transit Account
-	  */
-	public void setB_InTransit_Acct (int B_InTransit_Acct)
-	{
-		set_Value (COLUMNNAME_B_InTransit_Acct, Integer.valueOf(B_InTransit_Acct));
-	}
-
-	/** Get Bank In Transit.
-		@return Bank In Transit Account
-	  */
-	public int getB_InTransit_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_B_InTransit_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -382,9 +382,9 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
 		return ii.intValue();
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -410,9 +410,9 @@ public class X_C_BankAccount_Acct extends PO implements I_C_BankAccount_Acct, I_
 		return ii.intValue();
 	}
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
-		return (I_C_BankAccount)MTable.get(getCtx(), I_C_BankAccount.Table_Name)
+		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
 			.getPO(getC_BankAccount_ID(), get_TrxName());	}
 
 	/** Set Bank Account.

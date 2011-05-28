@@ -75,7 +75,7 @@ public interface I_C_RfQ
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -90,7 +90,7 @@ public interface I_C_RfQ
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -105,7 +105,7 @@ public interface I_C_RfQ
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -120,16 +120,7 @@ public interface I_C_RfQ
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
-
-    /** Column name CopyLines */
-    public static final String COLUMNNAME_CopyLines = "CopyLines";
-
-	/** Set Copy Lines	  */
-	public void setCopyLines (String CopyLines);
-
-	/** Get Copy Lines	  */
-	public String getCopyLines();
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -144,45 +135,7 @@ public interface I_C_RfQ
 	  */
 	public int getC_Order_ID();
 
-	public I_C_Order getC_Order() throws RuntimeException;
-
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
-    /** Column name CreatePO */
-    public static final String COLUMNNAME_CreatePO = "CreatePO";
-
-	/** Set Create PO.
-	  * Create Purchase Order
-	  */
-	public void setCreatePO (String CreatePO);
-
-	/** Get Create PO.
-	  * Create Purchase Order
-	  */
-	public String getCreatePO();
-
-    /** Column name CreateSO */
-    public static final String COLUMNNAME_CreateSO = "CreateSO";
-
-	/** Set Create SO	  */
-	public void setCreateSO (String CreateSO);
-
-	/** Get Create SO	  */
-	public String getCreateSO();
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name C_RfQ_ID */
     public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
@@ -210,7 +163,54 @@ public interface I_C_RfQ
 	  */
 	public int getC_RfQ_Topic_ID();
 
-	public I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException;
+	public org.compiere.model.I_C_RfQ_Topic getC_RfQ_Topic() throws RuntimeException;
+
+    /** Column name CopyLines */
+    public static final String COLUMNNAME_CopyLines = "CopyLines";
+
+	/** Set Copy Lines	  */
+	public void setCopyLines (String CopyLines);
+
+	/** Get Copy Lines	  */
+	public String getCopyLines();
+
+    /** Column name CreatePO */
+    public static final String COLUMNNAME_CreatePO = "CreatePO";
+
+	/** Set Create PO.
+	  * Create Purchase Order
+	  */
+	public void setCreatePO (String CreatePO);
+
+	/** Get Create PO.
+	  * Create Purchase Order
+	  */
+	public String getCreatePO();
+
+    /** Column name CreateSO */
+    public static final String COLUMNNAME_CreateSO = "CreateSO";
+
+	/** Set Create SO	  */
+	public void setCreateSO (String CreateSO);
+
+	/** Get Create SO	  */
+	public String getCreateSO();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DateResponse */
     public static final String COLUMNNAME_DateResponse = "DateResponse";
@@ -473,7 +473,7 @@ public interface I_C_RfQ
 	  */
 	public int getSalesRep_ID();
 
-	public I_AD_User getSalesRep() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -41,19 +41,6 @@ public interface I_AD_Package_Imp_Detail
 
     /** Load Meta Data */
 
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
-
     /** Column name AD_Backup_ID */
     public static final String COLUMNNAME_AD_Backup_ID = "AD_Backup_ID";
 
@@ -123,6 +110,19 @@ public interface I_AD_Package_Imp_Detail
 	  * Database Table information
 	  */
 	public int getAD_Table_ID();
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

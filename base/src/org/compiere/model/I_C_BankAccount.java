@@ -41,19 +41,6 @@ public interface I_C_BankAccount
 
     /** Load Meta Data */
 
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
-
-	/** Set Account No.
-	  * Account Number
-	  */
-	public void setAccountNo (String AccountNo);
-
-	/** Get Account No.
-	  * Account Number
-	  */
-	public String getAccountNo();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -75,18 +62,18 @@ public interface I_C_BankAccount
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name BankAccountType */
-    public static final String COLUMNNAME_BankAccountType = "BankAccountType";
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
 
-	/** Set Bank Account Type.
-	  * Bank Account Type
+	/** Set Account No.
+	  * Account Number
 	  */
-	public void setBankAccountType (String BankAccountType);
+	public void setAccountNo (String AccountNo);
 
-	/** Get Bank Account Type.
-	  * Bank Account Type
+	/** Get Account No.
+	  * Account Number
 	  */
-	public String getBankAccountType();
+	public String getAccountNo();
 
     /** Column name BBAN */
     public static final String COLUMNNAME_BBAN = "BBAN";
@@ -100,6 +87,19 @@ public interface I_C_BankAccount
 	  * Basic Bank Account Number
 	  */
 	public String getBBAN();
+
+    /** Column name BankAccountType */
+    public static final String COLUMNNAME_BankAccountType = "BankAccountType";
+
+	/** Set Bank Account Type.
+	  * Bank Account Type
+	  */
+	public void setBankAccountType (String BankAccountType);
+
+	/** Get Bank Account Type.
+	  * Bank Account Type
+	  */
+	public String getBankAccountType();
 
     /** Column name C_BankAccount_ID */
     public static final String COLUMNNAME_C_BankAccount_ID = "C_BankAccount_ID";
@@ -127,7 +127,7 @@ public interface I_C_BankAccount
 	  */
 	public int getC_Bank_ID();
 
-	public I_C_Bank getC_Bank() throws RuntimeException;
+	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -142,7 +142,7 @@ public interface I_C_BankAccount
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -237,6 +237,15 @@ public interface I_C_BankAccount
 	  * Default value
 	  */
 	public boolean isDefault();
+
+    /** Column name PaymentExportClass */
+    public static final String COLUMNNAME_PaymentExportClass = "PaymentExportClass";
+
+	/** Set Payment Export Class	  */
+	public void setPaymentExportClass (String PaymentExportClass);
+
+	/** Get Payment Export Class	  */
+	public String getPaymentExportClass();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

@@ -75,7 +75,7 @@ public interface I_C_POSKeyLayout
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
 
     /** Column name AD_PrintFont_ID */
     public static final String COLUMNNAME_AD_PrintFont_ID = "AD_PrintFont_ID";
@@ -90,20 +90,7 @@ public interface I_C_POSKeyLayout
 	  */
 	public int getAD_PrintFont_ID();
 
-	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
-
-    /** Column name Columns */
-    public static final String COLUMNNAME_Columns = "Columns";
-
-	/** Set Columns.
-	  * Number of columns
-	  */
-	public void setColumns (int Columns);
-
-	/** Get Columns.
-	  * Number of columns
-	  */
-	public int getColumns();
+	public org.compiere.model.I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
 
     /** Column name C_POSKeyLayout_ID */
     public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
@@ -117,6 +104,19 @@ public interface I_C_POSKeyLayout
 	  * POS Function Key Layout
 	  */
 	public int getC_POSKeyLayout_ID();
+
+    /** Column name Columns */
+    public static final String COLUMNNAME_Columns = "Columns";
+
+	/** Set Columns.
+	  * Number of columns
+	  */
+	public void setColumns (int Columns);
+
+	/** Get Columns.
+	  * Number of columns
+	  */
+	public int getColumns();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

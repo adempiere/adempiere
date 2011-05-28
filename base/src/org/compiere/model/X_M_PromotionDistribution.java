@@ -31,7 +31,7 @@ public class X_M_PromotionDistribution extends PO implements I_M_PromotionDistri
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_PromotionDistribution (Properties ctx, int M_PromotionDistribution_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_M_PromotionDistribution extends PO implements I_M_PromotionDistri
         {
 			setDistributionType (null);
 			setM_PromotionDistribution_ID (0);
-			setM_Promotion_ID (0);
 			setM_PromotionLine_ID (0);
+			setM_Promotion_ID (0);
 			setOperation (null);
 			setQty (Env.ZERO);
 // 0
@@ -149,34 +149,9 @@ public class X_M_PromotionDistribution extends PO implements I_M_PromotionDistri
 		return ii.intValue();
 	}
 
-	public I_M_Promotion getM_Promotion() throws RuntimeException
+	public org.compiere.model.I_M_PromotionLine getM_PromotionLine() throws RuntimeException
     {
-		return (I_M_Promotion)MTable.get(getCtx(), I_M_Promotion.Table_Name)
-			.getPO(getM_Promotion_ID(), get_TrxName());	}
-
-	/** Set Promotion.
-		@param M_Promotion_ID Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID)
-	{
-		if (M_Promotion_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, Integer.valueOf(M_Promotion_ID));
-	}
-
-	/** Get Promotion.
-		@return Promotion	  */
-	public int getM_Promotion_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_PromotionLine getM_PromotionLine() throws RuntimeException
-    {
-		return (I_M_PromotionLine)MTable.get(getCtx(), I_M_PromotionLine.Table_Name)
+		return (org.compiere.model.I_M_PromotionLine)MTable.get(getCtx(), org.compiere.model.I_M_PromotionLine.Table_Name)
 			.getPO(getM_PromotionLine_ID(), get_TrxName());	}
 
 	/** Set Promotion Line.
@@ -194,6 +169,31 @@ public class X_M_PromotionDistribution extends PO implements I_M_PromotionDistri
 	public int getM_PromotionLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Promotion)MTable.get(getCtx(), org.compiere.model.I_M_Promotion.Table_Name)
+			.getPO(getM_Promotion_ID(), get_TrxName());	}
+
+	/** Set Promotion.
+		@param M_Promotion_ID Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID)
+	{
+		if (M_Promotion_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, Integer.valueOf(M_Promotion_ID));
+	}
+
+	/** Get Promotion.
+		@return Promotion	  */
+	public int getM_Promotion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -88,7 +88,7 @@ public interface I_AD_WF_ProcessData
 	  */
 	public int getAD_WF_Process_ID();
 
-	public I_AD_WF_Process getAD_WF_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Process getAD_WF_Process() throws RuntimeException;
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";

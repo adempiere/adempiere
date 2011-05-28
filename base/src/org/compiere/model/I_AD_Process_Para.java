@@ -62,7 +62,7 @@ public interface I_AD_Process_Para
 	  */
 	public int getAD_Element_ID();
 
-	public I_AD_Element getAD_Element() throws RuntimeException;
+	public org.compiere.model.I_AD_Element getAD_Element() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -90,7 +90,7 @@ public interface I_AD_Process_Para
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Process_Para_ID */
     public static final String COLUMNNAME_AD_Process_Para_ID = "AD_Process_Para_ID";
@@ -114,7 +114,7 @@ public interface I_AD_Process_Para
 	  */
 	public int getAD_Reference_ID();
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException;
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
 
     /** Column name AD_Reference_Value_ID */
     public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
@@ -129,7 +129,7 @@ public interface I_AD_Process_Para
 	  */
 	public int getAD_Reference_Value_ID();
 
-	public I_AD_Reference getAD_Reference_Value() throws RuntimeException;
+	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException;
 
     /** Column name AD_Val_Rule_ID */
     public static final String COLUMNNAME_AD_Val_Rule_ID = "AD_Val_Rule_ID";
@@ -144,7 +144,7 @@ public interface I_AD_Process_Para
 	  */
 	public int getAD_Val_Rule_ID();
 
-	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException;
+	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException;
 
     /** Column name ColumnName */
     public static final String COLUMNNAME_ColumnName = "ColumnName";
@@ -381,6 +381,21 @@ public interface I_AD_Process_Para
 	  */
 	public int getUpdatedBy();
 
+    /** Column name VFormat */
+    public static final String COLUMNNAME_VFormat = "VFormat";
+
+	/** Set Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat);
+
+	/** Get Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat();
+
     /** Column name ValueMax */
     public static final String COLUMNNAME_ValueMax = "ValueMax";
 
@@ -406,19 +421,4 @@ public interface I_AD_Process_Para
 	  * Minimum Value for a field
 	  */
 	public String getValueMin();
-
-    /** Column name VFormat */
-    public static final String COLUMNNAME_VFormat = "VFormat";
-
-	/** Set Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat);
-
-	/** Get Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat();
 }

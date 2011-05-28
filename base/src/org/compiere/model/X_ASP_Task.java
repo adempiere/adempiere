@@ -29,7 +29,7 @@ public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_ASP_Task (Properties ctx, int ASP_Task_ID, String trxName)
@@ -72,9 +72,9 @@ public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Task getAD_Task() throws RuntimeException
+	public org.compiere.model.I_AD_Task getAD_Task() throws RuntimeException
     {
-		return (I_AD_Task)MTable.get(getCtx(), I_AD_Task.Table_Name)
+		return (org.compiere.model.I_AD_Task)MTable.get(getCtx(), org.compiere.model.I_AD_Task.Table_Name)
 			.getPO(getAD_Task_ID(), get_TrxName());	}
 
 	/** Set OS Task.
@@ -100,9 +100,9 @@ public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_ASP_Level getASP_Level() throws RuntimeException
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException
     {
-		return (I_ASP_Level)MTable.get(getCtx(), I_ASP_Level.Table_Name)
+		return (org.compiere.model.I_ASP_Level)MTable.get(getCtx(), org.compiere.model.I_ASP_Level.Table_Name)
 			.getPO(getASP_Level_ID(), get_TrxName());	}
 
 	/** Set ASP Level.

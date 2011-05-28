@@ -62,7 +62,7 @@ public interface I_AD_Ref_Table
 	  */
 	public int getAD_Display();
 
-	public I_AD_Column getAD_Disp() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Disp() throws RuntimeException;
 
     /** Column name AD_Key */
     public static final String COLUMNNAME_AD_Key = "AD_Key";
@@ -77,7 +77,7 @@ public interface I_AD_Ref_Table
 	  */
 	public int getAD_Key();
 
-	public I_AD_Column getAD_() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -105,7 +105,7 @@ public interface I_AD_Ref_Table
 	  */
 	public int getAD_Reference_ID();
 
-	public I_AD_Reference getAD_Reference() throws RuntimeException;
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
 
     /** Column name AD_Table_ID */
     public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
@@ -120,7 +120,7 @@ public interface I_AD_Ref_Table
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -135,7 +135,7 @@ public interface I_AD_Ref_Table
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

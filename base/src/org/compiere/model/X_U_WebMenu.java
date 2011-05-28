@@ -31,7 +31,7 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_U_WebMenu (Properties ctx, int U_WebMenu_ID, String trxName)
@@ -204,9 +204,9 @@ public class X_U_WebMenu extends PO implements I_U_WebMenu, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public I_U_WebMenu getParentMenu() throws RuntimeException
+	public org.compiere.model.I_U_WebMenu getParentMenu() throws RuntimeException
     {
-		return (I_U_WebMenu)MTable.get(getCtx(), I_U_WebMenu.Table_Name)
+		return (org.compiere.model.I_U_WebMenu)MTable.get(getCtx(), org.compiere.model.I_U_WebMenu.Table_Name)
 			.getPO(getParentMenu_ID(), get_TrxName());	}
 
 	/** Set Parent Menu.

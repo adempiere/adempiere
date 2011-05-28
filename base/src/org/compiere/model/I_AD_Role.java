@@ -88,7 +88,7 @@ public interface I_AD_Role
 	  */
 	public int getAD_Tree_Menu_ID();
 
-	public I_AD_Tree getAD_Tree_Menu() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Menu() throws RuntimeException;
 
     /** Column name AD_Tree_Org_ID */
     public static final String COLUMNNAME_AD_Tree_Org_ID = "AD_Tree_Org_ID";
@@ -103,7 +103,7 @@ public interface I_AD_Role
 	  */
 	public int getAD_Tree_Org_ID();
 
-	public I_AD_Tree getAD_Tree_Org() throws RuntimeException;
+	public org.compiere.model.I_AD_Tree getAD_Tree_Org() throws RuntimeException;
 
     /** Column name Allow_Info_Account */
     public static final String COLUMNNAME_Allow_Info_Account = "Allow_Info_Account";
@@ -132,15 +132,6 @@ public interface I_AD_Role
 	/** Get Allow Info BPartner	  */
 	public boolean isAllow_Info_BPartner();
 
-    /** Column name Allow_Info_CashJournal */
-    public static final String COLUMNNAME_Allow_Info_CashJournal = "Allow_Info_CashJournal";
-
-	/** Set Allow Info CashJournal	  */
-	public void setAllow_Info_CashJournal (boolean Allow_Info_CashJournal);
-
-	/** Get Allow Info CashJournal	  */
-	public boolean isAllow_Info_CashJournal();
-
     /** Column name Allow_Info_CRP */
     public static final String COLUMNNAME_Allow_Info_CRP = "Allow_Info_CRP";
 
@@ -149,6 +140,15 @@ public interface I_AD_Role
 
 	/** Get Allow Info CRP	  */
 	public boolean isAllow_Info_CRP();
+
+    /** Column name Allow_Info_CashJournal */
+    public static final String COLUMNNAME_Allow_Info_CashJournal = "Allow_Info_CashJournal";
+
+	/** Set Allow Info CashJournal	  */
+	public void setAllow_Info_CashJournal (boolean Allow_Info_CashJournal);
+
+	/** Get Allow Info CashJournal	  */
+	public boolean isAllow_Info_CashJournal();
 
     /** Column name Allow_Info_InOut */
     public static final String COLUMNNAME_Allow_Info_InOut = "Allow_Info_InOut";
@@ -248,7 +248,7 @@ public interface I_AD_Role
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name ConfirmQueryRecords */
     public static final String COLUMNNAME_ConfirmQueryRecords = "ConfirmQueryRecords";
@@ -531,7 +531,7 @@ public interface I_AD_Role
 	  */
 	public int getSupervisor_ID();
 
-	public I_AD_User getSupervisor() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

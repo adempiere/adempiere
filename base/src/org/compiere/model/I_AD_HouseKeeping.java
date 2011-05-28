@@ -84,7 +84,7 @@ public interface I_AD_HouseKeeping
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name BackupFolder */
     public static final String COLUMNNAME_BackupFolder = "BackupFolder";

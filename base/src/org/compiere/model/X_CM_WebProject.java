@@ -30,7 +30,7 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_WebProject (Properties ctx, int CM_WebProject_ID, String trxName)
@@ -81,9 +81,9 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tree getAD_TreeCMC() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_TreeCMC() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_TreeCMC_ID(), get_TrxName());	}
 
 	/** Set Container Tree.
@@ -109,9 +109,9 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_TreeCMM() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_TreeCMM() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_TreeCMM_ID(), get_TrxName());	}
 
 	/** Set Media Tree.
@@ -137,9 +137,9 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_TreeCMS() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_TreeCMS() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_TreeCMS_ID(), get_TrxName());	}
 
 	/** Set Stage Tree.
@@ -165,9 +165,9 @@ public class X_CM_WebProject extends PO implements I_CM_WebProject, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Tree getAD_TreeCMT() throws RuntimeException
+	public org.compiere.model.I_AD_Tree getAD_TreeCMT() throws RuntimeException
     {
-		return (I_AD_Tree)MTable.get(getCtx(), I_AD_Tree.Table_Name)
+		return (org.compiere.model.I_AD_Tree)MTable.get(getCtx(), org.compiere.model.I_AD_Tree.Table_Name)
 			.getPO(getAD_TreeCMT_ID(), get_TrxName());	}
 
 	/** Set Template Tree.

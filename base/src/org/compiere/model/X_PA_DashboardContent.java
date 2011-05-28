@@ -32,7 +32,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20101109L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PA_DashboardContent (Properties ctx, int PA_DashboardContent_ID, String trxName)
@@ -268,8 +268,8 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set PA_DashboardContent_ID.
-		@param PA_DashboardContent_ID PA_DashboardContent_ID	  */
+	/** Set Dashboard Content.
+		@param PA_DashboardContent_ID Dashboard Content	  */
 	public void setPA_DashboardContent_ID (int PA_DashboardContent_ID)
 	{
 		if (PA_DashboardContent_ID < 1) 
@@ -278,8 +278,8 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 			set_ValueNoCheck (COLUMNNAME_PA_DashboardContent_ID, Integer.valueOf(PA_DashboardContent_ID));
 	}
 
-	/** Get PA_DashboardContent_ID.
-		@return PA_DashboardContent_ID	  */
+	/** Get Dashboard Content.
+		@return Dashboard Content	  */
 	public int getPA_DashboardContent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_DashboardContent_ID);

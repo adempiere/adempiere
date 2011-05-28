@@ -31,7 +31,7 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_Ad (Properties ctx, int CM_Ad_ID, String trxName)
@@ -123,9 +123,9 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException
+	public org.compiere.model.I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException
     {
-		return (I_CM_Ad_Cat)MTable.get(getCtx(), I_CM_Ad_Cat.Table_Name)
+		return (org.compiere.model.I_CM_Ad_Cat)MTable.get(getCtx(), org.compiere.model.I_CM_Ad_Cat.Table_Name)
 			.getPO(getCM_Ad_Cat_ID(), get_TrxName());	}
 
 	/** Set Advertisement Category.
@@ -174,9 +174,9 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Media getCM_Media() throws RuntimeException
+	public org.compiere.model.I_CM_Media getCM_Media() throws RuntimeException
     {
-		return (I_CM_Media)MTable.get(getCtx(), I_CM_Media.Table_Name)
+		return (org.compiere.model.I_CM_Media)MTable.get(getCtx(), org.compiere.model.I_CM_Media.Table_Name)
 			.getPO(getCM_Media_ID(), get_TrxName());	}
 
 	/** Set Media Item.
@@ -420,23 +420,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Target Frame.
-		@param Target_Frame 
-		Which target should be used if user clicks?
-	  */
-	public void setTarget_Frame (String Target_Frame)
-	{
-		set_Value (COLUMNNAME_Target_Frame, Target_Frame);
-	}
-
-	/** Get Target Frame.
-		@return Which target should be used if user clicks?
-	  */
-	public String getTarget_Frame () 
-	{
-		return (String)get_Value(COLUMNNAME_Target_Frame);
-	}
-
 	/** Set Target URL.
 		@param TargetURL 
 		URL for the Target
@@ -452,5 +435,22 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	public String getTargetURL () 
 	{
 		return (String)get_Value(COLUMNNAME_TargetURL);
+	}
+
+	/** Set Target Frame.
+		@param Target_Frame 
+		Which target should be used if user clicks?
+	  */
+	public void setTarget_Frame (String Target_Frame)
+	{
+		set_Value (COLUMNNAME_Target_Frame, Target_Frame);
+	}
+
+	/** Get Target Frame.
+		@return Which target should be used if user clicks?
+	  */
+	public String getTarget_Frame () 
+	{
+		return (String)get_Value(COLUMNNAME_Target_Frame);
 	}
 }

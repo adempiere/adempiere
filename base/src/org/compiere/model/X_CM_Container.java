@@ -30,7 +30,7 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_Container (Properties ctx, int CM_Container_ID, String trxName)
@@ -82,32 +82,9 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
       return sb.toString();
     }
 
-	/** Set Web Container.
-		@param CM_Container_ID 
-		Web Container contains content like images, text etc.
-	  */
-	public void setCM_Container_ID (int CM_Container_ID)
-	{
-		if (CM_Container_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
-	}
-
-	/** Get Web Container.
-		@return Web Container contains content like images, text etc.
-	  */
-	public int getCM_Container_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Container_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_CM_Container getCM_ContainerLink() throws RuntimeException
+	public org.compiere.model.I_CM_Container getCM_ContainerLink() throws RuntimeException
     {
-		return (I_CM_Container)MTable.get(getCtx(), I_CM_Container.Table_Name)
+		return (org.compiere.model.I_CM_Container)MTable.get(getCtx(), org.compiere.model.I_CM_Container.Table_Name)
 			.getPO(getCM_ContainerLink_ID(), get_TrxName());	}
 
 	/** Set Container Link.
@@ -133,9 +110,32 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_Template getCM_Template() throws RuntimeException
+	/** Set Web Container.
+		@param CM_Container_ID 
+		Web Container contains content like images, text etc.
+	  */
+	public void setCM_Container_ID (int CM_Container_ID)
+	{
+		if (CM_Container_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
+	}
+
+	/** Get Web Container.
+		@return Web Container contains content like images, text etc.
+	  */
+	public int getCM_Container_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Container_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException
     {
-		return (I_CM_Template)MTable.get(getCtx(), I_CM_Template.Table_Name)
+		return (org.compiere.model.I_CM_Template)MTable.get(getCtx(), org.compiere.model.I_CM_Template.Table_Name)
 			.getPO(getCM_Template_ID(), get_TrxName());	}
 
 	/** Set Template.
@@ -161,9 +161,9 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+		return (org.compiere.model.I_CM_WebProject)MTable.get(getCtx(), org.compiere.model.I_CM_WebProject.Table_Name)
 			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.

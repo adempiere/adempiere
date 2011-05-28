@@ -30,7 +30,7 @@ public class X_M_RMAType extends PO implements I_M_RMAType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_RMAType (Properties ctx, int M_RMAType_ID, String trxName)

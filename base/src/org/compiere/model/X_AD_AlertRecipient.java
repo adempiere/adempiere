@@ -30,7 +30,7 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_AlertRecipient (Properties ctx, int AD_AlertRecipient_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
       super (ctx, AD_AlertRecipient_ID, trxName);
       /** if (AD_AlertRecipient_ID == 0)
         {
-			setAD_Alert_ID (0);
 			setAD_AlertRecipient_ID (0);
+			setAD_Alert_ID (0);
         } */
     }
 
@@ -71,9 +71,32 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
       return sb.toString();
     }
 
-	public I_AD_Alert getAD_Alert() throws RuntimeException
+	/** Set Alert Recipient.
+		@param AD_AlertRecipient_ID 
+		Recipient of the Alert Notification
+	  */
+	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID)
+	{
+		if (AD_AlertRecipient_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, Integer.valueOf(AD_AlertRecipient_ID));
+	}
+
+	/** Get Alert Recipient.
+		@return Recipient of the Alert Notification
+	  */
+	public int getAD_AlertRecipient_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertRecipient_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Alert getAD_Alert() throws RuntimeException
     {
-		return (I_AD_Alert)MTable.get(getCtx(), I_AD_Alert.Table_Name)
+		return (org.compiere.model.I_AD_Alert)MTable.get(getCtx(), org.compiere.model.I_AD_Alert.Table_Name)
 			.getPO(getAD_Alert_ID(), get_TrxName());	}
 
 	/** Set Alert.
@@ -99,32 +122,9 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Alert Recipient.
-		@param AD_AlertRecipient_ID 
-		Recipient of the Alert Notification
-	  */
-	public void setAD_AlertRecipient_ID (int AD_AlertRecipient_ID)
-	{
-		if (AD_AlertRecipient_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AlertRecipient_ID, Integer.valueOf(AD_AlertRecipient_ID));
-	}
-
-	/** Get Alert Recipient.
-		@return Recipient of the Alert Notification
-	  */
-	public int getAD_AlertRecipient_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AlertRecipient_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_Role getAD_Role() throws RuntimeException
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -150,9 +150,9 @@ public class X_AD_AlertRecipient extends PO implements I_AD_AlertRecipient, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.

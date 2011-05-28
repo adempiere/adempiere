@@ -62,19 +62,6 @@ public interface I_CM_Container
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CM_Container_ID */
-    public static final String COLUMNNAME_CM_Container_ID = "CM_Container_ID";
-
-	/** Set Web Container.
-	  * Web Container contains content like images, text etc.
-	  */
-	public void setCM_Container_ID (int CM_Container_ID);
-
-	/** Get Web Container.
-	  * Web Container contains content like images, text etc.
-	  */
-	public int getCM_Container_ID();
-
     /** Column name CM_ContainerLink_ID */
     public static final String COLUMNNAME_CM_ContainerLink_ID = "CM_ContainerLink_ID";
 
@@ -88,7 +75,20 @@ public interface I_CM_Container
 	  */
 	public int getCM_ContainerLink_ID();
 
-	public I_CM_Container getCM_ContainerLink() throws RuntimeException;
+	public org.compiere.model.I_CM_Container getCM_ContainerLink() throws RuntimeException;
+
+    /** Column name CM_Container_ID */
+    public static final String COLUMNNAME_CM_Container_ID = "CM_Container_ID";
+
+	/** Set Web Container.
+	  * Web Container contains content like images, text etc.
+	  */
+	public void setCM_Container_ID (int CM_Container_ID);
+
+	/** Get Web Container.
+	  * Web Container contains content like images, text etc.
+	  */
+	public int getCM_Container_ID();
 
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
@@ -103,7 +103,7 @@ public interface I_CM_Container
 	  */
 	public int getCM_Template_ID();
 
-	public I_CM_Template getCM_Template() throws RuntimeException;
+	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException;
 
     /** Column name CM_WebProject_ID */
     public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
@@ -118,7 +118,7 @@ public interface I_CM_Container
 	  */
 	public int getCM_WebProject_ID();
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException;
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
 
     /** Column name ContainerLinkURL */
     public static final String COLUMNNAME_ContainerLinkURL = "ContainerLinkURL";

@@ -30,7 +30,7 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_UserQuery (Properties ctx, int AD_UserQuery_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
       return sb.toString();
     }
 
-	public I_AD_Tab getAD_Tab() throws RuntimeException
+	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException
     {
-		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+		return (org.compiere.model.I_AD_Tab)MTable.get(getCtx(), org.compiere.model.I_AD_Tab.Table_Name)
 			.getPO(getAD_Tab_ID(), get_TrxName());	}
 
 	/** Set Tab.
@@ -101,9 +101,9 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Table getAD_Table() throws RuntimeException
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
     {
-		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -129,9 +129,32 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_User getAD_User() throws RuntimeException
+	/** Set User Query.
+		@param AD_UserQuery_ID 
+		Saved User Query
+	  */
+	public void setAD_UserQuery_ID (int AD_UserQuery_ID)
+	{
+		if (AD_UserQuery_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, Integer.valueOf(AD_UserQuery_ID));
+	}
+
+	/** Get User Query.
+		@return Saved User Query
+	  */
+	public int getAD_UserQuery_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserQuery_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -152,29 +175,6 @@ public class X_AD_UserQuery extends PO implements I_AD_UserQuery, I_Persistent
 	public int getAD_User_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User Query.
-		@param AD_UserQuery_ID 
-		Saved User Query
-	  */
-	public void setAD_UserQuery_ID (int AD_UserQuery_ID)
-	{
-		if (AD_UserQuery_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_UserQuery_ID, Integer.valueOf(AD_UserQuery_ID));
-	}
-
-	/** Get User Query.
-		@return Saved User Query
-	  */
-	public int getAD_UserQuery_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserQuery_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

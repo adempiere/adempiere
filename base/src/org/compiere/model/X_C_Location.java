@@ -30,7 +30,7 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Location (Properties ctx, int C_Location_ID, String trxName)
@@ -139,9 +139,9 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return (String)get_Value(COLUMNNAME_Address4);
 	}
 
-	public I_C_City getC_City() throws RuntimeException
+	public org.compiere.model.I_C_City getC_City() throws RuntimeException
     {
-		return (I_C_City)MTable.get(getCtx(), I_C_City.Table_Name)
+		return (org.compiere.model.I_C_City)MTable.get(getCtx(), org.compiere.model.I_C_City.Table_Name)
 			.getPO(getC_City_ID(), get_TrxName());	}
 
 	/** Set City.
@@ -167,9 +167,9 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Country getC_Country() throws RuntimeException
+	public org.compiere.model.I_C_Country getC_Country() throws RuntimeException
     {
-		return (I_C_Country)MTable.get(getCtx(), I_C_Country.Table_Name)
+		return (org.compiere.model.I_C_Country)MTable.get(getCtx(), org.compiere.model.I_C_Country.Table_Name)
 			.getPO(getC_Country_ID(), get_TrxName());	}
 
 	/** Set Country.
@@ -190,6 +190,57 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
 	public int getC_Country_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Country_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Address.
+		@param C_Location_ID 
+		Location or Address
+	  */
+	public void setC_Location_ID (int C_Location_ID)
+	{
+		if (C_Location_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Location_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
+	}
+
+	/** Get Address.
+		@return Location or Address
+	  */
+	public int getC_Location_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Region getC_Region() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Region)MTable.get(getCtx(), org.compiere.model.I_C_Region.Table_Name)
+			.getPO(getC_Region_ID(), get_TrxName());	}
+
+	/** Set Region.
+		@param C_Region_ID 
+		Identifies a geographical Region
+	  */
+	public void setC_Region_ID (int C_Region_ID)
+	{
+		if (C_Region_ID < 1) 
+			set_Value (COLUMNNAME_C_Region_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
+	}
+
+	/** Get Region.
+		@return Identifies a geographical Region
+	  */
+	public int getC_Region_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Region_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -219,57 +270,6 @@ public class X_C_Location extends PO implements I_C_Location, I_Persistent
     {
         return new KeyNamePair(get_ID(), getCity());
     }
-
-	/** Set Address.
-		@param C_Location_ID 
-		Location or Address
-	  */
-	public void setC_Location_ID (int C_Location_ID)
-	{
-		if (C_Location_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Location_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_Location_ID, Integer.valueOf(C_Location_ID));
-	}
-
-	/** Get Address.
-		@return Location or Address
-	  */
-	public int getC_Location_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Location_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Region getC_Region() throws RuntimeException
-    {
-		return (I_C_Region)MTable.get(getCtx(), I_C_Region.Table_Name)
-			.getPO(getC_Region_ID(), get_TrxName());	}
-
-	/** Set Region.
-		@param C_Region_ID 
-		Identifies a geographical Region
-	  */
-	public void setC_Region_ID (int C_Region_ID)
-	{
-		if (C_Region_ID < 1) 
-			set_Value (COLUMNNAME_C_Region_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Region_ID, Integer.valueOf(C_Region_ID));
-	}
-
-	/** Get Region.
-		@return Identifies a geographical Region
-	  */
-	public int getC_Region_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Region_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set ZIP.
 		@param Postal 

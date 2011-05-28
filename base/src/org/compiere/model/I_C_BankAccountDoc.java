@@ -88,7 +88,7 @@ public interface I_C_BankAccountDoc
 	  */
 	public int getC_BankAccount_ID();
 
-	public I_C_BankAccount getC_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
 
     /** Column name Check_PrintFormat_ID */
     public static final String COLUMNNAME_Check_PrintFormat_ID = "Check_PrintFormat_ID";
@@ -103,7 +103,7 @@ public interface I_C_BankAccountDoc
 	  */
 	public int getCheck_PrintFormat_ID();
 
-	public I_AD_PrintFormat getCheck_PrintFormat() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintFormat getCheck_PrintFormat() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -62,6 +62,19 @@ public interface I_C_RevenueRecognition
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_RevenueRecognition_ID */
+    public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
+
+	/** Set Revenue Recognition.
+	  * Method for recording revenue
+	  */
+	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID);
+
+	/** Get Revenue Recognition.
+	  * Method for recording revenue
+	  */
+	public int getC_RevenueRecognition_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,19 +90,6 @@ public interface I_C_RevenueRecognition
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RevenueRecognition_ID */
-    public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
-
-	/** Set Revenue Recognition.
-	  * Method for recording revenue
-	  */
-	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID);
-
-	/** Get Revenue Recognition.
-	  * Method for recording revenue
-	  */
-	public int getC_RevenueRecognition_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";

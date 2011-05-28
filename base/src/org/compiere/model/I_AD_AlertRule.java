@@ -41,6 +41,19 @@ public interface I_AD_AlertRule
 
     /** Load Meta Data */
 
+    /** Column name AD_AlertRule_ID */
+    public static final String COLUMNNAME_AD_AlertRule_ID = "AD_AlertRule_ID";
+
+	/** Set Alert Rule.
+	  * Definition of the alert element
+	  */
+	public void setAD_AlertRule_ID (int AD_AlertRule_ID);
+
+	/** Get Alert Rule.
+	  * Definition of the alert element
+	  */
+	public int getAD_AlertRule_ID();
+
     /** Column name AD_Alert_ID */
     public static final String COLUMNNAME_AD_Alert_ID = "AD_Alert_ID";
 
@@ -54,20 +67,7 @@ public interface I_AD_AlertRule
 	  */
 	public int getAD_Alert_ID();
 
-	public I_AD_Alert getAD_Alert() throws RuntimeException;
-
-    /** Column name AD_AlertRule_ID */
-    public static final String COLUMNNAME_AD_AlertRule_ID = "AD_AlertRule_ID";
-
-	/** Set Alert Rule.
-	  * Definition of the alert element
-	  */
-	public void setAD_AlertRule_ID (int AD_AlertRule_ID);
-
-	/** Get Alert Rule.
-	  * Definition of the alert element
-	  */
-	public int getAD_AlertRule_ID();
+	public org.compiere.model.I_AD_Alert getAD_Alert() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -103,7 +103,7 @@ public interface I_AD_AlertRule
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

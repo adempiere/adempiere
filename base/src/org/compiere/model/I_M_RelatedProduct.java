@@ -117,7 +117,7 @@ public interface I_M_RelatedProduct
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -132,6 +132,15 @@ public interface I_M_RelatedProduct
 	  */
 	public String getName();
 
+    /** Column name RelatedProductType */
+    public static final String COLUMNNAME_RelatedProductType = "RelatedProductType";
+
+	/** Set Related Product Type	  */
+	public void setRelatedProductType (String RelatedProductType);
+
+	/** Get Related Product Type	  */
+	public String getRelatedProductType();
+
     /** Column name RelatedProduct_ID */
     public static final String COLUMNNAME_RelatedProduct_ID = "RelatedProduct_ID";
 
@@ -145,16 +154,7 @@ public interface I_M_RelatedProduct
 	  */
 	public int getRelatedProduct_ID();
 
-	public I_M_Product getRelatedProduct() throws RuntimeException;
-
-    /** Column name RelatedProductType */
-    public static final String COLUMNNAME_RelatedProductType = "RelatedProductType";
-
-	/** Set Related Product Type	  */
-	public void setRelatedProductType (String RelatedProductType);
-
-	/** Get Related Product Type	  */
-	public String getRelatedProductType();
+	public org.compiere.model.I_M_Product getRelatedProduct() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

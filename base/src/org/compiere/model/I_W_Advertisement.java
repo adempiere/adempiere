@@ -62,19 +62,6 @@ public interface I_W_Advertisement
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AdText */
-    public static final String COLUMNNAME_AdText = "AdText";
-
-	/** Set Advertisement Text.
-	  * Text of the Advertisement
-	  */
-	public void setAdText (String AdText);
-
-	/** Get Advertisement Text.
-	  * Text of the Advertisement
-	  */
-	public String getAdText();
-
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
@@ -88,7 +75,20 @@ public interface I_W_Advertisement
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name AdText */
+    public static final String COLUMNNAME_AdText = "AdText";
+
+	/** Set Advertisement Text.
+	  * Text of the Advertisement
+	  */
+	public void setAdText (String AdText);
+
+	/** Get Advertisement Text.
+	  * Text of the Advertisement
+	  */
+	public String getAdText();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -103,7 +103,7 @@ public interface I_W_Advertisement
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -302,7 +302,7 @@ public interface I_W_Advertisement
 	  */
 	public int getW_ClickCount_ID();
 
-	public I_W_ClickCount getW_ClickCount() throws RuntimeException;
+	public org.compiere.model.I_W_ClickCount getW_ClickCount() throws RuntimeException;
 
     /** Column name W_CounterCount_ID */
     public static final String COLUMNNAME_W_CounterCount_ID = "W_CounterCount_ID";
@@ -317,7 +317,7 @@ public interface I_W_Advertisement
 	  */
 	public int getW_CounterCount_ID();
 
-	public I_W_CounterCount getW_CounterCount() throws RuntimeException;
+	public org.compiere.model.I_W_CounterCount getW_CounterCount() throws RuntimeException;
 
     /** Column name WebParam1 */
     public static final String COLUMNNAME_WebParam1 = "WebParam1";

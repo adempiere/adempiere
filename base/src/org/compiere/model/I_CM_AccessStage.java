@@ -75,7 +75,7 @@ public interface I_CM_AccessStage
 	  */
 	public int getCM_AccessProfile_ID();
 
-	public I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException;
+	public org.compiere.model.I_CM_AccessProfile getCM_AccessProfile() throws RuntimeException;
 
     /** Column name CM_CStage_ID */
     public static final String COLUMNNAME_CM_CStage_ID = "CM_CStage_ID";
@@ -90,7 +90,7 @@ public interface I_CM_AccessStage
 	  */
 	public int getCM_CStage_ID();
 
-	public I_CM_CStage getCM_CStage() throws RuntimeException;
+	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

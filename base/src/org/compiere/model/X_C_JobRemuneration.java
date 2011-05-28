@@ -31,7 +31,7 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_JobRemuneration (Properties ctx, int C_JobRemuneration_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
       super (ctx, C_JobRemuneration_ID, trxName);
       /** if (C_JobRemuneration_ID == 0)
         {
-			setC_Job_ID (0);
 			setC_JobRemuneration_ID (0);
+			setC_Job_ID (0);
 			setC_Remuneration_ID (0);
 			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
@@ -74,9 +74,32 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
       return sb.toString();
     }
 
-	public I_C_Job getC_Job() throws RuntimeException
+	/** Set Position Remuneration.
+		@param C_JobRemuneration_ID 
+		Remuneration for the Position
+	  */
+	public void setC_JobRemuneration_ID (int C_JobRemuneration_ID)
+	{
+		if (C_JobRemuneration_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, Integer.valueOf(C_JobRemuneration_ID));
+	}
+
+	/** Get Position Remuneration.
+		@return Remuneration for the Position
+	  */
+	public int getC_JobRemuneration_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_JobRemuneration_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Job getC_Job() throws RuntimeException
     {
-		return (I_C_Job)MTable.get(getCtx(), I_C_Job.Table_Name)
+		return (org.compiere.model.I_C_Job)MTable.get(getCtx(), org.compiere.model.I_C_Job.Table_Name)
 			.getPO(getC_Job_ID(), get_TrxName());	}
 
 	/** Set Position.
@@ -110,32 +133,9 @@ public class X_C_JobRemuneration extends PO implements I_C_JobRemuneration, I_Pe
         return new KeyNamePair(get_ID(), String.valueOf(getC_Job_ID()));
     }
 
-	/** Set Position Remuneration.
-		@param C_JobRemuneration_ID 
-		Remuneration for the Position
-	  */
-	public void setC_JobRemuneration_ID (int C_JobRemuneration_ID)
-	{
-		if (C_JobRemuneration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_JobRemuneration_ID, Integer.valueOf(C_JobRemuneration_ID));
-	}
-
-	/** Get Position Remuneration.
-		@return Remuneration for the Position
-	  */
-	public int getC_JobRemuneration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_JobRemuneration_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_C_Remuneration getC_Remuneration() throws RuntimeException
+	public org.compiere.model.I_C_Remuneration getC_Remuneration() throws RuntimeException
     {
-		return (I_C_Remuneration)MTable.get(getCtx(), I_C_Remuneration.Table_Name)
+		return (org.compiere.model.I_C_Remuneration)MTable.get(getCtx(), org.compiere.model.I_C_Remuneration.Table_Name)
 			.getPO(getC_Remuneration_ID(), get_TrxName());	}
 
 	/** Set Remuneration.

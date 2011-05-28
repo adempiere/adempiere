@@ -75,7 +75,7 @@ public interface I_AD_Sequence_No
 	  */
 	public int getAD_Sequence_ID();
 
-	public I_AD_Sequence getAD_Sequence() throws RuntimeException;
+	public org.compiere.model.I_AD_Sequence getAD_Sequence() throws RuntimeException;
 
     /** Column name CalendarYear */
     public static final String COLUMNNAME_CalendarYear = "CalendarYear";

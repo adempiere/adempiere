@@ -32,7 +32,7 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_ProjectTask (Properties ctx, int C_ProjectTask_ID, String trxName)
@@ -40,9 +40,9 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
       super (ctx, C_ProjectTask_ID, trxName);
       /** if (C_ProjectTask_ID == 0)
         {
-			setCommittedAmt (Env.ZERO);
 			setC_ProjectPhase_ID (0);
 			setC_ProjectTask_ID (0);
+			setCommittedAmt (Env.ZERO);
 			setName (null);
 			setPlannedAmt (Env.ZERO);
 			setProjInvoiceRule (null);
@@ -80,29 +80,9 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
       return sb.toString();
     }
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
-	{
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
-	}
-
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
+	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
-		return (I_C_ProjectPhase)MTable.get(getCtx(), I_C_ProjectPhase.Table_Name)
+		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
 			.getPO(getC_ProjectPhase_ID(), get_TrxName());	}
 
 	/** Set Project Phase.
@@ -151,9 +131,9 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Task getC_Task() throws RuntimeException
+	public org.compiere.model.I_C_Task getC_Task() throws RuntimeException
     {
-		return (I_C_Task)MTable.get(getCtx(), I_C_Task.Table_Name)
+		return (org.compiere.model.I_C_Task)MTable.get(getCtx(), org.compiere.model.I_C_Task.Table_Name)
 			.getPO(getC_Task_ID(), get_TrxName());	}
 
 	/** Set Standard Task.
@@ -177,6 +157,26 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt)
+	{
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
+	}
+
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Description.
@@ -213,9 +213,9 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

@@ -30,7 +30,7 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_WF_ActivityResult (Properties ctx, int AD_WF_ActivityResult_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
       super (ctx, AD_WF_ActivityResult_ID, trxName);
       /** if (AD_WF_ActivityResult_ID == 0)
         {
-			setAD_WF_Activity_ID (0);
 			setAD_WF_ActivityResult_ID (0);
+			setAD_WF_Activity_ID (0);
 			setAttributeName (null);
         } */
     }
@@ -72,9 +72,32 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
       return sb.toString();
     }
 
-	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException
+	/** Set Workflow Activity Result.
+		@param AD_WF_ActivityResult_ID 
+		Result of the Workflow Process Activity
+	  */
+	public void setAD_WF_ActivityResult_ID (int AD_WF_ActivityResult_ID)
+	{
+		if (AD_WF_ActivityResult_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, Integer.valueOf(AD_WF_ActivityResult_ID));
+	}
+
+	/** Get Workflow Activity Result.
+		@return Result of the Workflow Process Activity
+	  */
+	public int getAD_WF_ActivityResult_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_ActivityResult_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException
     {
-		return (I_AD_WF_Activity)MTable.get(getCtx(), I_AD_WF_Activity.Table_Name)
+		return (org.compiere.model.I_AD_WF_Activity)MTable.get(getCtx(), org.compiere.model.I_AD_WF_Activity.Table_Name)
 			.getPO(getAD_WF_Activity_ID(), get_TrxName());	}
 
 	/** Set Workflow Activity.
@@ -107,29 +130,6 @@ public class X_AD_WF_ActivityResult extends PO implements I_AD_WF_ActivityResult
     {
         return new KeyNamePair(get_ID(), String.valueOf(getAD_WF_Activity_ID()));
     }
-
-	/** Set Workflow Activity Result.
-		@param AD_WF_ActivityResult_ID 
-		Result of the Workflow Process Activity
-	  */
-	public void setAD_WF_ActivityResult_ID (int AD_WF_ActivityResult_ID)
-	{
-		if (AD_WF_ActivityResult_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_WF_ActivityResult_ID, Integer.valueOf(AD_WF_ActivityResult_ID));
-	}
-
-	/** Get Workflow Activity Result.
-		@return Result of the Workflow Process Activity
-	  */
-	public int getAD_WF_ActivityResult_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WF_ActivityResult_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Attribute Name.
 		@param AttributeName 

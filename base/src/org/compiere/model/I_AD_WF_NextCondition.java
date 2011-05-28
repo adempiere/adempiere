@@ -62,7 +62,7 @@ public interface I_AD_WF_NextCondition
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -103,7 +103,7 @@ public interface I_AD_WF_NextCondition
 	  */
 	public int getAD_WF_NodeNext_ID();
 
-	public I_AD_WF_NodeNext getAD_WF_NodeNext() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_NodeNext getAD_WF_NodeNext() throws RuntimeException;
 
     /** Column name AndOr */
     public static final String COLUMNNAME_AndOr = "AndOr";

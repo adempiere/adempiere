@@ -29,7 +29,7 @@ public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProdu
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_A_RegistrationProduct (Properties ctx, int A_RegistrationProduct_ID, String trxName)
@@ -70,9 +70,9 @@ public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProdu
       return sb.toString();
     }
 
-	public I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException
+	public org.compiere.model.I_A_RegistrationAttribute getA_RegistrationAttribute() throws RuntimeException
     {
-		return (I_A_RegistrationAttribute)MTable.get(getCtx(), I_A_RegistrationAttribute.Table_Name)
+		return (org.compiere.model.I_A_RegistrationAttribute)MTable.get(getCtx(), org.compiere.model.I_A_RegistrationAttribute.Table_Name)
 			.getPO(getA_RegistrationAttribute_ID(), get_TrxName());	}
 
 	/** Set Registration Attribute.
@@ -115,9 +115,9 @@ public class X_A_RegistrationProduct extends PO implements I_A_RegistrationProdu
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

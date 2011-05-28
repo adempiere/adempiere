@@ -30,7 +30,7 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_Template_Ad_Cat (Properties ctx, int CM_Template_Ad_Cat_ID, String trxName)
@@ -72,9 +72,9 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
       return sb.toString();
     }
 
-	public I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException
+	public org.compiere.model.I_CM_Ad_Cat getCM_Ad_Cat() throws RuntimeException
     {
-		return (I_CM_Ad_Cat)MTable.get(getCtx(), I_CM_Ad_Cat.Table_Name)
+		return (org.compiere.model.I_CM_Ad_Cat)MTable.get(getCtx(), org.compiere.model.I_CM_Ad_Cat.Table_Name)
 			.getPO(getCM_Ad_Cat_ID(), get_TrxName());	}
 
 	/** Set Advertisement Category.
@@ -100,9 +100,9 @@ public class X_CM_Template_Ad_Cat extends PO implements I_CM_Template_Ad_Cat, I_
 		return ii.intValue();
 	}
 
-	public I_CM_Template getCM_Template() throws RuntimeException
+	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException
     {
-		return (I_CM_Template)MTable.get(getCtx(), I_CM_Template.Table_Name)
+		return (org.compiere.model.I_CM_Template)MTable.get(getCtx(), org.compiere.model.I_CM_Template.Table_Name)
 			.getPO(getCM_Template_ID(), get_TrxName());	}
 
 	/** Set Template.

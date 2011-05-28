@@ -62,6 +62,19 @@ public interface I_AD_WF_ActivityResult
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_WF_ActivityResult_ID */
+    public static final String COLUMNNAME_AD_WF_ActivityResult_ID = "AD_WF_ActivityResult_ID";
+
+	/** Set Workflow Activity Result.
+	  * Result of the Workflow Process Activity
+	  */
+	public void setAD_WF_ActivityResult_ID (int AD_WF_ActivityResult_ID);
+
+	/** Get Workflow Activity Result.
+	  * Result of the Workflow Process Activity
+	  */
+	public int getAD_WF_ActivityResult_ID();
+
     /** Column name AD_WF_Activity_ID */
     public static final String COLUMNNAME_AD_WF_Activity_ID = "AD_WF_Activity_ID";
 
@@ -75,20 +88,7 @@ public interface I_AD_WF_ActivityResult
 	  */
 	public int getAD_WF_Activity_ID();
 
-	public I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException;
-
-    /** Column name AD_WF_ActivityResult_ID */
-    public static final String COLUMNNAME_AD_WF_ActivityResult_ID = "AD_WF_ActivityResult_ID";
-
-	/** Set Workflow Activity Result.
-	  * Result of the Workflow Process Activity
-	  */
-	public void setAD_WF_ActivityResult_ID (int AD_WF_ActivityResult_ID);
-
-	/** Get Workflow Activity Result.
-	  * Result of the Workflow Process Activity
-	  */
-	public int getAD_WF_ActivityResult_ID();
+	public org.compiere.model.I_AD_WF_Activity getAD_WF_Activity() throws RuntimeException;
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";

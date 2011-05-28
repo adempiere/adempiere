@@ -32,7 +32,7 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_PrintTableFormat (Properties ctx, int AD_PrintTableFormat_ID, String trxName)
@@ -45,9 +45,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 			setIsMultiLineHeader (false);
 // N
 			setIsPaintBoundaryLines (false);
+			setIsPaintHLines (false);
 			setIsPaintHeaderLines (true);
 // Y
-			setIsPaintHLines (false);
 			setIsPaintVLines (false);
 			setIsPrintFunctionSymbols (false);
 			setName (null);
@@ -82,9 +82,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
       return sb.toString();
     }
 
-	public I_AD_Image getAD_Image() throws RuntimeException
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException
     {
-		return (I_AD_Image)MTable.get(getCtx(), I_AD_Image.Table_Name)
+		return (org.compiere.model.I_AD_Image)MTable.get(getCtx(), org.compiere.model.I_AD_Image.Table_Name)
 			.getPO(getAD_Image_ID(), get_TrxName());	}
 
 	/** Set Image.
@@ -201,9 +201,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return (String)get_Value(COLUMNNAME_FooterRight);
 	}
 
-	public I_AD_PrintColor getFunctBG_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getFunctBG_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getFunctBG_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Function BG Color.
@@ -229,9 +229,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getFunctFG_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getFunctFG_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getFunctFG_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Function Color.
@@ -257,9 +257,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getFunct_PrintFont() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFont getFunct_PrintFont() throws RuntimeException
     {
-		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+		return (org.compiere.model.I_AD_PrintFont)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFont.Table_Name)
 			.getPO(getFunct_PrintFont_ID(), get_TrxName());	}
 
 	/** Set Function Font.
@@ -285,9 +285,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getHdrLine_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getHdrLine_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getHdrLine_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Header Line Color.
@@ -308,34 +308,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public int getHdrLine_PrintColor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HdrLine_PrintColor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_PrintFont getHdr_PrintFont() throws RuntimeException
-    {
-		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
-			.getPO(getHdr_PrintFont_ID(), get_TrxName());	}
-
-	/** Set Header Row Font.
-		@param Hdr_PrintFont_ID 
-		Header row Font
-	  */
-	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
-	{
-		if (Hdr_PrintFont_ID < 1) 
-			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
-		else 
-			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
-	}
-
-	/** Get Header Row Font.
-		@return Header row Font
-	  */
-	public int getHdr_PrintFont_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Hdr_PrintFont_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -389,9 +361,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return (String)get_Value(COLUMNNAME_HdrStrokeType);
 	}
 
-	public I_AD_PrintColor getHdrTextBG_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getHdrTextBG_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getHdrTextBG_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Header Row BG Color.
@@ -417,9 +389,9 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getHdrTextFG_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getHdrTextFG_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getHdrTextFG_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Header Row Color.
@@ -440,6 +412,34 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public int getHdrTextFG_PrintColor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HdrTextFG_PrintColor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_PrintFont getHdr_PrintFont() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_PrintFont)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFont.Table_Name)
+			.getPO(getHdr_PrintFont_ID(), get_TrxName());	}
+
+	/** Set Header Row Font.
+		@param Hdr_PrintFont_ID 
+		Header row Font
+	  */
+	public void setHdr_PrintFont_ID (int Hdr_PrintFont_ID)
+	{
+		if (Hdr_PrintFont_ID < 1) 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, null);
+		else 
+			set_Value (COLUMNNAME_Hdr_PrintFont_ID, Integer.valueOf(Hdr_PrintFont_ID));
+	}
+
+	/** Get Header Row Font.
+		@return Header row Font
+	  */
+	public int getHdr_PrintFont_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Hdr_PrintFont_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -609,30 +609,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return false;
 	}
 
-	/** Set Paint Header Lines.
-		@param IsPaintHeaderLines 
-		Paint Lines over/under the Header Line 
-	  */
-	public void setIsPaintHeaderLines (boolean IsPaintHeaderLines)
-	{
-		set_Value (COLUMNNAME_IsPaintHeaderLines, Boolean.valueOf(IsPaintHeaderLines));
-	}
-
-	/** Get Paint Header Lines.
-		@return Paint Lines over/under the Header Line 
-	  */
-	public boolean isPaintHeaderLines () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsPaintHeaderLines);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Paint Horizontal Lines.
 		@param IsPaintHLines 
 		Paint horizontal lines
@@ -648,6 +624,30 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public boolean isPaintHLines () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsPaintHLines);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Paint Header Lines.
+		@param IsPaintHeaderLines 
+		Paint Lines over/under the Header Line 
+	  */
+	public void setIsPaintHeaderLines (boolean IsPaintHeaderLines)
+	{
+		set_Value (COLUMNNAME_IsPaintHeaderLines, Boolean.valueOf(IsPaintHeaderLines));
+	}
+
+	/** Get Paint Header Lines.
+		@return Paint Lines over/under the Header Line 
+	  */
+	public boolean isPaintHeaderLines () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPaintHeaderLines);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -705,34 +705,6 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 		return false;
 	}
 
-	public I_AD_PrintColor getLine_PrintColor() throws RuntimeException
-    {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
-			.getPO(getLine_PrintColor_ID(), get_TrxName());	}
-
-	/** Set Line Color.
-		@param Line_PrintColor_ID 
-		Table line color
-	  */
-	public void setLine_PrintColor_ID (int Line_PrintColor_ID)
-	{
-		if (Line_PrintColor_ID < 1) 
-			set_Value (COLUMNNAME_Line_PrintColor_ID, null);
-		else 
-			set_Value (COLUMNNAME_Line_PrintColor_ID, Integer.valueOf(Line_PrintColor_ID));
-	}
-
-	/** Get Line Color.
-		@return Table line color
-	  */
-	public int getLine_PrintColor_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Line_PrintColor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Line Stroke.
 		@param LineStroke 
 		Width of the Line Stroke
@@ -779,6 +751,34 @@ public class X_AD_PrintTableFormat extends PO implements I_AD_PrintTableFormat, 
 	public String getLineStrokeType () 
 	{
 		return (String)get_Value(COLUMNNAME_LineStrokeType);
+	}
+
+	public org.compiere.model.I_AD_PrintColor getLine_PrintColor() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
+			.getPO(getLine_PrintColor_ID(), get_TrxName());	}
+
+	/** Set Line Color.
+		@param Line_PrintColor_ID 
+		Table line color
+	  */
+	public void setLine_PrintColor_ID (int Line_PrintColor_ID)
+	{
+		if (Line_PrintColor_ID < 1) 
+			set_Value (COLUMNNAME_Line_PrintColor_ID, null);
+		else 
+			set_Value (COLUMNNAME_Line_PrintColor_ID, Integer.valueOf(Line_PrintColor_ID));
+	}
+
+	/** Get Line Color.
+		@return Table line color
+	  */
+	public int getLine_PrintColor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Line_PrintColor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Name.

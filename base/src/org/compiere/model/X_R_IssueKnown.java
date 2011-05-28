@@ -30,7 +30,7 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_R_IssueKnown (Properties ctx, int R_IssueKnown_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
       /** if (R_IssueKnown_ID == 0)
         {
 			setIssueSummary (null);
-			setReleaseNo (null);
 			setR_IssueKnown_ID (0);
+			setReleaseNo (null);
         } */
     }
 
@@ -181,31 +181,6 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return false;
 	}
 
-	/** Set Release No.
-		@param ReleaseNo 
-		Internal Release Number
-	  */
-	public void setReleaseNo (String ReleaseNo)
-	{
-		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
-	}
-
-	/** Get Release No.
-		@return Internal Release Number
-	  */
-	public String getReleaseNo () 
-	{
-		return (String)get_Value(COLUMNNAME_ReleaseNo);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getReleaseNo());
-    }
-
 	/** Set Known Issue.
 		@param R_IssueKnown_ID 
 		Known Issue
@@ -229,9 +204,9 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueRecommendation getR_IssueRecommendation() throws RuntimeException
+	public org.compiere.model.I_R_IssueRecommendation getR_IssueRecommendation() throws RuntimeException
     {
-		return (I_R_IssueRecommendation)MTable.get(getCtx(), I_R_IssueRecommendation.Table_Name)
+		return (org.compiere.model.I_R_IssueRecommendation)MTable.get(getCtx(), org.compiere.model.I_R_IssueRecommendation.Table_Name)
 			.getPO(getR_IssueRecommendation_ID(), get_TrxName());	}
 
 	/** Set Issue Recommendation.
@@ -257,9 +232,9 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_IssueStatus getR_IssueStatus() throws RuntimeException
+	public org.compiere.model.I_R_IssueStatus getR_IssueStatus() throws RuntimeException
     {
-		return (I_R_IssueStatus)MTable.get(getCtx(), I_R_IssueStatus.Table_Name)
+		return (org.compiere.model.I_R_IssueStatus)MTable.get(getCtx(), org.compiere.model.I_R_IssueStatus.Table_Name)
 			.getPO(getR_IssueStatus_ID(), get_TrxName());	}
 
 	/** Set Issue Status.
@@ -285,9 +260,9 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_Request getR_Request() throws RuntimeException
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException
     {
-		return (I_R_Request)MTable.get(getCtx(), I_R_Request.Table_Name)
+		return (org.compiere.model.I_R_Request)MTable.get(getCtx(), org.compiere.model.I_R_Request.Table_Name)
 			.getPO(getR_Request_ID(), get_TrxName());	}
 
 	/** Set Request.
@@ -312,6 +287,31 @@ public class X_R_IssueKnown extends PO implements I_R_IssueKnown, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	/** Set Release No.
+		@param ReleaseNo 
+		Internal Release Number
+	  */
+	public void setReleaseNo (String ReleaseNo)
+	{
+		set_Value (COLUMNNAME_ReleaseNo, ReleaseNo);
+	}
+
+	/** Get Release No.
+		@return Internal Release Number
+	  */
+	public String getReleaseNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ReleaseNo);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getReleaseNo());
+    }
 
 	/** Set Source Class.
 		@param SourceClassName 

@@ -41,52 +41,6 @@ public interface I_A_Asset
 
     /** Load Meta Data */
 
-    /** Column name A_Asset_CreateDate */
-    public static final String COLUMNNAME_A_Asset_CreateDate = "A_Asset_CreateDate";
-
-	/** Set Asset Creation Date	  */
-	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate);
-
-	/** Get Asset Creation Date	  */
-	public Timestamp getA_Asset_CreateDate();
-
-    /** Column name A_Asset_Group_ID */
-    public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
-
-	/** Set Asset Group.
-	  * Group of Assets
-	  */
-	public void setA_Asset_Group_ID (int A_Asset_Group_ID);
-
-	/** Get Asset Group.
-	  * Group of Assets
-	  */
-	public int getA_Asset_Group_ID();
-
-	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-    /** Column name A_Asset_RevalDate */
-    public static final String COLUMNNAME_A_Asset_RevalDate = "A_Asset_RevalDate";
-
-	/** Set Asset Reval. Date	  */
-	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate);
-
-	/** Get Asset Reval. Date	  */
-	public Timestamp getA_Asset_RevalDate();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -121,7 +75,53 @@ public interface I_A_Asset
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name A_Asset_CreateDate */
+    public static final String COLUMNNAME_A_Asset_CreateDate = "A_Asset_CreateDate";
+
+	/** Set Asset Creation Date	  */
+	public void setA_Asset_CreateDate (Timestamp A_Asset_CreateDate);
+
+	/** Get Asset Creation Date	  */
+	public Timestamp getA_Asset_CreateDate();
+
+    /** Column name A_Asset_Group_ID */
+    public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
+
+	/** Set Asset Group.
+	  * Group of Assets
+	  */
+	public void setA_Asset_Group_ID (int A_Asset_Group_ID);
+
+	/** Get Asset Group.
+	  * Group of Assets
+	  */
+	public int getA_Asset_Group_ID();
+
+	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+    /** Column name A_Asset_RevalDate */
+    public static final String COLUMNNAME_A_Asset_RevalDate = "A_Asset_RevalDate";
+
+	/** Set Asset Reval. Date	  */
+	public void setA_Asset_RevalDate (Timestamp A_Asset_RevalDate);
+
+	/** Get Asset Reval. Date	  */
+	public Timestamp getA_Asset_RevalDate();
 
     /** Column name A_Parent_Asset_ID */
     public static final String COLUMNNAME_A_Parent_Asset_ID = "A_Parent_Asset_ID";
@@ -132,7 +132,7 @@ public interface I_A_Asset
 	/** Get Asset ID	  */
 	public int getA_Parent_Asset_ID();
 
-	public I_A_Asset getA_Parent_Asset() throws RuntimeException;
+	public org.compiere.model.I_A_Asset getA_Parent_Asset() throws RuntimeException;
 
     /** Column name A_QTY_Current */
     public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
@@ -191,6 +191,21 @@ public interface I_A_Asset
 	  */
 	public Timestamp getAssetServiceDate();
 
+    /** Column name C_BPartnerSR_ID */
+    public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
+
+	/** Set BPartner (Agent).
+	  * Business Partner (Agent or Sales Rep)
+	  */
+	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID);
+
+	/** Get BPartner (Agent).
+	  * Business Partner (Agent or Sales Rep)
+	  */
+	public int getC_BPartnerSR_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartnerSR() throws RuntimeException;
+
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -204,7 +219,7 @@ public interface I_A_Asset
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -219,22 +234,7 @@ public interface I_A_Asset
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
-
-    /** Column name C_BPartnerSR_ID */
-    public static final String COLUMNNAME_C_BPartnerSR_ID = "C_BPartnerSR_ID";
-
-	/** Set BPartner (Agent).
-	  * Business Partner (Agent or Sales Rep)
-	  */
-	public void setC_BPartnerSR_ID (int C_BPartnerSR_ID);
-
-	/** Get BPartner (Agent).
-	  * Business Partner (Agent or Sales Rep)
-	  */
-	public int getC_BPartnerSR_ID();
-
-	public I_C_BPartner getC_BPartnerSR() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -249,7 +249,7 @@ public interface I_A_Asset
 	  */
 	public int getC_Location_ID();
 
-	public I_C_Location getC_Location() throws RuntimeException;
+	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -264,7 +264,7 @@ public interface I_A_Asset
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -438,6 +438,19 @@ public interface I_A_Asset
 	  */
 	public int getLastMaintenanceUnit();
 
+    /** Column name LeaseTerminationDate */
+    public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
+
+	/** Set Lease Termination.
+	  * Lease Termination Date
+	  */
+	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate);
+
+	/** Get Lease Termination.
+	  * Lease Termination Date
+	  */
+	public Timestamp getLeaseTerminationDate();
+
     /** Column name Lease_BPartner_ID */
     public static final String COLUMNNAME_Lease_BPartner_ID = "Lease_BPartner_ID";
 
@@ -451,20 +464,7 @@ public interface I_A_Asset
 	  */
 	public int getLease_BPartner_ID();
 
-	public I_C_BPartner getLease_BPartner() throws RuntimeException;
-
-    /** Column name LeaseTerminationDate */
-    public static final String COLUMNNAME_LeaseTerminationDate = "LeaseTerminationDate";
-
-	/** Set Lease Termination.
-	  * Lease Termination Date
-	  */
-	public void setLeaseTerminationDate (Timestamp LeaseTerminationDate);
-
-	/** Get Lease Termination.
-	  * Lease Termination Date
-	  */
-	public Timestamp getLeaseTerminationDate();
+	public org.compiere.model.I_C_BPartner getLease_BPartner() throws RuntimeException;
 
     /** Column name LifeUseUnits */
     public static final String COLUMNNAME_LifeUseUnits = "LifeUseUnits";
@@ -533,7 +533,7 @@ public interface I_A_Asset
 	  */
 	public int getM_InOutLine_ID();
 
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException;
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -548,7 +548,7 @@ public interface I_A_Asset
 	  */
 	public int getM_Locator_ID();
 
-	public I_M_Locator getM_Locator() throws RuntimeException;
+	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -563,7 +563,7 @@ public interface I_A_Asset
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

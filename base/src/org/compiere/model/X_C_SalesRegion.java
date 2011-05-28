@@ -30,7 +30,7 @@ public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_SalesRegion (Properties ctx, int C_SalesRegion_ID, String trxName)
@@ -187,9 +187,9 @@ public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_AD_User getSalesRep() throws RuntimeException
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSalesRep_ID(), get_TrxName());	}
 
 	/** Set Sales Representative.

@@ -147,7 +147,7 @@ public interface I_M_Storage
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name QtyAllocated */
     public static final String COLUMNNAME_QtyAllocated = "QtyAllocated";

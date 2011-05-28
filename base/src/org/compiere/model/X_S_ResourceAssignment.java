@@ -33,7 +33,7 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_S_ResourceAssignment (Properties ctx, int S_ResourceAssignment_ID, String trxName)
@@ -212,9 +212,9 @@ public class X_S_ResourceAssignment extends PO implements I_S_ResourceAssignment
 		return ii.intValue();
 	}
 
-	public I_S_Resource getS_Resource() throws RuntimeException
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
     {
-		return (I_S_Resource)MTable.get(getCtx(), I_S_Resource.Table_Name)
+		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
 			.getPO(getS_Resource_ID(), get_TrxName());	}
 
 	/** Set Resource.

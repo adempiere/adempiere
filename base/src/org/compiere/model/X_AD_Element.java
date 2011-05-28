@@ -30,7 +30,7 @@ public class X_AD_Element extends PO implements I_AD_Element, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Element (Properties ctx, int AD_Element_ID, String trxName)

@@ -30,7 +30,7 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_W_Counter (Properties ctx, int W_Counter_ID, String trxName)
@@ -74,23 +74,6 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
       return sb.toString();
     }
 
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
-	}
-
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -112,6 +95,23 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
 	/** Set EMail Address.
@@ -245,9 +245,9 @@ public class X_W_Counter extends PO implements I_W_Counter, I_Persistent
 		return (String)get_Value(COLUMNNAME_UserAgent);
 	}
 
-	public I_W_CounterCount getW_CounterCount() throws RuntimeException
+	public org.compiere.model.I_W_CounterCount getW_CounterCount() throws RuntimeException
     {
-		return (I_W_CounterCount)MTable.get(getCtx(), I_W_CounterCount.Table_Name)
+		return (org.compiere.model.I_W_CounterCount)MTable.get(getCtx(), org.compiere.model.I_W_CounterCount.Table_Name)
 			.getPO(getW_CounterCount_ID(), get_TrxName());	}
 
 	/** Set Counter Count.

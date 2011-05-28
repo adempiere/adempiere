@@ -88,7 +88,7 @@ public interface I_CM_CStage_Element
 	  */
 	public int getCM_CStage_ID();
 
-	public I_CM_CStage getCM_CStage() throws RuntimeException;
+	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException;
 
     /** Column name ContentHTML */
     public static final String COLUMNNAME_ContentHTML = "ContentHTML";

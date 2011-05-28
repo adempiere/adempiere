@@ -30,7 +30,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
         {
 			setAD_Column_ID (0);
 			setAD_PrintFormatChild_ID (0);
-			setAD_PrintFormat_ID (0);
 			setAD_PrintFormatItem_ID (0);
+			setAD_PrintFormat_ID (0);
 			setFieldAlignmentType (null);
 // D
 			setImageIsAttached (false);
@@ -121,9 +121,9 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
       return sb.toString();
     }
 
-	public I_AD_Column getAD_Column() throws RuntimeException
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
 			.getPO(getAD_Column_ID(), get_TrxName());	}
 
 	/** Set Column.
@@ -149,9 +149,9 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Print Color.
@@ -177,9 +177,9 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFont getAD_PrintFont() throws RuntimeException
     {
-		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+		return (org.compiere.model.I_AD_PrintFont)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFont.Table_Name)
 			.getPO(getAD_PrintFont_ID(), get_TrxName());	}
 
 	/** Set Print Font.
@@ -205,9 +205,9 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormat getAD_PrintFormatChild() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormatChild() throws RuntimeException
     {
-		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
 			.getPO(getAD_PrintFormatChild_ID(), get_TrxName());	}
 
 	/** Set Included Print Format.
@@ -228,34 +228,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public int getAD_PrintFormatChild_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatChild_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
-    {
-		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
-			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
-
-	/** Set Print Format.
-		@param AD_PrintFormat_ID 
-		Data Print Format
-	  */
-	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
-	{
-		if (AD_PrintFormat_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
-	}
-
-	/** Get Print Format.
-		@return Data Print Format
-	  */
-	public int getAD_PrintFormat_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormat_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -284,9 +256,37 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
-	public I_AD_PrintGraph getAD_PrintGraph() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-		return (I_AD_PrintGraph)MTable.get(getCtx(), I_AD_PrintGraph.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
+			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
+
+	/** Set Print Format.
+		@param AD_PrintFormat_ID 
+		Data Print Format
+	  */
+	public void setAD_PrintFormat_ID (int AD_PrintFormat_ID)
+	{
+		if (AD_PrintFormat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormat_ID, Integer.valueOf(AD_PrintFormat_ID));
+	}
+
+	/** Get Print Format.
+		@return Data Print Format
+	  */
+	public int getAD_PrintFormat_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormat_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_PrintGraph getAD_PrintGraph() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_PrintGraph)MTable.get(getCtx(), org.compiere.model.I_AD_PrintGraph.Table_Name)
 			.getPO(getAD_PrintGraph_ID(), get_TrxName());	}
 
 	/** Set Graph.

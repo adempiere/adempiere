@@ -130,7 +130,7 @@ public interface I_W_BasketLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Price */
     public static final String COLUMNNAME_Price = "Price";
@@ -183,6 +183,19 @@ public interface I_W_BasketLine
 	  */
 	public int getUpdatedBy();
 
+    /** Column name W_BasketLine_ID */
+    public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
+
+	/** Set Basket Line.
+	  * Web Basket Line
+	  */
+	public void setW_BasketLine_ID (int W_BasketLine_ID);
+
+	/** Get Basket Line.
+	  * Web Basket Line
+	  */
+	public int getW_BasketLine_ID();
+
     /** Column name W_Basket_ID */
     public static final String COLUMNNAME_W_Basket_ID = "W_Basket_ID";
 
@@ -196,18 +209,5 @@ public interface I_W_BasketLine
 	  */
 	public int getW_Basket_ID();
 
-	public I_W_Basket getW_Basket() throws RuntimeException;
-
-    /** Column name W_BasketLine_ID */
-    public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
-
-	/** Set Basket Line.
-	  * Web Basket Line
-	  */
-	public void setW_BasketLine_ID (int W_BasketLine_ID);
-
-	/** Get Basket Line.
-	  * Web Basket Line
-	  */
-	public int getW_BasketLine_ID();
+	public org.compiere.model.I_W_Basket getW_Basket() throws RuntimeException;
 }

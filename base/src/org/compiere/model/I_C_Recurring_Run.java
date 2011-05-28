@@ -75,7 +75,7 @@ public interface I_C_Recurring_Run
 	  */
 	public int getC_Invoice_ID();
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -90,7 +90,7 @@ public interface I_C_Recurring_Run
 	  */
 	public int getC_Order_ID();
 
-	public I_C_Order getC_Order() throws RuntimeException;
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -105,7 +105,7 @@ public interface I_C_Recurring_Run
 	  */
 	public int getC_Payment_ID();
 
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -120,7 +120,35 @@ public interface I_C_Recurring_Run
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_Recurring_ID */
+    public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
+
+	/** Set Recurring.
+	  * Recurring Document
+	  */
+	public void setC_Recurring_ID (int C_Recurring_ID);
+
+	/** Get Recurring.
+	  * Recurring Document
+	  */
+	public int getC_Recurring_ID();
+
+	public org.compiere.model.I_C_Recurring getC_Recurring() throws RuntimeException;
+
+    /** Column name C_Recurring_Run_ID */
+    public static final String COLUMNNAME_C_Recurring_Run_ID = "C_Recurring_Run_ID";
+
+	/** Set Recurring Run.
+	  * Recurring Document Run
+	  */
+	public void setC_Recurring_Run_ID (int C_Recurring_Run_ID);
+
+	/** Get Recurring Run.
+	  * Recurring Document Run
+	  */
+	public int getC_Recurring_Run_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -137,34 +165,6 @@ public interface I_C_Recurring_Run
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Recurring_ID */
-    public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
-
-	/** Set Recurring.
-	  * Recurring Document
-	  */
-	public void setC_Recurring_ID (int C_Recurring_ID);
-
-	/** Get Recurring.
-	  * Recurring Document
-	  */
-	public int getC_Recurring_ID();
-
-	public I_C_Recurring getC_Recurring() throws RuntimeException;
-
-    /** Column name C_Recurring_Run_ID */
-    public static final String COLUMNNAME_C_Recurring_Run_ID = "C_Recurring_Run_ID";
-
-	/** Set Recurring Run.
-	  * Recurring Document Run
-	  */
-	public void setC_Recurring_Run_ID (int C_Recurring_Run_ID);
-
-	/** Get Recurring Run.
-	  * Recurring Document Run
-	  */
-	public int getC_Recurring_Run_ID();
 
     /** Column name DateDoc */
     public static final String COLUMNNAME_DateDoc = "DateDoc";
@@ -192,7 +192,7 @@ public interface I_C_Recurring_Run
 	  */
 	public int getGL_JournalBatch_ID();
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException;
+	public org.compiere.model.I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

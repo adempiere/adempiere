@@ -75,7 +75,7 @@ public interface I_M_DistributionListLine
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -90,7 +90,7 @@ public interface I_M_DistributionListLine
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -134,6 +134,19 @@ public interface I_M_DistributionListLine
 	  */
 	public boolean isActive();
 
+    /** Column name M_DistributionListLine_ID */
+    public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
+
+	/** Set Distribution List Line.
+	  * Distribution List Line with Business Partner and Quantity/Percentage
+	  */
+	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID);
+
+	/** Get Distribution List Line.
+	  * Distribution List Line with Business Partner and Quantity/Percentage
+	  */
+	public int getM_DistributionListLine_ID();
+
     /** Column name M_DistributionList_ID */
     public static final String COLUMNNAME_M_DistributionList_ID = "M_DistributionList_ID";
 
@@ -147,20 +160,7 @@ public interface I_M_DistributionListLine
 	  */
 	public int getM_DistributionList_ID();
 
-	public I_M_DistributionList getM_DistributionList() throws RuntimeException;
-
-    /** Column name M_DistributionListLine_ID */
-    public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
-
-	/** Set Distribution List Line.
-	  * Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID);
-
-	/** Get Distribution List Line.
-	  * Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public int getM_DistributionListLine_ID();
+	public org.compiere.model.I_M_DistributionList getM_DistributionList() throws RuntimeException;
 
     /** Column name MinQty */
     public static final String COLUMNNAME_MinQty = "MinQty";

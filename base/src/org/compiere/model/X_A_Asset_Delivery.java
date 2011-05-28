@@ -31,7 +31,7 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_A_Asset_Delivery (Properties ctx, int A_Asset_Delivery_ID, String trxName)
@@ -73,6 +73,34 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Asset Delivery.
 		@param A_Asset_Delivery_ID 
 		Delivery of Asset
@@ -96,9 +124,9 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
-	public I_A_Asset getA_Asset() throws RuntimeException
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
     {
-		return (I_A_Asset)MTable.get(getCtx(), I_A_Asset.Table_Name)
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
 	/** Set Asset.
@@ -119,34 +147,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	public int getA_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_AD_User getAD_User() throws RuntimeException
-    {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -220,26 +220,9 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	/** Set Message ID.
-		@param MessageID 
-		EMail Message ID
-	  */
-	public void setMessageID (String MessageID)
-	{
-		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
-	}
-
-	/** Get Message ID.
-		@return EMail Message ID
-	  */
-	public String getMessageID () 
-	{
-		return (String)get_Value(COLUMNNAME_MessageID);
-	}
-
-	public I_M_InOutLine getM_InOutLine() throws RuntimeException
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
     {
-		return (I_M_InOutLine)MTable.get(getCtx(), I_M_InOutLine.Table_Name)
+		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
 			.getPO(getM_InOutLine_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt Line.
@@ -263,6 +246,51 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_ProductDownload getM_ProductDownload() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_ProductDownload)MTable.get(getCtx(), org.compiere.model.I_M_ProductDownload.Table_Name)
+			.getPO(getM_ProductDownload_ID(), get_TrxName());	}
+
+	/** Set Product Download.
+		@param M_ProductDownload_ID 
+		Product downloads
+	  */
+	public void setM_ProductDownload_ID (int M_ProductDownload_ID)
+	{
+		if (M_ProductDownload_ID < 1) 
+			set_Value (COLUMNNAME_M_ProductDownload_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_ProductDownload_ID, Integer.valueOf(M_ProductDownload_ID));
+	}
+
+	/** Get Product Download.
+		@return Product downloads
+	  */
+	public int getM_ProductDownload_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductDownload_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Message ID.
+		@param MessageID 
+		EMail Message ID
+	  */
+	public void setMessageID (String MessageID)
+	{
+		set_ValueNoCheck (COLUMNNAME_MessageID, MessageID);
+	}
+
+	/** Get Message ID.
+		@return EMail Message ID
+	  */
+	public String getMessageID () 
+	{
+		return (String)get_Value(COLUMNNAME_MessageID);
 	}
 
 	/** Set Movement Date.
@@ -289,34 +317,6 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
     {
         return new KeyNamePair(get_ID(), String.valueOf(getMovementDate()));
     }
-
-	public I_M_ProductDownload getM_ProductDownload() throws RuntimeException
-    {
-		return (I_M_ProductDownload)MTable.get(getCtx(), I_M_ProductDownload.Table_Name)
-			.getPO(getM_ProductDownload_ID(), get_TrxName());	}
-
-	/** Set Product Download.
-		@param M_ProductDownload_ID 
-		Product downloads
-	  */
-	public void setM_ProductDownload_ID (int M_ProductDownload_ID)
-	{
-		if (M_ProductDownload_ID < 1) 
-			set_Value (COLUMNNAME_M_ProductDownload_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_ProductDownload_ID, Integer.valueOf(M_ProductDownload_ID));
-	}
-
-	/** Get Product Download.
-		@return Product downloads
-	  */
-	public int getM_ProductDownload_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductDownload_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Referrer.
 		@param Referrer 

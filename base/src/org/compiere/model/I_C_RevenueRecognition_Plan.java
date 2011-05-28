@@ -75,7 +75,7 @@ public interface I_C_RevenueRecognition_Plan
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -90,7 +90,7 @@ public interface I_C_RevenueRecognition_Plan
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
@@ -105,7 +105,35 @@ public interface I_C_RevenueRecognition_Plan
 	  */
 	public int getC_InvoiceLine_ID();
 
-	public I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+
+    /** Column name C_RevenueRecognition_ID */
+    public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
+
+	/** Set Revenue Recognition.
+	  * Method for recording revenue
+	  */
+	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID);
+
+	/** Get Revenue Recognition.
+	  * Method for recording revenue
+	  */
+	public int getC_RevenueRecognition_ID();
+
+	public org.compiere.model.I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException;
+
+    /** Column name C_RevenueRecognition_Plan_ID */
+    public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
+
+	/** Set Revenue Recognition Plan.
+	  * Plan for recognizing or recording revenue
+	  */
+	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID);
+
+	/** Get Revenue Recognition Plan.
+	  * Plan for recognizing or recording revenue
+	  */
+	public int getC_RevenueRecognition_Plan_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -122,34 +150,6 @@ public interface I_C_RevenueRecognition_Plan
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_RevenueRecognition_ID */
-    public static final String COLUMNNAME_C_RevenueRecognition_ID = "C_RevenueRecognition_ID";
-
-	/** Set Revenue Recognition.
-	  * Method for recording revenue
-	  */
-	public void setC_RevenueRecognition_ID (int C_RevenueRecognition_ID);
-
-	/** Get Revenue Recognition.
-	  * Method for recording revenue
-	  */
-	public int getC_RevenueRecognition_ID();
-
-	public I_C_RevenueRecognition getC_RevenueRecognition() throws RuntimeException;
-
-    /** Column name C_RevenueRecognition_Plan_ID */
-    public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
-
-	/** Set Revenue Recognition Plan.
-	  * Plan for recognizing or recording revenue
-	  */
-	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID);
-
-	/** Get Revenue Recognition Plan.
-	  * Plan for recognizing or recording revenue
-	  */
-	public int getC_RevenueRecognition_Plan_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -75,7 +75,7 @@ public interface I_AD_Session
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_Session_ID */
     public static final String COLUMNNAME_AD_Session_ID = "AD_Session_ID";

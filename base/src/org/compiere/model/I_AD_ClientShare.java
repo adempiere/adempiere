@@ -41,14 +41,6 @@ public interface I_AD_ClientShare
 
     /** Load Meta Data */
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name AD_ClientShare_ID */
     public static final String COLUMNNAME_AD_ClientShare_ID = "AD_ClientShare_ID";
 
@@ -61,6 +53,14 @@ public interface I_AD_ClientShare
 	  * Force (not) sharing of client/org entities
 	  */
 	public int getAD_ClientShare_ID();
+
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -88,7 +88,7 @@ public interface I_AD_ClientShare
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

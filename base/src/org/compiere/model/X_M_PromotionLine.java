@@ -31,7 +31,7 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_PromotionLine (Properties ctx, int M_PromotionLine_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
         {
 			setIsMandatoryPL (true);
 // Y
-			setM_Promotion_ID (0);
 			setM_PromotionLine_ID (0);
+			setM_Promotion_ID (0);
         } */
     }
 
@@ -98,29 +98,9 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 		return false;
 	}
 
-	/** Set Minimum Amt.
-		@param MinimumAmt 
-		Minimum Amount in Document Currency
-	  */
-	public void setMinimumAmt (BigDecimal MinimumAmt)
-	{
-		set_Value (COLUMNNAME_MinimumAmt, MinimumAmt);
-	}
-
-	/** Get Minimum Amt.
-		@return Minimum Amount in Document Currency
-	  */
-	public BigDecimal getMinimumAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinimumAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	public I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException
+	public org.compiere.model.I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException
     {
-		return (I_M_PromotionGroup)MTable.get(getCtx(), I_M_PromotionGroup.Table_Name)
+		return (org.compiere.model.I_M_PromotionGroup)MTable.get(getCtx(), org.compiere.model.I_M_PromotionGroup.Table_Name)
 			.getPO(getM_PromotionGroup_ID(), get_TrxName());	}
 
 	/** Set Promotion Group.
@@ -138,31 +118,6 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 	public int getM_PromotionGroup_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PromotionGroup_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_M_Promotion getM_Promotion() throws RuntimeException
-    {
-		return (I_M_Promotion)MTable.get(getCtx(), I_M_Promotion.Table_Name)
-			.getPO(getM_Promotion_ID(), get_TrxName());	}
-
-	/** Set Promotion.
-		@param M_Promotion_ID Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID)
-	{
-		if (M_Promotion_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, Integer.valueOf(M_Promotion_ID));
-	}
-
-	/** Get Promotion.
-		@return Promotion	  */
-	public int getM_Promotion_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -186,5 +141,50 @@ public class X_M_PromotionLine extends PO implements I_M_PromotionLine, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Promotion)MTable.get(getCtx(), org.compiere.model.I_M_Promotion.Table_Name)
+			.getPO(getM_Promotion_ID(), get_TrxName());	}
+
+	/** Set Promotion.
+		@param M_Promotion_ID Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID)
+	{
+		if (M_Promotion_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Promotion_ID, Integer.valueOf(M_Promotion_ID));
+	}
+
+	/** Get Promotion.
+		@return Promotion	  */
+	public int getM_Promotion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Promotion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Minimum Amt.
+		@param MinimumAmt 
+		Minimum Amount in Document Currency
+	  */
+	public void setMinimumAmt (BigDecimal MinimumAmt)
+	{
+		set_Value (COLUMNNAME_MinimumAmt, MinimumAmt);
+	}
+
+	/** Get Minimum Amt.
+		@return Minimum Amount in Document Currency
+	  */
+	public BigDecimal getMinimumAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinimumAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 }

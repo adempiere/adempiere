@@ -32,7 +32,7 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_A_Asset_Addition (Properties ctx, int A_Asset_Addition_ID, String trxName)
@@ -208,9 +208,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return bd;
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -273,9 +273,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
+	public org.compiere.model.I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
     {
-		return (I_GL_JournalBatch)MTable.get(getCtx(), I_GL_JournalBatch.Table_Name)
+		return (org.compiere.model.I_GL_JournalBatch)MTable.get(getCtx(), org.compiere.model.I_GL_JournalBatch.Table_Name)
 			.getPO(getGL_JournalBatch_ID(), get_TrxName());	}
 
 	/** Set Journal Batch.

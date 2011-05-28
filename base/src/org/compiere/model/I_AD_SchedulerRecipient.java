@@ -75,22 +75,7 @@ public interface I_AD_SchedulerRecipient
 	  */
 	public int getAD_Role_ID();
 
-	public I_AD_Role getAD_Role() throws RuntimeException;
-
-    /** Column name AD_Scheduler_ID */
-    public static final String COLUMNNAME_AD_Scheduler_ID = "AD_Scheduler_ID";
-
-	/** Set Scheduler.
-	  * Schedule Processes
-	  */
-	public void setAD_Scheduler_ID (int AD_Scheduler_ID);
-
-	/** Get Scheduler.
-	  * Schedule Processes
-	  */
-	public int getAD_Scheduler_ID();
-
-	public I_AD_Scheduler getAD_Scheduler() throws RuntimeException;
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_SchedulerRecipient_ID */
     public static final String COLUMNNAME_AD_SchedulerRecipient_ID = "AD_SchedulerRecipient_ID";
@@ -105,6 +90,21 @@ public interface I_AD_SchedulerRecipient
 	  */
 	public int getAD_SchedulerRecipient_ID();
 
+    /** Column name AD_Scheduler_ID */
+    public static final String COLUMNNAME_AD_Scheduler_ID = "AD_Scheduler_ID";
+
+	/** Set Scheduler.
+	  * Schedule Processes
+	  */
+	public void setAD_Scheduler_ID (int AD_Scheduler_ID);
+
+	/** Get Scheduler.
+	  * Schedule Processes
+	  */
+	public int getAD_Scheduler_ID();
+
+	public org.compiere.model.I_AD_Scheduler getAD_Scheduler() throws RuntimeException;
+
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
@@ -118,7 +118,7 @@ public interface I_AD_SchedulerRecipient
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

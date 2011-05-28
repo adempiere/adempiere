@@ -49,6 +49,15 @@ public interface I_AD_DesktopWorkbench
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_DesktopWorkbench_ID */
+    public static final String COLUMNNAME_AD_DesktopWorkbench_ID = "AD_DesktopWorkbench_ID";
+
+	/** Set Desktop Workbench	  */
+	public void setAD_DesktopWorkbench_ID (int AD_DesktopWorkbench_ID);
+
+	/** Get Desktop Workbench	  */
+	public int getAD_DesktopWorkbench_ID();
+
     /** Column name AD_Desktop_ID */
     public static final String COLUMNNAME_AD_Desktop_ID = "AD_Desktop_ID";
 
@@ -62,16 +71,7 @@ public interface I_AD_DesktopWorkbench
 	  */
 	public int getAD_Desktop_ID();
 
-	public I_AD_Desktop getAD_Desktop() throws RuntimeException;
-
-    /** Column name AD_DesktopWorkbench_ID */
-    public static final String COLUMNNAME_AD_DesktopWorkbench_ID = "AD_DesktopWorkbench_ID";
-
-	/** Set Desktop Workbench	  */
-	public void setAD_DesktopWorkbench_ID (int AD_DesktopWorkbench_ID);
-
-	/** Get Desktop Workbench	  */
-	public int getAD_DesktopWorkbench_ID();
+	public org.compiere.model.I_AD_Desktop getAD_Desktop() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -99,7 +99,7 @@ public interface I_AD_DesktopWorkbench
 	  */
 	public int getAD_Workbench_ID();
 
-	public I_AD_Workbench getAD_Workbench() throws RuntimeException;
+	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

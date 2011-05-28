@@ -169,7 +169,7 @@ public interface I_PA_BenchmarkData
 	  */
 	public int getPA_Benchmark_ID();
 
-	public I_PA_Benchmark getPA_Benchmark() throws RuntimeException;
+	public org.compiere.model.I_PA_Benchmark getPA_Benchmark() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

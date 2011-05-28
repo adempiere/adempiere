@@ -117,7 +117,7 @@ public interface I_M_Substitute
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -145,7 +145,7 @@ public interface I_M_Substitute
 	  */
 	public int getSubstitute_ID();
 
-	public I_M_Product getSubstitute() throws RuntimeException;
+	public org.compiere.model.I_M_Product getSubstitute() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

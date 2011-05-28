@@ -30,7 +30,7 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_POSKeyLayout (Properties ctx, int C_POSKeyLayout_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
       return sb.toString();
     }
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException
     {
-		return (I_AD_PrintColor)MTable.get(getCtx(), I_AD_PrintColor.Table_Name)
+		return (org.compiere.model.I_AD_PrintColor)MTable.get(getCtx(), org.compiere.model.I_AD_PrintColor.Table_Name)
 			.getPO(getAD_PrintColor_ID(), get_TrxName());	}
 
 	/** Set Print Color.
@@ -99,9 +99,9 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFont getAD_PrintFont() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFont getAD_PrintFont() throws RuntimeException
     {
-		return (I_AD_PrintFont)MTable.get(getCtx(), I_AD_PrintFont.Table_Name)
+		return (org.compiere.model.I_AD_PrintFont)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFont.Table_Name)
 			.getPO(getAD_PrintFont_ID(), get_TrxName());	}
 
 	/** Set Print Font.
@@ -127,26 +127,6 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Columns.
-		@param Columns 
-		Number of columns
-	  */
-	public void setColumns (int Columns)
-	{
-		set_Value (COLUMNNAME_Columns, Integer.valueOf(Columns));
-	}
-
-	/** Get Columns.
-		@return Number of columns
-	  */
-	public int getColumns () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Columns);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set POS Key Layout.
 		@param C_POSKeyLayout_ID 
 		POS Function Key Layout
@@ -165,6 +145,26 @@ public class X_C_POSKeyLayout extends PO implements I_C_POSKeyLayout, I_Persiste
 	public int getC_POSKeyLayout_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_POSKeyLayout_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Columns.
+		@param Columns 
+		Number of columns
+	  */
+	public void setColumns (int Columns)
+	{
+		set_Value (COLUMNNAME_Columns, Integer.valueOf(Columns));
+	}
+
+	/** Get Columns.
+		@return Number of columns
+	  */
+	public int getColumns () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Columns);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

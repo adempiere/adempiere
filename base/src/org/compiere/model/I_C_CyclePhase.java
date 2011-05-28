@@ -75,7 +75,7 @@ public interface I_C_CyclePhase
 	  */
 	public int getC_CycleStep_ID();
 
-	public I_C_CycleStep getC_CycleStep() throws RuntimeException;
+	public org.compiere.model.I_C_CycleStep getC_CycleStep() throws RuntimeException;
 
     /** Column name C_Phase_ID */
     public static final String COLUMNNAME_C_Phase_ID = "C_Phase_ID";
@@ -90,7 +90,7 @@ public interface I_C_CyclePhase
 	  */
 	public int getC_Phase_ID();
 
-	public I_C_Phase getC_Phase() throws RuntimeException;
+	public org.compiere.model.I_C_Phase getC_Phase() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -119,7 +119,7 @@ public interface I_M_InventoryLineMA
 	  */
 	public int getM_InventoryLine_ID();
 
-	public I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
 
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";

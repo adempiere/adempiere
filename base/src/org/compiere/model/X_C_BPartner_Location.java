@@ -30,7 +30,7 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_BPartner_Location (Properties ctx, int C_BPartner_Location_ID, String trxName)
@@ -82,9 +82,9 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
       return sb.toString();
     }
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -161,9 +161,9 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
     {
-		return (I_C_SalesRegion)MTable.get(getCtx(), I_C_SalesRegion.Table_Name)
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
 			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region.
@@ -206,6 +206,23 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return (String)get_Value(COLUMNNAME_Fax);
 	}
 
+	/** Set ISDN.
+		@param ISDN 
+		ISDN or modem line
+	  */
+	public void setISDN (String ISDN)
+	{
+		set_Value (COLUMNNAME_ISDN, ISDN);
+	}
+
+	/** Get ISDN.
+		@return ISDN or modem line
+	  */
+	public String getISDN () 
+	{
+		return (String)get_Value(COLUMNNAME_ISDN);
+	}
+
 	/** Set Invoice Address.
 		@param IsBillTo 
 		Business Partner Invoice/Bill Address
@@ -228,23 +245,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set ISDN.
-		@param ISDN 
-		ISDN or modem line
-	  */
-	public void setISDN (String ISDN)
-	{
-		set_Value (COLUMNNAME_ISDN, ISDN);
-	}
-
-	/** Get ISDN.
-		@return ISDN or modem line
-	  */
-	public String getISDN () 
-	{
-		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Pay-From Address.

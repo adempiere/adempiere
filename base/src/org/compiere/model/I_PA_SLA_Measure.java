@@ -75,7 +75,7 @@ public interface I_PA_SLA_Measure
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -158,7 +158,7 @@ public interface I_PA_SLA_Measure
 	  */
 	public int getPA_SLA_Goal_ID();
 
-	public I_PA_SLA_Goal getPA_SLA_Goal() throws RuntimeException;
+	public org.compiere.model.I_PA_SLA_Goal getPA_SLA_Goal() throws RuntimeException;
 
     /** Column name PA_SLA_Measure_ID */
     public static final String COLUMNNAME_PA_SLA_Measure_ID = "PA_SLA_Measure_ID";

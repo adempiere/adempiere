@@ -75,7 +75,7 @@ public interface I_W_CounterCount
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Counter */
     public static final String COLUMNNAME_Counter = "Counter";

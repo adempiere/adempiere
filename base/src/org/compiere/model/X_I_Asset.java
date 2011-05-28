@@ -33,7 +33,7 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_I_Asset (Properties ctx, int I_Asset_ID, String trxName)
@@ -72,6 +72,29 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public I_C_ValidCombination getA_Accumdepreciation_A() throws RuntimeException
     {
@@ -151,9 +174,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return bd;
 	}
 
-	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException
+	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
     {
-		return (I_A_Asset_Group)MTable.get(getCtx(), I_A_Asset_Group.Table_Name)
+		return (org.compiere.model.I_A_Asset_Group)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Group.Table_Name)
 			.getPO(getA_Asset_Group_ID(), get_TrxName());	}
 
 	/** Set Asset Group.
@@ -236,9 +259,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException
+	public org.compiere.model.I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException
     {
-		return (I_A_Asset_Spread)MTable.get(getCtx(), I_A_Asset_Spread.Table_Name)
+		return (org.compiere.model.I_A_Asset_Spread)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Spread.Table_Name)
 			.getPO(getA_Asset_Spread_Type(), get_TrxName());	}
 
 	/** Set Asset Spread Type.
@@ -348,9 +371,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException
+	public org.compiere.model.I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException
     {
-		return (I_A_Depreciation_Method)MTable.get(getCtx(), I_A_Depreciation_Method.Table_Name)
+		return (org.compiere.model.I_A_Depreciation_Method)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Method.Table_Name)
 			.getPO(getA_Depreciation_Calc_Type(), get_TrxName());	}
 
 	/** Set Depreciation Calculation Type.
@@ -408,9 +431,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return (String)get_Value(COLUMNNAME_A_Depreciation_Manual_Period);
 	}
 
-	public I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException
+	public org.compiere.model.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException
     {
-		return (I_A_Depreciation_Table_Header)MTable.get(getCtx(), I_A_Depreciation_Table_Header.Table_Name)
+		return (org.compiere.model.I_A_Depreciation_Table_Header)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Table_Header.Table_Name)
 			.getPO(getA_Depreciation_Table_Header_ID(), get_TrxName());	}
 
 	/** Set Depreciation Table Header.
@@ -489,29 +512,6 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 	public int getA_Disposal_Revenue () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Disposal_Revenue);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -894,9 +894,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_AssetServiceDate);
 	}
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -922,9 +922,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -950,9 +950,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -978,9 +978,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Location getC_Location() throws RuntimeException
+	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException
     {
-		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
+		return (org.compiere.model.I_C_Location)MTable.get(getCtx(), org.compiere.model.I_C_Location.Table_Name)
 			.getPO(getC_Location_ID(), get_TrxName());	}
 
 	/** Set Address.
@@ -1006,9 +1006,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Depreciation_Convention getConventionT() throws RuntimeException
+	public org.compiere.model.I_A_Depreciation_Convention getConventionT() throws RuntimeException
     {
-		return (I_A_Depreciation_Convention)MTable.get(getCtx(), I_A_Depreciation_Convention.Table_Name)
+		return (org.compiere.model.I_A_Depreciation_Convention)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation_Convention.Table_Name)
 			.getPO(getConventionType(), get_TrxName());	}
 
 	/** Set ConventionType.
@@ -1028,9 +1028,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_A_Depreciation getDepreciationT() throws RuntimeException
+	public org.compiere.model.I_A_Depreciation getDepreciationT() throws RuntimeException
     {
-		return (I_A_Depreciation)MTable.get(getCtx(), I_A_Depreciation.Table_Name)
+		return (org.compiere.model.I_A_Depreciation)MTable.get(getCtx(), org.compiere.model.I_A_Depreciation.Table_Name)
 			.getPO(getDepreciationType(), get_TrxName());	}
 
 	/** Set DepreciationType.
@@ -1372,9 +1372,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Locator getM_Locator() throws RuntimeException
+	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
     {
-		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
 			.getPO(getM_Locator_ID(), get_TrxName());	}
 
 	/** Set Locator.
@@ -1400,9 +1400,9 @@ public class X_I_Asset extends PO implements I_I_Asset, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.

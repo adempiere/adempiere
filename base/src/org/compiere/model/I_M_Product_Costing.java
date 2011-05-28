@@ -75,7 +75,7 @@ public interface I_M_Product_Costing
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name CostAverage */
     public static final String COLUMNNAME_CostAverage = "CostAverage";
@@ -245,7 +245,7 @@ public interface I_M_Product_Costing
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name PriceLastInv */
     public static final String COLUMNNAME_PriceLastInv = "PriceLastInv";

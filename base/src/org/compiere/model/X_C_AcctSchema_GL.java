@@ -30,7 +30,7 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_AcctSchema_GL (Properties ctx, int C_AcctSchema_GL_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
       /** if (C_AcctSchema_GL_ID == 0)
         {
 			setC_AcctSchema_ID (0);
-			setCommitmentOffset_Acct (0);
 			setCommitmentOffsetSales_Acct (0);
+			setCommitmentOffset_Acct (0);
 			setIncomeSummary_Acct (0);
 			setIntercompanyDueFrom_Acct (0);
 			setIntercompanyDueTo_Acct (0);
@@ -80,9 +80,9 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
       return sb.toString();
     }
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
     {
-		return (I_C_AcctSchema)MTable.get(getCtx(), I_C_AcctSchema.Table_Name)
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
 			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
 
 	/** Set Accounting Schema.
@@ -116,31 +116,6 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
     }
 
-	public I_C_ValidCombination getCommitmentOffset_A() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getCommitmentOffset_Acct(), get_TrxName());	}
-
-	/** Set Commitment Offset.
-		@param CommitmentOffset_Acct 
-		Budgetary Commitment Offset Account
-	  */
-	public void setCommitmentOffset_Acct (int CommitmentOffset_Acct)
-	{
-		set_Value (COLUMNNAME_CommitmentOffset_Acct, Integer.valueOf(CommitmentOffset_Acct));
-	}
-
-	/** Get Commitment Offset.
-		@return Budgetary Commitment Offset Account
-	  */
-	public int getCommitmentOffset_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffset_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_ValidCombination getCommitmentOffsetSales_A() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -161,6 +136,31 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 	public int getCommitmentOffsetSales_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffsetSales_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ValidCombination getCommitmentOffset_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCommitmentOffset_Acct(), get_TrxName());	}
+
+	/** Set Commitment Offset.
+		@param CommitmentOffset_Acct 
+		Budgetary Commitment Offset Account
+	  */
+	public void setCommitmentOffset_Acct (int CommitmentOffset_Acct)
+	{
+		set_Value (COLUMNNAME_CommitmentOffset_Acct, Integer.valueOf(CommitmentOffset_Acct));
+	}
+
+	/** Get Commitment Offset.
+		@return Budgetary Commitment Offset Account
+	  */
+	public int getCommitmentOffset_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffset_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -30,7 +30,7 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_Process (Properties ctx, int AD_Process_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
       super (ctx, AD_Process_ID, trxName);
       /** if (AD_Process_ID == 0)
         {
-			setAccessLevel (null);
 			setAD_Process_ID (0);
+			setAccessLevel (null);
 			setEntityType (null);
 // U
 			setIsBetaFunctionality (false);
@@ -78,41 +78,9 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
       return sb.toString();
     }
 
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel)
-	{
-
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
-	}
-
-	/** Get Data Access Level.
-		@return Access Level required
-	  */
-	public String getAccessLevel () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
-	}
-
-	public I_AD_Form getAD_Form() throws RuntimeException
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
     {
-		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
+		return (org.compiere.model.I_AD_Form)MTable.get(getCtx(), org.compiere.model.I_AD_Form.Table_Name)
 			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
@@ -138,9 +106,9 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
+	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
+		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
 			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
@@ -189,9 +157,9 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_ReportView getAD_ReportView() throws RuntimeException
+	public org.compiere.model.I_AD_ReportView getAD_ReportView() throws RuntimeException
     {
-		return (I_AD_ReportView)MTable.get(getCtx(), I_AD_ReportView.Table_Name)
+		return (org.compiere.model.I_AD_ReportView)MTable.get(getCtx(), org.compiere.model.I_AD_ReportView.Table_Name)
 			.getPO(getAD_ReportView_ID(), get_TrxName());	}
 
 	/** Set Report View.
@@ -217,9 +185,9 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException
     {
-		return (I_AD_Workflow)MTable.get(getCtx(), I_AD_Workflow.Table_Name)
+		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
 			.getPO(getAD_Workflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.
@@ -243,6 +211,38 @@ public class X_AD_Process extends PO implements I_AD_Process, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel)
+	{
+
+		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	}
+
+	/** Get Data Access Level.
+		@return Access Level required
+	  */
+	public String getAccessLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
 	/** Set Classname.

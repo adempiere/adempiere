@@ -31,7 +31,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_WebAccessLog (Properties ctx, int CM_WebAccessLog_ID, String trxName)
@@ -75,26 +75,9 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
       return sb.toString();
     }
 
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
-	}
-
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -120,9 +103,26 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
+	}
+
+	public org.compiere.model.I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException
     {
-		return (I_CM_BroadcastServer)MTable.get(getCtx(), I_CM_BroadcastServer.Table_Name)
+		return (org.compiere.model.I_CM_BroadcastServer)MTable.get(getCtx(), org.compiere.model.I_CM_BroadcastServer.Table_Name)
 			.getPO(getCM_BroadcastServer_ID(), get_TrxName());	}
 
 	/** Set Broadcast Server.
@@ -148,9 +148,9 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_Media getCM_Media() throws RuntimeException
+	public org.compiere.model.I_CM_Media getCM_Media() throws RuntimeException
     {
-		return (I_CM_Media)MTable.get(getCtx(), I_CM_Media.Table_Name)
+		return (org.compiere.model.I_CM_Media)MTable.get(getCtx(), org.compiere.model.I_CM_Media.Table_Name)
 			.getPO(getCM_Media_ID(), get_TrxName());	}
 
 	/** Set Media Item.
@@ -199,9 +199,9 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	public I_CM_WebProject getCM_WebProject() throws RuntimeException
+	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException
     {
-		return (I_CM_WebProject)MTable.get(getCtx(), I_CM_WebProject.Table_Name)
+		return (org.compiere.model.I_CM_WebProject)MTable.get(getCtx(), org.compiere.model.I_CM_WebProject.Table_Name)
 			.getPO(getCM_WebProject_ID(), get_TrxName());	}
 
 	/** Set Web Project.

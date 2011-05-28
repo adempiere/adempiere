@@ -30,7 +30,7 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20101124L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_AttributeSet (Properties ctx, int M_AttributeSet_ID, String trxName)
@@ -45,8 +45,8 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 			setIsLotMandatory (false);
 			setIsSerNo (false);
 			setIsSerNoMandatory (false);
-			setMandatoryType (null);
 			setM_AttributeSet_ID (0);
+			setMandatoryType (null);
 			setName (null);
         } */
     }
@@ -318,32 +318,6 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return (String)get_Value(COLUMNNAME_LotCharSOverwrite);
 	}
 
-	/** MandatoryType AD_Reference_ID=324 */
-	public static final int MANDATORYTYPE_AD_Reference_ID=324;
-	/** Not Mandatory = N */
-	public static final String MANDATORYTYPE_NotMandatory = "N";
-	/** Always Mandatory = Y */
-	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
-	/** When Shipping = S */
-	public static final String MANDATORYTYPE_WhenShipping = "S";
-	/** Set Mandatory Type.
-		@param MandatoryType 
-		The specification of a Product Attribute Instance is mandatory
-	  */
-	public void setMandatoryType (String MandatoryType)
-	{
-
-		set_Value (COLUMNNAME_MandatoryType, MandatoryType);
-	}
-
-	/** Get Mandatory Type.
-		@return The specification of a Product Attribute Instance is mandatory
-	  */
-	public String getMandatoryType () 
-	{
-		return (String)get_Value(COLUMNNAME_MandatoryType);
-	}
-
 	/** Set Attribute Set.
 		@param M_AttributeSet_ID 
 		Product Attribute Set
@@ -367,9 +341,9 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_LotCtl getM_LotCtl() throws RuntimeException
+	public org.compiere.model.I_M_LotCtl getM_LotCtl() throws RuntimeException
     {
-		return (I_M_LotCtl)MTable.get(getCtx(), I_M_LotCtl.Table_Name)
+		return (org.compiere.model.I_M_LotCtl)MTable.get(getCtx(), org.compiere.model.I_M_LotCtl.Table_Name)
 			.getPO(getM_LotCtl_ID(), get_TrxName());	}
 
 	/** Set Lot Control.
@@ -395,9 +369,9 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException
+	public org.compiere.model.I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException
     {
-		return (I_M_SerNoCtl)MTable.get(getCtx(), I_M_SerNoCtl.Table_Name)
+		return (org.compiere.model.I_M_SerNoCtl)MTable.get(getCtx(), org.compiere.model.I_M_SerNoCtl.Table_Name)
 			.getPO(getM_SerNoCtl_ID(), get_TrxName());	}
 
 	/** Set Serial No Control.
@@ -421,6 +395,32 @@ public class X_M_AttributeSet extends PO implements I_M_AttributeSet, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** MandatoryType AD_Reference_ID=324 */
+	public static final int MANDATORYTYPE_AD_Reference_ID=324;
+	/** Not Mandatory = N */
+	public static final String MANDATORYTYPE_NotMandatory = "N";
+	/** Always Mandatory = Y */
+	public static final String MANDATORYTYPE_AlwaysMandatory = "Y";
+	/** When Shipping = S */
+	public static final String MANDATORYTYPE_WhenShipping = "S";
+	/** Set Mandatory Type.
+		@param MandatoryType 
+		The specification of a Product Attribute Instance is mandatory
+	  */
+	public void setMandatoryType (String MandatoryType)
+	{
+
+		set_Value (COLUMNNAME_MandatoryType, MandatoryType);
+	}
+
+	/** Get Mandatory Type.
+		@return The specification of a Product Attribute Instance is mandatory
+	  */
+	public String getMandatoryType () 
+	{
+		return (String)get_Value(COLUMNNAME_MandatoryType);
 	}
 
 	/** Set Name.

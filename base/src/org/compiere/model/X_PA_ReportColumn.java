@@ -32,7 +32,7 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_PA_ReportColumn (Properties ctx, int PA_ReportColumn_ID, String trxName)
@@ -69,8 +69,8 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 			setIsPrinted (true);
 // Y
 			setName (null);
-			setPA_ReportColumn_ID (0);
 			setPA_ReportColumnSet_ID (0);
+			setPA_ReportColumn_ID (0);
 			setPostingType (null);
 // A
 			setSeqNo (0);
@@ -129,9 +129,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Activity getC_Activity() throws RuntimeException
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
-		return (I_C_Activity)MTable.get(getCtx(), I_C_Activity.Table_Name)
+		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
 			.getPO(getC_Activity_ID(), get_TrxName());	}
 
 	/** Set Activity.
@@ -157,34 +157,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	/** CalculationType AD_Reference_ID=236 */
-	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
-	/** Add (Op1+Op2) = A */
-	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
-	/** Subtract (Op1-Op2) = S */
-	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
-	/** Percentage (Op1 of Op2) = P */
-	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
-	/** Add Range (Op1 to Op2) = R */
-	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
-	/** Set Calculation.
-		@param CalculationType Calculation	  */
-	public void setCalculationType (String CalculationType)
-	{
-
-		set_Value (COLUMNNAME_CalculationType, CalculationType);
-	}
-
-	/** Get Calculation.
-		@return Calculation	  */
-	public String getCalculationType () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationType);
-	}
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -210,9 +185,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
-		return (I_C_Campaign)MTable.get(getCtx(), I_C_Campaign.Table_Name)
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
 			.getPO(getC_Campaign_ID(), get_TrxName());	}
 
 	/** Set Campaign.
@@ -238,9 +213,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -266,9 +241,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_ElementValue getC_ElementValue() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getC_ElementValue_ID(), get_TrxName());	}
 
 	/** Set Account Element.
@@ -322,32 +297,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	/** ColumnType AD_Reference_ID=237 */
-	public static final int COLUMNTYPE_AD_Reference_ID=237;
-	/** Relative Period = R */
-	public static final String COLUMNTYPE_RelativePeriod = "R";
-	/** Calculation = C */
-	public static final String COLUMNTYPE_Calculation = "C";
-	/** Segment Value = S */
-	public static final String COLUMNTYPE_SegmentValue = "S";
-	/** Set Column Type.
-		@param ColumnType Column Type	  */
-	public void setColumnType (String ColumnType)
-	{
-
-		set_Value (COLUMNNAME_ColumnType, ColumnType);
-	}
-
-	/** Get Column Type.
-		@return Column Type	  */
-	public String getColumnType () 
-	{
-		return (String)get_Value(COLUMNNAME_ColumnType);
-	}
-
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -373,9 +325,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
     {
-		return (I_C_SalesRegion)MTable.get(getCtx(), I_C_SalesRegion.Table_Name)
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
 			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
 
 	/** Set Sales Region.
@@ -399,6 +351,54 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** CalculationType AD_Reference_ID=236 */
+	public static final int CALCULATIONTYPE_AD_Reference_ID=236;
+	/** Add (Op1+Op2) = A */
+	public static final String CALCULATIONTYPE_AddOp1PlusOp2 = "A";
+	/** Subtract (Op1-Op2) = S */
+	public static final String CALCULATIONTYPE_SubtractOp1_Op2 = "S";
+	/** Percentage (Op1 of Op2) = P */
+	public static final String CALCULATIONTYPE_PercentageOp1OfOp2 = "P";
+	/** Add Range (Op1 to Op2) = R */
+	public static final String CALCULATIONTYPE_AddRangeOp1ToOp2 = "R";
+	/** Set Calculation.
+		@param CalculationType Calculation	  */
+	public void setCalculationType (String CalculationType)
+	{
+
+		set_Value (COLUMNNAME_CalculationType, CalculationType);
+	}
+
+	/** Get Calculation.
+		@return Calculation	  */
+	public String getCalculationType () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationType);
+	}
+
+	/** ColumnType AD_Reference_ID=237 */
+	public static final int COLUMNTYPE_AD_Reference_ID=237;
+	/** Relative Period = R */
+	public static final String COLUMNTYPE_RelativePeriod = "R";
+	/** Calculation = C */
+	public static final String COLUMNTYPE_Calculation = "C";
+	/** Segment Value = S */
+	public static final String COLUMNTYPE_SegmentValue = "S";
+	/** Set Column Type.
+		@param ColumnType Column Type	  */
+	public void setColumnType (String ColumnType)
+	{
+
+		set_Value (COLUMNNAME_ColumnType, ColumnType);
+	}
+
+	/** Get Column Type.
+		@return Column Type	  */
+	public String getColumnType () 
+	{
+		return (String)get_Value(COLUMNNAME_ColumnType);
 	}
 
 	/** CurrencyType AD_Reference_ID=238 */
@@ -534,9 +534,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return (String)get_Value(COLUMNNAME_FormatPattern);
 	}
 
-	public I_GL_Budget getGL_Budget() throws RuntimeException
+	public org.compiere.model.I_GL_Budget getGL_Budget() throws RuntimeException
     {
-		return (I_GL_Budget)MTable.get(getCtx(), I_GL_Budget.Table_Name)
+		return (org.compiere.model.I_GL_Budget)MTable.get(getCtx(), org.compiere.model.I_GL_Budget.Table_Name)
 			.getPO(getGL_Budget_ID(), get_TrxName());	}
 
 	/** Set Budget.
@@ -898,9 +898,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return false;
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -951,9 +951,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_PA_ReportColumn getOper_1() throws RuntimeException
+	public org.compiere.model.I_PA_ReportColumn getOper_1() throws RuntimeException
     {
-		return (I_PA_ReportColumn)MTable.get(getCtx(), I_PA_ReportColumn.Table_Name)
+		return (org.compiere.model.I_PA_ReportColumn)MTable.get(getCtx(), org.compiere.model.I_PA_ReportColumn.Table_Name)
 			.getPO(getOper_1_ID(), get_TrxName());	}
 
 	/** Set Operand 1.
@@ -979,9 +979,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return ii.intValue();
 	}
 
-	public I_PA_ReportColumn getOper_2() throws RuntimeException
+	public org.compiere.model.I_PA_ReportColumn getOper_2() throws RuntimeException
     {
-		return (I_PA_ReportColumn)MTable.get(getCtx(), I_PA_ReportColumn.Table_Name)
+		return (org.compiere.model.I_PA_ReportColumn)MTable.get(getCtx(), org.compiere.model.I_PA_ReportColumn.Table_Name)
 			.getPO(getOper_2_ID(), get_TrxName());	}
 
 	/** Set Operand 2.
@@ -1090,32 +1090,9 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 		return (String)get_Value(COLUMNNAME_PAPeriodType);
 	}
 
-	/** Set Report Column.
-		@param PA_ReportColumn_ID 
-		Column in Report
-	  */
-	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
-	{
-		if (PA_ReportColumn_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
-	}
-
-	/** Get Report Column.
-		@return Column in Report
-	  */
-	public int getPA_ReportColumn_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumn_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException
+	public org.compiere.model.I_PA_ReportColumnSet getPA_ReportColumnSet() throws RuntimeException
     {
-		return (I_PA_ReportColumnSet)MTable.get(getCtx(), I_PA_ReportColumnSet.Table_Name)
+		return (org.compiere.model.I_PA_ReportColumnSet)MTable.get(getCtx(), org.compiere.model.I_PA_ReportColumnSet.Table_Name)
 			.getPO(getPA_ReportColumnSet_ID(), get_TrxName());	}
 
 	/** Set Report Column Set.
@@ -1136,6 +1113,29 @@ public class X_PA_ReportColumn extends PO implements I_PA_ReportColumn, I_Persis
 	public int getPA_ReportColumnSet_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumnSet_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Report Column.
+		@param PA_ReportColumn_ID 
+		Column in Report
+	  */
+	public void setPA_ReportColumn_ID (int PA_ReportColumn_ID)
+	{
+		if (PA_ReportColumn_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_ReportColumn_ID, Integer.valueOf(PA_ReportColumn_ID));
+	}
+
+	/** Get Report Column.
+		@return Column in Report
+	  */
+	public int getPA_ReportColumn_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_ReportColumn_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -33,7 +33,7 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_PInstance_Para (Properties ctx, int AD_PInstance_Para_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
       return sb.toString();
     }
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-		return (I_AD_PInstance)MTable.get(getCtx(), I_AD_PInstance.Table_Name)
+		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
 			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
 	/** Set Process Instance.
@@ -132,28 +132,6 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	{
 		return (String)get_Value(COLUMNNAME_Info_To);
 	}
-
-	/** Set Parameter Name.
-		@param ParameterName Parameter Name	  */
-	public void setParameterName (String ParameterName)
-	{
-		set_Value (COLUMNNAME_ParameterName, ParameterName);
-	}
-
-	/** Get Parameter Name.
-		@return Parameter Name	  */
-	public String getParameterName () 
-	{
-		return (String)get_Value(COLUMNNAME_ParameterName);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getParameterName());
-    }
 
 	/** Set Process Date.
 		@param P_Date 
@@ -262,6 +240,28 @@ public class X_AD_PInstance_Para extends PO implements I_AD_PInstance_Para, I_Pe
 	{
 		return (String)get_Value(COLUMNNAME_P_String_To);
 	}
+
+	/** Set Parameter Name.
+		@param ParameterName Parameter Name	  */
+	public void setParameterName (String ParameterName)
+	{
+		set_Value (COLUMNNAME_ParameterName, ParameterName);
+	}
+
+	/** Get Parameter Name.
+		@return Parameter Name	  */
+	public String getParameterName () 
+	{
+		return (String)get_Value(COLUMNNAME_ParameterName);
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getParameterName());
+    }
 
 	/** Set Sequence.
 		@param SeqNo 

@@ -32,7 +32,7 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_M_InOutConfirm (Properties ctx, int M_InOutConfirm_ID, String trxName)
@@ -104,9 +104,9 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return bd;
 	}
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -130,23 +130,6 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Confirmation No.
-		@param ConfirmationNo 
-		Confirmation Number
-	  */
-	public void setConfirmationNo (String ConfirmationNo)
-	{
-		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
-	}
-
-	/** Get Confirmation No.
-		@return Confirmation Number
-	  */
-	public String getConfirmationNo () 
-	{
-		return (String)get_Value(COLUMNNAME_ConfirmationNo);
 	}
 
 	/** ConfirmType AD_Reference_ID=320 */
@@ -177,6 +160,23 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 	public String getConfirmType () 
 	{
 		return (String)get_Value(COLUMNNAME_ConfirmType);
+	}
+
+	/** Set Confirmation No.
+		@param ConfirmationNo 
+		Confirmation Number
+	  */
+	public void setConfirmationNo (String ConfirmationNo)
+	{
+		set_Value (COLUMNNAME_ConfirmationNo, ConfirmationNo);
+	}
+
+	/** Get Confirmation No.
+		@return Confirmation Number
+	  */
+	public String getConfirmationNo () 
+	{
+		return (String)get_Value(COLUMNNAME_ConfirmationNo);
 	}
 
 	/** Set Create Package.
@@ -422,9 +422,9 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_InOut getM_InOut() throws RuntimeException
+	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException
     {
-		return (I_M_InOut)MTable.get(getCtx(), I_M_InOut.Table_Name)
+		return (org.compiere.model.I_M_InOut)MTable.get(getCtx(), org.compiere.model.I_M_InOut.Table_Name)
 			.getPO(getM_InOut_ID(), get_TrxName());	}
 
 	/** Set Shipment/Receipt.
@@ -450,9 +450,9 @@ public class X_M_InOutConfirm extends PO implements I_M_InOutConfirm, I_Persiste
 		return ii.intValue();
 	}
 
-	public I_M_Inventory getM_Inventory() throws RuntimeException
+	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException
     {
-		return (I_M_Inventory)MTable.get(getCtx(), I_M_Inventory.Table_Name)
+		return (org.compiere.model.I_M_Inventory)MTable.get(getCtx(), org.compiere.model.I_M_Inventory.Table_Name)
 			.getPO(getM_Inventory_ID(), get_TrxName());	}
 
 	/** Set Phys.Inventory.

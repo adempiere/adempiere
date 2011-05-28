@@ -41,6 +41,40 @@ public interface I_I_Asset
 
     /** Load Meta Data */
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
+    /** Column name AD_User_ID */
+    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+
+	/** Set User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID);
+
+	/** Get User/Contact.
+	  * User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID();
+
     /** Column name A_Accumdepreciation_Acct */
     public static final String COLUMNNAME_A_Accumdepreciation_Acct = "A_Accumdepreciation_Acct";
 
@@ -94,7 +128,7 @@ public interface I_I_Asset
 	  */
 	public int getA_Asset_Group_ID();
 
-	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
+	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -136,7 +170,7 @@ public interface I_I_Asset
 	/** Get Asset Spread Type	  */
 	public int getA_Asset_Spread_Type();
 
-	public I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException;
+	public org.compiere.model.I_A_Asset_Spread getA_Asset_Spread_T() throws RuntimeException;
 
     /** Column name A_Base_Amount */
     public static final String COLUMNNAME_A_Base_Amount = "A_Base_Amount";
@@ -174,14 +208,6 @@ public interface I_I_Asset
 	/** Get Current Period	  */
 	public int getA_Current_Period();
 
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
     /** Column name A_Depreciation_Acct */
     public static final String COLUMNNAME_A_Depreciation_Acct = "A_Depreciation_Acct";
 
@@ -202,7 +228,7 @@ public interface I_I_Asset
 	/** Get Depreciation Calculation Type	  */
 	public int getA_Depreciation_Calc_Type();
 
-	public I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException;
+	public org.compiere.model.I_A_Depreciation_Method getA_Depreciation_Calc_T() throws RuntimeException;
 
     /** Column name A_Depreciation_Manual_Amount */
     public static final String COLUMNNAME_A_Depreciation_Manual_Amount = "A_Depreciation_Manual_Amount";
@@ -231,7 +257,7 @@ public interface I_I_Asset
 	/** Get Depreciation Table Header	  */
 	public int getA_Depreciation_Table_Header_ID();
 
-	public I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
+	public org.compiere.model.I_A_Depreciation_Table_Header getA_Depreciation_Table_Header() throws RuntimeException;
 
     /** Column name A_Depreciation_Variable_Perc */
     public static final String COLUMNNAME_A_Depreciation_Variable_Perc = "A_Depreciation_Variable_Perc";
@@ -263,32 +289,6 @@ public interface I_I_Asset
 	public int getA_Disposal_Revenue();
 
 	public I_C_ValidCombination getA_Disposal_Reve() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
-
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID);
-
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID();
 
     /** Column name A_Life_Period */
     public static final String COLUMNNAME_A_Life_Period = "A_Life_Period";
@@ -509,7 +509,7 @@ public interface I_I_Asset
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -524,7 +524,7 @@ public interface I_I_Asset
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_BPartner_Location_ID */
     public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
@@ -539,7 +539,7 @@ public interface I_I_Asset
 	  */
 	public int getC_BPartner_Location_ID();
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
@@ -554,7 +554,7 @@ public interface I_I_Asset
 	  */
 	public int getC_Location_ID();
 
-	public I_C_Location getC_Location() throws RuntimeException;
+	public org.compiere.model.I_C_Location getC_Location() throws RuntimeException;
 
     /** Column name ConventionType */
     public static final String COLUMNNAME_ConventionType = "ConventionType";
@@ -565,7 +565,7 @@ public interface I_I_Asset
 	/** Get ConventionType	  */
 	public int getConventionType();
 
-	public I_A_Depreciation_Convention getConventionT() throws RuntimeException;
+	public org.compiere.model.I_A_Depreciation_Convention getConventionT() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -592,7 +592,7 @@ public interface I_I_Asset
 	/** Get DepreciationType	  */
 	public int getDepreciationType();
 
-	public I_A_Depreciation getDepreciationT() throws RuntimeException;
+	public org.compiere.model.I_A_Depreciation getDepreciationT() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -813,7 +813,7 @@ public interface I_I_Asset
 	  */
 	public int getM_Locator_ID();
 
-	public I_M_Locator getM_Locator() throws RuntimeException;
+	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -828,7 +828,7 @@ public interface I_I_Asset
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

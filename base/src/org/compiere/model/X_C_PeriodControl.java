@@ -30,7 +30,7 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_PeriodControl (Properties ctx, int C_PeriodControl_ID, String trxName)
@@ -102,9 +102,9 @@ public class X_C_PeriodControl extends PO implements I_C_PeriodControl, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getC_PeriodControl_ID()));
     }
 
-	public I_C_Period getC_Period() throws RuntimeException
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException
     {
-		return (I_C_Period)MTable.get(getCtx(), I_C_Period.Table_Name)
+		return (org.compiere.model.I_C_Period)MTable.get(getCtx(), org.compiere.model.I_C_Period.Table_Name)
 			.getPO(getC_Period_ID(), get_TrxName());	}
 
 	/** Set Period.

@@ -30,7 +30,7 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_R_Status (Properties ctx, int R_Status_ID, String trxName)
@@ -252,9 +252,9 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	public I_R_Status getNext_Status() throws RuntimeException
+	public org.compiere.model.I_R_Status getNext_Status() throws RuntimeException
     {
-		return (I_R_Status)MTable.get(getCtx(), I_R_Status.Table_Name)
+		return (org.compiere.model.I_R_Status)MTable.get(getCtx(), org.compiere.model.I_R_Status.Table_Name)
 			.getPO(getNext_Status_ID(), get_TrxName());	}
 
 	/** Set Next Status.
@@ -280,9 +280,9 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_StatusCategory getR_StatusCategory() throws RuntimeException
+	public org.compiere.model.I_R_StatusCategory getR_StatusCategory() throws RuntimeException
     {
-		return (I_R_StatusCategory)MTable.get(getCtx(), I_R_StatusCategory.Table_Name)
+		return (org.compiere.model.I_R_StatusCategory)MTable.get(getCtx(), org.compiere.model.I_R_StatusCategory.Table_Name)
 			.getPO(getR_StatusCategory_ID(), get_TrxName());	}
 
 	/** Set Status Category.
@@ -379,9 +379,9 @@ public class X_R_Status extends PO implements I_R_Status, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_R_Status getUpdate_Status() throws RuntimeException
+	public org.compiere.model.I_R_Status getUpdate_Status() throws RuntimeException
     {
-		return (I_R_Status)MTable.get(getCtx(), I_R_Status.Table_Name)
+		return (org.compiere.model.I_R_Status)MTable.get(getCtx(), org.compiere.model.I_R_Status.Table_Name)
 			.getPO(getUpdate_Status_ID(), get_TrxName());	}
 
 	/** Set Update Status.

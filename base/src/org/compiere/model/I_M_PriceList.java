@@ -75,7 +75,7 @@ public interface I_M_PriceList
 	  */
 	public int getBasePriceList_ID();
 
-	public I_M_PriceList getBasePriceList() throws RuntimeException;
+	public org.compiere.model.I_M_PriceList getBasePriceList() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -90,7 +90,7 @@ public interface I_M_PriceList
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -173,15 +173,6 @@ public interface I_M_PriceList
 	  */
 	public boolean isMandatory();
 
-    /** Column name isPresentForProduct */
-    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
-
-	/** Set isPresentForProduct	  */
-	public void setisPresentForProduct (boolean isPresentForProduct);
-
-	/** Get isPresentForProduct	  */
-	public boolean isPresentForProduct();
-
     /** Column name IsSOPriceList */
     public static final String COLUMNNAME_IsSOPriceList = "IsSOPriceList";
 
@@ -260,7 +251,7 @@ public interface I_M_PriceList
 	  */
 	public int getRoundingCharge();
 
-	public I_C_Charge getRoundingCha() throws RuntimeException;
+	public org.compiere.model.I_C_Charge getRoundingCha() throws RuntimeException;
 
     /** Column name RoundingRule */
     public static final String COLUMNNAME_RoundingRule = "RoundingRule";
@@ -290,4 +281,13 @@ public interface I_M_PriceList
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name isPresentForProduct */
+    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
+
+	/** Set isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct);
+
+	/** Get isPresentForProduct	  */
+	public boolean isPresentForProduct();
 }

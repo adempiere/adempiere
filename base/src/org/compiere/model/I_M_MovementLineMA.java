@@ -119,7 +119,7 @@ public interface I_M_MovementLineMA
 	  */
 	public int getM_MovementLine_ID();
 
-	public I_M_MovementLine getM_MovementLine() throws RuntimeException;
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";

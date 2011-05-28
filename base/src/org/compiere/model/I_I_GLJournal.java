@@ -41,47 +41,6 @@ public interface I_I_GLJournal
 
     /** Load Meta Data */
 
-    /** Column name Account_ID */
-    public static final String COLUMNNAME_Account_ID = "Account_ID";
-
-	/** Set Account.
-	  * Account used
-	  */
-	public void setAccount_ID (int Account_ID);
-
-	/** Get Account.
-	  * Account used
-	  */
-	public int getAccount_ID();
-
-	public I_C_ElementValue getAccount() throws RuntimeException;
-
-    /** Column name AccountValue */
-    public static final String COLUMNNAME_AccountValue = "AccountValue";
-
-	/** Set Account Key.
-	  * Key of Account Element
-	  */
-	public void setAccountValue (String AccountValue);
-
-	/** Get Account Key.
-	  * Key of Account Element
-	  */
-	public String getAccountValue();
-
-    /** Column name AcctSchemaName */
-    public static final String COLUMNNAME_AcctSchemaName = "AcctSchemaName";
-
-	/** Set Account Schema Name.
-	  * Name of the Accounting Schema
-	  */
-	public void setAcctSchemaName (String AcctSchemaName);
-
-	/** Get Account Schema Name.
-	  * Name of the Accounting Schema
-	  */
-	public String getAcctSchemaName();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -103,6 +62,19 @@ public interface I_I_GLJournal
 	  */
 	public int getAD_OrgDoc_ID();
 
+    /** Column name AD_OrgTrx_ID */
+    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+
+	/** Set Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+
+	/** Get Trx Organization.
+	  * Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -116,18 +88,46 @@ public interface I_I_GLJournal
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_OrgTrx_ID */
-    public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
+    /** Column name AccountValue */
+    public static final String COLUMNNAME_AccountValue = "AccountValue";
 
-	/** Set Trx Organization.
-	  * Performing or initiating organization
+	/** Set Account Key.
+	  * Key of Account Element
 	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID);
+	public void setAccountValue (String AccountValue);
 
-	/** Get Trx Organization.
-	  * Performing or initiating organization
+	/** Get Account Key.
+	  * Key of Account Element
 	  */
-	public int getAD_OrgTrx_ID();
+	public String getAccountValue();
+
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
+
+	/** Set Account.
+	  * Account used
+	  */
+	public void setAccount_ID (int Account_ID);
+
+	/** Get Account.
+	  * Account used
+	  */
+	public int getAccount_ID();
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
+
+    /** Column name AcctSchemaName */
+    public static final String COLUMNNAME_AcctSchemaName = "AcctSchemaName";
+
+	/** Set Account Schema Name.
+	  * Name of the Accounting Schema
+	  */
+	public void setAcctSchemaName (String AcctSchemaName);
+
+	/** Get Account Schema Name.
+	  * Name of the Accounting Schema
+	  */
+	public String getAcctSchemaName();
 
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
@@ -181,6 +181,19 @@ public interface I_I_GLJournal
 	  */
 	public BigDecimal getAmtSourceDr();
 
+    /** Column name BPartnerValue */
+    public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
+
+	/** Set Business Partner Key.
+	  * Key of the Business Partner
+	  */
+	public void setBPartnerValue (String BPartnerValue);
+
+	/** Get Business Partner Key.
+	  * Key of the Business Partner
+	  */
+	public String getBPartnerValue();
+
     /** Column name BatchDescription */
     public static final String COLUMNNAME_BatchDescription = "BatchDescription";
 
@@ -207,19 +220,6 @@ public interface I_I_GLJournal
 	  */
 	public String getBatchDocumentNo();
 
-    /** Column name BPartnerValue */
-    public static final String COLUMNNAME_BPartnerValue = "BPartnerValue";
-
-	/** Set Business Partner Key.
-	  * Key of the Business Partner
-	  */
-	public void setBPartnerValue (String BPartnerValue);
-
-	/** Get Business Partner Key.
-	  * Key of the Business Partner
-	  */
-	public String getBPartnerValue();
-
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
 
@@ -233,7 +233,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_AcctSchema_ID();
 
-	public I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -248,20 +248,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_Activity_ID();
 
-	public I_C_Activity getC_Activity() throws RuntimeException;
-
-    /** Column name CategoryName */
-    public static final String COLUMNNAME_CategoryName = "CategoryName";
-
-	/** Set Category Name.
-	  * Name of the Category
-	  */
-	public void setCategoryName (String CategoryName);
-
-	/** Get Category Name.
-	  * Name of the Category
-	  */
-	public String getCategoryName();
+	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -276,7 +263,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -291,7 +278,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_Campaign_ID();
 
-	public I_C_Campaign getC_Campaign() throws RuntimeException;
+	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
@@ -306,7 +293,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException;
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -321,7 +308,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -336,20 +323,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_DocType_ID();
 
-	public I_C_DocType getC_DocType() throws RuntimeException;
-
-    /** Column name ClientValue */
-    public static final String COLUMNNAME_ClientValue = "ClientValue";
-
-	/** Set Client Key.
-	  * Key of the Client
-	  */
-	public void setClientValue (String ClientValue);
-
-	/** Get Client Key.
-	  * Key of the Client
-	  */
-	public String getClientValue();
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name C_LocFrom_ID */
     public static final String COLUMNNAME_C_LocFrom_ID = "C_LocFrom_ID";
@@ -364,7 +338,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_LocFrom_ID();
 
-	public I_C_Location getC_LocFrom() throws RuntimeException;
+	public org.compiere.model.I_C_Location getC_LocFrom() throws RuntimeException;
 
     /** Column name C_LocTo_ID */
     public static final String COLUMNNAME_C_LocTo_ID = "C_LocTo_ID";
@@ -379,20 +353,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_LocTo_ID();
 
-	public I_C_Location getC_LocTo() throws RuntimeException;
-
-    /** Column name ConversionTypeValue */
-    public static final String COLUMNNAME_ConversionTypeValue = "ConversionTypeValue";
-
-	/** Set Currency Type Key.
-	  * Key value for the Currency Conversion Rate Type
-	  */
-	public void setConversionTypeValue (String ConversionTypeValue);
-
-	/** Get Currency Type Key.
-	  * Key value for the Currency Conversion Rate Type
-	  */
-	public String getConversionTypeValue();
+	public org.compiere.model.I_C_Location getC_LocTo() throws RuntimeException;
 
     /** Column name C_Period_ID */
     public static final String COLUMNNAME_C_Period_ID = "C_Period_ID";
@@ -407,7 +368,7 @@ public interface I_I_GLJournal
 	  */
 	public int getC_Period_ID();
 
-	public I_C_Period getC_Period() throws RuntimeException;
+	public org.compiere.model.I_C_Period getC_Period() throws RuntimeException;
 
     /** Column name C_Project_ID */
     public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
@@ -422,7 +383,91 @@ public interface I_I_GLJournal
 	  */
 	public int getC_Project_ID();
 
-	public I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name C_ValidCombination_ID */
+    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
+
+	/** Set Combination.
+	  * Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
+
+	/** Get Combination.
+	  * Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID();
+
+	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
+
+    /** Column name CategoryName */
+    public static final String COLUMNNAME_CategoryName = "CategoryName";
+
+	/** Set Category Name.
+	  * Name of the Category
+	  */
+	public void setCategoryName (String CategoryName);
+
+	/** Get Category Name.
+	  * Name of the Category
+	  */
+	public String getCategoryName();
+
+    /** Column name ClientValue */
+    public static final String COLUMNNAME_ClientValue = "ClientValue";
+
+	/** Set Client Key.
+	  * Key of the Client
+	  */
+	public void setClientValue (String ClientValue);
+
+	/** Get Client Key.
+	  * Key of the Client
+	  */
+	public String getClientValue();
+
+    /** Column name ConversionTypeValue */
+    public static final String COLUMNNAME_ConversionTypeValue = "ConversionTypeValue";
+
+	/** Set Currency Type Key.
+	  * Key value for the Currency Conversion Rate Type
+	  */
+	public void setConversionTypeValue (String ConversionTypeValue);
+
+	/** Get Currency Type Key.
+	  * Key value for the Currency Conversion Rate Type
+	  */
+	public String getConversionTypeValue();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -440,36 +485,6 @@ public interface I_I_GLJournal
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
-
     /** Column name CurrencyRate */
     public static final String COLUMNNAME_CurrencyRate = "CurrencyRate";
 
@@ -482,21 +497,6 @@ public interface I_I_GLJournal
 	  * Currency Conversion Rate
 	  */
 	public BigDecimal getCurrencyRate();
-
-    /** Column name C_ValidCombination_ID */
-    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
-
-	/** Set Combination.
-	  * Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
-
-	/** Get Combination.
-	  * Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID();
-
-	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -550,7 +550,7 @@ public interface I_I_GLJournal
 	  */
 	public int getGL_Budget_ID();
 
-	public I_GL_Budget getGL_Budget() throws RuntimeException;
+	public org.compiere.model.I_GL_Budget getGL_Budget() throws RuntimeException;
 
     /** Column name GL_Category_ID */
     public static final String COLUMNNAME_GL_Category_ID = "GL_Category_ID";
@@ -565,7 +565,7 @@ public interface I_I_GLJournal
 	  */
 	public int getGL_Category_ID();
 
-	public I_GL_Category getGL_Category() throws RuntimeException;
+	public org.compiere.model.I_GL_Category getGL_Category() throws RuntimeException;
 
     /** Column name GL_JournalBatch_ID */
     public static final String COLUMNNAME_GL_JournalBatch_ID = "GL_JournalBatch_ID";
@@ -580,22 +580,7 @@ public interface I_I_GLJournal
 	  */
 	public int getGL_JournalBatch_ID();
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException;
-
-    /** Column name GL_Journal_ID */
-    public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
-
-	/** Set Journal.
-	  * General Ledger Journal
-	  */
-	public void setGL_Journal_ID (int GL_Journal_ID);
-
-	/** Get Journal.
-	  * General Ledger Journal
-	  */
-	public int getGL_Journal_ID();
-
-	public I_GL_Journal getGL_Journal() throws RuntimeException;
+	public org.compiere.model.I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException;
 
     /** Column name GL_JournalLine_ID */
     public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
@@ -610,7 +595,35 @@ public interface I_I_GLJournal
 	  */
 	public int getGL_JournalLine_ID();
 
-	public I_GL_JournalLine getGL_JournalLine() throws RuntimeException;
+	public org.compiere.model.I_GL_JournalLine getGL_JournalLine() throws RuntimeException;
+
+    /** Column name GL_Journal_ID */
+    public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
+
+	/** Set Journal.
+	  * General Ledger Journal
+	  */
+	public void setGL_Journal_ID (int GL_Journal_ID);
+
+	/** Get Journal.
+	  * General Ledger Journal
+	  */
+	public int getGL_Journal_ID();
+
+	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException;
+
+    /** Column name ISO_Code */
+    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
+
+	/** Set ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code);
+
+	/** Get ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code();
 
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
@@ -690,19 +703,6 @@ public interface I_I_GLJournal
 	  */
 	public boolean isCreateNewJournal();
 
-    /** Column name ISO_Code */
-    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
-
-	/** Set ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code);
-
-	/** Get ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code();
-
     /** Column name JournalDocumentNo */
     public static final String COLUMNNAME_JournalDocumentNo = "JournalDocumentNo";
 
@@ -742,7 +742,7 @@ public interface I_I_GLJournal
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name OrgTrxValue */
     public static final String COLUMNNAME_OrgTrxValue = "OrgTrxValue";
@@ -899,7 +899,7 @@ public interface I_I_GLJournal
 	  */
 	public int getUser1_ID();
 
-	public I_C_ElementValue getUser1() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException;
 
     /** Column name User2_ID */
     public static final String COLUMNNAME_User2_ID = "User2_ID";
@@ -914,5 +914,5 @@ public interface I_I_GLJournal
 	  */
 	public int getUser2_ID();
 
-	public I_C_ElementValue getUser2() throws RuntimeException;
+	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
 }

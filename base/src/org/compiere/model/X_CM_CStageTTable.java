@@ -30,7 +30,7 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_CM_CStageTTable (Properties ctx, int CM_CStageTTable_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
       super (ctx, CM_CStageTTable_ID, trxName);
       /** if (CM_CStageTTable_ID == 0)
         {
-			setCM_CStage_ID (0);
 			setCM_CStageTTable_ID (0);
+			setCM_CStage_ID (0);
 			setCM_TemplateTable_ID (0);
 			setName (null);
         } */
@@ -73,9 +73,32 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
       return sb.toString();
     }
 
-	public I_CM_CStage getCM_CStage() throws RuntimeException
+	/** Set Stage T.Table.
+		@param CM_CStageTTable_ID 
+		Container Stage Template Table
+	  */
+	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID)
+	{
+		if (CM_CStageTTable_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, Integer.valueOf(CM_CStageTTable_ID));
+	}
+
+	/** Get Stage T.Table.
+		@return Container Stage Template Table
+	  */
+	public int getCM_CStageTTable_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStageTTable_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_CM_CStage getCM_CStage() throws RuntimeException
     {
-		return (I_CM_CStage)MTable.get(getCtx(), I_CM_CStage.Table_Name)
+		return (org.compiere.model.I_CM_CStage)MTable.get(getCtx(), org.compiere.model.I_CM_CStage.Table_Name)
 			.getPO(getCM_CStage_ID(), get_TrxName());	}
 
 	/** Set Web Container Stage.
@@ -101,32 +124,9 @@ public class X_CM_CStageTTable extends PO implements I_CM_CStageTTable, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Stage T.Table.
-		@param CM_CStageTTable_ID 
-		Container Stage Template Table
-	  */
-	public void setCM_CStageTTable_ID (int CM_CStageTTable_ID)
-	{
-		if (CM_CStageTTable_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_CStageTTable_ID, Integer.valueOf(CM_CStageTTable_ID));
-	}
-
-	/** Get Stage T.Table.
-		@return Container Stage Template Table
-	  */
-	public int getCM_CStageTTable_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStageTTable_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException
+	public org.compiere.model.I_CM_TemplateTable getCM_TemplateTable() throws RuntimeException
     {
-		return (I_CM_TemplateTable)MTable.get(getCtx(), I_CM_TemplateTable.Table_Name)
+		return (org.compiere.model.I_CM_TemplateTable)MTable.get(getCtx(), org.compiere.model.I_CM_TemplateTable.Table_Name)
 			.getPO(getCM_TemplateTable_ID(), get_TrxName());	}
 
 	/** Set Template Table.

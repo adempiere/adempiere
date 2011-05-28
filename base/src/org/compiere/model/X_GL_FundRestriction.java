@@ -30,7 +30,7 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_GL_FundRestriction (Properties ctx, int GL_FundRestriction_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
       /** if (GL_FundRestriction_ID == 0)
         {
 			setC_ElementValue_ID (0);
-			setGL_Fund_ID (0);
 			setGL_FundRestriction_ID (0);
+			setGL_Fund_ID (0);
 			setName (null);
         } */
     }
@@ -73,9 +73,9 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
       return sb.toString();
     }
 
-	public I_C_ElementValue getC_ElementValue() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException
     {
-		return (I_C_ElementValue)MTable.get(getCtx(), I_C_ElementValue.Table_Name)
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
 			.getPO(getC_ElementValue_ID(), get_TrxName());	}
 
 	/** Set Account Element.
@@ -118,9 +118,32 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	public I_GL_Fund getGL_Fund() throws RuntimeException
+	/** Set Fund Restriction.
+		@param GL_FundRestriction_ID 
+		Restriction of Funds
+	  */
+	public void setGL_FundRestriction_ID (int GL_FundRestriction_ID)
+	{
+		if (GL_FundRestriction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, Integer.valueOf(GL_FundRestriction_ID));
+	}
+
+	/** Get Fund Restriction.
+		@return Restriction of Funds
+	  */
+	public int getGL_FundRestriction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_FundRestriction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_GL_Fund getGL_Fund() throws RuntimeException
     {
-		return (I_GL_Fund)MTable.get(getCtx(), I_GL_Fund.Table_Name)
+		return (org.compiere.model.I_GL_Fund)MTable.get(getCtx(), org.compiere.model.I_GL_Fund.Table_Name)
 			.getPO(getGL_Fund_ID(), get_TrxName());	}
 
 	/** Set GL Fund.
@@ -141,29 +164,6 @@ public class X_GL_FundRestriction extends PO implements I_GL_FundRestriction, I_
 	public int getGL_Fund_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Fund_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Fund Restriction.
-		@param GL_FundRestriction_ID 
-		Restriction of Funds
-	  */
-	public void setGL_FundRestriction_ID (int GL_FundRestriction_ID)
-	{
-		if (GL_FundRestriction_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_GL_FundRestriction_ID, Integer.valueOf(GL_FundRestriction_ID));
-	}
-
-	/** Get Fund Restriction.
-		@return Restriction of Funds
-	  */
-	public int getGL_FundRestriction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_FundRestriction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

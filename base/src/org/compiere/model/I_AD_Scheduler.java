@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Scheduler
  *  @author Adempiere (generated) 
- *  @version 3.6.0LTS+P20101124
+ *  @version Release 3.6.0LTS
  */
 public interface I_AD_Scheduler 
 {
@@ -75,7 +75,7 @@ public interface I_AD_Scheduler
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Scheduler_ID */
     public static final String COLUMNNAME_AD_Scheduler_ID = "AD_Scheduler_ID";
@@ -103,7 +103,7 @@ public interface I_AD_Scheduler
 	  */
 	public int getAD_Table_ID();
 
-	public I_AD_Table getAD_Table() throws RuntimeException;
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -312,7 +312,7 @@ public interface I_AD_Scheduler
 	  */
 	public int getSupervisor_ID();
 
-	public I_AD_User getSupervisor() throws RuntimeException;
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

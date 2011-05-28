@@ -31,7 +31,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_R_ContactInterest (Properties ctx, int R_ContactInterest_ID, String trxName)
@@ -73,9 +73,9 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
       return sb.toString();
     }
 
-	public I_AD_User getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
@@ -126,9 +126,9 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
 		return (Timestamp)get_Value(COLUMNNAME_OptOutDate);
 	}
 
-	public I_R_InterestArea getR_InterestArea() throws RuntimeException
+	public org.compiere.model.I_R_InterestArea getR_InterestArea() throws RuntimeException
     {
-		return (I_R_InterestArea)MTable.get(getCtx(), I_R_InterestArea.Table_Name)
+		return (org.compiere.model.I_R_InterestArea)MTable.get(getCtx(), org.compiere.model.I_R_InterestArea.Table_Name)
 			.getPO(getR_InterestArea_ID(), get_TrxName());	}
 
 	/** Set Interest Area.

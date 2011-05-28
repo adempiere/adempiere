@@ -30,7 +30,7 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Country (Properties ctx, int C_Country_ID, String trxName)
@@ -122,20 +122,6 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return false;
 	}
 
-	/** Set Capture Sequence.
-		@param CaptureSequence Capture Sequence	  */
-	public void setCaptureSequence (String CaptureSequence)
-	{
-		set_Value (COLUMNNAME_CaptureSequence, CaptureSequence);
-	}
-
-	/** Get Capture Sequence.
-		@return Capture Sequence	  */
-	public String getCaptureSequence () 
-	{
-		return (String)get_Value(COLUMNNAME_CaptureSequence);
-	}
-
 	/** Set Country.
 		@param C_Country_ID 
 		Country 
@@ -159,9 +145,9 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Currency getC_Currency() throws RuntimeException
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {
-		return (I_C_Currency)MTable.get(getCtx(), I_C_Currency.Table_Name)
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
 			.getPO(getC_Currency_ID(), get_TrxName());	}
 
 	/** Set Currency.
@@ -185,6 +171,20 @@ public class X_C_Country extends PO implements I_C_Country, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Capture Sequence.
+		@param CaptureSequence Capture Sequence	  */
+	public void setCaptureSequence (String CaptureSequence)
+	{
+		set_Value (COLUMNNAME_CaptureSequence, CaptureSequence);
+	}
+
+	/** Get Capture Sequence.
+		@return Capture Sequence	  */
+	public String getCaptureSequence () 
+	{
+		return (String)get_Value(COLUMNNAME_CaptureSequence);
 	}
 
 	/** Set ISO Country Code.

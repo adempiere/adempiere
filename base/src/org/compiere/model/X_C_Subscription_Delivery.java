@@ -30,7 +30,7 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Subscription_Delivery (Properties ctx, int C_Subscription_Delivery_ID, String trxName)
@@ -102,9 +102,9 @@ public class X_C_Subscription_Delivery extends PO implements I_C_Subscription_De
         return new KeyNamePair(get_ID(), String.valueOf(getC_Subscription_Delivery_ID()));
     }
 
-	public I_C_Subscription getC_Subscription() throws RuntimeException
+	public org.compiere.model.I_C_Subscription getC_Subscription() throws RuntimeException
     {
-		return (I_C_Subscription)MTable.get(getCtx(), I_C_Subscription.Table_Name)
+		return (org.compiere.model.I_C_Subscription)MTable.get(getCtx(), org.compiere.model.I_C_Subscription.Table_Name)
 			.getPO(getC_Subscription_ID(), get_TrxName());	}
 
 	/** Set Subscription.

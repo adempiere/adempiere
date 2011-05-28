@@ -62,21 +62,6 @@ public interface I_C_PaySelectionCheck
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_BankAccount_ID */
     public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
 
@@ -90,22 +75,22 @@ public interface I_C_PaySelectionCheck
 	  */
 	public int getC_BP_BankAccount_ID();
 
-	public I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
 
-    /** Column name C_Payment_ID */
-    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
-	/** Set Payment.
-	  * Payment identifier
+	/** Set Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public void setC_Payment_ID (int C_Payment_ID);
+	public void setC_BPartner_ID (int C_BPartner_ID);
 
-	/** Get Payment.
-	  * Payment identifier
+	/** Get Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public int getC_Payment_ID();
+	public int getC_BPartner_ID();
 
-	public I_C_Payment getC_Payment() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_PaySelectionCheck_ID */
     public static final String COLUMNNAME_C_PaySelectionCheck_ID = "C_PaySelectionCheck_ID";
@@ -133,7 +118,22 @@ public interface I_C_PaySelectionCheck
 	  */
 	public int getC_PaySelection_ID();
 
-	public I_C_PaySelection getC_PaySelection() throws RuntimeException;
+	public org.compiere.model.I_C_PaySelection getC_PaySelection() throws RuntimeException;
+
+    /** Column name C_Payment_ID */
+    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
+
+	/** Set Payment.
+	  * Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID);
+
+	/** Get Payment.
+	  * Payment identifier
+	  */
+	public int getC_Payment_ID();
+
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

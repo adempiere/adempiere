@@ -53,7 +53,7 @@ public interface I_T_Report
 	  */
 	public int getAD_PInstance_ID();
 
-	public I_AD_PInstance getAD_PInstance() throws RuntimeException;
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
     /** Column name Col_0 */
     public static final String COLUMNNAME_Col_0 = "Col_0";
@@ -297,7 +297,7 @@ public interface I_T_Report
 	/** Get Report Line	  */
 	public int getPA_ReportLine_ID();
 
-	public I_PA_ReportLine getPA_ReportLine() throws RuntimeException;
+	public org.compiere.model.I_PA_ReportLine getPA_ReportLine() throws RuntimeException;
 
     /** Column name Record_ID */
     public static final String COLUMNNAME_Record_ID = "Record_ID";

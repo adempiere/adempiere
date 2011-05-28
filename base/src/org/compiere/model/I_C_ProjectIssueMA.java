@@ -75,7 +75,7 @@ public interface I_C_ProjectIssueMA
 	  */
 	public int getC_ProjectIssue_ID();
 
-	public I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
+	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

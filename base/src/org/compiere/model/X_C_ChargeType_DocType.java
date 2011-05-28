@@ -29,7 +29,7 @@ public class X_C_ChargeType_DocType extends PO implements I_C_ChargeType_DocType
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_ChargeType_DocType (Properties ctx, int C_ChargeType_DocType_ID, String trxName)
@@ -74,9 +74,9 @@ public class X_C_ChargeType_DocType extends PO implements I_C_ChargeType_DocType
       return sb.toString();
     }
 
-	public I_C_ChargeType getC_ChargeType() throws RuntimeException
+	public org.compiere.model.I_C_ChargeType getC_ChargeType() throws RuntimeException
     {
-		return (I_C_ChargeType)MTable.get(getCtx(), I_C_ChargeType.Table_Name)
+		return (org.compiere.model.I_C_ChargeType)MTable.get(getCtx(), org.compiere.model.I_C_ChargeType.Table_Name)
 			.getPO(getC_ChargeType_ID(), get_TrxName());	}
 
 	/** Set Charge Type.
@@ -99,9 +99,9 @@ public class X_C_ChargeType_DocType extends PO implements I_C_ChargeType_DocType
 		return ii.intValue();
 	}
 
-	public I_C_DocType getC_DocType() throws RuntimeException
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
-		return (I_C_DocType)MTable.get(getCtx(), I_C_DocType.Table_Name)
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
 			.getPO(getC_DocType_ID(), get_TrxName());	}
 
 	/** Set Document Type.

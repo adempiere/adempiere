@@ -41,45 +41,6 @@ public interface I_GL_JournalLine
 
     /** Load Meta Data */
 
-    /** Column name A_Asset_Group_ID */
-    public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
-
-	/** Set Asset Group.
-	  * Group of Assets
-	  */
-	public void setA_Asset_Group_ID (int A_Asset_Group_ID);
-
-	/** Get Asset Group.
-	  * Group of Assets
-	  */
-	public int getA_Asset_Group_ID();
-
-	public I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
-
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Asset.
-	  * Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Asset.
-	  * Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public I_A_Asset getA_Asset() throws RuntimeException;
-
-    /** Column name A_CreateAsset */
-    public static final String COLUMNNAME_A_CreateAsset = "A_CreateAsset";
-
-	/** Set Asset Related?	  */
-	public void setA_CreateAsset (boolean A_CreateAsset);
-
-	/** Get Asset Related?	  */
-	public boolean isA_CreateAsset();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -100,6 +61,54 @@ public interface I_GL_JournalLine
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Asset_Group_ID */
+    public static final String COLUMNNAME_A_Asset_Group_ID = "A_Asset_Group_ID";
+
+	/** Set Asset Group.
+	  * Group of Assets
+	  */
+	public void setA_Asset_Group_ID (int A_Asset_Group_ID);
+
+	/** Get Asset Group.
+	  * Group of Assets
+	  */
+	public int getA_Asset_Group_ID();
+
+	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException;
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Asset.
+	  * Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Asset.
+	  * Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
+
+    /** Column name A_CreateAsset */
+    public static final String COLUMNNAME_A_CreateAsset = "A_CreateAsset";
+
+	/** Set Asset Related?	  */
+	public void setA_CreateAsset (boolean A_CreateAsset);
+
+	/** Get Asset Related?	  */
+	public boolean isA_CreateAsset();
+
+    /** Column name A_Processed */
+    public static final String COLUMNNAME_A_Processed = "A_Processed";
+
+	/** Set Processed	  */
+	public void setA_Processed (boolean A_Processed);
+
+	/** Get Processed	  */
+	public boolean isA_Processed();
 
     /** Column name AmtAcctCr */
     public static final String COLUMNNAME_AmtAcctCr = "AmtAcctCr";
@@ -153,15 +162,6 @@ public interface I_GL_JournalLine
 	  */
 	public BigDecimal getAmtSourceDr();
 
-    /** Column name A_Processed */
-    public static final String COLUMNNAME_A_Processed = "A_Processed";
-
-	/** Set Processed	  */
-	public void setA_Processed (boolean A_Processed);
-
-	/** Get Processed	  */
-	public boolean isA_Processed();
-
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -175,7 +175,7 @@ public interface I_GL_JournalLine
 	  */
 	public int getC_ConversionType_ID();
 
-	public I_C_ConversionType getC_ConversionType() throws RuntimeException;
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -190,7 +190,37 @@ public interface I_GL_JournalLine
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+
+    /** Column name C_ValidCombination_ID */
+    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
+
+	/** Set Combination.
+	  * Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
+
+	/** Get Combination.
+	  * Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID();
+
+	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -208,21 +238,6 @@ public interface I_GL_JournalLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
-
     /** Column name CurrencyRate */
     public static final String COLUMNNAME_CurrencyRate = "CurrencyRate";
 
@@ -235,21 +250,6 @@ public interface I_GL_JournalLine
 	  * Currency Conversion Rate
 	  */
 	public BigDecimal getCurrencyRate();
-
-    /** Column name C_ValidCombination_ID */
-    public static final String COLUMNNAME_C_ValidCombination_ID = "C_ValidCombination_ID";
-
-	/** Set Combination.
-	  * Valid Account Combination
-	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID);
-
-	/** Get Combination.
-	  * Valid Account Combination
-	  */
-	public int getC_ValidCombination_ID();
-
-	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException;
 
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
@@ -277,6 +277,19 @@ public interface I_GL_JournalLine
 	  */
 	public String getDescription();
 
+    /** Column name GL_JournalLine_ID */
+    public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
+
+	/** Set Journal Line.
+	  * General Ledger Journal Line
+	  */
+	public void setGL_JournalLine_ID (int GL_JournalLine_ID);
+
+	/** Get Journal Line.
+	  * General Ledger Journal Line
+	  */
+	public int getGL_JournalLine_ID();
+
     /** Column name GL_Journal_ID */
     public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
 
@@ -290,20 +303,7 @@ public interface I_GL_JournalLine
 	  */
 	public int getGL_Journal_ID();
 
-	public I_GL_Journal getGL_Journal() throws RuntimeException;
-
-    /** Column name GL_JournalLine_ID */
-    public static final String COLUMNNAME_GL_JournalLine_ID = "GL_JournalLine_ID";
-
-	/** Set Journal Line.
-	  * General Ledger Journal Line
-	  */
-	public void setGL_JournalLine_ID (int GL_JournalLine_ID);
-
-	/** Get Journal Line.
-	  * General Ledger Journal Line
-	  */
-	public int getGL_JournalLine_ID();
+	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

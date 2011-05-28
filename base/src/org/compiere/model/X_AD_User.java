@@ -31,7 +31,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -141,9 +141,9 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_Birthday);
 	}
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
-		return (I_C_BPartner)MTable.get(getCtx(), I_C_BPartner.Table_Name)
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
 			.getPO(getC_BPartner_ID(), get_TrxName());	}
 
 	/** Set Business Partner .
@@ -169,9 +169,9 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException
     {
-		return (I_C_BPartner_Location)MTable.get(getCtx(), I_C_BPartner_Location.Table_Name)
+		return (org.compiere.model.I_C_BPartner_Location)MTable.get(getCtx(), org.compiere.model.I_C_BPartner_Location.Table_Name)
 			.getPO(getC_BPartner_Location_ID(), get_TrxName());	}
 
 	/** Set Partner Location.
@@ -197,9 +197,9 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Greeting getC_Greeting() throws RuntimeException
+	public org.compiere.model.I_C_Greeting getC_Greeting() throws RuntimeException
     {
-		return (I_C_Greeting)MTable.get(getCtx(), I_C_Greeting.Table_Name)
+		return (org.compiere.model.I_C_Greeting)MTable.get(getCtx(), org.compiere.model.I_C_Greeting.Table_Name)
 			.getPO(getC_Greeting_ID(), get_TrxName());	}
 
 	/** Set Greeting.
@@ -225,9 +225,9 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_C_Job getC_Job() throws RuntimeException
+	public org.compiere.model.I_C_Job getC_Job() throws RuntimeException
     {
-		return (I_C_Job)MTable.get(getCtx(), I_C_Job.Table_Name)
+		return (org.compiere.model.I_C_Job)MTable.get(getCtx(), org.compiere.model.I_C_Job.Table_Name)
 			.getPO(getC_Job_ID(), get_TrxName());	}
 
 	/** Set Position.
@@ -465,6 +465,23 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
+	/** Set LDAP User Name.
+		@param LDAPUser 
+		User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser)
+	{
+		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
+	}
+
+	/** Get LDAP User Name.
+		@return User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser () 
+	{
+		return (String)get_Value(COLUMNNAME_LDAPUser);
+	}
+
 	/** Set Last Contact.
 		@param LastContact 
 		Date this individual was last contacted
@@ -497,23 +514,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public String getLastResult () 
 	{
 		return (String)get_Value(COLUMNNAME_LastResult);
-	}
-
-	/** Set LDAP User Name.
-		@param LDAPUser 
-		User Name used for authorization via LDAP (directory) services
-	  */
-	public void setLDAPUser (String LDAPUser)
-	{
-		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
-	}
-
-	/** Get LDAP User Name.
-		@return User Name used for authorization via LDAP (directory) services
-	  */
-	public String getLDAPUser () 
-	{
-		return (String)get_Value(COLUMNNAME_LDAPUser);
 	}
 
 	/** Set Name.
@@ -641,9 +641,9 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
-	public I_AD_User getSupervisor() throws RuntimeException
+	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException
     {
-		return (I_AD_User)MTable.get(getCtx(), I_AD_User.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getSupervisor_ID(), get_TrxName());	}
 
 	/** Set Supervisor.

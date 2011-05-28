@@ -49,19 +49,6 @@ public interface I_AD_OrgType
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgType_ID */
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
@@ -74,6 +61,19 @@ public interface I_AD_OrgType
 	  * Organization Type
 	  */
 	public int getAD_OrgType_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_PrintColor_ID */
     public static final String COLUMNNAME_AD_PrintColor_ID = "AD_PrintColor_ID";
@@ -88,7 +88,7 @@ public interface I_AD_OrgType
 	  */
 	public int getAD_PrintColor_ID();
 
-	public I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
+	public org.compiere.model.I_AD_PrintColor getAD_PrintColor() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

@@ -75,7 +75,7 @@ public interface I_PA_ReportCube
 	  */
 	public int getC_Calendar_ID();
 
-	public I_C_Calendar getC_Calendar() throws RuntimeException;
+	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

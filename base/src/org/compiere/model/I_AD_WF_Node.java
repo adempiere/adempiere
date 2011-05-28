@@ -41,19 +41,6 @@ public interface I_AD_WF_Node
 
     /** Load Meta Data */
 
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -75,7 +62,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Column_ID();
 
-	public I_AD_Column getAD_Column() throws RuntimeException;
+	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
 
     /** Column name AD_Form_ID */
     public static final String COLUMNNAME_AD_Form_ID = "AD_Form_ID";
@@ -90,7 +77,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Form_ID();
 
-	public I_AD_Form getAD_Form() throws RuntimeException;
+	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";
@@ -105,7 +92,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Image_ID();
 
-	public I_AD_Image getAD_Image() throws RuntimeException;
+	public org.compiere.model.I_AD_Image getAD_Image() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -133,7 +120,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Process_ID();
 
-	public I_AD_Process getAD_Process() throws RuntimeException;
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Task_ID */
     public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
@@ -148,7 +135,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Task_ID();
 
-	public I_AD_Task getAD_Task() throws RuntimeException;
+	public org.compiere.model.I_AD_Task getAD_Task() throws RuntimeException;
 
     /** Column name AD_WF_Block_ID */
     public static final String COLUMNNAME_AD_WF_Block_ID = "AD_WF_Block_ID";
@@ -163,7 +150,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_WF_Block_ID();
 
-	public I_AD_WF_Block getAD_WF_Block() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Block getAD_WF_Block() throws RuntimeException;
 
     /** Column name AD_WF_Node_ID */
     public static final String COLUMNNAME_AD_WF_Node_ID = "AD_WF_Node_ID";
@@ -191,7 +178,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_WF_Responsible_ID();
 
-	public I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
+	public org.compiere.model.I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
     /** Column name AD_Window_ID */
     public static final String COLUMNNAME_AD_Window_ID = "AD_Window_ID";
@@ -206,7 +193,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Window_ID();
 
-	public I_AD_Window getAD_Window() throws RuntimeException;
+	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -221,7 +208,20 @@ public interface I_AD_WF_Node
 	  */
 	public int getAD_Workflow_ID();
 
-	public I_AD_Workflow getAD_Workflow() throws RuntimeException;
+	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";
@@ -262,7 +262,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getC_BPartner_ID();
 
-	public I_C_BPartner getC_BPartner() throws RuntimeException;
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name Cost */
     public static final String COLUMNNAME_Cost = "Cost";
@@ -569,7 +569,22 @@ public interface I_AD_WF_Node
 	  */
 	public int getR_MailText_ID();
 
-	public I_R_MailText getR_MailText() throws RuntimeException;
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
+
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name SetupTime */
     public static final String COLUMNNAME_SetupTime = "SetupTime";
@@ -596,21 +611,6 @@ public interface I_AD_WF_Node
 	  * Semantics for multiple outgoing Transitions
 	  */
 	public String getSplitElement();
-
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
-
-	/** Set Resource.
-	  * Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID);
-
-	/** Get Resource.
-	  * Resource
-	  */
-	public int getS_Resource_ID();
-
-	public I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name StartMode */
     public static final String COLUMNNAME_StartMode = "StartMode";
@@ -706,19 +706,6 @@ public interface I_AD_WF_Node
 	  */
 	public String getValue();
 
-    /** Column name WaitingTime */
-    public static final String COLUMNNAME_WaitingTime = "WaitingTime";
-
-	/** Set Waiting Time.
-	  * Workflow Simulation Waiting time
-	  */
-	public void setWaitingTime (int WaitingTime);
-
-	/** Get Waiting Time.
-	  * Workflow Simulation Waiting time
-	  */
-	public int getWaitingTime();
-
     /** Column name WaitTime */
     public static final String COLUMNNAME_WaitTime = "WaitTime";
 
@@ -731,6 +718,19 @@ public interface I_AD_WF_Node
 	  * Time in minutes to wait (sleep)
 	  */
 	public int getWaitTime();
+
+    /** Column name WaitingTime */
+    public static final String COLUMNNAME_WaitingTime = "WaitingTime";
+
+	/** Set Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime);
+
+	/** Get Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime();
 
     /** Column name Workflow_ID */
     public static final String COLUMNNAME_Workflow_ID = "Workflow_ID";
@@ -745,7 +745,7 @@ public interface I_AD_WF_Node
 	  */
 	public int getWorkflow_ID();
 
-	public I_AD_Workflow getWorkflow() throws RuntimeException;
+	public org.compiere.model.I_AD_Workflow getWorkflow() throws RuntimeException;
 
     /** Column name WorkingTime */
     public static final String COLUMNNAME_WorkingTime = "WorkingTime";
@@ -773,19 +773,6 @@ public interface I_AD_WF_Node
 	  */
 	public int getXPosition();
 
-    /** Column name Yield */
-    public static final String COLUMNNAME_Yield = "Yield";
-
-	/** Set Yield %.
-	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public void setYield (int Yield);
-
-	/** Get Yield %.
-	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
-	  */
-	public int getYield();
-
     /** Column name YPosition */
     public static final String COLUMNNAME_YPosition = "YPosition";
 
@@ -798,4 +785,17 @@ public interface I_AD_WF_Node
 	  * Absolute Y (vertical) position in 1/72 of an inch
 	  */
 	public int getYPosition();
+
+    /** Column name Yield */
+    public static final String COLUMNNAME_Yield = "Yield";
+
+	/** Set Yield %.
+	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public void setYield (int Yield);
+
+	/** Get Yield %.
+	  * The Yield is the percentage of a lot that is expected to be of acceptable wuality may fall below 100 percent
+	  */
+	public int getYield();
 }

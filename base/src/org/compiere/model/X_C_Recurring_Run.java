@@ -30,7 +30,7 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_C_Recurring_Run (Properties ctx, int C_Recurring_Run_ID, String trxName)
@@ -71,9 +71,9 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
       return sb.toString();
     }
 
-	public I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
     {
-		return (I_C_Invoice)MTable.get(getCtx(), I_C_Invoice.Table_Name)
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
 			.getPO(getC_Invoice_ID(), get_TrxName());	}
 
 	/** Set Invoice.
@@ -99,9 +99,9 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (I_C_Order)MTable.get(getCtx(), I_C_Order.Table_Name)
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
 			.getPO(getC_Order_ID(), get_TrxName());	}
 
 	/** Set Order.
@@ -127,9 +127,9 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Payment getC_Payment() throws RuntimeException
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
     {
-		return (I_C_Payment)MTable.get(getCtx(), I_C_Payment.Table_Name)
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
 			.getPO(getC_Payment_ID(), get_TrxName());	}
 
 	/** Set Payment.
@@ -155,9 +155,9 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Project getC_Project() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (I_C_Project)MTable.get(getCtx(), I_C_Project.Table_Name)
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
 			.getPO(getC_Project_ID(), get_TrxName());	}
 
 	/** Set Project.
@@ -183,9 +183,9 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return ii.intValue();
 	}
 
-	public I_C_Recurring getC_Recurring() throws RuntimeException
+	public org.compiere.model.I_C_Recurring getC_Recurring() throws RuntimeException
     {
-		return (I_C_Recurring)MTable.get(getCtx(), I_C_Recurring.Table_Name)
+		return (org.compiere.model.I_C_Recurring)MTable.get(getCtx(), org.compiere.model.I_C_Recurring.Table_Name)
 			.getPO(getC_Recurring_ID(), get_TrxName());	}
 
 	/** Set Recurring.
@@ -251,9 +251,9 @@ public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persis
 		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
 	}
 
-	public I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
+	public org.compiere.model.I_GL_JournalBatch getGL_JournalBatch() throws RuntimeException
     {
-		return (I_GL_JournalBatch)MTable.get(getCtx(), I_GL_JournalBatch.Table_Name)
+		return (org.compiere.model.I_GL_JournalBatch)MTable.get(getCtx(), org.compiere.model.I_GL_JournalBatch.Table_Name)
 			.getPO(getGL_JournalBatch_ID(), get_TrxName());	}
 
 	/** Set Journal Batch.

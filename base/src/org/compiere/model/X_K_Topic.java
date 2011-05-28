@@ -30,7 +30,7 @@ public class X_K_Topic extends PO implements I_K_Topic, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_K_Topic (Properties ctx, int K_Topic_ID, String trxName)
@@ -181,9 +181,9 @@ public class X_K_Topic extends PO implements I_K_Topic, I_Persistent
 		return ii.intValue();
 	}
 
-	public I_K_Type getK_Type() throws RuntimeException
+	public org.compiere.model.I_K_Type getK_Type() throws RuntimeException
     {
-		return (I_K_Type)MTable.get(getCtx(), I_K_Type.Table_Name)
+		return (org.compiere.model.I_K_Type)MTable.get(getCtx(), org.compiere.model.I_K_Type.Table_Name)
 			.getPO(getK_Type_ID(), get_TrxName());	}
 
 	/** Set Knowledge Type.

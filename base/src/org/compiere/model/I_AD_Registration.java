@@ -88,7 +88,7 @@ public interface I_AD_Registration
 	  */
 	public int getAD_System_ID();
 
-	public I_AD_System getAD_System() throws RuntimeException;
+	public org.compiere.model.I_AD_System getAD_System() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -103,7 +103,7 @@ public interface I_AD_Registration
 	  */
 	public int getC_Currency_ID();
 
-	public I_C_Currency getC_Currency() throws RuntimeException;
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";

@@ -31,7 +31,7 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20100614L;
+	private static final long serialVersionUID = 20110528L;
 
     /** Standard Constructor */
     public X_S_Training_Class (Properties ctx, int S_Training_Class_ID, String trxName)
@@ -41,9 +41,9 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
         {
 			setEndDate (new Timestamp( System.currentTimeMillis() ));
 			setM_Product_ID (0);
-			setStartDate (new Timestamp( System.currentTimeMillis() ));
 			setS_Training_Class_ID (0);
 			setS_Training_ID (0);
+			setStartDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -92,9 +92,9 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 		return (Timestamp)get_Value(COLUMNNAME_EndDate);
 	}
 
-	public I_M_Product getM_Product() throws RuntimeException
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {
-		return (I_M_Product)MTable.get(getCtx(), I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_Product_ID(), get_TrxName());	}
 
 	/** Set Product.
@@ -115,6 +115,57 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
 	public int getM_Product_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Training Class.
+		@param S_Training_Class_ID 
+		The actual training class instance
+	  */
+	public void setS_Training_Class_ID (int S_Training_Class_ID)
+	{
+		if (S_Training_Class_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Training_Class_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Training_Class_ID, Integer.valueOf(S_Training_Class_ID));
+	}
+
+	/** Get Training Class.
+		@return The actual training class instance
+	  */
+	public int getS_Training_Class_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Training_Class_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_S_Training getS_Training() throws RuntimeException
+    {
+		return (org.compiere.model.I_S_Training)MTable.get(getCtx(), org.compiere.model.I_S_Training.Table_Name)
+			.getPO(getS_Training_ID(), get_TrxName());	}
+
+	/** Set Training.
+		@param S_Training_ID 
+		Repeated Training
+	  */
+	public void setS_Training_ID (int S_Training_ID)
+	{
+		if (S_Training_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_S_Training_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_S_Training_ID, Integer.valueOf(S_Training_ID));
+	}
+
+	/** Get Training.
+		@return Repeated Training
+	  */
+	public int getS_Training_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Training_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -144,55 +195,4 @@ public class X_S_Training_Class extends PO implements I_S_Training_Class, I_Pers
     {
         return new KeyNamePair(get_ID(), String.valueOf(getStartDate()));
     }
-
-	/** Set Training Class.
-		@param S_Training_Class_ID 
-		The actual training class instance
-	  */
-	public void setS_Training_Class_ID (int S_Training_Class_ID)
-	{
-		if (S_Training_Class_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Training_Class_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_Training_Class_ID, Integer.valueOf(S_Training_Class_ID));
-	}
-
-	/** Get Training Class.
-		@return The actual training class instance
-	  */
-	public int getS_Training_Class_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Training_Class_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public I_S_Training getS_Training() throws RuntimeException
-    {
-		return (I_S_Training)MTable.get(getCtx(), I_S_Training.Table_Name)
-			.getPO(getS_Training_ID(), get_TrxName());	}
-
-	/** Set Training.
-		@param S_Training_ID 
-		Repeated Training
-	  */
-	public void setS_Training_ID (int S_Training_ID)
-	{
-		if (S_Training_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_S_Training_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_S_Training_ID, Integer.valueOf(S_Training_ID));
-	}
-
-	/** Get Training.
-		@return Repeated Training
-	  */
-	public int getS_Training_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Training_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 }

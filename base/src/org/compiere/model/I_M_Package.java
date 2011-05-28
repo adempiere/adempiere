@@ -143,7 +143,7 @@ public interface I_M_Package
 	  */
 	public int getM_InOut_ID();
 
-	public I_M_InOut getM_InOut() throws RuntimeException;
+	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
 
     /** Column name M_Package_ID */
     public static final String COLUMNNAME_M_Package_ID = "M_Package_ID";
@@ -171,7 +171,7 @@ public interface I_M_Package
 	  */
 	public int getM_Shipper_ID();
 
-	public I_M_Shipper getM_Shipper() throws RuntimeException;
+	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
     /** Column name ReceivedInfo */
     public static final String COLUMNNAME_ReceivedInfo = "ReceivedInfo";

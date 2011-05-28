@@ -62,6 +62,34 @@ public interface I_C_RevenueRecognition_Run
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_RevenueRecognition_Plan_ID */
+    public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
+
+	/** Set Revenue Recognition Plan.
+	  * Plan for recognizing or recording revenue
+	  */
+	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID);
+
+	/** Get Revenue Recognition Plan.
+	  * Plan for recognizing or recording revenue
+	  */
+	public int getC_RevenueRecognition_Plan_ID();
+
+	public org.compiere.model.I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException;
+
+    /** Column name C_RevenueRecognition_Run_ID */
+    public static final String COLUMNNAME_C_RevenueRecognition_Run_ID = "C_RevenueRecognition_Run_ID";
+
+	/** Set Revenue Recognition Run.
+	  * Revenue Recognition Run or Process
+	  */
+	public void setC_RevenueRecognition_Run_ID (int C_RevenueRecognition_Run_ID);
+
+	/** Get Revenue Recognition Run.
+	  * Revenue Recognition Run or Process
+	  */
+	public int getC_RevenueRecognition_Run_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -78,34 +106,6 @@ public interface I_C_RevenueRecognition_Run
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_RevenueRecognition_Plan_ID */
-    public static final String COLUMNNAME_C_RevenueRecognition_Plan_ID = "C_RevenueRecognition_Plan_ID";
-
-	/** Set Revenue Recognition Plan.
-	  * Plan for recognizing or recording revenue
-	  */
-	public void setC_RevenueRecognition_Plan_ID (int C_RevenueRecognition_Plan_ID);
-
-	/** Get Revenue Recognition Plan.
-	  * Plan for recognizing or recording revenue
-	  */
-	public int getC_RevenueRecognition_Plan_ID();
-
-	public I_C_RevenueRecognition_Plan getC_RevenueRecognition_Plan() throws RuntimeException;
-
-    /** Column name C_RevenueRecognition_Run_ID */
-    public static final String COLUMNNAME_C_RevenueRecognition_Run_ID = "C_RevenueRecognition_Run_ID";
-
-	/** Set Revenue Recognition Run.
-	  * Revenue Recognition Run or Process
-	  */
-	public void setC_RevenueRecognition_Run_ID (int C_RevenueRecognition_Run_ID);
-
-	/** Get Revenue Recognition Run.
-	  * Revenue Recognition Run or Process
-	  */
-	public int getC_RevenueRecognition_Run_ID();
-
     /** Column name GL_Journal_ID */
     public static final String COLUMNNAME_GL_Journal_ID = "GL_Journal_ID";
 
@@ -119,7 +119,7 @@ public interface I_C_RevenueRecognition_Run
 	  */
 	public int getGL_Journal_ID();
 
-	public I_GL_Journal getGL_Journal() throws RuntimeException;
+	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
