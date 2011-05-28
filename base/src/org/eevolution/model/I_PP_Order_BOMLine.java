@@ -76,7 +76,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getAD_User_ID();
 
-	public I_AD_User getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name Assay */
     public static final String COLUMNNAME_Assay = "Assay";
@@ -103,6 +103,21 @@ public interface I_PP_Order_BOMLine
 	  * The Grouping Components to the Backflush
 	  */
 	public String getBackflushGroup();
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name ComponentType */
     public static final String COLUMNNAME_ComponentType = "ComponentType";
@@ -145,21 +160,6 @@ public interface I_PP_Order_BOMLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateDelivered */
     public static final String COLUMNNAME_DateDelivered = "DateDelivered";
@@ -332,7 +332,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_ChangeNotice_ID();
 
-	public I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
+	public org.compiere.model.I_M_ChangeNotice getM_ChangeNotice() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -362,7 +362,7 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_Product_ID();
 
-	public I_M_Product getM_Product() throws RuntimeException;
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
@@ -377,7 +377,16 @@ public interface I_PP_Order_BOMLine
 	  */
 	public int getM_Warehouse_ID();
 
-	public I_M_Warehouse getM_Warehouse() throws RuntimeException;
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name PP_Order_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
+
+	/** Set Manufacturing Order BOM Line	  */
+	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
+
+	/** Get Manufacturing Order BOM Line	  */
+	public int getPP_Order_BOMLine_ID();
 
     /** Column name PP_Order_BOM_ID */
     public static final String COLUMNNAME_PP_Order_BOM_ID = "PP_Order_BOM_ID";
@@ -389,15 +398,6 @@ public interface I_PP_Order_BOMLine
 	public int getPP_Order_BOM_ID();
 
 	public org.eevolution.model.I_PP_Order_BOM getPP_Order_BOM() throws RuntimeException;
-
-    /** Column name PP_Order_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Order_BOMLine_ID = "PP_Order_BOMLine_ID";
-
-	/** Set Manufacturing Order BOM Line	  */
-	public void setPP_Order_BOMLine_ID (int PP_Order_BOMLine_ID);
-
-	/** Get Manufacturing Order BOM Line	  */
-	public int getPP_Order_BOMLine_ID();
 
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
@@ -414,19 +414,6 @@ public interface I_PP_Order_BOMLine
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
-    /** Column name QtyBatch */
-    public static final String COLUMNNAME_QtyBatch = "QtyBatch";
-
-	/** Set Quantity in %.
-	  * Indicate the Quantity % use in this Formula
-	  */
-	public void setQtyBatch (BigDecimal QtyBatch);
-
-	/** Get Quantity in %.
-	  * Indicate the Quantity % use in this Formula
-	  */
-	public BigDecimal getQtyBatch();
-
     /** Column name QtyBOM */
     public static final String COLUMNNAME_QtyBOM = "QtyBOM";
 
@@ -439,6 +426,19 @@ public interface I_PP_Order_BOMLine
 	  * Indicate the Quantity  use in this BOM
 	  */
 	public BigDecimal getQtyBOM();
+
+    /** Column name QtyBatch */
+    public static final String COLUMNNAME_QtyBatch = "QtyBatch";
+
+	/** Set Quantity in %.
+	  * Indicate the Quantity % use in this Formula
+	  */
+	public void setQtyBatch (BigDecimal QtyBatch);
+
+	/** Get Quantity in %.
+	  * Indicate the Quantity % use in this Formula
+	  */
+	public BigDecimal getQtyBatch();
 
     /** Column name QtyDelivered */
     public static final String COLUMNNAME_QtyDelivered = "QtyDelivered";
@@ -484,14 +484,14 @@ public interface I_PP_Order_BOMLine
 	/** Get Qty Reject	  */
 	public BigDecimal getQtyReject();
 
-    /** Column name QtyRequiered */
-    public static final String COLUMNNAME_QtyRequiered = "QtyRequiered";
+    /** Column name QtyRequired */
+    public static final String COLUMNNAME_QtyRequired = "QtyRequired";
 
-	/** Set Qty Requiered	  */
-	public void setQtyRequiered (BigDecimal QtyRequiered);
+	/** Set Qty Required	  */
+	public void setQtyRequired (BigDecimal QtyRequired);
 
-	/** Get Qty Requiered	  */
-	public BigDecimal getQtyRequiered();
+	/** Get Qty Required	  */
+	public BigDecimal getQtyRequired();
 
     /** Column name QtyReserved */
     public static final String COLUMNNAME_QtyReserved = "QtyReserved";

@@ -8,7 +8,7 @@ mos.m_attributesetinstance_id,
 asi.description AS instancename,
 mos.c_uom_id,
 u.name AS uomname,
-obl.qtyrequiered,
+obl.qtyrequired,
 obl.qtyreserved AS qtyreserved_order,
 mos.qtyonhand,
 mos.qtyreserved AS qtyreserved_storage,
@@ -20,7 +20,7 @@ mos.qtybom,
 mos.isqtypercentage,
 mos.qtybatch,
 obl.componenttype,
-mos.qtyrequiered - obl.qtydelivered AS qtyopen,
+mos.qtyrequired - obl.qtydelivered AS qtyopen,
 obl.pp_order_id
 FROM rv_pp_order_storage mos
 JOIN pp_order_bomline obl ON mos.pp_order_bomline_id = obl.pp_order_bomline_id
