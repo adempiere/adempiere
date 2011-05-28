@@ -150,24 +150,24 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		// If Phantom, we need to explode this line (see afterSave):
 		if(newRecord && COMPONENTTYPE_Phantom.equals(getComponentType()))
 		{
-			m_qtyRequiredPhantom = getQtyRequiered();
+			m_qtyRequiredPhantom = getQtyRequired();
 			m_isExplodePhantom = true;
-			setQtyRequiered(Env.ZERO);
+			setQtyRequired(Env.ZERO);
 		}
 		
 		if (newRecord
 				|| is_ValueChanged(COLUMNNAME_C_UOM_ID)
 				|| is_ValueChanged(COLUMNNAME_QtyEntered)
-				|| is_ValueChanged(COLUMNNAME_QtyRequiered)
+				|| is_ValueChanged(COLUMNNAME_QtyRequired)
 			)
 		{
 			int precision = MUOM.getPrecision(getCtx(), getC_UOM_ID());
 			setQtyEntered(getQtyEntered().setScale(precision, RoundingMode.UP));
-			setQtyRequiered(getQtyRequiered().setScale(precision, RoundingMode.UP));
+			setQtyRequired(getQtyRequired().setScale(precision, RoundingMode.UP));
 		}
 		
 		if( is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_QtyDelivered)
-				|| is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_QtyRequiered))
+				|| is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_QtyRequired))
 		{	
 			reserveStock();
 		}
@@ -188,7 +188,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	protected boolean beforeDelete()
 	{
 		// Release Reservation
-		setQtyRequiered(Env.ZERO);
+		setQtyRequired(Env.ZERO);
 		reserveStock();
 		return true;
 	}
@@ -304,15 +304,14 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		BigDecimal qty = QtyOrdered.multiply(multiplier).setScale(8, RoundingMode.UP);
 		
 		if (isComponentType(COMPONENTTYPE_Component,COMPONENTTYPE_Phantom
-							,COMPONENTTYPE_Packing
 							,COMPONENTTYPE_By_Product
 							,COMPONENTTYPE_Co_Product))
 		{
-			setQtyRequiered(qty);
+			setQtyRequired(qty);
 		}
-		else if (isComponentType(COMPONENTTYPE_Tools))
+		else if (isComponentType(COMPONENTTYPE_Packing,COMPONENTTYPE_Tools))
 		{
-			setQtyRequiered(multiplier);
+			setQtyRequired(multiplier);
 		}
 		else
 		{
@@ -324,19 +323,19 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		if (qtyScrap.signum() != 0)
 		{
 			qtyScrap = qtyScrap.divide(Env.ONEHUNDRED, 8, BigDecimal.ROUND_UP);
-			setQtyRequiered(getQtyRequiered().divide(Env.ONE.subtract(qtyScrap), 8, BigDecimal.ROUND_HALF_UP));
+			setQtyRequired(getQtyRequired().divide(Env.ONE.subtract(qtyScrap), 8, BigDecimal.ROUND_HALF_UP));
 		}
 	}
 	
 	@Override
-	public void setQtyRequiered (BigDecimal QtyRequiered)
+	public void setQtyRequired (BigDecimal QtyRequired)
 	{
-		if (QtyRequiered != null && getC_UOM_ID() != 0)
+		if (QtyRequired != null && getC_UOM_ID() != 0)
 		{
 			int precision = getPrecision();
-			QtyRequiered = QtyRequiered.setScale(precision, RoundingMode.HALF_UP);
+			QtyRequired = QtyRequired.setScale(precision, RoundingMode.HALF_UP);
 		}
-		super.setQtyRequiered (QtyRequiered);
+		super.setQtyRequired (QtyRequired);
 	}	//	setQtyRequiered
 	
 	@Override
@@ -355,7 +354,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	 */
 	public BigDecimal getQtyOpen()
 	{
-		return getQtyRequiered().subtract(getQtyDelivered()); 
+		return getQtyRequired().subtract(getQtyDelivered()); 
 	}
 	
 	/** Storage Qty On Hand */
@@ -498,7 +497,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		setQtyDelivered(Env.ZERO);
 		setQtyPost(Env.ZERO);
 		setQtyReject(Env.ZERO);
-		setQtyRequiered(Env.ZERO);
+		setQtyRequired(Env.ZERO);
 		setQtyReserved(Env.ZERO);
 		setQtyScrap(Env.ZERO);
 	}
@@ -519,9 +518,9 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 				setAD_Org_ID(getAD_Org_ID());
 		}
 		//
-		final BigDecimal target = getQtyRequiered();
+		final BigDecimal target = getQtyRequired();
 		final BigDecimal difference = target.subtract(getQtyReserved()).subtract(getQtyDelivered());
-		log.fine("Line=" + getLine() + " - Target=" + target + ",Difference=" + difference + " - Requiered=" + getQtyRequiered()
+		log.fine("Line=" + getLine() + " - Target=" + target + ",Difference=" + difference + " - Requiered=" + getQtyRequired()
 				+ ",Reserved=" + getQtyReserved() + ",Delivered=" + getQtyDelivered());
 		if (difference.signum() == 0)
 		{
@@ -585,7 +584,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 				+", Product="+getM_Product_ID()
 				+", ComponentType="+getComponentType()
 				+",QtyBatch="+getQtyBatch()
-				+",QtyRequiered="+getQtyRequiered()
+				+",QtyRequiered="+getQtyRequired()
 				+",QtyScrap="+getQtyScrap()
 				+"]";
 	}

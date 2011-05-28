@@ -251,7 +251,7 @@ public class CRP extends SvrProcess
 		// ... its static single parts ...
 		long totalDuration =
 				+ node.getQueuingTime() 
-				+ node.getSetupTimeRequiered() // Use the present required setup time to notice later changes  
+				+ node.getSetupTimeRequired() // Use the present required setup time to notice later changes  
 				+ node.getMovingTime() 
 				+ node.getWaitingTime()
 		;

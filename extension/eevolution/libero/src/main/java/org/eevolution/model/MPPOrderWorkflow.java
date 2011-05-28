@@ -604,7 +604,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 					// TODO: should we create a negate CC?
 					continue;
 				}
-				int setupTimeReal = node.getSetupTimeRequiered() - node.getSetupTimeReal();
+				int setupTimeReal = node.getSetupTimeRequired() - node.getSetupTimeReal();
 				RoutingService routingService = RoutingServiceFactory.get().getRoutingService(node.getAD_Client_ID());
 				BigDecimal durationReal = routingService.estimateWorkingTime(node, qtyToDeliver);
 				// arhipac: cristi_pup: Generate even if nothing was reporting on this activity
@@ -647,7 +647,7 @@ public class MPPOrderWorkflow extends X_PP_Order_Workflow
 	{
 		for(MPPOrderNode node : this.getNodes(true, getAD_Client_ID()))
 		{
-			BigDecimal old = node.getQtyRequiered();
+			BigDecimal old = node.getQtyRequired();
 			if (old.signum() != 0)
 			{
 				node.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + old + ")");

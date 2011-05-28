@@ -658,7 +658,7 @@ public class MPPMRP extends X_PP_MRP
 		Properties ctx = obl.getCtx();
 		//
 		String typeMRP = MPPMRP.TYPEMRP_Demand;
-		BigDecimal qty = obl.getQtyRequiered().subtract(obl.getQtyDelivered());
+		BigDecimal qty = obl.getQtyRequired().subtract(obl.getQtyDelivered());
 		if (obl.isCoProduct() || obl.isByProduct())
 		{
 			typeMRP = MPPMRP.TYPEMRP_Supply;

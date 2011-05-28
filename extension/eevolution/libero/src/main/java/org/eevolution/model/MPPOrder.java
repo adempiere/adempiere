@@ -788,11 +788,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		
 		for(MPPOrderBOMLine line : getLines())
 		{
-			BigDecimal old = line.getQtyRequiered();
+			BigDecimal old = line.getQtyRequired();
 			if (old.signum() != 0)
 			{
 				line.addDescription(Msg.parseTranslation(getCtx(), "@Voided@ @QtyRequiered@ : (" + old + ")"));
-				line.setQtyRequiered(Env.ZERO);
+				line.setQtyRequired(Env.ZERO);
 				line.saveEx();
 			}
 		}
@@ -847,10 +847,10 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		
 		for(MPPOrderBOMLine line : getLines())
 		{
-			BigDecimal old = line.getQtyRequiered();
+			BigDecimal old = line.getQtyRequired();
 			if (old.compareTo(line.getQtyDelivered()) != 0)
 			{	
-				line.setQtyRequiered(line.getQtyDelivered());
+				line.setQtyRequired(line.getQtyDelivered());
 				line.addDescription(Msg.parseTranslation(getCtx(), "@closed@ @QtyRequiered@ (" + old + ")"));
 				line.saveEx();
 			}	
@@ -1326,7 +1326,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			return true;
 		}
 		
-		BigDecimal qtyToDeliver = line.getQtyRequiered();
+		BigDecimal qtyToDeliver = line.getQtyRequired();
 		BigDecimal qtyScrap = line.getQtyScrap();
 		BigDecimal qtyRequired = qtyToDeliver.add(qtyScrap);
 		BigDecimal qtyAvailable = MStorage.getQtyAvailable(order.getM_Warehouse_ID(), 0,
@@ -1646,8 +1646,8 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		//
 		final BigDecimal setupTimeVariancePrev = node.getSetupTimeUsageVariance();
 		final BigDecimal durationVariancePrev = node.getDurationUsageVariance();
-		final BigDecimal setupTimeRequired = BigDecimal.valueOf(node.getSetupTimeRequiered());
-		final BigDecimal durationRequired = BigDecimal.valueOf(node.getDurationRequiered());
+		final BigDecimal setupTimeRequired = BigDecimal.valueOf(node.getSetupTimeRequired());
+		final BigDecimal durationRequired = BigDecimal.valueOf(node.getDurationRequired());
 		final BigDecimal qtyOpen = node.getQtyToDeliver();
 		//
 		final BigDecimal setupTimeVariance = setupTimeRequired.subtract(setupTimeReal).subtract(setupTimeVariancePrev);

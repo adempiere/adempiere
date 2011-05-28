@@ -514,7 +514,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			else
 			{
 				CostEngineFactory.getCostEngine(getAD_Client_ID()).createActivityControl(this);
-				if(activity.getQtyDelivered().compareTo(activity.getQtyRequiered()) >= 0)
+				if(activity.getQtyDelivered().compareTo(activity.getQtyRequired()) >= 0)
 				{
 					activity.closeIt();
 					activity.saveEx();									

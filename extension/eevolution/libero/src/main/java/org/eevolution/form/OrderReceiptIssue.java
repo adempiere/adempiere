@@ -91,7 +91,7 @@ public class OrderReceiptIssue extends GenForm {
 		issue.addColumn(MPPOrderBOMLine.COLUMNNAME_M_Product_ID); // 3
 		issue.addColumn(MPPOrderBOMLine.COLUMNNAME_C_UOM_ID); // 4
 		issue.addColumn(MPPOrderBOMLine.COLUMNNAME_M_AttributeSetInstance_ID); // 5
-		issue.addColumn(MPPOrderBOMLine.COLUMNNAME_QtyRequiered); // 6
+		issue.addColumn(MPPOrderBOMLine.COLUMNNAME_QtyRequired); // 6
 		issue.addColumn(MPPOrderBOMLine.COLUMNNAME_QtyDelivered); // 7
 		issue.addColumn("QtyToDeliver"); // 8
 		issue.addColumn(MPPOrderBOMLine.COLUMNNAME_QtyScrap); // 9

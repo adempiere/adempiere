@@ -178,7 +178,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setValue(wfNode.getValue());
 		setS_Resource_ID(wfNode.getS_Resource_ID());
 		setSetupTime(wfNode.getSetupTime());
-		setSetupTimeRequiered(wfNode.getSetupTime());
+		setSetupTimeRequired(wfNode.getSetupTime());
 		setMovingTime(wfNode.getMovingTime());
 		setWaitingTime(wfNode.getWaitingTime());
 		setWorkingTime(wfNode.getWorkingTime());
@@ -255,10 +255,10 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 */
 	public void setQtyOrdered(BigDecimal qtyOrdered)
 	{
-		setQtyRequiered(qtyOrdered);
+		setQtyRequired(qtyOrdered);
 		RoutingService routingService = RoutingServiceFactory.get().getRoutingService(getAD_Client_ID());
 		BigDecimal workingTime = routingService.estimateWorkingTime(this, qtyOrdered);
-		setDurationRequiered(workingTime.intValueExact());
+		setDurationRequired(workingTime.intValueExact());
 	}
 	
 	/**
@@ -267,7 +267,7 @@ public class MPPOrderNode extends X_PP_Order_Node
 	 */
 	public BigDecimal getQtyToDeliver()
 	{
-		return getQtyRequiered().subtract(getQtyDelivered());
+		return getQtyRequired().subtract(getQtyDelivered());
 	}
 	
 	/**
@@ -382,12 +382,12 @@ public class MPPOrderNode extends X_PP_Order_Node
 		setDocStatus(MPPOrderNode.DOCSTATUS_Closed);
 		setDocAction(MPPOrderNode.DOCACTION_None);
 		setDateFinish(false);
-		int old = getDurationRequiered();
+		int old = getDurationRequired();
 		if (old != getDurationReal())
 		{	
-			addDescription(Msg.parseTranslation(getCtx(), "@closed@ ( @Duration@ :" + old + ") ( @QtyRequiered@ :"+getQtyRequiered()+")"));
-			setDurationRequiered(getDurationReal());
-			setQtyRequiered(getQtyDelivered());			
+			addDescription(Msg.parseTranslation(getCtx(), "@closed@ ( @Duration@ :" + old + ") ( @QtyRequiered@ :"+getQtyRequired()+")"));
+			setDurationRequired(getDurationReal());
+			setQtyRequired(getQtyDelivered());			
 		}	
 	}
 	
@@ -402,16 +402,16 @@ public class MPPOrderNode extends X_PP_Order_Node
 			log.warning("Activity already voided - "+this);
 			return;
 		}
-		BigDecimal qtyRequired = getQtyRequiered();
+		BigDecimal qtyRequired = getQtyRequired();
 		if (qtyRequired.signum() != 0)
 		{
 			addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + qtyRequired + ")");
 		}
 		setDocStatus(MPPOrderNode.DOCSTATUS_Voided);
 		setDocAction(MPPOrderNode.DOCACTION_None);
-		setQtyRequiered(Env.ZERO);
-		setSetupTimeRequiered(0);
-		setDurationRequiered(0);
+		setQtyRequired(Env.ZERO);
+		setSetupTimeRequired(0);
+		setDurationRequired(0);
 	}
 	
 	/**
