@@ -12,6 +12,7 @@
 	<classpathentry kind="src" path="serverRoot/src/main/servlet"/>
 	<classpathentry kind="src" path="interfaces/src"/>
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
+	<classpathentry kind="src" path="mobile/WEB-INF/src"/>
 	<classpathentry kind="src" path="zkwebui/WEB-INF/src"/>
 	<classpathentry excluding="org/compiere/interfaces/" kind="src" path="JasperReports/src"/>
 	<classpathentry excluding="org/compiere/utils/DigestOfFile.java" kind="src" path="JasperReportsWebApp/src"/>
