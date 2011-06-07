@@ -29,7 +29,6 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.NamePair;
 import org.compiere.util.ValueNamePair;
@@ -692,9 +691,10 @@ public final class MLookup extends Lookup implements Serializable
 				{
 					log.fine(m_info.KeyColumn + ": Loader NOT Validated: " + m_info.ValidationCode);
 					// Bug 1843862 - Lookups not working on Report Viewer window
-					// globalqss - when called from Viewer window ignore error about unparsabe context variables
+					// globalqss - when called from Viewer window ignore error about not parseable context variables
 					// there is no context in report viewer windows
-					if (Ini.isClient() == false || !Env.getWindow(m_info.WindowNo).getClass().getName().equals("org.compiere.print.Viewer")) {
+					boolean isReportViewer = Env.getContext(m_info.ctx, m_info.WindowNo, "_WinInfo_IsReportViewer").equals("Y");
+					if (!isReportViewer) {
 						m_lookup.clear();
 						return;
 					}

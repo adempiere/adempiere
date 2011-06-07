@@ -39,6 +39,7 @@ import org.adempiere.webui.event.DrillEvent;
 import org.adempiere.webui.event.ZoomEvent;
 import org.adempiere.webui.panel.StatusBarPanel;
 import org.adempiere.webui.report.HTMLExtension;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.GridField;
 import org.compiere.model.MArchive;
 import org.compiere.model.MClient;
@@ -145,6 +146,8 @@ public class ZkReportViewer extends Window implements EventListener {
 		super();
 		
 		log.info("");
+		m_WindowNo = SessionManager.getAppDesktop().registerWindow(this);
+		Env.setContext(re.getCtx(), m_WindowNo, "_WinInfo_IsReportViewer", "Y");
 		m_reportEngine = re;
 		m_AD_Table_ID = re.getPrintFormat().getAD_Table_ID();
 		if (!MRole.getDefault().isCanReport(m_AD_Table_ID))
@@ -512,7 +515,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	 */
 	public void onClose()
 	{
-		Env.clearWinContext(m_WindowNo);
+		SessionManager.getAppDesktop().unregisterWindow(m_WindowNo);
 		m_reportEngine = null;
 		m_ctx = null;
 		super.onClose();
