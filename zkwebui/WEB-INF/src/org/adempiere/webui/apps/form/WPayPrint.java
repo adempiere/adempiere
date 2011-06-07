@@ -303,6 +303,8 @@ public class WPayPrint extends PayPrint implements IFormController, EventListene
 	 */
 	private void loadPaymentRuleInfo()
 	{
+		if (fPaymentRule.getSelectedItem() == null)
+			return;
 		ValueNamePair pp = fPaymentRule.getSelectedItem().toValueNamePair();
 		if (pp == null)
 			return;
