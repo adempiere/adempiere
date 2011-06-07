@@ -24,6 +24,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
@@ -32,7 +35,10 @@ import javax.swing.JFileChooser;
 
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
+import org.compiere.model.MLookup;
+import org.compiere.model.MLookupFactory;
 import org.compiere.model.MPaySelectionCheck;
 import org.compiere.model.MPaymentBatch;
 import org.compiere.plaf.CompiereColor;
@@ -45,7 +51,6 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.PaymentExport;
 import org.compiere.util.ValueNamePair;
@@ -59,7 +64,7 @@ import org.compiere.util.ValueNamePair;
  *  Contributors:
  *    Carlos Ruiz - GlobalQSS - FR 3132033 - Make payment export class configurable per bank
  */
-public class VPayPrint extends PayPrint implements FormPanel, ActionListener
+public class VPayPrint extends PayPrint implements FormPanel, ActionListener, VetoableChangeListener
 {
 	private CPanel panel = new CPanel();
 
@@ -75,8 +80,8 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 		m_frame = frame;
 		try
 		{
-			jbInit();
 			dynInit();
+			jbInit();
 			frame.getContentPane().add(centerPanel, BorderLayout.CENTER);
 			frame.getContentPane().add(southPanel, BorderLayout.SOUTH);
 		}
@@ -100,7 +105,7 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 	private JButton bCancel = ConfirmPanel.createCancelButton(true);
 	private JButton bProcess = ConfirmPanel.createProcessButton(Msg.getMsg(Env.getCtx(), "VPayPrintProcess"));
 	private CLabel lPaySelect = new CLabel();
-	private CComboBox fPaySelect = new CComboBox();
+	private VLookup paySelectSearch = null;
 	private CLabel lBank = new CLabel();
 	private CLabel fBank = new CLabel();
 	private CLabel lPaymentRule = new CLabel();
@@ -135,7 +140,6 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 		bProcess.addActionListener(this);
 		//
 		lPaySelect.setText(Msg.translate(Env.getCtx(), "C_PaySelection_ID"));
-		fPaySelect.addActionListener(this);
 		//
 		lBank.setText(Msg.translate(Env.getCtx(), "C_BankAccount_ID"));
 		//
@@ -158,7 +162,7 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 		//
 		centerPanel.add(lPaySelect,  new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(12, 12, 5, 5), 0, 0));
-		centerPanel.add(fPaySelect,    new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0
+		centerPanel.add(paySelectSearch, new GridBagConstraints(1, 0, 3, 1, 0.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(12, 0, 5, 12), 0, 0));
 		centerPanel.add(lBank,   new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
@@ -191,17 +195,13 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 	 */
 	private void dynInit()
 	{
-		ArrayList<KeyNamePair> data = getPaySelectionData();
-		for(KeyNamePair pp : data)
-			fPaySelect.addItem(pp);
 		
-		if (fPaySelect.getItemCount() == 0)
-			ADialog.info(m_WindowNo, panel, "VPayPrintNoRecords");
-		else
-		{
-			fPaySelect.setSelectedIndex(0);
-			loadPaySelectInfo();
-		}
+		//  C_PaySelection_ID
+		int AD_Column_ID = 7670;        //  C_PaySelectionCheck.C_PaySelection_ID
+		MLookup lookupPS = MLookupFactory.get (Env.getCtx(), m_WindowNo, 0, AD_Column_ID, DisplayType.Search);
+		paySelectSearch = new VLookup("C_PaySelection_ID", true, false, true, lookupPS);
+		paySelectSearch.addVetoableChangeListener(this);
+		
 	}   //  dynInit
 
 	/**
@@ -222,33 +222,25 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 	{
 		if (C_PaySelection_ID == 0)
 			return;
-		//
-		for (int i = 0; i < fPaySelect.getItemCount(); i++)
-		{
-			KeyNamePair pp = (KeyNamePair)fPaySelect.getItemAt(i);
-			if (pp.getKey() == C_PaySelection_ID)
-			{
-				fPaySelect.setSelectedIndex(i);
-				return;
-			}
-		}
+
+		m_C_PaySelection_ID = C_PaySelection_ID;
+		paySelectSearch.setValue(new Integer(m_C_PaySelection_ID));
+		loadPaySelectInfo();
 	}	//	setsetPaySelection
 
-	
 	/**************************************************************************
 	 *  Action Listener
 	 *  @param e event
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-	//	log.config( "VPayPrint.actionPerformed" + e.toString());
-		if (e.getSource() == fPaySelect)
-			loadPaySelectInfo();
+		//	log.config( "VPayPrint.actionPerformed" + e.toString());
+		if (e.getSource() == bCancel)
+			dispose();
+		else if (m_C_PaySelection_ID <= 0)
+			return;
 		else if (e.getSource() == fPaymentRule)
 			loadPaymentRuleInfo();
-		//
-		else if (e.getSource() == bCancel)
-			dispose();
 		else if (e.getSource() == bExport)
 			cmd_export();
 		else if (e.getSource() == bProcess)
@@ -263,15 +255,16 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 	private void loadPaySelectInfo()
 	{
 		log.info( "VPayPrint.loadPaySelectInfo");
-		if (fPaySelect.getSelectedIndex() == -1)
+		if (m_C_PaySelection_ID <= 0)
 			return;
 		
-		int C_PaySelection_ID = ((KeyNamePair)fPaySelect.getSelectedItem()).getKey();
-		loadPaySelectInfo(C_PaySelection_ID);
+		loadPaySelectInfo(m_C_PaySelection_ID);
 		
 		fBank.setText(bank);
 		fCurrency.setText(currency);
 		fBalance.setValue(balance);
+		
+		m_frame.pack();
 		
 		loadPaymentRule();
 	}   //  loadPaySelectInfo
@@ -287,8 +280,7 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 		
 		fPaymentRule.removeAllItems();
 		
-		int C_PaySelection_ID = ((KeyNamePair)fPaySelect.getSelectedItem()).getKey();
-		ArrayList<ValueNamePair> data = loadPaymentRule(C_PaySelection_ID);
+		ArrayList<ValueNamePair> data = loadPaymentRule(m_C_PaySelection_ID);
 		for(ValueNamePair pp : data)
 			fPaymentRule.addItem(pp);
 		
@@ -312,8 +304,7 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 		log.info("PaymentRule=" + PaymentRule);
 		fNoPayments.setText(" ");
 		
-		int C_PaySelection_ID = ((KeyNamePair)fPaySelect.getSelectedItem()).getKey();
-		String msg = loadPaymentRuleInfo(C_PaySelection_ID, PaymentRule);
+		String msg = loadPaymentRuleInfo(m_C_PaySelection_ID, PaymentRule);
 		
 		if(noPayments != null)
 			fNoPayments.setText(noPayments);
@@ -333,7 +324,10 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 	 */
 	private void cmd_export()
 	{
-		String PaymentRule = ((ValueNamePair)fPaymentRule.getSelectedItem()).getValue();
+		ValueNamePair pp = (ValueNamePair)fPaymentRule.getSelectedItem();
+		if (pp == null)
+			return;
+		String PaymentRule = pp.getValue();
 		log.info(PaymentRule);
 		if (!getChecks(PaymentRule))
 			return;
@@ -395,7 +389,10 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 	 */
 	private void cmd_EFT()
 	{
-		String PaymentRule = ((ValueNamePair)fPaymentRule.getSelectedItem()).getValue();
+		ValueNamePair pp = (ValueNamePair)fPaymentRule.getSelectedItem();
+		if (pp == null)
+			return;
+		String PaymentRule = pp.getValue();
 		log.info(PaymentRule);
 		if (!getChecks(PaymentRule))
 			return;
@@ -407,7 +404,10 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 	 */
 	private void cmd_print()
 	{
-		String PaymentRule = ((ValueNamePair)fPaymentRule.getSelectedItem()).getValue();
+		ValueNamePair pp = (ValueNamePair)fPaymentRule.getSelectedItem();
+		if (pp == null)
+			return;
+		String PaymentRule = pp.getValue();
 		log.info(PaymentRule);
 		if (!getChecks(PaymentRule))
 			return;
@@ -462,7 +462,7 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 	private boolean getChecks(String PaymentRule)
 	{
 		//  do we have values
-		if (fPaySelect.getSelectedIndex() == -1 || m_C_BankAccount_ID == -1
+		if (m_C_PaySelection_ID <= 0 || m_C_BankAccount_ID == -1
 			|| fPaymentRule.getSelectedIndex() == -1 || fDocumentNo.getValue() == null)
 		{
 			ADialog.error(m_WindowNo, panel, "VPayPrintNoRecords",
@@ -471,15 +471,14 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 		}
 
 		//  get data
-		int C_PaySelection_ID = ((KeyNamePair)fPaySelect.getSelectedItem()).getKey();
 		int startDocumentNo = ((Number)fDocumentNo.getValue()).intValue();
 
-		log.config("C_PaySelection_ID=" + C_PaySelection_ID + ", PaymentRule=" +  PaymentRule + ", DocumentNo=" + startDocumentNo);
+		log.config("C_PaySelection_ID=" + m_C_PaySelection_ID + ", PaymentRule=" +  PaymentRule + ", DocumentNo=" + startDocumentNo);
 		//
 		panel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-		//	get Slecetions
-		m_checks = MPaySelectionCheck.get(C_PaySelection_ID, PaymentRule, startDocumentNo, null);
+		//	get Selections
+		m_checks = MPaySelectionCheck.get(m_C_PaySelection_ID, PaymentRule, startDocumentNo, null);
 
 		panel.setCursor(Cursor.getDefaultCursor());
 		//
@@ -489,8 +488,32 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener
 				"(" + Msg.translate(Env.getCtx(), "C_PaySelectionLine_ID") + " #0");
 			return false;
 		}
-		m_batch = MPaymentBatch.getForPaySelection (Env.getCtx(), C_PaySelection_ID, null);
+		m_batch = MPaymentBatch.getForPaySelection (Env.getCtx(), m_C_PaySelection_ID, null);
 		return true;
 	}   //  getChecks
+
+	/**
+	 *  Vetoable Change Listener.
+	 *  - Payment Selection
+	 *  @param evt event
+	 */
+	@Override
+	public void vetoableChange(PropertyChangeEvent e)
+			throws PropertyVetoException {
+		String name = e.getPropertyName();
+		Object value = e.getNewValue();
+		log.config(name + "=" + value);
+		
+		if (value == null)
+			return;
+		
+		//  Payment Selection
+		if (name.equals("C_PaySelection_ID"))
+		{
+			paySelectSearch.setValue(value);
+			m_C_PaySelection_ID = ((Integer)value).intValue();
+			loadPaySelectInfo();
+		}
+	}
 
 }   //  PayPrint
