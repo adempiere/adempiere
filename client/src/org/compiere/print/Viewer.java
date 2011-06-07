@@ -151,6 +151,7 @@ public class Viewer extends CFrame
 		super(gc);
 		log.info("");
 		m_WindowNo = Env.createWindowNo(this);
+		Env.setContext(re.getCtx(), m_WindowNo, "_WinInfo_IsReportViewer", "Y");
 		m_reportEngine = re;
 		m_AD_Table_ID = re.getPrintFormat().getAD_Table_ID();
 		if (!MRole.getDefault().isCanReport(m_AD_Table_ID))
