@@ -449,8 +449,13 @@ public class InvoiceGenerate extends SvrProcess
 				log.warning("completeInvoice - failed: " + m_invoice);
 				addLog("completeInvoice - failed: " + m_invoice); // Elaine 2008/11/25
 			}
-			m_invoice.save();
-			//
+			///fercho m_invoice.save();
+			if (!m_invoice.save())
+			{
+				log.warning("completeInvoice - failed: " + m_invoice);
+				addLog("completeInvoice - failed: " + m_invoice); 
+			}
+			///fercho
 			addLog(m_invoice.getC_Invoice_ID(), m_invoice.getDateInvoiced(), null, m_invoice.getDocumentNo());
 			m_created++;
 		}
