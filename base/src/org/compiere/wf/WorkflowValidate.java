@@ -50,7 +50,7 @@ public class WorkflowValidate extends SvrProcess
 		log.info("WF=" + wf);
 		
 		String msg = wf.validate();
-		wf.save();
+		wf.saveEx();
 		if (msg.length() > 0)
 			throw new AdempiereUserError(Msg.getMsg(getCtx(), "WorflowNotValid") 
 				+ " - " + msg);

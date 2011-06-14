@@ -744,7 +744,7 @@ public class MMovement extends X_M_Movement implements DocAction
 		reversal.closeIt();
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
-		reversal.save();
+		reversal.saveEx();
 		m_processMsg = reversal.getDocumentNo();
 		
 		// After reverseCorrect

@@ -410,7 +410,7 @@ public class Match
 			iLine.setM_InOutLine_ID(M_InOutLine_ID);
 			if (sLine.getC_OrderLine_ID() != 0)
 				iLine.setC_OrderLine_ID(sLine.getC_OrderLine_ID());
-			iLine.save();
+			iLine.saveEx();
 			//	Create Shipment - Invoice Link
 			if (iLine.getM_Product_ID() != 0)
 			{
@@ -444,7 +444,7 @@ public class Match
 		{
 			//	Update Shipment Line
 			sLine.setC_OrderLine_ID(Line_ID);
-			sLine.save();
+			sLine.saveEx();
 			//	Update Order Line
 			MOrderLine oLine = new MOrderLine(Env.getCtx(), Line_ID, trxName);
 			if (oLine.get_ID() != 0)	//	other in MInOut.completeIt

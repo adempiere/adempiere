@@ -101,6 +101,6 @@ public class AccessLogger extends Thread
 	
 	public void run() 
 	{
-		thisLog.save();
+		thisLog.saveEx();
 	}
 }

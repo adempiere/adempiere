@@ -601,7 +601,7 @@ public class WebUser
 		{
 			pwd = String.valueOf (System.currentTimeMillis ());
 			m_bpc.setPassword (pwd);
-			m_bpc.save();
+			m_bpc.saveEx();
 		}
 	}	//	setPassword
 
@@ -1057,7 +1057,7 @@ public class WebUser
 		{
 			retValue = new MBPBankAccount (m_ctx, m_bp, m_bpc, m_loc);
 			retValue.setAD_User_ID(getAD_User_ID());
-			retValue.save();
+			retValue.saveEx();
 		}
 		
 		return retValue;
@@ -1083,7 +1083,7 @@ public class WebUser
 			setPasswordMessage(null);
 		else
 			setPasswordMessage("Invalid Code");
-		m_bpc.save();
+		m_bpc.saveEx();
 	}	//	setEMailVerifyCode
 	
 }	//	WebUser

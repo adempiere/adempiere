@@ -502,7 +502,7 @@ public class WFContentPanel extends CPanel
 				int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 				MWFNode node = new MWFNode(m_wf, name, name);
 				node.setClientOrg(AD_Client_ID, 0);
-				node.save();
+				node.saveEx();
 				m_parent.load(m_wf.getAD_Workflow_ID(), true);
 			}
 		}
@@ -570,7 +570,7 @@ public class WFContentPanel extends CPanel
 				int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 				MWFNodeNext newLine = new MWFNodeNext(m_node, m_AD_WF_NodeTo_ID);
 				newLine.setClientOrg(AD_Client_ID, 0);
-				newLine.save();
+				newLine.saveEx();
 				log.info("Add Line to " + m_node + " -> " + newLine);
 				m_parent.load(m_wf.getAD_Workflow_ID(), true);
 			}

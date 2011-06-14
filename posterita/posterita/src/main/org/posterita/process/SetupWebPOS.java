@@ -231,12 +231,12 @@ public class SetupWebPOS extends SvrProcess
         role.setIsPersonalAccess(true);
         role.setIsAccessAllOrgs(false);
         role.setUserLevel(MRole.USERLEVEL_Organization);
-        role.save();
+        role.saveEx();
         
         /*if(!role.isAccessAllOrgs())
             {
                 MRoleOrgAccess orgAccess = new MRoleOrgAccess(role,Env.getAD_Org_ID(getCtx()));
-                orgAccess.save();
+                orgAccess.saveEx();
             }*/
         
        
@@ -253,7 +253,7 @@ public class SetupWebPOS extends SvrProcess
                 user.setUserPIN(p_userPIN);
         }
 		
-		user.save();
+		user.saveEx();
 		
 		/*int [] commissionIds = MCommission.getAllIDs(MCommission.Table_Name," AD_CLIENT_ID="+Env.getAD_Client_ID(getCtx())+" and C_BPARTNER_ID="+user.getC_BPartner_ID()+" and isActive='Y'",null);
         if(commissionIds!=null && commissionIds.length>1)
@@ -281,7 +281,7 @@ public class SetupWebPOS extends SvrProcess
             charge.setName(Msg.translate(getCtx(), "Commission"));
             charge.setChargeAmt(new BigDecimal(0));
             //charge.setC_TaxCategory_ID();
-            charge.save();
+            charge.saveEx();
             com.setC_Charge_ID( charge.getC_Charge_ID());
         }
         else
@@ -299,7 +299,7 @@ public class SetupWebPOS extends SvrProcess
         com.setC_Currency_ID(client.getAcctSchema().getC_Currency_ID());
         com.setDocBasisType(com.DOCBASISTYPE_Receipt);
         com.setListDetails(true);
-        com.save();
+        com.saveEx();
         
                
         
@@ -309,7 +309,7 @@ public class SetupWebPOS extends SvrProcess
         comLine.setCommissionOrders(true);
         comLine.setIsPositiveOnly(true);
         comLine.setAmtSubtract(Env.ZERO);
-        comLine.save();*/
+        comLine.saveEx();*/
 	        
 		
 		String whereClause = " AD_Role_ID=" + role.get_ID();

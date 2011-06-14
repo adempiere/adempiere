@@ -540,7 +540,7 @@ public class MUserTest extends AdempiereTestCase {
 
         m_group.setPriorityBase(MBPGroup.PRIORITYBASE_Same);
 
-        m_group.save();
+        m_group.saveEx();
 
 		m_partner.setBPGroup(m_group);
 		// Reset Created, Updated to current system time ( teo_sarca )
@@ -549,7 +549,7 @@ public class MUserTest extends AdempiereTestCase {
 			m_contact.setName("Test Contact Name");
 			m_contact.setIsActive(true);
 			m_contact.setC_BPartner_ID(m_partner.get_ID());
-			m_contact.save();
+			m_contact.saveEx();
 		}
 		
 		commit();

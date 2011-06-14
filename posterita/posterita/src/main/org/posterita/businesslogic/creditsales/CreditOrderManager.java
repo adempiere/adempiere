@@ -437,7 +437,7 @@ public class CreditOrderManager
         };
         
         MPInstance instance = new MPInstance(ctx,PROCESS_ID,bPartnerId);
-        instance.save();
+        instance.saveEx();
         
         ProcessInfo poInfo = new ProcessInfo("Aging",PROCESS_ID);
         poInfo.setParameter(param);

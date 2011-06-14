@@ -199,7 +199,7 @@ public class DunningPrint extends SvrProcess
 				//
 				String msg = email.send();
 				MUserMail um = new MUserMail(mText, entry.getAD_User_ID(), email);
-				um.save();
+				um.saveEx();
 				if (msg.equals(EMail.SENT_OK))
 				{
 					addLog (entry.get_ID(), null, null,
@@ -231,7 +231,7 @@ public class DunningPrint extends SvrProcess
 		}	//	for all dunning letters
 		if (errors==0) {
 			run.setProcessed(true);
-			run.save();
+			run.saveEx();
 		}
 		if (p_EMailPDF)
 			return "@Sent@=" + count + " - @Errors@=" + errors;

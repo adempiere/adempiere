@@ -52,7 +52,7 @@ public class MatchInvDelete extends SvrProcess
 			throw new AdempiereUserError("@NotFound@ @M_MatchInv_ID@ " + p_M_MatchInv_ID);
 		if (inv.delete(true))
 			return "@OK@";
-		inv.save();
+		inv.saveEx();
 		return "@Error@";
 	}	//	doIt
 

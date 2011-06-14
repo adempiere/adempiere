@@ -416,7 +416,7 @@ public class PackOut extends SvrProcess
 				packOutDocument.endDocument();packageDocument.endElement("","","adempiereDocument");
 				packageDocument.endDocument();
 				//m_Exp.setProcessed(true);
-				//m_Exp.save();
+				//m_Exp.saveEx();
 			}
 			rs1.close();
 			pstmt1.close();

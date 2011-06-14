@@ -515,7 +515,7 @@ public class MBPGroupTest extends AdempiereTestCase {
 			m_group.setIsDefault (false);
 	
 			m_group.setPriorityBase(MBPGroup.PRIORITYBASE_Same);
-			m_group.save();
+			m_group.saveEx();
 			
 			commit();
     	} catch(Exception e) {

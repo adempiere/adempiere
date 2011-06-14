@@ -136,7 +136,7 @@ public class WebProjectDeploy extends SvrProcess
 					//if (nodeCMS.getParent_ID()!=0) 
 						nodeCMC.setParent_ID(nodeCMS.getParent_ID());
 					nodeCMC.setSeqNo(nodeCMS.getSeqNo());
-					nodeCMC.save();
+					nodeCMC.saveEx();
 					break;
 				}
 			}

@@ -371,7 +371,7 @@ public final class MCountry extends X_C_Country
 			mc.setCountryCode(cc);
 			mc.setName(name);
 			mc.setDescription(name);
-			mc.save();
+			mc.saveEx();
 		}
 		**/
 	}	//	main

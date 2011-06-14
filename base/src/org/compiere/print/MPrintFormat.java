@@ -791,7 +791,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 			+ " " + Msg.getMsg(ctx, "Copy")		 
 			+ " " + to.hashCode());		//	unique name
 		//
-		to.save();
+		to.saveEx();
 
 		//	Copy Items
 		to.setItems(copyItems(from,to));

@@ -20,6 +20,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 
 /**
@@ -237,6 +238,13 @@ public interface DocAction
 	 *	@return true if saved
 	 */
 	public boolean save();
+	
+	/**
+	 * 	Save throwing exception
+	 * @throws AdempiereException
+	 * @see #save()
+	 */
+	public void saveEx() throws AdempiereException;
 	
 	/**
 	 * 	Get Context

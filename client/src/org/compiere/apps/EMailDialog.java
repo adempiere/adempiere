@@ -417,7 +417,7 @@ public class EMailDialog extends CDialog
 				status = email.send();
 				//
 				if (m_user != null)
-					new MUserMail(m_user, m_user.getAD_User_ID(), email).save();
+					new MUserMail(m_user, m_user.getAD_User_ID(), email).saveEx();
 				if (email.isSentOK())
 				{
 					ADialog.info(0, this, "MessageSent");

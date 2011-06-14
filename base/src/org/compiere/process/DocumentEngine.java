@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
@@ -310,13 +311,13 @@ public class DocumentEngine implements DocAction
 					// Process (this is to update the ProcessedOn flag with a timestamp after the original document)
 					for (PO docafter : docsPostProcess) {
 						docafter.setProcessedOn("Processed", true, false);
-						docafter.save();
+						docafter.saveEx();
 					}
 				}
 				
 				if (STATUS_Completed.equals(status) && MClient.isClientAccountingImmediate())
 				{
-					m_document.save();
+					m_document.saveEx();
 					postIt();
 					
 					if (m_document instanceof PO && docsPostProcess.size() > 0) {
@@ -792,6 +793,15 @@ public class DocumentEngine implements DocAction
 	 *	@return throw exception
 	 */
 	public boolean save()
+	{
+		throw new IllegalStateException(EXCEPTION_MSG);
+	}
+	
+	/**
+	 * 	Save Document
+	 *	@return throw exception
+	 */
+	public void saveEx() throws AdempiereException
 	{
 		throw new IllegalStateException(EXCEPTION_MSG);
 	}
