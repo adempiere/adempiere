@@ -217,7 +217,7 @@ public class AssetDelivery extends SvrProcess
 			email.setMessageText (message);
 		}
 		String msg = email.send();
-		new MUserMail(m_MailText, asset.getAD_User_ID(), email).save();
+		new MUserMail(m_MailText, asset.getAD_User_ID(), email).saveEx();
 		if (!EMail.SENT_OK.equals(msg))
 			return "** Not delivered: " + user.getEMail() + " - " + msg;
 		//

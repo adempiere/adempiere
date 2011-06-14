@@ -145,7 +145,7 @@ public class Request {
 				}				
 			}
 		}		
-		l_bSuccess &= l_newRequest.save();
+		l_bSuccess &= l_newRequest.saveEx();
 */		
 		
 		MRequest newRequest = new MRequest(ctx, 0, l_szTrxName);

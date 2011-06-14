@@ -55,7 +55,7 @@ public class PaymentTermValidate extends SvrProcess
 		log.info ("C_PaymentTerm_ID=" + getRecord_ID());
 		MPaymentTerm pt = new MPaymentTerm (getCtx(), getRecord_ID(), get_TrxName());
 		String msg = pt.validate();
-		pt.save();
+		pt.saveEx();
 		//
 		if ("@OK@".equals(msg))
 			return msg;

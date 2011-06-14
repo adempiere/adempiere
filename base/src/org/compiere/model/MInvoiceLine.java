@@ -1190,7 +1190,7 @@ public class MInvoiceLine extends X_C_InvoiceLine
 		if (difference.signum() != 0)
 		{
 			largestAmtAllocation.setAmt(largestAmtAllocation.getAmt().add(difference));
-			largestAmtAllocation.save();
+			largestAmtAllocation.saveEx();
 			log.config("Difference=" + difference
 				+ ", C_LandedCostAllocation_ID=" + largestAmtAllocation.getC_LandedCostAllocation_ID()
 				+ ", Amt" + largestAmtAllocation.getAmt());

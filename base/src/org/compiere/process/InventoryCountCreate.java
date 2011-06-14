@@ -307,7 +307,7 @@ public class InventoryCountCreate extends SvrProcess
 			{
 				m_line.setQtyBook(m_line.getQtyBook().add(QtyOnHand));
 				m_line.setQtyCount(m_line.getQtyCount().add(QtyOnHand));
-				m_line.save();
+				m_line.saveEx();
 				return 0;
 			}
 			//	Save Old Line info
@@ -321,7 +321,7 @@ public class InventoryCountCreate extends SvrProcess
 			m_line.setM_AttributeSetInstance_ID(0);
 			m_line.setQtyBook(m_line.getQtyBook().add(QtyOnHand));
 			m_line.setQtyCount(m_line.getQtyCount().add(QtyOnHand));
-			m_line.save();
+			m_line.saveEx();
 			//
 			MInventoryLineMA ma = new MInventoryLineMA (m_line, 
 				M_AttributeSetInstance_ID, QtyOnHand);

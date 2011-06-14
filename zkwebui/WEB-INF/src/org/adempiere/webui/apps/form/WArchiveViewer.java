@@ -602,7 +602,7 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 		log.info("Update=" + update);
 		
 		if (update)
-			ar.save();
+			ar.saveEx();
 		
 		m_index++;
 		

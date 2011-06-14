@@ -46,7 +46,7 @@ public class MPackage extends X_M_Package
 		MPackage retValue = new MPackage (shipment, shipper);
 		if (shipDate != null)
 			retValue.setShipDate(shipDate);
-		retValue.save();
+		retValue.saveEx();
 		//	Lines
 		MInOutLine[] lines = shipment.getLines(false);
 		for (int i = 0; i < lines.length; i++)
@@ -54,7 +54,7 @@ public class MPackage extends X_M_Package
 			MInOutLine sLine = lines[i];
 			MPackageLine pLine = new MPackageLine (retValue);
 			pLine.setInOutLine(sLine);
-			pLine.save();
+			pLine.saveEx();
 		}	//	lines
 		return retValue;
 	}	//	create

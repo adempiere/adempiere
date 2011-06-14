@@ -124,7 +124,7 @@ public class MWindow extends X_AD_Window
 			for (int i = 0; i < roles.length; i++)
 			{
 				MWindowAccess wa = new MWindowAccess(this, roles[i].getAD_Role_ID());
-				wa.save();
+				wa.saveEx();
 			}
 		}
 		//	Menu/Workflow
@@ -137,7 +137,7 @@ public class MWindow extends X_AD_Window
 				menues[i].setName(getName());
 				menues[i].setDescription(getDescription());
 				menues[i].setIsActive(isActive());
-				menues[i].save();
+				menues[i].saveEx();
 			}
 			//
 			MWFNode[] nodes = getWFNodes(getCtx(), "AD_Window_ID=" + getAD_Window_ID(), get_TrxName());
@@ -157,7 +157,7 @@ public class MWindow extends X_AD_Window
 					changed = true;
 				}
 				if (changed)
-					nodes[i].save();
+					nodes[i].saveEx();
 			}
 		}
 		return success;

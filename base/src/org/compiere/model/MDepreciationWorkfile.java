@@ -91,7 +91,7 @@ public class MDepreciationWorkfile extends X_A_Depreciation_Workfile
 		X_A_Asset asset = new X_A_Asset (getCtx(), p_A_Asset_ID, null);
 		asset.setA_QTY_Current(getA_QTY_Current());
 		asset.setA_QTY_Original(getA_QTY_Current());
-		asset.save();
+		asset.saveEx();
 		
 		if (getA_Accumulated_Depr().equals(null))
 			setA_Accumulated_Depr(new BigDecimal(0.0));
@@ -113,7 +113,7 @@ public class MDepreciationWorkfile extends X_A_Depreciation_Workfile
 				change.setA_QTY_Current(getA_QTY_Current());
 				change.setA_QTY_Original(getA_QTY_Current());
 				change.setAssetAccumDepreciationAmt(getA_Accumulated_Depr());        
-				change.save();				
+				change.saveEx();				
 		}			
 			return true;
 	}	//	beforeSave

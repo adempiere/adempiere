@@ -72,7 +72,7 @@ public class SynchronizeTerminology extends SvrProcess
 				elem.setDescription(desc);
 				elem.setHelp(help);
 				elem.setPrintName(name);
-				elem.save();
+				elem.saveEx();
 			}
 			pstmt.close();
 			rs.close();
@@ -98,7 +98,7 @@ public class SynchronizeTerminology extends SvrProcess
 				elem.setDescription(desc);
 				elem.setHelp(help);
 				elem.setPrintName(name);
-				elem.save();
+				elem.saveEx();
 			}
 			pstmt.close();
 			rs.close();

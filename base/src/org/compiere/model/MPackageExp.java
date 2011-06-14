@@ -113,7 +113,7 @@ public class MPackageExp extends X_AD_Package_Exp
 					PackDetail.setAD_Form_ID(rs.getInt("AD_FORM_ID"));
 					PackDetail.setAD_ReportView_ID(rs.getInt("AD_REPORTVIEW_ID"));
 					PackDetail.setLine(i*10);
-					PackDetail.save();
+					PackDetail.saveEx();
 					i++;
 				}						
 			}

@@ -144,9 +144,9 @@ public class CreateInvoicedAsset extends SvrProcess
 							asset.setA_Asset_Group_ID(assetgrpacct.getA_Asset_Group_ID());
 							asset.setA_QTY_Current(InvoiceLine.getQtyEntered());
 							asset.setA_QTY_Original(InvoiceLine.getQtyEntered());
-							asset.save();
+							asset.saveEx();
 							asset.setA_Parent_Asset_ID(asset.getA_Asset_ID());
-							asset.save();
+							asset.saveEx();
 							
 							boolean isdepreciate = assetgrpacct.isProcessing();
 							
@@ -166,7 +166,7 @@ public class CreateInvoicedAsset extends SvrProcess
 									asset.setUseLifeMonths(assetgrpacct.getUseLifeMonths());
 									asset.setIsDepreciated(true);
 									asset.setIsOwned(true);
-									asset.save();
+									asset.saveEx();
 									uselifemonths = assetgrpacct.getUseLifeMonths();
 									uselifeyears = assetgrpacct.getUseLifeYears();
 									
@@ -176,7 +176,7 @@ public class CreateInvoicedAsset extends SvrProcess
 									asset.setUseLifeMonths(asset.getUseLifeYears()*12);
 									asset.setIsDepreciated(true);
 									asset.setIsOwned(true);
-									asset.save();
+									asset.saveEx();
 									uselifemonths = asset.getUseLifeYears()*12;
 									uselifeyears = asset.getUseLifeYears();						
 									}
@@ -205,7 +205,7 @@ public class CreateInvoicedAsset extends SvrProcess
 								assetacct.setA_Depreciation_Variable_Perc(assetgrpacct.getA_Depreciation_Variable_Perc());
 								assetacct.setProcessing(false);
 								assetacct.getAD_Client_ID();
-								assetacct.save();
+								assetacct.saveEx();
 								
 								MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());						
 								change.setPostingType(assetacct.getPostingType());
@@ -260,7 +260,7 @@ public class CreateInvoicedAsset extends SvrProcess
 							    change.setA_Asset_CreateDate(asset.getA_Asset_CreateDate());
 							    change.setAD_User_ID(asset.getAD_User_ID());
 							    change.setC_Location_ID(asset.getC_Location_ID());
-							    change.save();
+							    change.saveEx();
 							}
 
 	
@@ -277,7 +277,7 @@ public class CreateInvoicedAsset extends SvrProcess
 							assetwk.setA_Period_Posted(0);
 							assetwk.setA_Asset_Life_Current_Year(new BigDecimal (0.0));
 							assetwk.setA_Curr_Dep_Exp(new BigDecimal (0.0));
-							assetwk.save();
+							assetwk.saveEx();
 							
 							X_A_Asset_Addition assetadd = new X_A_Asset_Addition (getCtx(), 0, get_TrxName());
 							assetadd.setA_Asset_ID(asset.getA_Asset_ID());
@@ -291,7 +291,7 @@ public class CreateInvoicedAsset extends SvrProcess
 							assetadd.setDescription(InvoiceLine.getDescription());
 							assetadd.setA_QTY_Current(InvoiceLine.getQtyEntered());
 							assetadd.setPostingType(assetwk.getPostingType());
-							assetadd.save();
+							assetadd.saveEx();
 							
 							String sql1 = "SELECT C_Period_ID "
 								+ "FROM C_Period "
@@ -348,7 +348,7 @@ public class CreateInvoicedAsset extends SvrProcess
 							mInOut.setPosted (false);
 							mInOut.setProcessed (false);
 							mInOut.setSendEMail (false);
-							mInOut.save();
+							mInOut.saveEx();
 							
 							X_M_InOutLine mInOutLine = new X_M_InOutLine (getCtx(), 0, get_TrxName());
 							mInOutLine.setC_UOM_ID (InvoiceLine.getC_UOM_ID());	// @#C_UOM_ID@
@@ -378,7 +378,7 @@ public class CreateInvoicedAsset extends SvrProcess
 							depexp2.setIsDepreciated(false);
 							depexp2.setA_Period(C_Period_ID);
 							depexp2.setA_Entry_Type("NEW");
-							depexp2.save();
+							depexp2.saveEx();
 							recordInsertedCount++;
 							
 							X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());
@@ -391,7 +391,7 @@ public class CreateInvoicedAsset extends SvrProcess
 							depexp3.setIsDepreciated(false);
 							depexp3.setA_Period(C_Period_ID);			
 							depexp3.setA_Entry_Type("NEW");
-							depexp3.save();
+							depexp3.saveEx();
 							recordInsertedCount++;
 							
 							//Determine if tax adjustment is necessary
@@ -409,7 +409,7 @@ public class CreateInvoicedAsset extends SvrProcess
 								depexp4.setIsDepreciated(false);
 								depexp4.setA_Period(C_Period_ID);
 								depexp4.setA_Entry_Type("NEW");
-								depexp4.save();							
+								depexp4.saveEx();							
 								recordInsertedCount++;
 
 							}
@@ -432,7 +432,7 @@ public class CreateInvoicedAsset extends SvrProcess
 									assetwk.setA_Asset_Cost(assetwk.getA_Asset_Cost().add(InvoiceLine.getLineTotalAmt()));
 									assetwk.setIsDepreciated(assetgrpacct.isProcessing());
 									assetwk.setA_QTY_Current(InvoiceLine.getQtyEntered());							
-									assetwk.save();
+									assetwk.saveEx();
 									
 									X_A_Asset_Addition assetadd = new X_A_Asset_Addition (getCtx(), 0, get_TrxName());
 									assetadd.setA_Asset_ID(asset.getA_Asset_ID());							
@@ -446,12 +446,12 @@ public class CreateInvoicedAsset extends SvrProcess
 									assetadd.setDescription(InvoiceLine.getDescription());
 									assetadd.setA_QTY_Current(InvoiceLine.getQtyEntered());
 									assetadd.setPostingType(assetwk.getPostingType());
-									assetadd.save();
+									assetadd.saveEx();
 									
 									
 						            asset.setA_QTY_Original(assetadd.getA_QTY_Current().add(asset.getA_QTY_Original()));
 						            asset.setA_QTY_Current(assetadd.getA_QTY_Current().add(asset.getA_QTY_Current()));
-						            asset.save();
+						            asset.saveEx();
 						            
 						            MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());
 						            change.setA_Asset_ID(asset.getA_Asset_ID());            
@@ -461,7 +461,7 @@ public class CreateInvoicedAsset extends SvrProcess
 						            change.setPostingType(assetwk.getPostingType());
 						            change.setAssetValueAmt(assetadd.getAssetValueAmt());
 						            change.setA_QTY_Current(assetadd.getA_QTY_Current());            
-						            change.save();
+						            change.saveEx();
 						            
 						            
 						            
@@ -480,7 +480,7 @@ public class CreateInvoicedAsset extends SvrProcess
 									depexp2.setIsDepreciated(false);
 									depexp2.setA_Period(C_Period_ID);
 									depexp2.setA_Entry_Type("NEW");
-									depexp2.save();
+									depexp2.saveEx();
 									recordInsertedCount++;
 									
 									X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, get_TrxName());
@@ -493,7 +493,7 @@ public class CreateInvoicedAsset extends SvrProcess
 									depexp3.setIsDepreciated(false);
 									depexp3.setA_Period(C_Period_ID);			
 									depexp3.setA_Entry_Type("NEW");
-									depexp3.save();
+									depexp3.saveEx();
 									recordInsertedCount++;
 									
 									//Determine if tax adjustment is necessary
@@ -511,7 +511,7 @@ public class CreateInvoicedAsset extends SvrProcess
 									depexp4.setIsDepreciated(false);
 									depexp4.setA_Period(C_Period_ID);
 									depexp4.setA_Entry_Type("NEW");
-									depexp4.save();							
+									depexp4.saveEx();							
 									recordInsertedCount++;
 									}					            
 		
@@ -547,7 +547,7 @@ public class CreateInvoicedAsset extends SvrProcess
 					assetadd.setDescription(InvoiceLine.getDescription());
 					assetadd.setA_QTY_Current(InvoiceLine.getQtyEntered());
 					assetadd.setPostingType("A");
-					assetadd.save();
+					assetadd.saveEx();
 					
 					MAssetChange change = new MAssetChange (getCtx(), 0, get_TrxName());
 		            change.setA_Asset_ID(asset.getA_Asset_ID());            
@@ -557,10 +557,10 @@ public class CreateInvoicedAsset extends SvrProcess
 		        	assetadd.setPostingType("A");
 		            change.setAssetValueAmt(assetadd.getAssetValueAmt());
 		            change.setA_QTY_Current(assetadd.getA_QTY_Current());            
-		            change.save();
+		            change.saveEx();
 				}
 				InvoiceLine.set_ValueOfColumn(I_CustomColumn.A_Processed, Boolean.TRUE);
-				InvoiceLine.save();
+				InvoiceLine.saveEx();
 			}
 
 			}

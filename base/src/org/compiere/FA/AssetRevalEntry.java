@@ -195,7 +195,7 @@ public class AssetRevalEntry extends SvrProcess
 							depexp0.setIsDepreciated(false);
 							depexp0.setA_Period(AssetReval.getC_Period_ID());
 							depexp0.setA_Entry_Type("RVL");
-							depexp0.save();
+							depexp0.saveEx();
 							
 							X_A_Depreciation_Exp depexp1 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 							depexp1.setPostingType(AssetReval.getPostingType());
@@ -207,7 +207,7 @@ public class AssetRevalEntry extends SvrProcess
 							depexp1.setIsDepreciated(false);
 							depexp1.setA_Period(AssetReval.getC_Period_ID());			
 							depexp1.setA_Entry_Type("RVL");
-							depexp1.save();
+							depexp1.saveEx();
 							
 //							 Create JV for the Reval Accum Depr Amounts
 							X_A_Depreciation_Exp depexp2 = new X_A_Depreciation_Exp (getCtx(), 0, null);
@@ -220,7 +220,7 @@ public class AssetRevalEntry extends SvrProcess
 							depexp2.setIsDepreciated(false);
 							depexp2.setA_Period(AssetReval.getC_Period_ID());
 							depexp2.setA_Entry_Type("RVL");
-							depexp2.save();
+							depexp2.saveEx();
 							
 							X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 							depexp3.setPostingType(AssetReval.getPostingType());
@@ -232,7 +232,7 @@ public class AssetRevalEntry extends SvrProcess
 							depexp3.setIsDepreciated(false);
 							depexp3.setA_Period(AssetReval.getC_Period_ID());			
 							depexp3.setA_Entry_Type("RVL");
-							depexp3.save();
+							depexp3.saveEx();
 							
 //							 Create JV for the Reval Depreciation Expense Amounts
 							X_A_Depreciation_Exp depexp4 = new X_A_Depreciation_Exp (getCtx(), 0, null);
@@ -245,7 +245,7 @@ public class AssetRevalEntry extends SvrProcess
 							depexp4.setIsDepreciated(false);
 							depexp4.setA_Period(AssetReval.getC_Period_ID());
 							depexp4.setA_Entry_Type("RVL");
-							depexp4.save();
+							depexp4.saveEx();
 							
 							X_A_Depreciation_Exp depexp5 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 							depexp5.setPostingType(AssetReval.getPostingType());
@@ -257,7 +257,7 @@ public class AssetRevalEntry extends SvrProcess
 							depexp5.setIsDepreciated(false);
 							depexp5.setA_Period(AssetReval.getC_Period_ID());			
 							depexp5.setA_Entry_Type("RVL");
-							depexp5.save();
+							depexp5.saveEx();
 	
 					}
 						catch (Exception e)
@@ -330,7 +330,7 @@ public class AssetRevalEntry extends SvrProcess
 				depexp0.setIsDepreciated(false);
 				depexp0.setA_Period(AssetReval.getC_Period_ID());
 				depexp0.setA_Entry_Type("RVL");
-				depexp0.save();
+				depexp0.saveEx();
 				
 				X_A_Depreciation_Exp depexp1 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 				depexp1.setPostingType(AssetReval.getPostingType());
@@ -342,7 +342,7 @@ public class AssetRevalEntry extends SvrProcess
 				depexp1.setIsDepreciated(false);
 				depexp1.setA_Period(AssetReval.getC_Period_ID());			
 				depexp1.setA_Entry_Type("RVL");
-				depexp1.save();
+				depexp1.saveEx();
 				
 //				 Create JV for the Reval Accum Depr Amounts
 				X_A_Depreciation_Exp depexp2 = new X_A_Depreciation_Exp (getCtx(), 0, null);
@@ -355,7 +355,7 @@ public class AssetRevalEntry extends SvrProcess
 				depexp2.setIsDepreciated(false);
 				depexp2.setA_Period(AssetReval.getC_Period_ID());
 				depexp2.setA_Entry_Type("RVL");
-				depexp2.save();
+				depexp2.saveEx();
 				
 				X_A_Depreciation_Exp depexp3 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 				depexp3.setPostingType(AssetReval.getPostingType());
@@ -367,7 +367,7 @@ public class AssetRevalEntry extends SvrProcess
 				depexp3.setIsDepreciated(false);
 				depexp3.setA_Period(AssetReval.getC_Period_ID());			
 				depexp3.setA_Entry_Type("RVL");
-				depexp3.save();
+				depexp3.saveEx();
 				
 //				 Create JV for the Reval Depreciation Expense Amounts
 				X_A_Depreciation_Exp depexp4 = new X_A_Depreciation_Exp (getCtx(), 0, null);
@@ -380,7 +380,7 @@ public class AssetRevalEntry extends SvrProcess
 				depexp4.setIsDepreciated(false);
 				depexp4.setA_Period(AssetReval.getC_Period_ID());
 				depexp4.setA_Entry_Type("RVL");
-				depexp4.save();
+				depexp4.saveEx();
 				
 				X_A_Depreciation_Exp depexp5 = new X_A_Depreciation_Exp (getCtx(), 0, null);
 				depexp5.setPostingType(AssetReval.getPostingType());
@@ -392,7 +392,7 @@ public class AssetRevalEntry extends SvrProcess
 				depexp5.setIsDepreciated(false);
 				depexp5.setA_Period(AssetReval.getC_Period_ID());			
 				depexp5.setA_Entry_Type("RVL");
-				depexp5.save();
+				depexp5.saveEx();
  				}
  			}
 				catch (Exception e)

@@ -218,7 +218,7 @@ public class WLocation extends HttpServlet
 		MobileDoc doc = MobileDoc.createPopup ("WLocation");
 
 		//  Save Location
-		location.save();
+		location.saveEx();
 		C_Location_ID = location.getC_Location_ID();
 
 		if (C_Location_ID == 0)

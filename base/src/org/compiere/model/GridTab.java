@@ -2219,7 +2219,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (access == null)
 			access = new MPrivateAccess (ctx, AD_User_ID, m_vo.AD_Table_ID, Record_ID);
 		access.setIsActive(lock);
-		access.save();
+		access.saveEx();
 		//
 		loadLocks();
 	}	//	lock

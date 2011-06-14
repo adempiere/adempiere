@@ -171,7 +171,7 @@ public class StorageCleanup extends SvrProcess
 		
 		//	Process
 		mh.processIt(MMovement.ACTION_Complete);
-		mh.save();
+		mh.saveEx();
 		
 		addLog(0, null, new BigDecimal(lines), "@M_Movement_ID@ " + mh.getDocumentNo() + " (" 
 			+ MRefList.get(getCtx(), MMovement.DOCSTATUS_AD_Reference_ID, 

@@ -173,7 +173,7 @@ public class MPaymentTerm extends X_C_PaymentTerm
 			if (m_schedule[i].isValid() != valid)
 			{
 				m_schedule[i].setIsValid(valid);
-				m_schedule[i].save();
+				m_schedule[i].saveEx();
 			}
 		}
 		String msg = "@OK@";
