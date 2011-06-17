@@ -304,9 +304,7 @@ public class WArchiveViewer extends Archive implements IFormController, EventLis
 		div.appendChild(createdQLabel);
 		row.appendChild(div);
 		row.appendChild(createdQFrom);
-		createdQFrom.setWidth("100%");
 		row.appendChild(createdQTo);
-		createdQTo.setWidth("100%");
 		
 		div = new Div();
 		div.setAlign("center");

@@ -250,7 +250,6 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 				if (isCellEditable)
 				{
 					Datebox datebox = new Datebox();
-					datebox.setFormat(dateFormat.toPattern());
 					datebox.setValue(new Date(((Timestamp)field).getTime()));
 					datebox.addEventListener(Events.ON_CHANGE, this);
 					listcell.appendChild(datebox);
