@@ -446,6 +446,19 @@ public interface I_AD_User
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name Salt */
+    public static final String COLUMNNAME_Salt = "Salt";
+
+	/** Set Salt.
+	  * Random data added to improve password hash effectiveness
+	  */
+	public void setSalt (String Salt);
+
+	/** Get Salt.
+	  * Random data added to improve password hash effectiveness
+	  */
+	public String getSalt();
+
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 

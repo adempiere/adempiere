@@ -465,6 +465,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
+
 	/** Set Last Contact.
 		@param LastContact 
 		Date this individual was last contacted
@@ -715,5 +716,17 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public String getValue () 
 	{
 		return (String)get_Value(COLUMNNAME_Value);
+	}
+
+	@Override
+	public void setSalt(String Salt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getSalt() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
