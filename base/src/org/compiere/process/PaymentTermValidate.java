@@ -20,6 +20,7 @@ import java.util.logging.Level;
 
 import org.compiere.model.MPaymentTerm;
 import org.compiere.util.AdempiereUserError;
+import org.compiere.util.Msg;
  
 /**
  *	Validate Payment Term and Schedule	
@@ -57,7 +58,8 @@ public class PaymentTermValidate extends SvrProcess
 		String msg = pt.validate();
 		pt.saveEx();
 		//
-		if ("@OK@".equals(msg))
+		String validMsg = Msg.parseTranslation(getCtx(), "@OK@");
+		if (validMsg.equals(msg))
 			return msg;
 		throw new AdempiereUserError (msg);
 	}	//	doIt
