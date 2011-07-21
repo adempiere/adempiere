@@ -370,6 +370,12 @@ public class MUser extends X_AD_User
 	@Override
 	public void setPassword(String password) {
 		
+		if ( password == null )
+		{
+			super.setPassword(password);
+			return;
+		}
+		
 		if ( hashed  )
 			return;
 		
