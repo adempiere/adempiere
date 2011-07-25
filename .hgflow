@@ -1,0 +1,8 @@
+[Basic]
+develop = development
+feature = feature/
+version_tag = 
+publish = master
+release = release/
+hotfix = hotfix/
+
